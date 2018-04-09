@@ -439,13 +439,19 @@ GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
 };
 
 GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
+  if (this.refs[originTarget]) {
+    return originTarget;
+  }
   // now this is tricky -- our remote could have commits that we do
   // not have. so lets go upwards until we find one that we have
-  while (!this.refs[originTarget]) {
-    var parents = this.origin.refs[originTarget].get('parents');
-    originTarget = parents[0].get('id');
+  var parents = this.origin.refs[originTarget].get('parents');
+  if (parents.length === 1) {
+    return this.findCommonAncestorWithRemote(parents[0].get('id'));
   }
-  return originTarget;
+  // Like above, could have two parents
+  var leftTarget = this.findCommonAncestorWithRemote(parents[0].get('id'));
+  var rightTarget = this.findCommonAncestorWithRemote(parents[1].get('id'));
+  return this.getCommonAncestor(leftTarget, rightTarget, true /* dont throw */).get('id');
 };
 
 GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
