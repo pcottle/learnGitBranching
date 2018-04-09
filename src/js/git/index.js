@@ -418,22 +418,40 @@ GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
 };
 
 GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
-  // like the method below but opposite
-  while (!this.origin.refs[myTarget]) {
-    var parents = this.refs[myTarget].get('parents');
-    myTarget = parents[0].get('id');
+  if (this.origin.refs[myTarget]) {
+    return myTarget;
   }
-  return myTarget;
+  var parents = this.refs[myTarget].get('parents');
+  if (parents.length === 1) {
+    // Easy, we only have one parent. lets just go upwards
+    myTarget = parents[0].get('id');
+    // Recurse upwards to find where our remote has a commit.
+    return this.findCommonAncestorForRemote(myTarget);
+  }
+  // We have multiple parents so find out where these two meet.
+  var leftTarget = this.findCommonAncestorForRemote(parents[0].get('id'));
+  var rightTarget = this.findCommonAncestorForRemote(parents[1].get('id'));
+  return this.getCommonAncestor(
+      leftTarget,
+      rightTarget,
+      true // dont throw since we dont know the order here.
+  ).get('id');
 };
 
 GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
+  if (this.refs[originTarget]) {
+    return originTarget;
+  }
   // now this is tricky -- our remote could have commits that we do
   // not have. so lets go upwards until we find one that we have
-  while (!this.refs[originTarget]) {
-    var parents = this.origin.refs[originTarget].get('parents');
-    originTarget = parents[0].get('id');
+  var parents = this.origin.refs[originTarget].get('parents');
+  if (parents.length === 1) {
+    return this.findCommonAncestorWithRemote(parents[0].get('id'));
   }
-  return originTarget;
+  // Like above, could have two parents
+  var leftTarget = this.findCommonAncestorWithRemote(parents[0].get('id'));
+  var rightTarget = this.findCommonAncestorWithRemote(parents[1].get('id'));
+  return this.getCommonAncestor(leftTarget, rightTarget, true /* dont throw */).get('id');
 };
 
 GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
@@ -2100,7 +2118,6 @@ GitEngine.prototype.hgRebase = function(destination, base) {
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   // first some conditions
-  debugger;
   if (this.isUpstreamOf(targetSource, currentLocation)) {
     this.command.setResult(intl.str('git-result-uptodate'));
 
@@ -2764,8 +2781,8 @@ GitEngine.prototype.log = function(ref, omitSet) {
   });
 };
 
-GitEngine.prototype.getCommonAncestor = function(ancestor, cousin) {
-  if (this.isUpstreamOf(cousin, ancestor)) {
+GitEngine.prototype.getCommonAncestor = function(ancestor, cousin, dontThrow) {
+  if (this.isUpstreamOf(cousin, ancestor) && !dontThrow) {
     throw new Error('Dont use common ancestor if we are upstream!');
   }
 
