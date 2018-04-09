@@ -290,4 +290,3 @@ var Visualization = Backbone.View.extend({
 });
 
 exports.Visualization = Visualization;
-
