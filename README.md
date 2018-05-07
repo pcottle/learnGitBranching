@@ -20,7 +20,7 @@ http://pcottle.github.com/learnGitBranching/
 By default the application launches in "sandbox mode" with a basic repository already created. Here you can enter commands and mess around with a repository as much as you like. Keep in mind you can
 
 * `undo` to undo the effects of the last command
-* `reset` to start over from a clean slate (works in levels too)
+* `reset` to start over with a clean slate (works in levels too)
 * `git clone` to simulate remote repositories!
 
 Sandbox mode can be great for demonstrating something to a friend, but the real learning is with levels...
@@ -33,7 +33,7 @@ For some added fun, there is a "git golf" concept where we keep track of how man
 
 ### Sharing permalinks
 
-You can share a link to LearnGitBranching with an arbitrary set of commands that will execute upon load by using the `commmand` URL parameter. You will also likely want to disable the intro dialog for this case with the `NODEMO` url param; here is [an example](https://learngitbranching.js.org/?NODEMO&command=echo%20%22hello%22;%20git%20commit) to get started.
+You can share a link to LearnGitBranching with an arbitrary set of commands that will execute upon load by using the `command` URL parameter. You will also likely want to disable the intro dialog for this case with the `NODEMO` url param; here is [an example](https://learngitbranching.js.org/?NODEMO&command=echo%20%22hello%22;%20git%20commit) to get started.
 
 ### Level Builder
 
@@ -42,7 +42,7 @@ http://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
 ## Reporting Bugs / Opening Issues
 
-When reporting bugs, try running the command `debug_copyTree()` in your JS console when in a state just before reproducing a bug. This can avoid having to copy over all the commands you used to get into a specific state. (I can then use the `importTreeNow` command to get to that exact state)
+When reporting bugs, try running the command `debug_copyTree()` in your JS console when in a state just before reproducing a bug. This can avoid having to copy all the commands you used to get into a specific state. (I can then use the `importTreeNow` command to get to that exact state)
 
 ## How the app works / Contributing functionality
 
@@ -52,10 +52,10 @@ Because the app contains a lot of code, I have written everything into Nodejs-st
 
 As of December 2013, I've migrated the build process to use Grunt >0.4, since the older version was giving a lot of people build headaches. It should be fairly rock solid now!
 
-Here is the high level process of the build:
+Here is the high-level process of the build:
 
-* Code is written into the node.js modules which require other modules
-* CSS is written into just one stylesheet (theres not a whole ton of styling)
+* The code is written into the node.js modules which require other modules
+* CSS is written into just one stylesheet (there is not a whole ton of styling)
 * New HTML is written into a template HTML file (`template.index.html`). Only needed
   for new views
 * The app is "built", which outputs:
