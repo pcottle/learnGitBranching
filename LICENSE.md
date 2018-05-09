@@ -1,4 +1,5 @@
-The MIT License (MIT)
+MIT License
+
 Copyright (c) 2012 Peter Cottle
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
