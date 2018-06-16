@@ -30859,7 +30859,7 @@ var commandConfig = {
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
-      var generalArgs = command.getGeneralArgs();
+      var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []);
       command.validateArgBounds(generalArgs, 1, 1);
 
       var newCommit = engine.merge(
@@ -57026,7 +57026,7 @@ exports.level = {
               "Voyons l'effet de la précédente commande"
             ],
             "afterMarkdowns": [
-              "On y est ! Les références relatives nous donne une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cette emplacement."
+              "On y est ! Les références relatives nous donne une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cet emplacement."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
