@@ -6,8 +6,7 @@ LearnGitBranching is a git repository visualizer, sandbox, and series of educati
 
 You can input a variety of commands into LearnGitBranching (LGB) -- as commands are processed, the nearby commit tree will dynamically update to reflect the effects of each command:
 
-
-<img src="https://raw.github.com/pcottle/learnGitBranching/master/assets/learnGitBranching.png"/>
+![demo-gif](https://user-images.githubusercontent.com/7308241/39848730-040bd09e-53df-11e8-964e-2d48f35a4355.gif)
 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
 http://pcottle.github.com/learnGitBranching/?demo
