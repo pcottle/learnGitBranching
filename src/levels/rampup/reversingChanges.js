@@ -68,7 +68,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "While reseting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "While resetting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "",
               "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
             ],
