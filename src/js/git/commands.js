@@ -413,6 +413,7 @@ var commandConfig = {
       '-d',
       '-D',
       '-f',
+      '--force',
       '-a',
       '-r',
       '-u',
@@ -458,8 +459,9 @@ var commandConfig = {
         return;
       }
 
-      if (commandOptions['-f']) {
-        args = commandOptions['-f'].concat(generalArgs);
+      if (commandOptions['-f'] || commandOptions['--force']) {
+        args = commandOptions['-f'] || commandOptions['--force'];
+        args = args.concat(generalArgs);
         command.twoArgsImpliedHead(args, '-f');
 
         // we want to force a branch somewhere
