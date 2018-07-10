@@ -121,6 +121,7 @@ var commandConfig = {
     options: [
       '--amend',
       '-a',
+      '--all',
       '-am',
       '-m'
     ],
@@ -129,7 +130,7 @@ var commandConfig = {
       command.acceptNoGeneralArgs();
 
       if (commandOptions['-am'] && (
-          commandOptions['-a'] || commandOptions['-m'])) {
+          commandOptions['-a'] || commandOptions['--all'] || commandOptions['-m'])) {
         throw new GitError({
           msg: intl.str('git-error-options')
         });
@@ -137,7 +138,7 @@ var commandConfig = {
 
       var msg = null;
       var args = null;
-      if (commandOptions['-a']) {
+      if (commandOptions['-a'] || commandOptions['--all']) {
         command.addWarning(intl.str('git-warning-add'));
       }
 
