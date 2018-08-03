@@ -43602,7 +43602,9 @@ function GitVisuals(options) {
   this.flipFraction = 0.65;
 
   var Main = require('../app');
-  Main.getEvents().on('refreshTree', this.refreshTree, this);
+  var that = this;
+  this._onRefreshTree = function() { that.refreshTree(); };
+  Main.getEvents().on('refreshTree', this._onRefreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {
@@ -43654,7 +43656,7 @@ GitVisuals.prototype.tearDown = function() {
   // these over time. However we aren't calling tearDown in
   // some places... but this is an improvement
   var Main = require('../app');
-  Main.getEvents().removeListener('refreshTree', this.refreshTree);
+  Main.getEvents().removeListener('refreshTree', this._onRefreshTree);
 };
 
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
@@ -44503,7 +44505,6 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.GitVisuals = GitVisuals;
-
 
 },{"../app":176,"../intl":193,"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBranch":239,"../visuals/visEdge":240,"../visuals/visNode":241,"../visuals/visTag":242,"q":12,"underscore":168}],237:[function(require,module,exports){
 var _ = require('underscore');
