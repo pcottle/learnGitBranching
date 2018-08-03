@@ -48,7 +48,9 @@ function GitVisuals(options) {
   this.flipFraction = 0.65;
 
   var Main = require('../app');
-  Main.getEvents().on('refreshTree', this.refreshTree, this);
+  var that = this;
+  this._onRefreshTree = function() { that.refreshTree(); };
+  Main.getEvents().on('refreshTree', this._onRefreshTree, this);
 }
 
 GitVisuals.prototype.defer = function(action) {
@@ -100,7 +102,7 @@ GitVisuals.prototype.tearDown = function() {
   // these over time. However we aren't calling tearDown in
   // some places... but this is an improvement
   var Main = require('../app');
-  Main.getEvents().removeListener('refreshTree', this.refreshTree);
+  Main.getEvents().removeListener('refreshTree', this._onRefreshTree);
 };
 
 GitVisuals.prototype.assignGitEngine = function(gitEngine) {
@@ -949,4 +951,3 @@ function blendHueStrings(hueStrings) {
 }
 
 exports.GitVisuals = GitVisuals;
-
