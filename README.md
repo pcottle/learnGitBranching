@@ -9,10 +9,10 @@ You can input a variety of commands into LearnGitBranching (LGB) -- as commands 
 ![demo-gif](https://user-images.githubusercontent.com/7308241/39848730-040bd09e-53df-11e8-964e-2d48f35a4355.gif)
 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
-http://pcottle.github.com/learnGitBranching/?demo
+https://pcottle.github.com/learnGitBranching/?demo
 
 Or you can launch the application normally here:
-http://pcottle.github.com/learnGitBranching/
+https://pcottle.github.com/learnGitBranching/
 
 ### Sandbox Mode
 
@@ -37,7 +37,7 @@ You can share a link to LearnGitBranching with an arbitrary set of commands that
 ### Level Builder
 
 You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level" or simply specify a gist ID in the url params like so:
-http://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
+https://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
 ## Reporting Bugs / Opening Issues
 
@@ -71,7 +71,7 @@ Thus, if you build the app locally, all you have to do in order to run the app i
 For contributing core functionality in the app, you'll probably want to test your changes
 at least once before submitting a pull request. That means you'll need the "Grunt.js" build tool to build the app:
 
-http://gruntjs.com/getting-started
+https://gruntjs.com/getting-started
 
 You'll also need `npm` to download all the dependencies of the project.
 
