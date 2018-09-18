@@ -276,7 +276,7 @@ exports.level = {
               "Appuyez sur le bouton ci-dessous pour faire un nouveau commit"
             ],
             "afterMarkdowns": [
-              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de saugevarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
+              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de sauvegarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
             ],
             "command": "git commit",
             "beforeCommand": ""
