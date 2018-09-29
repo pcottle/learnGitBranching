@@ -114,6 +114,13 @@ describe('Git', function() {
     );
   });
 
+  it('Branches lowercase', function() {
+    expectTreeAsync(
+      'git branch side c0',
+      '{"branches":{"master":{"target":"C1","id":"master"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}'
+    );
+  });
+
   it('Deletes branches', function() {
     expectTreeAsync(
       'git branch side; git branch -d side',
