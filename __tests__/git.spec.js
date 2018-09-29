@@ -23,6 +23,13 @@ describe('Git', function() {
     );
   });
 
+  it('handles lower case branch options', function() {
+    expectTreeAsync(
+      'git branch banana c0; git commit; git checkout -b side banana; git branch -d banana;git branch -f another c1; git commit',
+      '{"branches":{"master":{"target":"C2","id":"master"},"side":{"target":"C3","id":"side"},"another":{"target":"C1","id":"another"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C0"],"id":"C3"}},"HEAD":{"target":"side","id":"HEAD"}}'
+    );
+  });
+
   it('handles branch options', function() {
     expectTreeAsync(
       'git branch banana C0; git commit; git checkout -b side banana; git branch -d banana;git branch -f another C1; git commit',
