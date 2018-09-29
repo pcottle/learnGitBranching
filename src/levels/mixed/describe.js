@@ -128,7 +128,7 @@
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Regardons un petit exemple. Prennons cet arbre :"
+              "Regardons un petit exemple. Prenons cet arbre :"
             ],
             "afterMarkdowns": [
               "La commande`git describe master` donne le résultat :",
