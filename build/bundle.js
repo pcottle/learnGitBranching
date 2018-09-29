@@ -33063,6 +33063,10 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
   }
+  // Commit hashes like C4 are case insensitive
+  if (ref.match(/^c\d+$/) && this.refs[ref.toUpperCase()]) {
+    return this.refs[ref.toUpperCase()];
+  }
 
   // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
@@ -49019,7 +49023,7 @@ exports.level = {
               "Appuyez sur le bouton ci-dessous pour faire un nouveau commit"
             ],
             "afterMarkdowns": [
-              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de saugevarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
+              "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de sauvegarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
             ],
             "command": "git commit",
             "beforeCommand": ""
@@ -57873,7 +57877,7 @@ exports.level = {
             "markdowns": [
               "## Annuler des changements avec Git",
               "",
-              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git a à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git est à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
               "",
               "Il y a principalement deux façons d'annuler des changements avec Git : l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
               ""
