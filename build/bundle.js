@@ -33064,7 +33064,7 @@ GitEngine.prototype.resolveStringRef = function(ref) {
     return this.refs[ref];
   }
   // Commit hashes like C4 are case insensitive
-  if (ref.match(/^c\d+$/) && this.refs[ref.toUpperCase()]) {
+  if (ref.match(/^c\d+'*/) && this.refs[ref.toUpperCase()]) {
     return this.refs[ref.toUpperCase()];
   }
 
