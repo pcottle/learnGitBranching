@@ -1663,6 +1663,10 @@ GitEngine.prototype.resolveStringRef = function(ref) {
   if (this.refs[ref]) {
     return this.refs[ref];
   }
+  // Commit hashes like C4 are case insensitive
+  if (ref.match(/^c\d+$/) && this.refs[ref.toUpperCase()]) {
+    return this.refs[ref.toUpperCase()];
+  }
 
   // Attempt to split ref string into a reference and a string of ~ and ^ modifiers.
   var startRef = null;
