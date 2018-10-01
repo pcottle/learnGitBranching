@@ -770,6 +770,19 @@ li.rebaseEntry a#toggleButton {
 li.rebaseEntry.notPicked {
   opacity: 0.2;
 }
+
+li.rebaseEntry.notPicked span.showWhenPicked {
+  display: none;
+}
+
+li.rebaseEntry span.showWhenNotPicked {
+  display: none;
+}
+
+li.rebaseEntry.notPicked span.showWhenNotPicked {
+  display: inline;
+}
+
 /* Modal Views */
 
 div.modalView.box.inFront.show {

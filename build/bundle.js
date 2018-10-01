@@ -43219,7 +43219,6 @@ var RebaseEntryView = Backbone.View.extend({
   },
 
   render: function() {
-    var json = this.model.toJSON();
     this.$el.append(this.template(this.model.toJSON()));
 
     // hacky :( who would have known jquery barfs on ids with %'s and quotes
