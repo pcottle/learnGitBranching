@@ -394,7 +394,7 @@
       <% if (solutionOrder && solutionOrder.length) { %>
         <p class="solutionText">
           For the solution, order the commits as
-            <%= solutionOrder.join(', ') %>
+            <%= solutionOrder.join(', ') %>. You may need to omit or pick commits.
         </p>
       <% } %>
       <p class="helperText">
@@ -452,8 +452,13 @@
           <%= id %>
         </span>
         <a id="toggleButton" class="uiButton uiButtonPink">
-          Pick
-        </a>
+          <span class="showWhenPicked">
+            Omit
+          </span>
+          <span class="showWhenNotPicked">
+            Pick
+          </span>
+        </a>  
       </div>
     </li>
   </script>
