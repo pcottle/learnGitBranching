@@ -38808,14 +38808,26 @@ var CommandView = React.createClass({displayName: "CommandView",
     var paragraphs = this.state.result.split("\n");
     var result = [];
     for (var i = 0; i < paragraphs.length; i++) {
-      result.push(
-        React.createElement("p", {
-          key: 'paragraph_' + i, 
-          dangerouslySetInnerHTML: {
-            __html: paragraphs[i]
-          }}
-        )
-      );
+      if (paragraphs[i].startsWith('https://')) {
+        result.push(
+          React.createElement("a", {
+            href: paragraphs[i], 
+            key: 'paragraph_' + i, 
+            dangerouslySetInnerHTML: {
+              __html: paragraphs[i]
+            }}
+          )
+        );
+      } else {
+        result.push(
+          React.createElement("p", {
+            key: 'paragraph_' + i, 
+            dangerouslySetInnerHTML: {
+              __html: paragraphs[i]
+            }}
+          )
+        );
+      }
     }
     return (
       React.createElement("div", {className: 'commandLineResult'}, 
@@ -39665,7 +39677,7 @@ var Sandbox = Backbone.View.extend({
     var url =
       'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
     command.setResult(
-      intl.todo('Here is a link to the current state of the tree: ') + url
+      intl.todo('Here is a link to the current state of the tree: ') + '\n' + url
     );
     command.finishWith(deferred);
   },
