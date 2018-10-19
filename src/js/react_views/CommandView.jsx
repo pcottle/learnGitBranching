@@ -100,14 +100,26 @@ var CommandView = React.createClass({
     var paragraphs = this.state.result.split("\n");
     var result = [];
     for (var i = 0; i < paragraphs.length; i++) {
-      result.push(
-        <p
-          key={'paragraph_' + i}
-          dangerouslySetInnerHTML={{
-            __html: paragraphs[i]
-          }}
-        />
-      );
+      if (paragraphs[i].startsWith('https://')) {
+        result.push(
+          <a
+            href={paragraphs[i]}
+            key={'paragraph_' + i}
+            dangerouslySetInnerHTML={{
+              __html: paragraphs[i]
+            }}
+          />
+        );
+      } else {
+        result.push(
+          <p
+            key={'paragraph_' + i}
+            dangerouslySetInnerHTML={{
+              __html: paragraphs[i]
+            }}
+          />
+        );
+      }
     }
     return (
       <div className={'commandLineResult'}>
