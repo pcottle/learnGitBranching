@@ -228,7 +228,7 @@ var Sandbox = Backbone.View.extend({
     var url =
       'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
     command.setResult(
-      intl.todo('Here is a link to the current state of the tree: ') + url
+      intl.todo('Here is a link to the current state of the tree: ') + '\n' + url
     );
     command.finishWith(deferred);
   },
