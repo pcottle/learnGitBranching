@@ -1,6 +1,7 @@
 var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
+var _ = require('underscore');
 
 var assign = require('object-assign');
 var util = require('../util');
@@ -84,6 +85,22 @@ var vcsModeRefresh = function(eventData) {
 
   $('body').toggleClass('gitMode', isGit);
   $('body').toggleClass('hgMode', !isGit);
+};
+
+var insertAlternateLinks = function(pageId) {
+  // For now pageId is null, which would link to the main page.
+  // In future if pageId is provided this method should link to a specific page
+
+  // The value of the hreflang attribute identifies the language (in ISO 639-1 format)
+  // and optionally a region (in ISO 3166-1 Alpha 2 format) of an alternate URL
+  var altLinks = _.map(LocaleStore.getSupportedLocales(), function(langCode) {
+    var url = "https://learngitbranching.js.org/?locale=" + langCode;
+    return '<link rel="alternate" hreflang="'+langCode+'" href="' + url +'" />';
+  });
+  var defaultUrl = "https://learngitbranching.js.org/?locale=" + LocaleStore.getDefaultLocale();
+  altLinks.push('<link rel="alternate" hreflang="x-default" href="' + defaultUrl +'" />');
+  $('head').prepend(altLinks);
+
 };
 
 var intlRefresh = function() {
@@ -249,6 +266,8 @@ var initDemo = function(sandbox) {
     tryLocaleDetect();
   }
 
+  insertAlternateLinks();
+
   if (params.command) {
     var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
@@ -328,4 +347,3 @@ exports.getLevelDropdown = function() {
 };
 
 exports.init = init;
-
