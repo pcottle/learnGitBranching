@@ -5,6 +5,7 @@ var React = require('react');
 var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
+var _ = require('underscore');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
 
@@ -88,6 +89,9 @@ var vcsModeRefresh = function(eventData) {
 
 var intlRefresh = function() {
   if (!window.$) { return; }
+  var countryCode = LocaleStore.getLocale().replace(/_(.*)$/i, "");
+  $("html").attr('lang', countryCode);
+  $("meta[http-equiv='content-language']").attr("content", countryCode);
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
     var key = $(el).attr('data-intl');
@@ -328,4 +332,3 @@ exports.getLevelDropdown = function() {
 };
 
 exports.init = init;
-
