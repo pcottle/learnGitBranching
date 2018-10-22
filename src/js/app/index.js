@@ -5,7 +5,6 @@ var React = require('react');
 var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
-var _ = require('underscore');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
 
