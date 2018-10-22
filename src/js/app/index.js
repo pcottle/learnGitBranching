@@ -88,7 +88,7 @@ var vcsModeRefresh = function(eventData) {
 
 var intlRefresh = function() {
   if (!window.$) { return; }
-  var countryCode = LocaleStore.getLocale().replace(/_(.*)$/i, "");
+  var countryCode = LocaleStore.getLocale().split("_")[0];
   $("html").attr('lang', countryCode);
   $("meta[http-equiv='content-language']").attr("content", countryCode);
   $('span.intl-aware').each(function(i, el) {
