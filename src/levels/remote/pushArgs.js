@@ -60,7 +60,7 @@ exports.level = {
               "",
               "translates to this in English:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done.*",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin\". Place whatever commits are missing on that branch and then tell me when you're done.*",
               "",
               "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
