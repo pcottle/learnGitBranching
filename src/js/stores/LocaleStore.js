@@ -30,6 +30,10 @@ var headerLocaleMap = {
   'pt-BR': 'pt_BR'
 };
 
+var supportedLocalesList = Object.values(langLocaleMap)
+                                 .concat(Object.values(headerLocaleMap))
+                                 .filter(function (value, index, self) { return self.indexOf(value) === index;});
+
 function _getLocaleFromHeader(langString) {
   var languages = langString.split(',');
   var desiredLocale;
@@ -71,6 +75,10 @@ AppConstants.StoreSubscribePrototype,
 
   getLocale: function() {
     return _locale;
+  },
+
+  getSupportedLocales: function() {
+    return supportedLocalesList.slice();
   },
 
   dispatchToken: AppDispatcher.register(function(payload) {
