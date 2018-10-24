@@ -1,7 +1,6 @@
 var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
-var _ = require('underscore');
 
 var assign = require('object-assign');
 var util = require('../util');
@@ -93,7 +92,8 @@ var insertAlternateLinks = function(pageId) {
 
   // The value of the hreflang attribute identifies the language (in ISO 639-1 format)
   // and optionally a region (in ISO 3166-1 Alpha 2 format) of an alternate URL
-  var altLinks = _.map(LocaleStore.getSupportedLocales(), function(langCode) {
+
+  var altLinks = LocaleStore.getSupportedLocales().map(function(langCode) {
     var url = "https://learngitbranching.js.org/?locale=" + langCode;
     return '<link rel="alternate" hreflang="'+langCode+'" href="' + url +'" />';
   });

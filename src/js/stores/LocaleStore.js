@@ -3,7 +3,6 @@
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var _ = require('underscore');
 
 var assign = require('object-assign');
 
@@ -31,7 +30,9 @@ var headerLocaleMap = {
   'pt-BR': 'pt_BR'
 };
 
-var supportedLocalesList = _.values(langLocaleMap).concat(_.values(headerLocaleMap));
+var supportedLocalesList = Object.values(langLocaleMap)
+                                 .concat(Object.values(headerLocaleMap))
+                                 .filter(function (value, index, self) { return self.indexOf(value) === index;});
 
 function _getLocaleFromHeader(langString) {
   var languages = langString.split(',');
@@ -77,7 +78,7 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getSupportedLocales: function() {
-    return assign({}, supportedLocalesList);
+    return supportedLocalesList.slice();
   },
 
   dispatchToken: AppDispatcher.register(function(payload) {
