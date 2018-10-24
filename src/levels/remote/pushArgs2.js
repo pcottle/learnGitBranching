@@ -55,7 +55,7 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`)",
+              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`).",
               "",
               "Once you are specifying both the source and destination independently, you can get quite fancy and precise with remote commands. Let's see a demo!"
             ]

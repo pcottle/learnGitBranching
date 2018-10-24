@@ -86,8 +86,28 @@ var vcsModeRefresh = function(eventData) {
   $('body').toggleClass('hgMode', !isGit);
 };
 
+var insertAlternateLinks = function(pageId) {
+  // For now pageId is null, which would link to the main page.
+  // In future if pageId is provided this method should link to a specific page
+
+  // The value of the hreflang attribute identifies the language (in ISO 639-1 format)
+  // and optionally a region (in ISO 3166-1 Alpha 2 format) of an alternate URL
+
+  var altLinks = LocaleStore.getSupportedLocales().map(function(langCode) {
+    var url = "https://learngitbranching.js.org/?locale=" + langCode;
+    return '<link rel="alternate" hreflang="'+langCode+'" href="' + url +'" />';
+  });
+  var defaultUrl = "https://learngitbranching.js.org/?locale=" + LocaleStore.getDefaultLocale();
+  altLinks.push('<link rel="alternate" hreflang="x-default" href="' + defaultUrl +'" />');
+  $('head').prepend(altLinks);
+
+};
+
 var intlRefresh = function() {
   if (!window.$) { return; }
+  var countryCode = LocaleStore.getLocale().split("_")[0];
+  $("html").attr('lang', countryCode);
+  $("meta[http-equiv='content-language']").attr("content", countryCode);
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
     var key = $(el).attr('data-intl');
@@ -249,6 +269,8 @@ var initDemo = function(sandbox) {
     tryLocaleDetect();
   }
 
+  insertAlternateLinks();
+
   if (params.command) {
     var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
@@ -328,4 +350,3 @@ exports.getLevelDropdown = function() {
 };
 
 exports.init = init;
-
