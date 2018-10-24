@@ -28786,8 +28786,28 @@ var vcsModeRefresh = function(eventData) {
   $('body').toggleClass('hgMode', !isGit);
 };
 
+var insertAlternateLinks = function(pageId) {
+  // For now pageId is null, which would link to the main page.
+  // In future if pageId is provided this method should link to a specific page
+
+  // The value of the hreflang attribute identifies the language (in ISO 639-1 format)
+  // and optionally a region (in ISO 3166-1 Alpha 2 format) of an alternate URL
+
+  var altLinks = LocaleStore.getSupportedLocales().map(function(langCode) {
+    var url = "https://learngitbranching.js.org/?locale=" + langCode;
+    return '<link rel="alternate" hreflang="'+langCode+'" href="' + url +'" />';
+  });
+  var defaultUrl = "https://learngitbranching.js.org/?locale=" + LocaleStore.getDefaultLocale();
+  altLinks.push('<link rel="alternate" hreflang="x-default" href="' + defaultUrl +'" />');
+  $('head').prepend(altLinks);
+
+};
+
 var intlRefresh = function() {
   if (!window.$) { return; }
+  var countryCode = LocaleStore.getLocale().split("_")[0];
+  $("html").attr('lang', countryCode);
+  $("meta[http-equiv='content-language']").attr("content", countryCode);
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
     var key = $(el).attr('data-intl');
@@ -28949,6 +28969,8 @@ var initDemo = function(sandbox) {
     tryLocaleDetect();
   }
 
+  insertAlternateLinks();
+
   if (params.command) {
     var command = unescape(params.command);
     sandbox.mainVis.customEvents.on('gitEngineReady', function() {
@@ -29028,7 +29050,6 @@ exports.getLevelDropdown = function() {
 };
 
 exports.init = init;
-
 
 },{"../actions/LocaleActions":175,"../intl":193,"../models/collections":201,"../react_views/CommandHistoryView.jsx":203,"../react_views/MainHelperBarView.jsx":209,"../sandbox/":211,"../stores/LocaleStore":215,"../util":221,"../util/eventBaton":220,"../views":230,"../views/commandViews":228,"../views/levelDropdownView":231,"backbone":1,"events":3,"object-assign":10,"react":167}],177:[function(require,module,exports){
 var _ = require('underscore');
@@ -40274,6 +40295,10 @@ var headerLocaleMap = {
   'pt-BR': 'pt_BR'
 };
 
+var supportedLocalesList = Object.values(langLocaleMap)
+                                 .concat(Object.values(headerLocaleMap))
+                                 .filter(function (value, index, self) { return self.indexOf(value) === index;});
+
 function _getLocaleFromHeader(langString) {
   var languages = langString.split(',');
   var desiredLocale;
@@ -40315,6 +40340,10 @@ AppConstants.StoreSubscribePrototype,
 
   getLocale: function() {
     return _locale;
+  },
+
+  getSupportedLocales: function() {
+    return supportedLocalesList.slice();
   },
 
   dispatchToken: AppDispatcher.register(function(payload) {
@@ -57603,7 +57632,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "While reseting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
+              "While resetting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "",
               "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
             ],
@@ -66318,7 +66347,7 @@ exports.level = {
               "",
               "translates to this in English:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin.\" Place whatever commits are missing on that branch and then tell me when you're done.*",
+              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin\". Place whatever commits are missing on that branch and then tell me when you're done.*",
               "",
               "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
@@ -67086,7 +67115,7 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`)",
+              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`).",
               "",
               "Once you are specifying both the source and destination independently, you can get quite fancy and precise with remote commands. Let's see a demo!"
             ]
