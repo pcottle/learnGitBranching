@@ -24,7 +24,8 @@ exports.splitTextCommand = function(value, func, context) {
       .replace(/^(\s+)/, '')
       .replace(/(\s+)$/, '')
       .replace(/&quot;/g, '"')
-      .replace(/&#x27;/g, "'");
+      .replace(/&#x27;/g, "'")
+      .replace(/&#x2F;/g, "/");
 
     if (index > 0 && !command.length) {
       return;
