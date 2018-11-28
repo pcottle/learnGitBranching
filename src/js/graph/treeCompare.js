@@ -164,7 +164,7 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
       return false;
     }
 
-    // dont mess up the rest of comparison
+    // don't mess up the rest of comparison
     branchA = _.clone(branchA);
     branchB = _.clone(branchB);
     branchA.target = this.getBaseRef(branchA.target);
@@ -251,7 +251,7 @@ TreeCompare.getNumHashes = function(ref) {
       return func(results);
     }
   }
-  throw new Error('couldnt parse ref ' + ref);
+  throw new Error('couldn\'t parse ref ' + ref);
 };
 
 TreeCompare.getBaseRef = function(ref) {
