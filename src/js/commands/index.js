@@ -16,7 +16,7 @@ var commandConfigs = {
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
     if (!commandConfigs[vcs][name]) {
-      throw new Error('i dont have a command for ' + name);
+      throw new Error('i don\'t have a command for ' + name);
     }
     var config = commandConfigs[vcs][name];
     if (config.delegate) {

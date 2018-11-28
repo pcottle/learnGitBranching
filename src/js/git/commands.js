@@ -107,7 +107,7 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   if (!tracking) {
     throw new GitError({
       msg: intl.todo(
-        branchName + ' is not a remote tracking branch! I dont know where to push'
+        branchName + ' is not a remote tracking branch! I don\'t know where to push'
       )
     });
   }
@@ -519,7 +519,7 @@ var commandConfig = {
         command.addWarning(
           intl.str('git-warning-hard')
         );
-        // dont absorb the arg off of --hard
+        // don't absorb the arg off of --hard
         generalArgs = generalArgs.concat(commandOptions['--hard']);
       }
 

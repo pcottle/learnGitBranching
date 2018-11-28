@@ -271,7 +271,7 @@ var LevelBuilder = Level.extend({
       this.startDialogObj = levelObj;
     }.bind(this))
     .fail(function() {
-      // nothing to do, they dont want to edit it apparently
+      // nothing to do, they don't want to edit it apparently
     })
     .done(function() {
       if (command) {
@@ -340,7 +340,7 @@ var LevelBuilder = Level.extend({
         return whenEditedDialog.promise;
       }.bind(this))
       .fail(function() {
-        // if they dont want to edit the start dialog, do nothing
+        // if they don't want to edit the start dialog, do nothing
       })
       .done(function() {
         askForStartDeferred.resolve();
@@ -385,14 +385,14 @@ var LevelBuilder = Level.extend({
       'help builder': LevelBuilder.__super__.startDialog
     };
     if (!methodMap[command.get('method')]) {
-      throw new Error('woah we dont support that method yet');
+      throw new Error('woah we don\'t support that method yet');
     }
 
     methodMap[command.get('method')].apply(this, arguments);
   },
 
   afterCommandDefer: function(defer, command) {
-    // we dont need to compare against the goal anymore
+    // we don't need to compare against the goal anymore
     defer.resolve();
   },
 

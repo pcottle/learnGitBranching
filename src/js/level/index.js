@@ -401,7 +401,7 @@ var Level = Sandbox.extend({
 
   doesCommandCountTowardsTotal: function(command) {
     if (command.get('error')) {
-      // dont count errors towards our count
+      // don't count errors towards our count
       return false;
     }
 
@@ -645,7 +645,7 @@ var Level = Sandbox.extend({
     };
     var method = methodMap[command.get('method')];
     if (!method) {
-      throw new Error('woah we dont support that method yet', method);
+      throw new Error('woah we don\'t support that method yet', method);
     }
 
     method.apply(this, [command, defer]);

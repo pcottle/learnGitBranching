@@ -129,9 +129,9 @@ var GitDemonstrationView = ContainedBase.extend({
 
   positive: function() {
     if (this.demonstrated || !this.hasControl) {
-      // dont do anything if we are demonstrating, and if
+      // don't do anything if we are demonstrating, and if
       // we receive a meta nav event and we aren't listening,
-      // then dont do anything either
+      // then don't do anything either
       return;
     }
     this.demonstrated = true;

@@ -98,7 +98,7 @@ GitVisuals.prototype.resetAll = function() {
 GitVisuals.prototype.tearDown = function() {
   this.resetAll();
   this.paper.remove();
-  // Unregister the refresh tree listener so we dont accumulate
+  // Unregister the refresh tree listener so we don't accumulate
   // these over time. However we aren't calling tearDown in
   // some places... but this is an improvement
   var Main = require('../app');
@@ -442,7 +442,7 @@ GitVisuals.prototype.fullCalc = function() {
 };
 
 GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
+  // this method can only contain things that don't rely on graphics
   if (!this.rootCommit) {
     throw new Error('grr, no root commit!');
   }

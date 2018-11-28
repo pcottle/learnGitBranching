@@ -421,7 +421,7 @@ var VisNode = VisBase.extend({
       });
       // continuation calculation
       if ((vx * vx + vy * vy) < 0.1 && Math.abs(y - maxHeight) <= 0.1) {
-        // dont need to animate anymore, we are on ground
+        // don't need to animate anymore, we are on ground
         return false;
       }
       // keep animating!
