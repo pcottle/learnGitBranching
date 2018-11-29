@@ -334,7 +334,7 @@ var MultiViewBuilder = ContainedBase.extend({
       this.addChildViewObj(newView);
     }.bind(this))
     .fail(function() {
-      // they dont want to add the view apparently, so just return
+      // they don't want to add the view apparently, so just return
     })
     .done();
   },

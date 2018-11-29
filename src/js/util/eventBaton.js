@@ -76,7 +76,7 @@ EventBaton.prototype.passBatonBack = function(name, func, context, args) {
     }
   });
   if (indexBefore === undefined) {
-    throw new Error('you are the last baton holder! or i didnt find you');
+    throw new Error('you are the last baton holder! or i didn\'t find you');
   }
   var toCallObj = listeners[indexBefore];
 
@@ -105,7 +105,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
     console.log(this.eventMap);
-    throw new Error('cant releasebaton if yu dont have it');
+    throw new Error('cant releasebaton if yu don\'t have it');
   }
   this.eventMap[name] = newListeners;
 };

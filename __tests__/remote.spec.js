@@ -261,7 +261,7 @@ describe('Git Remotes', function() {
     );
   });
 
-  it('doesnt fetch if out of sync, but will update explicit dest if specified', function() {
+  it('doesn\'t fetch if out of sync, but will update explicit dest if specified', function() {
     expectTreeAsync(
       'git clone; git fakeTeamwork; go HEAD~1; git fetch origin master:master;go master; gc; go HEAD~1; git fakeTeamwork;git fetch origin master:master',
       '{"branches":{"master":{"target":"C3","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"C2","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C4":{"parents":["C2"],"id":"C4"}},"HEAD":{"target":"master","id":"HEAD"}}}'
@@ -304,14 +304,14 @@ describe('Git Remotes', function() {
     );
 	});
 
-	it('doesnt let you fetch to master if you are checked out there', function() {
+	it('doesn\'t let you fetch to master if you are checked out there', function() {
 		expectTreeAsync(
 			'git clone; git push origin master:foo; git fakeTeamwork foo 2; git fetch origin foo^:blah; git fetch foo:master',
 			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null},"blah":{"target":"C2","id":"blah","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"foo","id":"HEAD"}}}'
 		);
 	});
 
-	it('doesnt let you delete branches that dont exist', function() {
+	it('doesn\'t let you delete branches that don\'t exist', function() {
 		expectTreeAsync(
 			'git clone; git push origin :foo',
 			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'
@@ -325,7 +325,7 @@ describe('Git Remotes', function() {
 		);
 	});
 
-	it('makes a new branch from pull and doesnt bork', function() {
+	it('makes a new branch from pull and doesn\'t bork', function() {
 		expectTreeAsync(
 			'git clone; git pull origin :bar',
 			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null},"bar":{"target":"C1","id":"bar","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}'

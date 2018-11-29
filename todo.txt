@@ -77,7 +77,7 @@ Done things:
 [x] git pull animation
 [x] use the graph difference algorithm to then implement git push
 [x] work on git pull --rebase animation, send down the deferred and it should work?
-[x] why is rebase -i broken? dont emulate touch events
+[x] why is rebase -i broken? don't emulate touch events
 [x] tree compare test coverage
 [x] remote branch it is tracking (points to a remote branch model)
 [x] fix branch -a and branch -r to: show remote branches or all branches

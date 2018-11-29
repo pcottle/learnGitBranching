@@ -43,7 +43,7 @@ var Command = Backbone.Model.extend({
   },
 
   initDefaults: function() {
-    // weird things happen with defaults if you dont
+    // weird things happen with defaults if you don't
     // make new objects
     this.set('generalArgs', []);
     this.set('supportedMap', {});

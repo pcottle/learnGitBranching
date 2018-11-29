@@ -61,7 +61,7 @@ GitEngine.prototype.initUniqueID = function() {
 
 GitEngine.prototype.handleModeChange = function(vcs, callback) {
   if (this.mode === vcs) {
-    // dont fire event aggressively
+    // don't fire event aggressively
     callback();
     return;
   }
@@ -96,8 +96,8 @@ GitEngine.prototype.setMode = function(vcs) {
   deferred.resolve();
   var chain = deferred.promise;
 
-  // this stuff is tricky because we dont animate when
-  // we didnt do anything, but we DO animate when
+  // this stuff is tricky because we don't animate when
+  // we didn't do anything, but we DO animate when
   // either of the operations happen. so a lot of
   // branching ahead...
   var neededUpdate = this.updateAllBranchesForHg();
@@ -318,7 +318,7 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
-    // if we dont have an animation queue (like when loading
+    // if we don't have an animation queue (like when loading
     // right away), just go ahead and make an empty one
     this.animationQueue = this.animationQueue || new AnimationQueue({
       callback: function() {}
@@ -434,7 +434,7 @@ GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
   return this.getCommonAncestor(
       leftTarget,
       rightTarget,
-      true // dont throw since we dont know the order here.
+      true // don't throw since we don't know the order here.
   ).get('id');
 };
 
@@ -451,7 +451,7 @@ GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
   // Like above, could have two parents
   var leftTarget = this.findCommonAncestorWithRemote(parents[0].get('id'));
   var rightTarget = this.findCommonAncestorWithRemote(parents[1].get('id'));
-  return this.getCommonAncestor(leftTarget, rightTarget, true /* dont throw */).get('id');
+  return this.getCommonAncestor(leftTarget, rightTarget, true /* don't throw */).get('id');
 };
 
 GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
@@ -1113,7 +1113,7 @@ GitEngine.prototype.push = function(options) {
   if (!commitsToMake.length) {
     if (!options.force) {
       // We are already up to date, and we cant be deleting
-      // either since we dont have --force
+      // either since we don't have --force
       throw new GitError({
         msg: intl.str('git-error-origin-fetch-uptodate')
       });
@@ -1133,7 +1133,7 @@ GitEngine.prototype.push = function(options) {
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but the remote
-  // might already have those commits. In this case, we dont need to
+  // might already have those commits. In this case, we don't need to
   // make them, so filter these out
   commitsToMake = _.filter(commitsToMake, function(commitJSON) {
     return !this.origin.refs[commitJSON.id];
@@ -1307,7 +1307,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but we
-  // might already have those commits. In this case, we dont need to
+  // might already have those commits. In this case, we don't need to
   // make them, so filter these out
   commitsToMake = _.filter(commitsToMake, function(commitJSON) {
     return !this.refs[commitJSON.id];
@@ -1617,7 +1617,7 @@ GitEngine.prototype.resolveName = function(someRef) {
 
 GitEngine.prototype.resolveID = function(idOrTarget) {
   if (idOrTarget === null || idOrTarget === undefined) {
-    throw new Error('Dont call this with null / undefined');
+    throw new Error('Don\'t call this with null / undefined');
   }
 
   if (typeof idOrTarget !== 'string') {
@@ -1823,7 +1823,7 @@ GitEngine.prototype.pruneTreeAndPlay = function() {
 
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
-  // dont prune commits that HEAD depends on
+  // don't prune commits that HEAD depends on
   var headSet = Graph.getUpstreamSet(this, 'HEAD');
   _.each(headSet, function(val, commitID) {
     set[commitID] = true;
@@ -2238,7 +2238,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
 
     if (extraCommits.length > 0) {
       throw new GitError({
-        msg: intl.todo('Hey those commits dont exist in the set!')
+        msg: intl.todo('Hey those commits don\'t exist in the set!')
       });
     }
   }
@@ -2290,7 +2290,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     _.each(options.initialCommitOrdering[0].split(','), function(id) {
       if (!rebaseMap[id]) {
         throw new GitError({
-          msg: intl.todo('Hey those commits dont exist in the set!')
+          msg: intl.todo('Hey those commits don\'t exist in the set!')
         });
       }
       initialCommitOrdering.push(id);
@@ -2326,7 +2326,7 @@ GitEngine.prototype.filterRebaseCommits = function(
     }
 
     // we ALSO need to throw out commits that will do the same changes. like
-    // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
+    // if the upstream set has a commit C4 and we have C4', we don't rebase the C4' again.
     var baseID = this.scrapeBaseID(commit.get('id'));
     if (changesAlreadyMade[baseID]) {
       return false;
@@ -2787,7 +2787,7 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
 GitEngine.prototype.getCommonAncestor = function(ancestor, cousin, dontThrow) {
   if (this.isUpstreamOf(cousin, ancestor) && !dontThrow) {
-    throw new Error('Dont use common ancestor if we are upstream!');
+    throw new Error('Don\'t use common ancestor if we are upstream!');
   }
 
   var upstreamSet = Graph.getUpstreamSet(this, ancestor);

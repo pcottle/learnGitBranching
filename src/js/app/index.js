@@ -165,7 +165,7 @@ var initRootEvents = function(eventBaton) {
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
 
-  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // being the smart programmer I am (not), I don't include a true value on demo, so
   // I have to check if the key exists here
   var commands;
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {

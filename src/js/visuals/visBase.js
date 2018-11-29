@@ -41,7 +41,7 @@ var VisBase = Backbone.Model.extend({
       } else {
         this.get(key).stop();
         this.get(key).animate(attr[key], speed, easing);
-        // some keys dont support animating too, so set those instantly here
+        // some keys don't support animating too, so set those instantly here
         _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
           if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
             this.get(key).attr(nonAnimateKey, attr[key][nonAnimateKey]);

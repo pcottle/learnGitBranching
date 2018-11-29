@@ -27,7 +27,7 @@ ParseWaterfall.prototype.initParseWaterfall = function() {
     return;
   }
 
-  // by deferring the initialization here, we dont require()
+  // by deferring the initialization here, we don't require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
     Commands.parse,
