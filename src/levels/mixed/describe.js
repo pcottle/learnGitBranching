@@ -23,7 +23,7 @@
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
-    "zh_CN": "在 bugFix 上面提交一次就可以了",
+    "zh_CN": "当你准备好时，在 bugFix 分支上面提交一次就可以了",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі"
