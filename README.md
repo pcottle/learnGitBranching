@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/pcottle/learnGitBranching.svg?branch=master)](https://travis-ci.org/pcottle/learnGitBranching)
 
-LearnGitBranching is a git repository visualizer, sandbox, and series of educational tutorials and challenges. Its primary purpose is to help developers understand git through the power of visualization (something that's absent when working on the command line).
+LearnGitBranching is a git repository visualizer, sandbox, and a series of educational tutorials and challenges. Its primary purpose is to help developers understand git through the power of visualization (something that's absent when working on the command line). This is achieved through a game with different levels to get acquainted with the different git commands.
 
 You can input a variety of commands into LearnGitBranching (LGB) -- as commands are processed, the nearby commit tree will dynamically update to reflect the effects of each command:
 
@@ -11,7 +11,7 @@ You can input a variety of commands into LearnGitBranching (LGB) -- as commands 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
 https://pcottle.github.com/learnGitBranching/?demo
 
-Or you can launch the application normally here:
+Or, you can launch the application normally here:
 https://pcottle.github.com/learnGitBranching/
 
 ### Sandbox Mode
