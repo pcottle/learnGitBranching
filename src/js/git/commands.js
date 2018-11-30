@@ -19,7 +19,7 @@ function isColonRefspec(str) {
 }
 
 var assertIsRef = function(engine, ref) {
-  engine.resolveID(ref); // will throw giterror if cant resolve
+  engine.resolveID(ref); // will throw git error if can't resolve
 };
 
 var validateBranchName = function(engine, name) {
@@ -255,7 +255,7 @@ var commandConfig = {
         // get o/master locally if master is specified
         destination = engine.origin.refs[source].getPrefixedID();
       } else {
-        // cant be detached
+        // can't be detached
         if (engine.getDetachedHead()) {
           throw new GitError({
             msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')

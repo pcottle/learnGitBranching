@@ -960,7 +960,7 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
-    '__desc__': 'When you say an id but that level doesnt exist',
+    '__desc__': 'When you say an id but that level doesn\'t exist',
     'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
     'de_DE': 'Konnte keinen Level mit der ID "{id}" finden! Öffne einen Level-Auswahldialog',
     'zh_CN': '没找到 id 为 "{id}" 的关卡！打开关卡选择框',

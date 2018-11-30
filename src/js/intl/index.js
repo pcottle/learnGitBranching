@@ -57,7 +57,7 @@ var str = exports.str = function(key, params) {
 
 var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   if (!obj || !obj[key]) {
-    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+    throw new Error('that key ' + key + 'doesn\'t exist in this blob' + obj);
   }
   if (!obj[key][getDefaultLocale()]) {
     console.warn(
@@ -98,7 +98,7 @@ exports.getStartDialog = function(level) {
   var startDialog = getIntlKey(level, 'startDialog');
   if (startDialog) { return startDialog; }
 
-  // this level translation isnt supported yet, so lets add
+  // this level translation isn't supported yet, so lets add
   // an alert to the front and give the english version.
   var errorAlert = {
     type: 'ModalAlert',

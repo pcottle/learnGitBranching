@@ -14,7 +14,7 @@ var indexFile = fs.readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
 
 /**
- * This is SUPER jank but I cant get the underscore templating to evaluate
+ * This is SUPER jank but I can't get the underscore templating to evaluate
  * correctly with custom regexes, so I'm just going to use interpolate
  * and define the strings here.
  */
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     grunt.log.writeln(compliments[index]);
   });
 
-  grunt.registerTask('lintStrings', 'Find if an INTL string doesnt exist', function() {
+  grunt.registerTask('lintStrings', 'Find if an INTL string doesn\'t exist', function() {
     var child_process = require('child_process');
     child_process.exec('node src/js/intl/checkStrings', function(err, output) {
       grunt.log.writeln(output);

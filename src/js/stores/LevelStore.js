@@ -109,11 +109,11 @@ AppConstants.StoreSubscribePrototype,
 
   getNextLevel: function(id) {
     if (!_levelMap[id]) {
-      console.warn('that level doesnt exist!!!');
+      console.warn('that level doesn\'t exist!!!');
       return null;
     }
 
-    // meh, this method could be better. It's a tradeoff between
+    // meh, this method could be better. It's a trade-off between
     // having the sequence structure be really simple JSON
     // and having no connectivity information between levels, which means
     // you have to build that up yourself on every query
@@ -138,7 +138,7 @@ AppConstants.StoreSubscribePrototype,
 
   isLevelSolved: function(levelID) {
     if (!_levelMap[levelID]) {
-      throw new Error('that level doesnt exist!');
+      throw new Error('that level doesn\'t exist!');
     }
     return !!_solvedMap[levelID];
   },
