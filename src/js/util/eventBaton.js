@@ -27,7 +27,7 @@ EventBaton.prototype.sliceOffArgs = function(num, args) {
 };
 
 EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
+  // arguments is weird and doesn't do slice right
   var argsToApply = this.sliceOffArgs(1, arguments);
 
   var listeners = this.eventMap[name];
@@ -105,7 +105,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
     console.log(this.eventMap);
-    throw new Error('cant releasebaton if yu don\'t have it');
+    throw new Error('can\'t releasebaton if you don\'t have it');
   }
   this.eventMap[name] = newListeners;
 };

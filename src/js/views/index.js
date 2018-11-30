@@ -168,7 +168,7 @@ var LeftRightView = PositiveNegativeBase.extend({
     };
 
     this.render();
-    // For some weird reason backbone events arent working anymore so
+    // For some weird reason backbone events aren't working anymore so
     // im going to just wire this up manually
     this.$('div.right').click(this.positive.bind(this));
     this.$('div.left').click(this.negative.bind(this));
@@ -208,7 +208,7 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
-    // this doesnt necessarily show us though...
+    // this doesn't necessarily show us though...
   },
 
   stealKeyboard: function() {

@@ -21,7 +21,7 @@ var events = assign(
     }
   }
 );
-// Allow unlimited listeners, so FF doesnt break
+// Allow unlimited listeners, so FF doesn't break
 events.setMaxListeners(0);
 var commandUI;
 var sandbox;

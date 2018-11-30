@@ -68,7 +68,7 @@ var LevelBuilder = Level.extend({
       this.definedGoal = true;
     }
 
-    // we wont be using this stuff, and it is deleted to ensure we overwrite all functions that
+    // we won't be using this stuff, and it is deleted to ensure we overwrite all functions that
     // include that functionality
     delete this.treeCompare;
     delete this.solved;
@@ -335,7 +335,7 @@ var LevelBuilder = Level.extend({
       .then(function() {
         // oh boy this is complex
         var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesnt need resolving just yet...
+        // the undefined here is the command that doesn't need resolving just yet...
         this.editDialog(undefined, whenEditedDialog);
         return whenEditedDialog.promise;
       }.bind(this))

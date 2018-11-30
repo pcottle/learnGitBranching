@@ -41,7 +41,7 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
-  // poor man's dependency injection. we cant reassign
+  // poor man's dependency injection. we can't reassign
   // the module variable because its get clobbered :P
   this.animationFactory = (options.animationFactory) ?
     options.animationFactory : AnimationFactory;
@@ -1018,12 +1018,12 @@ GitEngine.prototype.getTargetGraphDifference = function(
     _.each(here.parents, pushParent);
   }
 
-  // filter because we werent doing graph search
+  // filter because we weren't doing graph search
   var differenceUnique = Graph.getUniqueObjects(difference);
   /**
    * Ok now we have to determine the order in which to make these commits.
    * We used to just sort by depth because we were lazy but that is incorrect
-   * since it doesnt represent the actual dependency tree of the commits.
+   * since it doesn't represent the actual dependency tree of the commits.
    *
    * So here is what we are going to do -- loop through the differenceUnique
    * set and find a commit that has _all_ its parents in the targetSet. Then
@@ -1112,7 +1112,7 @@ GitEngine.prototype.push = function(options) {
   );
   if (!commitsToMake.length) {
     if (!options.force) {
-      // We are already up to date, and we cant be deleting
+      // We are already up to date, and we can't be deleting
       // either since we don't have --force
       throw new GitError({
         msg: intl.str('git-error-origin-fetch-uptodate')
@@ -1767,7 +1767,7 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
     }
     var originBranch = this.origin.refs[branch.getBaseID()];
     if (!originBranch.get('visBranch')) {
-      // testing mode doesnt get this
+      // testing mode doesn't get this
       return;
     }
     var originFill = originBranch.get('visBranch').get('fill');
@@ -2099,7 +2099,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   });
 
   chain = chain.then(function() {
-    // now we just moved a bunch of commits, but we havent updated the
+    // now we just moved a bunch of commits, but we haven't updated the
     // dangling guys. lets do that and then prune
     var anyChange = this.updateCommitParentsForHgRebase(masterSet);
     if (!anyChange) {
@@ -2801,7 +2801,7 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin, dontThrow) {
     }
     queue = queue.concat(here.get('parents'));
   }
-  throw new Error('something has gone very wrong... two nodes arent connected!');
+  throw new Error('something has gone very wrong... two nodes aren\'t connected!');
 };
 
 GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
@@ -2913,7 +2913,7 @@ var Branch = Ref.extend({
 
   getBaseID: function() {
     if (!this.getIsRemote()) {
-      throw new Error('im not remote so cant get base');
+      throw new Error('im not remote so can\'t get base');
     }
     return this.get('id').replace(ORIGIN_PREFIX, '');
   },

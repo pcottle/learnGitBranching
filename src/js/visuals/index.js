@@ -359,7 +359,7 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
     }
 
     if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
+      // its actually ok it doesn't exist yet
       return;
     }
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
@@ -477,7 +477,7 @@ GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
 GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
   var branches = this.upstreamBranchSet[commit.get('id')];
   if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
+    throw new Error('that commit doesn\'t have upstream branches!');
   }
 
   return this.blendHuesFromBranchStack(branches);
