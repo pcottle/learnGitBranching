@@ -25,7 +25,7 @@ var GitDemonstrationView = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.options = options;
-    this.JSON = _.extend(
+    this.JSON = Object.assign(
       {
         beforeMarkdowns: [
           '## Git Commits',

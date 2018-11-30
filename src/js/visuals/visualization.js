@@ -104,7 +104,7 @@ var Visualization = Backbone.View.extend({
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
-    this.originVis = new Visualization(_.extend(
+    this.originVis = new Visualization(Object.assign(
       {},
       // copy all of our options over, except...
       this.options,

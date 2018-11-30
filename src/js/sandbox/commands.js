@@ -134,7 +134,7 @@ var getAllCommands = function() {
     'mobileAlert'
   ];
 
-  var allCommands = _.extend(
+  var allCommands = Object.assign(
     {},
     require('../level').regexMap,
     regexMap

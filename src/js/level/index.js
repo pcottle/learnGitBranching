@@ -70,7 +70,7 @@ var Level = Sandbox.extend({
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
-      new MultiView(_.extend(
+      new MultiView(Object.assign(
         {},
         intl.getStartDialog(this.level),
         { deferred: deferred }
@@ -99,7 +99,7 @@ var Level = Sandbox.extend({
     var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
     dialog.childViews = dialog.childViews.slice(-1);
-    new MultiView(_.extend(
+    new MultiView(Object.assign(
       dialog,
       { deferred: deferred }
     ));

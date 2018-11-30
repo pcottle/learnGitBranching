@@ -179,7 +179,7 @@ var DemonstrationBuilder = ContainedBase.extend({
     this.deferred = options.deferred || Q.defer();
     if (options.fromObj) {
       var toEdit = options.fromObj.options;
-      options = _.extend(
+      options = Object.assign(
         {},
         options,
         toEdit,

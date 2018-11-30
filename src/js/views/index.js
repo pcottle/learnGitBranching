@@ -372,7 +372,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     options = options || {};
 
     this.deferred = options.deferred || Q.defer();
-    this.modalAlert = new ModalAlert(_.extend(
+    this.modalAlert = new ModalAlert(Object.assign(
       {},
       { markdown: '#you sure?' },
       options
@@ -470,7 +470,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
         '</p>';
     }
 
-    options = _.extend(
+    options = Object.assign(
       {},
       options,
       {

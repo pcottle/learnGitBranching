@@ -360,7 +360,7 @@ var LevelBuilder = Level.extend({
   },
 
   getExportObj: function() {
-    var compiledLevel = _.extend(
+    var compiledLevel = Object.assign(
       {},
       this.level
     );

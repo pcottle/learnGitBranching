@@ -13,7 +13,7 @@ var VisBase = Backbone.Model.extend({
   animateAttrKeys: function(keys, attrObj, speed, easing) {
     // either we animate a specific subset of keys or all
     // possible things we could animate
-    keys = _.extend(
+    keys = Object.assign(
       {},
       {
         include: ['circle', 'arrow', 'rect', 'path', 'text'],
@@ -26,7 +26,7 @@ var VisBase = Backbone.Model.extend({
 
     // safely insert this attribute into all the keys we want
     _.each(keys.include, function(key) {
-      attr[key] = _.extend(
+      attr[key] = Object.assign(
         {},
         attr[key],
         attrObj

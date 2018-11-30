@@ -92,7 +92,7 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  var allBranches = _.extend(
+  var allBranches = Object.assign(
     {},
     treeA.branches,
     treeB.branches
@@ -140,7 +140,7 @@ TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
 
-  var allBranches = _.extend(
+  var allBranches = Object.assign(
     {},
     treeA.branches,
     treeB.branches
@@ -270,7 +270,7 @@ TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   // some buildup functions
   var getStrippedCommitCopy = function(commit) {
     if (!commit) { return {}; }
-    return _.extend(
+    return Object.assign(
       {},
       commit,
       {

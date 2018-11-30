@@ -44,7 +44,7 @@ var Graph = {
 
     if (type == 'HEAD') {
       var headJSON = tree.HEAD;
-      var HEAD = new Ref(_.extend(
+      var HEAD = new Ref(Object.assign(
         tree.HEAD,
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
@@ -57,7 +57,7 @@ var Graph = {
     if (type == 'branch') {
       var branchJSON = tree.branches[objID];
 
-      var branch = new Branch(_.extend(
+      var branch = new Branch(Object.assign(
         tree.branches[objID],
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
@@ -70,7 +70,7 @@ var Graph = {
     if (type == 'tag') {
       var tagJSON = tree.tags[objID];
 
-      var tag = new Tag(_.extend(
+      var tag = new Tag(Object.assign(
         tree.tags[objID],
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
@@ -89,7 +89,7 @@ var Graph = {
         parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
       }, this);
 
-      var commit = new Commit(_.extend(
+      var commit = new Commit(Object.assign(
         commitJSON,
         {
           parents: parentObjs,
