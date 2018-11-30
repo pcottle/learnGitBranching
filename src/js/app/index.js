@@ -2,7 +2,6 @@ var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
 
-var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
@@ -11,7 +10,7 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-var events = assign(
+var events = Object.assign(
   {},
   EventEmitter.prototype,
   {
