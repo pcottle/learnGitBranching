@@ -48,7 +48,7 @@ var MultiView = Backbone.View.extend({
     this.childViews = [];
     this.currentIndex = 0;
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('negative', this.getNegFunc(), this);
     this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('quit', this.finish, this);
@@ -192,4 +192,3 @@ var MultiView = Backbone.View.extend({
 });
 
 exports.MultiView = MultiView;
-

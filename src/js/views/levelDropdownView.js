@@ -40,7 +40,7 @@ var LevelDropdownView = ContainedBase.extend({
       }]
     };
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       this.loadLevelID.bind(this),
       300,
@@ -444,4 +444,3 @@ var SeriesView = BaseView.extend({
 });
 
 exports.LevelDropdownView = LevelDropdownView;
-

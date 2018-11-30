@@ -726,7 +726,7 @@ GitEngine.prototype.makeTag = function(id, target) {
 };
 
 GitEngine.prototype.getHead = function() {
-  return _.clone(this.HEAD);
+  return Object.assign({}, this.HEAD);
 };
 
 GitEngine.prototype.getTags = function() {

@@ -165,8 +165,8 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
     }
 
     // don't mess up the rest of comparison
-    branchA = _.clone(branchA);
-    branchB = _.clone(branchB);
+    branchA = Object.assign({}, branchA);
+    branchB = Object.assign({}, branchB);
     branchA.target = this.getBaseRef(branchA.target);
     branchB.target = this.getBaseRef(branchB.target);
 

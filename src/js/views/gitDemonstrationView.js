@@ -55,7 +55,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.render();
     this.checkScroll();
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
@@ -244,4 +244,3 @@ var GitDemonstrationView = ContainedBase.extend({
 });
 
 exports.GitDemonstrationView = GitDemonstrationView;
-

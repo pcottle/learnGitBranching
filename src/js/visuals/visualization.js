@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Collections = require('../models/collections');
@@ -13,7 +12,7 @@ var Visualization = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
     this.options = options;
-    this.customEvents = _.clone(Backbone.Events);
+    this.customEvents = Object.assign({}, Backbone.Events);
     this.containerElement = options.containerElement;
 
     var _this = this;
