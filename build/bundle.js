@@ -28702,7 +28702,6 @@ var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
 
-var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
@@ -28711,7 +28710,7 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-var events = assign(
+var events = Object.assign(
   {},
   EventEmitter.prototype,
   {
@@ -28721,7 +28720,7 @@ var events = assign(
     }
   }
 );
-// Allow unlimited listeners, so FF doesnt break
+// Allow unlimited listeners, so FF doesn't break
 events.setMaxListeners(0);
 var commandUI;
 var sandbox;
@@ -28865,7 +28864,7 @@ var initRootEvents = function(eventBaton) {
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
 
-  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // being the smart programmer I am (not), I don't include a true value on demo, so
   // I have to check if the key exists here
   var commands;
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
@@ -29051,8 +29050,7 @@ exports.getLevelDropdown = function() {
 
 exports.init = init;
 
-},{"../actions/LocaleActions":175,"../intl":193,"../models/collections":201,"../react_views/CommandHistoryView.jsx":203,"../react_views/MainHelperBarView.jsx":209,"../sandbox/":211,"../stores/LocaleStore":215,"../util":221,"../util/eventBaton":220,"../views":230,"../views/commandViews":228,"../views/levelDropdownView":231,"backbone":1,"events":3,"object-assign":10,"react":167}],177:[function(require,module,exports){
-var _ = require('underscore');
+},{"../actions/LocaleActions":175,"../intl":193,"../models/collections":201,"../react_views/CommandHistoryView.jsx":203,"../react_views/MainHelperBarView.jsx":209,"../sandbox/":211,"../stores/LocaleStore":215,"../util":221,"../util/eventBaton":220,"../views":230,"../views/commandViews":228,"../views/levelDropdownView":231,"backbone":1,"events":3,"react":167}],177:[function(require,module,exports){
 var intl = require('../intl');
 
 var Errors = require('../util/errors');
@@ -29070,7 +29068,7 @@ var commandConfigs = {
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
     if (!commandConfigs[vcs][name]) {
-      throw new Error('i dont have a command for ' + name);
+      throw new Error('i don\'t have a command for ' + name);
     }
     var config = commandConfigs[vcs][name];
     if (config.delegate) {
@@ -29088,7 +29086,7 @@ var commands = {
     if (result.multiDelegate) {
       // we need to do multiple delegations with
       // a different command at each step
-      _.each(result.multiDelegate, function(delConfig) {
+      result.multiDelegate.forEach(function(delConfig) {
         // copy command, and then set opts
         commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
@@ -29124,7 +29122,7 @@ var commands = {
       var displayName = config.displayName || name;
       var thisMap = {};
       // start all options off as disabled
-      _.each(config.options, function(option) {
+      (config.options || []).forEach(function(option) {
         thisMap[option] = false;
       });
       optionMap[vcs][displayName] = thisMap;
@@ -29156,8 +29154,10 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfigs, function(commandConfig, vcs) {
-      _.each(commandConfig, function(config, name) {
+    Object.keys(commandConfigs).forEach(function(vcs) {
+      var commandConfig = commandConfigs[vcs];
+      Object.keys(commandConfig).forEach(function(name) {
+        var config = commandConfig[name];
         callback(config, name, vcs);
       });
     });
@@ -29170,18 +29170,21 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(commands.getRegexMap(), function (map, thisVCS) {
-    _.each(map, function(regex, thisMethod) {
+  var regexMap = commands.getRegexMap();
+  Object.keys(regexMap).forEach(function (thisVCS) {
+    var map = regexMap[thisVCS];
+    Object.keys(map).forEach(function(thisMethod) {
+      var regex = map[thisMethod];
       if (regex.exec(str)) {
         vcs = thisVCS;
         method = thisMethod;
         // every valid regex has to have the parts of
         // <vcs> <command> <stuff>
-        // because there are always two spaces
+        // because there are always two space-groups
         // before our "stuff" we can simply
-        // split on spaces and grab everything after
+        // split on space-groups and grab everything after
         // the second:
-        options = str.split(' ').slice(2).join(' ');
+        options = str.match(/('.*?'|".*?"|\S+)/g).slice(2);
       }
     });
   });
@@ -29224,11 +29227,8 @@ function CommandOptionParser(vcs, method, options) {
 }
 
 CommandOptionParser.prototype.explodeAndSet = function() {
-  // TODO -- this is ugly
-  // split on spaces, except when inside quotes
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
+  for (var i = 0; i < this.rawOptions.length; i++) {
+    var part = this.rawOptions[i];
 
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
@@ -29241,7 +29241,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      var next = exploded[i + 1];
+      var next = this.rawOptions[i + 1];
       var optionArgs = [];
       if (next && next.slice(0,1) !== '-') {
         // only store the next argument as this
@@ -29260,7 +29260,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
 exports.commands = commands;
 exports.parse = parse;
 
-},{"../git/commands":186,"../intl":193,"../mercurial/commands":200,"../util/errors":218,"underscore":168}],178:[function(require,module,exports){
+},{"../git/commands":186,"../intl":193,"../mercurial/commands":200,"../util/errors":218}],178:[function(require,module,exports){
 "use strict";
 
 var keyMirror = require('../util/keyMirror');
@@ -30329,7 +30329,7 @@ AppDispatcher.handleURIAction = function(action) {
 module.exports = AppDispatcher;
 
 },{"../constants/AppConstants":178,"flux":4}],186:[function(require,module,exports){
-var _ = require('underscore');
+var escapeString = require('../util/escapeString');
 var intl = require('../intl');
 
 var Graph = require('../graph');
@@ -30350,7 +30350,7 @@ function isColonRefspec(str) {
 }
 
 var assertIsRef = function(engine, ref) {
-  engine.resolveID(ref); // will throw giterror if cant resolve
+  engine.resolveID(ref); // will throw git error if can't resolve
 };
 
 var validateBranchName = function(engine, name) {
@@ -30438,7 +30438,7 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   if (!tracking) {
     throw new GitError({
       msg: intl.todo(
-        branchName + ' is not a remote tracking branch! I dont know where to push'
+        branchName + ' is not a remote tracking branch! I don\'t know where to push'
       )
     });
   }
@@ -30521,7 +30521,7 @@ var commandConfig = {
 
       var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
-      var toCherrypick = _.map(generalArgs, function(arg) {
+      var toCherrypick = generalArgs.map(function (arg) {
         var commit = engine.getCommitFromRef(arg);
         // and check that its not upstream
         if (set[commit.get('id')]) {
@@ -30586,7 +30586,7 @@ var commandConfig = {
         // get o/master locally if master is specified
         destination = engine.origin.refs[source].getPrefixedID();
       } else {
-        // cant be detached
+        // can't be detached
         if (engine.getDetachedHead()) {
           throw new GitError({
             msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
@@ -30762,7 +30762,7 @@ var commandConfig = {
         names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
-        _.each(names, function(name) {
+        names.forEach(function(name) {
           engine.validateAndDeleteBranch(name);
         });
         return;
@@ -30850,7 +30850,7 @@ var commandConfig = {
         command.addWarning(
           intl.str('git-warning-hard')
         );
-        // dont absorb the arg off of --hard
+        // don't absorb the arg off of --hard
         generalArgs = generalArgs.concat(commandOptions['--hard']);
       }
 
@@ -31161,7 +31161,7 @@ var instantCommands = [
       intl.str('git-version'),
       '<br/>',
       intl.str('git-usage'),
-      _.escape(intl.str('git-usage-command')),
+      escapeString(intl.str('git-usage-command')),
       '<br/>',
       intl.str('git-supported-commands'),
       '<br/>'
@@ -31169,9 +31169,10 @@ var instantCommands = [
 
     var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
+    Object.keys(commands).forEach(function(command) {
+      var commandOptions = commands[command];
       lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
+      Object.keys(commandOptions).forEach(function(optionName) {
         lines.push('\t ' + optionName);
       }, this);
     }, this);
@@ -31188,8 +31189,7 @@ var instantCommands = [
 exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
 
-
-},{"../commands":177,"../graph":190,"../intl":193,"../util/errors":218,"underscore":168}],187:[function(require,module,exports){
+},{"../commands":177,"../graph":190,"../intl":193,"../util/errors":218,"../util/escapeString":219}],187:[function(require,module,exports){
 var Q = require('q');
 
 var Main = require('../app');
@@ -31313,7 +31313,7 @@ function getMockFactory() {
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
-    // dont add any steps
+    // don't add any steps
     return chain;
   };
 
@@ -31419,7 +31419,6 @@ exports.getTreeQuick = getTreeQuick;
 
 
 },{"../git":189,"../graph/treeCompare":191,"../models/collections":201,"../models/commandModel":202,"../util":221,"../util/eventBaton":220,"../util/mock":224,"../visuals":236,"../visuals/animation/animationFactory":234,"backbone":1,"q":12}],189:[function(require,module,exports){
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -31462,7 +31461,7 @@ function GitEngine(options) {
   this.eventBaton = options.eventBaton;
   this.eventBaton.stealBaton('processGitCommand', this.dispatch, this);
 
-  // poor man's dependency injection. we cant reassign
+  // poor man's dependency injection. we can't reassign
   // the module variable because its get clobbered :P
   this.animationFactory = (options.animationFactory) ?
     options.animationFactory : AnimationFactory;
@@ -31482,7 +31481,7 @@ GitEngine.prototype.initUniqueID = function() {
 
 GitEngine.prototype.handleModeChange = function(vcs, callback) {
   if (this.mode === vcs) {
-    // dont fire event aggressively
+    // don't fire event aggressively
     callback();
     return;
   }
@@ -31517,8 +31516,8 @@ GitEngine.prototype.setMode = function(vcs) {
   deferred.resolve();
   var chain = deferred.promise;
 
-  // this stuff is tricky because we dont animate when
-  // we didnt do anything, but we DO animate when
+  // this stuff is tricky because we don't animate when
+  // we didn't do anything, but we DO animate when
   // either of the operations happen. so a lot of
   // branching ahead...
   var neededUpdate = this.updateAllBranchesForHg();
@@ -31591,7 +31590,7 @@ GitEngine.prototype.exportTreeForBranch = function(branchName) {
   // now loop through and delete commits
   var commitsToLoop = tree.commits;
   tree.commits = {};
-  _.each(commitsToLoop, function(commit, id) {
+  commitsToLoop.forEach(function(commit, id) {
     if (set[id]) {
       // if included in target branch
       tree.commits[id] = commit;
@@ -31600,7 +31599,7 @@ GitEngine.prototype.exportTreeForBranch = function(branchName) {
 
   var branchesToLoop = tree.branches;
   tree.branches = {};
-  _.each(branchesToLoop, function(branch, id) {
+  branchesToLoop.forEach(function(branch, id) {
     if (id === branchName) {
       tree.branches[id] = branch;
     }
@@ -31621,30 +31620,28 @@ GitEngine.prototype.exportTree = function() {
     HEAD: null
   };
 
-  _.each(this.branchCollection.toJSON(), function(branch) {
+  this.branchCollection.toJSON().forEach(function(branch) {
     branch.target = branch.target.get('id');
     delete branch.visBranch;
 
     totalExport.branches[branch.id] = branch;
   });
 
-  _.each(this.commitCollection.toJSON(), function(commit) {
+  this.commitCollection.toJSON().forEach(function(commit) {
     // clear out the fields that reference objects and create circular structure
-    _.each(Commit.prototype.constants.circularFields, function(field) {
+    Commit.prototype.constants.circularFields.forEach(function(field) {
       delete commit[field];
-    }, this);
+    });
 
     // convert parents
-    var parents = [];
-    _.each(commit.parents, function(par) {
-      parents.push(par.get('id'));
+    commit.parents = (commit.parents || []).map(function(par) {
+      return par.get('id');
     });
-    commit.parents = parents;
 
     totalExport.commits[commit.id] = commit;
   }, this);
 
-  _.each(this.tagCollection.toJSON(), function(tag) {
+  this.tagCollection.toJSON().forEach(function(tag) {
     delete tag.visTag;
     tag.target = tag.target.get('id');
 
@@ -31703,18 +31700,18 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   // now we do the loading part
   var createdSoFar = {};
 
-  _.each(tree.commits, function(commitJSON) {
+  Object.values(tree.commits).forEach(function(commitJSON) {
     var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
-  _.each(tree.branches, function(branchJSON) {
+  Object.values(tree.branches).forEach(function(branchJSON) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
-  _.each(tree.tags, function(tagJSON) {
+  Object.values(tree.tags || {}).forEach(function(tagJSON) {
     var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
@@ -31739,7 +31736,7 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
 
   if (tree.originTree) {
     var treeString = JSON.stringify(tree.originTree);
-    // if we dont have an animation queue (like when loading
+    // if we don't have an animation queue (like when loading
     // right away), just go ahead and make an empty one
     this.animationQueue = this.animationQueue || new AnimationQueue({
       callback: function() {}
@@ -31783,7 +31780,8 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree if its
   // not made already...
-  _.each(originTree.branches, function(branchJSON, branchName) {
+  Object.keys(originTree.branches).forEach(function(branchName) {
+    var branchJSON = originTree.branches[branchName];
     if (this.refs[ORIGIN_PREFIX + branchName]) {
       // we already have this branch
       return;
@@ -31855,7 +31853,7 @@ GitEngine.prototype.findCommonAncestorForRemote = function(myTarget) {
   return this.getCommonAncestor(
       leftTarget,
       rightTarget,
-      true // dont throw since we dont know the order here.
+      true // don't throw since we don't know the order here.
   ).get('id');
 };
 
@@ -31872,7 +31870,7 @@ GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
   // Like above, could have two parents
   var leftTarget = this.findCommonAncestorWithRemote(parents[0].get('id'));
   var rightTarget = this.findCommonAncestorWithRemote(parents[1].get('id'));
-  return this.getCommonAncestor(leftTarget, rightTarget, true /* dont throw */).get('id');
+  return this.getCommonAncestor(leftTarget, rightTarget, true /* don't throw */).get('id');
 };
 
 GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
@@ -31939,7 +31937,7 @@ GitEngine.prototype.getOrMakeRecursive = function(
 
   if (type == 'HEAD') {
     var headJSON = tree.HEAD;
-    var HEAD = new Ref(_.extend(
+    var HEAD = new Ref(Object.assign(
       tree.HEAD,
       {
         target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
@@ -31952,7 +31950,7 @@ GitEngine.prototype.getOrMakeRecursive = function(
   if (type == 'branch') {
     var branchJSON = tree.branches[objID];
 
-    var branch = new Branch(_.extend(
+    var branch = new Branch(Object.assign(
       tree.branches[objID],
       {
         target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
@@ -31965,7 +31963,7 @@ GitEngine.prototype.getOrMakeRecursive = function(
   if (type == 'tag') {
     var tagJSON = tree.tags[objID];
 
-    var tag = new Tag(_.extend(
+    var tag = new Tag(Object.assign(
       tree.tags[objID],
       {
         target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
@@ -31979,12 +31977,11 @@ GitEngine.prototype.getOrMakeRecursive = function(
     // for commits, we need to grab all the parents
     var commitJSON = tree.commits[objID];
 
-    var parentObjs = [];
-    _.each(commitJSON.parents, function(parentID) {
-      parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+    var parentObjs = commitJSON.parents.map(function(parentID) {
+      return this.getOrMakeRecursive(tree, createdSoFar, parentID);
     }, this);
 
-    var commit = new Commit(_.extend(
+    var commit = new Commit(Object.assign(
       commitJSON,
       {
         parents: parentObjs,
@@ -32147,7 +32144,7 @@ GitEngine.prototype.makeTag = function(id, target) {
 };
 
 GitEngine.prototype.getHead = function() {
-  return _.clone(this.HEAD);
+  return Object.assign({}, this.HEAD);
 };
 
 GitEngine.prototype.getTags = function() {
@@ -32179,14 +32176,14 @@ GitEngine.prototype.getBranches = function() {
 
 GitEngine.prototype.getRemoteBranches = function() {
   var all = this.getBranches();
-  return _.filter(all, function(branchJSON) {
+  return all.filter(function(branchJSON) {
     return branchJSON.remote === true;
   });
 };
 
 GitEngine.prototype.getLocalBranches = function() {
   var all = this.getBranches();
-  return _.filter(all, function(branchJSON) {
+  return all.filter(function(branchJSON) {
     return branchJSON.remote === false;
   });
 };
@@ -32195,17 +32192,16 @@ GitEngine.prototype.printBranchesWithout = function(without) {
   var commitToBranches = this.getUpstreamBranchSet();
   var commitID = this.getCommitFromRef(without).get('id');
 
-  var toPrint = [];
-  _.each(commitToBranches[commitID], function(branchJSON) {
+  var toPrint = commitToBranches[commitID].map(function (branchJSON) {
     branchJSON.selected = this.HEAD.get('target').get('id') == branchJSON.id;
-    toPrint.push(branchJSON);
+    return branchJSON;
   }, this);
   this.printBranches(toPrint);
 };
 
 GitEngine.prototype.printBranches = function(branches) {
   var result = '';
-  _.each(branches, function(branch) {
+  branches.forEach(function (branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
   });
   throw new CommandResult({
@@ -32215,7 +32211,7 @@ GitEngine.prototype.printBranches = function(branches) {
 
 GitEngine.prototype.printTags = function(tags) {
   var result = '';
-  _.each(tags, function(tag) {
+  tags.forEach(function (tag) {
     result += tag.id + '\n';
   });
   throw new CommandResult({
@@ -32267,7 +32263,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
     id = this.getUniqueID();
   }
 
-  var commit = new Commit(_.extend({
+  var commit = new Commit(Object.assign({
       parents: parents,
       id: id,
       gitVisuals: this.gitVisuals
@@ -32282,7 +32278,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
 
 GitEngine.prototype.revert = function(whichCommits) {
   // resolve the commits we will rebase
-  var toRevert = _.map(whichCommits, function(stringRef) {
+  var toRevert = whichCommits.map(function(stringRef) {
     return this.getCommitFromRef(stringRef);
   }, this);
 
@@ -32316,11 +32312,11 @@ GitEngine.prototype.revert = function(whichCommits) {
   }.bind(this);
 
   // set up the promise chain
-  _.each(toRevert, function(commit) {
+  toRevert.forEach(function (commit) {
     chain = chain.then(function() {
       return chainStep(commit);
     });
-  }, this);
+  });
 
   // done! update our location
   chain = chain.then(function() {
@@ -32355,7 +32351,7 @@ GitEngine.prototype.setupCherrypickChain = function(toCherrypick) {
     );
   }.bind(this);
 
-  _.each(toCherrypick, function(arg) {
+  toCherrypick.forEach(function (arg) {
     chain = chain.then(function() {
       return chainStep(arg);
     });
@@ -32436,15 +32432,15 @@ GitEngine.prototype.getTargetGraphDifference = function(
   while (toExplore.length) {
     var here = toExplore.pop();
     difference.push(here);
-    _.each(here.parents, pushParent);
+    here.parents.forEach(pushParent);
   }
 
-  // filter because we werent doing graph search
+  // filter because we weren't doing graph search
   var differenceUnique = Graph.getUniqueObjects(difference);
   /**
    * Ok now we have to determine the order in which to make these commits.
    * We used to just sort by depth because we were lazy but that is incorrect
-   * since it doesnt represent the actual dependency tree of the commits.
+   * since it doesn't represent the actual dependency tree of the commits.
    *
    * So here is what we are going to do -- loop through the differenceUnique
    * set and find a commit that has _all_ its parents in the targetSet. Then
@@ -32533,8 +32529,8 @@ GitEngine.prototype.push = function(options) {
   );
   if (!commitsToMake.length) {
     if (!options.force) {
-      // We are already up to date, and we cant be deleting
-      // either since we dont have --force
+      // We are already up to date, and we can't be deleting
+      // either since we don't have --force
       throw new GitError({
         msg: intl.str('git-error-origin-fetch-uptodate')
       });
@@ -32554,16 +32550,16 @@ GitEngine.prototype.push = function(options) {
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but the remote
-  // might already have those commits. In this case, we dont need to
+  // might already have those commits. In this case, we don't need to
   // make them, so filter these out
-  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+  commitsToMake = commitsToMake.filter(function(commitJSON) {
     return !this.origin.refs[commitJSON.id];
   }, this);
 
   var makeCommit = function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
-    var parents = _.map(parentIDs, function(parentID) {
+    var parents = parentIDs.map(function(parentID) {
       return this.origin.refs[parentID];
     }, this);
     return this.origin.makeCommit(parents, id);
@@ -32581,7 +32577,7 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  _.each(commitsToMake, function(commitJSON) {
+  commitsToMake.forEach(function(commitJSON) {
     chain = chain.then(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         this.refs[commitJSON.id],
@@ -32671,7 +32667,7 @@ GitEngine.prototype.fetch = function(options) {
   }
   // get all remote branches and specify the dest / source pairs
   var allBranchesOnRemote = this.origin.branchCollection.toArray();
-  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+  var sourceDestPairs = allBranchesOnRemote.map(function(branch) {
     var branchName = branch.get('id');
     didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
@@ -32688,7 +32684,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(sourceDestPairs, function(pair) {
+  sourceDestPairs.forEach(function (pair) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
@@ -32699,13 +32695,13 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(sourceDestPairs, function(pair) {
+  sourceDestPairs.forEach(function (pair) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
       pair.destination,
       pair.source,
-      _.extend(
+      Object.assign(
         {},
         options,
         {dontThrowOnNoFetch: true}
@@ -32728,16 +32724,16 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   // now here is the tricky part -- the difference between local master
   // and remote master might be commits C2, C3, and C4, but we
-  // might already have those commits. In this case, we dont need to
+  // might already have those commits. In this case, we don't need to
   // make them, so filter these out
-  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+  commitsToMake = commitsToMake.filter(function(commitJSON) {
     return !this.refs[commitJSON.id];
   }, this);
 
   var makeCommit = function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
-    var parents = _.map(parentIDs, function(parentID) {
+    var parents = parentIDs.map(function(parentID) {
       return this.refs[parentID];
     }, this);
     return this.makeCommit(parents, id);
@@ -32762,7 +32758,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   }
 
   var originBranchSet = this.origin.getUpstreamBranchSet();
-  _.each(commitsToMake, function(commitJSON) {
+  commitsToMake.forEach(function (commitJSON) {
     // technically we could grab the wrong one here
     // but this works for now
     var originBranch = originBranchSet[commitJSON.id][0].obj;
@@ -32785,7 +32781,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   chain = chain.then(function() {
     // update all the destinations
-    _.each(sourceDestPairs, function(pair) {
+    sourceDestPairs.forEach(function (pair) {
       var ours = this.refs[pair.destination];
       var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
@@ -32976,11 +32972,9 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  _.each(_.range(numToMake), function(i) {
-    chain = chain.then(function() {
-      return chainStep();
-    });
-  });
+  for(var i = 0; i < numToMake; i++) {
+    chain = chain.then(chainStep);
+  }
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -33038,7 +33032,7 @@ GitEngine.prototype.resolveName = function(someRef) {
 
 GitEngine.prototype.resolveID = function(idOrTarget) {
   if (idOrTarget === null || idOrTarget === undefined) {
-    throw new Error('Dont call this with null / undefined');
+    throw new Error('Don\'t call this with null / undefined');
   }
 
   if (typeof idOrTarget !== 'string') {
@@ -33157,13 +33151,13 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
   var branchesToUpdate = {};
   // now loop over the set we got passed in and find which branches
   // that means (aka intersection)
-  _.each(commitSet, function(val, id) {
-    _.each(upstreamSet[id], function(branchJSON) {
+  commitSet.forEach(function (val, id) {
+    upstreamSet[id].forEach(function (branchJSON) {
         branchesToUpdate[branchJSON.id] = true;
     });
   }, this);
 
-  var branchList = _.map(branchesToUpdate, function(val, id) {
+  var branchList = branchesToUpdate.map(function(val, id) {
     return id;
   });
   return this.updateBranchesForHg(branchList);
@@ -33188,7 +33182,7 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
     }
     var originBranch = this.origin.refs[branch.getBaseID()];
     if (!originBranch.get('visBranch')) {
-      // testing mode doesnt get this
+      // testing mode doesn't get this
       return;
     }
     var originFill = originBranch.get('visBranch').get('fill');
@@ -33198,7 +33192,7 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
 
 GitEngine.prototype.updateBranchesForHg = function(branchList) {
   var hasUpdated = false;
-  _.each(branchList, function(branchID) {
+  branchList.forEach(function (branchID) {
     // ok now just check if this branch has a more recent commit available.
     // that mapping is easy because we always do rebase alt id --
     // theres no way to have C3' and C3''' but no C3''. so just
@@ -33229,7 +33223,7 @@ GitEngine.prototype.updateBranchesForHg = function(branchList) {
 
 GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
   var anyChange = false;
-  _.each(commitSet, function(val, commitID) {
+  Object.keys(commitSet).forEach(function(commitID) {
     var commit = this.refs[commitID];
     var thisUpdated = commit.checkForUpdatedParent(this);
     anyChange = anyChange || thisUpdated;
@@ -33244,9 +33238,9 @@ GitEngine.prototype.pruneTreeAndPlay = function() {
 
 GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
-  // dont prune commits that HEAD depends on
+  // don't prune commits that HEAD depends on
   var headSet = Graph.getUpstreamSet(this, 'HEAD');
-  _.each(headSet, function(val, commitID) {
+  Object.keys(headSet).forEach(function(commitID) {
     set[commitID] = true;
   });
 
@@ -33267,7 +33261,7 @@ GitEngine.prototype.pruneTree = function() {
     this.command.addWarning(intl.str('hg-prune-tree'));
   }
 
-  _.each(toDelete, function(commit) {
+  toDelete.forEach(function (commit) {
     commit.removeFromParents();
     this.commitCollection.remove(commit);
 
@@ -33298,7 +33292,7 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 
   var inArray = function(arr, id) {
     var found = false;
-    _.each(arr, function(wrapper) {
+    arr.forEach(function (wrapper) {
       if (wrapper.id == id) {
         found = true;
       }
@@ -33323,7 +33317,7 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 
   collection.each(function(ref) {
     var set = bfsSearch(ref.get('target'));
-    _.each(set, function(id) {
+    set.forEach(function (id) {
       commitToSet[id] = commitToSet[id] || [];
 
       // only add it if it's not there, so hue blending is ok
@@ -33493,14 +33487,14 @@ GitEngine.prototype.hgRebase = function(destination, base) {
 
   // and NOWWWwwww get all the descendants of this set
   var moreSets = [];
-  _.each(upstream, function(val, id) {
+  Object.keys(upstream).forEach(function(id) {
     moreSets.push(this.getDownstreamSet(id));
   }, this);
 
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
-  _.each([upstream, downstream].concat(moreSets), function(set) {
-    _.each(set, function(val, id) {
+  [upstream, downstream].concat(moreSets).forEach(function(set) {
+    Object.keys(set).forEach(function(id) {
       masterSet[id] = true;
     });
   });
@@ -33508,19 +33502,17 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   // we also need the branches POINTING to master set
   var branchMap = {};
   var upstreamSet = this.getUpstreamBranchSet();
-  _.each(masterSet, function(val, commitID) {
+  Object.keys(masterSet).forEach(function(commitID) {
     // now loop over that commits branches
-    _.each(upstreamSet[commitID], function(branchJSON) {
+    upstreamSet[commitID].forEach(function(branchJSON) {
       branchMap[branchJSON.id] = true;
     });
   });
 
-  var branchList = _.map(branchMap, function(val, id) {
-    return id;
-  });
+  var branchList = Object.keys(branchMap);
 
   chain = chain.then(function() {
-    // now we just moved a bunch of commits, but we havent updated the
+    // now we just moved a bunch of commits, but we haven't updated the
     // dangling guys. lets do that and then prune
     var anyChange = this.updateCommitParentsForHgRebase(masterSet);
     if (!anyChange) {
@@ -33577,7 +33569,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
 
 GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
   var set = {};
-  _.each(this.getUpstreamDiffFromSet(stopSet, location), function(commit) {
+  this.getUpstreamDiffFromSet(stopSet, location).forEach(function (commit) {
     set[commit.get('id')] = true;
   });
   return set;
@@ -33610,7 +33602,7 @@ GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, current
 
   // throw out merge's real fast and see if we have anything to do
   var toRebase = [];
-  _.each(toRebaseRough, function(commit) {
+  toRebaseRough.forEach(function (commit) {
     if (commit.get('parents').length == 1) {
       toRebase.push(commit);
     }
@@ -33632,7 +33624,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
   var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
 
   var rebaseMap = {};
-  _.each(toRebase, function(commit) {
+  toRebase.forEach(function (commit) {
     var id = commit.get('id');
     rebaseMap[id] = commit;
   });
@@ -33649,7 +33641,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
     // Verify each chosen commit exists in the list of commits given to the user
     var extraCommits = [];
     rebaseOrder = [];
-    _.each(idsToRebase, function(id) {
+    idsToRebase.forEach(function (id) {
       if (id in rebaseMap) {
         rebaseOrder.push(rebaseMap[id]);
       } else {
@@ -33659,7 +33651,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
 
     if (extraCommits.length > 0) {
       throw new GitError({
-        msg: intl.todo('Hey those commits dont exist in the set!')
+        msg: intl.todo('Hey those commits don\'t exist in the set!')
       });
     }
   }
@@ -33702,16 +33694,16 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   var initialCommitOrdering;
   if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
     var rebaseMap = {};
-    _.each(toRebase, function(commit) {
+    toRebase.forEach(function (commit) {
       rebaseMap[commit.get('id')] = true;
     });
 
     // Verify each chosen commit exists in the list of commits given to the user
     initialCommitOrdering = [];
-    _.each(options.initialCommitOrdering[0].split(','), function(id) {
+    options.initialCommitOrdering[0].split(',').forEach(function (id) {
       if (!rebaseMap[id]) {
         throw new GitError({
-          msg: intl.todo('Hey those commits dont exist in the set!')
+          msg: intl.todo('Hey those commits don\'t exist in the set!')
         });
       }
       initialCommitOrdering.push(id);
@@ -33734,20 +33726,20 @@ GitEngine.prototype.filterRebaseCommits = function(
   options
 ) {
   var changesAlreadyMade = {};
-  _.each(stopSet, function(val, key) {
+  Object.keys(stopSet).forEach(function(key) {
     changesAlreadyMade[this.scrapeBaseID(key)] = true;
   }, this);
   var uniqueIDs = {};
 
   // resolve the commits we will rebase
-  return _.filter(toRebaseRough, function(commit) {
+  return toRebaseRough.filter(function(commit) {
     // no merge commits, unless we preserve
     if (commit.get('parents').length !== 1 && !options.preserveMerges) {
       return false;
     }
 
     // we ALSO need to throw out commits that will do the same changes. like
-    // if the upstream set has a commit C4 and we have C4', we dont rebase the C4' again.
+    // if the upstream set has a commit C4 and we have C4', we don't rebase the C4' again.
     var baseID = this.scrapeBaseID(commit.get('id'));
     if (changesAlreadyMade[baseID]) {
       return false;
@@ -33765,7 +33757,7 @@ GitEngine.prototype.filterRebaseCommits = function(
 
 GitEngine.prototype.getRebasePreserveMergesParents = function(oldCommit) {
   var oldParents = oldCommit.get('parents');
-  return _.map(oldParents, function(parent) {
+  return oldParents.map(function(parent) {
     var oldID = parent.get('id');
     var newID = this.getMostRecentBumpedID(oldID);
     return this.refs[newID];
@@ -33827,7 +33819,7 @@ GitEngine.prototype.rebaseFinish = function(
   }.bind(this);
 
   // set up the promise chain
-  _.each(toRebase, function(commit) {
+  toRebase.forEach(function (commit) {
     chain = chain.then(function() {
       return chainStep(commit);
     });
@@ -33982,7 +33974,7 @@ GitEngine.prototype.describe = function(ref) {
   // ok we need to BFS from start upwards until we hit a tag. but
   // first we need to get a reverse mapping from tag to commit
   var tagMap = {};
-  _.each(this.tagCollection.toJSON(), function(tag) {
+  this.tagCollection.toJSON().forEach(function (tag) {
     tagMap[tag.target.get('id')] = tag.id;
   });
 
@@ -34154,7 +34146,7 @@ GitEngine.prototype.status = function() {
   lines.push(intl.str('git-status-readytocommit'));
 
   var msg = '';
-  _.each(lines, function(line) {
+  lines.forEach(function (line) {
     msg += '# ' + line + '\n';
   });
 
@@ -34197,7 +34189,7 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
   // now go through and collect logs
   var bigLogStr = '';
-  _.each(toDump, function(c) {
+  toDump.forEach(function (c) {
     bigLogStr += c.getLogEntry();
   }, this);
 
@@ -34208,7 +34200,7 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
 GitEngine.prototype.getCommonAncestor = function(ancestor, cousin, dontThrow) {
   if (this.isUpstreamOf(cousin, ancestor) && !dontThrow) {
-    throw new Error('Dont use common ancestor if we are upstream!');
+    throw new Error('Don\'t use common ancestor if we are upstream!');
   }
 
   var upstreamSet = Graph.getUpstreamSet(this, ancestor);
@@ -34222,7 +34214,7 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin, dontThrow) {
     }
     queue = queue.concat(here.get('parents'));
   }
-  throw new Error('something has gone very wrong... two nodes arent connected!');
+  throw new Error('something has gone very wrong... two nodes aren\'t connected!');
 };
 
 GitEngine.prototype.isUpstreamOf = function(child, ancestor) {
@@ -34252,7 +34244,7 @@ GitEngine.prototype.getDownstreamSet = function(ancestor) {
     var here = queue.pop();
     var children = here.get('children');
 
-    _.each(children, addToExplored);
+    children.forEach(addToExplored);
   }
   return exploredSet;
 };
@@ -34334,7 +34326,7 @@ var Branch = Ref.extend({
 
   getBaseID: function() {
     if (!this.getIsRemote()) {
-      throw new Error('im not remote so cant get base');
+      throw new Error('im not remote so can\'t get base');
     }
     return this.get('id').replace(ORIGIN_PREFIX, '');
   },
@@ -34430,7 +34422,7 @@ var Commit = Backbone.Model.extend({
   },
 
   removeFromParents: function() {
-    _.each(this.get('parents'), function(parent) {
+    this.get('parents').forEach(function (parent) {
       parent.removeChild(this);
     }, this);
   },
@@ -34473,11 +34465,11 @@ var Commit = Backbone.Model.extend({
 
   removeChild: function(childToRemove) {
     var newChildren = [];
-    _.each(this.get('children'), function(child) {
+    this.get('children').forEach(function (child) {
       if (child !== childToRemove) {
         newChildren.push(child);
       }
-    }, this);
+    });
     this.set('children', newChildren);
   },
 
@@ -34490,7 +34482,7 @@ var Commit = Backbone.Model.extend({
     this.validateAtInit();
     this.addNodeToVisuals();
 
-    _.each(this.get('parents'), function(parent) {
+    (this.get('parents') || []).forEach(function (parent) {
       parent.get('children').push(this);
       this.addEdgeToVisuals(parent);
     }, this);
@@ -34514,9 +34506,7 @@ exports.Branch = Branch;
 exports.Tag = Tag;
 exports.Ref = Ref;
 
-},{"../app":176,"../commands":177,"../graph":190,"../graph/treeCompare":191,"../intl":193,"../util/errors":218,"../views/rebaseView":233,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"backbone":1,"q":12,"underscore":168}],190:[function(require,module,exports){
-var _ = require('underscore');
-
+},{"../app":176,"../commands":177,"../graph":190,"../graph/treeCompare":191,"../intl":193,"../util/errors":218,"../views/rebaseView":233,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"backbone":1,"q":12}],190:[function(require,module,exports){
 function invariant(truthy, reason) {
   if (!truthy) {
     throw new Error(reason);
@@ -34561,7 +34551,7 @@ var Graph = {
 
     if (type == 'HEAD') {
       var headJSON = tree.HEAD;
-      var HEAD = new Ref(_.extend(
+      var HEAD = new Ref(Object.assign(
         tree.HEAD,
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
@@ -34574,7 +34564,7 @@ var Graph = {
     if (type == 'branch') {
       var branchJSON = tree.branches[objID];
 
-      var branch = new Branch(_.extend(
+      var branch = new Branch(Object.assign(
         tree.branches[objID],
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
@@ -34587,7 +34577,7 @@ var Graph = {
     if (type == 'tag') {
       var tagJSON = tree.tags[objID];
 
-      var tag = new Tag(_.extend(
+      var tag = new Tag(Object.assign(
         tree.tags[objID],
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
@@ -34602,11 +34592,11 @@ var Graph = {
       var commitJSON = tree.commits[objID];
 
       var parentObjs = [];
-      _.each(commitJSON.parents, function(parentID) {
+      commitJSON.parents.forEach(function(parentID) {
         parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
       }, this);
 
-      var commit = new Commit(_.extend(
+      var commit = new Commit(Object.assign(
         commitJSON,
         {
           parents: parentObjs,
@@ -34660,7 +34650,7 @@ var Graph = {
       var here = queue.pop();
       var rents = here.get('parents');
 
-      _.each(rents, addToExplored);
+      (rents || []).forEach(addToExplored);
     }
     return exploredSet;
   },
@@ -34668,7 +34658,7 @@ var Graph = {
   getUniqueObjects: function(objects) {
     var unique = {};
     var result = [];
-    _.forEach(objects, function(object) {
+    objects.forEach(function(object) {
       if (unique[object.id]) {
         return;
       }
@@ -34685,7 +34675,7 @@ var Graph = {
 
 module.exports = Graph;
 
-},{"../git":189,"underscore":168}],191:[function(require,module,exports){
+},{"../git":189}],191:[function(require,module,exports){
 var _ = require('underscore');
 
 // static class...
@@ -34780,7 +34770,7 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  var allBranches = _.extend(
+  var allBranches = Object.assign(
     {},
     treeA.branches,
     treeB.branches
@@ -34803,7 +34793,7 @@ TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
 
 TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
-  _.each(branches, function(branchName) {
+  branches.forEach(function(branchName) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
   }, this);
 
@@ -34828,13 +34818,12 @@ TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
 
-  var allBranches = _.extend(
+  var allBranches = Object.assign(
     {},
     treeA.branches,
     treeB.branches
   );
-  var branchNames = [];
-  _.each(allBranches, function(obj, name) { branchNames.push(name); });
+  var branchNames = Object.keys(allBranches || {});
 
   return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
 };
@@ -34852,9 +34841,9 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
       return false;
     }
 
-    // dont mess up the rest of comparison
-    branchA = _.clone(branchA);
-    branchB = _.clone(branchB);
+    // don't mess up the rest of comparison
+    branchA = Object.assign({}, branchA);
+    branchB = Object.assign({}, branchB);
     branchA.target = this.getBaseRef(branchA.target);
     branchB.target = this.getBaseRef(branchB.target);
 
@@ -34864,7 +34853,7 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
   var result = true;
-  _.each(branches, function(branchName) {
+  branches.forEach(function(branchName) {
     var branchA = treeA.branches[branchName];
     var branchB = treeB.branches[branchName];
 
@@ -34876,7 +34865,8 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
 
 TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   var result = true;
-  _.each(assertsPerBranch, function(asserts, branchName) {
+  Object.keys(assertsPerBranch).forEach(function(branchName) {
+    var asserts = assertsPerBranch[branchName];
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
   return result;
@@ -34905,7 +34895,7 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   }
 
   var result = true;
-  _.each(asserts, function(assert) {
+  asserts.forEach(function(assert) {
     try {
       result = result && assert(data);
     } catch (err) {
@@ -34939,7 +34929,7 @@ TreeCompare.getNumHashes = function(ref) {
       return func(results);
     }
   }
-  throw new Error('couldnt parse ref ' + ref);
+  throw new Error('couldn\'t parse ref ' + ref);
 };
 
 TreeCompare.getBaseRef = function(ref) {
@@ -34958,7 +34948,7 @@ TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   // some buildup functions
   var getStrippedCommitCopy = function(commit) {
     if (!commit) { return {}; }
-    return _.extend(
+    return Object.assign(
       {},
       commit,
       {
@@ -34993,7 +34983,7 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
     // so the index lookup is valid. for merge commits this will duplicate some of the
     // checking (because we aren't doing graph search) but it's not a huge deal
     var maxNumParents = Math.max(commitA.parents.length, commitB.parents.length);
-    _.each(_.range(maxNumParents), function(index) {
+    for (var index = 0; index < maxNumParents; index++) {
       var pAid = commitA.parents[index];
       var pBid = commitB.parents[index];
 
@@ -35003,7 +34993,7 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
       var childB = treeB.commits[pBid];
 
       result = result && recurseCompare(childA, childB);
-    }, this);
+    }
     // if each of our children recursively are equal, we are good
     return result;
   };
@@ -35015,9 +35005,10 @@ TreeCompare.lowercaseTree = function(tree) {
     tree.HEAD.target = tree.HEAD.target.toLocaleLowerCase();
   }
 
-  var branches = tree.branches;
+  var branches = tree.branches || {};
   tree.branches = {};
-  _.each(branches, function(obj, name) {
+  Object.keys(branches).forEach(function(name) {
+    var obj = branches[name];
     obj.id = obj.id.toLocaleLowerCase();
     tree.branches[name.toLocaleLowerCase()] = obj;
   });
@@ -35065,8 +35056,9 @@ TreeCompare.reduceTreeFields = function(trees) {
     tags: {}
   };
 
-  _.each(trees, function(tree) {
-    _.each(treeDefaults, function(val, key) {
+  trees.forEach(function(tree) {
+    Object.keys(treeDefaults).forEach(function(key) {
+      var val = treeDefaults[key];
       if (tree[key] === undefined) {
         tree[key] = val;
       }
@@ -35076,10 +35068,11 @@ TreeCompare.reduceTreeFields = function(trees) {
   // this function saves only the specified fields of a tree
   var saveOnly = function(tree, treeKey, saveFields, sortFields) {
     var objects = tree[treeKey];
-    _.each(objects, function(obj, objKey) {
+    Object.keys(objects).forEach(function(objKey) {
+      var obj = objects[objKey];
       // our blank slate to copy over
       var blank = {};
-      _.each(saveFields, function(field) {
+      saveFields.forEach(function(field) {
         if (obj[field] !== undefined) {
           blank[field] = obj[field];
         } else if (defaults[field] !== undefined) {
@@ -35087,7 +35080,7 @@ TreeCompare.reduceTreeFields = function(trees) {
         }
       });
 
-      _.each(sortFields, function(field) {
+      Object.values(sortFields || {}).forEach(function(field) {
         // also sort some fields
         if (obj[field]) {
           obj[field].sort();
@@ -35098,7 +35091,7 @@ TreeCompare.reduceTreeFields = function(trees) {
     });
   };
 
-  _.each(trees, function(tree) {
+  trees.forEach(function(tree) {
     saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
     saveOnly(tree, 'branches', branchSaveFields);
     saveOnly(tree, 'tags', tagSaveFields);
@@ -35196,7 +35189,7 @@ var fallbackMap = {
 
 // lets change underscores template settings so it interpolates
 // things like "{branchName} does not exist".
-var templateSettings = _.clone(_.templateSettings);
+var templateSettings = Object.assign({}, _.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;
 var template = exports.template = function(str, params) {
   return _.template(str, params, templateSettings);
@@ -35242,7 +35235,7 @@ var str = exports.str = function(key, params) {
 
 var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   if (!obj || !obj[key]) {
-    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+    throw new Error('that key ' + key + 'doesn\'t exist in this blob' + obj);
   }
   if (!obj[key][getDefaultLocale()]) {
     console.warn(
@@ -35283,7 +35276,7 @@ exports.getStartDialog = function(level) {
   var startDialog = getIntlKey(level, 'startDialog');
   if (startDialog) { return startDialog; }
 
-  // this level translation isnt supported yet, so lets add
+  // this level translation isn't supported yet, so lets add
   // an alert to the front and give the english version.
   var errorAlert = {
     type: 'ModalAlert',
@@ -35291,7 +35284,8 @@ exports.getStartDialog = function(level) {
       markdown: str('error-untranslated')
     }
   };
-  var startCopy = _.clone(
+  var startCopy = Object.assign(
+    {}, 
     level.startDialog[getDefaultLocale()] || level.startDialog
   );
   startCopy.childViews.unshift(errorAlert);
@@ -36262,7 +36256,7 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
-    '__desc__': 'When you say an id but that level doesnt exist',
+    '__desc__': 'When you say an id but that level doesn\'t exist',
     'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
     'de_DE': 'Konnte keinen Level mit der ID "{id}" finden! Öffne einen Level-Auswahldialog',
     'zh_CN': '没找到 id 为 "{id}" 的关卡！打开关卡选择框',
@@ -36670,7 +36664,6 @@ exports.strings = {
 };
 
 },{}],195:[function(require,module,exports){
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -36740,7 +36733,7 @@ var LevelBuilder = Level.extend({
       this.definedGoal = true;
     }
 
-    // we wont be using this stuff, and it is deleted to ensure we overwrite all functions that
+    // we won't be using this stuff, and it is deleted to ensure we overwrite all functions that
     // include that functionality
     delete this.treeCompare;
     delete this.solved;
@@ -36943,7 +36936,7 @@ var LevelBuilder = Level.extend({
       this.startDialogObj = levelObj;
     }.bind(this))
     .fail(function() {
-      // nothing to do, they dont want to edit it apparently
+      // nothing to do, they don't want to edit it apparently
     })
     .done(function() {
       if (command) {
@@ -37007,12 +37000,12 @@ var LevelBuilder = Level.extend({
       .then(function() {
         // oh boy this is complex
         var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesnt need resolving just yet...
+        // the undefined here is the command that doesn't need resolving just yet...
         this.editDialog(undefined, whenEditedDialog);
         return whenEditedDialog.promise;
       }.bind(this))
       .fail(function() {
-        // if they dont want to edit the start dialog, do nothing
+        // if they don't want to edit the start dialog, do nothing
       })
       .done(function() {
         askForStartDeferred.resolve();
@@ -37032,7 +37025,7 @@ var LevelBuilder = Level.extend({
   },
 
   getExportObj: function() {
-    var compiledLevel = _.extend(
+    var compiledLevel = Object.assign(
       {},
       this.level
     );
@@ -37057,14 +37050,14 @@ var LevelBuilder = Level.extend({
       'help builder': LevelBuilder.__super__.startDialog
     };
     if (!methodMap[command.get('method')]) {
-      throw new Error('woah we dont support that method yet');
+      throw new Error('woah we don\'t support that method yet');
     }
 
     methodMap[command.get('method')].apply(this, arguments);
   },
 
   afterCommandDefer: function(defer, command) {
-    // we dont need to compare against the goal anymore
+    // we don't need to compare against the goal anymore
     defer.resolve();
   },
 
@@ -37080,7 +37073,7 @@ var LevelBuilder = Level.extend({
 exports.LevelBuilder = LevelBuilder;
 exports.regexMap = regexMap;
 
-},{"../app":176,"../dialogs/levelBuilder":182,"../git/gitShim":187,"../intl":193,"../level":197,"../level/parseWaterfall":198,"../models/commandModel":202,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util":221,"../util/errors":218,"../views":230,"../views/builderViews":227,"../views/multiView":232,"../visuals/visualization":243,"backbone":1,"q":12,"underscore":168}],196:[function(require,module,exports){
+},{"../app":176,"../dialogs/levelBuilder":182,"../git/gitShim":187,"../intl":193,"../level":197,"../level/parseWaterfall":198,"../models/commandModel":202,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util":221,"../util/errors":218,"../views":230,"../views/builderViews":227,"../views/multiView":232,"../visuals/visualization":243,"backbone":1,"q":12}],196:[function(require,module,exports){
 var intl = require('../intl');
 
 var Commands = require('../commands');
@@ -37125,7 +37118,6 @@ exports.DisabledMap = DisabledMap;
 
 
 },{"../commands":177,"../intl":193,"../util/errors":218}],197:[function(require,module,exports){
-var _ = require('underscore');
 var Q = require('q');
 
 var util = require('../util');
@@ -37197,7 +37189,7 @@ var Level = Sandbox.extend({
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
-      new MultiView(_.extend(
+      new MultiView(Object.assign(
         {},
         intl.getStartDialog(this.level),
         { deferred: deferred }
@@ -37226,7 +37218,7 @@ var Level = Sandbox.extend({
     var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
     dialog.childViews = dialog.childViews.slice(-1);
-    new MultiView(_.extend(
+    new MultiView(Object.assign(
       dialog,
       { deferred: deferred }
     ));
@@ -37528,13 +37520,14 @@ var Level = Sandbox.extend({
 
   doesCommandCountTowardsTotal: function(command) {
     if (command.get('error')) {
-      // dont count errors towards our count
+      // don't count errors towards our count
       return false;
     }
 
     var matched = false;
-    _.each(Commands.commands.getCommandsThatCount(), function(map) {
-      _.each(map, function(regex) {
+    var commandsThatCount = Commands.commands.getCommandsThatCount();
+    Object.values(commandsThatCount).forEach(function(map) {
+      Object.values(map).forEach(function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });
     });
@@ -37772,7 +37765,7 @@ var Level = Sandbox.extend({
     };
     var method = methodMap[command.get('method')];
     if (!method) {
-      throw new Error('woah we dont support that method yet', method);
+      throw new Error('woah we don\'t support that method yet', method);
     }
 
     method.apply(this, [command, defer]);
@@ -37782,9 +37775,7 @@ var Level = Sandbox.extend({
 exports.Level = Level;
 exports.regexMap = regexMap;
 
-},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":181,"../git/gitShim":187,"../graph/treeCompare":191,"../intl":193,"../level/disabledMap":196,"../log":199,"../react_views/LevelToolbarView.jsx":208,"../sandbox/":211,"../stores/GlobalStateStore":213,"../stores/LevelStore":214,"../util":221,"../util/errors":218,"../views":230,"../views/multiView":232,"../visuals/visualization":243,"q":12,"react":167,"underscore":168}],198:[function(require,module,exports){
-var _ = require('underscore');
-
+},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":181,"../git/gitShim":187,"../graph/treeCompare":191,"../intl":193,"../level/disabledMap":196,"../log":199,"../react_views/LevelToolbarView.jsx":208,"../sandbox/":211,"../stores/GlobalStateStore":213,"../stores/LevelStore":214,"../util":221,"../util/errors":218,"../views":230,"../views/multiView":232,"../visuals/visualization":243,"q":12,"react":167}],198:[function(require,module,exports){
 var GitCommands = require('../git/commands');
 var Commands = require('../commands');
 var SandboxCommands = require('../sandbox/commands');
@@ -37812,7 +37803,7 @@ ParseWaterfall.prototype.initParseWaterfall = function() {
     return;
   }
 
-  // by deferring the initialization here, we dont require()
+  // by deferring the initialization here, we don't require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
     Commands.parse,
@@ -37853,15 +37844,17 @@ ParseWaterfall.prototype.addLast = function(which, value) {
 };
 
 ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
-  _.each(this.shortcutWaterfall, function(shortcutMap) {
+  this.shortcutWaterfall.forEach(function(shortcutMap) {
     commandStr = this.expandShortcut(commandStr, shortcutMap);
   }, this);
   return commandStr;
 };
 
 ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(map, vcs) {
-    _.each(map, function(regex, method) {
+  Object.keys(shortcutMap).forEach(function(vcs) {
+    var map = shortcutMap[vcs];
+    Object.keys(map).forEach(function(method) {
+      var regex = map[method];
       var results = regex.exec(commandStr);
       if (results) {
         commandStr = vcs + ' ' + method + ' ' + commandStr.slice(results[0].length);
@@ -37872,13 +37865,13 @@ ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
 };
 
 ParseWaterfall.prototype.processAllInstants = function(commandStr) {
-  _.each(this.instantWaterfall, function(instantCommands) {
+  this.instantWaterfall.forEach(function(instantCommands) {
     this.processInstant(commandStr, instantCommands);
   }, this);
 };
 
 ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  _.each(instantCommands, function(tuple) {
+  instantCommands.forEach(function(tuple) {
     var regex = tuple[0];
     var results = regex.exec(commandStr);
     if (results) {
@@ -37894,7 +37887,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
   }
 
   var toReturn = false;
-  _.each(this.parseWaterfall, function(parseFunc) {
+  this.parseWaterfall.forEach(function(parseFunc) {
     var results = parseFunc(commandStr);
     if (results) {
       toReturn = results;
@@ -37906,8 +37899,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 
 exports.ParseWaterfall = ParseWaterfall;
 
-
-},{"../commands":177,"../git/commands":186,"../sandbox/commands":210,"../util":221,"underscore":168}],199:[function(require,module,exports){
+},{"../commands":177,"../git/commands":186,"../sandbox/commands":210,"../util":221}],199:[function(require,module,exports){
 
 var log = function(category, action, label) {
   window._gaq = window._gaq || [];
@@ -38333,7 +38325,6 @@ exports.CommandBuffer = CommandBuffer;
 
 
 },{"../app":176,"../git":189,"../models/commandModel":202,"../util/constants":216,"../util/errors":218,"backbone":1,"q":12}],202:[function(require,module,exports){
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Errors = require('../util/errors');
@@ -38378,7 +38369,7 @@ var Command = Backbone.Model.extend({
   },
 
   initDefaults: function() {
-    // weird things happen with defaults if you dont
+    // weird things happen with defaults if you don't
     // make new objects
     this.set('generalArgs', []);
     this.set('supportedMap', {});
@@ -38413,12 +38404,13 @@ var Command = Backbone.Model.extend({
     var generalArgs = this.getGeneralArgs();
     var options = this.getOptionsMap();
     
-    generalArgs = _.map(generalArgs, function(arg) {
+    generalArgs = generalArgs.map(function(arg) {
       return this.replaceDotWithHead(arg);
     }, this);
     var newMap = {};
-    _.each(options, function(args, key) {
-      newMap[key] = _.map(args, function(arg) {
+    Object.keys(options).forEach(function(key) {
+      var args = options[key];
+      newMap[key] = Object.values(args).map(function (arg) {
         return this.replaceDotWithHead(arg);
       }, this);
     }, this);
@@ -38428,7 +38420,7 @@ var Command = Backbone.Model.extend({
 
   deleteOptions: function(options) {
     var map = this.getOptionsMap();
-    _.each(options, function(option) {
+    options.forEach(function(option) {
       delete map[option];
     }, this);
     this.setOptionsMap(map);
@@ -38608,7 +38600,8 @@ var Command = Backbone.Model.extend({
       return false;
     }
 
-    _.each(results.toSet, function(obj, key) {
+    Object.keys(results.toSet).forEach(function(key) {
+      var obj = results.toSet[key];
       // data comes back from the parsing functions like
       // options (etc) that need to be set
       this.set(key, obj);
@@ -38619,7 +38612,7 @@ var Command = Backbone.Model.extend({
 
 exports.Command = Command;
 
-},{"../intl":193,"../level/parseWaterfall":198,"../util/errors":218,"backbone":1,"underscore":168}],203:[function(require,module,exports){
+},{"../intl":193,"../level/parseWaterfall":198,"../util/errors":218,"backbone":1}],203:[function(require,module,exports){
 var CommandView = require('../react_views/CommandView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -39290,7 +39283,6 @@ var MainHelperBarView = React.createClass({displayName: "MainHelperBarView",
 module.exports = MainHelperBarView;
 
 },{"../log":199,"../react_views/CommandsHelperBarView.jsx":205,"../react_views/HelperBarView.jsx":206,"../react_views/IntlHelperBarView.jsx":207,"../util/keyMirror":222,"react":167}],210:[function(require,module,exports){
-var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');
@@ -39390,7 +39382,7 @@ var instantCommands = [
       intl.str('show-all-commands'),
       '<br/>'
     ];
-    _.each(allCommands, function(regex, command) {
+    allCommands.forEach(function(regex, command) {
       lines.push(command);
     });
 
@@ -39426,17 +39418,20 @@ var getAllCommands = function() {
     'mobileAlert'
   ];
 
-  var allCommands = _.extend(
+  var allCommands = Object.assign(
     {},
     require('../level').regexMap,
     regexMap
   );
-  _.each(Commands.commands.getRegexMap(), function(map, vcs) {
-    _.each(map, function(regex, method) {
+  var mRegexMap = Commands.commands.getRegexMap();
+  Object.keys(mRegexMap).forEach(function(vcs) {
+    var map = mRegexMap[vcs];
+    Object.keys(map).forEach(function(method) {
+      var regex = map[method];
       allCommands[vcs + ' ' + method] = regex;
     });
   });
-  _.each(toDelete, function(key) {
+  toDelete.forEach(function(key) {
     delete allCommands[key];
   });
 
@@ -39467,7 +39462,7 @@ exports.getOptimisticLevelBuilderParse = function() {
   );
 };
 
-},{"../actions/GlobalStateActions":173,"../actions/LocaleActions":175,"../app":176,"../commands":177,"../intl":193,"../level":197,"../level/builder":195,"../stores/GlobalStateStore":213,"../stores/LocaleStore":215,"../util":221,"../util/constants":216,"../util/errors":218,"underscore":168}],211:[function(require,module,exports){
+},{"../actions/GlobalStateActions":173,"../actions/LocaleActions":175,"../app":176,"../commands":177,"../intl":193,"../level":197,"../level/builder":195,"../stores/GlobalStateStore":213,"../stores/LocaleStore":215,"../util":221,"../util/constants":216,"../util/errors":218}],211:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -40134,7 +40129,7 @@ var validateLevel = function(level) {
     'solutionCommand'
   ];
 
-  _.each(requiredFields, function(field) {
+  requiredFields.forEach(function(field) {
     if (level[field] === undefined) {
       console.log(level);
       throw new Error('I need this field for a level: ' + field);
@@ -40145,14 +40140,15 @@ var validateLevel = function(level) {
 /**
  * Unpack the level sequences.
  */
-_.each(levelSequences, function(levels, levelSequenceName) {
+Object.keys(levelSequences).forEach(function(levelSequenceName) {
+  var levels = levelSequences[levelSequenceName];
   _sequences.push(levelSequenceName);
   if (!levels || !levels.length) {
     throw new Error('no empty sequences allowed');
   }
 
   // for this particular sequence...
-  _.each(levels, function(level, index) {
+  levels.forEach(function(level, index) {
     validateLevel(level);
 
     var id = levelSequenceName + String(index + 1);
@@ -40182,7 +40178,7 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getSequences: function() {
-    return _.keys(levelSequences);
+    return Object.keys(levelSequences);
   },
 
   getLevelsInSequence: function(sequenceName) {
@@ -40202,11 +40198,11 @@ AppConstants.StoreSubscribePrototype,
 
   getNextLevel: function(id) {
     if (!_levelMap[id]) {
-      console.warn('that level doesnt exist!!!');
+      console.warn('that level doesn\'t exist!!!');
       return null;
     }
 
-    // meh, this method could be better. It's a tradeoff between
+    // meh, this method could be better. It's a trade-off between
     // having the sequence structure be really simple JSON
     // and having no connectivity information between levels, which means
     // you have to build that up yourself on every query
@@ -40231,7 +40227,7 @@ AppConstants.StoreSubscribePrototype,
 
   isLevelSolved: function(levelID) {
     if (!_levelMap[levelID]) {
-      throw new Error('that level doesnt exist!');
+      throw new Error('that level doesn\'t exist!');
     }
     return !!_solvedMap[levelID];
   },
@@ -40597,7 +40593,7 @@ EventBaton.prototype.sliceOffArgs = function(num, args) {
 };
 
 EventBaton.prototype.trigger = function(name) {
-  // arguments is weird and doesnt do slice right
+  // arguments is weird and doesn't do slice right
   var argsToApply = this.sliceOffArgs(1, arguments);
 
   var listeners = this.eventMap[name];
@@ -40646,7 +40642,7 @@ EventBaton.prototype.passBatonBack = function(name, func, context, args) {
     }
   });
   if (indexBefore === undefined) {
-    throw new Error('you are the last baton holder! or i didnt find you');
+    throw new Error('you are the last baton holder! or i didn\'t find you');
   }
   var toCallObj = listeners[indexBefore];
 
@@ -40675,7 +40671,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
   if (!found) {
     console.log('did not find that function', func, context, name, arguments);
     console.log(this.eventMap);
-    throw new Error('cant releasebaton if yu dont have it');
+    throw new Error('can\'t releasebaton if you don\'t have it');
   }
   this.eventMap[name] = newListeners;
 };
@@ -41051,7 +41047,7 @@ var DemonstrationBuilder = ContainedBase.extend({
     this.deferred = options.deferred || Q.defer();
     if (options.fromObj) {
       var toEdit = options.fromObj.options;
-      options = _.extend(
+      options = Object.assign(
         {},
         options,
         toEdit,
@@ -41167,7 +41163,7 @@ var MultiViewBuilder = ContainedBase.extend({
 
     this.JSON = {
       views: this.getChildViews(),
-      supportedViews: _.keys(this.typeToConstructor)
+      supportedViews: Object.keys(this.typeToConstructor)
     };
 
     this.container = new ModalTerminal({
@@ -41206,7 +41202,7 @@ var MultiViewBuilder = ContainedBase.extend({
       this.addChildViewObj(newView);
     }.bind(this))
     .fail(function() {
-      // they dont want to add the view apparently, so just return
+      // they don't want to add the view apparently, so just return
     })
     .done();
   },
@@ -41289,9 +41285,7 @@ exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
 exports.MarkdownPresenter = MarkdownPresenter;
 
-
 },{"../views":230,"../views/multiView":232,"markdown":8,"q":12,"underscore":168}],228:[function(require,module,exports){
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Main = require('../app');
@@ -41466,7 +41460,7 @@ var CommandPromptView = Backbone.View.extend({
     which.reverse();
 
     var str = '';
-    _.each(which, function(text) {
+    which.forEach(function(text) {
       str += text + ';';
     }, this);
 
@@ -41496,8 +41490,7 @@ var CommandPromptView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 
-
-},{"../actions/CommandLineActions":172,"../app":176,"../log":199,"../stores/CommandLineStore":212,"../util/keyboard":223,"backbone":1,"underscore":168}],229:[function(require,module,exports){
+},{"../actions/CommandLineActions":172,"../app":176,"../log":199,"../stores/CommandLineStore":212,"../util/keyboard":223,"backbone":1}],229:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -41525,7 +41518,7 @@ var GitDemonstrationView = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.options = options;
-    this.JSON = _.extend(
+    this.JSON = Object.assign(
       {
         beforeMarkdowns: [
           '## Git Commits',
@@ -41555,7 +41548,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.render();
     this.checkScroll();
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
@@ -41583,9 +41576,9 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   checkScroll: function() {
-    var children = this.$('div.demonstrationText').children();
-    var heights = _.map(children, function(child) { return child.clientHeight; });
-    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
+    var children = this.$('div.demonstrationText').children().toArray();
+    var heights = children.map(function(child) { return child.clientHeight; });
+    var totalHeight = heights.reduce(function(a, b) { return a + b; });
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');
     }
@@ -41629,9 +41622,9 @@ var GitDemonstrationView = ContainedBase.extend({
 
   positive: function() {
     if (this.demonstrated || !this.hasControl) {
-      // dont do anything if we are demonstrating, and if
+      // don't do anything if we are demonstrating, and if
       // we receive a meta nav event and we aren't listening,
-      // then dont do anything either
+      // then don't do anything either
       return;
     }
     this.demonstrated = true;
@@ -41668,7 +41661,7 @@ var GitDemonstrationView = ContainedBase.extend({
     var chainDeferred = Q.defer();
     var chainPromise = chainDeferred.promise;
 
-    _.each(commands, function(command, index) {
+    commands.forEach(function(command, index) {
       chainPromise = chainPromise.then(function() {
         var myDefer = Q.defer();
         this.mainVis.gitEngine.dispatch(command, myDefer);
@@ -41744,7 +41737,6 @@ var GitDemonstrationView = ContainedBase.extend({
 });
 
 exports.GitDemonstrationView = GitDemonstrationView;
-
 
 },{"../git/headless":188,"../intl":193,"../models/commandModel":202,"../util":221,"../util/keyboard":223,"../views":230,"../visuals/visualization":243,"backbone":1,"markdown":8,"q":12,"underscore":168}],230:[function(require,module,exports){
 (function (process){
@@ -41836,7 +41828,7 @@ var GeneralButton = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
-    this.navEvents = options.navEvents || _.clone(Backbone.Events);
+    this.navEvents = options.navEvents || Object.assign({}, Backbone.Events);
     this.destination = options.destination;
     if (!this.destination) {
       this.container = new ModalTerminal();
@@ -41910,7 +41902,7 @@ var LeftRightView = PositiveNegativeBase.extend({
     // events system to add support for git demonstration view taking control of the
     // click events
     this.pipeEvents = options.events;
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
 
     this.JSON = {
       showLeft: (options.showLeft === undefined) ? true : options.showLeft,
@@ -41918,7 +41910,7 @@ var LeftRightView = PositiveNegativeBase.extend({
     };
 
     this.render();
-    // For some weird reason backbone events arent working anymore so
+    // For some weird reason backbone events aren't working anymore so
     // im going to just wire this up manually
     this.$('div.right').click(this.positive.bind(this));
     this.$('div.left').click(this.negative.bind(this));
@@ -41958,7 +41950,7 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
-    // this doesnt necessarily show us though...
+    // this doesn't necessarily show us though...
   },
 
   stealKeyboard: function() {
@@ -42055,7 +42047,7 @@ var ModalTerminal = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
-    this.navEvents = options.events || _.clone(Backbone.Events);
+    this.navEvents = options.events || Object.assign({}, Backbone.Events);
 
     this.container = new ModalView();
     this.JSON = {
@@ -42122,7 +42114,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     options = options || {};
 
     this.deferred = options.deferred || Q.defer();
-    this.modalAlert = new ModalAlert(_.extend(
+    this.modalAlert = new ModalAlert(Object.assign(
       {},
       { markdown: '#you sure?' },
       options
@@ -42145,7 +42137,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     }.bind(this));
 
     // also setup keyboard
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
@@ -42220,7 +42212,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
         '</p>';
     }
 
-    options = _.extend(
+    options = Object.assign(
       {},
       options,
       {
@@ -42491,7 +42483,7 @@ var LevelDropdownView = ContainedBase.extend({
       }]
     };
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('clickedID', _.debounce(
       this.loadLevelID.bind(this),
       300,
@@ -42662,7 +42654,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getTabIndex: function() {
-    var ids = _.map(this.JSON.tabs, function(tab) {
+    var ids = this.JSON.tabs.map(function(tab) {
       return tab.id;
     });
     return ids.indexOf(this.JSON.selectedTab);
@@ -42686,7 +42678,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getSequencesOnTab: function() {
-    return _.filter(this.sequences, function(sequenceName) {
+    return this.sequences.filter(function(sequenceName) {
       var tab = LEVELS.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);
@@ -42743,7 +42735,7 @@ var LevelDropdownView = ContainedBase.extend({
     $(selector).toggleClass('selected', value);
 
     // also go find the series and update the about
-    _.each(this.seriesViews, function(view) {
+    this.seriesViews.forEach(function(view) {
       if (view.levelIDs.indexOf(id) === -1) {
         return;
       }
@@ -42794,14 +42786,14 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   updateSolvedStatus: function() {
-    _.each(this.seriesViews, function(view) {
+    this.seriesViews.forEach(function(view) {
       view.updateSolvedStatus();
     }, this);
   },
 
   buildSequences: function() {
     this.seriesViews = [];
-    _.each(this.getSequencesOnTab(), function(sequenceName) {
+    this.getSequencesOnTab().forEach(function(sequenceName) {
       this.seriesViews.push(new SeriesView({
         destination: this.$el,
         name: sequenceName,
@@ -42828,7 +42820,7 @@ var SeriesView = BaseView.extend({
 
     this.levelIDs = [];
     var firstLevelInfo = null;
-    _.each(this.levels, function(level) {
+    this.levels.forEach(function(level) {
       if (firstLevelInfo === null) {
         firstLevelInfo = this.formatLevelAbout(level.id);
       }
@@ -42896,7 +42888,6 @@ var SeriesView = BaseView.extend({
 
 exports.LevelDropdownView = LevelDropdownView;
 
-
 },{"../../levels":245,"../app":176,"../intl":193,"../log":199,"../stores/LevelStore":214,"../stores/LocaleStore":215,"../util":221,"../util/keyboard":223,"../views":230,"backbone":1,"q":12,"underscore":168}],232:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
@@ -42948,7 +42939,7 @@ var MultiView = Backbone.View.extend({
     this.childViews = [];
     this.currentIndex = 0;
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('negative', this.getNegFunc(), this);
     this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('quit', this.finish, this);
@@ -43042,7 +43033,7 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
 
-    _.each(this.childViews, function(childView) {
+    this.childViews.forEach(function(childView) {
       childView.die();
     });
 
@@ -43059,7 +43050,7 @@ var MultiView = Backbone.View.extend({
     if (!this.typeToConstructor[type]) {
       throw new Error('no constructor for type "' + type + '"');
     }
-    var view = new this.typeToConstructor[type](_.extend(
+    var view = new this.typeToConstructor[type](Object.assign(
       {},
       viewJSON.options,
       { wait: true }
@@ -43083,7 +43074,7 @@ var MultiView = Backbone.View.extend({
 
   render: function() {
     // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON, index) {
+    this.childViewJSONs.forEach(function(childViewJSON, index) {
       var childView = this.createChildView(childViewJSON);
       this.childViews.push(childView);
       this.addNavToView(childView, index);
@@ -43092,7 +43083,6 @@ var MultiView = Backbone.View.extend({
 });
 
 exports.MultiView = MultiView;
-
 
 },{"../util/keyboard":223,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"backbone":1,"q":12,"underscore":168}],233:[function(require,module,exports){
 var GitError = require('../util/errors').GitError;
@@ -43116,7 +43106,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     this.rebaseEntries = new RebaseEntryCollection();
     options.toRebase.reverse();
-    _.each(options.toRebase, function(commit) {
+    options.toRebase.forEach(function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
 
@@ -43160,7 +43150,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // now get the real array
     var toRebase = [];
-    _.each(uiOrder, function(id) {
+    uiOrder.forEach(function(id) {
       // the model pick check
       if (this.entryObjMap[id].get('pick')) {
         toRebase.unshift(this.rebaseMap[id]);
@@ -43175,7 +43165,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
   render: function() {
     var json = {
-      num: _.keys(this.rebaseMap).length,
+      num: Object.keys(this.rebaseMap).length,
       solutionOrder: this.options.initialCommitOrdering
     };
 
@@ -43657,7 +43647,7 @@ GitVisuals.prototype.defer = function(action) {
 };
 
 GitVisuals.prototype.deferFlush = function() {
-  _.each(this.deferred, function(action) {
+  this.deferred.forEach(function(action) {
     action();
   }, this);
   this.deferred = [];
@@ -43667,17 +43657,17 @@ GitVisuals.prototype.resetAll = function() {
   // make sure to copy these collections because we remove
   // items in place and underscore is too dumb to detect length change
   var edges = this.visEdgeCollection.toArray();
-  _.each(edges, function(visEdge) {
+  edges.forEach(function(visEdge) {
     visEdge.remove();
   }, this);
 
   var branches = this.visBranchCollection.toArray();
-  _.each(branches, function(visBranch) {
+  branches.forEach(function(visBranch) {
     visBranch.remove();
   }, this);
 
   var tags = this.visTagCollection.toArray();
-  _.each(tags, function(visTag) {
+  tags.forEach(function(visTag) {
     visTag.remove();
   }, this);
 
@@ -43697,7 +43687,7 @@ GitVisuals.prototype.resetAll = function() {
 GitVisuals.prototype.tearDown = function() {
   this.resetAll();
   this.paper.remove();
-  // Unregister the refresh tree listener so we dont accumulate
+  // Unregister the refresh tree listener so we don't accumulate
   // these over time. However we aren't calling tearDown in
   // some places... but this is an improvement
   var Main = require('../app');
@@ -43931,7 +43921,7 @@ GitVisuals.prototype.explodeNodes = function(speed) {
     // are called unnecessarily when they have almost
     // zero speed. would be interesting to see performance differences
     var keepGoing = [];
-    _.each(funcs, function(func) {
+    funcs.forEach(function(func) {
       if (func()) {
         keepGoing.push(func);
       }
@@ -43953,12 +43943,12 @@ GitVisuals.prototype.explodeNodes = function(speed) {
 GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
   var animate = function(obj) {
     var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
+    if (idsToOmit.includes(id)) {
       return;
     }
 
     if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
+      // its actually ok it doesn't exist yet
       return;
     }
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
@@ -44041,7 +44031,7 @@ GitVisuals.prototype.fullCalc = function() {
 };
 
 GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
+  // this method can only contain things that don't rely on graphics
   if (!this.rootCommit) {
     throw new Error('grr, no root commit!');
   }
@@ -44076,7 +44066,7 @@ GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
 GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
   var branches = this.upstreamBranchSet[commit.get('id')];
   if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
+    throw new Error('that commit doesn\'t have upstream branches!');
   }
 
   return this.blendHuesFromBranchStack(branches);
@@ -44084,7 +44074,7 @@ GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
 
 GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
   var hueStrings = [];
-  _.each(branchStackArray, function(branchWrapper) {
+  branchStackArray.forEach(function(branchWrapper) {
     var fill = branchWrapper.obj.get('visBranch').get('fill');
 
     if (fill.slice(0,3) !== 'hsb') {
@@ -44124,7 +44114,7 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
 GitVisuals.prototype.calcTagStacks = function() {
   var tags = this.gitEngine.getTags();
   var map = {};
-  _.each(tags, function(tag) {
+  tags.forEach(function(tag) {
       var thisId = tag.target.get('id');
 
       map[thisId] = map[thisId] || [];
@@ -44141,7 +44131,7 @@ GitVisuals.prototype.calcTagStacks = function() {
 GitVisuals.prototype.calcBranchStacks = function() {
   var branches = this.gitEngine.getBranches();
   var map = {};
-  _.each(branches, function(branch) {
+  branches.forEach(function(branch) {
     var thisId = branch.target.get('id');
 
     map[thisId] = map[thisId] || [];
@@ -44171,7 +44161,7 @@ GitVisuals.prototype.calcWidth = function() {
 
 GitVisuals.prototype.maxWidthRecursive = function(commit) {
   var childrenTotalWidth = 0;
-  _.each(commit.get('children'), function(child) {
+  commit.get('children').forEach(function(child) {
     // only include this if we are the "main" parent of
     // this child
     if (child.isMainParent(commit)) {
@@ -44200,14 +44190,14 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // basic box-flex model
   var totalFlex = 0;
   var children = commit.get('children');
-  _.each(children, function(child) {
+  children.forEach(function(child) {
     if (child.isMainParent(commit)) {
       totalFlex += child.get('visNode').getMaxWidthScaled();
     }
   }, this);
 
   var prevBound = min;
-  _.each(children, function(child, index) {
+  children.forEach(function(child, index) {
     if (!child.isMainParent(commit)) {
       return;
     }
@@ -44376,7 +44366,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 
   var children = commit.get('children');
   var maxDepth = depth;
-  _.each(children, function(child) {
+  children.forEach(function(child) {
     var d = this.calcDepthRecursive(child, depth + 1);
     maxDepth = Math.max(d, maxDepth);
   }, this);
@@ -44523,7 +44513,7 @@ function blendHueStrings(hueStrings) {
   var totalBright = 0;
   var length = hueStrings.length;
 
-  _.each(hueStrings, function(hueString) {
+  hueStrings.forEach(function(hueString) {
     var exploded = hueString.split('(')[1];
     exploded = exploded.split(')')[0];
     exploded = exploded.split(',');
@@ -44552,12 +44542,11 @@ function blendHueStrings(hueStrings) {
 exports.GitVisuals = GitVisuals;
 
 },{"../app":176,"../intl":193,"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBranch":239,"../visuals/visEdge":240,"../visuals/visNode":241,"../visuals/visTag":242,"q":12,"underscore":168}],237:[function(require,module,exports){
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       if (this.get(key)) {
         this.get(key).remove();
       }
@@ -44567,7 +44556,7 @@ var VisBase = Backbone.Model.extend({
   animateAttrKeys: function(keys, attrObj, speed, easing) {
     // either we animate a specific subset of keys or all
     // possible things we could animate
-    keys = _.extend(
+    keys = Object.assign(
       {},
       {
         include: ['circle', 'arrow', 'rect', 'path', 'text'],
@@ -44579,15 +44568,15 @@ var VisBase = Backbone.Model.extend({
     var attr = this.getAttributes();
 
     // safely insert this attribute into all the keys we want
-    _.each(keys.include, function(key) {
-      attr[key] = _.extend(
+    keys.include.forEach(function(key) {
+      attr[key] = Object.assign(
         {},
         attr[key],
         attrObj
       );
     });
 
-    _.each(keys.exclude, function(key) {
+    keys.exclude.forEach(function(key) {
       delete attr[key];
     });
 
@@ -44597,14 +44586,12 @@ var VisBase = Backbone.Model.extend({
 
 exports.VisBase = VisBase;
 
-
-},{"backbone":1,"underscore":168}],238:[function(require,module,exports){
-var _ = require('underscore');
+},{"backbone":1}],238:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       if (this.get(key)) {
         this.get(key).remove();
       }
@@ -44636,14 +44623,14 @@ var VisBase = Backbone.Model.extend({
   },
 
   setAttrBase: function(keys, attr, instant, speed, easing) {
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       if (instant) {
         this.get(key).attr(attr[key]);
       } else {
         this.get(key).stop();
         this.get(key).animate(attr[key], speed, easing);
-        // some keys dont support animating too, so set those instantly here
-        _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
+        // some keys don't support animating too, so set those instantly here
+        this.getNonAnimateKeys().forEach(function(nonAnimateKey) {
           if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
             this.get(key).attr(nonAnimateKey, attr[key][nonAnimateKey]);
           }
@@ -44659,7 +44646,7 @@ var VisBase = Backbone.Model.extend({
   animateAttrKeys: function(keys, attrObj, speed, easing) {
     // either we animate a specific subset of keys or all
     // possible things we could animate
-    keys = _.extend(
+    keys = Object.assign(
       {},
       {
         include: ['circle', 'arrow', 'rect', 'path', 'text'],
@@ -44671,15 +44658,15 @@ var VisBase = Backbone.Model.extend({
     var attr = this.getAttributes();
 
     // safely insert this attribute into all the keys we want
-    _.each(keys.include, function(key) {
-      attr[key] = _.extend(
+    keys.include.forEach(function(key) {
+      attr[key] = Object.assign(
         {},
         attr[key],
         attrObj
       );
     });
 
-    _.each(keys.exclude, function(key) {
+    keys.exclude.forEach(function(key) {
       delete attr[key];
     });
 
@@ -44689,9 +44676,7 @@ var VisBase = Backbone.Model.extend({
 
 exports.VisBase = VisBase;
 
-
-},{"backbone":1,"underscore":168}],239:[function(require,module,exports){
-var _ = require('underscore');
+},{"backbone":1}],239:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -44860,7 +44845,7 @@ var VisBranch = VisBase.extend({
 
     var myArray = this.getBranchStackArray();
     var index = -1;
-    _.each(myArray, function(branch, i) {
+    myArray.forEach(function(branch, i) {
       if (branch.obj == this.get('branch')) {
         index = i;
       }
@@ -44972,7 +44957,7 @@ var VisBranch = VisBase.extend({
       arrowInnerLow,
       arrowStartLow
     ];
-    _.each(coords, function(pos) {
+    coords.forEach(function(pos) {
       pathStr += 'L' + toStringCoords(pos) + ' ';
     }, this);
     pathStr += 'z';
@@ -45002,7 +44987,7 @@ var VisBranch = VisBase.extend({
     }
 
     var maxWidth = 0;
-    _.each(this.getBranchStackArray(), function(branch) {
+    this.getBranchStackArray().forEach(function(branch) {
       maxWidth = Math.max(maxWidth, getTextWidth(
         branch.obj.get('visBranch')
       ));
@@ -45100,7 +45085,7 @@ var VisBranch = VisBase.extend({
     var textPos = this.getTextPosition();
     var name = this.getName();
 
-    // when from a reload, we dont need to generate the text
+    // when from a reload, we don't need to generate the text
     var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
@@ -45125,7 +45110,7 @@ var VisBranch = VisBase.extend({
 
     // set CSS
     var keys = ['text', 'rect', 'arrow'];
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       $(this.get(key).node).css(attr.css);
     }, this);
 
@@ -45144,7 +45129,7 @@ var VisBranch = VisBase.extend({
       this.get('arrow')
     ];
 
-    _.each(objs, function(rObj) {
+    objs.forEach(function(rObj) {
       rObj.click(this.onClick.bind(this));
     }, this);
   },
@@ -45271,9 +45256,7 @@ exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
 exports.randomHueString = randomHueString;
 
-
-},{"../app":176,"../graph/treeCompare":191,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":168}],240:[function(require,module,exports){
-var _ = require('underscore');
+},{"../app":176,"../graph/treeCompare":191,"../util/constants":216,"../visuals/visBase":238,"backbone":1}],240:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -45290,7 +45273,7 @@ var VisEdge = VisBase.extend({
 
   validateAtInit: function() {
     var required = ['tail', 'head'];
-    _.each(required, function(key) {
+    required.forEach(function(key) {
       if (!this.get(key)) {
         throw new Error(key + ' is required!');
       }
@@ -45461,8 +45444,7 @@ var VisEdgeCollection = Backbone.Collection.extend({
 exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisEdge = VisEdge;
 
-},{"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":168}],241:[function(require,module,exports){
-var _ = require('underscore');
+},{"../stores/GlobalStateStore":213,"../util/constants":216,"../visuals/visBase":238,"backbone":1}],241:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -45725,33 +45707,33 @@ var VisNode = VisBase.extend({
   },
 
   setOutgoingEdgesOpacity: function(opacity) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       edge.setOpacity(opacity);
     });
   },
 
   animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       var attr = snapShot[edge.getID()];
       edge.animateToAttr(attr);
     }, this);
   },
 
   animateOutgoingEdges: function(speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       edge.animateUpdatedPath(speed, easing);
     }, this);
   },
 
   animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       var attr = snapshot[edge.getID()];
       edge.animateToAttr(attr, speed, easing);
     }, this);
   },
 
   setOutgoingEdgesBirthPosition: function(parentCoords) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
       edge.get('path').stop();
@@ -45798,7 +45780,7 @@ var VisNode = VisBase.extend({
     }
     var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
-    _.each([this.get('circle'), this.get('text')], function(rObj) {
+    [this.get('circle'), this.get('text')].forEach(function(rObj) {
       rObj.click(function() {
         Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
@@ -45811,7 +45793,7 @@ var VisNode = VisBase.extend({
 
     // set the opacity on my stuff
     var keys = ['circle', 'text'];
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       this.get(key).attr({
         opacity: opacity
       });
@@ -45835,7 +45817,7 @@ var VisNode = VisBase.extend({
   },
 
   removeAllEdges: function() {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       edge.remove();
     }, this);
   },
@@ -45885,7 +45867,7 @@ var VisNode = VisBase.extend({
       });
       // continuation calculation
       if ((vx * vx + vy * vy) < 0.1 && Math.abs(y - maxHeight) <= 0.1) {
-        // dont need to animate anymore, we are on ground
+        // don't need to animate anymore, we are on ground
         return false;
       }
       // keep animating!
@@ -45929,8 +45911,7 @@ var VisNode = VisBase.extend({
 
 exports.VisNode = VisNode;
 
-},{"../app":176,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":168}],242:[function(require,module,exports){
-var _ = require('underscore');
+},{"../app":176,"../util/constants":216,"../visuals/visBase":238,"backbone":1}],242:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -46027,7 +46008,7 @@ var VisTag = VisBase.extend({
 
     var myArray = this.getTagStackArray();
     var index = -1;
-    _.each(myArray, function(Tag, i) {
+    myArray.forEach(function(Tag, i) {
       if (Tag.obj == this.get('tag')) {
         index = i;
       }
@@ -46107,7 +46088,7 @@ var VisTag = VisBase.extend({
     var textNode = this.get('text').node;
 
     var maxWidth = 0;
-    _.each(this.getTagStackArray(), function(Tag) {
+    this.getTagStackArray().forEach(function(Tag) {
       maxWidth = Math.max(maxWidth, getTextWidth(
         Tag.obj.get('visTag')
       ));
@@ -46183,7 +46164,7 @@ var VisTag = VisBase.extend({
     var textPos = this.getTextPosition();
     var name = this.getName();
 
-    // when from a reload, we dont need to generate the text
+    // when from a reload, we don't need to generate the text
     var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
@@ -46203,7 +46184,7 @@ var VisTag = VisBase.extend({
 
     // set CSS
     var keys = ['text', 'rect'];
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       $(this.get(key).node).css(attr.css);
     }, this);
 
@@ -46221,7 +46202,7 @@ var VisTag = VisBase.extend({
       this.get('text')
     ];
 
-    _.each(objs, function(rObj) {
+    objs.forEach(function(rObj) {
       rObj.click(this.onClick.bind(this));
     }, this);
   },
@@ -46338,10 +46319,8 @@ exports.VisTagCollection = VisTagCollection;
 exports.VisTag = VisTag;
 exports.randomHueString = randomHueString;
 
-
-},{"../app":176,"../graph/treeCompare":191,"../util/constants":216,"../visuals/visBase":238,"backbone":1,"underscore":168}],243:[function(require,module,exports){
+},{"../app":176,"../graph/treeCompare":191,"../util/constants":216,"../visuals/visBase":238,"backbone":1}],243:[function(require,module,exports){
 (function (process){
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Collections = require('../models/collections');
@@ -46356,7 +46335,7 @@ var Visualization = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
     this.options = options;
-    this.customEvents = _.clone(Backbone.Events);
+    this.customEvents = Object.assign({}, Backbone.Events);
     this.containerElement = options.containerElement;
 
     var _this = this;
@@ -46377,7 +46356,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    // if we dont want to receive keyboard input (directly),
+    // if we don't want to receive keyboard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?
@@ -46447,7 +46426,7 @@ var Visualization = Backbone.View.extend({
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
-    this.originVis = new Visualization(_.extend(
+    this.originVis = new Visualization(Object.assign(
       {},
       // copy all of our options over, except...
       this.options,
@@ -46635,7 +46614,7 @@ var Visualization = Backbone.View.extend({
 exports.Visualization = Visualization;
 
 }).call(this,require('_process'))
-},{"../app":176,"../git":189,"../models/collections":201,"../util/eventBaton":220,"../visuals":236,"_process":11,"backbone":1,"underscore":168}],244:[function(require,module,exports){
+},{"../app":176,"../git":189,"../models/collections":201,"../util/eventBaton":220,"../visuals":236,"_process":11,"backbone":1}],244:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugWork master^^2^",
@@ -50889,7 +50868,7 @@ exports.level = {
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
-    "zh_CN": "在 bugFix 上面提交一次就可以了",
+    "zh_CN": "当你准备好时，在 bugFix 分支上面提交一次就可以了",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі"
@@ -53388,7 +53367,7 @@ exports.level = {
             "Lass uns ein Tag bei `C1` anlegen und damit die Version 1 unseres Prototyps markieren."
             ],
             "afterMarkdowns": [
-              "Peng! Ziemlich einfach. Wir haben das Tag `v1` genannt und lassen es auf `C1` zeigen. Wenn du den Commit weglässt wir das Tag für den Commit erzeugt, auf den `HEAD` zeigt."
+              "Peng! Ziemlich einfach. Wir haben das Tag `v1` genannt und lassen es auf `C1` zeigen. Wenn du den Commit weglässt wird das Tag für den Commit erzeugt, auf den `HEAD` zeigt."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
