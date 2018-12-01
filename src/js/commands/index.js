@@ -34,7 +34,7 @@ var commands = {
     if (result.multiDelegate) {
       // we need to do multiple delegations with
       // a different command at each step
-      _.each(result.multiDelegate, function(delConfig) {
+      result.multiDelegate.forEach(function(delConfig) {
         // copy command, and then set opts
         commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
@@ -70,7 +70,7 @@ var commands = {
       var displayName = config.displayName || name;
       var thisMap = {};
       // start all options off as disabled
-      _.each(config.options, function(option) {
+      (config.options || []).forEach(function(option) {
         thisMap[option] = false;
       });
       optionMap[vcs][displayName] = thisMap;

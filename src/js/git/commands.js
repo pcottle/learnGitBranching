@@ -431,7 +431,7 @@ var commandConfig = {
         names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
-        _.each(names, function(name) {
+        names.forEach(function(name) {
           engine.validateAndDeleteBranch(name);
         });
         return;
@@ -856,4 +856,3 @@ var instantCommands = [
 
 exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
-
