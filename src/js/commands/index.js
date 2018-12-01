@@ -123,11 +123,11 @@ var parse = function(str) {
         method = thisMethod;
         // every valid regex has to have the parts of
         // <vcs> <command> <stuff>
-        // because there are always two spaces
+        // because there are always two space-groups
         // before our "stuff" we can simply
-        // split on spaces and grab everything after
+        // split on space-groups and grab everything after
         // the second:
-        options = str.split(' ').slice(2).join(' ');
+        options = str.match(/('.*?'|".*?"|\S+)/g).slice(2).join(' ');
       }
     });
   });
