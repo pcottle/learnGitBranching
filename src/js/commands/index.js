@@ -127,11 +127,11 @@ var parse = function(str) {
         method = thisMethod;
         // every valid regex has to have the parts of
         // <vcs> <command> <stuff>
-        // because there are always two spaces
+        // because there are always two space-groups
         // before our "stuff" we can simply
-        // split on spaces and grab everything after
+        // split on space-groups and grab everything after
         // the second:
-        options = str.split(' ').slice(2).join(' ');
+        options = str.match(/('.*?'|".*?"|\S+)/g).slice(2);
       }
     });
   });
@@ -174,11 +174,8 @@ function CommandOptionParser(vcs, method, options) {
 }
 
 CommandOptionParser.prototype.explodeAndSet = function() {
-  // TODO -- this is ugly
-  // split on spaces, except when inside quotes
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
+  for (var i = 0; i < this.rawOptions.length; i++) {
+    var part = this.rawOptions[i];
 
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
@@ -191,7 +188,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      var next = exploded[i + 1];
+      var next = this.rawOptions[i + 1];
       var optionArgs = [];
       if (next && next.slice(0,1) !== '-') {
         // only store the next argument as this
