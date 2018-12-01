@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -170,7 +169,7 @@ GitEngine.prototype.exportTreeForBranch = function(branchName) {
   // now loop through and delete commits
   var commitsToLoop = tree.commits;
   tree.commits = {};
-  _.each(commitsToLoop, function(commit, id) {
+  commitsToLoop.forEach(function(commit, id) {
     if (set[id]) {
       // if included in target branch
       tree.commits[id] = commit;
@@ -179,7 +178,7 @@ GitEngine.prototype.exportTreeForBranch = function(branchName) {
 
   var branchesToLoop = tree.branches;
   tree.branches = {};
-  _.each(branchesToLoop, function(branch, id) {
+  branchesToLoop.forEach(function(branch, id) {
     if (id === branchName) {
       tree.branches[id] = branch;
     }
@@ -200,30 +199,28 @@ GitEngine.prototype.exportTree = function() {
     HEAD: null
   };
 
-  _.each(this.branchCollection.toJSON(), function(branch) {
+  this.branchCollection.toJSON().forEach(function(branch) {
     branch.target = branch.target.get('id');
     delete branch.visBranch;
 
     totalExport.branches[branch.id] = branch;
   });
 
-  _.each(this.commitCollection.toJSON(), function(commit) {
+  this.commitCollection.toJSON().forEach(function(commit) {
     // clear out the fields that reference objects and create circular structure
-    _.each(Commit.prototype.constants.circularFields, function(field) {
+    Commit.prototype.constants.circularFields.forEach(function(field) {
       delete commit[field];
-    }, this);
+    });
 
     // convert parents
-    var parents = [];
-    _.each(commit.parents, function(par) {
-      parents.push(par.get('id'));
+    commit.parents = (commit.parents || []).map(function(par) {
+      return par.get('id');
     });
-    commit.parents = parents;
 
     totalExport.commits[commit.id] = commit;
   }, this);
 
-  _.each(this.tagCollection.toJSON(), function(tag) {
+  this.tagCollection.toJSON().forEach(function(tag) {
     delete tag.visTag;
     tag.target = tag.target.get('id');
 
@@ -282,18 +279,18 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   // now we do the loading part
   var createdSoFar = {};
 
-  _.each(tree.commits, function(commitJSON) {
+  Object.values(tree.commits).forEach(function(commitJSON) {
     var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
-  _.each(tree.branches, function(branchJSON) {
+  Object.values(tree.branches).forEach(function(branchJSON) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
-  _.each(tree.tags, function(tagJSON) {
+  Object.values(tree.tags || {}).forEach(function(tagJSON) {
     var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
@@ -362,7 +359,8 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree if its
   // not made already...
-  _.each(originTree.branches, function(branchJSON, branchName) {
+  Object.keys(originTree.branches).forEach(function(branchName) {
+    var branchJSON = originTree.branches[branchName];
     if (this.refs[ORIGIN_PREFIX + branchName]) {
       // we already have this branch
       return;
@@ -518,7 +516,7 @@ GitEngine.prototype.getOrMakeRecursive = function(
 
   if (type == 'HEAD') {
     var headJSON = tree.HEAD;
-    var HEAD = new Ref(_.extend(
+    var HEAD = new Ref(Object.assign(
       tree.HEAD,
       {
         target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
@@ -531,7 +529,7 @@ GitEngine.prototype.getOrMakeRecursive = function(
   if (type == 'branch') {
     var branchJSON = tree.branches[objID];
 
-    var branch = new Branch(_.extend(
+    var branch = new Branch(Object.assign(
       tree.branches[objID],
       {
         target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
@@ -544,7 +542,7 @@ GitEngine.prototype.getOrMakeRecursive = function(
   if (type == 'tag') {
     var tagJSON = tree.tags[objID];
 
-    var tag = new Tag(_.extend(
+    var tag = new Tag(Object.assign(
       tree.tags[objID],
       {
         target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
@@ -558,12 +556,11 @@ GitEngine.prototype.getOrMakeRecursive = function(
     // for commits, we need to grab all the parents
     var commitJSON = tree.commits[objID];
 
-    var parentObjs = [];
-    _.each(commitJSON.parents, function(parentID) {
-      parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
+    var parentObjs = commitJSON.parents.map(function(parentID) {
+      return this.getOrMakeRecursive(tree, createdSoFar, parentID);
     }, this);
 
-    var commit = new Commit(_.extend(
+    var commit = new Commit(Object.assign(
       commitJSON,
       {
         parents: parentObjs,
@@ -726,7 +723,7 @@ GitEngine.prototype.makeTag = function(id, target) {
 };
 
 GitEngine.prototype.getHead = function() {
-  return _.clone(this.HEAD);
+  return Object.assign({}, this.HEAD);
 };
 
 GitEngine.prototype.getTags = function() {
@@ -758,14 +755,14 @@ GitEngine.prototype.getBranches = function() {
 
 GitEngine.prototype.getRemoteBranches = function() {
   var all = this.getBranches();
-  return _.filter(all, function(branchJSON) {
+  return all.filter(function(branchJSON) {
     return branchJSON.remote === true;
   });
 };
 
 GitEngine.prototype.getLocalBranches = function() {
   var all = this.getBranches();
-  return _.filter(all, function(branchJSON) {
+  return all.filter(function(branchJSON) {
     return branchJSON.remote === false;
   });
 };
@@ -774,17 +771,16 @@ GitEngine.prototype.printBranchesWithout = function(without) {
   var commitToBranches = this.getUpstreamBranchSet();
   var commitID = this.getCommitFromRef(without).get('id');
 
-  var toPrint = [];
-  _.each(commitToBranches[commitID], function(branchJSON) {
+  var toPrint = commitToBranches[commitID].map(function (branchJSON) {
     branchJSON.selected = this.HEAD.get('target').get('id') == branchJSON.id;
-    toPrint.push(branchJSON);
+    return branchJSON;
   }, this);
   this.printBranches(toPrint);
 };
 
 GitEngine.prototype.printBranches = function(branches) {
   var result = '';
-  _.each(branches, function(branch) {
+  branches.forEach(function (branch) {
     result += (branch.selected ? '* ' : '') + branch.id + '\n';
   });
   throw new CommandResult({
@@ -794,7 +790,7 @@ GitEngine.prototype.printBranches = function(branches) {
 
 GitEngine.prototype.printTags = function(tags) {
   var result = '';
-  _.each(tags, function(tag) {
+  tags.forEach(function (tag) {
     result += tag.id + '\n';
   });
   throw new CommandResult({
@@ -846,7 +842,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
     id = this.getUniqueID();
   }
 
-  var commit = new Commit(_.extend({
+  var commit = new Commit(Object.assign({
       parents: parents,
       id: id,
       gitVisuals: this.gitVisuals
@@ -861,7 +857,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
 
 GitEngine.prototype.revert = function(whichCommits) {
   // resolve the commits we will rebase
-  var toRevert = _.map(whichCommits, function(stringRef) {
+  var toRevert = whichCommits.map(function(stringRef) {
     return this.getCommitFromRef(stringRef);
   }, this);
 
@@ -895,11 +891,11 @@ GitEngine.prototype.revert = function(whichCommits) {
   }.bind(this);
 
   // set up the promise chain
-  _.each(toRevert, function(commit) {
+  toRevert.forEach(function (commit) {
     chain = chain.then(function() {
       return chainStep(commit);
     });
-  }, this);
+  });
 
   // done! update our location
   chain = chain.then(function() {
@@ -934,7 +930,7 @@ GitEngine.prototype.setupCherrypickChain = function(toCherrypick) {
     );
   }.bind(this);
 
-  _.each(toCherrypick, function(arg) {
+  toCherrypick.forEach(function (arg) {
     chain = chain.then(function() {
       return chainStep(arg);
     });
@@ -1015,7 +1011,7 @@ GitEngine.prototype.getTargetGraphDifference = function(
   while (toExplore.length) {
     var here = toExplore.pop();
     difference.push(here);
-    _.each(here.parents, pushParent);
+    here.parents.forEach(pushParent);
   }
 
   // filter because we weren't doing graph search
@@ -1135,14 +1131,14 @@ GitEngine.prototype.push = function(options) {
   // and remote master might be commits C2, C3, and C4, but the remote
   // might already have those commits. In this case, we don't need to
   // make them, so filter these out
-  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+  commitsToMake = commitsToMake.filter(function(commitJSON) {
     return !this.origin.refs[commitJSON.id];
   }, this);
 
   var makeCommit = function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
-    var parents = _.map(parentIDs, function(parentID) {
+    var parents = parentIDs.map(function(parentID) {
       return this.origin.refs[parentID];
     }, this);
     return this.origin.makeCommit(parents, id);
@@ -1160,7 +1156,7 @@ GitEngine.prototype.push = function(options) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  _.each(commitsToMake, function(commitJSON) {
+  commitsToMake.forEach(function(commitJSON) {
     chain = chain.then(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
         this.refs[commitJSON.id],
@@ -1250,7 +1246,7 @@ GitEngine.prototype.fetch = function(options) {
   }
   // get all remote branches and specify the dest / source pairs
   var allBranchesOnRemote = this.origin.branchCollection.toArray();
-  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+  var sourceDestPairs = allBranchesOnRemote.map(function(branch) {
     var branchName = branch.get('id');
     didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
@@ -1267,7 +1263,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  _.each(sourceDestPairs, function(pair) {
+  sourceDestPairs.forEach(function (pair) {
     this.checkUpstreamOfSource(
       this,
       this.origin,
@@ -1278,13 +1274,13 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
-  _.each(sourceDestPairs, function(pair) {
+  sourceDestPairs.forEach(function (pair) {
     commitsToMake = commitsToMake.concat(this.getTargetGraphDifference(
       this,
       this.origin,
       pair.destination,
       pair.source,
-      _.extend(
+      Object.assign(
         {},
         options,
         {dontThrowOnNoFetch: true}
@@ -1309,14 +1305,14 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // and remote master might be commits C2, C3, and C4, but we
   // might already have those commits. In this case, we don't need to
   // make them, so filter these out
-  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+  commitsToMake = commitsToMake.filter(function(commitJSON) {
     return !this.refs[commitJSON.id];
   }, this);
 
   var makeCommit = function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
-    var parents = _.map(parentIDs, function(parentID) {
+    var parents = parentIDs.map(function(parentID) {
       return this.refs[parentID];
     }, this);
     return this.makeCommit(parents, id);
@@ -1341,7 +1337,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   }
 
   var originBranchSet = this.origin.getUpstreamBranchSet();
-  _.each(commitsToMake, function(commitJSON) {
+  commitsToMake.forEach(function (commitJSON) {
     // technically we could grab the wrong one here
     // but this works for now
     var originBranch = originBranchSet[commitJSON.id][0].obj;
@@ -1364,7 +1360,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
   chain = chain.then(function() {
     // update all the destinations
-    _.each(sourceDestPairs, function(pair) {
+    sourceDestPairs.forEach(function (pair) {
       var ours = this.refs[pair.destination];
       var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
@@ -1555,11 +1551,9 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  _.each(_.range(numToMake), function(i) {
-    chain = chain.then(function() {
-      return chainStep();
-    });
-  });
+  for(var i = 0; i < numToMake; i++) {
+    chain = chain.then(chainStep);
+  }
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -1736,13 +1730,13 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
   var branchesToUpdate = {};
   // now loop over the set we got passed in and find which branches
   // that means (aka intersection)
-  _.each(commitSet, function(val, id) {
-    _.each(upstreamSet[id], function(branchJSON) {
+  commitSet.forEach(function (val, id) {
+    upstreamSet[id].forEach(function (branchJSON) {
         branchesToUpdate[branchJSON.id] = true;
     });
   }, this);
 
-  var branchList = _.map(branchesToUpdate, function(val, id) {
+  var branchList = branchesToUpdate.map(function(val, id) {
     return id;
   });
   return this.updateBranchesForHg(branchList);
@@ -1777,7 +1771,7 @@ GitEngine.prototype.syncRemoteBranchFills = function() {
 
 GitEngine.prototype.updateBranchesForHg = function(branchList) {
   var hasUpdated = false;
-  _.each(branchList, function(branchID) {
+  branchList.forEach(function (branchID) {
     // ok now just check if this branch has a more recent commit available.
     // that mapping is easy because we always do rebase alt id --
     // theres no way to have C3' and C3''' but no C3''. so just
@@ -1808,7 +1802,7 @@ GitEngine.prototype.updateBranchesForHg = function(branchList) {
 
 GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
   var anyChange = false;
-  _.each(commitSet, function(val, commitID) {
+  Object.keys(commitSet).forEach(function(commitID) {
     var commit = this.refs[commitID];
     var thisUpdated = commit.checkForUpdatedParent(this);
     anyChange = anyChange || thisUpdated;
@@ -1825,7 +1819,7 @@ GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // don't prune commits that HEAD depends on
   var headSet = Graph.getUpstreamSet(this, 'HEAD');
-  _.each(headSet, function(val, commitID) {
+  Object.keys(headSet).forEach(function(commitID) {
     set[commitID] = true;
   });
 
@@ -1846,7 +1840,7 @@ GitEngine.prototype.pruneTree = function() {
     this.command.addWarning(intl.str('hg-prune-tree'));
   }
 
-  _.each(toDelete, function(commit) {
+  toDelete.forEach(function (commit) {
     commit.removeFromParents();
     this.commitCollection.remove(commit);
 
@@ -1877,7 +1871,7 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 
   var inArray = function(arr, id) {
     var found = false;
-    _.each(arr, function(wrapper) {
+    arr.forEach(function (wrapper) {
       if (wrapper.id == id) {
         found = true;
       }
@@ -1902,7 +1896,7 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 
   collection.each(function(ref) {
     var set = bfsSearch(ref.get('target'));
-    _.each(set, function(id) {
+    set.forEach(function (id) {
       commitToSet[id] = commitToSet[id] || [];
 
       // only add it if it's not there, so hue blending is ok
@@ -2072,14 +2066,14 @@ GitEngine.prototype.hgRebase = function(destination, base) {
 
   // and NOWWWwwww get all the descendants of this set
   var moreSets = [];
-  _.each(upstream, function(val, id) {
+  Object.keys(upstream).forEach(function(id) {
     moreSets.push(this.getDownstreamSet(id));
   }, this);
 
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
-  _.each([upstream, downstream].concat(moreSets), function(set) {
-    _.each(set, function(val, id) {
+  [upstream, downstream].concat(moreSets).forEach(function(set) {
+    Object.keys(set).forEach(function(id) {
       masterSet[id] = true;
     });
   });
@@ -2087,16 +2081,14 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   // we also need the branches POINTING to master set
   var branchMap = {};
   var upstreamSet = this.getUpstreamBranchSet();
-  _.each(masterSet, function(val, commitID) {
+  Object.keys(masterSet).forEach(function(commitID) {
     // now loop over that commits branches
-    _.each(upstreamSet[commitID], function(branchJSON) {
+    upstreamSet[commitID].forEach(function(branchJSON) {
       branchMap[branchJSON.id] = true;
     });
   });
 
-  var branchList = _.map(branchMap, function(val, id) {
-    return id;
-  });
+  var branchList = Object.keys(branchMap);
 
   chain = chain.then(function() {
     // now we just moved a bunch of commits, but we haven't updated the
@@ -2156,7 +2148,7 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
 
 GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
   var set = {};
-  _.each(this.getUpstreamDiffFromSet(stopSet, location), function(commit) {
+  this.getUpstreamDiffFromSet(stopSet, location).forEach(function (commit) {
     set[commit.get('id')] = true;
   });
   return set;
@@ -2189,7 +2181,7 @@ GitEngine.prototype.getInteractiveRebaseCommits = function(targetSource, current
 
   // throw out merge's real fast and see if we have anything to do
   var toRebase = [];
-  _.each(toRebaseRough, function(commit) {
+  toRebaseRough.forEach(function (commit) {
     if (commit.get('parents').length == 1) {
       toRebase.push(commit);
     }
@@ -2211,7 +2203,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
   var toRebase = this.getInteractiveRebaseCommits(targetSource, currentLocation);
 
   var rebaseMap = {};
-  _.each(toRebase, function(commit) {
+  toRebase.forEach(function (commit) {
     var id = commit.get('id');
     rebaseMap[id] = commit;
   });
@@ -2228,7 +2220,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
     // Verify each chosen commit exists in the list of commits given to the user
     var extraCommits = [];
     rebaseOrder = [];
-    _.each(idsToRebase, function(id) {
+    idsToRebase.forEach(function (id) {
       if (id in rebaseMap) {
         rebaseOrder.push(rebaseMap[id]);
       } else {
@@ -2281,13 +2273,13 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   var initialCommitOrdering;
   if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
     var rebaseMap = {};
-    _.each(toRebase, function(commit) {
+    toRebase.forEach(function (commit) {
       rebaseMap[commit.get('id')] = true;
     });
 
     // Verify each chosen commit exists in the list of commits given to the user
     initialCommitOrdering = [];
-    _.each(options.initialCommitOrdering[0].split(','), function(id) {
+    options.initialCommitOrdering[0].split(',').forEach(function (id) {
       if (!rebaseMap[id]) {
         throw new GitError({
           msg: intl.todo('Hey those commits don\'t exist in the set!')
@@ -2313,13 +2305,13 @@ GitEngine.prototype.filterRebaseCommits = function(
   options
 ) {
   var changesAlreadyMade = {};
-  _.each(stopSet, function(val, key) {
+  Object.keys(stopSet).forEach(function(key) {
     changesAlreadyMade[this.scrapeBaseID(key)] = true;
   }, this);
   var uniqueIDs = {};
 
   // resolve the commits we will rebase
-  return _.filter(toRebaseRough, function(commit) {
+  return toRebaseRough.filter(function(commit) {
     // no merge commits, unless we preserve
     if (commit.get('parents').length !== 1 && !options.preserveMerges) {
       return false;
@@ -2344,7 +2336,7 @@ GitEngine.prototype.filterRebaseCommits = function(
 
 GitEngine.prototype.getRebasePreserveMergesParents = function(oldCommit) {
   var oldParents = oldCommit.get('parents');
-  return _.map(oldParents, function(parent) {
+  return oldParents.map(function(parent) {
     var oldID = parent.get('id');
     var newID = this.getMostRecentBumpedID(oldID);
     return this.refs[newID];
@@ -2406,7 +2398,7 @@ GitEngine.prototype.rebaseFinish = function(
   }.bind(this);
 
   // set up the promise chain
-  _.each(toRebase, function(commit) {
+  toRebase.forEach(function (commit) {
     chain = chain.then(function() {
       return chainStep(commit);
     });
@@ -2561,7 +2553,7 @@ GitEngine.prototype.describe = function(ref) {
   // ok we need to BFS from start upwards until we hit a tag. but
   // first we need to get a reverse mapping from tag to commit
   var tagMap = {};
-  _.each(this.tagCollection.toJSON(), function(tag) {
+  this.tagCollection.toJSON().forEach(function (tag) {
     tagMap[tag.target.get('id')] = tag.id;
   });
 
@@ -2733,7 +2725,7 @@ GitEngine.prototype.status = function() {
   lines.push(intl.str('git-status-readytocommit'));
 
   var msg = '';
-  _.each(lines, function(line) {
+  lines.forEach(function (line) {
     msg += '# ' + line + '\n';
   });
 
@@ -2776,7 +2768,7 @@ GitEngine.prototype.log = function(ref, omitSet) {
 
   // now go through and collect logs
   var bigLogStr = '';
-  _.each(toDump, function(c) {
+  toDump.forEach(function (c) {
     bigLogStr += c.getLogEntry();
   }, this);
 
@@ -2831,7 +2823,7 @@ GitEngine.prototype.getDownstreamSet = function(ancestor) {
     var here = queue.pop();
     var children = here.get('children');
 
-    _.each(children, addToExplored);
+    children.forEach(addToExplored);
   }
   return exploredSet;
 };
@@ -3009,7 +3001,7 @@ var Commit = Backbone.Model.extend({
   },
 
   removeFromParents: function() {
-    _.each(this.get('parents'), function(parent) {
+    this.get('parents').forEach(function (parent) {
       parent.removeChild(this);
     }, this);
   },
@@ -3052,11 +3044,11 @@ var Commit = Backbone.Model.extend({
 
   removeChild: function(childToRemove) {
     var newChildren = [];
-    _.each(this.get('children'), function(child) {
+    this.get('children').forEach(function (child) {
       if (child !== childToRemove) {
         newChildren.push(child);
       }
-    }, this);
+    });
     this.set('children', newChildren);
   },
 
@@ -3069,7 +3061,7 @@ var Commit = Backbone.Model.extend({
     this.validateAtInit();
     this.addNodeToVisuals();
 
-    _.each(this.get('parents'), function(parent) {
+    (this.get('parents') || []).forEach(function (parent) {
       parent.get('children').push(this);
       this.addEdgeToVisuals(parent);
     }, this);

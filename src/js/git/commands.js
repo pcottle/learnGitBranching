@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var escapeString = require('../util/escapeString');
 var intl = require('../intl');
 
 var Graph = require('../graph');
@@ -190,7 +190,7 @@ var commandConfig = {
 
       var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
-      var toCherrypick = _.map(generalArgs, function(arg) {
+      var toCherrypick = generalArgs.map(function (arg) {
         var commit = engine.getCommitFromRef(arg);
         // and check that its not upstream
         if (set[commit.get('id')]) {
@@ -431,7 +431,7 @@ var commandConfig = {
         names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
-        _.each(names, function(name) {
+        names.forEach(function(name) {
           engine.validateAndDeleteBranch(name);
         });
         return;
@@ -830,7 +830,7 @@ var instantCommands = [
       intl.str('git-version'),
       '<br/>',
       intl.str('git-usage'),
-      _.escape(intl.str('git-usage-command')),
+      escapeString(intl.str('git-usage-command')),
       '<br/>',
       intl.str('git-supported-commands'),
       '<br/>'
@@ -838,9 +838,10 @@ var instantCommands = [
 
     var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
+    Object.keys(commands).forEach(function(command) {
+      var commandOptions = commands[command];
       lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
+      Object.keys(commandOptions).forEach(function(optionName) {
         lines.push('\t ' + optionName);
       }, this);
     }, this);
@@ -856,4 +857,3 @@ var instantCommands = [
 
 exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
-

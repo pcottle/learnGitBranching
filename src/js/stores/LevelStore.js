@@ -41,7 +41,7 @@ var validateLevel = function(level) {
     'solutionCommand'
   ];
 
-  _.each(requiredFields, function(field) {
+  requiredFields.forEach(function(field) {
     if (level[field] === undefined) {
       console.log(level);
       throw new Error('I need this field for a level: ' + field);
@@ -52,14 +52,15 @@ var validateLevel = function(level) {
 /**
  * Unpack the level sequences.
  */
-_.each(levelSequences, function(levels, levelSequenceName) {
+Object.keys(levelSequences).forEach(function(levelSequenceName) {
+  var levels = levelSequences[levelSequenceName];
   _sequences.push(levelSequenceName);
   if (!levels || !levels.length) {
     throw new Error('no empty sequences allowed');
   }
 
   // for this particular sequence...
-  _.each(levels, function(level, index) {
+  levels.forEach(function(level, index) {
     validateLevel(level);
 
     var id = levelSequenceName + String(index + 1);
@@ -89,7 +90,7 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getSequences: function() {
-    return _.keys(levelSequences);
+    return Object.keys(levelSequences);
   },
 
   getLevelsInSequence: function(sequenceName) {

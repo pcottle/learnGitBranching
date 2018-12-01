@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -360,7 +359,7 @@ var LevelBuilder = Level.extend({
   },
 
   getExportObj: function() {
-    var compiledLevel = _.extend(
+    var compiledLevel = Object.assign(
       {},
       this.level
     );

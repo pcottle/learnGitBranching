@@ -62,7 +62,7 @@ module.exports = function(grunt) {
       hashedMinFile = 'bundle.js';
     }
     var jsRegex = /bundle\.min\.\w+\.js/;
-    _.each(buildFiles, function(jsFile) {
+    buildFiles.forEach(function(jsFile) {
       if (jsRegex.test(jsFile)) {
         if (hashedMinFile) {
           throw new Error('more than one hashed file: ' + jsFile + hashedMinFile);
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 
     var styleRegex = /main\.\w+\.css/;
     var hashedStyleFile;
-    _.each(buildFiles, function(styleFile) {
+    buildFiles.forEach(function(styleFile) {
       if (styleRegex.test(styleFile)) {
         if (hashedStyleFile) {
           throw new Error('more than one hashed style: ' + styleFile + hashedStyleFile);
@@ -253,4 +253,3 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['jasmine_node']);
   grunt.registerTask('casperTest', ['shell:casperTest']);
 };
-

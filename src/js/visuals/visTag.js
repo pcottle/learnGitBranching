@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -95,7 +94,7 @@ var VisTag = VisBase.extend({
 
     var myArray = this.getTagStackArray();
     var index = -1;
-    _.each(myArray, function(Tag, i) {
+    myArray.forEach(function(Tag, i) {
       if (Tag.obj == this.get('tag')) {
         index = i;
       }
@@ -175,7 +174,7 @@ var VisTag = VisBase.extend({
     var textNode = this.get('text').node;
 
     var maxWidth = 0;
-    _.each(this.getTagStackArray(), function(Tag) {
+    this.getTagStackArray().forEach(function(Tag) {
       maxWidth = Math.max(maxWidth, getTextWidth(
         Tag.obj.get('visTag')
       ));
@@ -271,7 +270,7 @@ var VisTag = VisBase.extend({
 
     // set CSS
     var keys = ['text', 'rect'];
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       $(this.get(key).node).css(attr.css);
     }, this);
 
@@ -289,7 +288,7 @@ var VisTag = VisBase.extend({
       this.get('text')
     ];
 
-    _.each(objs, function(rObj) {
+    objs.forEach(function(rObj) {
       rObj.click(this.onClick.bind(this));
     }, this);
   },
@@ -405,4 +404,3 @@ var VisTagCollection = Backbone.Collection.extend({
 exports.VisTagCollection = VisTagCollection;
 exports.VisTag = VisTag;
 exports.randomHueString = randomHueString;
-
