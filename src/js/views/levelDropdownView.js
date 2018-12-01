@@ -235,7 +235,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getSequencesOnTab: function() {
-    return _.filter(this.sequences, function(sequenceName) {
+    return this.sequences.filter(function(sequenceName) {
       var tab = LEVELS.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);

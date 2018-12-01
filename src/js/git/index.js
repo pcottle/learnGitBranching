@@ -755,14 +755,14 @@ GitEngine.prototype.getBranches = function() {
 
 GitEngine.prototype.getRemoteBranches = function() {
   var all = this.getBranches();
-  return _.filter(all, function(branchJSON) {
+  return all.filter(function(branchJSON) {
     return branchJSON.remote === true;
   });
 };
 
 GitEngine.prototype.getLocalBranches = function() {
   var all = this.getBranches();
-  return _.filter(all, function(branchJSON) {
+  return all.filter(function(branchJSON) {
     return branchJSON.remote === false;
   });
 };
@@ -1131,7 +1131,7 @@ GitEngine.prototype.push = function(options) {
   // and remote master might be commits C2, C3, and C4, but the remote
   // might already have those commits. In this case, we don't need to
   // make them, so filter these out
-  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+  commitsToMake = commitsToMake.filter(function(commitJSON) {
     return !this.origin.refs[commitJSON.id];
   }, this);
 
@@ -1305,7 +1305,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // and remote master might be commits C2, C3, and C4, but we
   // might already have those commits. In this case, we don't need to
   // make them, so filter these out
-  commitsToMake = _.filter(commitsToMake, function(commitJSON) {
+  commitsToMake = commitsToMake.filter(function(commitJSON) {
     return !this.refs[commitJSON.id];
   }, this);
 
@@ -2315,7 +2315,7 @@ GitEngine.prototype.filterRebaseCommits = function(
   var uniqueIDs = {};
 
   // resolve the commits we will rebase
-  return _.filter(toRebaseRough, function(commit) {
+  return toRebaseRough.filter(function(commit) {
     // no merge commits, unless we preserve
     if (commit.get('parents').length !== 1 && !options.preserveMerges) {
       return false;
