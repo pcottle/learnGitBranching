@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -15,7 +14,7 @@ var VisEdge = VisBase.extend({
 
   validateAtInit: function() {
     var required = ['tail', 'head'];
-    _.each(required, function(key) {
+    required.forEach(function(key) {
       if (!this.get(key)) {
         throw new Error(key + ' is required!');
       }

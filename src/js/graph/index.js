@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 function invariant(truthy, reason) {
   if (!truthy) {
     throw new Error(reason);
@@ -44,7 +42,7 @@ var Graph = {
 
     if (type == 'HEAD') {
       var headJSON = tree.HEAD;
-      var HEAD = new Ref(_.extend(
+      var HEAD = new Ref(Object.assign(
         tree.HEAD,
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, headJSON.target)
@@ -57,7 +55,7 @@ var Graph = {
     if (type == 'branch') {
       var branchJSON = tree.branches[objID];
 
-      var branch = new Branch(_.extend(
+      var branch = new Branch(Object.assign(
         tree.branches[objID],
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, branchJSON.target)
@@ -70,7 +68,7 @@ var Graph = {
     if (type == 'tag') {
       var tagJSON = tree.tags[objID];
 
-      var tag = new Tag(_.extend(
+      var tag = new Tag(Object.assign(
         tree.tags[objID],
         {
           target: this.getOrMakeRecursive(tree, createdSoFar, tagJSON.target)
@@ -85,11 +83,11 @@ var Graph = {
       var commitJSON = tree.commits[objID];
 
       var parentObjs = [];
-      _.each(commitJSON.parents, function(parentID) {
+      commitJSON.parents.forEach(function(parentID) {
         parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
       }, this);
 
-      var commit = new Commit(_.extend(
+      var commit = new Commit(Object.assign(
         commitJSON,
         {
           parents: parentObjs,
@@ -143,7 +141,7 @@ var Graph = {
       var here = queue.pop();
       var rents = here.get('parents');
 
-      _.each(rents, addToExplored);
+      (rents || []).forEach(addToExplored);
     }
     return exploredSet;
   },
@@ -151,7 +149,7 @@ var Graph = {
   getUniqueObjects: function(objects) {
     var unique = {};
     var result = [];
-    _.forEach(objects, function(object) {
+    objects.forEach(function(object) {
       if (unique[object.id]) {
         return;
       }

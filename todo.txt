@@ -40,19 +40,19 @@ Done things:
     (place to merge). o/master gets updated regardless
 [x] ok say I have branch banana and its one commit ahead of master. if I git
     pull origin master while checked out on banana, it fetches those commits
-    (doesnt update origin/master) and then merges them into banana.
+    (doesn't update origin/master) and then merges them into banana.
 [x] and then "git pull origin banana:origin/banana"  works because it goes into
     the remote branch and then merges the fetch HEAD with current location
 [x] oh boy heres another data point. git fetch banana:banana will actually
     fast-forward banana to what remote has, but not update o/banana. weirdly it
-    doesnt let you do this if you are checked out on banana
+    doesn't let you do this if you are checked out on banana
 [x] furthermore, if banana has commits and its not a FF, it will reject the command. wth??
 [x] test is failing because we create banana when we should only really be creating o/banana
 [x] work on TABBED levels layout
 [x] EASY -- make colors the same between remote branches and their remote counterparts
 [x] fix undo not syncing the remote tracking
 [x] get clone as a before command working in demonstration views (related to test infra as well)
-[x] importTreeNow fails if origin isnt updated
+[x] importTreeNow fails if origin isn't updated
 [x] set checkout -b branch __remoteBranch to track the remote branch
 [x] test coverage for hg!!! (in progress)
 [x] tree pruning
@@ -77,7 +77,7 @@ Done things:
 [x] git pull animation
 [x] use the graph difference algorithm to then implement git push
 [x] work on git pull --rebase animation, send down the deferred and it should work?
-[x] why is rebase -i broken? dont emulate touch events
+[x] why is rebase -i broken? don't emulate touch events
 [x] tree compare test coverage
 [x] remote branch it is tracking (points to a remote branch model)
 [x] fix branch -a and branch -r to: show remote branches or all branches
@@ -123,7 +123,7 @@ Done things:
 [x] what if they just type "levels" ?
 [x] hookup for when solving happens
 [x] levels dropdown selection?
-[x] git demonstration view -- shouldnt be too bad. LOL WHAT A FUCKING JOKE like 4 hours
+[x] git demonstration view -- shouldn't be too bad. LOL WHAT A FUCKING JOKE like 4 hours
 [x] gotoSandbox command
 [x] "next level?" dialog after beating level
 [x] keyboard input for confirm / cancel

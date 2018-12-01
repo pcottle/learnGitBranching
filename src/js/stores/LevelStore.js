@@ -41,7 +41,7 @@ var validateLevel = function(level) {
     'solutionCommand'
   ];
 
-  _.each(requiredFields, function(field) {
+  requiredFields.forEach(function(field) {
     if (level[field] === undefined) {
       console.log(level);
       throw new Error('I need this field for a level: ' + field);
@@ -52,14 +52,15 @@ var validateLevel = function(level) {
 /**
  * Unpack the level sequences.
  */
-_.each(levelSequences, function(levels, levelSequenceName) {
+Object.keys(levelSequences).forEach(function(levelSequenceName) {
+  var levels = levelSequences[levelSequenceName];
   _sequences.push(levelSequenceName);
   if (!levels || !levels.length) {
     throw new Error('no empty sequences allowed');
   }
 
   // for this particular sequence...
-  _.each(levels, function(level, index) {
+  levels.forEach(function(level, index) {
     validateLevel(level);
 
     var id = levelSequenceName + String(index + 1);
@@ -89,7 +90,7 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getSequences: function() {
-    return _.keys(levelSequences);
+    return Object.keys(levelSequences);
   },
 
   getLevelsInSequence: function(sequenceName) {
@@ -109,11 +110,11 @@ AppConstants.StoreSubscribePrototype,
 
   getNextLevel: function(id) {
     if (!_levelMap[id]) {
-      console.warn('that level doesnt exist!!!');
+      console.warn('that level doesn\'t exist!!!');
       return null;
     }
 
-    // meh, this method could be better. It's a tradeoff between
+    // meh, this method could be better. It's a trade-off between
     // having the sequence structure be really simple JSON
     // and having no connectivity information between levels, which means
     // you have to build that up yourself on every query
@@ -138,7 +139,7 @@ AppConstants.StoreSubscribePrototype,
 
   isLevelSolved: function(levelID) {
     if (!_levelMap[levelID]) {
-      throw new Error('that level doesnt exist!');
+      throw new Error('that level doesn\'t exist!');
     }
     return !!_solvedMap[levelID];
   },

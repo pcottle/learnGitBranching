@@ -1,9 +1,8 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       if (this.get(key)) {
         this.get(key).remove();
       }
@@ -13,7 +12,7 @@ var VisBase = Backbone.Model.extend({
   animateAttrKeys: function(keys, attrObj, speed, easing) {
     // either we animate a specific subset of keys or all
     // possible things we could animate
-    keys = _.extend(
+    keys = Object.assign(
       {},
       {
         include: ['circle', 'arrow', 'rect', 'path', 'text'],
@@ -25,15 +24,15 @@ var VisBase = Backbone.Model.extend({
     var attr = this.getAttributes();
 
     // safely insert this attribute into all the keys we want
-    _.each(keys.include, function(key) {
-      attr[key] = _.extend(
+    keys.include.forEach(function(key) {
+      attr[key] = Object.assign(
         {},
         attr[key],
         attrObj
       );
     });
 
-    _.each(keys.exclude, function(key) {
+    keys.exclude.forEach(function(key) {
       delete attr[key];
     });
 
@@ -42,4 +41,3 @@ var VisBase = Backbone.Model.extend({
 });
 
 exports.VisBase = VisBase;
-

@@ -128,7 +128,7 @@ describe('Git', function() {
     );
   });
 
-  it('Ammends commits', function() {
+  it('Amends commits', function() {
     expectTreeAsync(
       'git commit --amend',
       '%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%27%22%2C%22id%22%3A%22master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C1%27%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D'
@@ -219,7 +219,7 @@ describe('Git', function() {
 		);
 	});
 
-	it('doesnt make a tag if ref doesnt resolve', function() {
+	it('doesn\'t make a tag if ref doesn\'t resolve', function() {
 		expectTreeAsync(
 			'git tag v1 foo',
 			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}'
@@ -261,7 +261,7 @@ describe('Git', function() {
 		);
 	});
 
-  it('can handle slashes and dashes in branch names but doesnt allow o/', function() {
+  it('can handle slashes and dashes in branch names but doesn\'t allow o/', function() {
 		expectTreeAsync(
       'git branch foo/bar; git commit; git checkout foo/bar; gc; go master; git merge foo/bar; go foo/bar; git checkout -b bar-baz; git commit; git branch o/foo',
       '{"branches":{"master":{"target":"C4","id":"master","remoteTrackingBranchID":null},"foo/bar":{"target":"C3","id":"foo/bar","remoteTrackingBranchID":null},"bar-baz":{"target":"C5","id":"bar-baz","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"}},"tags":{},"HEAD":{"target":"bar-baz","id":"HEAD"}}'
@@ -276,4 +276,3 @@ describe('Git', function() {
   });
 
 });
-

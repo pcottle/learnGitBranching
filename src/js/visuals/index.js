@@ -58,7 +58,7 @@ GitVisuals.prototype.defer = function(action) {
 };
 
 GitVisuals.prototype.deferFlush = function() {
-  _.each(this.deferred, function(action) {
+  this.deferred.forEach(function(action) {
     action();
   }, this);
   this.deferred = [];
@@ -68,17 +68,17 @@ GitVisuals.prototype.resetAll = function() {
   // make sure to copy these collections because we remove
   // items in place and underscore is too dumb to detect length change
   var edges = this.visEdgeCollection.toArray();
-  _.each(edges, function(visEdge) {
+  edges.forEach(function(visEdge) {
     visEdge.remove();
   }, this);
 
   var branches = this.visBranchCollection.toArray();
-  _.each(branches, function(visBranch) {
+  branches.forEach(function(visBranch) {
     visBranch.remove();
   }, this);
 
   var tags = this.visTagCollection.toArray();
-  _.each(tags, function(visTag) {
+  tags.forEach(function(visTag) {
     visTag.remove();
   }, this);
 
@@ -98,7 +98,7 @@ GitVisuals.prototype.resetAll = function() {
 GitVisuals.prototype.tearDown = function() {
   this.resetAll();
   this.paper.remove();
-  // Unregister the refresh tree listener so we dont accumulate
+  // Unregister the refresh tree listener so we don't accumulate
   // these over time. However we aren't calling tearDown in
   // some places... but this is an improvement
   var Main = require('../app');
@@ -332,7 +332,7 @@ GitVisuals.prototype.explodeNodes = function(speed) {
     // are called unnecessarily when they have almost
     // zero speed. would be interesting to see performance differences
     var keepGoing = [];
-    _.each(funcs, function(func) {
+    funcs.forEach(function(func) {
       if (func()) {
         keepGoing.push(func);
       }
@@ -354,12 +354,12 @@ GitVisuals.prototype.explodeNodes = function(speed) {
 GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
   var animate = function(obj) {
     var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
+    if (idsToOmit.includes(id)) {
       return;
     }
 
     if (!fromSnapshot[id] || !toSnapshot[id]) {
-      // its actually ok it doesnt exist yet
+      // its actually ok it doesn't exist yet
       return;
     }
     obj.animateFromAttrToAttr(fromSnapshot[id], toSnapshot[id]);
@@ -442,7 +442,7 @@ GitVisuals.prototype.fullCalc = function() {
 };
 
 GitVisuals.prototype.calcTreeCoords = function() {
-  // this method can only contain things that dont rely on graphics
+  // this method can only contain things that don't rely on graphics
   if (!this.rootCommit) {
     throw new Error('grr, no root commit!');
   }
@@ -477,7 +477,7 @@ GitVisuals.prototype.getCommitUpstreamBranches = function(commit) {
 GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
   var branches = this.upstreamBranchSet[commit.get('id')];
   if (!branches) {
-    throw new Error('that commit doesnt have upstream branches!');
+    throw new Error('that commit doesn\'t have upstream branches!');
   }
 
   return this.blendHuesFromBranchStack(branches);
@@ -485,7 +485,7 @@ GitVisuals.prototype.getBlendedHuesForCommit = function(commit) {
 
 GitVisuals.prototype.blendHuesFromBranchStack = function(branchStackArray) {
   var hueStrings = [];
-  _.each(branchStackArray, function(branchWrapper) {
+  branchStackArray.forEach(function(branchWrapper) {
     var fill = branchWrapper.obj.get('visBranch').get('fill');
 
     if (fill.slice(0,3) !== 'hsb') {
@@ -525,7 +525,7 @@ GitVisuals.prototype.getCommitUpstreamStatus = function(commit) {
 GitVisuals.prototype.calcTagStacks = function() {
   var tags = this.gitEngine.getTags();
   var map = {};
-  _.each(tags, function(tag) {
+  tags.forEach(function(tag) {
       var thisId = tag.target.get('id');
 
       map[thisId] = map[thisId] || [];
@@ -542,7 +542,7 @@ GitVisuals.prototype.calcTagStacks = function() {
 GitVisuals.prototype.calcBranchStacks = function() {
   var branches = this.gitEngine.getBranches();
   var map = {};
-  _.each(branches, function(branch) {
+  branches.forEach(function(branch) {
     var thisId = branch.target.get('id');
 
     map[thisId] = map[thisId] || [];
@@ -572,7 +572,7 @@ GitVisuals.prototype.calcWidth = function() {
 
 GitVisuals.prototype.maxWidthRecursive = function(commit) {
   var childrenTotalWidth = 0;
-  _.each(commit.get('children'), function(child) {
+  commit.get('children').forEach(function(child) {
     // only include this if we are the "main" parent of
     // this child
     if (child.isMainParent(commit)) {
@@ -601,14 +601,14 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
   // basic box-flex model
   var totalFlex = 0;
   var children = commit.get('children');
-  _.each(children, function(child) {
+  children.forEach(function(child) {
     if (child.isMainParent(commit)) {
       totalFlex += child.get('visNode').getMaxWidthScaled();
     }
   }, this);
 
   var prevBound = min;
-  _.each(children, function(child, index) {
+  children.forEach(function(child, index) {
     if (!child.isMainParent(commit)) {
       return;
     }
@@ -777,7 +777,7 @@ GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
 
   var children = commit.get('children');
   var maxDepth = depth;
-  _.each(children, function(child) {
+  children.forEach(function(child) {
     var d = this.calcDepthRecursive(child, depth + 1);
     maxDepth = Math.max(d, maxDepth);
   }, this);
@@ -924,7 +924,7 @@ function blendHueStrings(hueStrings) {
   var totalBright = 0;
   var length = hueStrings.length;
 
-  _.each(hueStrings, function(hueString) {
+  hueStrings.forEach(function(hueString) {
     var exploded = hueString.split('(')[1];
     exploded = exploded.split(')')[0];
     exploded = exploded.split(',');

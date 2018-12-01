@@ -2,7 +2,6 @@ var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
 
-var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
@@ -11,7 +10,7 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-var events = assign(
+var events = Object.assign(
   {},
   EventEmitter.prototype,
   {
@@ -21,7 +20,7 @@ var events = assign(
     }
   }
 );
-// Allow unlimited listeners, so FF doesnt break
+// Allow unlimited listeners, so FF doesn't break
 events.setMaxListeners(0);
 var commandUI;
 var sandbox;
@@ -165,7 +164,7 @@ var initRootEvents = function(eventBaton) {
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
 
-  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // being the smart programmer I am (not), I don't include a true value on demo, so
   // I have to check if the key exists here
   var commands;
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {

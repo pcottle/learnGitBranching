@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Main = require('../app');
@@ -173,7 +172,7 @@ var CommandPromptView = Backbone.View.extend({
     which.reverse();
 
     var str = '';
-    _.each(which, function(text) {
+    which.forEach(function(text) {
       str += text + ';';
     }, this);
 
@@ -202,4 +201,3 @@ var CommandPromptView = Backbone.View.extend({
 });
 
 exports.CommandPromptView = CommandPromptView;
-

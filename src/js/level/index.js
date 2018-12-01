@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 
 var util = require('../util');
@@ -70,7 +69,7 @@ var Level = Sandbox.extend({
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
-      new MultiView(_.extend(
+      new MultiView(Object.assign(
         {},
         intl.getStartDialog(this.level),
         { deferred: deferred }
@@ -99,7 +98,7 @@ var Level = Sandbox.extend({
     var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
     dialog.childViews = dialog.childViews.slice(-1);
-    new MultiView(_.extend(
+    new MultiView(Object.assign(
       dialog,
       { deferred: deferred }
     ));
@@ -401,13 +400,14 @@ var Level = Sandbox.extend({
 
   doesCommandCountTowardsTotal: function(command) {
     if (command.get('error')) {
-      // dont count errors towards our count
+      // don't count errors towards our count
       return false;
     }
 
     var matched = false;
-    _.each(Commands.commands.getCommandsThatCount(), function(map) {
-      _.each(map, function(regex) {
+    var commandsThatCount = Commands.commands.getCommandsThatCount();
+    Object.values(commandsThatCount).forEach(function(map) {
+      Object.values(map).forEach(function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });
     });
@@ -645,7 +645,7 @@ var Level = Sandbox.extend({
     };
     var method = methodMap[command.get('method')];
     if (!method) {
-      throw new Error('woah we dont support that method yet', method);
+      throw new Error('woah we don\'t support that method yet', method);
     }
 
     method.apply(this, [command, defer]);

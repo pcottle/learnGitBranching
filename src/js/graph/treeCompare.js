@@ -92,7 +92,7 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  var allBranches = _.extend(
+  var allBranches = Object.assign(
     {},
     treeA.branches,
     treeB.branches
@@ -115,7 +115,7 @@ TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
 
 TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
-  _.each(branches, function(branchName) {
+  branches.forEach(function(branchName) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
   }, this);
 
@@ -140,13 +140,12 @@ TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
   treeB = this.convertTreeSafe(treeB);
   this.reduceTreeFields([treeA, treeB]);
 
-  var allBranches = _.extend(
+  var allBranches = Object.assign(
     {},
     treeA.branches,
     treeB.branches
   );
-  var branchNames = [];
-  _.each(allBranches, function(obj, name) { branchNames.push(name); });
+  var branchNames = Object.keys(allBranches || {});
 
   return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
 };
@@ -164,9 +163,9 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
       return false;
     }
 
-    // dont mess up the rest of comparison
-    branchA = _.clone(branchA);
-    branchB = _.clone(branchB);
+    // don't mess up the rest of comparison
+    branchA = Object.assign({}, branchA);
+    branchB = Object.assign({}, branchB);
     branchA.target = this.getBaseRef(branchA.target);
     branchB.target = this.getBaseRef(branchB.target);
 
@@ -176,7 +175,7 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
   var result = true;
-  _.each(branches, function(branchName) {
+  branches.forEach(function(branchName) {
     var branchA = treeA.branches[branchName];
     var branchB = treeB.branches[branchName];
 
@@ -188,7 +187,8 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
 
 TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   var result = true;
-  _.each(assertsPerBranch, function(asserts, branchName) {
+  Object.keys(assertsPerBranch).forEach(function(branchName) {
+    var asserts = assertsPerBranch[branchName];
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
   return result;
@@ -217,7 +217,7 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   }
 
   var result = true;
-  _.each(asserts, function(assert) {
+  asserts.forEach(function(assert) {
     try {
       result = result && assert(data);
     } catch (err) {
@@ -251,7 +251,7 @@ TreeCompare.getNumHashes = function(ref) {
       return func(results);
     }
   }
-  throw new Error('couldnt parse ref ' + ref);
+  throw new Error('couldn\'t parse ref ' + ref);
 };
 
 TreeCompare.getBaseRef = function(ref) {
@@ -270,7 +270,7 @@ TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
   // some buildup functions
   var getStrippedCommitCopy = function(commit) {
     if (!commit) { return {}; }
-    return _.extend(
+    return Object.assign(
       {},
       commit,
       {
@@ -305,7 +305,7 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
     // so the index lookup is valid. for merge commits this will duplicate some of the
     // checking (because we aren't doing graph search) but it's not a huge deal
     var maxNumParents = Math.max(commitA.parents.length, commitB.parents.length);
-    _.each(_.range(maxNumParents), function(index) {
+    for (var index = 0; index < maxNumParents; index++) {
       var pAid = commitA.parents[index];
       var pBid = commitB.parents[index];
 
@@ -315,7 +315,7 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
       var childB = treeB.commits[pBid];
 
       result = result && recurseCompare(childA, childB);
-    }, this);
+    }
     // if each of our children recursively are equal, we are good
     return result;
   };
@@ -327,9 +327,10 @@ TreeCompare.lowercaseTree = function(tree) {
     tree.HEAD.target = tree.HEAD.target.toLocaleLowerCase();
   }
 
-  var branches = tree.branches;
+  var branches = tree.branches || {};
   tree.branches = {};
-  _.each(branches, function(obj, name) {
+  Object.keys(branches).forEach(function(name) {
+    var obj = branches[name];
     obj.id = obj.id.toLocaleLowerCase();
     tree.branches[name.toLocaleLowerCase()] = obj;
   });
@@ -377,8 +378,9 @@ TreeCompare.reduceTreeFields = function(trees) {
     tags: {}
   };
 
-  _.each(trees, function(tree) {
-    _.each(treeDefaults, function(val, key) {
+  trees.forEach(function(tree) {
+    Object.keys(treeDefaults).forEach(function(key) {
+      var val = treeDefaults[key];
       if (tree[key] === undefined) {
         tree[key] = val;
       }
@@ -388,10 +390,11 @@ TreeCompare.reduceTreeFields = function(trees) {
   // this function saves only the specified fields of a tree
   var saveOnly = function(tree, treeKey, saveFields, sortFields) {
     var objects = tree[treeKey];
-    _.each(objects, function(obj, objKey) {
+    Object.keys(objects).forEach(function(objKey) {
+      var obj = objects[objKey];
       // our blank slate to copy over
       var blank = {};
-      _.each(saveFields, function(field) {
+      saveFields.forEach(function(field) {
         if (obj[field] !== undefined) {
           blank[field] = obj[field];
         } else if (defaults[field] !== undefined) {
@@ -399,7 +402,7 @@ TreeCompare.reduceTreeFields = function(trees) {
         }
       });
 
-      _.each(sortFields, function(field) {
+      Object.values(sortFields || {}).forEach(function(field) {
         // also sort some fields
         if (obj[field]) {
           obj[field].sort();
@@ -410,7 +413,7 @@ TreeCompare.reduceTreeFields = function(trees) {
     });
   };
 
-  _.each(trees, function(tree) {
+  trees.forEach(function(tree) {
     saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
     saveOnly(tree, 'branches', branchSaveFields);
     saveOnly(tree, 'tags', tagSaveFields);

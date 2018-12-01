@@ -36,7 +36,7 @@ function getMockFactory() {
   };
 
   mockFactory.highlightEachWithPromise = function(chain, toRebase, destBranch) {
-    // dont add any steps
+    // don't add any steps
     return chain;
   };
 

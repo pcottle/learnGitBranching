@@ -86,7 +86,7 @@ var GeneralButton = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
-    this.navEvents = options.navEvents || _.clone(Backbone.Events);
+    this.navEvents = options.navEvents || Object.assign({}, Backbone.Events);
     this.destination = options.destination;
     if (!this.destination) {
       this.container = new ModalTerminal();
@@ -160,7 +160,7 @@ var LeftRightView = PositiveNegativeBase.extend({
     // events system to add support for git demonstration view taking control of the
     // click events
     this.pipeEvents = options.events;
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
 
     this.JSON = {
       showLeft: (options.showLeft === undefined) ? true : options.showLeft,
@@ -168,7 +168,7 @@ var LeftRightView = PositiveNegativeBase.extend({
     };
 
     this.render();
-    // For some weird reason backbone events arent working anymore so
+    // For some weird reason backbone events aren't working anymore so
     // im going to just wire this up manually
     this.$('div.right').click(this.positive.bind(this));
     this.$('div.left').click(this.negative.bind(this));
@@ -208,7 +208,7 @@ var ModalView = Backbone.View.extend({
     // add ourselves to the DOM
     this.$el.html(this.template({}));
     $('body').append(this.el);
-    // this doesnt necessarily show us though...
+    // this doesn't necessarily show us though...
   },
 
   stealKeyboard: function() {
@@ -305,7 +305,7 @@ var ModalTerminal = ContainedBase.extend({
 
   initialize: function(options) {
     options = options || {};
-    this.navEvents = options.events || _.clone(Backbone.Events);
+    this.navEvents = options.events || Object.assign({}, Backbone.Events);
 
     this.container = new ModalView();
     this.JSON = {
@@ -372,7 +372,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     options = options || {};
 
     this.deferred = options.deferred || Q.defer();
-    this.modalAlert = new ModalAlert(_.extend(
+    this.modalAlert = new ModalAlert(Object.assign(
       {},
       { markdown: '#you sure?' },
       options
@@ -395,7 +395,7 @@ var ConfirmCancelTerminal = Backbone.View.extend({
     }.bind(this));
 
     // also setup keyboard
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
@@ -470,7 +470,7 @@ var NextLevelConfirm = ConfirmCancelTerminal.extend({
         '</p>';
     }
 
-    options = _.extend(
+    options = Object.assign(
       {},
       options,
       {

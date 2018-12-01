@@ -14,7 +14,7 @@ var indexFile = fs.readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
 
 /**
- * This is SUPER jank but I cant get the underscore templating to evaluate
+ * This is SUPER jank but I can't get the underscore templating to evaluate
  * correctly with custom regexes, so I'm just going to use interpolate
  * and define the strings here.
  */
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     grunt.log.writeln(compliments[index]);
   });
 
-  grunt.registerTask('lintStrings', 'Find if an INTL string doesnt exist', function() {
+  grunt.registerTask('lintStrings', 'Find if an INTL string doesn\'t exist', function() {
     var child_process = require('child_process');
     child_process.exec('node src/js/intl/checkStrings', function(err, output) {
       grunt.log.writeln(output);
@@ -62,7 +62,7 @@ module.exports = function(grunt) {
       hashedMinFile = 'bundle.js';
     }
     var jsRegex = /bundle\.min\.\w+\.js/;
-    _.each(buildFiles, function(jsFile) {
+    buildFiles.forEach(function(jsFile) {
       if (jsRegex.test(jsFile)) {
         if (hashedMinFile) {
           throw new Error('more than one hashed file: ' + jsFile + hashedMinFile);
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 
     var styleRegex = /main\.\w+\.css/;
     var hashedStyleFile;
-    _.each(buildFiles, function(styleFile) {
+    buildFiles.forEach(function(styleFile) {
       if (styleRegex.test(styleFile)) {
         if (hashedStyleFile) {
           throw new Error('more than one hashed style: ' + styleFile + hashedStyleFile);
@@ -253,4 +253,3 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['jasmine_node']);
   grunt.registerTask('casperTest', ['shell:casperTest']);
 };
-

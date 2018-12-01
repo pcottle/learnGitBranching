@@ -26,7 +26,7 @@ var getHeadlessSummary = function(headless) {
 var expectLevelAsync = function(headless, levelBlob) {
   var command = levelBlob.solutionCommand;
   if (command.indexOf('git rebase -i') !== -1) {
-    // dont do interactive rebase levels
+    // don't do interactive rebase levels
     return;
   }
 

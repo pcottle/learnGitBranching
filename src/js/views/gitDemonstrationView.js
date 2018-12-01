@@ -25,7 +25,7 @@ var GitDemonstrationView = ContainedBase.extend({
   initialize: function(options) {
     options = options || {};
     this.options = options;
-    this.JSON = _.extend(
+    this.JSON = Object.assign(
       {
         beforeMarkdowns: [
           '## Git Commits',
@@ -55,7 +55,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.render();
     this.checkScroll();
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
     this.keyboardListener = new KeyboardListener({
@@ -83,9 +83,9 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   checkScroll: function() {
-    var children = this.$('div.demonstrationText').children();
-    var heights = _.map(children, function(child) { return child.clientHeight; });
-    var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
+    var children = this.$('div.demonstrationText').children().toArray();
+    var heights = children.map(function(child) { return child.clientHeight; });
+    var totalHeight = heights.reduce(function(a, b) { return a + b; });
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');
     }
@@ -129,9 +129,9 @@ var GitDemonstrationView = ContainedBase.extend({
 
   positive: function() {
     if (this.demonstrated || !this.hasControl) {
-      // dont do anything if we are demonstrating, and if
+      // don't do anything if we are demonstrating, and if
       // we receive a meta nav event and we aren't listening,
-      // then dont do anything either
+      // then don't do anything either
       return;
     }
     this.demonstrated = true;
@@ -168,7 +168,7 @@ var GitDemonstrationView = ContainedBase.extend({
     var chainDeferred = Q.defer();
     var chainPromise = chainDeferred.promise;
 
-    _.each(commands, function(command, index) {
+    commands.forEach(function(command, index) {
       chainPromise = chainPromise.then(function() {
         var myDefer = Q.defer();
         this.mainVis.gitEngine.dispatch(command, myDefer);
@@ -244,4 +244,3 @@ var GitDemonstrationView = ContainedBase.extend({
 });
 
 exports.GitDemonstrationView = GitDemonstrationView;
-
