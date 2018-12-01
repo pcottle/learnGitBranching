@@ -1,3 +1,4 @@
+var escapeString = require('../util/escapeString');
 var _ = require('underscore');
 var intl = require('../intl');
 
@@ -830,7 +831,7 @@ var instantCommands = [
       intl.str('git-version'),
       '<br/>',
       intl.str('git-usage'),
-      _.escape(intl.str('git-usage-command')),
+      escapeString(intl.str('git-usage-command')),
       '<br/>',
       intl.str('git-supported-commands'),
       '<br/>'
