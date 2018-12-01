@@ -78,7 +78,7 @@ var Command = Backbone.Model.extend({
     var generalArgs = this.getGeneralArgs();
     var options = this.getOptionsMap();
     
-    generalArgs = _.map(generalArgs, function(arg) {
+    generalArgs = generalArgs.map(function(arg) {
       return this.replaceDotWithHead(arg);
     }, this);
     var newMap = {};

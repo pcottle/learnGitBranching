@@ -857,7 +857,7 @@ GitEngine.prototype.makeCommit = function(parents, id, options) {
 
 GitEngine.prototype.revert = function(whichCommits) {
   // resolve the commits we will rebase
-  var toRevert = _.map(whichCommits, function(stringRef) {
+  var toRevert = whichCommits.map(function(stringRef) {
     return this.getCommitFromRef(stringRef);
   }, this);
 
@@ -1138,7 +1138,7 @@ GitEngine.prototype.push = function(options) {
   var makeCommit = function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
-    var parents = _.map(parentIDs, function(parentID) {
+    var parents = parentIDs.map(function(parentID) {
       return this.origin.refs[parentID];
     }, this);
     return this.origin.makeCommit(parents, id);
@@ -1246,7 +1246,7 @@ GitEngine.prototype.fetch = function(options) {
   }
   // get all remote branches and specify the dest / source pairs
   var allBranchesOnRemote = this.origin.branchCollection.toArray();
-  var sourceDestPairs = _.map(allBranchesOnRemote, function(branch) {
+  var sourceDestPairs = allBranchesOnRemote.map(function(branch) {
     var branchName = branch.get('id');
     didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(branchName);
 
@@ -1312,7 +1312,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   var makeCommit = function(id, parentIDs) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
-    var parents = _.map(parentIDs, function(parentID) {
+    var parents = parentIDs.map(function(parentID) {
       return this.refs[parentID];
     }, this);
     return this.makeCommit(parents, id);
@@ -1738,7 +1738,7 @@ GitEngine.prototype.updateBranchesFromSet = function(commitSet) {
     });
   }, this);
 
-  var branchList = _.map(branchesToUpdate, function(val, id) {
+  var branchList = branchesToUpdate.map(function(val, id) {
     return id;
   });
   return this.updateBranchesForHg(branchList);
@@ -2340,7 +2340,7 @@ GitEngine.prototype.filterRebaseCommits = function(
 
 GitEngine.prototype.getRebasePreserveMergesParents = function(oldCommit) {
   var oldParents = oldCommit.get('parents');
-  return _.map(oldParents, function(parent) {
+  return oldParents.map(function(parent) {
     var oldID = parent.get('id');
     var newID = this.getMostRecentBumpedID(oldID);
     return this.refs[newID];

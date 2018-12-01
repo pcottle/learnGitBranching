@@ -83,8 +83,8 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   checkScroll: function() {
-    var children = this.$('div.demonstrationText').children();
-    var heights = _.map(children, function(child) { return child.clientHeight; });
+    var children = this.$('div.demonstrationText').children().toArray();
+    var heights = children.map(function(child) { return child.clientHeight; });
     var totalHeight = _.reduce(heights, function(a, b) { return a + b; });
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');

@@ -190,7 +190,7 @@ var commandConfig = {
 
       var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
-      var toCherrypick = _.map(generalArgs, function(arg) {
+      var toCherrypick = generalArgs.map(function (arg) {
         var commit = engine.getCommitFromRef(arg);
         // and check that its not upstream
         if (set[commit.get('id')]) {

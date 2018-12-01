@@ -211,7 +211,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getTabIndex: function() {
-    var ids = _.map(this.JSON.tabs, function(tab) {
+    var ids = this.JSON.tabs.map(function(tab) {
       return tab.id;
     });
     return ids.indexOf(this.JSON.selectedTab);
