@@ -2090,9 +2090,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
     });
   });
 
-  var branchList = _.map(branchMap, function(val, id) {
-    return id;
-  });
+  var branchList = Object.keys(branchMap);
 
   chain = chain.then(function() {
     // now we just moved a bunch of commits, but we haven't updated the

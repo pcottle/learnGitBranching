@@ -83,7 +83,7 @@ var Command = Backbone.Model.extend({
     }, this);
     var newMap = {};
     _.each(options, function(args, key) {
-      newMap[key] = _.map(args, function(arg) {
+      newMap[key] = Object.values(args).map(function (arg) {
         return this.replaceDotWithHead(arg);
       }, this);
     }, this);
