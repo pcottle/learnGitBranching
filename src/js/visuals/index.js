@@ -354,7 +354,7 @@ GitVisuals.prototype.explodeNodes = function(speed) {
 GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {
   var animate = function(obj) {
     var id = obj.getID();
-    if (_.include(idsToOmit, id)) {
+    if (idsToOmit.includes(id)) {
       return;
     }
 
