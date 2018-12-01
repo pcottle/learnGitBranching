@@ -292,7 +292,7 @@ var LevelDropdownView = ContainedBase.extend({
     $(selector).toggleClass('selected', value);
 
     // also go find the series and update the about
-    _.each(this.seriesViews, function(view) {
+    this.seriesViews.forEach(function(view) {
       if (view.levelIDs.indexOf(id) === -1) {
         return;
       }
@@ -343,14 +343,14 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   updateSolvedStatus: function() {
-    _.each(this.seriesViews, function(view) {
+    this.seriesViews.forEach(function(view) {
       view.updateSolvedStatus();
     }, this);
   },
 
   buildSequences: function() {
     this.seriesViews = [];
-    _.each(this.getSequencesOnTab(), function(sequenceName) {
+    this.getSequencesOnTab().forEach(function(sequenceName) {
       this.seriesViews.push(new SeriesView({
         destination: this.$el,
         name: sequenceName,
@@ -377,7 +377,7 @@ var SeriesView = BaseView.extend({
 
     this.levelIDs = [];
     var firstLevelInfo = null;
-    _.each(this.levels, function(level) {
+    this.levels.forEach(function(level) {
       if (firstLevelInfo === null) {
         firstLevelInfo = this.formatLevelAbout(level.id);
       }

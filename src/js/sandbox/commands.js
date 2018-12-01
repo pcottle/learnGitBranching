@@ -98,7 +98,7 @@ var instantCommands = [
       intl.str('show-all-commands'),
       '<br/>'
     ];
-    _.each(allCommands, function(regex, command) {
+    allCommands.forEach(function(regex, command) {
       lines.push(command);
     });
 
@@ -144,7 +144,7 @@ var getAllCommands = function() {
       allCommands[vcs + ' ' + method] = regex;
     });
   });
-  _.each(toDelete, function(key) {
+  toDelete.forEach(function(key) {
     delete allCommands[key];
   });
 

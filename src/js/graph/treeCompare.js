@@ -115,7 +115,7 @@ TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
 
 TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
   var result = true;
-  _.each(branches, function(branchName) {
+  branches.forEach(function(branchName) {
     result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
   }, this);
 
@@ -176,7 +176,7 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
   var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
 
   var result = true;
-  _.each(branches, function(branchName) {
+  branches.forEach(function(branchName) {
     var branchA = treeA.branches[branchName];
     var branchB = treeB.branches[branchName];
 
@@ -217,7 +217,7 @@ TreeCompare.evalAssertsOnBranch = function(tree, branchName, asserts) {
   }
 
   var result = true;
-  _.each(asserts, function(assert) {
+  asserts.forEach(function(assert) {
     try {
       result = result && assert(data);
     } catch (err) {
@@ -305,7 +305,7 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
     // so the index lookup is valid. for merge commits this will duplicate some of the
     // checking (because we aren't doing graph search) but it's not a huge deal
     var maxNumParents = Math.max(commitA.parents.length, commitB.parents.length);
-    _.each(_.range(maxNumParents), function(index) {
+    for (var index = 0; index < maxNumParents; index++) {
       var pAid = commitA.parents[index];
       var pBid = commitB.parents[index];
 
@@ -315,7 +315,7 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
       var childB = treeB.commits[pBid];
 
       result = result && recurseCompare(childA, childB);
-    }, this);
+    }
     // if each of our children recursively are equal, we are good
     return result;
   };
@@ -377,7 +377,7 @@ TreeCompare.reduceTreeFields = function(trees) {
     tags: {}
   };
 
-  _.each(trees, function(tree) {
+  trees.forEach(function(tree) {
     _.each(treeDefaults, function(val, key) {
       if (tree[key] === undefined) {
         tree[key] = val;
@@ -391,7 +391,7 @@ TreeCompare.reduceTreeFields = function(trees) {
     _.each(objects, function(obj, objKey) {
       // our blank slate to copy over
       var blank = {};
-      _.each(saveFields, function(field) {
+      saveFields.forEach(function(field) {
         if (obj[field] !== undefined) {
           blank[field] = obj[field];
         } else if (defaults[field] !== undefined) {
@@ -410,7 +410,7 @@ TreeCompare.reduceTreeFields = function(trees) {
     });
   };
 
-  _.each(trees, function(tree) {
+  trees.forEach(function(tree) {
     saveOnly(tree, 'commits', commitSaveFields, commitSortFields);
     saveOnly(tree, 'branches', branchSaveFields);
     saveOnly(tree, 'tags', tagSaveFields);

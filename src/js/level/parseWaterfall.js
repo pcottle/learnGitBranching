@@ -68,7 +68,7 @@ ParseWaterfall.prototype.addLast = function(which, value) {
 };
 
 ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
-  _.each(this.shortcutWaterfall, function(shortcutMap) {
+  this.shortcutWaterfall.forEach(function(shortcutMap) {
     commandStr = this.expandShortcut(commandStr, shortcutMap);
   }, this);
   return commandStr;
@@ -87,13 +87,13 @@ ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
 };
 
 ParseWaterfall.prototype.processAllInstants = function(commandStr) {
-  _.each(this.instantWaterfall, function(instantCommands) {
+  this.instantWaterfall.forEach(function(instantCommands) {
     this.processInstant(commandStr, instantCommands);
   }, this);
 };
 
 ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  _.each(instantCommands, function(tuple) {
+  instantCommands.forEach(function(tuple) {
     var regex = tuple[0];
     var results = regex.exec(commandStr);
     if (results) {
@@ -109,7 +109,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
   }
 
   var toReturn = false;
-  _.each(this.parseWaterfall, function(parseFunc) {
+  this.parseWaterfall.forEach(function(parseFunc) {
     var results = parseFunc(commandStr);
     if (results) {
       toReturn = results;
@@ -120,4 +120,3 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 };
 
 exports.ParseWaterfall = ParseWaterfall;
-

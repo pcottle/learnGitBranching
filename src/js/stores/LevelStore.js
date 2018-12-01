@@ -41,7 +41,7 @@ var validateLevel = function(level) {
     'solutionCommand'
   ];
 
-  _.each(requiredFields, function(field) {
+  requiredFields.forEach(function(field) {
     if (level[field] === undefined) {
       console.log(level);
       throw new Error('I need this field for a level: ' + field);
@@ -59,7 +59,7 @@ _.each(levelSequences, function(levels, levelSequenceName) {
   }
 
   // for this particular sequence...
-  _.each(levels, function(level, index) {
+  levels.forEach(function(level, index) {
     validateLevel(level);
 
     var id = levelSequenceName + String(index + 1);

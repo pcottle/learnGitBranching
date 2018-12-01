@@ -142,7 +142,7 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
 
-    _.each(this.childViews, function(childView) {
+    this.childViews.forEach(function(childView) {
       childView.die();
     });
 
@@ -183,7 +183,7 @@ var MultiView = Backbone.View.extend({
 
   render: function() {
     // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON, index) {
+    this.childViewJSONs.forEach(function(childViewJSON, index) {
       var childView = this.createChildView(childViewJSON);
       this.childViews.push(childView);
       this.addNavToView(childView, index);

@@ -3,7 +3,7 @@ var Backbone = require('backbone');
 
 var VisBase = Backbone.Model.extend({
   removeKeys: function(keys) {
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       if (this.get(key)) {
         this.get(key).remove();
       }
@@ -35,14 +35,14 @@ var VisBase = Backbone.Model.extend({
   },
 
   setAttrBase: function(keys, attr, instant, speed, easing) {
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       if (instant) {
         this.get(key).attr(attr[key]);
       } else {
         this.get(key).stop();
         this.get(key).animate(attr[key], speed, easing);
         // some keys don't support animating too, so set those instantly here
-        _.forEach(this.getNonAnimateKeys(), function(nonAnimateKey) {
+        this.getNonAnimateKeys().forEach(function(nonAnimateKey) {
           if (attr[key] && attr[key][nonAnimateKey] !== undefined) {
             this.get(key).attr(nonAnimateKey, attr[key][nonAnimateKey]);
           }
@@ -70,7 +70,7 @@ var VisBase = Backbone.Model.extend({
     var attr = this.getAttributes();
 
     // safely insert this attribute into all the keys we want
-    _.each(keys.include, function(key) {
+    keys.include.forEach(function(key) {
       attr[key] = Object.assign(
         {},
         attr[key],
@@ -78,7 +78,7 @@ var VisBase = Backbone.Model.extend({
       );
     });
 
-    _.each(keys.exclude, function(key) {
+    keys.exclude.forEach(function(key) {
       delete attr[key];
     });
 
@@ -87,4 +87,3 @@ var VisBase = Backbone.Model.extend({
 });
 
 exports.VisBase = VisBase;
-

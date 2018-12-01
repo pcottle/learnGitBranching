@@ -168,7 +168,7 @@ var GitDemonstrationView = ContainedBase.extend({
     var chainDeferred = Q.defer();
     var chainPromise = chainDeferred.promise;
 
-    _.each(commands, function(command, index) {
+    commands.forEach(function(command, index) {
       chainPromise = chainPromise.then(function() {
         var myDefer = Q.defer();
         this.mainVis.gitEngine.dispatch(command, myDefer);

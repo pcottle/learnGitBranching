@@ -93,7 +93,7 @@ var Command = Backbone.Model.extend({
 
   deleteOptions: function(options) {
     var map = this.getOptionsMap();
-    _.each(options, function(option) {
+    options.forEach(function(option) {
       delete map[option];
     }, this);
     this.setOptionsMap(map);

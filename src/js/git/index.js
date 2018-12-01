@@ -1551,11 +1551,9 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
   var deferred = Q.defer();
   var chain = deferred.promise;
 
-  _.each(_.range(numToMake), function(i) {
-    chain = chain.then(function() {
-      return chainStep();
-    });
-  });
+  for(var i = 0; i < numToMake; i++) {
+    chain = chain.then(chainStep);
+  }
   this.animationQueue.thenFinish(chain, deferred);
 };
 
@@ -2074,7 +2072,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
 
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
-  _.each([upstream, downstream].concat(moreSets), function(set) {
+  [upstream, downstream].concat(moreSets).forEach(function(set) {
     _.each(set, function(val, id) {
       masterSet[id] = true;
     });
@@ -2085,7 +2083,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   var upstreamSet = this.getUpstreamBranchSet();
   _.each(masterSet, function(val, commitID) {
     // now loop over that commits branches
-    _.each(upstreamSet[commitID], function(branchJSON) {
+    upstreamSet[commitID].forEach(function(branchJSON) {
       branchMap[branchJSON.id] = true;
     });
   });

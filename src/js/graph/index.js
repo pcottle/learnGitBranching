@@ -85,7 +85,7 @@ var Graph = {
       var commitJSON = tree.commits[objID];
 
       var parentObjs = [];
-      _.each(commitJSON.parents, function(parentID) {
+      commitJSON.parents.forEach(function(parentID) {
         parentObjs.push(this.getOrMakeRecursive(tree, createdSoFar, parentID));
       }, this);
 
@@ -143,7 +143,7 @@ var Graph = {
       var here = queue.pop();
       var rents = here.get('parents');
 
-      _.each(rents, addToExplored);
+      (rents || []).forEach(addToExplored);
     }
     return exploredSet;
   },
@@ -151,7 +151,7 @@ var Graph = {
   getUniqueObjects: function(objects) {
     var unique = {};
     var result = [];
-    _.forEach(objects, function(object) {
+    objects.forEach(function(object) {
       if (unique[object.id]) {
         return;
       }
