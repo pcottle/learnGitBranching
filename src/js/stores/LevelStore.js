@@ -52,7 +52,8 @@ var validateLevel = function(level) {
 /**
  * Unpack the level sequences.
  */
-_.each(levelSequences, function(levels, levelSequenceName) {
+Object.keys(levelSequences).forEach(function(levelSequenceName) {
+  var levels = levelSequences[levelSequenceName];
   _sequences.push(levelSequenceName);
   if (!levels || !levels.length) {
     throw new Error('no empty sequences allowed');

@@ -406,8 +406,9 @@ var Level = Sandbox.extend({
     }
 
     var matched = false;
-    _.each(Commands.commands.getCommandsThatCount(), function(map) {
-      _.each(map, function(regex) {
+    var commandsThatCount = Commands.commands.getCommandsThatCount();
+    Object.values(commandsThatCount).forEach(function(map) {
+      Object.values(map).forEach(function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });
     });

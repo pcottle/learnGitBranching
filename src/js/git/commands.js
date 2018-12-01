@@ -839,9 +839,10 @@ var instantCommands = [
 
     var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
+    Object.keys(commands).forEach(function(command) {
+      var commandOptions = commands[command];
       lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
+      Object.keys(commandOptions).forEach(function(optionName) {
         lines.push('\t ' + optionName);
       }, this);
     }, this);

@@ -75,8 +75,10 @@ ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
 };
 
 ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(map, vcs) {
-    _.each(map, function(regex, method) {
+  Object.keys(shortcutMap).forEach(function(vcs) {
+    var map = shortcutMap[vcs];
+    Object.keys(map).forEach(function(method) {
+      var regex = map[method];
       var results = regex.exec(commandStr);
       if (results) {
         commandStr = vcs + ' ' + method + ' ' + commandStr.slice(results[0].length);

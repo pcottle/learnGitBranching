@@ -102,8 +102,10 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfigs, function(commandConfig, vcs) {
-      _.each(commandConfig, function(config, name) {
+    Object.keys(commandConfigs).forEach(function(vcs) {
+      var commandConfig = commandConfigs[vcs];
+      Object.keys(commandConfig).forEach(function(name) {
+        var config = commandConfig[name];
         callback(config, name, vcs);
       });
     });
@@ -116,8 +118,11 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(commands.getRegexMap(), function (map, thisVCS) {
-    _.each(map, function(regex, thisMethod) {
+  var regexMap = commands.getRegexMap();
+  Object.keys(regexMap).forEach(function (thisVCS) {
+    var map = regexMap[thisVCS];
+    Object.keys(map).forEach(function(thisMethod) {
+      var regex = map[thisMethod];
       if (regex.exec(str)) {
         vcs = thisVCS;
         method = thisMethod;

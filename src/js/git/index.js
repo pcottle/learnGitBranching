@@ -280,18 +280,18 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   // now we do the loading part
   var createdSoFar = {};
 
-  _.each(tree.commits, function(commitJSON) {
+  Object.values(tree.commits).forEach(function(commitJSON) {
     var commit = this.getOrMakeRecursive(tree, createdSoFar, commitJSON.id, this.gitVisuals);
     this.commitCollection.add(commit);
   }, this);
 
-  _.each(tree.branches, function(branchJSON) {
+  Object.values(tree.branches).forEach(function(branchJSON) {
     var branch = this.getOrMakeRecursive(tree, createdSoFar, branchJSON.id, this.gitVisuals);
 
     this.branchCollection.add(branch, {silent: true});
   }, this);
 
-  _.each(tree.tags, function(tagJSON) {
+  Object.values(tree.tags || {}).forEach(function(tagJSON) {
     var tag = this.getOrMakeRecursive(tree, createdSoFar, tagJSON.id, this.gitVisuals);
 
     this.tagCollection.add(tag, {silent: true});
@@ -360,7 +360,8 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   var originTree = JSON.parse(unescape(treeString));
   // make an origin branch for each branch mentioned in the tree if its
   // not made already...
-  _.each(originTree.branches, function(branchJSON, branchName) {
+  Object.keys(originTree.branches).forEach(function(branchName) {
+    var branchJSON = originTree.branches[branchName];
     if (this.refs[ORIGIN_PREFIX + branchName]) {
       // we already have this branch
       return;
@@ -1802,7 +1803,7 @@ GitEngine.prototype.updateBranchesForHg = function(branchList) {
 
 GitEngine.prototype.updateCommitParentsForHgRebase = function(commitSet) {
   var anyChange = false;
-  _.each(commitSet, function(val, commitID) {
+  Object.keys(commitSet).forEach(function(commitID) {
     var commit = this.refs[commitID];
     var thisUpdated = commit.checkForUpdatedParent(this);
     anyChange = anyChange || thisUpdated;
@@ -1819,7 +1820,7 @@ GitEngine.prototype.pruneTree = function() {
   var set = this.getUpstreamBranchSet();
   // don't prune commits that HEAD depends on
   var headSet = Graph.getUpstreamSet(this, 'HEAD');
-  _.each(headSet, function(val, commitID) {
+  Object.keys(headSet).forEach(function(commitID) {
     set[commitID] = true;
   });
 
@@ -2066,14 +2067,14 @@ GitEngine.prototype.hgRebase = function(destination, base) {
 
   // and NOWWWwwww get all the descendants of this set
   var moreSets = [];
-  _.each(upstream, function(val, id) {
+  Object.keys(upstream).forEach(function(id) {
     moreSets.push(this.getDownstreamSet(id));
   }, this);
 
   var masterSet = {};
   masterSet[baseCommit.get('id')] = true;
   [upstream, downstream].concat(moreSets).forEach(function(set) {
-    _.each(set, function(val, id) {
+    Object.keys(set).forEach(function(id) {
       masterSet[id] = true;
     });
   });
@@ -2081,7 +2082,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
   // we also need the branches POINTING to master set
   var branchMap = {};
   var upstreamSet = this.getUpstreamBranchSet();
-  _.each(masterSet, function(val, commitID) {
+  Object.keys(masterSet).forEach(function(commitID) {
     // now loop over that commits branches
     upstreamSet[commitID].forEach(function(branchJSON) {
       branchMap[branchJSON.id] = true;
@@ -2305,7 +2306,7 @@ GitEngine.prototype.filterRebaseCommits = function(
   options
 ) {
   var changesAlreadyMade = {};
-  _.each(stopSet, function(val, key) {
+  Object.keys(stopSet).forEach(function(key) {
     changesAlreadyMade[this.scrapeBaseID(key)] = true;
   }, this);
   var uniqueIDs = {};

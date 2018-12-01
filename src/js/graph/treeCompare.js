@@ -145,8 +145,7 @@ TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
     treeA.branches,
     treeB.branches
   );
-  var branchNames = [];
-  _.each(allBranches, function(obj, name) { branchNames.push(name); });
+  var branchNames = Object.keys(allBranches || {});
 
   return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
 };
@@ -188,7 +187,8 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
 
 TreeCompare.evalAsserts = function(tree, assertsPerBranch) {
   var result = true;
-  _.each(assertsPerBranch, function(asserts, branchName) {
+  Object.keys(assertsPerBranch).forEach(function(branchName) {
+    var asserts = assertsPerBranch[branchName];
     result = result && this.evalAssertsOnBranch(tree, branchName, asserts);
   }, this);
   return result;
@@ -327,9 +327,10 @@ TreeCompare.lowercaseTree = function(tree) {
     tree.HEAD.target = tree.HEAD.target.toLocaleLowerCase();
   }
 
-  var branches = tree.branches;
+  var branches = tree.branches || {};
   tree.branches = {};
-  _.each(branches, function(obj, name) {
+  Object.keys(branches).forEach(function(name) {
+    var obj = branches[name];
     obj.id = obj.id.toLocaleLowerCase();
     tree.branches[name.toLocaleLowerCase()] = obj;
   });
@@ -378,7 +379,8 @@ TreeCompare.reduceTreeFields = function(trees) {
   };
 
   trees.forEach(function(tree) {
-    _.each(treeDefaults, function(val, key) {
+    Object.keys(treeDefaults).forEach(function(key) {
+      var val = treeDefaults[key];
       if (tree[key] === undefined) {
         tree[key] = val;
       }
@@ -388,7 +390,8 @@ TreeCompare.reduceTreeFields = function(trees) {
   // this function saves only the specified fields of a tree
   var saveOnly = function(tree, treeKey, saveFields, sortFields) {
     var objects = tree[treeKey];
-    _.each(objects, function(obj, objKey) {
+    Object.keys(objects).forEach(function(objKey) {
+      var obj = objects[objKey];
       // our blank slate to copy over
       var blank = {};
       saveFields.forEach(function(field) {
@@ -399,7 +402,7 @@ TreeCompare.reduceTreeFields = function(trees) {
         }
       });
 
-      _.each(sortFields, function(field) {
+      Object.values(sortFields || {}).forEach(function(field) {
         // also sort some fields
         if (obj[field]) {
           obj[field].sort();

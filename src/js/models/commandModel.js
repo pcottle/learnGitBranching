@@ -82,7 +82,8 @@ var Command = Backbone.Model.extend({
       return this.replaceDotWithHead(arg);
     }, this);
     var newMap = {};
-    _.each(options, function(args, key) {
+    Object.keys(options).forEach(function(key) {
+      var args = options[key];
       newMap[key] = Object.values(args).map(function (arg) {
         return this.replaceDotWithHead(arg);
       }, this);
@@ -273,7 +274,8 @@ var Command = Backbone.Model.extend({
       return false;
     }
 
-    _.each(results.toSet, function(obj, key) {
+    Object.keys(results.toSet).forEach(function(key) {
+      var obj = results.toSet[key];
       // data comes back from the parsing functions like
       // options (etc) that need to be set
       this.set(key, obj);

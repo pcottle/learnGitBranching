@@ -139,8 +139,11 @@ var getAllCommands = function() {
     require('../level').regexMap,
     regexMap
   );
-  _.each(Commands.commands.getRegexMap(), function(map, vcs) {
-    _.each(map, function(regex, method) {
+  var mRegexMap = Commands.commands.getRegexMap();
+  Object.keys(mRegexMap).forEach(function(vcs) {
+    var map = mRegexMap[vcs];
+    Object.keys(map).forEach(function(method) {
+      var regex = map[method];
       allCommands[vcs + ' ' + method] = regex;
     });
   });
