@@ -78,7 +78,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
   render: function() {
     var json = {
-      num: _.keys(this.rebaseMap).length,
+      num: Object.keys(this.rebaseMap).length,
       solutionOrder: this.options.initialCommitOrdering
     };
 

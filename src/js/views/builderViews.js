@@ -295,7 +295,7 @@ var MultiViewBuilder = ContainedBase.extend({
 
     this.JSON = {
       views: this.getChildViews(),
-      supportedViews: _.keys(this.typeToConstructor)
+      supportedViews: Object.keys(this.typeToConstructor)
     };
 
     this.container = new ModalTerminal({
@@ -416,4 +416,3 @@ exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
 exports.MarkdownPresenter = MarkdownPresenter;
-

@@ -89,7 +89,7 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getSequences: function() {
-    return _.keys(levelSequences);
+    return Object.keys(levelSequences);
   },
 
   getLevelsInSequence: function(sequenceName) {
