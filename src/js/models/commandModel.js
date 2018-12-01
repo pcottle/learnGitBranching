@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Errors = require('../util/errors');

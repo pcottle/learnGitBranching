@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 function invariant(truthy, reason) {
   if (!truthy) {
     throw new Error(reason);

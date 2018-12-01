@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var intl = require('../intl');
 
 var Errors = require('../util/errors');

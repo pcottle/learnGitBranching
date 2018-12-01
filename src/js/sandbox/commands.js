@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var util = require('../util');
 
 var constants = require('../util/constants');

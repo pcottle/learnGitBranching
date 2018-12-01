@@ -1,5 +1,4 @@
 var escapeString = require('../util/escapeString');
-var _ = require('underscore');
 var intl = require('../intl');
 
 var Graph = require('../graph');
