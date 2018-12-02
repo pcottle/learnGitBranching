@@ -826,6 +826,7 @@ div.modalView.box.inFront.show {
 .modalView .terminal-window-holder {
   border-radius: 5px;
   max-width: 900px;
+  width: 90%;
 }
 
 .modalView .terminal-window {
