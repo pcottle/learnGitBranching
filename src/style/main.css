@@ -253,7 +253,7 @@ body.hgMode .visBackgroundColor {
 
 #interfaceWrapper {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 400px;
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
@@ -1256,4 +1256,3 @@ div.gitDemonstrationView {
   border-top-color: #9bcbeb;
   background: #9bcbeb;
 }
-
