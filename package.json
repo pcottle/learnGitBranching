@@ -1,6 +1,7 @@
 {
   "name": "LearnGitBranching",
   "version": "0.8.0",
+  "description": "An interactive git visualization to challenge and educate!",
   "license": "MIT",
   "scripts": {
     "test": "grunt test"
