@@ -109,7 +109,8 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         '__tests__/*.spec.js',
         'src/js/**/*.js',
-        'src/js/**/**/*.js'
+        'src/js/**/**/*.js',
+        'src/levels/**/*.js'
       ],
       options: {
         curly: true,
