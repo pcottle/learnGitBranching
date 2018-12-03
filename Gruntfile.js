@@ -108,6 +108,7 @@ module.exports = function(grunt) {
       all: [
         'Gruntfile.js',
         '__tests__/*.spec.js',
+        'src/locales/index.js',
         'src/js/**/*.js',
         'src/js/**/**/*.js'
       ],
