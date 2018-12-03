@@ -24,8 +24,7 @@
     "grunt-react": "^0.12.1",
     "grunt-shell-spawn": "~0.3.0",
     "jasmine-node": "~1.12.0",
-    "prompt": "^1.0.0",
-    "react-tools": "^0.13.1"
+    "prompt": "^1.0.0"
   },
   "dependencies": {
     "backbone": "~1.1.2",

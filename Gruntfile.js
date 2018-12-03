@@ -109,14 +109,9 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         '__tests__/*.spec.js',
         'src/js/**/*.js',
-        'src/js/**/**/*.js',
-        'src/levels/**/*.js'
+        'src/js/**/**/*.js'
       ],
       options: {
-        ignores: [
-          'src/js/**/*.ios.js',
-          'src/js/native_react_views/*.js'
-        ],
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
         eqeqeq: false,
