@@ -253,7 +253,7 @@ body.hgMode .visBackgroundColor {
 
 #interfaceWrapper {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 400px;
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
@@ -562,6 +562,7 @@ p.commandLine span.prompt {
   margin: 10px;
   border-radius: 5px;
   box-shadow: 1px 0px 15px rgba(100, 100, 100, 1);
+  overflow: auto;
 }
 
 #commandLineHistory #terminal.scrolling {
@@ -825,6 +826,7 @@ div.modalView.box.inFront.show {
 .modalView .terminal-window-holder {
   border-radius: 5px;
   max-width: 900px;
+  width: 90%;
 }
 
 .modalView .terminal-window {
@@ -1256,4 +1258,3 @@ div.gitDemonstrationView {
   border-top-color: #9bcbeb;
   background: #9bcbeb;
 }
-
