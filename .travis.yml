@@ -1,4 +1,15 @@
+sudo: false
 language: node_js
 node_js:
-  - "4.1"
-  - "5.3"
+  - "10"
+  - "8"
+  - "7"
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+script:
+  - yarn test
