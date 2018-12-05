@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -10,6 +9,7 @@ var BuilderViews = require('../views/builderViews');
 var MarkdownPresenter = BuilderViews.MarkdownPresenter;
 
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var debounce = require('../util/debounce');
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
@@ -84,13 +84,13 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.debounce(function() {
+    return debounce(function() {
       this.navForward();
     }.bind(this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.debounce(function() {
+    return debounce(function() {
       this.navBackward();
     }.bind(this), this.navEventDebounce, true);
   },

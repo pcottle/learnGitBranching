@@ -3,6 +3,7 @@ var Q = require('q');
 
 var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
+var debounce = require('../util/debounce');
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisNode = require('../visuals/visNode').VisNode;
@@ -795,7 +796,7 @@ GitVisuals.prototype.canvasResize = function(width, height) {
 };
 
 GitVisuals.prototype.genResizeFunc = function() {
-  this.resizeFunc = _.debounce(
+  this.resizeFunc = debounce(
     function(width, height) {
       this.refreshTree();
     }.bind(this),

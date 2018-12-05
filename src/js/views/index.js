@@ -7,6 +7,8 @@ var intl = require('../intl');
 var log = require('../log');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var debounce = require('../util/debounce');
+var throttle = require('../util/throttle');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -106,7 +108,7 @@ var GeneralButton = ContainedBase.extend({
 
   click: function() {
     if (!this.clickFunc) {
-      this.clickFunc = _.throttle(
+      this.clickFunc = throttle(
         this.sendClick.bind(this),
         500
       );
@@ -580,7 +582,7 @@ var CanvasTerminalHolder = BaseView.extend({
 
     // If the entire window gets resized such that the terminal is outside the view, then
     // move it back into the view, and expand/shrink it vertically as necessary.
-    $(window).on('resize', _.debounce(this.recalcLayout.bind(this), 300));
+    $(window).on('resize', debounce(this.recalcLayout.bind(this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);

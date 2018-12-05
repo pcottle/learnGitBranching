@@ -2,6 +2,7 @@ var _ = require('underscore');
 var Q = require('q');
 
 var Views = require('../views');
+var throttle = require('../util/throttle');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
@@ -97,7 +98,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   keyup: function() {
     if (!this.throttledPreview) {
-      this.throttledPreview = _.throttle(
+      this.throttledPreview = throttle(
         this.updatePreview.bind(this),
         500
       );
