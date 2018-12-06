@@ -72,6 +72,10 @@ body,
   display: -ms-flexbox;
 }
 
+.contentHolder {
+  display: flex;
+}
+
 body,
 .flex1 {
   -webkit-box-flex: 1;
