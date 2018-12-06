@@ -16,6 +16,12 @@ templateSettings.interpolate = /\{(.+?)\}/g;
 var template = exports.template = function(str, params) {
   return _.template(str, params, templateSettings);
 };
+exports.raw = function(key) {
+  if (strings.hasOwnProperty(key)) {
+    return strings[key];
+  }
+  throw new Error('that key ' + key + 'doesn\'t exist');
+};
 
 var str = exports.str = function(key, params) {
   params = params || {};
