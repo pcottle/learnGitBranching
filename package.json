@@ -16,7 +16,6 @@
     "browserify": "^13.0.0",
     "grunt": "~0.4.2",
     "grunt-browserify": "^4.0.1",
-    "grunt-cli": "~0.1.11",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-contrib-uglify": "~0.2.7",
@@ -31,9 +30,7 @@
   },
   "dependencies": {
     "backbone": "~1.1.2",
-    "events": "^1.0.2",
     "flux": "^2.0.1",
-    "jquery": "~1.7.3",
     "markdown": "~0.4.0",
     "q": "~0.8.11",
     "react": "^0.13.1",
