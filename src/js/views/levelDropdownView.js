@@ -4,6 +4,7 @@ var Backbone = require('backbone');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
+var debounce = require('../util/debounce');
 var intl = require('../intl');
 var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
@@ -41,7 +42,7 @@ var LevelDropdownView = ContainedBase.extend({
     };
 
     this.navEvents = Object.assign({}, Backbone.Events);
-    this.navEvents.on('clickedID', _.debounce(
+    this.navEvents.on('clickedID', debounce(
       this.loadLevelID.bind(this),
       300,
       true
