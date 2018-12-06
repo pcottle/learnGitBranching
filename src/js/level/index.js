@@ -561,7 +561,7 @@ var Level = Sandbox.extend({
 
   getInstantCommands: function() {
     var getHint = function() {
-      var hint = intl.getHint(this.level);
+      var hint = intl.str(this.level.hint);
       if (!hint || !hint.length) {
         return intl.str('no-hint');
       }

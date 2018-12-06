@@ -1,2 +1,1 @@
-var intl = require('../intl');
-exports.dialog = intl.raw('dialogs-sandbox');
+exports.dialog = 'dialogs-sandbox';

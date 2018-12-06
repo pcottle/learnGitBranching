@@ -388,8 +388,8 @@ var SeriesView = BaseView.extend({
     // use a non-breaking space to prevent the level from bouncing around
     // from missing strings
     this.JSON = {
-      displayName: intl.getIntlKey(this.info, 'displayName'),
-      about: intl.getIntlKey(this.info, 'about') || "&nbsp;",
+      displayName: intl.getDisplayName(this.info),
+      about: intl.getAbout(this.info) || "&nbsp;",
       levelInfo: firstLevelInfo,
       ids: this.levelIDs
     };

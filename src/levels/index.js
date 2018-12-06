@@ -1,4 +1,3 @@
-var intl = require('../js/intl');
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in the order listed here
 exports.levelSequences = {
@@ -54,34 +53,34 @@ exports.levelSequences = {
 // there are also cute names and such for sequences
 var sequenceInfo = exports.sequenceInfo = {
   intro: {
-    displayName: intl.str('sequence-intro-display'),
-    about: intl.str('sequence-intro-about')
+    displayName: 'sequence-intro-display',
+    about: 'sequence-intro-about'
   },
   rampup: {
-    displayName: intl.str('sequence-rampup-display'),
-    about: intl.str('sequence-rampup-about')
+    displayName: 'sequence-rampup-display',
+    about: 'sequence-rampup-about'
   },
   remote: {
     tab: 'remote',
-    displayName: intl.str('sequence-remote-display'),
-    about: intl.str('sequence-remote-about')
+    displayName: 'sequence-remote-display',
+    about: 'sequence-remote-about'
   },
   remoteAdvanced: {
     tab: 'remote',
-    displayName: intl.str('sequence-remote-advanced-display'),
-    about: intl.str('sequence-remote-advanced-about')
+    displayName: 'sequence-remote-advanced-display',
+    about: 'sequence-remote-advanced-about'
   },
   move: {
-    displayName: intl.str('sequence-move-display'),
-    about: intl.str('sequence-move-about')
+    displayName: 'sequence-move-display',
+    about: 'sequence-move-about'
   },
   mixed: {
-    displayName: intl.str('sequence-mixed-display'),
-    about: intl.str('sequence-mixed-about')
+    displayName: 'sequence-mixed-display',
+    about: 'sequence-mixed-about'
   },
   advanced: {
-    displayName: intl.str('sequence-advanced-display'),
-    about: intl.str('sequence-advanced-about')
+    displayName: 'sequence-advanced-display',
+    about: 'sequence-advanced-about'
   }
 };
 

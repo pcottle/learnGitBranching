@@ -1,2 +1,1 @@
-var intl = require('../intl');
-exports.dialog = intl.raw('dialogs-next-level');
+exports.dialog = 'dialogs-next-level';
