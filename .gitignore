@@ -1,5 +1,6 @@
-# NPM
+# NPM and Yarn
 npm-debug.log
+yarn-error.log
 node_modules/
 
 # Build artifacts and asset stuff
