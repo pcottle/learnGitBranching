@@ -21,7 +21,7 @@ exports.level = {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
     "de_DE": "Jonglieren mit Commits",
-    "fr_FR": "Jongler avec les Commits",
+    "fr_FR": "Jongler avec les commits",
     "es_AR": "Haciendo malabares con los commits",
     "pt_BR": "Malabarismo com commits",
     "ja": "コミットをやりくりする",
@@ -84,9 +84,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Jongler avec les Commits",
+              "## Jongler avec les commits",
               "",
-              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont reliés, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. un après l'autre).",
+              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont reliés, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. l'un après l'autre).",
               "",
               "Là où ça se complique c'est lorsque vous devez faire une petite modification dans un commit antérieur. Dans ce cas, les configurations de  `newImage` devront changer un peu, même si ce commit est loin dans notre historique !!"
             ]
@@ -105,9 +105,9 @@ exports.level = {
               "",
               "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique.",
               "",
-              "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent les deux avec une apostrophe. Une deuxième apostrophe est ajouté sur le commit que nous modifions, ce qui nous donne l'arbre finale ",
+              "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent tous les deux avec une apostrophe. Une deuxième apostrophe est ajoutée sur le commit que nous modifions, ce qui nous donne la forme finale de l'arbre.",
               "",
-              "Ceci étant dit, je peux comparer le résultat avec la stucture et les différentes apostophes. Tant que votre arbre master a la même structure et apostrophe le niveau sera considéré réussi."
+              "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `master` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
             ]
           }
         },

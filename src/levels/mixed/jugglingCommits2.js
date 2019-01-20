@@ -31,7 +31,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
-    "fr_FR": "N'oubliez pas de forwarder la branch master dans la nouvelle branch",
+    "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche master",
     "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "pt_BR": "Não se esqueça de avançar a referência do master para as mudanças efetuadas!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",

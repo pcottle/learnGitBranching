@@ -20,7 +20,7 @@
     "uk": "Знайомство з cherry-pick"
   },
   "hint": {
-    "fr_FR": "git cherry-pick suivis par les noms de commits",
+    "fr_FR": "git cherry-pick suivi par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "ja"   : "git cherry-pickの後にコミット名を追加",

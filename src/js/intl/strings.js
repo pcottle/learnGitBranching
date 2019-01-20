@@ -88,7 +88,7 @@ exports.strings = {
     'es_ES': 'La opción -A no se necesita para este aplicación, sólo hace un commit!',
     'pt_BR': 'A opção -A não é necessária para este aplicativo, simplesmente faça commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
-    'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
+    'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplement commiter',
     'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.',
     'uk': 'Опція -A не потрібна для цього застосунку, можна просто комітити!',
     'ko': '이 앱에선 -A 옵션은 필요 없습니다. 그냥 커밋하세요!'
@@ -102,7 +102,7 @@ exports.strings = {
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'es_ES': 'No hay un comando status para esta aplicación, porque que no hay archivos que indexar. Prueba el comando hg summary, en cambio',
     'pt_BR': 'Não existe um comando status para este aplicativo, já que não há staging de arquivos. Tente hg summary',
-    'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
+    'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayez hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary',
     'uk': 'Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary ',
@@ -324,7 +324,7 @@ exports.strings = {
     'es_AR': '¡No hay commits para rebasear! Son todos commits de merge o cambios ya aplicados',
     'es_ES': '¡No hay commits para hacer rebase! Todo es un merge commit o cambios ya hecho.',
     'pt_BR': 'Não há commits para o rebase! São todos commits de merge ou mudanças já aplicadas',
-    'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
+    'fr_FR': 'Aucun commit à rebaser ! C\'est soit un commit de merge, soit des modifications déjà appliquées',
     'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены',
     'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані',
     'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.'
@@ -474,7 +474,7 @@ exports.strings = {
     'es_AR': 'No podés hacer reset en el modo detached. Usá checkout si querés moverte',
     'es_ES': 'No puedes hacer reset en el modo separado. Usa checkout si quieres moverte.',
     'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser se mover',
-    'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer',
+    'fr_FR': 'On ne peut pas effectuer un reset quand HEAD est détaché. Utilisez checkout pour déplacer',
     'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!',
     'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування',
     'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.'
@@ -685,7 +685,7 @@ exports.strings = {
     'es_ES': 'El nombre "{tag}" es prohibido para nombrar un tag.',
     'pt_BR': 'Uma tag não pode ser chamada de "{tag}"!',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
-    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!',
+    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé',
     'ru_RU': 'Название для тега "{tag}" недопустимо!',
     'uk': 'Назва тегу "{tag}" є недопустимою',
     'ko': '"{tag}"라는 태그명은 사용할 수 없습니다.'
@@ -834,7 +834,7 @@ exports.strings = {
     'es_AR': 'Usá alguno de estos comandos para tener más información:',
     'es_ES': 'Por favor usa uno de los siguientes comandos para más información:',
     'pt_BR': 'Use algum destes comandos para ter mais informações:',
-    'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info',
+    'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'informations',
     'ru_RU': 'Для получения большей информации используй следующие команды:',
     'uk': 'Щоб отримати більше інформації використовуй наступні команди:',
     'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.'

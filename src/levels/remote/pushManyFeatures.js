@@ -124,7 +124,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ce niveau est assez conséquent ; voici l'idée générale de la solution :",
+              "Ce niveau est assez conséquent; voici l'idée générale de la solution :",
               "",
               "* Il y a trois feature branches : `side1` `side2` et `side3`",
               "* Nous voulons envoyer chacune de ces modifications, dans l'ordre, sur le dépôt distant",

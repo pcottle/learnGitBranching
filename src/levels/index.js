@@ -183,7 +183,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
-      'fr_FR': 'Soyez alaise de modifier l\'arbre Git',
+      'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       'pt_BR': 'Fique confortável em modificar a árvore de códigos',
       'ko'   : '작업 트리를 수정하는건 식은죽 먹기지요 이제',
@@ -227,7 +227,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Advanced Topics',
       'de_DE': 'Themen für Fortgeschrittene',
       'ja'   : '上級トピック',
-      'fr_FR': 'Sujets Avancés',
+      'fr_FR': 'Sujets avancés',
       'es_AR': 'Temas avanzados',
       'pt_BR': 'Temas avançados',
       'zh_CN': '高级话题',

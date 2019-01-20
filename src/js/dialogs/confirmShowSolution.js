@@ -65,7 +65,7 @@ exports.dialog = {
       markdowns: [
         '## Êtes-vous sûr de vouloir voir la solution ?',
         '',
-        'Je crois en vous ! Vous pouvez le faire'
+        'Je crois en vous ! Vous pouvez le faire !'
       ]
     }
   }],
