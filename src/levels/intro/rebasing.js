@@ -386,7 +386,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'asterisque)",
+              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'astérisque)",
               "",
               "Nous voudrions transférer notre travail de la branche 'bugFix' directement sur le travail existant dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
               "",

@@ -462,7 +462,7 @@ exports.level = {
               "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
             ],
             "afterMarkdowns": [
-              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'astérisque (*) sur `master`"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"

@@ -1,8 +1,8 @@
-var _ = require('underscore');
 var Q = require('q');
 
 var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
+var debounce = require('../util/debounce');
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisNode = require('../visuals/visNode').VisNode;
@@ -82,7 +82,7 @@ GitVisuals.prototype.resetAll = function() {
     visTag.remove();
   }, this);
 
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.remove();
   }, this);
 
@@ -206,7 +206,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
   this.visTagCollection.each(animate);
-  _.each(this.visNodeMap, animate);
+  Object.values(this.visNodeMap).forEach(animate);
 
   var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
   setTimeout(function() {
@@ -321,7 +321,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
 GitVisuals.prototype.explodeNodes = function(speed) {
   var deferred = Q.defer();
   var funcs = [];
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     funcs.push(visNode.getExplodeStepFunc(speed));
   });
 
@@ -368,7 +368,7 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
   this.visTagCollection.each(animate);
-  _.each(this.visNodeMap, animate);
+  Object.values(this.visNodeMap).forEach(animate);
 };
 
 /***************************************
@@ -392,7 +392,7 @@ GitVisuals.prototype.genSnapshot = function() {
   this.fullCalc();
 
   var snapshot = {};
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     snapshot[visNode.get('id')] = visNode.getAttributes();
   }, this);
 
@@ -632,7 +632,7 @@ GitVisuals.prototype.calcDepth = function() {
   }
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.setDepthBasedOn(depthIncrement, this.getHeaderOffset());
   }, this);
 };
@@ -655,7 +655,7 @@ GitVisuals.prototype.calcDepth = function() {
  **************************************/
 
 GitVisuals.prototype.animateNodePositions = function(speed) {
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.animateUpdatedPosition(speed);
   }, this);
 };
@@ -795,7 +795,7 @@ GitVisuals.prototype.canvasResize = function(width, height) {
 };
 
 GitVisuals.prototype.genResizeFunc = function() {
-  this.resizeFunc = _.debounce(
+  this.resizeFunc = debounce(
     function(width, height) {
       this.refreshTree();
     }.bind(this),
@@ -853,7 +853,7 @@ GitVisuals.prototype.zIndexReflow = function() {
 };
 
 GitVisuals.prototype.visNodesFront = function() {
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.toFront();
   });
 };
@@ -892,7 +892,7 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
   this.gitReady = true;
   this.calcTreeCoords();
 
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.genGraphics(this.paper);
   }, this);
 

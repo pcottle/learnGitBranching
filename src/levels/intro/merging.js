@@ -384,7 +384,7 @@ exports.level = {
             "markdowns": [
               "## Branches et Merges",
               "",
-                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
+                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine (master par exemple).",
               "",
               "La première méthode que nous allons voir pour combiner le contenu de deux branches est `git merge`. Faire un 'merge' avec Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le contenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
               "",
@@ -418,7 +418,7 @@ exports.level = {
               "Faisons un merge  de `master` dans `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer ; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
               "",
               "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],

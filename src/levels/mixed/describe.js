@@ -17,7 +17,7 @@
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
+    "fr_FR": "Faites un commit sur bugFix quand vous êtes prêt",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "ja"   : "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
@@ -102,7 +102,7 @@
               "",
               "Parce ce que les tags sont de très bonnes références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe` !",
               "",
-              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé ; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacances après 3 semaines sur l'ordinateur d'un collègue."
+              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacances après 3 semaines sur l'ordinateur d'un collègue."
             ]
           }
         },
@@ -114,7 +114,7 @@
               "",
               "`git describe <ref>`",
               "",
-              "où `<ref>` est un n'importe quelle chose que git peut résoudre en un commit. Si vous ne specifiez pas de ref, `HEAD` est pris par défault.",
+              "où `<ref>` est un n'importe quelle chose que git peut résoudre en un commit. Si vous ne spécifiez pas de ref, `HEAD` est pris par défaut.",
               "",
               "Le résultat de la commande ressemble à :",
               "",
