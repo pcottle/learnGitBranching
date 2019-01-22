@@ -209,13 +209,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Determine les Parents",
+              "### Détermine les parents",
               "",
               "Comme le symbole `~`, le symbole `^` accepte un numéro après lui.",
               "",
               "Au lieu d'entrer le nombre de générations à remonter (ce que `~` fait), le symbole `^` détermine quel parent est à remonter. Attention, un merge commit a deux parents ce qui peut porter à confusion.",
               "",
-              "Normalement Git suit le  \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défault est modifié.",
+              "Normalement Git suit le \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défaut est modifié.",
               "",
               "Assez de bla bla, passons à l\'action",
               ""
@@ -282,7 +282,7 @@ exports.level = {
             "markdowns": [
               "### Un peu de pratique",
               "",
-              "Pour réussir le niveau, créez une nouvelle branche à la destination indiquée",
+              "Pour réussir le niveau, créez une nouvelle branche à la destination indiquée.",
               "",
               "Évidement ce serait plus rapide de spécifier le commit (C6 par exemple), mais faites-le plutôt avec les symboles de déplacement dont nous venons de parler !"
             ]
