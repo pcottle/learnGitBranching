@@ -29050,7 +29050,7 @@ exports.getLevelDropdown = function() {
 
 exports.init = init;
 
-},{"../actions/LocaleActions":175,"../intl":191,"../models/collections":199,"../react_views/CommandHistoryView.jsx":201,"../react_views/MainHelperBarView.jsx":207,"../sandbox/":209,"../stores/LocaleStore":213,"../util":219,"../util/eventBaton":218,"../views":228,"../views/commandViews":226,"../views/levelDropdownView":229,"backbone":1,"events":3,"react":167}],177:[function(require,module,exports){
+},{"../actions/LocaleActions":175,"../intl":191,"../models/collections":199,"../react_views/CommandHistoryView.jsx":201,"../react_views/MainHelperBarView.jsx":207,"../sandbox/":209,"../stores/LocaleStore":213,"../util":220,"../util/eventBaton":219,"../views":230,"../views/commandViews":228,"../views/levelDropdownView":231,"backbone":1,"events":3,"react":167}],177:[function(require,module,exports){
 var intl = require('../intl');
 
 var Errors = require('../util/errors');
@@ -29260,7 +29260,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
 exports.commands = commands;
 exports.parse = parse;
 
-},{"../git/commands":184,"../intl":191,"../mercurial/commands":198,"../util/errors":216}],178:[function(require,module,exports){
+},{"../git/commands":184,"../intl":191,"../mercurial/commands":198,"../util/errors":217}],178:[function(require,module,exports){
 "use strict";
 
 var keyMirror = require('../util/keyMirror');
@@ -29303,7 +29303,7 @@ module.exports = {
   })
 };
 
-},{"../util/keyMirror":220}],179:[function(require,module,exports){
+},{"../util/keyMirror":221}],179:[function(require,module,exports){
 exports.dialog = {
   'en_US': [{
     type: 'ModalAlert',
@@ -29371,7 +29371,7 @@ exports.dialog = {
       markdowns: [
         '## Êtes-vous sûr de vouloir voir la solution ?',
         '',
-        'Je crois en vous ! Vous pouvez le faire'
+        'Je crois en vous ! Vous pouvez le faire !'
       ]
     }
   }],
@@ -31150,7 +31150,7 @@ var instantCommands = [
 exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
 
-},{"../commands":177,"../graph":188,"../intl":191,"../util/errors":216,"../util/escapeString":217}],185:[function(require,module,exports){
+},{"../commands":177,"../graph":188,"../intl":191,"../util/errors":217,"../util/escapeString":218}],185:[function(require,module,exports){
 var Q = require('q');
 
 var Main = require('../app');
@@ -31235,7 +31235,7 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
 exports.GitShim = GitShim;
 
 
-},{"../app":176,"../views/multiView":230,"q":12}],186:[function(require,module,exports){
+},{"../app":176,"../views/multiView":232,"q":12}],186:[function(require,module,exports){
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -31379,7 +31379,7 @@ exports.HeadlessGit = HeadlessGit;
 exports.getTreeQuick = getTreeQuick;
 
 
-},{"../git":187,"../graph/treeCompare":189,"../models/collections":199,"../models/commandModel":200,"../util":219,"../util/eventBaton":218,"../util/mock":222,"../visuals":234,"../visuals/animation/animationFactory":232,"backbone":1,"q":12}],187:[function(require,module,exports){
+},{"../git":187,"../graph/treeCompare":189,"../models/collections":199,"../models/commandModel":200,"../util":220,"../util/eventBaton":219,"../util/mock":223,"../visuals":236,"../visuals/animation/animationFactory":234,"backbone":1,"q":12}],187:[function(require,module,exports){
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -34467,7 +34467,7 @@ exports.Branch = Branch;
 exports.Tag = Tag;
 exports.Ref = Ref;
 
-},{"../app":176,"../commands":177,"../graph":188,"../graph/treeCompare":189,"../intl":191,"../util/errors":216,"../views/rebaseView":231,"../visuals/animation":233,"../visuals/animation/animationFactory":232,"backbone":1,"q":12}],188:[function(require,module,exports){
+},{"../app":176,"../commands":177,"../graph":188,"../graph/treeCompare":189,"../intl":191,"../util/errors":217,"../views/rebaseView":233,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"backbone":1,"q":12}],188:[function(require,module,exports){
 function invariant(truthy, reason) {
   if (!truthy) {
     throw new Error(reason);
@@ -35136,7 +35136,7 @@ if (!util.isBrowser()) {
 }
 
 
-},{"../intl/strings":192,"../util":219,"child_process":7,"sys":171}],191:[function(require,module,exports){
+},{"../intl/strings":192,"../util":220,"child_process":7,"sys":171}],191:[function(require,module,exports){
 var LocaleStore = require('../stores/LocaleStore');
 
 var _ = require('underscore');
@@ -35345,7 +35345,7 @@ exports.strings = {
     'es_ES': 'La opción -A no se necesita para este aplicación, sólo hace un commit!',
     'pt_BR': 'A opção -A não é necessária para este aplicativo, simplesmente faça commit',
     'de_DE': 'Die Option -A wird in dieser Anwendung nicht benötigt, committe einfach!',
-    'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplemer commiter',
+    'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplement commiter',
     'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.',
     'uk': 'Опція -A не потрібна для цього застосунку, можна просто комітити!',
     'ko': '이 앱에선 -A 옵션은 필요 없습니다. 그냥 커밋하세요!'
@@ -35359,7 +35359,7 @@ exports.strings = {
     'es_AR': 'No hay un comando status para esta aplicación, dado que no hay archivos que indexar. Probá hg summary, en cambio',
     'es_ES': 'No hay un comando status para esta aplicación, porque que no hay archivos que indexar. Prueba el comando hg summary, en cambio',
     'pt_BR': 'Não existe um comando status para este aplicativo, já que não há staging de arquivos. Tente hg summary',
-    'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayé hg summary à la place.',
+    'fr_FR': 'Il n\'y a pas de commande status pour cette application, car il n\'y a pas de fichier stagé. Essayez hg summary à la place.',
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary',
     'uk': 'Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary ',
@@ -35581,7 +35581,7 @@ exports.strings = {
     'es_AR': '¡No hay commits para rebasear! Son todos commits de merge o cambios ya aplicados',
     'es_ES': '¡No hay commits para hacer rebase! Todo es un merge commit o cambios ya hecho.',
     'pt_BR': 'Não há commits para o rebase! São todos commits de merge ou mudanças já aplicadas',
-    'fr_FR': 'Aucune commit à rebaser ! Tout est soit un commit de merge, soit des modifications déjà appliquées',
+    'fr_FR': 'Aucun commit à rebaser ! C\'est soit un commit de merge, soit des modifications déjà appliquées',
     'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены',
     'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані',
     'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.'
@@ -35731,7 +35731,7 @@ exports.strings = {
     'es_AR': 'No podés hacer reset en el modo detached. Usá checkout si querés moverte',
     'es_ES': 'No puedes hacer reset en el modo separado. Usa checkout si quieres moverte.',
     'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser se mover',
-    'fr_FR': 'On ne peut pas effectuer un reset quand head est détaché. Utilisez checkout pour déplacer',
+    'fr_FR': 'On ne peut pas effectuer un reset quand HEAD est détaché. Utilisez checkout pour déplacer',
     'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!',
     'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування',
     'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.'
@@ -35942,7 +35942,7 @@ exports.strings = {
     'es_ES': 'El nombre "{tag}" es prohibido para nombrar un tag.',
     'pt_BR': 'Uma tag não pode ser chamada de "{tag}"!',
     'de_DE': 'Der Tag-Name "{tag}" ist nicht erlaubt!',
-    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé!',
+    'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé',
     'ru_RU': 'Название для тега "{tag}" недопустимо!',
     'uk': 'Назва тегу "{tag}" є недопустимою',
     'ko': '"{tag}"라는 태그명은 사용할 수 없습니다.'
@@ -36091,7 +36091,7 @@ exports.strings = {
     'es_AR': 'Usá alguno de estos comandos para tener más información:',
     'es_ES': 'Por favor usa uno de los siguientes comandos para más información:',
     'pt_BR': 'Use algum destes comandos para ter mais informações:',
-    'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'info',
+    'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'informations',
     'ru_RU': 'Для получения большей информации используй следующие команды:',
     'uk': 'Щоб отримати більше інформації використовуй наступні команди:',
     'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.'
@@ -37034,7 +37034,7 @@ var LevelBuilder = Level.extend({
 exports.LevelBuilder = LevelBuilder;
 exports.regexMap = regexMap;
 
-},{"../app":176,"../dialogs/levelBuilder":180,"../git/gitShim":185,"../intl":191,"../level":195,"../level/parseWaterfall":196,"../models/commandModel":200,"../stores/LevelStore":212,"../stores/LocaleStore":213,"../util":219,"../util/errors":216,"../views":228,"../views/builderViews":225,"../views/multiView":230,"../visuals/visualization":241,"backbone":1,"q":12}],194:[function(require,module,exports){
+},{"../app":176,"../dialogs/levelBuilder":180,"../git/gitShim":185,"../intl":191,"../level":195,"../level/parseWaterfall":196,"../models/commandModel":200,"../stores/LevelStore":212,"../stores/LocaleStore":213,"../util":220,"../util/errors":217,"../views":230,"../views/builderViews":227,"../views/multiView":232,"../visuals/visualization":243,"backbone":1,"q":12}],194:[function(require,module,exports){
 var intl = require('../intl');
 
 var Commands = require('../commands');
@@ -37078,7 +37078,7 @@ DisabledMap.prototype.getInstantCommands = function() {
 exports.DisabledMap = DisabledMap;
 
 
-},{"../commands":177,"../intl":191,"../util/errors":216}],195:[function(require,module,exports){
+},{"../commands":177,"../intl":191,"../util/errors":217}],195:[function(require,module,exports){
 var Q = require('q');
 
 var util = require('../util');
@@ -37736,7 +37736,7 @@ var Level = Sandbox.extend({
 exports.Level = Level;
 exports.regexMap = regexMap;
 
-},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":179,"../git/gitShim":185,"../graph/treeCompare":189,"../intl":191,"../level/disabledMap":194,"../log":197,"../react_views/LevelToolbarView.jsx":206,"../sandbox/":209,"../stores/GlobalStateStore":211,"../stores/LevelStore":212,"../util":219,"../util/errors":216,"../views":228,"../views/multiView":230,"../visuals/visualization":241,"q":12,"react":167}],196:[function(require,module,exports){
+},{"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../app":176,"../commands":177,"../dialogs/confirmShowSolution":179,"../git/gitShim":185,"../graph/treeCompare":189,"../intl":191,"../level/disabledMap":194,"../log":197,"../react_views/LevelToolbarView.jsx":206,"../sandbox/":209,"../stores/GlobalStateStore":211,"../stores/LevelStore":212,"../util":220,"../util/errors":217,"../views":230,"../views/multiView":232,"../visuals/visualization":243,"q":12,"react":167}],196:[function(require,module,exports){
 var GitCommands = require('../git/commands');
 var Commands = require('../commands');
 var SandboxCommands = require('../sandbox/commands');
@@ -37860,7 +37860,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 
 exports.ParseWaterfall = ParseWaterfall;
 
-},{"../commands":177,"../git/commands":184,"../sandbox/commands":208,"../util":219}],197:[function(require,module,exports){
+},{"../commands":177,"../git/commands":184,"../sandbox/commands":208,"../util":220}],197:[function(require,module,exports){
 
 var log = function(category, action, label) {
   window._gaq = window._gaq || [];
@@ -38156,7 +38156,7 @@ var commandConfig = {
 
 exports.commandConfig = commandConfig;
 
-},{"../git/commands":184,"../intl":191,"../util/errors":216}],199:[function(require,module,exports){
+},{"../git/commands":184,"../intl":191,"../util/errors":217}],199:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -38285,7 +38285,7 @@ exports.TagCollection = TagCollection;
 exports.CommandBuffer = CommandBuffer;
 
 
-},{"../app":176,"../git":187,"../models/commandModel":200,"../util/constants":214,"../util/errors":216,"backbone":1,"q":12}],200:[function(require,module,exports){
+},{"../app":176,"../git":187,"../models/commandModel":200,"../util/constants":214,"../util/errors":217,"backbone":1,"q":12}],200:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var Errors = require('../util/errors');
@@ -38573,7 +38573,7 @@ var Command = Backbone.Model.extend({
 
 exports.Command = Command;
 
-},{"../intl":191,"../level/parseWaterfall":196,"../util/errors":216,"backbone":1}],201:[function(require,module,exports){
+},{"../intl":191,"../level/parseWaterfall":196,"../util/errors":217,"backbone":1}],201:[function(require,module,exports){
 var CommandView = require('../react_views/CommandView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -38828,7 +38828,7 @@ var CommandView = React.createClass({displayName: "CommandView",
 
 module.exports = CommandView;
 
-},{"../util/reactUtil":223,"react":167,"react/lib/keyMirror":152}],203:[function(require,module,exports){
+},{"../util/reactUtil":224,"react":167,"react/lib/keyMirror":152}],203:[function(require,module,exports){
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -38969,7 +38969,7 @@ var HelperBarView = React.createClass({displayName: "HelperBarView",
 
 module.exports = HelperBarView;
 
-},{"../util/reactUtil":223,"react":167}],205:[function(require,module,exports){
+},{"../util/reactUtil":224,"react":167}],205:[function(require,module,exports){
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
 var React = require('react');
@@ -39162,7 +39162,7 @@ var LevelToolbarView = React.createClass({displayName: "LevelToolbarView",
 
 module.exports = LevelToolbarView;
 
-},{"../intl":191,"../util/reactUtil":223,"react":167}],207:[function(require,module,exports){
+},{"../intl":191,"../util/reactUtil":224,"react":167}],207:[function(require,module,exports){
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var IntlHelperBarView =
   require('../react_views/IntlHelperBarView.jsx');
@@ -39243,7 +39243,7 @@ var MainHelperBarView = React.createClass({displayName: "MainHelperBarView",
 
 module.exports = MainHelperBarView;
 
-},{"../log":197,"../react_views/CommandsHelperBarView.jsx":203,"../react_views/HelperBarView.jsx":204,"../react_views/IntlHelperBarView.jsx":205,"../util/keyMirror":220,"react":167}],208:[function(require,module,exports){
+},{"../log":197,"../react_views/CommandsHelperBarView.jsx":203,"../react_views/HelperBarView.jsx":204,"../react_views/IntlHelperBarView.jsx":205,"../util/keyMirror":221,"react":167}],208:[function(require,module,exports){
 var util = require('../util');
 
 var constants = require('../util/constants');
@@ -39423,7 +39423,7 @@ exports.getOptimisticLevelBuilderParse = function() {
   );
 };
 
-},{"../actions/GlobalStateActions":173,"../actions/LocaleActions":175,"../app":176,"../commands":177,"../intl":191,"../level":195,"../level/builder":193,"../stores/GlobalStateStore":211,"../stores/LocaleStore":213,"../util":219,"../util/constants":214,"../util/errors":216}],209:[function(require,module,exports){
+},{"../actions/GlobalStateActions":173,"../actions/LocaleActions":175,"../app":176,"../commands":177,"../intl":191,"../level":195,"../level/builder":193,"../stores/GlobalStateStore":211,"../stores/LocaleStore":213,"../util":220,"../util/constants":214,"../util/errors":217}],209:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -39903,7 +39903,7 @@ var Sandbox = Backbone.View.extend({
 
 exports.Sandbox = Sandbox;
 
-},{"../actions/LevelActions":174,"../app":176,"../dialogs/sandbox":182,"../git/gitShim":185,"../intl":191,"../level":195,"../level/builder":193,"../level/disabledMap":194,"../level/parseWaterfall":196,"../models/commandModel":200,"../stores/LevelStore":212,"../util":219,"../util/errors":216,"../views":228,"../views/builderViews":225,"../views/multiView":230,"../visuals/visualization":241,"backbone":1,"q":12}],210:[function(require,module,exports){
+},{"../actions/LevelActions":174,"../app":176,"../dialogs/sandbox":182,"../git/gitShim":185,"../intl":191,"../level":195,"../level/builder":193,"../level/disabledMap":194,"../level/parseWaterfall":196,"../models/commandModel":200,"../stores/LevelStore":212,"../util":220,"../util/errors":217,"../views":230,"../views/builderViews":227,"../views/multiView":232,"../visuals/visualization":243,"backbone":1,"q":12}],210:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -40219,7 +40219,7 @@ AppConstants.StoreSubscribePrototype,
 
 module.exports = LevelStore;
 
-},{"../../levels":243,"../constants/AppConstants":178,"../dispatcher/AppDispatcher":183,"events":3,"object-assign":10,"underscore":168}],213:[function(require,module,exports){
+},{"../../levels":245,"../constants/AppConstants":178,"../dispatcher/AppDispatcher":183,"events":3,"object-assign":10,"underscore":168}],213:[function(require,module,exports){
 "use strict";
 
 var AppConstants = require('../constants/AppConstants');
@@ -40387,6 +40387,25 @@ exports.VIEWPORT = VIEWPORT;
 
 
 },{}],215:[function(require,module,exports){
+module.exports = function(func, time, immediate) {
+    var timeout;
+    return function() {
+      var later = function() {
+        timeout = null;
+        if (!immediate) {
+          func.apply(this, arguments);
+        }
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, time);
+      if (callNow) {
+        func.apply(this, arguments);
+      }
+    };
+  };
+
+},{}],216:[function(require,module,exports){
 var toGlobalize = {
   App: require('../app/index.js'),
   Tree: require('../visuals/tree'),
@@ -40450,7 +40469,7 @@ $(document).ready(function() {
 });
 
 
-},{"../actions/CommandLineActions":172,"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../actions/LocaleActions":175,"../app":176,"../app/index.js":176,"../commands":177,"../git":187,"../git/headless":186,"../graph/treeCompare":189,"../intl":191,"../level":195,"../models/collections":199,"../models/commandModel":200,"../sandbox/":209,"../stores/CommandLineStore":210,"../stores/GlobalStateStore":211,"../stores/LevelStore":212,"../stores/LocaleStore":213,"../util/constants":214,"../util/index":219,"../util/zoomLevel":224,"../views":228,"../views/builderViews":225,"../views/gitDemonstrationView":227,"../views/levelDropdownView":229,"../views/multiView":230,"../views/rebaseView":231,"../visuals":234,"../visuals/animation":233,"../visuals/animation/animationFactory":232,"../visuals/tree":235,"../visuals/visBranch":237,"markdown":8,"q":12}],216:[function(require,module,exports){
+},{"../actions/CommandLineActions":172,"../actions/GlobalStateActions":173,"../actions/LevelActions":174,"../actions/LocaleActions":175,"../app":176,"../app/index.js":176,"../commands":177,"../git":187,"../git/headless":186,"../graph/treeCompare":189,"../intl":191,"../level":195,"../models/collections":199,"../models/commandModel":200,"../sandbox/":209,"../stores/CommandLineStore":210,"../stores/GlobalStateStore":211,"../stores/LevelStore":212,"../stores/LocaleStore":213,"../util/constants":214,"../util/index":220,"../util/zoomLevel":226,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"../views/levelDropdownView":231,"../views/multiView":232,"../views/rebaseView":233,"../visuals":236,"../visuals/animation":235,"../visuals/animation/animationFactory":234,"../visuals/tree":237,"../visuals/visBranch":239,"markdown":8,"q":12}],217:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var MyError = Backbone.Model.extend({
@@ -40508,7 +40527,7 @@ var filterError = function(err) {
 
 exports.filterError = filterError;
 
-},{"backbone":1}],217:[function(require,module,exports){
+},{"backbone":1}],218:[function(require,module,exports){
 var mapping = {
   '&': '&amp;',
   '<': '&lt;',
@@ -40524,7 +40543,7 @@ module.exports = function(string) {
   });
 };
 
-},{}],218:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 function EventBaton(options) {
   this.eventMap = {};
   this.options = options || {};
@@ -40639,7 +40658,7 @@ EventBaton.prototype.releaseBaton = function(name, func, context) {
 
 exports.EventBaton = EventBaton;
 
-},{}],219:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 var escapeString = require('../util/escapeString');
 var constants = require('../util/constants');
 
@@ -40699,7 +40718,7 @@ exports.genParseCommand = function(regexMap, eventName) {
   };
 };
 
-},{"../util/constants":214,"../util/escapeString":217}],220:[function(require,module,exports){
+},{"../util/constants":214,"../util/escapeString":218}],221:[function(require,module,exports){
 "use strict";
 
 /**
@@ -40719,7 +40738,7 @@ var keyMirror = function(obj) {
 
 module.exports = keyMirror;
 
-},{}],221:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var Main = require('../app');
@@ -40783,7 +40802,7 @@ exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
 
 
-},{"../app":176,"backbone":1}],222:[function(require,module,exports){
+},{"../app":176,"backbone":1}],223:[function(require,module,exports){
 exports.mock = function(Constructor) {
   var dummy = {};
   var stub = function() {};
@@ -40795,14 +40814,29 @@ exports.mock = function(Constructor) {
 };
 
 
-},{}],223:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 var joinClasses = function(classes) {
   return classes.join(' ');
 };
 
 exports.joinClasses = joinClasses;
 
-},{}],224:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
+module.exports = function(func, time) {
+    var wait = false;
+    return function() {
+      if (!wait) {
+        func.apply(this, arguments);
+        wait = true;
+        
+        setTimeout(function() {
+          wait = false;
+        }, time);
+      }
+    };
+  };
+
+},{}],226:[function(require,module,exports){
 var _warnOnce = true;
 function detectZoom() {
   /**
@@ -40826,11 +40860,12 @@ function detectZoom() {
 exports.detectZoom = detectZoom;
 
 
-},{}],225:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 
 var Views = require('../views');
+var throttle = require('../util/throttle');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
@@ -40926,7 +40961,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   keyup: function() {
     if (!this.throttledPreview) {
-      this.throttledPreview = _.throttle(
+      this.throttledPreview = throttle(
         this.updatePreview.bind(this),
         500
       );
@@ -41246,7 +41281,7 @@ exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
 exports.MarkdownPresenter = MarkdownPresenter;
 
-},{"../views":228,"../views/multiView":230,"markdown":8,"q":12,"underscore":168}],226:[function(require,module,exports){
+},{"../util/throttle":225,"../views":230,"../views/multiView":232,"markdown":8,"q":12,"underscore":168}],228:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var Main = require('../app');
@@ -41451,7 +41486,7 @@ var CommandPromptView = Backbone.View.extend({
 
 exports.CommandPromptView = CommandPromptView;
 
-},{"../actions/CommandLineActions":172,"../app":176,"../log":197,"../stores/CommandLineStore":210,"../util/keyboard":221,"backbone":1}],227:[function(require,module,exports){
+},{"../actions/CommandLineActions":172,"../app":176,"../log":197,"../stores/CommandLineStore":210,"../util/keyboard":222,"backbone":1}],229:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
@@ -41699,7 +41734,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
 exports.GitDemonstrationView = GitDemonstrationView;
 
-},{"../git/headless":186,"../intl":191,"../models/commandModel":200,"../util":219,"../util/keyboard":221,"../views":228,"../visuals/visualization":241,"backbone":1,"markdown":8,"q":12,"underscore":168}],228:[function(require,module,exports){
+},{"../git/headless":186,"../intl":191,"../models/commandModel":200,"../util":220,"../util/keyboard":222,"../views":230,"../visuals/visualization":243,"backbone":1,"markdown":8,"q":12,"underscore":168}],230:[function(require,module,exports){
 (function (process){
 var _ = require('underscore');
 var Q = require('q');
@@ -41710,6 +41745,8 @@ var intl = require('../intl');
 var log = require('../log');
 var Constants = require('../util/constants');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var debounce = require('../util/debounce');
+var throttle = require('../util/throttle');
 
 var BaseView = Backbone.View.extend({
   getDestination: function() {
@@ -41809,7 +41846,7 @@ var GeneralButton = ContainedBase.extend({
 
   click: function() {
     if (!this.clickFunc) {
-      this.clickFunc = _.throttle(
+      this.clickFunc = throttle(
         this.sendClick.bind(this),
         500
       );
@@ -42283,7 +42320,7 @@ var CanvasTerminalHolder = BaseView.extend({
 
     // If the entire window gets resized such that the terminal is outside the view, then
     // move it back into the view, and expand/shrink it vertically as necessary.
-    $(window).on('resize', _.debounce(this.recalcLayout.bind(this), 300));
+    $(window).on('resize', debounce(this.recalcLayout.bind(this), 300));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
@@ -42401,13 +42438,14 @@ exports.CanvasTerminalHolder = CanvasTerminalHolder;
 exports.NextLevelConfirm = NextLevelConfirm;
 
 }).call(this,require('_process'))
-},{"../app":176,"../dialogs/nextLevel":181,"../intl":191,"../log":197,"../util/constants":214,"../util/keyboard":221,"_process":11,"backbone":1,"markdown":8,"q":12,"underscore":168}],229:[function(require,module,exports){
+},{"../app":176,"../dialogs/nextLevel":181,"../intl":191,"../log":197,"../util/constants":214,"../util/debounce":215,"../util/keyboard":222,"../util/throttle":225,"_process":11,"backbone":1,"markdown":8,"q":12,"underscore":168}],231:[function(require,module,exports){
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
+var debounce = require('../util/debounce');
 var intl = require('../intl');
 var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
@@ -42445,7 +42483,7 @@ var LevelDropdownView = ContainedBase.extend({
     };
 
     this.navEvents = Object.assign({}, Backbone.Events);
-    this.navEvents.on('clickedID', _.debounce(
+    this.navEvents.on('clickedID', debounce(
       this.loadLevelID.bind(this),
       300,
       true
@@ -42849,8 +42887,7 @@ var SeriesView = BaseView.extend({
 
 exports.LevelDropdownView = LevelDropdownView;
 
-},{"../../levels":243,"../app":176,"../intl":191,"../log":197,"../stores/LevelStore":212,"../stores/LocaleStore":213,"../util":219,"../util/keyboard":221,"../views":228,"backbone":1,"q":12,"underscore":168}],230:[function(require,module,exports){
-var _ = require('underscore');
+},{"../../levels":245,"../app":176,"../intl":191,"../log":197,"../stores/LevelStore":212,"../stores/LocaleStore":213,"../util":220,"../util/debounce":215,"../util/keyboard":222,"../views":230,"backbone":1,"q":12,"underscore":168}],232:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -42862,6 +42899,7 @@ var BuilderViews = require('../views/builderViews');
 var MarkdownPresenter = BuilderViews.MarkdownPresenter;
 
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var debounce = require('../util/debounce');
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
@@ -42936,13 +42974,13 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.debounce(function() {
+    return debounce(function() {
       this.navForward();
     }.bind(this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.debounce(function() {
+    return debounce(function() {
       this.navBackward();
     }.bind(this), this.navEventDebounce, true);
   },
@@ -43045,7 +43083,7 @@ var MultiView = Backbone.View.extend({
 
 exports.MultiView = MultiView;
 
-},{"../util/keyboard":221,"../views":228,"../views/builderViews":225,"../views/gitDemonstrationView":227,"backbone":1,"q":12,"underscore":168}],231:[function(require,module,exports){
+},{"../util/debounce":215,"../util/keyboard":222,"../views":230,"../views/builderViews":227,"../views/gitDemonstrationView":229,"backbone":1,"q":12}],233:[function(require,module,exports){
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
@@ -43225,7 +43263,7 @@ var RebaseEntryView = Backbone.View.extend({
 
 exports.InteractiveRebaseView = InteractiveRebaseView;
 
-},{"../util/errors":216,"../views":228,"backbone":1,"q":12,"underscore":168}],232:[function(require,module,exports){
+},{"../util/errors":217,"../views":230,"backbone":1,"q":12,"underscore":168}],234:[function(require,module,exports){
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -43397,7 +43435,7 @@ AnimationFactory.delay = function(animationQueue, time) {
 exports.AnimationFactory = AnimationFactory;
 
 
-},{"../../util/constants":214,"./index":233,"backbone":1,"q":12}],233:[function(require,module,exports){
+},{"../../util/constants":214,"./index":235,"backbone":1,"q":12}],235:[function(require,module,exports){
 var Q = require('q');
 var Backbone = require('backbone');
 var GlobalStateActions = require('../../actions/GlobalStateActions');
@@ -43547,12 +43585,12 @@ exports.Animation = Animation;
 exports.PromiseAnimation = PromiseAnimation;
 exports.AnimationQueue = AnimationQueue;
 
-},{"../../actions/GlobalStateActions":173,"../../util/constants":214,"backbone":1,"q":12}],234:[function(require,module,exports){
-var _ = require('underscore');
+},{"../../actions/GlobalStateActions":173,"../../util/constants":214,"backbone":1,"q":12}],236:[function(require,module,exports){
 var Q = require('q');
 
 var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
+var debounce = require('../util/debounce');
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisNode = require('../visuals/visNode').VisNode;
@@ -43632,7 +43670,7 @@ GitVisuals.prototype.resetAll = function() {
     visTag.remove();
   }, this);
 
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.remove();
   }, this);
 
@@ -43756,7 +43794,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
   this.visTagCollection.each(animate);
-  _.each(this.visNodeMap, animate);
+  Object.values(this.visNodeMap).forEach(animate);
 
   var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
   setTimeout(function() {
@@ -43871,7 +43909,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
 GitVisuals.prototype.explodeNodes = function(speed) {
   var deferred = Q.defer();
   var funcs = [];
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     funcs.push(visNode.getExplodeStepFunc(speed));
   });
 
@@ -43918,7 +43956,7 @@ GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapsho
   this.visBranchCollection.each(animate);
   this.visEdgeCollection.each(animate);
   this.visTagCollection.each(animate);
-  _.each(this.visNodeMap, animate);
+  Object.values(this.visNodeMap).forEach(animate);
 };
 
 /***************************************
@@ -43942,7 +43980,7 @@ GitVisuals.prototype.genSnapshot = function() {
   this.fullCalc();
 
   var snapshot = {};
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     snapshot[visNode.get('id')] = visNode.getAttributes();
   }, this);
 
@@ -44182,7 +44220,7 @@ GitVisuals.prototype.calcDepth = function() {
   }
 
   var depthIncrement = this.getDepthIncrement(maxDepth);
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.setDepthBasedOn(depthIncrement, this.getHeaderOffset());
   }, this);
 };
@@ -44205,7 +44243,7 @@ GitVisuals.prototype.calcDepth = function() {
  **************************************/
 
 GitVisuals.prototype.animateNodePositions = function(speed) {
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.animateUpdatedPosition(speed);
   }, this);
 };
@@ -44345,7 +44383,7 @@ GitVisuals.prototype.canvasResize = function(width, height) {
 };
 
 GitVisuals.prototype.genResizeFunc = function() {
-  this.resizeFunc = _.debounce(
+  this.resizeFunc = debounce(
     function(width, height) {
       this.refreshTree();
     }.bind(this),
@@ -44403,7 +44441,7 @@ GitVisuals.prototype.zIndexReflow = function() {
 };
 
 GitVisuals.prototype.visNodesFront = function() {
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.toFront();
   });
 };
@@ -44442,7 +44480,7 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
   this.gitReady = true;
   this.calcTreeCoords();
 
-  _.each(this.visNodeMap, function(visNode) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
     visNode.genGraphics(this.paper);
   }, this);
 
@@ -44502,7 +44540,7 @@ function blendHueStrings(hueStrings) {
 
 exports.GitVisuals = GitVisuals;
 
-},{"../app":176,"../intl":191,"../stores/GlobalStateStore":211,"../util/constants":214,"../visuals/visBranch":237,"../visuals/visEdge":238,"../visuals/visNode":239,"../visuals/visTag":240,"q":12,"underscore":168}],235:[function(require,module,exports){
+},{"../app":176,"../intl":191,"../stores/GlobalStateStore":211,"../util/constants":214,"../util/debounce":215,"../visuals/visBranch":239,"../visuals/visEdge":240,"../visuals/visNode":241,"../visuals/visTag":242,"q":12}],237:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var VisBase = Backbone.Model.extend({
@@ -44547,7 +44585,7 @@ var VisBase = Backbone.Model.extend({
 
 exports.VisBase = VisBase;
 
-},{"backbone":1}],236:[function(require,module,exports){
+},{"backbone":1}],238:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var VisBase = Backbone.Model.extend({
@@ -44637,7 +44675,7 @@ var VisBase = Backbone.Model.extend({
 
 exports.VisBase = VisBase;
 
-},{"backbone":1}],237:[function(require,module,exports){
+},{"backbone":1}],239:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -45217,7 +45255,7 @@ exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
 exports.randomHueString = randomHueString;
 
-},{"../app":176,"../graph/treeCompare":189,"../util/constants":214,"../visuals/visBase":236,"backbone":1}],238:[function(require,module,exports){
+},{"../app":176,"../graph/treeCompare":189,"../util/constants":214,"../visuals/visBase":238,"backbone":1}],240:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -45405,7 +45443,7 @@ var VisEdgeCollection = Backbone.Collection.extend({
 exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisEdge = VisEdge;
 
-},{"../stores/GlobalStateStore":211,"../util/constants":214,"../visuals/visBase":236,"backbone":1}],239:[function(require,module,exports){
+},{"../stores/GlobalStateStore":211,"../util/constants":214,"../visuals/visBase":238,"backbone":1}],241:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -45872,7 +45910,7 @@ var VisNode = VisBase.extend({
 
 exports.VisNode = VisNode;
 
-},{"../app":176,"../util/constants":214,"../visuals/visBase":236,"backbone":1}],240:[function(require,module,exports){
+},{"../app":176,"../util/constants":214,"../visuals/visBase":238,"backbone":1}],242:[function(require,module,exports){
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -46280,7 +46318,7 @@ exports.VisTagCollection = VisTagCollection;
 exports.VisTag = VisTag;
 exports.randomHueString = randomHueString;
 
-},{"../app":176,"../graph/treeCompare":189,"../util/constants":214,"../visuals/visBase":236,"backbone":1}],241:[function(require,module,exports){
+},{"../app":176,"../graph/treeCompare":189,"../util/constants":214,"../visuals/visBase":238,"backbone":1}],243:[function(require,module,exports){
 (function (process){
 var Backbone = require('backbone');
 
@@ -46575,7 +46613,7 @@ var Visualization = Backbone.View.extend({
 exports.Visualization = Visualization;
 
 }).call(this,require('_process'))
-},{"../app":176,"../git":187,"../models/collections":199,"../util/eventBaton":218,"../visuals":234,"_process":11,"backbone":1}],242:[function(require,module,exports){
+},{"../app":176,"../git":187,"../models/collections":199,"../util/eventBaton":219,"../visuals":236,"_process":11,"backbone":1}],244:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C7\",\"id\":\"master\"},\"bugWork\":{\"target\":\"C2\",\"id\":\"bugWork\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugWork master^^2^",
@@ -46787,13 +46825,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Determine les Parents",
+              "### Détermine les parents",
               "",
               "Comme le symbole `~`, le symbole `^` accepte un numéro après lui.",
               "",
               "Au lieu d'entrer le nombre de générations à remonter (ce que `~` fait), le symbole `^` détermine quel parent est à remonter. Attention, un merge commit a deux parents ce qui peut porter à confusion.",
               "",
-              "Normalement Git suit le  \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défault est modifié.",
+              "Normalement Git suit le \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défaut est modifié.",
               "",
               "Assez de bla bla, passons à l\'action",
               ""
@@ -46860,7 +46898,7 @@ exports.level = {
             "markdowns": [
               "### Un peu de pratique",
               "",
-              "Pour réussir le niveau, créez une nouvelle branche à la destination indiquée",
+              "Pour réussir le niveau, créez une nouvelle branche à la destination indiquée.",
               "",
               "Évidement ce serait plus rapide de spécifier le commit (C6 par exemple), mais faites-le plutôt avec les symboles de déplacement dont nous venons de parler !"
             ]
@@ -47567,7 +47605,7 @@ exports.level = {
   }
 };
 
-},{}],243:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in the order listed here
 exports.levelSequences = {
@@ -47753,7 +47791,7 @@ var sequenceInfo = exports.sequenceInfo = {
     about: {
       'en_US': 'Get comfortable with modifying the source tree',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
-      'fr_FR': 'Soyez alaise de modifier l\'arbre Git',
+      'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
       'pt_BR': 'Fique confortável em modificar a árvore de códigos',
       'ko'   : '작업 트리를 수정하는건 식은죽 먹기지요 이제',
@@ -47797,7 +47835,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Advanced Topics',
       'de_DE': 'Themen für Fortgeschrittene',
       'ja'   : '上級トピック',
-      'fr_FR': 'Sujets Avancés',
+      'fr_FR': 'Sujets avancés',
       'es_AR': 'Temas avanzados',
       'pt_BR': 'Temas avançados',
       'zh_CN': '高级话题',
@@ -47829,7 +47867,7 @@ exports.getTabForSequence = function(sequenceName) {
     'main';
 };
 
-},{"./advanced/multipleParents":242,"./intro/branching":244,"./intro/commits":245,"./intro/merging":246,"./intro/rebasing":247,"./mixed/describe":248,"./mixed/grabbingOneCommit":249,"./mixed/jugglingCommits":250,"./mixed/jugglingCommits2":251,"./mixed/tags":252,"./rampup/cherryPick":253,"./rampup/detachedHead":254,"./rampup/interactiveRebase":255,"./rampup/relativeRefs":256,"./rampup/relativeRefs2":257,"./rampup/reversingChanges":258,"./rebase/manyRebases":259,"./rebase/selectiveRebase":260,"./remote/clone":261,"./remote/fakeTeamwork":262,"./remote/fetch":263,"./remote/fetchArgs":264,"./remote/fetchRebase":265,"./remote/mergeManyFeatures":266,"./remote/pull":267,"./remote/pullArgs":268,"./remote/push":269,"./remote/pushArgs":270,"./remote/pushArgs2":271,"./remote/pushManyFeatures":272,"./remote/remoteBranches":273,"./remote/sourceNothing":274,"./remote/tracking":275}],244:[function(require,module,exports){
+},{"./advanced/multipleParents":244,"./intro/branching":246,"./intro/commits":247,"./intro/merging":248,"./intro/rebasing":249,"./mixed/describe":250,"./mixed/grabbingOneCommit":251,"./mixed/jugglingCommits":252,"./mixed/jugglingCommits2":253,"./mixed/tags":254,"./rampup/cherryPick":255,"./rampup/detachedHead":256,"./rampup/interactiveRebase":257,"./rampup/relativeRefs":258,"./rampup/relativeRefs2":259,"./rampup/reversingChanges":260,"./rebase/manyRebases":261,"./rebase/selectiveRebase":262,"./remote/clone":263,"./remote/fakeTeamwork":264,"./remote/fetch":265,"./remote/fetchArgs":266,"./remote/fetchRebase":267,"./remote/mergeManyFeatures":268,"./remote/pull":269,"./remote/pullArgs":270,"./remote/push":271,"./remote/pushArgs":272,"./remote/pushArgs2":273,"./remote/pushManyFeatures":274,"./remote/remoteBranches":275,"./remote/sourceNothing":276,"./remote/tracking":277}],246:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
@@ -48294,7 +48332,7 @@ exports.level = {
               "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
             ],
             "afterMarkdowns": [
-              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'asterisque (*) sur `master`"
+              "Oh non! La branche `master` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'astérisque (*) sur `master`"
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -48725,7 +48763,7 @@ exports.level = {
   }
 };
 
-},{}],245:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
@@ -49235,7 +49273,7 @@ exports.level = {
   }
 };
 
-},{}],246:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
@@ -49622,7 +49660,7 @@ exports.level = {
             "markdowns": [
               "## Branches et Merges",
               "",
-                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine(master par exemple).",
+                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine (master par exemple).",
               "",
               "La première méthode que nous allons voir pour combiner le contenu de deux branches est `git merge`. Faire un 'merge' avec Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le contenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
               "",
@@ -49656,7 +49694,7 @@ exports.level = {
               "Faisons un merge  de `master` dans `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer ; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "Puisque `bugFix` était un descendant de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
               "",
               "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],
@@ -50031,7 +50069,7 @@ exports.level = {
   }
 };
 
-},{}],247:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
@@ -50420,7 +50458,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'asterisque)",
+              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'astérisque)",
               "",
               "Nous voudrions transférer notre travail de la branche 'bugFix' directement sur le travail existant dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
               "",
@@ -50803,7 +50841,7 @@ exports.level = {
   }
 };
 
-},{}],248:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit ",
@@ -50823,7 +50861,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
-    "fr_FR": "Faites un commit sur bugFix quand vous êtes pret",
+    "fr_FR": "Faites un commit sur bugFix quand vous êtes prêt",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "ja"   : "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
@@ -50908,7 +50946,7 @@ exports.level = {
               "",
               "Parce ce que les tags sont de très bonnes références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe` !",
               "",
-              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé ; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacances après 3 semaines sur l'ordinateur d'un collègue."
+              "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacances après 3 semaines sur l'ordinateur d'un collègue."
             ]
           }
         },
@@ -50920,7 +50958,7 @@ exports.level = {
               "",
               "`git describe <ref>`",
               "",
-              "où `<ref>` est un n'importe quelle chose que git peut résoudre en un commit. Si vous ne specifiez pas de ref, `HEAD` est pris par défault.",
+              "où `<ref>` est un n'importe quelle chose que git peut résoudre en un commit. Si vous ne spécifiez pas de ref, `HEAD` est pris par défaut.",
               "",
               "Le résultat de la commande ressemble à :",
               "",
@@ -51533,7 +51571,7 @@ exports.level = {
   }
 };
 
-},{}],249:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnosticWithAsserts": true,
   "goalAsserts": {
@@ -52008,7 +52046,7 @@ exports.level = {
   }
 };
 
-},{}],250:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 exports.level = {
   "disabledMap": {
     "git cherry-pick": true,
@@ -52032,7 +52070,7 @@ exports.level = {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
     "de_DE": "Jonglieren mit Commits",
-    "fr_FR": "Jongler avec les Commits",
+    "fr_FR": "Jongler avec les commits",
     "es_AR": "Haciendo malabares con los commits",
     "pt_BR": "Malabarismo com commits",
     "ja": "コミットをやりくりする",
@@ -52095,9 +52133,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Jongler avec les Commits",
+              "## Jongler avec les commits",
               "",
-              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont reliés, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. un après l'autre).",
+              "Voici une autre situation fréquente. Vous avez certains changements (`newImage`) et un autre groupe de changements (`caption`) qui sont reliés, ils sont donc empilés l'un sur l'autre dans votre dépôt Git (i.e. l'un après l'autre).",
               "",
               "Là où ça se complique c'est lorsque vous devez faire une petite modification dans un commit antérieur. Dans ce cas, les configurations de  `newImage` devront changer un peu, même si ce commit est loin dans notre historique !!"
             ]
@@ -52116,9 +52154,9 @@ exports.level = {
               "",
               "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique.",
               "",
-              "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent les deux avec une apostrophe. Une deuxième apostrophe est ajouté sur le commit que nous modifions, ce qui nous donne l'arbre finale ",
+              "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent tous les deux avec une apostrophe. Une deuxième apostrophe est ajoutée sur le commit que nous modifions, ce qui nous donne la forme finale de l'arbre.",
               "",
-              "Ceci étant dit, je peux comparer le résultat avec la stucture et les différentes apostophes. Tant que votre arbre master a la même structure et apostrophe le niveau sera considéré réussi."
+              "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `master` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
             ]
           }
         },
@@ -52434,7 +52472,7 @@ exports.level = {
   }
 };
 
-},{}],251:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
@@ -52468,7 +52506,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
-    "fr_FR": "N'oubliez pas de forwarder la branch master dans la nouvelle branch",
+    "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche master",
     "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "pt_BR": "Não se esqueça de avançar a referência do master para as mudanças efetuadas!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
@@ -52950,7 +52988,7 @@ exports.level = {
   }
 };
 
-},{}],252:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{\"v1\":{\"target\":\"C2\",\"id\":\"v1\",\"type\":\"tag\"},\"v0\":{\"target\":\"C1\",\"id\":\"v0\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git tag v1 side~1;git tag v0 master~2;git checkout v1",
@@ -53053,7 +53091,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Vous l'avez deviné ! Git tags offre cette fonctionnalité : les tags marquent à jamais certains commits comme \"milestone\" auxquels vous pouvez vous référez comme à des branches.",
+              "Vous l'avez deviné ! Les tags Git offrent cette fonctionnalité : les tags marquent à jamais certains commits comme \"milestone\" (étape clé) auxquels vous pouvez vous référer comme à des branches.",
               "",
               "Encore plus important, il sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag : les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
               "",
@@ -53557,7 +53595,7 @@ exports.level = {
   }
 };
 
-},{}],253:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git cherry-pick C3 C4 C7",
@@ -53580,7 +53618,7 @@ exports.level = {
     "uk": "Знайомство з cherry-pick"
   },
   "hint": {
-    "fr_FR": "git cherry-pick suivis par les noms de commits",
+    "fr_FR": "git cherry-pick suivi par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
     "ja"   : "git cherry-pickの後にコミット名を追加",
@@ -54222,7 +54260,7 @@ exports.level = {
   }
 };
 
-},{}],254:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout C4",
@@ -54231,7 +54269,7 @@ exports.level = {
     "en_US": "Detach yo' HEAD",
     "es_AR": "Desatacheá tu HEAD",
     "pt_BR": "Solte a sua cabeça",
-    "fr_FR": "Détachez votre HEAD",
+    "fr_FR": "Détacher votre HEAD",
     "zh_CN": "分离 HEAD",
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen",
@@ -54246,7 +54284,7 @@ exports.level = {
     "pt_BR": "Use o identificador (hash) sobre o commit para te ajudar!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "ja"   : "コミットのラベル（hash）を使用",
-    "fr_FR": "Utiiser le label (identifiant) du commit pour aider !",
+    "fr_FR": "Utilisez le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签（哈希值）来指定提交记录！",
     "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов.",
@@ -55111,7 +55149,7 @@ exports.level = {
   }
 };
 
-},{}],255:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i overHere --solution-ordering C3,C5,C4",
@@ -55125,7 +55163,7 @@ exports.level = {
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "pt_BR": "Você pode usar ou ramos ou referências relativas (HEAD~) para especificar o alvo do rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
-    "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spéficier la cible à rebaser",
+    "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spécifier la cible à rebaser",
     "zh_CN": "branch 或者是相对位置（HEAD~）都可以用來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
@@ -55222,7 +55260,7 @@ exports.level = {
               "",
               "Git cherry-pick est pratique quand vous savez exactement quels commits vous voulez (_et_ que vous connaissez leurs identifiants) -- il est difficile de battre la simplicité qu'il procure.",
               "",
-              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement git a pensé à vous dans pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de reconsidérer une série de commits que vous vous apprêtez à rebaser.",
+              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement git a pensé à vous pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de reconsidérer une série de commits que vous vous apprêtez à rebaser.",
               "",
               "Allons un peu plus dans les détails ..."
             ]
@@ -55350,7 +55388,7 @@ exports.level = {
             "markdowns": [
               "## 交互式的 rebase",
               "",
-              "当你你知道你所需要的提交记录（**并且**还知道这些提交记录的哈希值）时, 用 cherry-pick 再好不过了 —— 没有比这更简单的方式了。",
+              "当你知道你所需要的提交记录（**并且**还知道这些提交记录的哈希值）时, 用 cherry-pick 再好不过了 —— 没有比这更简单的方式了。",
               "",
               "但是如果你不清楚你想要的提交记录的哈希值呢? 幸好 Git 帮你想到了这一点, 我们可以利用交互式的 rebase —— 如果你想从一系列的提交记录中找到想要的记录, 这就是最好的方法了",
               "",
@@ -55865,7 +55903,7 @@ exports.level = {
   }
 };
 
-},{}],256:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout bugFix^",
@@ -56725,7 +56763,7 @@ exports.level = {
   }
 };
 
-},{}],257:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C0\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
@@ -57015,7 +57053,7 @@ exports.level = {
               "Voyons l'effet de la précédente commande"
             ],
             "afterMarkdowns": [
-              "On y est ! Les références relatives nous donne une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cet emplacement."
+              "On y est ! Les références relatives nous donnent une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cet emplacement."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -57502,7 +57540,7 @@ exports.level = {
   }
 };
 
-},{}],258:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
@@ -57858,7 +57896,7 @@ exports.level = {
             "markdowns": [
               "## Annuler des changements avec Git",
               "",
-              "Il y a de nombreuses façons d'annuler des changement avec Git. De même que pour les commits, annuler des changements avec Git est à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "Il y a de nombreuses façons d'annuler des changements avec Git. De même que pour les commits, annuler des changements avec Git est à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
               "",
               "Il y a principalement deux façons d'annuler des changements avec Git : l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
               ""
@@ -57905,7 +57943,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour accomplir ce niveau, annulez les deux derniers commits à la fois sur `local` et sur `pushed`.",
+              "Pour accomplir ce niveau, annulez les derniers commits à la fois sur `local` et sur `pushed`. Vous devez annuler en tout 2 commits (un pour chaque branche).",
               "",
               "Ayez à l'esprit que `pushed` est une branche distante et `local` est une branche locale ; cela devrait vous guider dans le choix de la méthode à employer."
             ]
@@ -58233,7 +58271,7 @@ exports.level = {
   }
 };
 
-},{}],259:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
@@ -58471,7 +58509,7 @@ exports.level = {
   }
 };
 
-},{}],260:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 exports.level = {
   "compareAllBranchesHashAgnostic": true,
   "disabledMap": {
@@ -58539,9 +58577,9 @@ exports.level = {
               "",
               "Actuellement nous avons `master` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur master.",
               "",
-              "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être reordonnée, et `three` ne nécessite qu'un commit !",
+              "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être réordonnée, et `three` ne nécessite qu'un commit !",
               "",
-              "Nous vous laissons imaginer la solution pour ce niveau ; comparez avec notre solution après-coup avec la commande `show solution`. "
+              "Nous vous laissons imaginer la solution pour ce niveau; comparez avec notre solution après-coup avec la commande `show solution`. "
             ]
           }
         }
@@ -58730,7 +58768,7 @@ exports.level = {
   }
 };
 
-},{}],261:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 exports.level = {
   "goalTreeString": '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}',
   "solutionCommand": "git clone",
@@ -59390,7 +59428,7 @@ exports.level = {
   }
 };
 
-},{}],262:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git fakeTeamwork 2;git commit ;git pull",
@@ -60021,7 +60059,7 @@ exports.level = {
   }
 };
 
-},{}],263:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C5\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C7\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch",
@@ -60859,7 +60897,7 @@ exports.level = {
   }
 };
 
-},{}],264:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
@@ -62124,7 +62162,7 @@ exports.level = {
   }
 };
 
-},{}],265:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
@@ -63732,7 +63770,7 @@ exports.level = {
   }
 };
 
-},{}],266:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C11\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git checkout master;git pull;git merge side1;git merge side2;git merge side3;git push",
@@ -64263,7 +64301,7 @@ exports.level = {
   }
 };
 
-},{}],267:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull",
@@ -64947,7 +64985,7 @@ exports.level = {
   }
 };
 
-},{}],268:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C2\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C2\",\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
@@ -65722,7 +65760,7 @@ exports.level = {
   }
 };
 
-},{}],269:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git commit;git commit;git push",
@@ -66225,7 +66263,7 @@ exports.level = {
   }
 };
 
-},{}],270:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master;git push origin foo",
@@ -66998,7 +67036,7 @@ exports.level = {
   }
 };
 
-},{}],271:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 exports.level = {
     "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master^:foo;git push origin foo:master",
@@ -67733,7 +67771,7 @@ exports.level = {
   }
 };
 
-},{}],272:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22side1%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22side1%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side2%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22side2%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side3%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22side3%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
@@ -67860,7 +67898,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ce niveau est assez conséquent ; voici l'idée générale de la solution :",
+              "Ce niveau est assez conséquent; voici l'idée générale de la solution :",
               "",
               "* Il y a trois feature branches : `side1` `side2` et `side3`",
               "* Nous voulons envoyer chacune de ces modifications, dans l'ordre, sur le dépôt distant",
@@ -68352,7 +68390,7 @@ exports.level = {
   }
 };
 
-},{}],273:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git commit;git checkout o/master;git commit",
@@ -69058,7 +69096,7 @@ exports.level = {
   }
 };
 
-},{}],274:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C1\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin :foo;git fetch origin :bar",
@@ -69623,7 +69661,7 @@ exports.level = {
   }
 };
 
-},{}],275:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git checkout -b side o/master;git commit;git pull --rebase;git push",
@@ -70955,4 +70993,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,201,202,203,204,205,206,207]);
+},{}]},{},[172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,201,202,203,204,205,206,207]);
