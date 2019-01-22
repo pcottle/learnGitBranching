@@ -13,8 +13,6 @@ Medium things:
 Small things to implement:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-for gh-pages
-
 Minor Bugs to fix:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
