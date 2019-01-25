@@ -8,6 +8,7 @@
     "ja"   : "Gitのタグ",
     "es_AR": "Tags en git",
     "pt_BR": "Tags no Git",
+    "gl"   : "Etiquetas en git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tag",
     "zh_TW": "git tag",
@@ -22,6 +23,7 @@
     "ja"   : "コミットを直接チェックアウトできますが、簡単にタグでチェックアウトすることも可能!",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
+    "gl"   : "Podes saltar directamente ó commit, ¡ou a etiqueta, que é máis doado!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单地 checkout 到 tag 上",
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
@@ -336,6 +338,58 @@
               "Para completar esta tarefa, simplesmente crie as tags mostradas na visualização do objetivo, e então faça checkout em `v1`. Veja que você vai para o estado \"Detached HEAD\" -- isso é devido ao fato de que você não pode commitar diretamente na tag `v1`.",
               "",
               "No próximo nível, examinaremos mais um caso de uso interessante para as tags."
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Etiquetas en Git",
+              "",
+              "Como aprendiches nas leccións previas, as ramas pódense mover sinxelamente, e xeralmente refírense a distintos commits según vas completando o código. As ramas mutan con facilidade, soen ser temporais, e sempre cambiantes.",
+              "",
+              "Se estamos nese caso, podes preguntarte se existe unha forma de marcar *permanentemente* puntos históricos no proxecto. Para cousas como grandes entregas ou grandes merges, ¿existe algunha forma de marcar commits con algo máis permanente que unha rama?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Acertaches seguro, ¡si que existe! As etiquetas de git foron creadas para ese propósito -- elas marcan de forma (relativamente) permanente algún commits coma se fosen \"marcos das fincas\" (\"milestones\") nun campeiro, e podes facer referencias a elas mellor que o catastro.",
+              "",
+              "É moi importante saber que, as etiquetas non avanzan cando se crean novos commits. Non podes facer \"checkout\" nun tag e completar o traballo de esa etiqueta cun commit amend ou rebasándoo -- as etiquetas existen como áncoras na árbore de commits que están pegadas a certos puntos.",
+              "",
+              "Vexamos como se comportan as etiquetas na práctica."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Creamos un tag na rama `C1`, que é o noso prototipo da versión 1"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí o tes!. Sinxelo. Nomeamos a etiqueta de `v1` e referenciamos o commit `C1` explícitamente. Se non indicas o commit, git vai empregar o commit onde está situado o `HEAD`."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar esta tarefa, crea as etiquetas amosadas na visualización do obxectivo, e entón fai checkout en `v1`. Mira que terminas no estado \"Detached HEAD\" -- eso é porque non podes facer commit directamente na etiqueta `v1`.",
+              "",
+              "No próximo nivel, examinaremos un caso de uso máis interesante para as etiquetas."
             ]
           }
         }

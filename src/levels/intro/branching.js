@@ -8,6 +8,7 @@ exports.level = {
     "ko": "Git에서 브랜치 쓰기",
     "es_AR": "Brancheando en Git",
     "pt_BR": "Ramos no Git",
+    "gl"   : "Ramas en Git",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "Git Branch",
     "zh_TW": "建立 git branch",
@@ -20,6 +21,7 @@ exports.level = {
     "ja"   : "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
     "pt_BR": "Crie um novo ramo com \"git branch [nome]\" e mude para ele com \"git checkout [nome]\"",
+    "gl"   : "Crea unha nova rama con \"git branch [nome]\" e cambiate a ela facendo \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git checkout <分支名>' 来切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
@@ -415,6 +417,88 @@ exports.level = {
             "markdowns": [
               "Ok! Vocês estão todos prontos para ramificar. Assim que esta janela fechar,",
               "crie um novo ramo chamado `bugFix` e mude para esse ramo"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramas en Git",
+              "",
+              "As Ramas en Git son tamén increiblemente liviás. Elas sinxelamente son referencias a un mesmo commit específico, e nada máis. É por iso que moitos entusiastas do Git entonan o mantra:",
+              "",
+              "```",
+              "ramifica cedo, ramifica sempre",
+              "```",
+              "",
+              "Debido a non existir sobrecarga de memoria facendo moitas ramas, é máis sinxelo dividir a lóxica do teu traballo en ramas que ter unha enorme.",
+              "",
+              "Cando comezamos a mesturar ramas e commits imos ver como eses dous recursos combínanse ben. Por agora lembra que unha rama esencialmente di \"Quero incluír o traballo deste commit e de todos os seus ancestros\"."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vexamos cómo as ramas funcionan na práctica.",
+              "",
+              "Aquí imos crear unha nova rama chamada `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Mira, solo tes que poñer eso para crear unha rama! A rama `newImage` agora apunta ó commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Imos intentar colocar algún traballo nesta nova rama. Pincha no botón de abaixo"
+            ],
+            "afterMarkdowns": [
+              "¡Bueno home! A rama `master` moveuse pero a rama `newImage` non! Eso é porque a nova rama non era a \"actual\", e é por iso que o asterisco (*) ficaba na rama `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ímoslle decir a Git que nos queremos mover á rama con:",
+              "",
+              "```",
+              "git checkout [nome]",
+              "```",
+              "",
+              "Esto vainos levar á rama que tiñamos antes de facer os nosos cambios."
+            ],
+            "afterMarkdowns": [
+              "¡Imos alá! Os nosos cambios foron grabados na nova rama."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Ok! Estas preparado para facer ramas. Así que podes pechar a ventá,",
+              "crear unha rama chamada `bugFix` e moverte para esa rama.",
+              "",
+              "Inda así, hai un atallo: se ti quixeras crear unha nova ",
+              "rama e moverte a ela ó mesmo tempo, ti podes escribir simplemente ",
+              "`git checkout -b [a-tua- rama]`."
             ]
           }
         }

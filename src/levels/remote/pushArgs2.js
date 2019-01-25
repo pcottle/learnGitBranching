@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
     "pt_BR": "Parâmetros do git push -- expandido",
+    "gl"   : "Parámetros de git push -- ampliado",
     "de_DE": "Optionen für Git Push -- noch mehr!",
     "ja"   : "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
+    "gl"   : "Lembrate que podes admitir que fuches derrotado e escribir \"show solution\" para amosala solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
     "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
@@ -304,6 +306,76 @@ exports.level = {
               "Para este nível, tente chegar ao estado do objetivo mostrado na visualização, e lembre-se do formato:",
               "",
               "`<origem>:<destino>`"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalles sobre o parámetro `<lugar>`",
+              "",
+              "Lémbrate da lección anterior cando especificamos `master` como o parámetro lugar de git push, especificamos tanto a *orixe* do que sacar os commits como o *destino* ó que envialos.",
+              "",
+              "Poderías estar a preguntarte ¿E se quixéramos que a orixe  e o destino sexan distintos? ¿Se quixéramos empurrar os commits da  rama local `foo` á rama `bar` do remoto?",
+              "",
+              "Bueno, esto non se pode facer en git... ¡Caramboliñas! Claro que se pode :D. git é extremadísimamente flexibe (case case que de máis).",
+              "",
+              "Vexamos cómo facelo a continuación..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para especificar tanto a orixe como o destino de `<lugar>`, sinxelamente úneos empregando dous puntos:",
+              "",
+              "`git push origin <orixe>:<destino>`",
+              "",
+              "Esto pódeselle chamar refspec con dous puntos. Refspec é sinxelamente un nome cool para unha ubicación que git pode entender (como a rama `foo`, ou incluso `HEAD~1`)",
+              "",
+              "Unha vez que especificas a orixe e o destino independientemente, podes poñerte cómodo e preciso cos  comandos remotos. ¡Vexamos a demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lembra: `orixe` é calquera ubicación que git poida entender:"
+            ],
+            "afterMarkdowns": [
+              "¡Woow! Ese commando é unha tolemia, pero ten sentido: git resolveu `foo^` a unha ubicación, subiu calquera commit de ahí que aún non estivera no remoto, e logo actualizou o destino."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿E qué hai se o destino ó que queres empurrar non existise? ¡Non pasa nada! Sinxelamente dalle un nome á rama e git vaise encargar de crealo no remoto."
+            ],
+            "afterMarkdowns": [
+              "Xenial, sinxelamente tira para adiante" 
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, intenta chegar o obxectivo final, e lembrate do formato:",
+              "",
+              "`<orixe>:<destino>`"
             ]
           }
         }

@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
     "pt_BR": "Merge com remotos",
+    "gl"   : "Merge cos repos remotos",
     "de_DE": "Änderungen vom Remote zusammenführen",
     "ja"   : "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
     "pt_BR": "Preste atenção na árvore do objetivo!",
+    "gl"   : "Presta atención á arbore final!",
     "de_DE": "Beachte den Ziel-Baum!",
     "ja"   : "ゴールツリーをよく見てください！",
     "fr_FR": "Respectez l'arbre représentant l'objectif !",
@@ -205,6 +207,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para este nível, tente resolver o mesmo problema do nível anterior, mas usando *merge* em vez de rebase. A árvore pode ficar um pouco cabeluda, mas isso ilustra bem o nosso ponto."
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ¿Por qué non mesturar?",
+              "",
+              "Para empurrar as túas novidades ó remoto, todo o que tes que facer é *integrar* os últimos cambios do remoto cos teus. Eso significa que podes facer tanto rebase como merge ca rama remota (por exemplo, `o/master`).",
+              "",
+              "Así que podes facer calquera das dúas, ¿por qué as leccións só se centraron en rebasar ata agora? ¿Por qué non adicarlle algo de amor ó `merge` cando traballamos con remotos?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Hai moito debate entre os desenvolvedores sobre os pros e contras de mesturar vs rebasar. Aquí temos os pros e os contras de rebasar:",
+              "",
+              "Pros:",
+              "",
+              "* Rebasar fai que a túa árbore de commits sexa bastante limpa, xa que tódolos commits seguen unha única línea.",
+              "",
+              "Contras:",
+              "",
+              "* Rebasar modifica a historia (aparente) da túa árbore de commits.",
+              "",
+              "Por exemplo, o commit `C1` pode rebasarse para que apareza *despois* de `C3`. Entón, parece que o traballo de `C1'` fíxose despois de `C3`, inda que na realidade fixérase antes.",
+              "",
+              "Algúns desenvolvedores  aman preservar a historia, polo que prefiren mesturar. Outros (coma min) preferimos ter unha árbore de commits limpos, e preferimos rebasar. Todo é unha cuestión de preferencias :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, tratemos de resolvelo nivel anterior, pero *mesturando*. Pode poñerse un pouco oscuro, pero ilustra a idea bastante ben."
             ]
           }
         }

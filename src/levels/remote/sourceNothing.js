@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
     "pt_BR": "Origem vazia",
+    "gl"   : "Orixen de nada",
     "de_DE": "Die Quelle des Nichts",
     "ja"   : "無のsource",
     "fr_FR": "Source de rien du tout",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
+    "gl"   : "O comando branch está deshabilitado para este nivel, entón terás que empregar o comando fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
     "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
@@ -236,6 +238,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Este é um nível rápido de resolver -- basta remover um ramo remoto com `git push` e criar um novo ramo local com `git fetch` para terminar!"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rarezas do `<orixe>`",
+              "",
+              "Git abusa do parámetro `<orixe>` de dúas maneiras extranas. Estos dous abusos veñen do feito de que técnicamente podes especificar \"á nada\" como un `orixe` válido tanto para git push como para git fetch. O modo de especificar a nada é a través dun parámetro vacío:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Vexamos qué fan..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Qué fai cando se empurra a \"nada\" a unha rama remota? ¡Eliminaa!"
+            ],
+            "afterMarkdowns": [
+              "Ahí está, borramos a rama `foo` exitosamente do remoto empurrando o concepto da \"nada\". Ten algo de sentido..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Finalmente, descargar a \"nada\" a un lugar local na realidade crea unha nova rama"
+            ],
+            "afterMarkdowns": [
+              "Bastante bizarro, pero, meh, da igual. Así é git."
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este é un nivel rápido: simplemente borra unha rama remota e crea unha nova empregando `git fetch` para completalo."
             ]
           }
         }

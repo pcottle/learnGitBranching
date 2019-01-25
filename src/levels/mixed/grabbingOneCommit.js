@@ -20,6 +20,7 @@ exports.level = {
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
     "pt_BR": "Pegando um único commit",
+    "gl"   : "Escollendo un único commit",
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
@@ -32,6 +33,7 @@ exports.level = {
     "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "pt_BR": "Lembre-se, o rebase interativo ou o cherry-pick são seus amigos aqui",
+    "gl"   : "Recorda, o rebase interativo ou cherry-pick é un dos teus colegas aquí",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
@@ -189,6 +191,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Este é um nível avançado, então vamos deixar para você a decisão de qual comando usar, mas para completar este nível, certifique-se de que o `master` receba o commit referenciado por `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits apilados localmente",
+              "",
+              "Aquí estamos nunha situación que acontece de cotio con desenvolvedores: Estou intentando atopar un erro, mais é escorredizo. Para axudar ó meu traballo de detective, eu coloco algúns comandos de debug e prints.",
+              "",
+              "¡Todos esos comandos de debug e mensaxes están nas súas ramas propias. Finalmente eu atopo o erro, arránxoo e reorganizo!",
+              "",
+              "O único problema é que agora eu preciso devolver o meu `bugFix` á rama `master`. Se eu fixera simplemente un fast-forward en `master`, entón o `master` rematará contendo tódolos comandos de debug, o que é indesexable. Debe existir algunha outra forma..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Precisamos decirlle a git que copie só os commits que nos interesa. Esta situación é exatamente a mesma dos niveis anteriores respecto de como mover o traballo -- podemos usar os mesmos comandos:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Para acadar o objetivo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este é un nivel avanzado, entón imos deixarche a decisión de qué comando empregar, pero para completar este nivel, asegurate de que a rama `master` colla o commit referenciado por `bugFix`."
             ]
           }
         }

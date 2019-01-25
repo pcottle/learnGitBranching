@@ -12,6 +12,7 @@ exports.level = {
     "de_DE": "10000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
     "pt_BR": "Fazendo mais de 9000 rebases",
+    "gl"   : "Facendo máis de 9000 rebases",
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
     "ja"   : "9000回以上のrebase",
@@ -25,6 +26,7 @@ exports.level = {
     "de_DE": "Nicht vergessen: die effizienteste Möglichkeit könnte sein, schließlich einfach nur den master zu aktualisieren ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
     "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o master por último...",
+    "gl"   : "Lembra, a forma máis eficiente pode ser actualizar a rama master ó final...",
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour master seulement à la fin ...",
     "ja"   : "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
@@ -83,6 +85,24 @@ exports.level = {
               "No entanto, a cúpula da administração está tornando as coisas mais difíceis -- eles querem que os commits estejam todos em ordem sequencial. Isso significa que a nossa árvore final precisa ter o `C7'` por último, `C6'` acima disso, e assim por diante, tudo ordenado.",
               "",
               "Se você fizer besteira, sinta-se livre para usar o comando `reset` para recomeçar do zero. Depois lembre de olhar nossa solução do gabarito para ver se consegue resolver a tarefa usando menos comandos!"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fazendo rebase en múltiples ramas",
+              "",
+              "Neno, temos unha chea de ramas aquí! Imos facer rebase de todo o traballo contido nesas ramas para a master.",
+              "",
+              "A xente de administración estanos a facer as cousas complicadas, igual eles queren que os commits estén todos en orde secuencial. Isto significa que a nosa árbore final precisa ter `C7'` de último, `C6'` inda por riba, está por adiante, todo ordeado.",
+              "",
+              "Se te fas un lio polo camiño, síntete ceibe para usar o comando `reset` para comezar de cero outra vez. Despois lembra ollar a nosa solución para ver se consegues resolver a tarefa usando menos comandos!"
             ]
           }
         }
