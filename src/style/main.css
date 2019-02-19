@@ -1168,6 +1168,12 @@ div.gitDemonstrationView {
   text-shadow: rgba(0,0,0,.4) 0 1px 0;
   color: white;
 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   vertical-align: middle;
   cursor: pointer;
 }
