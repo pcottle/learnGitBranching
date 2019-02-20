@@ -53926,7 +53926,7 @@ exports.level = {
               "",
               "到现在我们已经学习了 Git 的基础知识 —— 提交、分支以及在提交树上移动。 这些概念涵盖了 Git 90% 的功能，同样也足够满足开发者的日常需求 ",
               "",
-              "然而, 剩余的 10% 在处理复杂的工作流时(或者当你陷入困惑时）可能就显示尤为重要了。接下来要讨论的这个话题是“整理提交记录” —— 开发人员有时会说“我想要把这个提交放到这里, 那个提交放到刚才那个提交的后面”, 而接下来就讲的就是它的实现方式，非常清晰、灵活，还很生动。",
+              "然而, 剩余的 10% 在处理复杂的工作流时(或者当你陷入困惑时）可能就显得尤为重要了。接下来要讨论的这个话题是“整理提交记录” —— 开发人员有时会说“我想要把这个提交放到这里, 那个提交放到刚才那个提交的后面”, 而接下来就讲的就是它的实现方式，非常清晰、灵活，还很生动。",
               "",
               "看起来挺复杂, 其实是个很简单的概念。"
             ]
@@ -65062,7 +65062,7 @@ exports.level = {
               "If we specify the place to fetch, everything happens as before with fetch but we merge in whatever was just fetched"
             ],
             "afterMarkdowns": [
-              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to where we are, *regardless* of what was currently checked out."
+              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to our currently checked out location which is *not* the local branch `master`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
