@@ -74,7 +74,7 @@ exports.level = {
               "If we specify the place to fetch, everything happens as before with fetch but we merge in whatever was just fetched"
             ],
             "afterMarkdowns": [
-              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to where we are, *regardless* of what was currently checked out."
+              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to our currently checked out location which is *not* the local branch `master`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
