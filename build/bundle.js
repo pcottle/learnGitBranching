@@ -51281,7 +51281,9 @@ exports.level = {
               "",
               "`<Tag-Name>_<Anzahl Commits>_g<Hash>`",
               "",
-              "`<Tag-Name>` ist dabei der nächstliegende Tag in den Vorgänger-Commits, `<Anzahl Commits>` zeigt an, wieviele Commits dieses Tag entfernt ist und `<Hash>` ist das SHA des Commits, auf den das Tag zeigt."
+              "`<Tag-Name>` ist dabei der nächstliegende Tag in den Vorgänger-Commits, `<Anzahl Commits>` zeigt an, wieviele Commits dieses Tag entfernt ist und `<Hash>` ist das SHA des Commits, auf den HEAD zeigt.",
+              "",
+              "**Achtung**: `<Anzahl Commits>` und `<Hash>` erscheint nur, wenn HEAD nicht auf ein Tag zeigt. `git describe` verarbeitet standardmässig nur annotierte Tags. Um nicht annotierte tags zu sehen, verwende bitte`git describe --tags`."
             ]
           }
         },
@@ -70446,7 +70448,7 @@ exports.level = {
               "",
               "    git checkout -b absolut_nicht_master o/master",
               "",
-              "eingibt, wir ein neuer lokaler Branch namens `absolut_nicht_master` angelegt, der `o/master` trackt."
+              "eingibt, wird ein neuer lokaler Branch namens `absolut_nicht_master` angelegt, der `o/master` trackt."
             ]
           }
         },
