@@ -77,7 +77,7 @@ You'll also need `npm` to download all the dependencies of the project.
 
 The general workflow / steps are below:
 
-```
+```bash
 git clone <your fork of the repo>
 cd learnGitBranching
 npm install # to install all the node modules I depend on
@@ -96,6 +96,10 @@ git commit -am "My new sweet feature!"
 git push
 # go online and request a pull
 ```
+
+Alternatively, you can also build and run the app in a pre-configured online workspace:
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/pcottle/learnGitBranching/blob/master/src/js/git/index.js)
 
 ## Helpful Folks
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
