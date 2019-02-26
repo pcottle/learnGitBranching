@@ -1169,7 +1169,7 @@ exports.strings = {
   'show-goal-button': {
     '__desc__': 'button label to show goal',
     'en_US': 'Show Goal',
-    'de_DE': 'Schauen Ziel',
+    'de_DE': 'Ziel anzeigen',
     'zh_TW': '顯示目標',
     'zh_CN': '显示目标',
     'fr_FR': 'Afficher les cibles',
@@ -1185,7 +1185,7 @@ exports.strings = {
   'hide-goal-button': {
     '__desc__': 'button label to hide goal',
     'en_US': 'Hide Goal',
-    'de_DE': 'Verstecken Ziel',
+    'de_DE': 'Ziel verstecken',
     'fr_FR': 'Cacher les cibles',
     'zh_TW': '隱藏目標',
     'zh_CN': '隐藏目标',
