@@ -782,7 +782,7 @@ exports.level = {
               "",
               "    git checkout -b absolut_nicht_master o/master",
               "",
-              "eingibt, wir ein neuer lokaler Branch namens `absolut_nicht_master` angelegt, der `o/master` trackt."
+              "eingibt, wird ein neuer lokaler Branch namens `absolut_nicht_master` angelegt, der `o/master` trackt."
             ]
           }
         },
