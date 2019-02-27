@@ -3,4 +3,4 @@ ports:
   onOpen: open-preview
 tasks:
 - init: npm install && npm install -g grunt-cli
-  command: grunt build && python3 -m http.server 8000
+  command: grunt fastBuild && python3 -m http.server 8000
