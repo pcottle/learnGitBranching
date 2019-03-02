@@ -97,9 +97,10 @@ var instantCommands = [
       intl.str('show-all-commands'),
       '<br/>'
     ];
-    allCommands.forEach(function(regex, command) {
-      lines.push(command);
-    });
+    Object.keys(allCommands)
+      .forEach(function(command) {
+        lines.push(command);
+      });
 
     throw new CommandResult({
       msg: lines.join('\n')
