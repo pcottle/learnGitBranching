@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "pt_BR": "Lembre-se que você sempre pode usar undo ou reset",
+    "gl"   : "Lembra que sempre podes usar undo ou reset",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_TW": "push master！",
     "es_AR": "¡Push Master!",
     "pt_BR": "Push Master!",
+    "gl"   : "Empurra ó Master!",
     "de_DE": "Push Master!",
     "ja"   : "Push Master!",
     "fr_FR": "Maître du push !",
@@ -237,6 +239,59 @@ exports.level = {
               "* O repositório remoto foi atualizado desde então, então também precisaremos incorporar o trabalho realizado lá",
               "",
               ":O intenso! boa sorte, completar este nível é um grande passo."
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mesturando ramas",
+              "",
+              "Agora que estás afeito a descargar, mesturar e empurrar, poñamos a proba estas habilidades cun novo fluxo de traballo.",
+              "",
+              "É bastante común que os desenvolvedores nos grandes proxectos traballen sobre ramas específicas para cada tarefa (feature branches) baseadas en `mater`, e que as integren só cando están preparadas. Esto é similar á lección anterior, na que empurrábamos as ramas periféricas ó remoto, pero acá temos un paso máis.",
+              "",
+              "Algúns desenvovledores só empurran e descargan cando están en `master`: de ese xeito, `master` sempre mantén actualizado o seu estado co remoto (`o/master`).",
+              "",
+              "Entón, neste fluxo de traballo combinamos dúas cousas:",
+              "",
+              "* integramos o traballo das ramas específicas a `master`, e",
+              "* empurramos e turramos do remoto"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Refresquemos un pouco cómo actualizar `master` e empurrar o noso traballo."
+            ],
+            "afterMarkdowns": [
+              "Agora executamos dous comandos que:",
+              "",
+              "* rebasamos o noso traballo sobre os novos commits do remoto, e",
+              "* publicamos o noso traballo nese remoto"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este nivel é bastante pesado. Aquí tes algúns patróns para resolvelo:",
+              "",
+              "* Temos tres ramas específicas -- `side1` `side2` e `side3`",
+              "* Queremos empurrar cada unha de esas ramas, en orde, ó remoto",
+              "* O remoto foi actualizado, así que imos ter que integrar eses cambios tamén",
+              "",
+              ":O ¡Intenso! ¡Éxitos! Completar este nivel representa un grande avance."
             ]
           }
         }

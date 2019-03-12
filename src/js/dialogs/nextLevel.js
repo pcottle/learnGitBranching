@@ -78,6 +78,17 @@ exports.dialog = {
       ]
     }
   }],
+  'gl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Bo traballo!!',
+        '',
+        'Resolviches o nivel empregando *{numCommands}* comandos; ',
+        'a nosa mellor solución é en {best}.'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

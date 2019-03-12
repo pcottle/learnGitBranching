@@ -134,6 +134,62 @@ exports.dialog = {
       ]
     }
   }],
+  'gl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Benvido a Learn Git Branching!',
+        '',
+        'Esta aplicación foi desenvolvida para axudar os iniciados en git a ',
+        'aprender os poderosos conceptos que hai por detrás do branching con ',
+        ' git. Agardamos que disfrutes desta aplicación, e tal vez, ',
+        'ata aprendas algunha cousa!',
+        '',
+        '# Demostracións!',
+        '',
+        'Se aínda non viches a demo, olla aquí:',
+        '',
+        '[https://pcottle.github.io/learnGitBranching/?demo](https://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        '¿Farto destas mensaxes? Engade `?NODEMO` á dirección para librarte dela, como no link de abaixo:',
+        '',
+        '[https://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Comandos de git',
+        '',
+        'Tes a túa disposición unha caixa de área con unha variedade de comandos de git:',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Compartir e importar!',
+        '',
+        'Comparte árbores cos seus amigas con `export tree` e `import tree`',
+        '',
+        '¿Tes un enlace moi grande para compartir? Intenta construír un nivel con `build level` ou importe o nivel dun amigo con `import level`',
+        '',
+        'Para ver tódolos comandos, usa `show commands`. Hai algunha xoia como `undo` e `reset`',
+        '',
+        'Por agora, imos comezar cos `levels`...'
+      ]
+    }
+  }],
   'de_DE': [{
     type: 'ModalAlert',
     options: {
