@@ -288,7 +288,6 @@ exports.level = {
               "O primeiro que notarías é que apareceu unha nova rama no teu repositorio local chamada `o/master`. A este tipo de ramas chámaselle ramas _remotas_. As ramas remotas teñén propiedades especiais porque serven para un propósito específico.",
               "",
               "As ramas remotas reflexan o _estado_ dos repositorios remotos (como estaban á última vez que falaches con eles). Axúdante a entender as diferencias entre o teu traballo local e o teu traballo que xa está publicado - un paso crítico antes de compartir o teu traballo cos demáis.",
-              uU
               "",
               "As ramas remotas teñen a propiedade especial de que cando fas checkout, pasas o modo detached `HEAD`. Git faino a drede porque non podes traballar nesas ramas directamente: tes que traballar nalgún outro lado e despois compartir o teu traballo co remoto (tras o que as túas ramas remotas actualizaranse)."
             ]
