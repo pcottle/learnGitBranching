@@ -1,0 +1,9 @@
+ports:
+- port: 8000
+  onOpen: open-preview
+tasks:
+- init: npm install && npm install -g grunt-cli
+  command: >
+    grunt fastBuild &&
+    printf "\nWelcome to Learn Git Branching\nTo rebuild the app, simply run 'grunt fastBuild' and reload index.html.\n\n" &&
+    python3 -m http.server 8000 2>/dev/null

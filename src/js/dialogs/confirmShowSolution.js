@@ -59,6 +59,16 @@ exports.dialog = {
       ]
     }
   }],
+  'gl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¿Queres ver a solución?',
+        '',
+        'Seguro que podes, ¡inténtao unha vez máis!'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

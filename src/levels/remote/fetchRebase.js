@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "diverged history",
     "es_AR": "Historia divergente",
     "pt_BR": "Histórico divergente",
+    "gl"   : "Histórico diverxente",
     "de_DE": "Abweichende History",
     "fr_FR": "Historique divergent",
     "ja"   : "履歴の分岐",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
     "pt_BR": "Preste atenção na ordem da visualização do objetivo",
+    "gl"   : "Presta atención ó orixe do obxectivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
     "ja"   : "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
@@ -596,6 +598,150 @@ exports.level = {
               "* Simule trabalho de seus colegas (1 commit)",
               "* Faça um commit seu (1 commit)",
               "* Publique seu trabalho usando *rebase*"
+            ]
+          }
+        }
+      ]
+    },
+
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Traballo diverxente",
+              "",
+              "Ata agora vimos cómo descargar e mesturar os commits de outros e como empurrar os nosos. Parece bastante sinxelo, así que ¿cómo pode confundirse tanto a xente?",
+              "",
+              "A dificultade ven cando a historia dos repositorios *diverxe*. Antes de entrar nos detalles, vexamos un examplo...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Imaxínate que clonas un repositorio o luns e comezas a desenvolver algo. Para o venres, xa estás listo para publicar o teu traballo, pero, ¡oh, oh! Os teus colegas tamén fixeron código durante a semana, facendo que o teu traballo quede desactualizado (e obsoleto). Ademáis, eles publicaron eses commits no repositorio remoto, así que agora o *teu* traballo está baseado nunha versión *vella* do proxecto, que xa non lle interesa a ninguén.",
+              "",
+              "Neste caso, o comando `git push` é ambiguo. Se executas `git push`, ¿git debería mudar o repositorio para como estaba o luns? ¿Deberías arranxar o teu código sen eliminar o código novo? ¿Ou debería ignorar completamente os teus cambio porque xa están desactualizados?",
+              "",
+              "Como hai tanta ambiguedade nesta situación (na que a historia diverxeu), git non che permite empurrar os teus cambios. En cambio, fórzate a integrar o último estado do respositorio remoto antes de poder compartir o teu traballo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¡Demasiada charla, vexámolo en acción!"
+            ],
+            "afterMarkdowns": [
+              "¿Ves? Non pasou nada, porque o comando falla. `git push` falla porque `C3`, o teu commit máis recente, está baseado no remoto sobre `C1`. O remoto foi actualizado a `C2` dende entonces, polo que git rechaza o teu push."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¿Cómo resolves esta situación? É sinxelo, todo o que tes que facer é basear o teu traballo na versión máis recente da rama remota.",
+              "",
+              "Hai un par de formas de facer esto, pero a máis sinxela é mover o teu traballo facendo un rebase. Probémolo a ver  cómo se ve."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Agora, se facemos rebase antes de empurrar..."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Actualizamos a nosa representación local do remoto con `git fetch`, rebasamos o noso traballo para reflexar os novos cambios do remoto, e despois os empurramos con `git push`"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¿Hai outra forma de actualizar o meu traballo se actualizaran o repositorio remoto? ¡Pois claro! Vexamos cómo facer o mesmo pero empregando `merge`.",
+              "",
+              "Por máis que `git merge` non mova o teu traballo (só crea un commit de merge), é un modo de decirlle a git que integrase tódolos cambios do remoto. Esto é porque agora unha rama remota pasou a ser un *ancestro* da tua propia rama, o que significa que o teu commit reflexa os cambios de tódolos commits da rama remota.",
+              "",
+              "Vexamos unha mostra..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Si no lugar de rebasar facemos un merge..."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Actualizamos a nosa representación local do remoto usando `git fetch`, *mesturamos* ou *mergeamos* o novo traballo xunto co noso (para reflexar os novos cambios no remoto), e despois os empurramos empregando `git push`"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Asombroso! ¿Hai forma de facer esto sen escreber tantos comandos?",
+              "",
+              "¡Claro que sí! Xa sabes que `git pull` é sinxelamente un atallo para facer fetch e merge. Ademáis, ¡`git pull --rebase` é un atallo para facer fetch e rebase!",
+              "",
+              "Vexamos estos atallos funcionando."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Primeiro con `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "¡Igual que antes! Só que máis corto."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E agora un `pull` común"
+            ],
+            "afterMarkdowns": [
+              "Outra vez, ¡exactamente o mesmo que antes!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Toda esta movida de fetchear, rebasear/mergear e pushear é bastante común. Nas seguintes leccións imos ver formas máis complexas de estes fluxos de traballo, pero por agora probemos o que vimos.",
+              "",
+              "Para resolver este nivel, fai o siguiente:",
+              "",
+              "* Clona o teu repositorio",
+              "* Simula algo de trabajo dun colega (1 commit)",
+              "* Commitea algo de traballo propio (1 commit)",
+              "* Publica o teu traballo *rebasando*"
             ]
           }
         }

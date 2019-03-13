@@ -113,6 +113,25 @@ exports.dialog = {
       ]
     }
   }],
+  'gl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Benvido ó constructor de niveis!',
+        '',
+        'Estes son os pasos principais:',
+        '',
+        '  * Prepara o eido inicial usando comandos de Git',
+        '  * Define a árbore inicial con ```define start```',
+        '  * Inserta a secuencia de comandos de git que representan a mellor solución',
+        '  * Define a árbore obxectivo con ```define goal```. O obxectivo tamén determina a solución',
+        '  * Opcionalmente, define axudas con ```define hint```',
+        '  * Dalle un nome con ```define name```',
+        '  * Opcionalmente, define unha mensaxe inicial con ```edit dialog```',
+        '  * Escribe o comando ```finish``` para obter seu nivel en formato JSON!'
+      ]
+    }
+  }],
   'fr_FR': [{
     type: 'ModalAlert',
     options: {

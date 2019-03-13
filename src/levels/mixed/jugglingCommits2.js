@@ -22,6 +22,7 @@ exports.level = {
     "fr_FR": "Jongler avec les commits #2",
     "es_AR": "Haciendo malabares con los commits #2",
     "pt_BR": "Malabarismo com commits #2",
+    "gl"   : "Argallando cos commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
     "zh_CN": "提交的技巧 #2",
@@ -34,6 +35,7 @@ exports.level = {
     "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche master",
     "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
     "pt_BR": "Não se esqueça de avançar a referência do master para as mudanças efetuadas!",
+    "gl"   : "¡Non te esquezas de avanzar master ós cambios actualizados!",
     "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
@@ -210,6 +212,49 @@ exports.level = {
               "Então, neste nível, vamos alcançar o mesmo objetivo de fazer \"amend\" no `C2`, mas evitaremos usar o `rebase -i`. Agora vou deixar com você a tarefa de descobrir como fazer! :D",
               "",
               "Lembre-se, o número exato de apóstrofos (') nos commits não é importante, apenas as diferenças relativas. Por exemplo, darei todos os pontos nesta tarefa se você obtiver o mesmo resultado da árvore da visualização de objetivo com um apóstrofo extra em todos os commits"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argallando cos commits #2",
+              "",
+              "*No caso de non ter rematado o tema anterior (Argallando cos commits #1), por favor faino antes de continuar*.",
+              "",
+              "Como puideches ver no anterior tema, usamos `rebase -i` para reordear os commits. Unha vez que atopamos o commit que queriamos modificar, puidemos empregar sinxelamente o `--amend`, e depois reordenalo de volta para obter a nosa orde preferida.",
+              "",
+              "O único problema aquí é que hai moita reordenación ocorrendo, o que pode introducir conflitos no rebase. Imos votar unha ollada a outro método, o uso de `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lembra que `git cherry-pick` copiará un commit de qualquera lugar na árbore enriba do HEAD (sempre e cando non sexa ancestro do HEAD).",
+              "",
+              "Aquí está unha demostración para que refresques a memoria:"
+            ],
+            "afterMarkdowns": [
+              "¡A tope! Seguimos."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Entón, neste nivel, imos completar o mesmo obxectivo que facendo \"amend\" no `C2`, pero evitando facer o `rebase -i`. Agora deixámoste que lle des os miolos para sacar o exercicio! :D",
+              "",
+              "Recorda, o número exacto de apóstrofos (') nos commits non é importante, só as diferencias relativas. Por exemplo, levarás todos os puntos desta tarefa se obtés o mesmo resultado da árbore que se mostra na visualización do exercicio con un apóstrofo extra en tódolos commits."
             ]
           }
         }

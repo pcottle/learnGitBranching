@@ -8,6 +8,7 @@ exports.level = {
     "zh_TW": "git push",
     "es_AR": "git push",
     "pt_BR": "Git Push",
+    "gl"   : "Git Push",
     "de_DE": "Git Push",
     "ja"   : "Git Push",
     "fr_FR": "Git push",
@@ -194,6 +195,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nível, simplesmente compartilhe dois novos commits com o repositório remoto. No entanto, segure-se no seu assento, pois estas lições estão prestes a ficar mais difíceis!"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, entón xa baixamos os cambios dun repositorio remoto e integrámolos na árbore local. Esto está xenial... pero ¿cómo comparto o _meu_ sensacional traballo cas outras persoas?",
+              "",
+              "Ben, a forma de subir traballo para ser compartido é a oposta daquela de baixar o traballo que foi compartido. E ¿qué é o oposto a  `git pull` (tirar)? ¡É `git push` (empuxar)!",
+              "",
+              "`git push` é o responsable de subilos _teus_ cambios para un repositorio remoto especificado, e atualizar ese repositorio remoto para incorporar os seus novos commits. Unha vez que `git push` complétase, todos os teus amigos poderán baixar o teu traballo do repositorio remoto.",
+              "",
+              "Podes pensar en `git push` como un comando para \"publicar\" o teu traballo. O comando ten unha serie de detalles cos que imos xogar logo, pero comezemos con pasos curtos...",
+              "",
+              "*Nota -- o comportamento de `git push` sen argumentos varía dependendo da configuración `push.default` de Git. O valor para esa configuración depende da versión de Git que esteas empregando, pero imos asumir o valor `upstream` nestas leccións. Eso non é un gran problema, pero paga a pena verificalas súas configuracións antes de facer push nos teus propios proxectos.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aquí temos algúns cambios que o repositorio remoto non contén. ¡Imos subilas!"
+            ],
+            "afterMarkdowns": [
+              "Ahí imos -- o repositorio remoto recibiu o commit `C2`, a rama `master` do repositorio remoto foi actualizado para apuntar para `C2`, e o *noso* reflexo do remoto (`o/master`) foi atualizado tamén. ¡Está todo sincronizado!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, comparte dous novos commits co repositorio remoto. Igual, non te confíes, ¡xa se  complicará nas seguintes leccións!"
             ]
           }
         }

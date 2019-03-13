@@ -11,6 +11,7 @@ exports.level = {
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
     "pt_BR": "Parâmetros do git push",
+    "gl"   : "Parámetros de git push",
     "de_DE": "Optionen für Git Push",
     "ja"   : "Git pushの引数",
     "fr_FR": "Arguments de git push",
@@ -24,6 +25,7 @@ exports.level = {
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "pt_BR": "Você sempre pode rever o último slide com o comando \"objective\"",
+    "gl"   : "Ti sempre podes desfacer último mensaxe escribindo \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
     "ja"   : "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
@@ -318,6 +320,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, neste nível vamos atualizar tanto o `foo` como o `master` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parámetros de push",
+              "",
+              "¡Xenial! Agora que sabes acerca das ramas que seguen remotos, podemos empezas a desvelar algo do misterio detrás do git push, fetch e pull. Imos atacar cun só comando dunha vez, pero os conceptos entre eles son moi semellantes.",
+              "",
+              "Vexamos primeiro `git push`. Xa aprendiches na lección sobre as ramas remotas que git determina o remoto *e* a rama á que empurrar mirando as propiedades da rama actual (o remoto ó que seguir). Este é o comportamento por defecto para  cando non se especifican parámetros, pero git push toma, opcionalmente, parámetros da forma:",
+              "",
+              "`git push <remoto> <lugar>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¿Qué será este parámetro `<lugar>`, fixécheste esa pregunta? Xa imos entrar en detalle, pero primeiro un exemplo. Executa o comando:",
+              "",
+              "`git push origin master`",
+              "",
+              "tradúcese así ó galego:",
+              "",
+              "*Vai á rama chamada \"master\" no meu repositorio, colle tódolos commits, e despois vai á rama \"master\" do remoto chamado \"origin\". Aplica ahí tódolos commits que falten, e avísame cando remates.*",
+              "",
+              "Indicando `master` como o parámetro \"lugar\", dixémoslle a git ónde traer os commits, e ónde mandalos. É básicamente, o \"lugar\" ou \"ubicación\" que sincroniza entre ámbolos dous repositorios.",
+              "",
+              "Ten en conta que, como lle dixemos a git todo o que precisaba saber (indicando ambos parámetros), ¡ignora totalmente ónde andabamos neste momento!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vexamos un exemplo especificando os parámetros. Nota ónde ficamos parados neste exemplo."
+            ],
+            "afterMarkdowns": [
+              "¡Ahí o tes! Actualizouse `master` no remoto, porque especificamos eses parámetros."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿E se non especificáramos os parámetros? ¿Que ocorrería?"
+            ],
+            "afterMarkdowns": [
+              "O comando falla (como podes ver), xa que `HEAD` non está sobre ningunha rama que siga algún remoto."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok. Para este nivel, actualiza tanto `foo` como `master` no remoto. O tema está en que ¡temos deshabilitado `git checkout` neste nivel!"
             ]
           }
         }
