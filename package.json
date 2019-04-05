@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "browserify": "^13.0.0",
-    "grunt": "~0.4.2",
+    "grunt": "^1.0.4",
     "grunt-browserify": "^4.0.1",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.7.2",
