@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "backbone": "~1.1.2",
+    "contributor-faces": "^1.0.2",
     "flux": "^2.0.1",
     "markdown": "~0.4.0",
     "q": "~0.8.11",

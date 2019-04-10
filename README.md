@@ -100,6 +100,40 @@ git push
 Alternatively, you can also build and run the app in a pre-configured online workspace:
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/pcottle/learnGitBranching/blob/master/src/js/git/index.js)
+[//]: contributor-faces
+
+<a href="https://github.com/pcottle"><img src="https://avatars0.githubusercontent.com/u/1135007?v=4" title="pcottle" width="80" height="80"></a>
+<a href="https://github.com/Hongarc"><img src="https://avatars1.githubusercontent.com/u/19208123?v=4" title="Hongarc" width="80" height="80"></a>
+<a href="https://github.com/twmht"><img src="https://avatars1.githubusercontent.com/u/1567200?v=4" title="twmht" width="80" height="80"></a>
+<a href="https://github.com/JuhoKang"><img src="https://avatars1.githubusercontent.com/u/4745294?v=4" title="JuhoKang" width="80" height="80"></a>
+<a href="https://github.com/sunshowers"><img src="https://avatars3.githubusercontent.com/u/180618?v=4" title="sunshowers" width="80" height="80"></a>
+<a href="https://github.com/sPATROL"><img src="https://avatars0.githubusercontent.com/u/11875983?v=4" title="sPATROL" width="80" height="80"></a>
+<a href="https://github.com/coyl"><img src="https://avatars1.githubusercontent.com/u/274452?v=4" title="coyl" width="80" height="80"></a>
+<a href="https://github.com/alexeiberkov"><img src="https://avatars1.githubusercontent.com/u/4151345?v=4" title="alexeiberkov" width="80" height="80"></a>
+<a href="https://github.com/aschrab"><img src="https://avatars1.githubusercontent.com/u/39620?v=4" title="aschrab" width="80" height="80"></a>
+<a href="https://github.com/bcbcarl"><img src="https://avatars0.githubusercontent.com/u/135734?v=4" title="bcbcarl" width="80" height="80"></a>
+<a href="https://github.com/ahonorat"><img src="https://avatars1.githubusercontent.com/u/5851945?v=4" title="ahonorat" width="80" height="80"></a>
+<a href="https://github.com/nem75"><img src="https://avatars0.githubusercontent.com/u/1327785?v=4" title="nem75" width="80" height="80"></a>
+<a href="https://github.com/nlehuby"><img src="https://avatars3.githubusercontent.com/u/919962?v=4" title="nlehuby" width="80" height="80"></a>
+<a href="https://github.com/alexandear"><img src="https://avatars2.githubusercontent.com/u/3228886?v=4" title="alexandear" width="80" height="80"></a>
+<a href="https://github.com/PanAeon"><img src="https://avatars3.githubusercontent.com/u/686076?v=4" title="PanAeon" width="80" height="80"></a>
+<a href="https://github.com/donkirkby"><img src="https://avatars1.githubusercontent.com/u/1639148?v=4" title="donkirkby" width="80" height="80"></a>
+<a href="https://github.com/lroellin"><img src="https://avatars1.githubusercontent.com/u/3150983?v=4" title="lroellin" width="80" height="80"></a>
+<a href="https://github.com/ptsoccer"><img src="https://avatars1.githubusercontent.com/u/1102725?v=4" title="ptsoccer" width="80" height="80"></a>
+<a href="https://github.com/qiansen1386"><img src="https://avatars2.githubusercontent.com/u/1759658?v=4" title="qiansen1386" width="80" height="80"></a>
+<a href="https://github.com/renderf0x"><img src="https://avatars1.githubusercontent.com/u/6155643?v=4" title="renderf0x" width="80" height="80"></a>
+<a href="https://github.com/filipefilardi"><img src="https://avatars1.githubusercontent.com/u/7308241?v=4" title="filipefilardi" width="80" height="80"></a>
+<a href="https://github.com/rebangm"><img src="https://avatars2.githubusercontent.com/u/1638136?v=4" title="rebangm" width="80" height="80"></a>
+<a href="https://github.com/marcolivierarsenault"><img src="https://avatars2.githubusercontent.com/u/2634090?v=4" title="marcolivierarsenault" width="80" height="80"></a>
+<a href="https://github.com/pengi"><img src="https://avatars0.githubusercontent.com/u/1087673?v=4" title="pengi" width="80" height="80"></a>
+<a href="https://github.com/waldyrious"><img src="https://avatars2.githubusercontent.com/u/478237?v=4" title="waldyrious" width="80" height="80"></a>
+<a href="https://github.com/tym-network"><img src="https://avatars1.githubusercontent.com/u/2879545?v=4" title="tym-network" width="80" height="80"></a>
+<a href="https://github.com/zhyu"><img src="https://avatars1.githubusercontent.com/u/1728523?v=4" title="zhyu" width="80" height="80"></a>
+<a href="https://github.com/mgarciaisaia"><img src="https://avatars1.githubusercontent.com/u/1190974?v=4" title="mgarciaisaia" width="80" height="80"></a>
+<a href="https://github.com/andriymoroz"><img src="https://avatars3.githubusercontent.com/u/8336826?v=4" title="andriymoroz" width="80" height="80"></a>
+<a href="https://github.com/danielleberre"><img src="https://avatars2.githubusercontent.com/u/27728854?v=4" title="danielleberre" width="80" height="80"></a>
+
+[//]: contributor-faces
 
 ## Helpful Folks
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
