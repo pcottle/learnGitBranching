@@ -3,8 +3,6 @@
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-
-var _ = require('underscore');
 var assign = require('object-assign');
 var levelSequences = require('../../levels').levelSequences;
 var sequenceInfo = require('../../levels').sequenceInfo;
