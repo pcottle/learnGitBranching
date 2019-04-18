@@ -1,5 +1,6 @@
 var base = require('./base');
 var expectTreeAsync = base.expectTreeAsync;
+var runCommand = base.runCommand;
 
 describe('Git', function() {
   it('Commits', function() {
@@ -275,4 +276,43 @@ describe('Git', function() {
 		);
   });
 
+  describe('Log supports', function() {
+    var SETUP = 'git co -b left C0; gc; git merge master; git co -b right C0; gc; git merge master; git co -b all left; git merge right; ';
+
+    it('implied HEAD', function() {
+      runCommand(SETUP + '; git co right; git log', function(commandMsg) {
+        expect(commandMsg).toContain('Commit: C0\n');
+        expect(commandMsg).toContain('Commit: C1\n');
+        expect(commandMsg).not.toContain('Commit: C2\n');
+        expect(commandMsg).not.toContain('Commit: C3\n');
+        expect(commandMsg).toContain('Commit: C4\n');
+        expect(commandMsg).toContain('Commit: C5\n');
+        expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('single included revision', function() {
+      runCommand(SETUP + 'git log right', function(commandMsg) {
+        expect(commandMsg).toContain('Commit: C0\n');
+        expect(commandMsg).toContain('Commit: C1\n');
+        expect(commandMsg).not.toContain('Commit: C2\n');
+        expect(commandMsg).not.toContain('Commit: C3\n');
+        expect(commandMsg).toContain('Commit: C4\n');
+        expect(commandMsg).toContain('Commit: C5\n');
+        expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('single excluded revision', function() {
+      runCommand(SETUP + 'git log all ^right', function(commandMsg) {
+        expect(commandMsg).not.toContain('Commit: C0\n');
+        expect(commandMsg).not.toContain('Commit: C1\n');
+        expect(commandMsg).toContain('Commit: C2\n');
+        expect(commandMsg).toContain('Commit: C3\n');
+        expect(commandMsg).not.toContain('Commit: C4\n');
+        expect(commandMsg).not.toContain('Commit: C5\n');
+        expect(commandMsg).toContain('Commit: C6\n');
+      });
+    });
+  });
 });
