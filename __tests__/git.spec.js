@@ -142,6 +142,13 @@ describe('Git', function() {
     );
   });
 
+  it('Range operator is not supported', function() {
+    expectTreeAsync(
+      'git checkout -b side C0; git cherry-pick C1..C0',
+      '{"branches":{"master":{"target": "C1","id": "master"},"side":{"target":"C0","id": "side"}},"commits":{"C0":{"parents":[],"id": "C0","rootCommit": true},"C1":{"parents":["C0"],"id": "C1"}},"HEAD":{"id": "HEAD","target":"side"}}'
+    );
+  });
+
   it('Forces branches', function() {
     expectTreeAsync(
       'git checkout -b side; git branch -f side C0',
