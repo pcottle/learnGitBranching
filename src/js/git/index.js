@@ -2740,6 +2740,20 @@ GitEngine.prototype.logWithout = function(ref, omitBranch) {
   this.log(ref, Graph.getUpstreamSet(this, omitBranch));
 };
 
+GitEngine.prototype.revlist = function(refs) {
+  var range = new RevisionRange(this, refs);
+
+  // now go through and collect ids
+  var bigLogStr = '';
+  range.revisions.forEach(function(c) {
+    bigLogStr += c.id + '\n';
+  });
+
+  throw new CommandResult({
+    msg: bigLogStr
+  });
+};
+
 GitEngine.prototype.log = function(ref, omitSet) {
   // omit set is for doing stuff like git log branchA ^branchB
   omitSet = omitSet || {};
@@ -3078,6 +3092,71 @@ var Tag = Ref.extend({
     this.set('type', 'tag');
   }
 });
+
+function RevisionRange(engine, specifiers) {
+  this.engine = engine;
+  this.included = {};
+  this.excluded = {};
+  this.revisions = [];
+
+  this.processSpecifiers(specifiers);
+}
+
+RevisionRange.prototype.isExclusion = function(specifier) {
+  return specifier.startsWith('^');
+};
+
+RevisionRange.prototype.processSpecifiers = function(specifiers) {
+  var self = this;
+  var inclusions = [];
+  var exclusions = [];
+
+  specifiers.forEach(function(specifier) {
+    if(self.isExclusion(specifier)) {
+      exclusions.push(specifier.slice(1));
+    } else {
+      inclusions.push(specifier);
+    }
+  });
+
+  exclusions.forEach(function(exclusion) {
+    self.addExcluded(Graph.getUpstreamSet(self.engine, exclusion));
+  });
+
+  inclusions.forEach(function(inclusion) {
+    self.addIncluded(Graph.getUpstreamSet(self.engine, inclusion));
+  });
+
+  var includedKeys = Array.from(Object.keys(self.included));
+
+  self.revisions = includedKeys.map(function(revision) {
+    return self.engine.resolveStringRef(revision);
+  });
+  self.revisions.sort(self.engine.dateSortFunc);
+  self.revisions.reverse();
+};
+
+RevisionRange.prototype.isExcluded = function(revision) {
+  return this.excluded.hasOwnProperty(revision);
+};
+
+RevisionRange.prototype.addExcluded = function(setToExclude) {
+  var self = this;
+  Object.keys(setToExclude).forEach(function(toExclude) {
+    if(!self.isExcluded(toExclude)) {
+      self.excluded[toExclude] = true;
+    }
+  });
+};
+
+RevisionRange.prototype.addIncluded = function(setToInclude) {
+  var self = this;
+  Object.keys(setToInclude).forEach(function(toInclude) {
+    if(!self.isExcluded(toInclude)) {
+      self.included[toInclude] = true;
+    }
+  });
+};
 
 exports.GitEngine = GitEngine;
 exports.Commit = Commit;

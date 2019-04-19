@@ -574,6 +574,18 @@ var commandConfig = {
     }
   },
 
+  revlist: {
+    dontCountForGolf: true,
+    displayName: 'rev-list',
+    regex: /^git +rev-list($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      command.validateArgBounds(generalArgs, 1);
+
+      engine.revlist(generalArgs);
+    }
+  },
+
   log: {
     dontCountForGolf: true,
     regex: /^git +log($|\s)/,
