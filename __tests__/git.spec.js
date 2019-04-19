@@ -351,5 +351,29 @@ describe('Git', function() {
         expect(commandMsg).toContain('Commit: C6\n');
       });
     });
+
+    it('multiple included revisions', function() {
+      runCommand(SETUP + 'git log right left', function(commandMsg) {
+        expect(commandMsg).toContain('Commit: C0\n');
+        expect(commandMsg).toContain('Commit: C1\n');
+        expect(commandMsg).toContain('Commit: C2\n');
+        expect(commandMsg).toContain('Commit: C3\n');
+        expect(commandMsg).toContain('Commit: C4\n');
+        expect(commandMsg).toContain('Commit: C5\n');
+        expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('multiple excluded revisions', function() {
+      runCommand(SETUP + 'git log all ^right ^left', function(commandMsg) {
+        expect(commandMsg).not.toContain('Commit: C0\n');
+        expect(commandMsg).not.toContain('Commit: C1\n');
+        expect(commandMsg).not.toContain('Commit: C2\n');
+        expect(commandMsg).not.toContain('Commit: C3\n');
+        expect(commandMsg).not.toContain('Commit: C4\n');
+        expect(commandMsg).not.toContain('Commit: C5\n');
+        expect(commandMsg).toContain('Commit: C6\n');
+      });
+    });
   });
 });

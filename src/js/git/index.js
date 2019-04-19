@@ -2744,9 +2744,8 @@ GitEngine.prototype.revlist = function(refs) {
   var range = new RevisionRange(this, refs);
 
   // now go through and collect ids
-  var bigLogStr = '';
-  range.revisions.forEach(function(c) {
-    bigLogStr += c.id + '\n';
+  var bigLogStr = range.formatRevisions(function(c) {
+    return c.id + '\n';
   });
 
   throw new CommandResult({
@@ -2754,37 +2753,13 @@ GitEngine.prototype.revlist = function(refs) {
   });
 };
 
-GitEngine.prototype.log = function(ref, omitSet) {
-  // omit set is for doing stuff like git log branchA ^branchB
-  omitSet = omitSet || {};
-  // first get the commit we referenced
-  var commit = this.getCommitFromRef(ref);
-
-  // then get as many far back as we can from here, order by commit date
-  var toDump = [];
-  var pQueue = [commit];
-
-  var seen = {};
-
-  while (pQueue.length) {
-    var popped = pQueue.shift(0);
-    if (seen[popped.get('id')] || omitSet[popped.get('id')]) {
-      continue;
-    }
-    seen[popped.get('id')] = true;
-
-    toDump.push(popped);
-
-    if (popped.get('parents') && popped.get('parents').length) {
-      pQueue = pQueue.concat(popped.get('parents'));
-    }
-  }
+GitEngine.prototype.log = function(refs) {
+  var range = new RevisionRange(this, refs);
 
   // now go through and collect logs
-  var bigLogStr = '';
-  toDump.forEach(function (c) {
-    bigLogStr += c.getLogEntry();
-  }, this);
+  var bigLogStr = range.formatRevisions(function(c) {
+    return c.getLogEntry();
+  });
 
   throw new CommandResult({
     msg: bigLogStr
@@ -3156,6 +3131,14 @@ RevisionRange.prototype.addIncluded = function(setToInclude) {
       self.included[toInclude] = true;
     }
   });
+};
+
+RevisionRange.prototype.formatRevisions = function(revisionFormatter) {
+  var output = "";
+  this.revisions.forEach(function(c) {
+    output += revisionFormatter(c);
+  });
+  return output;
 };
 
 exports.GitEngine = GitEngine;

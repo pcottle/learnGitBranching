@@ -592,19 +592,8 @@ var commandConfig = {
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
 
-      if (generalArgs.length == 2) {
-        // do fancy git log branchA ^branchB
-        if (generalArgs[1][0] == '^') {
-          engine.logWithout(generalArgs[0], generalArgs[1]);
-        } else {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-      }
-
-      command.oneArgImpliedHead(generalArgs);
-      engine.log(generalArgs[0]);
+      command.impliedHead(generalArgs, 0);
+      engine.log(generalArgs);
     }
   },
 
