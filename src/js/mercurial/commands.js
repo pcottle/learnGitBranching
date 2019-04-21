@@ -206,7 +206,7 @@ var commandConfig = {
       };
     }
   },
-  
+
   backout: {
     regex: /^hg +backout($|\s+)/,
     options: [

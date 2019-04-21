@@ -363,7 +363,7 @@ exports.level = {
               "¿E qué hai se o destino ó que queres empurrar non existise? ¡Non pasa nada! Sinxelamente dalle un nome á rama e git vaise encargar de crealo no remoto."
             ],
             "afterMarkdowns": [
-              "Xenial, sinxelamente tira para adiante" 
+              "Xenial, sinxelamente tira para adiante"
             ],
             "command": "git push origin master:newBranch",
             "beforeCommand": "git clone; git commit"

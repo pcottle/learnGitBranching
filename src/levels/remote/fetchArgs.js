@@ -574,7 +574,7 @@ exports.level = {
             "markdowns": [
               "Poderás preguntarte \"¿Por qué git aplicou eses commits sobre a rama `origin/foo` e non os aplicou sobre a rama `foo` local? Lembra que o parámetro `<lugar>` era un lugar que existía tanto no local como no remoto.\"",
               "",
-              "Bueno, git fai unha excepción especial neste caso, xa que poderías ter traballo na rama `foo` que non quixeras mesturar. Esto refírese á lección anterior sobre `git fetch` - non actualiza as túas ramas locais non-remotas, só descarga os commits (para que poidas velos ou mesturalos despois).", 
+              "Bueno, git fai unha excepción especial neste caso, xa que poderías ter traballo na rama `foo` que non quixeras mesturar. Esto refírese á lección anterior sobre `git fetch` - non actualiza as túas ramas locais non-remotas, só descarga os commits (para que poidas velos ou mesturalos despois).",
               ""
             ]
           }

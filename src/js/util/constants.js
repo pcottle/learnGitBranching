@@ -44,7 +44,7 @@ var GRAPHICS = {
   tagFill: 'hsb(0,0,0.9)',
   tagStroke: '#FFF',
   tagStrokeWidth: '2',
-  
+
   orphanNodeFill: 'hsb(0.5,0.8,0.7)'
 };
 

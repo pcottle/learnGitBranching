@@ -60,7 +60,7 @@ var LevelToolbarView = React.createClass({
             <button
               onClick={this.props.onGoalClick}
               type="button">
-              {this.state.isGoalExpanded ? 
+              {this.state.isGoalExpanded ?
                 intl.str('hide-goal-button') :
                 intl.str('show-goal-button')
               }
