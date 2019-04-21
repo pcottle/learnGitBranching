@@ -1,5 +1,6 @@
 var base = require('./base');
 var expectTreeAsync = base.expectTreeAsync;
+var runCommand = base.runCommand;
 
 describe('Git', function() {
   it('Commits', function() {
@@ -282,4 +283,104 @@ describe('Git', function() {
 		);
   });
 
+  describe('RevList', function() {
+
+    it('requires at least 1 argument', function() {
+      runCommand('git rev-list', function(commandMsg) {
+        expect(commandMsg).toContain('at least 1');
+      });
+    });
+
+    describe('supports', function() {
+      var SETUP = 'git co -b left C0; gc; git merge master; git co -b right C0; gc; git merge master; git co -b all left; git merge right; ';
+
+      it('single included revision', function() {
+        runCommand(SETUP + 'git rev-list all', function(commandMsg) {
+          expect(commandMsg).toBe('C6\nC5\nC4\nC3\nC2\nC1\nC0\n');
+        });
+      });
+
+      it('single excluded revision', function() {
+        runCommand(SETUP + 'git rev-list all ^right', function(commandMsg) {
+          expect(commandMsg).toBe('C6\nC3\nC2\n');
+        });
+      });
+
+      it('multiple included revisions', function() {
+        runCommand(SETUP + 'git rev-list right left', function(commandMsg) {
+          expect(commandMsg).toBe('C5\nC4\nC3\nC2\nC1\nC0\n');
+        });
+      });
+
+      it('multiple excluded revisions', function() {
+        runCommand(SETUP + 'git rev-list all ^right ^left', function(commandMsg) {
+          expect(commandMsg).toBe('C6\n');
+        });
+      });
+    });
+  });
+
+  describe('Log supports', function() {
+    var SETUP = 'git co -b left C0; gc; git merge master; git co -b right C0; gc; git merge master; git co -b all left; git merge right; ';
+
+    it('implied HEAD', function() {
+      runCommand(SETUP + '; git co right; git log', function(commandMsg) {
+        expect(commandMsg).toContain('Commit: C0\n');
+        expect(commandMsg).toContain('Commit: C1\n');
+        expect(commandMsg).not.toContain('Commit: C2\n');
+        expect(commandMsg).not.toContain('Commit: C3\n');
+        expect(commandMsg).toContain('Commit: C4\n');
+        expect(commandMsg).toContain('Commit: C5\n');
+        expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('single included revision', function() {
+      runCommand(SETUP + 'git log right', function(commandMsg) {
+        expect(commandMsg).toContain('Commit: C0\n');
+        expect(commandMsg).toContain('Commit: C1\n');
+        expect(commandMsg).not.toContain('Commit: C2\n');
+        expect(commandMsg).not.toContain('Commit: C3\n');
+        expect(commandMsg).toContain('Commit: C4\n');
+        expect(commandMsg).toContain('Commit: C5\n');
+        expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('single excluded revision', function() {
+      runCommand(SETUP + 'git log all ^right', function(commandMsg) {
+        expect(commandMsg).not.toContain('Commit: C0\n');
+        expect(commandMsg).not.toContain('Commit: C1\n');
+        expect(commandMsg).toContain('Commit: C2\n');
+        expect(commandMsg).toContain('Commit: C3\n');
+        expect(commandMsg).not.toContain('Commit: C4\n');
+        expect(commandMsg).not.toContain('Commit: C5\n');
+        expect(commandMsg).toContain('Commit: C6\n');
+      });
+    });
+
+    it('multiple included revisions', function() {
+      runCommand(SETUP + 'git log right left', function(commandMsg) {
+        expect(commandMsg).toContain('Commit: C0\n');
+        expect(commandMsg).toContain('Commit: C1\n');
+        expect(commandMsg).toContain('Commit: C2\n');
+        expect(commandMsg).toContain('Commit: C3\n');
+        expect(commandMsg).toContain('Commit: C4\n');
+        expect(commandMsg).toContain('Commit: C5\n');
+        expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('multiple excluded revisions', function() {
+      runCommand(SETUP + 'git log all ^right ^left', function(commandMsg) {
+        expect(commandMsg).not.toContain('Commit: C0\n');
+        expect(commandMsg).not.toContain('Commit: C1\n');
+        expect(commandMsg).not.toContain('Commit: C2\n');
+        expect(commandMsg).not.toContain('Commit: C3\n');
+        expect(commandMsg).not.toContain('Commit: C4\n');
+        expect(commandMsg).not.toContain('Commit: C5\n');
+        expect(commandMsg).toContain('Commit: C6\n');
+      });
+    });
+  });
 });

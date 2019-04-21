@@ -109,6 +109,8 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
   var chain = deferred.promise;
   var startTime = new Date().getTime();
 
+  var commands = [];
+
   util.splitTextCommand(value, function(commandStr) {
     chain = chain.then(function() {
       var commandObj = new Command({
@@ -117,6 +119,7 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
 
       var thisDeferred = Q.defer();
       this.gitEngine.dispatch(commandObj, thisDeferred);
+      commands.push(commandObj);
       return thisDeferred.promise;
     }.bind(this));
   }, this);
@@ -124,7 +127,7 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
   chain.then(function() {
     var nowTime = new Date().getTime();
     if (entireCommandPromise) {
-      entireCommandPromise.resolve();
+      entireCommandPromise.resolve(commands);
     }
   });
 

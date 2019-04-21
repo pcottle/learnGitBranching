@@ -2740,37 +2740,26 @@ GitEngine.prototype.logWithout = function(ref, omitBranch) {
   this.log(ref, Graph.getUpstreamSet(this, omitBranch));
 };
 
-GitEngine.prototype.log = function(ref, omitSet) {
-  // omit set is for doing stuff like git log branchA ^branchB
-  omitSet = omitSet || {};
-  // first get the commit we referenced
-  var commit = this.getCommitFromRef(ref);
+GitEngine.prototype.revlist = function(refs) {
+  var range = new RevisionRange(this, refs);
 
-  // then get as many far back as we can from here, order by commit date
-  var toDump = [];
-  var pQueue = [commit];
+  // now go through and collect ids
+  var bigLogStr = range.formatRevisions(function(c) {
+    return c.id + '\n';
+  });
 
-  var seen = {};
+  throw new CommandResult({
+    msg: bigLogStr
+  });
+};
 
-  while (pQueue.length) {
-    var popped = pQueue.shift(0);
-    if (seen[popped.get('id')] || omitSet[popped.get('id')]) {
-      continue;
-    }
-    seen[popped.get('id')] = true;
-
-    toDump.push(popped);
-
-    if (popped.get('parents') && popped.get('parents').length) {
-      pQueue = pQueue.concat(popped.get('parents'));
-    }
-  }
+GitEngine.prototype.log = function(refs) {
+  var range = new RevisionRange(this, refs);
 
   // now go through and collect logs
-  var bigLogStr = '';
-  toDump.forEach(function (c) {
-    bigLogStr += c.getLogEntry();
-  }, this);
+  var bigLogStr = range.formatRevisions(function(c) {
+    return c.getLogEntry();
+  });
 
   throw new CommandResult({
     msg: bigLogStr
@@ -3078,6 +3067,79 @@ var Tag = Ref.extend({
     this.set('type', 'tag');
   }
 });
+
+function RevisionRange(engine, specifiers) {
+  this.engine = engine;
+  this.included = {};
+  this.excluded = {};
+  this.revisions = [];
+
+  this.processSpecifiers(specifiers);
+}
+
+RevisionRange.prototype.isExclusion = function(specifier) {
+  return specifier.startsWith('^');
+};
+
+RevisionRange.prototype.processSpecifiers = function(specifiers) {
+  var self = this;
+  var inclusions = [];
+  var exclusions = [];
+
+  specifiers.forEach(function(specifier) {
+    if(self.isExclusion(specifier)) {
+      exclusions.push(specifier.slice(1));
+    } else {
+      inclusions.push(specifier);
+    }
+  });
+
+  exclusions.forEach(function(exclusion) {
+    self.addExcluded(Graph.getUpstreamSet(self.engine, exclusion));
+  });
+
+  inclusions.forEach(function(inclusion) {
+    self.addIncluded(Graph.getUpstreamSet(self.engine, inclusion));
+  });
+
+  var includedKeys = Array.from(Object.keys(self.included));
+
+  self.revisions = includedKeys.map(function(revision) {
+    return self.engine.resolveStringRef(revision);
+  });
+  self.revisions.sort(self.engine.dateSortFunc);
+  self.revisions.reverse();
+};
+
+RevisionRange.prototype.isExcluded = function(revision) {
+  return this.excluded.hasOwnProperty(revision);
+};
+
+RevisionRange.prototype.addExcluded = function(setToExclude) {
+  var self = this;
+  Object.keys(setToExclude).forEach(function(toExclude) {
+    if(!self.isExcluded(toExclude)) {
+      self.excluded[toExclude] = true;
+    }
+  });
+};
+
+RevisionRange.prototype.addIncluded = function(setToInclude) {
+  var self = this;
+  Object.keys(setToInclude).forEach(function(toInclude) {
+    if(!self.isExcluded(toInclude)) {
+      self.included[toInclude] = true;
+    }
+  });
+};
+
+RevisionRange.prototype.formatRevisions = function(revisionFormatter) {
+  var output = "";
+  this.revisions.forEach(function(c) {
+    output += revisionFormatter(c);
+  });
+  return output;
+};
 
 exports.GitEngine = GitEngine;
 exports.Commit = Commit;

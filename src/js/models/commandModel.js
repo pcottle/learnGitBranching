@@ -126,18 +126,14 @@ var Command = Backbone.Model.extend({
   oneArgImpliedHead: function(args, option) {
     this.validateArgBounds(args, 0, 1, option);
     // and if it's one, add a HEAD to the back
-    if (args.length === 0) {
-      args.push('HEAD');
-    }
+    this.impliedHead(args, 0);
   },
 
   twoArgsImpliedHead: function(args, option) {
     // our args we expect to be between 1 and 2
     this.validateArgBounds(args, 1, 2, option);
     // and if it's one, add a HEAD to the back
-    if (args.length == 1) {
-      args.push('HEAD');
-    }
+    this.impliedHead(args, 1);
   },
 
   oneArgImpliedOrigin: function(args) {
@@ -149,6 +145,12 @@ var Command = Backbone.Model.extend({
 
   twoArgsForOrigin: function(args) {
     this.validateArgBounds(args, 0, 2);
+  },
+
+  impliedHead: function(args, min) {
+    if(args.length == min) {
+      args.push('HEAD');
+    }
   },
 
   // this is a little utility class to help arg validation that happens over and over again
