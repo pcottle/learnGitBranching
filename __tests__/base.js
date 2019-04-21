@@ -1,3 +1,5 @@
+var Q = require('q');
+
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/graph/treeCompare.js');
 
@@ -95,6 +97,27 @@ var expectLevelSolved = function(levelBlob) {
   expectLevelAsync(headless, levelBlob);
 };
 
+var runCommand = function(command, resultHandler) {
+  var headless = new HeadlessGit();
+  var deferred = Q.defer();
+  var msg = null;
+
+  deferred.promise.then(function(commands) {
+    msg = commands[commands.length - 1].get('error').get('msg');
+  });
+
+  runs(function() {
+    headless.sendCommand(command, deferred);
+  });
+  waitsFor(function() {
+    if(null == msg) {
+      return false;
+    }
+    resultHandler(msg);
+    return true;
+  }, 'commands should be finished', 500);
+};
+
 var TIME = 150;
 // useful for throwing garbage and then expecting one commit
 var ONE_COMMIT_TREE = '{"branches":{"master":{"target":"C2","id":"master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"master","id":"HEAD"}}';
@@ -105,6 +128,7 @@ module.exports = {
   TIME: TIME,
   expectTreeAsync: expectTreeAsync,
   expectLevelSolved: expectLevelSolved,
-  ONE_COMMIT_TREE: ONE_COMMIT_TREE
+  ONE_COMMIT_TREE: ONE_COMMIT_TREE,
+  runCommand: runCommand
 };
 

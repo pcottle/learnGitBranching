@@ -98,11 +98,9 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
     treeB.branches
   );
 
-  var result = true;
-  _.uniq(allBranches, function(info, branch) {
-    result = result && this.compareBranchWithinTrees(treeA, treeB, branch);
-  }, this);
-  return result;
+  return Object.keys(allBranches).every(function(branch) {
+    return this.compareBranchWithinTrees(treeA, treeB, branch);
+  }.bind(this));
 };
 
 TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
