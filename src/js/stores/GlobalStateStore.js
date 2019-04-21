@@ -4,15 +4,13 @@ var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 
-var assign = require('object-assign');
-
 var ActionTypes = AppConstants.ActionTypes;
 
 var _isAnimating = false;
 var _flipTreeY = false;
 var _numLevelsSolved = 0;
 
-var GlobalStateStore = assign(
+var GlobalStateStore = Object.assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
