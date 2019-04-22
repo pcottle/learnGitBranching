@@ -1,26 +1,20 @@
 var React = require('react');
-var PropTypes = React.PropTypes;
+var PropTypes = require('prop-types');
 
 var intl = require('../intl');
 var reactUtil = require('../util/reactUtil');
 
-var LevelToolbarView = React.createClass({
+class LevelToolbarView extends React.Component {
 
-  propTypes: {
-    name: PropTypes.string.isRequired,
-    onGoalClick: PropTypes.func.isRequired,
-    onObjectiveClick: PropTypes.func.isRequired,
-    parent: PropTypes.object.isRequired
-  },
-
-  getInitialState: function() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
       isHidden: true,
       isGoalExpanded: this.props.parent.getIsGoalExpanded()
     };
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.setState({
       isHidden: this.props.parent.getIsGoalExpanded()
     });
@@ -33,9 +27,9 @@ var LevelToolbarView = React.createClass({
         isGoalExpanded: this.props.parent.getIsGoalExpanded()
       });
     }.bind(this));
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div className={reactUtil.joinClasses([
           'toolbar',
@@ -78,6 +72,13 @@ var LevelToolbarView = React.createClass({
     );
   }
 
-});
+};
+
+LevelToolbarView.propTypes = {
+  name: PropTypes.string.isRequired,
+  onGoalClick: PropTypes.func.isRequired,
+  onObjectiveClick: PropTypes.func.isRequired,
+  parent: PropTypes.object.isRequired
+}
 
 module.exports = LevelToolbarView;

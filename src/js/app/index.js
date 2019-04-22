@@ -1,6 +1,7 @@
 var Backbone = require('backbone');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -251,7 +252,7 @@ var initDemo = function(sandbox) {
   }
   if (params.hasOwnProperty('STARTREACT')) {
     /*
-    React.render(
+    ReactDOM.render(
       React.createElement(CommandView, {}),
       document.getElementById(params['STARTREACT'])
       );*/
@@ -315,11 +316,11 @@ function CommandUI() {
     el: $('#commandLineBar')
   });
 
-  React.render(
+  ReactDOM.render(
     React.createElement(MainHelperBarView),
     document.getElementById('helperBarMount')
   );
-  React.render(
+  ReactDOM.render(
     React.createElement(
       CommandHistoryView,
       { commandCollection: this.commandCollection }
