@@ -3079,6 +3079,18 @@ function RevisionRange(engine, specifiers) {
   this.processSpecifiers(specifiers);
 }
 
+var rangeRegex = /^(.*)\.\.(.*)$/;
+
+RevisionRange.prototype.processAsRange = function(specifier) {
+  var match = specifier.match(rangeRegex);
+  if(!match) {
+    return false;
+  }
+  this.tipsToExclude.push(match[1]);
+  this.tipsToInclude.push(match[2]);
+  return true;
+};
+
 RevisionRange.prototype.processAsExclusion = function(specifier) {
   if(!specifier.startsWith('^')) {
     return false;
@@ -3095,6 +3107,7 @@ RevisionRange.prototype.processAsInclusion = function(specifier) {
 RevisionRange.prototype.processSpecifiers = function(specifiers) {
   var self = this;
   var processors = [
+    this.processAsRange,
     this.processAsExclusion
   ];
 
