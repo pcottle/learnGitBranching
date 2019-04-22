@@ -3,7 +3,6 @@
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
 var levelSequences = require('../../levels').levelSequences;
 var sequenceInfo = require('../../levels').sequenceInfo;
 
@@ -62,7 +61,7 @@ Object.keys(levelSequences).forEach(function(levelSequenceName) {
     validateLevel(level);
 
     var id = levelSequenceName + String(index + 1);
-    var compiledLevel = assign(
+    var compiledLevel = Object.assign(
       {},
       level,
       {
@@ -78,7 +77,7 @@ Object.keys(levelSequences).forEach(function(levelSequenceName) {
   });
 });
 
-var LevelStore = assign(
+var LevelStore = Object.assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,

@@ -4,8 +4,6 @@ var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 
-var assign = require('object-assign');
-
 var ActionTypes = AppConstants.ActionTypes;
 var DEFAULT_LOCALE = 'en_US';
 
@@ -55,7 +53,7 @@ function _getLocaleFromHeader(langString) {
 }
 
 var _locale = DEFAULT_LOCALE;
-var LocaleStore = assign(
+var LocaleStore = Object.assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
@@ -66,11 +64,11 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getLangLocaleMap: function() {
-    return assign({}, langLocaleMap);
+    return Object.assign({}, langLocaleMap);
   },
 
   getHeaderLocaleMap: function() {
-    return assign({}, headerLocaleMap);
+    return Object.assign({}, headerLocaleMap);
   },
 
   getLocale: function() {
