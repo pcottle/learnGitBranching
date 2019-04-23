@@ -3070,39 +3070,62 @@ var Tag = Ref.extend({
 
 function RevisionRange(engine, specifiers) {
   this.engine = engine;
-  this.included = {};
-  this.excluded = {};
+  this.tipsToInclude = [];
+  this.tipsToExclude = [];
+  this.includedRefs = {};
+  this.excludedRefs = {};
   this.revisions = [];
 
   this.processSpecifiers(specifiers);
 }
 
-RevisionRange.prototype.isExclusion = function(specifier) {
-  return specifier.startsWith('^');
+var rangeRegex = /^(.*)\.\.(.*)$/;
+
+RevisionRange.prototype.processAsRange = function(specifier) {
+  var match = specifier.match(rangeRegex);
+  if(!match) {
+    return false;
+  }
+  this.tipsToExclude.push(match[1]);
+  this.tipsToInclude.push(match[2]);
+  return true;
+};
+
+RevisionRange.prototype.processAsExclusion = function(specifier) {
+  if(!specifier.startsWith('^')) {
+    return false;
+  }
+  this.tipsToExclude.push(specifier.slice(1));
+  return true;
+};
+
+RevisionRange.prototype.processAsInclusion = function(specifier) {
+  this.tipsToInclude.push(specifier);
+  return true;
 };
 
 RevisionRange.prototype.processSpecifiers = function(specifiers) {
   var self = this;
-  var inclusions = [];
-  var exclusions = [];
+  var processors = [
+    this.processAsRange,
+    this.processAsExclusion
+  ];
 
   specifiers.forEach(function(specifier) {
-    if(self.isExclusion(specifier)) {
-      exclusions.push(specifier.slice(1));
-    } else {
-      inclusions.push(specifier);
+    if(!processors.some(function(processor) { return processor.bind(self)(specifier); })) {
+      self.processAsInclusion(specifier);
     }
   });
 
-  exclusions.forEach(function(exclusion) {
+  this.tipsToExclude.forEach(function(exclusion) {
     self.addExcluded(Graph.getUpstreamSet(self.engine, exclusion));
   });
 
-  inclusions.forEach(function(inclusion) {
+  this.tipsToInclude.forEach(function(inclusion) {
     self.addIncluded(Graph.getUpstreamSet(self.engine, inclusion));
   });
 
-  var includedKeys = Array.from(Object.keys(self.included));
+  var includedKeys = Array.from(Object.keys(self.includedRefs));
 
   self.revisions = includedKeys.map(function(revision) {
     return self.engine.resolveStringRef(revision);
@@ -3112,14 +3135,14 @@ RevisionRange.prototype.processSpecifiers = function(specifiers) {
 };
 
 RevisionRange.prototype.isExcluded = function(revision) {
-  return this.excluded.hasOwnProperty(revision);
+  return this.excludedRefs.hasOwnProperty(revision);
 };
 
 RevisionRange.prototype.addExcluded = function(setToExclude) {
   var self = this;
   Object.keys(setToExclude).forEach(function(toExclude) {
     if(!self.isExcluded(toExclude)) {
-      self.excluded[toExclude] = true;
+      self.excludedRefs[toExclude] = true;
     }
   });
 };
@@ -3128,7 +3151,7 @@ RevisionRange.prototype.addIncluded = function(setToInclude) {
   var self = this;
   Object.keys(setToInclude).forEach(function(toInclude) {
     if(!self.isExcluded(toInclude)) {
-      self.included[toInclude] = true;
+      self.includedRefs[toInclude] = true;
     }
   });
 };

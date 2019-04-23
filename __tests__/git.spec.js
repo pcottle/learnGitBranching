@@ -317,6 +317,18 @@ describe('Git', function() {
           expect(commandMsg).toBe('C6\n');
         });
       });
+
+      it('range between branches', function() {
+        runCommand(SETUP + 'git rev-list left..right', function(commandMsg) {
+          expect(commandMsg).toBe('C5\nC4\n');
+        });
+      });
+
+      it('range between commits', function() {
+        runCommand(SETUP + 'git rev-list C3..C5', function(commandMsg) {
+          expect(commandMsg).toBe('C5\nC4\n');
+        });
+      });
     });
   });
 
