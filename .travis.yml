@@ -11,4 +11,4 @@ cache:
   directories:
     - "node_modules"
 script:
-  - yarn test
+  - yarn test && yarn build
