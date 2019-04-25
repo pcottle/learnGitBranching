@@ -111,6 +111,7 @@ module.exports = function(grunt) {
         'src/levels/**/*.js'
       ],
       options: {
+        esversion: 6,
         curly: true,
         // sometimes triple equality is just redundant and unnecessary
         eqeqeq: false,
@@ -226,7 +227,7 @@ module.exports = function(grunt) {
   });
 
   // all my npm helpers
-  grunt.loadNpmTasks('grunt-jsxhint');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-hash');
   grunt.loadNpmTasks('grunt-contrib-clean');
