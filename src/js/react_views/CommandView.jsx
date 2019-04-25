@@ -1,8 +1,9 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var PropTypes = require('prop-types');
 
 var reactUtil = require('../util/reactUtil');
-var keyMirror = require('react/lib/keyMirror');
+var keyMirror = require('fbjs/lib/keyMirror');
 
 var STATUSES = keyMirror({
   inqueue: null,
@@ -24,16 +25,7 @@ class CommandView extends React.Component{
   }
 
   onModelDestroy() {
-    if (!this.isMounted()) {
-      return;
-    }
-    if (!this.getDOMNode) {
-      // WTF -- only happens in casperjs tests weirdly
-      console.error('this.getDOMNode not a function?');
-      return;
-    }
-
-    React.unmountComponentAtNode(this.getDOMNode().parentNode);
+    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
   }
 
   updateStateFromModel() {

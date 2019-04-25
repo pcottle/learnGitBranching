@@ -13,7 +13,7 @@ var _subscribeEvents = [
 
 class CommandHistoryView extends React.Component {
 
-   componentDidMount() {
+  componentDidMount() {
     for (var i = 0; i < _subscribeEvents.length; i++) {
       this.props.commandCollection.on(
         _subscribeEvents[i],
@@ -24,7 +24,7 @@ class CommandHistoryView extends React.Component {
 
     this.props.commandCollection.on('change', this.scrollDown, this);
     Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-    Main.getEvents().on('clearOldCommands', this.clearOldCommands, this);
+    Main.getEvents().on('clearOldCommands', () => this.clearOldCommands(), this);
   }
 
   componentWillUnmount() {

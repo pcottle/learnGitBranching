@@ -1,11 +1,12 @@
 var Q = require('q');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 var util = require('../util');
 var Main = require('../app');
 var intl = require('../intl');
 var log = require('../log');
 
-var React = require('react');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
@@ -139,7 +140,7 @@ var Level = Sandbox.extend({
         parent: this
       }
     );
-    React.render(
+    ReactDOM.render(
       this.levelToolbar,
       document.getElementById('levelToolbarMount')
     );
@@ -543,7 +544,7 @@ var Level = Sandbox.extend({
   },
 
   die: function() {
-    React.unmountComponentAtNode(
+    ReactDOM.unmountComponentAtNode(
       document.getElementById('levelToolbarMount')
     );
 

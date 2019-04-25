@@ -14,12 +14,17 @@ class LevelToolbarView extends React.Component {
     };
   }
 
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   componentDidMount() {
+    this._isMounted = true;
     this.setState({
-      isHidden: this.props.parent.getIsGoalExpanded()
+      isHidden: this.props.parent.getIsGoalExpanded(),
+      isGoalExpanded: this.props.parent.getIsGoalExpanded()
     });
     this.props.parent.on('goalToggled', function() {
-      if (!this.isMounted()) {
+      if (!this._isMounted) {
         return;
       }
 
