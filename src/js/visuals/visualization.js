@@ -68,9 +68,7 @@ var Visualization = Backbone.View.extend({
 
     this.myResize();
 
-    $(window).on('resize', function() {
-      this.myResize();
-    }.bind(this));
+    $(window).on('resize', () => this.myResize());
 
     // If the visualization is within a draggable container, we need to update the
     // position whenever the container is moved.
@@ -257,12 +255,11 @@ var Visualization = Backbone.View.extend({
   myResize: function() {
     if (!this.paper) { return; }
 
-    var smaller = 1;
     var el = this.el;
 
     var elSize = el.getBoundingClientRect();
-    var width = elSize.width - smaller;
-    var height = elSize.height - smaller;
+    var width = elSize.width;
+    var height = elSize.height;
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
