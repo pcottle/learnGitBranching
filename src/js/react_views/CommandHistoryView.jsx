@@ -1,6 +1,8 @@
+var React = require('react');
+var PropTypes = require('prop-types');
+
 var CommandView = require('../react_views/CommandView.jsx');
 var Main = require('../app');
-var React = require('react');
 
 var _subscribeEvents = [
   'add',
@@ -9,14 +11,9 @@ var _subscribeEvents = [
   'all'
 ];
 
-var CommandHistoryView = React.createClass({
+class CommandHistoryView extends React.Component {
 
-  propTypes: {
-    // the backbone command model collection
-    commandCollection: React.PropTypes.object.isRequired
-  },
-
-  componentDidMount: function() {
+  componentDidMount() {
     for (var i = 0; i < _subscribeEvents.length; i++) {
       this.props.commandCollection.on(
         _subscribeEvents[i],
@@ -27,10 +24,10 @@ var CommandHistoryView = React.createClass({
 
     this.props.commandCollection.on('change', this.scrollDown, this);
     Main.getEvents().on('commandScrollDown', this.scrollDown, this);
-    Main.getEvents().on('clearOldCommands', this.clearOldCommands, this);
-  },
+    Main.getEvents().on('clearOldCommands', () => this.clearOldCommands(), this);
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     for (var i = 0; i < _subscribeEvents.length; i++) {
       this.props.commandCollection.off(
         _subscribeEvents[i],
@@ -38,13 +35,13 @@ var CommandHistoryView = React.createClass({
         this
       );
     }
-  },
+  }
 
-  updateFromCollection: function() {
+  updateFromCollection() {
     this.forceUpdate();
-  },
+  }
 
-  render: function() {
+  render() {
     var allCommands = [];
     this.props.commandCollection.each(function(command, index) {
       allCommands.push(
@@ -60,9 +57,9 @@ var CommandHistoryView = React.createClass({
         {allCommands}
       </div>
     );
-  },
+  }
 
-  scrollDown: function() {
+  scrollDown() {
     var cD = document.getElementById('commandDisplay');
     var t = document.getElementById('terminal');
 
@@ -81,9 +78,9 @@ var CommandHistoryView = React.createClass({
     if (shouldScroll) {
       t.scrollTop = t.scrollHeight;
     }
-  },
+  }
 
-  clearOldCommands: function() {
+  clearOldCommands() {
     // go through and get rid of every command that is "processed" or done
     var toDestroy = [];
 
@@ -100,6 +97,11 @@ var CommandHistoryView = React.createClass({
     this.scrollDown();
   }
 
-});
+}
+
+CommandHistoryView.propTypes = {
+  // the backbone command model collection
+  commandCollection: PropTypes.object.isRequired
+};
 
 module.exports = CommandHistoryView;

@@ -1,31 +1,27 @@
+var React = require('react');
+var PropTypes = require('prop-types');
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
-var React = require('react');
 
 var log = require('../log');
 
-var CommandsHelperBarView = React.createClass({
+class CommandsHelperBarView extends React.Component {
 
-  propTypes: {
-    shown: React.PropTypes.bool.isRequired,
-    onExit: React.PropTypes.func.isRequired
-  },
-
-  render: function() {
+  render() {
     return (
       <HelperBarView
         items={this.getItems()}
         shown={this.props.shown}
       />
     );
-  },
+  }
 
-  fireCommand: function(command) {
+  fireCommand(command) {
     log.viewInteracted('commandHelperBar');
     Main.getEventBaton().trigger('commandSubmitted', command);
-  },
+  }
 
-  getItems: function() {
+  getItems() {
     return [{
       text: 'Levels',
       onClick: function() {
@@ -64,6 +60,11 @@ var CommandsHelperBarView = React.createClass({
     }];
   }
 
-});
+};
+
+CommandsHelperBarView.propTypes = {
+  shown: PropTypes.bool.isRequired,
+  onExit: PropTypes.func.isRequired
+};
 
 module.exports = CommandsHelperBarView;

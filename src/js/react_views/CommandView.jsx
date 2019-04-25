@@ -1,7 +1,9 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
+var PropTypes = require('prop-types');
 
 var reactUtil = require('../util/reactUtil');
-var keyMirror = require('react/lib/keyMirror');
+var keyMirror = require('fbjs/lib/keyMirror');
 
 var STATUSES = keyMirror({
   inqueue: null,
@@ -9,39 +11,24 @@ var STATUSES = keyMirror({
   finished: null
 });
 
-var CommandView = React.createClass({
+class CommandView extends React.Component{
 
-  propTypes: {
-    // the backbone command model
-    command: React.PropTypes.object.isRequired,
-    id: React.PropTypes.string,
-  },
-
-  componentDidMount: function() {
+  componentDidMount() {
     this.props.command.on('change', this.updateStateFromModel, this);
     this.props.command.on('destroy', this.onModelDestroy, this);
     this.updateStateFromModel();
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.props.command.off('change', this.updateStateFromModel, this);
     this.props.command.off('destroy', this.onModelDestroy, this);
-  },
+  }
 
-  onModelDestroy: function() {
-    if (!this.isMounted()) {
-      return;
-    }
-    if (!this.getDOMNode) {
-      // WTF -- only happens in casperjs tests weirdly
-      console.error('this.getDOMNode not a function?');
-      return;
-    }
+  onModelDestroy() {
+    ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
+  }
 
-    React.unmountComponentAtNode(this.getDOMNode().parentNode);
-  },
-
-  updateStateFromModel: function() {
+  updateStateFromModel() {
     var commandJSON = this.props.command.toJSON();
     this.setState({
       status: commandJSON.status,
@@ -49,18 +36,19 @@ var CommandView = React.createClass({
       warnings: commandJSON.warnings,
       result: commandJSON.result
     });
-  },
+  }
 
-  getInitialState: function() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
       status: STATUSES.inqueue,
       rawStr: 'git commit',
       warnings: [],
       result: ''
     };
-  },
+  }
 
-  render: function() {
+  render() {
     var commandClass = reactUtil.joinClasses([
       this.state.status,
       'commandLine',
@@ -89,9 +77,9 @@ var CommandView = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  renderResult: function() {
+  renderResult() {
     if (!this.state.result) {
       return null;
     }
@@ -126,9 +114,9 @@ var CommandView = React.createClass({
         {result}
       </div>
     );
-  },
+  }
 
-  renderFormattedWarnings: function() {
+  renderFormattedWarnings() {
     var warnings = this.state.warnings;
     var result = [];
     for (var i = 0; i < warnings.length; i++) {
@@ -141,6 +129,12 @@ var CommandView = React.createClass({
     }
     return result;
   }
-});
+};
+
+CommandView.propTypes = {
+  // the backbone command model
+  command: PropTypes.object.isRequired,
+  id: PropTypes.string,
+};
 
 module.exports = CommandView;

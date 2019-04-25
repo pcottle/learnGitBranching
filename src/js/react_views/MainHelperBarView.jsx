@@ -14,15 +14,16 @@ var BARS = keyMirror({
   COMMANDS: null
 });
 
-var MainHelperBarView = React.createClass({
+class MainHelperBarView extends React.Component {
 
-  getInitialState: function() {
-    return {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
       shownBar: BARS.SELF
     };
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         <HelperBarView
@@ -40,15 +41,15 @@ var MainHelperBarView = React.createClass({
         />
       </div>
     );
-  },
+  }
 
-  showSelf: function() {
+  showSelf() {
     this.setState({
       shownBar: BARS.SELF
     });
-  },
+  }
 
-  getItems: function() {
+  getItems() {
     return [{
       icon: 'question-sign',
       onClick: function() {
@@ -74,6 +75,6 @@ var MainHelperBarView = React.createClass({
     }];
   }
 
-});
+};
 
 module.exports = MainHelperBarView;
