@@ -81,7 +81,7 @@ The general workflow / steps are below:
 ```bash
 git clone <your fork of the repo>
 cd learnGitBranching
-npm install # to install all the node modules I depend on
+yarn install
 
 git checkout -b newAwesomeFeature
 vim ./src/js/git/index.js # some changes
@@ -165,4 +165,3 @@ And the following heroes for assisting in translating:
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 
 And everyone who has reported an issue that was successfully closed!
-
