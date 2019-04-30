@@ -4,8 +4,6 @@ var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 
-var assign = require('object-assign');
-
 var ActionTypes = AppConstants.ActionTypes;
 var COMMAND_HISTORY_KEY = 'lgb_CommandHistory';
 var COMMAND_HISTORY_MAX_LENGTH = 100;
@@ -38,7 +36,7 @@ function _saveToLocalStorage() {
   }
 }
 
-var CommandLineStore = assign(
+var CommandLineStore = Object.assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,

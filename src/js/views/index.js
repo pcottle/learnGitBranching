@@ -311,7 +311,7 @@ var ModalTerminal = ContainedBase.extend({
 
     this.container = new ModalView();
     this.JSON = {
-      title: options.title 
+      title: options.title
     };
 
     this.render();

@@ -1,6 +1,6 @@
 /*
- * CSS animated rainbow dividers of awesome 
- * by Chris Heilmann @codepo8 and Lea Verou @leaverou 
+ * CSS animated rainbow dividers of awesome
+ * by Chris Heilmann @codepo8 and Lea Verou @leaverou
 **/
 
 /**
@@ -8,28 +8,28 @@
  */
 
 @-moz-keyframes rainbowanim {
-  from { background-position:top left; } 
+  from { background-position:top left; }
   to {background-position:top right; }
 }
-@-webkit-keyframes rainbowanim { 
-  from { background-position:top left; }  
-  to { background-position:top right; }  
+@-webkit-keyframes rainbowanim {
+  from { background-position:top left; }
+  to { background-position:top right; }
 }
-@-o-keyframes rainbowanim { 
-  from { background-position:top left; }  
-  to { background-position:top right; }  
+@-o-keyframes rainbowanim {
+  from { background-position:top left; }
+  to { background-position:top right; }
 }
-@-ms-keyframes rainbowanim { 
-  from { background-position:top left; }  
-  to { background-position:top right; }  
+@-ms-keyframes rainbowanim {
+  from { background-position:top left; }
+  to { background-position:top right; }
 }
-@-khtml-keyframes rainbowanim { 
-  from { background-position:top left; }  
-  to { background-position:top right; }  
+@-khtml-keyframes rainbowanim {
+  from { background-position:top left; }
+  to { background-position:top right; }
 }
-@keyframes rainbowanim { 
-  from { background-position:top left; }  
-  to { background-position:top right; }  
+@keyframes rainbowanim {
+  from { background-position:top left; }
+  to { background-position:top right; }
 }
 
 .catchadream{

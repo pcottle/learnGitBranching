@@ -1,16 +1,11 @@
 var React = require('react');
+var PropTypes = require('prop-types');
 
 var reactUtil = require('../util/reactUtil');
 
-var HelperBarView = React.createClass({
+class HelperBarView extends React.Component {
 
-  propTypes: {
-    className: React.PropTypes.string,
-    shown: React.PropTypes.bool.isRequired,
-    items: React.PropTypes.array.isRequired
-  },
-
-  render: function() {
+  render() {
     var topClassName = reactUtil.joinClasses([
       'helperBar',
       'transitionAll',
@@ -32,9 +27,9 @@ var HelperBarView = React.createClass({
         }.bind(this))}
       </div>
     );
-  },
+  }
 
-  renderItem: function(item, index) {
+  renderItem(item, index) {
     var testID = item.icon || item.testID ||
       item.text.toLowerCase();
     if (item.newPageLink) {
@@ -63,6 +58,13 @@ var HelperBarView = React.createClass({
     );
   }
 
-});
+};
+
+HelperBarView.propTypes = {
+  className: PropTypes.string,
+  shown: PropTypes.bool.isRequired,
+  items: PropTypes.array.isRequired
+};
+
 
 module.exports = HelperBarView;

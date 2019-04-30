@@ -4,7 +4,7 @@ module.exports = function(func, time) {
       if (!wait) {
         func.apply(this, arguments);
         wait = true;
-        
+
         setTimeout(function() {
           wait = false;
         }, time);

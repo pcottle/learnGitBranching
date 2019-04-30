@@ -37,7 +37,7 @@ var commands = {
         // copy command, and then set opts
         commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
-        
+
         commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);
       }, this);
     } else {
