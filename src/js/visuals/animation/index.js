@@ -55,7 +55,7 @@ var AnimationQueue = Backbone.Model.extend({
   },
 
   add: function(animation) {
-    if (!animation instanceof Animation) {
+    if (!(animation instanceof Animation)) {
       throw new Error("Need animation not something else");
     }
 

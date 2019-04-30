@@ -1,32 +1,29 @@
+var PropTypes = require('prop-types');
+
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
 var React = require('react');
 
 var log = require('../log');
 
-var IntlHelperBarView = React.createClass({
+class IntlHelperBarView extends React.Component{
 
-  propTypes: {
-    shown: React.PropTypes.bool.isRequired,
-    onExit: React.PropTypes.func.isRequired
-  },
-
-  render: function() {
+  render() {
     return (
       <HelperBarView
         items={this.getItems()}
         shown={this.props.shown}
       />
     );
-  },
+  }
 
-  fireCommand: function(command) {
+  fireCommand(command) {
     log.viewInteracted('intlSelect');
     Main.getEventBaton().trigger('commandSubmitted', command);
     this.props.onExit();
-  },
+  }
 
-  getItems: function() {
+  getItems() {
     return [{
       text: 'Git Branching',
       testID: 'english',
@@ -107,6 +104,11 @@ var IntlHelperBarView = React.createClass({
     }];
   }
 
-});
+};
+
+IntlHelperBarView.propTypes = {
+  shown: PropTypes.bool.isRequired,
+  onExit: PropTypes.func.isRequired
+}
 
 module.exports = IntlHelperBarView;
