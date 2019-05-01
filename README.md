@@ -74,7 +74,7 @@ at least once before submitting a pull request. That means you'll need the "Grun
 
 https://gruntjs.com/getting-started
 
-You'll also need `npm` to download all the dependencies of the project.
+You'll also need `yarn` to download all the dependencies of the project.
 
 The general workflow / steps are below:
 
