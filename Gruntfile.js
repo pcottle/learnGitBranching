@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var fs = require('fs');
+var babelify = require('babelify');
 
 // Haha, this is so tricky. so we have a template for index.html to stick
 // in the hashed JS and style files -- that template also contains
@@ -213,7 +214,9 @@ module.exports = function(grunt) {
     },
     browserify: {
       options: {
-        transform: [require('grunt-react').browserify]
+        transform: [babelify.configure({
+          presets: ['@babel/preset-env', '@babel/preset-react']
+        })]
       },
       dist: {
         files: {
@@ -234,7 +237,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell-spawn');
   grunt.loadNpmTasks('grunt-jasmine-node');
   grunt.loadNpmTasks('grunt-contrib-uglify-es');
-  grunt.loadNpmTasks('grunt-react');
   grunt.loadNpmTasks('grunt-env');
 
   grunt.registerTask('build',
