@@ -215,7 +215,7 @@ module.exports = function(grunt) {
     browserify: {
       options: {
         transform: [babelify.configure({
-          presets: ['@babel/preset-env', '@babel/preset-react']
+          presets: ['@babel/preset-react']
         })]
       },
       dist: {

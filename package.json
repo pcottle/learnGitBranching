@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "babelify": "^10.0.0",
     "browserify": "^13.0.0",
