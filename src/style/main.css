@@ -497,6 +497,7 @@ div.reactCommandView p.commandLine span.icons i:first-child {
 
 p.commandLine span.icons i {
   opacity: 0;
+  line-height: 1em;
 }
 
 p.commandLine.inqueue span.icons i.icon-check-empty,
