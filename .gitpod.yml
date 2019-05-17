@@ -2,8 +2,8 @@ ports:
 - port: 8000
   onOpen: open-preview
 tasks:
-- init: yarn install && yarn global add grunt-cli
+- init: yarn install
   command: >
-    grunt fastBuild &&
-    printf "\nWelcome to Learn Git Branching\nTo rebuild the app, simply run 'grunt fastBuild' and reload index.html.\n\n" &&
+    yarn grunt fastBuild &&
+    printf "\nWelcome to Learn Git Branching\nTo rebuild the app, simply run 'yarn grunt fastBuild' and reload index.html.\n\n" &&
     python3 -m http.server 8000 2>/dev/null

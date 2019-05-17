@@ -74,7 +74,7 @@ at least once before submitting a pull request. That means you'll need the "Grun
 
 https://gruntjs.com/getting-started
 
-You'll also need `npm` to download all the dependencies of the project.
+You'll also need `yarn` to download all the dependencies of the project.
 
 The general workflow / steps are below:
 
@@ -85,13 +85,13 @@ yarn install
 
 git checkout -b newAwesomeFeature
 vim ./src/js/git/index.js # some changes
-grunt fastBuild # skips tests and linting, faster build
+yarn grunt fastBuild # skips tests and linting, faster build
 
 # after building you can open up your browser to the index.html
 # file generated and see your changes
 
 vim ./src/js/git/index.js # more changes
-grunt build # runs tests and lint
+yarn grunt build # runs tests and lint
 
 git commit -am "My new sweet feature!"
 git push
