@@ -33,11 +33,11 @@ class MainHelperBarView extends React.Component {
         />
         <CommandsHelperBarView
           shown={this.state.shownBar === BARS.COMMANDS}
-          onExit={this.showSelf}
+          onExit={this.showSelf.bind(this)}
         />
         <IntlHelperBarView
           shown={this.state.shownBar === BARS.INTL}
-          onExit={this.showSelf}
+          onExit={this.showSelf.bind(this)}
         />
       </div>
     );
