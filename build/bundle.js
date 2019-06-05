@@ -56598,10 +56598,10 @@ class MainHelperBarView extends React.Component {
       shown: this.state.shownBar === BARS.SELF
     }), React.createElement(CommandsHelperBarView, {
       shown: this.state.shownBar === BARS.COMMANDS,
-      onExit: this.showSelf
+      onExit: this.showSelf.bind(this)
     }), React.createElement(IntlHelperBarView, {
       shown: this.state.shownBar === BARS.INTL,
-      onExit: this.showSelf
+      onExit: this.showSelf.bind(this)
     }));
   }
 
