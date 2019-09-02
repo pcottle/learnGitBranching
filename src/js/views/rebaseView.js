@@ -74,9 +74,21 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // now get the real array
     var toRebase = [];
+    var currentSquash = [];
     uiOrder.forEach(function(id) {
       // the model pick check
       if (this.entryObjMap[id].get('pick')) {
+        toRebase.unshift(this.rebaseMap[id]);
+      } else if (this.entryObjMap[id].get('squash')) {
+        // the first one not to already be squashed will get all commits added to it
+        var bigCommit;
+        // Find the big commit...
+        for(bigCommit = 0;toRebase[bigCommit].get('isSquashed');bigCommit++) {}
+
+        var newMessage = toRebase[bigCommit].get('visNode').get('id') + ':' + this.rebaseMap[id].get('visNode').get('id');
+        toRebase[bigCommit].set('squashId', newMessage);
+        toRebase[bigCommit].set('squashUntil', true);
+        this.rebaseMap[id].set('isSquashed', true);
         toRebase.unshift(this.rebaseMap[id]);
       }
     }, this);
@@ -147,11 +159,23 @@ var InteractiveRebaseView = ContainedBase.extend({
 
 var RebaseEntry = Backbone.Model.extend({
   defaults: {
-    pick: true
+    pick: true,
+    squash: false
   },
 
-  toggle: function() {
-    this.set('pick', !this.get('pick'));
+  pick: function() {
+    this.set('pick', true);
+    this.set('squash', false);
+  },
+
+  squash: function() {
+    this.set('pick', false);
+    this.set('squash', true);
+  },
+
+  omit: function() {
+    this.set('pick', false);
+    this.set('squash', false);
   }
 });
 
@@ -163,15 +187,45 @@ var RebaseEntryView = Backbone.View.extend({
   tagName: 'li',
   template: _.template($('#interactive-rebase-entry-template').html()),
 
-  toggle: function() {
-    this.model.toggle();
+  pick: function() {
+    this.model.pick();
 
-    // toggle a class also
+    this.listEntry.toggleClass('picked', this.model.get('pick'));
     this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+    this.listEntry.toggleClass('notSquashed', !this.model.get('squash'));
+    this.listEntry.toggleClass('squashed', this.model.get('squash'));
+    this.listEntry.toggleClass('omitted', (!this.model.get('pick')) && (!this.model.get('squash')));
+  },
+
+  squash: function() {
+    this.model.squash();
+
+    this.listEntry.toggleClass('picked', this.model.get('pick'));
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+    this.listEntry.toggleClass('notSquashed', !this.model.get('squash'));
+    this.listEntry.toggleClass('squashed', this.model.get('squash'));
+    this.listEntry.toggleClass('omitted', (!this.model.get('pick')) && (!this.model.get('squash')));
+  },
+
+  omit: function() {
+    this.model.omit();
+
+    this.listEntry.toggleClass('picked', this.model.get('pick'));
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+    this.listEntry.toggleClass('notSquashed', !this.model.get('squash'));
+    this.listEntry.toggleClass('squashed', this.model.get('squash'));
+    this.listEntry.toggleClass('omitted', (!this.model.get('pick')) && (!this.model.get('squash')));
   },
 
   initialize: function(options) {
     this.render();
+
+    this.listEntry.toggleClass('picked', this.model.get('pick'));
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+    this.listEntry.toggleClass('notSquashed', !this.model.get('squash'));
+    this.listEntry.toggleClass('squashed', this.model.get('squash'));
+    this.listEntry.toggleClass('omitted', (!this.model.get('pick')) && (!this.model.get('squash')));
+    
   },
 
   render: function() {
@@ -181,7 +235,15 @@ var RebaseEntryView = Backbone.View.extend({
     this.listEntry = this.$el.children(':last');
 
     this.listEntry.delegate('#toggleButton', 'click', function() {
-      this.toggle();
+      this.pick();
+    }.bind(this));
+
+    this.listEntry.delegate('#squashButton', 'click', function() {
+      this.squash();
+    }.bind(this));
+
+    this.listEntry.delegate('#omitButton', 'click', function() {
+      this.omit();
     }.bind(this));
   }
 });

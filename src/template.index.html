@@ -342,13 +342,24 @@
           <%= id %>
         </span>
         <a id="toggleButton" class="uiButton uiButtonPink">
-          <span class="showWhenPicked">
-            Omit
-          </span>
           <span class="showWhenNotPicked">
             Pick
           </span>
         </a>
+        <a id="squashButton" class="uiButton uiButtonYellow">
+          <span class="showWhenNotSquashed">
+            Squash
+          </span>
+        </a>
+        <a id="omitButton" class="uiButton uiButtonRed">
+          <span class="showWhenPicked">
+            Omit
+          </span>
+          <span class="showWhenSquashed">
+            Omit
+          </span>
+        </a>
+
       </div>
     </li>
   </script>

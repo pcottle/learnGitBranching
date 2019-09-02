@@ -47,7 +47,9 @@ exports.levelSequences = {
     require('./remote/pushArgs2').level,
     require('./remote/fetchArgs').level,
     require('./remote/sourceNothing').level,
-    require('./remote/pullArgs').level
+    require('./remote/pullArgs').level,
+    require('./remote/squash1').level,
+    require('./remote/squash2').level
   ]
 };
 

@@ -2372,7 +2372,14 @@ GitEngine.prototype.rebaseFinish = function(
   var hasStartedChain = false;
   // each step makes a new commit
   var chainStep = function(oldCommit) {
-    var newId = this.rebaseAltID(oldCommit.get('id'));
+    var newId;
+    if(oldCommit.get('squashUntil')) {
+      newId = oldCommit.get('squashedId');
+    } else if (oldCommit.get('isSquashed')) {
+      return null;
+    } else {
+      newId = this.rebaseAltID(oldCommit.get('id'));
+    }
     var parents;
     if (!options.preserveMerges || !hasStartedChain) {
       // easy logic since we just have a straight line

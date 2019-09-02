@@ -773,20 +773,46 @@ li.rebaseEntry a#toggleButton {
   right: -5px;
 }
 
-li.rebaseEntry.notPicked {
+li.rebaseEntry a#squashButton {
+  cursor: pointer;
+  float: right;
+  position: relative;
+  font-size: 0.875em;
+  top: -5px;
+  right: -5px;
+}
+
+li.rebaseEntry a#omitButton {
+  cursor: pointer;
+  float: right;
+  position: relative;
+  font-size: 0.875em;
+  top: -5px;
+  right: -5px;
+}
+
+li.rebaseEntry.omitted {
   opacity: 0.2;
+}
+
+li.rebaseEntry.squashed span.showWhenNotSquashed {
+  display: none;
+}
+
+li.rebaseEntry.picked span.showWhenNotPicked {
+  display: none;
+}
+
+li.rebaseEntry.picked span.showWhenNotPicked {
+  display: none;
 }
 
 li.rebaseEntry.notPicked span.showWhenPicked {
   display: none;
 }
 
-li.rebaseEntry span.showWhenNotPicked {
+li.rebaseEntry.notSquashed span.showWhenSquashed {
   display: none;
-}
-
-li.rebaseEntry.notPicked span.showWhenNotPicked {
-  display: inline;
 }
 
 /* Modal Views */
