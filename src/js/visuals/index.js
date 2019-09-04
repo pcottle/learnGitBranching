@@ -701,6 +701,25 @@ GitVisuals.prototype.addTagFromEvent = function(tag, collection, index) {
   }
 };
 
+GitVisuals.prototype.removeTag = function(tag, collection, index) {
+  var action = function() {
+    var tagToRemove;
+    this.visTagCollection.each(function(visTag) {
+      if(visTag.get('tag') == tag){
+        tagToRemove = visTag;
+      }
+    }, true);
+    tagToRemove.remove();
+    this.removeVisTag(tagToRemove);
+  }.bind(this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
 GitVisuals.prototype.addTag = function(tag) {
   var visTag = new VisTag({
     tag: tag,
