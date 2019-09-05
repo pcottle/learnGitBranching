@@ -220,6 +220,13 @@ describe('Git', function() {
 		);
 	});
 
+	it('makes a tag and removes a tag', function() {
+		expectTreeAsync(
+			'git tag v1; git tag -d v1',
+			'{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"master","id":"HEAD"}}'
+		);
+	});
+
 	it('makes a tag on another ref', function() {
 		expectTreeAsync(
 			'git tag v1 C0',

@@ -686,7 +686,7 @@ GitEngine.prototype.validateAndMakeTag = function(id, target) {
     throw new GitError({
       msg: intl.str(
         'bad-tag-name',
-        { tag: name }
+        { tag: id }
       )
     });
   }
