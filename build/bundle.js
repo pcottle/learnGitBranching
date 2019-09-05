@@ -48909,8 +48909,33 @@ var commandConfig = {
   },
   tag: {
     regex: /^git +tag($|\s)/,
+    options: ['-d'],
     execute: function (engine, command) {
       var generalArgs = command.getGeneralArgs();
+      var commandOptions = command.getOptionsMap();
+
+      if (commandOptions['-d']) {
+        var tagID = commandOptions['-d'];
+        var tagToRemove;
+        assertIsRef(engine, tagID);
+        command.oneArgImpliedHead(tagID);
+        engine.tagCollection.each(function (tag) {
+          if (tag.get('id') == tagID) {
+            tagToRemove = tag;
+          }
+        }, true);
+
+        if (tagToRemove == undefined) {
+          throw new GitError({
+            msg: intl.todo('No tag found, nothing to remove')
+          });
+        }
+
+        engine.tagCollection.remove(tagToRemove);
+        delete engine.refs[tagID];
+        engine.gitVisuals.refreshTree();
+        return;
+      }
 
       if (generalArgs.length === 0) {
         var tags = engine.getTags();
@@ -49809,7 +49834,7 @@ GitEngine.prototype.validateAndMakeTag = function (id, target) {
   if (this.refs[id]) {
     throw new GitError({
       msg: intl.str('bad-tag-name', {
-        tag: name
+        tag: id
       })
     });
   }
@@ -61238,6 +61263,25 @@ GitVisuals.prototype.addBranch = function (branch) {
 GitVisuals.prototype.addTagFromEvent = function (tag, collection, index) {
   var action = function () {
     this.addTag(tag);
+  }.bind(this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
+GitVisuals.prototype.removeTag = function (tag, collection, index) {
+  var action = function () {
+    var tagToRemove;
+    this.visTagCollection.each(function (visTag) {
+      if (visTag.get('tag') == tag) {
+        tagToRemove = visTag;
+      }
+    }, true);
+    tagToRemove.remove();
+    this.removeVisTag(tagToRemove);
   }.bind(this);
 
   if (!this.gitEngine || !this.gitReady) {
