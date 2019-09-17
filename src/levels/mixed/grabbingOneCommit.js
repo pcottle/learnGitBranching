@@ -5,6 +5,11 @@ exports.level = {
       function(data) {
         return data.C4 > data.C1;
       }
+    ],
+    "bugFix": [
+      function(data) {
+        return data.C4 > data.C1;
+      }
     ]
   },
   "disabledMap": {
