@@ -190,7 +190,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Переміщуємо роботу туди-сюди'
     },
     about: {
-      'en_US': 'Git comfortable with modifying the source tree',
+      'en_US': '"Git" comfortable with modifying the source tree :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
