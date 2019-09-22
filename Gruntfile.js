@@ -2,6 +2,8 @@ var _ = require('underscore');
 var fs = require('fs');
 var babelify = require('babelify');
 
+var package = require('./package.json');
+
 // Haha, this is so tricky. so we have a template for index.html to stick
 // in the hashed JS and style files -- that template also contains
 // templates used in the app. in order to avoid evaluating those
@@ -216,7 +218,8 @@ module.exports = function(grunt) {
       options: {
         transform: [babelify.configure({
           presets: ['@babel/preset-react']
-        })]
+        })],
+        external: Object.keys(package.dependencies),
       },
       dist: {
         files: {
