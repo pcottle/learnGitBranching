@@ -115,12 +115,14 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 <a href="https://github.com/bcbcarl"><img src="https://avatars0.githubusercontent.com/u/135734?v=4" title="bcbcarl" width="80" height="80"></a>
 <a href="https://github.com/ahonorat"><img src="https://avatars1.githubusercontent.com/u/5851945?v=4" title="ahonorat" width="80" height="80"></a>
 <a href="https://github.com/nem75"><img src="https://avatars0.githubusercontent.com/u/1327785?v=4" title="nem75" width="80" height="80"></a>
+<a href="https://github.com/eatdrinksleepcode"><img src="https://avatars0.githubusercontent.com/u/2099560?v=4" title="eatdrinksleepcode" width="80" height="80"></a>
 <a href="https://github.com/nlehuby"><img src="https://avatars3.githubusercontent.com/u/919962?v=4" title="nlehuby" width="80" height="80"></a>
 <a href="https://github.com/alexandear"><img src="https://avatars2.githubusercontent.com/u/3228886?v=4" title="alexandear" width="80" height="80"></a>
 <a href="https://github.com/PanAeon"><img src="https://avatars3.githubusercontent.com/u/686076?v=4" title="PanAeon" width="80" height="80"></a>
 <a href="https://github.com/donkirkby"><img src="https://avatars1.githubusercontent.com/u/1639148?v=4" title="donkirkby" width="80" height="80"></a>
 <a href="https://github.com/lroellin"><img src="https://avatars1.githubusercontent.com/u/3150983?v=4" title="lroellin" width="80" height="80"></a>
 <a href="https://github.com/ptsoccer"><img src="https://avatars1.githubusercontent.com/u/1102725?v=4" title="ptsoccer" width="80" height="80"></a>
+<a href="https://github.com/jankeromnes"><img src="https://avatars2.githubusercontent.com/u/599268?v=4" title="jankeromnes" width="80" height="80"></a>
 <a href="https://github.com/qiansen1386"><img src="https://avatars2.githubusercontent.com/u/1759658?v=4" title="qiansen1386" width="80" height="80"></a>
 <a href="https://github.com/renderf0x"><img src="https://avatars1.githubusercontent.com/u/6155643?v=4" title="renderf0x" width="80" height="80"></a>
 <a href="https://github.com/filipefilardi"><img src="https://avatars1.githubusercontent.com/u/7308241?v=4" title="filipefilardi" width="80" height="80"></a>
@@ -131,8 +133,6 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 <a href="https://github.com/tym-network"><img src="https://avatars1.githubusercontent.com/u/2879545?v=4" title="tym-network" width="80" height="80"></a>
 <a href="https://github.com/zhyu"><img src="https://avatars1.githubusercontent.com/u/1728523?v=4" title="zhyu" width="80" height="80"></a>
 <a href="https://github.com/mgarciaisaia"><img src="https://avatars1.githubusercontent.com/u/1190974?v=4" title="mgarciaisaia" width="80" height="80"></a>
-<a href="https://github.com/andriymoroz"><img src="https://avatars3.githubusercontent.com/u/8336826?v=4" title="andriymoroz" width="80" height="80"></a>
-<a href="https://github.com/danielleberre"><img src="https://avatars2.githubusercontent.com/u/27728854?v=4" title="danielleberre" width="80" height="80"></a>
 
 [//]: contributor-faces
 
