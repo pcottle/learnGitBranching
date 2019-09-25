@@ -83,7 +83,7 @@ var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
-        generalArgs[0] + ' is not a remote in your repository! try adding origin that argument'
+        generalArgs[0] + ' is not a remote in your repository! try adding origin to that argument'
       )
     });
   }
@@ -823,14 +823,14 @@ var commandConfig = {
         var tagToRemove;
 
         assertIsRef(engine, tagID);
-        
+
         command.oneArgImpliedHead(tagID);
         engine.tagCollection.each(function(tag) {
           if(tag.get('id') == tagID){
             tagToRemove = tag;
           }
         }, true);
-        
+
         if(tagToRemove == undefined){
           throw new GitError({
             msg: intl.todo(
@@ -841,7 +841,7 @@ var commandConfig = {
 
         engine.tagCollection.remove(tagToRemove);
         delete engine.refs[tagID];
-        
+
         engine.gitVisuals.refreshTree();
         return;
       }

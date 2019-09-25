@@ -592,7 +592,7 @@ exports.strings = {
     'es_ES': 'Espero al menos {lower} parámetros para {what}.',
     'pt_BR': 'Espero pelo menos {lower} parâmetros para {what}',
     'gl'   : 'Agardo polo menos {lower} parámetros para {what}',
-    'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}',
+    'fr_FR': 'J\'attends au moins {lower} argument(s) pour {what}',
     'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}',
     'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}',
     'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.'
