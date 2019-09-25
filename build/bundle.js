@@ -48272,7 +48272,7 @@ var assertOriginSpecified = function (generalArgs) {
 
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
-      msg: intl.todo(generalArgs[0] + ' is not a remote in your repository! try adding origin that argument')
+      msg: intl.todo(generalArgs[0] + ' is not a remote in your repository! try adding origin to that argument')
     });
   }
 };
@@ -53416,7 +53416,7 @@ exports.strings = {
     'es_ES': 'Espero al menos {lower} parámetros para {what}.',
     'pt_BR': 'Espero pelo menos {lower} parâmetros para {what}',
     'gl': 'Agardo polo menos {lower} parámetros para {what}',
-    'fr_FR': 'J\'attends au moins {upper} argument(s) pour {what}',
+    'fr_FR': 'J\'attends au moins {lower} argument(s) pour {what}',
     'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}',
     'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}',
     'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.'
@@ -56697,11 +56697,11 @@ var GlobalStateActions = require('../actions/GlobalStateActions');
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
-var instantCommands = [[/^ls/, function () {
+var instantCommands = [[/^ls\b/, function () {
   throw new CommandResult({
     msg: intl.str('ls-command')
   });
-}], [/^cd/, function () {
+}], [/^cd\b/, function () {
   throw new CommandResult({
     msg: intl.str('cd-command')
   });
@@ -64082,7 +64082,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk': 'Переміщуємо роботу туди-сюди'
     },
     about: {
-      'en_US': 'Get comfortable with modifying the source tree',
+      'en_US': '"Git" comfortable with modifying the source tree :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
       'es_AR': 'Ponete cómodo con modificar el directorio fuente',
