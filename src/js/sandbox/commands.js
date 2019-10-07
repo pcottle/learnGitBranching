@@ -15,12 +15,12 @@ var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
 var instantCommands = [
-  [/^ls\b/, function() {
+  [/^ls( |$)/, function() {
     throw new CommandResult({
       msg: intl.str('ls-command')
     });
   }],
-  [/^cd\b/, function() {
+  [/^cd( |$)/, function() {
     throw new CommandResult({
       msg: intl.str('cd-command')
     });
