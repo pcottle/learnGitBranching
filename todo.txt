@@ -1,4 +1,4 @@
-Big Things
+Big Things to do
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 [ ] compare settings for a level!!! integrated into builder...
 [ ] casperjs for visuals regression testing? it works with canvas so
