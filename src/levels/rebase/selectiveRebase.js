@@ -11,7 +11,7 @@ exports.level = {
     "en_US": "Branch Spaghetti",
     "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
-    "es_AR": "Enslada de branches",
+    "es_AR": "Ensalada de branches",
     "pt_BR": "Espaguete de ramos",
     "gl"   : "Espaguete de ramas",
     "ja": "ブランチスパゲッティ",
