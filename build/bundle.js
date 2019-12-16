@@ -64011,7 +64011,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Push & Pull -- entfernte Repositorys',
       'ja': 'Push及びPullコマンド -- Gitリモート',
       'fr_FR': 'Push & Pull -- dépôts gits distants !',
-      'es_AR': 'Push & Pull -- Git Remotes!',
+      'es_AR': 'Push y Pull -- Git Remotes!',
       'pt_BR': 'Push & Pull -- repositórios remotos no Git!',
       'gl': 'Push & Pull -- Repositorios remotos no Git!',
       'zh_CN': 'Push & Pull —— Git 远程仓库！',
@@ -64042,7 +64042,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Bis zum origin und noch weiter',
       'ja': '"origin"とその先へ -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
-      'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
+      'es_AR': 'Hasta el origen y más allá -- Git Remotes avanzado!',
       'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
       'gl': 'Ata á orixe e máis aló -- repositorios remotos avanzados!',
       'zh_CN': '关于 origin 和它的周边 —— Git 远程仓库高级操作',
@@ -64314,7 +64314,7 @@ exports.level = {
       "childViews": [{
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["## Ramas en Git", "", "Las ramas (branches) en Git son increíblemente livianas. Son sólo referencias a un commit específico - nada más. Por esto es que tantos entusiastas de Git siguen el mantra:", "", "```", "brancheá temprano, y brancheá seguido", "```", "", "Como no hay consumo extra de alamcenamiento ni memoria al hacer varias ramas, es más fácil dividir lógicamente tu trabajo que tener un par de ramas grandes.", "", "Cuando empecemos a mezclar ramas y commits, vamos a ver cómo se combinan estas dos herramientas. Por ahora, en cambio, simplemente recordá que una rama escencialmente dice \"Quiero incluir el trabajo de este commit y todos su ancestros\"."]
+          "markdowns": ["## Ramas en Git", "", "Las ramas (branches) en Git son increíblemente livianas. Son sólo referencias a un commit específico - nada más. Por esto es que tantos entusiastas de Git siguen el mantra:", "", "```", "brancheá temprano, y brancheá seguido", "```", "", "Como no hay consumo extra de almacenamiento ni memoria al hacer varias ramas, es más fácil dividir lógicamente tu trabajo que tener un par de ramas grandes.", "", "Cuando empecemos a mezclar ramas y commits, vamos a ver cómo se combinan estas dos herramientas. Por ahora, en cambio, simplemente recordá que una rama esencialmente dice \"Quiero incluir el trabajo de este commit y todos su ancestros\"."]
         }
       }, {
         "type": "GitDemonstrationView",
@@ -64750,7 +64750,7 @@ exports.level = {
       "childViews": [{
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["## Commits de Git", "Un commit en un repositorio git registra un snapshot de todos los archivos en tu directorio. Es como un _gran_ copy&paste, ¡pero incluso mejor!", "", "Git pretende mantener los commits tan livianos como sea posible, por lo que no copia ciegamente el directorio completo cada vez que commiteás. Puede (cuando es posible) comprimir un commit como un conjunto de cambios (o un _\"delta\"_) entre una versión de tu repositorio y la siguiente.", "", "Git mantiene, también, un historial de qué commits se hicieron cuándo. Es por eso que la mayoría de los commits tienen commits ancestros arriba suyo -- designamos esto con flechas en nuestra visualización. ¡Mantener el historial es genial para todos los que trabajan en el proyecto!", "", "Hay un montón en lo que ahondar, pero por ahora podés pensar en los commits como snapshots de tu proyecto. Los commits son muy livianos, y ¡cambiar de uno a otro es terriblemente rápido!"]
+          "markdowns": ["## Commits de Git", "Un commit en un repositorio git registra un snapshot de todos los archivos en tu directorio. Es como un _gran_ copy&paste, ¡pero incluso mejor!", "", "Git pretende mantener los commits tan livianos como sea posible, por lo que no copia ciegamente el directorio completo cada vez que commiteás. Puede (cuando sea posible) comprimir un commit como un conjunto de cambios (o un _\"delta\"_) entre una versión de tu repositorio y la siguiente.", "", "Git mantiene, también, un historial de qué commits se hicieron cuándo. Es por eso que la mayoría de los commits tienen commits ancestros arriba suyo -- designamos esto con flechas en nuestra visualización. ¡Mantener el historial es genial para todos los que trabajan en el proyecto!", "", "Hay un montón en lo que ahondar, pero por ahora podés pensar en los commits como snapshots de tu proyecto. Los commits son muy livianos, y ¡cambiar de uno a otro es terriblemente rápido!"]
         }
       }, {
         "type": "GitDemonstrationView",
@@ -66399,12 +66399,12 @@ exports.level = {
       "childViews": [{
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["## Haciendo malabares con los commits", "", "Estaes otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).", "", "El tema es que a veces tenés que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya esté atrás en nuestra historia!"]
+          "markdowns": ["## Haciendo malabares con los commits", "", "Esta es otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).", "", "El tema es que a veces tenés que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya esté atrás en nuestra historia!"]
         }
       }, {
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["Superaremos esta dificultad haciendo lo siguiente:", "", "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`", "* Vamos a hacer `commit --amend` para aplicar la ligera modificación", "* Después vamos a reordenar los commits a como estaban con `git rebase -i`", "* Finalmente, vamos a mover master a esta parte actualizada de nuestor árbol de commits para terminar el nivel (usando el método que prefieras)", "", "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.", "", "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final", "", "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"]
+          "markdowns": ["Superaremos esta dificultad haciendo lo siguiente:", "", "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`", "* Vamos a hacer `commit --amend` para aplicar la ligera modificación", "* Después vamos a reordenar los commits a como estaban con `git rebase -i`", "* Finalmente, vamos a mover master a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)", "", "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.", "", "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final", "", "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"]
         }
       }]
     },
@@ -67612,7 +67612,7 @@ exports.level = {
       }, {
         "type": "GitDemonstrationView",
         "options": {
-          "beforeMarkdowns": ["Veamoslo en acción. Acá vamos a ver a HEAD antes y después de un commit."],
+          "beforeMarkdowns": ["Veámoslo en acción. Acá vamos a ver a HEAD antes y después de un commit."],
           "afterMarkdowns": ["¡Ves! HEAD estuvo oculta bajo nuestra rama `master` todo este tiempo."],
           "command": "git checkout C1; git checkout master; git commit; git checkout C2",
           "beforeCommand": ""
@@ -67628,7 +67628,7 @@ exports.level = {
       }, {
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["Para completar este nivel, detacheemos HEAD de `bugFix` y ataccheemosla al commit, en cambio.", "", "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."]
+          "markdowns": ["Para completar este nivel, detacheemos HEAD de `bugFix` y atacheemosla al commit, en cambio.", "", "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."]
         }
       }]
     },
@@ -69808,7 +69808,7 @@ exports.level = {
     "en_US": "Branch Spaghetti",
     "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
-    "es_AR": "Enslada de branches",
+    "es_AR": "Ensalada de branches",
     "pt_BR": "Espaguete de ramos",
     "gl": "Espaguete de ramas",
     "ja": "ブランチスパゲッティ",
