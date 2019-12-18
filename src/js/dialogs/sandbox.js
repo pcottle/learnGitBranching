@@ -122,7 +122,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Compartí!',
+        '## ¡Comparte!',
         '',
         'Comparte tus árboles con tus amigos usando `export tree` e `import tree`',
         '',
@@ -130,7 +130,7 @@ exports.dialog = {
         '',
         'Para ver todos los comandos disponibles, escribe `show commands`. Hay algunas joyitas como `undo` y `reset`',
         '',
-        'Por ahora, arranquemos con los `levels`...'
+        'Por ahora, empecemos con los `levels`...'
       ]
     }
   }],
