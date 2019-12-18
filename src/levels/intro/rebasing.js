@@ -242,7 +242,7 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "El segundo modo de combinar el trabajo de distintas ramas es el *rebase*. Rebasear escencialmente agarra un conjunto de commits, los \"copia\", y los aplica sobre algún otro lado.",
+              "El segundo modo de combinar el trabajo de distintas ramas es el *rebase*. Rebasear esencialmente agarra un conjunto de commits, los \"copia\", y los aplica sobre algún otro lado.",
               "",
               "Aunque esto pueda sonar confuso, la ventaja de rebasear es que puede usarse para conseguir una secuencia de commits lineal, más bonita. El historial / log de commits del repositorio va a estar mucho más claro si sólo usás rebase.",
               "",
