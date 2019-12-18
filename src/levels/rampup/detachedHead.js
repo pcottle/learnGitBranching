@@ -148,7 +148,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Veamoslo en acción. Acá vamos a ver a HEAD antes y después de un commit."
+              "Veámoslo en acción. Acá vamos a ver a HEAD antes y después de un commit."
             ],
             "afterMarkdowns": [
               "¡Ves! HEAD estuvo oculta bajo nuestra rama `master` todo este tiempo."
@@ -181,7 +181,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, detacheemos HEAD de `bugFix` y ataccheemosla al commit, en cambio.",
+              "Para completar este nivel, detacheemos HEAD de `bugFix` y atacheemosla al commit, en cambio.",
               "",
               "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
             ]

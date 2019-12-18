@@ -125,7 +125,7 @@ exports.level = {
             "markdowns": [
               "## Haciendo malabares con los commits",
               "",
-              "Estaes otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
+              "Esta es otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
               "",
               "El tema es que a veces tenés que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya esté atrás en nuestra historia!"
             ]
@@ -140,7 +140,7 @@ exports.level = {
               "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`",
               "* Vamos a hacer `commit --amend` para aplicar la ligera modificación",
               "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
-              "* Finalmente, vamos a mover master a esta parte actualizada de nuestor árbol de commits para terminar el nivel (usando el método que prefieras)",
+              "* Finalmente, vamos a mover master a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
               "",
               "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
               "",
