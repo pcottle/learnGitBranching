@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "远程分支",
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
+    "es_ES": "Ramas remotas",
     "pt_BR": "Ramos remotos",
     "gl"   : "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_CN": "注意顺序 —— 先在 master 分支上提交!",
     "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
     "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
+    "es_ES": "Presta atención al orden: ¡haz commit sobre master primero!",
     "pt_BR": "Preste atenção na ordem: commite no master primeiro!",
     "gl"   : "Preta atención á orde: fai commit no master primeiro",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
@@ -209,6 +211,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nivel, commiteá una vez sobre `master` y una después de checkoutear `o/master`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramas remotas de git",
+              "",
+              "Ahora que viste `git clone` en acción, ahondemos en lo que realmente cambió.",
+              "",
+              "Lo primero que habrás notado es que apareció una nueva rama en tu repositorio local llamada `o/master`. A este tipo de ramas se las llama ramas _remotas_. Las ramas remotas tienen propiedades especiales porque sirven un propósito específico.",
+              "",
+              "Las ramas remotas reflejan el _estado_ de los repositorios remotos (cómo estaban la última vez que hablaste con ellos). Te ayudan a entender las diferencias entre tu trabajo local y el trabajo que ya está publicado - un paso crítico antes de compartir tu trabajo con los demás.",
+              "",
+              "Las ramas remotas tienen la propiedad especial de que cuando haces checkout sobre ellas, pasas al modo detached `HEAD`. Git lo hace a propósito porque no puedes trabajar en esas ramas directamente: tienes que trabajar en algún otro lado y después compartir tu trabajo con el remoto (tras lo que tus ramas remotas se actualizarán)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ¿Qué es `o/`?",
+              "",
+              "Podrías estar preguntándote qué significa ese `o/` al principio de las ramas remotas. Bueno, las ramas remotas también tienen una convención de nombres obligatoria -- se muestran con el formato:",
+              "",
+              "* `<nombre del remoto>/<nombre de la rama>`",
+              "",
+              "Entonces, si observas una rama llamada `o/master`, el nombre de la rama es `master`, y el nombre del remoto es `o`.",
+              "",
+              "La mayoría de los desarrolladores llaman `origin` a su remoto en lugar de `o`. Esto es tan común que git efectivamente crea tu remoto llamándolo `origin` cuando haces `git clone` de un repositorio.",
+              "",
+              "Desafortunadamente el nombre `origin` completo no entra en nuestra UI (interfaz de usuario), así que usamos `o` para abreviar :(Simplemente recuerda que cuando uses el git real, tu remoto ¡probablemente se llame `origin`!",
+              "",
+              "Queda mucho por aprender, así que veámoslo en acción."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hagamos checkout sobre una rama remota a ver qué pasa"
+            ],
+            "afterMarkdowns": [
+              "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/master` cuando creamos un nuevo commit. Esto ocurre porque `o/master` sólo va a actualizarse cuando el remoto se actualice."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, haz commit una vez sobre `master` y otra vez después de checkoutear `o/master`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }

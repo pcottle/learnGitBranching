@@ -11,6 +11,7 @@ exports.level = {
     "zh_CN": "没有 source 的 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
+    "es_ES": "Origen de nada",
     "pt_BR": "Origem vazia",
     "gl"   : "Orixen de nada",
     "de_DE": "Die Quelle des Nichts",
@@ -25,6 +26,7 @@ exports.level = {
     "zh_CN": "本关的 branch 命令被禁用了，你只能用 fetch！",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
+    "es_ES": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
     "gl"   : "O comando branch está deshabilitado para este nivel, entón terás que empregar o comando fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
@@ -189,6 +191,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Este es un nivel rápido: simplemente borrá una rama remota y creá una nueva usando `git fetch` para completarlo."
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rarezas de `<origen>`",
+              "",
+              "Git abusa del parámetro `<origen>` de dos extrañas maneras. Estos dos abusos vienen del hecho de que técnicamente puedes especificar \"la nada\" como un `origen` válido tanto para git push como para git fetch. El modo de especificar la nada es a través de un parámetro vacío:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Veamos qué hacen estos..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Qué hace el hacer push de \"nada\" a una rama remota? ¡La elimina!"
+            ],
+            "afterMarkdowns": [
+              "Ahí está, eliminamos la rama `foo` exitosamente del remoto haciendo push con \"nada\". Tiene algo de sentido..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Finalmente, hacer fetch de \"nada\" a un lugar local en realidad crea una nueva rama"
+            ],
+            "afterMarkdowns": [
+              "Bastante extraño, pero bueno, da igual. Así es git."
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este es un nivel breve: simplemente elimina una rama remota y crea una nueva usando `git fetch` para completarlo."
             ]
           }
         }
