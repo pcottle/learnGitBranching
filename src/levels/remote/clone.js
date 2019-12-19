@@ -160,7 +160,7 @@ exports.level = {
               "",
               "- Más importante, ¡los remotos sociabilizan la programación! Ahora que hay una copia de tu proyecto hosteada en otro lugar, tus amigos pueden contribuir a tu proyecto (o bajarse los últimos cambios) de un modo muy sencillo.",
               "",
-              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [Github](https://github.com/) or [Phabricator](http://phabricator.org/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
+              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [Github](https://github.com/) o [Phabricator](http://phabricator.org/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
             ]
           }
         },
