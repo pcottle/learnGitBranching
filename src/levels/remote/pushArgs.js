@@ -189,7 +189,7 @@ exports.level = {
             "markdowns": [
               "## Parámetros de push",
               "",
-              "¡Genial! Ahora que sabés acerca de las ramas que trackean remotos podemos empezar a develar algo del misterio detrás de git push, fetch y pull. Vamos a atacar de a un comando a la vez, pero los conceptos entre ellos son muy similares.",
+              "¡Genial! Ahora que sabés acerca de las ramas que trackean remotos podemos empezar a desvelar algo del misterio detrás de git push, fetch y pull. Vamos a atacar de a un comando a la vez, pero los conceptos entre ellos son muy similares.",
               "",
               "Veamos primero `git push`. Ya aprendiste en la lección sobre ramas remotas que git determinó el remoto *y* la rama a la que pushear mirando las propiedades de la rama actual (el remoto al que \"trackea\"). Este es el comportamiento default para cuando no se especifican parámetros, pero git push toma, opcionalmente, parámetros de la forma:",
               "",

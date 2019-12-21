@@ -217,7 +217,7 @@ exports.level = {
               "* baja los commits que el remoto tiene pero no están en nuestro repositorio local, y...",
               "* actualiza a dónde apuntan nuestras ramas remotas (por ejemplo, `o/master`)",
               "",
-              "`git fetch` escencialmente sincroniza nuestra representación _local_ del repositorio remoto con el _verdadero_ estado del repositorio remoto (en este momento).",
+              "`git fetch` esencialmente sincroniza nuestra representación _local_ del repositorio remoto con el _verdadero_ estado del repositorio remoto (en este momento).",
               "",
               "Si recordás la lección anterior, dijimos que las ramas remotas reflejan el estado de los repositorios remotos _desde_ la última vez que hablaste con ellos. ¡`git fetch` es la manera en que hablás con esos remotos! Espero que ahora esté clara la conexión entre las ramas remotas y `git fetch`.",
               "",
