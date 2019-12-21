@@ -11,7 +11,8 @@ exports.level = {
     "en_US": "Branch Spaghetti",
     "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
-    "es_AR": "Ensalada de branches",
+    "es_AR": "Enslada de branches",
+    "es_ES": "Ensalada de ramas",
     "pt_BR": "Espaguete de ramos",
     "gl"   : "Espaguete de ramas",
     "ja": "ブランチスパゲッティ",
@@ -25,6 +26,7 @@ exports.level = {
     "fr_FR": "Faites attention à tout faire dans le bon ordre ! La branche one d'abord, puis la seconde, puis la troisième",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
+    "es_ES": "¡Asegúrate de hacer las cosas en el orden correcto! Crea primero la rama `one`, después `two`, y después `three`.",
     "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie o ramo `one` primeiro, depois `two`, depois `three`.",
     "gl"   : "¡Afiánzate de facer as cousas no orde correcto! Crea ramas `one` de primeiras, e logo `two` e `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
@@ -90,6 +92,26 @@ exports.level = {
               "La rama `one` necesita reordenarse, y eliminar `C5`. `two` necesita sólo reordenamiento, y `three` ¡sólo necesita un commit!",
               "",
               "Te vamos a dejar darte cuenta cómo resolver este -- asegurate de mirar la solución, después, usando `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ensalada de ramas",
+              "",
+              "¡Vaya, vaya! Tenemos un _pequeño_ objetivo al que llegar en este nivel.",
+              "",
+              "La rama `master` se encuentra algunos commits por delante de `one`, `two` y `three`. Por alguna razón, necesitamos actualizar esas tres ramas con versiones modificadas de los últimos commits de master.",
+              "",
+              "La rama `one` necesita reordenarse, y eliminar `C5`. `two` necesita sólo reordenamiento, y `three` ¡sólo necesita un commit!",
+              "",
+              "Vamos a dejar que intentes resolver este -- asegúrate de mirar la solución, después, usando `show solution`. "
             ]
           }
         }

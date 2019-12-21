@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Git pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
+    "es_ES": "Parámetros de pull",
     "pt_BR": "Parâmetros do pull",
     "gl"   : "Parámetros de pull",
     "de_DE": "Optionen für Pull",
@@ -21,6 +22,7 @@ exports.level = {
     "zh_CN": "记住, 你可以通过 fetch/pull 创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
+    "es_ES": "Recuerda que puedes crear nuevas ramas locales usando los parámetros de fetch/pull",
     "pt_BR": "Lembre-se que você pode criar novos ramos locais com parâmetros de fetch/pull",
     "gl"   : "Lémbrate que podes crear novas ramas locais con parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
@@ -248,6 +250,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "OK: para terminar, alcanzá el estado del objetivo. Vas a necesitar descargar algunos commits, crear algunas ramas nuevas, y mergear esas ramas junto con otras, pero no debería llevar demasiados comandos :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parámetros de git pull",
+              "",
+              "Ahora que sabes prácticamente *todo* lo que hay que saber sobre los parámetros de `git fetch` y `git push`, casi no queda nada por cubrir del comando git pull :)",
+              "",
+              "Eso es porque git pull es simplemente un atajo para hacer un fetch seguido de un merge. Puedes imaginártelo como ejecutar git fetch con los *mismos* parámetros, y después hacer merge de ello hacia donde esos commits hayan ido a parar.",
+              "",
+              "Esto aplica incluso cuando utilizas parámetros rebuscados en exceso. Veamos algunos ejemplos:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Estos son algunos comandos equivalentes de git:",
+              "",
+              "`git pull  origin foo` equivale a:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Y...",
+              "",
+              "`git pull  origin bar~1:bugFix` equivale a:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "¿Ves? git pull es simplemente un atajo para un fetch + merge, y todo lo que le importa a git pull es dónde terminaron esos commits (el parámetro `destino` que determina durante el fetch).",
+              "",
+              "Veamos una demostración:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Si especificamos el lugar desde donde hacer fetch, todo ocurre como antes, pero sólo mergeamos lo que se fetcheó"
+            ],
+            "afterMarkdowns": [
+              "¡Ves! Especificando `master` descargamos los commits a `o/master` como siempre. Después mergeamos `o/master` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Esto funciona con origen y destino, también? ¡Más vale! Veámoslo:"
+            ],
+            "afterMarkdowns": [
+              "Caramba, eso es una BARBARIDAD en un único comando. Creamos una nueva rama local llamada `foo`, descargamos los commits del master del remoto a esta rama `foo`, y después mezclamos esa rama a nuestra rama actual `bar`. ¡¡¡Supera los 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "OK: para terminar, intenta alcanzar el estado del objetivo. Vas a necesitar descargar algunos commits, crear algunas ramas nuevas, y mergear esas ramas junto con otras, pero no debería llevar demasiados comandos :P"
             ]
           }
         }
