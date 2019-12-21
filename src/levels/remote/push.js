@@ -10,6 +10,7 @@ exports.level = {
     "zh_CN": "Git Push",
     "zh_TW": "git push",
     "es_AR": "git push",
+    "es_ES": "git push",
     "pt_BR": "Git Push",
     "gl"   : "Git Push",
     "de_DE": "Git Push",
@@ -24,6 +25,7 @@ exports.level = {
     "zh_CN": "推送之前需要先克隆",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
+    "es_ES": "¡Recuerda que tienes que clonar antes de hacer push!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
     "ja"   : "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
@@ -155,6 +157,47 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nivel, simplemente compartí dos nuevos commits con el remoto. Igual, no te confíes, ¡ya se van a complicar las lecciones!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git push",
+              "",
+              "Entendido, entonces ya descargué los cambios de un repositorio remoto y los integré en mi trabajo localmente. Esto suena muy bien... pero ¿cómo comparto _mis_ cambios con el resto?",
+              "",
+              "Bueno, la forma de subir el trabajo compartido es la opuesta a cómo descargar trabajo. Y ¿qué es lo opuesto a `git pull`? ¡`git push`!",
+              "",
+              "`git push` es el responsable de subir _tus_ cambios a un remoto específico y de actualizar ese remoto para incluir tus nuevos commits. Cuando `git push` termina, todos tus amigos pueden descargar tu trabajo del remoto.",
+              "",
+              "Puedes imaginarte `git push` como un comando para \"publicar\" tu trabajo. Tiene un par de sutilezas con las que vamos a meternos pronto, pero empecemos poco a poco."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aquí tenemos algunos cambios que nuestro remoto no tiene. ¡Subámoslos!"
+            ],
+            "afterMarkdowns": [
+              "Ahí está: el remoto recibió el commit `C2`, la rama `master` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/master`) también fue actualizado. ¡Todo está en sincronía!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, simplemente comparte dos nuevos commits con el remoto. Igualmente, no te confíes, ¡las lecciones van a empezar a complicarse!"
             ]
           }
         }
