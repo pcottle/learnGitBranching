@@ -15,6 +15,7 @@ var langLocaleMap = {
   ja: 'ja',
   ko: 'ko',
   es: 'es_AR',
+  "es-ES": 'es_ES',
   fr: 'fr_FR',
   de: 'de_DE',
   pt: 'pt_BR',
