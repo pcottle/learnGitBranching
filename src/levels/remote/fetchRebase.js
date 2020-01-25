@@ -14,7 +14,8 @@ exports.level = {
     "ja"   : "履歴の分岐",
     "ru_RU": "Расхождение в истории",
     "uk"   : "Розбіжності в історії",
-    "ko"   : "엇갈린 히스토리"
+    "ko"   : "엇갈린 히스토리",
+    "vi"   : "Dị biệt lịch sử"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -28,7 +29,8 @@ exports.level = {
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели",
     "uk"   : "перевірте порядок в візуалізації цілі",
-    "ko"   : "순서는 goal을 참고하세요"
+    "ko"   : "순서는 goal을 참고하세요",
+    "vi"   : "kiểm tra kỹ thứ tự trên mô hình mục tiêu"
   },
   "startDialog": {
     "en_US": {
@@ -1743,6 +1745,149 @@ exports.level = {
               "* 가짜 팀워크를 만드세요 (1개의 커밋)",
               "* 여러분의 작업도 커밋하세요 (1개의 커밋)",
               "* 여러분의 작업을 *리베이스*를 통해 공유하세요"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Diverged Work",
+              "",
+              "Cho đến giờ ta đã biết cách `kéo`(`pull`) commit từ nơi khác về và cách `đẩy`(`push`) lên những thay đổi của ta. Chúng nhìn có vẻ khá đơn giản, vậy tại sao người ta lại thấy lúng túng về chúng?",
+              "",
+              "Khó khăn đến từ sự *dị biệt* của cây lịch sử trên kho chứa từ xa. Trước khi đi vào thảo luận chi tiết vấn đề này, hãy xem qua một ví dụ...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tưởng tượng bạn sao chép một kho chứa vào thứ Hai và bắt đầu phát triển một tính năng mới. Đến thứ Sáu thì bạn đã sẵn sàng để xuất bản thành quả của mình -- nhưng không! Đồng nghiệp của bạn đã viết thêm hàng loạt mã trong một tuần vừa rồi và điều này làm cho chức năng của bạn trở nên lỗi thời. Và họ cũng đã xuất bản những commit này lên kho chứa từ xa chung, vậy giờ thành quả của *bạn* lại dựa trên phiên bản *cũ* của dự án mà nó không còn thích đáng nữa.",
+              "",
+              "Trong trường hợp này, lệnh `git push` trở lên khá nhập nhằng. Nếu bạn dùng `git push`, liệu git nên thay đổi kho chứa từ xa trơ rveef trạng thái ngày thứ Hai? Hay nó nên cố gắng thêm mã của bạn vào trong khi không xóa mã mới? Hay là nó sẽ bỏ qua hoàn toàn mã của bạn vì nó đã lỗi thời?",
+              "",
+              "Vì có quá nhiều tình huống mơ hồ (dị biệt lịch sử), git sẽ không cho phép bạn `đẩy`(`push`) thay đổi của mình. Nó sẽ ép bạn phải sát nhập trạng thái mới nhất của kho chứa từ xa vào thành phẩm của mình trước khi chia sẻ chúng."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nói quá nhiều rồi! Đi vào hành động thôi"
+            ],
+            "afterMarkdowns": [
+              "Thấy chứ? Không có gì xảy ra cả vì lệnh bị thất bại. `git push` thất bại vì commit mới nhất của bạn: `C3` dựa trên commit `C1` ở nhánh từ xa. Nhánh đó đã được cập nhật lên commit `C2`, nên git từ chối lệnh đẩy của bạn"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vậy thì giải quyết tình huống này sao giờ? Đơn giản thôi, tất cả những gì bạn cần làm là khiến cho thành quả của mình dựa trên phiên bản mới nhất của nhánh từ xa.",
+              "",
+              "Có vài cách để làm điều này, nhưng cách trực tiếp nhất là bố trí lại (dùng rebase) để di chuyển thành quả của bạn. Cùng xem cách nó hoạt động nào."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nào bây giờ trước push ta dùng rebase thì..."
+            ],
+            "afterMarkdowns": [
+              "Bùùm! Ta đã cập nhật nhánh từ xa trong kho chứ cục bộ với `git fetch`, dịch chuyển thành quả của mình để phản ánh thay đổi mới của kho chứa từ xa, sau đó đẩy chúng lên với `git push`"
+            ],
+            "command": "git fetch; git rebase o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Có cách nào khác để cập nhật thành quả của mình khi kho chứa từ xa được cập nhật không? Tất nhiên rồi! Hãy xem xét điều tương tự với `merge`.",
+              "",
+              "Mặc dù `git merge` không dịch chuyển commit của bạn (thay vì đó nó tạo ra một commit hơp nhất), đó là cách để nói với git rằng bạn đã kết hợp tất cả thay đổi từ nhánh từ xa. Đó là bởi vì bây giờ nhánh từ xa đã trở thành một *tổ tiên* của nhánh cục bộ của bạn, nghĩa là commit của bạn có thể tham chiếu điến tất cả commit có ở nhánh tù xa.",
+              "",
+              "Hãy xem qua bản biểu diễn sau..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Giờ nếu ta dùng merge thay vày rebase thì..."
+            ],
+            "afterMarkdowns": [
+              "Bùùm! Ta đã cập nhật đại diện nhánh từ xa tại kho chứa địa phương với `git fetch`, *hợp nhất* (*merge*) thành quả mới vào thành quả của ta (để phản ánh thay đổi ở nhánh từ xa), sau đó đẩy chúng lên với `git push`"
+            ],
+            "command": "git fetch; git merge o/master; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tuyệt vời! Có cách nào để làm việc này mà không phải gõ nhiều lệnh thế không nhỉ?",
+              "",
+              "Tất nhiên rồi -- bạn đã biết rằng `git pull` là lệnh tắt của fetch và merge. Tương tự như vậy, `git pull --rebase` là lệnh tắt của fetch và rebase!",
+              "",
+              "Hãy xem thử cách lệnh tắt này hoạt động ra sao."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Trước tiên với `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "Giống hệt như trước! Chỉ là lệnh ngắn hơn."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Và giờ với lệnh `pull` thông thường"
+            ],
+            "afterMarkdowns": [
+              "Lại một lần nữa, chính xác y hệt như trước!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Quy trình tìm nạp (fetch), bố trí lại/hợp nhất (rebase/merge), và đẩy (push) là khá phổ biết. Ta sẽ xem xét các phiên bản phức tạp hơn của những quy trình này ở các bài học sau, còn bây giờ thì hãy tập trung vào bài này đã.",
+              "",
+              "Để giải quyết cấp độ này, hãy làm các bước sau:",
+              "",
+              "* Nhân bản kho chứa của bạn",
+              "* Giả lập làm việc nhóm (1 commit)",
+              "* Tạo ra 1 commit địa phương",
+              "* Xuất bản thành quả của bạn dùng *rebase*"
             ]
           }
         }

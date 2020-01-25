@@ -14,7 +14,8 @@ exports.level = {
     "ja"   : "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
     "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
     "ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
-    "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень"
+    "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
+    "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -28,7 +29,9 @@ exports.level = {
     "zh_TW": "相對引用二（~）",
     "ru_RU": 'Относительные ссылки №2',
     "ko"   : "상대 참조 #2 (~)",
-    "uk": "Відносні посилання №2"
+    "uk": "Відносні посилання №2",
+    "vi": "Tham chiếu tương đối #2 (~)",
+
   },
   "startDialog": {
     "en_US": {
@@ -837,6 +840,75 @@ exports.level = {
               "Тепер, коли ти побачив відносні посилання та форсування гілок в купі, давай використаємо це щоб пройти поточний рівень.",
               "",
               "Щоб пройти цей рівень, перемісти `HEAD`, `master` та `bugFix` так як показано в візуалізації."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Toán tử \"~\"",
+              "",
+              "Giả sử bạn muốn leo lên nhiều cấp trong git. Dùng `^` vài lần thì tù lắm, nên Git đã có dấu ngã (~) cho việc đó.",
+              "",
+              "",
+              "Theo sau toán tử ngã (~) là số lượng cha ông mà bạn muốn leo lên(không bắt buộc). Xem thử làm thật thì thế nào nào"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hãy chỉ định số lượng commit với `~`."
+            ],
+            "afterMarkdowns": [
+              "BÙUM! Quá chuẩn luôn -- tham chiếu tương đối tuyệt vời."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch forcing",
+              "",
+              "Giờ thì bạn là cao thủ về tham chiếu tương đối rồi, *làm* thật thôi chứ nhỉ.",
+              "",
+              "Tôi thì hay thường dùng tham chiếu tương đối để dịch chuyển nhánh. Bạn có thể trực tiếp gán lại nhánh cho commit với cú pháp `-f`. Kiểu như thế này:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "dịch chuyển (ép buộc) nhánh master lên 3 commit phía trên HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Xem thử cái lệnh trên hoạt động sao nào."
+            ],
+            "afterMarkdowns": [
+              "Đóóóó! Tham chiếu tương đối cho chúng ta một cách chuẩn xác để trỏ tới `C1` và ép nhánh bằng (`-f`) thì dịch chuyển nhanh chóng nhánh tới đó."
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Giờ thì bạn đã thấy cách kết hợp tham chiếu tương đối và ép nhánh, dùng chúng để vượt level tiếp thôi.",
+              "",
+              "Để hoàn thành cấp độ này, chuyển `HEAD`, `master`, và `bugFix` đến mục tiêu được xác định của chúng."
             ]
           }
         }

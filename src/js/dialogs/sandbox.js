@@ -557,5 +557,27 @@ exports.dialog = {
         '[це спеціальне посилання.](https://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
+  }],
+  'vi': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Chào mừng đến với Học Nhánh Git',
+        '',
+        'Bạn có hứng thú học Git? Bạn đến đúng nơi rồi đấy! ',
+        '"Học Nhánh Git" là cách trực quan và hiệu quả nhất để học Git trên web; ',
+        'thông qua một loạt các thử thách cấp độ thú vị, bạn sẽ từng bước tìm hiểu sức mạnh của git',
+        '',
+        'Sau khi hội thoại này đóng lại, bạn sẽ thấy nhiều cấp độ mà chúng tôi cung cấp. ',
+        'Nếu bạn là người mới thì hãy bắt đầu từ bài đầu tiên. Nếu bạn đã có hiểu biết cơ bản về git, ',
+        'hãy thử những bài mang tính thách thức hơn phía sau.',
+        '',
+        'Bạn có thể dùng lệnh `show commands` để xem tất cả các lệnh hiện hữu.',
+        '',
+        'Ghi chú: Nếu muốn trực tiếp vào hộp cát ở lần sau?',
+        'Hãy dùng',
+        '[đường link đặc biệt này của chúng tôi](https://pcottle.github.io/learnGitBranching/?NODEMO)'
+      ]
+    }
   }]
 };

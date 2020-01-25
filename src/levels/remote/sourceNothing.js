@@ -18,7 +18,8 @@ exports.level = {
     "fr_FR": "Source de rien du tout",
     "ru_RU": "Пустой источник",
     "ko"   : "Source가 없다",
-    "uk"   : "Нема джерела"
+    "uk"   : "Нема джерела",
+    "vi"   : "Không có nguồn"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -33,6 +34,7 @@ exports.level = {
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
     "ko"   : "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
     "uk"   : "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
+    "vi"   : "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -613,6 +615,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Це швидкий рівень -- просто видали одну віддалену гілку і створи нову локальну гілку, використовуючи `git fetch`!"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Sự kỳ quặc của `<nguồn>`",
+              "",
+              "Git lợi dụng tham số `<nguồn>` theo 2 cách khá dị.Hai cách lợi dụng này bắt nguồn từ thục tế là bạn có thể \"không chỉ định\" `nguồn` cho cả git push và git fetch. Bạn có thể làm điều này bằng cách để trống tham số như sau:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Hãy xem thử 2 câu lệnh này làm việc gì..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nếu ta đẩy \"không gì cả\" lên một nhánh từ xa thì nó sẽ làm gì? Nó xóa nhánh đó!"
+            ],
+            "afterMarkdowns": [
+              "Đó, ta đã xóa thành công nhánh `foo` trên kho chứa từ xa bằng cách đẩy \"không gì cả\" lên nó. Khá là hợp lý..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cuối cùng, nạp \"không gì cả\" vào một kho chứa cục bộ thực tế sẽ tạo ra một nhánh mới"
+            ],
+            "afterMarkdowns": [
+              "Khá là quái và dị. Nhưng mà dó là những gì git làm!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ở cấp độ đơn giản này -- bạn chỉ cần xóa một nhánh từ xa và tạo ra một nhánh mới với `git fetch` để hoàn thành!"
             ]
           }
         }

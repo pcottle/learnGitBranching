@@ -18,7 +18,8 @@ exports.level = {
     "zh_TW": "介紹 cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
     "ko"   : "Cherry-pick 소개",
-    "uk": "Знайомство з cherry-pick"
+    "uk": "Знайомство з cherry-pick",
+    "vi"   : "Giới thiệu về cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -32,7 +33,8 @@ exports.level = {
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
     "ko"   : "커밋의 이름들로 git cherry-pick 하세요!",
-    "uk": "git cherry-pick базується на іменах комітів!"
+    "uk": "git cherry-pick базується на іменах комітів!",
+    "vi"   : "git cherry-pick sau đó là tên commit!"
   },
   "startDialog": {
     "en_US": {
@@ -712,6 +714,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Щоб пройти це рівень, просто скопіюй якісь зміни з трьох гілок показаних на діаграмі в master. В візуалізації видно які коміти потрібно скопіювати.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mang đi kéo về",
+              "",
+              "Cho đến giờ thì ta đã nắm được cơ bản về git -- commit, rẽ nhánh, và dịch chuyển qua lại trên cây mã nguồn. Chừng ấy khái niệm là đã đủ để tác động đến 90% sức mạnh của kho chứa git và các chức nawmg cần thiết cho nhà phát triển phần mềm.",
+              "",
+              "Tuy nhiên 10% còn lại thì lại khá hữu ích trong các quy trình làm việc phức tạp (hoặc khi bạn vướng phải tình huống khó khăn). The next concept we're going to cover is \"chỉnh lý các bản ghi\" -- đó là cách để nhà phát triển nói rằng\"Tôi muốn lấy bản ghi ở đây và cả bản ghi ở đó\" một cách chính xác, linh hoạt và sống động.",
+              "",
+              "Nghe thì có vẻ phức tạp, nhưng thực ra khái niệm này khá đơn giản."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Lệnh đầu tiên của loạt bài này là `git cherry-pick`, dạng lệnh là::",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Đó là cách rất trực tiếp để copy một loạt commit xuống dưới vị trí hiện tại của bạn (`HEAD`). Cá nhân tôi thì rất thích `cherry-pick` bởi tính tiện dụng và dễ hiểu của nó.",
+              "",
+              "Hãy xem qua một ví dụ!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ở đây ta có một kho chứa mà ta muốn sao chép thành quả công việc từ nhánh `side` sang nhánh `master`. Có thể dùng rebase để làm việc này (kỹ thuật mà ta đã học), nhưng hãy xem thử cherry-pick làm điều này ra sao."
+            ],
+            "afterMarkdowns": [
+              "Thế thôi! Chúng ta chỉ cần các commit `C2` và` C4`, vì vậy Git sẽ lấy chúng và đặt chúng dưới nhánh hiện tại. Thật đơn giản!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để hoàn thành cấp độ này, hãy copy thành quả công việc từ 3 nhánh khác vào master. Bạn có thể nhìn vào mô tả mục tiêu để biết chúng ta cần những commit nào.",
               ""
             ]
           }

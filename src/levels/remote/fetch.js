@@ -14,7 +14,8 @@ exports.level = {
     "zh_TW": "git fetch",
     "ru_RU": "Git fetch",
     "uk"   : "Git fetch",
-    "ko"   : "Git Fetch"
+    "ko"   : "Git Fetch",
+    "vi"   : "Git Fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -28,7 +29,8 @@ exports.level = {
     "zh_TW": "只要下 git fetch 指令",
     "ru_RU": "Просто выполните git fetch!",
     "uk"   : "Просто виконай git fetch!",
-    "ko"   : "그냥 git fetch를 하세요!"
+    "ko"   : "그냥 git fetch를 하세요!",
+    "vi"   : "Gõ git fetch là được!"
   },
   "startDialog": {
     "en_US": {
@@ -902,6 +904,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "레벨을 마치기 위해, `git fetch`를 수행하고 모든 커밋들을 내려 받으세요!"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Lam việc với git remote về căn bản là chuyển giao dữ liệu _qua_ và _lại_ giữa các kho chứa. Miễn là ta có thể chia sẻ qua lại các commit, ta có thể chia sẻ bất kỳ cập nhật gì được theo dõi bở git (và từ đó chia sẻ thành quả, tập tin mới, ý tưởng mới, thư tình, các kiểu con đà điểu.).",
+              "",
+              "Ở bài học này ta sẽ học cách lấy dữ liệu về _từ_ một kho chứa từ xa -- lệnh đó là `git fetch`.",
+              "",
+              "Bạn sẽ nhận thấy rằng khi ta cập nhật đại điện kho chứa từ xa, Nhánh _từ xa_ của ta cũng được cập nhật để phản ánh đại diện đó. Điều này liên quan đến bài học trước về nhánh từ xa"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Trước khi đi vào chi tiết về `git fetch`, hãy xem cách nó hoạt động! Ở đây ta có một kho chứa từ xa trong đó chứa 2 commit mà kho chứa địa phương của ta không có."
+            ],
+            "afterMarkdowns": [
+              "Đó! Commit `C2` và `C3` đã được tải xuống kho chứa cục bộ của ta, và nhánh từ xa `o/master` của ta đã được cập nhật để phản ánh điều này."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch làm gì",
+              "",
+              "`git fetch` thực hiện 2 bước chính, và chỉ 2 bước chính. Nó:",
+              "",
+              "* tải xuống commit có trên kho chứa từ xa mà kho chứa cục bộ của ta không có, và...",
+              "* cập nhật nơi mà nhánh từ xa của ta trỏ tới (ví dụ nhánh `o/master`)",
+              "",
+              "Về căn bản thì `git fetch` đưa đại diện _địa phương_ của kho chứa từ xa của ta về trạng thái đồng bộ với trạng thái _thực tế_ của kho chứa từ xa (ngay lúc này).",
+              "",
+              "Nếu bạn còn nhớ thì trong bài học trước, chúng tôi có đề cập rằng nhánh từ xa phản ánh trạng thái của kho chứa từ xa _kể từ_ kể từ lần cuối bạn tương tác với các nhánh từ xa đó. `git fetch` chính là cách để tương tác với cách nhánh từ xa! Hi vọng chúng tôi đã làm sáng tỏ sự liên kết giữa nhánh từ xa và `git fetch`.",
+              "",
+              "`git fetch` thường tương tác với kho chứa từ xa bằng Internet (thông qua các giao thức như `http://` hoặc `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch không làm gì",
+              "",
+              "Tuy nhiên, `git fetch` không hề thay đổi trạng thái kho chứa _địa phương_ của bạn. Nó sẽ không cập nhật nhánh `master` hay thay đổi bất kỳ điều gì trong hệ thống tập tin hiện tại của bạn.",
+              "",
+              "Điều này rất quan trọng, vì nhiều nhà phát triển nghĩ rằng `git fetch` sẽ làm kho chứa địa phương của họ phản ánh trạng thái của kho chúa từ xa. Nó có thể tải xuống tất cả dữ liệu cần thiết, nhưng nó thực tế _không_ thay đổi bất cứ thứ gì trên tập tin địa phương của bạn. Ta sẽ học lệnh để làm điều đó sau :D",
+              "",
+              "Nói tóm lại, bạn có thể coi `git fetch` thuần túy như một bước tải xuống."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để hoàn thành cấp độ này, đơn giản hãy gõ `git fetch` để tải xuống tất cả commit!"
             ]
           }
         }

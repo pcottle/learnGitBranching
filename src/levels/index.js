@@ -81,7 +81,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : 'git의 주요 명령어를 깔끔하게 알려드립니다',
       'ru_RU': 'Хорошо подобранное введение в основные команды git',
       'uk'   : 'Гарно підібране введення в основні команди git',
-      'vi'   : 'Bước làm quen độc đáo tới phần lớn lệnh điều khiển git'
+      'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển git'
     }
   },
   rampup: {
@@ -98,7 +98,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Едем дальше',
       'uk'   : 'Їдемо далі',
       'ko'   : '다음 단계로',
-      'vi'   : 'Vượt chướng ngại vật'
+      'vi'   : 'Tăng tốc'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -113,7 +113,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?',
       'uk'   : 'Наступна порція абсолютної git-дивини. Сподіваюсь, ви зголодніли',
       'ko'   : 'git은 아주 멋져요. 왜 멋진지 알려드립니다',
-      'vi'   : 'Những món tuyệt đỉnh tiếp theo. Hi vọng bạn còn đói.'
+      'vi'   : 'Tận hưởng khẩu phần tuyệt hảo của git. Hi vọng bạn còn đói.'
     }
   },
   remote: {
@@ -131,7 +131,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
       'uk'   : 'Push & Pull -- віддалені репозиторії в Git!',
       'ko'   : 'Push & Pull -- Git 원격 저장소!',
-      'vi'   : 'Push & Pull -- Các git remote!'
+      'vi'   : 'Push & Pull -- Tác động git từ xa!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -146,7 +146,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования',
       'uk'   : 'Настав час поділитися своїми нулями та одиничками; соціальне програмування',
       'ko'   : '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!',
-      'vi'   : 'Chia sẻ đứa con tinh thần 0 và 1 của bạn; mã tới với cộng đồng'
+      'vi'   : 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng'
     }
   },
   remoteAdvanced: {
@@ -164,7 +164,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes',
       'uk'   : 'Через origin – до зірок. Прогресивне використання Git Remotes',
       'ko'   : '"origin"그 너머로 -- 고급 Git 원격 저장소',
-      'vi'   : 'Gửi quê hương và các xứ xa -- nâng cao về các git remote'
+      'vi'   : 'Về với cội nguồn và vươn xa hơn -- nâng cao về các git remote'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -179,7 +179,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
       'uk'   : 'А ти думав, що бути всесильним диктатором весело...',
       'ko'   : '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...',
-      'vi'   : 'Làm một tay độc tài toàn năng bác ái cũng vui lắm...'
+      'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui ...'
     }
   },
   move: {
@@ -196,7 +196,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '調整提交順序',
       'ru_RU': 'Перемещаем труды туда-сюда',
       'uk'   : 'Переміщуємо роботу туди-сюди',
-      'vi'   : 'Bốc bốc xếp xếp'
+      'vi'   : 'Điều chỉnh vị trí'
     },
     about: {
       'en_US': '"Git" comfortable with modifying the source tree :P',

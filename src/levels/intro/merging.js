@@ -13,7 +13,8 @@ exports.level = {
     "zh_CN": "Git Merge",
     "zh_TW": "git 中的 merge",
     "ru_RU": "Слияния веток в Git",
-    "uk": "Злиття гілок в Git"
+    "uk": "Злиття гілок в Git",
+    "vi": "Gộp nhánh trong Git"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -27,7 +28,8 @@ exports.level = {
     "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
-    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)"
+    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)",
+    "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước master)"
   },
   "disabledMap": {
     "git revert": true
@@ -856,6 +858,75 @@ exports.level = {
               "* Змерджи (злий) гілку `bugFix` в `master` за допомогою `git merge`",
               "",
               "*Не забувай, ти можеш завжди повернутися до цього діалогу за допомогою \"objective\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nhánh và gộp nhánh",
+              "",
+              "Tuyệt! Ta đã biết làm sao để commit và tạo nhánh. Giờ ta cần học cách để tập hợp thành quả của 2 nhánh khác biệt lại với nhau. Đây sẽ là cách để ta phân tách để phát triển chức năng, rồi sau đó hợp nhất nó trở lại.",
+              "",
+              "Cách đầu tiên để hợp nhất thành quả cần xem xét đến là lệnh `git merge`. Merge trong Git là tạo ra một commit đặc biệt mà có 2 người cha độc nhất. Một commit mà có 2 cha căn bản nghĩa là \"Tôi muốn có thành quả của ông này và ông kia nữa, *và* tất cả ông cha của họ.\"",
+              "",
+              "Trực quan thì dễ hiểu hơn, sang trang tiếp theo nào"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ở đây ta có 2 nhánh; mỗi nhánh có 1 commit độc nhất. Có nghĩa là chẳng nhánh nào có đủ \"thành quả\" trong kho chứa của ta cả. Sửa nó bằng merge nào.",
+              "",
+              "Ta sẽ `merge` nhánh `bugFix` vào `master`"
+            ],
+            "afterMarkdowns": [
+              "Wao! Thấy chứ? Trước tiên, `master` giờ đã trỏ đến commit có 2 cha. Nếu bạn lần theo mũi tên lên trên từ `master`, bạn sẽ gặp tất cả các commit lên đến commit gốc. Có nghĩa là `master` giờ đã chứa tất cả thành quả trong kho.",
+              "",
+              "Đồng thời, bạn thấy màu commit thay đổi chứ? Để bạn dễ học hơn, tôi đã phối hợp một số bảng màu. Mỗi nhánh có một màu duy nhất. Mỗi commit mang màu pha trộn của tất cả nhánh chứa nó.",
+              "",
+              "Vì vậy, ở đây chúng ta thấy rằng màu nhánh `master` được pha trộn vào tất cả các commit, nhưng màu` bugFix` thì không. Hãy sửa nó nào ..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hãy gộp nhánh `master` vào `bugFix` nào:"
+            ],
+            "afterMarkdowns": [
+              "Vì `bugFix` là bậc cha ông của `master`, git chẳng phải làm gì cả; nó đơn giản chỉ chuyển `bugFix` vào commit mà `master` đang trỏ tới.",
+              "",
+              "Giờ thì tất cả commit đã có cùng màu, nghĩa là mỗi nhánh đã chứa tất cả thành quả trong kho! Ồ hố!"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để hoàn thành cấp độ này, hãy làm theo các bước bên dưới:",
+              "",
+              "* Tạo một nhánh mới tên là `bugFix`",
+              "* Chuyển sang nhánh `bugFix` với `git checkout bugFix`",
+              "* Commit một lần",
+              "* Trở về `master` với `git checkout`",
+              "* Commit một lần nữa",
+              "* Gộp nhánh `bugFix` vào `master` với `git merge`",
+              "",
+              "*Nhớ rằng, bạn luôn luôn có thể bật lại hội thoại này với lệnh \"objective\"!*"
             ]
           }
         }

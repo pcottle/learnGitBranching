@@ -17,7 +17,8 @@ exports.level = {
     "fr_FR": "Git push",
     "ru_RU": "Git push",
     "uk"   : "Git push",
-    "ko"   : "Git push"
+    "ko"   : "Git push",
+    "vi"   : "Git push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -30,7 +31,8 @@ exports.level = {
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
     "uk"   : "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
-    "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!"
+    "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
+    "vi"   : "Nhớ rằng bạn phải clone trước khi push!"
   },
   "startDialog": {
     "en_US": {
@@ -539,6 +541,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "이번 레벨을 마치기 위해, 두개의 새 커밋을 원격 저장소에 공유해봅시다. 마음의 준비를 단단히 하세요, 이제부터 강의들이 훨씬 어려워질거니까요!"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Được rồi, ta đã biết cách nạp thay đổi từ kho chứa từ xa và kết hợp chúng vào các nhánh cục bộ. Khá là tuyệt rồi... nhưng nếu tôi muốn chia sẻ tác phẩm tuyệt vời _của tôi_ với mọi người khác thì sao?",
+              "",
+              "Chà, cách tải lên thì phải ngược với tải xuống rồi. Vậy thì đối nghịch của `git pull`(kéo) là gì? `git push`(đẩy)!",
+              "",
+              "`git push` có trách nhiệm tải lên thay đổi _của bạn_ vào nhánh từ xa được chỉ định và cập nhật nhánh đó để kết hợp với commit đẩy lên của bạn. Một khi lệnh `git push` hoàn thành, tất cả bạn bè của bạn có thể tải xuống thay đổi của nhánh từ xa đó đó.",
+              "",
+              "Bạn có thể xem `git push` là câu lệnh để \"xuất bản\" thành quả công việc của bạn. Lệnh này có nhiều tính năng tinh tế mà ta sẽ tìm hiểu nhanh thôi, nhưng giờ hãy cứ bắt đầu với từng bước nhỏ đã...",
+              "",
+              "*lưu ý --`git push` mà không có tham số hành xử tùy biến phụ thuộc vào cài đặt của git là `push.default`. Giá trị mặc định cho cài đặt này phụ thuộc vào phiên bản git mà bạn đang sử dụng, còn ở bài học của chúng ta thì ta sẽ sử dụng giá trị `upstream` (ngược dòng). Bây giờ thì đó chưa phải là vấn đề gì lớn, nhưng chúng tôi khuyến nghị bạn kiểm tra cài đặt của mình trước khi đẩy lên dự án của bạn.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ở đây ta có một vài thay đổi mà kho chứa từ xa không có. Hãy tải chúng lên!"
+            ],
+            "afterMarkdowns": [
+              "Đó -- kho chứa từ xa đã nhận được commit `C2`, nhánh `master` ở kho chứa từ xa đã được cập nhật lên `C2`, và phản chiếu nhánh từ xa *của ta* (`o/master`) cũng được cập nhật luôn. Mọi thứ đã đồng bộ!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để hoàn thành cấp độ này, đơn giản là hãy chia sẻ 2 commit mới với kho chứa từ xa. Chuẩn bị tinh thần nhé, vì các bài học sẽ khó dần lên nhiều đấy!"
             ]
           }
         }

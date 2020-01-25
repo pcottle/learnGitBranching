@@ -13,7 +13,8 @@ exports.level = {
     "zh_CN": "Git Rebase",
     "zh_TW": "介紹 rebase",
     "ru_RU": "Введение в rebase",
-    "uk": "Знайомство з rebase"
+    "uk": "Знайомство з rebase",
+    "vi": "Giới thiệu về rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -27,7 +28,8 @@ exports.level = {
     "zh_CN": "先在 bugFix 分支上进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
-    "uk": "Впевнись, що зробив коміт в гілці bugFix"
+    "uk": "Впевнись, що зробив коміт в гілці bugFix",
+    "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước"
   },
   "disabledMap": {
     "git revert": true
@@ -830,6 +832,73 @@ exports.level = {
               "* Зачекауть bugFix знову й заребейсь його на master",
               "",
               "Нехай щастить!"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Cách thứ 2 để kết hợp thành của của 2 nhánh là *rebase.* Rebase về căn bản là chọn một loạt các commit, \"sao chép\" chúng, và ném chúng sang chỗ khác.",
+              "",
+              "Nghe có vẻ phức tạp, lợi thế của rebase là có thể tạo ra cây lịch sử thẳng tuột. Ljch sử commit nhìn sẽ gọn gàng hơn nhiều.",
+              "",
+              "Xem nó hoạt động thế nào nào..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Giờ ta lại có 2 nhánh; để ý rằng nhánh bugFix đang được chọn (thấy dấu hoa thị chứ?)",
+              "",
+              "Ta muốn chuyển bugFix trực tiếp sang master. Theo cách đó thì các chức năng nhìn có vẻ được phát triển tuần tự, trong khi thực tế chúng được phát triển song song.",
+              "",
+              "Dùng lệnh `git rebase` để thử nào"
+            ],
+            "afterMarkdowns": [
+              "Tuyệt vời! Giờ thành quả của nhánh bugFix nằm ngay trên master và ta có các commit nằm thẳng tuột.",
+              "",
+              "Để ý rằng commit C3 vẫn nằm đâu đó (đã được làm mờ), và commit C3' là bản \"sao chép\" mà ta dán lên nhánh master.",
+              "",
+              "Vấn đề duy nhất bây giờ là nhánh master vẫn chưa được cập nhật, làm luôn cho nóng nào..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Giờ thì ta đã chuyển sang nhánh `master`. Tiếp tục dán nó vào `bugFix` nào..."
+            ],
+            "afterMarkdowns": [
+              "Đó! Bởi vì `master` là cha ông của `bugFix`, git đơn giản chuyển tham chiếu của nhánh `master` tiến lên."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để hoàn thành cấp độ này, làm theo hướng dẫn sau",
+              "",
+              "* Chuyển sang nhánh mới tên là `bugFix`",
+              "* Commit một lần",
+              "* Quay về master và commit lần nữa",
+              "* Quay trở lại bugFix và rebase sang master",
+              "",
+              "Chúc may mắn!"
             ]
           }
         }
