@@ -15,7 +15,8 @@ exports.level = {
     "fr_FR": "Git pull",
     "ru_RU": "Git pull",
     "uk"   : "Git pull",
-    "ko"   : "Git pull"
+    "ko"   : "Git pull",
+    "vi"   : "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -30,7 +31,8 @@ exports.level = {
     "fr_FR": "Utilisez facilement git pull !",
     "ru_RU": "Запустите комманду git pull !",
     "uk"   : "Просто виконай git pull !",
-    "ko"   : "그냥 git pull을 하세요!"
+    "ko"   : "그냥 git pull을 하세요!",
+    "vi"   : "Đơn giản là gõ git pull!",
   },
   "startDialog": {
     "en_US": {
@@ -795,6 +797,65 @@ exports.level = {
               "`git pull`의 세부적인 사항들은 나중에 알아보겠습니다 (옵션과 매개변수등) 지금은 이 레벨에서 일단 시도부터 해 봅시다.",
               "",
               "알고 넘어갑시다 -- 이 레벨을 그냥 `fetch`와 `merge`의 조합으로 해결할 수 있습니다. 하지만 명령어가 추가되겠지요 :P"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Ta đã biết cách dùng `git fetch` để nạp các commit từ kho chứa từ xa, giờ hãy cập nhật các commit này vào các nhánh địa phương!",
+              "",
+              "Thực ra thì có nhiều cách đề làm điều này -- một khi bạn đã có các commit này ở ko chứa địa phương, bạn có thể hợp nhất chúng như với các commit ở các nhánh khác. Nghĩa là bạn có thể sử dụng các câu lệnh sau:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* etc., etc.",
+              "",
+              "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Trước tiên hãy xem quá trình `nạp` và `hợp nhất` được thực hiện một cách tuần tự"
+            ],
+            "afterMarkdowns": [
+              "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/master`. Giờ thì nhánh `master` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nếu thay vì dó ta dùng `git pull` thì điều gì xảy ra?"
+            ],
+            "afterMarkdowns": [
+              "Cũng như nhau! Điều đó có nghĩa là `git pull` về cơ bản là cách làm tắt cho việc thực hiện tuần tự `git fetch` sau đó là hợp nhất các nhánh từ xa được nạp."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ta sẽ tìm hiều chi tiết về `git pull` sau (bao gồm các tùy chọn và tham số), còn bây giờ thì cứ dùng thử nó ở cấp độ này đã.",
+              "",
+              "Nhớ rằng -- bạn có thể giải quyết cấp độ này với `fetch` và sau đó `merge`, nhưng mà như thế thì lại tốn têm một câu lệnh :P"
             ]
           }
         }

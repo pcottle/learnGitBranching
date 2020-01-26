@@ -19,13 +19,15 @@ var langLocaleMap = {
   de: 'de_DE',
   pt: 'pt_BR',
   ru: 'ru_RU',
-  uk: 'uk'
+  uk: 'uk',
+  vi: 'vi'
 };
 
 var headerLocaleMap = {
   'zh-CN': 'zh_CN',
   'zh-TW': 'zh_TW',
-  'pt-BR': 'pt_BR'
+  'pt-BR': 'pt_BR',
+  'es-ES': 'es_ES'
 };
 
 var supportedLocalesList = Object.values(langLocaleMap)

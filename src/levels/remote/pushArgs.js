@@ -18,7 +18,8 @@ exports.level = {
     "fr_FR": "Arguments de git push",
     "ru_RU": "Аргументы git push",
     "ko"   : "git push의 인자들",
-    "uk"   : "Аргументи git push"
+    "uk"   : "Аргументи git push",
+    "vi"   : "Tham số git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -33,7 +34,8 @@ exports.level = {
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
     "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
     "ko"   : "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
-    "uk"   : "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\""
+    "uk"   : "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
+    "vi"   : "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại"
   },
   "startDialog": {
     "en_US": {
@@ -910,6 +912,81 @@ exports.level = {
               "",
               "*Пам'ятай, віддалені гілки позначені префіксом `o/`, оскільки повний префікс `origin/` не влазить в наш UI. Але не хвилюйся ",
               "про це... ти можеш використовувати `origin` посилаючись на віддалений репозиторій.*"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tham số đẩy",
+              "",
+              "Tuyệt! Bạn đã biết đến theo dõi từ xa, giờ thì ta có thể tìm hiểu sâu hơn về cách hoạt động của đẩy( `git push`), tìm nạp(`git fetch`) và kéo(`git pull`). Ta sẽ giải quyết từng câu lệnh một nhưng về căn bản chúng khá là giống nhau.",
+              "",
+              "Trước hết hãy xem qua `git push`. Trong bài học về theo dõi từ xa bạn đã biết rằng git sử dụng thuộc tính(nhánh từ xa mà nó \"theo dõi\") của nhánh hiện tại để xác định kho và nhánh từ xa để đẩy. Git làm việc này mà không cần tham số chỉ định, nhưng lệnh git push có thể thêm tham số dưới dạng sau:",
+              "",
+              "`git push <tên kho từ xa> <vị trí>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tham số `<vị trí>` là gì vậy? Chúng ta sẽ đi sâu vào chi tiết sau sau, hãy xem ví dụ trước. Đưa ra câu lệnh:",
+              "",
+              "`git push origin master`",
+              "",
+              "được dịch lại là:",
+              "",
+              "*Chuyển sang nhánh \"master\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"master\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*",
+              "",
+              "Bằng cách chỉ định `master` trong tham số \"vị trí\",ta báo với git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.",
+              "",
+              "Lưu ý rằng ta ta đã thông báo cho gi tất cả thông tin cần thiết( thông qua chỉ định 2 tham số), nó sẽ không quan tâm nhánh mà ta đang đứng!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hãy xem xét một ví dụ về việc xác định tham số. Lưu ý vị trí nhánh mà ta đang đứng."
+            ],
+            "afterMarkdowns": [
+              "Được rồi! Bằng cách chỉ định các tham số, nhánh `master` trong kho lưu trữ từ xa đã được cập nhật."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Giả sử ta không chỉ định các tham số thì sao? Điều gì sẽ xảy ra?"
+            ],
+            "afterMarkdowns": [
+              "Lệnh thất bại (như bạn có thể thấy, không có gì xảy ra)! Bởi vì `HEAD` không trỏ đến nhánh nào có theo dõi từ xa."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Được rồi, trong cấp độ này hãy cập nhánh `foo` và `master` trên kho lưu trữ từ xa. Cái khó là ở cấp độ này lệnh `git checkout` đã bị vô hiệu hóa!",
+              "",
+              "*Chú ý: Các nhánh từ xa được đánh dấu bằng tiền tố `o/` bời vì UI của chúng tôi không chứa được hết `origin/`. Đừng lo ",
+              "về vấn đề này... đơn giản cứ dùng `origin` như bình thường thôi.*"
             ]
           }
         }

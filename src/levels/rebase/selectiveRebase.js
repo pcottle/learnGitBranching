@@ -19,7 +19,8 @@ exports.level = {
     "zh_CN": "纠缠不清的分支",
     "zh_TW": "branch 漿糊",
     "ru_RU": "Спутанные ветки",
-    "uk"   : "Макарони з гілок"
+    "uk"   : "Макарони з гілок",
+    "vi"   : "Nhánh rối như canh hẹ"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -34,7 +35,8 @@ exports.level = {
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
-    "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`"
+    "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
+    "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`"
   },
   "startDialog": {
     "en_US": {
@@ -292,6 +294,26 @@ exports.level = {
               "Гілку `one` потрібно впорядкувати і видалити `C5`. Гілку `two` також потрібно впорядкувати, а в гілку `three` потрібно додати ще один коміт!",
               "",
               "Ми повністю покладаємось на тебе -- порівняй свій розв’зок з нашим, який можна подивитись командою `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nhánh rối như canh hẹ",
+              "",
+              "Chààà, anh bạn! Thử thách lần này hơi khoai đây.",
+              "",
+              "Hiện tại thì nhánh `master` đang có nhiều commit hơn các nhánh `one`, `two` và `three`. Vì một lý do nào đó, ta cần cập nhật những commit trên nhánh `master` lên các nhánh còn lại kèm với một vài điều chỉnh .",
+              "",
+              "Nhánh `one` thì cần sắp xếp lại và xóa commit `C5`, trong khi đó nhánh `two` thì đơn giản sắp xếp, còn `three` thì chỉ cần một commit!",
+              "",
+              "Cố gắng động não tìm ra cách đi nhé -- khi bạn làm xong thì nhớ so sánh với đáp án của chúng tôi bằng lệnh `show solution`. "
             ]
           }
         }

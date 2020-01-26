@@ -15,7 +15,8 @@ exports.level = {
     "fr_FR": "Les branches distantes",
     "ru_RU": "Удалённые ветки",
     "ko"   : "원격 브랜치(remote branch)",
-    "uk"   : "Віддалені гілки"
+    "uk"   : "Віддалені гілки",
+    "vi"   : "Nhánh từ xa"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
@@ -30,7 +31,8 @@ exports.level = {
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !",
     "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на master",
     "ko"   : "순서에 주의하세요 -- master에서 먼저 커밋하세요!",
-    "uk"   : "Звертайте увагу на послідовність -- спочатку коміт в мастер!"
+    "uk"   : "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
+    "vi"   : "Chú ý đến thứ tự -- commit trên nhánh master trước!"
   },
   "startDialog": {
     "en_US": {
@@ -821,6 +823,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "Щоб пройти цей рівень, зроби один коміт в `master`, а потім переключись в `o/master` і закомітся ще раз. Це наглядно продемонструє поведінку віддалених гілок, а також покаже як зміни впливають на стан віддаленого репозиторію."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nhánh Git từ xa",
+              "",
+              "Giờ bạn đã thấy cách thức hoạt động của `git clone`, cùng xem xét kỹ hơn những gì đã xảy ra.",
+              "",
+              "Điều đầu tiên mà có thể bạn để ý là một nhánh mới xuất hiện trong kho chứa địa phương của ta là `o/master`. Loại nhánh này được gọi là nhánh _từ xa_ (_remote_) ; nhánh từ xa có những thuộc tính đặc biệt vì chúng phục vụ những mục đích duy nhất.",
+              "",
+              "Nhánh từ xa phản ánh _trạng thái_ (_state_) của kho chứa từ xa (kể từ lần cuối cùng bạn tương tác với kho chứa từ xa). Chúng giúp bạn hiểu về sự khác biệt giữa công tác trên kho chứa cục bộ với kho chứa từ xa -- một bước quan trọng trước khi chia sẻ công việc của bạn với người khác.",
+              "",
+              "Nhánh từ xa có một thuộc tính đặc biệt đó là khi bạn chuyển sang chúng bạn sẽ vào trạng thái tách rời `HEAD`. Git chủ tâm làm việc này vì bạn không thể công tác trực tiếp trên chúng; bạn phải công tác ở nơi khác và chia sẻ thành quả lên kho chứa từ xa (sau đó nhánh từ xa sẽ được cập nhật)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "###`o/` là gì vậy?",
+              "",
+              "Có thể bạn sẽ thắc mắc về ký tự `o/` ở đầu tên nhánh từ xa có ý nghĩa gì. Chà, tên nhánh từ xa cũng có (thiết yếu) quy tắc đặt tên -- chúng được hiển thị dưới dạng:",
+              "",
+              "* `<tên kho từ xa>/<tên nhánh>`",
+              "",
+              "Do đó, ở trong `o/master` thì `master` là tên nhánh còn `o` là tên kho chứa từ xa.",
+              "",
+              "Thực tế thì hầu hết các nhà phát triển đặt tên kho chứa từ xa là `origin` chứ không phải `o`. Nó trở thành thông lệ đến nỗi Git đặt tên `origin` cho kho chứa từ xa khi bạn dùng `git clone` để sao chép một kho chứa.",
+              "",
+              "Đáng tiêc là `origin` không khớp trong giao diện của chúng tôi, nên chúng tôi đành phải viết tắt là `o` :( Nhưng hãy nhớ rằng khi dùng git thật sự thì chắc hẳn tên của kho chứa từ xa sẽ là `origin`!",
+              "",
+              "Lý thuyết hơi nhiều rồi, đi vào thực hành thôi."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hãy thử chuyển sang nhánh từ xa xem điểu gì xảy ra"
+            ],
+            "afterMarkdowns": [
+              "Như bạn thấy, git đưa ta vào trạng thái `HEAD` và không cập nhật nhánh `o/master` khi ta thêm một commit. Đó là bởi vì `o/master` chỉ cập nhật khi kho chứa từ xa được cập nhật."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để hoàn thành cấp độ này, commit một lần trên `master` và một lần nữa sau khi chuyển sang `o/master`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."
             ]
           }
         }

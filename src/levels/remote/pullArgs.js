@@ -15,7 +15,8 @@ exports.level = {
     "fr_FR": "Arguments de pull",
     "ru_RU": "Аргументы для pull",
     "ko"   : "pull 인자들",
-    "uk"   : "Аргументи pull"
+    "uk"   : "Аргументи pull",
+    "vi"   : "Tham số pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -30,7 +31,8 @@ exports.level = {
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
-    "uk"   : "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами"
+    "uk"   : "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
+    "vi"   : "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull"
   },
   "startDialog": {
     "en_US": {
@@ -805,7 +807,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "보이죠? git pull은 그저 fetch + merge의 축양형일 뿐이에요, 그리고 git pull은 커밋들이 도착하는곳을 신경씁니다(fetch를 하며 지정된 `destination`인자의 위치로 merge가 수행됩니다).",
+              "보이죠? git pull은 그저 fetch + merge의 축약형일 뿐이에요, 그리고 git pull은 커밋들이 도착하는곳을 신경씁니다(fetch를 하며 지정된 `destination`인자의 위치로 merge가 수행됩니다).",
               "",
               "직접 확인해봅시다:"
             ]
@@ -916,6 +918,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Добре, для завершення спробуй досягти стану репозиторію, показаного на візуалізації. Треба буде звантажити відсутні коміти, створити нові гілки і змерджити їх в інші гілки, але не надто великою кількістю команд! :P"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tham số git pull",
+              "",
+              "Giờ thì bạn đã biết gần như là *tất cả* về tham số của `git fetch` và `git push`, thế thì hầu như chẳng còn gì mới cho git pull cả :)",
+              "",
+              "Đó và vì nói cho cùng thì git pull *về thực tế* cũng chỉ là lệnh tắt cho tìm nạp và sau đó là hợp nhất những gì vừa mới được nạp. Bạn có thể coi nó như là chạy lệnh git fetch với *cùng* tham số được chỉ định và sau đó hợp nhất các commit vào *nơi* được chỉ định.",
+              "",
+              "Điều này được áp dụng kể cả khi bạn sử dụng những tham số phức tạp đến độ điên rồ. Hãy xem qua một vài ví dụ:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dưới đây là một vài câu lệnh tương đồng nhau trong git:",
+              "",
+              "`git pull  origin foo` tương đương với:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Và...",
+              "",
+              "`git pull  origin bar~1:bugFix` tương đương với:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Thấy chứ? git pull thực ra chỉ là lệnh tắt cho fetch + merge, và tất cả những gì git pull quan tâm là nơi mà các commit sẽ tới (tham số `đích` mà nó diễn giải được trong quá trình nạp).",
+              "",
+              "Hãy xem qua một bản giới thiệu:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nếu ta chỉ định vị trí để nạp, mọi thứ diễn ra như với git fetch nhưng giờ đây có thêm một bước đó là ta hợp nhất những gì mà ta đã nạp"
+            ],
+            "afterMarkdowns": [
+              "Thấy chứ! Bằng cách chỉ định nhánh `master` ta tải các commit xuống nhánh `o/master` như thường lệ. Sau đó hợp nhất nhánh `o/master` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `master`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Điều này có hoạt động với đích và nguồn không? Đoán đúng rồi đấy! Cùng xem thử nào:"
+            ],
+            "afterMarkdowns": [
+              "Wao, quá NHIỀU trong một câu lệnh. Ta tạo ra một nhánh cục bộ là `foo`, tải commit xuống từ nhánh từ xa master xuống nhánh `foo` đó, và sau đó hợp nhất commit vào nhánh `bar` mà ta đang đứng. Đủ thứ luôn!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Được rồi, để kết thúc khóa học, hãy đạt đến mục tiêu được mô tả. Bạn sẽ cần tải xuống vài commit, tạo ra vài nhánh mới, và hợp nhất những nhánh đó sang những nhánh khác, nhưng mà đừng dùng nhiều lệnh quá nhé :P"
             ]
           }
         }

@@ -26,7 +26,8 @@ exports.level = {
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
     "ru_RU": "Выберем один коммит.",
-    "uk": "Вибираємо всього один коміт"
+    "uk": "Вибираємо всього один коміт",
+    "vi": "Chỉ lấy 1 commit"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -41,7 +42,8 @@ exports.level = {
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
-    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!"
+    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
+    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!"
       },
   "startDialog": {
     "en_US": {
@@ -546,6 +548,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "На цьому рівні тобі вирішувати якими командами користуватися, але щоб пройти цей рівень, впевнись що в `master` потрапить коміт, на який посилається `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit xếp chồng tại địa phương",
+              "",
+              "Có tình huống thế này thường hay xảy ra trong quá trình phát triển: Tôi dang cố dò lỗi nhưng mà nó lại khá là trúc trắc. Để hỗ trợ cho việc này, thêm vào vài dòng lệnh gỡ lỗi và lệnh in.",
+              "",
+              "Mấy lệnh gỡ lỗi và in này nằm yên trong commit của chúng. Cuối cùng thì tôi cũng tìm ra lỗi, gỡ xong, ngon rồi!",
+              "",
+              "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `master`. Nếu mà đơn giản dùng fast-forwarded lên `master`, thì `master` lại có tất cả các lệnh gỡ lỗi kia(chẳng muốn chút nào). Phải có cách khác chứ nhỉ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ta cần phải bảo git chỉ sao chép 1 commit thôi. Điều này giống với cấp độ trước về điều chỉnh vị trí -- ta có thể dùng các câu lệnh tương tự:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Để đạt được mục tiêu này."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bây giờ là cấp độ cao hơn rồi nên bạn hãy tự quyết định nên dùng câu lệnh nào, nhưng để hoàn thành được cấp độ, hãy đàm bảo rằng `master` nhận được commit mà `bugFix` tham chiếu tới."
             ]
           }
         }
