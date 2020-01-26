@@ -144,4 +144,15 @@ exports.dialog = {
       ]
     }
   }],
+  'vi': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Làm tốt lắm!!',
+        '',
+        'Bạn hoàn thành cấp độ này với *{numCommands}* câu lệnh.; ',
+        'Đáp án của chúng tôi sử dụng {best}.'
+      ]
+    }
+  }]
 };

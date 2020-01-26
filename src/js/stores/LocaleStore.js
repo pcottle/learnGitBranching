@@ -19,7 +19,8 @@ var langLocaleMap = {
   de: 'de_DE',
   pt: 'pt_BR',
   ru: 'ru_RU',
-  uk: 'uk'
+  uk: 'uk',
+  vi: 'vi'
 };
 
 var headerLocaleMap = {

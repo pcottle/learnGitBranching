@@ -15,7 +15,8 @@ exports.level = {
     "fr_FR": "Fusionner avec les branches distantes",
     "ru_RU": "Слияние с удалённым репозиторием",
     "ko"   : "원격 작업과 merge하기",
-    "uk"   : "Мердж з віддаленим репозиторієм"
+    "uk"   : "Мердж з віддаленим репозиторієм",
+    "vi"   : "Hợp nhất nhánh từ xa"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -30,7 +31,8 @@ exports.level = {
     "fr_FR": "Respectez l'arbre représentant l'objectif !",
     "ru_RU": "Внимательно посмотрите на цель уровня!",
     "ko"   : "goal을 잘 살펴보세요!",
-    "uk"   : "Уважно подивись як має виглядати результат!"
+    "uk"   : "Уважно подивись як має виглядати результат!",
+    "vi"   : "Hãy để ý đến cây mục tiêu!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -614,6 +616,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "На цьому рівні спробуймо вирішити попереднє завдання з використанням *мерджу*. Можливо вийде не так охайно, але добре покаже різницю в підходах."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tại sao không hợp nhất?",
+              "",
+              "Để có thể đẩy cập nhật của bạn lên kho nhánh từ xa, tất cả những gì bạn cần làm là *kết nạp* thay đổi mới nhất từ nhánh từ xa. Nghĩa là bạn có thể dùng tái bố trí *hoặc* hợp nhất với nhánh từ xa (ví dụ `o/master`).",
+              "",
+              "Vậy ta có thể sử dụng một trong 2 cách, thì tại sao đến giờ ta chỉ tập trung vào tái bố trí trong các bài học? Tại sao khi làm việc với nhánh từ xa lại ta lại không thích `hợp nhất` (`merge`)?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Trong cộng đồng phát triền phần mềm có rất nhiều tranh luận về ưu, nhươc, khuyết của việc sử dụng tái bố trí(`rebase`) hay hợp nhất(`merge`). Dưới đây là một vài ưu / nhược cơ bản của tái bố trí:",
+              "",
+              "Ưu điểm:",
+              "",
+              "* Tái bố trí làm cây commit của bạn trông gọn gàng hơn nhiều vì mọi thứ được xếp theo đường thẳng",
+              "",
+              "Nhược điểm:",
+              "",
+              "* Tái bố trí sửa đổi lịch sử (biểu hiện) của cây commit.",
+              "",
+              "Ví dụ, commit `C1` có thể bố trí lên *sau* `C3`. Thế là `C1'` biểu hiện như là nó xuất hiện sau `C3` trong khi thực tế nó được hoàn thành trước đó.",
+              "",
+              "Có những nhà phát triển muốn tôn trọng tính lịch sự nên họ ưa thích hợp nhất hơn. Những người khác (như tôi chẳng hạn) thì thiên về tái bố trí hơn vì muốn có cây commit gọn gàng. Rốt cục cũng là thiên hướng thôi :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ở cấp độ này, hãy thử giải bài tập trước nhưng mà với *hợp nhất*. Có lẽ bài này hơi thừa nhưng mà nó mịnh họa quan điểm trên rõ ràng hơn."
             ]
           }
         }

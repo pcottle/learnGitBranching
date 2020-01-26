@@ -15,7 +15,8 @@ exports.level = {
     "zh_TW": "模擬團隊合作",
     "ru_RU": "Коллективная работа",
     "uk"   : "Симуляція колективної роботи",
-    "ko"   : "가짜 팀워크"
+    "ko"   : "가짜 팀워크",
+    "vi"   : "Giả lập làm việc nhóm"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
@@ -30,7 +31,8 @@ exports.level = {
     "zh_TW": "你要記得指定要送多少個 commit 出去",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
-    "ko"   : "가장할 커밋의 갯수를 조절할 수 있습니다."
+    "ko"   : "가장할 커밋의 갯수를 조절할 수 있습니다.",
+    "vi"   : "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập."
   },
   "startDialog": {
     "en_US": {
@@ -732,6 +734,60 @@ exports.level = {
               "뒤의 레벨들이 조금 어렵기 때문에, 이번 레벨에서 여러분에게 조금 많은것을 요구하려고 합니다.",
               "",
               "원격 저장소를 하나 만들고(`git clone`), 원격 저장소에 몇가지 가짜 변경을 만들고 로컬에서 커밋하고 원격의 변경들을 가져오세요. Goal과 같은 결과가 나오면 됩니다. 몇개의 레슨이 하나에 있다고 보면 되겠네요! 도전해봅시다."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mô phỏng hợp tác",
+              "",
+              "Bây giờ khó đây -- để chuẩn bị cho những bài học tới, chúng tôi cần chỉ bạn cách kéo về những cập nhật có trên kho chứa từ xa.",
+              "",
+              "Có nghĩa là ta cần \"giả vờ\" kho chứa từ xa được cập nhật bởi đồng nghiệp / bạn / cộng tác viên của bạn, có khi là một nhánh xác định hoặc là một số commit.",
+              "",
+              "Để làm điều này, chúng tôi sẽ giới thiệu cho bạn một lệnh tự tạo `git fakeTeamwork`! Cái tên nói lên tất cả, cùng xem thử bản giới thiệu..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hành xử mặc định của `fakeTeamwork` đơn giản là tạo ra một commit ở trên nhánh master từ xa"
+            ],
+            "afterMarkdowns": [
+              "Đó -- kho chứa từ xa đã được cập nhật thêm một commit, và ta chưa tải commit đó xuống vì ta chưa hề chạy lệnh `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bạn cũng có thể chỉ định số lượng commit bằng cách thêm con số đằng sau câu lệnh"
+            ],
+            "afterMarkdowns": [
+              "Chỉ với một câu lệnh ta có thể giả lập tạo ra 3 commit trên nhánh `foo` từ xa của ta"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Các cấp độ tới sẽ khá là khó, nên ở cấp độ này chúng tôi sẽ yêu cầu bạn thêm một chút.",
+              "",
+              "Sao chép một kho chứa từ xa (sử dụng `git clone`), sau đó mô phỏng một số thay đổi trong kho chứa từ xa mà bạn vừa tạo, sau đó thực hiện một số commit trên nhánh cục bộ của riêng bạn, sau đó kéo các thay đổi từ kho chứa từ xa. Nhiều bài học trong một bài."
             ]
           }
         }

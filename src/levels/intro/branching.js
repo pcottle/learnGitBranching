@@ -14,7 +14,8 @@ exports.level = {
     "zh_CN": "Git Branch",
     "zh_TW": "建立 git branch",
     "ru_RU": "Ветвление в Git",
-    "uk": "Розгалуження в Git"
+    "uk": "Розгалуження в Git",
+    "vi": "Rẽ nhánh với Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
@@ -29,7 +30,8 @@ exports.level = {
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
-    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\""
+    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
+    "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
   },
   "disabledMap": {
     "git revert": true
@@ -1053,6 +1055,88 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nhánh Git",
+              "",
+              "Nhánh trong Git cũng nhẹ đến không ngờ. Chúng chỉ đơn giản là các con trỏ đến commit -- không hơn. Đó là lý do các con chiên Git hay niệm chú:",
+              "",
+              "```",
+              "rẽ nhánh sớm, rẽ nhánh thường xuyên",
+              "```",
+              "",
+              "Bởi vì chẳng tốn bao nhiêu bộ nhớ cho việc rẽ nhánh cả, và nó dễ dàng phân chia công việc hơn là có một cái nhánh to tổ chảng.",
+              "",
+              "Khi bạn trộn lẫn commit và nhánh, bạn sẽ thấy chúng kết hợp với nhau thế nào. Còn bây giờ, đơn giản hãy nhớ nhánh cơ bản muốn nói \"Tôi muốn thành quả trong commit này và tất cả cha ông của nó\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nào hãy xem nhánh trong Git hoạt động thế nào.",
+              "",
+              "Giờ chúng ta tạo một nhánh mới tên là `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Đó, rẽ nhánh là thế đó! Nhánh `newImage` giờ đã tham chiếu đến commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nào cùng thử thêm nội dung vào nhánh mới này nào. Hãy bấm nút bên dưới"
+            ],
+            "afterMarkdowns": [
+              "Ồ không! Nhánh `master` đã di chuyển nhưng nhánh `newImage` thì không! Đó là do ta không \"nằm trên\" nhánh mới, đó là tại sao dấu hoa thị (*) nằm trên nhánh `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nào cùng bảo Git chuyển ta sang nhánh khác với lệnh",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "Lệnh này sẽ chuyển ta sang nhánh mới trước khi commit"
+            ],
+            "afterMarkdowns": [
+              "Đó! Thay đổi của ta đã được lưu sang nhánh mới"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Được rồi! Bạn đã sẵn sàng để tập rẽ nhánh rồi. Khi cửa sổ này đóng lại,",
+              "tạo một nhánh mới tên là `bugFix` và chuyển sang nhánh đó.",
+              "",
+              "Tiện thể, có đường tắt đấy: nếu bạn muốn tạo nhánh mới ",
+              "VÀ đồng thời chuyển sang luôn, bạn chỉ cần ",
+              "gõ `git checkout -b [yourbranchname]`."
+            ]
+          }
+        }
+      ]
+    },
   }
 };
