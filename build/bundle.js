@@ -47847,6 +47847,12 @@ exports.dialog = {
     options: {
       markdowns: ['## Впевнений, що хочеш побачити розв’язок?', '', 'Я вірю в тебе! Ти впораєшся!']
     }
+  }],
+  'vi': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: ['## Bạn chắc là muốn xem đáp án chứ?', '', 'Tôi tin ở bạn! Bạn có thể làm được!']
+    }
   }]
 };
 
@@ -47929,6 +47935,12 @@ exports.dialog = {
     options: {
       markdowns: ['## 레벨 생성기 입니다. 환영합니다!', '', 'Here are the main steps:', '', '  * git 명령어로 초기 환경을 만들어주세요', '  * 시작 트리를 ```define start```로 정의하세요', '  * (최적화된)정답을 만드는 git 명령어들을 입력하세요', '  * 골 트리를 ```define goal```로 정의해주세요. 골을 정의하면 정답도 같이 정의됩니다', '  * ```define hint```로 원하면 힌트도 정의해줄수 있습니다', '  * 문제의 이름을 ```define name```로 수정하세요', '  * 시작 글이 필요하다면 ```edit dialog```로 쓸 수 있습니다', '  * ```finish```로 여러분의 레벨을 JSON결과로 받을 수 있습니다!']
     }
+  }],
+  'vi': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: ['## Chào mừng đến trình tạo cấp độ!', '', 'Có những bước chính sau:', '', '  * Khởi tạo môi trường với các lệnh git', '  * Định nghĩa cây để bắt đầu với ```define start```', '  * Nhập chuỗi lệnh git để tạo đáp án (tốt nhất) của bạn', '  * Định nghĩa cây mục tiêu với ```define goal```. Định nghĩa mục tiêu đồng thời cũng xác định đáp án', '  * Có thể định nghĩa gợi ý với ```define hint```', '  * Chỉnh sửa tên với ```define name```', '  * Có thể định nghĩa hội thoại bắt đầu với ```edit dialog```', '  * Nhập lệnh ```finish``` xuất cấp độ của bạn dưới dạng JSON!']
+    }
   }]
 };
 
@@ -48010,6 +48022,12 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: ['## 훌륭합니다!!', '', '*{numCommands}*개의 명렁으로 레벨을 통과했습니다.; ', '모범 답안은 {best}개를 사용합니다.']
+    }
+  }],
+  'vi': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: ['## Làm tốt lắm!!', '', 'Bạn hoàn thành cấp độ này với *{numCommands}* câu lệnh.; ', 'Đáp án của chúng tôi sử dụng {best}.']
     }
   }]
 };
@@ -48192,6 +48210,12 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: ['## Ласкаво просимо до Learn Git Branching', '', 'Хочеш вивчити Git? Тоді ти знайшов те, що шукав!', '"Learn Git Branching" \u2014 це найбільш візуальний та інтерактивний спосіб вивчення Git в Інтернеті. ', 'Ти зможеш проходити захопливі рівні, дивитися ', 'покрокові інструкції з використання потужних функцій Git, навіть трохи ', 'розважитись в процесі навчання.', '', 'Після цього діалогу побачиш список доступних рівнів. Якщо ти новачок, ', 'просто почни з першого рівня. Якщо вже знаєш основи Git, ', 'спробуй більш складні рівні в кінці.', '', 'P.S. Хочеш перейти одразу до пісочниці наступного разу?', 'Спробуй ', '[це спеціальне посилання.](https://pcottle.github.io/learnGitBranching/?NODEMO)']
+    }
+  }],
+  'vi': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: ['## Chào mừng đến với Học Nhánh Git', '', 'Bạn có hứng thú học Git? Bạn đến đúng nơi rồi đấy! ', '"Học Nhánh Git" là cách trực quan và hiệu quả nhất để học Git trên web; ', 'thông qua một loạt các thử thách cấp độ thú vị, bạn sẽ từng bước tìm hiểu sức mạnh của git', '', 'Sau khi hội thoại này đóng lại, bạn sẽ thấy nhiều cấp độ mà chúng tôi cung cấp. ', 'Nếu bạn là người mới thì hãy bắt đầu từ bài đầu tiên. Nếu bạn đã có hiểu biết cơ bản về git, ', 'hãy thử những bài mang tính thách thức hơn phía sau.', '', 'Bạn có thể dùng lệnh `show commands` để xem tất cả các lệnh hiện hữu.', '', 'Ghi chú: Nếu muốn trực tiếp vào hộp cát ở lần sau?', 'Hãy dùng', '[đường link đặc biệt này của chúng tôi](https://pcottle.github.io/learnGitBranching/?NODEMO)']
     }
   }]
 };
@@ -52880,7 +52904,8 @@ exports.strings = {
     'fr_FR': 'Félicitations, vous avez réussi le dernier niveau !',
     'ru_RU': 'Вау! Вы прошли последний уровень, отлично!',
     'uk': 'Вау! Ти пройшов останній рівень, круто!',
-    'ko': '와우! 마지막 레벨까지 마쳤습니다. 멋지네요!'
+    'ko': '와우! 마지막 레벨까지 마쳤습니다. 멋지네요!',
+    'vi': 'Wao! Bạn đã phá đảo, quá tuyệt!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -52897,7 +52922,8 @@ exports.strings = {
     'fr_FR': 'Voulez-vous passer à *"{nextLevel}"*, le prochain niveau ?',
     'ru_RU': 'Хотите перейти на следующий уровень: *"{nextLevel}"*?',
     'uk': 'Хочеш перейти на наступний рівень -- *"{nextLevel}"*?',
-    'ko': '다음 레벨로 넘어갈까요? 레벨 *"{nextLevel}"*'
+    'ko': '다음 레벨로 넘어갈까요? 레벨 *"{nextLevel}"*',
+    'vi': 'Bạn có muốn chuyển sang cấp độ tiếp: *"{nextLevel}"* không?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -52914,7 +52940,8 @@ exports.strings = {
     'fr_FR': 'Fabuleux ! Votre solution a égalé ou surpassé notre solution.',
     'ru_RU': 'Отлично! Ваше решение соответствует или превосходит наше.',
     'uk': 'Чудово! Твій розв’язок на рівні або кращий від нашого.',
-    'ko': '멋져요! 우리의 해답과 일치하거나 우리보다 좀 더 나은 해답입니다.'
+    'ko': '멋져요! 우리의 해답과 일치하거나 우리보다 좀 더 나은 해답입니다.',
+    'vi': 'Tuyệt vời! Đáp án của bạn đạt chuẩn thâm chí có thể tốt hơn.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -52931,7 +52958,8 @@ exports.strings = {
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
     'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D',
     'uk': 'Спробуй, можливо ти зможеш вкластися в {best} кроків :D',
-    'ko': '{best}회로 줄일 수 있다면 해보세요. :D'
+    'ko': '{best}회로 줄일 수 있다면 해보세요. :D',
+    'vi': 'Thử xem bạn có thể giảm xuống {best} không? :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-prune-tree': {
@@ -52947,7 +52975,8 @@ exports.strings = {
     'de_DE': 'Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren',
     'ru_RU': 'Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево',
     'uk': 'Увага! Mercurial агресивно збирає сміття й може обрізати твоє дерево ',
-    'ko': '주의! Mercurial은 공격적으로 가비지 컬렉션을 수행하므로 트리를 정리할 필요가 있습니다.'
+    'ko': '주의! Mercurial은 공격적으로 가비지 컬렉션을 수행하므로 트리를 정리할 필요가 있습니다.',
+    'vi': 'Cảnh báo! Mercurial cần thực hiện thu gom rác và thu nhỏ cây lịch sử của bạn.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
@@ -52963,7 +52992,8 @@ exports.strings = {
     'fr_FR': 'L\'option -A n\'est pas nécessaire pour cette application, simplement commiter',
     'ru_RU': 'Опция -A не требуется для этого приложения, просто сделайте коммит.',
     'uk': 'Опція -A не потрібна для цього застосунку, можна просто комітити!',
-    'ko': '이 앱에선 -A 옵션은 필요 없습니다. 그냥 커밋하세요!'
+    'ko': '이 앱에선 -A 옵션은 필요 없습니다. 그냥 커밋하세요!',
+    'vi': 'Không cần thiết phải dùng tùy chọn -A trên ứng dụng này, cứ commit là được!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -52979,7 +53009,8 @@ exports.strings = {
     'de_DE': 'Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary',
     'ru_RU': 'Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary',
     'uk': 'Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary ',
-    'ko': '이 앱을 위한 상태 명령어는 없습니다. 왜냐하면 파일들의 스테이징이 없기 때문입니다. 대신 hg summary를 시도해보세요.'
+    'ko': '이 앱을 위한 상태 명령어는 없습니다. 왜냐하면 파일들의 스테이징이 없기 때문입니다. 대신 hg summary를 시도해보세요.',
+    'vi': 'Ứng dụng này không hỗ trợ lệnh `status` vì không có tệp nhớ đệm, thay vì đó hãy dùng lệnh `hg summary`'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
@@ -52995,7 +53026,8 @@ exports.strings = {
     'de_DE': 'Ich benötige die Option {option} für diesen Befehl!',
     'ru_RU': 'Для этой команды требуется опция {option}',
     'uk': 'Для цієї команди потрібна опція {option}',
-    'ko': '나는 그 명령어를 위한 {option} 옵션이 필요합니다.'
+    'ko': '나는 그 명령어를 위한 {option} 옵션이 필요합니다.',
+    'vi': 'Câu lệnh đó cần tùy chọn {option}!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
@@ -53011,7 +53043,8 @@ exports.strings = {
     'de_DE': 'hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f',
     'ru_RU': 'hg log без опции -f в настоящий момент не поддерживается, используйте -f',
     'uk': 'hg log без опції -f в данний момент не підтримується, використовуй -f',
-    'ko': '-f가 없는 hg log는 현재 지원되지 않습니다. -f를 사용하세요.'
+    'ko': '-f가 없는 hg log는 현재 지원되지 않습니다. -f를 사용하세요.',
+    'vi': 'Hiện tại thì `hg log` mà không có tùy chọn -f chưa được hỗ trợ, hãy viết thêm -f.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -53027,7 +53060,8 @@ exports.strings = {
     'fr_FR': 'head détaché !',
     'ru_RU': 'Отделенный HEAD',
     'uk': 'Відокремлений HEAD',
-    'ko': '분리된 HEAD!'
+    'ko': '분리된 HEAD!',
+    'vi': 'HEAD bị tách biệt!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
@@ -53043,7 +53077,8 @@ exports.strings = {
     'fr_FR': 'Sur la branche {branch}',
     'ru_RU': 'В ветке {branch}',
     'uk': 'В гілці {branch}',
-    'ko': '분기 지점 {branch}에서'
+    'ko': '분기 지점 {branch}에서',
+    'vi': 'Đang trên nhánh {branch}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
@@ -53059,7 +53094,8 @@ exports.strings = {
     'fr_FR': 'Prêt à commit ! (comme toujours dans cette démo)',
     'ru_RU': 'Готово к коммиту! (как и всегда в этом демо)',
     'uk': 'Готово до коміту! (як завжди в цьому демо)',
-    'ko': '커밋을 준비하세요! (이 데모에서는 항상)'
+    'ko': '커밋을 준비하세요! (이 데모에서는 항상)',
+    'vi': 'Sẵn sàng để commit! (khi demo thì luôn có thể commit)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
@@ -53075,7 +53111,8 @@ exports.strings = {
     'fr_FR': 'Commit rapide. NoMaN Sux!',
     'ru_RU': 'Быстрый коммит. А надо!',
     'uk': 'Швидкий коміт. Динамо!',
-    'ko': '빨리 커밋하세요!'
+    'ko': '빨리 커밋하세요!',
+    'vi': 'Commit luôn đi cho nóng!'
   },
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
@@ -53090,7 +53127,8 @@ exports.strings = {
     'zh_CN': '已经是最新的了',
     'ru_RU': 'Уже обновлено!',
     'uk': 'Вже оновлено!',
-    'ko': '이미 최신 상태입니다!'
+    'ko': '이미 최신 상태입니다!',
+    'vi': 'Cập nhật mới nhất rồi!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -53105,7 +53143,8 @@ exports.strings = {
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
     'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch',
     'uk': 'Твоя гілка origin не синхронізована з віддаленою гілкою, неможливо виконати fetch',
-    'ko': '당신의 오리진 브랜치가 원격 브랜치와 동기화되지 않았고, 패치를 실행할 수 없습니다.'
+    'ko': '당신의 오리진 브랜치가 원격 브랜치와 동기화되지 않았고, 패치를 실행할 수 없습니다.',
+    'vi': 'Nhánh của bạn không đồng bộ với nhánh remote nên lệnh fetch không thực thi được.'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -53120,7 +53159,8 @@ exports.strings = {
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
     'ru_RU': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase',
     'uk': 'Віддалений репозиторій розбігся з твоїм локальним репозиторієм, тому відвантаження твоїх змін не є простим fast forward (і тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase',
-    'ko': '원격 레포지토리가 당신의 로컬 레포지토리에서 분기하므로, 변경 사항을 업데이트 하는것은 간단한 fast forward가 아닙니다(따라서 push가 거절될 것입니다.). 원격 레포지토리에서의 변경 사항을 내려 받아 이 브랜치에 합쳐라. 그리고 이걸 반복하라. 당신은 git pull 또는 git pull --rebase를 사용해 이를 수행할 수 있다.'
+    'ko': '원격 레포지토리가 당신의 로컬 레포지토리에서 분기하므로, 변경 사항을 업데이트 하는것은 간단한 fast forward가 아닙니다(따라서 push가 거절될 것입니다.). 원격 레포지토리에서의 변경 사항을 내려 받아 이 브랜치에 합쳐라. 그리고 이걸 반복하라. 당신은 git pull 또는 git pull --rebase를 사용해 이를 수행할 수 있다.',
+    'vi': 'Kho chứa từ xa có sự khác biệt với kho chứa cục bộ của bạn, nên không thể tự động (fast forward) cập nhật thay đổi của bạn (và vì thế hoạt động push của bạn bị từ chối). Vui lòng kéo về thay đổi từ kho chứa từ xa, kết nạp vào nhánh hiện tại, và thử lại lần nữa. Bạn có thể dùng lệnh `git pull` hoặc `git pull --rebase`'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
@@ -53135,7 +53175,8 @@ exports.strings = {
     'fr_FR': 'Vous ne pouvez exécuter cette commande sur une branche distante',
     'ru_RU': 'Вы не можете выполнить эту команду на удаленной ветке',
     'uk': 'Ти не можеш виконати цю команду на віддаленій гілці',
-    'ko': '당신은 원격 브랜치에서 그 명령어를 실행시킬 수 없다.'
+    'ko': '당신은 원격 브랜치에서 그 명령어를 실행시킬 수 없다.',
+    'vi': 'Bạn không thể thực thi lệnh đó lên nhánh từ xa.'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
@@ -53150,7 +53191,8 @@ exports.strings = {
     'fr_FR': 'Une origine est requise pour cette commande',
     'ru_RU': 'Origin требуется для этой команды',
     'uk': 'Для цієї команди потрібний origin',
-    'ko': '그 명령어를 위한 오리진이 필요하다.'
+    'ko': '그 명령어를 위한 오리진이 필요하다.',
+    'vi': 'Lệnh đó yêu cầu có origin.'
   },
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
@@ -53165,7 +53207,8 @@ exports.strings = {
     'fr_FR': 'Une origine existe déjà ! Vous ne pouvez pas en créer une nouvelle',
     'ru_RU': 'Origin уже существует! Невозможно создать еще один',
     'uk': 'Origin вже існує! Неможливо створити ще один',
-    'ko': '오리진이 이미 존재합니다! 당신은 새로 만들 수 없습니다.'
+    'ko': '오리진이 이미 존재합니다! 당신은 새로 만들 수 없습니다.',
+    'vi': 'Nguyên bản (origin) đã tồn tại. Bạn không thể tạo thêm 1 cái mới'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
@@ -53181,7 +53224,8 @@ exports.strings = {
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
     'ru_RU': 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой',
     'uk': 'Неможливо видалити гілку master, гілку на якій ти зараз знаходишся чи штуки які не є гілкою',
-    'ko': '당신은 마스터 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.'
+    'ko': '당신은 마스터 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.',
+    'vi': 'Bạn không thể xóa nhánh master, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -53197,7 +53241,8 @@ exports.strings = {
     'fr_FR': 'Merge de {target} dans {current}',
     'ru_RU': 'Слияние {target} в {current}',
     'uk': 'Злиття {target} в {current}',
-    'ko': '{target}을 {current}에 병합하세요.'
+    'ko': '{target}을 {current}에 병합하세요.',
+    'vi': 'Gộp {target} vào {current}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -53213,7 +53258,8 @@ exports.strings = {
     'fr_FR': 'Aucun commit à rebaser ! C\'est soit un commit de merge, soit des modifications déjà appliquées',
     'ru_RU': 'Нет коммитов для rebase! Все в коммите слияния или изменения уже применены',
     'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані',
-    'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.'
+    'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.',
+    'vi': 'Không có commit nào để rebase. Mọi thứ là merge commit hoặc thay đổi đã được áp dụng.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -53229,7 +53275,8 @@ exports.strings = {
     'fr_FR': 'Rien à effectuer…',
     'ru_RU': 'Нечего выполнять...',
     'uk': 'Нічого виконувати...',
-    'ko': '할게 없습니다 ...'
+    'ko': '할게 없습니다 ...',
+    'vi': 'Không có gì để làm ...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -53245,7 +53292,8 @@ exports.strings = {
     'fr_FR': 'En avance rapide…',
     'ru_RU': 'Выполняю Fast forward...',
     'uk': 'Виконую Fast forward',
-    'ko': 'Fast forward 중입니다...'
+    'ko': 'Fast forward 중입니다...',
+    'vi': 'Đang fast forward...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
@@ -53261,7 +53309,8 @@ exports.strings = {
     'fr_FR': 'Branche déjà à jour',
     'ru_RU': 'Ветка уже обновлена',
     'uk': 'Гілку вже оновлено',
-    'ko': '브랜치가 이미 최신 상태입니다.'
+    'ko': '브랜치가 이미 최신 상태입니다.',
+    'vi': 'Nhánh đã được cập nhật mới nhất.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -53277,7 +53326,8 @@ exports.strings = {
     'fr_FR': 'La référence {ref} n\'existe pas ou est inconnue',
     'ru_RU': 'Ссылка {ref} не существует или неизвестна',
     'uk': 'Посилання {ref} не існує чи невідоме',
-    'ko': '{ref} 참조가 존재하지 않거나 알 수 없습니다.'
+    'ko': '{ref} 참조가 존재하지 않거나 알 수 없습니다.',
+    'vi': 'Tham chiếu {ref} không tồn tại hoặc không thể tìm thấy.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -53293,7 +53343,8 @@ exports.strings = {
     'fr_FR': 'Le commit {commit} n\'a pas de correspondance {match}',
     'ru_RU': 'Коммит {commit} не содержит {match}',
     'uk': 'Коміт {commit} не містить {match}',
-    'ko': '커밋 {commit}은 {match}를 가지고 있지 않습니다.'
+    'ko': '커밋 {commit}은 {match}를 가지고 있지 않습니다.',
+    'vi': 'Commit {commit} mà không có {match}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
@@ -53309,7 +53360,8 @@ exports.strings = {
     'fr_FR': 'Attention ! HEAD est détaché',
     'ru_RU': 'Внимание! Репозиторий в состоянии detached HEAD, то есть не находится ни на какой ветке!',
     'uk': 'Увага! Репозиторій в стані detached HEAD, тобто не знаходиться в жодній гілці!',
-    'ko': '주의! 분리된 HEAD 상태'
+    'ko': '주의! 분리된 HEAD 상태',
+    'vi': 'Cảnh báo! HEAD bị tách rời'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
@@ -53325,7 +53377,8 @@ exports.strings = {
     'fr_FR': 'Aucun besoin d\'ajouter des fichiers dans cette démo',
     'ru_RU': 'Это демо не оперирует файлами',
     'uk': 'Не потрібно додавати файли для цього демо',
-    'ko': '이 데모에서는 파일을 추가할 필요가 없습니다.'
+    'ko': '이 데모에서는 파일을 추가할 필요가 없습니다.',
+    'vi': 'Không cần thêm tập tin trong bản giới thiệu này.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
@@ -53341,7 +53394,8 @@ exports.strings = {
     'fr_FR': 'Les options que vous avez spécifiées sont incompatibles ou incorrectes',
     'ru_RU': 'Неправильные опции',
     'uk': 'Опції, які ти ввів, або некорректні або не підтримуються',
-    'ko': '당신이 지정한 그 옵션들은 호환되지 않거나 올바르지 않습니다.'
+    'ko': '당신이 지정한 그 옵션들은 호환되지 않거나 올바르지 않습니다.',
+    'vi': 'Các tham số bạn chỉ định không tương thích hoặc không chính xác.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -53357,7 +53411,8 @@ exports.strings = {
     'fr_FR': 'Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !',
     'ru_RU': 'Коммит {commit} существует, отменяю!',
     'uk': 'Коміт {commit} вже існує в твоєму change set, відміна!',
-    'ko': '커밋 {commit}은 이미 당신의 변경 내역에 존재합니다. 중단!'
+    'ko': '커밋 {commit}은 이미 당신의 변경 내역에 존재합니다. 중단!',
+    'vi': 'Commit {commit} đã tồn tại trong những thay đổi của bạn. Đang hủy!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
@@ -53373,7 +53428,8 @@ exports.strings = {
     'fr_FR': 'On ne peut pas effectuer un reset quand HEAD est détaché. Utilisez checkout pour déplacer',
     'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!',
     'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування',
-    'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.'
+    'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.',
+    'vi': 'Trong trạng thái tách rời `HEAD` thì không thể `reset`. Dùng `checkout` nếu bạn muốn di chuyển.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
@@ -53389,7 +53445,8 @@ exports.strings = {
     'fr_FR': 'Le comportement par défaut est un --hard reset, soyez libre d\'omettre cette option !',
     'ru_RU': 'По умолчанию будет выполнен --hard reset, эту опцию можно опускать!',
     'uk': 'На LearnGitBranching reset по замовчуванню використовує --hard, тому цю опцію ' + 'можна пропустити, якщо ти втомився її набирати щоразу. Тільки запам’ятай, що по замовчуванню ' + 'звичайний git reset використовує --mixed',
-    'ko': 'LearnGitBranching에서 reset의 기본 설정은 옵션은 --hard입니다. 우리 레슨에서는 이 옵션을 생략해도 됩니다. 다만 실제 Git의 기본 설정 옵션은 --mixed라는것만 기억하세요.'
+    'ko': 'LearnGitBranching에서 reset의 기본 설정은 옵션은 --hard입니다. 우리 레슨에서는 이 옵션을 생략해도 됩니다. 다만 실제 Git의 기본 설정 옵션은 --mixed라는것만 기억하세요.',
+    'vi': 'Trạng thái mặc định cho lệnh `reset` của \"Học nhánh Git\" là `--hard`.' + ' Nên khi làm bài nếu bạn thấy gõ tham số này hơi tốn công thì cứ bỏ qua.' + ' Nhưng mà hãy nhớ rằng thực tế thì `--mixed` mới là trạng thái mặc định của `reset`.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
@@ -53405,7 +53462,8 @@ exports.strings = {
     'fr_FR': 'Il n\'y a pas le concept d\'ajouter / mettre en staging, donc cette option ou commande est invalide',
     'ru_RU': 'Это демо не работает с файлами, так что git add не нужен!',
     'uk': 'В цьому демо немає можливості додати файл до робочої копії чи до стейджингу, тому ця опція чи команда некоректна чи не підтримується',
-    'ko': '여기엔 파일을 추가하거나 스테이징한다는 개념이 없습니다. 따라서 그 옵션 또는 명령어는 유효하지 않습니다.'
+    'ko': '여기엔 파일을 추가하거나 스테이징한다는 개념이 없습니다. 따라서 그 옵션 또는 명령어는 유효하지 않습니다.',
+    'vi': 'Không có khái nệm thêm tập tin đệm(staging file), nên tùy chọn đó là bất hợp lệ.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -53421,7 +53479,8 @@ exports.strings = {
     'fr_FR': 'Revert {oldCommit}: {oldMsg}',
     'ru_RU': 'Откатываю {oldCommit}: {oldMsg}',
     'uk': 'Повертаю {oldCommit}: {oldMsg}',
-    'ko': '{oldCommit}:{oldMsg}를 복구중입니다.'
+    'ko': '{oldCommit}:{oldMsg}를 복구중입니다.',
+    'vi': 'Hoàn tác {oldCommit}:{oldMsg}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
@@ -53437,7 +53496,8 @@ exports.strings = {
     'fr_FR': 'J\'attends au plus {upper} argument(s) pour {what}',
     'ru_RU': 'Ожидается максимум {upper} аргумент(ов) для {what}',
     'uk': 'Я очікую максимум {upper} аргумент(ів) для {what}',
-    'ko': '{what}을 위해 최대 {upper}개의 인자를 받습니다.'
+    'ko': '{what}을 위해 최대 {upper}개의 인자를 받습니다.',
+    'vi': 'Có thể có nhiều nhất {upper} tham số cho {what}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
@@ -53453,7 +53513,8 @@ exports.strings = {
     'fr_FR': 'J\'attends au moins {lower} argument(s) pour {what}',
     'ru_RU': 'Ожидается как минимум {lower} аргументов для {what}',
     'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}',
-    'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.'
+    'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.',
+    'vi': 'Cần ít nhất {lower} tham số cho {what}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
@@ -53469,7 +53530,8 @@ exports.strings = {
     'fr_FR': 'Cette commande n\'accepte aucun argument général',
     'ru_RU': 'Это команда без аргументов',
     'uk': 'Ця команда не приймає загальних аргументів',
-    'ko': '그 명령어는 일반적으로 인자를 받지 않습니다.'
+    'ko': '그 명령어는 일반적으로 인자를 받지 않습니다.',
+    'vi': 'Lệnh đó không chấp nhận các tham số chung.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -53485,7 +53547,8 @@ exports.strings = {
     'fr_FR': 'Copiez la chaîne d\'arbre ci-dessous',
     'ru_RU': 'Скопируй текст ниже',
     'uk': 'Скопіюй рядок дерева нижче',
-    'ko': '다음 트리 문자열을 복사하세요.'
+    'ko': '다음 트리 문자열을 복사하세요.',
+    'vi': 'Sao chép chuỗi cây bên dưới.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -53502,7 +53565,8 @@ exports.strings = {
     'fr_FR': 'Apprenez Git Branching',
     'ru_RU': 'Изучаем ветвление в git',
     'uk': 'Learn Git Branching',
-    'ko': '깃 브랜칭을 배워봅시다.'
+    'ko': '깃 브랜칭을 배워봅시다.',
+    'vi': 'Học nhánh Git.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -53518,7 +53582,8 @@ exports.strings = {
     'fr_FR': 'Choisissez un niveau',
     'ru_RU': 'Выбери уровень',
     'uk': 'Обери рівень',
-    'ko': '레벨을 선택하세요.'
+    'ko': '레벨을 선택하세요.',
+    'vi': 'Chọn một cấp độ.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'main-levels-tab': {
@@ -53531,7 +53596,8 @@ exports.strings = {
     'gl': 'Principal',
     'ru_RU': 'Основы',
     'uk': 'Основи',
-    'ko': '메인'
+    'ko': '메인',
+    'vi': 'Bài học chính'
   },
   ///////////////////////////////////////////////////////////////////////////
   'remote-levels-tab': {
@@ -53544,7 +53610,8 @@ exports.strings = {
     'gl': 'Remota',
     'ru_RU': 'Удаленные репозитории',
     'uk': 'Віддалені репозиторії',
-    'ko': '원격'
+    'ko': '원격',
+    'vi': 'Bài học về thao tác từ xa'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
@@ -53560,7 +53627,8 @@ exports.strings = {
     'fr_FR': 'Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant "{branch}"',
     'ru_RU': 'Для наглядности нам нужно сохранять имена веток короткими. Твоё название сокращено до 9 символов и теперь это "{branch}"',
     'uk': 'Вибач, нам потрібно щоб ім’я гілок було як можна коротше для наглядності. Твоє ім’я гілки було скорочене до 9 літер й тепер це "{branch}"',
-    'ko': '미안하지만, 우리는 시각적으로 더 좋게 보기위해 짧은 브랜치명이 필요합니다. 당신의 브랜치명은 9자리로 잘라 "{branch}"로 만들었습니다.'
+    'ko': '미안하지만, 우리는 시각적으로 더 좋게 보기위해 짧은 브랜치명이 필요합니다. 당신의 브랜치명은 9자리로 잘라 "{branch}"로 만들었습니다.',
+    'vi': 'Xin lỗi, chúng tôi cần giữ tên nhánh ngắn để tiện minh họa. Tên nhánh của bạn đã bị cắt xuống 9 ký tự là "{branch}".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
@@ -53576,7 +53644,8 @@ exports.strings = {
     'fr_FR': 'Ce nom de branche "{branch}" n\'est pas autorisé',
     'ru_RU': 'Название для ветки "{branch}" недопустимо!',
     'uk': 'Назва гілки "{branch}" є недопустимою',
-    'ko': '"{branch}"라는 브랜치명은 사용할 수 없습니다.'
+    'ko': '"{branch}"라는 브랜치명은 사용할 수 없습니다.',
+    'vi': 'Tên nhánh "{branch}" không được chấp nhận.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
@@ -53592,7 +53661,8 @@ exports.strings = {
     'fr_FR': 'Le nom de tag "{tag}" n\'est pas autorisé',
     'ru_RU': 'Название для тега "{tag}" недопустимо!',
     'uk': 'Назва тегу "{tag}" є недопустимою',
-    'ko': '"{tag}"라는 태그명은 사용할 수 없습니다.'
+    'ko': '"{tag}"라는 태그명은 사용할 수 없습니다.',
+    'vi': 'Tên thẻ "{tag}" không được chấp nhận.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -53608,7 +53678,8 @@ exports.strings = {
     'fr_FR': 'L\'option "{option}" n\'est pas supportée',
     'ru_RU': 'Опция "{option}" недопустима!',
     'uk': 'Опція "{option}" не підтримується!',
-    'ko': '"{option}"(이)라는 옵션은 지원하지 않습니다.'
+    'ko': '"{option}"(이)라는 옵션은 지원하지 않습니다.',
+    'vi': 'Tùy chọn "{option}" không được hỗ trợ.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
@@ -53624,7 +53695,8 @@ exports.strings = {
     'fr_FR': 'git <commande> [<arguments>]',
     'ru_RU': 'git <команда> [<аргументы>]',
     'uk': 'git <команда> [<аргументи>]',
-    'ko': 'git <명령어> [<인자들>]'
+    'ko': 'git <명령어> [<인자들>]',
+    'vi': 'git <lệnh> [<tham số>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
@@ -53640,7 +53712,8 @@ exports.strings = {
     'fr_FR': 'Commandes supportées',
     'ru_RU': 'Поддерживаемые команды',
     'uk': 'Допустимі команди',
-    'ko': '지원되는 명령어들:'
+    'ko': '지원되는 명령어들:',
+    'vi': 'Các lệnh được hỗ trợ:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
@@ -53656,7 +53729,8 @@ exports.strings = {
     'fr_FR': 'Utilisation :',
     'ru_RU': 'Использование:',
     'uk': 'Використання:',
-    'ko': '사용법'
+    'ko': '사용법',
+    'vi': 'Cách dùng:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
@@ -53672,7 +53746,8 @@ exports.strings = {
     'fr_FR': 'Git version PCOTTLE.1.0',
     'ru_RU': 'Версия git PCOTTLE.1.0',
     'uk': 'Версія git PCOTTLE.1.0',
-    'ko': 'Git Version PCOTILE.1.0'
+    'ko': 'Git Version PCOTILE.1.0',
+    'vi': 'Phiên bản Git TTC-Solutions.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
@@ -53687,7 +53762,8 @@ exports.strings = {
     'fr_FR': 'Inversion de l\'arbre...',
     'ru_RU': 'Переворачиваю дерево...',
     'uk': 'Перевертаю дерево...',
-    'ko': '트리 뒤집는중...'
+    'ko': '트리 뒤집는중...',
+    'vi': 'Cây lật...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -53703,7 +53779,8 @@ exports.strings = {
     'fr_FR': 'Actualisation de l\'arbre…',
     'ru_RU': 'Обновляю дерево...',
     'uk': 'Оновлюю дерево...',
-    'ko': '트리 다시 불러오는중...'
+    'ko': '트리 다시 불러오는중...',
+    'vi': 'Làm mới cây...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
@@ -53719,7 +53796,8 @@ exports.strings = {
     'fr_FR': 'Langue changée à {locale}',
     'ru_RU': 'Локаль теперь равна {locale}',
     'uk': 'Локаль тепер дорівнює {locale}',
-    'ko': '로케일이 {locale}로 설정되었습니다.'
+    'ko': '로케일이 {locale}로 설정되었습니다.',
+    'vi': 'Ngôn ngữ được thay đổi thành {locale}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
@@ -53735,7 +53813,8 @@ exports.strings = {
     'fr_FR': 'Langue remise par défaut, qui est {locale}',
     'ru_RU': 'Локаль сброшена. Теперь она равна {locale}',
     'uk': 'Локаль скинута. Тепер вона дорівнює {locale}',
-    'ko': '로케일이 {locale}로 초기화 되었습니다.'
+    'ko': '로케일이 {locale}로 초기화 되었습니다.',
+    'vi': 'Ngôn ngữ được đổi thành mặc định: {locale}.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
@@ -53751,7 +53830,8 @@ exports.strings = {
     'fr_FR': 'Merci d\'utiliser une des commandes suivantes pour obtenir plus d\'informations',
     'ru_RU': 'Для получения большей информации используй следующие команды:',
     'uk': 'Щоб отримати більше інформації використовуй наступні команди:',
-    'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.'
+    'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.',
+    'vi': 'Vui lòng dùng một trong các lệnh sau để có thêm thông tin:.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
@@ -53767,7 +53847,8 @@ exports.strings = {
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :',
     'ru_RU': 'Вот все поддерживаемуе команды:',
     'uk': 'Ось список всіх можливих команд:',
-    'ko': '여기에 사용 가능한 모든 명령어들의 리스트가 있습니다.'
+    'ko': '여기에 사용 가능한 모든 명령어들의 리스트가 있습니다.',
+    'vi': 'Dưới đây là danh sách tất cả các lệnh hiện hành:.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
@@ -53783,7 +53864,8 @@ exports.strings = {
     'fr_FR': 'Répertoire changé à "/directories/dont/matter/in/this/demo" (les répertoires ne servent à rien dans cette démo)',
     'ru_RU': 'Директория изменена на "/директории/не/важны/в/этом/демо"',
     'uk': 'Директорія змінена на "/директорії/не/мають/значення/в/цьому/демо"',
-    'ko': '디렉토리가 "/directories/dont/matter/in/this/demo"로 변경되었습니다.'
+    'ko': '디렉토리가 "/directories/dont/matter/in/this/demo"로 변경되었습니다.',
+    'vi': 'Thay đổi thư mục thành "/directories/dont/matter/in/this/demo".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
@@ -53799,7 +53881,8 @@ exports.strings = {
     'fr_FR': 'DontWorryAboutFilesInThisDemo.txt (ne vous préoccupez pas des noms de fichier dans cette démo)',
     'ru_RU': 'НеНадоЗаботитьсяОФайлахВЭтомДемо.txt',
     'uk': 'ЗабийНаФайлиВЦьомуДемо.txt',
-    'ko': 'DontWorryAboutFilesInThisDemo.txt (이_데모에서_파일에_대한_걱정은_하지마세요.txt)'
+    'ko': 'DontWorryAboutFilesInThisDemo.txt (이_데모에서_파일에_대한_걱정은_하지마세요.txt)',
+    'vi': 'DontWorryAboutFilesInThisDemo.txt (ĐừngLoLắngVềTậpTinTrongBảnGiớiThiệuNày.txt)'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
@@ -53814,7 +53897,8 @@ exports.strings = {
     'fr_FR': 'Impossible de faire apparaître le clavier sur mobile / tablette :( Essayez de passer sur un ordinateur de bureau :D',
     'ru_RU': 'Мобильные не поддерживаются, зайди с компьютера!',
     'uk': 'LGB не підтримує ввід тексту з мобільного, зайди з компьютера! Це цього варте!',
-    'ko': 'LGB는 모바일에서 입력을 받을 수 없습니다. 데스크톱으로 접속하세요! 이것은 가치가 있습니다. :D'
+    'ko': 'LGB는 모바일에서 입력을 받을 수 없습니다. 데스크톱으로 접속하세요! 이것은 가치가 있습니다. :D',
+    'vi': 'Đáng tiếc là ứng dụng không thể nhận thông tin từ điện thoại hay máy tính bảng, hãy sử dụng máy tính cá nhân, đáng để bỏ công mà :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
@@ -53830,7 +53914,8 @@ exports.strings = {
     'fr_FR': 'Partagez cet arbre avec vos amis ! Ils peuvent le charger avec "import tree"',
     'ru_RU': 'Поделись деревом с друзьями! Они могут загрузить его при помощи "import tree"',
     'uk': 'Поділись цим деревом з друзями! Вони зможуть його завантажити за допомогою "import tree"',
-    'ko': '친구들과 이 트리를 공유하세요! 그들은 "import tree"를 사용해 이를 로드할 수 있습니다.'
+    'ko': '친구들과 이 트리를 공유하세요! 그들은 "import tree"를 사용해 이를 로드할 수 있습니다.',
+    'vi': 'Hãy chia sẻ cây này với bạn của mình! Họ có thể dùng "import tree" để tải.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
@@ -53846,7 +53931,8 @@ exports.strings = {
     'fr_FR': 'Collez un blob JSON ci-dessous !',
     'ru_RU': 'Вставь JSON ниже!',
     'uk': 'Встав JSON нижче!',
-    'ko': '아래에 JSON blob을 붙여넣으세요.'
+    'ko': '아래에 JSON blob을 붙여넣으세요.',
+    'vi': 'Dán một chuỗi JSON xuống bên dưới.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
@@ -53862,7 +53948,8 @@ exports.strings = {
     'fr_FR': 'La carte des niveaux résolus a été effacée, vous repartez de zéro !',
     'ru_RU': 'Всё сброшено! Можно начать с чистого листа!',
     'uk': 'Все скинуте! Можна починати з чистого аркушу!',
-    'ko': '해결된 지도가 초기화 되었습니다. 당신은 깨끗한 상태에서 시작합니다.'
+    'ko': '해결된 지도가 초기화 되었습니다. 당신은 깨끗한 상태에서 시작합니다.',
+    'vi': 'Tất cả đáp án đã được xóa, bạn có thể bắt đầu lại từ đầu.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
@@ -53878,7 +53965,8 @@ exports.strings = {
     'fr_FR': 'Vous n\'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec "levels"',
     'ru_RU': 'Ты не проходишь уровень! Ты в песочнице! Чтобы начать уровень, используй команду "levels"!',
     'uk': 'Ти не в рівні! Ти в пісочниці! Почни рівень з "levels"',
-    'ko': '당신은 샌드박스에 있습니다. "levels"를 사용하여 레벨을 시작하세요.'
+    'ko': '당신은 샌드박스에 있습니다. "levels"를 사용하여 레벨을 시작하세요.',
+    'vi': 'Bạn hiện không ở cấp độ nào cả! Hãy bắt đầu một cấp độ với "levels".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
@@ -53894,7 +53982,8 @@ exports.strings = {
     'fr_FR': 'Le niveau dont l\'identifiant est {id} n\'a pas été trouvé ! Ouverture de la vue de sélection des niveaux',
     'ru_RU': 'Уровень с id "{id}" не найден! Открываю выбор уровней',
     'uk': 'Рівень з id "{id}" не знайдений! Відкриваю вибір рівней',
-    'ko': 'id "{id}"에 대한 레벨이 존재하지 않습니다. 레벨 선택 화면을 열어보세요.'
+    'ko': 'id "{id}"에 대한 레벨이 존재하지 않습니다. 레벨 선택 화면을 열어보세요.',
+    'vi': 'Không tìm thấy cấp độ cho định danh "{id}". Mở cửa sổ chọn cấp độ.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -53910,7 +53999,8 @@ exports.strings = {
     'fr_FR': 'La pile d\'annulation est vide !',
     'ru_RU': 'Некуда откатывать!',
     'uk': 'Нема куди відкатуватися',
-    'ko': '되돌리기 스택이 비었습니다!'
+    'ko': '되돌리기 스택이 비었습니다!',
+    'vi': 'Không có gì để hoàn tác!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
@@ -53926,7 +54016,8 @@ exports.strings = {
     'fr_FR': 'Vous avez déjà résolu ce niveau, essayez d\'autres niveaux avec "levels" ou revenez au bac à sable avec "sandbox"',
     'ru_RU': 'Ты уже прошел этот уровень, попробуй пройти другие при помощи команды "levels" или иди в песочницу "sandbox"',
     'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"',
-    'ko': '당신은 이미 이 레벨을 해결했습니다. "levels"를 사용하여 다른 레벨에 도전하거나 "sandbox"를 사용하여 샌드박스로 돌아가세요.'
+    'ko': '당신은 이미 이 레벨을 해결했습니다. "levels"를 사용하여 다른 레벨에 도전하거나 "sandbox"를 사용하여 샌드박스로 돌아가세요.',
+    'vi': 'Bạn đã vượt qua cấp độ này. Thử cấp độ khác với "levels" hoặc dùng "sandbox" để trở lại hộp cát.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-level': {
@@ -53939,7 +54030,8 @@ exports.strings = {
     'gl': '¡Resolto!',
     'ru_RU': 'Решено!!\n:D',
     'uk': 'Вирішено!!\n:D',
-    'ko': '해결 완료!!\n:D'
+    'ko': '해결 완료!!\n:D',
+    'vi': 'ĐÃ XONG!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -53955,7 +54047,8 @@ exports.strings = {
     'fr_FR': 'Cette commande git est désactivée pour ce niveau !',
     'ru_RU': 'На этом уровне нельзя использовать эту команду!',
     'uk': 'На цьому рівні не можна використовувати цю команду!',
-    'ko': '그 Git 명령어는 이 레벨에서 사용할 수 없습니다.'
+    'ko': '그 Git 명령어는 이 레벨에서 사용할 수 없습니다.',
+    'vi': 'Ở cấp độ này thì lệnh git đó bị vô hiệu hóa.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
@@ -53971,7 +54064,8 @@ exports.strings = {
     'fr_FR': 'Voici le JSON pour ce niveau ! Partagez-le avec quelqu\'un ou envoyez-le moi sur Github',
     'ru_RU': 'Вот JSON для этого уровня! Поделись им с кем-нибудь или отправь его нам на GitHub',
     'uk': 'Ось JSON для цього рівня! Поділись з кимось чи відправ мені його на Github',
-    'ko': '이 레벨을 위한 JSON 데이터가 있습니다! 이를 다른 사람들과 공유하거나 Github에서 제게 보내보세요.'
+    'ko': '이 레벨을 위한 JSON 데이터가 있습니다! 이를 다른 사람들과 공유하거나 Github에서 제게 보내보세요.',
+    'vi': 'Đây là chuỗi JSON cho cấp độ này! Hãy chia sẻ với người khắc hoặc với tôi qua Github.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
@@ -53987,7 +54081,8 @@ exports.strings = {
     'fr_FR': 'Vous n\'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?',
     'ru_RU': 'Не указано стартово сообщение! Точно продолжаем?',
     'uk': 'Не вказано стартовий діалог, хочеш додати стартовий діалог?',
-    'ko': '당신은 시작 대화창을 지정하지 않았습니다. 추가 하시겠습니까?'
+    'ko': '당신은 시작 대화창을 지정하지 않았습니다. 추가 하시겠습니까?',
+    'vi': 'Không có cửa sổ hội thoại được chỉ định, thêm một cái chứ?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
@@ -54003,7 +54098,8 @@ exports.strings = {
     'fr_FR': 'Vous n\'avez pas spécifié d\'indice, voulez-vous en ajouter un ?',
     'ru_RU': 'Не указана подсказка для уровня! Пренебречь? Вальсируем?',
     'uk': 'Не вказана підказка, хочеш додати підказку?',
-    'ko': '당신은 힌트를 지정하지 않았습니다. 추가 하시겠습니까?'
+    'ko': '당신은 힌트를 지정하지 않았습니다. 추가 하시겠습니까?',
+    'vi': 'Bạn chưa chỉ định một gợi ý, thêm một cái chứ?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
@@ -54019,7 +54115,8 @@ exports.strings = {
     'fr_FR': 'Entrez l\'indice pour ce niveau, ou laissez-le vide pour ne pas l\'inclure',
     'ru_RU': 'Введи подсказку для уровня, если хочешь.',
     'uk': 'Додай підказку для рівня, якщо хочеш',
-    'ko': '이 레벨을 위한 힌트를 입력하거나 만약 이를 포함시키고 싶지 않을 경우엔 비워두세요.'
+    'ko': '이 레벨을 위한 힌트를 입력하거나 만약 이를 포함시키고 싶지 않을 경우엔 비워두세요.',
+    'vi': 'Thêm một gợi ý cho cấp độ này, hoặc cứ để trống nếu bạn không muốn thêm.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
@@ -54035,7 +54132,8 @@ exports.strings = {
     'fr_FR': 'Entrez le nom pour ce niveau',
     'ru_RU': 'Введи название уровня',
     'uk': 'Введи назву рівня',
-    'ko': '레벨 이름을 입력하세요.'
+    'ko': '레벨 이름을 입력하세요.',
+    'vi': 'Nhập tên cho cấp độ này.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
@@ -54051,7 +54149,8 @@ exports.strings = {
     'fr_FR': 'Votre solution est vide !! Quelque chose ne tourne pas rond',
     'ru_RU': 'Решение не указано! Так не годится!',
     'uk': 'Розв’язок порожній!! Щось не так',
-    'ko': '해답이 비어있습니다. 무언가 잘못되었습니다.'
+    'ko': '해답이 비어있습니다. 무언가 잘못되었습니다.',
+    'vi': 'Đáp án bị bỏ trống!! Có gì thiếu rồi.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
@@ -54067,7 +54166,8 @@ exports.strings = {
     'fr_FR': 'Redéfinition du point de départ… la solution et la cible seront écrasés s\'ils ont déjà été définis',
     'ru_RU': 'Устанавливаю стартовую точку... Решение и итоговое состояние будут стёрты, если они указаны ранее',
     'uk': 'Встановлюю стартову точку... розв’язок та ціль будуть переписані якщо вони були задані раніше',
-    'ko': '시작 지점을 정의하세요... 만약 그것이 먼저 정의된다면 해답과 목표가 덮어씌워질 것입니다.'
+    'ko': '시작 지점을 정의하세요... 만약 그것이 먼저 정의된다면 해답과 목표가 덮어씌워질 것입니다.',
+    'vi': 'Xác định điểm bắt đầu ... Các giải pháp và mục tiêu sẽ được thay thế nếu đã được chỉ định từ trước.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
@@ -54083,7 +54183,8 @@ exports.strings = {
     'fr_FR': 'Vous êtes dans un niveau, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help level" pour en apprendre plus sur cette leçon, "help general" pour l\'utilisation de Learn GitBranching, ou "objective" pour apprendre comment résoudre le niveau',
     'ru_RU': 'При прохождении уровня доступны несколько видов помощи. Определить что нужно: "help level" чтобы получить информацию об этом уровне, "help general" для того, чтобы узнать о игре в целом или "objective" чтобы узнать что надо сделать в этом уровне.',
     'uk': 'При проходженні рівня доступні декілька різновидів допомоги. Виберіть або "help level" щоб взнати більше про цей рівень, чи "help general" щоб взнати більше про Learn Git Branching, чи "objective" щоб дізнатись більше про проходження цього рівня',
-    'ko': '당신은 한 레벨에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. 레슨에 대해 더 알고싶을 땐 "help level", LearnGitBranching을 사용하고 싶을 땐 "help general", 또는 레벨을 어떻게 해결해야할지 알고싶을 땐 "objective"를 선택하세요.'
+    'ko': '당신은 한 레벨에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. 레슨에 대해 더 알고싶을 땐 "help level", LearnGitBranching을 사용하고 싶을 땐 "help general", 또는 레벨을 어떻게 해결해야할지 알고싶을 땐 "objective"를 선택하세요.',
+    'vi': 'Bạn đang ở trong một cấp độ, nên sẽ có nhiều hỗ trợ. Vui lòng dùng "help level" để biết thêm về bài học này, "help general" để sử dụng HọcNhánhGit, hoặc "objective" để biết cách giải quyết bài tập.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
@@ -54099,7 +54200,8 @@ exports.strings = {
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
     'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"',
     'uk': 'При створенні рівня доступні декілька різновидів допомоги. Виберіть або "help general", чи "help builder"',
-    'ko': '당신은 한 레벨 생성기에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. "help general" 또는 "help builder"를 선택해주세요.'
+    'ko': '당신은 한 레벨 생성기에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. "help general" 또는 "help builder"를 선택해주세요.',
+    'vi': 'Bạn đang tạo một cấp độ, nên sẽ có nhiều trợ giúp có sẵn. Vui lòng chọn "help general" hoặc "help builder".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
@@ -54116,7 +54218,8 @@ exports.strings = {
     'ja': 'ゴールを表示',
     'ru_RU': 'Цель уровня',
     'uk': 'Ціль рівня',
-    'ko': '목표 보기'
+    'ko': '목표 보기',
+    'vi': 'Hiển thị mục tiêu'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -54133,7 +54236,8 @@ exports.strings = {
     'ja': 'ゴールを隠す',
     'ru_RU': 'Спрятать цель',
     'uk': 'Сховати ціль',
-    'ko': '목표 숨기기'
+    'ko': '목표 숨기기',
+    'vi': 'Ẩn mục tiêu'
   },
   ///////////////////////////////////////////////////////////////////////////
   'objective-button': {
@@ -54146,7 +54250,8 @@ exports.strings = {
     'gl': 'Obxectivo',
     'ru_RU': 'Задача',
     'uk': 'Задача',
-    'ko': '목적'
+    'ko': '목적',
+    'vi': 'Chỉ dẫn'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-demonstration-title': {
@@ -54159,7 +54264,8 @@ exports.strings = {
     'gl': 'Demostración de Git',
     'ru_RU': 'Git демо',
     'uk': 'Git демо',
-    'ko': 'Git 데모'
+    'ko': 'Git 데모',
+    'vi': 'Trình diễn Git'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -54176,7 +54282,8 @@ exports.strings = {
     'ja': '到達目標',
     'ru_RU': 'Цель уровня',
     'uk': 'Ціль рівня',
-    'ko': '목표'
+    'ko': '목표',
+    'vi': 'Mục tiêu cần đạt'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -54193,7 +54300,8 @@ exports.strings = {
     'ja': '<span class="fwber">Note:</span> masterブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': '<span class="fwber">Важно:</span> В этом уровне проверяется только ветка master. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи "hide goal"',
     'uk': '<span class="fwber">Важливо:</span> В цьому рівні буде перевірятися тільки гілка master. Решта гілок тільки для наглядності (показані пунктиром нижче). Як завжди, можна сховати цей діалог за допомогою "hide goal"',
-    'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 마스터 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨킬 수 있습니다.'
+    'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 마스터 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨킬 수 있습니다.',
+    'vi': '<span class="fwber">Chú ý:</span> Ở cấp độ này chỉ nhánh master bị kiểm tra. Các nhánh khác chỉ dùng để tham chiếu(có dấu - ở nhãn). Như thường lệ, bạn có thể ẩn mục tiêu bằng "hide goal".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -54210,7 +54318,8 @@ exports.strings = {
     'ja': 'このウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide goal"',
     'uk': 'Можна сховати це вікно за допомогою "hide goal"',
-    'ko': '"hide goal"을 사용하여 이 창을 숨길 수 있습니다.'
+    'ko': '"hide goal"을 사용하여 이 창을 숨길 수 있습니다.',
+    'vi': 'Bạn có thể ẩn cửa sổ này với "hide goal".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -54227,7 +54336,8 @@ exports.strings = {
     'ja': 'このウィンドウは"hide start"かクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide start"',
     'uk': 'Можна сховати це вікно за допомогою "hide start"',
-    'ko': '"hide start"를 사용하여 이 창을 숨길 수 있습니다.'
+    'ko': '"hide start"를 사용하여 이 창을 숨길 수 있습니다.',
+    'vi': 'Bạn có thể ẩn cửa sổ này với "hide start".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -54244,7 +54354,8 @@ exports.strings = {
     'ja': 'Levelエディタ',
     'ru_RU': 'Редактор уровней',
     'uk': 'Редактор рівнів',
-    'ko': '레벨 생성기'
+    'ko': '레벨 생성기',
+    'vi': 'Trình tạo câp độ'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -54261,7 +54372,8 @@ exports.strings = {
     'ja': 'このLevelにはスタートダイアログが存在しません',
     'ru_RU': 'Нет стартового сообщение для уровня!',
     'uk': 'Немає початкового діалогу для цього рівня!',
-    'ko': '이 레벨을 위한 시작 대화창이 없습니다.'
+    'ko': '이 레벨을 위한 시작 대화창이 없습니다.',
+    'vi': 'Cấp độ này không được giới thiệu.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -54278,7 +54390,8 @@ exports.strings = {
     'ja': 'あらら、このLevelでは、残念ながらヒントが存在しません :-/',
     'ru_RU': "Милый мой, хороший, догадайся сам :-/ Подсказка не создана...",
     'uk': 'Хм, схоже для цього рівня немає підказки :-/',
-    'ko': '흠, 이 레벨을 위한 힌트가 없어보이는군요.'
+    'ko': '흠, 이 레벨을 위한 힌트가 없어보이는군요.',
+    'vi': 'Hmmm, có vẻ cấp độ này không có gợi ý rồi. :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -54295,7 +54408,8 @@ exports.strings = {
     'ja': '{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
     'ru_RU': 'Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub',
     'uk': 'Немає перекладу для {key} :( Будь-ласка, запропонуй переклад на Github',
-    'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!'
+    'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!',
+    'vi': 'Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở Github để cung cấp bản dịch!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -54312,7 +54426,8 @@ exports.strings = {
     'ja': 'このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m',
     'ru_RU': 'Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub',
     'uk': 'Для цього повідомлення ще немає перекладу :( Будь-ласка, запропонуй переклад на Github',
-    'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!'
+    'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!',
+    'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên Github để cung cấp bản dịch!'
   }
 };
 
@@ -56531,6 +56646,12 @@ class IntlHelperBarView extends React.Component {
         this.fireCommand('locale uk; levels');
       }.bind(this)
     }, {
+      text: 'Tiếng Việt',
+      testID: 'vietnamese',
+      onClick: function () {
+        this.fireCommand('locale vi; levels');
+      }.bind(this)
+    }, {
       text: 'Galego',
       testID: 'galician',
       onClick: function () {
@@ -57579,12 +57700,14 @@ var langLocaleMap = {
   de: 'de_DE',
   pt: 'pt_BR',
   ru: 'ru_RU',
-  uk: 'uk'
+  uk: 'uk',
+  vi: 'vi'
 };
 var headerLocaleMap = {
   'zh-CN': 'zh_CN',
   'zh-TW': 'zh_TW',
-  'pt-BR': 'pt_BR'
+  'pt-BR': 'pt_BR',
+  'es-ES': 'es_ES'
 };
 var supportedLocalesList = Object.values(langLocaleMap).concat(Object.values(headerLocaleMap)).filter(function (value, index, self) {
   return self.indexOf(value) === index;
@@ -63405,7 +63528,8 @@ exports.level = {
     "zh_TW": "多個 parent commit",
     "ru_RU": "Здоровая семья, или несколько родителей",
     "ko": "다수의 부모",
-    'uk': 'Декілька батьків'
+    'uk': 'Декілька батьків',
+    'vi': 'Nhiều cha lắm mẹ'
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -63420,7 +63544,8 @@ exports.level = {
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
     "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
     "ko": "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
-    'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання'
+    'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання',
+    'vi': 'Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định'
   },
   "startDialog": {
     "en_US": {
@@ -64007,6 +64132,51 @@ exports.level = {
           "markdowns": ["### Практика", "", "Щоб завершити цей рівень, створи нову гілку на вказаному місці.", "", "Очевидно, що в данному випадку досить легко вказати коміт напряму (щось на зразок checkout `C6`), але для закріплення матеріалу використай модифікатори, про які ми щойно говорили!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Tìm về cội nguồn", "", "Cũng giống ký hiệu `~`, ta cũng có thể thêm số theo sau ký hiệu `^`.", "", "Nhưng mà không giống như (`~`) con số theo sau là số lượng thế hệ commit, con số theo sau `^` chỉ định commit cha từ commit merge. Hãy nhớ rằng commit merge có nhiều cha, cho nên chọn cha nào cũng khá là mơ hồ.", "", "Thông thường thì sẽ chọn cha \"đầu tiên\" từ commit merge, nhưng nếu sau dấu `^` có một con số thì cách hành xử sẽ khác đi.", "", "Không nói dông dài nữa, làm thử một ví dụ nào", ""]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Ở đây ta có 1 commit merge. Nếu ta dùng lệnh `master^` mà không bổ nghĩa cho nó, ta sẽ đi ngược lên commit cha đầu tiên của merge commit. ", "", "(*Trong hình minh họa bên trái thì commit cha đầu tiên được xếp hẳng hàng ngay phía trên của commit merge.*)"],
+          "afterMarkdowns": ["Dễ dàng -- đó là cách mà ta thường làm."],
+          "command": "git checkout master^",
+          "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nào bây giờ hãy chỉ định commit cha thứ hai thử..."],
+          "afterMarkdowns": ["Thấy chứ? Ta đã leo lên commit cha khác lúc trước."],
+          "command": "git checkout master^2",
+          "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Dùng bổ ngữ `^` và `~` cho ta khả năng di chuyển trên cây lịch sử:"],
+          "afterMarkdowns": ["Nhanh như chớp!"],
+          "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+          "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Thâm chí còn ghê gớm hơn khi ta kết hợp chúng với nhau! Hãy xem thử:"],
+          "afterMarkdowns": ["Cùng con đường như lúc trước, nhưng chỉ cần 1 dòng lệnh."],
+          "command": "git checkout HEAD~^2~2",
+          "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout master; git merge C5; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Áp dụng thực hành nào", "", "Để hoàn thành cấp độ này, hãy tạo ra một nhánh mới ở vị trí chỉ định.", "", "Dùng cách chỉ định trực tiếp commit (như là dùng `C6` chẳng hạn) thì dễ quá, nhưng thử thách ở đây là dùng các bổ ngữ đã học ở trên!"]
+        }
+      }]
     }
   }
 };
@@ -64039,7 +64209,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '基礎篇',
       'ko': 'git 기본',
       'ru_RU': 'Введение',
-      'uk': 'Вступ'
+      'uk': 'Вступ',
+      'vi': 'Giới thiệu chuỗi luyện tập'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -64054,7 +64225,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '循序漸進地介紹 git 主要命令',
       'ko': 'git의 주요 명령어를 깔끔하게 알려드립니다',
       'ru_RU': 'Хорошо подобранное введение в основные команды git',
-      'uk': 'Гарно підібране введення в основні команди git'
+      'uk': 'Гарно підібране введення в основні команди git',
+      'vi': 'Từng bước làm quen với phần lớn lệnh điều khiển git'
     }
   },
   rampup: {
@@ -64071,7 +64243,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '進階篇',
       'ru_RU': 'Едем дальше',
       'uk': 'Їдемо далі',
-      'ko': '다음 단계로'
+      'ko': '다음 단계로',
+      'vi': 'Tăng tốc'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -64086,7 +64259,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！',
       'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?',
       'uk': 'Наступна порція абсолютної git-дивини. Сподіваюсь, ви зголодніли',
-      'ko': 'git은 아주 멋져요. 왜 멋진지 알려드립니다'
+      'ko': 'git은 아주 멋져요. 왜 멋진지 알려드립니다',
+      'vi': 'Tận hưởng khẩu phần tuyệt hảo của git. Hi vọng bạn còn đói.'
     }
   },
   remote: {
@@ -64104,7 +64278,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': 'Push & Pull -- Git Remotes!',
       'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
       'uk': 'Push & Pull -- віддалені репозиторії в Git!',
-      'ko': 'Push & Pull -- Git 원격 저장소!'
+      'ko': 'Push & Pull -- Git 원격 저장소!',
+      'vi': 'Push & Pull -- Tác động git từ xa!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -64119,7 +64294,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '是時候分享你的程式碼了',
       'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования',
       'uk': 'Настав час поділитися своїми нулями та одиничками; соціальне програмування',
-      'ko': '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!'
+      'ko': '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!',
+      'vi': 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng'
     }
   },
   remoteAdvanced: {
@@ -64137,7 +64313,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令',
       'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes',
       'uk': 'Через origin – до зірок. Прогресивне використання Git Remotes',
-      'ko': '"origin"그 너머로 -- 고급 Git 원격 저장소'
+      'ko': '"origin"그 너머로 -- 고급 Git 원격 저장소',
+      'vi': 'Về với cội nguồn và vươn xa hơn -- nâng cao về các git remote'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -64152,7 +64329,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'de_DE': 'Git Remotes für Fortgeschrittene',
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
       'uk': 'А ти думав, що бути всесильним диктатором весело...',
-      'ko': '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...'
+      'ko': '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...',
+      'vi': 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui ...'
     }
   },
   move: {
@@ -64169,7 +64347,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '移动提交记录',
       'zh_TW': '調整提交順序',
       'ru_RU': 'Перемещаем труды туда-сюда',
-      'uk': 'Переміщуємо роботу туди-сюди'
+      'uk': 'Переміщуємо роботу туди-сюди',
+      'vi': 'Điều chỉnh vị trí'
     },
     about: {
       'en_US': '"Git" comfortable with modifying the source tree :P',
@@ -64184,7 +64363,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '自由修改提交树',
       'zh_TW': '自由修改提交樹',
       'ru_RU': 'Не стесняйтесь менять историю',
-      'uk': 'Не соромимось змінювати історію'
+      'uk': 'Не соромимось змінювати історію',
+      'vi': 'Chỉnh sửa cây lịch sử Git không hề khó'
     }
   },
   mixed: {
@@ -64201,7 +64381,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': '杂项',
       'zh_TW': '活用 git 的指令',
       'ru_RU': 'Сборная солянка',
-      'uk': 'Всяке'
+      'uk': 'Всяке',
+      'vi': 'Những trò mèo đáng đồng tiền bát gạo'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -64216,7 +64397,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_CN': 'Git 技术、技巧与贴士大集合',
       'zh_TW': 'git 的技術，招數與技巧',
       'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
-      'uk': 'Різні прийоми роботи з Git, хитрощі та поради'
+      'uk': 'Різні прийоми роботи з Git, хитрощі та поради',
+      'vi': 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích'
     }
   },
   advanced: {
@@ -64233,7 +64415,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '進階主題',
       'ru_RU': 'Продвинутый уровень',
       'uk': 'Досвідчений рівень',
-      'ko': '고급 문제'
+      'ko': '고급 문제',
+      'vi': 'Các chủ đề nâng cao'
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -64248,7 +64431,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'zh_TW': '來成為真正的強者吧！',
       'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
       'uk': 'Для хоробрих',
-      'ko': '용기있는 도전자를 위해 준비한 문제입니다'
+      'ko': '용기있는 도전자를 위해 준비한 문제입니다',
+      'vi': 'Mạnh mẽ lên!'
     }
   }
 };
@@ -64275,7 +64459,8 @@ exports.level = {
     "zh_CN": "Git Branch",
     "zh_TW": "建立 git branch",
     "ru_RU": "Ветвление в Git",
-    "uk": "Розгалуження в Git"
+    "uk": "Розгалуження в Git",
+    "vi": "Rẽ nhánh với Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
@@ -64290,7 +64475,8 @@ exports.level = {
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
-    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\""
+    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
+    "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\""
   },
   "disabledMap": {
     "git revert": true
@@ -64776,6 +64962,43 @@ exports.level = {
           "markdowns": ["Тепер ти готовий до створення гілок. Як тільки це вікно пропаде, ", "зроби нову гілку з назвою `bugFix` та перейди на неї."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Nhánh Git", "", "Nhánh trong Git cũng nhẹ đến không ngờ. Chúng chỉ đơn giản là các con trỏ đến commit -- không hơn. Đó là lý do các con chiên Git hay niệm chú:", "", "```", "rẽ nhánh sớm, rẽ nhánh thường xuyên", "```", "", "Bởi vì chẳng tốn bao nhiêu bộ nhớ cho việc rẽ nhánh cả, và nó dễ dàng phân chia công việc hơn là có một cái nhánh to tổ chảng.", "", "Khi bạn trộn lẫn commit và nhánh, bạn sẽ thấy chúng kết hợp với nhau thế nào. Còn bây giờ, đơn giản hãy nhớ nhánh cơ bản muốn nói \"Tôi muốn thành quả trong commit này và tất cả cha ông của nó\""]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nào hãy xem nhánh trong Git hoạt động thế nào.", "", "Giờ chúng ta tạo một nhánh mới tên là `newImage`"],
+          "afterMarkdowns": ["Đó, rẽ nhánh là thế đó! Nhánh `newImage` giờ đã tham chiếu đến commit `C1`"],
+          "command": "git branch newImage",
+          "beforeCommand": ""
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nào cùng thử thêm nội dung vào nhánh mới này nào. Hãy bấm nút bên dưới"],
+          "afterMarkdowns": ["Ồ không! Nhánh `master` đã di chuyển nhưng nhánh `newImage` thì không! Đó là do ta không \"nằm trên\" nhánh mới, đó là tại sao dấu hoa thị (*) nằm trên nhánh `master`"],
+          "command": "git commit",
+          "beforeCommand": "git branch newImage"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nào cùng bảo Git chuyển ta sang nhánh khác với lệnh", "", "```", "git checkout <name>", "```", "", "Lệnh này sẽ chuyển ta sang nhánh mới trước khi commit"],
+          "afterMarkdowns": ["Đó! Thay đổi của ta đã được lưu sang nhánh mới"],
+          "command": "git checkout newImage; git commit",
+          "beforeCommand": "git branch newImage"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Được rồi! Bạn đã sẵn sàng để tập rẽ nhánh rồi. Khi cửa sổ này đóng lại,", "tạo một nhánh mới tên là `bugFix` và chuyển sang nhánh đó.", "", "Tiện thể, có đường tắt đấy: nếu bạn muốn tạo nhánh mới ", "VÀ đồng thời chuyển sang luôn, bạn chỉ cần ", "gõ `git checkout -b [yourbranchname]`."]
+        }
+      }]
     }
   }
 };
@@ -64795,7 +65018,8 @@ exports.level = {
     'zh_CN': 'Git Commit',
     'zh_TW': '介紹 git commit ',
     'ru_RU': 'Знакомство с Git Commit ',
-    'uk': 'Знайомство з комітами в Git'
+    'uk': 'Знайомство з комітами в Git',
+    'vi': 'Giới thiệu về Git Commit'
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -64813,7 +65037,8 @@ exports.level = {
     "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!",
     "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)",
-    "uk": "Спробуй двічі виконати команду 'git commit' ;)"
+    "uk": "Спробуй двічі виконати команду 'git commit' ;)",
+    'vi': "Đơn giản là cứ gõ 'git commit' 2 lần"
   },
   "disabledMap": {
     "git revert": true
@@ -65091,6 +65316,27 @@ exports.level = {
           "markdowns": ["Спробуй сам. Після того як це вікно закриється, зроби два коміти, щоб пройти цей рівень."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Commits", "Một commit trong một git repository(kho chứa) lưu trữ một ảnh chụp của tất cả các file trong thư mục của bạn. Như kiểu copy và paste cõ bự, thậm chí còn tốt hơn thế!", "", "Thế nhưng Git muốn giữ cho các commit nhẹ hết mức có thể, cho nên git không copy tất cả thư mục một cách mù quáng mỗi khi bạn commit. Nó có thể(khi khả dĩ) nén commit như một tập hợp các thay đổi, hay là một \"bản so sánh\", giũa một phiên bản kho chứa git với phiên bản tiếp theo.", "", "Đồng thời Git cũng lưu trữ lịch sử commit nào được tạo ra lúc nào. Đó là tại sao hầu hết các commit có commit tổ tiên phía trên nó -- chúng tôi đã hình tượng hóa mối quan hệ này bằng các mũi tên. Trong cộng tác nhóm thì việc gìn giữ lịch sử là rất có ích!", "", "Có vẻ là hơi nhiều lý thuyết rồi, bây giờ bạn chỉ cần hiều các commit là các lát cắt của dự án. Các commit rất nhẹ nên việc chuyển qua lại giữa chúng thì nhanh vô cùng!"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Thử thực hành chút nào. Ở bên phải chúng ta có mô tả một kho git (nhỏ). Hiện tại đang có 2 commit, một là commit khởi nguyên `C0`, và một commit sau đó `C1` có thể đã có một vài thay đổi.", "", "Bấm nút bên dưới để tạo một commit mới"],
+          "afterMarkdowns": ["Đúng rồi! Tuyệt vời. Bạn vừa tạo thay đổi cho kho chứa và lưu vào commit. Cái commit bạn vừa tạo nó có cha, là `C1` đấy, là commit mà nó được tạo ra từ đó."],
+          "command": "git commit",
+          "beforeCommand": ""
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Nào bây giờ thì thử tự làm bài tập nào! Sau khi đóng cửa sổ này, tạo ra 2 commit để hoàn thành cấp độ"]
+        }
+      }]
     }
   }
 };
@@ -65112,7 +65358,8 @@ exports.level = {
     "zh_CN": "Git Merge",
     "zh_TW": "git 中的 merge",
     "ru_RU": "Слияния веток в Git",
-    "uk": "Злиття гілок в Git"
+    "uk": "Злиття гілок в Git",
+    "vi": "Gộp nhánh trong Git"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -65127,7 +65374,8 @@ exports.level = {
     "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
-    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)"
+    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)",
+    "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước master)"
   },
   "disabledMap": {
     "git revert": true
@@ -65509,6 +65757,35 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень виконай наступні кроки:", "", "* Зроби нову гілку (branch) з назвою `bugFix`", "* Перейди на гілку `bugFix` за допомогою `git checkout bugFix`", "* Зроби один коміт", "* Повернись до `master` за допомогою `git checkout`", "* Зроби ще один коміт", "* Змерджи (злий) гілку `bugFix` в `master` за допомогою `git merge`", "", "*Не забувай, ти можеш завжди повернутися до цього діалогу за допомогою \"objective\"!*"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Nhánh và gộp nhánh", "", "Tuyệt! Ta đã biết làm sao để commit và tạo nhánh. Giờ ta cần học cách để tập hợp thành quả của 2 nhánh khác biệt lại với nhau. Đây sẽ là cách để ta phân tách để phát triển chức năng, rồi sau đó hợp nhất nó trở lại.", "", "Cách đầu tiên để hợp nhất thành quả cần xem xét đến là lệnh `git merge`. Merge trong Git là tạo ra một commit đặc biệt mà có 2 người cha độc nhất. Một commit mà có 2 cha căn bản nghĩa là \"Tôi muốn có thành quả của ông này và ông kia nữa, *và* tất cả ông cha của họ.\"", "", "Trực quan thì dễ hiểu hơn, sang trang tiếp theo nào"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Ở đây ta có 2 nhánh; mỗi nhánh có 1 commit độc nhất. Có nghĩa là chẳng nhánh nào có đủ \"thành quả\" trong kho chứa của ta cả. Sửa nó bằng merge nào.", "", "Ta sẽ `merge` nhánh `bugFix` vào `master`"],
+          "afterMarkdowns": ["Wao! Thấy chứ? Trước tiên, `master` giờ đã trỏ đến commit có 2 cha. Nếu bạn lần theo mũi tên lên trên từ `master`, bạn sẽ gặp tất cả các commit lên đến commit gốc. Có nghĩa là `master` giờ đã chứa tất cả thành quả trong kho.", "", "Đồng thời, bạn thấy màu commit thay đổi chứ? Để bạn dễ học hơn, tôi đã phối hợp một số bảng màu. Mỗi nhánh có một màu duy nhất. Mỗi commit mang màu pha trộn của tất cả nhánh chứa nó.", "", "Vì vậy, ở đây chúng ta thấy rằng màu nhánh `master` được pha trộn vào tất cả các commit, nhưng màu` bugFix` thì không. Hãy sửa nó nào ..."],
+          "command": "git merge bugFix",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy gộp nhánh `master` vào `bugFix` nào:"],
+          "afterMarkdowns": ["Vì `bugFix` là bậc cha ông của `master`, git chẳng phải làm gì cả; nó đơn giản chỉ chuyển `bugFix` vào commit mà `master` đang trỏ tới.", "", "Giờ thì tất cả commit đã có cùng màu, nghĩa là mỗi nhánh đã chứa tất cả thành quả trong kho! Ồ hố!"],
+          "command": "git checkout bugFix; git merge master",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, hãy làm theo các bước bên dưới:", "", "* Tạo một nhánh mới tên là `bugFix`", "* Chuyển sang nhánh `bugFix` với `git checkout bugFix`", "* Commit một lần", "* Trở về `master` với `git checkout`", "* Commit một lần nữa", "* Gộp nhánh `bugFix` vào `master` với `git merge`", "", "*Nhớ rằng, bạn luôn luôn có thể bật lại hội thoại này với lệnh \"objective\"!*"]
+        }
+      }]
     }
   }
 };
@@ -65530,7 +65807,8 @@ exports.level = {
     "zh_CN": "Git Rebase",
     "zh_TW": "介紹 rebase",
     "ru_RU": "Введение в rebase",
-    "uk": "Знайомство з rebase"
+    "uk": "Знайомство з rebase",
+    "vi": "Giới thiệu về rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -65545,7 +65823,8 @@ exports.level = {
     "zh_CN": "先在 bugFix 分支上进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
-    "uk": "Впевнись, що зробив коміт в гілці bugFix"
+    "uk": "Впевнись, що зробив коміт в гілці bugFix",
+    "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước"
   },
   "disabledMap": {
     "git revert": true
@@ -65926,6 +66205,35 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень, зроби наступне:", "", "* Зачекауть (checkout) новий бранч з назвою `bugFix`", "* Зроби один коміт", "* Повернись на master й зроби ще один коміт", "* Зачекауть bugFix знову й заребейсь його на master", "", "Нехай щастить!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Rebase", "", "Cách thứ 2 để kết hợp thành của của 2 nhánh là *rebase.* Rebase về căn bản là chọn một loạt các commit, \"sao chép\" chúng, và ném chúng sang chỗ khác.", "", "Nghe có vẻ phức tạp, lợi thế của rebase là có thể tạo ra cây lịch sử thẳng tuột. Ljch sử commit nhìn sẽ gọn gàng hơn nhiều.", "", "Xem nó hoạt động thế nào nào..."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Giờ ta lại có 2 nhánh; để ý rằng nhánh bugFix đang được chọn (thấy dấu hoa thị chứ?)", "", "Ta muốn chuyển bugFix trực tiếp sang master. Theo cách đó thì các chức năng nhìn có vẻ được phát triển tuần tự, trong khi thực tế chúng được phát triển song song.", "", "Dùng lệnh `git rebase` để thử nào"],
+          "afterMarkdowns": ["Tuyệt vời! Giờ thành quả của nhánh bugFix nằm ngay trên master và ta có các commit nằm thẳng tuột.", "", "Để ý rằng commit C3 vẫn nằm đâu đó (đã được làm mờ), và commit C3' là bản \"sao chép\" mà ta dán lên nhánh master.", "", "Vấn đề duy nhất bây giờ là nhánh master vẫn chưa được cập nhật, làm luôn cho nóng nào..."],
+          "command": "git rebase master",
+          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Giờ thì ta đã chuyển sang nhánh `master`. Tiếp tục dán nó vào `bugFix` nào..."],
+          "afterMarkdowns": ["Đó! Bởi vì `master` là cha ông của `bugFix`, git đơn giản chuyển tham chiếu của nhánh `master` tiến lên."],
+          "command": "git rebase bugFix",
+          "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, làm theo hướng dẫn sau", "", "* Chuyển sang nhánh mới tên là `bugFix`", "* Commit một lần", "* Quay về master và commit lần nữa", "* Quay trở lại bugFix và rebase sang master", "", "Chúc may mắn!"]
+        }
+      }]
     }
   }
 };
@@ -65948,7 +66256,8 @@ exports.level = {
     "zh_CN": "Git Describe",
     "ru_RU": "Git describe",
     "ko": "Git describe(묘사)",
-    "uk": "Git Describe"
+    "uk": "Git Describe",
+    "vi": "Git Describe(mô tả)"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -65963,7 +66272,8 @@ exports.level = {
     "zh_CN": "当你准备好时，在 bugFix 分支上面提交一次就可以了",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko": "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
-    "uk": "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі"
+    "uk": "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
+    "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi"
   },
   "startDialog": {
     "en_US": {
@@ -66303,6 +66613,32 @@ exports.level = {
           "markdowns": ["Ось і все що ти маєш знати про git describe. Спробуй виконати describe для різних місць в дереві комітів щоб набити руку.", "", "Як будеш готовий, просто закоміть щось щоб закінчити цей рівень. Трохи шари :P"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Mô tả của Git", "", "Bởi gì thẻ đóng vai trò như là \"mỏ neo\" trên cây lịch sử rất tốt rồi, git cũng có lệnh để *mô tả* tương quan của bạn dến vị trí \"mỏ neo\" (thẻ) gần nhất. Và đó là `git describe`!", "", "`git descripe` có thể giúp bạn định hướng sau khi dịch chuyển qua lại nhiều lần trên cây lịch sử; đặc biệt là sau khi sử dụng `git bisect` (công cụ tìm kiếm lỗi của git) hoặc khi sử dụng máy của đồng nghiệp mới đi nghỉ mát về."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Cú pháp sử dụng Git describe như sau:", "", "`git describe <thamchiếu>`", "", "Trong đó `<thamchiếu>` là bất kỳ thứ gì mà git có thể dùng để xác định commit. Nếu bạn không chỉ định tham chiếu, git sẽ dùng vị trí hiện tại của bạn (`HEAD`).", "", "Đầu ra của câu lệnh sẽ như sau:", "", "`<thẻ>_<sốLượngCommit>_g<mãBăm>`", "", "Trong đó `<thẻ>` là thẻ tổ tiên gần nhất, `<sốLượngCommit>` là số lượng commit tính từ tham chiếu đến thẻ, và `<mãBăm>` là mã băm của commit được mô tả."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Cùng xem nhanh một ví dụ trên cây lịch sử phía dưới:"],
+          "afterMarkdowns": ["Câu lệnh `git describe master` sẽ cho kết quả:", "", "`v1_2_gC2`", "", "Trong khi `git describe side` sẽ cho kết quả:", "", "`v2_1_gC4`"],
+          "command": "git tag v2 C3",
+          "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Từng đó thông tin là khá đủ về git describe! Hãy thử dùng `git describe` trên vài vị trí để hiểu về lệnh này.", "", "Một khi bạn đã sẵn sàng thì chỉ cần commit 1 lần là qua bài này. Bài này dễ chơi rồi nhé :P"]
+        }
+      }]
     }
   }
 };
@@ -66334,7 +66670,8 @@ exports.level = {
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
     "ru_RU": "Выберем один коммит.",
-    "uk": "Вибираємо всього один коміт"
+    "uk": "Вибираємо всього один коміт",
+    "vi": "Chỉ lấy 1 commit"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -66349,7 +66686,8 @@ exports.level = {
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
-    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!"
+    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
+    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!"
   },
   "startDialog": {
     "en_US": {
@@ -66586,6 +66924,24 @@ exports.level = {
           "markdowns": ["На цьому рівні тобі вирішувати якими командами користуватися, але щоб пройти цей рівень, впевнись що в `master` потрапить коміт, на який посилається `bugFix`."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Commit xếp chồng tại địa phương", "", "Có tình huống thế này thường hay xảy ra trong quá trình phát triển: Tôi dang cố dò lỗi nhưng mà nó lại khá là trúc trắc. Để hỗ trợ cho việc này, thêm vào vài dòng lệnh gỡ lỗi và lệnh in.", "", "Mấy lệnh gỡ lỗi và in này nằm yên trong commit của chúng. Cuối cùng thì tôi cũng tìm ra lỗi, gỡ xong, ngon rồi!", "", "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `master`. Nếu mà đơn giản dùng fast-forwarded lên `master`, thì `master` lại có tất cả các lệnh gỡ lỗi kia(chẳng muốn chút nào). Phải có cách khác chứ nhỉ..."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Ta cần phải bảo git chỉ sao chép 1 commit thôi. Điều này giống với cấp độ trước về điều chỉnh vị trí -- ta có thể dùng các câu lệnh tương tự:", "", "* `git rebase -i`", "* `git cherry-pick`", "", "Để đạt được mục tiêu này."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Bây giờ là cấp độ cao hơn rồi nên bạn hãy tự quyết định nên dùng câu lệnh nào, nhưng để hoàn thành được cấp độ, hãy đàm bảo rằng `master` nhận được commit mà `bugFix` tham chiếu tới."]
+        }
+      }]
     }
   }
 };
@@ -66620,7 +66976,8 @@ exports.level = {
     "zh_CN": "提交的技巧 #1",
     "zh_TW": "commit 的戲法",
     "ru_RU": "Жонглируем коммитами",
-    "uk": "Жонглюємо комітами"
+    "uk": "Жонглюємо комітами",
+    "vi": "Tung hứng commit"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -66635,7 +66992,8 @@ exports.level = {
     "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
     "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
-    "uk": "Перша команда має бути git rebase -i HEAD~2"
+    "uk": "Перша команда має бути git rebase -i HEAD~2",
+    "vi": "Lệnh đầu tiên là git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -66806,6 +67164,19 @@ exports.level = {
           "markdowns": ["Ми поборимо цю складність наступним чином:", "", "* Ми відсортуємо коміти таким чином, щоб той, який ми хочемо змінити, був останнім за допомогою `git rebase -i`", "* Ми виконаємо `commit --amend` щоб внести невелику правку до останнього коміту", "* Тоді ми відсортуємо коміти в попередньому порядку, за допомогою `git rebase -i`", "* І на останок, ми пересунемо master на змінену частину дерева щоб закінчити цей рівень(ти можеш вибрати метод)", "", "Насправді є кілька способів як виконати поставлену задачу (Я бачу, ти поглядаєш на cherry-pick), і ми розберемося з ними всіма трохи пізніше, але зараз скористаймося саме цим методом.", "Зверни увагу на фінальний стан в цьому рівні -- позаяк ми перемістили коміти двічі, кожен з них отримає по апострофу. Ще один апостроф додасться коли ми виконаємо commit --amend.", "", "Враховуючи сказане вище, я буду порівнювати дерево як за назвою коміта, так і за кількістю апострофів. Щойно дерево цілей та master співпадуть, ти пройдеш цей рівень."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tung hứng Commit", "", "Có một tình huống xảy ra khá thường xuyên. Bạn có vài thay đổi trên (`newImage`) và một vài thay đổi khác trên (`caption`) và chúng lại liên quan đến nhau, nên chúng nằm chồng lên nhau trong kho của bạn (một lại nối một).", "", "Tréo ngoe là bạn lại phải điều chỉnh một chút ở commit trước. Giả sử như tay thiết kết muốn ta đổi chiều của `newImage` một chút, mặc dù commit ấy đã xưa lắm rồi!!"]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để khắc phục khó khăn này ta có thể làm như sau:", "", "* Ta sẽ dùng `git rebase -i` sắp xếp lại commit để cái ta cần sửa sẽ nằm trên cùng", "* Ta sẽ dùng `commit --amend` tạo ra một điều chỉnh nhỏ", "* Sau đó ta sẽ lại sắp xếp lại commit như trước bằng cách dùng `git rebase -i`", "* Cuối cùng, ta sẽ chuyển `master` tới phần đã cập nhật để hoàn thành cấp độ (dùng cách nào tùy bạn)", "", "Có nhiều cách để hoàn thành mục tiêu (Tôi thấy bạn hấp háy sang cherry-pick rồi đấy), rồi ta sẽ thấy chúng nhiều hơn, nhưng giờ hãy cứ tập trung vào kỹ thuật này đã.", "Sau cùng thì, để ý các dấu nháy đơn(') chứ?-- vì ta đã chuyển commit 2 lần, nên chúng có thêm một dấu nháy đơn. Và một dấu nữa cho commit mà ta đã sửa đổi, thế là ta có trạng thái cuối cùng của cây lịch sử ", "", "Nói cách khác, khi tôi so sánh kết quả, tôi chỉ so sánh cấu trúc của cây lịch sử. Sự khác biệt về số lượng `'`  không được bao gồm trong so sánh. Miễn là cấu trúc nhánh `master` của bạn giống với cấu trúc đích, tôi sẽ vẫn để bạn qua bài."]
+        }
+      }]
     }
   }
 };
@@ -66839,7 +67210,8 @@ exports.level = {
     "zh_CN": "提交的技巧 #2",
     "zh_TW": "commit 的戲法 #2",
     "ru_RU": "Жонглируем коммитами №2",
-    "uk": "Жонглюємо комітами #2"
+    "uk": "Жонглюємо комітами #2",
+    "vi": "Tung hứng commit #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
@@ -66854,7 +67226,8 @@ exports.level = {
     "zh_CN": "别忘记了将 master 快进到最新的更新上！",
     "zh_TW": "別忘記了將 master 推到最新的 commit 上面！",
     "ru_RU": "Не забудь переместить master на последние изменения.",
-    "uk": "Не забудь перемістити master на останні зміни!"
+    "uk": "Не забудь перемістити master на останні зміни!",
+    "vi": "Đừng quên đẩy nhánh master lên cập nhật mới nhất!"
   },
   "startDialog": {
     "en_US": {
@@ -67029,7 +67402,7 @@ exports.level = {
       "childViews": [{
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["## 提交的技巧 #2", "", "*如果你还没有完成“提交的技巧 #1”（前一关）的话，请选通过以后再来！*", "", "正如你在上一关所见到的，我们可以使用 `rebase -i` 对提交记录进行重新排序。只要把我们想要的提交记录挪到最前端，我们就可以很轻松的用 `--amend` 修改它，然后把它们重新排成我们想要的顺序。", "", "但这样做就唯一的问题就是要进行两次排序，而这有可能造成由 rebase 而导致的冲突。下面还是看看 `git cherry-pick` 是怎么做的吧。"]
+          "markdowns": ["## 提交的技巧 #2", "", "*如果你还没有完成“提交的技巧 #1”（前一关）的话，请先通过以后再来！*", "", "正如你在上一关所见到的，我们可以使用 `rebase -i` 对提交记录进行重新排序。只要把我们想要的提交记录挪到最前端，我们就可以很轻松的用 `--amend` 修改它，然后把它们重新排成我们想要的顺序。", "", "但这样做就唯一的问题就是要进行两次排序，而这有可能造成由 rebase 而导致的冲突。下面还是看看 `git cherry-pick` 是怎么做的吧。"]
         }
       }, {
         "type": "GitDemonstrationView",
@@ -67129,6 +67502,27 @@ exports.level = {
           "markdowns": ["Отже, в цьому рівні досягнімо тієї ж мети -- модифікації `C2` -- але без використання `rebase -i`. Я думаю, ти розберешся як це зробити! :D", "", "Зверни увагу, що точне число апострофів (') в коміті не важливе, важлива тільки відносна різниця. Наприклад, якщо кожен коміт буде містити додатковий апостроф, я все одно зарахую такий розв’язок."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tung hứng Commit #2", "", "*Nếu bạn vẫn chưa hoàn thành Tung hứng Commit #1 (cấp độ trước), hãy làm nó trước khi tiếp tục*", "", "Như bạn đã thấy ở cấp độ trước, ta dùng `rebase -i` để sắp xếp lại các commit. Một khi commit mà ta muốn sửa đã ở trên cùng, ta có thể dễ dàng --chỉnh sửa(amend) nó và sau đó sắp xếp lại trật tự lúc trước.", "", "Nhưng mà vẫn tồn tại vấn đề khi mà ta sắp xếp quá nhiều, điều này có thể dẫn đến xung đột khi rebase. Thử dùng cách khác với `git cherry-pick` nào"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy nhớ rằng cherry-pick sẽ thả commit ở bất cứ đâu xuống dưới HEAD (miễn là nó không phải cha ông hay tổ tiên gì của HEAD).", "", "Hãy xem thử minh họa nhỏ sau:"],
+          "afterMarkdowns": ["Hay! Tiếp tục nào"],
+          "command": "git cherry-pick C2",
+          "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Vậy thì ở cấp độ này, hãy làm hoàn thành mục tiêu tương tự là chỉnh sửa `C2` một lần nhưng hãy tránh dùng `rebase -i`. Tự tìm cách đi nhé! :D", "", "Nhớ rằng, số lượng dấu nháy dơn (') trên commit không quan trọng, quan trọng là mối tương liên các tham chiếu. Nói cách khác, kể cả bất cứ commit nào của bạn có thêm một đấu(') tôi vẫn công nhận đáp án của bạn"]
+        }
+      }]
     }
   }
 };
@@ -67151,7 +67545,8 @@ exports.level = {
     "zh_TW": "git tag",
     "ru_RU": "git tag",
     "ko": "Git 태그",
-    "uk": "Git Tags"
+    "uk": "Git Tags",
+    "vi": "Tag trong Git"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -67166,7 +67561,8 @@ exports.level = {
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单地 checkout 到 tag 上",
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
     "ko": "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
-    "uk": "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!"
+    "uk": "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
+    "vi": "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!"
   },
   "startDialog": {
     "en_US": {
@@ -67506,6 +67902,32 @@ exports.level = {
           "markdowns": ["Для того щоб пройти цей рівень, достатньо створити кілька тагів, як показано на візуалізації цілей, і потім зачекаутити `v1`. Зауваж, що ти потрапиш в стан `detached HEAD` -- це тому що ти не можеш напряму комітити в таг `v1`.", "", "В наступному рівні ми розглянемо більш цікавий приклад роботи з тагами."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tag trong Git", "", "Qua các bài học trước, bạn đã biết được rằng rất dễ dàng để di chuyển qua lại giữa các nhánh và chúng thường tham chiếu đến các commit khác nhau trong quá trình ta làm việc trên chúng. Nhánh thường dễ biết đổi, thường chỉ là tạm thời và chúng luôn như vậy.", "", "Nếu như vậy thì bạn có thể sẽ thắc mắc liệu có cách nào để đánh dấu *vĩnh viễn* một thời điểm nào đó trong lịch sử làm việc không? Khi mà dự án càng ngày càng mở rộng và merge thì diễn ra liên tục, vậy thì có cách nào để đánh dấu những commit đó một cách cố định hơn nhánh không?", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Tất nhiên là có chứ! Git có các tag(thẻ) để hỗ trợ vấn đề này -- chúng (bằng cách nào đó) đánh dấu vĩnh viễn một commit cụ thể nào đó như một \"cột mốc\" mà sau đó bạn có thể tham chiếu đến như với nhánh.", "", "Quan trọng hơn là, khi ta commit thì chúng không hề bị di chuyển. Bạn không thể \"check out\" một tag rồi làm việc trên đó -- tag giống như là mỏ neo để chỉ định một điểm cụ thể nào dó trên cây lịch sử.", "", "Cùng xem tag thực tế là như thế nào nào."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy thử tạo một thẻ ở commit `C1` chỉ định rằng đây là phiên bản thứ nhất của ta"],
+          "afterMarkdowns": ["Đó! Đơn giản như đan rổ. Ta tạo ra thẻ `v1` và tham chiếu đến commit `C1`. Nếu bạn không chỉ định commit, git sẽ gắn thẻ vào commit mà `HEAD` đang trỏ tới"],
+          "command": "git tag v1 C1",
+          "beforeCommand": "git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Trong cấp độ này hãy tạo ra một thẻ tại vị trí chỉ định và chuyển sang `v1`. Để ý rằng bạn sẽ chuyến sang trạng thái tách biệt `HEAD` -- bởi vì bạn không thể tham chiếu đến thẻ `v1`.", "", "Sang cấp độ tới ta sẽ xem xét một vài cách hay ho để dùng thẻ."]
+        }
+      }]
     }
   }
 };
@@ -67532,7 +67954,8 @@ exports.level = {
     "zh_TW": "介紹 cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
     "ko": "Cherry-pick 소개",
-    "uk": "Знайомство з cherry-pick"
+    "uk": "Знайомство з cherry-pick",
+    "vi": "Giới thiệu về cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -67547,7 +67970,8 @@ exports.level = {
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
     "ko": "커밋의 이름들로 git cherry-pick 하세요!",
-    "uk": "git cherry-pick базується на іменах комітів!"
+    "uk": "git cherry-pick базується на іменах комітів!",
+    "vi": "git cherry-pick sau đó là tên commit!"
   },
   "startDialog": {
     "en_US": {
@@ -67887,6 +68311,32 @@ exports.level = {
           "markdowns": ["Щоб пройти це рівень, просто скопіюй якісь зміни з трьох гілок показаних на діаграмі в master. В візуалізації видно які коміти потрібно скопіювати.", ""]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Mang đi kéo về", "", "Cho đến giờ thì ta đã nắm được cơ bản về git -- commit, rẽ nhánh, và dịch chuyển qua lại trên cây mã nguồn. Chừng ấy khái niệm là đã đủ để tác động đến 90% sức mạnh của kho chứa git và các chức nawmg cần thiết cho nhà phát triển phần mềm.", "", "Tuy nhiên 10% còn lại thì lại khá hữu ích trong các quy trình làm việc phức tạp (hoặc khi bạn vướng phải tình huống khó khăn). The next concept we're going to cover is \"chỉnh lý các bản ghi\" -- đó là cách để nhà phát triển nói rằng\"Tôi muốn lấy bản ghi ở đây và cả bản ghi ở đó\" một cách chính xác, linh hoạt và sống động.", "", "Nghe thì có vẻ phức tạp, nhưng thực ra khái niệm này khá đơn giản."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Cherry-pick", "", "Lệnh đầu tiên của loạt bài này là `git cherry-pick`, dạng lệnh là::", "", "* `git cherry-pick <Commit1> <Commit2> <...>`", "", "Đó là cách rất trực tiếp để copy một loạt commit xuống dưới vị trí hiện tại của bạn (`HEAD`). Cá nhân tôi thì rất thích `cherry-pick` bởi tính tiện dụng và dễ hiểu của nó.", "", "Hãy xem qua một ví dụ!", ""]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Ở đây ta có một kho chứa mà ta muốn sao chép thành quả công việc từ nhánh `side` sang nhánh `master`. Có thể dùng rebase để làm việc này (kỹ thuật mà ta đã học), nhưng hãy xem thử cherry-pick làm điều này ra sao."],
+          "afterMarkdowns": ["Thế thôi! Chúng ta chỉ cần các commit `C2` và` C4`, vì vậy Git sẽ lấy chúng và đặt chúng dưới nhánh hiện tại. Thật đơn giản!"],
+          "command": "git cherry-pick C2 C4",
+          "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, hãy copy thành quả công việc từ 3 nhánh khác vào master. Bạn có thể nhìn vào mô tả mục tiêu để biết chúng ta cần những commit nào.", ""]
+        }
+      }]
     }
   }
 };
@@ -67909,7 +68359,8 @@ exports.level = {
     "ja": "HEADの分離",
     "ru_RU": "Теряем голову, или detached HEAD",
     "ko": "HEAD 분리하기",
-    "uk": "Втрачаємо голову чи detached HEAD"
+    "uk": "Втрачаємо голову чи detached HEAD",
+    'vi': "Tháo đầu cái nào"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -67924,7 +68375,8 @@ exports.level = {
     "zh_CN": "使用提交记录上的标签（哈希值）来指定提交记录！",
     "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов.",
     "ko": "커밋에 있는 라벨(hash)을 활용하세요!",
-    "uk": "Орієнтуйся по індентифікаторам (hash) комітів."
+    "uk": "Орієнтуйся по індентифікаторам (hash) комітів.",
+    "vi": "Dùng mã băm (hash) của commit để hoàn thành!"
   },
   "startDialog": {
     "en_US": {
@@ -68368,6 +68820,40 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень, давайте відокремимо голову від гілки `bugFix` й натомість спрямуємо її на якийсь коміт.", "", "Вкажи цей коміт за його hash (хеш, ідентифікатором). Хеш кожного коміту відображений в кружечку що символізує коміт."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Dịch chuyển trong Git", "", "Trước khi học thêm vài chức năng nâng cao trong Git, ta cần phải biết cách dịch chuyển qua lại các commit có trong kho chứa.", "", "Một khi bạn đã thành thao với chuyển dịch, khả năng sử dụng các lệnh git của bạn đã được nâng cao!", "", "", "", "", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## HEAD", "", "Đầu tiên hãy bàn về 'HEAD'. HEAD là cái tên biểu tượng cho commit iện tại đang được trỏ đến -- về căn bản nó là commit mà bạn đang làm việc.", "", "HEAD luôn luôn trỏ đến commit gần nhất được phản ánh trong cây làm việc. Hầu hết các lệnh git mà làm thay đổi nội dung cây làm việc thường bắt đầu với HEAD.", "", "Bình thường HEAD thì trỏ tới tên nhánh (ví dụ bugFix). Khi bạn commit, thì trạng thái của bugFix được thay đổi và thay đổi này được trông thấy thông qua HEAD."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Xem thử thực tế nào. Ở đây ta sẽ bộc lộ HEAD trước và sau khi commit."],
+          "afterMarkdowns": ["Thấy chứ? HEAD đã ẩn dưới nhánh `master` suốt."],
+          "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+          "beforeCommand": ""
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["### Tháo HEAD", "", "Tháo HEAD đơng giản nghĩa là dán nó vào một commit thay vì một nhánh. Lúc trước thì nó trông như thế này:", "", "HEAD -> master -> C1", ""],
+          "afterMarkdowns": ["Và bây giờ thì nó thế này", "", "HEAD -> C1"],
+          "command": "git checkout C1",
+          "beforeCommand": ""
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, hãy tháo HEAD khỏi `bugFix` thay vì đó hãy dán nó vào commit.", "", "Chỉ rõ commit bằng mã băm (hash) của nó. Mã băm của mỗi commit nằm trong trong vòng tròn biểu thị commit đó."]
+        }
+      }]
     }
   }
 };
@@ -68394,7 +68880,8 @@ exports.level = {
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
     "ja": "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
     "ko": "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
-    "uk": "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase"
+    "uk": "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
+    "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -68409,7 +68896,8 @@ exports.level = {
     "zh_TW": "介紹互動式的 rebase",
     "ru_RU": "Введение в интерактивный Rebase",
     "ko": "인터랙티브 리베이스 소개",
-    "uk": "Знайомство з інтерактивним rebase"
+    "uk": "Знайомство з інтерактивним rebase",
+    "vi": "Giới thiệu về tương tác rebase"
   },
   "startDialog": {
     "en_US": {
@@ -68814,6 +69302,37 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень за допомогою інтерактивного rebase впорядкуй коміти як показано на візуалізації. Пам’ятай що ти завжди можеш використати `undo` чи `reset` щоб виправити помилку :D"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Rebase Tương tác", "", "Khi bạn biết rõ mình muốn những commit nào (và mã băm tương ứng của chúng) thì Git cherry-pick là công cụ tuyệt vời -- nó đơn giản đến bất ngờ.", "", "Nhưng mà lỡ như bạn không biết mình cần commit nào thì sao? May mà git cũng có công cụ cho việc này! Ta có thể dùng rebase tương tác cho việc này -- đó là cách tốt nhất để cân nhắc lựa chọn các commit mà bạn muốn rebase.", "", "Hãy đi sâu vào chi tiết nào..."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Rebase tương tác nghĩa là dùng lệnh `rebase` với tùy chọn `-i`.", "", "Nếu lệnh của bạn có bao hàm tùy chọn này, git sẽ mở một giao diện người dùng để cho bạn biết những commit nào sẽ được sao chép xuống dưới mục tiêu rebase. Nó cũng đồng thời thể hiện mã băm và thông điệp của commit, điều này là tuyệt vời bởi nhờ đó ta có thể phân biệt được chúng.", "", "Với git \"thật\", cửa sổ UI (giao diện người dùng) sẽ được mở thông qua một tệp nhờ công cụ chỉnh sửa văn bản như là `vim`. Vì mục đích học tập, tôi đã xây dựng một cửa sổ hội thoại nhỏ mà nó hành xử cũng tương tự như vậy."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Khi hội thoại tương tác rebase bật lên, bạn có thể làm được 3 điều:", "", "* Bạn có thể sắp xếp lại commit một cách đơn giản thông qua UI (bạn có thể làm điều này bằng cách kéo thả trên công cụ của chúng tôi).", "* Bạn có thẻ bỏ qua một vài commit. Điều này được thể hiện qua nút `pick` -- tắt nút `pick` nghĩa là bạn bỏ qua commit đó.", "* Cuối cùng, bạn có thể nén các commit. Đáng tiếc là trình độ của chúng tôi chưa hỗ trợ được chức năng này do vài vấn đề logic, cho nên tôi sẽ bỏ qua phần này. Nói dơn giản thì -- nó cho phép bạn kết hợp các commit.", "", "Tuyệt! Cùng xem qua một ví dụ nào."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Khi bạn bấm nút, một cửa sổ tương tác rebase sẽ xuất hiện. Sắp xếp lại một vài commit (hoặc thậm chí bỏ qua một vài cái) và xem thử kết quả!"],
+          "afterMarkdowns": ["BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI"],
+          "command": "git rebase -i HEAD~4 --aboveAll",
+          "beforeCommand": "git commit; git commit; git commit; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"]
+        }
+      }]
     }
   }
 };
@@ -68836,7 +69355,8 @@ exports.level = {
     "de_DE": "Relative Referenzen (^)",
     "ru_RU": "Относительные ссылки (^)",
     "ko": "상대 참조 (^) (Relative Refs)",
-    "uk": "Відносні посилання"
+    "uk": "Відносні посилання",
+    "vi": "Tham chiếu tương đối (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -68851,7 +69371,8 @@ exports.level = {
     "zh_TW": "不要忘記插入（^）符號！",
     "ru_RU": "Не забудь оператор `^`",
     "ko": "(^)연산자를 기억하세요!",
-    "uk": "Не забудь оператор `^`"
+    "uk": "Не забудь оператор `^`",
+    "vi": "Đừng quên dấu mũ (^)!"
   },
   "startDialog": {
     "en_US": {
@@ -69295,6 +69816,40 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень перемістись на першого предка гілки `bugFix`. Ти опинишся в стані `detach HEAD`.", "", "Ти, звичайно, можеш вказати хеш, але натомість спробуй користуватися відносними посиланнями!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tham chiếu tương đối", "", "Dịch chuyển trong Git bằng cách chỉ định mã băm(hash) của commit cỏ vẻ hơi buồn tẻ. Trong đời thực thì sẽ không có mô tả git trực quan ngay bên cạnh terminal của bạn đâu, nên nếu bạn muốn nhìn mã băm của commit thì phải dùng `git log` thôi.", "", "Hơn nữa, mã băm thực tế thường dài hơn rất nhiều. Ví dụ, mã băm của commit được giới thiệu trong phần trước là `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Đọc mà xoắn hết cả lưỡi...", "", "Được cái là Git cũng khá thông minh về mã băm. Nó chỉ yêu cầu bạn chỉ định mã băm đủ để xác định commit. Cho nên tôi có thể đơn giản chỉ cần gõ `fed2` thay vì cái chuỗi dài ngoằng phía trên."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Như tôi đã nói, xác định commit bằng mã băm của nó chẳng hề thuận tiện tẹo nào, đó là tại sao Git có những `tham chiếu tương đối`. Chúng rất tuyệt vời!", "", "Với tham chiếu tương đối, bạn có thể bắt đầu từ những nơi có thể ghi nhớ được (như là nhánh `bugFix` hoặc `HEAD`) và làm việc trên đó.", "", "Những commits tương đối rất mạnh mẽ, nhưng chúng tôi sẽ chỉ giới thiệu 2 loại đơn giản sau:", "", "* Dịch chuyển 1 commit lên trên trong 1 lần với `^`", "* Dịch chuyển nhiều commit lên trên trong 1 lần với `~<số>`"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Xem thử cái dấu mũ (^) trước nào. Mỗi lần bạn nối nó với một cái tên tham chiếu, bạn đang ra lệnh cho Git tìm kiếm cha của một commit cụ thể.", "", "Cho nên `master^` nghĩa là \"cha đầu tiên của `master`\".", "", "`master^^` là ông nội (tổ tiên thế hệ 2) của `master`", "", "Thử nhảy sang commit trước master nào"],
+          "afterMarkdowns": ["BÙUM! Đã xong. Đơn giản hơn gõ mã băm nhiều"],
+          "command": "git checkout master^",
+          "beforeCommand": "git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Bạn cũng có thể dùng `HEAD` như là tham chiếu tương đối. Thử dùng nó để leo commit vài lần nào"],
+          "afterMarkdowns": ["Game là dễ! Du hành ngược thời gian với `HEAD^`"],
+          "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+          "beforeCommand": "git commit; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, nhảy sang cha của `bugFix`. Tức là tháo `HEAD`.", "", "Nếu muốn thì bạn có thể dùng mã băm, nhưng thế thì còn gì vui nữa dùng tham chiếu tương đối đi!"]
+        }
+      }]
     }
   }
 };
@@ -69317,7 +69872,8 @@ exports.level = {
     "ja": "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
     "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
     "ko": "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
-    "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень"
+    "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
+    "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -69332,7 +69888,8 @@ exports.level = {
     "zh_TW": "相對引用二（~）",
     "ru_RU": 'Относительные ссылки №2',
     "ko": "상대 참조 #2 (~)",
-    "uk": "Відносні посилання №2"
+    "uk": "Відносні посилання №2",
+    "vi": "Tham chiếu tương đối #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -69768,6 +70325,40 @@ exports.level = {
           "markdowns": ["Тепер, коли ти побачив відносні посилання та форсування гілок в купі, давай використаємо це щоб пройти поточний рівень.", "", "Щоб пройти цей рівень, перемісти `HEAD`, `master` та `bugFix` так як показано в візуалізації."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Toán tử \"~\"", "", "Giả sử bạn muốn leo lên nhiều cấp trong git. Dùng `^` vài lần thì tù lắm, nên Git đã có dấu ngã (~) cho việc đó.", "", "", "Theo sau toán tử ngã (~) là số lượng cha ông mà bạn muốn leo lên(không bắt buộc). Xem thử làm thật thì thế nào nào"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy chỉ định số lượng commit với `~`."],
+          "afterMarkdowns": ["BÙUM! Quá chuẩn luôn -- tham chiếu tương đối tuyệt vời."],
+          "command": "git checkout HEAD~4",
+          "beforeCommand": "git commit; git commit; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Branch forcing", "", "Giờ thì bạn là cao thủ về tham chiếu tương đối rồi, *làm* thật thôi chứ nhỉ.", "", "Tôi thì hay thường dùng tham chiếu tương đối để dịch chuyển nhánh. Bạn có thể trực tiếp gán lại nhánh cho commit với cú pháp `-f`. Kiểu như thế này:", "", "`git branch -f master HEAD~3`", "", "dịch chuyển (ép buộc) nhánh master lên 3 commit phía trên HEAD."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Xem thử cái lệnh trên hoạt động sao nào."],
+          "afterMarkdowns": ["Đóóóó! Tham chiếu tương đối cho chúng ta một cách chuẩn xác để trỏ tới `C1` và ép nhánh bằng (`-f`) thì dịch chuyển nhanh chóng nhánh tới đó."],
+          "command": "git branch -f master HEAD~3",
+          "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Giờ thì bạn đã thấy cách kết hợp tham chiếu tương đối và ép nhánh, dùng chúng để vượt level tiếp thôi.", "", "Để hoàn thành cấp độ này, chuyển `HEAD`, `master`, và `bugFix` đến mục tiêu được xác định của chúng."]
+        }
+      }]
     }
   }
 };
@@ -69791,7 +70382,8 @@ exports.level = {
     "zh_CN": "撤销变更",
     "zh_TW": "在 git 中取消修改 ",
     "ru_RU": "Отмена изменений в Git",
-    "uk": "Відміна змін в Git"
+    "uk": "Відміна змін в Git",
+    "vi": "Hoàn tác thay đổi trong Git"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -69806,7 +70398,8 @@ exports.level = {
     "ko": "revert와 reset이 받는 인자가 다름을 기억하세요",
     "ja": "revertとresetとで引数が異なることに注意。",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
-    "uk": "Зверни увагу на те що revert та reset приймають різні параметри"
+    "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
+    "vi": "Lưu ý rằng hoàn tác(revert) và đặt lại(reset) có những đối số khác nhau."
   },
   "startDialog": {
     "en_US": {
@@ -70185,6 +70778,35 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень відміни два останні коміти на гілках `local` та `pushed`.", "", "Зауваж, що `pushed` це віддалена гілка, а `local` це локальна гілка -- це має допомогти з вибором методу."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Hoàn tác trong Git", "", "Có rất nhiều cách để hoàn tác thay đổi trong Git. Và cũng tương tự như commit, hủy thay đổi trong Git có cả thành phần bậc thấp (tạm thời lưu trữ một số tệp hoặc đoạn độc lập) và thành phần bậc cao (cách mà các thay đổi thực sự bị hủy). Ứng dụng của chúng tôi tập trung vào cái sau.", "", "Có 2 cách nguyên thủy để hủy thay đổi trong Git -- một là dùng `git reset` và cách khác là dùng `git revert`. Chúng ta sẽ xem xét từng cái trong hội thoại sau", ""]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["## Git Reset", "", "`git reset` hoàn tác bằng cách chuyển tham chiếu của nhánh ngược lên commit cũ hơn. Bạn có thể hiểu nó như kiểu \"viết lại lịch sử;\" `git reset` sẽ dịch chuyển nhánh lên trên như thể commit chưa bao giờ được tạo ra vậy.", "", "Cùng xem thử nó trông thế nào nào:"],
+          "afterMarkdowns": ["Hay! Git chuyển tham chiếu của master trở lại `C1`; bây giờ kho cá nhân của ta trông như thể commit `C2` chưa bao giờ xảy ra vậy."],
+          "command": "git reset HEAD~1",
+          "beforeCommand": "git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["## Git Revert", "", "Trong khi git reset hoạt động rất tốt tại nhánh cục bộ trên máy cá nhân, cách thức \"viết lại lịch sử\" chẳng hề có tác dụng lên nhánh ở phương xa mà người khác sử dụng.", "", "Để có thể hoàn tác và *chia sẻ* hoàn tác đó với người khác, thì ta cần sử dụng `git revert`. Xem thử cách thức nó hoạt động nào"],
+          "afterMarkdowns": ["Lạ nhỉ, một commit mới được thả vào bên dưới commit mà ta muốn hoàn tác. Đó là bởi vì commit mới `C2'` này có chứa *thay đổi* -- đó là những thay đổi về hoàn tác commit `C2`.", "", "Dùng revert thì bạn có thể đẩy thay đổi mình lên và chia sẻ với người khác."],
+          "command": "git revert HEAD",
+          "beforeCommand": "git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, hoàn tác commit gần nhất trên cả `local` (`cục bộ`) và `pushed` (`được đẩy`). Bạn sẽ hoàn tác tổng cộng 2 commit(một trên mỗi nhánh).", "", "Nhớ rằng `pushed` là nhánh ở phương xa và `local` là nhánh địa phương -- như thế thì bạn sẽ chọn được phương án phù hợp."]
+        }
+      }]
     }
   }
 };
@@ -70212,7 +70834,8 @@ exports.level = {
     "zh_CN": "多次 Rebase",
     "zh_TW": "N次Rebase",
     "ru_RU": "Rebase over 9000 раз",
-    "uk": "Rebase over 9000 разів"
+    "uk": "Rebase over 9000 разів",
+    "vi": "Rebase hơn 9000 lần"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
@@ -70227,7 +70850,8 @@ exports.level = {
     "zh_CN": "记住，最后更新 master 分支可能是最高效的方法……",
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
-    "uk": "Не забувай, що краще всього буде перемістити master в самому кінці... "
+    "uk": "Не забувай, що краще всього буде перемістити master в самому кінці... ",
+    "vi": "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `master`... "
   },
   "startDialog": {
     "en_US": {
@@ -70333,6 +70957,14 @@ exports.level = {
           "markdowns": ["### Ребейсимо кілька гілок", "", "В нас тут до біса гілок! Перенесімо всі зміни з різних гілок в master.", "", "Але вище керівництво нам не полегшує життя -- вони хочуть, щоб всі коміти були впорядковані. Це означає, що в результаті коміт `C7'` має бути з самого низу, `C6'` трохи вище, і так далі, все за порядком.", "", "Якщо ти щось зробиш не так, сміливо використовуй `reset` щоб почати спочатку. Подивись на наш розв’язок і подумай, чи ти можеш обійтись меншою кількістю команд!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Rebase nhiều nhánh", "", "Giời ạ, sao mà nhiều nhánh thế khôn biết! Chuyển hết chúng vào `master` thôi.", "", "Nhưng mà cha quản lý lại muốn oái oăm hơn cơ -- hắn muốn tất cả commit xếp thẳng hàng. Nghĩa là cây lịch sử của ta sẽ có `C7'` ở cuối, phía trên là`C6'`, và cứ thế theo đúng thứ tự.", "", "Nếu mà nhỡ may bạn làm nhầm thì có thể dùng lệnh `reset` để bắt đầu lại. Hãy nhớ đối chiếu với đáp án của chúng tôi xem bạn có thể hoàn thành với ít câu lệnh hơn không!"]
+        }
+      }]
     }
   }
 };
@@ -70359,7 +70991,8 @@ exports.level = {
     "zh_CN": "纠缠不清的分支",
     "zh_TW": "branch 漿糊",
     "ru_RU": "Спутанные ветки",
-    "uk": "Макарони з гілок"
+    "uk": "Макарони з гілок",
+    "vi": "Nhánh rối như canh hẹ"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -70374,7 +71007,8 @@ exports.level = {
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
-    "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`"
+    "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
+    "vi": "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`"
   },
   "startDialog": {
     "en_US": {
@@ -70480,6 +71114,14 @@ exports.level = {
           "markdowns": ["## Макарони з гілок", "", "Ооо Неля! Ну й завданнячко.", "", "Ми маємо гілку `master`, яка на кілька комітів попереду гілок `one`, `two` та `three`. З незрозумілих причин, нам потрібно оновити ці гілки більш пізніми змінами з мастеру.", "", "Гілку `one` потрібно впорядкувати і видалити `C5`. Гілку `two` також потрібно впорядкувати, а в гілку `three` потрібно додати ще один коміт!", "", "Ми повністю покладаємось на тебе -- порівняй свій розв’зок з нашим, який можна подивитись командою `show solution`. "]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Nhánh rối như canh hẹ", "", "Chààà, anh bạn! Thử thách lần này hơi khoai đây.", "", "Hiện tại thì nhánh `master` đang có nhiều commit hơn các nhánh `one`, `two` và `three`. Vì một lý do nào đó, ta cần cập nhật những commit trên nhánh `master` lên các nhánh còn lại kèm với một vài điều chỉnh .", "", "Nhánh `one` thì cần sắp xếp lại và xóa commit `C5`, trong khi đó nhánh `two` thì đơn giản sắp xếp, còn `three` thì chỉ cần một commit!", "", "Cố gắng động não tìm ra cách đi nhé -- khi bạn làm xong thì nhớ so sánh với đáp án của chúng tôi bằng lệnh `show solution`. "]
+        }
+      }]
     }
   }
 };
@@ -70501,7 +71143,8 @@ exports.level = {
     "zh_TW": "介紹 clone",
     "ru_RU": "Введение в клонирование",
     "ko": "Clone 소개",
-    "uk": "Знайомство з clone"
+    "uk": "Знайомство з clone",
+    "vi": "Giới thiệu về clone"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -70516,7 +71159,8 @@ exports.level = {
     "zh_TW": "只要 git clone 就好了",
     "ru_RU": "Простой git clone!",
     "ko": "그냥 git clone 하세요!",
-    "uk": "Просто git clone!"
+    "uk": "Просто git clone!",
+    "vi": "Đơn giản là `git clone`!"
   },
   "startDialog": {
     "en_US": {
@@ -70856,6 +71500,32 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень, просто зроби `git clone` свого поточного репозиторію. Справжні знання ти отримаєш в подальших рівнях."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Remotes(Kho lưu trữ từ xa)", "", "Thực ra thì kho remote cũng không khó hiểu lắm đâu. Giờ đây đâu đâu cũng thấy điện toán đám mây nên ai ai cũng tưởng git remote nó là cái gì đó ma thuật lắm, nhưng chúng thực ra chỉ là những bản sao chép ko chứa của bạn lên máy tính khác. Bạn có thể giao tiếp với chúng qua internet, tù đó mà chuyển giao commit qua lại.", "", "Vì lẽ đó mà kho remote có những đặc tính tuyệt vời:", "", "- Trước hết, có tác dụng như là bản sao dự phòng! Bạn đã biết rằng kho địa phương có thể khôi phục trở lại trạng thái trước đó, nhưng tất cả thông tin đó chỉ được lưu trữ cục bộ. Bằng cách sao chép toàn bộ kho chứa của bạn lên máy tính ở xa, bạn hoàn toàn có thể mất hết dữ liệu tại máy tính mà vẫn tiếp tục làm việc như chưa có gì xảy ra.", "", "- Quạn trọng hơn nữa, kho remote khiến lập trình có tính cộng đồng hơn! Bây giờ bản sao dự án của bạn đã được lưu trũ ở nơi khác, bạn bè của bạn có thể đóng góp (hoặc kéo về cập nhật mới nhất) dự án của bạn rất dễ dàng.", "", "Trực quan hóa các kho lưu trữ từ xa bằng cách sử dụng các trang web đang trở nên phổ biến hơn (như [Github] (https://github.com/) hoặc [Photypeator] (http://phovenator.org/)), nhưng các kho lưu trữ từ xa * * Luôn luôn ** là trụ cột của các công cụ này, vì vậy điều quan trọng là phải hiểu khái niệm này!"]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Câu lệnh của chúng tôi để tạo kho lưu trữ từ xa", "", "Cho đến bây giờ, Learn Git Branching đã tập trung dạy về làm việc trên kho chứa _địa phương_ (rẽ nhánh `branch`, hợp nhánh `merge`, dịch chuyển nhánh `rebase`, vân vân ...). Nhưng bây giờ ta lại muốn học về làm việc trên kho lưu trữ từ xa, ta cần một câu lệnh để cài đặt môi trường cho những bài học này. Đó là `git clone`", "", "Về mặt kỹ thuật, thì `git clone` thực tế là câu lệnh dùng để tạo một bản sao chép _địa phương_ của khó chứa từ xa (ví dụ từ github chẳng hạn). Nhưng trong Learn Git Branching ta sẽ dùng câu lệnh này hơi khác biệt một chút -- `git clone` sẽ tạo ra một bản sao chép lên kho lưu trữu từ xa dựa trên kho chứa cục bộ của bạn. Điều này hoàn toàn ngược lại với câu lệnh thực tế, nhưng nó giúp ta nhân bản và làm việc với kho lưu trữ từ xa, nên ta sẽ dùng nó trong quá trình học.", ""]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nào cùng khởi động bằng cách nhìn xem kho lưu trữ từ xa trông như thế nào (trong mô tả của chúng tôi).", ""],
+          "afterMarkdowns": ["Nó đây rồi! Giờ ta đã có kho lưu trữ dự án chúng ta từ xa. Nhìn nó cũng khá tương tự chỉ là được minh họa khác biệt một chút -- đến các cấp độ sau ta sẽ tìm hiểu thêm về cách thức trao đổi nội dung giữa các kho chứa này."],
+          "command": "git clone",
+          "beforeCommand": ""
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này chỉ cần đơn giản gõ lệnh `git clone` để sao chép kho chứa hiện tại. Ta sẽ học sâu hơn ở các bài học sau."]
+        }
+      }]
     }
   }
 };
@@ -70878,7 +71548,8 @@ exports.level = {
     "zh_TW": "模擬團隊合作",
     "ru_RU": "Коллективная работа",
     "uk": "Симуляція колективної роботи",
-    "ko": "가짜 팀워크"
+    "ko": "가짜 팀워크",
+    "vi": "Giả lập làm việc nhóm"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
@@ -70893,7 +71564,8 @@ exports.level = {
     "zh_TW": "你要記得指定要送多少個 commit 出去",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk": "пам’ятай що ти можеш вказати кількість фейкових комітів",
-    "ko": "가장할 커밋의 갯수를 조절할 수 있습니다."
+    "ko": "가장할 커밋의 갯수를 조절할 수 있습니다.",
+    "vi": "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập."
   },
   "startDialog": {
     "en_US": {
@@ -71272,6 +71944,35 @@ exports.level = {
           "markdowns": ["뒤의 레벨들이 조금 어렵기 때문에, 이번 레벨에서 여러분에게 조금 많은것을 요구하려고 합니다.", "", "원격 저장소를 하나 만들고(`git clone`), 원격 저장소에 몇가지 가짜 변경을 만들고 로컬에서 커밋하고 원격의 변경들을 가져오세요. Goal과 같은 결과가 나오면 됩니다. 몇개의 레슨이 하나에 있다고 보면 되겠네요! 도전해봅시다."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Mô phỏng hợp tác", "", "Bây giờ khó đây -- để chuẩn bị cho những bài học tới, chúng tôi cần chỉ bạn cách kéo về những cập nhật có trên kho chứa từ xa.", "", "Có nghĩa là ta cần \"giả vờ\" kho chứa từ xa được cập nhật bởi đồng nghiệp / bạn / cộng tác viên của bạn, có khi là một nhánh xác định hoặc là một số commit.", "", "Để làm điều này, chúng tôi sẽ giới thiệu cho bạn một lệnh tự tạo `git fakeTeamwork`! Cái tên nói lên tất cả, cùng xem thử bản giới thiệu..."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hành xử mặc định của `fakeTeamwork` đơn giản là tạo ra một commit ở trên nhánh master từ xa"],
+          "afterMarkdowns": ["Đó -- kho chứa từ xa đã được cập nhật thêm một commit, và ta chưa tải commit đó xuống vì ta chưa hề chạy lệnh `git fetch`."],
+          "command": "git fakeTeamwork",
+          "beforeCommand": "git clone"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Bạn cũng có thể chỉ định số lượng commit bằng cách thêm con số đằng sau câu lệnh"],
+          "afterMarkdowns": ["Chỉ với một câu lệnh ta có thể giả lập tạo ra 3 commit trên nhánh `foo` từ xa của ta"],
+          "command": "git fakeTeamwork foo 3",
+          "beforeCommand": "git branch foo; git clone"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Các cấp độ tới sẽ khá là khó, nên ở cấp độ này chúng tôi sẽ yêu cầu bạn thêm một chút.", "", "Sao chép một kho chứa từ xa (sử dụng `git clone`), sau đó mô phỏng một số thay đổi trong kho chứa từ xa mà bạn vừa tạo, sau đó thực hiện một số commit trên nhánh cục bộ của riêng bạn, sau đó kéo các thay đổi từ kho chứa từ xa. Nhiều bài học trong một bài."]
+        }
+      }]
     }
   }
 };
@@ -71294,7 +71995,8 @@ exports.level = {
     "zh_TW": "git fetch",
     "ru_RU": "Git fetch",
     "uk": "Git fetch",
-    "ko": "Git Fetch"
+    "ko": "Git Fetch",
+    "vi": "Git Fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -71309,7 +72011,8 @@ exports.level = {
     "zh_TW": "只要下 git fetch 指令",
     "ru_RU": "Просто выполните git fetch!",
     "uk": "Просто виконай git fetch!",
-    "ko": "그냥 git fetch를 하세요!"
+    "ko": "그냥 git fetch를 하세요!",
+    "vi": "Gõ git fetch là được!"
   },
   "startDialog": {
     "en_US": {
@@ -71714,6 +72417,37 @@ exports.level = {
           "markdowns": ["레벨을 마치기 위해, `git fetch`를 수행하고 모든 커밋들을 내려 받으세요!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Fetch", "", "Lam việc với git remote về căn bản là chuyển giao dữ liệu _qua_ và _lại_ giữa các kho chứa. Miễn là ta có thể chia sẻ qua lại các commit, ta có thể chia sẻ bất kỳ cập nhật gì được theo dõi bở git (và từ đó chia sẻ thành quả, tập tin mới, ý tưởng mới, thư tình, các kiểu con đà điểu.).", "", "Ở bài học này ta sẽ học cách lấy dữ liệu về _từ_ một kho chứa từ xa -- lệnh đó là `git fetch`.", "", "Bạn sẽ nhận thấy rằng khi ta cập nhật đại điện kho chứa từ xa, Nhánh _từ xa_ của ta cũng được cập nhật để phản ánh đại diện đó. Điều này liên quan đến bài học trước về nhánh từ xa"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Trước khi đi vào chi tiết về `git fetch`, hãy xem cách nó hoạt động! Ở đây ta có một kho chứa từ xa trong đó chứa 2 commit mà kho chứa địa phương của ta không có."],
+          "afterMarkdowns": ["Đó! Commit `C2` và `C3` đã được tải xuống kho chứa cục bộ của ta, và nhánh từ xa `o/master` của ta đã được cập nhật để phản ánh điều này."],
+          "command": "git fetch",
+          "beforeCommand": "git clone; git fakeTeamwork 2"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Fetch làm gì", "", "`git fetch` thực hiện 2 bước chính, và chỉ 2 bước chính. Nó:", "", "* tải xuống commit có trên kho chứa từ xa mà kho chứa cục bộ của ta không có, và...", "* cập nhật nơi mà nhánh từ xa của ta trỏ tới (ví dụ nhánh `o/master`)", "", "Về căn bản thì `git fetch` đưa đại diện _địa phương_ của kho chứa từ xa của ta về trạng thái đồng bộ với trạng thái _thực tế_ của kho chứa từ xa (ngay lúc này).", "", "Nếu bạn còn nhớ thì trong bài học trước, chúng tôi có đề cập rằng nhánh từ xa phản ánh trạng thái của kho chứa từ xa _kể từ_ kể từ lần cuối bạn tương tác với các nhánh từ xa đó. `git fetch` chính là cách để tương tác với cách nhánh từ xa! Hi vọng chúng tôi đã làm sáng tỏ sự liên kết giữa nhánh từ xa và `git fetch`.", "", "`git fetch` thường tương tác với kho chứa từ xa bằng Internet (thông qua các giao thức như `http://` hoặc `git://`).", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### fetch không làm gì", "", "Tuy nhiên, `git fetch` không hề thay đổi trạng thái kho chứa _địa phương_ của bạn. Nó sẽ không cập nhật nhánh `master` hay thay đổi bất kỳ điều gì trong hệ thống tập tin hiện tại của bạn.", "", "Điều này rất quan trọng, vì nhiều nhà phát triển nghĩ rằng `git fetch` sẽ làm kho chứa địa phương của họ phản ánh trạng thái của kho chúa từ xa. Nó có thể tải xuống tất cả dữ liệu cần thiết, nhưng nó thực tế _không_ thay đổi bất cứ thứ gì trên tập tin địa phương của bạn. Ta sẽ học lệnh để làm điều đó sau :D", "", "Nói tóm lại, bạn có thể coi `git fetch` thuần túy như một bước tải xuống."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, đơn giản hãy gõ `git fetch` để tải xuống tất cả commit!"]
+        }
+      }]
     }
   }
 };
@@ -71736,7 +72470,8 @@ exports.level = {
     "ja": "Fetchの引数",
     "ru_RU": "Аргументы для fetch",
     "ko": "Fetch의 인자들",
-    "uk": "Аргументи для fetch"
+    "uk": "Аргументи для fetch",
+    "vi": "Tham số fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -71751,7 +72486,8 @@ exports.level = {
     "ja": "コミットIDの入れ替わりに注意！スライドを復習するには`help level`を実行",
     "ru_RU": "Обратите внимание на то, как номера коммитов могут меняться! Вы можете прочесть слайды вновь, воспользовавшись командой \"help level\"",
     "ko": "커밋 ID가 바뀔수도있으니 주의하세요! \"help level\"을 입력하면 슬라이드들을 다시 읽어볼수 있습니다.",
-    "uk": "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\""
+    "uk": "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\"",
+    "vi": "Lưu ý id của các commit bị tráo đổi, bạn có thể dùng \"help level\" để đọc lại hội thoại"
   },
   "startDialog": {
     "en_US": {
@@ -72473,6 +73209,66 @@ exports.level = {
           "markdowns": ["Гаразд, годі балакати! Щоб пройти цей рівень, звантаж лише вказані на візуалізації коміти. Прояви фантазію, підбираючи команди!", "", "Тобі потрібно вказати і джерело і призначення для обидвох fetch-команд. Слідкуй за змінами на візуалізації, ID комітів можуть змінюватися!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tham số Git fetch", "", "Chúng ta vừa tìm hiểu về tham số của git push, sự tuyệt vời của tham số `<vị trí>`, và thậm chí cả refspecs (`<nguồn>:<đích>`). Liệu ta có thể áp dụng điều này vào `git fetch` không nhỉ?", "", "Đoán chuẩn rồi đấy! Tham số cho lệnh `git fetch` thực ra *rất, rất* giống với `git push`. Chúng có chung khái niệm nhưng được áp dụng cho hướng ngược lại(vì bây giờ ta tải xuống commit chứ không phải tải lên).", "", "Hãy lần lượt đi qua từng khái niệm một..."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Tham số `<vị trí>`", "", "Nếu bạn chỉ định vị trí cho `git fetch` như câu lệnh dưới:", "", "`git fetch origin foo`", "", "Git sẽ lênh nhánh `foo` trên kho chứa từ xa, lấy toàn bộ các commit chưa có trên kho chứa cục bộ và thả chúng xuống nhánh `o/foo` ở kho chứa cục bộ.", "", "Hãy xem một ví dụ (vẫn là câu lệnh trên nhưng mà trực quan hơn)."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Thông qua chỉ định vị trí..."],
+          "afterMarkdowns": ["Ta chỉ tải xuống commit ở trên nhánh `foo` và đặt chúng ở nhánh `o/foo`"],
+          "command": "git fetch origin foo",
+          "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Có thể bạn sẽ thắc mắc -- tại sao git lại thả các commit xuống nhánh `o/foo` thay vì nhánh `foo` ở kho chứa cục bộ? Tôi tưởng tham số `<vị trí>` tồn tại ở cả kho chứa cục bộ và kho chứa từ xa mà?", "", "Chà trong trường hợp này git ứng xử có một chút ngoại lệ đặc biệt, vì có thể bạn đang làm việc trên nhánh `foo` ở kho chứa cục bộ mà bạn không muốn nó bị làm rối!! Điều này liên kết đến bài học trước về `git fetch` -- nó không cập nhật nhánh cục bộ không liên kết nhánh từ xa của bạn(nhánh không có tiền tố `origin/`), nó chỉ tải xuống các commit( mà bạn có thể xem xét hoặc hợp nhất sau).", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["\"Nếu vậy, thì điều gì sẽ xảy ra nếu tôi chỉ định cả nguồn và đích với `<nguồn>:<đích>`?\"", "", "Nếu bạn nhất quyết muốn tải commit *trực tiếp* xuống nhánh cục bộ,thì bạn có thể chỉ định điều này bằng cách dùng refspec hai chấm. Bạn không thể nạp commit vào nhánh mà bạn đang đứng, nhưng git sẽ cho phép bạn làm điều này:", "", "Đây là cách duy nhất -- `<nguồn>` là vị trí trên kho *từ xa* và `<đích>` là vị trí *cục bộ* để đặt các commit. Điều này hoàn toàn ngược lại với `git push`, và đó là tất nhiên thôi vì ta đang chuyển giao dữ liệu theo hướng ngược lại!", "", "Thực tế là, các nhà phát triển rất hiếm khi làm điều này. Tôi giới thiệu về nó chủ yếu là vì muốn giải thích rõ hơn việc `fetch` và `push` là khá tương đồng, chỉ là theo hướng ngược lại."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Lấy một ví dụ điên rồ..."],
+          "afterMarkdowns": ["Wao! Thấy chứ, git diễn giải `foo~1` thành một vị trí trên kho chứa từ xa sau đó tải xuống các commit lên nhánh `bar` ở kho chứa cục bộ. Để ý rằng nhánh `foo` và `o/foo` không hề được cập nhật vì ta đã chỉ định đích đến."],
+          "command": "git fetch origin foo~1:bar",
+          "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nếu như đích đến chưa hề tồn tại trước khi tôi chạy lệnh thì sao? Cùng xem lại ví dụ vừa rồi nhưng lần này nhánh `bar` chưa hề tồn tại."],
+          "afterMarkdowns": ["Thấy chứ, nó Y HỆT với git push. Git tạo ra đích đến ở kho chứa cục bộ trước khi nạp, cũng giống như git sẽ tạo ra đích đến trên kho chứa từ xa trước khi đẩy (trong trường hợp nó không tồn tại)."],
+          "command": "git fetch origin foo~1:bar",
+          "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Không có tham số?", "", "Nếu lệnh `git fetch` không nhận được bất kỳ tham số nào, nó sẽ tải xuống tất cả các commit có trên kho chứa từ xa lên tất cả các nhánh từ xa ở kho chứa cục bộ..."],
+          "afterMarkdowns": ["Khá là đơn giản, nhưng mà cũng nên xem qua thử."],
+          "command": "git fetch",
+          "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Được rồi, lý thuyết như vậy là đủ rồi! Để hoàn thành cấp độ này, hãy chỉ nạp những commit được chỉ định trong mô tả mục tiêu. Thoải mái ứng biến với những câu lệnh nhé!", "", "Bạn sẽ phải chỉ định nguồn và dích cho lệnh fetch. Chú ý đến mô tả mục tiêu vì các ID có thể bị xáo trộn!"]
+        }
+      }]
     }
   }
 };
@@ -72495,7 +73291,8 @@ exports.level = {
     "ja": "履歴の分岐",
     "ru_RU": "Расхождение в истории",
     "uk": "Розбіжності в історії",
-    "ko": "엇갈린 히스토리"
+    "ko": "엇갈린 히스토리",
+    "vi": "Dị biệt lịch sử"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -72510,7 +73307,8 @@ exports.level = {
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели",
     "uk": "перевірте порядок в візуалізації цілі",
-    "ko": "순서는 goal을 참고하세요"
+    "ko": "순서는 goal을 참고하세요",
+    "vi": "kiểm tra kỹ thứ tự trên mô hình mục tiêu"
   },
   "startDialog": {
     "en_US": {
@@ -73461,6 +74259,79 @@ exports.level = {
           "markdowns": ["fetch를 하고 리베이스/병합을 하고 push를 하는 이런 작업흐름은 꽤 흔합니다. 앞으로의 레슨에서는 이런 작업흐름의 복잡한 버전들을 확인해볼 것입니다. 일단은 이것부터 연습해 보죠.", "", "이번 레벨을 통과하려면, 다음의 단계를 거쳐야 합니다:", "", "* 여러분의 저장소를 clone 하세요", "* 가짜 팀워크를 만드세요 (1개의 커밋)", "* 여러분의 작업도 커밋하세요 (1개의 커밋)", "* 여러분의 작업을 *리베이스*를 통해 공유하세요"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Diverged Work", "", "Cho đến giờ ta đã biết cách `kéo`(`pull`) commit từ nơi khác về và cách `đẩy`(`push`) lên những thay đổi của ta. Chúng nhìn có vẻ khá đơn giản, vậy tại sao người ta lại thấy lúng túng về chúng?", "", "Khó khăn đến từ sự *dị biệt* của cây lịch sử trên kho chứa từ xa. Trước khi đi vào thảo luận chi tiết vấn đề này, hãy xem qua một ví dụ...", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Tưởng tượng bạn sao chép một kho chứa vào thứ Hai và bắt đầu phát triển một tính năng mới. Đến thứ Sáu thì bạn đã sẵn sàng để xuất bản thành quả của mình -- nhưng không! Đồng nghiệp của bạn đã viết thêm hàng loạt mã trong một tuần vừa rồi và điều này làm cho chức năng của bạn trở nên lỗi thời. Và họ cũng đã xuất bản những commit này lên kho chứa từ xa chung, vậy giờ thành quả của *bạn* lại dựa trên phiên bản *cũ* của dự án mà nó không còn thích đáng nữa.", "", "Trong trường hợp này, lệnh `git push` trở lên khá nhập nhằng. Nếu bạn dùng `git push`, liệu git nên thay đổi kho chứa từ xa trơ rveef trạng thái ngày thứ Hai? Hay nó nên cố gắng thêm mã của bạn vào trong khi không xóa mã mới? Hay là nó sẽ bỏ qua hoàn toàn mã của bạn vì nó đã lỗi thời?", "", "Vì có quá nhiều tình huống mơ hồ (dị biệt lịch sử), git sẽ không cho phép bạn `đẩy`(`push`) thay đổi của mình. Nó sẽ ép bạn phải sát nhập trạng thái mới nhất của kho chứa từ xa vào thành phẩm của mình trước khi chia sẻ chúng."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nói quá nhiều rồi! Đi vào hành động thôi"],
+          "afterMarkdowns": ["Thấy chứ? Không có gì xảy ra cả vì lệnh bị thất bại. `git push` thất bại vì commit mới nhất của bạn: `C3` dựa trên commit `C1` ở nhánh từ xa. Nhánh đó đã được cập nhật lên commit `C2`, nên git từ chối lệnh đẩy của bạn"],
+          "command": "git push",
+          "beforeCommand": "git clone; git fakeTeamwork; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Vậy thì giải quyết tình huống này sao giờ? Đơn giản thôi, tất cả những gì bạn cần làm là khiến cho thành quả của mình dựa trên phiên bản mới nhất của nhánh từ xa.", "", "Có vài cách để làm điều này, nhưng cách trực tiếp nhất là bố trí lại (dùng rebase) để di chuyển thành quả của bạn. Cùng xem cách nó hoạt động nào."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nào bây giờ trước push ta dùng rebase thì..."],
+          "afterMarkdowns": ["Bùùm! Ta đã cập nhật nhánh từ xa trong kho chứ cục bộ với `git fetch`, dịch chuyển thành quả của mình để phản ánh thay đổi mới của kho chứa từ xa, sau đó đẩy chúng lên với `git push`"],
+          "command": "git fetch; git rebase o/master; git push",
+          "beforeCommand": "git clone; git fakeTeamwork; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Có cách nào khác để cập nhật thành quả của mình khi kho chứa từ xa được cập nhật không? Tất nhiên rồi! Hãy xem xét điều tương tự với `merge`.", "", "Mặc dù `git merge` không dịch chuyển commit của bạn (thay vì đó nó tạo ra một commit hơp nhất), đó là cách để nói với git rằng bạn đã kết hợp tất cả thay đổi từ nhánh từ xa. Đó là bởi vì bây giờ nhánh từ xa đã trở thành một *tổ tiên* của nhánh cục bộ của bạn, nghĩa là commit của bạn có thể tham chiếu điến tất cả commit có ở nhánh tù xa.", "", "Hãy xem qua bản biểu diễn sau..."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Giờ nếu ta dùng merge thay vày rebase thì..."],
+          "afterMarkdowns": ["Bùùm! Ta đã cập nhật đại diện nhánh từ xa tại kho chứa địa phương với `git fetch`, *hợp nhất* (*merge*) thành quả mới vào thành quả của ta (để phản ánh thay đổi ở nhánh từ xa), sau đó đẩy chúng lên với `git push`"],
+          "command": "git fetch; git merge o/master; git push",
+          "beforeCommand": "git clone; git fakeTeamwork; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Tuyệt vời! Có cách nào để làm việc này mà không phải gõ nhiều lệnh thế không nhỉ?", "", "Tất nhiên rồi -- bạn đã biết rằng `git pull` là lệnh tắt của fetch và merge. Tương tự như vậy, `git pull --rebase` là lệnh tắt của fetch và rebase!", "", "Hãy xem thử cách lệnh tắt này hoạt động ra sao."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Trước tiên với `--rebase`..."],
+          "afterMarkdowns": ["Giống hệt như trước! Chỉ là lệnh ngắn hơn."],
+          "command": "git pull --rebase; git push",
+          "beforeCommand": "git clone; git fakeTeamwork; git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Và giờ với lệnh `pull` thông thường"],
+          "afterMarkdowns": ["Lại một lần nữa, chính xác y hệt như trước!"],
+          "command": "git pull; git push",
+          "beforeCommand": "git clone; git fakeTeamwork; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Quy trình tìm nạp (fetch), bố trí lại/hợp nhất (rebase/merge), và đẩy (push) là khá phổ biết. Ta sẽ xem xét các phiên bản phức tạp hơn của những quy trình này ở các bài học sau, còn bây giờ thì hãy tập trung vào bài này đã.", "", "Để giải quyết cấp độ này, hãy làm các bước sau:", "", "* Nhân bản kho chứa của bạn", "* Giả lập làm việc nhóm (1 commit)", "* Tạo ra 1 commit địa phương", "* Xuất bản thành quả của bạn dùng *rebase*"]
+        }
+      }]
     }
   }
 };
@@ -73483,7 +74354,8 @@ exports.level = {
     "fr_FR": "Fusionner avec les branches distantes",
     "ru_RU": "Слияние с удалённым репозиторием",
     "ko": "원격 작업과 merge하기",
-    "uk": "Мердж з віддаленим репозиторієм"
+    "uk": "Мердж з віддаленим репозиторієм",
+    "vi": "Hợp nhất nhánh từ xa"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -73498,7 +74370,8 @@ exports.level = {
     "fr_FR": "Respectez l'arbre représentant l'objectif !",
     "ru_RU": "Внимательно посмотрите на цель уровня!",
     "ko": "goal을 잘 살펴보세요!",
-    "uk": "Уважно подивись як має виглядати результат!"
+    "uk": "Уважно подивись як має виглядати результат!",
+    "vi": "Hãy để ý đến cây mục tiêu!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -73735,6 +74608,24 @@ exports.level = {
           "markdowns": ["На цьому рівні спробуймо вирішити попереднє завдання з використанням *мерджу*. Можливо вийде не так охайно, але добре покаже різницю в підходах."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tại sao không hợp nhất?", "", "Để có thể đẩy cập nhật của bạn lên kho nhánh từ xa, tất cả những gì bạn cần làm là *kết nạp* thay đổi mới nhất từ nhánh từ xa. Nghĩa là bạn có thể dùng tái bố trí *hoặc* hợp nhất với nhánh từ xa (ví dụ `o/master`).", "", "Vậy ta có thể sử dụng một trong 2 cách, thì tại sao đến giờ ta chỉ tập trung vào tái bố trí trong các bài học? Tại sao khi làm việc với nhánh từ xa lại ta lại không thích `hợp nhất` (`merge`)?", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Trong cộng đồng phát triền phần mềm có rất nhiều tranh luận về ưu, nhươc, khuyết của việc sử dụng tái bố trí(`rebase`) hay hợp nhất(`merge`). Dưới đây là một vài ưu / nhược cơ bản của tái bố trí:", "", "Ưu điểm:", "", "* Tái bố trí làm cây commit của bạn trông gọn gàng hơn nhiều vì mọi thứ được xếp theo đường thẳng", "", "Nhược điểm:", "", "* Tái bố trí sửa đổi lịch sử (biểu hiện) của cây commit.", "", "Ví dụ, commit `C1` có thể bố trí lên *sau* `C3`. Thế là `C1'` biểu hiện như là nó xuất hiện sau `C3` trong khi thực tế nó được hoàn thành trước đó.", "", "Có những nhà phát triển muốn tôn trọng tính lịch sự nên họ ưa thích hợp nhất hơn. Những người khác (như tôi chẳng hạn) thì thiên về tái bố trí hơn vì muốn có cây commit gọn gàng. Rốt cục cũng là thiên hướng thôi :D"]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Ở cấp độ này, hãy thử giải bài tập trước nhưng mà với *hợp nhất*. Có lẽ bài này hơi thừa nhưng mà nó mịnh họa quan điểm trên rõ ràng hơn."]
+        }
+      }]
     }
   }
 };
@@ -73757,7 +74648,8 @@ exports.level = {
     "fr_FR": "Git pull",
     "ru_RU": "Git pull",
     "uk": "Git pull",
-    "ko": "Git pull"
+    "ko": "Git pull",
+    "vi": "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -73772,7 +74664,8 @@ exports.level = {
     "fr_FR": "Utilisez facilement git pull !",
     "ru_RU": "Запустите комманду git pull !",
     "uk": "Просто виконай git pull !",
-    "ko": "그냥 git pull을 하세요!"
+    "ko": "그냥 git pull을 하세요!",
+    "vi": "Đơn giản là gõ git pull!"
   },
   "startDialog": {
     "en_US": {
@@ -74151,6 +75044,35 @@ exports.level = {
           "markdowns": ["`git pull`의 세부적인 사항들은 나중에 알아보겠습니다 (옵션과 매개변수등) 지금은 이 레벨에서 일단 시도부터 해 봅시다.", "", "알고 넘어갑시다 -- 이 레벨을 그냥 `fetch`와 `merge`의 조합으로 해결할 수 있습니다. 하지만 명령어가 추가되겠지요 :P"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Pull", "", "Ta đã biết cách dùng `git fetch` để nạp các commit từ kho chứa từ xa, giờ hãy cập nhật các commit này vào các nhánh địa phương!", "", "Thực ra thì có nhiều cách đề làm điều này -- một khi bạn đã có các commit này ở ko chứa địa phương, bạn có thể hợp nhất chúng như với các commit ở các nhánh khác. Nghĩa là bạn có thể sử dụng các câu lệnh sau:", "", "* `git cherry-pick o/master`", "* `git rebase o/master`", "* `git merge o/master`", "* etc., etc.", "", "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Trước tiên hãy xem quá trình `nạp` và `hợp nhất` được thực hiện một cách tuần tự"],
+          "afterMarkdowns": ["Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/master`. Giờ thì nhánh `master` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"],
+          "command": "git fetch; git merge o/master",
+          "beforeCommand": "git clone; git commit; git fakeTeamwork"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nếu thay vì dó ta dùng `git pull` thì điều gì xảy ra?"],
+          "afterMarkdowns": ["Cũng như nhau! Điều đó có nghĩa là `git pull` về cơ bản là cách làm tắt cho việc thực hiện tuần tự `git fetch` sau đó là hợp nhất các nhánh từ xa được nạp."],
+          "command": "git pull",
+          "beforeCommand": "git clone; git commit; git fakeTeamwork"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Ta sẽ tìm hiều chi tiết về `git pull` sau (bao gồm các tùy chọn và tham số), còn bây giờ thì cứ dùng thử nó ở cấp độ này đã.", "", "Nhớ rằng -- bạn có thể giải quyết cấp độ này với `fetch` và sau đó `merge`, nhưng mà như thế thì lại tốn têm một câu lệnh :P"]
+        }
+      }]
     }
   }
 };
@@ -74173,7 +75095,8 @@ exports.level = {
     "fr_FR": "Arguments de pull",
     "ru_RU": "Аргументы для pull",
     "ko": "pull 인자들",
-    "uk": "Аргументи pull"
+    "uk": "Аргументи pull",
+    "vi": "Tham số pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -74188,7 +75111,8 @@ exports.level = {
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko": "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
-    "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами"
+    "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
+    "vi": "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull"
   },
   "startDialog": {
     "en_US": {
@@ -74540,7 +75464,7 @@ exports.level = {
       }, {
         "type": "ModalAlert",
         "options": {
-          "markdowns": ["git에서 다음 명령어들은 같습니다:", "", "`git pull  origin foo` 는 다음과 같습니다:", "", "`git fetch origin foo; git merge o/foo`", "", "그리고...", "", "`git pull  origin bar~1:bugFix` 는 다음과 같습니다:", "", "`git fetch origin bar~1:bugFix; git merge bugFix`", "", "보이죠? git pull은 그저 fetch + merge의 축양형일 뿐이에요, 그리고 git pull은 커밋들이 도착하는곳을 신경씁니다(fetch를 하며 지정된 `destination`인자의 위치로 merge가 수행됩니다).", "", "직접 확인해봅시다:"]
+          "markdowns": ["git에서 다음 명령어들은 같습니다:", "", "`git pull  origin foo` 는 다음과 같습니다:", "", "`git fetch origin foo; git merge o/foo`", "", "그리고...", "", "`git pull  origin bar~1:bugFix` 는 다음과 같습니다:", "", "`git fetch origin bar~1:bugFix; git merge bugFix`", "", "보이죠? git pull은 그저 fetch + merge의 축약형일 뿐이에요, 그리고 git pull은 커밋들이 도착하는곳을 신경씁니다(fetch를 하며 지정된 `destination`인자의 위치로 merge가 수행됩니다).", "", "직접 확인해봅시다:"]
         }
       }, {
         "type": "GitDemonstrationView",
@@ -74598,6 +75522,40 @@ exports.level = {
           "markdowns": ["Добре, для завершення спробуй досягти стану репозиторію, показаного на візуалізації. Треба буде звантажити відсутні коміти, створити нові гілки і змерджити їх в інші гілки, але не надто великою кількістю команд! :P"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tham số git pull", "", "Giờ thì bạn đã biết gần như là *tất cả* về tham số của `git fetch` và `git push`, thế thì hầu như chẳng còn gì mới cho git pull cả :)", "", "Đó và vì nói cho cùng thì git pull *về thực tế* cũng chỉ là lệnh tắt cho tìm nạp và sau đó là hợp nhất những gì vừa mới được nạp. Bạn có thể coi nó như là chạy lệnh git fetch với *cùng* tham số được chỉ định và sau đó hợp nhất các commit vào *nơi* được chỉ định.", "", "Điều này được áp dụng kể cả khi bạn sử dụng những tham số phức tạp đến độ điên rồ. Hãy xem qua một vài ví dụ:"]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Dưới đây là một vài câu lệnh tương đồng nhau trong git:", "", "`git pull  origin foo` tương đương với:", "", "`git fetch origin foo; git merge o/foo`", "", "Và...", "", "`git pull  origin bar~1:bugFix` tương đương với:", "", "`git fetch origin bar~1:bugFix; git merge bugFix`", "", "Thấy chứ? git pull thực ra chỉ là lệnh tắt cho fetch + merge, và tất cả những gì git pull quan tâm là nơi mà các commit sẽ tới (tham số `đích` mà nó diễn giải được trong quá trình nạp).", "", "Hãy xem qua một bản giới thiệu:"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nếu ta chỉ định vị trí để nạp, mọi thứ diễn ra như với git fetch nhưng giờ đây có thêm một bước đó là ta hợp nhất những gì mà ta đã nạp"],
+          "afterMarkdowns": ["Thấy chứ! Bằng cách chỉ định nhánh `master` ta tải các commit xuống nhánh `o/master` như thường lệ. Sau đó hợp nhất nhánh `o/master` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `master`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."],
+          "command": "git pull origin master",
+          "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Điều này có hoạt động với đích và nguồn không? Đoán đúng rồi đấy! Cùng xem thử nào:"],
+          "afterMarkdowns": ["Wao, quá NHIỀU trong một câu lệnh. Ta tạo ra một nhánh cục bộ là `foo`, tải commit xuống từ nhánh từ xa master xuống nhánh `foo` đó, và sau đó hợp nhất commit vào nhánh `bar` mà ta đang đứng. Đủ thứ luôn!!!"],
+          "command": "git pull origin master:foo",
+          "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Được rồi, để kết thúc khóa học, hãy đạt đến mục tiêu được mô tả. Bạn sẽ cần tải xuống vài commit, tạo ra vài nhánh mới, và hợp nhất những nhánh đó sang những nhánh khác, nhưng mà đừng dùng nhiều lệnh quá nhé :P"]
+        }
+      }]
     }
   }
 };
@@ -74623,7 +75581,8 @@ exports.level = {
     "fr_FR": "Git push",
     "ru_RU": "Git push",
     "uk": "Git push",
-    "ko": "Git push"
+    "ko": "Git push",
+    "vi": "Git push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -74637,7 +75596,8 @@ exports.level = {
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
     "uk": "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
-    "ko": "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!"
+    "ko": "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
+    "vi": "Nhớ rằng bạn phải clone trước khi push!"
   },
   "startDialog": {
     "en_US": {
@@ -74912,6 +75872,27 @@ exports.level = {
           "markdowns": ["이번 레벨을 마치기 위해, 두개의 새 커밋을 원격 저장소에 공유해봅시다. 마음의 준비를 단단히 하세요, 이제부터 강의들이 훨씬 어려워질거니까요!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Git Push", "", "Được rồi, ta đã biết cách nạp thay đổi từ kho chứa từ xa và kết hợp chúng vào các nhánh cục bộ. Khá là tuyệt rồi... nhưng nếu tôi muốn chia sẻ tác phẩm tuyệt vời _của tôi_ với mọi người khác thì sao?", "", "Chà, cách tải lên thì phải ngược với tải xuống rồi. Vậy thì đối nghịch của `git pull`(kéo) là gì? `git push`(đẩy)!", "", "`git push` có trách nhiệm tải lên thay đổi _của bạn_ vào nhánh từ xa được chỉ định và cập nhật nhánh đó để kết hợp với commit đẩy lên của bạn. Một khi lệnh `git push` hoàn thành, tất cả bạn bè của bạn có thể tải xuống thay đổi của nhánh từ xa đó đó.", "", "Bạn có thể xem `git push` là câu lệnh để \"xuất bản\" thành quả công việc của bạn. Lệnh này có nhiều tính năng tinh tế mà ta sẽ tìm hiểu nhanh thôi, nhưng giờ hãy cứ bắt đầu với từng bước nhỏ đã...", "", "*lưu ý --`git push` mà không có tham số hành xử tùy biến phụ thuộc vào cài đặt của git là `push.default`. Giá trị mặc định cho cài đặt này phụ thuộc vào phiên bản git mà bạn đang sử dụng, còn ở bài học của chúng ta thì ta sẽ sử dụng giá trị `upstream` (ngược dòng). Bây giờ thì đó chưa phải là vấn đề gì lớn, nhưng chúng tôi khuyến nghị bạn kiểm tra cài đặt của mình trước khi đẩy lên dự án của bạn.*"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Ở đây ta có một vài thay đổi mà kho chứa từ xa không có. Hãy tải chúng lên!"],
+          "afterMarkdowns": ["Đó -- kho chứa từ xa đã nhận được commit `C2`, nhánh `master` ở kho chứa từ xa đã được cập nhật lên `C2`, và phản chiếu nhánh từ xa *của ta* (`o/master`) cũng được cập nhật luôn. Mọi thứ đã đồng bộ!"],
+          "command": "git push",
+          "beforeCommand": "git clone; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, đơn giản là hãy chia sẻ 2 commit mới với kho chứa từ xa. Chuẩn bị tinh thần nhé, vì các bài học sẽ khó dần lên nhiều đấy!"]
+        }
+      }]
     }
   }
 };
@@ -74937,7 +75918,8 @@ exports.level = {
     "fr_FR": "Arguments de git push",
     "ru_RU": "Аргументы git push",
     "ko": "git push의 인자들",
-    "uk": "Аргументи git push"
+    "uk": "Аргументи git push",
+    "vi": "Tham số git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -74952,7 +75934,8 @@ exports.level = {
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
     "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
     "ko": "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
-    "uk": "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\""
+    "uk": "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
+    "vi": "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại"
   },
   "startDialog": {
     "en_US": {
@@ -75362,6 +76345,40 @@ exports.level = {
           "markdowns": ["Гаразд, на цьому рівні оновімо віддалені гілки `foo` і `master`. Для ускладнення ми заборонимо використовувати `git checkout`!", "", "*Пам'ятай, віддалені гілки позначені префіксом `o/`, оскільки повний префікс `origin/` не влазить в наш UI. Але не хвилюйся ", "про це... ти можеш використовувати `origin` посилаючись на віддалений репозиторій.*"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Tham số đẩy", "", "Tuyệt! Bạn đã biết đến theo dõi từ xa, giờ thì ta có thể tìm hiểu sâu hơn về cách hoạt động của đẩy( `git push`), tìm nạp(`git fetch`) và kéo(`git pull`). Ta sẽ giải quyết từng câu lệnh một nhưng về căn bản chúng khá là giống nhau.", "", "Trước hết hãy xem qua `git push`. Trong bài học về theo dõi từ xa bạn đã biết rằng git sử dụng thuộc tính(nhánh từ xa mà nó \"theo dõi\") của nhánh hiện tại để xác định kho và nhánh từ xa để đẩy. Git làm việc này mà không cần tham số chỉ định, nhưng lệnh git push có thể thêm tham số dưới dạng sau:", "", "`git push <tên kho từ xa> <vị trí>`", "", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Tham số `<vị trí>` là gì vậy? Chúng ta sẽ đi sâu vào chi tiết sau sau, hãy xem ví dụ trước. Đưa ra câu lệnh:", "", "`git push origin master`", "", "được dịch lại là:", "", "*Chuyển sang nhánh \"master\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"master\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*", "", "Bằng cách chỉ định `master` trong tham số \"vị trí\",ta báo với git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.", "", "Lưu ý rằng ta ta đã thông báo cho gi tất cả thông tin cần thiết( thông qua chỉ định 2 tham số), nó sẽ không quan tâm nhánh mà ta đang đứng!"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy xem xét một ví dụ về việc xác định tham số. Lưu ý vị trí nhánh mà ta đang đứng."],
+          "afterMarkdowns": ["Được rồi! Bằng cách chỉ định các tham số, nhánh `master` trong kho lưu trữ từ xa đã được cập nhật."],
+          "command": "git checkout C0; git push origin master",
+          "beforeCommand": "git clone; git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Giả sử ta không chỉ định các tham số thì sao? Điều gì sẽ xảy ra?"],
+          "afterMarkdowns": ["Lệnh thất bại (như bạn có thể thấy, không có gì xảy ra)! Bởi vì `HEAD` không trỏ đến nhánh nào có theo dõi từ xa."],
+          "command": "git checkout C0; git push",
+          "beforeCommand": "git clone; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Được rồi, trong cấp độ này hãy cập nhánh `foo` và `master` trên kho lưu trữ từ xa. Cái khó là ở cấp độ này lệnh `git checkout` đã bị vô hiệu hóa!", "", "*Chú ý: Các nhánh từ xa được đánh dấu bằng tiền tố `o/` bời vì UI của chúng tôi không chứa được hết `origin/`. Đừng lo ", "về vấn đề này... đơn giản cứ dùng `origin` như bình thường thôi.*"]
+        }
+      }]
     }
   }
 };
@@ -75384,7 +76401,8 @@ exports.level = {
     "fr_FR": "Arguments de git push -- toujours plus !",
     "ru_RU": "Аргументы для push -- расширенная версия!",
     "ko": "git push 인자 -- 확장판!",
-    "uk": "Розширені аргументи git push!"
+    "uk": "Розширені аргументи git push!",
+    "vi": "Tham số git push -- bản mở rộng!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -75399,7 +76417,8 @@ exports.level = {
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
     "ko": "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
-    "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P"
+    "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
+    "vi": "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -75809,6 +76828,40 @@ exports.level = {
           "markdowns": ["На цьому рівні спробуй досягти стану ропозиторію, показаного у візуалізації і пам'ятай про формат запису з двокрапкою:", "", "`<source>:<destination>`"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Chi tiết về tham số `<vị trí>`", "", "Nhớ lại học trước, khi chỉ định tham số `<vị trí>` là `master` cho lệnh `git push`, ta cũng đã chỉ định nguồn và đích cho các commit.", "", "Có thể bạn sẽ thắng mắc -- Nếu như ta muốn nguồn và đích khác đi thì sao? Nếu như ta muốn đẩy commit từ nhánh cục bộ `foo` lên nhánh từ xa `bar` thì sao?", "", "Chà đáng tiếc là điều này là bất khả thi tron git... đùa thôi! Tất nhiên là làm được chứ :)... git có nhiều và rất nhiều lựa chọn linh động(có lẽ là quá nhiều)", "", "Hãy xem cách nó hoạt động ..."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để chỉ định `<vị trí>` cho cả nguồn và đích, chỉ cần sử dụng dấu hai chấm `:` để kết nối cả hai:", "", "`git push origin <nguồn>:<đích>`", "", "Giá trị thực của tham số này là một refspec, \"refspec\" là một từ tự tạo, nghĩa là một vị trí được Git nhận ra (chẳng hạn như nhánh `foo` hoặc` HEAD ~ 1`).", "", "Một khi bạn đã chỉ định các nguồn và đích độc lập, bạn có thể thao tác với kho chứa từ xa một cách khá thú vị và chính xác, hãy xem bản demo!"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nhớ rằng, `nguồn` là bất kỳ vị trí nào mà git hiểu:"],
+          "afterMarkdowns": ["Wao! Lệnh này khá phức tạp, nhưng mà hợp lý -- git diễn giải `foo^` thành một vị trí, tải lên tất cả các commit từ đó trở về trước mà chưa có trên nhánh đích rồi cập nhật nó."],
+          "command": "git push origin foo^:master",
+          "beforeCommand": "git clone; go -b foo; git commit; git commit"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nếu như đích đến mà bạn muốn không tồn tại thì sao? Chẳng sao cả! Đơn giản hãy gõ tên nhánh và git sẽ tạo nhánh đó trên kho chứa từ xa cho bạn."],
+          "afterMarkdowns": ["Tuyệt vời, thấy git thú vị không :D"],
+          "command": "git push origin master:newBranch",
+          "beforeCommand": "git clone; git commit"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Ở cấp độ này, hãy hoàn thành mục tiêu được mô tả, và hãy nhớ cấu trúc:", "", "`<nguồn>:<đích>`"]
+        }
+      }]
     }
   }
 };
@@ -75831,7 +76884,8 @@ exports.level = {
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
     "ko": "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
-    "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset"
+    "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
+    "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh "
   },
   "name": {
     "en_US": "Push Master!",
@@ -75846,7 +76900,8 @@ exports.level = {
     "fr_FR": "Maître du push !",
     "ru_RU": "Push Мастер!",
     "ko": "Push Master!",
-    "uk": "Push Maйстер!"
+    "uk": "Push Maйстер!",
+    "vi": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -76122,6 +77177,27 @@ exports.level = {
           "markdowns": ["Цей рівень доволі величенький -- ось, що треба буде зробити:", "", "* Є три гілки з фічами -- `side1` `side2` та `side3`", "* Ми хочемо запушити кожну з них по черзі у віддалений репозиторій", "* Віддалений репозиторій теж змінився, тож нам потрібно об'єднати всі ці зміни", "", ":O Чимале завдання! Успіху! Виконання цього рівня буде великим кроком."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Sáp nhập các nhánh tính năng", "", "Giờ thì bạn đã quen thuộc với tìm nạp, kéo và đẩy, bây giờ chúng tôi sẽ kiểm tra kỹ năng của bạn với một quy trình làm việc mới.", "", "Trong các dự án lớn, các nhà phát triển thường làm việc trên các nhánh tính năng (được phân nhánh từ `master`) và chỉ thực hiện tích hợp sau khi công việc hoàn thành. Điều này tương tự như mô tả trong bài học trước (đẩy nhánh bên sang kho lưu trữ từ xa), nhưng chúng ta sẽ đi sâu hơn một chút trong phần này.", "", "Một vài nhà phát triển chỉ thực hiện đẩy và kéo khi ở trên nhánh `master` -- như vậy thì nhánh `master` luôn luôn được cập nhật với nhánh từ xa (`o/master`).", "", "Vậy nên với quy trình làm việc này chúng tôi đã kết hợp 2 việc:", "", "* tích hợp nhánh chức năng lên nhánh `master`, và", "* đẩy và kéo từ nhánh từ xa"]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy xem qua cách cập nhật nhánh `master` và đẩy lên nhánh từ xa hoạt động như thế nào."],
+          "afterMarkdowns": ["Ta thực thi 2 câu lệnh làm việc sau:", "", "* tái bố trí (`rebase`) thành quả của ta lên commit của nhánh từ xa, và", "* xuất bản thành quả của ta lên nhánh từ xa"],
+          "command": "git pull --rebase; git push",
+          "beforeCommand": "git clone; git commit; git fakeTeamwork"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Cấp độ này khá là phức tạp đấy -- để hoàn thành thì hãy xem qua hướng dẫn cơ bản sau:", "", "* Có 3 nhánh chức năng là -- `side1` `side2` vả `side3`", "* Chúng tôi muốn bạn đẩy từng nhánh chức năng, theo thứ tự, lên nhánh từ xa", "* Nhánh từ xa cũng đã được cập nhật, nên ta cũng cần sát nhập thay đổi đó nữa", "", ":O khoai đây! Cố lên nhé, hoàn thành cấp độ này là lên trình nhiều lắm đấy."]
+        }
+      }]
     }
   }
 };
@@ -76144,7 +77220,8 @@ exports.level = {
     "fr_FR": "Les branches distantes",
     "ru_RU": "Удалённые ветки",
     "ko": "원격 브랜치(remote branch)",
-    "uk": "Віддалені гілки"
+    "uk": "Віддалені гілки",
+    "vi": "Nhánh từ xa"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
@@ -76159,7 +77236,8 @@ exports.level = {
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !",
     "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на master",
     "ko": "순서에 주의하세요 -- master에서 먼저 커밋하세요!",
-    "uk": "Звертайте увагу на послідовність -- спочатку коміт в мастер!"
+    "uk": "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
+    "vi": "Chú ý đến thứ tự -- commit trên nhánh master trước!"
   },
   "startDialog": {
     "en_US": {
@@ -76499,6 +77577,32 @@ exports.level = {
           "markdowns": ["Щоб пройти цей рівень, зроби один коміт в `master`, а потім переключись в `o/master` і закомітся ще раз. Це наглядно продемонструє поведінку віддалених гілок, а також покаже як зміни впливають на стан віддаленого репозиторію."]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Nhánh Git từ xa", "", "Giờ bạn đã thấy cách thức hoạt động của `git clone`, cùng xem xét kỹ hơn những gì đã xảy ra.", "", "Điều đầu tiên mà có thể bạn để ý là một nhánh mới xuất hiện trong kho chứa địa phương của ta là `o/master`. Loại nhánh này được gọi là nhánh _từ xa_ (_remote_) ; nhánh từ xa có những thuộc tính đặc biệt vì chúng phục vụ những mục đích duy nhất.", "", "Nhánh từ xa phản ánh _trạng thái_ (_state_) của kho chứa từ xa (kể từ lần cuối cùng bạn tương tác với kho chứa từ xa). Chúng giúp bạn hiểu về sự khác biệt giữa công tác trên kho chứa cục bộ với kho chứa từ xa -- một bước quan trọng trước khi chia sẻ công việc của bạn với người khác.", "", "Nhánh từ xa có một thuộc tính đặc biệt đó là khi bạn chuyển sang chúng bạn sẽ vào trạng thái tách rời `HEAD`. Git chủ tâm làm việc này vì bạn không thể công tác trực tiếp trên chúng; bạn phải công tác ở nơi khác và chia sẻ thành quả lên kho chứa từ xa (sau đó nhánh từ xa sẽ được cập nhật)."]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["###`o/` là gì vậy?", "", "Có thể bạn sẽ thắc mắc về ký tự `o/` ở đầu tên nhánh từ xa có ý nghĩa gì. Chà, tên nhánh từ xa cũng có (thiết yếu) quy tắc đặt tên -- chúng được hiển thị dưới dạng:", "", "* `<tên kho từ xa>/<tên nhánh>`", "", "Do đó, ở trong `o/master` thì `master` là tên nhánh còn `o` là tên kho chứa từ xa.", "", "Thực tế thì hầu hết các nhà phát triển đặt tên kho chứa từ xa là `origin` chứ không phải `o`. Nó trở thành thông lệ đến nỗi Git đặt tên `origin` cho kho chứa từ xa khi bạn dùng `git clone` để sao chép một kho chứa.", "", "Đáng tiêc là `origin` không khớp trong giao diện của chúng tôi, nên chúng tôi đành phải viết tắt là `o` :( Nhưng hãy nhớ rằng khi dùng git thật sự thì chắc hẳn tên của kho chứa từ xa sẽ là `origin`!", "", "Lý thuyết hơi nhiều rồi, đi vào thực hành thôi."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy thử chuyển sang nhánh từ xa xem điểu gì xảy ra"],
+          "afterMarkdowns": ["Như bạn thấy, git đưa ta vào trạng thái `HEAD` và không cập nhật nhánh `o/master` khi ta thêm một commit. Đó là bởi vì `o/master` chỉ cập nhật khi kho chứa từ xa được cập nhật."],
+          "command": "git checkout o/master; git commit",
+          "beforeCommand": "git clone"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Để hoàn thành cấp độ này, commit một lần trên `master` và một lần nữa sau khi chuyển sang `o/master`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."]
+        }
+      }]
     }
   }
 };
@@ -76525,7 +77629,8 @@ exports.level = {
     "fr_FR": "Source de rien du tout",
     "ru_RU": "Пустой источник",
     "ko": "Source가 없다",
-    "uk": "Нема джерела"
+    "uk": "Нема джерела",
+    "vi": "Không có nguồn"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -76540,7 +77645,8 @@ exports.level = {
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
     "ko": "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
-    "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!"
+    "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
+    "vi": "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -76890,6 +77996,35 @@ exports.level = {
           "markdowns": ["Це швидкий рівень -- просто видали одну віддалену гілку і створи нову локальну гілку, використовуючи `git fetch`!"]
         }
       }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Sự kỳ quặc của `<nguồn>`", "", "Git lợi dụng tham số `<nguồn>` theo 2 cách khá dị.Hai cách lợi dụng này bắt nguồn từ thục tế là bạn có thể \"không chỉ định\" `nguồn` cho cả git push và git fetch. Bạn có thể làm điều này bằng cách để trống tham số như sau:", "", "* `git push origin :side`", "* `git fetch origin :bugFix`", "", "Hãy xem thử 2 câu lệnh này làm việc gì..."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nếu ta đẩy \"không gì cả\" lên một nhánh từ xa thì nó sẽ làm gì? Nó xóa nhánh đó!"],
+          "afterMarkdowns": ["Đó, ta đã xóa thành công nhánh `foo` trên kho chứa từ xa bằng cách đẩy \"không gì cả\" lên nó. Khá là hợp lý..."],
+          "command": "git push origin :foo",
+          "beforeCommand": "git clone; git push origin master:foo"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Cuối cùng, nạp \"không gì cả\" vào một kho chứa cục bộ thực tế sẽ tạo ra một nhánh mới"],
+          "afterMarkdowns": ["Khá là quái và dị. Nhưng mà dó là những gì git làm!"],
+          "command": "git fetch origin :bar",
+          "beforeCommand": "git clone"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Ở cấp độ đơn giản này -- bạn chỉ cần xóa một nhánh từ xa và tạo ra một nhánh mới với `git fetch` để hoàn thành!"]
+        }
+      }]
     }
   }
 };
@@ -76912,7 +78047,8 @@ exports.level = {
     "fr_FR": "Suivi de branche distante",
     "ru_RU": "Слежка за удалённым репозиторием",
     "ko": "원격 저장소 추적하기",
-    "uk": "Слідкуємо за віддаленим репозиторієм"
+    "uk": "Слідкуємо за віддаленим репозиторієм",
+    "vi": "Theo dõi từ xa"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -76927,7 +78063,8 @@ exports.level = {
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !",
     "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!",
     "ko": "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!",
-    "uk": "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!"
+    "uk": "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
+    "vi": "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!"
   },
   "startDialog": {
     "en_US": {
@@ -77603,6 +78740,58 @@ exports.level = {
         "type": "ModalAlert",
         "options": {
           "markdowns": ["Гаразд! На цьому рівні збережімо свою роботу у віддалену гілку `master` *без* переходу на локальну `master`. Про решту здогадайся сам, раз ти вже дойшов до цього рівня :P"]
+        }
+      }]
+    },
+    "vi": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Theo dõi nhánh từ xa", "", "Trong những bài học vừa qua có một điểu có vẻ như là \"ma thuật\" đó là git lại biết được nhánh `master` có liên kết đến nhánh `o/master`. Đúng là chúng có tên tương tự và nhánh `master` ở kho chứa từ xa có kết nối đến nhánh `master` ở kho chứa địa phương có vẻ như là hợp lý, nhưng kết nối này được thể hiện rõ ràng trong 2 trường hợp:", "", "* Trong quá trình thực hiện thao tác kéo, các commit được tải xuống nhánh `o/master` và sau đó *hợp nhất* vào nhánh `master`. Mục tiêu hợp nhất dược ngầm định bởi kết nối này.", "* Trong quá trình thực hiện thao tác đẩy, thảnh quả trên nhánh `master` được đẩy lên nhánh `master` từ xa (sau dó được biểu thị bằng nhánh `o/master` ở kho chứa địa phương). *Đích đến* của lệnh đẩy được xác định bằng kết nối giữa nhánh `master` và nhánh `o/master`.", ""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Theo dõi từ xa", "", "Nói tóm lại, kết nối giữa nhánh `master` và nhánh `o/master` đơn giản được giải thích bằng thuộc tính \"theo dõi từ xa\" (\"remote tracking\") của các nhánh. Nhánh `master` được thiết lập để theo dõi nhánh `o/master` -- Điều này có nghĩa là nhánh `master` được chỉ định đích của lệnh đẩy và mục tiêu hợp nhất sau khi kéo.", "", "Có thể bạn sẽ thắc mắc rằng tại sao thuộc tính này được thiết lập lên nhánh `master` trong khi bạn chẳng hề chạy một câu lệnh nào chỉ định điều này. Chà, khi bạn dùng git để nhân bản kho chứa, thì thuộc tính này đã được tự động thiết lập cho bạn rồi. ", "", "Trong quá trình thực hiện nhân bản, git tạo ra nhánh từ xa trên kho chứa địa phương cho tất cả các nhánh trên kho chứa từ xa (các nhánh như `o/master`). Sau đó nó sẽ tạo một nhánh địa phương theo dõi nhánh hoạt dộng hiện tại của kho chứa từ xa, đa phần các trường hợp là nhánh `master`.", "", "Một khi quá trình nhân bản hoàn thành, bạn sẽ chỉ có một nhánh địa phương (để bạn không thấy quá tải) nhưng bạn có thể thấy tất cả các nhánh trên kho chứa từ xa (phòng trường hợp bạn thấy tò mò). Đây là phương án tối ưu!", "", "Điều này giải thích việc sau khi nhân bản bạn có thể thấy dòng lệnh sau xuất hiện:", "", "    local branch \"master\" set to track remote branch \"o/master\""]
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Tôi có thể tự chỉ định chứ?", "", "Tất nhiên là được chứ! Bạn có thế khiến bất kỳ nhánh nào theo dõi nhánh `o/master`, và nếu bạn làm vậy, nhánh đó sẽ được được chỉ định đích của lệnh đẩy và mục tiêu hợp nhất giống như nhánh `master`. Điều này có nghĩa là bạn có thể chạy lệnh `git push` trên nhánh có tên là `totallyNotMaster` và thành quả của bạn sẽ được đẩy lên nhánh `master` ở kho chứa từ xa!", "", "Có 2 cách để thiết lập thuộc tính này. Cách đầu tiên là chuyển sang một nhánh mới từ một nhánh từ xa bằng cách thực hiện", "", "`git checkout -b totallyNotMaster o/master`", "", "Tạo ra một nhánh mới `totallyNotMaster` và thiết lập cho nó theo dõi nhánh `o/master`."]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Nói vậy là đủ rồi, hãy xem thử một mô tả nào! Ta sẽ chuyển sang một nhánh tên là `foo` và thiết lập cho nó theo dõi nhánh `master` trên kho chứa từ xa."],
+          "afterMarkdowns": ["Như bạn đã thấy, chúng tôi đã sử dụng mục tiêu ngầm `o / master` để cập nhật nhánh` foo. Để ý rằng nhánh `master` không được cập nhật!!"],
+          "command": "git checkout -b foo o/master; git pull",
+          "beforeCommand": "git clone; git fakeTeamwork"
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Điểu này cũng được áp dụng cho lệnh git push"],
+          "afterMarkdowns": ["Bùùm. Ta đã đẩy thành quả lên nhánh `master` ở kho chứa tù xa mặc dù nhánh của ta có tên hoàn toàn khác biệt"],
+          "command": "git checkout -b foo o/master; git commit; git push",
+          "beforeCommand": "git clone"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["### Cách thứ #2", "", "Cách khác để thiết lập theo dõi trên một nhánh đó là đơn giản sử dụng lệnh `git branch -u`. Thực hiện", "", "`git branch -u o/master foo`", "", "sẽ thiết lập nhánh `foo` theo dõi nhánh `o/master`. Nếu nhánh `foo` đang được `HEAD` trỏ tới bạn có thể bỏ tham số này:", "", "`git branch -u o/master`", ""]
+        }
+      }, {
+        "type": "GitDemonstrationView",
+        "options": {
+          "beforeMarkdowns": ["Hãy xem thử cách khác để thiết lập theo dõi..."],
+          "afterMarkdowns": ["Y hệt như trước, nhưng lệnh này biểu hiện rõ ràng hơn. Tuyệt!"],
+          "command": "git branch -u o/master foo; git commit; git push",
+          "beforeCommand": "git clone; git checkout -b foo"
+        }
+      }, {
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["Được rồi! Ở cấp độ này hãy để thành quả lên nhánh `master` trên kho lưu trữ từ xa mà không chuyển sang nhánh `master` tại kho địa phương. Hãy tự tìm ra cách nhé, giờ là khóa học nâng cao rồi :P"]
         }
       }]
     }
