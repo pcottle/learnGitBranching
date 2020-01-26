@@ -7,6 +7,7 @@ exports.level = {
     "ja"   : "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
     "es_AR": "Brancheando en Git",
+    "es_ES": "Creando ramas en Git",
     "pt_BR": "Ramos no Git",
     "gl"   : "Ramas en Git",
     "fr_FR": "Gérer les branches avec Git",
@@ -21,6 +22,7 @@ exports.level = {
     "de_DE": 'Lege mit "git branch <Name>" einen neuen Branch an und checke ihn mit "git checkout <Name> aus',
     "ja"   : "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
+    "es_ES": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
     "pt_BR": "Crie um novo ramo com \"git branch [nome]\" e mude para ele com \"git checkout [nome]\"",
     "gl"   : "Crea unha nova rama con \"git branch [nome]\" e cambiate a ela facendo \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
@@ -282,9 +284,9 @@ exports.level = {
               "brancheá temprano, y brancheá seguido",
               "```",
               "",
-              "Como no hay consumo extra de alamcenamiento ni memoria al hacer varias ramas, es más fácil dividir lógicamente tu trabajo que tener un par de ramas grandes.",
+              "Como no hay consumo extra de almacenamiento ni memoria al hacer varias ramas, es más fácil dividir lógicamente tu trabajo que tener un par de ramas grandes.",
               "",
-              "Cuando empecemos a mezclar ramas y commits, vamos a ver cómo se combinan estas dos herramientas. Por ahora, en cambio, simplemente recordá que una rama escencialmente dice \"Quiero incluir el trabajo de este commit y todos su ancestros\"."
+              "Cuando empecemos a mezclar ramas y commits, vamos a ver cómo se combinan estas dos herramientas. Por ahora, en cambio, simplemente recordá que una rama esencialmente dice \"Quiero incluir el trabajo de este commit y todos su ancestros\"."
             ]
           }
         },
@@ -341,6 +343,84 @@ exports.level = {
             "markdowns": [
               "¡Ok! Ya estás listo para manejar ramas. Cuando se cierre esta ventana,",
               "creá una nueva rama llamada `bugFix` y cambiate a ella"
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramas en Git",
+              "",
+              "Las ramas (branches) en Git son increíblemente livianas. Son sólo referencias a un commit específico - nada más. Por esto es que tantos entusiastas de Git siguen el mantra:",
+              "",
+              "```",
+              "crea ramas al principio y hazlo también de manera frecuente",
+              "```",
+              "",
+              "Como no hay consumo extra de almacenamiento ni memoria al crear varias ramas, lógicamente es más fácil dividir tu trabajo que trabajar solamente con un par de ramas grandes.",
+              "",
+              "Cuando empecemos a mezclar ramas y commits, vamos a ver cómo se combinan estas dos herramientas. Por ahora, en cambio, simplemente recuerda que una rama esencialmente dice \"Quiero incluir el trabajo de este commit y todos su ancestros\"."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos cómo son las ramas en la práctica.",
+              "",
+              "Ahora vamos a crear una rama nueva llamada `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Ahí está, ¡eso es todo lo que hay que hacer para crear una rama! La rama `newImage` ahora referencia al commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pongamos algo de trabajo en esta nueva rama. Aprieta el botón de aquí abajo"
+            ],
+            "afterMarkdowns": [
+              "¡Vaya! ¡La rama `master` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `master`"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Digámosle a git que queremos hacer checkout a esa rama con",
+              "",
+              "```",
+              "git checkout [name]",
+              "```",
+              "",
+              "Esto va a situarnos en esa rama antes de hacer un commit con nuestros cambios"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí estamos! Nuestros cambios se registraron en nuestra nueva rama"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Perfecto! Ya estás listo para trabajar con ramas. Cuando se cierre esta ventana,",
+              "crea una nueva rama llamada `bugFix` y cámbiate a ella"
             ]
           }
         }

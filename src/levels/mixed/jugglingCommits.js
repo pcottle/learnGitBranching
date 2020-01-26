@@ -23,6 +23,7 @@ exports.level = {
     "de_DE": "Jonglieren mit Commits",
     "fr_FR": "Jongler avec les commits",
     "es_AR": "Haciendo malabares con los commits",
+    "es_ES": "Haciendo malabares con los commits",
     "pt_BR": "Malabarismo com commits",
     "gl"   : "Argallando cos commits",
     "ja": "コミットをやりくりする",
@@ -37,6 +38,7 @@ exports.level = {
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
     "fr_FR": "La première commande est git rebase -i HEAD~2",
     "es_AR": "El primer comando es git rebase -i HEAD~2",
+    "es_ES": "El primer comando es git rebase -i HEAD~2",
     "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
     "gl"   : "O primeiro comando é git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
@@ -125,7 +127,7 @@ exports.level = {
             "markdowns": [
               "## Haciendo malabares con los commits",
               "",
-              "Estaes otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
+              "Esta es otra situación algo común. Tenés algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
               "",
               "El tema es que a veces tenés que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya esté atrás en nuestra historia!"
             ]
@@ -140,11 +142,46 @@ exports.level = {
               "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`",
               "* Vamos a hacer `commit --amend` para aplicar la ligera modificación",
               "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
-              "* Finalmente, vamos a mover master a esta parte actualizada de nuestor árbol de commits para terminar el nivel (usando el método que prefieras)",
+              "* Finalmente, vamos a mover master a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
               "",
               "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
               "",
               "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
+              "",
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"
+            ]
+          }
+        },
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Haciendo malabares con los commits",
+              "",
+              "Esta es otra situación algo común. Tienes algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
+              "",
+              "El tema es que a veces tienes que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya se encuentre atrás en nuestra historia!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Superaremos esta dificultad haciendo lo siguiente:",
+              "",
+              "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de los demás con `git rebase -i`",
+              "* Vamos a hacer `commit --amend` para aplicar la ligera modificación",
+              "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
+              "* Finalmente, vamos a mover master a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
+              "",
+              "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
+              "",
+              "Por último, presta atención al estado final -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo"
             ]
