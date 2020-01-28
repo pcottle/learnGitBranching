@@ -1,3 +1,4 @@
+//this is a practice comment 
 var CommandLineActions = require('../src/js/actions/CommandLineActions');
 var CommandLineStore = require('../src/js/stores/CommandLineStore');
 
