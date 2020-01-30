@@ -574,6 +574,35 @@ var commandConfig = {
     }
   },
 
+  pullrequest: {
+    regex: /^git +merge($|\s)/,
+    options: [
+      '--no-ff'
+    ],
+    execute: function(engine, command) {
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []);
+      command.validateArgBounds(generalArgs, 1, 1);
+
+      var newCommit = engine.merge(
+        generalArgs[0],
+        { noFF: !!commandOptions['--no-ff'] }
+      );
+
+      if (newCommit === undefined) {
+        // its just a fast forward
+        engine.animationFactory.refreshTree(
+          engine.animationQueue, engine.gitVisuals
+        );
+        return;
+      }
+
+      engine.animationFactory.genCommitBirthAnimation(
+        engine.animationQueue, newCommit, engine.gitVisuals
+      );
+    }
+  },
+
   revlist: {
     dontCountForGolf: true,
     displayName: 'rev-list',

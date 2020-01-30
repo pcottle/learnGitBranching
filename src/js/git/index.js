@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-useless-escape */
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -1624,6 +1626,7 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
   var regex = /([~\^])(\d*)/g;
   var matches;
 
+  // eslint-disable-next-line no-cond-assign
   while (matches = regex.exec(relative)) {
     var next = commit;
     var num = matches[2] ? parseInt(matches[2], 10) : 1;
@@ -2438,6 +2441,12 @@ GitEngine.prototype.merge = function(targetSource, options) {
   options = options || {};
   var currentLocation = 'HEAD';
 
+  return this.performMerge(targetSource, currentLocation, options);
+};
+
+GitEngine.prototype.performMerge = function(targetSource, currentLocation, options) {
+  options = options || {};
+
   // first some conditions
   if (this.mergeCheck(targetSource, currentLocation)) {
     throw new CommandResult({
@@ -2906,6 +2915,7 @@ var Branch = Ref.extend({
 
   getIsRemote: function() {
     if (typeof this.get('id') !== 'string') {
+      // eslint-disable-next-line no-debugger
       debugger;
     }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
@@ -3140,6 +3150,7 @@ RevisionRange.prototype.processSpecifiers = function(specifiers) {
 };
 
 RevisionRange.prototype.isExcluded = function(revision) {
+  // eslint-disable-next-line no-prototype-builtins
   return this.excludedRefs.hasOwnProperty(revision);
 };
 
