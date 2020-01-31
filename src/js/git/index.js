@@ -2378,7 +2378,7 @@ GitEngine.prototype.rebaseFinish = function(
   var chainStep = function(oldCommit) {
     var newId;
     if(oldCommit.get('squashUntil')) {
-      newId = oldCommit.get('squashedId');
+      newId = this.rebaseAltID(oldCommit.get('id'));
     } else if (oldCommit.get('isSquashed')) {
       return null;
     } else {
@@ -2442,16 +2442,17 @@ GitEngine.prototype.merge = function(targetSource, options) {
   options = options || {};
   var currentLocation = 'HEAD';
 
-  return this.performMerge(targetSource, currentLocation, options);
+  return this.performMerge(targetSource, currentLocation, options, this);
 };
 
 GitEngine.prototype.pr = function(source, target, options) {
   options = options || {};
 
+
   var resSource = this.origin.resolveID(source);
   var resTarget = this.origin.resolveID(target);
   var newCommit = this.origin.performMerge(resSource, resTarget, 
-      { isRemote: true });
+      { isRemote: true }, this);
 
   var deferred = Q.defer();
   var chain = deferred.promise;
@@ -2501,7 +2502,7 @@ GitEngine.prototype.pr = function(source, target, options) {
   return newCommit;
 };
 
-GitEngine.prototype.performMerge = function(targetSource, currentLocation, options) {
+GitEngine.prototype.performMerge = function(targetSource, currentLocation, options, localEngine) {
   options = options || {};
 
   // first some conditions
@@ -2533,11 +2534,17 @@ GitEngine.prototype.performMerge = function(targetSource, currentLocation, optio
       current: this.resolveName(currentLocation)
     }
   );
+
+  var id = null;
+  if(options.isRemote) {
+    id = localEngine.getUniqueID();
+  }
+
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
   var mergeCommit = this.makeCommit(
     [parent1, parent2],
-    null,
+    id,
     {
       commitMessage: msg
     }
