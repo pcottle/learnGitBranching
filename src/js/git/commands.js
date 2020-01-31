@@ -575,7 +575,7 @@ var commandConfig = {
   },
 
   pullrequest: {
-    regex: /^git +pr($|\s)/,
+    regex: /^git +pullRequest($|\s)/,
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
         throw new GitError({
