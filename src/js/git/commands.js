@@ -575,31 +575,25 @@ var commandConfig = {
   },
 
   pullrequest: {
-    regex: /^git +merge($|\s)/,
-    options: [
-      '--no-ff'
-    ],
+    regex: /^git +pr($|\s)/,
     execute: function(engine, command) {
-      var commandOptions = command.getOptionsMap();
-      var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []);
-      command.validateArgBounds(generalArgs, 1, 1);
-
-      var newCommit = engine.merge(
-        generalArgs[0],
-        { noFF: !!commandOptions['--no-ff'] }
-      );
-
-      if (newCommit === undefined) {
-        // its just a fast forward
-        engine.animationFactory.refreshTree(
-          engine.animationQueue, engine.gitVisuals
-        );
-        return;
+      if (!engine.hasOrigin()) {
+        throw new GitError({
+          msg: intl.str('git-error-origin-required')
+        });
       }
 
-      engine.animationFactory.genCommitBirthAnimation(
-        engine.animationQueue, newCommit, engine.gitVisuals
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      command.validateArgBounds(generalArgs, 2, 2);
+
+      var newCommit = engine.pr(
+        generalArgs[0],
+        generalArgs[1],
+        {}
       );
+
+
     }
   },
 

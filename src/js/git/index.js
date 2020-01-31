@@ -1536,6 +1536,7 @@ GitEngine.prototype.pullFinishWithMerge = function(
   this.animationQueue.thenFinish(chain, deferred);
 };
 
+
 GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
   var makeOriginCommit = function() {
     var id = this.getUniqueID();
@@ -2444,6 +2445,62 @@ GitEngine.prototype.merge = function(targetSource, options) {
   return this.performMerge(targetSource, currentLocation, options);
 };
 
+GitEngine.prototype.pr = function(source, target, options) {
+  options = options || {};
+
+  var resSource = this.origin.resolveID(source);
+  var resTarget = this.origin.resolveID(target);
+  var newCommit = this.origin.performMerge(resSource, resTarget, 
+      { isRemote: true });
+
+  var deferred = Q.defer();
+  var chain = deferred.promise;
+
+  chain = chain.then(function() {
+    return this.animationFactory.getDelayedPromise(700);
+  }.bind(this));
+
+  if (newCommit === undefined) {
+    // its just a fast forward
+    chain = chain.then(function() {
+      this.animationFactory.refreshTree(
+        this.animationQueue, this.origin.gitVisuals
+      );
+    }.bind(this));
+
+  } else {
+    chain = chain.then(function() {
+      this.animationFactory.genCommitBirthAnimation(
+        this.animationQueue, newCommit, this.origin.gitVisuals
+      );
+    }.bind(this));
+  }
+
+  chain = chain.then(function() {
+    this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
+  }.bind(this));
+
+  this.animationQueue.thenFinish(chain, deferred);
+
+  /*
+  if (newCommit === undefined) {
+    // its just a fast forward
+    engine.origin.animationFactory.refreshTree(
+      engine.origin.animationQueue, engine.origin.gitVisuals
+    );
+    return;
+  }
+
+  engine.animationFactory.genCommitBirthAnimation(
+    engine.origin.animationQueue, newCommit, engine.origin.gitVisuals
+  );
+
+  engine.animationFactory.playRefreshAnimation(engine.gitVisuals);
+  //this.animationFactory.playRefreshAnimation(this.gitVisuals);
+    */
+  return newCommit;
+};
+
 GitEngine.prototype.performMerge = function(targetSource, currentLocation, options) {
   options = options || {};
 
@@ -2458,7 +2515,9 @@ GitEngine.prototype.performMerge = function(targetSource, currentLocation, optio
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
-    this.command.setResult(intl.str('git-result-fastforward'));
+    if(!options.isRemote) {
+      this.command.setResult(intl.str('git-result-fastforward'));
+    }
     return;
   }
 
