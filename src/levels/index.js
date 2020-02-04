@@ -36,7 +36,8 @@ exports.levelSequences = {
     require('./remote/pull').level,
     require('./remote/fakeTeamwork').level,
     require('./remote/push').level,
-    require('./remote/fetchRebase').level
+    require('./remote/fetchRebase').level,
+    require('./remote/lockedMaster').level
   ],
   remoteAdvanced: [
     require('./remote/pushManyFeatures').level,
