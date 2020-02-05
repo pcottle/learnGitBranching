@@ -50,7 +50,7 @@ exports.level = {
           }
         }
       ]
-    }
+    },
     
     "zh_CN": {
       "childViews": [
