@@ -147,8 +147,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "\n"
-              + "Si trabajas en un equipo colaborativo, es probable que la rama `master` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master e intentas realizar `push`, recibirás un mensaje similar a este:",
+              "Si trabajas en un equipo colaborativo, es probable que la rama `master` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master e intentas realizar `push`, recibirás un mensaje similar a este:",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
