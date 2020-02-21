@@ -498,7 +498,7 @@ var Level = Sandbox.extend({
       finishAnimationChain = deferred.promise;
       Main.getEventBaton().trigger(
         'commandSubmitted',
-        'echo "level solved!"'
+        'echo "level solved! type in \'levels\' to access the next level"'
       );
     } else {
       GlobalStateActions.changeIsAnimating(true);
