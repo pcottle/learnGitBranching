@@ -34,20 +34,20 @@ exports.level = {
     "vi": "Tung hứng commit"
   },
   "hint": {
-    "en_US": "The first command is git rebase -i HEAD~2",
-    "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
-    "fr_FR": "La première commande est git rebase -i HEAD~2",
-    "es_AR": "El primer comando es git rebase -i HEAD~2",
-    "es_ES": "El primer comando es git rebase -i HEAD~2",
-    "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
-    "gl"   : "O primeiro comando é git rebase -i HEAD~2",
-    "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
-    "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-    "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
-    "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
-    "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
-    "uk": "Перша команда має бути git rebase -i HEAD~2",
-    "vi": "Lệnh đầu tiên là git rebase -i HEAD~2"
+    "en_US": "The first command is git rebase -i master",
+    "de_DE": "Der erste Befehl ist git rebase -i master",
+    "fr_FR": "La première commande est git rebase -i master",
+    "es_AR": "El primer comando es git rebase -i master",
+    "es_ES": "El primer comando es git rebase -i master",
+    "pt_BR": "O primeiro comando é git rebase -i master",
+    "gl"   : "O primeiro comando é git rebase -i master",
+    "ja": "最初に打つコマンドはgit rebase -i master",
+    "ko": "첫번째 명령은 git rebase -i master 입니다",
+    "zh_CN": "第一个命令是 `git rebase -i master`",
+    "zh_TW": "第一個命令是 'git rebase -i master'",
+    "ru_RU": "Первой командой должна быть git rebase -i master",
+    "uk": "Перша команда має бути git rebase -i master",
+    "vi": "Lệnh đầu tiên là git rebase -i master"
   },
   "startDialog": {
     "en_US": {

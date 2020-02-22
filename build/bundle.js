@@ -71353,11 +71353,9 @@ exports.level = {
 // Each level is part of a "sequence;" levels within
 // a sequence proceed in the order listed here
 exports.levelSequences = {
-  intro: [require('./intro/commits').level, require('./intro/branching').level, require('./intro/merging').level, require('./intro/rebasing').level],
-  rampup: [require('./rampup/detachedHead').level, require('./rampup/relativeRefs').level, require('./rampup/relativeRefs2').level, require('./rampup/reversingChanges').level],
-  move: [require('./rampup/cherryPick').level, require('./rampup/interactiveRebase').level],
-  mixed: [require('./mixed/grabbingOneCommit').level, require('./mixed/jugglingCommits').level, require('./mixed/jugglingCommits2').level, require('./mixed/tags').level, require('./mixed/describe').level],
-  advanced: [require('./rebase/manyRebases').level, require('./advanced/multipleParents').level, require('./rebase/selectiveRebase').level],
+  intro: [require('./intro/commits').level, require('./intro/branching').level, require('./intro/branch-1').level, require('./intro/branch-delete').level, require('./rampup/reversingChanges').level, require('./intro/intro-final').level],
+  rampup: [require('./intro/merging').level, require('./intro/rebasing').level, require('./rampup/cherryPick').level, require('./rampup/interactiveRebase').level, require('./mixed/grabbingOneCommit').level, require('./mixed/jugglingCommits').level, require('./mixed/jugglingCommits2').level, require('./mixed/tags').level, require('./rebase/manyRebases').level, require('./rebase/selectiveRebase').level],
+  move: [require('./rampup/detachedHead').level, require('./rampup/relativeRefs').level, require('./rampup/relativeRefs2').level, require('./advanced/multipleParents').level],
   remote: [require('./remote/clone').level, require('./remote/remoteBranches').level, require('./remote/fetch').level, require('./remote/pull').level, require('./remote/fakeTeamwork').level, require('./remote/push').level, require('./remote/fetchRebase').level, require('./remote/lockedMaster').level],
   remoteAdvanced: [require('./remote/pushManyFeatures').level, require('./remote/mergeManyFeatures').level, require('./remote/tracking').level, require('./remote/pushArgs').level, require('./remote/pushArgs2').level, require('./remote/fetchArgs').level, require('./remote/sourceNothing').level, require('./remote/pullArgs').level]
 }; // there are also cute names and such for sequences
@@ -71534,74 +71532,6 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk': 'Не соромимось змінювати історію',
       'vi': 'Chỉnh sửa cây lịch sử Git không hề khó'
     }
-  },
-  mixed: {
-    displayName: {
-      'en_US': 'A Mixed Bag',
-      'de_DE': 'Ein Kessel Buntes',
-      'ja': '様々なtips',
-      'fr_FR': 'Un assortiment',
-      'es_AR': 'Bolsa de gatos',
-      'es_ES': 'Un poco de todo',
-      'pt_BR': 'Sortidos',
-      'gl': 'Todo mesturado',
-      'ko': '종합선물세트',
-      'zh_CN': '杂项',
-      'zh_TW': '活用 git 的指令',
-      'ru_RU': 'Сборная солянка',
-      'uk': 'Всяке',
-      'vi': 'Những trò mèo đáng đồng tiền bát gạo'
-    },
-    about: {
-      'en_US': 'A mixed bag of Git techniques, tricks, and tips',
-      'de_DE': 'Eine bunte Mischung von Techniken, Tipps und Tricks',
-      'ja': 'gitを使う上での様々なtipsやテクニックなど',
-      'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
-      'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
-      'es_ES': 'Un batiburrillo de técnicas, trucos y sugerencias sobre Git',
-      'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
-      'gl': 'Mestura de técnicas, trucos e consellos',
-      'ko': 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git 技术、技巧与贴士大集合',
-      'zh_TW': 'git 的技術，招數與技巧',
-      'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
-      'uk': 'Різні прийоми роботи з Git, хитрощі та поради',
-      'vi': 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích'
-    }
-  },
-  advanced: {
-    displayName: {
-      'en_US': 'Advanced Topics',
-      'de_DE': 'Themen für Fortgeschrittene',
-      'ja': '上級トピック',
-      'fr_FR': 'Sujets avancés',
-      'es_AR': 'Temas avanzados',
-      'es_ES': 'Temas avanzados',
-      'pt_BR': 'Temas avançados',
-      'gl': 'Temas avanzados',
-      'zh_CN': '高级话题',
-      'zh_TW': '進階主題',
-      'ru_RU': 'Продвинутый уровень',
-      'uk': 'Досвідчений рівень',
-      'ko': '고급 문제',
-      'vi': 'Các chủ đề nâng cao'
-    },
-    about: {
-      'en_US': 'For the truly brave!',
-      'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
-      'ja': '勇気ある人のみ！',
-      'fr_FR': 'Pour les plus courageux !',
-      'es_AR': '¡Para los verdaderos valientes!',
-      'es_ES': '¡Para los verdaderos valientes!',
-      'pt_BR': 'Para os verdadeiros valentes!',
-      'gl': '¡Para os verdadeiros valerosos!',
-      'zh_CN': '只为真正的勇士！',
-      'zh_TW': '來成為真正的強者吧！',
-      'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
-      'uk': 'Для хоробрих',
-      'ko': '용기있는 도전자를 위해 준비한 문제입니다',
-      'vi': 'Mạnh mẽ lên!'
-    }
   }
 };
 
@@ -71610,7 +71540,36 @@ exports.getTabForSequence = function (sequenceName) {
   return info.tab ? info.tab : 'main';
 };
 
-},{"./advanced/multipleParents":113,"./intro/branching":115,"./intro/commits":116,"./intro/merging":117,"./intro/rebasing":118,"./mixed/describe":119,"./mixed/grabbingOneCommit":120,"./mixed/jugglingCommits":121,"./mixed/jugglingCommits2":122,"./mixed/tags":123,"./rampup/cherryPick":124,"./rampup/detachedHead":125,"./rampup/interactiveRebase":126,"./rampup/relativeRefs":127,"./rampup/relativeRefs2":128,"./rampup/reversingChanges":129,"./rebase/manyRebases":130,"./rebase/selectiveRebase":131,"./remote/clone":132,"./remote/fakeTeamwork":133,"./remote/fetch":134,"./remote/fetchArgs":135,"./remote/fetchRebase":136,"./remote/lockedMaster":137,"./remote/mergeManyFeatures":138,"./remote/pull":139,"./remote/pullArgs":140,"./remote/push":141,"./remote/pushArgs":142,"./remote/pushArgs2":143,"./remote/pushManyFeatures":144,"./remote/remoteBranches":145,"./remote/sourceNothing":146,"./remote/tracking":147}],115:[function(require,module,exports){
+},{"./advanced/multipleParents":113,"./intro/branch-1":115,"./intro/branch-delete":116,"./intro/branching":117,"./intro/commits":118,"./intro/intro-final":119,"./intro/merging":120,"./intro/rebasing":121,"./mixed/grabbingOneCommit":123,"./mixed/jugglingCommits":124,"./mixed/jugglingCommits2":125,"./mixed/tags":126,"./rampup/cherryPick":127,"./rampup/detachedHead":128,"./rampup/interactiveRebase":129,"./rampup/relativeRefs":130,"./rampup/relativeRefs2":131,"./rampup/reversingChanges":132,"./rebase/manyRebases":133,"./rebase/selectiveRebase":134,"./remote/clone":135,"./remote/fakeTeamwork":136,"./remote/fetch":137,"./remote/fetchArgs":138,"./remote/fetchRebase":139,"./remote/lockedMaster":140,"./remote/mergeManyFeatures":141,"./remote/pull":142,"./remote/pullArgs":143,"./remote/push":144,"./remote/pushArgs":145,"./remote/pushArgs2":146,"./remote/pushManyFeatures":147,"./remote/remoteBranches":148,"./remote/sourceNothing":149,"./remote/tracking":150}],115:[function(require,module,exports){
+exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"feature\":{\"target\":\"C2\",\"id\":\"feature\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C0\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"feature\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git branch feature c0;git checkout feature;git commit",
+  "name": {
+    "en_US": "branch-1",
+    "fr_FR": "branch-1"
+  },
+  "hint": {
+    "en_US": "",
+    "fr_FR": ""
+  }
+};
+
+},{}],116:[function(require,module,exports){
+exports.level = {
+  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C0\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git branch -d feature",
+  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"feature\":{\"target\":\"C2\",\"id\":\"feature\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C0\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "hint": {
+    "en_US": "Supprimer la branch feature",
+    "fr_FR": "Supprimer la branch feature"
+  },
+  "name": {
+    "en_US": "branch-delete",
+    "fr_FR": "branch-delete"
+  }
+};
+
+},{}],117:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch bugFix;git checkout bugFix",
@@ -72171,7 +72130,7 @@ exports.level = {
   }
 };
 
-},{}],116:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
@@ -72509,7 +72468,39 @@ exports.level = {
   }
 };
 
-},{}],117:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
+exports.level = {
+  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C9%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22feature%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22feature%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22fix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22fix%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22base%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22base%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C9%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C9%22%7D%7D%2C%22tags%22%3A%7B%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
+  "solutionCommand": "git commit;git commit;git checkout c1;git checkout -b feature;git commit;git commit;git checkout c2;git checkout -b fix;git commit;git branch base c1;git revert c2;git checkout feature;git commit;git checkout master;git commit;git commit",
+  "name": {
+    "en_US": "intro-final",
+    "fr_FR": "intro-final"
+  },
+  "hint": {
+    "en_US": "",
+    "fr_FR": ""
+  },
+  "startDialog": {
+    "en_US": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Objectifs", "", "On mélange un peu tout! ", "", "Créez toute les branch nécessaires, les commits dans le bon ordre.", "", "Le commit c2' représente l'annulation du commit c2. ", "", ""]
+        }
+      }]
+    },
+    "fr_FR": {
+      "childViews": [{
+        "type": "ModalAlert",
+        "options": {
+          "markdowns": ["## Objectifs", "", "On mélange un peu tout! ", "", "Créez toute les branch nécessaires, les commits dans le bon ordre.", "", "Le commit c2' représente l'annulation du commit c2. ", "", ""]
+        }
+      }]
+    }
+  }
+};
+
+},{}],120:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
@@ -72958,7 +72949,7 @@ exports.level = {
   }
 };
 
-},{}],118:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git checkout bugFix;git rebase master",
@@ -73406,7 +73397,7 @@ exports.level = {
   }
 };
 
-},{}],119:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C4\",\"id\":\"side\",\"remoteTrackingBranchID\":null},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"tags\":{\"v0\":{\"target\":\"C0\",\"id\":\"v0\",\"type\":\"tag\"},\"v1\":{\"target\":\"C3\",\"id\":\"v1\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit ",
@@ -73811,7 +73802,7 @@ exports.level = {
   }
 };
 
-},{}],120:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnosticWithAsserts": true,
   "goalAsserts": {
@@ -74114,7 +74105,7 @@ exports.level = {
   }
 };
 
-},{}],121:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 exports.level = {
   "disabledMap": {
     "git cherry-pick": true,
@@ -74148,20 +74139,20 @@ exports.level = {
     "vi": "Tung hứng commit"
   },
   "hint": {
-    "en_US": "The first command is git rebase -i HEAD~2",
-    "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
-    "fr_FR": "La première commande est git rebase -i HEAD~2",
-    "es_AR": "El primer comando es git rebase -i HEAD~2",
-    "es_ES": "El primer comando es git rebase -i HEAD~2",
-    "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
-    "gl": "O primeiro comando é git rebase -i HEAD~2",
-    "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
-    "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
-    "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
-    "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
-    "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
-    "uk": "Перша команда має бути git rebase -i HEAD~2",
-    "vi": "Lệnh đầu tiên là git rebase -i HEAD~2"
+    "en_US": "The first command is git rebase -i master",
+    "de_DE": "Der erste Befehl ist git rebase -i master",
+    "fr_FR": "La première commande est git rebase -i master",
+    "es_AR": "El primer comando es git rebase -i master",
+    "es_ES": "El primer comando es git rebase -i master",
+    "pt_BR": "O primeiro comando é git rebase -i master",
+    "gl": "O primeiro comando é git rebase -i master",
+    "ja": "最初に打つコマンドはgit rebase -i master",
+    "ko": "첫번째 명령은 git rebase -i master 입니다",
+    "zh_CN": "第一个命令是 `git rebase -i master`",
+    "zh_TW": "第一個命令是 'git rebase -i master'",
+    "ru_RU": "Первой командой должна быть git rebase -i master",
+    "uk": "Перша команда має бути git rebase -i master",
+    "vi": "Lệnh đầu tiên là git rebase -i master"
   },
   "startDialog": {
     "en_US": {
@@ -74349,7 +74340,7 @@ exports.level = {
   }
 };
 
-},{}],122:[function(require,module,exports){
+},{}],125:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
@@ -74695,7 +74686,7 @@ exports.level = {
   }
 };
 
-},{}],123:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{\"v1\":{\"target\":\"C2\",\"id\":\"v1\",\"type\":\"tag\"},\"v0\":{\"target\":\"C1\",\"id\":\"v0\",\"type\":\"tag\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git tag v1 side~1;git tag v0 master~2;git checkout v1",
@@ -75100,7 +75091,7 @@ exports.level = {
   }
 };
 
-},{}],124:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git cherry-pick C3 C4 C7",
@@ -75509,7 +75500,7 @@ exports.level = {
   }
 };
 
-},{}],125:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout C4",
@@ -76026,7 +76017,7 @@ exports.level = {
   }
 };
 
-},{}],126:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git rebase -i overHere --solution-ordering C3,C5,C4",
@@ -76089,7 +76080,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!"],
           "afterMarkdowns": ["Boom! Git copied down commits in the exact same way you specified through the UI"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76120,7 +76111,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Quand vous activez le bouton, une fenêtre de rebase interactif va s'ouvrir. Reordonnez quelques commits (ou supprimez-en certains) et regardez le résultat !"],
           "afterMarkdowns": ["Boum ! Git a copié les commits de la même manière que vous l'aviez spécifié."],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76151,7 +76142,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["當你按下按鈕的時候，一個互動式的 rebase 的視窗就會跳出來，重新排序一些 commit（大膽忽略掉某些 commit），然後看一下結果吧！"],
           "afterMarkdowns": ["看吧！ git 根據你所選擇的 commit，把它們複製了下來。"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76182,7 +76173,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["当你点击下面的按钮时，会出现一个交互对话框。对提交记录做个排序（当然你也可以删除某些提交），点击确定看结果"],
           "afterMarkdowns": ["Git 严格按照你在对话框中指定的方式进行了复制。"],
-          "command": "git rebase -i HEAD~4",
+          "command": "git rebase -i c1",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76213,7 +76204,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Cuando apretes el botón, va a aparecer una ventana de rebase interactivo. Reordená los commits (sentite libre de ignorar alguno, también) ¡y mirá el resultado!"],
           "afterMarkdowns": ["¡Boom! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76244,7 +76235,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Cuando aprietes el botón, va a aparecer una ventana de rebase interactivo. Reordena los commits (siéntete libre de ignorar alguno, también) ¡y observa el resultado!"],
           "afterMarkdowns": ["¡Zas! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76275,7 +76266,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Quando você clicar o botão, uma janela de rebase interativo se abrirá. Reordene alguns commits da forma como você preferir (ou sinta-se livre para desmarcar o `pick` de alguns) e veja o resultado!"],
           "afterMarkdowns": ["Boom! O Git copiou alguns commits exatamente da mesma forma que você os especificou na janela"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76306,7 +76297,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Cando pinches o botón, unha ventá de rebase interativo abrirase. Reordena algúns commits da forma que ti prefieras (ou se o prefires desmarca o `pick` de algúns) e mira o seu resultado!"],
           "afterMarkdowns": ["¡Veña! Git copiou algúns commits exatamente da mesma forma que o indicaches na ventá"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76337,7 +76328,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Wenn du die Schaltfläche anklickst wird sich der Rebase-Dialog öffnen. Veränder die Reihenfolge der Commits oder klick bei einigen auf `pick` und schau dir das Ergebnis an."],
           "afterMarkdowns": ["Bämm! Git hat die Commits genau so kopiert, wie du es ausgewählt hast."],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76368,7 +76359,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["ボタンを押せば、インタラクティブrebaseウィンドウが現れます。コミットの順番を変更したり、`pick`を外したりしてみて、その結果を見てみましょう！"],
           "afterMarkdowns": ["よっしゃー。gitがUIで指定されたようにコミットをコピーしました！"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76399,7 +76390,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["После нажатия на эту кнопку появится окно интерактивного rebase. Переставь несколько коммитов (или удали кое-какие) и посмотри, что получится в итоге!"],
           "afterMarkdowns": ["Бах! Git скопировал коммиты в точности так, как было указано через интерфейс!"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76430,7 +76421,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["버튼을 누르면 인터렉티브 리베이스 대화창이 뜰것 입니다. 커밋들의 순서를 바꿔보고(커밋을 빼 봐도 됩니다) 결과를 확인해봅시다!"],
           "afterMarkdowns": ["Boom! Git이 UI를 통해 명시한 그대로 커밋들을 복사했습니다."],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76461,7 +76452,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Коли ти натиснеш кнопку, відкриється вікно інтерактивного rebase. Перестав якісь коміти (можеш пропустити якісь якщо хочеш), і подивись що вийде!"],
           "afterMarkdowns": ["Ка-бум! Git cкопіював коміти відповідно до того що було вказано в UI"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76492,7 +76483,7 @@ exports.level = {
         "options": {
           "beforeMarkdowns": ["Khi bạn bấm nút, một cửa sổ tương tác rebase sẽ xuất hiện. Sắp xếp lại một vài commit (hoặc thậm chí bỏ qua một vài cái) và xem thử kết quả!"],
           "afterMarkdowns": ["BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI"],
-          "command": "git rebase -i HEAD~4 --aboveAll",
+          "command": "git rebase -i c1 --aboveAll",
           "beforeCommand": "git commit; git commit; git commit; git commit"
         }
       }, {
@@ -76505,7 +76496,7 @@ exports.level = {
   }
 };
 
-},{}],127:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout bugFix^",
@@ -77022,7 +77013,7 @@ exports.level = {
   }
 };
 
-},{}],128:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C0\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git branch -f master C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
@@ -77531,7 +77522,7 @@ exports.level = {
   }
 };
 
-},{}],129:[function(require,module,exports){
+},{}],132:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D",
   "solutionCommand": "git reset HEAD~1;git checkout pushed;git revert HEAD",
@@ -77979,7 +77970,7 @@ exports.level = {
   }
 };
 
-},{}],130:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 exports.level = {
   "compareOnlyMasterHashAgnostic": true,
   "disabledMap": {
@@ -78137,7 +78128,7 @@ exports.level = {
   }
 };
 
-},{}],131:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 exports.level = {
   "compareAllBranchesHashAgnostic": true,
   "disabledMap": {
@@ -78294,7 +78285,7 @@ exports.level = {
   }
 };
 
-},{}],132:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 exports.level = {
   "goalTreeString": '{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":"o/master"},"o/master":{"target":"C1","id":"o/master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"target":"C1","id":"master","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"}}}',
   "solutionCommand": "git clone",
@@ -78698,7 +78689,7 @@ exports.level = {
   }
 };
 
-},{}],133:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git fakeTeamwork 2;git commit ;git pull",
@@ -79145,7 +79136,7 @@ exports.level = {
   }
 };
 
-},{}],134:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/master\":{\"target\":\"C5\",\"id\":\"o/master\"},\"o/bugFix\":{\"target\":\"C7\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C5\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch",
@@ -79620,7 +79611,7 @@ exports.level = {
   }
 };
 
-},{}],135:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
@@ -80441,7 +80432,7 @@ exports.level = {
   }
 };
 
-},{}],136:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git clone;git fakeTeamwork;git commit;git pull --rebase;git push",
@@ -81504,7 +81495,7 @@ exports.level = {
   }
 };
 
-},{}],137:[function(require,module,exports){
+},{}],140:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"feature\":{\"target\":\"C2\",\"id\":\"feature\",\"remoteTrackingBranchID\":\"o/feature\"},\"o/feature\":{\"target\":\"C2\",\"id\":\"o/feature\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"feature\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"feature\":{\"target\":\"C2\",\"id\":\"feature\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git reset --hard o/master;git checkout -b feature C2; git push origin feature",
@@ -81577,7 +81568,7 @@ exports.level = {
   }
 };
 
-},{}],138:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C11\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git checkout master;git pull;git merge side1;git merge side2;git merge side3;git push",
@@ -81871,7 +81862,7 @@ exports.level = {
   }
 };
 
-},{}],139:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C3\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull",
@@ -82318,7 +82309,7 @@ exports.level = {
   }
 };
 
-},{}],140:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C2\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C2\",\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git pull origin bar:foo;git pull origin master:side",
@@ -82801,7 +82792,7 @@ exports.level = {
   }
 };
 
-},{}],141:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 exports.level = {
   "disabledMap": {
     "git fakeTeamwork": true
@@ -83138,7 +83129,7 @@ exports.level = {
   }
 };
 
-},{}],142:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C2\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C3\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"C0\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C3\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master;git push origin foo",
@@ -83624,7 +83615,7 @@ exports.level = {
   }
 };
 
-},{}],143:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin master^:foo;git push origin foo:master",
@@ -84107,7 +84098,7 @@ exports.level = {
   }
 };
 
-},{}],144:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22master%22%5D%7D%2C%22side1%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22side1%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side2%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22side2%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side3%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22side3%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git fetch;git rebase o/master side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 master;git push",
@@ -84443,7 +84434,7 @@ exports.level = {
   }
 };
 
-},{}],145:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git commit;git checkout o/master;git commit",
@@ -84848,7 +84839,7 @@ exports.level = {
   }
 };
 
-},{}],146:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 exports.level = {
   "disabledMap": {
     "git branch": true,
@@ -85270,7 +85261,7 @@ exports.level = {
   }
 };
 
-},{}],147:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git checkout -b side o/master;git commit;git pull --rebase;git push",
@@ -86039,4 +86030,4 @@ exports.level = {
   }
 };
 
-},{}]},{},[41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,77,78,79,80,81,82,83,84,85,86,87,88,89,91,90,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,70,72,71,73,74,75,76]);
+},{}]},{},[41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,77,78,79,80,81,82,83,84,85,86,87,88,89,91,90,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,70,72,71,73,74,75,76]);

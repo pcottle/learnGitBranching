@@ -4,30 +4,28 @@ exports.levelSequences = {
   intro: [
     require('./intro/commits').level,
     require('./intro/branching').level,
-    require('./intro/merging').level,
-    require('./intro/rebasing').level
+    require('./intro/branch-1').level,
+    require('./intro/branch-delete').level,
+    require('./rampup/reversingChanges').level,
+    require('./intro/intro-final').level
   ],
   rampup: [
-    require('./rampup/detachedHead').level,
-    require('./rampup/relativeRefs').level,
-    require('./rampup/relativeRefs2').level,
-    require('./rampup/reversingChanges').level
-  ],
-  move: [
+    require('./intro/merging').level,
+    require('./intro/rebasing').level,
     require('./rampup/cherryPick').level,
-    require('./rampup/interactiveRebase').level
-  ],
-  mixed: [
+    require('./rampup/interactiveRebase').level,
     require('./mixed/grabbingOneCommit').level,
     require('./mixed/jugglingCommits').level,
     require('./mixed/jugglingCommits2').level,
     require('./mixed/tags').level,
-    require('./mixed/describe').level
-  ],
-  advanced: [
     require('./rebase/manyRebases').level,
-    require('./advanced/multipleParents').level,
     require('./rebase/selectiveRebase').level
+  ],
+  move: [
+    require('./rampup/detachedHead').level,
+    require('./rampup/relativeRefs').level,
+    require('./rampup/relativeRefs2').level,
+    require('./advanced/multipleParents').level,
   ],
   remote: [
     require('./remote/clone').level,
@@ -225,74 +223,6 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Chỉnh sửa cây lịch sử Git không hề khó'
     }
   },
-  mixed: {
-    displayName: {
-      'en_US': 'A Mixed Bag',
-      'de_DE': 'Ein Kessel Buntes',
-      'ja'   : '様々なtips',
-      'fr_FR': 'Un assortiment',
-      'es_AR': 'Bolsa de gatos',
-      'es_ES': 'Un poco de todo',
-      'pt_BR': 'Sortidos',
-      'gl'   : 'Todo mesturado',
-      'ko'   : '종합선물세트',
-      'zh_CN': '杂项',
-      'zh_TW': '活用 git 的指令',
-      'ru_RU': 'Сборная солянка',
-      'uk'   : 'Всяке',
-      'vi'   : 'Những trò mèo đáng đồng tiền bát gạo'
-    },
-    about: {
-      'en_US': 'A mixed bag of Git techniques, tricks, and tips',
-      'de_DE': 'Eine bunte Mischung von Techniken, Tipps und Tricks',
-      'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
-      'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
-      'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
-      'es_ES': 'Un batiburrillo de técnicas, trucos y sugerencias sobre Git',
-      'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
-      'gl'   : 'Mestura de técnicas, trucos e consellos',
-      'ko'   : 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git 技术、技巧与贴士大集合',
-      'zh_TW': 'git 的技術，招數與技巧',
-      'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
-      'uk'   : 'Різні прийоми роботи з Git, хитрощі та поради',
-      'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích'
-    }
-  },
-  advanced: {
-    displayName: {
-      'en_US': 'Advanced Topics',
-      'de_DE': 'Themen für Fortgeschrittene',
-      'ja'   : '上級トピック',
-      'fr_FR': 'Sujets avancés',
-      'es_AR': 'Temas avanzados',
-      'es_ES': 'Temas avanzados',
-      'pt_BR': 'Temas avançados',
-      'gl'   : 'Temas avanzados',
-      'zh_CN': '高级话题',
-      'zh_TW': '進階主題',
-      'ru_RU': 'Продвинутый уровень',
-      'uk'   : 'Досвідчений рівень',
-      'ko'   : '고급 문제',
-      'vi'   : 'Các chủ đề nâng cao'
-    },
-    about: {
-      'en_US': 'For the truly brave!',
-      'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
-      'ja'   : '勇気ある人のみ！',
-      'fr_FR': 'Pour les plus courageux !',
-      'es_AR': '¡Para los verdaderos valientes!',
-      'es_ES': '¡Para los verdaderos valientes!',
-      'pt_BR': 'Para os verdadeiros valentes!',
-      'gl'   : '¡Para os verdadeiros valerosos!',
-      'zh_CN': '只为真正的勇士！',
-      'zh_TW': '來成為真正的強者吧！',
-      'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
-      'uk'   : 'Для хоробрих',
-      'ko'   : '용기있는 도전자를 위해 준비한 문제입니다',
-      'vi'   : 'Mạnh mẽ lên!'
-    }
-  }
 };
 
 exports.getTabForSequence = function(sequenceName) {

@@ -90,7 +90,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Git copied down commits in the exact same way you specified through the UI"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -155,7 +155,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boum ! Git a copié les commits de la même manière que vous l'aviez spécifié."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -220,7 +220,7 @@ exports.level = {
             "afterMarkdowns": [
               "看吧！ git 根據你所選擇的 commit，把它們複製了下來。"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -285,7 +285,7 @@ exports.level = {
             "afterMarkdowns": [
               "Git 严格按照你在对话框中指定的方式进行了复制。"
             ],
-            "command": "git rebase -i HEAD~4",
+            "command": "git rebase -i c1",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -350,7 +350,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -415,7 +415,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Zas! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -480,7 +480,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! O Git copiou alguns commits exatamente da mesma forma que você os especificou na janela"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -545,7 +545,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Veña! Git copiou algúns commits exatamente da mesma forma que o indicaches na ventá"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -610,7 +610,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bämm! Git hat die Commits genau so kopiert, wie du es ausgewählt hast."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -675,7 +675,7 @@ exports.level = {
             "afterMarkdowns": [
               "よっしゃー。gitがUIで指定されたようにコミットをコピーしました！"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -740,7 +740,7 @@ exports.level = {
             "afterMarkdowns": [
               "Бах! Git скопировал коммиты в точности так, как было указано через интерфейс!"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -805,7 +805,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Git이 UI를 통해 명시한 그대로 커밋들을 복사했습니다."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -870,7 +870,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ка-бум! Git cкопіював коміти відповідно до того що було вказано в UI"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
@@ -935,7 +935,7 @@ exports.level = {
             "afterMarkdowns": [
               "BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
+            "command": "git rebase -i c1 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
           }
         },
