@@ -6,13 +6,15 @@ exports.level = {
     "en_US": "Make the feature branch from the local master before resetting it back to be the same as origin's master",
     "ru_RU": "Создайте новую feature ветвь от master перед тем, как откатить изменения в master до состояния o/master.",
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
-    "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen"
+    "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
+    "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요."  
   },
   "name": {
     "en_US": "Locked Master",
     "ru_RU": "Заблокированная ветвь master",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
+    "ko"   : "잠겨버린 Master"
   },
   "startDialog": {
     "en_US": {
@@ -179,6 +181,46 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 원격저장소 거부! (Remote Rejected!)",
+              "",
+              "규모가 큰 개발팀에서 일하는 경우, 보통 원격저장소의 `master` 브랜치는 잠겨있습니다(locked). 그래서 변경사항을 적용하려면 pull request 과정을 거쳐야하죠. 만약에 여러분이 로컬 저장소의 `master`브랜치에서 커밋을 한 후 `push`하려고 시도한다면, 다음과 같은 오류를 받게 될겁니다. :",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 왜 거부됐나요?",
+              "",
+              "원격 저장소는 자신의 `master` 브랜치에 대한 직접적인 커밋을 제한합니다. 왜냐하면 `push` 대신에 pull request가 쓰여야 한다는 규칙이 원격 저장소의 `master` 브랜치에는 적용되어 있기 때문이죠.",
+              "",
+              "여러분은 브랜치를 따로 만들어 작업한 다음, 그것을 `push`하고 pull request를 하려 했습니다. 하지만 그걸 잊고 실수로 `master` 브랜치에서 직접 커밋을 해버렸네요! 이제 변경 사항을 `push` 하지도 못하고 옴짝달싹 못하는 상황이 되어버렸습니다."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 해결책",
+              "",
+              "`feature` 라는 이름의 다른 브랜치를 만들어 원격 저장소에 `push` 하세요. 그리고 원격 저장소와 동기화될 수 있도록 로컬 저장소의 `master` 브랜치를 `reset`하세요. 그렇지 않으면 여러분이 다음에 `pull`을 시도할 때 문제가 발생하거나, 다른 협업자들의 커밋이 여러분의 커밋과 충돌할 수도 있습니다."
+            ]
+          }
+        }
+      ]
+    },
   }
 };
