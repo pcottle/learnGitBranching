@@ -1,54 +1,33 @@
-var sys = require('sys');
+var { join } = require('path');
+var { readFileSync } = require('fs');
+
 var util = require('../util');
-var child_process = require('child_process');
-var strings = require('../intl/strings').strings;
+var { strings } = require('../intl/strings');
 
-var searchCommand = 'grep -C 2 -r "intl.str(" ../../';
-var genBadKeyCommand = function(key) {
-  return 'grep -r "' + key + '" ../../';
-};
+var easyRegex = /intl\.str\(\s*'([a-zA-Z\-]+)'/g;
 
-var easyRegex = /intl.str\('([a-zA-Z\-]+)'/g;
-var hardRegex = /\s+'([a-z\-]+)',/g;
+var allKetSet = new Set(Object.keys(strings));
+allKetSet.delete('error-untranslated'); // used in ./index.js
 
-var findKey = function(badKey) {
-  child_process.exec(genBadKeyCommand(badKey), function(err, output) {
-    console.log(output);
-  });
-};
-
-var goodKeys = 0;
+var goodKeySet = new Set();
 var validateKey = function(key) {
   if (!strings[key]) {
     console.log('NO KEY for: "', key, '"');
-    findKey(key);
   } else {
-    goodKeys++;
+    goodKeySet.add(key);
+    allKetSet.delete(key);
   }
 };
 
-var processLines = function(lines) {
-  lines.forEach(function(line) {
-    var results = easyRegex.exec(line);
-    if (results && results[1]) {
-      validateKey(results[1]);
-      return;
-    }
-    // could be a multi-liner
-    results = hardRegex.exec(line);
-    if (results && results[1]) {
-      validateKey(results[1]);
+if (!util.isBrowser()) {
+  util.readDirDeep(join(__dirname, '../../')).forEach(function(path) {
+    var content = readFileSync(path);
+    var match;
+    while (match = easyRegex.exec(content)) {
+      validateKey(match[1]);
     }
   });
-};
-
-if (!util.isBrowser()) {
-  child_process.exec(
-    searchCommand,
-    function(err, output) {
-      processLines(output.split('\n'));
-      console.log(goodKeys + ' good keys found!');
-    }
-  );
+  console.log(goodKeySet.size, ' good keys found!');
+  console.log(allKetSet.size, ' keys did not use!');
+  console.log(allKetSet);
 }
-
