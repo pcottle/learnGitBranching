@@ -71,4 +71,4 @@ exports.readDirDeep = function(dir) {
     }
   });
   return paths;
-}
+};
