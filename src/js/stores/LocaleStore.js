@@ -2,6 +2,7 @@
 
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
+var util = require('../util');
 var EventEmitter = require('events').EventEmitter;
 
 var ActionTypes = AppConstants.ActionTypes;
@@ -84,6 +85,7 @@ AppConstants.StoreSubscribePrototype,
   dispatchToken: AppDispatcher.register(function(payload) {
     var action = payload.action;
     var shouldInform = false;
+    var oldLocale = _locale;
 
     switch (action.type) {
       case ActionTypes.CHANGE_LOCALE:
@@ -97,6 +99,12 @@ AppConstants.StoreSubscribePrototype,
           shouldInform = true;
         }
         break;
+    }
+
+    if (util.isBrowser() && oldLocale !== _locale) {
+      var url = new URL(document.location.href);
+      url.searchParams.set('locale', _locale);
+      window.history.replaceState({}, '', url.href);
     }
 
     if (shouldInform) {
