@@ -860,7 +860,7 @@ exports.level = {
         }
       ]
     },
-	"ko": {
+  "ko": {
       "childViews": [
         {
           "type": "ModalAlert",

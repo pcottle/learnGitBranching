@@ -12,5 +12,5 @@ cache:
     - "node_modules"
 script:
   - ./checkgit.sh "Source files were modified before build; is yarn.lock out of sync with package.json?" || travis_terminate $?
-  - yarn grunt
+  - yarn gulp
   - ./checkgit.sh "Source files were modified by the build" || travis_terminate $?

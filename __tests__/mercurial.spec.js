@@ -4,7 +4,7 @@ var expectTreeAsync = base.expectTreeAsync;
 describe('Mercurial', function() {
   var assert = function(msg, command, tree) {
     it(msg, function() {
-      expectTreeAsync(command, tree);
+      return expectTreeAsync(command, tree);
     });
   };
 
@@ -63,4 +63,3 @@ describe('Mercurial', function() {
   );
 
 });
-
