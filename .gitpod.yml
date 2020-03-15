@@ -4,6 +4,6 @@ ports:
 tasks:
 - init: yarn install
   command: >
-    yarn grunt fastBuild &&
-    printf "\nWelcome to Learn Git Branching\nTo rebuild the app, simply run 'yarn grunt fastBuild' and reload index.html.\n\n" &&
+    yarn gulp fastBuild &&
+    printf "\nWelcome to Learn Git Branching\nTo rebuild the app, simply run 'yarn gulp fastBuild' and reload index.html.\n\n" &&
     python3 -m http.server 8000 2>/dev/null

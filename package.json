@@ -6,7 +6,7 @@
   "author": "Peter Cottle <petermcottle@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "grunt test"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
