@@ -139,7 +139,7 @@ exports.dialog = {
       markdowns: [
         '## 훌륭합니다!!',
         '',
-        '*{numCommands}*개의 명렁으로 레벨을 통과했습니다.; ',
+        '*{numCommands}*개의 명렁으로 레벨을 통과했습니다; ',
         '모범 답안은 {best}개를 사용합니다.'
       ]
     }
@@ -150,7 +150,7 @@ exports.dialog = {
       markdowns: [
         '## Làm tốt lắm!!',
         '',
-        'Bạn hoàn thành cấp độ này với *{numCommands}* câu lệnh.; ',
+        'Bạn hoàn thành cấp độ này với *{numCommands}* câu lệnh; ',
         'Đáp án của chúng tôi sử dụng {best}.'
       ]
     }
