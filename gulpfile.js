@@ -10,6 +10,7 @@ var gHash = require('gulp-hash');
 var gClean = require('gulp-clean');
 var gTerser = require('gulp-terser');
 var gJasmine = require('gulp-jasmine');
+var { SpecReporter } = require('jasmine-spec-reporter');
 var gJshint = require('gulp-jshint');
 
 var source = require('vinyl-source-stream');
@@ -148,9 +149,12 @@ var style = function() {
 
 var jasmine = function() {
   return src('__tests__/*.spec.js')
-    .pipe(gJasmine({ config: {
-      random: false,
-    }
+    .pipe(gJasmine({
+      config: {
+        verbose: true,
+        random: false,
+      },
+      reporter: new SpecReporter(),
   }));
 };
 

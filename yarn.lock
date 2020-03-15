@@ -935,6 +935,11 @@ colors@1.0.x:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
+colors@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/colors/-/colors-1.1.2.tgz#168a4701756b6a7f51a12ce0c97bfa28c084ed63"
+  integrity sha1-FopHAXVran9RoSzgyXv6KMCE7WM=
+
 colors@^1.1.2:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
@@ -1953,11 +1958,6 @@ gulp-cli@^2.2.0:
     v8flags "^3.0.1"
     yargs "^7.1.0"
 
-gulp-hash-filename@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/gulp-hash-filename/-/gulp-hash-filename-3.0.0.tgz#e9820fb7a20f3cd16a720413be7485aaee1782b9"
-  integrity sha512-wAtigX+faOEl/cQJCJ/pcY6mKSS2cGkoCT1FopUqjakM6AKYe1WuYEht0wcWTNinJGxj6m1tKMEMZUWhO0MD5Q==
-
 gulp-hash@^4.2.2:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/gulp-hash/-/gulp-hash-4.2.2.tgz#2cf4ad081ef7a65393a51e3df58f514f388f4523"
@@ -2499,6 +2499,13 @@ jasmine-core@~3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.5.0.tgz#132c23e645af96d85c8bca13c8758b18429fc1e4"
   integrity sha512-nCeAiw37MIMA9w9IXso7bRaLl+c/ef3wnxsoSAlYrzS+Ot0zTG6nU8G/cIfGkqpkjX2wNaIW9RFG0TwIFnG6bA==
+
+jasmine-spec-reporter@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/jasmine-spec-reporter/-/jasmine-spec-reporter-4.2.1.tgz#1d632aec0341670ad324f92ba84b4b32b35e9e22"
+  integrity sha512-FZBoZu7VE5nR7Nilzy+Np8KuVIOxF4oXDPDknehCYBDE080EnlPu0afdZNmpGDBRCUBv3mj5qgqCRmk6W/K8vg==
+  dependencies:
+    colors "1.1.2"
 
 jasmine-terminal-reporter@^1.0.3:
   version "1.0.3"
