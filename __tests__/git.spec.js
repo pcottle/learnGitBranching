@@ -1,3 +1,4 @@
+var intl = require('../src/js/intl')
 var base = require('./base');
 var expectTreeAsync = base.expectTreeAsync;
 var runCommand = base.runCommand;
@@ -294,7 +295,13 @@ describe('Git', function() {
 
     it('requires at least 1 argument', function() {
       return runCommand('git rev-list', function(commandMsg) {
-        expect(commandMsg).toContain('at least 1');
+        expect(commandMsg).toEqual(intl.str(
+          'git-error-args-few',
+          {
+            lower: 1,
+            what: 'with git rev-list'
+          }
+        ));
       });
     });
 
