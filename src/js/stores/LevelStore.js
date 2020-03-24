@@ -5,6 +5,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var levelSequences = require('../../levels').levelSequences;
 var sequenceInfo = require('../../levels').sequenceInfo;
+var util = require('../util');
 
 var ActionTypes = AppConstants.ActionTypes;
 var SOLVED_MAP_STORAGE_KEY = 'solvedMap';
@@ -12,6 +13,29 @@ var SOLVED_MAP_STORAGE_KEY = 'solvedMap';
 var _levelMap = {};
 var _solvedMap = {};
 var _sequences = [];
+
+if (!util.isBrowser()) {
+  // https://stackoverflow.com/a/26177872/6250402
+  var storage = {};
+  var localStorage = {
+    setItem: function(key, value) {
+      storage[key] = value || '';
+    },
+    getItem: function(key) {
+      return key in storage ? storage[key] : null;
+    },
+    removeItem: function(key) {
+      delete storage[key];
+    },
+    get length() {
+      return Object.keys(storage).length;
+    },
+    key: function(i) {
+      const keys = Object.keys(storage);
+      return keys[i] || null;
+    }
+  };
+}
 
 try {
   _solvedMap = JSON.parse(
