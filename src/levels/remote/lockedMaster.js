@@ -7,6 +7,7 @@ exports.level = {
     "ru_RU": "Создайте новую feature ветвь от master перед тем, как откатить изменения в master до состояния o/master.",
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
+    "fr_FR": "Créer la branche feature à partir du master local, avant de la restaurer dans le même état que o/master",
     "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요."  
   },
   "name": {
@@ -14,6 +15,7 @@ exports.level = {
     "ru_RU": "Заблокированная ветвь master",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
+    "fr_FR": "Master verrouillé",
     "ko"   : "잠겨버린 Master"
   },
   "startDialog": {
@@ -177,6 +179,46 @@ exports.level = {
               "## The solution",
               "",
               "Crea otra rama llamada `feature` y haz `push` a remoto. También restablece su rama `master` nuevamente para que esté sincronizado con el repositorio remoto; de lo contrario, puedes tener problemas la próxima vez que realices un `pull` y el `commit` de otra persona entre en conflicto con el tuyo."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Rejected!",
+              "",
+              "Si vous travaillez dans une équipe de grande taille, il est probable que `master` soit verrouillée, et que le mécanisme de `Pull Request` soit nécessaire pour `merge` des changements. Si vous faites un `commit` directement sur le master local, et essayez de `push`, vous serez reçu avec un message de la sorte :",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pourquoi est-ce rejeté?",
+              "",
+              "Le dépôt distant a rejeté le `push` de `commit` directement sur `master`, à cause de la stratégie mise en place sur `master`, imposant plutôt l'usage des `pull requests`.",
+              "",
+              "Vous étiez censé suivre le processus suivant : créer une branche, `push`, et faire une `pull request`. Mais vous avez oublié et avez fait un `commit` directement sur `master`. Maintenant vous êtes coincé et ne pouvez pas faire un `push` de vos modifications."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## La solution",
+              "",
+              "Créer une autre branche appelée feature, et poussez la sur le serveur distant. Réinitialisez (`reset`) également votre `master` pour être en cohérence avec l'état du serveur distant, sinon vous pourriez avoir des problèmes la prochaine fois que vous faites un `pull`, et que quelqu'un d'autre `commit` des choses en conflit avec vos modifications."
             ]
           }
         }
