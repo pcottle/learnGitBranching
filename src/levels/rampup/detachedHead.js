@@ -14,7 +14,7 @@ exports.level = {
     "de_DE": "Den Kopf abtrennen",
     "ja"   : "HEADの分離",
     "ru_RU": "Теряем голову, или detached HEAD",
-	  "ko"   : "HEAD 분리하기",
+    "ko"   : "HEAD 분리하기",
     "uk": "Втрачаємо голову чи detached HEAD",
     'vi': "Tháo đầu cái nào"
   },
@@ -889,7 +889,7 @@ exports.level = {
         }
       ]
     },
-	"ko": {
+  "ko": {
       "childViews": [
         {
           "type": "ModalAlert",

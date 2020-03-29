@@ -7,10 +7,9 @@ describe('GitEngine Levels', function() {
       var levels = sequences[sequenceKey];
       Object.keys(levels).forEach(function(index) {
         var levelBlob = levels[index];
-        console.log('testing level', levelBlob.name.en_US);
+        // console.log('testing level', levelBlob.name.en_US);
         base.expectLevelSolved(levelBlob);
       }.bind(this));
     });
   });
 });
-

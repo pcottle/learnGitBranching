@@ -32,61 +32,21 @@ var expectLevelAsync = function(headless, levelBlob) {
     return;
   }
 
-  var hasWarned = false;
-  var start;
-  runs(function() {
-    start = Date.now();
-    headless.sendCommand(command);
+  return headless.sendCommand(command).then(function() {
+    expect(compareLevelTree(headless, levelBlob)).toBeTruthy();
   });
-  waitsFor(function() {
-    var diff = (Date.now() - start);
-    if (diff > TIME - 10 && !hasWarned) {
-      hasWarned = true;
-      console.log('this goal tree', loadTree(levelBlob.goalTreeString));
-      console.log('not going to match with command', command);
-      console.log(getHeadlessSummary(headless));
-    }
-    var result = compareLevelTree(headless, levelBlob);
-    if (result) {
-      console.log('solved level ' + levelBlob.name.en_US);
-    }
-    return result;
-  }, 'trees should be equal', TIME);
 };
 
 var expectTreeAsync = function(command, expectedJSON, startJSON) {
   var headless = new HeadlessGit();
-  var start = Date.now();
-  var haveReported = false;
 
   if (startJSON) {
     headless.gitEngine.loadTreeFromString(startJSON);
   }
 
-  runs(function() {
-    headless.sendCommand(command);
+  return headless.sendCommand(command).then(function() {
+    expect(compareAnswer(headless, expectedJSON)).toBeTruthy();
   });
-  waitsFor(function() {
-    var diff = (Date.now() - start);
-    if (diff > TIME - 40 && !haveReported) {
-      haveReported = true;
-      var expected = loadTree(expectedJSON);
-      console.log('not going to match', command);
-      console.log('expected\n>>>>>>>>\n', expected);
-      console.log('\n<<<<<<<<<<<\nactual', getHeadlessSummary(headless));
-      console.log('\n<<<<ORIGIN>>>>>\n');
-      if (expected.originTree) {
-        console.log('expected origin tree:');
-        console.log(expected.originTree);
-        console.log('\n=========\n');
-        console.log('actual origin tree');
-        console.log(getHeadlessSummary(headless).originTree);
-      }
-      console.log(expectedJSON);
-      console.log(JSON.stringify(getHeadlessSummary(headless)));
-    }
-    return compareAnswer(headless, expectedJSON);
-  }, 'trees should be equal', 500);
 };
 
 var expectLevelSolved = function(levelBlob) {
@@ -102,20 +62,12 @@ var runCommand = function(command, resultHandler) {
   var deferred = Q.defer();
   var msg = null;
 
-  deferred.promise.then(function(commands) {
-    msg = commands[commands.length - 1].get('error').get('msg');
+  return headless.sendCommand(command, deferred).then(function() {
+    return deferred.promise.then(function(commands) {
+      msg = commands[commands.length - 1].get('error').get('msg');
+      resultHandler(msg);
+    });
   });
-
-  runs(function() {
-    headless.sendCommand(command, deferred);
-  });
-  waitsFor(function() {
-    if(null == msg) {
-      return false;
-    }
-    resultHandler(msg);
-    return true;
-  }, 'commands should be finished', 500);
 };
 
 var TIME = 150;
@@ -131,4 +83,3 @@ module.exports = {
   ONE_COMMIT_TREE: ONE_COMMIT_TREE,
   runCommand: runCommand
 };
-

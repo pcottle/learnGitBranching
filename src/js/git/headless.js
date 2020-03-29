@@ -138,8 +138,8 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
     console.log('!!!!!!!!!!!!!!!!!!!!!!');
   });
   deferred.resolve();
+  return chain;
 };
 
 exports.HeadlessGit = HeadlessGit;
 exports.getTreeQuick = getTreeQuick;
-
