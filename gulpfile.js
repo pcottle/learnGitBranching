@@ -39,10 +39,8 @@ var indexFile = readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
 
 var compliments = [
-  'Wow peter great work!',
-  'Such a professional dev environment',
-  'Can\'t stop the TRAIN',
-  'git raging'
+  'Thanks to Hongarc for the modern and amazing gulp workflow!',
+  'I hope you all have a great day :)'
 ];
 var compliment = (done) => {
   var index = Math.floor(Math.random() * compliments.length);
