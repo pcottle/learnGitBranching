@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
     "en_US": "Make the feature branch from the local master before resetting it back to be the same as origin's master",
+    "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Master-Branch, bevor du den Master-Branch auf den origin/master zurücksetzt.",
     "ru_RU": "Создайте новую feature ветвь от master перед тем, как откатить изменения в master до состояния o/master.",
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
@@ -12,6 +13,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Locked Master",
+    "de_DE": "Gesperrter Master-Branch",
     "ru_RU": "Заблокированная ветвь master",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
@@ -59,6 +61,46 @@ exports.level = {
         }
       ]
     },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Gesperrter Master-Branch",
+              "",
+              "Wenn du in einem großen Team zusammen arbeitest, ist der Master-Branch mit hoher Wahrscheinlichkeit für direkte Änderungen gesperrt. Um Änderungen am Remote-Branch einpflegen zu können, ist ein Pull-Request-Prozess notwendig. Wenn du lokal in deinem Master-Branch einen Commit durchführst und diesen versuchst auf den serverseitigen Master-Branch zu pushen, wirst du folgende Fehlermeldung bekommen:",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Wieso wurde diese Aktion zurückgewiesen?",
+              "",
+              "Auf Grund der serverseitig voreingestellten Richtlinien sind direkte Änderungen am Master-Branch nicht erlaubt, und erfordert einen Pull-Request.",
+              "",
+              "Um die eigenen lokalen Änderungen in den Master-Branch einbringen zu können, ist es erforderlich einen lokalen Feature-Branch zu erstellen. Dieser Feature-Branch muss dann auf den Server hochgeladen werden, damit dann ein Pull-Request eingeleitet werden kann. Dies wurde vorher durch den direkten Push des Master-Branch nicht berücksichtigt, weswegen man die Änderungen nicht hochladen konnte."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Die Lösung",
+              "",
+              "Erstelle einen Branch der feature heißt und pushe diesen auf den Server. Setze den lokalen Master-Branch zurück, dass er mit dem Origin-Master-Branch synchron ist. Dies könnte sonst später zu weiteren Komplikationen führen, wenn weiter pulls durchgeführt und Commits von anderen mit deinen in Konflikt stehen."
+            ]
+          }
+        }
+      ]
+    },  
     "zh_CN": {
         "childViews": [
         {
