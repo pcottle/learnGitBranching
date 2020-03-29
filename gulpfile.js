@@ -161,6 +161,20 @@ var gitAdd = function(done) {
   done();
 };
 
+var gitDeployMergeMaster = function(done) {
+  execSync('git checkout gh-pages && git merge master -m "merge master"');
+  done();
+};
+
+var gitDeployPushOrigin = function(done) {
+  execSync('git commit -am "rebuild for prod" && ' +
+    'git push origin gh-pages && ' +
+    'git branch -f trunk gh-pages && ' +
+    'git checkout master'
+  );
+  done();
+}
+
 var fastBuild = series(clean, ifyBuild, style, buildIndexDev, jshint);
 
 var build = series(
@@ -168,7 +182,17 @@ var build = series(
   miniBuild, style, buildIndexProd,
   gitAdd, jasmine, jshint,
   lintStrings, compliment
-  );
+);
+
+var deploy = series(
+  clean,
+  jasmine,
+  jshint,
+  gitDeployMergeMaster,
+  build,
+  gitDeployPushOrigin,
+  compliment,
+);
 
 var lint = series(jshint, compliment);
 
@@ -189,4 +213,5 @@ module.exports = {
   watching,
   build,
   test: jasmine,
+  deploy,
 };
