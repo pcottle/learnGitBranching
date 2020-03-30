@@ -3,7 +3,7 @@ var ReactDOM = require('react-dom');
 var PropTypes = require('prop-types');
 
 var reactUtil = require('../util/reactUtil');
-var keyMirror = require('fbjs/lib/keyMirror');
+var keyMirror = require('../util/keyMirror');
 
 var STATUSES = keyMirror({
   inqueue: null,
