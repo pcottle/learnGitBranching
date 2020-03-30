@@ -30,6 +30,7 @@
     "jasmine-spec-reporter": "^4.2.1",
     "jshint": "^2.11.0",
     "prompt": "^1.0.0",
+    "tinyify": "^2.5.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0"
   },

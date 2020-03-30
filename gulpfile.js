@@ -101,16 +101,24 @@ var buildIndexDev = function(done) {
   done();
 };
 
-var getBundle = function() {
-  return browserify({
+var getBundle = function(isProd) {
+  var chain = browserify({
     entries: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.jsx')],
     debug: true,
-  })
-  .transform(babelify, { presets: ['@babel/preset-react'] })
+  });
+  if (isProd) {
+    chain = chain.plugin('tinyify');
+  }
+
+  chain = chain.transform(babelify, { presets: ['@babel/preset-react'] })
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(buffer())
   .pipe(gHash());
+  if (isProd) {
+    chain = chain.pipe(gTerser());
+  }
+  return chain.pipe(dest(destDir));
 };
 
 var clean = function () {
@@ -129,14 +137,11 @@ var jshint = function() {
 };
 
 var ifyBuild = function() {
-  return getBundle()
-    .pipe(dest(destDir));
+  return getBundle();
 };
 
 var miniBuild = function() {
-  return getBundle()
-    .pipe(gTerser())
-    .pipe(dest(destDir));
+  return getBundle(true);
 };
 
 var style = function() {
