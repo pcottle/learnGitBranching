@@ -2026,21 +2026,19 @@ GitEngine.prototype.idSortFunc = function(cA, cB) {
     throw new Error('Could not parse commit ID ' + id);
   };
 
+  // We usually want to sort by reverse chronological order, aka the
+  // "latest" commits have the highest values. When we did this
+  // with date sorting, that means the commit C1 at t=0 should have
+  // a lower value than the commit C2 at t=1. We do this by doing
+  // t0 - t1 and get a negative number. Same goes for ID sorting,
+  // which means C1 - C2 = -1
   return getNumToSort(cA.get('id')) - getNumToSort(cB.get('id'));
 };
 
 GitEngine.prototype.dateSortFunc = function(cA, cB) {
-  var dateA = new Date(cA.get('createTime'));
-  var dateB = new Date(cB.get('createTime'));
-  if (dateA - dateB === 0) {
-    // hmmmmm this still needs fixing. we need to know basically just WHEN a commit was created, but since
-    // we strip off the date creation field, when loading a tree from string this fails :-/
-    // there's actually no way to determine it...
-    //c.warn('WUT it is equal');
-    //c.log(cA, cB);
-    return GitEngine.prototype.idSortFunc(cA, cB);
-  }
-  return dateA - dateB;
+  // We used to use date sorting, but its hacky so lets switch to ID sorting
+  // to eliminate non-determinism
+  return GitEngine.prototype.idSortFunc(cA, cB);
 };
 
 GitEngine.prototype.hgRebase = function(destination, base) {
