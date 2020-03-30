@@ -173,7 +173,7 @@ var gitDeployPushOrigin = function(done) {
     'git checkout master'
   );
   done();
-}
+};
 
 var fastBuild = series(clean, ifyBuild, style, buildIndexDev, jshint);
 
@@ -191,7 +191,7 @@ var deploy = series(
   gitDeployMergeMaster,
   build,
   gitDeployPushOrigin,
-  compliment,
+  compliment
 );
 
 var lint = series(jshint, compliment);

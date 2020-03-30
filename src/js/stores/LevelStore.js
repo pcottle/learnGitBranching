@@ -35,6 +35,8 @@ if (!util.isBrowser()) {
       return keys[i] || null;
     }
   };
+} else {
+  var localStorage = window.localStorage;
 }
 
 try {
