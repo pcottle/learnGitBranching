@@ -134,6 +134,7 @@ var ifyBuild = function() {
 };
 
 var miniBuild = function() {
+  process.env.NODE_ENV = 'production';
   return getBundle()
     .pipe(gTerser())
     .pipe(dest(destDir));
