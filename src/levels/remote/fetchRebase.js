@@ -308,7 +308,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Cette succession de fetch, rebase/merge, et push est assez commune. Dans les leçons suivantes, nous explorerons cette façon de d'enchaîner les commandes dans des conditions plus complexes, mais pour le moment appliquons ce principe de façon classique.",
+              "Cette succession de fetch, rebase/merge, et push est assez commune. Dans les leçons suivantes, nous explorerons cette façon d'enchaîner les commandes dans des conditions plus complexes, mais pour le moment appliquons ce principe de façon classique.",
               "",
               "Pour finir ce niveau, réalisez les étapes suivantes :",
               "",
