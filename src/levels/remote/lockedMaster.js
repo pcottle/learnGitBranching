@@ -10,7 +10,8 @@ exports.level = {
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
     "fr_FR": "Créer la branche feature à partir du master local, avant de la restaurer dans le même état que o/master",
     "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요.",
-    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master."
+    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master.",
+    "es_AR": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen"
   },
   "name": {
     "en_US": "Locked Master",
@@ -20,7 +21,8 @@ exports.level = {
     "es_ES": "Master bloqueado",
     "fr_FR": "Master verrouillé",
     "ko"   : "잠겨버린 Master",
-    "sl_SI": "Zaklenjen Master"
+    "sl_SI": "Zaklenjen Master",
+    "es_AR": "Master bloqueado"
   },
   "startDialog": {
     "en_US": {
@@ -195,7 +197,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Si trabajas en un equipo colaborativo, es probable que la rama `master` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master e intentas realizar `push`, recibirás un mensaje similar a este:",
+              "Si trabajas en un equipo colaborativo, es probable que la rama `master` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master` e intentas realizar `push`, recibirás un mensaje similar a este:",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -209,9 +211,9 @@ exports.level = {
             "markdowns": [
               "## ¿Por qué fue rechazado?",
               "",
-              + "Se rechazó el `push` del `commit` a la rama `master` debido a la política en la rama `master` que requiere el uso de `Pull Requests`.",
+              "Se rechazó el `push` del `commit` a la rama `master` debido a la política en la rama `master` que requiere el uso de `Pull Requests`.",
               "",
-              "Trataste de crear una rama y luego hacer `pushs` creando una `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `master`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
+              "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `master`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
 
             ]
           }
@@ -220,7 +222,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## The solution",
+              "## La solución",
               "",
               "Crea otra rama llamada `feature` y haz `push` a remoto. También restablece su rama `master` nuevamente para que esté sincronizado con el repositorio remoto; de lo contrario, puedes tener problemas la próxima vez que realices un `pull` y el `commit` de otra persona entre en conflicto con el tuyo."
             ]
@@ -303,6 +305,46 @@ exports.level = {
               "## 해결책",
               "",
               "`feature` 라는 이름의 다른 브랜치를 만들어 원격 저장소에 `push` 하세요. 그리고 원격 저장소와 동기화될 수 있도록 로컬 저장소의 `master` 브랜치를 `reset`하세요. 그렇지 않으면 여러분이 다음에 `pull`을 시도할 때 문제가 발생하거나, 다른 협업자들의 커밋이 여러분의 커밋과 충돌할 수도 있습니다."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Rejected!",
+              "",
+              "Si trabajas en un equipo colaborativo, es probable que la rama `master` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master` e intentas realizar `push`, recibirás un mensaje similar a este:",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ¿Por qué fue rechazado?",
+              "",
+              "Se rechazó el `push` del `commit` a la rama `master` debido a la política en la rama `master` que requiere el uso de `Pull Requests`.",
+              "",
+              "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `master`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## La solución",
+              "",
+              "Crea otra rama llamada `feature` y haz `push` a remoto. También restablece su rama `master` nuevamente para que esté sincronizado con el repositorio remoto; de lo contrario, puedes tener problemas la próxima vez que realices un `pull` y el `commit` de otra persona entre en conflicto con el tuyo."
             ]
           }
         }
