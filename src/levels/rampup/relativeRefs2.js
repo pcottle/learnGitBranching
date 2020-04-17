@@ -485,7 +485,7 @@ exports.level = {
               "",
               "Du bist jetzt Experte in Sachen relative Referenzen, also lass sie uns mal richtig einsetzen.",
               "",
-              "Das Verschieben von Branches ist einer der häufigsten Anwendungsfälle dafür. Du kannst einen Branchnamen direkt auf einen bestimmten Commit setzen (_ohne_ ihne vorher ausgecheckt haben zu müssen!) indem du den Parameter `-f` benutzt. So in etwa:",
+              "Das Verschieben von Branches ist einer der häufigsten Anwendungsfälle dafür. Du kannst einen Branchnamen direkt auf einen bestimmten Commit setzen (_ohne_ ihn vorher ausgecheckt haben zu müssen!) indem du den Parameter `-f` benutzt. So in etwa:",
               "",
               "`git branch -f master HEAD~3`",
               "",
