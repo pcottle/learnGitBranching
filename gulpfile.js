@@ -8,8 +8,11 @@ var { src, dest, series, watch } = require('gulp');
 var log = require('fancy-log');
 var gHash = require('gulp-hash');
 var gClean = require('gulp-clean');
+var concat = require('gulp-concat');
+var cleanCSS = require('gulp-clean-css');
 var gTerser = require('gulp-terser');
 var gJasmine = require('gulp-jasmine');
+var { minify } = require('html-minifier');
 var { SpecReporter } = require('jasmine-spec-reporter');
 var gJshint = require('gulp-jshint');
 
@@ -74,6 +77,15 @@ var buildIndex = function(done) {
     jsFile,
     styleFile,
   });
+
+  if (process.env.NODE_ENV === 'production') {
+    outputIndex = minify(outputIndex, {
+      minifyJS: true,
+      collapseWhitespace: true,
+      processScripts: ['text/html'],
+      removeComments: true,
+    });
+  }
   writeFileSync('index.html', outputIndex);
   done();
 };
@@ -118,8 +130,14 @@ var miniBuild = function() {
 };
 
 var style = function() {
-  return src('src/style/main.css')
-    .pipe(gHash())
+  var chain = src('src/style/*.css')
+    .pipe(concat('main.css'));
+
+  if (process.env.NODE_ENV === 'production') {
+    chain = chain.pipe(cleanCSS());
+  }
+
+  return chain.pipe(gHash())
     .pipe(dest(destDir));
 };
 
