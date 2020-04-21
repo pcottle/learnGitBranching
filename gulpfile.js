@@ -22,18 +22,6 @@ _.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 _.templateSettings.escape = /\{\{\{(.*?)\}\}\}/g;
 _.templateSettings.evaluate = /\{\{-(.*?)\}\}/g;
 
-var prodDependencies = [
-  '<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-shim.min.js"></script>',
-  '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>',
-  '<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>'
-];
-
-var devDependencies = [
-  '<script src="lib/jquery-1.8.0.min.js"></script>',
-  '<script src="lib/raphael-min.js"></script>',
-  '<script src="lib/es5-shim.min.js"></script>'
-];
-
 // precompile for speed
 var indexFile = readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
@@ -57,7 +45,7 @@ const lintStrings = (done) => {
 
 var destDir = './build/';
 
-var buildIndex = function(config) {
+var buildIndex = function(done) {
   log('Building index...');
 
   // first find the one in here that we want
@@ -85,19 +73,8 @@ var buildIndex = function(config) {
   var outputIndex = indexTemplate({
     jsFile,
     styleFile,
-    jsDependencies: config.isProd ?
-      prodDependencies.join('\n') :
-      devDependencies.join('\n')
   });
   writeFileSync('index.html', outputIndex);
-};
-
-var buildIndexProd = function(done) {
-  buildIndex({ isProd: true });
-  done();
-};
-var buildIndexDev = function(done) {
-  buildIndex({ isProd: false });
   done();
 };
 
@@ -176,11 +153,11 @@ var gitDeployPushOrigin = function(done) {
   done();
 };
 
-var fastBuild = series(clean, ifyBuild, style, buildIndexDev, jshint);
+var fastBuild = series(clean, ifyBuild, style, buildIndex, jshint);
 
 var build = series(
   clean,
-  miniBuild, style, buildIndexProd,
+  miniBuild, style, buildIndex,
   gitAdd, jasmine, jshint,
   lintStrings, compliment
 );
