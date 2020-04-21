@@ -80,7 +80,7 @@ var buildIndex = function(done) {
 
 var getBundle = function() {
   return browserify({
-    entries: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.jsx')],
+    entries: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.jsx'), 'lib/jquery-ui-1.9.0.custom.min.js'],
     debug: true,
   })
   .transform(babelify, { presets: ['@babel/preset-react'] })
