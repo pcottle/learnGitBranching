@@ -1,0 +1,511 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=800, initial-scale=0.25">
+  <title>Learn Git Branching</title>
+  <meta name="author" content="Peter Cottle">
+
+  <meta property="og:title" content="Learn Git Branching"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://pcottle.github.io/learnGitBranching/index.html?demo"/>
+  <meta property="og:image" content="https://pcottle.github.io/learnGitBranching/assets/learnGitBranching.png"/>
+  <meta property="og:description" content="An interactive Git visualization tool to educate and challenge!"/>
+  <meta http-equiv="content-language" content="en">
+
+  <link rel="stylesheet" href="build/main-d833c689.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="src/style/rainbows.css" type="text/css" charset="utf-8">
+  <link rel="icon" href="src/style/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <!-- lol noscript. I did not write 9k+ lines of JS just for you to bounce off my website -->
+  <noscript>
+    <div style="z-index:1000000;background:red;color:white;position:absolute;top:0;left:0;height:300px;width:300px;">
+      This application simulates a git repository in your browser, so you will need
+      JS to use the app. Try enabling and refreshing the page -- Thanks!
+    </div>
+  </noscript>
+
+  <!-- The entire interface is within this div -->
+  <div id="interfaceWrapper" class="box horizontal flex1">
+    <div id="controls" class="box vertical flex1 visBackgroundColor">
+      <div id="commandLineHistory" class="box vertical flex3">
+          <div class="toolbar box vertical center">
+            <div class="controls box horizontal justify">
+              <div class="box flex1">
+                <div class="close">
+                </div>
+              </div>
+              <div class="box flex1">
+                <div class="minimize">
+                </div>
+              </div>
+              <div class="box flex1">
+                <div class="plus">
+                </div>
+              </div>
+            </div>
+            <div>
+              <i class="icon-home"></i>
+              <span class="vcs-mode-aware intl-aware" data-intl="learn-git-branching">
+                Learn Git Branching
+              </span>
+            </div>
+          </div>
+          <div id="levelToolbarMount">
+          </div>
+
+        <div id="terminal" class="box flex1 horizontal startAlign">
+          <div id="commandDisplay" class="box vertical flex1">
+          </div>
+        </div>
+
+        <div id="commandLineBar" class="box vertical flex0">
+          <div id="prompt" class="">
+            <span class="promptSign box">$</span>
+            <span class="cursor box">&nbsp;</span>
+            <p class="command"></p>
+          </div>
+          <textarea
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            id="commandTextField">
+          </textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="mainVisSpace" class="box flex2 horizontal transitionAll visBackgroundColor">
+      <span class="modeText transitionOpacity gitMode">
+        Git
+      </span>
+      <span class="modeText transitionOpacity hgMode">
+        Hg
+      </span>
+    </div>
+
+    <!-- If you drag the goal window to the right side of the screen, this gets shown and causes
+         the main visualization to squeeze a bit. This way, you could have the goal window hang out
+         on the right side of the screen and still see the repo visualization. -->
+    <div id="goalPlaceholder" class="box flex1 visBackgroundColor" style="display: none;"></div>
+
+  </div>
+
+  <div id="canvasHolder">
+  </div>
+
+  <div id="reactMount">
+  </div>
+
+  <div id="helperBarMount">
+  </div>
+
+  <!-- lol inline styles -->
+  <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
+    <img
+      style="position: absolute; top: 0; right: 0; border: 0;"
+      src="assets/forkme_right_darkblue_121621.png"
+      alt="Fork me on GitHub"
+    />
+  </a>
+
+  <!-- Dependencies -->
+  <script type="text/javascript">
+    // PhantomJS doesn't support bind yet LOL. polyfill locally so tests
+    // can pass while offline
+    Function.prototype.bind = Function.prototype.bind || function (thisp) {
+      var fn = this;
+      return function () {
+        return fn.apply(thisp, arguments);
+      };
+    };
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+
+  <script src="lib/jquery-ui-1.9.0.custom.min.js"></script>
+
+  <!-- Templates from here on out... -->
+  <script type="text/html" id="modal-view-template">
+    <div class="contentHolder box vertical center flex1">
+    </div>
+  </script>
+
+  <script type="text/html" id="terminal-window-bare-template">
+    <div class="terminal-window-holder box flex10 vertical transitionTransform slideOut">
+      <div class="wrapper box vertical">
+        <div class="toolbar box vertical center">
+          <div class="controls box horizontal justify">
+            <div class="box flex1">
+              <div class="close">
+              </div>
+            </div>
+            <div class="box flex1">
+              <div class="minimize">
+              </div>
+            </div>
+            <div class="box flex1">
+              <div class="plus">
+              </div>
+            </div>
+          </div>
+          <div>
+            <i class="icon-cog"></i>
+            <%= title %>
+          </div>
+        </div>
+        <div class="terminal-text">
+          <p class="helperText">
+            <%= text %>
+          </p>
+        </div>
+        <div class="inside box flex1">
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="terminal-window-template">
+    <div class="terminal-window box horizontal flex3 transitionAll">
+    <div class="box flex3">
+    </div>
+    <div class="terminal-window-holder box flex10 vertical transitionTransform">
+      <div class="wrapper box vertical">
+        <div class="toolbar box vertical center">
+          <div class="controls box horizontal justify">
+            <div class="box flex1">
+              <div class="close">
+              </div>
+            </div>
+            <div class="box flex1">
+              <div class="minimize">
+              </div>
+            </div>
+            <div class="box flex1">
+              <div class="plus">
+              </div>
+            </div>
+          </div>
+          <% if (title) { %>
+            <div>
+              <i class="icon-cog"></i>
+              <span class="modal-title">
+                <%= title %>
+              </span>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="inside">
+        </div>
+      </div>
+    </div>
+
+      <div class="box flex2">
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="level-dropdown-view">
+    <div class="box horizontal center levelDropdownTabWrapper">
+      <% for (var i = 0; i < tabs.length; i++) { %>
+        <% if (tabs[i].id === selectedTab) { %>
+          <div class="levelDropdownTab" data-id="<%=tabs[i].id%>">
+        <% } else { %>
+          <div class="levelDropdownTab deselected" data-id="<%=tabs[i].id%>">
+        <% } %>
+          <span data-id="<%=tabs[i].id%>">
+            <%= tabs[i].name %>
+          </span>
+        </div>
+      <% } %>
+    </div>
+  </script>
+
+  <script type="text/html" id="series-view">
+    <div class="displayName">
+      <h3> <%= displayName %> </h3>
+    </div>
+    <p class="about">
+      <%= about %>
+    </p>
+    <p class="levelInfo">
+      <%= levelInfo %>
+    </p>
+    <div class="iconHolder box horizontal">
+      <% for (var i = 0; i < ids.length; i++) { %>
+        <div class="levelIcon box center centerAlign vertical" id="levelIcon-<%=ids[i]%>" data-id="<%=ids[i]%>">
+          <div class="index box" data-id="<%=ids[i]%>">
+            <i class="icon-ok-circle" data-id="<%=ids[i]%>"></i>
+            <div class="indexNum" data-id="<%=ids[i]%>">
+              <%= i + 1 %>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </script>
+
+  <script type="text/html" id="git-demonstration-view">
+    <div class="demonstrationText box vertical">
+      <div class="beforeText">
+        <p>
+          <%= beforeHTML %>
+        </p>
+      </div>
+
+      <div class="command center">
+        <p class="uiButton uiButtonYellow transitionOpacity">
+        <!--
+          we strip aboveAll since its just an
+          implementation detail for the UI and confusing
+        -->
+          <%= command.replace(' --aboveAll', '') %>
+        </p>
+      </div>
+
+      <div class="afterText transitionOpacity">
+        <p>
+          <%= afterHTML %>
+        </p>
+      </div>
+    </div>
+
+    <div class="visHolder box vertical flex1">
+      <div class="visHolderInside box flex1">
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="general-button">
+      <%= buttonText %>
+  </script>
+
+  <script type="text/html" id="demonstration-builder">
+    <div class="insideBuilder box vertical">
+    </div>
+    <div class="buttons box horizontal center">
+      <div class="uiButton testButton">
+        Test View
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="multi-view-builder">
+    <div class="viewSoFar box vertical">
+      <% if (!views.length) { %>
+        <h3> You have no views specified yet! Add some with the buttons below </h3>
+      <% } %>
+      <% for (var i = 0; i < views.length; i++) { %>
+        <div class="view box horizontal centerAlign justify">
+          <div class="box horizontal">
+            <div class="info">
+              View
+              #<%= i + 1 %>: <%= views[i].type %>
+            </div>
+          </div>
+          <div class="singleViewButtons box horizontal">
+            <div class="uiButton uiButtonRed box deleteButton" data-index="<%=i%>">
+              Delete
+            </div>
+            <div class="uiButton uiButtonWhite box editButton" data-index="<%=i%>" data-type="<%= views[i].type %>">
+              Edit
+            </div>
+            <div class="uiButton box testButton" data-index="<%=i%>">
+              Test
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+    <div class="buttons box horizontal center">
+      <% for (var i = 0; i < supportedViews.length; i++) { %>
+        <div class="uiButton addView uiButtonYellow" data-type="<%=supportedViews[i]%>">
+        Add <%=supportedViews[i]%> View
+        </div>
+      <% } %>
+    </div>
+    <div class="controlsForView box horizontal center">
+        <div class="uiButton uiButtonRed cancelView">
+          Cancel
+        </div>
+        <% if (views.length) { %>
+          <div class="uiButton uiButtonWhite testEntireView">
+            Test Entire View
+          </div>
+          <div class="uiButton saveView">
+            Save Entire View
+          </div>
+        <% } %>
+   </div>
+  </script>
+
+  <script type="text/html" id="text-grabber">
+    <p class="helperText">
+      <%= helperText %>
+    </p>
+    <textarea></textarea>
+  </script>
+
+  <script type="text/html" id="markdown-presenter">
+      <p class="helperText textAlignCenter">
+        <%= previewText %>
+      </p>
+        <textarea><%= fillerText %></textarea>
+  </script>
+
+  <script type="text/html" id="markdown-grabber-view">
+    <div class="inputSide box vertical">
+      <div class="markdownGrabberInput">
+        <textarea><%= fillerText %></textarea>
+      </div>
+    </div>
+
+    <div class="box vertical flex1">
+      <p class="helperText textAlignCenter">
+        <%= previewText %>
+      </p>
+
+      <div class="markdownGrabberPreview box flex1 vertical">
+        <div class="insidePreview">
+        </div>
+      </div>
+    </div>
+  </script>
+
+
+  <script type="text/html" id="modal-alert-template">
+    <h2>
+      <%= title %>
+    </h2>
+    <p>
+      <%= text %>
+    </p>
+  </script>
+
+  <script type="text/html" id="interactive-rebase-template">
+    <div class="iRebaseDialog wrapper transitionAllSlow">
+      <p>
+        Rebasing <%= num %> Commits
+      </p>
+      <% if (solutionOrder && solutionOrder.length) { %>
+        <p class="solutionText">
+          For the solution, order the commits as
+            <%= solutionOrder.join(', ') %>. You may need to omit or pick commits.
+        </p>
+      <% } %>
+      <p class="helperText">
+        (Drag and drop to re-order. Toggle the "Omit/Pick" button to omit or re-add a commit)
+      </p>
+      <div class="entryHolders">
+        <ul class="rebaseEntries">
+
+        </ul>
+      </div>
+
+      <div class="confirmCancel">
+      </div>
+    </div>
+  </script>
+
+  <script type="text/html" id="left-right-template">
+    <% if (!showLeft && lastNav ) { %>
+      <div class="box right">
+        <i class="icon-ok exit"></i>
+      </div>
+    <% } else { %>
+      <% if (showLeft) { %>
+        <div class="box left">
+          <i class="icon-circle-arrow-left"></i>
+      <% } else { %>
+        <div class="box exit">
+          <i class="icon-signout"></i>
+      <% } %>
+      </div>
+      <div class="box right">
+        <% if (!lastNav) { %>
+          <i class="icon-circle-arrow-right"></i>
+        <% } else { %>
+          <i class="icon-ok"></i>
+        <% } %>
+      </div>
+    <% } %>
+  </script>
+
+  <script type="text/html" id="confirm-cancel-template">
+    <a class="box cancelButton uiButton uiButtonRed">
+      <%= cancel %>
+    </a>
+    <a class="box confirmButton uiButton uiButtonYellow">
+      <%= confirm %>
+    </a>
+  </script>
+
+  <script type="text/html" id="interactive-rebase-entry-template">
+    <li id="<%= id %>" class="rebaseEntry transitionOpacity">
+      <div class="wrapper">
+        <i class="icon-align-justify"></i>
+        <span class="idwrapper">
+          <%= id %>
+        </span>
+        <a id="toggleButton" class="uiButton uiButtonPink">
+          <span class="showWhenPicked">
+            Omit
+          </span>
+          <span class="showWhenNotPicked">
+            Pick
+          </span>
+        </a>
+      </div>
+    </li>
+  </script>
+  <!-- The compiled and minified build file (that actually does everything) is below.
+       For a much easier time perusing the source, see the individual files at:
+          https://github.com/pcottle/learnGitBranching
+  -->
+  <script src="build/bundle-6fbef832.js"></script>
+
+  <!-- The advantage of github pages: super-easy, simple, slick static hostic.
+       The downside? No raw logs to parse for analytics, so I have to include
+       Google analytics :-/ Also FB custom audiences-->
+  <script>
+    (function() {
+      var _fbq = window._fbq || (window._fbq = []);
+      if (!_fbq.loaded) {
+        var fbds = document.createElement('script');
+        fbds.async = true;
+        fbds.src = '//connect.facebook.net/en_US/fbds.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(fbds, s);
+        _fbq.loaded = true;
+      }
+      _fbq.push(['addPixelId', '1376649522580546']);
+    })();
+    window._fbq = window._fbq || [];
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+  </script>
+  <noscript>
+    <img height="1" width="1" border="0" alt="" style="display:none"
+      src="https://www.facebook.com/tr?id=1376649522580546&amp;ev=NoScript"
+    />
+  </noscript>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37500646-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</body>
+</html>
