@@ -4,7 +4,6 @@ yarn-error.log
 node_modules/
 
 # Build artifacts and asset stuff
-build/*
 screens
 FontAwesome-Vectors.pdf
 
