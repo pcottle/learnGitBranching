@@ -2563,10 +2563,20 @@ jasmine@^3.1.0:
     glob "^7.1.4"
     jasmine-core "~3.5.0"
 
-jquery@^1.8.0:
-  version "1.12.4"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c"
-  integrity sha1-AeHfuikP5z3rp3zurLD5ui/sngw=
+jquery-ui-sortable-npm@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/jquery-ui-sortable-npm/-/jquery-ui-sortable-npm-1.0.0.tgz#5fa27c36b76d1fbd45de9e24a0c940c19ba1f6ce"
+  integrity sha1-X6J8NrdtH71F3p4koMlAwZuh9s4=
+
+jquery-ui@^1.12.1:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.12.1.tgz#bcb4045c8dd0539c134bc1488cdd3e768a7a9e51"
+  integrity sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE=
+
+jquery@^3.4.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.0.tgz#9980b97d9e4194611c36530e7dc46a58d7340fc9"
+  integrity sha512-Xb7SVYMvygPxbFMpTFQiHh1J7HClEaThguL15N/Gg37Lri/qKyhRGZYzHRyLH8Stq3Aow0LsHO2O2ci86fCrNQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
