@@ -8,8 +8,11 @@ var { src, dest, series, watch } = require('gulp');
 var log = require('fancy-log');
 var gHash = require('gulp-hash');
 var gClean = require('gulp-clean');
+var concat = require('gulp-concat');
+var cleanCSS = require('gulp-clean-css');
 var gTerser = require('gulp-terser');
 var gJasmine = require('gulp-jasmine');
+var { minify } = require('html-minifier');
 var { SpecReporter } = require('jasmine-spec-reporter');
 var gJshint = require('gulp-jshint');
 
@@ -21,18 +24,6 @@ var babelify = require('babelify');
 _.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 _.templateSettings.escape = /\{\{\{(.*?)\}\}\}/g;
 _.templateSettings.evaluate = /\{\{-(.*?)\}\}/g;
-
-var prodDependencies = [
-  '<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.1/es5-shim.min.js"></script>',
-  '<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>',
-  '<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>'
-];
-
-var devDependencies = [
-  '<script src="lib/jquery-1.8.0.min.js"></script>',
-  '<script src="lib/raphael-min.js"></script>',
-  '<script src="lib/es5-shim.min.js"></script>'
-];
 
 // precompile for speed
 var indexFile = readFileSync('src/template.index.html').toString();
@@ -57,7 +48,7 @@ const lintStrings = (done) => {
 
 var destDir = './build/';
 
-var buildIndex = function(config) {
+var buildIndex = function(done) {
   log('Building index...');
 
   // first find the one in here that we want
@@ -85,25 +76,23 @@ var buildIndex = function(config) {
   var outputIndex = indexTemplate({
     jsFile,
     styleFile,
-    jsDependencies: config.isProd ?
-      prodDependencies.join('\n') :
-      devDependencies.join('\n')
   });
-  writeFileSync('index.html', outputIndex);
-};
 
-var buildIndexProd = function(done) {
-  buildIndex({ isProd: true });
-  done();
-};
-var buildIndexDev = function(done) {
-  buildIndex({ isProd: false });
+  if (process.env.NODE_ENV === 'production') {
+    outputIndex = minify(outputIndex, {
+      minifyJS: true,
+      collapseWhitespace: true,
+      processScripts: ['text/html'],
+      removeComments: true,
+    });
+  }
+  writeFileSync('index.html', outputIndex);
   done();
 };
 
 var getBundle = function() {
   return browserify({
-    entries: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.jsx')],
+    entries: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.jsx'), 'lib/jquery-ui-1.9.0.custom.min.js'],
     debug: true,
   })
   .transform(babelify, { presets: ['@babel/preset-react'] })
@@ -141,8 +130,14 @@ var miniBuild = function() {
 };
 
 var style = function() {
-  return src('src/style/main.css')
-    .pipe(gHash())
+  var chain = src('src/style/*.css')
+    .pipe(concat('main.css'));
+
+  if (process.env.NODE_ENV === 'production') {
+    chain = chain.pipe(cleanCSS());
+  }
+
+  return chain.pipe(gHash())
     .pipe(dest(destDir));
 };
 
@@ -176,11 +171,11 @@ var gitDeployPushOrigin = function(done) {
   done();
 };
 
-var fastBuild = series(clean, ifyBuild, style, buildIndexDev, jshint);
+var fastBuild = series(clean, ifyBuild, style, buildIndex, jshint);
 
 var build = series(
   clean,
-  miniBuild, style, buildIndexProd,
+  miniBuild, style, buildIndex,
   gitAdd, jasmine, jshint,
   lintStrings, compliment
 );
