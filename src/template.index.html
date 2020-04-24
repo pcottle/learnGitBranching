@@ -15,120 +15,8 @@
   <meta http-equiv="content-language" content="en">
 
   <link rel="stylesheet" href="build/{{styleFile}}" type="text/css" charset="utf-8">
-  <link rel="stylesheet" href="src/style/font-awesome.css" type="text/css" charset="utf-8">
-  <link rel="stylesheet" href="src/style/rainbows.css" type="text/css" charset="utf-8">
-  <link rel="icon" href="src/style/favicon.ico" type="image/x-icon">
-</head>
-<body>
-  <!-- lol noscript. I did not write 9k+ lines of JS just for you to bounce off my website -->
-  <noscript>
-    <div style="z-index:1000000;background:red;color:white;position:absolute;top:0;left:0;height:300px;width:300px;">
-      This application simulates a git repository in your browser, so you will need
-      JS to use the app. Try enabling and refreshing the page -- Thanks!
-    </div>
-  </noscript>
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 
-  <!-- The entire interface is within this div -->
-  <div id="interfaceWrapper" class="box horizontal flex1">
-    <div id="controls" class="box vertical flex1 visBackgroundColor">
-      <div id="commandLineHistory" class="box vertical flex3">
-          <div class="toolbar box vertical center">
-            <div class="controls box horizontal justify">
-              <div class="box flex1">
-                <div class="close">
-                </div>
-              </div>
-              <div class="box flex1">
-                <div class="minimize">
-                </div>
-              </div>
-              <div class="box flex1">
-                <div class="plus">
-                </div>
-              </div>
-            </div>
-            <div>
-              <i class="icon-home"></i>
-              <span class="vcs-mode-aware intl-aware" data-intl="learn-git-branching">
-                Learn Git Branching
-              </span>
-            </div>
-          </div>
-          <div id="levelToolbarMount">
-          </div>
-
-        <div id="terminal" class="box flex1 horizontal startAlign">
-          <div id="commandDisplay" class="box vertical flex1">
-          </div>
-        </div>
-
-        <div id="commandLineBar" class="box vertical flex0">
-          <div id="prompt" class="">
-            <span class="promptSign box">$</span>
-            <span class="cursor box">&nbsp;</span>
-            <p class="command"></p>
-          </div>
-          <textarea
-            autocomplete="off"
-            autocorrect="off"
-            autocapitalize="off"
-            spellcheck="false"
-            id="commandTextField">
-          </textarea>
-        </div>
-
-      </div>
-    </div>
-
-    <div id="mainVisSpace" class="box flex2 horizontal transitionAll visBackgroundColor">
-      <span class="modeText transitionOpacity gitMode">
-        Git
-      </span>
-      <span class="modeText transitionOpacity hgMode">
-        Hg
-      </span>
-    </div>
-
-    <!-- If you drag the goal window to the right side of the screen, this gets shown and causes
-         the main visualization to squeeze a bit. This way, you could have the goal window hang out
-         on the right side of the screen and still see the repo visualization. -->
-    <div id="goalPlaceholder" class="box flex1 visBackgroundColor" style="display: none;"></div>
-
-  </div>
-
-  <div id="canvasHolder">
-  </div>
-
-  <div id="reactMount">
-  </div>
-
-  <div id="helperBarMount">
-  </div>
-
-  <!-- lol inline styles -->
-  <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
-    <img
-      style="position: absolute; top: 0; right: 0; border: 0;"
-      src="assets/forkme_right_darkblue_121621.png"
-      alt="Fork me on GitHub"
-    />
-  </a>
-
-  <!-- Dependencies -->
-  <script type="text/javascript">
-    // PhantomJS doesn't support bind yet LOL. polyfill locally so tests
-    // can pass while offline
-    Function.prototype.bind = Function.prototype.bind || function (thisp) {
-      var fn = this;
-      return function () {
-        return fn.apply(thisp, arguments);
-      };
-    };
-  </script>
-
-  {{jsDependencies}}
-
-  <script src="lib/jquery-ui-1.9.0.custom.min.js"></script>
 
   <!-- Templates from here on out... -->
   <script type="text/html" id="modal-view-template">
@@ -464,11 +352,107 @@
       </div>
     </li>
   </script>
+
   <!-- The compiled and minified build file (that actually does everything) is below.
        For a much easier time perusing the source, see the individual files at:
           https://github.com/pcottle/learnGitBranching
   -->
-  <script src="build/{{jsFile}}"></script>
+  <script defer src="build/{{jsFile}}"></script>
+</head>
+<body>
+  <!-- lol noscript. I did not write 9k+ lines of JS just for you to bounce off my website -->
+  <noscript>
+    <div style="z-index:1000000;background:red;color:white;position:absolute;top:0;left:0;height:300px;width:300px;">
+      This application simulates a git repository in your browser, so you will need
+      JS to use the app. Try enabling and refreshing the page -- Thanks!
+    </div>
+  </noscript>
+
+  <!-- The entire interface is within this div -->
+  <div id="interfaceWrapper" class="box horizontal flex1">
+    <div id="controls" class="box vertical flex1 visBackgroundColor">
+      <div id="commandLineHistory" class="box vertical flex3">
+          <div class="toolbar box vertical center">
+            <div class="controls box horizontal justify">
+              <div class="box flex1">
+                <div class="close">
+                </div>
+              </div>
+              <div class="box flex1">
+                <div class="minimize">
+                </div>
+              </div>
+              <div class="box flex1">
+                <div class="plus">
+                </div>
+              </div>
+            </div>
+            <div>
+              <i class="icon-home"></i>
+              <span class="vcs-mode-aware intl-aware" data-intl="learn-git-branching">
+                Learn Git Branching
+              </span>
+            </div>
+          </div>
+          <div id="levelToolbarMount">
+          </div>
+
+        <div id="terminal" class="box flex1 horizontal startAlign">
+          <div id="commandDisplay" class="box vertical flex1">
+          </div>
+        </div>
+
+        <div id="commandLineBar" class="box vertical flex0">
+          <div id="prompt" class="">
+            <span class="promptSign box">$</span>
+            <span class="cursor box">&nbsp;</span>
+            <p class="command"></p>
+          </div>
+          <textarea
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            id="commandTextField"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="mainVisSpace" class="box flex2 horizontal transitionAll visBackgroundColor">
+      <span class="modeText transitionOpacity gitMode">
+        Git
+      </span>
+      <span class="modeText transitionOpacity hgMode">
+        Hg
+      </span>
+    </div>
+
+    <!-- If you drag the goal window to the right side of the screen, this gets shown and causes
+         the main visualization to squeeze a bit. This way, you could have the goal window hang out
+         on the right side of the screen and still see the repo visualization. -->
+    <div id="goalPlaceholder" class="box flex1 visBackgroundColor" style="display: none;"></div>
+
+  </div>
+
+  <div id="canvasHolder">
+  </div>
+
+  <div id="reactMount">
+  </div>
+
+  <div id="helperBarMount">
+  </div>
+
+  <!-- lol inline styles -->
+  <a class="githubLink" href="https://github.com/pcottle/learnGitBranching" target="_blank">
+    <img width="149" height="149"
+      style="position: absolute; top: 0; right: 0; border: 0;"
+      src="assets/forkme_right_darkblue_121621.png"
+      alt="Fork me on GitHub"
+    />
+  </a>
+
 
   <!-- The advantage of github pages: super-easy, simple, slick static hostic.
        The downside? No raw logs to parse for analytics, so I have to include

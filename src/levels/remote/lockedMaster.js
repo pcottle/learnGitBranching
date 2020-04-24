@@ -335,6 +335,7 @@ exports.level = {
               "Se rechazó el `push` del `commit` a la rama `master` debido a la política en la rama `master` que requiere el uso de `Pull Requests`.",
               "",
               "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `master`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
+
             ]
           }
         },
