@@ -1013,11 +1013,11 @@ exports.level = {
             "markdowns": [
               "## Branchi in Merganje",
               "",
-              "Odlično! Sedaj znamo commitati in branchati. Naslednja stvar je da se naučimo združiti delo iz dveh različnih branchev. To nam bo omogočilo, da naredimo branch, razvijemo novo funkcionalnost in jo združimo nazaj.",
+              "Odlično! Sedaj znamo commitati in branchati. Naslednja stvar je, da se naučimo združiti delo iz dveh različnih branchev. To nam bo omogočilo, da naredimo branch, razvijemo novo funkcionalnost in jo združimo nazaj.",
               "",
-              "Prva metoda za združevanje dela, ki jo bomo preučili je `git merge`. Merganje v Gitu naredi poseben commit, ki ima dva edinstvena starša. Commit z dvema staršema vbistvu pomeni \"Hočem vključiti vso delo iz tega starša tukaj in iz tega tu *ter* vse delo iz njunih staršev\"",
+              "Prva metoda za združevanje dela, ki jo bomo preučili je `git merge`. Merganje v Gitu naredi poseben commit, ki ima dva edinstvena starša. Commit z dvema staršema v bistvu pomeni \"Hočem vključiti vso delo iz tega starša tukaj in iz tega tu *ter* vse delo iz njunih staršev\".",
               "",
-              "Vizualizacija je enostavnejša, poglejmo v naslednjem oknu"
+              "Vizualizacija je enostavnejša, poglejmo v naslednjem oknu."
             ]
           }
         },
@@ -1032,7 +1032,7 @@ exports.level = {
             "afterMarkdowns": [
               "Woah! Si videl to? `master` sedaj kaže na commit, ki ima dva starša. Če slediš puščicam po drevesu commitov iz `master`, boš našel vsak commit po poti do roota. To pomeni, da `master` sedaj vsebuje vso delo iz repozitorija.",
               "",
-              "Tudi, vidiš kako so se barve commitov spremenile? V pomoč pri učenju, sem vključil še nekaj barvne pomoči. Vsak branch ima svojo barvo. Vsak commit spremeni barvo v kombinirano barvo vseh branchev, ki imajo ta commit.",
+              "Opaziš tudi, kako so se barve commitov spremenile? V pomoč pri učenju, sem vključil še nekaj barvne pomoči. Vsak branch ima svojo barvo. Vsak commit spremeni barvo v kombinirano barvo vseh branchev, ki imajo ta commit.",
               "",
               "Torej tukaj vidimo, da je `master` branch barva zmešana v vseh commitih, `bugFix` barva pa ne. Popravimo to ..."
             ],

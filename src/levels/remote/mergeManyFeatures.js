@@ -697,9 +697,9 @@ exports.level = {
               "",
               "* Rebasanje spremeni (navidezno) zgodovino drevesa commitov.",
               "",
-              "Naprimer, commit `C1` je lahko rebasean *mimo* `C3`. Potem izgleda kot da je delo za `C1'` prišlo za `C3`, čeprav je v resnici bilo končano prej.",
+              "Naprimer, commit `C1` je lahko rebasean *mimo* `C3`. Potem izgleda, kot da je delo za `C1'` prišlo za `C3`, čeprav je v resnici bilo končano prej.",
               "",
-              "Nekateri razvijalci imajo radi ohranjanje zgodovine in imajo posledično rajše merganje. Drugi (kot jaz) imajo rajši čisto drevo commitov in posledično rebasanje. Na koncu prevlada osebna preferenca :D"
+              "Nekateri razvijalci imajo radi ohranjanje zgodovine in imajo posledično rajši merganje. Drugi (kot jaz) imajo rajši čisto drevo commitov in posledično rebasanje. Na koncu prevlada osebna preferenca. :D"
             ]
           }
         },

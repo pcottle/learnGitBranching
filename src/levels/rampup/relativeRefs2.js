@@ -17,7 +17,7 @@ exports.level = {
     "ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
     "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này",
-    "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje"
+    "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje."
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -997,7 +997,7 @@ exports.level = {
               "Recimo, da se želiš premakniti veliko stopenj višje po drevesu commitov. Malo je nerodno večkrat tipkati `^`, zato ima Git tudi tilda (~) operator.",
               "",
               "",
-              "Tild operator (opcijsko) sprejme številko, ki določi, koliko staršev bi se rad povzpel po drevesu. Poglejmo to v praksi"
+              "Tilda operator (opcijsko) sprejme številko, ki določi, koliko staršev bi se rad povzpel po drevesu. Poglejmo to v praksi."
             ]
           }
         },
@@ -1037,7 +1037,7 @@ exports.level = {
               "Poglejmo si prejšnji ukaz v praksi."
             ],
             "afterMarkdowns": [
-              "Tako ja! Relativne reference so nam dale jedrnat način s katerim se lakho nanašamo na `C1` in branch force-anje (`-f`) nam je omogočilo, da hitro prestavimo branch na to lokacijo."
+              "Tako ja! Relativne reference so nam dale jedrnat način s katerim se lahko nanašamo na `C1` in branch force-anje (`-f`) nam je omogočilo, da hitro prestavimo branch na to lokacijo."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"

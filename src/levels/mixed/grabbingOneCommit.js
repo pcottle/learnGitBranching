@@ -45,7 +45,7 @@ exports.level = {
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
     "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
-    "sl_SI": "Pomni, interactive rebase ali cherry-pick sta tu tvoja prijatelja"
+    "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja."
       },
   "startDialog": {
     "en_US": {
@@ -606,7 +606,7 @@ exports.level = {
               "",
               "Vsi te ukazi za debuggiranje / izpisovanje so v svojih commitih. Končno odkrijem bug, ga popravim in se veselim!",
               "",
-              "Edini problem je, da morem sedaj spraviti moj `bugFix` nazaj v `master` branch. Če uporabim samo fast-forwarded na `masterju`, potem bi `master` vseboval vse moje debug vrstice, česar si ne želim. Mora obstajati še neka druga pot ..."
+              "Edini problem je, da morem sedaj spraviti moj `bugFix` nazaj v `master` branch. Če uporabim samo fast-forward na `masterju`, potem bi `master` vseboval vse moje debug vrstice, česar si ne želim. Mora obstajati še neka druga pot ..."
             ]
           }
         },
@@ -619,7 +619,7 @@ exports.level = {
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "Da dosežemo ta cilj."
+              "da dosežemo ta cilj."
             ]
           }
         },
@@ -627,7 +627,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tebi prepuščamo, da se odločiš, kateri ukaz boš uporabil da končaš stopnjo. Poskrbi samo, da `master` dobi commit, na katerega kaže `bugFix` referenca."
+              "Tebi prepuščam, da se odločiš, kateri ukaz boš uporabil, da končaš stopnjo. Poskrbi samo, da `master` dobi commit na katerega kaže `bugFix` referenca."
             ]
           }
         }

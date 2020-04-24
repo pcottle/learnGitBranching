@@ -34,7 +34,7 @@ exports.level = {
     "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
     "ko"   : "가장할 커밋의 갯수를 조절할 수 있습니다.",
     "vi"   : "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập.",
-    "sl_SI": "pomni da lahko določiš število lažnih commitov"
+    "sl_SI": "Spomni se, da lahko določiš število lažnih commitov."
   },
   "startDialog": {
     "en_US": {
@@ -803,7 +803,7 @@ exports.level = {
             "markdowns": [
               "## Simulacija sodelovanja",
               "",
-              "Tule imamo izziv -- za nekaj naslednjih lekcij te moramo naučiti kako potegniti dol spremembe, ki so bile narejene na oddaljenem repozitoriju.",
+              "Tule imamo izziv -- za nekaj naslednjih lekcij te moramo naučiti, kako potegniti dol spremembe, ki so bile narejene na oddaljenem repozitoriju.",
               "",
               "To pomeni, da se moramo pravzaprav \"pretvarjati\", da je oddaljen branch posodobil kak sodelavec, včasih na določenem branchu ali določeno število commitov.",
               "",
@@ -815,7 +815,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Privzeto delovanje `fakeTeamwork` je, da samo doda commit na master"
+              "Privzeto delovanje `fakeTeamwork` je, da samo doda commit na master:"
             ],
             "afterMarkdowns": [
               "Tako -- oddaljen repo je bil posodobljen z novim commitom, katerega še nismo potegnili k sebi, ker še nismo pognali ukaza `git fetch`."
@@ -828,10 +828,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Prav tako lahko določimo tudi število commtiov ali ime brancha tako, da jih dodamo na koncu"
+              "Prav tako lahko določimo tudi število commitov ali ime brancha tako, da jih dodamo na koncu:"
             ],
             "afterMarkdowns": [
-              "Z enim ukazom smo simulirali sodelavca, ki je dodal tri commite na `foo` branch na našem oddaljnem repotu"
+              "Z enim ukazom smo simulirali sodelavca, ki je dodal tri commite na `foo` branch na našem oddaljnem repotu."
             ],
             "command": "git fakeTeamwork foo 3",
             "beforeCommand": "git branch foo; git clone"

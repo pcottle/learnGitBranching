@@ -796,10 +796,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Poizkusimo narediti tag na `C1`, ki je recimo naša prva verzija prototipa"
+              "Poizkusimo narediti tag na `C1`, ki je recimo naša prva različica prototipa."
             ],
             "afterMarkdowns": [
-              "Tako! Kar enostavno. Tag smo poimenovali `v1` in se sklicuje na commit `C1`. Če ne navedeš commit, bo git postavil tag tam, kjer je trenutno `HEAD`"
+              "Tako! Kar enostavno. Tag smo poimenovali `v1` in se sklicuje na commit `C1`. Če ne navedeš commita, bo git postavil tag tam, kjer je trenutno `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -809,7 +809,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za to stopnjo ustvari tage kot so določeni na ciljnem prikazu in nato checkoutaj `v1`. Opazil boš, kako prideš v detached `HEAD` stanje -- to je zato, ker ne moreš commitat direktno na `v1` tag.",
+              "Za to stopnjo ustvari tage kot so določeni na ciljnem prikazu in nato checkoutaj `v1`. Opazil boš, kako prideš v stanje ločenega `HEAD-a` -- to je zato, ker ne moreš commitat direktno na `v1` tag.",
               "",
               "V naslednji stopnji si bomo pogledali zanimivejši primer za uporabo tagov."
             ]

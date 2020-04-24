@@ -17,7 +17,7 @@ exports.level = {
     "ko"   : "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
     "uk"   : "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
     "vi"   : "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
-    "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo"
+    "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo."
   },
   "name": {
     "en_US": "Push Master!",
@@ -805,7 +805,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Osvežimo si na hitro, kako posodobit `master` in pushati delo."
+              "Osvežimo si na hitro, kako posodobiti `master` in pushati delo."
             ],
             "afterMarkdowns": [
               "Izvedli smo dva ukaza, ki:",
@@ -823,11 +823,11 @@ exports.level = {
             "markdowns": [
               "Ta stopnja je kar zajetna -- tu je splošno ideja za rešitev:",
               "",
-              "* Imamo tri branche -- `side1` `side2` in `side3`",
+              "* Imamo tri branche -- `side1`, `side2` in `side3`",
               "* Želimo pushati vsako od teh funkcionalnosti po vrstnem redu na oddaljen repo",
-              "* Oddaljen repo se je umes posodobil, zato bomo morali vključiti tudi to delo",
+              "* Oddaljen repo se je medtem posodobil, zato bomo morali vključiti tudi to delo",
               "",
-              ":O naporno! Srečno, končanje te stopnje je velik korak."
+              ":O Naporno! Srečno, končanje te stopnje je velik korak."
             ]
           }
         }

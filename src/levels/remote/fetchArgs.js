@@ -34,7 +34,7 @@ exports.level = {
     "ko"   : "커밋 ID가 바뀔수도있으니 주의하세요! \"help level\"을 입력하면 슬라이드들을 다시 읽어볼수 있습니다.",
     "uk"   : "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\"",
     "vi"   : "Lưu ý id của các commit bị tráo đổi, bạn có thể dùng \"help level\" để đọc lại hội thoại",
-    "sl_SI": "Bodi pozoren kako so se commit id-ji morda zamenjali! Ponovno lahko prebereš navodila z \"help level\""
+    "sl_SI": "Bodi pozoren kako so se commit id-ji morda zamenjali! Ponovno lahko prebereš navodila z \"help level\"."
   },
   "startDialog": {
     "en_US": {
@@ -1644,9 +1644,9 @@ exports.level = {
             "markdowns": [
               "## Git fetch argumenti",
               "",
-              "Torej pravkar smo se naučili vse o git push argumentih, tem kul `<place>` parameteru in celo stolpičnem refspecsu (`<source>:<destination>`). Torej uporabimo vse znanje tudi za `git fetch`?",
+              "Torej pravkar smo se naučili vse o git push argumentih ter kul `<place>` parameteru in celo dvopični referenci (`<source>:<destination>`). Torej uporabimo vse znanje tudi za `git fetch`?",
               "",
-              "Itak! Argumenti za `git fetch` so v bistvu *zelo zelo* podobni tistim za `git push`. Gre za enak koncept ampak uporabljen v nasprotni smeri (ker sedaj prenašamo commite namesto, da jih nalagamo).",
+              "Itak! Argumenti za `git fetch` so v bistvu *zelo zelo* podobni tistim za `git push`. Gre za enak koncept, ampak uporabljen v nasprotni smeri (ker sedaj prenašamo commite, namesto da jih nalagamo).",
               "",
               "Pojdimo čez koncepte drug za drugim ..."
             ]
@@ -1664,7 +1664,7 @@ exports.level = {
               "",
               "Bo Git šel na `foo` branch na oddaljenem repotu, pograbil vse commite, katerih lokalno še nimamo in jih dodal na dno lokalnega `o/foo` brancha.",
               "",
-              "Poglejmo to v akciji (samo kot osvežitev)"
+              "Poglejmo to v akciji (samo kot osvežitev)."
             ]
           }
         },
@@ -1675,7 +1675,7 @@ exports.level = {
               "Z določanjem mesta ..."
             ],
             "afterMarkdowns": [
-              "Prenesemo samo commite iz `foo` in jih postavimo na `o/foo`"
+              "Prenesemo samo commite iz `foo` in jih postavimo na `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -1685,9 +1685,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Morda se sprašuješ -- zakaj je got dodal te commite na `o/foo` oddaljen branch namesto, da bi jih dodal na moj lokalen `foo` branch? Mislil sem da je `<place>` parameter mesto, ki obstaja in lokalno in na oddaljenem repozitoriju?",
+              "Morda se sprašuješ -- zakaj je git dodal te commite na `o/foo` oddaljen branch namesto, da bi jih dodal na moj lokalen `foo` branch? Mislil sem, da je `<place>` parameter mesto, ki obstaja in lokalno in na oddaljenem repozitoriju?",
               "",
-              "No, git naredi v tem primeru posebno izjemo, ker imaš morda delo na `foo` branchu, ki ga ne želiš pokvariti!! To se navezuje na prejšnjo lekcij o `git fetch` -- ne posodobi tvojega lokalnega ne-oddaljenega brancha, samo prenense commite (da jih lahko pregledaš / mergaš kasneje).",
+              "No, git naredi v tem primeru posebno izjemo, ker imaš morda delo na `foo` branchu, ki ga ne želiš pokvariti!! To se navezuje na prejšnjo lekcijo o `git fetch` -- ne posodobi tvojega lokalnega ne-oddaljenega brancha, samo prenese commite (da jih lahko pregledaš / mergaš kasneje).",
               ""
             ]
           }
@@ -1698,11 +1698,11 @@ exports.level = {
             "markdowns": [
               "\"Ampak v tem primeru, kaj se zgodi, če posebaj določim izvor in cilj s `<source>:<destination>`?\"",
               "",
-              "Če se počutiš dovolj strastno, da bi fetchal commite *direktno* na lokalen branch, potem ja, lahko to definiraš s stolpično referenco. Ne moreš fetchati commitov na branch, ki je checkoutan, ampak v drugih primerih to lahko narediš.",
+              "Če se počutiš dovolj strastno, da bi fetchal commite *direktno* na lokalen branch, potem ja, lahko to definiraš z dvopično referenco. Ne moreš fetchati commitov na branch, ki je checkoutan, ampak v drugih primerih to lahko narediš.",
               "",
               "Tu je edina zanka -- `<source>` je sedaj mesto na *oddaljenem* in `<destination>` je *lokalno* mesto za dodati te commite. Je ravno nasprotje od git pusha in to je logično, saj prenašamo podatke v nasprotni smeri!",
               "",
-              "Glede na to, razvijalci to redko delajo v praksi. To predstavljam zgolj, da si lahko predstavljaš kako sta si `fetch` in `push` kar podobna, ampak v nasprotni smeri."
+              "Glede na to, razvijalci to redko delajo v praksi, to predstavljam zgolj, da si lahko predstavljaš, kako sta si `fetch` in `push` kar podobna, ampak v nasprotni smeri."
             ]
           }
         },
@@ -1713,7 +1713,7 @@ exports.level = {
               "Poglejmo si to zmešnjavo v praksi:"
             ],
             "afterMarkdowns": [
-              "Wow! Vidiš, git je naredil `foo~1` kot mesto na originu in nato prenesel commite na `bar` (ki je bil lokalen branch). Opazi kako `foo` in `o/foo` nista bila posodobljena, ker smo določili destinacijo."
+              "Wow! Vidiš, git je naredil `foo~1` kot mesto na originu in nato prenesel commite na `bar` (ki je bil lokalen branch). Opazi, kako `foo` in `o/foo` nista bila posodobljena, ker smo določili destinacijo."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1723,7 +1723,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Kaj pa če destinacija ne obstaja, preden zaženem ukaz? Poglejmo zadnji primer, vendar brez da bi prej `bar` že obstajal."
+              "Kaj pa, če destinacija ne obstaja, preden zaženem ukaz? Poglejmo zadnji primer, vendar brez da bi prej `bar` že obstajal."
             ],
             "afterMarkdowns": [
               "Vidiš, je TAKO kot git push. Git je naredil destinacijo lokalno pred fetchem, tako kot bo naredil destinacijo na oddaljneme repotu pred pushem (če ne obstaja)."

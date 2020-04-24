@@ -34,7 +34,7 @@ exports.level = {
     "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
     "uk"   : "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
     "vi"   : "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
-    "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti"
+    "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti."
   },
   "startDialog": {
     "en_US": {
@@ -1007,9 +1007,9 @@ exports.level = {
             "markdowns": [
               "## Git pull argumenti",
               "",
-              "Sedaj ko veš praktično *vse*, kar je za vedeti o argumentih za `git fetch` in `git push`, ni skoraj ničesar za dodati za `git pull` :)",
+              "Sedaj, ko veš praktično *vse*, kar je za vedeti o argumentih za `git fetch` in `git push`, ni skoraj ničesar za dodati za `git pull` :)",
               "",
-              "To je zato, ker je git pull konec koncev *res* samo bližnjica za fetch, ki mu sledi merge tega, kar smo fetchali. Predstavljaš si ga lahko kot ukaz git fetch z *istimi* podanimi argumenti in merganjem, *kjer* bodo tisti commite končali.",
+              "To je zato, ker je git pull konec koncev *res* samo bližnjica za fetch, ki mu sledi merge tega, kar smo fetchali. Predstavljaš si ga lahko kot ukaz git fetch z *istimi* podanimi argumenti in merganjem, *kjer* bodo tisti commiti končali.",
               "",
               "To velja tudi takrat, ko uporabiš noro komplicirane argumente. Poglejmo nekaj primerov:"
             ]
@@ -1031,7 +1031,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "Vidiš? Git pull je res bližnjica za fetch + merge. Vse kar zanima git pull je kje bodo commiti končali (`ciljni` argument, ki ga ugotovi med fetchem).",
+              "Vidiš? Git pull je res bližnjica za fetch + merge. Vse kar zanima git pull je, kje bodo commiti končali (`ciljni` argument, ki ga ugotovi med fetchem).",
               "",
               "Poglejmo primer:"
             ]
@@ -1041,7 +1041,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Če določimo mesto za fetchanje, se vse zgodi kot prej s fetchem ampak tudi zmergamo kar smo pravkar fetchali"
+              "Če določimo mesto za fetchanje, se zgodi vse kot prej s fetchem, ampak tudi zmergamo, kar smo pravkar fetchali."
             ],
             "afterMarkdowns": [
               "Vidiš! Z določitvijo `master` smo prenesli commite na `o/master` kot ponavadi. Potem smo zmergali `o/master` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `master`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
@@ -1067,7 +1067,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, da zaključiš, pridi v stanje iz ciljne vizualizazcije. Prenesti boš moral neka commitov, narediti nekaj novih branchev in zmergati te branche v druge branche, ampak ne bi smelo zahtevati veliko ukazov :P"
+              "Ok, da zaključiš, pridi v stanje iz ciljne vizualizacije. Prenesti boš moral nekaj commitov, narediti nekaj novih branchev in zmergati te branche v druge branche, ampak ne bi smelo zahtevati veliko ukazov. :P"
             ]
           }
         }

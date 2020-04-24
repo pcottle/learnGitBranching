@@ -17,7 +17,7 @@ exports.level = {
     "uk"   : "Git pull",
     "ko"   : "Git pull",
     "vi"   : "Git pull",
-    "sl_SI": "Git pull"
+    "sl_SI": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -873,7 +873,7 @@ exports.level = {
               "",
               "Sedaj, ko smo videli kako pridobiti podatke iz oddaljenega repozitorija z `git fetch`, posodobimo naše delo, da bo odsevalo te sprememebe!",
               "",
-              "V bistvu je več načinov za izvedbo tega -- ko imaš enkrat na lokalno na voljo nove commite, jih lahko vključiš, kot da so normalni commiti na drugem branchu. To pomeni, da lahko izvedeš ukaze, kot so:",
+              "V bistvu je več načinov za izvedbo tega -- ko imaš enkrat lokalno na voljo nove commite, jih lahko vključiš, kot da so normalni commiti na drugem branchu. To pomeni, da lahko izvedeš ukaze, kot so:",
               "",
               "* `git cherry-pick o/master`",
               "* `git rebase o/master`",
@@ -888,10 +888,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Poglejmo najprej `fetch` in `merge` izvedena zaporedno"
+              "Poglejmo najprej `fetch` in `merge` izvedena zaporedno:"
             ],
             "afterMarkdowns": [
-              "Boom -- prenesli smo `C3` z `fetch` in nato mergali delo z `git merge o/master`. Sedaj naš `master` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)"
+              "Boom -- prenesli smo `C3` s `fetch` in nato mergali delo z `git merge o/master`. Sedaj naš `master` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)."
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -914,7 +914,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Kasneje bomo raziskali podrobnosti ukaza `git pull` (vključno z opcijami in argumenti), ampak zaenkrat poizkusimo to v tej stopnji.",
+              "Kasneje bomo raziskali podrobnosti ukaza `git pull` (vključno z opcijami in argumenti), ampak zaenkrat poizkusimo brez v tej stopnji.",
               "",
               "Pomni -- to stopnjo lahko rešiš s `fetch` in `merge`, ampak boš rabil en dodaten ukaz :P"
             ]

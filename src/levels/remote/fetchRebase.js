@@ -17,7 +17,7 @@ exports.level = {
     "uk"   : "Розбіжності в історії",
     "ko"   : "엇갈린 히스토리",
     "vi"   : "Dị biệt lịch sử",
-    "sl_SI": "Razdeljena zgodovina"
+    "sl_SI": "Razdeljena Zgodovina"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -34,7 +34,7 @@ exports.level = {
     "uk"   : "перевірте порядок в візуалізації цілі",
     "ko"   : "순서는 goal을 참고하세요",
     "vi"   : "kiểm tra kỹ thứ tự trên mô hình mục tiêu",
-    "sl_SI": "preveri vrstni red iz ciljne vizualizacije"
+    "sl_SI": "Preveri vrstni red iz ciljne vizualizacije."
   },
   "startDialog": {
     "en_US": {
@@ -2059,11 +2059,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Predstavljaj si da scloniraš repozitorij v ponedeljek in začneš delati na novi fukncionalnosti. V petek si pripravljen da objaviš svoje sprememebe -- ampak o ne! Tvoji sodelavci so napisali goro kode med tednom in tvoja funkcionalnost je postala zastarela. Prav tako so objavili te commite v skupen repozitorij, tako da sedaj *tvoje* delo izhaja iz *stare* verzije projekta, ki ni več taprava.",
+              "Predstavljaj si, da skloniraš repozitorij v ponedeljek in začneš delati na novi funkcionalnosti. V petek si pripravljen, da objaviš svoje spremembe -- ampak o ne! Tvoji sodelavci so napisali goro kode med tednom in tvoja funkcionalnost je postala zastarela. Prav tako so objavili te commite v skupen repozitorij, tako da sedaj *tvoje* delo izhaja iz *stare* verzije projekta, ki ni več taprava.",
               "",
               "V tem primeru je ukaz `git push` dvoumen. Če bi pognal `git push`, bi git moral spremeniti oddaljeni repozitorij nazaj na stanje iz ponedeljka? Bi moral poizkusiti dodati tvoje delo, brez da odstarani novo kodo? Ali bi moral povsem ignorirati tvoje spremembe, ker so zastarele?",
               "",
-              "Ker je toliko dvomov v tej situaciji (kjer se je zgodovina razdelila), ti git ne pusti, da bi `pushal` svoje spremembe. V bistvu te prisili da vključiš zadnje stanje oddaljenega repozitorija preden lahko deliš svoje delo."
+              "Ker je toliko dvomov v tej situaciji (kjer se je zgodovina razdelila), ti git ne pusti, da bi `pushal` svoje spremembe. V bistvu te prisili, da vključiš zadnje stanje oddaljenega repozitorija, preden lahko deliš svoje delo."
             ]
           }
         },
@@ -2071,10 +2071,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Toliko govorjenja! Poglej stvar v praksi"
+              "Toliko govorjenja! Poglejmo stvar v praksi."
             ],
             "afterMarkdowns": [
-              "Vidiš? Nič se ni spremenilo, ker je ukaz spodeletel. `git push` spodleti, ker tvoj zadnji commit `C3` izhaja iz oddaljenega `C1`. Oddaljen repozitorij se je med tem posodbil na `C2`, zato git zavrne tvoj push"
+              "Vidiš? Nič se ni spremenilo, ker je ukaz spodeletel. `git push` spodleti, ker tvoj zadnji commit `C3` izhaja iz oddaljenega `C1`. Oddaljen repozitorij se je med tem posodobil na `C2`, zato git zavrne tvoj push."
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2086,7 +2086,7 @@ exports.level = {
             "markdowns": [
               "Kako rešiti to zagato? Enostavno je, vse kar moraš narediti je, da spremeniš, da tvoje delo izhaja iz zadnje verzije oddaljenega brancha.",
               "",
-              "Obstaja nekaj načinov, da to narediš, ampak najbol naraven način je, da to narediš z rebaseom. Poglejmo, kako to izgleda."
+              "Obstaja nekaj načinov, da to narediš, ampak najnaravnejši način je, da to narediš z rebaseom. Poglejmo, kako to izgleda."
             ]
           }
         },
@@ -2097,7 +2097,7 @@ exports.level = {
               "Če sedaj rebaseamo, namesto da pushamo ..."
             ],
             "afterMarkdowns": [
-              "Boom! Posodobili smo našo lokalno reprezentacijo oddaljenega repozitorija z `git fetch`, rebaseali naše delo, da vsebuje nove spremembe iz oddaljenega repota, nato pa naložili svoje delo z `git push`"
+              "Boom! Posodobili smo našo lokalno reprezentacijo oddaljenega repozitorija z `git fetch`, rebaseali naše delo, da vsebuje nove spremembe iz oddaljenega repota, nato pa naložili svoje delo z `git push`."
             ],
             "command": "git fetch; git rebase o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2122,7 +2122,7 @@ exports.level = {
               "Če sedaj uporabimo merge namesto rebasea ..."
             ],
             "afterMarkdowns": [
-              "Boom! Posodobili smo našo lokalno sliko oddaljenega repozitorija z `git fetch`, *zmergali* novo delo v naše delo (kot odraz novih sprememb na oddaljenem branchu) in jih nato naložili z `git push`"
+              "Boom! Posodobili smo našo lokalno sliko oddaljenega repozitorija z `git fetch`, *zmergali* novo delo v naše delo (kot odraz novih sprememb na oddaljenem branchu) in jih nato naložili z `git push`."
             ],
             "command": "git fetch; git merge o/master; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2157,7 +2157,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "In sedaj z navadnim `pullom`"
+              "In sedaj z navadnim `pullom` ..."
             ],
             "afterMarkdowns": [
               "Zopet enako kot prej!"

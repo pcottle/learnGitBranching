@@ -33,7 +33,7 @@ exports.level = {
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
-    "sl_SI": "Naredi nov branch z \"git branch <branch-name>\" in ga checkoutaj z \"git checkout <branch-name>\""
+    "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\""
   },
   "disabledMap": {
     "git revert": true
@@ -1157,9 +1157,9 @@ exports.level = {
               "branchaj zgodaj in branchaj pogosto",
               "```",
               "",
-              "Ker ustvarjanje večih branchev ne porablja dodatnega spomina ali prostora, je lažje logično razdeliti svoje delo kot imeti velike težke branche.",
+              "Ker ustvarjanje večih branchev ne porablja dodatnega spomina ali prostora, je lažje logično razdeliti svoje delo kot imeti velike branche.",
               "",
-              "Ko začnemo mešati branche in commite, bomo videli kako se te dve funkcionalnosti dopolnjujeta. Za zdaj si zapomni samo to, da branch ubistvu pomeni \"Hočem vključiti delo tega commita in vseh starševskih commitov.\""
+              "Ko začnemo mešati branche in commite, bomo videli kako se te dve funkcionalnosti dopolnjujeta. Za zdaj si zapomni samo to, da branch ubistvu pomeni \"Hočem vključiti delo tega commita in commite vseh njegovih staršev.\""
             ]
           }
         },
@@ -1167,7 +1167,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Poglejmo kako branchi zgledajo v praksi.",
+              "Poglejmo kako branchi izgledajo v praksi.",
               "",
               "Tu bomo ustvarili nov branch imenovan `newImage`"
             ],
@@ -1185,7 +1185,7 @@ exports.level = {
               "Poizkusimo dodati nekaj dela na ta nov branch. Pristisni gumb spodaj"
             ],
             "afterMarkdowns": [
-              "O ne! `master` branch se je premaknil ampak `newImage` branch se pa ni! To je zato, ker nismo bili \"na\" novem branchu, kot smo lahko videli z označeno zvezdico (*) na `master` branchu"
+              "O ne! `master` branch se je premaknil ampak `newImage` branch se pa ni! To je zato, ker nismo bili \"na\" novem branchu, kot smo lahko videli z označeno zvezdico (*) na `master` branchu."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -1195,16 +1195,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Povejmo gitu da želimo checkoutat branch z",
+              "Povejmo gitu, da želimo checkoutat branch z",
               "",
               "```",
-              "git checkout <name>",
+              "git checkout <ime>",
               "```",
               "",
-              "To nas bo postavilo na nov branch pred commitanjem sprememb"
+              "To nas bo postavilo na nov branch pred commitanjem sprememb."
             ],
             "afterMarkdowns": [
-              "Tako je! Naše sprememebe so zabeležene na novem branchu"
+              "Tako je! Naše sprememebe so zabeležene na novem branchu."
             ],
             "command": "git checkout newImage; git commit",
             "beforeCommand": "git branch newImage"
@@ -1214,12 +1214,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! Pripravljen si da začneš branchat. Ko se to okno zapre, ",
+              "Ok! Pripravljen si, da začneš branchat. Ko se to okno zapre, ",
               "ustvari nov branch z imenom `bugFix` in preklopi na ta branch.",
               "",
               "Mimogrede, tu je bližnjica: če hočeš narediti nov ",
               "branch IN ga hkrati checkoutati, lahko enostavno ",
-              "natipkaš `git checkout -b [yourbranchname]`."
+              "natipkaš `git checkout -b [imeTvojegaBrancha]`."
             ]
           }
         }

@@ -599,7 +599,7 @@ exports.strings = {
     'vi': 'Trạng thái mặc định cho lệnh `reset` của \"Học nhánh Git\" là `--hard`.' +
       ' Nên khi làm bài nếu bạn thấy gõ tham số này hơi tốn công thì cứ bỏ qua.' +
       ' Nhưng mà hãy nhớ rằng thực tế thì `--mixed` mới là trạng thái mặc định của `reset`.',
-      'sl_SI': 'Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.'
+    'sl_SI': 'Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {

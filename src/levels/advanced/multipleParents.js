@@ -1266,9 +1266,9 @@ exports.level = {
               "",
               "Tako kot `~` modifikator, tudi `^` modifikator sprejme opcijsko število na koncu.",
               "",
-              "Raje kot specificiranje število generacij, za katere se hočemo premakniti nazaj (kot pri `~`), modifikator `^` pove kateremu staršu oz. njegovi referenci naj sledi iz commita merga. Zapomni si, da imajo commiti mergev več staršev, zato je pot nejasna.",
+              "Raje kot podajanje števila generacij, za katere se hočemo premakniti nazaj (kot pri `~`), modifikator `^` pove kateremu staršu oz. njegovi referenci naj sledi iz merge commita. Zapomni si, da imajo merge commiti več staršev, zato je pot nejasna.",
               "",
-              "Git bo ponavadi sledil \"prvemu\" staršu navzgor po commitu merga, ampak določitev števila s `^` spremeni privzeto obnašanje.",
+              "Git bo ponavadi sledil \"prvemu\" staršu navzgor po merge commitu, ampak določitev števila s `^` spremeni privzeto obnašanje.",
               "",
               "Dovolj govorjenja, poglejmo stvar v akciji.",
               ""
@@ -1279,12 +1279,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tukaj imamo commit merga. Če checkoutamo `master^` brez modifikatorjev, bomo sledili prvem staršu po commitu merga. ",
+              "Tukaj imamo merge commit. Če checkoutamo `master^` brez modifikatorjev, bomo sledili prvem staršu po merge commitu. ",
               "",
-              "(*V naši vizualizaciji, je postavljen prvi starš direktno nad commitom mergea)"
+              "(* V naši vizualizaciji, je postavljen prvi starš direktno nad merge commitom.)"
             ],
             "afterMarkdowns": [
-              "Enostavno -- Tega smo vsi navajeni."
+              "Enostavno -- tega smo vsi navajeni."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout master; git merge C2"

@@ -21,7 +21,7 @@ exports.level = {
     "ko"   : "Cherry-pick 소개",
     "uk": "Знайомство з cherry-pick",
     "vi"   : "Giới thiệu về cherry-pick",
-    "sl_SI": "Uvod v cherry-pick"
+    "sl_SI": "Uvod v Cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -38,7 +38,7 @@ exports.level = {
     "ko"   : "커밋의 이름들로 git cherry-pick 하세요!",
     "uk": "git cherry-pick базується на іменах комітів!",
     "vi"   : "git cherry-pick sau đó là tên commit!",
-    "sl_SI": "git cherry-pick nato pa imena commitov"
+    "sl_SI": "git cherry-pick nato pa imena commitov."
   },
   "startDialog": {
     "en_US": {
@@ -888,7 +888,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za končanje te stopnje, enostavno skopiraj nekaj dela iz predstavljenih treh branchev v master. Vidiš lako, katere commite želimo, v priloženi vizualizaciji.",
+              "Za končanje te stopnje enostavno skopiraj nekaj dela iz predstavljenih treh branchev v master. V priloženi vizualizaciji lahko vidiš katere commite.",
               ""
             ]
           }

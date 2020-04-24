@@ -21,7 +21,7 @@ exports.level = {
     "ko"   : "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
     "uk"   : "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
     "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase",
-    "sl_SI": "uporabiš lahko bilokater branch ali relativen ref (HEAD~), da določiš cilj za rebase"
+    "sl_SI": "Uporabiš lahko bilokateri branch ali relativno referenco (HEAD~), da določiš cilj za rebase."
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -961,9 +961,9 @@ exports.level = {
               "",
               "Git cherry-pick je odličen način, ko veš katere commite bi rad (in poznaš njihove hashe) -- težko je premagati njegovo enostavnost.",
               "",
-              "Ampak kaj pa situacija, ko ne veš katere commite želiš? K sreči ima git pokrit tudi to! Uporabimo lahko interaktivni rebase -- gre za najboljši način za pregled commitov, ki jih želiš rebaseati.",
+              "Ampak kaj pa situacija, ko ne veš katere commite želiš? K sreči ima git pokrito tudi to! Uporabimo lahko interaktivni rebase -- gre za najboljši način za pregled commitov, ki jih želiš rebaseati.",
               "",
-              "Spustimo se v podrobnosti..."
+              "Spustimo se v podrobnosti ..."
             ]
           }
         },
@@ -975,7 +975,7 @@ exports.level = {
               "",
               "Če vključiš to opcijo, bo git odprl okno, da ti pokaže, kateri commiti bodo skopirani pod naš ciljni commit rebaseanja. Prav tako pokaže tudi njihove hashe in sporočila, kar je super za razumevanje kaj je kaj.",
               "",
-              "Za \"pravi\" git, odprte oknja pomeni odprtje datoteke v urejevalniku kot je `vim`. Za naš namen sem zgradil majhno okno, ki se obnaša enako."
+              "Za \"pravi\" git, odpiranje okna pomeni odpiranje datoteke v urejevalniku kot je `vim`. Za naš namen sem zgradil majhno okno, ki se obnaša enako."
             ]
           }
         },
@@ -986,7 +986,7 @@ exports.level = {
               "Ko se odpre okno za interaktivno rebaseanje, imaš možnost narediti 3 stvari:",
               "",
               "* Enostavno lahko preurediš commite v vrstni red, ki ga želiš (v našem oknu to dosežeš kar s klikom in vlečenjem miške).",
-              "* Odločiš se lahko, da čisto izpustiš nekatere commite. To je omogočeno z `pick` -- izklop `pick` opcije pomeni, da bi rad commit izpustil.",
+              "* Odločiš se lahko, da čisto izpustiš nekatere commite. To je omogočeno s `pick` -- izklop `pick` opcije pomeni, da bi rad commit izpustil.",
               "* Nenazadnje, commite lahko tudi stisnemo. Nažalost naše stopnje tega ne podpirajo zaradi logističnih razlogov, zato bom preskočil podrobnosti tega. Toda če povzamem -- omogoča združevanje commitov.",
               "",
               "Super! Poglejmo primer."
@@ -997,10 +997,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ko pritisneš gumb, se bo pojavilo interaktivno okno. Prerazporedi nekaj commitov okoli (ali pa jih odstrani z pick) in poglej rezultat!"
+              "Ko pritisneš gumb, se bo pojavilo interaktivno okno. Prerazporedi nekaj commitov okoli (ali pa jih odstrani z omit) in poglej rezultat!"
             ],
             "afterMarkdowns": [
-              "Boom! Git je na dno skopiral commite v točno takšnem vrstnem redu, kot si ga določil v oknu"
+              "Boom! Git je na dno skopiral commite v točno takšnem vrstnem redu, kot si ga določil v oknu."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"

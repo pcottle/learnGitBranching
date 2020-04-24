@@ -1097,9 +1097,9 @@ exports.level = {
               "",
               "Premikanje po Gitu z določanjem hashev commitov je lahko včasih nerodno. V praksi ne boš imel na voljo lepe vizualizacije drevesa zraven ukaznega terminala, zato boš moral uporabljati `git log`, da boš videl hashe.",
               "",
-              "Nadaljne, hashi so ponavadi v praksi tudi veliko daljši. Naprimer, hash commita predstavljenega v prejšnji stopnji je `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Ni ravno preprosto za izgovoriti ...",
+              "Hashi so ponavadi v praksi tudi veliko daljši. Naprimer, hash commita, predstavljenega v prejšnji stopnji, je `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Ni ravno preprosto za izgovoriti ...",
               "",
-              "Pozitivna stran je, da je Git pameten glede hashev. Zahteva, da napišeš le toliko znakov hasha, da lahko prepozna unikaten commit. Tako lahko napišem `fed2` namesto dolge verzije zgoraj."
+              "Pozitivna stran je, da je Git pameten glede hashev. Zahteva, da napišeš le toliko znakov hasha, da lahko prepozna unikaten commit. Tako lahko napišem `fed2`, namesto dolge verzije zgoraj."
             ]
           }
         },
@@ -1107,14 +1107,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Kot sem rekel, izbiranje commitov po njihovih commitih ni ravno najpriročnejša stvar na svetu, zato ima Git relativne reference. In te so super!",
+              "Kot sem rekel, izbiranje commitov po njihovih hashih ni ravno najpriročnejša stvar na svetu, zato ima Git relativne reference. In te so super!",
               "",
-              "Z relativni referencami, lahko izhajaš iz nekje (npr. branch `bugFix` ali `HEAD`) in delaš od tam.",
+              "Z relativni referencami lahko izhajaš iz nekje (npr. branch `bugFix` ali `HEAD`) in delaš od tam.",
               "",
-              "Relativni commiti so mogočni, ampak tu bomo predstavili dva preprosta:",
+              "Relativni commiti so močni in obsegajoči, ampak tu bomo predstavili dva preprosta:",
               "",
               "* Premikanje navzgor en commit naenkrat z `^`",
-              "* Premikanje navzgor num-krat z `~<num>`"
+              "* Premikanje navzgor n-krat z `~<n>`"
             ]
           }
         },
@@ -1122,16 +1122,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Pogljemo najprej operator `^`. Vsakič, ko pripneš to imenu reference, poveš Gitu naj najde starša tega commita.",
+              "Poglejmo najprej operator `^`. Vsakič, ko pripneš to imenu reference, poveš Gitu, naj najde starša tega commita.",
               "",
               "Torej `master^` je isto kot \"prvi starš brancha `master`\".",
               "",
-              "`master^^` je stari starš (prednik druge generacije) `master`",
+              "`master^^` je stari starš (prednik druge generacije) `master`.",
               "",
-              "Checkoutajmo sedaj commit nad masterjem"
+              "Checkoutajmo sedaj commit nad masterjem."
             ],
             "afterMarkdowns": [
-              "Boom! Narejeno. Veliko enostavneje kot tipkanje hasha commita"
+              "Boom! Narejeno. Veliko enostavneje kot tipkanje hasha commita."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -1144,7 +1144,7 @@ exports.level = {
               "Prav tako se lahko sklicuješ na `HEAD` kot relativno referenco. Uporabimo to nekajkrat, da se pomakenmo višje po drevesu commitov"
             ],
             "afterMarkdowns": [
-              "Enostavno! Lahko potujemo nazaj v čas z `HEAD^`"
+              "Enostavno! Lahko potujemo nazaj v čas z `HEAD^`."
             ],
             "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -1154,7 +1154,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje, checkoutaj starša commita `bugFix`. To bo razdružilo `HEAD`.",
+              "Za dokončanje te stopnje, checkoutaj starša commita `bugFix`. To bo ločilo `HEAD`.",
               "",
               "Hash lahko določiš, če želiš, ampak probaj raje z relativnimi referencami!"
             ]

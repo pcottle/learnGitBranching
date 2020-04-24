@@ -48,7 +48,7 @@ exports.level = {
     "ru_RU": "Не забудь переместить master на последние изменения.",
     "uk": "Не забудь перемістити master на останні зміни!",
     "vi": "Đừng quên đẩy nhánh master lên cập nhật mới nhất!",
-    "sl_SI": "Ne pozabi prestaviti master naprej na posodobljene spremembe"
+    "sl_SI": "Ne pozabi prestaviti master naprej na posodobljene spremembe."
   },
   "startDialog": {
     "en_US": {
@@ -655,11 +655,11 @@ exports.level = {
             "markdowns": [
               "## Žongliranje s Commiti #2",
               "",
-              "* Če še nisi končal Žongliranje s Commiti #1 (prejšnjo stopnjo), jo končaj pred nadaljevanjem*",
+              "Če še nisi končal Žongliranje s Commiti #1 (prejšnjo stopnjo), jo končaj pred nadaljevanjem",
               "",
               "Kot si videl v prejšnji stopnji, smo uporabili `rebase -i` za preureditev commitov. Ko je bil commit, ki smo ga želeli spremeniti, na vrhu, smo preprosto uporabili --amend in preuredili nazaj v naše željeno stanje.",
               "",
-              "Edini problem tu je, da je veliko prerazporejanja, kar lahko povzroči rebase konflikte. Poglejmo si še eno drugo tehniko `git cherry-pick`"
+              "Edini problem tu je, da je veliko prerazporejanja, kar lahko povzroči rebase konflikte. Poglejmo si še eno drugo tehniko imenovano `git cherry-pick`."
             ]
           }
         },
@@ -684,7 +684,7 @@ exports.level = {
             "markdowns": [
               "Torej v tej stopnji bi radi enako spremenili `C2`, ampak tokrat brez uporabe `rebase -i`. Kako to narediti, prepustim tebi! :D",
               "",
-              "Točno število zgornjih vejic (') na commitu ni pomembno, pomembna je samo relativna sprememba. Naprimer, vse točko bom dal tudi za drevo, ki ustreza ciljenmu drevesu, a ima povsod dodatno vejico"
+              "Točno število opuščajev (') na commitu ni pomembno, pomembna je samo relativna sprememba. Naprimer, vse točko bom dal tudi za drevo, ki ustreza ciljenmu drevesu, a ima povsod dodaten opuščaj."
             ]
           }
         }

@@ -38,7 +38,7 @@ exports.level = {
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
     "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
-    "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri"
+    "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri."
   },
   "startDialog": {
     "en_US": {
@@ -330,11 +330,11 @@ exports.level = {
               "",
               "WOAHHHhhh Miško! Ta stopnja bo pa pravi izziv.",
               "",
-              "Tu imamo `master`, ki je nekaj commitov pred branchi `one`, `two` in `three`. Iz neznanega razloga moramo posodbiti te tri druge branche z modificiranimi različicami zadnjih nekaj commitov na masterju.",
+              "Tu imamo `master`, ki je nekaj commitov pred branchi `one`, `two` in `three`. Iz neznanega razloga moramo posodobiti te tri druge branche z modificiranimi različicami zadnjih nekaj commitov na masterju.",
               "",
               "Branch `one` potrebuje prerazporeditev in izbris `C5`. `two` rabi samo prerazporeditev, `three` pa potrebuje samo en commit!",
               "",
-              "Prepustili ti bomo da ugotovi kako tole rešiti -- vseeno lahko na koncu preveriš našo rešitev s `show solution`. "
+              "Prepustili ti bomo, da sam ugotoviš, kako tole rešiti -- vseeno lahko na koncu preveriš našo rešitev s `show solution`. "
             ]
           }
         }

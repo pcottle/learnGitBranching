@@ -10,7 +10,7 @@ exports.level = {
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
     "fr_FR": "Créer la branche feature à partir du master local, avant de la restaurer dans le même état que o/master",
     "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요.",
-    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master "
+    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master."
   },
   "name": {
     "en_US": "Locked Master",

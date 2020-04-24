@@ -857,7 +857,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Naši Ukazi za kreiranje oddaljenih repozitorijev",
+              "## Naši ukazi za kreiranje oddaljenih repozitorijev",
               "",
               "Do te točke, se je Learn Git Branching osredotočil na učenje osnov dela na lokalnih repozitorijih (branching, merging, rebasing, itd). Ampak sedaj, ko se hočemo naučiti še o delu na oddaljenih repozitorijih, potrebujemo ukaz, da postavi okolje za te lekcije. `git clone` bo ta ukaz.",
               "",
@@ -874,7 +874,7 @@ exports.level = {
               ""
             ],
             "afterMarkdowns": [
-              "Evo ga! Sedaj imamo oddaljen repozitorij našega projekta. Izgleda precej podoben razen nekaj vizalnih sprememb, da se opazi razlika -- v kasnejših stopnjah boš spoznal, kako si delimo delo preko teh repozitorijev."
+              "Evo ga! Sedaj imamo oddaljen repozitorij našega projekta. Izgleda precej podoben razen nekaj vizualnih sprememb, da se opazi razlika -- v kasnejših stopnjah boš spoznal, kako si delimo delo preko teh repozitorijev."
             ],
             "command": "git clone",
             "beforeCommand": ""

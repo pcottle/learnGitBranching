@@ -34,7 +34,7 @@ exports.level = {
     "uk"   : "Просто виконай git fetch!",
     "ko"   : "그냥 git fetch를 하세요!",
     "vi"   : "Gõ git fetch là được!",
-    "sl_SI": "le izvedi git fetch!"
+    "sl_SI": "Le izvedi git fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -1071,7 +1071,7 @@ exports.level = {
               "",
               "V tej lekciji se bomo naučili kako fetchat (prenesti) podatke iz oddaljenega repozitorija -- ukaz za to je poimenovan `git fetch`.",
               "",
-              "Opazil boš, da ko posodobimo našo predstavitev oddaljenega repota, se bo naša oddaljena veja posodobila in imela nove spremembe. To se navezuje na prejšnjo lekcijo o oddaljenih repozitorijih"
+              "Opazil boš, da ko posodobimo našo predstavitev oddaljenega repota, se bo naš oddaljen branch posodobil in imel nove spremembe. To se navezuje na prejšnjo lekcijo o oddaljenih repozitorijih."
             ]
           }
         },
@@ -1101,7 +1101,7 @@ exports.level = {
               "",
               "`git fetch` v bistvu našo lokalno predstavitev oddaljenega repozitorija uskladi z dejanskim stanjem na oddaljenem repozitoriju.",
               "",
-              "Če se spomneš še iz prejšnje lekcije smo rekli, da oddaljeni branchi odsevajo stanje na oddaljenih repozitorijih odkar si komuniciral z njimi. `git fetch` je način, da komuniciraš z njimi! Upam, da je sedaj povezava med oddaljenimi repozitoriji in `git fetch` jasna.",
+              "Če se spomneš še iz prejšnje lekcije smo rekli, da oddaljeni branchi odsevajo stanje na oddaljenih repozitorijih, odkar si komuniciral z njimi. `git fetch` je način, da komuniciraš z njimi! Upam, da je sedaj povezava med oddaljenimi repozitoriji in `git fetch` jasna.",
               "",
               "`git fetch` ponavadi komunicira z oddaljenimi repozitoriji preko interneta (s protokolom kot sta `http://` ali `git://`).",
               ""

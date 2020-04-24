@@ -34,7 +34,7 @@ exports.level = {
     "ko"   : "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!",
     "uk"   : "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
     "vi"   : "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!",
-    "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota"
+    "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota."
   },
   "startDialog": {
     "en_US": {
@@ -1714,15 +1714,15 @@ exports.level = {
             "markdowns": [
               "## Sledenje oddaljenega repota",
               "",
-              "Če povzamem, ta povezava med `master` in `o/master` je preprosto razložena z \"oddaljenim sledenjem\" lastnosti branchev. `master` branch je nastavljen, da sledi `o/master` -- to pomeni, da obstaja impliciran cilj merga in impliciran cilj pusha za `master` branch.",
+              "Če povzamem, ta povezava med `master` in `o/master` je preprosto razložena z lastnostnjo \"oddaljenega sledenja\" branchev. `master` branch je nastavljen, da sledi `o/master` -- to pomeni, da obstaja impliciran cilj merga in impliciran cilj pusha za `master` branch.",
               "",
               "Morda se sprašuješ, kako se je nastavila ta lastnost na `master` branchu, čeprav nisi izvedel nobenega ukaza za to. No, ko kloniraš repo z gitom, je ta lastnost v bistvu nastavljena zate avtomatično. ",
               "",
-              "Med kloniranjem git ustvari oddaljen branch za vsak branch na oddaljenem repotu (branchi kot `o/master`). Nato ustvati lokalen branch, ki sledi trenutno aktvinemu branchu na oddaljenem repotu, ki je v večini primerov `master`.",
+              "Med kloniranjem git ustvari oddaljen branch za vsak branch na oddaljenem repotu (branchi kot `o/master`). Nato ustvari lokalen branch, ki sledi trenutno aktivnemu branchu na oddaljenem repotu, ki je v večini primerov `master`.",
               "",
               "Ko git clone zaključi, imaš samo en lokalen branch (da nisi zasipan), ampak lahko vidiš vse različne branche na oddaljenem repotu (če si zelo radoveden). Najboljše iz obeh svetov!",
               "",
-              "To tudi razloži zakaj lahko vidiš sledeč izpis ukaza med kloniranjem:",
+              "To tudi razloži, zakaj lahko vidiš sledeč izpis ukaza med kloniranjem:",
               "",
               "    local branch \"master\" set to track remote branch \"o/master\""
             ]
@@ -1734,9 +1734,9 @@ exports.level = {
             "markdowns": [
               "### Ali ga lahko določim sam?",
               "",
-              "Seveda se da! Narediš lahko, da bilokater branch sledi `o/master`, v tem primeru bo imel ta branch enak impliciran cilj za push in merge kot `master`. To pomeni, da lahko poženeš `git push` na branchu poimenovanem `splohNiMaster` in pushas svoje delo na `master` branch na oddaljenem repotu!",
+              "Seveda se da! Narediš lahko, da bilokateri branch sledi `o/master`. V tem primeru bo imel ta branch enak impliciran cilj za push in merge kot `master`. To pomeni, da lahko poženeš `git push` na branchu poimenovanem `splohNiMaster` in pushas svoje delo na `master` branch na oddaljenem repotu!",
               "",
-              "Obstajata dva načina, da nastaviš to lastnost. Prvi je, da checkoutaš nov branch z uporabo oddaljenega brancha kot določena referenca. Izvedba",
+              "Obstajata dva načina, da nastaviš to lastnost. Prvi je, da checkoutaš nov branch z uporabo oddaljenega brancha kot določeno referenca. Izvedba",
               "",
               "`git checkout -b splohNiMaster o/master`",
               "",
@@ -1764,7 +1764,7 @@ exports.level = {
               "To velja tudi za git push"
             ],
             "afterMarkdowns": [
-              "Boom. Naše delo smo naložili na `master` na oddaljenem repotu, čeprav je ime našega brancha nekaj povsem drugega"
+              "Boom. Naše delo smo naložili na `master` na oddaljenem repotu, čeprav je ime našega brancha nekaj povsem drugega."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -1776,11 +1776,11 @@ exports.level = {
             "markdowns": [
               "### Način #2",
               "",
-              "Še en način, da se nastavi oddaljeno sledenje na branchu, je da se uporabi `git branch -u` opcija. Izvedba",
+              "Še en način, da se nastavi oddaljeno sledenje na branchu, je, da se uporabi `git branch -u` opcija. Izvedba",
               "",
               "`git branch -u o/master foo`",
               "",
-              "bo nastavila `foo` branch, da sledi `o/master`. Če je `foo` trenutno checkoutan, ga lahko celo izpustiš:",
+              "bo nastavila `foo` branch, da sledi `o/master`. Če je `foo` trenutno checkoutan, ga lahko celo izpustiš",
               "",
               "`git branch -u o/master`",
               ""

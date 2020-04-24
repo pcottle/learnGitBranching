@@ -49,7 +49,7 @@ exports.level = {
     "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
     "uk": "Перша команда має бути git rebase -i HEAD~2",
     "vi": "Lệnh đầu tiên là git rebase -i HEAD~2",
-    "sl_SI": "Prvi ukaz je git rebase -i HEAD~2"
+    "sl_SI": "Prvi ukaz je git rebase -i HEAD~2."
   },
   "startDialog": {
     "en_US": {
@@ -552,15 +552,15 @@ exports.level = {
             "markdowns": [
               "Ta izziv bomo rešili takole:",
               "",
-              "* Preuredili bomo commite tako, da bo tisti, ki ga želimo spremeniti na vrhu z `git rebase -i`",
-              "* Izvedli bomo `commit --amend` da naredimo naš popravek",
-              "* Nato bomo preuderili commite nazaj v začetno stanje z `git rebase -i`",
+              "* Preuredili bomo commite tako, da bo tisti, ki ga želimo spremeniti, na vrhu z `git rebase -i`",
+              "* Izvedli bomo `commit --amend`, da naredimo naš popravek",
+              "* Nato bomo preuredili commite nazaj v začetno stanje z `git rebase -i`",
               "* Za konec bomo premaknili master na ta posodobljen del drevesa, da zaključimo stopnjo (z metodo po tvoji izbiri)",
               "",
               "Obstaja več načinov, da dosežemo ta cilj (vidim te kako gledaš cherry-pick) s katerimi se bomo ukvarjali kasneje, ampak za zdaj se osredotočimo na to tehniko.",
-              "In nenazadnje, bodi pozoren na ciljno stanje -- ker premaknemo commit dvakrat, oba dobita pripeto vejico zgoraj. Še ena je dodana za ammendan commit, torej skupno tri ",
+              "In nenazadnje, bodi pozoren na ciljno stanje -- ker premaknemo commit dvakrat, oba dobita pripet opuščaj zgoraj. Še eden je dodan za ammendan commit, torej skupno tri.",
               "",
-              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi vejic. Dokler ima `master` branch na tvojem drevesu enako strukturo in število vejic, dobiš vse točke"
+              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi opuščajev. Dokler ima `master` branch na tvojem drevesu enako strukturo in število opuščajev, dobiš vse točke."
             ]
           }
         }

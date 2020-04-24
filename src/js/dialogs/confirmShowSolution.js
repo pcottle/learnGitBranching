@@ -141,7 +141,7 @@ exports.dialog = {
       markdowns: [
         '## Si prepričan, da hočeš videti rešitev?',
         '',
-        'Verjamem vate! Maš ti to'
+        'Verjamem vate! Maš ti to! Ali pač ne?'
       ]
     }
   }]

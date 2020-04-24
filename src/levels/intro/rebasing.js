@@ -33,7 +33,7 @@ exports.level = {
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
     "uk": "Впевнись, що зробив коміт в гілці bugFix",
     "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
-    'sl_SI': 'Prepričaj se, da si najprej commital bugFix'
+    'sl_SI': 'Prepričaj se, da si najprej commital bugFix.'
   },
   "disabledMap": {
     "git revert": true
@@ -999,7 +999,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tu imamo spet dva brancha; trenutno izbran je bugFix branch (zvezdica)",
+              "Tu imamo spet dva brancha; trenutno izbran je branch bugFix (zvezdica).",
               "",
               "Radi bi prestavili naše delo iz bugFix direktno na delo iz masterja. Tako bi izgledalo, kot da sta bili ti dve funkcionalnosti razviti zaporedno, v resnici pa sta bili razviti vzporedno.",
               "",
@@ -1008,7 +1008,7 @@ exports.level = {
             "afterMarkdowns": [
               "Super! Sedaj je naše delo iz bugFix brancha na vrhu masterja in imamo lepo zaporedje commitov.",
               "",
-              "Omenimo, da commit C3 še vedno obstaja nekje (v drevesu je zbledel), in C3' je vbistvu \"kopija\", ki smo jo rebaseali na master.",
+              "Omenimo, da commit C3 še vedno obstaja nekje (v drevesu je zbledel), in C3' je v bistvu \"kopija\", ki smo jo rebaseali na master.",
               "",
               "Edini problem je, da tudi master ni bil posodobljen, naredimo to sedaj ..."
             ],
@@ -1033,11 +1033,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Da zaključiš to stopnjo, naredi naslednje",
+              "Da zaključiš to stopnjo, naredi naslednje:",
               "",
               "* Checkoutaj nov branch poimenovan `bugFix`",
               "* Enkrat commitaj",
-              "* Pojdni nazaj na master in commita ponovno",
+              "* Pojdi nazaj na master in commitaj ponovno",
               "* Ponovno checkoutaj bugFix in ga rebaseaj na master",
               "",
               "Srečno!"

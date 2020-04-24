@@ -17,7 +17,7 @@ exports.level = {
     "ko"   : "HEAD 분리하기",
     "uk": "Втрачаємо голову чи detached HEAD",
     'vi': "Tháo đầu cái nào",
-    "sl_SI": "Odstranjevanje tvoje glave - HEAD"
+    "sl_SI": "Ločevanje tvoje glave - HEAD-a"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -1133,7 +1133,7 @@ exports.level = {
             "markdowns": [
               "## Premikanje po Gitu",
               "",
-              "Preden se lotimo nekaj naprednejših funkcij Gita, je pomembno da razumemo različne načine premikanja po drevesu commitov, ki predstavljajo tvoj projekt.",
+              "Preden se lotimo nekaj naprednejših funkcij Gita je pomembno, da razumemo različne načine premikanja po drevesu commitov, ki predstavljajo tvoj projekt.",
               "",
               "Ko ti je enkrat premikanje po drevesu domače, bodo tvoje sposobnosti z ostalimi git ukazi še močnejše!",
               "",
@@ -1150,7 +1150,7 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "Najprej moramo spozanti \"HEAD\". HEAD (glava) je simbolično ime za trenutno checkoutan commit -- v bistvu povemo nad katerim commitu bomo nadaljevali.",
+              "Najprej moramo spozanti \"HEAD\". HEAD (glava) je simbolično ime za trenutno checkoutan commit -- v bistvu povemo na katerem commitom bomo nadaljevali.",
               "",
               "HEAD vedno kaže na zadnji commit na trenutnem drevesu. Večina git ukazov, ki spreminjajo to delovno drevo, bo začelo s spremembo HEAD-a.",
               "",
@@ -1175,15 +1175,15 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "### Odstranjevanje HEAD-a",
+              "### Ločevanje HEAD-a",
               "",
-              "Odstranjevanje HEAD-a pomeni samo, da ga namestno na branch sedaj pripnemo na commit. Tako je zgledalo prej:",
+              "Ločevanje HEAD-a pomeni samo, da ga namestno na branch sedaj pripnemo na commit. Tako je izgledalo prej:",
               "",
               "HEAD -> master -> C1",
               ""
             ],
             "afterMarkdowns": [
-              "Sedaj pa takole",
+              "Sedaj pa je takole:",
               "",
               "HEAD -> C1"
             ],
@@ -1195,7 +1195,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje, odstranimo HEAD iz `bugFix` in ga pritrdimo raje na commit.",
+              "Za dokončanje te stopnje odstranimo HEAD iz `bugFix` in ga pritrdimo raje na commit.",
               "",
               "Določi ta commit z njegovim hash-om. Hash za vsak commit je predstavljen v krogu, ki predstavlja commit."
             ]

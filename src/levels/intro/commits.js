@@ -647,11 +647,11 @@ exports.level = {
               "## Git Commits",
               "Commit v git repozitoriju zabeleži stanje vseh datotek v tvoji mapi. Deluje kot tak velik 'Izreži in Prilepi', vendar še bolje!",
               "",
-              "Git hoče commite ohraniti majhne kot se da, tako da ne skopira vsakič kar vseh datotek ob commitu. Lahko (kadar je možno) stisne commit le kot množico sprememb oziroma kot \"delto\" sprememb med eno in drugo različico v repozitoriju.",
+              "Git hoče commite ohraniti majhne kot se le da, tako da ne skopira vsakič kar vseh datotek ob commitu. Lahko (kadar je možno) stisne commit le kot množico sprememb oziroma kot \"delto\" sprememb med eno in drugo različico v repozitoriju.",
               "",
               "Git vodi tudi zgodovino o tem, kdaj je bil kateri commit narejen. Zato ima večina commitov nad seboj svoje prednike -- to je v vizualizaciji predstavljeno s puščicami. Vzdrževanje zgodovine je uporabno za vse, ki delajo na projektu!",
               "",
-              "Veliko je za dojeti na začetku ampak za zdaj si lahko predstavljaš commite kot posnetek projekta v določenem času. Commiti so zelo majhni in prehajanje med njimi je noro hitro!"
+              "Veliko je za dojeti na začetku, ampak za zdaj si lahko predstavljaš commite kot posnetek projekta v določenem času. Commiti so zelo majhni in prehajanje med njimi je noro hitro!"
             ]
           }
         },

@@ -653,7 +653,7 @@ exports.dialog = {
         '',
         'Vidiš lahko vse ukaze, ki so na voljo, z ukazom `show commands` v terminalu.',
         '',
-        'PS: Bi rad šel naslednjič naravnost v peskovnik?',
+        'PS: Bi šel rad naslednjič naravnost v peskovnik?',
         'Poizkusi s',
         '[to posebno povezavo](https://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]

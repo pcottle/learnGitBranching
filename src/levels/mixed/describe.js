@@ -34,7 +34,7 @@ exports.level = {
     "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
     "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
-    "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje"
+    "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje."
   },
   "startDialog": {
     "en_US": {
@@ -931,9 +931,9 @@ exports.level = {
             "markdowns": [
               "### Git Describe",
               "",
-              "Ker tagi služijo kot tako odlična \"sidra\" v kodi, ima git ukaz za *opis* kje si, relativno glede na najbližije \"sidro\" (aka tag). Temu ukazu se reče `git describe`!",
+              "Ker tagi služijo kot tako odlična \"sidra\" v kodi, ima git ukaz za *opis* kje si, relativno glede na najbližje \"sidro\" (aka tag). Temu ukazu se reče `git describe`!",
               "",
-              "Git describe se ti lahko pomaga orientirati, če si premikal veliko commitov naprej in nazaj po zgodovini; to se lahko zgodi, če si končal git bisekcijo (iskanje kot debuggiranje) ali če se usedeš za sodelavčev računalnik, ko je prišel iz dopusta."
+              "Git describe se ti lahko pomaga orientirati, če si premikal veliko commitov naprej in nazaj po zgodovini; to se lahko zgodi, če si končal git bisekcijo (iskanje kot debuggiranje) ali če se usedeš za sodelavčev računalnik, ko je ravno prišel z dopusta."
             ]
           }
         },
@@ -962,7 +962,7 @@ exports.level = {
               "Poglejmo hiter primer. Za drevo spodaj:"
             ],
             "afterMarkdowns": [
-              "Ukaz `git describe master` bi izpisal:",
+              "Bi ukaz `git describe master` izpisal:",
               "",
               "`v1_2_gC2`",
               "",
@@ -978,7 +978,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To je približno vse, kar se tiče git describe! Poizkusi za občutek opisati nekaj lokacij v tej stopnji.",
+              "To je približno vse, kar se tiče git describe-a! Poizkusi za občutek opisati nekaj lokacij v tej stopnji.",
               "",
               "Ko si pripravljen, samo enkrat commitaj, da zaključiš stopnjo. Tole ti častimo :P"
             ]

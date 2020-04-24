@@ -36,7 +36,7 @@ exports.level = {
     "uk"   : "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
     "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
     "vi"   : "Nhớ rằng bạn phải clone trước khi push!",
-    "sl_SI": "Najprej moraš klonirati preden lahko pushaš!"
+    "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!"
   },
   "startDialog": {
     "en_US": {
@@ -650,7 +650,7 @@ exports.level = {
               "",
               "`git push` si lahko predstavljaš kot ukaz, ki \"objavi\" tvoje delo. Ima kopico majhnih stvari, katere bomo raziskali v kratkem, ampak začnimo z majhnimi koraki ...",
               "",
-              "*opomba -- obnašanje `git push` brez argumentov je odvisno od nastavitev gita imenovanih `push.default`. Privzeta vrednost za to nastavitev je odvisna od različice gita, ki jo uporabljaš, ampak mi bomo uporabljali `upstream` vrednost v naši lekciji. To ni neka velika stvar, ampak jo je vredno preveriti preden pushamo na svojem projektu.*"
+              "*Opomba -- obnašanje `git push` brez argumentov je odvisno od nastavitev gita imenovanih `push.default`. Privzeta vrednost za to nastavitev je odvisna od različice gita, ki jo uporabljaš, ampak mi bomo uporabljali `upstream` vrednost v naši lekciji. To ni neka velika stvar, ampak jo je vredno preveriti, preden pushamo na svojem projektu.*"
             ]
           }
         },
@@ -661,7 +661,7 @@ exports.level = {
               "Tu imamo nekaj sprememb, ki jih oddaljen repo nima. Dajmo jih naložiti!"
             ],
             "afterMarkdowns": [
-              "Tako je -- oddaljen repo je preje commit `C2`, branch `master` na oddaljenem repotu je bil posodobljen, da kaže na `C2` in naš *lasten* prikaz oddaljenega repota (`o/master`) je bil prav tako posodobljen. Vse je usklajeno!"
+              "Tako je -- oddaljen repo je prejel commit `C2`, branch `master` na oddaljenem repotu je bil posodobljen, da kaže na `C2` in naš *lasten* prikaz oddaljenega repota (`o/master`) je bil prav tako posodobljen. Vse je usklajeno!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -671,7 +671,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje, preprosto deli dva nova commita z oddaljenim repotom. Nato pa se pripno, ker bodo lekcije postale dosti težje!"
+              "Za dokončanje te stopnje, preprosto deli dva nova commita z oddaljenim repotom. Nato pa se pripni, ker bodo lekcije postale dosti težje!"
             ]
           }
         }

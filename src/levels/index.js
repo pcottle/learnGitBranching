@@ -251,7 +251,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ru_RU': 'Сборная солянка',
       'uk'   : 'Всяке',
       'vi'   : 'Những trò mèo đáng đồng tiền bát gạo',
-      'sl_SI': 'Mešana vreča'
+      'sl_SI': 'Mešana Vreča'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',

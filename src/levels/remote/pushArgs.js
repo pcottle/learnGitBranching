@@ -37,7 +37,7 @@ exports.level = {
     "ko"   : "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
     "uk"   : "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
     "vi"   : "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại",
-    "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\""
+    "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\"."
   },
   "startDialog": {
     "en_US": {
@@ -1022,7 +1022,7 @@ exports.level = {
               "",
               "se v slovenščini prevede v:",
               "",
-              "*Pojdi na branch poimenovan \"master\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"master\" na oddaljenem repotu poimenovan \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
+              "*Pojdi na branch poimenovan \"master\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"master\" na oddaljenem repotu poimenovanem \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
               "",
               "Z določanjem `masterja` kot \"place\" argument, smo povedali gitu iz kje bodo commiti *prišli* in kam bodo commiti *šli*. V bistvu je to \"mesto\" oziroma \"lokacija\" za uskladitev med dvema repozitorijema.",
               "",

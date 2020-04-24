@@ -901,7 +901,7 @@ exports.level = {
               "",
               "Sedaj ko smo videli `git clone` v praksi se poglobimo v dejanske spremembe.",
               "",
-              "Prva stvar, ki si jo morda opazil je, da se je pojavil nov branch na našem lokalnem repotu imenovan `o/master`. Temu tipu brancha pravimo _oddaljen_(remote) branch; oddaljeni branch ima posebne lastnosti, ker služijo določenim namenom.",
+              "Prva stvar, ki si jo morda opazil je, da se je pojavil nov branch na našem lokalnem repotu imenovan `o/master`. Temu tipu brancha pravimo _oddaljen_ (remote) branch; oddaljeni branchi imajo posebne lastnosti, ker služijo določenim namenom.",
               "",
               "Oddaljeni branchi odražajo _stanje_ oddaljenega repozitorija (od kar si nazadnje komuniciral z oddaljenim repotom). To ti morda pomaga razumeti razliko med tvojim lokalnim delom in delom, ki je javno -- ključni korak, preden deliš svoje delo z ostalimi.",
               "",
@@ -915,7 +915,7 @@ exports.level = {
             "markdowns": [
               "### Kaj je `o/`?",
               "",
-              "Morda se sprašuješ, kaj je ta `o/` spredaj pred oddaljenmi branchi. Tudi oddaljeni branchi imajo (zahtevano) pravilo za poimenovanje -- predstavljeni so v sledečm formatu:",
+              "Morda se sprašuješ, kaj je ta `o/` spredaj pred oddaljenmi branchi. Tudi oddaljeni branchi imajo (zahtevano) pravilo za poimenovanje -- predstavljeni so v sledečem formatu:",
               "",
               "* `<ime oddaljenega repota>/<ime brancha>`",
               "",
@@ -936,7 +936,7 @@ exports.level = {
               "Checkoutajmo oddaljen branch in poglejmo kaj se zgodi"
             ],
             "afterMarkdowns": [
-              "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/master`, ko dodamo nov commit. To je zato, ker se bo `o/master` posodobil šele ko se bo posodobil oddaljen repo."
+              "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/master`, ko dodamo nov commit. To je zato, ker se bo `o/master` posodobil šele, ko se bo posodobil oddaljen repo."
             ],
             "command": "git checkout o/master; git commit",
             "beforeCommand": "git clone"
@@ -946,7 +946,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje, commitaj enkrat iz `master` in enkrat ko checkoutaš `o/master`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
+              "Za dokončanje te stopnje, commitaj enkrat iz `master` in enkrat, ko checkoutaš `o/master`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
             ]
           }
         }

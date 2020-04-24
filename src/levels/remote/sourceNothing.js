@@ -743,7 +743,7 @@ exports.level = {
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
               "",
-              "Poglejmo kaj to naredi ..."
+              "Poglejmo, kaj to naredi ..."
             ]
           }
         },
@@ -751,7 +751,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Kaj naredi pushanje \"ničesar\" na oddalejn branch? Izbriše ga!"
+              "Kaj naredi pushanje \"ničesar\" na oddaljen branch? Izbriše ga!"
             ],
             "afterMarkdowns": [
               "Tako, uspešno smo izbrisali `foo` branch na oddaljenem repotu s konceptom pushanja \"ničesar\" nanj. To ima nekako smisel ..."
@@ -777,7 +777,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To je hitra stopnja -- samo izbriši en oddaljen branch in naredi novega z `git fetch` da zaključiš!"
+              "To je hitra stopnja -- samo izbriši en oddaljen branch in naredi novega z `git fetch`, da zaključiš!"
             ]
           }
         }

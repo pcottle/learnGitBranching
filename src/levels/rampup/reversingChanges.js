@@ -35,7 +35,7 @@ exports.level = {
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
     "vi": "Lưu ý rằng hoàn tác(revert) và đặt lại(reset) có những đối số khác nhau.",
-    "sl_SI": "Revert in reset sprejmeta različne argumente"
+    "sl_SI": "Revert in reset sprejmeta različne argumente."
   },
   "startDialog": {
     "en_US": {
@@ -943,7 +943,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` povrne spremembe tako, da prestavi referenco brancha na starejši commit. Lahko si predstavljaš kot \"pisanje zgodovine na novo;\" `git reset` bo prestavil branch nazaj, kot da se commiti sploh niso zgodili.",
+              "`git reset` povrne spremembe tako, da prestavi referenco brancha na starejši commit. Lahko si predstavljaš kot \"pisanje zgodovine na novo\"; `git reset` bo prestavil branch nazaj, kot da se commiti sploh niso zgodili.",
               "",
               "Poglejmo kako to izgleda:"
             ],
@@ -962,7 +962,7 @@ exports.level = {
               "",
               "Medtem ko ponastavljanje z reset deluje super na lokalnih brancih na tvoji mašini, njegova metoda \"prepisovanja zgodovina\" ne deluje na remote brancih, ki jih uporabljajo drugi.",
               "",
-              "Če želimo ponastaviti spremembe in *deliti* te ponastavitve z drugimi, moramo uporabiti `git revert`. Poglejmo si to v praksi"
+              "Če želimo ponastaviti spremembe in *deliti* te ponastavitve z drugimi, moramo uporabiti `git revert`. Poglejmo si to v praksi."
             ],
             "afterMarkdowns": [
               "Čudno, nov commit se je naredil pod commitom, ki smo ga želeli reversati. To je zato, ker ta nov commit `C2'` uvede *spremembe* -- spremembe so pač v tem primeru točno nasprotne od `C2`.",
