@@ -13,6 +13,8 @@ require('jquery-ui/ui/data');
 require('jquery-ui/ui/widgets/mouse');
 require('jquery-ui/ui/ie');
 require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/plugin');
+require('jquery-ui/ui/widgets/draggable');
 
 var InteractiveRebaseView = ContainedBase.extend({
   tagName: 'div',
