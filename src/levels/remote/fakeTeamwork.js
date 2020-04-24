@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Коллективная работа",
     "uk"   : "Симуляція колективної роботи",
     "ko"   : "가짜 팀워크",
-    "vi"   : "Giả lập làm việc nhóm"
+    "vi"   : "Giả lập làm việc nhóm",
+    "sl_SI": "Lažno Ekipno Delo"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
     "ko"   : "가장할 커밋의 갯수를 조절할 수 있습니다.",
-    "vi"   : "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập."
+    "vi"   : "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập.",
+    "sl_SI": "pomni da lahko določiš število lažnih commitov"
   },
   "startDialog": {
     "en_US": {
@@ -788,6 +790,60 @@ exports.level = {
               "Các cấp độ tới sẽ khá là khó, nên ở cấp độ này chúng tôi sẽ yêu cầu bạn thêm một chút.",
               "",
               "Sao chép một kho chứa từ xa (sử dụng `git clone`), sau đó mô phỏng một số thay đổi trong kho chứa từ xa mà bạn vừa tạo, sau đó thực hiện một số commit trên nhánh cục bộ của riêng bạn, sau đó kéo các thay đổi từ kho chứa từ xa. Nhiều bài học trong một bài."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simulacija sodelovanja",
+              "",
+              "Tule imamo izziv -- za nekaj naslednjih lekcij te moramo naučiti kako potegniti dol spremembe, ki so bile narejene na oddaljenem repozitoriju.",
+              "",
+              "To pomeni, da se moramo pravzaprav \"pretvarjati\", da je oddaljen branch posodobil kak sodelavec, včasih na določenem branchu ali določeno število commitov.",
+              "",
+              "Da bi to lahko naredili, smo uvedli ukaz `git fakeTeamwork`! Poglejmo prikaz ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Privzeto delovanje `fakeTeamwork` je, da samo doda commit na master"
+            ],
+            "afterMarkdowns": [
+              "Tako -- oddaljen repo je bil posodobljen z novim commitom, katerega še nismo potegnili k sebi, ker še nismo pognali ukaza `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Prav tako lahko določimo tudi število commtiov ali ime brancha tako, da jih dodamo na koncu"
+            ],
+            "afterMarkdowns": [
+              "Z enim ukazom smo simulirali sodelavca, ki je dodal tri commite na `foo` branch na našem oddaljnem repotu"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Naslednje stopnje bodo precej težke, zato od tebe v tej stopnji zahtevamo še več.",
+              "",
+              "Naredi oddaljen repo (z `git clone`), simuliraj nekaj sprememb na tem repotu, sam commitaj, nato pa potegni dol spremembe. Kot da bi bilo več lekcij v eni!"
             ]
           }
         }

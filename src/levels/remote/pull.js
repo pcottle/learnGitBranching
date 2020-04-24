@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Git pull",
     "uk"   : "Git pull",
     "ko"   : "Git pull",
-    "vi"   : "Git pull"
+    "vi"   : "Git pull",
+    "sl_SI": "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -33,6 +34,7 @@ exports.level = {
     "uk"   : "Просто виконай git pull !",
     "ko"   : "그냥 git pull을 하세요!",
     "vi"   : "Đơn giản là gõ git pull!",
+    "sl_SI": "Samo izvedi git pull!"
   },
   "startDialog": {
     "en_US": {
@@ -856,6 +858,65 @@ exports.level = {
               "Ta sẽ tìm hiều chi tiết về `git pull` sau (bao gồm các tùy chọn và tham số), còn bây giờ thì cứ dùng thử nó ở cấp độ này đã.",
               "",
               "Nhớ rằng -- bạn có thể giải quyết cấp độ này với `fetch` và sau đó `merge`, nhưng mà như thế thì lại tốn têm một câu lệnh :P"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Sedaj, ko smo videli kako pridobiti podatke iz oddaljenega repozitorija z `git fetch`, posodobimo naše delo, da bo odsevalo te sprememebe!",
+              "",
+              "V bistvu je več načinov za izvedbo tega -- ko imaš enkrat na lokalno na voljo nove commite, jih lahko vključiš, kot da so normalni commiti na drugem branchu. To pomeni, da lahko izvedeš ukaze, kot so:",
+              "",
+              "* `git cherry-pick o/master`",
+              "* `git rebase o/master`",
+              "* `git merge o/master`",
+              "* itd., itd.",
+              "",
+              "Pravzaprav je *fetchanje* oddaljenih sprememb in kasneje *merganje* le-teh tako pogosto, da ima git dejansko ukaz, ki naredi oboje! Ukaz je `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo najprej `fetch` in `merge` izvedena zaporedno"
+            ],
+            "afterMarkdowns": [
+              "Boom -- prenesli smo `C3` z `fetch` in nato mergali delo z `git merge o/master`. Sedaj naš `master` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)"
+            ],
+            "command": "git fetch; git merge o/master",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kaj bi se zgodilo, če bi namesto tega uporabili `git pull`?"
+            ],
+            "afterMarkdowns": [
+              "Ista stvar! To bi moralo pokazati, da je `git pull` v bistvu bližnjica za `git fetch`, ki mu sledi merge brancha, ki smo ga ravno fetchali."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kasneje bomo raziskali podrobnosti ukaza `git pull` (vključno z opcijami in argumenti), ampak zaenkrat poizkusimo to v tej stopnji.",
+              "",
+              "Pomni -- to stopnjo lahko rešiš s `fetch` in `merge`, ampak boš rabil en dodaten ukaz :P"
             ]
           }
         }

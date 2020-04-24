@@ -20,7 +20,8 @@ exports.level = {
     "ru_RU": "Введение в Cherry-pick",
     "ko"   : "Cherry-pick 소개",
     "uk": "Знайомство з cherry-pick",
-    "vi"   : "Giới thiệu về cherry-pick"
+    "vi"   : "Giới thiệu về cherry-pick",
+    "sl_SI": "Uvod v cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -36,7 +37,8 @@ exports.level = {
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
     "ko"   : "커밋의 이름들로 git cherry-pick 하세요!",
     "uk": "git cherry-pick базується на іменах комітів!",
-    "vi"   : "git cherry-pick sau đó là tên commit!"
+    "vi"   : "git cherry-pick sau đó là tên commit!",
+    "sl_SI": "git cherry-pick nato pa imena commitov"
   },
   "startDialog": {
     "en_US": {
@@ -830,6 +832,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Để hoàn thành cấp độ này, hãy copy thành quả công việc từ 3 nhánh khác vào master. Bạn có thể nhìn vào mô tả mục tiêu để biết chúng ta cần những commit nào.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Premikanje dela naokoli",
+              "",
+              "Zaenkrat smo pokrili osnove gita -- commitanje, branchanje in pomikanje po drevesu. Samo te koncepti so dovolj za koriščenje 90% moči git repozitorijev in pokrijejo večino potreb razvijalcev.",
+              "",
+              "Preostalih 10% pa je lahko kar uporabnih med reševanjem kompleksnejših situacij (ali ko ste zašli v zagato). Naslednji koncept, ki ga bomo pokrili je \"premikanje dela naokoli\" -- z drugimi besedami, tako razvijalci rečejo \"Rad bi to delo tu in tisto delo tam\" na natančen, zgovoren in prilagodljiv način.",
+              "",
+              "Morda se zdi veliko, a gre za preprost koncept."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Prvi ukaz v zaporedju je `git cherry-pick`. Je sledeče oblike:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Gre za jasen način, da povemo, da bi radi skopirali zaporedje commitov pod trenutno lokacijo (`HEAD`). Sam imam rad `cherry-pick`, ker je vključeno le malo čarovnije in je preprost za razumet.",
+              "",
+              "Poglejmo predstavitev!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tu je repozitorij, kjer imamo nekaj dela na branchu `side`, ki bi ga radi skopirali na `master`. To bi lahko dosegli z rebase-om (kar smo se že naučili), ampak poglejmo kako se odreže cherry-pick."
+            ],
+            "afterMarkdowns": [
+              "To je to! Želeli smo commita `C2` in `C4` in git ju je prilimal točno pod nas. Preprosto!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za končanje te stopnje, enostavno skopiraj nekaj dela iz predstavljenih treh branchev v master. Vidiš lako, katere commite želimo, v priloženi vizualizaciji.",
               ""
             ]
           }

@@ -9,7 +9,8 @@ exports.level = {
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
     "fr_FR": "Créer la branche feature à partir du master local, avant de la restaurer dans le même état que o/master",
-    "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요."  
+    "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요.",
+    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master "
   },
   "name": {
     "en_US": "Locked Master",
@@ -18,7 +19,8 @@ exports.level = {
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
     "fr_FR": "Master verrouillé",
-    "ko"   : "잠겨버린 Master"
+    "ko"   : "잠겨버린 Master",
+    "sl_SI": "Zaklenjen Master"
   },
   "startDialog": {
     "en_US": {
@@ -306,5 +308,45 @@ exports.level = {
         }
       ]
     },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Oddaljena Zavrnitev!",
+              "",
+              "Če delaš v veliki ekipi je verjetno, da je master zaklenjen in zahteva Pull Request postopek za merganje sprememb. Če commitaš direktno na master lokalno, poizkusi pushati in dobil boš sporočilo podobno temu:",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Zakaj je bil zavrnjen?",
+              "",
+              "Oddaljen repo je zavrnil pushanje commitov direktno na master zaradi politike, da se uporabljajo le pull requesti.",
+              "",
+              "Mišljeno je, da slediš temu procesu, da narediš branch, ga pushaš, nato pa narediš pull request, ampak si pozabil in commital direktno na master. Sedaj si zataknjen in ne moreš pushati svojih sprememb."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rešitev",
+              "",
+              "Naredi še en branch imenovan feature in ga pushaj na remote. Prav tako resetiraj master nazaj, da bo v enakem stanju kot na oddaljenem repozitoriju, drugače imaš lahko težave naslednjič, ko boš pullal spremembe in bo konflikt s commitom nekoga drugega."
+            ]
+          }
+        }
+      ]
+    }
   }
 };

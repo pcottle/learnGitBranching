@@ -20,7 +20,8 @@ exports.level = {
     "zh_TW": "branch 漿糊",
     "ru_RU": "Спутанные ветки",
     "uk"   : "Макарони з гілок",
-    "vi"   : "Nhánh rối như canh hẹ"
+    "vi"   : "Nhánh rối như canh hẹ",
+    "sl_SI": "Špageti iz Branchev"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -36,7 +37,8 @@ exports.level = {
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
     "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
-    "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`"
+    "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
+    "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri"
   },
   "startDialog": {
     "en_US": {
@@ -318,6 +320,25 @@ exports.level = {
           }
         }
       ]
-    }
+    },"sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Špageti iz Branchev",
+              "",
+              "WOAHHHhhh Miško! Ta stopnja bo pa pravi izziv.",
+              "",
+              "Tu imamo `master`, ki je nekaj commitov pred branchi `one`, `two` in `three`. Iz neznanega razloga moramo posodbiti te tri druge branche z modificiranimi različicami zadnjih nekaj commitov na masterju.",
+              "",
+              "Branch `one` potrebuje prerazporeditev in izbris `C5`. `two` rabi samo prerazporeditev, `three` pa potrebuje samo en commit!",
+              "",
+              "Prepustili ti bomo da ugotovi kako tole rešiti -- vseeno lahko na koncu preveriš našo rešitev s `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
   }
 };

@@ -31,7 +31,8 @@ exports.level = {
     "zh_TW": "commit 的戲法",
     "ru_RU": "Жонглируем коммитами",
     "uk": "Жонглюємо комітами",
-    "vi": "Tung hứng commit"
+    "vi": "Tung hứng commit",
+    "sl_SI": "Žongliranje s Commiti"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -47,7 +48,8 @@ exports.level = {
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
     "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
     "uk": "Перша команда має бути git rebase -i HEAD~2",
-    "vi": "Lệnh đầu tiên là git rebase -i HEAD~2"
+    "vi": "Lệnh đầu tiên là git rebase -i HEAD~2",
+    "sl_SI": "Prvi ukaz je git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -525,6 +527,40 @@ exports.level = {
               "Sau cùng thì, để ý các dấu nháy đơn(') chứ?-- vì ta đã chuyển commit 2 lần, nên chúng có thêm một dấu nháy đơn. Và một dấu nữa cho commit mà ta đã sửa đổi, thế là ta có trạng thái cuối cùng của cây lịch sử ",
               "",
               "Nói cách khác, khi tôi so sánh kết quả, tôi chỉ so sánh cấu trúc của cây lịch sử. Sự khác biệt về số lượng `'`  không được bao gồm trong so sánh. Miễn là cấu trúc nhánh `master` của bạn giống với cấu trúc đích, tôi sẽ vẫn để bạn qua bài."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Žongliranje s Commiti",
+              "",
+              "Tu je še ena situacija, ki se dogaja kar pogosto. Imaš nekaj sprememb (`newImage`) in še nekaj drugih sprememb (`caption`), ki so povezane in zložene druga na drugo v tvojem repozitoriju.",
+              "",
+              "Včasih se zgodi, da bi rad naredil manjšo spremembo na zgodnejšem commitu. V tem primeru si naš dizajner želi, da spremenimo dimenzije slike `newImage`, čeprav je commit daleč nazaj v naši zgodovini!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ta izziv bomo rešili takole:",
+              "",
+              "* Preuredili bomo commite tako, da bo tisti, ki ga želimo spremeniti na vrhu z `git rebase -i`",
+              "* Izvedli bomo `commit --amend` da naredimo naš popravek",
+              "* Nato bomo preuderili commite nazaj v začetno stanje z `git rebase -i`",
+              "* Za konec bomo premaknili master na ta posodobljen del drevesa, da zaključimo stopnjo (z metodo po tvoji izbiri)",
+              "",
+              "Obstaja več načinov, da dosežemo ta cilj (vidim te kako gledaš cherry-pick) s katerimi se bomo ukvarjali kasneje, ampak za zdaj se osredotočimo na to tehniko.",
+              "In nenazadnje, bodi pozoren na ciljno stanje -- ker premaknemo commit dvakrat, oba dobita pripeto vejico zgoraj. Še ena je dodana za ammendan commit, torej skupno tri ",
+              "",
+              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi vejic. Dokler ima `master` branch na tvojem drevesu enako strukturo in število vejic, dobiš vse točke"
             ]
           }
         }

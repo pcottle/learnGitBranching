@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "git tag",
     "ko"   : "Git 태그",
     "uk"   : "Git Tags",
-    "vi"   : "Tag trong Git"
+    "vi"   : "Tag trong Git",
+    "sl_SI": "Git Tagi"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
     "ko"   : "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
     "uk"   : "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
-    "vi"   : "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!"
+    "vi"   : "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!",
+    "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!"
   },
   "startDialog": {
     "en_US": {
@@ -758,6 +760,58 @@ exports.level = {
               "Trong cấp độ này hãy tạo ra một thẻ tại vị trí chỉ định và chuyển sang `v1`. Để ý rằng bạn sẽ chuyến sang trạng thái tách biệt `HEAD` -- bởi vì bạn không thể tham chiếu đến thẻ `v1`.",
               "",
               "Sang cấp độ tới ta sẽ xem xét một vài cách hay ho để dùng thẻ."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tagi",
+              "",
+              "Kot si se naučil v prejšnjih lekcijah, so branchi enostavni za premikat okoli in pogosto kažejo na različne commite in delo za njimi. Veliko se spreminjajo in združujejo, pogosto le začasno.",
+              "",
+              "Če je temu res tako, se morda sprašuješ, če obstaja kak način, ki bi *trajno* označil točke v zgodovini projekta. Za stvari kot so večji release-i ali pomembni merge-i, ali obstaja način, ki je trajnejši kot branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Itak da je! Git tagi podpirajo točno ta primer uporabe -- oni trajno (do neke mere) označijo določene commite kot \"mejnike\" na katere se lahko sklicujemo kot na branche.",
+              "",
+              "Toda še pomembneje, oni se ne premikajo, ko se ustvarjajo novi commiti. Ne moreš \"checkoutat\" tag in nato končati delo na tem tagu -- tagi obstajajo kot sidra na drevesu commitov, ki označujejo določene točke.",
+              "",
+              "Poglejmo kako to izgleda v praksi."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poizkusimo narediti tag na `C1`, ki je recimo naša prva verzija prototipa"
+            ],
+            "afterMarkdowns": [
+              "Tako! Kar enostavno. Tag smo poimenovali `v1` in se sklicuje na commit `C1`. Če ne navedeš commit, bo git postavil tag tam, kjer je trenutno `HEAD`"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za to stopnjo ustvari tage kot so določeni na ciljnem prikazu in nato checkoutaj `v1`. Opazil boš, kako prideš v detached `HEAD` stanje -- to je zato, ker ne moreš commitat direktno na `v1` tag.",
+              "",
+              "V naslednji stopnji si bomo pogledali zanimivejši primer za uporabo tagov."
             ]
           }
         }

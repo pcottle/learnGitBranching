@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Слияние с удалённым репозиторием",
     "ko"   : "원격 작업과 merge하기",
     "uk"   : "Мердж з віддаленим репозиторієм",
-    "vi"   : "Hợp nhất nhánh từ xa"
+    "vi"   : "Hợp nhất nhánh từ xa",
+    "sl_SI": "Merganje z oddaljenim repozitorijem"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Внимательно посмотрите на цель уровня!",
     "ko"   : "goal을 잘 살펴보세요!",
     "uk"   : "Уважно подивись як має виглядати результат!",
-    "vi"   : "Hãy để ý đến cây mục tiêu!"
+    "vi"   : "Hãy để ý đến cây mục tiêu!",
+    "sl_SI": "Poglej si ciljno drevo!"
   },
   "compareOnlyMaster": true,
   "startDialog": {
@@ -661,6 +663,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ở cấp độ này, hãy thử giải bài tập trước nhưng mà với *hợp nhất*. Có lẽ bài này hơi thừa nhưng mà nó mịnh họa quan điểm trên rõ ràng hơn."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Zakaj ne merganje?",
+              "",
+              "Da bi poslal nove spremembe na oddaljen repo, je vse kar moraš narediti, da *vključiš* zadnje spremembe iz oddaljenega repota. To pomeni, da lahko rebaseaš *ali* mergeaš v oddaljeni branch (npr. `o/master`).",
+              "",
+              "Torej če lahko narediš katero izmed metod, zakaj imeti lekcijo, ki se zaenkrat osredotoča na rebaseanje? Zakaj ni nobene ljubezni do `mergea` pri delanju z oddaljenimi repoti?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Veliko govora je o kompromisih med merganjem in rebasanjem med razvijalci. Tu so splošne prednosti / slabosti rebaseanja:",
+              "",
+              "Prednosti:",
+              "",
+              "* Rebasanje naredi tvoje drevo lepo in pregledno, ker je vse v ravni črti",
+              "",
+              "Slabosti:",
+              "",
+              "* Rebasanje spremeni (navidezno) zgodovino drevesa commitov.",
+              "",
+              "Naprimer, commit `C1` je lahko rebasean *mimo* `C3`. Potem izgleda kot da je delo za `C1'` prišlo za `C3`, čeprav je v resnici bilo končano prej.",
+              "",
+              "Nekateri razvijalci imajo radi ohranjanje zgodovine in imajo posledično rajše merganje. Drugi (kot jaz) imajo rajši čisto drevo commitov in posledično rebasanje. Na koncu prevlada osebna preferenca :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za to stopnjo, poizkusimo rešiti prešnjo stopnjo z *merganjem*. Mogoče bo malo zakomplicirano, vendar bo lepo ponazorilo poanto."
             ]
           }
         }

@@ -19,7 +19,8 @@ exports.level = {
     "ru_RU": "Аргументы git push",
     "ko"   : "git push의 인자들",
     "uk"   : "Аргументи git push",
-    "vi"   : "Tham số git push"
+    "vi"   : "Tham số git push",
+    "sl_SI": "Git push argumenti"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -35,7 +36,8 @@ exports.level = {
     "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
     "ko"   : "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
     "uk"   : "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
-    "vi"   : "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại"
+    "vi"   : "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại",
+    "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\""
   },
   "startDialog": {
     "en_US": {
@@ -987,6 +989,81 @@ exports.level = {
               "",
               "*Chú ý: Các nhánh từ xa được đánh dấu bằng tiền tố `o/` bời vì UI của chúng tôi không chứa được hết `origin/`. Đừng lo ",
               "về vấn đề này... đơn giản cứ dùng `origin` như bình thường thôi.*"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push argumenti",
+              "",
+              "Super! Sedaj, ko poznaš oddaljeno sledenje branchev lahko začnemo odkrivati skrivnosti za git pushem, fetchem in pullom. Napadli bomo en ukaz za drugim, ampak koncepti za njimi so si podobni.",
+              "",
+              "Najprej bomo pogledali `git push`. V lekciji o oddaljenem sledenju si spoznal, da je git ugotovil oddaljen repo *in* branch za pushat s tem da je pogledal lastnosti trenutno checkoutanega brancha (oddaljen branch, ki ga  \"sledi\"). To je obnašanje brez argumentov, ampak git push lahko sprejme tudi argumente v sledeči obliki:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kaj je `<place>` parameter praviš? Kmalu bomo zaplavali v podrobnosti, ampak najprej primer. Izvedba ukaza:",
+              "",
+              "`git push origin master`",
+              "",
+              "se v slovenščini prevede v:",
+              "",
+              "*Pojdi na branch poimenovan \"master\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"master\" na oddaljenem repotu poimenovan \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
+              "",
+              "Z določanjem `masterja` kot \"place\" argument, smo povedali gitu iz kje bodo commiti *prišli* in kam bodo commiti *šli*. V bistvu je to \"mesto\" oziroma \"lokacija\" za uskladitev med dvema repozitorijema.",
+              "",
+              "Imej v mislih, da ker smo gitu povedali vse kar mora vedeti (s podajanjem obeh argumentov), git povsem ignorira mesto, kjer smo checkoutani!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo si primer podajanja argumentov. Bodi pozoren na mesto, kjer smo checkoutani v tem primeru."
+            ],
+            "afterMarkdowns": [
+              "Evo ga! `master` je bil posodobljen na oddaljenem repotu, ker smo podali te argumente."
+            ],
+            "command": "git checkout C0; git push origin master",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kaj če ne bi podali argumentov? Kaj bi se zgodilo?"
+            ],
+            "afterMarkdowns": [
+              "Ukaz ne uspe (kot lahko vidiš), ker `HEAD` ni checkoutan na branchu, ki ga oddaljeno sledimo."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, za to stopnjo posodobimo oba `foo` in `master` na oddaljenem repotu. Trik je, da je `git checkout` onemogočen za to stopnjo!",
+              "",
+              "*Opomba: Oddaljeni branchi so označeni z `o/` predpono, ker celotna `origin/` oznaka ne paše v naš prikaz. Ne skrbi ",
+              "glede tega ... preprosto uporabi `origin` kot ime oddaljenega repota kot ponavadi.*"
             ]
           }
         }

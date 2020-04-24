@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Git describe",
     "ko"   : "Git describe(묘사)",
     "uk"   : "Git Describe",
-    "vi": "Git Describe(mô tả)"
+    "vi": "Git Describe(mô tả)",
+    "sl_SI": "Git Describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
-    "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi"
+    "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
+    "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje"
   },
   "startDialog": {
     "en_US": {
@@ -916,6 +918,69 @@ exports.level = {
               "Từng đó thông tin là khá đủ về git describe! Hãy thử dùng `git describe` trên vài vị trí để hiểu về lệnh này.",
               "",
               "Một khi bạn đã sẵn sàng thì chỉ cần commit 1 lần là qua bài này. Bài này dễ chơi rồi nhé :P"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Ker tagi služijo kot tako odlična \"sidra\" v kodi, ima git ukaz za *opis* kje si, relativno glede na najbližije \"sidro\" (aka tag). Temu ukazu se reče `git describe`!",
+              "",
+              "Git describe se ti lahko pomaga orientirati, če si premikal veliko commitov naprej in nazaj po zgodovini; to se lahko zgodi, če si končal git bisekcijo (iskanje kot debuggiranje) ali če se usedeš za sodelavčev računalnik, ko je prišel iz dopusta."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe izgleda takole:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Kjer je `<ref>` karkoli kar lahko git prepozna kot commit. Če ne podaš ref-a, git uporabi mesto, kjer si trenutno checkoutan (`HEAD`).",
+              "",
+              "Izpis ukaza je sledeč:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Kjer je `tag` najbližji prednik v zgodovini, `numCommits` je število commitov oddaljenosti tag-a in `<hash>` je hash commita, ki ga opisujemo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo hiter primer. Za drevo spodaj:"
+            ],
+            "afterMarkdowns": [
+              "Ukaz `git describe master` bi izpisal:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "Ukaz `git describe side` pa bi vrnil:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To je približno vse, kar se tiče git describe! Poizkusi za občutek opisati nekaj lokacij v tej stopnji.",
+              "",
+              "Ko si pripravljen, samo enkrat commitaj, da zaključiš stopnjo. Tole ti častimo :P"
             ]
           }
         }

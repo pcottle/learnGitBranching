@@ -20,7 +20,8 @@ exports.level = {
     "ru_RU": "Пустой источник",
     "ko"   : "Source가 없다",
     "uk"   : "Нема джерела",
-    "vi"   : "Không có nguồn"
+    "vi"   : "Không có nguồn",
+    "sl_SI": "Izvor Ničesar"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -36,7 +37,8 @@ exports.level = {
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
     "ko"   : "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
     "uk"   : "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
-    "vi"   : "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!"
+    "vi"   : "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!",
+    "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -723,6 +725,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ở cấp độ đơn giản này -- bạn chỉ cần xóa một nhánh từ xa và tạo ra một nhánh mới với `git fetch` để hoàn thành!"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Čudnosti `<izvora>`",
+              "",
+              "Git zlorablja `<izvor>` parameter na dva čudna načina. Te dve zlorabi nastaneta iz dejstva, da lahko tehnično določiš \"nič\" kot veljaven `izvor` za git push in git fetch. Način, da določiš nič je z uporabo praznega argumenta:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Poglejmo kaj to naredi ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kaj naredi pushanje \"ničesar\" na oddalejn branch? Izbriše ga!"
+            ],
+            "afterMarkdowns": [
+              "Tako, uspešno smo izbrisali `foo` branch na oddaljenem repotu s konceptom pushanja \"ničesar\" nanj. To ima nekako smisel ..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin master:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "In končno, fetchanje \"ničesar\" lokalno dejansko naredi nov branch"
+            ],
+            "afterMarkdowns": [
+              "Zelo čudno / bizarno, ampak kakorkoli. Tak je git!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To je hitra stopnja -- samo izbriši en oddaljen branch in naredi novega z `git fetch` da zaključiš!"
             ]
           }
         }

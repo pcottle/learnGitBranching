@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Удалённые ветки",
     "ko"   : "원격 브랜치(remote branch)",
     "uk"   : "Віддалені гілки",
-    "vi"   : "Nhánh từ xa"
+    "vi"   : "Nhánh từ xa",
+    "sl_SI": "Oddaljeni Branchi"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on master first!",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на master",
     "ko"   : "순서에 주의하세요 -- master에서 먼저 커밋하세요!",
     "uk"   : "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
-    "vi"   : "Chú ý đến thứ tự -- commit trên nhánh master trước!"
+    "vi"   : "Chú ý đến thứ tự -- commit trên nhánh master trước!",
+    "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na master!"
   },
   "startDialog": {
     "en_US": {
@@ -884,6 +886,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "Để hoàn thành cấp độ này, commit một lần trên `master` và một lần nữa sau khi chuyển sang `o/master`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Oddaljeni Branchi",
+              "",
+              "Sedaj ko smo videli `git clone` v praksi se poglobimo v dejanske spremembe.",
+              "",
+              "Prva stvar, ki si jo morda opazil je, da se je pojavil nov branch na našem lokalnem repotu imenovan `o/master`. Temu tipu brancha pravimo _oddaljen_(remote) branch; oddaljeni branch ima posebne lastnosti, ker služijo določenim namenom.",
+              "",
+              "Oddaljeni branchi odražajo _stanje_ oddaljenega repozitorija (od kar si nazadnje komuniciral z oddaljenim repotom). To ti morda pomaga razumeti razliko med tvojim lokalnim delom in delom, ki je javno -- ključni korak, preden deliš svoje delo z ostalimi.",
+              "",
+              "Oddaljeni branchi imajo posebno lastnost, da ko jih checkoutaš, si postavljen v stanje z ločenim `HEAD-om`. Git naredi to zanalašč, ker ne moreš delati neposredno na teh branchih; moreš delati drugje in nato deliti svoje delo z oddaljenim repotom (po tem bodo oddaljeni branchi bili posodobljeni)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Kaj je `o/`?",
+              "",
+              "Morda se sprašuješ, kaj je ta `o/` spredaj pred oddaljenmi branchi. Tudi oddaljeni branchi imajo (zahtevano) pravilo za poimenovanje -- predstavljeni so v sledečm formatu:",
+              "",
+              "* `<ime oddaljenega repota>/<ime brancha>`",
+              "",
+              "Posledično, če pogledamo branch poimenovan `o/master`, je ime brancha `master`, ime oddaljenega repota pa `o`.",
+              "",
+              "Večina razvijalcev v bistvu poimenuje njihov glavni oddaljeni repozitorij `origin`, ne `o`. To je takoj pogosto, da git ubistvu nastavi tvoj oddaljen repo z imenom `origin` ko izvedeš `git clone` nad repozitorijem.",
+              "",
+              "Nažalost polno ime `origin` ne paše v naš prikaz, zato uporabljamo `o` kot bližnjico :( Samo zapomni si, ko uporabljaš pravi git, bo tvoj oddaljen repo verjetno poimenovan `origin`!",
+              "",
+              "To je kar veliko za razumeti, zato si poglejmo stvar v akciji."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Checkoutajmo oddaljen branch in poglejmo kaj se zgodi"
+            ],
+            "afterMarkdowns": [
+              "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/master`, ko dodamo nov commit. To je zato, ker se bo `o/master` posodobil šele ko se bo posodobil oddaljen repo."
+            ],
+            "command": "git checkout o/master; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za dokončanje te stopnje, commitaj enkrat iz `master` in enkrat ko checkoutaš `o/master`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
             ]
           }
         }

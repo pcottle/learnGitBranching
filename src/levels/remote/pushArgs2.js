@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Аргументы для push -- расширенная версия!",
     "ko"   : "git push 인자 -- 확장판!",
     "uk"   : "Розширені аргументи git push!",
-    "vi"   : "Tham số git push -- bản mở rộng!"
+    "vi"   : "Tham số git push -- bản mở rộng!",
+    "sl_SI": "Git push argumenti -- Razširjeni!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
     "ko"   : "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
     "uk"   : "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
-    "vi"   : "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P"
+    "vi"   : "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
+    "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -940,6 +942,76 @@ exports.level = {
               "Ở cấp độ này, hãy hoàn thành mục tiêu được mô tả, và hãy nhớ cấu trúc:",
               "",
               "`<nguồn>:<đích>`"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Podrobnosti `<place>` argumenta",
+              "",
+              "Spomni se prejšnje lekcije, kjer smo določili `master` kot place argument za git push, določili smo *izvor* iz kje bodo commiti prišli in *destinacijo*, kamor bodo commiti odšli.",
+              "",
+              "Morda se sprašuješ -- Kaj če želimo, da sta izvor in destinacija različna? Kaj če želiš pushati commite iz lokalnega `foo` brancha na oddaljen `bar` branch?",
+              "",
+              "Nažalost to v gitu ni možno ... hecam se! Seveda je možno :) ... git ima ogromno opcij (skoraj preveč).",
+              "",
+              "Poglejmo kako v naslednjem razdelku ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Da bi določili in izvor in destinacijo `<place-a>`, preprosto združimo oba skupaj z dvopičjem:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "To je pogosto omenjeno kot stolpična referenca. Ta referenca je samo ime za lokacijo, ki jo lahko git razvozla (kot je branch `foo` ali samo `HEAD~1`).",
+              "",
+              "Ko enkrat določiš izvor in destinacijo neodvisno, lahko oddaljene ukaze uporabljaš zelo natačno in učinkovito. Poglejmo si primer!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pomni, `source` je bilokatera lokacija, ki jo git razume:"
+            ],
+            "afterMarkdowns": [
+              "Woah! To je kar zanimiv ukaz, ampak ima smisel -- git je razrešil `foo^` v lokacijo, naložil commite, ki še niso bili pristoni v oddaljneme repotu in nato posodobil destinacijo."
+            ],
+            "command": "git push origin foo^:master",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kaj če destinacija kamor želiš pushati ne obstaja? Ni problem! Samo podaj ime brancha in git bo naredil branch na oddaljenem repotu zate."
+            ],
+            "afterMarkdowns": [
+              "Lepa, to je kar kul :D"
+            ],
+            "command": "git push origin master:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za to stopnjo poizkusi priti v ciljno stanje, prikazano v vizualizaciji in si zapomni obliko:",
+              "",
+              "`<source>:<destination>`"
             ]
           }
         }

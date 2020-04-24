@@ -19,7 +19,8 @@ exports.level = {
     "ru_RU": "Git push",
     "uk"   : "Git push",
     "ko"   : "Git push",
-    "vi"   : "Git push"
+    "vi"   : "Git push",
+    "sl_SI": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -34,7 +35,8 @@ exports.level = {
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
     "uk"   : "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
     "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
-    "vi"   : "Nhớ rằng bạn phải clone trước khi push!"
+    "vi"   : "Nhớ rằng bạn phải clone trước khi push!",
+    "sl_SI": "Najprej moraš klonirati preden lahko pushaš!"
   },
   "startDialog": {
     "en_US": {
@@ -627,6 +629,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Để hoàn thành cấp độ này, đơn giản là hãy chia sẻ 2 commit mới với kho chứa từ xa. Chuẩn bị tinh thần nhé, vì các bài học sẽ khó dần lên nhiều đấy!"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, sedaj sem fetchal spremembe iz oddaljenega repota in jih vključil v moje lokalno delo. To je že super ... toda kako delim _moje_ super delo z vsemi ostalimi?",
+              "",
+              "No, način da naložiš deljeno delo, je ravno nasproten, kot da ga preneseš. In kaj je nasprotje `git pull`? `git push`!",
+              "",
+              "`git push` je odgovoren za nalaganje _tvojih_ sprememb na določen oddaljen repozitorij in posodobitev tega repozitorija, da vključi tvoje nove commite. Ko se `git push` izvede, lahko vsi tvoji prijatelji prenesejo tvoje delo iz repozitorija.",
+              "",
+              "`git push` si lahko predstavljaš kot ukaz, ki \"objavi\" tvoje delo. Ima kopico majhnih stvari, katere bomo raziskali v kratkem, ampak začnimo z majhnimi koraki ...",
+              "",
+              "*opomba -- obnašanje `git push` brez argumentov je odvisno od nastavitev gita imenovanih `push.default`. Privzeta vrednost za to nastavitev je odvisna od različice gita, ki jo uporabljaš, ampak mi bomo uporabljali `upstream` vrednost v naši lekciji. To ni neka velika stvar, ampak jo je vredno preveriti preden pushamo na svojem projektu.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tu imamo nekaj sprememb, ki jih oddaljen repo nima. Dajmo jih naložiti!"
+            ],
+            "afterMarkdowns": [
+              "Tako je -- oddaljen repo je preje commit `C2`, branch `master` na oddaljenem repotu je bil posodobljen, da kaže na `C2` in naš *lasten* prikaz oddaljenega repota (`o/master`) je bil prav tako posodobljen. Vse je usklajeno!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za dokončanje te stopnje, preprosto deli dva nova commita z oddaljenim repotom. Nato pa se pripno, ker bodo lekcije postale dosti težje!"
             ]
           }
         }

@@ -30,7 +30,8 @@ exports.level = {
     "zh_TW": "commit 的戲法 #2",
     "ru_RU": "Жонглируем коммитами №2",
     "uk": "Жонглюємо комітами #2",
-    "vi": "Tung hứng commit #2"
+    "vi": "Tung hứng commit #2",
+    "sl_SI": "Žongliranje s Commiti #2"
   },
   "hint": {
     "en_US": "Don't forget to forward master to the updated changes!",
@@ -46,7 +47,8 @@ exports.level = {
     "zh_TW": "別忘記了將 master 推到最新的 commit 上面！",
     "ru_RU": "Не забудь переместить master на последние изменения.",
     "uk": "Не забудь перемістити master на останні зміни!",
-    "vi": "Đừng quên đẩy nhánh master lên cập nhật mới nhất!"
+    "vi": "Đừng quên đẩy nhánh master lên cập nhật mới nhất!",
+    "sl_SI": "Ne pozabi prestaviti master naprej na posodobljene spremembe"
   },
   "startDialog": {
     "en_US": {
@@ -640,6 +642,49 @@ exports.level = {
               "Vậy thì ở cấp độ này, hãy làm hoàn thành mục tiêu tương tự là chỉnh sửa `C2` một lần nhưng hãy tránh dùng `rebase -i`. Tự tìm cách đi nhé! :D",
               "",
               "Nhớ rằng, số lượng dấu nháy dơn (') trên commit không quan trọng, quan trọng là mối tương liên các tham chiếu. Nói cách khác, kể cả bất cứ commit nào của bạn có thêm một đấu(') tôi vẫn công nhận đáp án của bạn"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Žongliranje s Commiti #2",
+              "",
+              "* Če še nisi končal Žongliranje s Commiti #1 (prejšnjo stopnjo), jo končaj pred nadaljevanjem*",
+              "",
+              "Kot si videl v prejšnji stopnji, smo uporabili `rebase -i` za preureditev commitov. Ko je bil commit, ki smo ga želeli spremeniti, na vrhu, smo preprosto uporabili --amend in preuredili nazaj v naše željeno stanje.",
+              "",
+              "Edini problem tu je, da je veliko prerazporejanja, kar lahko povzroči rebase konflikte. Poglejmo si še eno drugo tehniko `git cherry-pick`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Git cherry-pick bo skopiral commit iz bilokaterega mesta na drevesu na HEAD (seveda dokler ni ta commit že prednik HEAD).",
+              "",
+              "Tu je mali osvežitveni primer:"
+            ],
+            "afterMarkdowns": [
+              "Odlično! Nadaljujmo ..."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Torej v tej stopnji bi radi enako spremenili `C2`, ampak tokrat brez uporabe `rebase -i`. Kako to narediti, prepustim tebi! :D",
+              "",
+              "Točno število zgornjih vejic (') na commitu ni pomembno, pomembna je samo relativna sprememba. Naprimer, vse točko bom dal tudi za drevo, ki ustreza ciljenmu drevesu, a ima povsod dodatno vejico"
             ]
           }
         }

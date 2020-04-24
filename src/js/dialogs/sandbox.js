@@ -635,5 +635,28 @@ exports.dialog = {
         '[đường link đặc biệt này của chúng tôi](https://pcottle.github.io/learnGitBranching/?NODEMO)'
       ]
     }
-  }]
+  }],
+  'sl_SI': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Dobrodošel na učenju Git Branchanja',
+        '',
+        'Bi se rad naučil Git? No, prišel si na pravo mesto! ',
+        '"Learn Git Branching" je najbolj vizualen in interaktiven način učenja Git-a ',
+        'na spletu; zagrizel boš v zanimive stopnje, po korakih boš spoznaval osupljive ',
+        'funkcije in kaj pa veš, morda ti bo celo zabavno. ;)',
+        '',
+        'Za tem oknom boš videl kopico stopenj, ki so na razpolago. Če si ',
+        'začetnik, kar pogumno, začni s prvo. Če pa že poznaš Git osnove, ',
+        'se preizkusi v zahtevnejših stopnjah.',
+        '',
+        'Vidiš lahko vse ukaze, ki so na voljo, z ukazom `show commands` v terminalu.',
+        '',
+        'PS: Bi rad šel naslednjič naravnost v peskovnik?',
+        'Poizkusi s',
+        '[to posebno povezavo](https://pcottle.github.io/learnGitBranching/?NODEMO)'
+      ]
+    }
+  }],
 };
