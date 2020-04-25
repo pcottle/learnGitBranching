@@ -154,5 +154,16 @@ exports.dialog = {
         'Đáp án của chúng tôi sử dụng {best}.'
       ]
     }
+  }],
+  'sl_SI': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Dobro opravljeno!!',
+        '',
+        'Rešil si stopnjo z *{numCommands}* ukazi; ',
+        'naša rešitev uporabi {best}.'
+      ]
+    }
   }]
 };

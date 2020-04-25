@@ -21,14 +21,16 @@ var langLocaleMap = {
   pt: 'pt_BR',
   ru: 'ru_RU',
   uk: 'uk',
-  vi: 'vi'
+  vi: 'vi',
+  sl: 'sl_SI'
 };
 
 var headerLocaleMap = {
   'zh-CN': 'zh_CN',
   'zh-TW': 'zh_TW',
   'pt-BR': 'pt_BR',
-  'es-ES': 'es_ES'
+  'es-ES': 'es_ES',
+  'sl-SI': 'sl_SI'
 };
 
 var supportedLocalesList = Object.values(langLocaleMap)

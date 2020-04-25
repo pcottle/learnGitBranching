@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Слежка за удалённым репозиторием",
     "ko"   : "원격 저장소 추적하기",
     "uk"   : "Слідкуємо за віддаленим репозиторієм",
-    "vi"   : "Theo dõi từ xa"
+    "vi"   : "Theo dõi từ xa",
+    "sl_SI": "Sledenje Oddaljenega Repota"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!",
     "ko"   : "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!",
     "uk"   : "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
-    "vi"   : "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!"
+    "vi"   : "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!",
+    "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota."
   },
   "startDialog": {
     "en_US": {
@@ -1685,6 +1687,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Được rồi! Ở cấp độ này hãy để thành quả lên nhánh `master` trên kho lưu trữ từ xa mà không chuyển sang nhánh `master` tại kho địa phương. Hãy tự tìm ra cách nhé, giờ là khóa học nâng cao rồi :P"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Sledenje oddaljenih branchev",
+              "",
+              "Stvar, ki se je morda zdela \"čarobna\" v zadnjih lekcijah je, da je git vedel, da je `master` branch povezan z `o/master`. Seveda imata brancha podobno ime in morda deluje logično, da se poveže `master` branch na oddaljenem repotu z lokalnim `master` branchem, toda ta povezava je jasno predstavljena v dveh scenarijih:",
+              "",
+              "* Med pull operacijo so commiti preneseni na `o/master` in nato *zmergani* v `master` branch. Implicirana tarča merga je določena iz te povezave.",
+              "* Med push operacijo je delo iz `master` brancha naloženo na oddaljen `master` branch (ki je bil prej predstavljen kot `o/master` lokalno). *Destinacija* pusha je določena iz povezave med `master` in `o/master`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Sledenje oddaljenega repota",
+              "",
+              "Če povzamem, ta povezava med `master` in `o/master` je preprosto razložena z lastnostnjo \"oddaljenega sledenja\" branchev. `master` branch je nastavljen, da sledi `o/master` -- to pomeni, da obstaja impliciran cilj merga in impliciran cilj pusha za `master` branch.",
+              "",
+              "Morda se sprašuješ, kako se je nastavila ta lastnost na `master` branchu, čeprav nisi izvedel nobenega ukaza za to. No, ko kloniraš repo z gitom, je ta lastnost v bistvu nastavljena zate avtomatično. ",
+              "",
+              "Med kloniranjem git ustvari oddaljen branch za vsak branch na oddaljenem repotu (branchi kot `o/master`). Nato ustvari lokalen branch, ki sledi trenutno aktivnemu branchu na oddaljenem repotu, ki je v večini primerov `master`.",
+              "",
+              "Ko git clone zaključi, imaš samo en lokalen branch (da nisi zasipan), ampak lahko vidiš vse različne branche na oddaljenem repotu (če si zelo radoveden). Najboljše iz obeh svetov!",
+              "",
+              "To tudi razloži, zakaj lahko vidiš sledeč izpis ukaza med kloniranjem:",
+              "",
+              "    local branch \"master\" set to track remote branch \"o/master\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ali ga lahko določim sam?",
+              "",
+              "Seveda se da! Narediš lahko, da bilokateri branch sledi `o/master`. V tem primeru bo imel ta branch enak impliciran cilj za push in merge kot `master`. To pomeni, da lahko poženeš `git push` na branchu poimenovanem `splohNiMaster` in pushas svoje delo na `master` branch na oddaljenem repotu!",
+              "",
+              "Obstajata dva načina, da nastaviš to lastnost. Prvi je, da checkoutaš nov branch z uporabo oddaljenega brancha kot določeno referenca. Izvedba",
+              "",
+              "`git checkout -b splohNiMaster o/master`",
+              "",
+              "Ustvari nov branch imenovan `splohNiMaster` in nastavi, da sledi `o/master`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dovolj besedičenja, poglejmo primer! Checkoutali bomo nov branch poimenovan `foo` in ga nastavili, da sledi `master` na oddaljenem repotu."
+            ],
+            "afterMarkdowns": [
+              "Kot lahko vidiš, smo uporabili impliciran cilj mergea `o/master`, da posodobi `foo` branch. Opazi, kako se master ne posodobi!!"
+            ],
+            "command": "git checkout -b foo o/master; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "To velja tudi za git push"
+            ],
+            "afterMarkdowns": [
+              "Boom. Naše delo smo naložili na `master` na oddaljenem repotu, čeprav je ime našega brancha nekaj povsem drugega."
+            ],
+            "command": "git checkout -b foo o/master; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Način #2",
+              "",
+              "Še en način, da se nastavi oddaljeno sledenje na branchu, je, da se uporabi `git branch -u` opcija. Izvedba",
+              "",
+              "`git branch -u o/master foo`",
+              "",
+              "bo nastavila `foo` branch, da sledi `o/master`. Če je `foo` trenutno checkoutan, ga lahko celo izpustiš",
+              "",
+              "`git branch -u o/master`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo si na hitro še ta drug način določanja oddaljenega sledenja ..."
+            ],
+            "afterMarkdowns": [
+              "Enako kot prej, le bolj natančno. Lepa!"
+            ],
+            "command": "git branch -u o/master foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Za to stopnjo pushajmo delo na `master` branch na oddaljenem repotu, medtem ko lokalno *nismo* na `masterju`. Ostalo prepustim tebi, ker je to vseeno napredna stopnja :P"
             ]
           }
         }

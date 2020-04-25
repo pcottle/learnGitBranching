@@ -21,6 +21,7 @@ exports.level = {
     "ko"   : "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
     "uk"   : "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
     "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase",
+    "sl_SI": "Uporabiš lahko bilokateri branch ali relativno referenco (HEAD~), da določiš cilj za rebase."
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -36,7 +37,8 @@ exports.level = {
     "ru_RU": "Введение в интерактивный Rebase",
     "ko"   : "인터랙티브 리베이스 소개",
     "uk"   : "Знайомство з інтерактивним rebase",
-    "vi"   : "Giới thiệu về tương tác rebase"
+    "vi"   : "Giới thiệu về tương tác rebase",
+    "sl_SI": "Interaktivni uvod v Rebase"
   },
   "startDialog": {
     "en_US": {
@@ -944,6 +946,71 @@ exports.level = {
           "options": {
             "markdowns": [
               "Để hoàn thành cấp độ này, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interaktivni Rebase",
+              "",
+              "Git cherry-pick je odličen način, ko veš katere commite bi rad (in poznaš njihove hashe) -- težko je premagati njegovo enostavnost.",
+              "",
+              "Ampak kaj pa situacija, ko ne veš katere commite želiš? K sreči ima git pokrito tudi to! Uporabimo lahko interaktivni rebase -- gre za najboljši način za pregled commitov, ki jih želiš rebaseati.",
+              "",
+              "Spustimo se v podrobnosti ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vse kar interaktvini rebase pomeni je, da uporabimo `rebase` ukaz z opcijo `-i`.",
+              "",
+              "Če vključiš to opcijo, bo git odprl okno, da ti pokaže, kateri commiti bodo skopirani pod naš ciljni commit rebaseanja. Prav tako pokaže tudi njihove hashe in sporočila, kar je super za razumevanje kaj je kaj.",
+              "",
+              "Za \"pravi\" git, odpiranje okna pomeni odpiranje datoteke v urejevalniku kot je `vim`. Za naš namen sem zgradil majhno okno, ki se obnaša enako."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ko se odpre okno za interaktivno rebaseanje, imaš možnost narediti 3 stvari:",
+              "",
+              "* Enostavno lahko preurediš commite v vrstni red, ki ga želiš (v našem oknu to dosežeš kar s klikom in vlečenjem miške).",
+              "* Odločiš se lahko, da čisto izpustiš nekatere commite. To je omogočeno s `pick` -- izklop `pick` opcije pomeni, da bi rad commit izpustil.",
+              "* Nenazadnje, commite lahko tudi stisnemo. Nažalost naše stopnje tega ne podpirajo zaradi logističnih razlogov, zato bom preskočil podrobnosti tega. Toda če povzamem -- omogoča združevanje commitov.",
+              "",
+              "Super! Poglejmo primer."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ko pritisneš gumb, se bo pojavilo interaktivno okno. Prerazporedi nekaj commitov okoli (ali pa jih odstrani z omit) in poglej rezultat!"
+            ],
+            "afterMarkdowns": [
+              "Boom! Git je na dno skopiral commite v točno takšnem vrstnem redu, kot si ga določil v oknu."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za dokončanje te stopnje naredi interaktvini rebase in doseži vrstni red, kot je predstavljen v ciljni vizualizaciji. Vedno lahko razveljavjiš z `undo` ali ponastaviš z `reset` ukazom, da popraviš napake :D"
             ]
           }
         }

@@ -15,7 +15,8 @@ exports.level = {
     "zh_TW": "介紹 rebase",
     "ru_RU": "Введение в rebase",
     "uk": "Знайомство з rebase",
-    "vi": "Giới thiệu về rebase"
+    "vi": "Giới thiệu về rebase",
+    'sl_SI': 'Uvod v Rebase'
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -31,7 +32,8 @@ exports.level = {
     "zh_TW": "你要先在 bugFix branch 進行 commit",
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
     "uk": "Впевнись, що зробив коміт в гілці bugFix",
-    "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước"
+    "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
+    'sl_SI': 'Prepričaj se, da si najprej commital bugFix.'
   },
   "disabledMap": {
     "git revert": true
@@ -973,6 +975,72 @@ exports.level = {
               "* Quay trở lại bugFix và rebase sang master",
               "",
               "Chúc may mắn!"
+            ]
+          }
+        }
+      ]
+    },"sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Drugi način kombiniranja dela med branchi je *rebasing*. Rebasing vzame listo commitov, jih \"skopira\", nato pa jih položi nekam drugam.",
+              "",
+              "To se morda sliši komplicirano, ampak prednost rebeasinga je, da se ga lahko uporabi za lepo linearno zaporedje commitov. Commit log / zgodovina repozitorija bo dosti lepša, če je dovoljeno le rebaseanje.",
+              "",
+              "Poglejmo to na primeru ..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tu imamo spet dva brancha; trenutno izbran je branch bugFix (zvezdica).",
+              "",
+              "Radi bi prestavili naše delo iz bugFix direktno na delo iz masterja. Tako bi izgledalo, kot da sta bili ti dve funkcionalnosti razviti zaporedno, v resnici pa sta bili razviti vzporedno.",
+              "",
+              "Naredimo sedaj to z `git rebase` ukazom"
+            ],
+            "afterMarkdowns": [
+              "Super! Sedaj je naše delo iz bugFix brancha na vrhu masterja in imamo lepo zaporedje commitov.",
+              "",
+              "Omenimo, da commit C3 še vedno obstaja nekje (v drevesu je zbledel), in C3' je v bistvu \"kopija\", ki smo jo rebaseali na master.",
+              "",
+              "Edini problem je, da tudi master ni bil posodobljen, naredimo to sedaj ..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sedaj smo checkoutani na `master` branchu. Pojdimo in rebaseajmo na `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Tako! Ker je bil `master` prednik `bugFix`, je git enostavno premaknil `master` branch referenco naprej v zgodovini."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Da zaključiš to stopnjo, naredi naslednje:",
+              "",
+              "* Checkoutaj nov branch poimenovan `bugFix`",
+              "* Enkrat commitaj",
+              "* Pojdi nazaj na master in commitaj ponovno",
+              "* Ponovno checkoutaj bugFix in ga rebaseaj na master",
+              "",
+              "Srečno!"
             ]
           }
         }

@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Git fetch",
     "uk"   : "Git fetch",
     "ko"   : "Git Fetch",
-    "vi"   : "Git Fetch"
+    "vi"   : "Git Fetch",
+    "sl_SI": "Git Fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Просто выполните git fetch!",
     "uk"   : "Просто виконай git fetch!",
     "ko"   : "그냥 git fetch를 하세요!",
-    "vi"   : "Gõ git fetch là được!"
+    "vi"   : "Gõ git fetch là được!",
+    "sl_SI": "Le izvedi git fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -1052,6 +1054,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "Để hoàn thành cấp độ này, đơn giản hãy gõ `git fetch` để tải xuống tất cả commit!"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Delanje z git oddaljnemi repoti je v bistvu le premikanje podatkov na in z drugih repozitorijev. Dokler lahko pošiljamo commite naprej in nazaj, lahko delimo bilokakšno posodobitev, kateri git sledi (in posledično delimo delo, nove datoteke, nove ideje, ljubezenska pisma, itd.).",
+              "",
+              "V tej lekciji se bomo naučili kako fetchat (prenesti) podatke iz oddaljenega repozitorija -- ukaz za to je poimenovan `git fetch`.",
+              "",
+              "Opazil boš, da ko posodobimo našo predstavitev oddaljenega repota, se bo naš oddaljen branch posodobil in imel nove spremembe. To se navezuje na prejšnjo lekcijo o oddaljenih repozitorijih."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Preden se spustimo v podrobnosti `git fetch` ga poglejmo v akciji! Tu imamo oddaljen repozitorij, ki vsebuje dva commita, ki jih naš lokalen repozitorij nima."
+            ],
+            "afterMarkdowns": [
+              "Tako! Commita `C2` in `C3` sta bila prenesena v naš lokalen repozitorij in naš oddaljen branch `o/master` je bil posodobljen, da to odraža."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Kaj fetch naredi",
+              "",
+              "`git fetch` naredi dve stvari. In sicer:",
+              "",
+              "* prenese commite, ki jih ima oddaljeni repo ampak manjkajo v našem lokalnem in ...",
+              "* posodobi, kam kaže naš oddaljeni branch (naprimer `o/master`)",
+              "",
+              "`git fetch` v bistvu našo lokalno predstavitev oddaljenega repozitorija uskladi z dejanskim stanjem na oddaljenem repozitoriju.",
+              "",
+              "Če se spomneš še iz prejšnje lekcije smo rekli, da oddaljeni branchi odsevajo stanje na oddaljenih repozitorijih, odkar si komuniciral z njimi. `git fetch` je način, da komuniciraš z njimi! Upam, da je sedaj povezava med oddaljenimi repozitoriji in `git fetch` jasna.",
+              "",
+              "`git fetch` ponavadi komunicira z oddaljenimi repozitoriji preko interneta (s protokolom kot sta `http://` ali `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Kaj fetch ne naredi",
+              "",
+              "`git fetch` ne spremeni ničesar glede tvojega lokalnega stanja. Ne bo posodobil tvojega `master` brancha ali spremenil česarkoli v tvojih datotekah.",
+              "",
+              "To je pomembno razumeti, ker veliko razvijalcev misli, da bo `git fetch` posodobil njihovo lokalno stanje s stanjem na oddaljenem repozitoriju. Lahko bo prenesel vse potrebne podatke, da to izvede, ampak v bistvu _ne_ spremeni tvojih datotek. V kasnejših lekcijah se bomo naučili ukaze, ki pa naredijo točno to. :D",
+              "",
+              "Torej na koncu dneva, izvajanje `git fetch` si lahko predstavljate kot korak za prenašanje."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za dokončanje te stopnje uporabi `git fetch` in prenesi vse commite!"
             ]
           }
         }

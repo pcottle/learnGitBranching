@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
     "ko"   : "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
     "uk"   : "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
-    "vi"   : "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh "
+    "vi"   : "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
+    "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo."
   },
   "name": {
     "en_US": "Push Master!",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Push Мастер!",
     "ko"   : "Push Master!",
     "uk"   : "Push Maйстер!",
-    "vi"   : "Push Master!"
+    "vi"   : "Push Master!",
+    "sl_SI": "Push Master!"
   },
   "compareOnlyMasterHashAgnostic": true,
   "startDialog": {
@@ -773,6 +775,59 @@ exports.level = {
               "* Nhánh từ xa cũng đã được cập nhật, nên ta cũng cần sát nhập thay đổi đó nữa",
               "",
               ":O khoai đây! Cố lên nhé, hoàn thành cấp độ này là lên trình nhiều lắm đấy."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Merganje funkcionalnih branchev",
+              "",
+              "Sedaj, ko se počutiš udobno s fetchanjem, pullanjem in pushanjem, preizkusimo ta znanja z novimi primeri.",
+              "",
+              "Za razvijalce na velikih projektih je pogosto, da delajo vse svoje stvari na funkcionalnih brancih (ne na `master`) in potem vključijo to delo, ko je končano. To je podobno prejšnjim lekcijam (kjer so bili pushani stranski branchi na oddaljen repo), a tu predstavljamo še en korak.",
+              "",
+              "Nekateri razvijaci samo pushajo in pullajo na `master` branchu -- zato `master` vedno ostane posodobljen z oddaljenim masterjem (`o/master`).",
+              "",
+              "Torej za tak primer uporabe, združimo dve stvari:",
+              "",
+              "* vključevanje dela funkcionalnih branchev na `master` in",
+              "* pushanje in pullanje iz oddaljenega repota"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Osvežimo si na hitro, kako posodobiti `master` in pushati delo."
+            ],
+            "afterMarkdowns": [
+              "Izvedli smo dva ukaza, ki:",
+              "",
+              "* rebasata naše delo na nove commite iz oddaljenega repozitorija in",
+              "* objavita naše delo na oddaljen repozitorij"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ta stopnja je kar zajetna -- tu je splošno ideja za rešitev:",
+              "",
+              "* Imamo tri branche -- `side1`, `side2` in `side3`",
+              "* Želimo pushati vsako od teh funkcionalnosti po vrstnem redu na oddaljen repo",
+              "* Oddaljen repo se je medtem posodobil, zato bomo morali vključiti tudi to delo",
+              "",
+              ":O Naporno! Srečno, končanje te stopnje je velik korak."
             ]
           }
         }

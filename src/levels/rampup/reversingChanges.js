@@ -18,7 +18,7 @@ exports.level = {
     "ru_RU": "Отмена изменений в Git",
     "uk": "Відміна змін в Git",
     "vi": "Hoàn tác thay đổi trong Git",
-
+    "sl_SI": "Revertanje Sprememb v Gitu"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -35,6 +35,7 @@ exports.level = {
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
     "vi": "Lưu ý rằng hoàn tác(revert) và đặt lại(reset) có những đối số khác nhau.",
+    "sl_SI": "Revert in reset sprejmeta različne argumente."
   },
   "startDialog": {
     "en_US": {
@@ -916,6 +917,69 @@ exports.level = {
               "Để hoàn thành cấp độ này, hoàn tác commit gần nhất trên cả `local` (`cục bộ`) và `pushed` (`được đẩy`). Bạn sẽ hoàn tác tổng cộng 2 commit(một trên mỗi nhánh).",
               "",
               "Nhớ rằng `pushed` là nhánh ở phương xa và `local` là nhánh địa phương -- như thế thì bạn sẽ chọn được phương án phù hợp."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Revertanje Sprememb v Gitu",
+              "",
+              "Veliko načinov je, kako revertati (razveljaviti) spremembe v Gitu. In tako kot commitanje ima tudi revertanje sprememb v Gitu low-level komponente (stageanje posameznih datotek ali kosov) in high-level komponente (kako so spremembe dejansko povrnjene). Naša aplikacija se bo osredotočila na slednje.",
+              "",
+              "Obstajata dva glavna načina kako razveljaviti spremembe v Gitu -- prvi je uporaba `git reset` in drugi je uporaba `git revert`. V naslednjem dialogu si bomo pogledali oba pristopa.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` povrne spremembe tako, da prestavi referenco brancha na starejši commit. Lahko si predstavljaš kot \"pisanje zgodovine na novo\"; `git reset` bo prestavil branch nazaj, kot da se commiti sploh niso zgodili.",
+              "",
+              "Poglejmo kako to izgleda:"
+            ],
+            "afterMarkdowns": [
+              "Lepo! Git je premaknil master branch referenco nazaj na `C1`; sedaj je naš lokalen repozitorij v stanju, kot da se `C2` sploh ni nikoli zgodil."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Medtem ko ponastavljanje z reset deluje super na lokalnih brancih na tvoji mašini, njegova metoda \"prepisovanja zgodovina\" ne deluje na remote brancih, ki jih uporabljajo drugi.",
+              "",
+              "Če želimo ponastaviti spremembe in *deliti* te ponastavitve z drugimi, moramo uporabiti `git revert`. Poglejmo si to v praksi."
+            ],
+            "afterMarkdowns": [
+              "Čudno, nov commit se je naredil pod commitom, ki smo ga želeli reversati. To je zato, ker ta nov commit `C2'` uvede *spremembe* -- spremembe so pač v tem primeru točno nasprotne od `C2`.",
+              "",
+              "Z revertanjem lahko pushas in deliš svoje spremembe tudi z drugimi."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za dokončanje te stopnje, povrni oba zadnja commita, tako na `local` kot na `pushed` brancih. Skupno boš revertal dva commita (enega na branch).",
+              "",
+              "Upoštevaj, da je `pushed` oddaljen branch in `local` lokalen branch -- to bi ti moralo pomagati izbrati metodo."
             ]
           }
         }

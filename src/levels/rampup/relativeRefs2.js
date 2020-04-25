@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
     "ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
-    "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này"
+    "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này",
+    "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje."
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -33,7 +34,7 @@ exports.level = {
     "ko"   : "상대 참조 #2 (~)",
     "uk": "Відносні посилання №2",
     "vi": "Tham chiếu tương đối #2 (~)",
-
+    "sl_SI": "Relativne Reference #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -980,6 +981,75 @@ exports.level = {
               "Giờ thì bạn đã thấy cách kết hợp tham chiếu tương đối và ép nhánh, dùng chúng để vượt level tiếp thôi.",
               "",
               "Để hoàn thành cấp độ này, chuyển `HEAD`, `master`, và `bugFix` đến mục tiêu được xác định của chúng."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Operator \"~\"",
+              "",
+              "Recimo, da se želiš premakniti veliko stopenj višje po drevesu commitov. Malo je nerodno večkrat tipkati `^`, zato ima Git tudi tilda (~) operator.",
+              "",
+              "",
+              "Tilda operator (opcijsko) sprejme številko, ki določi, koliko staršev bi se rad povzpel po drevesu. Poglejmo to v praksi."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Določimo število prejšnjih commitov z `~`."
+            ],
+            "afterMarkdowns": [
+              "Boom! Tako jedrnato -- relativne reference so super."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forcanje Branchev",
+              "",
+              "Sedaj si strokovnjak za relativne reference, zato jih končno *uporabimo* za nekaj.",
+              "",
+              "Eden izmed najpogostejših načinov, kjer uporabljam relativne reference je za premikanje branchev naokoli. Direktno lahko premakneš branch na nek commit z `-f` opcijo. Takole nekako:",
+              "",
+              "`git branch -f master HEAD~3`",
+              "",
+              "premakne (s force-om) master branch tri commite za HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo si prejšnji ukaz v praksi."
+            ],
+            "afterMarkdowns": [
+              "Tako ja! Relativne reference so nam dale jedrnat način s katerim se lahko nanašamo na `C1` in branch force-anje (`-f`) nam je omogočilo, da hitro prestavimo branch na to lokacijo."
+            ],
+            "command": "git branch -f master HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Sedaj ko smo si pogledali relativne reference in force branchanje v kombinaciji, uporabimo to, da rešimo naslednjo stopnjo.",
+              "",
+              "Za dokončanje te stopnje, premakni `HEAD`, `master` in `bugFix` na njihove ciljne prikazane destinacije."
             ]
           }
         }

@@ -266,5 +266,24 @@ exports.dialog = {
         '  * Nhập lệnh ```finish``` xuất cấp độ của bạn dưới dạng JSON!'
       ]
     }
-  }]
+  }],
+  'sl_SI': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Dobrodošel v graditelju stopenj!',
+        '',
+        'Tu so glavni koraki:',
+        '',
+        '  * Postavi začetno stanje z git ukazi',
+        '  * Določi začetno drevo z ```define start```',
+        '  * Vnesi zaporedje ukazov, ki predstavljajo (najboljšo) rešitev',
+        '  * Določi ciljno drevo z ```define goal```. Določanje cilja določi tudi rešitev',
+        '  * Opcijsko določi namig z ```define hint```',
+        '  * Uredi ime z ```define name```',
+        '  * Opcijsko določi ličen začetni dialog z ```edit dialog```',
+        '  * Vnesi ukaz ```finish``` za ustvarjanje JSON različice tvoje stopnje!'
+      ]
+    }
+  }],
 };

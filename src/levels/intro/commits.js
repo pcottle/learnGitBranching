@@ -13,7 +13,8 @@ exports.level = {
     'zh_TW': '介紹 git commit ',
     'ru_RU': 'Знакомство с Git Commit ',
     'uk': 'Знайомство з комітами в Git',
-    'vi': 'Giới thiệu về Git Commit'
+    'vi': 'Giới thiệu về Git Commit',
+    'sl_SI': "Uvod v Git Commit"
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -32,7 +33,8 @@ exports.level = {
     "ko": "'git commit'이라고 두 번 치세요!",
     "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)",
     "uk": "Спробуй двічі виконати команду 'git commit' ;)",
-    'vi': "Đơn giản là cứ gõ 'git commit' 2 lần"
+    'vi': "Đơn giản là cứ gõ 'git commit' 2 lần",
+    'sl_SI': "Preprosto dvakrat vpiši 'git commit' in zaključi!"
   },
   "disabledMap": {
     "git revert": true
@@ -87,7 +89,7 @@ exports.level = {
           "options": {
             "markdowns": [
             "## Git Commits",
-              "Ein Commit in ein Git-Repository speichert einen Abbildung aller Dateien in deinem Projektverzeichnis. Es ist wie ein riesiges Kopieren und Einfügen, nur besser.",
+              "Ein Commit in ein Git-Repository speichert eine Abbildung aller Dateien in deinem Projektverzeichnis. Es ist wie ein riesiges Kopieren und Einfügen, nur besser.",
               "",
               "Allerdings will Git die Commits so schlank wie möglich halten, also kopiert es nicht einfach stur das ganze Verzeichnis jedes Mal wenn du committest. Es kann (wenn möglich) Commits als Menge von Änderungen zusammenpacken, von einer Version des Repositorys zur nächsten.",
               "",
@@ -631,6 +633,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Nào bây giờ thì thử tự làm bài tập nào! Sau khi đóng cửa sổ này, tạo ra 2 commit để hoàn thành cấp độ"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "Commit v git repozitoriju zabeleži stanje vseh datotek v tvoji mapi. Deluje kot tak velik 'Izreži in Prilepi', vendar še bolje!",
+              "",
+              "Git hoče commite ohraniti majhne kot se le da, tako da ne skopira vsakič kar vseh datotek ob commitu. Lahko (kadar je možno) stisne commit le kot množico sprememb oziroma kot \"delto\" sprememb med eno in drugo različico v repozitoriju.",
+              "",
+              "Git vodi tudi zgodovino o tem, kdaj je bil kateri commit narejen. Zato ima večina commitov nad seboj svoje prednike -- to je v vizualizaciji predstavljeno s puščicami. Vzdrževanje zgodovine je uporabno za vse, ki delajo na projektu!",
+              "",
+              "Veliko je za dojeti na začetku, ampak za zdaj si lahko predstavljaš commite kot posnetek projekta v določenem času. Commiti so zelo majhni in prehajanje med njimi je noro hitro!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo kako to izgleda v praksi. Na desni imamo vizualizacijo (majhnega) git repozitorija. Trenutno imamo dva commita -- prvi začetni commit, `C0`, in še en commit za tem, `C1`, ki ima lahko pomembne spremembe.",
+              "",
+              "Pritisni gumb spodaj, da narediš nov commit"
+            ],
+            "afterMarkdowns": [
+              "Tako ja! Super. Pravkar smo naredili spremembe v repozitoriju in jih shranili kot commit. Commit, ki smo ga naredili ima starša, `C1`, ki nam pove iz katerega commita smo izhajali."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Čas je, da poizkusiš sam! Ko se to okno zapre, naredi dva commita, da dokončaš to stopnjo."
             ]
           }
         }
