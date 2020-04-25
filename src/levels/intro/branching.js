@@ -15,7 +15,8 @@ exports.level = {
     "zh_TW": "建立 git branch",
     "ru_RU": "Ветвление в Git",
     "uk": "Розгалуження в Git",
-    "vi": "Rẽ nhánh với Git"
+    "vi": "Rẽ nhánh với Git",
+    "sl_SI": "Branchanje v Gitu"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
@@ -32,6 +33,7 @@ exports.level = {
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
+    "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\""
   },
   "disabledMap": {
     "git revert": true
@@ -1141,5 +1143,87 @@ exports.level = {
         }
       ]
     },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "Tudi branchi v Gitu so izredno majhni. To so preprosto kazalci na določen commit -- nič več. Zato veliko Git navdušencev ponavlja:",
+              "",
+              "```",
+              "branchaj zgodaj in branchaj pogosto",
+              "```",
+              "",
+              "Ker ustvarjanje večih branchev ne porablja dodatnega spomina ali prostora, je lažje logično razdeliti svoje delo kot imeti velike branche.",
+              "",
+              "Ko začnemo mešati branche in commite, bomo videli kako se te dve funkcionalnosti dopolnjujeta. Za zdaj si zapomni samo to, da branch ubistvu pomeni \"Hočem vključiti delo tega commita in commite vseh njegovih staršev.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poglejmo kako branchi izgledajo v praksi.",
+              "",
+              "Tu bomo ustvarili nov branch imenovan `newImage`"
+            ],
+            "afterMarkdowns": [
+              "Tako, to je vsa umetnost branchanja! Branch poimenovan `newImage` se sedaj nanaša na commit `C1`"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Poizkusimo dodati nekaj dela na ta nov branch. Pristisni gumb spodaj"
+            ],
+            "afterMarkdowns": [
+              "O ne! `master` branch se je premaknil ampak `newImage` branch se pa ni! To je zato, ker nismo bili \"na\" novem branchu, kot smo lahko videli z označeno zvezdico (*) na `master` branchu."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Povejmo gitu, da želimo checkoutat branch z",
+              "",
+              "```",
+              "git checkout <ime>",
+              "```",
+              "",
+              "To nas bo postavilo na nov branch pred commitanjem sprememb."
+            ],
+            "afterMarkdowns": [
+              "Tako je! Naše sprememebe so zabeležene na novem branchu."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Pripravljen si, da začneš branchat. Ko se to okno zapre, ",
+              "ustvari nov branch z imenom `bugFix` in preklopi na ta branch.",
+              "",
+              "Mimogrede, tu je bližnjica: če hočeš narediti nov ",
+              "branch IN ga hkrati checkoutati, lahko enostavno ",
+              "natipkaš `git checkout -b [imeTvojegaBrancha]`."
+            ]
+          }
+        }
+      ]
+    }
   }
 };

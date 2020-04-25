@@ -134,6 +134,16 @@ exports.dialog = {
         'Tôi tin ở bạn! Bạn có thể làm được!'
       ]
     }
+  }],
+  'sl_SI': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Si prepričan, da hočeš videti rešitev?',
+        '',
+        'Verjamem vate! Maš ti to! Ali pač ne?'
+      ]
+    }
   }]
 };
 

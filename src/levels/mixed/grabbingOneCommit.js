@@ -27,7 +27,8 @@ exports.level = {
     "zh_TW": "只取一個 commit",
     "ru_RU": "Выберем один коммит.",
     "uk": "Вибираємо всього один коміт",
-    "vi": "Chỉ lấy 1 commit"
+    "vi": "Chỉ lấy 1 commit",
+    "sl_SI": "Izbiranje Samo Enega Commita"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -43,7 +44,8 @@ exports.level = {
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
-    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!"
+    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
+    "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja."
       },
   "startDialog": {
     "en_US": {
@@ -587,6 +589,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bây giờ là cấp độ cao hơn rồi nên bạn hãy tự quyết định nên dùng câu lệnh nào, nhưng để hoàn thành được cấp độ, hãy đàm bảo rằng `master` nhận được commit mà `bugFix` tham chiếu tới."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Lokalno naloženi commiti",
+              "",
+              "Tu je razvijalska situacija, ki se zgodi pogosto: Hočem najti bug, ampak se kar izmika. V pomoč mojemu detektivskemu delu, sem dodal nekaj ukazov za debuggiranje in izpis.",
+              "",
+              "Vsi te ukazi za debuggiranje / izpisovanje so v svojih commitih. Končno odkrijem bug, ga popravim in se veselim!",
+              "",
+              "Edini problem je, da morem sedaj spraviti moj `bugFix` nazaj v `master` branch. Če uporabim samo fast-forward na `masterju`, potem bi `master` vseboval vse moje debug vrstice, česar si ne želim. Mora obstajati še neka druga pot ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Gitu moramo povedati naj skopira čez samo en commit. To je podobno stopnjam prej, ko smo premikali delo okoli -- uporabimo lahko iste ukaze:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "da dosežemo ta cilj."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tebi prepuščam, da se odločiš, kateri ukaz boš uporabil, da končaš stopnjo. Poskrbi samo, da `master` dobi commit na katerega kaže `bugFix` referenca."
             ]
           }
         }

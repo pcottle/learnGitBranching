@@ -15,7 +15,8 @@ exports.level = {
     "zh_TW": "git 中的 merge",
     "ru_RU": "Слияния веток в Git",
     "uk": "Злиття гілок в Git",
-    "vi": "Gộp nhánh trong Git"
+    "vi": "Gộp nhánh trong Git",
+    "sl_SI": "Merganje v Gitu"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -31,7 +32,8 @@ exports.level = {
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
     "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)",
-    "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước master)"
+    "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước master)",
+    "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred master)'
   },
   "disabledMap": {
     "git revert": true
@@ -998,6 +1000,75 @@ exports.level = {
               "* Gộp nhánh `bugFix` vào `master` với `git merge`",
               "",
               "*Nhớ rằng, bạn luôn luôn có thể bật lại hội thoại này với lệnh \"objective\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branchi in Merganje",
+              "",
+              "Odlično! Sedaj znamo commitati in branchati. Naslednja stvar je, da se naučimo združiti delo iz dveh različnih branchev. To nam bo omogočilo, da naredimo branch, razvijemo novo funkcionalnost in jo združimo nazaj.",
+              "",
+              "Prva metoda za združevanje dela, ki jo bomo preučili je `git merge`. Merganje v Gitu naredi poseben commit, ki ima dva edinstvena starša. Commit z dvema staršema v bistvu pomeni \"Hočem vključiti vso delo iz tega starša tukaj in iz tega tu *ter* vse delo iz njunih staršev\".",
+              "",
+              "Vizualizacija je enostavnejša, poglejmo v naslednjem oknu."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tu imamo dva brancha; vsak ima en commit, ki je unikaten. To pomeni, da noben branch v repozitorju nima vsega \"dela\". Pa popravimo to z mergeom.",
+              "",
+              "Sedaj bomo `mergeali` branch `bugFix` v `master`"
+            ],
+            "afterMarkdowns": [
+              "Woah! Si videl to? `master` sedaj kaže na commit, ki ima dva starša. Če slediš puščicam po drevesu commitov iz `master`, boš našel vsak commit po poti do roota. To pomeni, da `master` sedaj vsebuje vso delo iz repozitorija.",
+              "",
+              "Opaziš tudi, kako so se barve commitov spremenile? V pomoč pri učenju, sem vključil še nekaj barvne pomoči. Vsak branch ima svojo barvo. Vsak commit spremeni barvo v kombinirano barvo vseh branchev, ki imajo ta commit.",
+              "",
+              "Torej tukaj vidimo, da je `master` branch barva zmešana v vseh commitih, `bugFix` barva pa ne. Popravimo to ..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Zmergajmo sedaj `master` v `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Ker je `bugFix` bil prednik `master`, git ni rabil storiti ničesar; preprosto je premaknil `bugFix` v isti commit, kamer kaže `master`.",
+              "",
+              "Sedaj so vsi commiti iste barve, kar pomeni, da vsak branch vsebuje vse delo v repozitoriju!! Woohoo!"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Da zaključiš to stopnjo, naredi naslednje korake:",
+              "",
+              "* Naredi novi branch `bugFix`",
+              "* Checkoutaj `bugFix` branch z `git checkout bugFix`",
+              "* Enkrat commitaj",
+              "* Pojdi nazaj na `master` z `git checkout`",
+              "* Še enkrat commitaj",
+              "* Mergeaj branch `bugFix` v `master` z `git merge`",
+              "",
+              "*Pomni, vedno lahko spet pogledaš ta dialog z \"objective\"!*"
             ]
           }
         }

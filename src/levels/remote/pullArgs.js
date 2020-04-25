@@ -16,7 +16,8 @@ exports.level = {
     "ru_RU": "Аргументы для pull",
     "ko"   : "pull 인자들",
     "uk"   : "Аргументи pull",
-    "vi"   : "Tham số pull"
+    "vi"   : "Tham số pull",
+    "sl_SI": "Pull argumenti"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -32,7 +33,8 @@ exports.level = {
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
     "uk"   : "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
-    "vi"   : "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull"
+    "vi"   : "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
+    "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti."
   },
   "startDialog": {
     "en_US": {
@@ -992,6 +994,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Được rồi, để kết thúc khóa học, hãy đạt đến mục tiêu được mô tả. Bạn sẽ cần tải xuống vài commit, tạo ra vài nhánh mới, và hợp nhất những nhánh đó sang những nhánh khác, nhưng mà đừng dùng nhiều lệnh quá nhé :P"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull argumenti",
+              "",
+              "Sedaj, ko veš praktično *vse*, kar je za vedeti o argumentih za `git fetch` in `git push`, ni skoraj ničesar za dodati za `git pull` :)",
+              "",
+              "To je zato, ker je git pull konec koncev *res* samo bližnjica za fetch, ki mu sledi merge tega, kar smo fetchali. Predstavljaš si ga lahko kot ukaz git fetch z *istimi* podanimi argumenti in merganjem, *kjer* bodo tisti commiti končali.",
+              "",
+              "To velja tudi takrat, ko uporabiš noro komplicirane argumente. Poglejmo nekaj primerov:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tu je nekaj ukazov v gitu:",
+              "",
+              "`git pull  origin foo` je enak:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "In ...",
+              "",
+              "`git pull  origin bar~1:bugFix` je enak:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Vidiš? Git pull je res bližnjica za fetch + merge. Vse kar zanima git pull je, kje bodo commiti končali (`ciljni` argument, ki ga ugotovi med fetchem).",
+              "",
+              "Poglejmo primer:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Če določimo mesto za fetchanje, se zgodi vse kot prej s fetchem, ampak tudi zmergamo, kar smo pravkar fetchali."
+            ],
+            "afterMarkdowns": [
+              "Vidiš! Z določitvijo `master` smo prenesli commite na `o/master` kot ponavadi. Potem smo zmergali `o/master` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `master`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
+            ],
+            "command": "git pull origin master",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ali deluje tudi z izvorom in ciljem? Itak! Poglejmo to:"
+            ],
+            "afterMarkdowns": [
+              "Wow, to je pa RES veliko v enem ukazu. Naredili smo nov lokalen branch imenovan `foo`, prenesli commite iz oddaljenega masterja na ta branch `foo` in potem zmergali ta branch v naš trenutno checkoutan branch `bar`. Je več kot 9000!!!"
+            ],
+            "command": "git pull origin master:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, da zaključiš, pridi v stanje iz ciljne vizualizacije. Prenesti boš moral nekaj commitov, narediti nekaj novih branchev in zmergati te branche v druge branche, ampak ne bi smelo zahtevati veliko ukazov. :P"
             ]
           }
         }

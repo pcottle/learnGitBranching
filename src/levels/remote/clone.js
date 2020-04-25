@@ -15,7 +15,8 @@ exports.level = {
     "ru_RU": "Введение в клонирование",
     "ko"   : "Clone 소개",
     "uk"   : "Знайомство з clone",
-    "vi"   : "Giới thiệu về clone"
+    "vi"   : "Giới thiệu về clone",
+    "sl_SI": "Uvod v Git Clone"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -31,7 +32,8 @@ exports.level = {
     "ru_RU": "Простой git clone!",
     "ko"   : "그냥 git clone 하세요!",
     "uk"   : "Просто git clone!",
-    "vi"   : "Đơn giản là `git clone`!"
+    "vi"   : "Đơn giản là `git clone`!",
+    "sl_SI": "Preprosto samo git clone!"
   },
   "startDialog": {
     "en_US": {
@@ -826,6 +828,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Để hoàn thành cấp độ này chỉ cần đơn giản gõ lệnh `git clone` để sao chép kho chứa hiện tại. Ta sẽ học sâu hơn ở các bài học sau."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Oddaljeni Git",
+              "",
+              "Oddaljeno repozitoriji sploh niso tako zakomplicirani. V današnjem svetu oblačnih storitev si lahko kdo predstavlja, da je veliko čarovnije za oddaljnim Gitom, a gre preprosto za tvoj repozitorij na drugem računalniku. Ponavadi lahko komuniciraš s tem računalnikom preko interneta, ki ti omogoča da prenašaš commite naprej in nazaj.",
+              "",
+              "Poleg tega imajo oddaljeni repozitoriji tudi veliko super lastnosti:",
+              "",
+              "- Prvič, oddaljenost služi za odlično rezervo! Lokalni git repozitoriji imajo možnost obnovitve datotek v prejšnje stanje (kot že veš), ampak vse te informacije so shranjene lokalno. S tem da imaš shranjene kopije gita na drugih računalnikih, lahko izgubiš vse tvoje lokalne podatke, pa imaš še zmeraj opcijo nadaljevati, kjer si ostal.",
+              "",
+              "- Še pomembneje, kodiranje lahko naredijo družabno! Sedaj, ko je kopija tvojega projekta nekje objavljena, lahko tvoji prijatelji pomagajo tvojemu projektu (ali pridobijo zadnje spremembe) zelo enostavno.",
+              "",
+              "Uporaba strani, ki vizualizirajo oddaljene repozitorije je postala zelo popularna (npr. [Github](https://github.com/) ali [Phabricator](http://phabricator.org/)), ampak bistvo teh strani vseeno predstavljajo oddaljeni repozitoriji. Zato je pomembno, da jih razumemo!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Naši ukazi za kreiranje oddaljenih repozitorijev",
+              "",
+              "Do te točke, se je Learn Git Branching osredotočil na učenje osnov dela na lokalnih repozitorijih (branching, merging, rebasing, itd). Ampak sedaj, ko se hočemo naučiti še o delu na oddaljenih repozitorijih, potrebujemo ukaz, da postavi okolje za te lekcije. `git clone` bo ta ukaz.",
+              "",
+              "Tehnično je `git clone` v pravem svetu ukaz, ki ga boš uporabil za ustvarjanje lokalnih kopij oddaljenih repozitorijev (iz githuba naprimer). Mi uporabljamo ta ukaz nekoliko drugače na Learn Git Branching -- `git clone` ubistvu naredi oddaljen repozitorij iz tvojega lokalnega. Seveda, tehnično je nasproten pomen pravega ukaza, ampak pomaga ustvariti povezavo med kloniranjem in delom na oddaljenem repozitoriju, zato ga zdaj pač uporabljajmo.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Začnimo počasi in poglejmo kako izgleda oddaljen repozitorij (v naši vizualizaciji).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Evo ga! Sedaj imamo oddaljen repozitorij našega projekta. Izgleda precej podoben razen nekaj vizualnih sprememb, da se opazi razlika -- v kasnejših stopnjah boš spoznal, kako si delimo delo preko teh repozitorijev."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za dokončanje te stopnje, uporabi `git clone` na svojem obstoječem repozitoriju. Pravo učenje pride v lekcijah, ki sledijo."
             ]
           }
         }
