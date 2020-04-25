@@ -544,7 +544,7 @@ exports.strings = {
   'git-error-already-exists': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'The commit {commit} already exists in your changes set, aborting!',
-    'de_DE': 'Der Commit {commit} existiert bereit, Abbruch!',
+    'de_DE': 'Der Commit {commit} existiert bereits, Abbruch!',
     'zh_CN': '{commit} 提交已经存在于你的改动集里，已忽略！',
     'zh_TW': 'commit {commit} 已經在你的修改的集合裡，正在停止！',
     'es_AR': 'El commit {commit} ya existe en tus cambios, ¡abortando!',
@@ -714,7 +714,7 @@ exports.strings = {
   'learn-git-branching': {
     '__desc__': 'The title of the app, with spaces',
     'en_US': 'Learn Git Branching',
-    'de_DE': 'Learn Git Branching',
+    'de_DE': 'Lerne Git Branching',
     'ja': '日本語版リポジトリ',
     'zh_CN': '学习 Git 分支',
     'zh_TW': '學習 git 分支',
@@ -925,6 +925,7 @@ exports.strings = {
   'flip-tree-command': {
     '__desc__': 'when the tree is being flipped',
     'en_US': 'Flipping tree...',
+    'de_DE': 'Flipping Baum...',
     'zh_CN': '翻转树中...',
     'zh_TW': '翻轉樹中...',
     'es_AR': 'Invirtiendo el árbol...',
@@ -1016,7 +1017,7 @@ exports.strings = {
     'en_US': 'Here is a list of all the commmands available:',
     'zh_TW': '這份清單列出所有可用指令：',
     'zh_CN': '该列表列出了所有可用的指令：',
-    'de_DE': 'Hier ist eine Liste aller verfügbarer Befehle:',
+    'de_DE': 'Hier ist eine Liste aller verfügbaren Befehle:',
     'es_AR': 'Esta es una lista de los comandos disponibles:',
     'es_ES': 'Esta es una lista de todos los comandos disponibles:',
     'pt_BR': 'Esta é uma lista dos comandos disponíveis:',
@@ -1032,7 +1033,7 @@ exports.strings = {
   'cd-command': {
     '__desc__': 'dummy command output for the command in the key',
     'en_US': 'Directory changed to "/directories/dont/matter/in/this/demo"',
-    'de_DE': 'Verzeichnis gewechselt zu "/verzeichnisse/sind/in/dieser/demo/latte"',
+    'de_DE': 'Verzeichnis gewechselt zu "/verzeichnisse/sind/in/dieser/demo/irrelevant"',
     'zh_CN': '目录切换到 "/directories/dont/matter/in/this/demo"',
     'zh_TW': '目錄切換到 "/directories/dont/matter/in/this/demo"',
     'es_AR': 'Directorio cambiado a "/los/directorios/no/importan/en/esta/demo"',
@@ -1067,7 +1068,7 @@ exports.strings = {
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
     'en_US': 'LGB can\'t receive input on mobile, visit on desktop! it\'s worth it :D',
-    'de_DE': 'LGB ist nicht mit mobilen Endgeräten kompatibel, nutz es vom Desktop! Es lohnt sich :D',
+    'de_DE': 'LGB ist nicht mit mobilen Endgeräten kompatibel, benutz es vom Desktop! Es lohnt sich :D',
     'zh_CN': '无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D',
     'zh_TW': '無法在行動裝置上叫出鍵盤，請改用桌面版！',
     'es_AR': 'LGB no puede recibir comandos en dispositivos móviles. Visitanos desde una desktop, ¡lo vale! :D',
@@ -1352,7 +1353,7 @@ exports.strings = {
   'define-start-warning': {
     '__desc__': 'When you define the start point again, it overwrites the solution and goal so we add a warning',
     'en_US': 'Defining start point... solution and goal will be overwritten if they were defined earlier',
-    'de_DE': 'Lege Start fest ... Auflösung und Ziel werden gelößcht, falls sie schon festgelegt worden waren',
+    'de_DE': 'Lege Startpunkt fest ... Auflösung und Ziel werden überschrieben, falls sie schon festgelegt waren',
     'zh_CN': '定义开始点... 解决方法和目标会被新的替代',
     'zh_TW': '正在定義起始點...先前定義的解法和目標會被覆蓋掉',
     'es_AR': 'Estableciendo el punto de inicio... La solución y el objetivo serán sobreescritos si ya habían sido definidos',
@@ -1474,7 +1475,7 @@ exports.strings = {
   'goal-to-reach': {
     '__desc__': 'title of window that shoes the goal tree to reach',
     'en_US': 'Goal To Reach',
-    'de_DE': 'Ziel',
+    'de_DE': 'Zu erreichendes Ziel',
     'zh_CN': '目标',
     'zh_TW': '目標',
     'es_AR': 'Objetivo a cumplir',
@@ -1607,7 +1608,7 @@ exports.strings = {
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
     'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!',
-    'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, bitte teil sie mit auf Github mit!',
+    'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, bitte teile sie mir auf Github mit!',
     'zh_CN': '还没翻译 {key} :( 请在 Github 上贡献您的翻译!',
     'zh_TW': '還沒翻譯 {key} :( 請在 Github 上貢獻您的翻譯!',
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en Github y sugerí una! :)',
@@ -1626,7 +1627,7 @@ exports.strings = {
   'error-untranslated': {
     '__desc__': 'The general error when we encounter a dialog that is not translated',
     'en_US': 'This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!',
-    'de_DE': 'Dieser Dialog oder Text ist noch nicht in deine Sprache übersetzt. :( Schau auf Github vorbei um bei der Übersetzung zu helfen!',
+    'de_DE': 'Dieser Dialog oder Text ist noch nicht in deiner Sprache verfügbar. :( Schau auf Github vorbei um bei der Übersetzung zu helfen!',
     'zh_CN': '这段对话还没有被翻译成您的语言 :( 欢迎在 Github 上贡献您的翻译!',
     'zh_TW': '這段對話尚未翻成您的語言 :( 歡迎到 Github 貢獻翻譯！',
     'es_AR': 'Este mensaje o texto aún no fue traducido a tu idioma :( ¡Metete en Github y ayudanos a traducirlo!',
