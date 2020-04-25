@@ -66,7 +66,7 @@ exports.strings = {
     'pt_BR': 'Veja se consegue reduzir para somente {best} :D',
     'gl'   : 'Mira se consigues reducir a solo {best} :D',
     'fr_FR': 'Voyons si vous pouvez descendre à {best} :D',
-    'ru_RU': 'Попробуйте, может вы сможете уложиться в {best} : D',
+    'ru_RU': 'Попробуйте, может Вы сможете уложиться в {best} : D',
     'uk': 'Спробуй, можливо ти зможеш вкластися в {best} кроків :D',
     'ko': '{best}회로 줄일 수 있다면 해보세요. :D',
     'vi': 'Thử xem bạn có thể giảm xuống {best} không? :D'
@@ -334,7 +334,7 @@ exports.strings = {
     'pt_BR': 'Você não pode apagar o ramo master, nem o ramo em que você está, nem coisas que não sejam ramos',
     'gl'   : 'Non podes borrala rama master, nin a rama na que ti estás, nin cousas que non sexan ramas',
     'fr_FR': 'Vous ne pouvez supprimer la branche master, la branche sur laquelle vous êtes, ou ce qui n\'est pas une branche',
-    'ru_RU' : 'Невозможно удалить ветку master, ветку на которой вы сейчас и то что не является веткой',
+    'ru_RU' : 'Невозможно удалить ветку master, ветку на которой Вы сейчас и то что не является веткой',
     'uk': 'Неможливо видалити гілку master, гілку на якій ти зараз знаходишся чи штуки які не є гілкою',
     'ko': '당신은 마스터 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.',
     'vi': 'Bạn không thể xóa nhánh master, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.'
