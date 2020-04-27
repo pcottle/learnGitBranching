@@ -92,13 +92,7 @@ TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
   treeA = this.convertTreeSafe(treeA);
   treeB = this.convertTreeSafe(treeB);
 
-  var allBranches = Object.assign(
-    {},
-    treeA.branches,
-    treeB.branches
-  );
-
-  return Object.keys(allBranches).every(function(branch) {
+  return Object.keys(treeB.branches).every(function(branch) {
     return this.compareBranchWithinTrees(treeA, treeB, branch);
   }.bind(this));
 };
