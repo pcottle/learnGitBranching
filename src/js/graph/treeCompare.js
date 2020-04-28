@@ -78,82 +78,83 @@ TreeCompare.dispatchShallow = function(levelBlob, goalTreeString, treeToCompare)
 };
 
 // would love to have copy properties here.. :(
-TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
+TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeToCompare, goalTree) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
 
   // also compare tags!! for just one level
-  return treeA.HEAD.target === treeB.HEAD.target &&
-    this.compareAllBranchesWithinTrees(treeA, treeB) &&
-    this.compareAllTagsWithinTrees(treeA, treeB);
+  return treeToCompare.HEAD.target === goalTree.HEAD.target &&
+    this.compareAllBranchesWithinTrees(treeToCompare, goalTree) &&
+    this.compareAllTagsWithinTrees(treeToCompare, goalTree);
 };
 
-TreeCompare.compareAllBranchesWithinTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
+TreeCompare.compareAllBranchesWithinTrees = function(treeToCompare, goalTree) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
 
-  var allBranches = Object.assign(
-    {},
-    treeA.branches,
-    treeB.branches
-  );
-
-  return Object.keys(allBranches).every(function(branch) {
-    return this.compareBranchWithinTrees(treeA, treeB, branch);
+  /**
+   * Disclaimer / reminder!! We only care about branches in the goal tree;
+   * if you have extra branches in your source tree thats ok. but that means
+   * the arguments here are important -- always call this function with
+   * goalTree being the latter argument, since we will discard extra branches
+   * from treeToCompare (the first argument).
+   */
+  return Object.keys(goalTree.branches).every(function(branch) {
+    return this.compareBranchWithinTrees(treeToCompare, goalTree, branch);
   }.bind(this));
 };
 
-TreeCompare.compareAllTagsWithinTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-  this.reduceTreeFields([treeA, treeB]);
+TreeCompare.compareAllTagsWithinTrees = function(treeToCompare, goalTree) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
+  this.reduceTreeFields([treeToCompare, goalTree]);
 
-  return _.isEqual(treeA.tags, treeB.tags);
+  return _.isEqual(treeToCompare.tags, goalTree.tags);
 };
 
-TreeCompare.compareBranchesWithinTrees = function(treeA, treeB, branches) {
+TreeCompare.compareBranchesWithinTrees = function(treeToCompare, goalTree, branches) {
   var result = true;
   branches.forEach(function(branchName) {
-    result = result && this.compareBranchWithinTrees(treeA, treeB, branchName);
+    result = result && this.compareBranchWithinTrees(treeToCompare, goalTree, branchName);
   }, this);
 
   return result;
 };
 
-TreeCompare.compareBranchWithinTrees = function(treeA, treeB, branchName) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-  this.reduceTreeFields([treeA, treeB]);
+TreeCompare.compareBranchWithinTrees = function(treeToCompare, goalTree, branchName) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
+  this.reduceTreeFields([treeToCompare, goalTree]);
 
-  var recurseCompare = this.getRecurseCompare(treeA, treeB);
-  var branchA = treeA.branches[branchName];
-  var branchB = treeB.branches[branchName];
+  var recurseCompare = this.getRecurseCompare(treeToCompare, goalTree);
+  var branchA = treeToCompare.branches[branchName];
+  var branchB = goalTree.branches[branchName];
 
   return _.isEqual(branchA, branchB) &&
-    recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+    recurseCompare(treeToCompare.commits[branchA.target], goalTree.commits[branchB.target]);
 };
 
-TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-  this.reduceTreeFields([treeA, treeB]);
+TreeCompare.compareAllBranchesWithinTreesHashAgnostic = function(treeToCompare, goalTree) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
+  this.reduceTreeFields([treeToCompare, goalTree]);
 
   var allBranches = Object.assign(
     {},
-    treeA.branches,
-    treeB.branches
+    treeToCompare.branches,
+    goalTree.branches
   );
   var branchNames = Object.keys(allBranches || {});
 
-  return this.compareBranchesWithinTreesHashAgnostic(treeA, treeB, branchNames);
+  return this.compareBranchesWithinTreesHashAgnostic(treeToCompare, goalTree, branchNames);
 };
 
-TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, branches) {
+TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeToCompare, goalTree, branches) {
   // we can't DRY unfortunately here because we need a special _.isEqual function
   // for both the recursive compare and the branch compare
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
-  this.reduceTreeFields([treeA, treeB]);
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
+  this.reduceTreeFields([treeToCompare, goalTree]);
 
   // get a function to compare branch objects without hashes
   var compareBranchObjs = function(branchA, branchB) {
@@ -170,15 +171,15 @@ TreeCompare.compareBranchesWithinTreesHashAgnostic = function(treeA, treeB, bran
     return _.isEqual(branchA, branchB);
   }.bind(this);
   // and a function to compare recursively without worrying about hashes
-  var recurseCompare = this.getRecurseCompareHashAgnostic(treeA, treeB);
+  var recurseCompare = this.getRecurseCompareHashAgnostic(treeToCompare, goalTree);
 
   var result = true;
   branches.forEach(function(branchName) {
-    var branchA = treeA.branches[branchName];
-    var branchB = treeB.branches[branchName];
+    var branchA = treeToCompare.branches[branchName];
+    var branchB = goalTree.branches[branchName];
 
     result = result && compareBranchObjs(branchA, branchB) &&
-      recurseCompare(treeA.commits[branchA.target], treeB.commits[branchB.target]);
+      recurseCompare(treeToCompare.commits[branchA.target], goalTree.commits[branchB.target]);
   }, this);
   return result;
 };
@@ -261,7 +262,7 @@ TreeCompare.getBaseRef = function(ref) {
   return 'C' + bits[1];
 };
 
-TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
+TreeCompare.getRecurseCompareHashAgnostic = function(treeToCompare, goalTree) {
   // here we pass in a special comparison function to pass into the base
   // recursive compare.
 
@@ -284,10 +285,10 @@ TreeCompare.getRecurseCompareHashAgnostic = function(treeA, treeB) {
       getStrippedCommitCopy(commitB)
     );
   };
-  return this.getRecurseCompare(treeA, treeB, {isEqual: isEqual});
+  return this.getRecurseCompare(treeToCompare, goalTree, {isEqual: isEqual});
 };
 
-TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
+TreeCompare.getRecurseCompare = function(treeToCompare, goalTree, options) {
   options = options || {};
 
   // we need a recursive comparison function to bubble up the branch
@@ -307,10 +308,10 @@ TreeCompare.getRecurseCompare = function(treeA, treeB, options) {
       var pAid = commitA.parents[index];
       var pBid = commitB.parents[index];
 
-      // if treeA or treeB doesn't have this parent,
+      // if treeToCompare or goalTree doesn't have this parent,
       // then we get an undefined child which is fine when we pass into _.isEqual
-      var childA = treeA.commits[pAid];
-      var childB = treeB.commits[pBid];
+      var childA = treeToCompare.commits[pAid];
+      var childB = goalTree.commits[pBid];
 
       result = result && recurseCompare(childA, childB);
     }
@@ -426,15 +427,15 @@ TreeCompare.reduceTreeFields = function(trees) {
   }, this);
 };
 
-TreeCompare.compareTrees = function(treeA, treeB) {
-  treeA = this.convertTreeSafe(treeA);
-  treeB = this.convertTreeSafe(treeB);
+TreeCompare.compareTrees = function(treeToCompare, goalTree) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
 
   // now we need to strip out the fields we don't care about, aka things
   // like createTime, message, author
-  this.reduceTreeFields([treeA, treeB]);
+  this.reduceTreeFields([treeToCompare, goalTree]);
 
-  return _.isEqual(treeA, treeB);
+  return _.isEqual(treeToCompare, goalTree);
 };
 
 module.exports = TreeCompare;
