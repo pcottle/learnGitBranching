@@ -54,6 +54,10 @@ TreeCompare.dispatchShallow = function(levelBlob, goalTreeString, treeToCompare)
       return TreeCompare.compareBranchWithinTrees(
         treeToCompare, goalTreeString, 'master'
       );
+    case !!levelBlob.compareAllBranchesAndEnforceBranchCleanup:
+      return TreeCompare.compareAllBranchesAndEnforceBranchCleanup(
+        treeToCompare, goalTreeString
+      );
     case !!levelBlob.compareOnlyBranches:
       return TreeCompare.compareAllBranchesWithinTrees(
         treeToCompare, goalTreeString
@@ -87,6 +91,26 @@ TreeCompare.compareAllBranchesWithinTreesAndHEAD = function(treeToCompare, goalT
     this.compareAllBranchesWithinTrees(treeToCompare, goalTree) &&
     this.compareAllTagsWithinTrees(treeToCompare, goalTree);
 };
+
+TreeCompare.compareAllBranchesAndEnforceBranchCleanup = function(treeToCompare, goalTree) {
+  treeToCompare = this.convertTreeSafe(treeToCompare);
+  goalTree = this.convertTreeSafe(goalTree);
+
+  // Unlike compareAllBranchesWithinTrees, here we consider both the branches
+  // in the goalTree and the branches in the treeToCompare. This means that
+  // we enfoce that you clean up any branches that you have locally that
+  // the goal does not have. this is helpful when we want to verify that you
+  // have deleted branch, for instance.
+  var allBranches = Object.assign(
+    {},
+    treeToCompare.branches,
+    goalTree.branches
+  );
+  return Object.keys(allBranches).every(function(branch) {
+    return this.compareBranchWithinTrees(treeToCompare, goalTree, branch);
+  }.bind(this));
+};
+
 
 TreeCompare.compareAllBranchesWithinTrees = function(treeToCompare, goalTree) {
   treeToCompare = this.convertTreeSafe(treeToCompare);

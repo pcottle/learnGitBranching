@@ -1,4 +1,5 @@
 exports.level = {
+  "compareAllBranchesAndEnforceBranchCleanup": true,
   "disabledMap": {
     "git branch": true,
     "git checkout": true

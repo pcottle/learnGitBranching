@@ -49,6 +49,18 @@ describe('Tree Compare', function() {
     );
   });
 
+  it('compares with considering leftover branches', function() {
+    testMethod(
+      {
+        compareAllBranchesAndEnforceBranchCleanup: true,
+      },
+      '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"foo","id":"HEAD"}}',
+      {
+        '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null},"randoBran":{"target":"C2","id":"randoBran","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"foo","id":"HEAD"}}': false,
+      },
+    );
+  });
+
   it('deep compares on origin tree', function() {
     testMethod(
       {}, // checked for all methods so this doesn't matter
