@@ -68,10 +68,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's try making a tag at `C1` which is our version 1 prototype"
+              "Let's try making a tag at `C1` which is our version 1 prototype."
             ],
             "afterMarkdowns": [
-              "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at"
+              "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -120,7 +120,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)"
+              "Essayons de faire un tag sur C1 (qui représente la version 1 de notre prototype)."
             ],
             "afterMarkdowns": [
               "Voila, facile non ? Nous nommons le tag `v1` et il pointe vers le commit `C1`. Si vous ne spécifiez pas le commit, le tag pointera là où se trouve `HEAD`."
@@ -279,7 +279,7 @@ exports.level = {
               "Creemos un tag en `C1`, que es nuestro prototipo de la versión 1"
             ],
             "afterMarkdowns": [
-              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente al commit `C1`. Si no especificás el commit, git va a usar al apuntado por `HEAD`"
+              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente al commit `C1`. Si no especificás el commit, git va a usar al apuntado por `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -331,7 +331,7 @@ exports.level = {
               "Creemos un tag en `C1`, que es nuestro prototipo de la versión 1"
             ],
             "afterMarkdowns": [
-              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente al commit `C1`. Si no especificas el commit, git va a usar al apuntado por `HEAD`"
+              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente al commit `C1`. Si no especificas el commit, git va a usar al apuntado por `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -383,7 +383,7 @@ exports.level = {
               "Criemos uma tag em `C1`, que é nosso protótipo da versão 1"
             ],
             "afterMarkdowns": [
-              "Aqui! Bem fácil. Nós chamamos a tag de `v1` e referenciamos o commit `C1` explicitamente. Se você chamar o comando sem especificar um commit, o git vai usar seja lá qual commit para o qual o `HEAD` estiver apontando"
+              "Aqui! Bem fácil. Nós chamamos a tag de `v1` e referenciamos o commit `C1` explicitamente. Se você chamar o comando sem especificar um commit, o git vai usar seja lá qual commit para o qual o `HEAD` estiver apontando."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -591,7 +591,7 @@ exports.level = {
               "Создадим тег на `C1`, который будет нашей версией 1"
             ],
             "afterMarkdowns": [
-              "Готово! Всё просто. Мы назвали тег `v1` и заставили его ссылаться на `C1` явным образом. Если конкретный коммит не указан, гит пометит тегом `HEAD`"
+              "Готово! Всё просто. Мы назвали тег `v1` и заставили его ссылаться на `C1` явным образом. Если конкретный коммит не указан, гит пометит тегом `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -744,7 +744,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hãy thử tạo một thẻ ở commit `C1` chỉ định rằng đây là phiên bản thứ nhất của ta"
+              "Hãy thử tạo một thẻ ở commit `C1` chỉ định rằng đây là phiên bản thứ nhất của ta."
             ],
             "afterMarkdowns": [
               "Đó! Đơn giản như đan rổ. Ta tạo ra thẻ `v1` và tham chiếu đến commit `C1`. Nếu bạn không chỉ định commit, git sẽ gắn thẻ vào commit mà `HEAD` đang trỏ tới"

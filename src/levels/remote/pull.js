@@ -62,7 +62,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's first see a `fetch` and a `merge` executed sequentially"
+              "Let's first see a `fetch` and a `merge` executed sequentially."
             ],
             "afterMarkdowns": [
               "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/master`. Now our `master` branch reflects the new work from the remote (in this case, named `origin`)"
@@ -121,7 +121,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement"
+              "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement."
             ],
             "afterMarkdowns": [
               "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant notre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
@@ -180,7 +180,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente"
+              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
             ],
             "afterMarkdowns": [
               "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
@@ -239,7 +239,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente"
+              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
             ],
             "afterMarkdowns": [
               "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
@@ -298,7 +298,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos primeiro ver um `fetch` e um `merge` executados sequencialmente"
+              "Vamos primeiro ver um `fetch` e um `merge` executados sequencialmente."
             ],
             "afterMarkdowns": [
               "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/master`. Agora o nosso ramo `master` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
@@ -357,7 +357,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vexamos primeiro un `fetch` e un `merge` executados secuencialmente"
+              "Vexamos primeiro un `fetch` e un `merge` executados secuencialmente."
             ],
             "afterMarkdowns": [
               "Boom: descargamos `C3` cun `fetch` e logo mesturámolos con `git merge o/master`. Agora a nosa rama `master` reflexa o novo traballo do remoto (neste caso, chamado `origin`)"
@@ -711,7 +711,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Спершу виконаймо по черзі `fetch`, а потім `merge`"
+              "Спершу виконаймо по черзі `fetch`, а потім `merge`."
             ],
             "afterMarkdowns": [
               "Ка-бум -- ми звантажили `C3` за допомогою `fetch` і потім змерджили їх, використавши `git merge o/master`. Тепер наша гілка `master` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
@@ -829,7 +829,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Trước tiên hãy xem quá trình `nạp` và `hợp nhất` được thực hiện một cách tuần tự"
+              "Trước tiên hãy xem quá trình `nạp` và `hợp nhất` được thực hiện một cách tuần tự."
             ],
             "afterMarkdowns": [
               "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/master`. Giờ thì nhánh `master` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"

@@ -63,7 +63,7 @@ exports.level = {
               "",
               "We would like to move our work from bugFix directly onto the work from master. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
               "",
-              "Let's do that with the `git rebase` command"
+              "Let's do that with the `git rebase` command."
             ],
             "afterMarkdowns": [
               "Awesome! Now the work from our bugFix branch is right on top of master and we have a nice linear sequence of commits.",
@@ -264,7 +264,7 @@ exports.level = {
               "",
               "Nos gustaría mover nuestro trabajo de bugFix directamente sobre el trabajo de master. De ese modo, parecería que esas dos tareas se desarrollaron secuencialmente, cuando en realidad se hicieron en paralelo.",
               "",
-              "Hagámoslo usando el comando `git rebase`"
+              "Hagámoslo usando el comando `git rebase`."
             ],
             "afterMarkdowns": [
               "¡Genial! Ahora el trabajo de nuestra rama bugFix está justo encima del de master, y tenemos una secuencia lineal de commits.",
@@ -331,7 +331,7 @@ exports.level = {
               "",
               "Nos gustaría mover nuestro trabajo de bugFix directamente sobre el trabajo de master. De ese modo, parecería que esas dos tareas se desarrollaron secuencialmente, cuando en realidad se hicieron en paralelo.",
               "",
-              "Hagámoslo usando el comando `git rebase`"
+              "Hagámoslo usando el comando `git rebase`."
             ],
             "afterMarkdowns": [
               "¡Genial! Ahora el trabajo de nuestra rama bugFix está justo encima del de master, y tenemos una secuencia lineal de commits.",
@@ -398,7 +398,7 @@ exports.level = {
               "",
               "Queremos mover nosso trabalho do bugFix diretamente dentro do master. Desta forma, vai parecer que esses dois recursos foram desenvolvidos sequencialmente, quando na realidade foram feitos em paralelo.",
               "",
-              "Vamos fazê-lo com o comando `git rebase`"
+              "Vamos fazê-lo com o comando `git rebase`."
             ],
             "afterMarkdowns": [
               "Incrível! Agora o trabalho do nosso ramo bugFix está logo após o do master, e temos uma linda sequência linear de commits.",
@@ -465,7 +465,7 @@ exports.level = {
               "",
               "Queremos mover o noso traballo do `bugFix` directamente dentro da rama `master`. Desta forma, vai parecer que eses dous recursos foron editados secuencialmente, cando a realidade é que se fixeron en paralelo.",
               "",
-              "Imos lanzar o comando `git rebase`"
+              "Imos lanzar o comando `git rebase`."
             ],
             "afterMarkdowns": [
               "¡Buah chorvo! Agora o traballo da nosa rama `bugFix` está seguida de master, e temos unha fermosa línea de commits.",
@@ -532,7 +532,7 @@ exports.level = {
               "",
               "Nous voudrions transférer notre travail de la branche 'bugFix' directement sur le travail existant dans 'master'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
               "",
-              "Faisons cela avec la commande `git rebase`"
+              "Faisons cela avec la commande `git rebase`."
             ],
             "afterMarkdowns": [
               "Super! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'master' et nous avons une belle séquence linéaire de commits.",
@@ -803,7 +803,7 @@ exports.level = {
               "",
               "Хочется сдвинуть наши изменения из `bugFix` прямо на вершину ветки `master`. Благодаря этому всё будет выглядеть, как будто эти изменения делались последовательно, хотя на самом деле - параллельно.",
               "",
-              "Применим `git rebase`"
+              "Применим `git rebase`."
             ],
             "afterMarkdowns": [
               "Супер! Теперь изменения из `bugFix` находятся в конце ветки `master` и являют собой линейную последовательность коммитов.",
@@ -820,7 +820,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Вот мы выбрали ветку `master`. Вперёд - сделаем rebase на `bugFix`"
+              "Вот мы выбрали ветку `master`. Вперёд - сделаем rebase на `bugFix`."
             ],
             "afterMarkdowns": [
               "Вуаля! Так как `master` был предком `bugFix`, git просто сдвинул ссылку на `master` вперёд."
@@ -870,7 +870,7 @@ exports.level = {
               "",
               "Ми хочемо перемістити наші зміни з гілки bugFix прямо до змін з гілки master. Тоді це буде виглядати наче ці зміни були додані одна за одною, хоча насправді вони були додані одночасно.",
               "",
-              "Давайте зробимо це за допомогою команди `git rebase`"
+              "Давайте зробимо це за допомогою команди `git rebase`."
             ],
             "afterMarkdowns": [
               "Добре! Тепер зміни з гілки bugFix знаходяться прямо попереду змін з master й ми отримали зручну лінійну послідовність комітів.",
@@ -1003,7 +1003,7 @@ exports.level = {
               "",
               "Radi bi prestavili naše delo iz bugFix direktno na delo iz masterja. Tako bi izgledalo, kot da sta bili ti dve funkcionalnosti razviti zaporedno, v resnici pa sta bili razviti vzporedno.",
               "",
-              "Naredimo sedaj to z `git rebase` ukazom"
+              "Naredimo sedaj to z `git rebase` ukazom."
             ],
             "afterMarkdowns": [
               "Super! Sedaj je naše delo iz bugFix brancha na vrhu masterja in imamo lepo zaporedje commitov.",

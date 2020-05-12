@@ -76,7 +76,7 @@ exports.level = {
               "By specifying a place..."
             ],
             "afterMarkdowns": [
-              "We download only the commits from `foo` and place them on `o/foo`"
+              "We download only the commits from `foo` and place them on `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -322,7 +322,7 @@ exports.level = {
               "Especificando un lugar..."
             ],
             "afterMarkdowns": [
-              "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`"
+              "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -445,7 +445,7 @@ exports.level = {
               "Especificando un lugar..."
             ],
             "afterMarkdowns": [
-              "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`"
+              "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -568,7 +568,7 @@ exports.level = {
               "Especificando um lugar..."
             ],
             "afterMarkdowns": [
-              "Baixamos só os commits de `foo` e colocamos em `o/foo`"
+              "Baixamos só os commits de `foo` e colocamos em `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -691,7 +691,7 @@ exports.level = {
               "Especificando un lugar..."
             ],
             "afterMarkdowns": [
-              "Sólo baixamos os commits de `foo` e os poñemos en `o/foo`"
+              "Sólo baixamos os commits de `foo` e os poñemos en `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -1049,7 +1049,7 @@ exports.level = {
               "",
               "wird Git zum Branch `foo` auf dem Remote gehen, dort alle Änderungen holen, die es lokal noch nicht gibt, und sie an den lokalen Branch `o/foo` anhängen.",
               "",
-              "Schauen wir uns das mal live an (nur zur Wiederholung)"
+              "Schauen wir uns das mal live an (nur zur Wiederholung)."
             ]
           }
         },
@@ -1183,7 +1183,7 @@ exports.level = {
               "Указывая пункт назначения..."
             ],
             "afterMarkdowns": [
-              "мы скачиваем только коммиты с ветки `foo` и помещаем их в `o/foo`"
+              "мы скачиваем только коммиты с ветки `foo` и помещаем их в `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -1429,7 +1429,7 @@ exports.level = {
               "Вказуючи `<place>`..."
             ],
             "afterMarkdowns": [
-              "Ми звантажуємо коміти лише з `foo` і кладемо їх в `o/foo`"
+              "Ми звантажуємо коміти лише з `foo` і кладемо їх в `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -1552,7 +1552,7 @@ exports.level = {
               "Thông qua chỉ định vị trí..."
             ],
             "afterMarkdowns": [
-              "Ta chỉ tải xuống commit ở trên nhánh `foo` và đặt chúng ở nhánh `o/foo`"
+              "Ta chỉ tải xuống commit ở trên nhánh `foo` và đặt chúng ở nhánh `o/foo`."
             ],
             "command": "git fetch origin foo",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"

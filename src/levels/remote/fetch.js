@@ -49,7 +49,7 @@ exports.level = {
               "",
               "In this lesson we will learn how to fetch data _from_ a remote repository -- the command for this is conveniently named `git fetch`.",
               "",
-              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new representation. This ties into the previous lesson on remote branches"
+              "You'll notice that as we update our representation of the remote repository, our _remote_ branches will update to reflect that new representation. This ties into the previous lesson on remote branches."
             ]
           }
         },
@@ -195,7 +195,7 @@ exports.level = {
               "",
               "En esta lección aprenderemos cómo traer (hacer `fetch`) datos _desde_ un repositorio remoto - el comando para esto se llama, convenientemente, `git fetch`).",
               "",
-              "Vas a notar que a medida que actualicemos nuestra representación de nuestro repositorio remoto, nuestras ramas _remotas_ van a actualizarse para reflejar esa nueva representación. Esto está ligado a la lección anterior sobre ramas remotas"
+              "Vas a notar que a medida que actualicemos nuestra representación de nuestro repositorio remoto, nuestras ramas _remotas_ van a actualizarse para reflejar esa nueva representación. Esto está ligado a la lección anterior sobre ramas remotas."
             ]
           }
         },
@@ -250,7 +250,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, simplemente corré `git fetch` y bajate todos los commits"
+              "Para completar este nivel, simplemente corré `git fetch` y bajate todos los commits."
             ]
           }
         }
@@ -268,7 +268,7 @@ exports.level = {
               "",
               "En esta lección aprenderemos cómo traer (hacer `fetch`) datos _desde_ un repositorio remoto - el comando para esto se llama, convenientemente, `git fetch`).",
               "",
-              "Vas a notar que a medida que actualicemos nuestra representación de nuestro repositorio remoto, nuestras ramas _remotas_ van a actualizarse para reflejar esa nueva representación. Esto está ligado a la lección anterior sobre ramas remotas"
+              "Vas a notar que a medida que actualicemos nuestra representación de nuestro repositorio remoto, nuestras ramas _remotas_ van a actualizarse para reflejar esa nueva representación. Esto está ligado a la lección anterior sobre ramas remotas."
             ]
           }
         },
@@ -323,7 +323,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, simplemente ejecuta `git fetch` y bájate todos los commits"
+              "Para completar este nivel, simplemente ejecuta `git fetch` y bájate todos los commits."
             ]
           }
         }
@@ -341,7 +341,7 @@ exports.level = {
               "",
               "Nesta lição vamos aprender como baixar dados _de_ um repositório remoto -- o comando para isso é convenientemente chamado de `git fetch`.",
               "",
-              "Você perceberá que conforme atualizarmos a representação do repositório remoto, nossos ramos _remotos_ atualizar-se-ão para refletir essa nova representação. Isso tem a ver com o que vimos na lição anterior sobre ramos remotos"
+              "Você perceberá que conforme atualizarmos a representação do repositório remoto, nossos ramos _remotos_ atualizar-se-ão para refletir essa nova representação. Isso tem a ver com o que vimos na lição anterior sobre ramos remotos."
             ]
           }
         },
@@ -414,7 +414,7 @@ exports.level = {
               "",
               "Nesta lección imos aprender como baixar os cambios _dun_ repositorio remoto -- o comando para iso é `git fetch`.",
               "",
-              "Percibirás que conforme atualizamos a representación do repositorio remoto, as nosas ramas _remotas_ actualizaranse para reflexar a nova representación. Iso ten que ver co que vimos na lección anterior sobre as ramas remotas"
+              "Percibirás que conforme atualizamos a representación do repositorio remoto, as nosas ramas _remotas_ actualizaranse para reflexar a nova representación. Iso ten que ver co que vimos na lección anterior sobre as ramas remotas."
             ]
           }
         },
@@ -998,7 +998,7 @@ exports.level = {
               "",
               "Ở bài học này ta sẽ học cách lấy dữ liệu về _từ_ một kho chứa từ xa -- lệnh đó là `git fetch`.",
               "",
-              "Bạn sẽ nhận thấy rằng khi ta cập nhật đại điện kho chứa từ xa, Nhánh _từ xa_ của ta cũng được cập nhật để phản ánh đại diện đó. Điều này liên quan đến bài học trước về nhánh từ xa"
+              "Bạn sẽ nhận thấy rằng khi ta cập nhật đại điện kho chứa từ xa, Nhánh _từ xa_ của ta cũng được cập nhật để phản ánh đại diện đó. Điều này liên quan đến bài học trước về nhánh từ xa."
             ]
           }
         },
