@@ -466,7 +466,7 @@ exports.level = {
               "",
               "Para completar este nivel, creá una nueva rama en la ubicación indicada.",
               "",
-              "Obviamente sería muy fácil especificar el commit directamente (algo como `C6`), pero te reto a usar los modificadores de los que estuvimos hablando, mejor"
+              "Obviamente sería muy fácil especificar el commit directamente (algo como `C6`), pero te reto a usar los modificadores de los que estuvimos hablando, mejor."
             ]
           }
         }
@@ -553,7 +553,7 @@ exports.level = {
               "",
               "Para completar este nivel, crea una nueva rama en la ubicación indicada.",
               "",
-              "Obviamente sería muy fácil especificar el commit directamente (algo como `C6`), pero te reto a usar los modificadores de los que estuvimos hablando, mejor"
+              "Obviamente sería muy fácil especificar el commit directamente (algo como `C6`), pero te reto a usar los modificadores de los que estuvimos hablando, mejor."
             ]
           }
         }

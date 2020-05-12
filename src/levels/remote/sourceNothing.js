@@ -76,7 +76,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Finally, fetching \"nothing\" to a place locally actually makes a new branch"
+              "Finally, fetching \"nothing\" to a place locally actually makes a new branch."
             ],
             "afterMarkdowns": [
               "Very odd / bizarre, but whatever. That's git for you!"
@@ -182,7 +182,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Finalmente, fetchear \"nada\" a un lugar local en realidad crea una nueva rama"
+              "Finalmente, fetchear \"nada\" a un lugar local en realidad crea una nueva rama."
             ],
             "afterMarkdowns": [
               "Bastante bizarro, pero, meh, da igual. Así es git."
@@ -235,7 +235,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Finalmente, hacer fetch de \"nada\" a un lugar local en realidad crea una nueva rama"
+              "Finalmente, hacer fetch de \"nada\" a un lugar local en realidad crea una nueva rama."
             ],
             "afterMarkdowns": [
               "Bastante extraño, pero bueno, da igual. Así es git."
@@ -288,7 +288,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Finalmente, fazer um fetch de \"coisa nenhuma\" para uma referência local cria um novo ramo"
+              "Finalmente, fazer um fetch de \"coisa nenhuma\" para uma referência local cria um novo ramo."
             ],
             "afterMarkdowns": [
               "Bastante estranho / bizarro, mas de qualquer forma. É assim que o Git é!"
@@ -341,7 +341,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Finalmente, descargar a \"nada\" a un lugar local na realidade crea unha nova rama"
+              "Finalmente, descargar a \"nada\" a un lugar local na realidade crea unha nova rama."
             ],
             "afterMarkdowns": [
               "Bastante bizarro, pero, meh, da igual. Así é git."
@@ -765,7 +765,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "In končno, fetchanje \"ničesar\" lokalno dejansko naredi nov branch"
+              "In končno, fetchanje \"ničesar\" lokalno dejansko naredi nov branch."
             ],
             "afterMarkdowns": [
               "Zelo čudno / bizarno, ampak kakorkoli. Tak je git!"

@@ -106,10 +106,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "This also applies for git push"
+              "This also applies for git push."
             ],
             "afterMarkdowns": [
-              "Boom. We pushed our work to the `master` on the remote even though our branch was named something totally different"
+              "Boom. We pushed our work to the `master` on the remote even though our branch was named something totally different."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -344,10 +344,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Lo mismo aplica para git push"
+              "Lo mismo aplica para git push."
             ],
             "afterMarkdowns": [
-              "Boom. Pusheamos nuestro trabajo a la rama `master` del remoto incluso cuando nuestra rama se llamaba totalmente distinto"
+              "Boom. Pusheamos nuestro trabajo a la rama `master` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -464,10 +464,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Lo mismo aplica para git push"
+              "Lo mismo aplica para git push."
             ],
             "afterMarkdowns": [
-              "Zas. Hacemos push de nuestro trabajo a la rama `master` del remoto incluso cuando nuestra rama se llamaba totalmente distinto"
+              "Zas. Hacemos push de nuestro trabajo a la rama `master` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -582,10 +582,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Isso também se aplica ao git push"
+              "Isso também se aplica ao git push."
             ],
             "afterMarkdowns": [
-              "Boom. Nós enviamos nosso trabalho para o ramo remoto `master` ainda que nosso ramo local tivesse um nome completamente diferente"
+              "Boom. Nós enviamos nosso trabalho para o ramo remoto `master` ainda que nosso ramo local tivesse um nome completamente diferente."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -702,10 +702,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "O mismo aplica para git push"
+              "O mismo aplica para git push."
             ],
             "afterMarkdowns": [
-              "Boom. Empurramos o noso traballo á rama `master` do remoto incluso cando a nosa rama se chamaba totalmete distinto"
+              "Boom. Empurramos o noso traballo á rama `master` do remoto incluso cando a nosa rama se chamaba totalmete distinto."
             ],
             "command": "git checkout -b foo o/master; git commit; git push",
             "beforeCommand": "git clone"
@@ -1171,7 +1171,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Это работает также и для git push"
+              "Это работает также и для git push."
             ],
             "afterMarkdowns": [
               "Оп! Мы закачали наши наработки на ветку `master` нашего удалённого репозитория. При том, что наша локальная ветка называется абсолютно по-другому."
@@ -1525,7 +1525,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Це також справджується і для git push"
+              "Це також справджується і для git push."
             ],
             "afterMarkdowns": [
               "Ка-бум!. Ми запушили наші зміни у віддалений `master`, незважаючи на те, що локальна гілка називалась зовсім по-іншому."
@@ -1643,7 +1643,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Điểu này cũng được áp dụng cho lệnh git push"
+              "Điểu này cũng được áp dụng cho lệnh git push."
             ],
             "afterMarkdowns": [
               "Bùùm. Ta đã đẩy thành quả lên nhánh `master` ở kho chứa tù xa mặc dù nhánh của ta có tên hoàn toàn khác biệt"
@@ -1761,7 +1761,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "To velja tudi za git push"
+              "To velja tudi za git push."
             ],
             "afterMarkdowns": [
               "Boom. Naše delo smo naložili na `master` na oddaljenem repotu, čeprav je ime našega brancha nekaj povsem drugega."

@@ -79,7 +79,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Lets check out a remote branch and see what happens"
+              "Lets check out a remote branch and see what happens."
             ],
             "afterMarkdowns": [
               "As you can see, git put us into detached `HEAD` mode and then did not update `o/master` when we added a new commit. This is because `o/master` will only update when the remote updates."
@@ -140,7 +140,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Rendons-nous sur une branche et regardons ce qui se passe"
+              "Rendons-nous sur une branche et regardons ce qui se passe."
             ],
             "afterMarkdowns": [
               "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/master` quand nous avons ajouté un nouveau commit. C'est parce que `o/master` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
@@ -201,7 +201,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Checkouteemos una rama remota a ver qué pasa"
+              "Checkouteemos una rama remota a ver qué pasa."
             ],
             "afterMarkdowns": [
               "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/master` cuando creamos un nuevo commit. Esto es porque `o/master` sólo va a actualizarse cuando el remoto se actualice."
@@ -262,7 +262,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hagamos checkout sobre una rama remota a ver qué pasa"
+              "Hagamos checkout sobre una rama remota a ver qué pasa."
             ],
             "afterMarkdowns": [
               "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/master` cuando creamos un nuevo commit. Esto ocurre porque `o/master` sólo va a actualizarse cuando el remoto se actualice."
@@ -323,7 +323,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos fazer checkout de um ramo remoto e ver o que acontece"
+              "Vamos fazer checkout de um ramo remoto e ver o que acontece."
             ],
             "afterMarkdowns": [
               "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou o `o/master` quando adicionamos um novo commit. Isso é porque o `o/master` só será atualizado quando o repositório remoto for atualizado."
@@ -384,7 +384,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Fagamos checkout a unha rama remota a ver qué pasa"
+              "Fagamos checkout a unha rama remota a ver qué pasa."
             ],
             "afterMarkdowns": [
               "Como ves, git púxonos no modo detached `HEAD` e non actualizou `o/mater` cando creamos un novo commit. Esto é porque `o/mater` só vai actualizarse cando o remoto se actualice."
@@ -506,7 +506,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Checken wir mal einen Remote Branch aus und schauen was passiert"
+              "Checken wir mal einen Remote Branch aus und schauen was passiert."
             ],
             "afterMarkdowns": [
               "Wie du siehst setzt uns Git in den \"Detached `HEAD`\" Modus und aktualisiert dann nach dem Commit nicht den Branch `o/master`. Das liegt daran, dass der Remote Branch nur aktualisiert wird, wenn sich der entsprechende Branch auf dem Remote verändert."
@@ -872,7 +872,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hãy thử chuyển sang nhánh từ xa xem điểu gì xảy ra"
+              "Hãy thử chuyển sang nhánh từ xa xem điểu gì xảy ra."
             ],
             "afterMarkdowns": [
               "Như bạn thấy, git đưa ta vào trạng thái `HEAD` và không cập nhật nhánh `o/master` khi ta thêm một commit. Đó là bởi vì `o/master` chỉ cập nhật khi kho chứa từ xa được cập nhật."
@@ -933,7 +933,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Checkoutajmo oddaljen branch in poglejmo kaj se zgodi"
+              "Checkoutajmo oddaljen branch in poglejmo kaj se zgodi."
             ],
             "afterMarkdowns": [
               "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/master`, ko dodamo nov commit. To je zato, ker se bo `o/master` posodobil šele, ko se bo posodobil oddaljen repo."

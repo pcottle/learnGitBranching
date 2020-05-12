@@ -78,10 +78,10 @@ exports.level = {
               "",
               "`master^^` is the grandparent (second-generation ancestor) of `master`",
               "",
-              "Let's check out the commit above master here"
+              "Let's check out the commit above master here."
             ],
             "afterMarkdowns": [
-              "Boom! Done. Way easier than typing the commit hash"
+              "Boom! Done. Way easier than typing the commit hash."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -91,7 +91,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "You can also reference `HEAD` as a relative ref. Let's use that a couple of times to move upwards in the commit tree"
+              "You can also reference `HEAD` as a relative ref. Let's use that a couple of times to move upwards in the commit tree."
             ],
             "afterMarkdowns": [
               "Easy! We can travel backwards in time with `HEAD^`"
@@ -303,10 +303,10 @@ exports.level = {
               "",
               "`master^^` es el _abuelo_ (segunda generación de ancestros) de `master`",
               "",
-              "Veamos el commit que está antes de master acá"
+              "Veamos el commit que está antes de master acá."
             ],
             "afterMarkdowns": [
-              "¡Boom! Ahí está. Mucho más simple que tipear el hash de ese commit"
+              "¡Boom! Ahí está. Mucho más simple que tipear el hash de ese commit."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -316,7 +316,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "También podés referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol"
+              "También podés referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol."
             ],
             "afterMarkdowns": [
               "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
@@ -378,10 +378,10 @@ exports.level = {
               "",
               "`master^^` es el _abuelo_ (segunda generación de ancestros) de `master`",
               "",
-              "Veamos el commit que está antes de master aquí"
+              "Veamos el commit que está antes de master aquí."
             ],
             "afterMarkdowns": [
-              "¡Zas! Ahí está. Mucho más simple que escribir el hash de ese commit"
+              "¡Zas! Ahí está. Mucho más simple que escribir el hash de ese commit."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -391,7 +391,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "También puedes referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol"
+              "También puedes referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol."
             ],
             "afterMarkdowns": [
               "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
@@ -453,10 +453,10 @@ exports.level = {
               "",
               "`master^^` é o avô (ancestral de segunda geração) do `master`",
               "",
-              "Vamos fazer checkout do commit logo acima do master"
+              "Vamos fazer checkout do commit logo acima do master."
             ],
             "afterMarkdowns": [
-              "Boom! Pronto. Muito mais fácil que digitar o hash do commit"
+              "Boom! Pronto. Muito mais fácil que digitar o hash do commit."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -466,7 +466,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Você também pode usar o `HEAD` como parte de uma referência relativa. Vamos usar isso para nos mover para cima algumas vezes na árvore de commits"
+              "Você também pode usar o `HEAD` como parte de uma referência relativa. Vamos usar isso para nos mover para cima algumas vezes na árvore de commits."
             ],
             "afterMarkdowns": [
               "Fácil! Podemos viajar para trás no tempo com `HEAD^`"
@@ -528,10 +528,10 @@ exports.level = {
               "",
               "`master^^` é o avó (ancestral de segunda xeración) do `master`",
               "",
-              "Imos facer checkout do commit que está enriba de master"
+              "Imos facer checkout do commit que está enriba de master."
             ],
             "afterMarkdowns": [
-              "Boom! Ahí o tes. Moito máis rápido que por o hash do commit"
+              "Boom! Ahí o tes. Moito máis rápido que por o hash do commit."
             ],
             "command": "git checkout master^",
             "beforeCommand": "git commit"
@@ -1141,7 +1141,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Prav tako se lahko sklicuješ na `HEAD` kot relativno referenco. Uporabimo to nekajkrat, da se pomakenmo višje po drevesu commitov"
+              "Prav tako se lahko sklicuješ na `HEAD` kot relativno referenco. Uporabimo to nekajkrat, da se pomakenmo višje po drevesu commitov."
             ],
             "afterMarkdowns": [
               "Enostavno! Lahko potujemo nazaj v čas z `HEAD^`."
