@@ -90,7 +90,7 @@ exports.level = {
               "When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!"
             ],
             "afterMarkdowns": [
-              "Boom! Git copied down commits in the exact same way you specified through the UI"
+              "Boom! Git copied down commits in the exact same way you specified through the UI."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -350,7 +350,7 @@ exports.level = {
               "Cuando apretes el botón, va a aparecer una ventana de rebase interactivo. Reordená los commits (sentite libre de ignorar alguno, también) ¡y mirá el resultado!"
             ],
             "afterMarkdowns": [
-              "¡Boom! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"
+              "¡Boom! Git copió los commits exactamente de la misma manera que lo especificaste en la UI."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -415,7 +415,7 @@ exports.level = {
               "Cuando aprietes el botón, va a aparecer una ventana de rebase interactivo. Reordena los commits (siéntete libre de ignorar alguno, también) ¡y observa el resultado!"
             ],
             "afterMarkdowns": [
-              "¡Zas! Git copió los commits exactamente de la misma manera que lo especificaste en la UI"
+              "¡Zas! Git copió los commits exactamente de la misma manera que lo especificaste en la UI."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -480,7 +480,7 @@ exports.level = {
               "Quando você clicar o botão, uma janela de rebase interativo se abrirá. Reordene alguns commits da forma como você preferir (ou sinta-se livre para desmarcar o `pick` de alguns) e veja o resultado!"
             ],
             "afterMarkdowns": [
-              "Boom! O Git copiou alguns commits exatamente da mesma forma que você os especificou na janela"
+              "Boom! O Git copiou alguns commits exatamente da mesma forma que você os especificou na janela."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -545,7 +545,7 @@ exports.level = {
               "Cando pinches o botón, unha ventá de rebase interativo abrirase. Reordena algúns commits da forma que ti prefieras (ou se o prefires desmarca o `pick` de algúns) e mira o seu resultado!"
             ],
             "afterMarkdowns": [
-              "¡Veña! Git copiou algúns commits exatamente da mesma forma que o indicaches na ventá"
+              "¡Veña! Git copiou algúns commits exatamente da mesma forma que o indicaches na ventá."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -870,7 +870,7 @@ exports.level = {
               "Коли ти натиснеш кнопку, відкриється вікно інтерактивного rebase. Перестав якісь коміти (можеш пропустити якісь якщо хочеш), і подивись що вийде!"
             ],
             "afterMarkdowns": [
-              "Ка-бум! Git cкопіював коміти відповідно до того що було вказано в UI"
+              "Ка-бум! Git cкопіював коміти відповідно до того що було вказано в UI."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -935,7 +935,7 @@ exports.level = {
               "Khi bạn bấm nút, một cửa sổ tương tác rebase sẽ xuất hiện. Sắp xếp lại một vài commit (hoặc thậm chí bỏ qua một vài cái) và xem thử kết quả!"
             ],
             "afterMarkdowns": [
-              "BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI"
+              "BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"

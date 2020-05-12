@@ -78,7 +78,7 @@ exports.level = {
               "",
               "While resetting works great for local branches on your own machine, its method of \"rewriting history\" doesn't work for remote branches that others are using.",
               "",
-              "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action"
+              "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action."
             ],
             "afterMarkdowns": [
               "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
@@ -127,7 +127,7 @@ exports.level = {
               "Veamos cómo es eso:"
             ],
             "afterMarkdowns": [
-              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido"
+              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -190,7 +190,7 @@ exports.level = {
               "Veamos cómo es eso:"
             ],
             "afterMarkdowns": [
-              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido"
+              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -253,7 +253,7 @@ exports.level = {
               "Vejamos como funciona:"
             ],
             "afterMarkdowns": [
-              "Legal! O Git simplesmente moveu a referência do ramo master de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido"
+              "Legal! O Git simplesmente moveu a referência do ramo master de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -330,7 +330,7 @@ exports.level = {
               "",
               "Mentres que resetear os cambios funciona xenial para as ramas locales na túa máquina, o método utilizado de \"reescribir o histórico\" non funciona con ramas remotas que outra xente usa.",
               "",
-              "Para revervir os cambios e *compartir* eses cambios ca outra xente, precisamos usar `git revert`. Atende a cómo funciona"
+              "Para revervir os cambios e *compartir* eses cambios ca outra xente, precisamos usar `git revert`. Atende a cómo funciona."
             ],
             "afterMarkdowns": [
               "Estrano, xurdíu un novo commit por baixo do commit que queriamos desfacer. Iso é porque o novo commit `C2'` engadíu *cambios* -- o que pasa é que o commit desfai exactamente os cambios feitos no commit `C2`.",
@@ -505,7 +505,7 @@ exports.level = {
               "Regardons à quoi cela ressemble :"
             ],
             "afterMarkdowns": [
-              "Bravo ! Git a simplement déplacé la référence de la branche master en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu"
+              "Bravo ! Git a simplement déplacé la référence de la branche master en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -519,7 +519,7 @@ exports.level = {
               "",
               "Bien que le reset marche parfaitement pour les branches locales sur notre propre machine, cette façon de \"réécrire l'histoire\" ne marche pas avec les banches distantes (remote) que d'autres personnes utilisent.",
               "",
-              "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne"
+              "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne."
             ],
             "afterMarkdowns": [
               "Étrangement, un nouveau commit est apparu en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",

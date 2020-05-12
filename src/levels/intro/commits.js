@@ -63,7 +63,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Let's see what this looks like in practice. On the right we have a visualization of a (small) git repository. There are two commits right now -- the first initial commit, `C0`, and one commit after that `C1` that might have some meaningful changes.",
               "",
-              "Hit the button below to make a new commit"
+              "Hit the button below to make a new commit."
             ],
             "afterMarkdowns": [
               "There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, `C1`, which references which commit it was based off of."
@@ -76,7 +76,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level"
+              "Go ahead and try it out on your own! After this window closes, make two commits to complete the level."
             ]
           }
         }
@@ -193,7 +193,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Veamos cómo se ve esto en la práctica. A la derecha tenemos una visualización de un (pequeño) repositorio git. Hay dos commits ahora: el commit inicial, `C0`, y un commit que lo sigue, `C1`, que podría tener algunos cambios interesantes.",
               "",
-              "Dale al botón de abajo para hacer un nuevo commit"
+              "Dale al botón de abajo para hacer un nuevo commit."
             ],
             "afterMarkdowns": [
               "¡Ahí va! Increíble. Acabamos de hacer cambios al repositorio y los guardamos como un commit. El commit que acabamos de crear tiene un padre, `C1`, que referencia al commit en que se basó este."
@@ -235,7 +235,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Veamos cómo se ve esto en la práctica. A la derecha tenemos una visualización de un (pequeño) repositorio git. Hay dos commits: el commit inicial, `C0`, y un commit que lo sigue, `C1`, que podría tener algunos cambios interesantes.",
               "",
-              "Dale al botón de abajo para crear un nuevo commit"
+              "Dale al botón de abajo para crear un nuevo commit."
             ],
             "afterMarkdowns": [
               "¡Allá va! Increíble. Acabamos de hacer cambios al repositorio y los guardamos como un commit. El commit que acabamos de crear tiene un padre, `C1`, que referencia al commit en el que se basó este."
@@ -277,7 +277,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Vejamos o que isso significa na prática. À direita, temos uma visualização de um (pequeno) repositório git. Há dois commits no momento: o commit inicial, `C0`, e um commit que se segue, `C1`, que poderia conter algumas mudanças interessantes.",
               "",
-              "Clique no botão abaixo para fazer um novo commit"
+              "Clique no botão abaixo para fazer um novo commit."
             ],
             "afterMarkdowns": [
               "Aí vamos nós! Incrível. Acabamos de fazer mudanças no repositório e as guardamos como um commit. O commit que acabamos de criar tem um pai, `C1`, que referencia em qual commit ele se baseou."
@@ -319,7 +319,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Vexamos o que iso significa na práctica. Á dereita, temos unha visualización dun (pequeno) repositorio de git. Hai dous commits por agora: o commit inicial, `C0`, e un commit que lle segue, `C1`, que podería ter algúns cambios interesantes.",
               "",
-              "Pincha no botón de abaixo para facer un novo commit"
+              "Pincha no botón de abaixo para facer un novo commit."
             ],
             "afterMarkdowns": [
               "¡Alá imos! Mi ma!. Fixemos cambios no repositorio e gardámolos nun commit. O commit que creaches ten un pai, `C1`, que é unha referencia do commit no que se basea."
@@ -365,7 +365,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Voyons à quoi cela ressemble en pratique. Sur la droite, on peut visualiser un (petit) dépôt git. Il y a pour l'instant deux commits -- le premier commit initial, `C0`, et un commit suivant `C1` qui aurait des changements significatifs.",
               "",
-              "Appuyez sur le bouton ci-dessous pour faire un nouveau commit"
+              "Appuyez sur le bouton ci-dessous pour faire un nouveau commit."
             ],
             "afterMarkdowns": [
               "C'est parti ! Super. Nous venons de faire des modifications sur le dépôt et de sauvegarder celles-ci dans un commit. Ce commit que nous venons de faire a un parent, `C1`, qui référence le commit sur lequel il est basé."
@@ -661,7 +661,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Poglejmo kako to izgleda v praksi. Na desni imamo vizualizacijo (majhnega) git repozitorija. Trenutno imamo dva commita -- prvi začetni commit, `C0`, in še en commit za tem, `C1`, ki ima lahko pomembne spremembe.",
               "",
-              "Pritisni gumb spodaj, da narediš nov commit"
+              "Pritisni gumb spodaj, da narediš nov commit."
             ],
             "afterMarkdowns": [
               "Tako ja! Super. Pravkar smo naredili spremembe v repozitoriju in jih shranili kot commit. Commit, ki smo ga naredili ima starša, `C1`, ki nam pove iz katerega commita smo izhajali."
