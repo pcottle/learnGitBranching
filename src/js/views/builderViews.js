@@ -1,5 +1,6 @@
 var _ = require('underscore');
 var Q = require('q');
+var marked = require('marked');
 
 var Views = require('../views');
 var throttle = require('../util/throttle');
@@ -122,7 +123,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   updatePreview: function() {
     var raw = this.getRawText();
-    var HTML = require('markdown').markdown.toHTML(raw);
+    var HTML = marked(raw);
     this.$('div.insidePreview').html(HTML);
   }
 });

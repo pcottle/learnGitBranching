@@ -30,7 +30,7 @@ var toGlobalize = {
   Level: require('../level'),
   Sandbox: require('../sandbox/'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
-  Markdown: require('markdown'),
+  Markdown: require('marked'),
   LevelDropdownView: require('../views/levelDropdownView'),
   BuilderViews: require('../views/builderViews'),
   Util: require('../util/index'),
@@ -59,4 +59,3 @@ $(document).ready(function() {
     return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
   };
 });
-
