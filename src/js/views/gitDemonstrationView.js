@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
+var marked = require('marked');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -43,7 +44,7 @@ var GitDemonstrationView = ContainedBase.extend({
     );
 
     var convert = function(markdowns) {
-      return require('markdown').markdown.toHTML(markdowns.join('\n'));
+      return marked(markdowns.join('\n'));
     };
 
     this.JSON.beforeHTML = convert(this.JSON.beforeMarkdowns);
