@@ -148,7 +148,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
       'fr_FR': 'C\'est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
       'ja'   : '自分のコードをより広く公開しましょう',
-      'de_DE': 'Zeit Eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
+      'de_DE': 'Zeit eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
       'es_AR': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
       'es_ES': 'Hora de compartir vuestros 1\'s y 0\'s, chicos; programar se volvió social!',
       'pt_BR': 'Hora de compartilhar seus 1\'s e 0\'s, crianças; programar agora é social!',
@@ -202,7 +202,7 @@ var sequenceInfo = exports.sequenceInfo = {
   move: {
     displayName: {
       'en_US': 'Moving Work Around',
-      'de_DE': 'Code Umherschieben',
+      'de_DE': 'Code umherschieben',
       'fr_FR': 'Déplacer le travail',
       'es_AR': 'Moviendo el trabajo por ahí',
       'es_ES': 'Moviendo el trabajo por ahí',

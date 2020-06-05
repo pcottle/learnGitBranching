@@ -261,7 +261,7 @@ exports.strings = {
     'en_US': 'Your origin branch is out of sync with the remote branch and fetch cannot be performed',
     'zh_CN': '你的 origin 仓库中的分支与远程分支的不同步了，无法执行 fetch 命令',
     'zh_TW': '你的 origin 分支已經失去了與 remote 遠端分支的同步，所以無法執行 fetch 命令',
-    'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branch und fetch kann nicht ausgeführt werden',
+    'de_DE': 'Dein origin Branch ist nicht auf dem Stand des Remote Branches und fetch kann nicht ausgeführt werden',
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'es_ES': 'Tu rama origin no está sicronizada con la rama remota, así que el fetch no se puede realizar.',
     'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
@@ -925,7 +925,7 @@ exports.strings = {
   'flip-tree-command': {
     '__desc__': 'when the tree is being flipped',
     'en_US': 'Flipping tree...',
-    'de_DE': 'Flipping Baum...',
+    'de_DE': 'Kehre den Baum um...',
     'zh_CN': '翻转树中...',
     'zh_TW': '翻轉樹中...',
     'es_AR': 'Invirtiendo el árbol...',
@@ -1608,7 +1608,7 @@ exports.strings = {
   'error-untranslated-key': {
     '__desc__': 'This error happens when we are trying to translate a specific key and the locale version is mission',
     'en_US': 'The translation for {key} does not exist yet :( Please hop on github and offer up a translation!',
-    'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, bitte teile sie mir auf GitHub mit!',
+    'de_DE': 'Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, dann teile sie mir bitte auf GitHub mit!',
     'zh_CN': '还没翻译 {key} :( 请在 GitHub 上贡献您的翻译!',
     'zh_TW': '還沒翻譯 {key} :( 請在 GitHub 上貢獻您的翻譯!',
     'es_AR': 'Aún no hay traducción para {key} :( ¡Metete en GitHub y sugerí una! :)',
