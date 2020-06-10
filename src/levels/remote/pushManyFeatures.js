@@ -46,7 +46,7 @@ exports.level = {
             "markdowns": [
               "## Merging feature branches",
               "",
-              "Now that you're comfortable with fetching, pulling, and pushing, lets put these skills to the test with a new workflow.",
+              "Now that you're comfortable with fetching, pulling, and pushing, let's put these skills to the test with a new workflow.",
               "",
               "It's common for developers on big projects to do all their work on feature branches (off of `master`) and then integrate that work only once it's ready. This is similar to the previous lesson (where side branches get pushed to the remote), but here we introduce one more step.",
               "",
