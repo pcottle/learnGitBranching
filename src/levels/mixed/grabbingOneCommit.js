@@ -14,7 +14,7 @@ exports.level = {
   "solutionCommand": "git rebase -i master --solution-ordering C4; git rebase bugFix master",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
-    "ko": "딱 한개의 커밋만 가져오기",
+    "ko": "딱 한 개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
     "fr_FR": "Choisir seulement 1 commit",
     "de_DE": "Einen Commit pflücken",
@@ -446,7 +446,7 @@ exports.level = {
             "markdowns": [
               "## 로컬에 쌓인 커밋들",
               "",
-              "개발중에 종종 이런 상황이 생깁니다: 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
+              "개발 중에 종종 이런 상황이 생깁니다: 눈에 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
               "",
               "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
               "",
