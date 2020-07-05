@@ -73,11 +73,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "When the interactive rebase dialog opens, you have the ability to do 3 things:",
+              "When the interactive rebase dialog opens, you have the ability to do two things in our educational application:",
               "",
               "* You can reorder commits simply by changing their order in the UI (in our window this means dragging and dropping with the mouse).",
               "* You can choose to completely omit some commits. This is designated by `pick` -- toggling `pick` off means you want to drop the commit.",
-              "* Lastly, you can squash commits. Unfortunately our levels don't support this for a few logistical reasons, so I'll skip over the details of this. Long story short, though -- it allows you to combine commits.",
+              "",
+              "*It is worth mentioning that in the real git interactive rebase you can do many more things like squashing (combining) commits, amending commit messages, and even editing the commits themselves. For our purposes though we will focus on these two operations above.*",
               "",
               "Great! Let's see an example."
             ]
