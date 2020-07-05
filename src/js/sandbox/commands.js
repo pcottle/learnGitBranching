@@ -8,6 +8,7 @@ var Errors = require('../util/errors');
 var CommandProcessError = Errors.CommandProcessError;
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
+var LevelStore = require('../stores/LevelStore');
 var GlobalStateStore = require('../stores/GlobalStateStore');
 var GlobalStateActions = require('../actions/GlobalStateActions');
 var GitError = Errors.GitError;
@@ -48,6 +49,21 @@ var instantCommands = [
 
     throw new CommandResult({
       msg: lines.join('\n')
+    });
+  }],
+  [/^alias (\w+)="(.+)"$/, function(bits) {
+    const alias = bits[1];
+    const expansion = bits[2];
+    LevelStore.addToAliasMap(alias, expansion);
+    throw new CommandResult({
+      msg: 'Set alias "'+alias+'" to "'+expansion+'"',
+    });
+  }],
+  [/^unalias (\w+)$/, function(bits) {
+    const alias = bits[1];
+    LevelStore.removeFromAliasMap(alias);
+    throw new CommandResult({
+      msg: 'Removed alias "'+alias+'"',
     });
   }],
   [/^locale (\w+)$/, function(bits) {
