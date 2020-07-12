@@ -8,6 +8,7 @@ exports.level = {
     "ru_RU": "Создайте новую feature ветвь от master перед тем, как откатить изменения в master до состояния o/master.",
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
+    "pt_BR": "Crie o ramo feature a partir do ramo master no local antes de reestabelecê-lo para que seja o mesmo que o ramo master de origem",
     "fr_FR": "Créer la branche feature à partir du master local, avant de la restaurer dans le même état que o/master",
     "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요.",
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master.",
@@ -19,6 +20,7 @@ exports.level = {
     "ru_RU": "Заблокированная ветвь master",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
+    "pt_BR": "Master bloqueado",
     "fr_FR": "Master verrouillé",
     "ko"   : "잠겨버린 Master",
     "sl_SI": "Zaklenjen Master",
@@ -225,6 +227,46 @@ exports.level = {
               "## La solución",
               "",
               "Crea otra rama llamada `feature` y haz `push` a remoto. También restablece su rama `master` nuevamente para que esté sincronizado con el repositorio remoto; de lo contrario, puedes tener problemas la próxima vez que realices un `pull` y el `commit` de otra persona entre en conflicto con el tuyo."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Rejected!",
+              "",
+              "Se você trabalha em uma grande equipe colaborativa é provável que o master seja bloqueado e precise de alguns processos de Pull Request para unir mudanças. Se você commitar diretamente para o master localmente e tentar fazer um push você visualizará uma mensagem similar a essa:",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Por que foi rejeitado?",
+              "",
+              "O repositório remoto rejeitou o push dos commits diretamente para o master por causa da política do master necessitando do uso dos pull requests.",
+              "",
+              "Você pretendia seguir o processo de criação de uma ramificação, fazendo um push dessa ramificação e fazendo um pull request, mas você esqueceu e commitou diretamente para o master. Agora você está preso e não consegue publicar suas mudanças."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A solução",
+              "",
+              "Crie outro branch chamado feature e faça um push dele para o repositório remoto. Além disso, resete o master de volta a estar sincronizado com o repositório remoto para não ter problemas da próxima vez que fizer um pull e os commits de alguém mais conflitarem com o seu."
             ]
           }
         }
