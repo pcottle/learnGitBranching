@@ -254,7 +254,7 @@ var VisTag = VisBase.extend({
     var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
+      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', \'Courier New\', monospace',
       opacity: this.getTextOpacity(),
       'text-anchor': 'start'
     });
