@@ -240,7 +240,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
       opacity: 0,
       'font-weight': 500,
       'font-size': '32pt',
-      'font-family': 'Monaco, Courier, font-monospace',
+      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', \'Courier New\', monospace',
       stroke: '#000',
       'stroke-width': 2,
       fill: '#000'
