@@ -451,7 +451,7 @@ var VisNode = VisBase.extend({
     text.attr({
       'font-size': this.getFontSize(this.get('id')),
       'font-weight': 'bold',
-      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', \'Courier New\', monospace',
+      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace',
       opacity: this.getOpacity()
     });
 
