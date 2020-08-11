@@ -10,7 +10,7 @@ body {
 }
 
 html, body {
-  font-family: Monaco, Courier, monospace;
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
   color: #eee;
 }
 
