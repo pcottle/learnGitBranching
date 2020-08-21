@@ -508,7 +508,7 @@ exports.dialog = {
       markdowns: [
         '## Commandes Git',
         '',
-        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont inclues :',
+        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont incluses :',
         '',
         ' * commit',
         ' * branch',
