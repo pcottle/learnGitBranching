@@ -54,7 +54,7 @@ var LevelBuilder = Level.extend({
     // if we are editing a level our behavior is a bit different
     var editLevelJSON;
     if (options.editLevel) {
-      LevelStore.getLevel(options.editLevel);
+      editLevelJSON = LevelStore.getLevel(options.editLevel);
       options.level = editLevelJSON;
     }
 
