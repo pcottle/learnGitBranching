@@ -855,6 +855,48 @@ var commandConfig = {
       command.twoArgsImpliedHead(generalArgs);
       engine.tag(generalArgs[0], generalArgs[1]);
     }
+  },
+
+  switch: {
+    sc: /^(gsw|git sw)($|\s)/,
+    regex: /^git +switch($|\s)/,
+    options: [
+      '-c',
+      '-'
+    ],
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      var commandOptions = command.getOptionsMap();
+
+      var args = null;
+      if (commandOptions['-c']) {
+        // the user is really trying to just make a
+        // branch and then switch to it. so first:
+        args = commandOptions['-c'].concat(generalArgs);
+        command.twoArgsImpliedHead(args, '-c');
+
+        var validId = engine.validateBranchName(args[0]);
+        engine.branch(validId, args[1]);
+        engine.checkout(validId);
+        return;
+      }
+
+      if (commandOptions['-']) {
+        // get the heads last location
+        var lastPlace = engine.HEAD.get('lastLastTarget');
+        if (!lastPlace) {
+          throw new GitError({
+            msg: intl.str('git-result-nothing')
+          });
+        }
+        engine.HEAD.set('target', lastPlace);
+        return;
+      }
+
+      command.validateArgBounds(generalArgs, 1, 1);
+
+      engine.checkout(engine.crappyUnescape(generalArgs[0]));
+    }
   }
 };
 
