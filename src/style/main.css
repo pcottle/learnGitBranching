@@ -553,7 +553,7 @@ p.commandLine span.prompt {
 
 #commandLineBar p.command {
   margin: 0;
-  margin-left: 12px;
+  margin-left: 20px;
 }
 
 #commandLineBar #commandTextField {
