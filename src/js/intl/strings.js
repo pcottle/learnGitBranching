@@ -4,7 +4,7 @@ exports.strings = {
     '__desc__': 'One of the lines in the next level dialog',
     'ja': '最後のレベルをクリアしました！すごい！！',
     'en_US': 'Wow! You finished the last level, great!',
-    'de_DE': 'Wow! Du hast den letzten Level gelöst, super!',
+    'de_DE': 'Wow! Du hast das letzte Level gelöst, super!',
     'zh_CN': 'Wow！你通关了！',
     'zh_TW': '我的天啊！您解開了最後一關，太強了！',
     'es_AR': '¡Ea! Terminaste el último nivel, ¡genial!',
@@ -1140,7 +1140,7 @@ exports.strings = {
   'level-cant-exit': {
     '__desc__': 'When the user tries to exit a level when they are not in one',
     'en_US': 'You are not in a level! You are in a sandbox, start a level with "levels"',
-    'de_DE': 'Du bist nicht in einem Level! Du bist im Sandkasten-Modus, starte einen Level mit "levels"',
+    'de_DE': 'Du bist nicht in einem Level! Du bist im Sandkasten-Modus, starte ein Level mit "levels"',
     'zh_CN': '您没在关卡中而是在沙盒中，要开始关卡请输入 "levels"',
     'zh_TW': '您沒在關卡中！您在沙盒中，要開始關卡請輸入 "levels"',
     'es_AR': '¡No estás en un nivel! Estás en el sandbox, comenzá un nivel usando "levels"',
@@ -1158,7 +1158,7 @@ exports.strings = {
   'level-no-id': {
     '__desc__': 'When you say an id but that level doesn\'t exist',
     'en_US': 'A level for that id "{id}" was not found! Opening up a level selection view',
-    'de_DE': 'Konnte keinen Level mit der ID "{id}" finden! Öffne einen Level-Auswahldialog',
+    'de_DE': 'Konnte kein Level mit der ID "{id}" finden! Öffne den Level-Auswahldialog',
     'zh_CN': '没找到 id 为 "{id}" 的关卡！打开关卡选择框',
     'zh_TW': '找不到 id 為 "{id}" 的關卡！開啟關卡選擇視窗',
     'es_AR': 'No se encontró ningún nivel {id}. Abriendo la vista de selección de niveles...',
@@ -1194,7 +1194,7 @@ exports.strings = {
   'already-solved': {
     '__desc__': 'When you play in a level that is already solved',
     'en_US': 'You have already solved this level, try other levels with "levels" or go back to sandbox with "sandbox"',
-    'de_DE': 'Du hast diesen Level bereits gelöst, probier einen anderen Level mit "levels" aus oder geh in den Sandkasten-Modus mit "sandbox"',
+    'de_DE': 'Du hast dieses Level bereits gelöst, probier ein anderes Level mit "levels" aus oder geh in den Sandkasten-Modus mit "sandbox"',
     'zh_CN': '你已经解决了本关，输入 "levels" 尝试其他关卡，或者输入 "sandbox" 回到沙盒中',
     'zh_TW': '你已經解决了本關，輸入 "levels" 嘗試其他關卡，或者輸入 "sandbox" 回到沙盒中',
     'es_AR': 'Ya resolviste este nivel, probá otros usando "levels" o volvé al sandbox usando "sandbox"',
@@ -1227,7 +1227,7 @@ exports.strings = {
   'command-disabled': {
     '__desc__': 'When you try a command that is disabled',
     'en_US': 'That git command is disabled for this level!',
-    'de_DE': 'Dieser git-Befehl ist für diesen Level deaktiviert!',
+    'de_DE': 'Dieser git-Befehl ist für dieses Level deaktiviert!',
     'zh_CN': '本关不允许使用该命令！',
     'zh_TW': '本關禁止使用該 git 指令！',
     'es_AR': '¡Ese comando de git está deshabilitado para este nivel!',
@@ -1245,7 +1245,7 @@ exports.strings = {
   'share-json': {
     '__desc__': 'when you have made the level, prompt to share this',
     'en_US': 'Here is the JSON for this level! Share it with someone or send it to me on GitHub',
-    'de_DE': 'Hier ist das JSON für diesen Level! Teil es mit jemandem or schick es mir über GitHub',
+    'de_DE': 'Hier ist das JSON für dieses Level! Teil es mit jemandem or schick es mir über GitHub',
     'zh_CN': '这是一个关卡定义 JSON ！您可以分享它或者发到我的 GitHub 上',
     'zh_TW': '這是本關的 JSON！您可以分享給別人，或是送到 GitHub 上給我',
     'es_AR': 'Este es el JSON de este nivel. Compartilo con quien quieras o mandámelo por GitHub',
@@ -1299,7 +1299,7 @@ exports.strings = {
   'prompt-hint': {
     '__desc__': 'prompt for hint',
     'en_US': 'Enter the hint for this level, or leave this blank if you do not want to include one',
-    'de_DE': 'Gib den Hinweis für diesen Level an, oder lass es leer wenn du keinen hinzufügen willst',
+    'de_DE': 'Gib den Hinweis für dieses Level an, oder lass es leer wenn du keinen hinzufügen willst',
     'zh_CN': '请输入关卡提示，如果没有请留空',
     'zh_TW': '請輸入關卡提示，或者故意留空',
     'es_AR': 'Ingresá una pista para este nivel, o dejalo en blanco si no querés incluir ninguna',
@@ -1317,7 +1317,7 @@ exports.strings = {
   'prompt-name': {
     '__desc__': 'prompt for level name',
     'en_US': 'Enter the name for the level',
-    'de_DE': 'Gib den Namen für diesen Level an',
+    'de_DE': 'Gib den Namen für dieses Level an',
     'zh_CN': '请输入关卡名称',
     'zh_TW': '請輸入關卡名稱',
     'es_AR': 'Ingresá el nombre del nivel',
@@ -1371,7 +1371,7 @@ exports.strings = {
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
     'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
-    'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber diesen Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
+    'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber dieses Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
     'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
     'es_AR': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elegí entre "help level" para aprender algo más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
@@ -1570,7 +1570,7 @@ exports.strings = {
   'no-start-dialog': {
     '__desc__': 'when the user tries to open a start dialog for a level that does not have one',
     'en_US': 'There is no start dialog to show for this level!',
-    'de_DE': 'Es gibt keinen Einführungs-Dialog für diesen Level!',
+    'de_DE': 'Es gibt keinen Einführungs-Dialog für dieses Level!',
     'zh_CN': '这个关卡没有介绍！',
     'zh_TW': '這關沒有介紹!',
     'es_AR': '¡No hay mensaje de inicio para este nivel!',
@@ -1589,7 +1589,7 @@ exports.strings = {
   'no-hint': {
     '__desc__': 'when no hint is available for a level',
     'en_US': "Hmm, there doesn't seem to be a hint for this level :-/",
-    'de_DE': "Hm, es gibt anscheinend keinen Hinweis für diesen Level :-/",
+    'de_DE': "Hm, es gibt anscheinend keinen Hinweis für dieses Level :-/",
     'zh_CN': "呃……，这关好像没有提示 :-/",
     'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
     'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
