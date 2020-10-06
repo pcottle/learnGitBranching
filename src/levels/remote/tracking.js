@@ -1070,7 +1070,7 @@ exports.level = {
               "",
               "    git branch -u o/master foo",
               "",
-              "eingibt, wir damit der lokale Branch `foo` so eingestellt, dass er `o/master` trackt. Den Namen des lokalen Branch kannst du auch weglassen, falls du ihn eh aktuell ausgecheckt hast:",
+              "eingibt, wird damit der lokale Branch `foo` so eingestellt, dass er `o/master` trackt. Den Namen des lokalen Branch kannst du auch weglassen, falls du ihn eh aktuell ausgecheckt hast:",
               "",
               "    git branch -u o/master",
               ""
