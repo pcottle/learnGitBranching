@@ -724,7 +724,7 @@ exports.strings = {
     'gl'   : 'Aprende Git Branching',
     'fr_FR': 'Apprenez Git Branching',
     'ru_RU': 'Изучаем ветвление в git',
-    'uk': 'Learn Git Branching',
+    'uk': 'Вивчай Git Branching',
     'ko': '깃 브랜칭을 배워봅시다.',
     'vi': 'Học nhánh Git.',
     'sl_SI': 'Nauči se Git Branching'
@@ -1185,7 +1185,7 @@ exports.strings = {
     'gl'   : 'Nonn hai comandos que desfacer',
     'fr_FR': 'La pile d\'annulation est vide !',
     'ru_RU': 'Некуда откатывать!',
-    'uk': 'Нема куди відкатуватися',
+    'uk': 'Нема куди відкочуватись!',
     'ko': '되돌리기 스택이 비었습니다!',
     'vi': 'Không có gì để hoàn tác!',
     'sl_SI': 'Undo seznam je prazen!'
