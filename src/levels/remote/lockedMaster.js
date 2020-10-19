@@ -6,6 +6,7 @@ exports.level = {
     "en_US": "Make the feature branch from the local master before resetting it back to be the same as origin's master",
     "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Master-Branch, bevor du den Master-Branch auf den origin/master zurücksetzt.",
     "ru_RU": "Создайте новую feature ветвь от master перед тем, как откатить изменения в master до состояния o/master.",
+    "uk": "Створіть нову feature гілку від локального master перед тим, як відкотити зміни в master до стану o/master.",
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
     "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
     "pt_BR": "Crie o ramo feature a partir do ramo master no local antes de reestabelecê-lo para que seja o mesmo que o ramo master de origem",
@@ -18,6 +19,7 @@ exports.level = {
     "en_US": "Locked Master",
     "de_DE": "Gesperrter Master-Branch",
     "ru_RU": "Заблокированная ветвь master",
+    "ru_RU": "Заблокована гілка master",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
     "pt_BR": "Master bloqueado",
@@ -185,7 +187,52 @@ exports.level = {
             "markdowns": [
               "## Решение:",
               "",
-              "Создайте ещё одну ветвь под названием `feature` и отправьте изменения на удалённый репозиторий. Так же не забудьте вернуть вашу локальную `master` ветвь в исходное состояние (чтобы она была синхронизирована с удалённой). В противном случае у вас могут возникнуть проблемы при следующем выполнении `git pull`."
+              "Создайте ещё одну ветвь под названием `feature` и отправьте изменения на удалённый репозиторий. Также не забудьте вернуть вашу локальную `master` ветвь в исходное состояние (чтобы она была синхронизирована с удалённой). В противном случае у вас могут возникнуть проблемы при следующем выполнении `git pull`."
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Rejected!",
+              "",
+              "Коли ви працюєте над проектом в складі великої команди розробників, то, швидше за все, гілка `master` буде _заблокована_. Для внесення до неї змін в git існує поняття запиту на злиття `Pull Request`. В такій ситуації, якщо ви закомітите свої зміни безпосередньо в гілку `master`, а потім виконаєте `git push`, то буде згенероване повідомлення про помилку:",
+              "",
+              "```",
+              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```",
+              "",
+              "```",
+              " ! [віддалено відхилено] master -> master (TF402455: Зміни (push-запити) цієї гілки заборонені; ви повинні використовувати pull-запит для оновлення цієї гілки.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Чому мої зміни були відхилені?",
+              "",
+              "Віддалений репозиторій відхилив коміти завантажені безпосередньо в гілку `master` через те, що на `master` _налаштована політика_, яка вимагає використання `Pull request` замість звичайного `git push`.",
+              "",
+              "Ця політика має на увазі процес створення нової гілки розробки, внесення до неї всіх потрібних комітів, завантаження змін в віддалений репозиторій і _відкриття нового_ `Pull request`. Але ви про це забули (чи не знали) і закомітили свої доробки безпосередньо в гілку `master`. Тепер ви застрягли і не можене запушити свої зміни :(. "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Рішення:",
+              "",
+              "Створіть ще одну гілку з назвою `feature` і відправте зміни у віддалений репозиторій. Також не забудьте повернути вашу локальну гілку `master` в вихідне положення (щоб вона була синхронізована з віддаленою). Інакше у вас можуть виникнути складнощі при наступному виконанні запиту `git pull`, коли коміти інших розробників конфліктуватимуть з вашими."
+              
             ]
           }
         }
