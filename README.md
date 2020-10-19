@@ -165,3 +165,4 @@ And the following heroes for assisting in translating:
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 
 And everyone who has reported an issue that was successfully closed!
+
