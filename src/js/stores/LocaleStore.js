@@ -22,7 +22,8 @@ var langLocaleMap = {
   ru: 'ru_RU',
   uk: 'uk',
   vi: 'vi',
-  sl: 'sl_SI'
+  sl: 'sl_SI',
+  pl: 'pl'
 };
 
 var headerLocaleMap = {
