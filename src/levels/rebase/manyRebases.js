@@ -22,7 +22,8 @@ exports.level = {
     "ru_RU": "Rebase over 9000 раз",
     "uk"   : "Rebase over 9000 разів",
     "vi"   : "Rebase hơn 9000 lần",
-    "sl_SI": "Več kot 9000 Rebaseov"
+    "sl_SI": "Več kot 9000 Rebaseov",
+    "pl"   : "Ponad 9000 podbić"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update master at the end...",
@@ -39,7 +40,8 @@ exports.level = {
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
     "uk"   : "Не забувай, що краще всього буде перемістити master в самому кінці... ",
     "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `master`... ",
-    "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ..."
+    "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
+    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `master` na końcu..."
   },
   "startDialog": {
     "en_US": {

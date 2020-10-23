@@ -1312,7 +1312,8 @@ exports.strings = {
     'uk'   : 'Вирішено!!\n:D',
     'ko'   : '해결 완료!!\n:D',
     'vi'   : 'ĐÃ XONG!!\n:D',
-    'sl_SI': 'Rešeno!!\n:D'
+    'sl_SI': 'Rešeno!!\n:D',
+    'pl'   : 'Rozwiązany!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -1744,7 +1745,7 @@ exports.strings = {
     'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!',
     'vi': 'Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở GitHub để cung cấp bản dịch!',
     'sl_SI': 'Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!',
-    'pl': 'Tłumaczenie dla {key} jeszcze nie istnieje :( Proszę wejdź na GitHub i zaoferuj tłumaczenie!'
+    'pl': 'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :(\nProszę wejdź na GitHub i zaoferuj tłumaczenie!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -1765,6 +1766,6 @@ exports.strings = {
     'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!',
     'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
-    'pl' : 'To okno dialogowe lub tekst nie jest jeszcze przetłumaczone na nasz polski język :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!'
+    'pl' : 'Kolejne okno dialogowe lub tekst nie jest jeszcze przetłumaczone na język polski :(\nZapraszam na GitHub, aby pomóc w tłumaczeniu!'
   }
 };
