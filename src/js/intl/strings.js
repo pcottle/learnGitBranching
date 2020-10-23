@@ -1446,7 +1446,8 @@ exports.strings = {
     'uk': 'Ціль рівня',
     'ko': '목표 보기',
     'vi': 'Hiển thị mục tiêu',
-    'sl_SI': 'Prikaži Cilj'
+    'sl_SI': 'Prikaži Cilj',
+    'pl' : 'Pokaż cel'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -1465,7 +1466,8 @@ exports.strings = {
     'uk': 'Сховати ціль',
     'ko': '목표 숨기기',
     'vi': 'Ẩn mục tiêu',
-    'sl_SI': 'Skrij Cilj'
+    'sl_SI': 'Skrij Cilj',
+    'pl' : 'Ukryj cel'
   },
   ///////////////////////////////////////////////////////////////////////////
   'objective-button': {
@@ -1480,7 +1482,8 @@ exports.strings = {
     'uk': 'Задача',
     'ko': '목적',
     'vi': 'Chỉ dẫn',
-    'sl_SI': 'Navodila'
+    'sl_SI': 'Navodila',
+    'pl' : 'Instrukcje'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-demonstration-title': {
@@ -1495,7 +1498,8 @@ exports.strings = {
     'uk'   : 'Git демо',
     'ko'   : 'Git 데모',
     'vi'   : 'Trình diễn Git',
-    'sl_SI': 'Git Predstavitev'
+    'sl_SI': 'Git Predstavitev',
+    'pl'   : 'Demo GIT'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -1514,7 +1518,8 @@ exports.strings = {
     'uk': 'Ціль рівня',
     'ko': '목표',
     'vi': 'Mục tiêu cần đạt',
-    'sl_SI': 'Končni Cilj'
+    'sl_SI': 'Končni Cilj',
+    'pl': 'Cel do osiągnięcia'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -1533,7 +1538,8 @@ exports.strings = {
     'uk': '<span class="fwber">Важливо:</span> В цьому рівні буде перевірятися тільки гілка master. Решта гілок тільки для наглядності (показані пунктиром нижче). Як завжди, можна сховати цей діалог за допомогою "hide goal"',
     'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 마스터 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨길 수 있습니다.',
     'vi': '<span class="fwber">Chú ý:</span> Ở cấp độ này chỉ nhánh master bị kiểm tra. Các nhánh khác chỉ dùng để tham chiếu(có dấu - ở nhãn). Như thường lệ, bạn có thể ẩn mục tiêu bằng "hide goal".',
-    'sl_SI': '<span class="fwber">Opomba:</span> Samo master branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z "hide goal"'
+    'sl_SI': '<span class="fwber">Opomba:</span> Samo master branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z "hide goal"',
+    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie sprawdzana będzie tylko branch główny. Pozostałe branch-e są tylko do odwołania (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno dialogowe z "ukryj cel".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -1552,7 +1558,8 @@ exports.strings = {
     'uk': 'Можна сховати це вікно за допомогою "hide goal"',
     'ko': '"hide goal"을 사용하여 이 창을 숨길 수 있습니다.',
     'vi': 'Bạn có thể ẩn cửa sổ này với "hide goal".',
-    'sl_SI': 'To okno lahko skriješ z "hide goal"'
+    'sl_SI': 'To okno lahko skriješ z "hide goal"',
+    'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj cel"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -1571,7 +1578,8 @@ exports.strings = {
     'uk': 'Можна сховати це вікно за допомогою "hide start"',
     'ko': '"hide start"를 사용하여 이 창을 숨길 수 있습니다.',
     'vi': 'Bạn có thể ẩn cửa sổ này với "hide start".',
-    'sl_SI': 'To okno lahko skriješ z "hide start"'
+    'sl_SI': 'To okno lahko skriješ z "hide start"',
+    'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj start"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -1590,7 +1598,8 @@ exports.strings = {
     'uk': 'Редактор рівнів',
     'ko': '레벨 생성기',
     'vi': 'Trình tạo câp độ',
-    'sl_SI': 'Graditelj Stopenj'
+    'sl_SI': 'Graditelj Stopenj',
+    'pl': 'Twórca poziomu'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -1609,7 +1618,8 @@ exports.strings = {
     'uk': 'Немає початкового діалогу для цього рівня!',
     'ko': '이 레벨을 위한 시작 대화창이 없습니다.',
     'vi': 'Cấp độ này không được giới thiệu.',
-    'sl_SI': 'Ni začetnega dialoga za prikaz te stopnje!'
+    'sl_SI': 'Ni začetnega dialoga za prikaz te stopnje!',
+    'pl': 'Dla tego poziomu nie ma okna startowego do wyświetlenia!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -1628,7 +1638,8 @@ exports.strings = {
     'uk': 'Хм, схоже для цього рівня немає підказки :-/',
     'ko': '흠, 이 레벨을 위한 힌트가 없어보이는군요.',
     'vi': 'Hmmm, có vẻ cấp độ này không có gợi ý rồi. :-/',
-    'sl_SI': 'Hmm, izgleda da ni namiga za to stopnjo :-/'
+    'sl_SI': 'Hmm, izgleda da ni namiga za to stopnjo :-/',
+    'pl': 'Hmm, wydaje się, że nie ma podpowiedzi dla tego poziomu :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -1647,7 +1658,8 @@ exports.strings = {
     'uk': 'Немає перекладу для {key} :( Будь-ласка, запропонуй переклад на GitHub',
     'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!',
     'vi': 'Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở GitHub để cung cấp bản dịch!',
-    'sl_SI': 'Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!'
+    'sl_SI': 'Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!',
+    'pl': 'Tłumaczenie dla {key} jeszcze nie istnieje :( Proszę wejdź na GitHub i zaoferuj tłumaczenie!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -1666,6 +1678,7 @@ exports.strings = {
     'uk': 'Для цього повідомлення ще немає перекладу :( Будь-ласка, запропонуй переклад на GitHub',
     'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!',
     'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên GitHub để cung cấp bản dịch!',
-    'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!'
+    'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
+    'pl' : 'To okno dialogowe lub tekst nie jest jeszcze przetłumaczone na nasz polski język :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!'
   }
 };
