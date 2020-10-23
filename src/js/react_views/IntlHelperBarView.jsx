@@ -115,6 +115,12 @@ class IntlHelperBarView extends React.Component{
         this.fireCommand('locale sl_SI; levels');
       }.bind(this)
     }, {
+      text: 'Polski',
+      testID: 'polish',
+      onClick: function() {
+        this.fireCommand('locale pl_PL; levels');
+      }.bind(this)
+    }, {
       icon: 'signout',
       onClick: function() {
         this.props.onExit();
