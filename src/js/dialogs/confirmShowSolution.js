@@ -144,6 +144,16 @@ exports.dialog = {
         'Verjamem vate! Maš ti to! Ali pač ne?'
       ]
     }
+  }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Czy na pewno chcesz zobaczyć rozwiązanie?',
+        '',
+        'Wierzę w Ciebie! Możesz to zrobić'
+      ]
+    }
   }]
 };
 
