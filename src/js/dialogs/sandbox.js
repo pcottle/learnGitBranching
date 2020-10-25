@@ -84,10 +84,10 @@ exports.dialog = {
       markdowns: [
         '## ¡Bienvenid@ a Learn Git Branching!',
         '',
-        'Esta aplicación está diseñada para ayudar a los principantes ',
-        'a manejar los poderosos conceptos que hay detrás del trabajo ',
-        'con ramas (branches) en Git. Esperamos que disfrutes la aplicación ',
-        'y tal vez incluso ¡que aprendas algo! ',
+        'Esta aplicación está diseñada para ayudar a los principantes',
+        'a manejar los poderosos conceptos que hay detrás del trabajo',
+        'con ramas (branches) en Git. Esperamos que disfrutes la aplicación',
+        'y tal vez incluso ¡que aprendas algo!',
         '',
         '# ¡Demo!',
         '',
@@ -104,9 +104,9 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Comandos de Git',
+        '## Comandos de git',
         '',
-        'Tienes una gran variedad de comandos de git en este sandbox. He aquí una lista de los incluidos: ',
+        'Tienes una gran variedad de comandos de git en este sandbox. He aquí una lista de los incluidos:',
         '',
         ' * commit',
         ' * branch',
