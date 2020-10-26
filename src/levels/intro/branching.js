@@ -1315,15 +1315,15 @@ exports.level = {
             "markdowns": [
               "## GIT Branch",
               "",
-              "Branch w Git są również niezwykle lekkie. Są po prostu wskazówkami do konkretnego zatwierdzenia -- to wszytko. Dlatego tak wielu entuzjastów Git przestrzega mantry:",
+              "Branch w GIT są niezwykle lekkie. Są po prostu wskazówkami dla konkretnego commit-u (zatwierdzenia) i to wszytko. Dlatego tak wielu entuzjastów GIT-a przestrzega Mantry:",
               "",
               "```",
               "twórz branch-e wcześnie i często",
               "```",
               "",
-              "Ponieważ tworzenie wielu branch-y nie wiąże się z dodatkowymi kosztami magazynowania/pamięci, łatwiej jest logicznie podzielić swoją pracę niż mieć duże, mocne branch-e.",
+              "Ponieważ tworzenie wielu branch-y nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci, dlatego łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, mocne branch-e.",
               "",
-              "Kiedy zaczniemy mieszać branch-e i commit-y, zobaczymy, jak łączą się te dwie funkcje. Na razie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego zatwierdzenia i wszystkich zatwierdzeń nadrzędnych\"."
+              "Kiedy zaczniemy mieszać branch-e i commit-y, zobaczymy, jak łączą się te dwie funkcje. Na&nbsp;razie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego zatwierdzenia i wszystkich zatwierdzeń nadrzędnych\"."
             ]
           }
         },
@@ -1331,14 +1331,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zobaczmy, jak wyglądają gałęzie(branch-e) w praktyce.",
+              "Zobaczmy, jak wyglądają branch-e (gałęzie) w&nbsp;praktyce.",
               "",
-              "Tutaj utworzymy nowy branch o nazwie `newImage`."
+              "Tutaj utworzymy nowy branch o nazwie `mojBranch`."
             ],
             "afterMarkdowns": [
-              "To wszystko do rozgałęzienia! Gałąź (branch) `newImage` odnosi się teraz do zatwierdzenia (commit) `C1`."
+              "To wszystko o rozgałęzieniu! Branch (gałąź) `mojBranch` odnosi się teraz do commit-u (zatwierdzenia) `C1`."
             ],
-            "command": "git branch newImage",
+            "command": "git branch mojBranch",
             "beforeCommand": ""
           }
         },
@@ -1346,20 +1346,20 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Spróbujmy trochę popracować nad tą nową gałęzią(branch-em). Kliknij przycisk poniżej."
+              "Spróbujmy trochę popracować nad tą nowym branch-em (gałęzią).\nKliknij przycisk poniżej."
             ],
             "afterMarkdowns": [
-              "O nie! branch `master` została przeniesiona, ale branch `newImage` nie! To dlatego, że nie byliśmy \"na\" nowej gałęzi(branch-u), dlatego gwiazdka (*) była na `master`"
+              "O nie! branch `master` uległ zmianie, a branch `mojBranch` nie! To dlatego, że nie byliśmy \"w\" nowym branch-u (gałęzi) i dlatego gwiazdka (*) była przy `master`"
             ],
             "command": "git commit",
-            "beforeCommand": "git branch newImage"
+            "beforeCommand": "git branch mojBranch"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Powiedzmy GIT-owi, za pomocą którego chcemy sprawdzić branch",
+              "Powiedzmy GIT-owi, z którym branch-em chcemy pracować",
               "",
               "```",
               "git checkout <nazwa_branch>",
@@ -1370,19 +1370,19 @@ exports.level = {
             "afterMarkdowns": [
               "Gotowe! Nasze zmiany zostały zarejestrowane w nowym branch-u."
             ],
-            "command": "git checkout newImage; git commit",
-            "beforeCommand": "git branch newImage"
+            "command": "git checkout mojBranch; git commit",
+            "beforeCommand": "git branch mojBranch"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! Jesteście wszyscy gotowi do branching-u (rozgałęzienia). Po zamknięciu tego okna,",
-              "stwórz nowy branch o nazwie `bugFix` i przełącz się na ten branch.",
+              "Ok! Teraz jesteś gotowy do samodzielnego tworzenia gałęzi (branching-u).",
+              "Po zamknięciu tego okna, stwórz nowy branch o nazwie `bugFix` i przełącz się na ten branch.",
               "",
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
-              "nowy branch ORAZ sprawdzić ją w tym samym czasie,",
+              "nowy branch ORAZ przełączyć się na nią w tym samym czasie,",
               "możesz po prostu wpisać `git checkout -b [nazwa_branch-u]`."
             ]
           }
