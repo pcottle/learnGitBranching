@@ -6,6 +6,7 @@ exports.level = {
     "de_DE": "Einführung in Rebase",
     "ja"   : "Rebaseの解説",
     "es_AR": "Introducción a rebase",
+    "es_MX": "Introducción a rebase",
     "es_ES": "Introducción a rebase",
     "pt_BR": "Introdução ao rebase",
     "gl"   : "Introducción a rebase",
@@ -24,6 +25,7 @@ exports.level = {
     "ja"   : "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
+    "es_MX": "Asegúrate de hacer commit desde bugFix primero",
     "es_ES": "Asegúrate de hacer commit desde bugFix primero",
     "pt_BR": "O bugFix precisa ser commitado primeiro",
     "gl"   : "Asegurate de facer o commit dende bugFix primeiro",
@@ -300,6 +302,73 @@ exports.level = {
               "* Commiteá una vez",
               "* Volvé a master y commiteå de nuevo",
               "* Checkoutá bugFix otra vez y rebaseala sobre master",
+              "",
+              "¡Éxitos!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "El segundo modo de combinar el trabajo de distintas ramas es el *rebase*. Rebasear esencialmente agarra un conjunto de commits, los \"copia\", y los aplica sobre algún otro lado.",
+              "",
+              "Aunque esto pueda sonar confuso, la ventaja de rebasear es que puede usarse para conseguir una secuencia de commits lineal, más bonita. El historial / log de commits del repositorio va a estar mucho más claro si sólo usas rebase.",
+              "",
+              "Veámoslo en acción..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acá tenemos dos ramas otra vez. Nota que la rama bugFix está actualmente seleccionada (tiene un asterisco)",
+              "",
+              "Nos gustaría mover nuestro trabajo de bugFix directamente sobre el trabajo de master. De ese modo, parecería que esas dos tareas se desarrollaron secuencialmente, cuando en realidad se hicieron en paralelo.",
+              "",
+              "Hagámoslo usando el comando `git rebase`."
+            ],
+            "afterMarkdowns": [
+              "¡Genial! Ahora el trabajo de nuestra rama bugFix está justo encima del de master, y tenemos una secuencia lineal de commits.",
+              "",
+              "Notá que el commit C3 sigue existiendo en algún lado (aparece medio desvanecido en el árbol), y C3' es la \"copia\" que rebaseamos sobre master.",
+              "",
+              "El único problema es que master todavía no se actualizó, resolvámoslo ahora..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ahora estamos parados sobre la rama `master`. Avancemos y rebaseémosla sobre `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Como `master` era un ancestro de `bugFix`, git simplemente movió la referencia de `master` hacia adelante en la historia."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, haz lo siguiente:",
+              "",
+              "* Cámbiate a una nueva rama llamada `bugFix`",
+              "* Haz un commit de una vez",
+              "* Vuelve a master y haz commit de nuevo",
+              "* Cámbiate a la rama bugFix otra vez y rebaséala sobre master",
               "",
               "¡Éxitos!"
             ]
