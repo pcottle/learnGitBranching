@@ -165,5 +165,16 @@ exports.dialog = {
         'naša rešitev uporabi {best}.'
       ]
     }
-  }]
+  }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Dobra robota!!',
+        '',
+        'Rozwiązałeś poziom za pomocą *{numCommands}* poleceń/poleceniach; ',
+        'nasze rozwiązanie składa się z {best}.'
+      ]
+    }
+  }],
 };
