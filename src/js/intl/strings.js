@@ -318,7 +318,8 @@ exports.strings = {
     'uk': 'Віддалений репозиторій розбігся з твоїм локальним репозиторієм, тому відвантаження твоїх змін не є простим fast forward (і тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase',
     'ko': '원격 레포지토리가 당신의 로컬 레포지토리에서 분기하므로, 변경 사항을 업데이트 하는것은 간단한 fast forward가 아닙니다(따라서 push가 거절될 것입니다.). 원격 레포지토리에서의 변경 사항을 내려 받아 이 브랜치에 합치고, 이를 반복하세요. 당신은 git pull 또는 git pull --rebase를 사용해 이를 수행할 수 있습니다.',
     'vi': 'Kho chứa từ xa có sự khác biệt với kho chứa cục bộ của bạn, nên không thể tự động (fast forward) cập nhật thay đổi của bạn (và vì thế hoạt động push của bạn bị từ chối). Vui lòng kéo về thay đổi từ kho chứa từ xa, kết nạp vào nhánh hiện tại, và thử lại lần nữa. Bạn có thể dùng lệnh `git pull` hoặc `git pull --rebase`',
-    'sl_SI': 'Oddaljen repozitorij se je ločil od tvojega lokalnega repozitorija, zato nalaganje sprememb ni možno z `fast forward` opcijo (zato je bil `push` zavrnjen). Prosim pull-aj dol nove spremembe iz oddaljenega repozitorija, jih vključi v svoj branch, nato pa poizkusi ponovno. To lahko narediš z `git pull` ali `git pull --rebase`'
+    'sl_SI': 'Oddaljen repozitorij se je ločil od tvojega lokalnega repozitorija, zato nalaganje sprememb ni možno z `fast forward` opcijo (zato je bil `push` zavrnjen). Prosim pull-aj dol nove spremembe iz oddaljenega repozitorija, jih vključi v svoj branch, nato pa poizkusi ponovno. To lahko narediš z `git pull` ali `git pull --rebase`',
+    'pl'   : 'Zdalne repozytorium różni się od lokalnego repozytorium, dlatego twoich zmian nie można przesłać za pomocą prostego szybkiego `fast forward` (i dlatego polecenie `push` zostało odrzucone). Najpierw zrób `pull` aby pobrać nowe zmiany do lokalnego repozytorium, zintegruj je z branch-em i spróbuj ponownie. Możesz to zrobić za pomocą `git pull` lub `git pull --rebase`'
   },
   'git-error-remote-branch': {
     '__desc__': 'One of the error messages for git',
@@ -336,7 +337,8 @@ exports.strings = {
     'uk': 'Ти не можеш виконати цю команду на віддаленій гілці',
     'ko': '당신은 원격 브랜치에서 그 명령어를 실행시킬 수 없습니다.',
     'vi': 'Bạn không thể thực thi lệnh đó lên nhánh từ xa.',
-    'sl_SI': 'Tega ukaza ne moreš narediti na oddaljenem branchu'
+    'sl_SI': 'Tega ukaza ne moreš narediti na oddaljenem branchu',
+    'pl'   : 'Nie możesz wykonać tego polecenia w zdalnego branch-u'
   },
   'git-error-origin-required': {
     '__desc__': 'One of the error messages for git',
@@ -354,7 +356,8 @@ exports.strings = {
     'uk': 'Для цієї команди потрібний origin',
     'ko': '그 명령어를 위한 오리진이 필요합니다.',
     'vi': 'Lệnh đó yêu cầu có origin.',
-    'sl_SI': 'Origin je potreben za izvedbo tega ukaza'
+    'sl_SI': 'Origin je potreben za izvedbo tega ukaza',
+    'pl'   : 'Dla tego polecenia wymagany jest źródło (origin)'
   },
   'git-error-origin-exists': {
     '__desc__': 'One of the error messages for git',
@@ -372,7 +375,8 @@ exports.strings = {
     'uk': 'Origin вже існує! Неможливо створити ще один',
     'ko': '오리진이 이미 존재합니다! 당신은 새로 만들 수 없습니다.',
     'vi': 'Nguyên bản (origin) đã tồn tại. Bạn không thể tạo thêm 1 cái mới',
-    'sl_SI': 'Origin že obstaja. Ne moreš narediti novega.'
+    'sl_SI': 'Origin že obstaja. Ne moreš narediti novega.',
+    'pl'   : 'origem już istnieje! Nie możesz go ponownie założyć'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-branch': {
@@ -392,7 +396,8 @@ exports.strings = {
     'uk': 'Неможливо видалити гілку master, гілку на якій ти зараз знаходишся чи штуки які не є гілкою',
     'ko': '당신은 마스터 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.',
     'vi': 'Bạn không thể xóa nhánh master, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.',
-    'sl_SI': 'Ne moreš izbrisati master brancha, brancha na katerem si trenutno ali stvari, ki niso branchi'
+    'sl_SI': 'Ne moreš izbrisati master brancha, brancha na katerem si trenutno ali stvari, ki niso branchi',
+    'pl'   : 'Nie możesz usunąć branch-a master, branch-a nad którym aktualnie pracujesz, ani który nie jest branch-em'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -411,7 +416,8 @@ exports.strings = {
     'uk': 'Злиття {target} в {current}',
     'ko': '{target}을 {current}에 병합하세요.',
     'vi': 'Gộp {target} vào {current}.',
-    'sl_SI': 'Mergaj {target} v {current}'
+    'sl_SI': 'Mergaj {target} v {current}',
+    'pl'   : 'Łączenie {target} z {current}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -430,7 +436,8 @@ exports.strings = {
     'uk': 'Нема комітів для rebase! Все в коміті злиття (merge commit) чи зміни вже застосовані',
     'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.',
     'vi': 'Không có commit nào để rebase. Mọi thứ là merge commit hoặc thay đổi đã được áp dụng.',
-    'sl_SI': 'Ni commitov za rebase! Vse je merge commit ali pa so spremembe že dodane'
+    'sl_SI': 'Ni commitov za rebase! Vse je merge commit ali pa so spremembe že dodane',
+    'pl'   : 'Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -449,7 +456,8 @@ exports.strings = {
     'uk': 'Нічого виконувати...',
     'ko': '할게 없습니다 ...',
     'vi': 'Không có gì để làm ...',
-    'sl_SI': 'Ničesar za narediti ...'
+    'sl_SI': 'Ničesar za narediti ...',
+    'pl'   : 'Nie ma nic do zrobienia...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -468,7 +476,8 @@ exports.strings = {
     'uk': 'Виконую Fast forward',
     'ko': 'Fast forward 중입니다...',
     'vi': 'Đang fast forward...',
-    'sl_SI': 'Fast forwardiranje'
+    'sl_SI': 'Fast forwardiranje',
+    'pl'   : 'Fast forward...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
@@ -487,7 +496,8 @@ exports.strings = {
     'uk': 'Гілку вже оновлено',
     'ko': '브랜치가 이미 최신 상태입니다.',
     'vi': 'Nhánh đã được cập nhật mới nhất.',
-    'sl_SI': 'Branch je že posodobljen'
+    'sl_SI': 'Branch je že posodobljen',
+    'pl'   : 'Branch jest już aktualny'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -506,7 +516,8 @@ exports.strings = {
     'uk': 'Посилання {ref} не існує чи невідоме',
     'ko': '{ref} 참조가 존재하지 않거나 알 수 없습니다.',
     'vi': 'Tham chiếu {ref} không tồn tại hoặc không thể tìm thấy.',
-    'sl_SI': 'Ref {ref} new obstaja ali je neznan'
+    'sl_SI': 'Ref {ref} new obstaja ali je neznan',
+    'pl'   : 'Odnośnik {ref} nie istnieje lub jest nieznany'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -525,7 +536,8 @@ exports.strings = {
     'uk': 'Коміт {commit} не містить {match}',
     'ko': '커밋 {commit}은 {match}를 가지고 있지 않습니다.',
     'vi': 'Commit {commit} mà không có {match}.',
-    'sl_SI': 'Commit {commit} nima {match}'
+    'sl_SI': 'Commit {commit} nima {match}',
+    'pl'   : 'Commit {commit} nie ma {match}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
@@ -544,7 +556,8 @@ exports.strings = {
     'uk': 'Увага! Репозиторій в стані detached HEAD, тобто не знаходиться в жодній гілці!',
     'ko': '주의! 분리된 HEAD 상태',
     'vi': 'Cảnh báo! HEAD bị tách rời',
-    'sl_SI': 'Opozorilo! Detached HEAD stanje'
+    'sl_SI': 'Opozorilo! Detached HEAD stanje',
+    'pl'   : 'Ostrzeżenie!! Odłączony tryb HEAD'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
@@ -563,7 +576,8 @@ exports.strings = {
     'uk': 'Не потрібно додавати файли для цього демо',
     'ko': '이 데모에서는 파일을 추가할 필요가 없습니다.',
     'vi': 'Không cần thêm tập tin trong bản giới thiệu này.',
-    'sl_SI': 'Ni potrebe po dodajanju datotetk v tem demotu'
+    'sl_SI': 'Ni potrebe po dodajanju datotetk v tem demotu',
+    'pl'   : 'Nie ma potrzeby dodawania plików w tym demo'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
@@ -582,7 +596,8 @@ exports.strings = {
     'uk': 'Опції, які ти ввів, або некорректні або не підтримуються',
     'ko': '당신이 지정한 그 옵션들은 호환되지 않거나 올바르지 않습니다.',
     'vi': 'Các tham số bạn chỉ định không tương thích hoặc không chính xác.',
-    'sl_SI': 'Opcije, ki si jih podal, so nezdružljive ali napačne'
+    'sl_SI': 'Opcije, ki si jih podal, so nezdružljive ali napačne',
+    'pl'   : 'Podane przez Ciebie opcje są niezgodne lub nieprawidłowe'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -601,7 +616,8 @@ exports.strings = {
     'uk': 'Коміт {commit} вже існує в твоєму change set, відміна!',
     'ko': '커밋 {commit}은 이미 당신의 변경 내역에 존재합니다. 중단!',
     'vi': 'Commit {commit} đã tồn tại trong những thay đổi của bạn. Đang hủy!',
-    'sl_SI': 'Commit {commit} že obstaja v tvoji množici sprememb, prekinjam!'
+    'sl_SI': 'Commit {commit} že obstaja v tvoji množici sprememb, prekinjam!',
+    'pl'   : 'Commit {commit} już istnieje w Twoim zbiorze zmian, przerywam!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
