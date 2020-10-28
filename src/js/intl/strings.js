@@ -636,7 +636,8 @@ exports.strings = {
     'uk': 'Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування',
     'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.',
     'vi': 'Trong trạng thái tách rời `HEAD` thì không thể `reset`. Dùng `checkout` nếu bạn muốn di chuyển.',
-    'sl_SI': 'Ni možno resetat, zaradi detached HEADa'
+    'sl_SI': 'Ni možno resetat, zaradi detached HEADa',
+    'pl'   : 'Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
@@ -662,7 +663,9 @@ exports.strings = {
     'vi': 'Trạng thái mặc định cho lệnh `reset` của \"Học nhánh Git\" là `--hard`.' +
       ' Nên khi làm bài nếu bạn thấy gõ tham số này hơi tốn công thì cứ bỏ qua.' +
       ' Nhưng mà hãy nhớ rằng thực tế thì `--mixed` mới là trạng thái mặc định của `reset`.',
-    'sl_SI': 'Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.'
+    'sl_SI': 'Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.',
+    'pl'   : 'Domyślnym zachowaniem dla polecenia `reset` w LearnGitBranching jest parametr --hard, więc możesz pominąć tę opcję, ' +
+      'Pamiętaj tylko, że domyślne zachowanie rzeczywistego GIT-a jest parametr --mixed.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
@@ -682,7 +685,8 @@ exports.strings = {
     'uk': 'В цьому демо немає можливості додати файл до робочої копії чи до стейджингу, тому ця опція чи команда некоректна чи не підтримується',
     'ko': '여기엔 파일을 추가하거나 스테이징한다는 개념이 없습니다. 따라서 그 옵션 또는 명령어는 유효하지 않습니다.',
     'vi': 'Không có khái nệm thêm tập tin đệm(staging file), nên tùy chọn đó là bất hợp lệ.',
-    'sl_SI': 'Tu ni možnosti addanja/stageanja datotek, zato je ta ukaz nepravilen'
+    'sl_SI': 'Tu ni možnosti addanja/stageanja datotek, zato je ta ukaz nepravilen',
+    'pl'   : 'Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -701,7 +705,8 @@ exports.strings = {
     'uk': 'Повертаю {oldCommit}: {oldMsg}',
     'ko': '{oldCommit}:{oldMsg}를 복구중입니다.',
     'vi': 'Hoàn tác {oldCommit}:{oldMsg}.',
-    'sl_SI': 'Revertanje {oldCommit}: {oldMsg}'
+    'sl_SI': 'Revertanje {oldCommit}: {oldMsg}',
+    'pl'   : 'Cofam {oldCommit} : {oldMsg}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
@@ -720,7 +725,8 @@ exports.strings = {
     'uk': 'Я очікую максимум {upper} аргумент(ів) для {what}',
     'ko': '{what}을 위해 최대 {upper}개의 인자를 받습니다.',
     'vi': 'Có thể có nhiều nhất {upper} tham số cho {what}.',
-    'sl_SI': 'Pričakovanih je največ {upper} argumentov za {what}'
+    'sl_SI': 'Pričakovanih je največ {upper} argumentov za {what}',
+    'pl'   : 'Oczekuję maksymalne {upper} parametrów dla {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
@@ -739,7 +745,8 @@ exports.strings = {
     'uk': 'Я очікую як мінімум {lower} аргумент(ів) для {what}',
     'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.',
     'vi': 'Cần ít nhất {lower} tham số cho {what}.',
-    'sl_SI': 'Pričakovanih je najmanj {lower} argumentov za {what}'
+    'sl_SI': 'Pričakovanih je najmanj {lower} argumentov za {what}',
+    'pl'   : 'Oczekuję co najmniej {lower} parametrów dla {what}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
@@ -758,7 +765,8 @@ exports.strings = {
     'uk': 'Ця команда не приймає загальних аргументів',
     'ko': '그 명령어는 일반적으로 인자를 받지 않습니다.',
     'vi': 'Lệnh đó không chấp nhận các tham số chung.',
-    'sl_SI': 'Ta ukaz ne sprejme splošnih ukazov'
+    'sl_SI': 'Ta ukaz ne sprejme splošnih ukazov',
+    'pl'   : 'To polecenie nie przyjmuje żadnych ogólnych parametrów'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -777,7 +785,8 @@ exports.strings = {
     'uk': 'Скопіюй рядок дерева нижче',
     'ko': '다음 트리 문자열을 복사하세요.',
     'vi': 'Sao chép chuỗi cây bên dưới.',
-    'sl_SI': 'Skopiraj besedilo drevesa spodaj'
+    'sl_SI': 'Skopiraj besedilo drevesa spodaj',
+    'pl'   : 'Skopiuj poniższy kod'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
