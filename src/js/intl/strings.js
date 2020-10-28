@@ -988,7 +988,8 @@ exports.strings = {
     'uk': 'Перевертаю дерево...',
     'ko': '트리 뒤집는중...',
     'vi': 'Cây lật...',
-    'sl_SI': 'Obračanje drevesa ...'
+    'sl_SI': 'Obračanje drevesa ...',
+    'pl'   : 'Odwracanie drzewa...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -1006,7 +1007,8 @@ exports.strings = {
     'uk': 'Оновлюю дерево...',
     'ko': '트리 다시 불러오는중...',
     'vi': 'Làm mới cây...',
-    'sl_SI': 'Osveževanje drevesa ...'
+    'sl_SI': 'Osveževanje drevesa ...',
+    'pl'   : 'Odświeżanie drzewa...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
@@ -1024,7 +1026,8 @@ exports.strings = {
     'uk': 'Локаль тепер дорівнює {locale}',
     'ko': '로케일이 {locale}로 설정되었습니다.',
     'vi': 'Ngôn ngữ được thay đổi thành {locale}.',
-    'sl_SI': 'Locale nastavljen na {locale}'
+    'sl_SI': 'Locale nastavljen na {locale}',
+    'pl'   : 'Ustawiono język na {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
@@ -1042,7 +1045,8 @@ exports.strings = {
     'uk': 'Локаль скинута. Тепер вона дорівнює {locale}',
     'ko': '로케일이 {locale}로 초기화 되었습니다.',
     'vi': 'Ngôn ngữ được đổi thành mặc định: {locale}.',
-    'sl_SI': 'Locale ponastavljen na {locale}'
+    'sl_SI': 'Locale ponastavljen na {locale}',
+    'pl'   : 'Przywrócono język do wartości domyślnych, czyli {locale}'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
@@ -1060,7 +1064,8 @@ exports.strings = {
     'uk': 'Щоб отримати більше інформації використовуй наступні команди:',
     'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.',
     'vi': 'Vui lòng dùng một trong các lệnh sau để có thêm thông tin:.',
-    'sl_SI': 'Prosim uporabi enega od naslednjih ukazov'
+    'sl_SI': 'Prosim uporabi enega od naslednjih ukazov',
+    'pl'   : 'Aby uzyskać więcej informacji, użyj jednego z następujących poleceń:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
@@ -1078,7 +1083,8 @@ exports.strings = {
     'uk': 'Ось список всіх можливих команд:',
     'ko': '여기에 사용 가능한 모든 명령어들의 리스트가 있습니다.',
     'vi': 'Dưới đây là danh sách tất cả các lệnh hiện hành:.',
-    'sl_SI': 'Tu je seznam vseh možnih ukazov:'
+    'sl_SI': 'Tu je seznam vseh možnih ukazov:',
+    'pl'   : 'Oto lista wszystkich dostępnych poleceń:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
@@ -1096,7 +1102,8 @@ exports.strings = {
     'uk': 'Директорія змінена на "/директорії/не/мають/значення/в/цьому/демо"',
     'ko': '디렉토리가 "/directories/dont/matter/in/this/demo"로 변경되었습니다.',
     'vi': 'Thay đổi thư mục thành "/directories/dont/matter/in/this/demo".',
-    'sl_SI': 'Mapa spremenjena na "/directories/dont/matter/in/this/demo"'
+    'sl_SI': 'Mapa spremenjena na "/directories/dont/matter/in/this/demo"',
+    'pl'   : 'Katalog zmieniony na "/home/users/windows/pl/demo"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
@@ -1114,7 +1121,8 @@ exports.strings = {
     'uk': 'ЗабийНаФайлиВЦьомуДемо.txt',
     'ko': 'DontWorryAboutFilesInThisDemo.txt (이_데모에서_파일에_대한_걱정은_하지마세요.txt)',
     'vi': 'DontWorryAboutFilesInThisDemo.txt (ĐừngLoLắngVềTậpTinTrongBảnGiớiThiệuNày.txt)',
-    'sl_SI': 'DontWorryAboutFilesInThisDemo.txt'
+    'sl_SI': 'DontWorryAboutFilesInThisDemo.txt',
+    'pl'   : 'SpokojnieToTylkoPlikDemo.txt'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
@@ -1131,7 +1139,8 @@ exports.strings = {
     'uk': 'LGB не підтримує ввід тексту з мобільного, зайди з компьютера! Це цього варте!',
     'ko': 'LGB는 모바일에서 입력을 받을 수 없습니다. 데스크톱으로 접속하세요! 이것은 가치가 있습니다. :D',
     'vi': 'Đáng tiếc là ứng dụng không thể nhận thông tin từ điện thoại hay máy tính bảng, hãy sử dụng máy tính cá nhân, đáng để bỏ công mà :D',
-    'sl_SI': 'LGB ne more sprejeti ukazov na mobilni napravi, obiščite nas na računalinku! Je vredno :D '
+    'sl_SI': 'LGB ne more sprejeti ukazov na mobilni napravi, obiščite nas na računalinku! Je vredno :D ',
+    'pl'   : 'Przepraszamy, ale LearnGitBranching nie da się odbierać poleceń na urządzeniach mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
@@ -1149,7 +1158,8 @@ exports.strings = {
     'uk': 'Поділись цим деревом з друзями! Вони зможуть його завантажити за допомогою "import tree"',
     'ko': '친구들과 이 트리를 공유하세요! 그들은 "import tree"를 사용해 이를 로드할 수 있습니다.',
     'vi': 'Hãy chia sẻ cây này với bạn của mình! Họ có thể dùng "import tree" để tải.',
-    'sl_SI': 'Deli to drevo s prijatelji! Lahko ga naložijo z "import tree"'
+    'sl_SI': 'Deli to drevo s prijatelji! Lahko ga naložijo z "import tree"',
+    'pl'   : 'Udostępnij to drzewo znajomym! Mogą go załadować za pomocą "import tree"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
@@ -1167,7 +1177,8 @@ exports.strings = {
     'uk': 'Встав JSON нижче!',
     'ko': '아래에 JSON blob을 붙여넣으세요.',
     'vi': 'Dán một chuỗi JSON xuống bên dưới.',
-    'sl_SI': 'Prilepi JSON kodo spodaj!'
+    'sl_SI': 'Prilepi JSON kodo spodaj!',
+    'pl'   : 'Wklej poniżej obiekt z kodem JSON!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
@@ -1185,7 +1196,8 @@ exports.strings = {
     'uk': 'Все скинуте! Можна починати з чистого аркушу!',
     'ko': '해결된 지도가 초기화 되었습니다. 당신은 깨끗한 상태에서 시작합니다.',
     'vi': 'Tất cả đáp án đã được xóa, bạn có thể bắt đầu lại từ đầu.',
-    'sl_SI': 'Rešena mapa je ponastavljena, začel boš lahko na novo!'
+    'sl_SI': 'Rešena mapa je ponastavljena, začel boš lahko na novo!',
+    'pl'   : 'Rozwiązania zostały wyczyszczone, zaczynasz od czystej karty.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
@@ -1203,7 +1215,8 @@ exports.strings = {
     'uk': 'Ти не в рівні! Ти в пісочниці! Почни рівень з "levels"',
     'ko': '당신은 샌드박스에 있습니다. "levels"를 사용하여 레벨을 시작하세요.',
     'vi': 'Bạn hiện không ở cấp độ nào cả! Hãy bắt đầu một cấp độ với "levels".',
-    'sl_SI': 'Nisi v stopnji! Si v peskovniku, začni stopnjo z "levels"'
+    'sl_SI': 'Nisi v stopnji! Si v peskovniku, začni stopnjo z "levels"',
+    'pl'   : 'Nie jesteś na poziomie! Jesteś w piaskownicy, zacznij poziom wpisując "levels"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
@@ -1221,7 +1234,8 @@ exports.strings = {
     'uk': 'Рівень з id "{id}" не знайдений! Відкриваю вибір рівней',
     'ko': 'id "{id}"에 대한 레벨이 존재하지 않습니다. 레벨 선택 화면을 열어보세요.',
     'vi': 'Không tìm thấy cấp độ cho định danh "{id}". Mở cửa sổ chọn cấp độ.',
-    'sl_SI': 'Stopnja za ta id "{id}" ni bila najdena! Odpiram pogled za izbiro stopnje'
+    'sl_SI': 'Stopnja za ta id "{id}" ni bila najdena! Odpiram pogled za izbiro stopnje',
+    'pl'   : 'Nie znaleziono poziomu {id}!. Otwieranie widoku wyboru poziomu...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -1239,7 +1253,8 @@ exports.strings = {
     'uk': 'Нема куди відкатуватися',
     'ko': '되돌리기 스택이 비었습니다!',
     'vi': 'Không có gì để hoàn tác!',
-    'sl_SI': 'Undo seznam je prazen!'
+    'sl_SI': 'Undo seznam je prazen!',
+    'pl'   : 'Nie ma już poleceń do cofnięcia!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
@@ -1257,7 +1272,8 @@ exports.strings = {
     'uk': 'Ти вже пройшов цей рівень, спробуй інші рівні з "levels" чи повернись в пісочницю з "sandbox"',
     'ko': '당신은 이미 이 레벨을 해결했습니다. "levels"를 사용하여 다른 레벨에 도전하거나 "sandbox"를 사용하여 샌드박스로 돌아가세요.',
     'vi': 'Bạn đã vượt qua cấp độ này. Thử cấp độ khác với "levels" hoặc dùng "sandbox" để trở lại hộp cát.',
-    'sl_SI': 'To stopnjo si že rešil, poizkusi druge stopnje z "levels" ali pojdi nazaj v peskovnik s "sandbox"'
+    'sl_SI': 'To stopnjo si že rešil, poizkusi druge stopnje z "levels" ali pojdi nazaj v peskovnik s "sandbox"',
+    'pl'   : 'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do piaskownicy za pomocą polecenia "sandbox"'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-level': {
@@ -1464,9 +1480,6 @@ exports.strings = {
     'vi': 'Bạn đang tạo một cấp độ, nên sẽ có nhiều trợ giúp có sẵn. Vui lòng chọn "help general" hoặc "help builder".',
     'sl_SI': 'Si v graditelju stopenj, zato so na voljo različne pomoči. Prosim izberi "help general" ali "help builder"',
     'pl'   : 'Jesteś w kreatorze poziomów, więc dostępnych jest wiele form pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów'
-
-
-    formularze'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
