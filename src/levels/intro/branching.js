@@ -1382,7 +1382,7 @@ exports.level = {
               "Po zamknięciu tego okna, stwórz nowy branch o nazwie `bugFix` i przełącz się na ten branch.",
               "",
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
-              "nowy branch ORAZ przełączyć się na nią w tym samym czasie,",
+              "nowy branch ORAZ przełączyć się na niego w tym samym czasie,",
               "możesz po prostu wpisać `git checkout -b [nazwa_branch-u]`."
             ]
           }
