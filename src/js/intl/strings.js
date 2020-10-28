@@ -1817,6 +1817,6 @@ exports.strings = {
     'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!',
     'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
-    'pl' : 'Kolejne okno dialogowe lub tekst nie jest jeszcze przetłumaczone na język polski :(\nZapraszam na GitHub, aby pomóc w tłumaczeniu!'
+    'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :(\nZapraszam na GitHub, aby pomóc w tłumaczeniu!'
   }
 };
