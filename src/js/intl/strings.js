@@ -1357,7 +1357,8 @@ exports.strings = {
     'uk': 'На цьому рівні не можна використовувати цю команду!',
     'ko': '그 Git 명령어는 이 레벨에서 사용할 수 없습니다.',
     'vi': 'Ở cấp độ này thì lệnh git đó bị vô hiệu hóa.',
-    'sl_SI': 'Ta git ukaz je onemogočen za to stopnjo!'
+    'sl_SI': 'Ta git ukaz je onemogočen za to stopnjo!',
+    'pl'   : 'To polecenie GIT-a jest wyłączone na tym poziomie!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
@@ -1376,7 +1377,8 @@ exports.strings = {
     'uk': 'Ось JSON для цього рівня! Поділись з кимось чи відправ мені його на GitHub',
     'ko': '이 레벨을 위한 JSON 데이터가 있습니다! 이를 다른 사람들과 공유하거나 GitHub에서 제게 보내보세요.',
     'vi': 'Đây là chuỗi JSON cho cấp độ này! Hãy chia sẻ với người khắc hoặc với tôi qua GitHub.',
-    'sl_SI': 'Tu je JSON za to stopnjo! Deli ga z nekom ali ga pošlji meni na GitHub'
+    'sl_SI': 'Tu je JSON za to stopnjo! Deli ga z nekom ali ga pošlji meni na GitHub',
+    'pl'   : 'To jest JSON dla tego poziomu. Udostępnij go, komu chcesz, lub wyślij do mnie na GitHub.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
@@ -1395,7 +1397,8 @@ exports.strings = {
     'uk': 'Не вказано стартовий діалог, хочеш додати стартовий діалог?',
     'ko': '당신은 시작 대화창을 지정하지 않았습니다. 추가 하시겠습니까?',
     'vi': 'Không có cửa sổ hội thoại được chỉ định, thêm một cái chứ?',
-    'sl_SI': 'Nisi določil začetnega dialoga, bi ga rad dodal?'
+    'sl_SI': 'Nisi določil začetnega dialoga, bi ga rad dodal?',
+    'pl'   : 'Nie określiłeś okna startowego, czy chcesz je dodać?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
@@ -1414,7 +1417,8 @@ exports.strings = {
     'uk': 'Не вказана підказка, хочеш додати підказку?',
     'ko': '당신은 힌트를 지정하지 않았습니다. 추가 하시겠습니까?',
     'vi': 'Bạn chưa chỉ định một gợi ý, thêm một cái chứ?',
-    'sl_SI': 'Nisi določil namiga, bi ga rad dodal?'
+    'sl_SI': 'Nisi določil namiga, bi ga rad dodal?',
+    'pl'   : 'Nie podałeś podpowiedzi, czy chcesz ją dodać?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
@@ -1433,7 +1437,8 @@ exports.strings = {
     'uk': 'Додай підказку для рівня, якщо хочеш',
     'ko': '이 레벨을 위한 힌트를 입력하거나 만약 이를 포함시키고 싶지 않을 경우엔 비워두세요.',
     'vi': 'Thêm một gợi ý cho cấp độ này, hoặc cứ để trống nếu bạn không muốn thêm.',
-    'sl_SI': 'Vnesi namig za to stopnjo ali pusti to prazno, če ga nočeš dodati'
+    'sl_SI': 'Vnesi namig za to stopnjo ali pusti to prazno, če ga nočeš dodati',
+    'pl'   : 'Wpisz wskazówkę dotyczącą tego poziomu lub pozostaw ją pustą, jeśli nie chcesz jej uwzględniać.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
@@ -1452,7 +1457,8 @@ exports.strings = {
     'uk': 'Введи назву рівня',
     'ko': '레벨 이름을 입력하세요.',
     'vi': 'Nhập tên cho cấp độ này.',
-    'sl_SI': 'Vnesi ime za stopnjo'
+    'sl_SI': 'Vnesi ime za stopnjo',
+    'pl'   : 'Wprowadź nazwę poziomu'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
@@ -1471,7 +1477,8 @@ exports.strings = {
     'uk': 'Розв’язок порожній!! Щось не так',
     'ko': '해답이 비어있습니다. 무언가 잘못되었습니다.',
     'vi': 'Đáp án bị bỏ trống!! Có gì thiếu rồi.',
-    'sl_SI': 'Tvoja rešitev je prazna!! Nekaj ni vredu.'
+    'sl_SI': 'Tvoja rešitev je prazna!! Nekaj ni vredu.',
+    'pl'   : 'Twoje rozwiązanie jest puste!! Coś musi zostać zrobione.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
@@ -1490,7 +1497,8 @@ exports.strings = {
     'uk': 'Встановлюю стартову точку... розв’язок та ціль будуть переписані якщо вони були задані раніше',
     'ko': '시작 지점을 정의하세요... 만약 그것이 먼저 정의된다면 해답과 목표가 덮어씌워질 것입니다.',
     'vi': 'Xác định điểm bắt đầu ... Các giải pháp và mục tiêu sẽ được thay thế nếu đã được chỉ định từ trước.',
-    'sl_SI': 'Določanje začetne točke ... rešitev in cilj bosta povožena, če sta bila prej že podana'
+    'sl_SI': 'Določanje začetne točke ... rešitev in cilj bosta povožena, če sta bila prej že podana',
+    'pl'   : 'DUstawianie punktu początkowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
@@ -1509,7 +1517,8 @@ exports.strings = {
     'uk': 'При проходженні рівня доступні декілька різновидів допомоги. Виберіть або "help level" щоб взнати більше про цей рівень, чи "help general" щоб взнати більше про Learn Git Branching, чи "objective" щоб дізнатись більше про проходження цього рівня',
     'ko': '당신은 한 레벨에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. 레슨에 대해 더 알고싶을 땐 "help level", LearnGitBranching을 사용하고 싶을 땐 "help general", 또는 레벨을 어떻게 해결해야할지 알고싶을 땐 "objective"를 선택하세요.',
     'vi': 'Bạn đang ở trong một cấp độ, nên sẽ có nhiều hỗ trợ. Vui lòng dùng "help level" để biết thêm về bài học này, "help general" để sử dụng HọcNhánhGit, hoặc "objective" để biết cách giải quyết bài tập.',
-    'sl_SI': 'Si v stopnji, zato so na voljo različne pomoči. Prosim izberi "help level" za več informacij o tej lekciji, "help general" za splošna navodila ali "objective" da izveš kako rešiti to stopnjo'
+    'sl_SI': 'Si v stopnji, zato so na voljo različne pomoči. Prosim izberi "help level" za več informacij o tej lekciji, "help general" za splošna navodila ali "objective" da izveš kako rešiti to stopnjo',
+    'pl'   : 'Jesteście na jednym z poziomów, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
@@ -1528,7 +1537,11 @@ exports.strings = {
     'uk': 'При створенні рівня доступні декілька різновидів допомоги. Виберіть або "help general", чи "help builder"',
     'ko': '당신은 한 레벨 생성기에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. "help general" 또는 "help builder"를 선택해주세요.',
     'vi': 'Bạn đang tạo một cấp độ, nên sẽ có nhiều trợ giúp có sẵn. Vui lòng chọn "help general" hoặc "help builder".',
-    'sl_SI': 'Si v graditelju stopenj, zato so na voljo različne pomoči. Prosim izberi "help general" ali "help builder"'
+    'sl_SI': 'Si v graditelju stopenj, zato so na voljo različne pomoči. Prosim izberi "help general" ali "help builder"',
+    'pl'   : 'Jesteś w kreatorze poziomów, więc dostępnych jest wiele form pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów'
+
+
+    formularze'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
