@@ -18,7 +18,7 @@ exports.level = {
     "uk": "Розгалуження в Git",
     "vi": "Rẽ nhánh với Git",
     "sl_SI": "Branchanje v Gitu",
-    "pl"   : "Rozgałęzienia w GIT"
+    "pl"   : "Rozgałęzienia w GIT-cie (branch)"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
@@ -1323,7 +1323,7 @@ exports.level = {
               "",
               "Ponieważ tworzenie wielu branch-y nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci, dlatego łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, mocne branch-e.",
               "",
-              "Kiedy zaczniemy mieszać branch-e i commit-y, zobaczymy, jak łączą się te dwie funkcje. Na&nbsp;razie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego zatwierdzenia i wszystkich zatwierdzeń nadrzędnych\"."
+              "Kiedy zaczniemy mieszać branch-e i commit-y, zobaczymy, jak łączą się te dwie funkcje. Na&nbsp;razie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego zatwierdzenia oraz wszystkie commit-y nadrzędnych\"."
             ]
           }
         },
