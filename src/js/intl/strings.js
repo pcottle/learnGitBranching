@@ -970,7 +970,7 @@ exports.strings = {
     'ko': 'Git Version PCOTILE.1.0',
     'vi': 'Phiên bản Git TTC-Solutions.1.0',
     'sl_SI': 'Git Verzija PCOTTLE.1.0',
-    'pl' : 'Wersja Git PCOTTLE.1.0-olo'
+    'pl' : 'Wersja GIT-a OLSZA-1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
