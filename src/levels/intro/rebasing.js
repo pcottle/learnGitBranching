@@ -17,7 +17,8 @@ exports.level = {
     "ru_RU": "Введение в rebase",
     "uk": "Знайомство з rebase",
     "vi": "Giới thiệu về rebase",
-    'sl_SI': 'Uvod v Rebase'
+    'sl_SI': 'Uvod v Rebase',
+    "pl"   : "Wprowadzenie do Rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -35,7 +36,8 @@ exports.level = {
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
     "uk": "Впевнись, що зробив коміт в гілці bugFix",
     "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
-    'sl_SI': 'Prepričaj se, da si najprej commital bugFix.'
+    'sl_SI': 'Prepričaj se, da si najprej commital bugFix.',
+    "pl"   : "Upewnij się, że masz commit z bugFix"
   },
   "disabledMap": {
     "git revert": true
@@ -1110,6 +1112,73 @@ exports.level = {
               "* Ponovno checkoutaj bugFix in ga rebaseaj na master",
               "",
               "Srečno!"
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Drugim sposobem na łączenie naszej pracy między branch-ami jest *rebase*. Rebase zasadniczo pobiera zestaw commit-ów, \"kopiuje\" je i umieszcza w innym miejscu.",
+              "",
+              "Chociaż brzmi to zagmatwane, zaletą rebase jest to, że można jej użyć do stworzenia ładnej liniowej sekwencji zatwierdzeń. Rebase sprawi, że historia commit-ów w repozytorium będzie wyglądał na dużo prostszy, ponieważ unika się commit-ów scalających (merge).",
+              "",
+              "Zobaczmy to w akcji..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tutaj znowu mamy dwa gałęzie (branch-e); zwróć uwagę, że branch bugFix jest aktualnie wybrany (zwróć uwagę, że ma gwiazdkę)",
+              "",
+              "Chcielibyśmy przenieść nasze pracę z branch-a bugFix bezpośrednio do branch-a mastera. W&nbsp;ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
+              "",
+              "Zróbmy to za pomocą polecenia `git rebase`."
+            ],
+            "afterMarkdowns": [
+              "Świetnie! Teraz nasz branch bugFix znajduje się tuż nad master i mamy ładną liniową sekwencję zatwierdzeń tj. commit-ów.",
+              "",
+              "Zauważ, że commit C3 nadal gdzieś istnieje (ma wyblakły wygląd w drzewie), a commit C3' jest \"kopią\", którą nadpisujemy na master.",
+              "",
+              "Jedynym problemem jest to, że master też nie został zaktualizowany, zróbmy to teraz..."
+            ],
+            "command": "git rebase master",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Jesteśmy teraz na branch-u `master`. Przejdźmy dalej i zróbmy połączenie rebase z branch-em `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Oto jest! Ponieważ `master` był przodkiem `bugFix`, GIT po prostu przesunął odniesienie do branch-a `master` do przodu w historii."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase master; git checkout master"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby ukończyć ten poziom, wykonaj następujące czynności:",
+              "",
+              "* Przejdź do nowego utworzonego branch-u o nazwie `bugFix`",
+              "* Zrób commit",
+              "* Wróć do branch-a master i zrób kolejny commit",
+              "* Przejdź do bugFix oraz połącz za pomocą rebase z master",
+              "",
+              "Powodzenia, misja zakończona!"
             ]
           }
         }
