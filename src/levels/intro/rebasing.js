@@ -1139,7 +1139,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Tutaj znowu mamy dwa gałęzie (branch-e); zwróć uwagę, że branch bugFix jest aktualnie wybrany (zwróć uwagę, że ma gwiazdkę)",
               "",
-              "Chcielibyśmy przenieść nasze pracę z branch-a bugFix bezpośrednio do branch-a mastera. W&nbsp;ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
+              "Chcielibyśmy przenieść nasze pracę z branch-a bugFix bezpośrednio do branch-a master. W&nbsp;ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
               "",
               "Zróbmy to za pomocą polecenia `git rebase`."
             ],
