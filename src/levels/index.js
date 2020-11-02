@@ -71,7 +71,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Вступ',
       'vi'   : 'Giới thiệu chuỗi luyện tập',
       'sl_SI': 'Uvodno Zaporedje',
-      'pl'   : 'Wprowadzenie'
+      'pl'   : 'Sekwencja wprowadzająca'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -90,7 +90,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Гарно підібране введення в основні команди git',
       'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển git',
       'sl_SI': 'Prijeten uvod v git ukaze',
-      'pl'   : 'Przyjemne wprowadzenie do większości poleceń GIT-a'
+      'pl'   : 'Krótkie wprowadzenie do większości poleceń GIT-a'
     }
   },
   rampup: {
@@ -111,7 +111,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '다음 단계로',
       'vi'   : 'Tăng tốc',
       'sl_SI': 'Prva Stopnička',
-      'pl'   : 'Postęp'
+      'pl'   : 'Rozkręcenie'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -171,7 +171,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!',
       'vi'   : 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng',
       'sl_SI': 'Čas za deljenje tvojih 1 in 0; kodiranje je pravkar postalo socialno',
-      'pl'   : 'Czas, aby podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne'
+      'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne'
     }
   },
   remoteAdvanced: {
@@ -193,7 +193,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '"origin"그 너머로 -- 고급 Git 원격 저장소',
       'vi'   : 'Về với cội nguồn và vươn xa hơn -- nâng cao về các git remote',
       'sl_SI': 'Do Origina In Naprej -- Napredni Oddaljeni Git',
-      'pl'   : 'Do Origin i dalej -- wersja zaawansowana zdalnych repozytoriów'
+      'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -233,7 +233,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Переміщуємо роботу туди-сюди',
       'vi'   : 'Điều chỉnh vị trí',
       'sl_SI': 'Premikanje Dela Naokrog',
-      'pl'   : 'Przenoszenie kodu'
+      'pl'   : 'Przenoszenie pracy'
     },
     about: {
       'en_US': '"Git" comfortable with modifying the source tree :P',
@@ -292,7 +292,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Різні прийоми роботи з Git, хитрощі та поради',
       'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích',
       'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
-      'pl'   : 'Po trochu wszystkiego, wskazówek i trików'
+      'pl'   : 'Po trochu wszystkiego... wskazóweki i triki'
     }
   },
   advanced: {
