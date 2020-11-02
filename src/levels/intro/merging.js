@@ -18,7 +18,7 @@ exports.level = {
     "uk": "Злиття гілок в Git",
     "vi": "Gộp nhánh trong Git",
     "sl_SI": "Merganje v Gitu",
-    "pl"   : "Łączenie w GIT (merge)"
+    "pl"   : "Łączenie/Scalanie w GIT (merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -1153,7 +1153,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Łączenie Branch-y",
+              "## Łączenie (scalanie) Branch-y",
               "",
               "Świetnie! Już wiemy, jak stworzyć commit-y oraz jak tworzyć branch-e. Teraz musimy się nauczyć jak połączyć pracę dwóch różnych branch-y. Stwórzmy nowy branch, wprowadzamy nową funkcjonalność, a następnie je połączymy.",
               "",
