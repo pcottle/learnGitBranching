@@ -114,6 +114,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
+              "*Note: In Git version 2.23, a new command called `git switch` was introduced to eventually replace `git checkout`, ",
+              "which is somewhat overloaded as a command (it does a bunch of separate things). The lessons here will still use ",
+              "`checkout` instead of `switch` because most people won't have access to `switch` yet, but support for the new command ",
+              "works in the app if you want to try it out! You can [learn more here](https://git-scm.com/docs/git-switch).* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Ok! You are all ready to get branching. Once this window closes,",
               "make a new branch named `bugFix` and switch to that branch.",
               "",
