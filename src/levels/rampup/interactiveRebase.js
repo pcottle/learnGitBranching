@@ -597,8 +597,8 @@ exports.level = {
               "Wenn sich der Dialog für den interaktiven Rebase öffnet, kannst du drei Dinge tun:",
               "",
               "* Du kannst die Reihenfolge der Commits durch Ziehen und Ablegen ändern.",
-              "* Du kannst Git sagen, einen Commit beim Rebase zu ignorieren -- im Dialog durch die Schaltfläche `pick` dargestellt.",
-              "* Außerdem kannst du Commit zusammenfassen (squash). Leider wird das hier nicht unterstützt, aber in echtem Git fasst es Commits zu einem zusammen.",
+              "* Du kannst einen Commit beim Rebase ignorieren, indem du im Dialog auf die Schaltfläche `omit` klickst. Du kannst einen Commit wieder aufnehmen, indem du auf `pick` klickst.",
+              "* Außerdem kannst du Commits zusammenfassen (squash). Leider wird das hier nicht unterstützt, aber im echten Git fasst es Commits zu einem zusammen.",
               "",
               "Super! Schauen wir uns ein Beispiel an."
             ]
@@ -608,7 +608,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Wenn du die Schaltfläche anklickst wird sich der Rebase-Dialog öffnen. Veränder die Reihenfolge der Commits oder klick bei einigen auf `pick` und schau dir das Ergebnis an."
+              "Wenn du die Schaltfläche anklickst, wird sich der Rebase-Dialog öffnen. Verändere die Reihenfolge der Commits oder klicke bei einigen auf `pick` bzw. `omit` und schaue dir das Ergebnis an."
             ],
             "afterMarkdowns": [
               "Bämm! Git hat die Commits genau so kopiert, wie du es ausgewählt hast."
