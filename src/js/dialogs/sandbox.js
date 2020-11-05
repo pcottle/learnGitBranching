@@ -715,4 +715,63 @@ exports.dialog = {
       ]
     }
   }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Witaj w Learn Git Branching!',
+        '',
+        'Celem tej aplikacji jest zilustrowanie rozległych i złożonych relacji pomiędzy procesami związanymi z pracą z GIT-em.',
+        'Mam nadzieję, że ci się to spodoba i może nawet się czegoś nauczysz!',
+        '"Learn Git Branching" to najbardziej wizualny i interaktywny sposób na naukę GIT-a w sieci.',
+        'Będziesz miał do czynienia z ekscytującymi poziomami wraz z pokazaniem krok po kroku potężnych funkcji, a może nawet z odrobiną zabawy po drodze.',
+        '',
+        'Jeśli jesteś początkujący, po prostu zacznij od pierwszego poziomu.',
+        'Jeśli znasz już podstawy GIT-a, wypróbuj niektóre z naszych późniejszych, bardziej wymagających poziomów.',
+        '',
+        '# Demo!',
+        '',
+        'Jeśli nie widziałeś tej demonstracji, możesz ją obejrzeć tutaj:',
+        '',
+        '[https://pcottle.github.io/learnGitBranching/?demo](https://pcottle.github.io/learnGitBranching/?demo)',
+        '',
+        'Masz dość tego okna? Dodaj `?NODEMO` do adresu URL, aby się go pozbyć, w ten sposób:',
+        '',
+        '[https://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Komendy GIT-a',
+        '',
+        'W trybie piaskownicy dostępna jest duża liczba poleceń GIT. Między innymi',
+        '',
+        ' * commit',
+        ' * branch',
+        ' * checkout',
+        ' * cherry-pick',
+        ' * reset',
+        ' * revert',
+        ' * rebase',
+        ' * merge'
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Dzielenie się jest Fajne!',
+        '',
+        'Podziel się tymi drzewami GIT-a z przyjaciółmi, wpisując `export tree` oraz `import tree`.',
+        '',
+        'Czy masz coś, co warto wiedzieć o GIT-cie? Spróbuj zbudować swój poziom wpisując `build level` lub spróbuj poziomu znajomego wpisując `import level`',
+        '',
+        'Aby zobaczyć wszystkie polecenia, wpisz `show commands`. Pod spodem są "małe skarby" jak `undo`(cofnij) i `reset`',
+        '',
+        'Na razie zacznijmy od wpisania `levels`...'
+      ]
+    }
+  }],
 };

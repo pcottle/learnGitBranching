@@ -17,7 +17,8 @@ exports.level = {
     "ru_RU": "Слияния веток в Git",
     "uk": "Злиття гілок в Git",
     "vi": "Gộp nhánh trong Git",
-    "sl_SI": "Merganje v Gitu"
+    "sl_SI": "Merganje v Gitu",
+    "pl"   : "Łączenie/Scalanie w GIT (merge)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before master)",
@@ -35,7 +36,8 @@ exports.level = {
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
     "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)",
     "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước master)",
-    "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred master)'
+    "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred master)',
+    "pl"   : "Pamiętaj, aby commit-ować w określonej kolejności (bugFix przed master)"
   },
   "disabledMap": {
     "git revert": true
@@ -1140,6 +1142,75 @@ exports.level = {
               "* Mergeaj branch `bugFix` v `master` z `git merge`",
               "",
               "*Pomni, vedno lahko spet pogledaš ta dialog z \"objective\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Łączenie (scalanie) Branch-y",
+              "",
+              "Świetnie! Już wiemy, jak stworzyć commit-y oraz jak tworzyć branch-e. Teraz musimy się nauczyć jak połączyć pracę dwóch różnych branch-y. Stwórzmy nowy branch, wprowadzamy nową funkcjonalność, a następnie je połączymy.",
+              "",
+              "Pierwszą metodą łączenia pracy, którą zamierzamy użyć, jest `git merge`. Połączenie te tworzy w GIT specjalny commit, który ma dwóch różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych dwóch rodziców oraz zbiory wszystkich swoich przodków\".",
+              "",
+              "Łatwiej będzie to wizualizować, zobaczymy to w następnym widoku."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mamy tutaj dwa branch-e (gałęzie); każdy ma po jednym commit-cie, które są unikalne. Oznacza to, że żadna z branch-y nie zawiera \"całej pracy\", które jest w naszym repozytorium. Naprawmy to za pomocą funkcji marge.",
+              "",
+              "Użyjmy `merge` aby połączyć branch `bugFix` z `master`."
+            ],
+            "afterMarkdowns": [
+              "Wow! Widzialiście to? Przede wszystkim \"master\" wskazuje teraz na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa zatwierdzenia od `master`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `master` zawiera teraz całą pracę w repozytorium.",
+              "",
+              "Czy widziałeś również, jak zmieniły się kolory zatwierdzeń? Aby Ci pomóc w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Każdy commit staje się kolorem wynikającym z mieszania kolorów wszystkich branch-y, które commit-ujesz",
+              "",
+              "Więc tutaj widzimy, że kolor branch-a `master` uczestniczy w miksowaniu wszystkich commit-ów, ale kolor branch-u `bugFix` już nie. Naprawmy to..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Połączmy brach `master` z branch `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Ponieważ `bugFix` był przodkiem branch-a `master`, GIT nie musiał wykonywać żadnej pracy; po prostu przeniosł branch `bugFix` do tego samego commit-a, do którego był dołączony branch `master`.",
+              "",
+              "Teraz wszystkie commit-y mają ten sam kolor, co oznacza, że każdy branch zawiera całą pracę znajdującą się w repozytorium! Super!"
+            ],
+            "command": "git checkout bugFix; git merge master",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby ukończyć ten poziom, wykonaj następujące czynności:",
+              "",
+              "* Stwórz nowy branch o nazwie `bugFix`",
+              "* Przełącz się na branch `bugFix`, używając polecenia `git checkout bugFix`",
+              "* Zrób commit",
+              "* Wróć do branch-u `master` za pomocą polecenia `git checkout`",
+              "* Zrób ponownie commit",
+              "* Złącz branch `bugFix` z branch-em `master` używając polecenia `git merge`",
+              "",
+              "*Pamiętaj: zawsze możesz zobaczyć tą wiadomość ponownie, wpisując \"objective\"!*"
             ]
           }
         }

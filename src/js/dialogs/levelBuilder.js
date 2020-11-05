@@ -305,4 +305,23 @@ exports.dialog = {
       ]
     }
   }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Witamy w kreatorze poziomów!',
+        '',
+        'Oto główne kroki:',
+        '',
+        '  * Przygotuj środowisko początkowe za pomocą poleceń GIT-a',
+        '  * Zdefiniuj drzewo początkowe za pomocą ```define start```',
+        '  * Wprowadź serię poleceń GIT-a, które tworzą (optymalne) rozwiązanie',
+        '  * Utwórz drzewo celów za pomocą ```define goal```. Określenie celu określa również rozwiązanie',
+        '  * Opcjonalnie utwórz podpowiedzi (wskazówkę) za pomocą ```define hint```',
+        '  * Nadaj nazwę za pomocą ```define name```',
+        '  * Opcjonalnie, utwórz wiadomość początkową za pomocą ```edit dialog```',
+        '  * Wpisz polecenie ```finish```, aby wyświetlić swój poziom w JSON!'
+      ]
+    }
+  }],
 };
