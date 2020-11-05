@@ -15,7 +15,8 @@ exports.level = {
     'ru_RU': 'Знакомство с Git Commit ',
     'uk': 'Знайомство з комітами в Git',
     'vi': 'Giới thiệu về Git Commit',
-    'sl_SI': "Uvod v Git Commit"
+    'sl_SI': "Uvod v Git Commit",
+    'pl'   : "Wprowadzenie do zatwierdzeń GIT-a (commit)"
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -36,7 +37,8 @@ exports.level = {
     "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)",
     "uk": "Спробуй двічі виконати команду 'git commit' ;)",
     'vi': "Đơn giản là cứ gõ 'git commit' 2 lần",
-    'sl_SI': "Preprosto dvakrat vpiši 'git commit' in zaključi!"
+    'sl_SI': "Preprosto dvakrat vpiši 'git commit' in zaključi!",
+    "pl"   : "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!"
   },
   "disabledMap": {
     "git revert": true
@@ -719,6 +721,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Čas je, da poizkusiš sam! Ko se to okno zapre, naredi dva commita, da dokončaš to stopnjo."
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Zatwierdzenia GIT-a (commit)",
+              "`commit` w repozytorium GIT-a rejestruje migawkę wszystkich (śledzonych) plików w twoim katalogu. To jak gigantyczne kopiowanie i wklejanie, ale jeszcze lepsze!",
+              "",
+              "GIT stara się, aby commit-y były tak lekkie, jak to tylko możliwe, więc nie kopiuje na ślepo całego katalogu za każdym razem, gdy zatwierdzasz zmiany. Możesz (jeśli to możliwe) skompresować zatwierdzenie jako zestaw zmian (lub _\"delta\"_) między jedną wersją w repozytorium a następną.",
+              "",
+              "GIT przechowuje również historię, kiedy dokonano zatwierdzenia. Dlatego większość commit-ów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Utrzymanie historii jest świetne dla wszystkich, którzy pracują nad projektem!",
+              "",
+              "Jest mnóstwo rzeczy do zagłębienia, ale na razie możesz myśleć o commit-ach jako migawkach projektu. Zatwierdzenia są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Zobaczmy, jak to wygląda w praktyce. Po prawej stronie mamy wizualizację (małego) repozytorium GIT-a. Istnieją dwa zatwierdzenia:\n początkowy commit `C0`, a następnie po nim commit `C1`, które mogą mieć kilka interesujących zmian.",
+              "",
+              "Kliknij poniższy przycisk, aby dokonać nowy commit."
+            ],
+            "afterMarkdowns": [
+              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako zatwierdzenie (commit). Utworzony przez nas commit ma rodzica `C1`, który odnosi się do commit-a, na który został oparty."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Śmiało i wypróbuj to sam! Po zamknięciu tego okna wykonaj dwa zatwierdzenia (tj. commit-y), aby ukończyć poziom."
             ]
           }
         }
