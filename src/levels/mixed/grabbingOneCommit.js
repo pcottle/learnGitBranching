@@ -288,7 +288,7 @@ exports.level = {
             "markdowns": [
               "## Lokale Commit-Haufen",
               "",
-              "Folgende Situation habe ich beim Entwickeln des öfteren: ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
+              "Folgende Situation habe ich beim Entwickeln des Öfteren: ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
               "",
               "Die committe ich auch immer wieder, je weiter die Suche mich trägt; natürlich in einem lokalen Branch. Schließlich finde ich den Bug, fixe ihn und freue mich!",
               "",
@@ -312,7 +312,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um da Level zu schaffen musst du irgendwie sicherstellen, dass `master` den Commit bekommt, auf den `bugFix` zeigt."
+              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um das Level zu schaffen musst du irgendwie sicherstellen, dass `master` den Commit bekommt, auf den `bugFix` zeigt."
             ]
           }
         }

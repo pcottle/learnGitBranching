@@ -103,7 +103,7 @@ exports.level = {
             "markdowns": [
               "## Die Lösung",
               "",
-              "Erstelle einen Branch der feature heißt und pushe diesen auf den Server. Setze den lokalen Master-Branch zurück, dass er mit dem Origin-Master-Branch synchron ist. Dies könnte sonst später zu weiteren Komplikationen führen, wenn weiter pulls durchgeführt und Commits von anderen mit deinen in Konflikt stehen."
+              "Erstelle einen Branch der feature heißt und pushe diesen auf den Server. Setze den lokalen Master-Branch zurück, dass er mit dem Origin-Master-Branch synchron ist. Dies könnte sonst später zu Komplikationen führen, wenn weitere `pull`s durchgeführt und Commits von anderen mit deinen in Konflikt stehen."
             ]
           }
         }

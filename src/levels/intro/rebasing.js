@@ -118,7 +118,7 @@ exports.level = {
               "",
               "Der zweite Weg um Inhalte aus verschiedenen Branches zu kombinieren ist `git rebase`. Rebasen nimmt im Prinzip eine Menge von Commits, \"kopiert\" sie und packt sie auf etwas anderes drauf.",
               "",
-              "Auch wenn das erst mal komisch klingt liegt der Vorteil von Rebase darin, dass man es benutzen kann um hübsch lineare Abfolgen von Commits zu erhalten. Das Commit-Protokoll des Repositorys wird durch Rebase eine ganze Ecke einfacher aussehen, weil Merge Commits vermieden werden.",
+              "Auch wenn das erst mal komisch klingt, liegt der Vorteil von Rebase darin, dass man es benutzen kann um hübsch lineare Abfolgen von Commits zu erhalten. Das Commit-Protokoll des Repositorys wird durch Rebase eine ganze Ecke einfacher aussehen, weil Merge Commits vermieden werden.",
               "",
               "Schauen wir's uns mal in Aktion an ..."
             ]

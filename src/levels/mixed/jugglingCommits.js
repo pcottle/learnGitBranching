@@ -281,14 +281,14 @@ exports.level = {
             "markdowns": [
             "Um das zu schaffen gehen wir wie folgt vor:",
               "",
-              "* Wir sortieren die Commits mit `git rebase -i` so um, dass der, den wir ändern wollen, ganz oben liegt.",
+              "* Wir sortieren die Commits mit `git rebase -i` so um, dass der Commit, den wir ändern wollen, ganz oben liegt.",
               "* Wir verändern den Commit mit `git commit --amend`.",
-              "* Dann sortieren wir die Commit mit einem erneuten `git rebase -i` wieder in die alte Reihenfolge.",
+              "* Dann sortieren wir die Commits mit einem erneuten `git rebase -i` wieder in die alte Reihenfolge.",
               "* Schließlich aktualisieren wir den `master` auf das Ende unseres fertigen Baums, um diesen Level abzuschließen.",
               "",
               "Es gibt sehr viele Wege um das Endziel dieses Levels zu erreichen (ich sehe, du schielst auf `cherry-pick`) und wir werden uns später noch andere ansehen. Aber für's erste lass uns diese Methode ausprobieren.",
               "",
-              "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren bekommen sie jedesmal ein Apostroph hinzugefügt (weil sie jedesmal kopiert werden). Ein weiteres Apostroph entsteht durch den `git commit --amend`.",
+              "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren, bekommen sie jedes Mal ein Apostroph hinzugefügt (weil sie jedes Mal kopiert werden). Ein weiteres Apostroph entsteht durch den `git commit --amend`.",
               "",
               "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
             ]

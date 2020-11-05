@@ -461,7 +461,7 @@ exports.level = {
             "markdowns": [
               "## Git Tags",
               "",
-              "Wie du aus den vorhergehenden Levels weißt sind Branches einfach durch die Gegend zu schieben und zeigen auf verschiedene Commits, während die Arbeit in ihnen fortschreitet. Ein Branch wird oft verändert, manchmal nur temporär, und ist ständig in Bewegung.",
+              "Wie du aus den vorhergehenden Levels weißt, sind Branches einfach durch die Gegend zu schieben und zeigen auf verschiedene Commits, während die Arbeit in ihnen fortschreitet. Ein Branch wird oft verändert, manchmal nur temporär, und ist ständig in Bewegung.",
               "",
               "Da das so ist fragst du dich vielleicht, ob es nicht eine Möglichkeit gibt, eine bestimmte Stelle in deiner Projekt-History *permanent* zu kennzeichnen. Kann man nicht zum Beispiel für große Releases und Meilensteine nicht einen Commit mit etwas festerem kennzeichnen, als mit einem Branch-Namen?",
               ""
@@ -487,7 +487,7 @@ exports.level = {
             "Lass uns ein Tag bei `C1` anlegen und damit die Version 1 unseres Prototyps markieren."
             ],
             "afterMarkdowns": [
-              "Peng! Ziemlich einfach. Wir haben das Tag `v1` genannt und lassen es auf `C1` zeigen. Wenn du den Commit weglässt wird das Tag für den Commit erzeugt, auf den `HEAD` zeigt."
+              "Peng! Ziemlich einfach. Wir haben das Tag `v1` genannt und lassen es auf `C1` zeigen. Wenn du den Commit weglässt, wird das Tag für den Commit erzeugt, auf den `HEAD` zeigt."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -499,7 +499,7 @@ exports.level = {
             "markdowns": [
               "Um diesen Level zu schaffen, erstelle einfach die Tags wie sie in der Zielbeschreibung stehen und mach dann einen Checkout auf `v1`. Beachte wie du dabei in den \"Detached HEAD\" Zustand gehst -- das liegt daran, dass du keine Commits direkt auf das `v1` Tag machen kannst.",
               "",
-              "Im nächsten Level schauen wir uns dann interessantere Anwendungsfälle für Tags an."
+              "Im nächsten Level schauen wir uns dann einen interessanteren Anwendungsfall für Tags an."
             ]
           }
         }

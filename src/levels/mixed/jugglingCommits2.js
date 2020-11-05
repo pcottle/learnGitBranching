@@ -319,7 +319,7 @@ exports.level = {
               "",
               "Du solltest \"Jonglieren mit Commits\" (den vorherigen Level) bestanden haben, bevor du dich an diesem hier versuchst.",
               "",
-              "Wie du im letzten Level gesehen hast haben wir `git rebase -i` genutzt, um die Commits neu anzuordnen. Sobald der Commit, den wir ändern wollte, ganz oben war, konnten wir das auch einfach mit `git commit --amend` tun. Danach haben wir die alte Reihenfolge wiederhergestellt.",
+              "Wie du im letzten Level gesehen hast, haben wir `git rebase -i` genutzt, um die Commits neu anzuordnen. Sobald der Commit, den wir ändern wollten, ganz oben war, konnten wir ihn einfach mit `git commit --amend` anpassen. Danach haben wir die alte Reihenfolge wiederhergestellt.",
               "",
               "Das einzige Problem ist hier, dass da eine Menge Umsortieren stattfindet, was zu Rebase-Konflikten führen kann. Schauen wir uns also eine Methode mit `git cherry-pick` an."
             ]
@@ -329,7 +329,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Wie du dich erinnerst macht `git cherry-pick` eine Kopie des angegebenen Commits und fügt sie an `HEAD` an (es sei denn der Commit ist ein Vorgänger von `HEAD`).",
+              "Wie du dich erinnerst, macht `git cherry-pick` eine Kopie des angegebenen Commits und fügt sie an `HEAD` an (es sei denn der Commit ist ein Vorgänger von `HEAD`).",
               "",
               "Hier eine kleine Demo zur Erinnerung:"
             ],

@@ -417,7 +417,7 @@ exports.level = {
             "markdowns": [
               "## Einen Feature Branch reintegrieren",
               "",
-              "Nun da du mit `fetch`, `pull`, und `push` vertraut bist sollten wir diese Fähigkeiten mit einem neuen Arbeitsablauf auf die Probe stellen.",
+              "Nun da du mit `fetch`, `pull`, und `push` vertraut bist, sollten wir diese Fähigkeiten mit einem neuen Arbeitsablauf auf die Probe stellen.",
               "",
               "Für Entwickler in großen Projekten ist es nicht ungewöhnlich ihre Arbeit in Feature Branches (von `master` abgeleitet) zu erledigen und dann diese Inhalte zu reintegrieren, wenn sie fertig sind. Das ist ähnlich dem vorherigen Level (in dem ein Feature Branch auf den Server geschoben wird), nur mit einem zusätzlichen Schritt.",
               "",
@@ -434,7 +434,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Schauen wir uns zur Erinnerung schnell noch mal an wie man den `master` aktualisiert und seine Commits pusht."
+              "Schauen wir uns zur Erinnerung schnell noch mal an, wie man den `master` aktualisiert und seine Commits pusht."
             ],
             "afterMarkdowns": [
               "Wir haben hier zwei Befehle ausgeführt, die:",

@@ -459,7 +459,7 @@ exports.level = {
             "markdowns": [
               "### Der \"~\"-Operator",
               "",
-              "Nehmen wir an du willst viele Schritte im Commit-Baum zurückgehen. Dann wird es schnell mühsam immer wieder `^` einzugeben; deswegen gibt es in Git den Tilde-Operator `~`.",
+              "Nehmen wir an, du willst viele Schritte im Commit-Baum zurückgehen. Dann wird es schnell mühsam immer wieder `^` einzugeben; deswegen gibt es in Git den Tilde-Operator `~`.",
               "",
               "Der Tilde-Operator akzeptiert optional eine Zahl, mit der du angeben kannst, wieviele Vorgänger du zurückgehen willst. Keine Anzahl anzugeben, bewirkt dasselbe wie `~1`."
             ]
@@ -469,7 +469,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Geben wir mit `~` an wieviele Commits wir zurückgehen wollen."
+              "Geben wir mit `~` an, wieviele Commits wir zurückgehen wollen."
             ],
             "afterMarkdowns": [
               "Peng! So einfach -- relative Referenzen sind super."
@@ -486,7 +486,7 @@ exports.level = {
               "",
               "Du bist jetzt Experte in Sachen relative Referenzen, also lass sie uns mal richtig einsetzen.",
               "",
-              "Das Verschieben von Branches ist einer der häufigsten Anwendungsfälle dafür. Du kannst einen Branchnamen direkt auf einen bestimmten Commit setzen (_ohne_ ihn vorher ausgecheckt haben zu müssen!) indem du den Parameter `-f` benutzt. So in etwa:",
+              "Das Verschieben von Branches ist einer der häufigsten Anwendungsfälle dafür. Du kannst einen Branchnamen direkt auf einen bestimmten Commit setzen (_ohne_ ihn vorher ausgecheckt haben zu müssen!), indem du den Parameter `-f` benutzt. So in etwa:",
               "",
               "`git branch -f master HEAD~3`",
               "",
