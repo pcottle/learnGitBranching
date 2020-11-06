@@ -1389,6 +1389,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
+              "*Uwaga: w wersji 2.23 GIT-a zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
+              "a jest nieco przeciążony poleceniem (robi ono kilka oddzielnych rzeczy). Lekcje tutaj będą nadal używane",
+              "`checkout` zamiast `switch`, ponieważ większość ludzi nie ma jeszcze dostępu do nowego polecenia `switch`, ale w tej aplikacja obsługuje nowe polecenie, ",
+              "jeśli chcesz możesz ją wypróbować! Możesz dowiedzieć się więcej o poleceniu <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">tutaj</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Ok! Teraz jesteś gotowy do samodzielnego tworzenia gałęzi (branching-u).",
               "Po zamknięciu tego okna, stwórz nowy branch o nazwie `bugFix` i przełącz się na ten branch.",
               "",
