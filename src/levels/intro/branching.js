@@ -117,7 +117,7 @@ exports.level = {
               "*Note: In Git version 2.23, a new command called `git switch` was introduced to eventually replace `git checkout`, ",
               "which is somewhat overloaded as a command (it does a bunch of separate things). The lessons here will still use ",
               "`checkout` instead of `switch` because most people won't have access to `switch` yet, but support for the new command ",
-              "works in the app if you want to try it out! You can [learn more here](https://git-scm.com/docs/git-switch).* "
+              "works in the app if you want to try it out! You can <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">learn more here</a>.* "
             ]
           }
         },
