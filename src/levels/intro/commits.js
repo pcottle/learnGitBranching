@@ -93,11 +93,11 @@ exports.level = {
           "options": {
             "markdowns": [
             "## Git Commits",
-              "Ein Commit in ein Git-Repository speichert eine Abbildung aller Dateien in deinem Projektverzeichnis. Es ist wie ein riesiges Kopieren und Einfügen, nur besser.",
+              "Ein Commit in einem Git-Repository speichert eine Abbildung aller Dateien in deinem Projektverzeichnis. Es ist wie ein riesiges Kopieren und Einfügen, nur besser.",
               "",
               "Allerdings will Git die Commits so schlank wie möglich halten, also kopiert es nicht einfach stur das ganze Verzeichnis jedes Mal wenn du committest. Es kann (wenn möglich) Commits als Menge von Änderungen zusammenpacken, von einer Version des Repositorys zur nächsten.",
               "",
-              "Außerdem führt Git ein Protokoll darüber welche Commits wann gemacht wurden, und welcher auf welchen folgt. Deshalb werden die Commits hier mit ihrem Vorgänger über sich gezeigt -- wir verwenden Pfeile zur Darstellung der Beziehung. Dieses Protokoll zu haben ist eine tolle Sache für jeden, der an einem Projekt arbeitet.",
+              "Außerdem führt Git ein Protokoll darüber, welche Commits wann gemacht wurden, und welcher auf welchen folgt. Deshalb werden die Commits hier mit ihrem Vorgänger über sich gezeigt -- wir verwenden Pfeile zur Darstellung der Beziehung. Dieses Protokoll zu haben ist eine tolle Sache für jeden, der an einem Projekt arbeitet.",
               "",
               "Das war jetzt eine Menge Neues, aber vorerst kannst du dir Commits einfach als Abbildungen des Projekts vorstellen. Commits sind sehr ressourcenschonend, und zwischen ihnen wechseln geht superschnell!"
             ]
@@ -122,7 +122,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Probier das committen gleich mal aus! Mach zwei Commits um den Level abzuschließen."
+              "Probier das Committen gleich mal aus! Mach zwei Commits um den Level abzuschließen."
             ]
           }
         }

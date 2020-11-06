@@ -3,7 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout master;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
-    "de_DE": "Mergen in git",
+    "de_DE": "Mergen in Git",
     "es_AR": "Mergeando en Git",
     "es_MX": "Haciendo merge en Git",
     "es_ES": "Haciendo merge en Git",

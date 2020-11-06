@@ -570,9 +570,9 @@ exports.level = {
             "markdowns": [
               "## Interaktiver Rebase",
               "",
-              "Cherry-pick ist großartig wenn du genau weißt, welche Commits du willst (_und_ ihre jeweiligen Hashes kennst) -- es ist dann schwer an Einfachheit zu überbieten.",
+              "Cherry-pick ist großartig, wenn du genau weißt, welche Commits du willst (_und_ ihre jeweiligen Hashes kennst) -- es ist dann schwer an Einfachheit zu überbieten.",
               "",
-              "Aber wie sieht es aus, wenn du die Commits nicht genau kennst, die du brauchst? Zum Glück bietet Git auch dafür eine Lösung an. Das können wir mit interaktivem Rebase machen -- die beste Art sich eine Serie von Commits in einem Rebase genau anzusehen.",
+              "Aber wie sieht es aus, wenn du die benötigten Commits nicht genau kennst? Zum Glück bietet Git auch dafür eine Lösung an. Das können wir mit interaktivem Rebase machen -- die beste Art sich eine Serie von Commits in einem Rebase genau anzusehen.",
               "",
               "Schauen wir uns die Details an ..."
             ]
@@ -586,7 +586,7 @@ exports.level = {
               "",
               "Wenn du das machst, zeigt Git dir jeden einzelnen Commit, der durch den Rebase kopiert werden würde. Es zeigt dir die Hashes und Kommentare, was gut ist um einen Überblick zu bekommen.",
               "",
-              "In echtem Git besteht dieser Dialog daraus, die Commits in einem Text-Editor angezeigt zu bekommen. Für unsere Zwecke hab ich ein kleines Dialog-Fenster gebaut, dass sich ähnlich verhält."
+              "Im \"echten\" Git werden die Commits in einem Text-Editor angezeigt (z.B. in `vim`). Für unsere Zwecke habe ich ein kleines Dialog-Fenster gebaut, das sich ähnlich verhält."
             ]
           }
         },
@@ -597,8 +597,8 @@ exports.level = {
               "Wenn sich der Dialog für den interaktiven Rebase öffnet, kannst du drei Dinge tun:",
               "",
               "* Du kannst die Reihenfolge der Commits durch Ziehen und Ablegen ändern.",
-              "* Du kannst Git sagen, einen Commit beim Rebase zu ignorieren -- im Dialog durch die Schaltfläche `pick` dargestellt.",
-              "* Außerdem kannst du Commit zusammenfassen (squash). Leider wird das hier nicht unterstützt, aber in echtem Git fasst es Commits zu einem zusammen.",
+              "* Du kannst einen Commit beim Rebase ignorieren, indem du im Dialog auf die Schaltfläche `omit` klickst. Du kannst einen Commit wieder aufnehmen, indem du auf `pick` klickst.",
+              "* Außerdem kannst du Commits zusammenfassen (squash). Leider wird das hier nicht unterstützt, aber im echten Git fasst es Commits zu einem zusammen.",
               "",
               "Super! Schauen wir uns ein Beispiel an."
             ]
@@ -608,7 +608,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Wenn du die Schaltfläche anklickst wird sich der Rebase-Dialog öffnen. Veränder die Reihenfolge der Commits oder klick bei einigen auf `pick` und schau dir das Ergebnis an."
+              "Wenn du die Schaltfläche anklickst, wird sich der Rebase-Dialog öffnen. Verändere die Reihenfolge der Commits oder klicke bei einigen auf `pick` bzw. `omit` und schaue dir das Ergebnis an."
             ],
             "afterMarkdowns": [
               "Bämm! Git hat die Commits genau so kopiert, wie du es ausgewählt hast."
@@ -621,7 +621,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau die Reihenfolge zu erzeugen die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
+              "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau die Reihenfolge zu erzeugen, die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
             ]
           }
         }
