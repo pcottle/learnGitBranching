@@ -607,9 +607,9 @@ exports.level = {
               "",
               "Du erinnerst dich von dem vorherigen Level, dass, als wir `master` als \"Ort\" beim `git push` angegeben haben, daraus sowohl die *Quelle* als auch das *Ziel* für die Operation abgeleitet wurden.",
               "",
-              "Daher fragst du dich vielleicht -- was wenn wir möchten, dass Quelle und Ziel anders sind? Was wenn du Commits von einem lokalen Branch `foo` in den Branch `bar` auf einem Server schieben möchtest?",
+              "Daher fragst du dich vielleicht -- was wenn wir möchten, dass Quelle und Ziel verschieden voneinander sind? Was wenn du Commits von einem lokalen Branch `foo` in den Branch `bar` auf einem Server schieben möchtest?",
               "",
-              "Tja, leider ist das in Git unmöglich .... ein Scherz! Natürlich ist das möglich. Git besitzt tonnenweise Flexibilität (eher zuviel, als zuwenig).",
+              "Tja, leider ist das in Git unmöglich .... ein Scherz! Natürlich ist das möglich. Git besitzt tonnenweise Flexibilität (eher zu viel, als zu wenig).",
               "",
               "Und gleich sehen wir, wie das geht ..."
             ]
@@ -623,9 +623,9 @@ exports.level = {
               "",
               "`git push origin <Quelle>:<Ziel>`",
               "",
-              "Das wird üblicherweise Refspec (Referenz-Spezifikation) genannt. Refspec ist nur ein anderer Name für einen Ort, mit dem Git etwas anfangen kann (wie mit Branch `foo` oder mit `HEAD~2`)",
+              "Das wird üblicherweise Refspec (Referenz-Spezifikation) genannt. Refspec ist nur ein anderer Name für einen Ort, mit dem Git etwas anfangen kann (wie mit Branch `foo` oder mit `HEAD~2`).",
               "",
-              "Sobald du Quelle und Ziel separat angibt, kannst du flexibel und präzise entfernte Branches ansteuern. Hier eine Demo:"
+              "Sobald du Quelle und Ziel separat angibst, kannst du flexibel und präzise entfernte Branches ansteuern. Hier eine Demo:"
             ]
           }
         },
@@ -636,7 +636,7 @@ exports.level = {
               "Vergiss nicht, `Quelle` ist jeder mögliche Ort, mit dem Git etwas anfangen kann:"
             ],
             "afterMarkdowns": [
-              "Boah! Das ist ein ziemlich abgefahrener Befehl gewesen, aber er ist sinnvoll -- Git hat `foo^` zu einem Commit aufgelöst, alle Commits die bis zu diesem einschließich noch nicht auf dem Server waren hochgeladen und dann dort das Ziel aktualisiert."
+              "Boah! Das ist ein ziemlich abgefahrener Befehl gewesen, aber er ist sinnvoll -- Git hat `foo^` zu einem Commit aufgelöst, alle Commits, die bis zu einschließlich diesem noch nicht auf dem Server waren, hochgeladen und dann dort das Ziel aktualisiert."
             ],
             "command": "git push origin foo^:master",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -659,7 +659,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um dieses Level zu schaffen versuch den dargestellten Zielzustand zu erreichen und vergiss nicht das Format:",
+              "Um dieses Level zu schaffen versuche den dargestellten Zielzustand zu erreichen und vergiss nicht das Format:",
               "",
               "`<Quelle>:<Ziel>`"
             ]

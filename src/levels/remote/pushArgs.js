@@ -630,7 +630,7 @@ exports.level = {
             "markdowns": [
               "## Push-Optionen",
               "",
-              "Großartig! Da du dich jetzt mit Remote Tracking Branches auskennst können wir anfangen, die Geheimnisse hinter `git push`, `fetch` und `pull` zu ergründen. Wir werden uns einen Befehl nach dem anderen vornehmen, aber die Funktionsweisen sind sich sehr ähnlich.",
+              "Großartig! Da du dich jetzt mit Remote Tracking Branches auskennst, können wir anfangen, die Geheimnisse hinter `git push`, `fetch` und `pull` zu ergründen. Wir werden uns einen Befehl nach dem anderen vornehmen, aber die Funktionsweisen sind sich sehr ähnlich.",
               "",
               "Zunächst schauen wir uns `git push` an. Du hast im Level über Remote Tracking schon mitbekommen, dass Git den Remote Server *und* den Branch herausbekommt, indem es sich die Eigenschaften des aktuell ausgecheckten Branches ansieht (in denen das Remote steht, das der Branch \"trackt\"). Das ist das Verhalten bei keiner Angabe weiterer Optionen -- du kannst bei `git push` aber auch folgende setzen:",
               "",
@@ -644,17 +644,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Was \"Ort\" sein soll fragst du? Das klären wir später genau, schauen wir uns zunächst ein Beispiel an:",
+              "Was \"Ort\" sein soll, fragst du? Das klären wir später genau, schauen wir uns zunächst ein Beispiel an:",
               "",
               "`git push origin master`",
               "",
               "Das bedeutet im Klartext:",
               "",
-              "\"Geh zum Branch namens `master` in meinem Repository, nimm all seine Commits, dann geh zum Branch `master` auf dem Remote namens `origin`. Leg da alles Commits ab die fehlen und sag mir wenn du fertig bist.\"",
+              "\"Geh zum Branch namens `master` in meinem Repository, nimm all seine Commits, dann geh zum Branch `master` auf dem Remote namens `origin`. Lege da alle Commits ab, die fehlen und sage mir, wenn du fertig bist.\"",
               "",
-              "Dadurch, dass wir `master` als \"Ort\" angegeben haben, weiß Git *woher* die Commits kommen und *wohin* sie sollen. Es ist im Grunde der Name der Orte, die zwischen zwei Repositorys synchronisiert werden soll.",
+              "Da wir `master` als \"Ort\" angegeben haben, weiß Git, *woher* die Commits kommen und *wohin* sie sollen. Es ist im Grunde der Name der Orte, die zwischen zwei Repositorys synchronisiert werden sollen.",
               "",
-              "Dadurch, dass wir Git alles explizit gesagt haben, was es für die Operation wissen muss (durch Angabe von Remote und Ort) ist es vollkommen egal, was gerade ausgecheckt ist."
+              "Da wir Git alles explizit gesagt haben, was es für die Operation wissen muss (durch Angabe von Remote und Ort), ist es vollkommen egal, was gerade ausgecheckt ist."
             ]
           }
         },
@@ -662,7 +662,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Schauen wir uns noch ein Beispiel an. Beachte was in diesem Fall gerade ausgecheckt ist."
+              "Schauen wir uns noch ein Beispiel an. Beachte, was in diesem Fall gerade ausgecheckt ist."
             ],
             "afterMarkdowns": [
               "Da haben wir's! `master` wurde auf dem Remote aktualisiert, weil wir beide Optionen angegeben haben."
@@ -688,7 +688,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, in diesem Level lass uns sowohl `foo` als auch `master` auf dem Remote aktualisieren. Um's spannender zu machen, ist `git checkout` in diesem Level deaktiviert."
+              "Ok, in diesem Level lass uns sowohl `foo` als auch `master` auf dem Remote aktualisieren. Um's spannender zu machen ist `git checkout` in diesem Level deaktiviert."
             ]
           }
         }
