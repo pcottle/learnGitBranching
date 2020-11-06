@@ -133,6 +133,7 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 <a href="https://github.com/tym-network"><img src="https://avatars1.githubusercontent.com/u/2879545?v=4" title="tym-network" width="80" height="80"></a>
 <a href="https://github.com/zhyu"><img src="https://avatars1.githubusercontent.com/u/1728523?v=4" title="zhyu" width="80" height="80"></a>
 <a href="https://github.com/mgarciaisaia"><img src="https://avatars1.githubusercontent.com/u/1190974?v=4" title="mgarciaisaia" width="80" height="80"></a>
+<a href="https://github.com/olsza"><img src="https://avatars1.githubusercontent.com/u/12556170?v=4" title="Olsza" width="80" height="80"></a>
 
 [//]: contributor-faces
 
@@ -161,6 +162,7 @@ And the following heroes for assisting in translating:
 * Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
 * Aliaksei Berkau ("alexeiberkov")
 * Mizunashi Mana ("mizunashi-mana")
+* Olsza
 
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 
