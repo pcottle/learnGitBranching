@@ -474,7 +474,7 @@ exports.level = {
             "markdowns": [
               "### Die Eigentümlichkeiten von `<Quelle>`",
               "",
-              "Git \"missbraucht\" den `<Quelle>`-Parameter in zwei Fällen. Diese rühren daher, dass man technisch gesehen \"nichts\" als gültige `<Quelle>` sowohl für `git push` als auch für `git fetch` angeben kann. Das macht man so:",
+              "Git \"missbraucht\" den `<Quelle>`-Parameter in zwei Fällen. Dies rührt daher, dass man technisch gesehen \"nichts\" als gültige `<Quelle>` sowohl für `git push` als auch für `git fetch` angeben kann. Das macht man so:",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",

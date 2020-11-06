@@ -551,9 +551,9 @@ exports.level = {
             "markdowns": [
               "### Git Describe",
               "",
-              "Weil Tags so super als \"Anker\" im Repository dienen können bietet Git einen Befehl um zu *beschreiben* wo du dich relativ zum nächsten \"Anker\" (also Tag) befindest. Und der heißt `git describe`.",
+              "Weil Tags so super als \"Anker\" im Repository dienen können, bietet Git einen Befehl um zu *beschreiben*, wo du dich relativ zum nächsten \"Anker\" (also Tag) befindest. Und der heißt `git describe`.",
               "",
-              "Er hilft dir dabei, dir einen Überblick zu verschaffen nachdem du viele Commits im Log zurück- oder vorgegangen bist; das kann vorkommen nachdem du ein `git bisect` (eine Fehlersuche) abgeschlossen hast oder wenn du dich an den Rechner eines Kollegen setzt, der gerade aus dem Urlaub gekommen ist."
+              "Er hilft dir dabei, dir einen Überblick zu verschaffen nachdem du viele Commits im Log zurück- oder vorgegangen bist; das kann vorkommen, nachdem du ein `git bisect` (eine Fehlersuche) abgeschlossen hast oder wenn du dich an den Rechner eines Kollegen setzt, der gerade aus dem Urlaub gekommen ist."
             ]
           }
         },
@@ -565,7 +565,7 @@ exports.level = {
               "",
               "`git describe <Ref-Name>`",
               "",
-              "Dabei ist `<Ref-Name>` jeder beliebige Name, der einem Commit zugeordnet ist (Branch, Tag etc). Wenn du keinen angibst benutzt Git `HEAD`, also den aktuellen Checkout.",
+              "Dabei ist `<Ref-Name>` jeder beliebige Name, der einem Commit zugeordnet ist (Branch, Tag etc). Wenn du keinen angibst, benutzt Git `HEAD`, also den aktuellen Checkout.",
               "",
               "Die Befehlsausgabe sieht so aus:",
               "",
@@ -573,7 +573,7 @@ exports.level = {
               "",
               "`<Tag-Name>` ist dabei der nächstliegende Tag in den Vorgänger-Commits, `<Anzahl Commits>` zeigt an, wieviele Commits dieses Tag entfernt ist und `<Hash>` ist das SHA des Commits, auf den HEAD zeigt.",
               "",
-              "**Achtung**: `<Anzahl Commits>` und `<Hash>` erscheint nur, wenn HEAD nicht auf ein Tag zeigt. `git describe` verarbeitet standardmässig nur annotierte Tags. Um nicht annotierte tags zu sehen, verwende bitte`git describe --tags`."
+              "**Achtung**: `<Anzahl Commits>` und `<Hash>` erscheint nur, wenn HEAD nicht auf ein Tag zeigt. `git describe` verarbeitet standardmäßig nur annotierte Tags. Um nicht annotierte Tags zu sehen, verwende bitte `git describe --tags`."
             ]
           }
         },
