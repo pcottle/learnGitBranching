@@ -134,6 +134,7 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 <a href="https://github.com/zhyu"><img src="https://avatars1.githubusercontent.com/u/1728523?v=4" title="zhyu" width="80" height="80"></a>
 <a href="https://github.com/mgarciaisaia"><img src="https://avatars1.githubusercontent.com/u/1190974?v=4" title="mgarciaisaia" width="80" height="80"></a>
 <a href="https://github.com/olsza"><img src="https://avatars1.githubusercontent.com/u/12556170?v=4" title="Olsza" width="80" height="80"></a>
+
 [//]: contributor-faces
 
 ## Helpful Folks
