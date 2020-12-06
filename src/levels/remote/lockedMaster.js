@@ -19,7 +19,7 @@ exports.level = {
     "en_US": "Locked Master",
     "de_DE": "Gesperrter Master-Branch",
     "ru_RU": "Заблокированная ветвь master",
-    "ru_RU": "Заблокована гілка master",
+    "uk": "Заблокована гілка master",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
     "pt_BR": "Master bloqueado",
