@@ -78,7 +78,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Here's a repository where we have some work in branch `side` that we want to copy to `master`. This could be accomplished through a rebase (which we have already learned), but let's see how cherry-pick performs."
+              "Here's a repository where we have some work in branch `side` that we want to copy to `main`. This could be accomplished through a rebase (which we have already learned), but let's see how cherry-pick performs."
             ],
             "afterMarkdowns": [
               "That's it! We wanted commits `C2` and `C4` and git plopped them down right below us. Simple as that!"
@@ -135,7 +135,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ici le dépôt que nous avons contient du travail dans la branche `side`, que nous voulons copier dans `master`. Cela pourrait être fait avec un rebase (que nous avons déjà appris), mais voyons comment cherry-pick fonctionne."
+              "Ici le dépôt que nous avons contient du travail dans la branche `side`, que nous voulons copier dans `main`. Cela pourrait être fait avec un rebase (que nous avons déjà appris), mais voyons comment cherry-pick fonctionne."
             ],
             "afterMarkdowns": [
               "Voilà ! Nous voulions les commits `C2` et `C4` et git les a fait apparaître juste sous nos jambes. Aussi simple que ça !"
@@ -192,7 +192,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Acá tenemos un repositorio con algo de trabajo en la rama `side` que queremos copiar a `master`. Podríamos lograrlo con un rebase (y ya aprendimos cómo), pero veamos cómo se comporta cherry-pick."
+              "Acá tenemos un repositorio con algo de trabajo en la rama `side` que queremos copiar a `main`. Podríamos lograrlo con un rebase (y ya aprendimos cómo), pero veamos cómo se comporta cherry-pick."
             ],
             "afterMarkdowns": [
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
@@ -249,7 +249,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "A continuación tenemos un repositorio con algo de trabajo en la rama `side` que queremos copiar a `master`. Podríamos lograrlo con un rebase (y ya aprendimos cómo), pero veamos cómo se comporta cherry-pick."
+              "A continuación tenemos un repositorio con algo de trabajo en la rama `side` que queremos copiar a `main`. Podríamos lograrlo con un rebase (y ya aprendimos cómo), pero veamos cómo se comporta cherry-pick."
             ],
             "afterMarkdowns": [
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
@@ -306,7 +306,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Aqui está um repositório onde temos algum trabalho no ramo `side` que desejamos copiar para o `master`. Isso poderia ser obtido por meio de um rebase (que já aprendemos), mas vamos ver como o cherry-pick se sai."
+              "Aqui está um repositório onde temos algum trabalho no ramo `side` que desejamos copiar para o `main`. Isso poderia ser obtido por meio de um rebase (que já aprendemos), mas vamos ver como o cherry-pick se sai."
             ],
             "afterMarkdowns": [
               "É isso! Queríamos os commits `C2` e `C4` e o git os inseriu logo abaixo de nós. Simples assim!"
@@ -363,7 +363,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Aquí está un repositorio onde hai algún traballo na rama `side` que desexamos copiar para a rama `master`. Iso podería ser obtido por medio dun rebase (que xa aprendemos), pero imos ver como o resolve cherry-pick."
+              "Aquí está un repositorio onde hai algún traballo na rama `side` que desexamos copiar para a rama `main`. Iso podería ser obtido por medio dun rebase (que xa aprendemos), pero imos ver como o resolve cherry-pick."
             ],
             "afterMarkdowns": [
               "¡Eso é! Queríamos os commits `C2` e `C4` e git insertounos por baixo de nós. ¡Moi sinxelo!"
@@ -420,7 +420,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "這裡有一個 repo，在 `side` branch 中，我們有一些 commit 想要複製到 `master` branch 上，這可以透過一個 rebase 來完成（我們之前已經學到了），但是讓我們看看 `git cherry-pick` 怎麼做。"
+              "這裡有一個 repo，在 `side` branch 中，我們有一些 commit 想要複製到 `main` branch 上，這可以透過一個 rebase 來完成（我們之前已經學到了），但是讓我們看看 `git cherry-pick` 怎麼做。"
             ],
             "afterMarkdowns": [
               "就是那樣！我們複製了 `C2` 以及 `C4` 並且把它們放到我們的後面，很簡單吧！"
@@ -433,7 +433,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這個關卡，只需要從三個 branch 複製幾個 commit 到 `master` 下面，你可以從視覺化的目標看到我們需要哪些 commit。",
+              "要完成這個關卡，只需要從三個 branch 複製幾個 commit 到 `main` 下面，你可以從視覺化的目標看到我們需要哪些 commit。",
               ""
             ]
           }
@@ -476,7 +476,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这里有一个仓库, 我们想将 `side` 分支上的工作复制到 `master` 分支，你立刻想到了之前学过的 `rebase` 了吧？但是咱们还是看看 `cherry-pick` 有什么本领吧。"
+              "这里有一个仓库, 我们想将 `side` 分支上的工作复制到 `main` 分支，你立刻想到了之前学过的 `rebase` 了吧？但是咱们还是看看 `cherry-pick` 有什么本领吧。"
             ],
             "afterMarkdowns": [
               "这就是了！我们只需要提交记录 `C2` 和 `C4`，所以 Git 就将被它们抓过来放到当前分支下了。 就是这么简单!"
@@ -533,7 +533,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hier haben wir ein Repository mit einigem Zeugs im Branch `side`, das wir in den Branch `master` kopieren wollen. Das könnten wir mit einem Rebase machen (wie bereits gesehen), aber schauen wir mal, wie das mit `cherry-pick` geht."
+              "Hier haben wir ein Repository mit einigem Zeugs im Branch `side`, das wir in den Branch `main` kopieren wollen. Das könnten wir mit einem Rebase machen (wie bereits gesehen), aber schauen wir mal, wie das mit `cherry-pick` geht."
             ],
             "afterMarkdowns": [
               "Das war's! Wir wollten die Commits `C2` und `C4` und Git hat die einfach unter unseren aktuellen Checkout kopiert. So einfach ist das."
@@ -546,7 +546,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu schaffen musst du einfach nur einige Commits aus den drei gezeigten Branches in den `master` kopieren. Der Zielbaum zeigt dir, welche.",
+              "Um diesen Level zu schaffen musst du einfach nur einige Commits aus den drei gezeigten Branches in den `main` kopieren. Der Zielbaum zeigt dir, welche.",
               ""
             ]
           }
@@ -590,7 +590,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "このリポジトリには、現在`side`ブランチから`master`にコピーしたいコードがあります。この前に学んだrebaseコマンドでも実現可能ですが、ここではcherry-pickの動作を見ていきましょう。"
+              "このリポジトリには、現在`side`ブランチから`main`にコピーしたいコードがあります。この前に学んだrebaseコマンドでも実現可能ですが、ここではcherry-pickの動作を見ていきましょう。"
             ],
             "afterMarkdowns": [
               "これだけで終わりです！コミット`C2` と `C4`を取得したかったわけですが、gitが現在の位置の直下に落としてくれました。単純ですね！"
@@ -647,7 +647,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Вот репозиторий, где есть некие изменения в ветке `side`, которые мы хотим применить и в ветку `master`. Мы можем сделать это при помощи команды rebase, которую мы уже прошли, но давай посмотрим, как cherry-pick справится с этой задачей."
+              "Вот репозиторий, где есть некие изменения в ветке `side`, которые мы хотим применить и в ветку `main`. Мы можем сделать это при помощи команды rebase, которую мы уже прошли, но давай посмотрим, как cherry-pick справится с этой задачей."
             ],
             "afterMarkdowns": [
               "Вуаля! Мы хотели перенести коммиты `C2` и `C4`, Git дал нам их там, где они нужны. Всё просто!"
@@ -704,7 +704,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "여기 repository가 있습니다. `master`와 master로 복사하고 싶은 작업이 있는 브랜치 `side`가 있습니다. 이것은 rebase를 통해서 할 수 있습니다(이미 배운), 하지만 체리-픽이 이 작업을 어떻게 수행하는지 확인해 봅시다."
+              "여기 repository가 있습니다. `main`와 master로 복사하고 싶은 작업이 있는 브랜치 `side`가 있습니다. 이것은 rebase를 통해서 할 수 있습니다(이미 배운), 하지만 체리-픽이 이 작업을 어떻게 수행하는지 확인해 봅시다."
             ],
             "afterMarkdowns": [
               "됬습니다! 우리는 `C2`와 `C4` 커밋을 원했고 git이 우리가 원하는 곳 바로 밑에 톡 떨어뜨려 줬습니다. 아주 간단하죠!"
@@ -761,7 +761,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ми бачимо репозиторій де є певні зміни в гілці `side` які ми хочемо скопіювати в  `master`. Для цього можна використати rebase (який ми вже вивчили), але подивимось як з цим впорається cherry-pick."
+              "Ми бачимо репозиторій де є певні зміни в гілці `side` які ми хочемо скопіювати в  `main`. Для цього можна використати rebase (який ми вже вивчили), але подивимось як з цим впорається cherry-pick."
             ],
             "afterMarkdowns": [
               "Овва! Ми хотіли коміти `C2` та `C4` і git додав їх до поточного розташування. Просто й доступно!"
@@ -818,7 +818,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ở đây ta có một kho chứa mà ta muốn sao chép thành quả công việc từ nhánh `side` sang nhánh `master`. Có thể dùng rebase để làm việc này (kỹ thuật mà ta đã học), nhưng hãy xem thử cherry-pick làm điều này ra sao."
+              "Ở đây ta có một kho chứa mà ta muốn sao chép thành quả công việc từ nhánh `side` sang nhánh `main`. Có thể dùng rebase để làm việc này (kỹ thuật mà ta đã học), nhưng hãy xem thử cherry-pick làm điều này ra sao."
             ],
             "afterMarkdowns": [
               "Thế thôi! Chúng ta chỉ cần các commit `C2` và` C4`, vì vậy Git sẽ lấy chúng và đặt chúng dưới nhánh hiện tại. Thật đơn giản!"
@@ -875,7 +875,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tu je repozitorij, kjer imamo nekaj dela na branchu `side`, ki bi ga radi skopirali na `master`. To bi lahko dosegli z rebase-om (kar smo se že naučili), ampak poglejmo kako se odreže cherry-pick."
+              "Tu je repozitorij, kjer imamo nekaj dela na branchu `side`, ki bi ga radi skopirali na `main`. To bi lahko dosegli z rebase-om (kar smo se že naučili), ampak poglejmo kako se odreže cherry-pick."
             ],
             "afterMarkdowns": [
               "To je to! Želeli smo commita `C2` in `C4` in git ju je prilimal točno pod nas. Preprosto!"

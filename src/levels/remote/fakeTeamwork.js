@@ -489,7 +489,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Das normale Verhalten von `fakeTeamwork` ist es, einen Commit auf den entfernten `master` zu machen."
+              "Das normale Verhalten von `fakeTeamwork` ist es, einen Commit auf den entfernten `main` zu machen."
             ],
             "afterMarkdowns": [
               "Da haben wir's -- der Server ist mit einem neuen Commit aktualisiert worden und wir haben ihn noch nicht lokal, weil wir weder `git fetch` noch `git pull` ausgeführt haben."
@@ -653,7 +653,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "За замовчуванням `fakeTeamwork` просто додасть коміт в гілку `master`."
+              "За замовчуванням `fakeTeamwork` просто додасть коміт в гілку `main`."
             ],
             "afterMarkdowns": [
               "Є -- до віддаленого репозиторію додався ще один коміт, проте ми ще його не звантажили, оскільки ще не виконали `git fetch`."

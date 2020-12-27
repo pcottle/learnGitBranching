@@ -80,7 +80,7 @@ exports.level = {
               "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique.",
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
-              "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit."
+              "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `main` branch has the same structure and relative apostrophe differences, I'll give full credit."
             ]
           }
         }
@@ -115,7 +115,7 @@ exports.level = {
               "",
               "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent tous les deux avec une apostrophe. Une deuxième apostrophe est ajoutée sur le commit que nous modifions, ce qui nous donne la forme finale de l'arbre.",
               "",
-              "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `master` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
+              "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `main` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
             ]
           }
         },
@@ -150,7 +150,7 @@ exports.level = {
               "",
               "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
-              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
             ]
           }
         },
@@ -185,7 +185,7 @@ exports.level = {
               "",
               "Por último, presta atención al estado final -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
-              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
             ]
           }
         },
@@ -220,7 +220,7 @@ exports.level = {
               "",
               "Por último, preste atenção no estado do \"objetivo\" aqui -- como nós movemos os commits duas vezes, ambos ficam com um apóstrofo. Um apóstrofo adicional é colocado no commit que sofreu o \"amend\", o que nos dá a forma final da árvore ",
               "",
-              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `master` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
+              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `main` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
             ]
           }
         },
@@ -255,7 +255,7 @@ exports.level = {
               "",
               "Por último, preste atención no estado do \"objectivo\" aquí -- como movemos os commits dúas veces, ambos teñen o apóstrofo sumado. O apóstrofo engádese polo commit que nos correximos (amend), o cal danos a forma final da árbore.",
               "",
-              "Contado todo esto, a resposta valídase baseándose na estructura e nos diferentes apóstrofes. Cando a rama `master` teña a mesma estructura, e o número de apóstrofos sexa igual, obterás todos os puntos da tarefa."
+              "Contado todo esto, a resposta valídase baseándose na estructura e nos diferentes apóstrofes. Cando a rama `main` teña a mesma estructura, e o número de apóstrofos sexa igual, obterás todos os puntos da tarefa."
             ]
           }
         },
@@ -284,13 +284,13 @@ exports.level = {
               "* Wir sortieren die Commits mit `git rebase -i` so um, dass der Commit, den wir ändern wollen, ganz oben liegt.",
               "* Wir verändern den Commit mit `git commit --amend`.",
               "* Dann sortieren wir die Commits mit einem erneuten `git rebase -i` wieder in die alte Reihenfolge.",
-              "* Schließlich aktualisieren wir den `master` auf das Ende unseres fertigen Baums, um diesen Level abzuschließen.",
+              "* Schließlich aktualisieren wir den `main` auf das Ende unseres fertigen Baums, um diesen Level abzuschließen.",
               "",
               "Es gibt sehr viele Wege um das Endziel dieses Levels zu erreichen (ich sehe, du schielst auf `cherry-pick`) und wir werden uns später noch andere ansehen. Aber für's erste lass uns diese Methode ausprobieren.",
               "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren, bekommen sie jedes Mal ein Apostroph hinzugefügt (weil sie jedes Mal kopiert werden). Ein weiteres Apostroph entsteht durch den `git commit --amend`.",
               "",
-              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
+              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `main` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
             ]
           }
         },
@@ -357,7 +357,7 @@ exports.level = {
               "当然完成这个任务的方法不止上面提到的一种（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。",
               "最后有必要说明一下目标状态中的那几个`'` —— 我们把这个提交移动了两次，每移动一次会产生一个 `'`；而 C2 上多出来的那个是我们在使用了 amend 参数提交时产生的，所以最终结果就是这样了。",
               "",
-              "也就是说，我在对比结果的时候只会对比提交树的结构，对于 `'` 的数量上的不同，并不纳入对比范围内。只要你的 `master` 分支结构与目标结构相同，我就算你通过。"
+              "也就是说，我在对比结果的时候只会对比提交树的结构，对于 `'` 的数量上的不同，并不纳入对比范围内。只要你的 `main` 分支结构与目标结构相同，我就算你通过。"
             ]
           }
         }
@@ -521,12 +521,12 @@ exports.level = {
               "* Ta sẽ dùng `git rebase -i` sắp xếp lại commit để cái ta cần sửa sẽ nằm trên cùng",
               "* Ta sẽ dùng `git commit --amend` tạo ra một điều chỉnh nhỏ",
               "* Sau đó ta sẽ lại sắp xếp lại commit như trước bằng cách dùng `git rebase -i`",
-              "* Cuối cùng, ta sẽ chuyển `master` tới phần đã cập nhật để hoàn thành cấp độ (dùng cách nào tùy bạn)",
+              "* Cuối cùng, ta sẽ chuyển `main` tới phần đã cập nhật để hoàn thành cấp độ (dùng cách nào tùy bạn)",
               "",
               "Có nhiều cách để hoàn thành mục tiêu (Tôi thấy bạn hấp háy sang cherry-pick rồi đấy), rồi ta sẽ thấy chúng nhiều hơn, nhưng giờ hãy cứ tập trung vào kỹ thuật này đã.",
               "Sau cùng thì, để ý các dấu nháy đơn(') chứ?-- vì ta đã chuyển commit 2 lần, nên chúng có thêm một dấu nháy đơn. Và một dấu nữa cho commit mà ta đã sửa đổi, thế là ta có trạng thái cuối cùng của cây lịch sử ",
               "",
-              "Nói cách khác, khi tôi so sánh kết quả, tôi chỉ so sánh cấu trúc của cây lịch sử. Sự khác biệt về số lượng `'`  không được bao gồm trong so sánh. Miễn là cấu trúc nhánh `master` của bạn giống với cấu trúc đích, tôi sẽ vẫn để bạn qua bài."
+              "Nói cách khác, khi tôi so sánh kết quả, tôi chỉ so sánh cấu trúc của cây lịch sử. Sự khác biệt về số lượng `'`  không được bao gồm trong so sánh. Miễn là cấu trúc nhánh `main` của bạn giống với cấu trúc đích, tôi sẽ vẫn để bạn qua bài."
             ]
           }
         }
@@ -560,7 +560,7 @@ exports.level = {
               "Obstaja več načinov, da dosežemo ta cilj (vidim te kako gledaš cherry-pick) s katerimi se bomo ukvarjali kasneje, ampak za zdaj se osredotočimo na to tehniko.",
               "In nenazadnje, bodi pozoren na ciljno stanje -- ker premaknemo commit dvakrat, oba dobita pripet opuščaj zgoraj. Še eden je dodan za ammendan commit, torej skupno tri.",
               "",
-              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi opuščajev. Dokler ima `master` branch na tvojem drevesu enako strukturo in število opuščajev, dobiš vse točke."
+              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi opuščajev. Dokler ima `main` branch na tvojem drevesu enako strukturo in število opuščajev, dobiš vse točke."
             ]
           }
         }

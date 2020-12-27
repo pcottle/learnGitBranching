@@ -39,9 +39,9 @@ exports.level = {
     "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
     "uk"   : "Не забувай, що краще всього буде перемістити master в самому кінці... ",
-    "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `master`... ",
+    "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
-    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `master` na końcu..."
+    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` na końcu..."
   },
   "startDialog": {
     "en_US": {
@@ -160,7 +160,7 @@ exports.level = {
             "markdowns": [
               "### Mehrere Branches rebasen",
               "",
-              "Wow, wir haben hier ja eine Menge Branches! Lass uns mal die ganze Arbeit, die in diesen Branches steckt, auf den `master` packen, um sie auf Stand zu bringen.",
+              "Wow, wir haben hier ja eine Menge Branches! Lass uns mal die ganze Arbeit, die in diesen Branches steckt, auf den `main` packen, um sie auf Stand zu bringen.",
               "",
               "Die Führungsetage macht die Sache allerdings etwas trickreicher -- sie möchte, dass alle Commits in aufsteigender Reihenfolge geordnet sind. Das heißt unser fertiger Baum sollte `C7` ganz unten haben, darüber `C6` und so weiter und so fort.",
               "",
@@ -286,7 +286,7 @@ exports.level = {
             "markdowns": [
               "### Rebase nhiều nhánh",
               "",
-              "Giời ạ, sao mà nhiều nhánh thế khôn biết! Chuyển hết chúng vào `master` thôi.",
+              "Giời ạ, sao mà nhiều nhánh thế khôn biết! Chuyển hết chúng vào `main` thôi.",
               "",
               "Nhưng mà cha quản lý lại muốn oái oăm hơn cơ -- hắn muốn tất cả commit xếp thẳng hàng. Nghĩa là cây lịch sử của ta sẽ có `C7'` ở cuối, phía trên là`C6'`, và cứ thế theo đúng thứ tự.",
               "",

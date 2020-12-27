@@ -74,9 +74,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Let's look at the Caret (^) operator first. Each time you append that to a ref name, you are telling Git to find the parent of the specified commit.",
               "",
-              "So saying `master^` is equivalent to \"the first parent of `master`\".",
+              "So saying `master^` is equivalent to \"the first parent of `main`\".",
               "",
-              "`master^^` is the grandparent (second-generation ancestor) of `master`",
+              "`master^^` is the grandparent (second-generation ancestor) of `main`",
               "",
               "Let's check out the commit above master here."
             ],
@@ -149,9 +149,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Regardons l'opérateur circonflexe (^) d'abord. Chaque fois que vous le faites suivre un nom de référence, vous êtes en train de demander à Git de trouver le parent du commit spécifié.",
               "",
-              "Ainsi, `master^` est équivalent à \"le premier parent de `master`\".",
+              "Ainsi, `master^` est équivalent à \"le premier parent de `main`\".",
               "",
-              "`master^^` est le grand-parent (ancêtre de seconde génération) de `master`",
+              "`master^^` est le grand-parent (ancêtre de seconde génération) de `main`",
               "",
               "Faisons un checkout du commit avant master."
             ],
@@ -224,11 +224,11 @@ exports.level = {
             "beforeMarkdowns": [
               "Schauen wir uns zuerst den Dach-Operator (`^`) an. Jedes mal wenn du ihn hinter einen Referenz-Namen setzt, sagst du Git damit, dass es zum Vorgänger des angegebenen Commits gehen soll.",
               "",
-              "Das heißt `master^` ist gleichbedeutend mit \"direkter Vorgänger des Commits, auf den `master` zeigt\".",
+              "Das heißt `master^` ist gleichbedeutend mit \"direkter Vorgänger des Commits, auf den `main` zeigt\".",
               "",
-              "`master^^` ist also der Vorgänger des Vorgängers von `master`.",
+              "`master^^` ist also der Vorgänger des Vorgängers von `main`.",
               "",
-              "Wir checken jetzt mal den Commit vor `master` aus:"
+              "Wir checken jetzt mal den Commit vor `main` aus:"
             ],
             "afterMarkdowns": [
               "Bämm! Fertig. Einfacher, als den Commit-Hash zu tippen (oder zu kopieren)."
@@ -299,9 +299,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Veamos el operador ^ primero. Cada vez que le agregás eso al nombre de una referencia, le estás diciendo a git que use el padre del commit especificado.",
               "",
-              "Entonces, decir `master^` es equivalente a \"el primer padre de `master`\".",
+              "Entonces, decir `master^` es equivalente a \"el primer padre de `main`\".",
               "",
-              "`master^^` es el _abuelo_ (segunda generación de ancestros) de `master`",
+              "`master^^` es el _abuelo_ (segunda generación de ancestros) de `main`",
               "",
               "Veamos el commit que está antes de master acá."
             ],
@@ -374,9 +374,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Veamos el operador ^ primero. Cada vez que le agregas eso al nombre de una referencia, le estás diciendo a git que use el padre del commit especificado.",
               "",
-              "Entonces, decir `master^` es equivalente a \"el primer padre de `master`\".",
+              "Entonces, decir `master^` es equivalente a \"el primer padre de `main`\".",
               "",
-              "`master^^` es el _abuelo_ (segunda generación de ancestros) de `master`",
+              "`master^^` es el _abuelo_ (segunda generación de ancestros) de `main`",
               "",
               "Veamos el commit que está antes de master aquí."
             ],
@@ -449,9 +449,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Vamos dar uma olhada no operador circunflexo (^) primeiro. Cada vez que você adicioná-lo a um nome de referência, você está dizendo ao Git para encontrar o pai do commit especificado.",
               "",
-              "Então, dizer `master^` é equivalente a \"o primeiro pai do `master`\".",
+              "Então, dizer `master^` é equivalente a \"o primeiro pai do `main`\".",
               "",
-              "`master^^` é o avô (ancestral de segunda geração) do `master`",
+              "`master^^` é o avô (ancestral de segunda geração) do `main`",
               "",
               "Vamos fazer checkout do commit logo acima do master."
             ],
@@ -524,9 +524,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Votémoslle unha ollada o operador (^) primeiro. Cada vez que o engadimos a unha referencia, estaslle dicindo a commit que queres o pai de esa referencia.",
               "",
-              "Entón, dicir `master^` é equivalente a \"o primeiro pai do `master`\".",
+              "Entón, dicir `master^` é equivalente a \"o primeiro pai do `main`\".",
               "",
-              "`master^^` é o avó (ancestral de segunda xeración) do `master`",
+              "`master^^` é o avó (ancestral de segunda xeración) do `main`",
               "",
               "Imos facer checkout do commit que está enriba de master."
             ],
@@ -599,9 +599,9 @@ exports.level = {
             "beforeMarkdowns": [
               "首先看看操作符 (^)。把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交。",
               "",
-              "所以 `master^` 相当于“`master` 的父节点”。",
+              "所以 `master^` 相当于“`main` 的父节点”。",
               "",
-              "`master^^` 是 `master` 的第二个父节点",
+              "`master^^` 是 `main` 的第二个父节点",
               "",
               "现在咱们切换到 master 的父节点"
             ],
@@ -674,9 +674,9 @@ exports.level = {
             "beforeMarkdowns": [
               "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 git 去找到該 reference 所指向的 commit 的 parent commit。",
               "",
-              "所以 `master^` 相當於 \"`master` 的 parent commit\"。",
+              "所以 `master^` 相當於 \"`main` 的 parent commit\"。",
               "",
-              " `master^^` 是 `master` 的 grandparent commit（往前推兩代）",
+              " `master^^` 是 `main` 的 grandparent commit（往前推兩代）",
               "",
               "切換到 master的 parent commit"
             ],
@@ -749,7 +749,7 @@ exports.level = {
             "beforeMarkdowns": [
               "まずはカレット(^)から始めましょう。リファレンス名にカレットを追加すると、指定コミットの親コミットを見つけるようにとgitに命令を出しています。",
               "",
-              "なので `master^`と記述すれば、\"`master`の一個上の親\"、という意味になります。",
+              "なので `master^`と記述すれば、\"`main`の一個上の親\"、という意味になります。",
               "",
               "そして`master^^`とはその親の一つの上のコミット(２代前の親)を指します。",
               "",
@@ -824,11 +824,11 @@ exports.level = {
             "beforeMarkdowns": [
               "Для начала рассмотрим оператор каретки (^). Когда мы добавляем его к имени ссылки, Git воспринимает это как указание найти родителя указанного коммита.",
               "",
-              "Так что `master^` означает \"первый родитель ветки `master`\".",
+              "Так что `master^` означает \"первый родитель ветки `main`\".",
               "",
-              "`master^^` означает прародитель (родитель родителя) `master`",
+              "`master^^` означает прародитель (родитель родителя) `main`",
               "",
-              "Давайте переключимся на коммит Выше `master`"
+              "Давайте переключимся на коммит Выше `main`"
             ],
             "afterMarkdowns": [
               "Опачки! Готово. Сильно проще, чем поиск и указание хеша."
@@ -899,9 +899,9 @@ exports.level = {
             "beforeMarkdowns": [
               "먼저 캐럿 (^) 연산자 부터 알아보겠습니다. 참조 이름에 하나씩 추가할 때마다, 명시한 커밋의 부모를 찾게 됩니다.",
               "",
-              "`master^`는 \"`master`의 부모\"와 같은 의미 입니다.",
+              "`master^`는 \"`main`의 부모\"와 같은 의미 입니다.",
               "",
-              "`master^^` 는 \"`master`의 조부모(부모의 부모)\"를 의미합니다",
+              "`master^^` 는 \"`main`의 조부모(부모의 부모)\"를 의미합니다",
               "",
               "master 위에 있는 부모를 체크아웃 해 봅시다."
             ],
@@ -974,9 +974,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Розберемось спочатку з оператором каретки (^). Кожна каретка додана до посилання (напр. до імені коміту) вказує git що потрібно знайти батька посилання до якого застосована каретка.",
               "",
-              "Тож `master^` тотожнє до \"перший предок посилання `master`\".",
+              "Тож `master^` тотожнє до \"перший предок посилання `main`\".",
               "",
-              "`master^^` це дідусь (предок другого покоління) посилання `master`",
+              "`master^^` це дідусь (предок другого покоління) посилання `main`",
               "",
               "Давайте перейдемо на коміт трохи вище від master:"
             ],
@@ -1049,9 +1049,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Xem thử cái dấu mũ (^) trước nào. Mỗi lần bạn nối nó với một cái tên tham chiếu, bạn đang ra lệnh cho Git tìm kiếm cha của một commit cụ thể.",
               "",
-              "Cho nên `master^` nghĩa là \"cha đầu tiên của `master`\".",
+              "Cho nên `master^` nghĩa là \"cha đầu tiên của `main`\".",
               "",
-              "`master^^` là ông nội (tổ tiên thế hệ 2) của `master`",
+              "`master^^` là ông nội (tổ tiên thế hệ 2) của `main`",
               "",
               "Thử nhảy sang commit trước master nào"
             ],
@@ -1124,9 +1124,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Poglejmo najprej operator `^`. Vsakič, ko pripneš to imenu reference, poveš Gitu, naj najde starša tega commita.",
               "",
-              "Torej `master^` je isto kot \"prvi starš brancha `master`\".",
+              "Torej `master^` je isto kot \"prvi starš brancha `main`\".",
               "",
-              "`master^^` je stari starš (prednik druge generacije) `master`.",
+              "`master^^` je stari starš (prednik druge generacije) `main`.",
               "",
               "Checkoutajmo sedaj commit nad masterjem."
             ],

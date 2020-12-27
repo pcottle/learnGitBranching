@@ -65,7 +65,7 @@ exports.level = {
               "Let's first see a `fetch` and a `merge` executed sequentially."
             ],
             "afterMarkdowns": [
-              "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/master`. Now our `master` branch reflects the new work from the remote (in this case, named `origin`)"
+              "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/master`. Now our `main` branch reflects the new work from the remote (in this case, named `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -124,7 +124,7 @@ exports.level = {
               "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement."
             ],
             "afterMarkdowns": [
-              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant notre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
+              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant notre branche `main` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -183,7 +183,7 @@ exports.level = {
               "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
             ],
             "afterMarkdowns": [
-              "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
+              "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -242,7 +242,7 @@ exports.level = {
               "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
             ],
             "afterMarkdowns": [
-              "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
+              "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -301,7 +301,7 @@ exports.level = {
               "Vamos primeiro ver um `fetch` e um `merge` executados sequencialmente."
             ],
             "afterMarkdowns": [
-              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/master`. Agora o nosso ramo `master` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
+              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/master`. Agora o nosso ramo `main` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -360,7 +360,7 @@ exports.level = {
               "Vexamos primeiro un `fetch` e un `merge` executados secuencialmente."
             ],
             "afterMarkdowns": [
-              "Boom: descargamos `C3` cun `fetch` e logo mesturámolos con `git merge o/master`. Agora a nosa rama `master` reflexa o novo traballo do remoto (neste caso, chamado `origin`)"
+              "Boom: descargamos `C3` cun `fetch` e logo mesturámolos con `git merge o/master`. Agora a nosa rama `main` reflexa o novo traballo do remoto (neste caso, chamado `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -419,7 +419,7 @@ exports.level = {
               "讓我們來看循序執行一個 `fetch` 和一個 `merge` 的樣子"
             ],
             "afterMarkdowns": [
-              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `master` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
+              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `main` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -478,7 +478,7 @@ exports.level = {
               "我们先来看看 `fetch`、`merge` 依次执行的效果"
             ],
             "afterMarkdowns": [
-              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/master` 合并了这一提交记录。现在我们的 `master` 分支包含了远程仓库中的更新（在本例中远程仓库名为 `origin`）"
+              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/master` 合并了这一提交记录。现在我们的 `main` 分支包含了远程仓库中的更新（在本例中远程仓库名为 `origin`）"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -537,7 +537,7 @@ exports.level = {
               "Schauen wir uns erst mal ein `fetch` gefolgt von `merge` an:"
             ],
             "afterMarkdowns": [
-              "Bämm -- wir haben `C3` mit `fetch` heruntergeladen und dann in unseren Branch mit `git merge o/master` integriert. Nun bildet unser `master` dieselben Inhalte ab, wie sie auf dem entfernten Server (`origin`) liegen."
+              "Bämm -- wir haben `C3` mit `fetch` heruntergeladen und dann in unseren Branch mit `git merge o/master` integriert. Nun bildet unser `main` dieselben Inhalte ab, wie sie auf dem entfernten Server (`origin`) liegen."
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -596,7 +596,7 @@ exports.level = {
                           "Давайте рассмотрим, как `fetch` и `merge` выполняются последовательно"
                       ],
                       "afterMarkdowns": [
-                          "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/master`. Теперь наша ветка `master` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
+                          "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/master`. Теперь наша ветка `main` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
                       ],
                       "command": "git fetch; git merge o/master",
                       "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -655,7 +655,7 @@ exports.level = {
               "まずは、連続して`fetch`して`merge`する流れの方を見てみましょう。"
             ],
             "afterMarkdowns": [
-              "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/master`でこれをマージしました。今や私たちの`master`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
+              "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/master`でこれをマージしました。今や私たちの`main`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -714,7 +714,7 @@ exports.level = {
               "Спершу виконаймо по черзі `fetch`, а потім `merge`."
             ],
             "afterMarkdowns": [
-              "Ка-бум -- ми звантажили `C3` за допомогою `fetch` і потім змерджили їх, використавши `git merge o/master`. Тепер наша гілка `master` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
+              "Ка-бум -- ми звантажили `C3` за допомогою `fetch` і потім змерджили їх, використавши `git merge o/master`. Тепер наша гілка `main` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -773,7 +773,7 @@ exports.level = {
               "먼저 `fetch` 와 `merge`가 차례로 실행되는것을 확인해 봅시다"
             ],
             "afterMarkdowns": [
-              "Boom -- 우리는 `C3`를 `fetch`로 내려 받고 `git merge o/master`로 우리의 작업으로 병합했습니다. 이제 우리의 `master` 브랜치는 원격 저장소의 새 작업들을 반영하게 됩니다(지금 사례에서 `origin`입니다)."
+              "Boom -- 우리는 `C3`를 `fetch`로 내려 받고 `git merge o/master`로 우리의 작업으로 병합했습니다. 이제 우리의 `main` 브랜치는 원격 저장소의 새 작업들을 반영하게 됩니다(지금 사례에서 `origin`입니다)."
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -832,7 +832,7 @@ exports.level = {
               "Trước tiên hãy xem quá trình `nạp` và `hợp nhất` được thực hiện một cách tuần tự."
             ],
             "afterMarkdowns": [
-              "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/master`. Giờ thì nhánh `master` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"
+              "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/master`. Giờ thì nhánh `main` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -891,7 +891,7 @@ exports.level = {
               "Poglejmo najprej `fetch` in `merge` izvedena zaporedno:"
             ],
             "afterMarkdowns": [
-              "Boom -- prenesli smo `C3` s `fetch` in nato mergali delo z `git merge o/master`. Sedaj naš `master` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)."
+              "Boom -- prenesli smo `C3` s `fetch` in nato mergali delo z `git merge o/master`. Sedaj naš `main` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)."
             ],
             "command": "git fetch; git merge o/master",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"

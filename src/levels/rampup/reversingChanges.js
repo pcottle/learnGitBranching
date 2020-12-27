@@ -379,7 +379,7 @@ exports.level = {
               "Schauen wir, wie das aussieht:"
             ],
             "afterMarkdowns": [
-              "Schick! Git hat den `master` einfach auf `C1` gesetzt; unser lokales Repository sieht nun so aus, als hätte `C2` nie stattgefunden."
+              "Schick! Git hat den `main` einfach auf `C1` gesetzt; unser lokales Repository sieht nun so aus, als hätte `C2` nie stattgefunden."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -759,7 +759,7 @@ exports.level = {
               "Посмотрим, как это работает:"
             ],
             "afterMarkdowns": [
-              "Неплохо! Git просто перенёс ссылку на `master` обратно на коммит `C1`. Теперь наш локальный репозиторий в состоянии, как будто `C2` никогда не существовал."
+              "Неплохо! Git просто перенёс ссылку на `main` обратно на коммит `C1`. Теперь наш локальный репозиторий в состоянии, как будто `C2` никогда не существовал."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"

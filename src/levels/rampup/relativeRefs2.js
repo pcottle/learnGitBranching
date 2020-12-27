@@ -100,7 +100,7 @@ exports.level = {
             "markdowns": [
               "Now that you have seen relative refs and branch forcing in combination, let's use them to solve the next level.",
               "",
-              "To complete this level, move `HEAD`, `master`, and `bugFix` to their goal destinations shown."
+              "To complete this level, move `HEAD`, `main`, and `bugFix` to their goal destinations shown."
             ]
           }
         }
@@ -169,7 +169,7 @@ exports.level = {
             "markdowns": [
               "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
               "",
-              "Para completar este nivel, mové `HEAD`, `master` y `bugFix` a sus destinos finales."
+              "Para completar este nivel, mové `HEAD`, `main` y `bugFix` a sus destinos finales."
             ]
           }
         }
@@ -238,7 +238,7 @@ exports.level = {
             "markdowns": [
               "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
               "",
-              "Para completar este nivel, mueve `HEAD`, `master` y `bugFix` a sus destinos finales."
+              "Para completar este nivel, mueve `HEAD`, `main` y `bugFix` a sus destinos finales."
             ]
           }
         }
@@ -307,7 +307,7 @@ exports.level = {
             "markdowns": [
               "Agora que você viu referências relativas e movimentação de ramos combinadas, vamos usá-las para resolver o próximo nível.",
               "",
-              "Para completar este nível, mova o `HEAD` e os ramos `master` e `bugFix` para os destinos mostrados no objetivo."
+              "Para completar este nível, mova o `HEAD` e os ramos `main` e `bugFix` para os destinos mostrados no objetivo."
             ]
           }
         }
@@ -364,7 +364,7 @@ exports.level = {
               "Vexamos o comando anterior en acción"
             ],
             "afterMarkdowns": [
-              "¡Agora é o a nosa quenda! As referencias relativas nos darán unha forma concisa de nos referír a `C1`, e forzar a rama (con `-f`) deunos unha forma rápida de movela rama `master` a esa posición."
+              "¡Agora é o a nosa quenda! As referencias relativas nos darán unha forma concisa de nos referír a `C1`, e forzar a rama (con `-f`) deunos unha forma rápida de movela rama `main` a esa posición."
             ],
             "command": "git branch -f master HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -376,7 +376,7 @@ exports.level = {
             "markdowns": [
               "Xa viches as referencias relativas e o movemento de ramas combinadas, ímolas usar para resolver o próximo exercicio.",
               "",
-              "Para completar este nivel, mova o `HEAD` e as ramas `master` e `bugFix` para os destinos mostrados no obxectivo."
+              "Para completar este nivel, mova o `HEAD` e as ramas `main` e `bugFix` para os destinos mostrados no obxectivo."
             ]
           }
         }
@@ -445,7 +445,7 @@ exports.level = {
             "markdowns": [
               "Maintenant que vous avez vu les références relatives et le forçage de branche, utilisons-les pour résoudre le niveau suivant.",
               "",
-              "Pour compléter ce niveau, bouger `HEAD`, `master`, et `bugFix` à leurs destinations désignées."
+              "Pour compléter ce niveau, bouger `HEAD`, `main`, et `bugFix` à leurs destinations désignées."
             ]
           }
         }
@@ -490,7 +490,7 @@ exports.level = {
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "Das bewegt (erzwungenermaßen) den `master` auf den Commit drei Vorgänger vor `HEAD`."
+              "Das bewegt (erzwungenermaßen) den `main` auf den Commit drei Vorgänger vor `HEAD`."
             ]
           }
         },
@@ -513,7 +513,7 @@ exports.level = {
             "markdowns": [
               "Jetzt wo du relative Referenzen und erzwungenes Branching in Kombination gesehen hast können wir damit den nächsten Level bewältigen.",
               "",
-              "Bewege `HEAD`, `master` und `bugFix` an die jeweils angegebenen Positionen, um diesen Level abzuschließen."
+              "Bewege `HEAD`, `main` und `bugFix` an die jeweils angegebenen Positionen, um diesen Level abzuschließen."
             ]
           }
         }
@@ -582,7 +582,7 @@ exports.level = {
             "markdowns": [
               "既然你已经看过相对引用与强制移动分支的演示了，那么赶快使用这些技巧来挑战这一关吧！",
               "",
-              "要完成此关，移动 `HEAD`，`master` 和 `bugFix` 到目标所示的位置。"
+              "要完成此关，移动 `HEAD`，`main` 和 `bugFix` 到目标所示的位置。"
             ]
           }
         }
@@ -636,7 +636,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這一關，移動 `HEAD`，`master` 和 `bugFix` 到目標所示的位置。"
+              "要完成這一關，移動 `HEAD`，`main` 和 `bugFix` 到目標所示的位置。"
             ]
           }
         }
@@ -705,7 +705,7 @@ exports.level = {
             "markdowns": [
               "相対リファレンスとブランチの強制関連付けを見ましたので、いまここでそれらの方法を使ってみましょう。",
               "",
-              "このレベルをクリアするには`HEAD`、`master`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
+              "このレベルをクリアするには`HEAD`、`main`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
             ]
           }
         }
@@ -751,7 +751,7 @@ exports.level = {
               "",
               "`git branch -f master HEAD~3`",
               "",
-              "Переместит (принудительно) ветку `master` на три родителя назад от `HEAD`."
+              "Переместит (принудительно) ветку `main` на три родителя назад от `HEAD`."
             ]
           }
         },
@@ -774,7 +774,7 @@ exports.level = {
             "markdowns": [
               "Мы рассмотрели относительные ссылки и branch forcing вкупе, так что теперь пришло время пройти следующий уровень.",
               "",
-              "Чтобы пройти этот уровень, передвинь `HEAD`, `master` и `bugFix` так, как показано на визуализации."
+              "Чтобы пройти этот уровень, передвинь `HEAD`, `main` и `bugFix` так, как показано на визуализации."
             ]
           }
         }
@@ -842,7 +842,7 @@ exports.level = {
             "markdowns": [
               "자 이제 상대 참조와 브랜치 강제의 조합을 봤으니 다음 레벨을 해결해 봅시다.",
               "",
-              "이 레벨을 통과하기 위해서, `HEAD`와 `master`와 `bugFix`를 제시되는 골지점으로 옮겨 주십시오."
+              "이 레벨을 통과하기 위해서, `HEAD`와 `main`와 `bugFix`를 제시되는 골지점으로 옮겨 주십시오."
             ]
           }
         }
@@ -911,7 +911,7 @@ exports.level = {
             "markdowns": [
               "Тепер, коли ти побачив відносні посилання та форсування гілок в купі, давай використаємо це щоб пройти поточний рівень.",
               "",
-              "Щоб пройти цей рівень, перемісти `HEAD`, `master` та `bugFix` так як показано в візуалізації."
+              "Щоб пройти цей рівень, перемісти `HEAD`, `main` та `bugFix` так як показано в візуалізації."
             ]
           }
         }
@@ -980,7 +980,7 @@ exports.level = {
             "markdowns": [
               "Giờ thì bạn đã thấy cách kết hợp tham chiếu tương đối và ép nhánh, dùng chúng để vượt level tiếp thôi.",
               "",
-              "Để hoàn thành cấp độ này, chuyển `HEAD`, `master`, và `bugFix` đến mục tiêu được xác định của chúng."
+              "Để hoàn thành cấp độ này, chuyển `HEAD`, `main`, và `bugFix` đến mục tiêu được xác định của chúng."
             ]
           }
         }
@@ -1049,7 +1049,7 @@ exports.level = {
             "markdowns": [
               "Sedaj ko smo si pogledali relativne reference in force branchanje v kombinaciji, uporabimo to, da rešimo naslednjo stopnjo.",
               "",
-              "Za dokončanje te stopnje, premakni `HEAD`, `master` in `bugFix` na njihove ciljne prikazane destinacije."
+              "Za dokončanje te stopnje, premakni `HEAD`, `main` in `bugFix` na njihove ciljne prikazane destinacije."
             ]
           }
         }

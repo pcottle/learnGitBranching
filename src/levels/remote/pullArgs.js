@@ -82,7 +82,7 @@ exports.level = {
               "If we specify the place to fetch, everything happens as before with fetch but we merge in whatever was just fetched."
             ],
             "afterMarkdowns": [
-              "See! by specifying `master` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to our currently checked out location which is *not* the local branch `master`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
+              "See! by specifying `main` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to our currently checked out location which is *not* the local branch `master`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -156,7 +156,7 @@ exports.level = {
               "Si nous précisons l'emplacement à rapatrier tout se passe comme précédemment, avec fetch, mais en sus nous fusionnons tout ce qui a été rapatrié."
             ],
             "afterMarkdowns": [
-              "Vu ? En précisant `master` nous avons téléchargé les commits dans `o/master` comme d'habitude. Puis nous avons fusionné `o/master` avec là où nous sommes, *sans nous soucier* de la branche courante."
+              "Vu ? En précisant `main` nous avons téléchargé les commits dans `o/master` comme d'habitude. Puis nous avons fusionné `o/master` avec là où nous sommes, *sans nous soucier* de la branche courante."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -230,7 +230,7 @@ exports.level = {
               "Si especificamos el lugar del que hacer fetch, todo ocurre como antes, pero sólo mergeamos lo que se fetcheó."
             ],
             "afterMarkdowns": [
-              "¡Ves! Especificando `master` bajamos los commits a `o/master` como siempre. Después mergeamos `o/master` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
+              "¡Ves! Especificando `main` bajamos los commits a `o/master` como siempre. Después mergeamos `o/master` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -304,7 +304,7 @@ exports.level = {
               "Si especificamos el lugar desde donde hacer fetch, todo ocurre como antes, pero sólo mergeamos lo que se fetcheó."
             ],
             "afterMarkdowns": [
-              "¡Ves! Especificando `master` descargamos los commits a `o/master` como siempre. Después mergeamos `o/master` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
+              "¡Ves! Especificando `main` descargamos los commits a `o/master` como siempre. Después mergeamos `o/master` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -378,7 +378,7 @@ exports.level = {
               "Se especificarmos o lugar onde fazer o fetch, tudo acontece como antes com o fetch, mas fazemos o merge naquilo que acabou de ser baixado."
             ],
             "afterMarkdowns": [
-              "Veja! Especificando `master` nós baixamos commits em `o/master` como sempre. Então fizemos um merge de `o/master` com o lugar onde estamos, *independente* daquilo que está atualmente em checkout."
+              "Veja! Especificando `main` nós baixamos commits em `o/master` como sempre. Então fizemos um merge de `o/master` com o lugar onde estamos, *independente* daquilo que está atualmente em checkout."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -452,7 +452,7 @@ exports.level = {
               "Se especificamos o lugar do que facer o fetch, todo ocorre coma antes, pero só mesturamos o que se descargou."
             ],
             "afterMarkdowns": [
-              "¡Ves! Indicando `master` baixamos os commits á `o/master` coma sempre. Despois mesturamos `o/master` á nosa rama actual, *sen importar* qué tiñamos na nos copia de traballo."
+              "¡Ves! Indicando `main` baixamos os commits á `o/master` coma sempre. Despois mesturamos `o/master` á nosa rama actual, *sen importar* qué tiñamos na nos copia de traballo."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -526,7 +526,7 @@ exports.level = {
               "如果我們在 fetch 的時候有指定`位置`的話，跟之前一樣，fetch 所做的事情沒有變，但是我們會 merge 我們剛剛所 fetch 的該`位置`的commit。"
             ],
             "afterMarkdowns": [
-              "看吧！指定位置為 `master`，跟平常一樣，我們下載了 commit 並且放到 `o/master` 上，接著，我們會 merge `o/master` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
+              "看吧！指定位置為 `main`，跟平常一樣，我們下載了 commit 並且放到 `o/master` 上，接著，我們會 merge `o/master` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -539,7 +539,7 @@ exports.level = {
               "他是不是也可以同時指定 source 以及 destination？你說對了啦！讓我們來看一下："
             ],
             "afterMarkdowns": [
-                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `master` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。這實在是太超過了！！！"
+                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `main` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。這實在是太超過了！！！"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -600,7 +600,7 @@ exports.level = {
               "如果我们指定要抓取的 place，所有的事情都会跟之前一样发生，只是增加了 merge 操作"
             ],
             "afterMarkdowns": [
-              "看到了吧! 通过指定 `master` 我们更新了 `o/master`。然后将 `o/master` merge 到我们的检出位置，**无论**我们当前检出的位置是哪。"
+              "看到了吧! 通过指定 `main` 我们更新了 `o/master`。然后将 `o/master` merge 到我们的检出位置，**无论**我们当前检出的位置是哪。"
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -674,7 +674,7 @@ exports.level = {
               "Wenn wir den Ort, auf den das `fetch` ausgeführt werden soll, angeben, passiert alles so wie beim `git fetch`, aber es wird direkt danach auch ein Merge ausgeführt."
             ],
             "afterMarkdowns": [
-              "Siehst du? Da wir `master` angegeben haben, sind die Commits in `o/master` heruntergeladen worden. Danach wurde `o/master` gemerged, egal was gerade ausgecheckt war."
+              "Siehst du? Da wir `main` angegeben haben, sind die Commits in `o/master` heruntergeladen worden. Danach wurde `o/master` gemerged, egal was gerade ausgecheckt war."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -687,7 +687,7 @@ exports.level = {
               "Funktioniert das auch wenn man Quelle und Ziel angibt? Aber sicher! Das sehen wir hier:"
             ],
             "afterMarkdowns": [
-              "Wow, das ist eine Menge in einem einzelnen Befehl. Wir haben lokal einen neuen Branch namens `foo` erstellt, die Commits vom `master` des Servers dorthin heruntergeladen und ihn danach in unseren aktuell ausgecheckten Branch `bar` gemerged."
+              "Wow, das ist eine Menge in einem einzelnen Befehl. Wir haben lokal einen neuen Branch namens `foo` erstellt, die Commits vom `main` des Servers dorthin heruntergeladen und ihn danach in unseren aktuell ausgecheckten Branch `bar` gemerged."
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -748,7 +748,7 @@ exports.level = {
               "Здесь сначала выполнится fetch с аргументом указанным к pull, а merge выполняется с теми изменениями, которые будут скачаны командой fetch."
             ],
             "afterMarkdowns": [
-              "Как видно, мы указали `master`, поэтому как обычно все обновления притянулись на ветку `o/master`. Затем мы слили (merge) обновленную ветку `o/master` с веткой, на которой мы находимся."
+              "Как видно, мы указали `main`, поэтому как обычно все обновления притянулись на ветку `o/master`. Затем мы слили (merge) обновленную ветку `o/master` с веткой, на которой мы находимся."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -761,7 +761,7 @@ exports.level = {
               "Будет ли это работать, если указать `<источник>` и `<приемник>`? Проверим:"
             ],
             "afterMarkdowns": [
-              "Ого, сколько всего выполнено всего одной командой!. Мы создали новую ветку `foo` в локальном репозитории, скачали на неё изменения с ветки `master` удаленного репозитория, а затем слили эту ветку с веткой `bar`, на которой мы находились!"
+              "Ого, сколько всего выполнено всего одной командой!. Мы создали новую ветку `foo` в локальном репозитории, скачали на неё изменения с ветки `main` удаленного репозитория, а затем слили эту ветку с веткой `bar`, на которой мы находились!"
             ],
             "command": "git pull origin master:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -822,7 +822,7 @@ exports.level = {
               "place를 지정하면, 이전에 fecth를 하던때와 완전히 똑같이 진행되고 fetch한것을 병합합니다."
             ],
             "afterMarkdowns": [
-              "보이죠! `master`를 지정해서 우리는 `o/master`에 평소처럼 커밋들을 내려받았습니다. 그다음 우리가 있는 곳으로 `o/master`를 병합했습니다 현재 체크아웃된 브랜치와 *상관없이* 말이죠"
+              "보이죠! `main`를 지정해서 우리는 `o/master`에 평소처럼 커밋들을 내려받았습니다. 그다음 우리가 있는 곳으로 `o/master`를 병합했습니다 현재 체크아웃된 브랜치와 *상관없이* 말이죠"
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -896,7 +896,7 @@ exports.level = {
               "Якщо ми вказуємо місце призначення для fetch, fetch виконується як звичайно, але мердж відбудеться з тим, що ми щойно стягнули"
             ],
             "afterMarkdowns": [
-              "От бачиш, вказавши `master`, ми звантажили коміти в `o/master`, як завжди. Потім змерджили `o/master` в поточну гілку."
+              "От бачиш, вказавши `main`, ми звантажили коміти в `o/master`, як завжди. Потім змерджили `o/master` в поточну гілку."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -970,7 +970,7 @@ exports.level = {
               "Nếu ta chỉ định vị trí để nạp, mọi thứ diễn ra như với git fetch nhưng giờ đây có thêm một bước đó là ta hợp nhất những gì mà ta đã nạp"
             ],
             "afterMarkdowns": [
-              "Thấy chứ! Bằng cách chỉ định nhánh `master` ta tải các commit xuống nhánh `o/master` như thường lệ. Sau đó hợp nhất nhánh `o/master` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `master`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
+              "Thấy chứ! Bằng cách chỉ định nhánh `main` ta tải các commit xuống nhánh `o/master` như thường lệ. Sau đó hợp nhất nhánh `o/master` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `master`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -1044,7 +1044,7 @@ exports.level = {
               "Če določimo mesto za fetchanje, se zgodi vse kot prej s fetchem, ampak tudi zmergamo, kar smo pravkar fetchali."
             ],
             "afterMarkdowns": [
-              "Vidiš! Z določitvijo `master` smo prenesli commite na `o/master` kot ponavadi. Potem smo zmergali `o/master` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `master`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
+              "Vidiš! Z določitvijo `main` smo prenesli commite na `o/master` kot ponavadi. Potem smo zmergali `o/master` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `master`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"

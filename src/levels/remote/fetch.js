@@ -92,7 +92,7 @@ exports.level = {
             "markdowns": [
               "### What fetch doesn't do",
               "",
-              "`git fetch`, however, does not change anything about _your_ local state. It will not update your `master` branch or change anything about how your file system looks right now.",
+              "`git fetch`, however, does not change anything about _your_ local state. It will not update your `main` branch or change anything about how your file system looks right now.",
               "",
               "This is important to understand because a lot of developers think that running `git fetch` will make their local work reflect the state of the remote. It may download all the necessary data to do that, but it does _not_ actually change any of your local files. We will learn commands in later lessons to do just that :D",
               "",
@@ -165,7 +165,7 @@ exports.level = {
             "markdowns": [
               "### Ce que fetch ne fait pas",
               "",
-              "`git fetch`, cependant, ne change rien à _votre_ état local. Il ne met pas à jour votre branche `master` et ne va pas changer quelque chose aux fichiers qui se trouvent actuellement dans votre répertoire de travail.",
+              "`git fetch`, cependant, ne change rien à _votre_ état local. Il ne met pas à jour votre branche `main` et ne va pas changer quelque chose aux fichiers qui se trouvent actuellement dans votre répertoire de travail.",
               "",
               "C'est important à comprendre car un nombre important de développeurs pensent qu'exécuter `git fetch` va mettre leur dépôt local dans le même état que le distant. Cela peut télécharger toutes les données nécessaires pour faire cela, mais cela ne change en réalité _rien_ sur vos fichiers locaux. Les prochains niveaux seront justement dédiés aux commandes qui permettent de faire cela :D",
               "",
@@ -238,7 +238,7 @@ exports.level = {
             "markdowns": [
               "### ¿Qué *no* hace fetch?",
               "",
-              "Sin embargo, `git fetch` no modifica en absoluto _tu_ estado local. No va a actualizar tu rama `master` ni va a cambiar nada sobre cómo se ve tu sistema de archivos en este momento.",
+              "Sin embargo, `git fetch` no modifica en absoluto _tu_ estado local. No va a actualizar tu rama `main` ni va a cambiar nada sobre cómo se ve tu sistema de archivos en este momento.",
               "",
               "Es importante entender esto, porque un montón de desarrolladores piensan que correr `git fetch` hará que su estado local refleje el estado del remoto. `git fetch` puede descargar los datos necesarios para hacerlo, pero *no* cambia ninguno de tus archivos locales. Vamos a aprender otros comandos para hacer eso más adelante :D",
               "",
@@ -311,7 +311,7 @@ exports.level = {
             "markdowns": [
               "### ¿Qué *no* hace fetch?",
               "",
-              "Sin embargo, `git fetch` no modifica en absoluto _tu_ estado local. No va a actualizar tu rama `master` ni va a cambiar nada sobre cómo se ve tu sistema de archivos en este momento.",
+              "Sin embargo, `git fetch` no modifica en absoluto _tu_ estado local. No va a actualizar tu rama `main` ni va a cambiar nada sobre cómo se ve tu sistema de archivos en este momento.",
               "",
               "Es importante entender esto, porque un montón de desarrolladores piensan que correr `git fetch` hará que su estado local refleje el estado del remoto. `git fetch` puede descargar los datos necesarios para hacerlo, pero *no* cambia ninguno de tus archivos locales. Vamos a aprender otros comandos para hacer eso más adelante :D",
               "",
@@ -384,7 +384,7 @@ exports.level = {
             "markdowns": [
               "### O que o fetch NÃO faz",
               "",
-              "O `git fetch`, no entanto, não muda nada do estado _local_ do repositório. Ele não atualiza o seu ramo `master` nem muda nada na forma como o seu sistema de arquivos está no momento.",
+              "O `git fetch`, no entanto, não muda nada do estado _local_ do repositório. Ele não atualiza o seu ramo `main` nem muda nada na forma como o seu sistema de arquivos está no momento.",
               "",
               "É importante entender isso, pois muitos desenvolvedores pensam que executar `git fetch` fará com que o trabalho local reflita o estado do repositório remoto. Ele pode até baixar todos os dados necessários para fazê-lo, mas ele _não_ muda de fato nenhum dos arquivos locais. Vamos aprender comandos para fazê-lo nas lições a seguir :D",
               "",
@@ -457,7 +457,7 @@ exports.level = {
             "markdowns": [
               "### O que fetch NON fai",
               "",
-              "`git fetch`, por agora, non cambia nada no estado _local_ do repositorio. El solo actualiza a rama `master` sen facer cambios na forma de cómo está o teu sistema de arquivos nese momento.",
+              "`git fetch`, por agora, non cambia nada no estado _local_ do repositorio. El solo actualiza a rama `main` sen facer cambios na forma de cómo está o teu sistema de arquivos nese momento.",
               "",
               "É importante entender iso, xa que moitos desenvolvedores pensan que executar `git fetch` fará que o traballo local se vexa modificado polo repositorio remoto. El pode que baixara todos os cambios necesarios para facelo, pero, o comando _non_ cambia cómo están os teus arquivos locais. Imos aprender comandos para facer esas conexións :D",
               "",
@@ -530,7 +530,7 @@ exports.level = {
             "markdowns": [
               "### fetch 沒有做的事情",
               "",
-              "然而，`git fetch` 並不會影響到在你的 local repository 中的 `master` branch，他並不會將你的 `master` branch 更新到最新的狀態。",
+              "然而，`git fetch` 並不會影響到在你的 local repository 中的 `main` branch，他並不會將你的 `master` branch 更新到最新的狀態。",
               "",
               "這個觀念很重要，因為很多程式設計師以為 `git fetch` 可以讓他們在 local repository 上面的工作跟 remote repository 的工作可以同步。它是會下載同步所需的資料，但是不會更新任何的檔案，我們會在後面的教學中提到如何做到這件事情。:D",
               "",
@@ -603,7 +603,7 @@ exports.level = {
             "markdowns": [
               "### git fetch 不会做的事",
               "",
-              "`git fetch` 并不会改变你本地仓库的状态。它不会更新你的 `master` 分支，也不会修改你磁盘上的文件。",
+              "`git fetch` 并不会改变你本地仓库的状态。它不会更新你的 `main` 分支，也不会修改你磁盘上的文件。",
               "",
               "理解这一点很重要，因为许多开发人员误以为执行了 `git fetch` 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是**并没有**修改你本地的文件。我们在后面的课程中将会讲解能完成该操作的命令 :D",
               "",
@@ -676,7 +676,7 @@ exports.level = {
             "markdowns": [
               "### Was Fetch nicht tut",
               "",
-              "`git fetch` ändert allerdings überhaupt nichts an _deinen_ lokalen Branches. Es aktualisiert nicht deinen `master` oder ändert irgendetwas an deinem Checkout.",
+              "`git fetch` ändert allerdings überhaupt nichts an _deinen_ lokalen Branches. Es aktualisiert nicht deinen `main` oder ändert irgendetwas an deinem Checkout.",
               "",
               "Das ist wichtig zu wissen, denn eine Menge Entwickler glauben, wenn sie `git fetch` ausführen, würden ihre lokalen Branches auf den Stand des entfernten Repositorys gebracht. Es lädt zwar alle Daten herunter, damit man diese Aktualisierung durchführen kann, aber es ändert _nichts_ an deinen lokalen Branches. Wir werden in späteren Level Befehle genau dafür kennenlernen. :D",
               "",
@@ -749,7 +749,7 @@ exports.level = {
             "markdowns": [
               "### fetchがしてくれないもの",
               "",
-              "`git fetch`は、しかしながら、_あなたの_ローカルの状態は変更しません。あなたの`master`ブランチや他のもの、今現在のあなたのファイルシステムが見せているものを更新しないのです。",
+              "`git fetch`は、しかしながら、_あなたの_ローカルの状態は変更しません。あなたの`main`ブランチや他のもの、今現在のあなたのファイルシステムが見せているものを更新しないのです。",
               "",
               "これは理解する上で重要なことです。なぜなら、多くの技術者は`git fetch`がリモートの状態をローカルの作業場に反映してくれると思っているからです。必要なデータはダウンロードされるかもしれませんが、ローカルのファイルを実際に変更するというようなことは_してくれない_のです。私たちは、この後のレッスンでもこのようなコマンドを学びます :D",
               "",
@@ -895,7 +895,7 @@ exports.level = {
             "markdowns": [
               "### Чого не робить fetch",
               "",
-              "Тим не менш, `git fetch` нічого не змінює в _твоєму_ локальному стані. Він не оновить твою гілку `master` і не змінить того, як наразі виглядає локальна файлова система.",
+              "Тим не менш, `git fetch` нічого не змінює в _твоєму_ локальному стані. Він не оновить твою гілку `main` і не змінить того, як наразі виглядає локальна файлова система.",
               "",
               "Це важливо зрозуміти, тому що багато розробників думають, що `git fetch` оновить їхні локальні данні до стану віддаленого репозиторію. Він дійсно звантажить всі потрібні дані, щоб це зробити, але він _не змінить_ автоматично жодних локальних файлів. Ми вивчимо команди, які це роблять, в наступних уроках :D",
               "",
@@ -968,7 +968,7 @@ exports.level = {
             "markdowns": [
               "### fetch는 무엇을 하지 않는가",
               "",
-              "`git fetch`는 그러나, _여러분의_ 로컬 상태는 전혀 바꾸지 않는습니다. 여러분의 `master` 브랜치도 업데이트하지 않고 파일 시스템의 모습이던 그 어떤것도 바꾸지 않습니다.",
+              "`git fetch`는 그러나, _여러분의_ 로컬 상태는 전혀 바꾸지 않는습니다. 여러분의 `main` 브랜치도 업데이트하지 않고 파일 시스템의 모습이던 그 어떤것도 바꾸지 않습니다.",
               "",
               "이것을 이해하는게 아주 중요한데, 왜냐하면 수 많은 개발자들이 `git fetch`를 하면 자신의 로컬 작업이 변경되어 원격 저장소의 모습을 반영해 업데이트 될것이라고 생각하기 때문입니다. 앞의 과정에 필요한 데이터를 다운로드는 하지만, 실제로 로컬 파일들이나 브랜치를 변경하지는 않습니다. 이것을 하기위한 명령어들은 뒤에서 배우겠습니다 :D",
               "",
@@ -1041,7 +1041,7 @@ exports.level = {
             "markdowns": [
               "### fetch không làm gì",
               "",
-              "Tuy nhiên, `git fetch` không hề thay đổi trạng thái kho chứa _địa phương_ của bạn. Nó sẽ không cập nhật nhánh `master` hay thay đổi bất kỳ điều gì trong hệ thống tập tin hiện tại của bạn.",
+              "Tuy nhiên, `git fetch` không hề thay đổi trạng thái kho chứa _địa phương_ của bạn. Nó sẽ không cập nhật nhánh `main` hay thay đổi bất kỳ điều gì trong hệ thống tập tin hiện tại của bạn.",
               "",
               "Điều này rất quan trọng, vì nhiều nhà phát triển nghĩ rằng `git fetch` sẽ làm kho chứa địa phương của họ phản ánh trạng thái của kho chúa từ xa. Nó có thể tải xuống tất cả dữ liệu cần thiết, nhưng nó thực tế _không_ thay đổi bất cứ thứ gì trên tập tin địa phương của bạn. Ta sẽ học lệnh để làm điều đó sau :D",
               "",
@@ -1114,7 +1114,7 @@ exports.level = {
             "markdowns": [
               "### Kaj fetch ne naredi",
               "",
-              "`git fetch` ne spremeni ničesar glede tvojega lokalnega stanja. Ne bo posodobil tvojega `master` brancha ali spremenil česarkoli v tvojih datotekah.",
+              "`git fetch` ne spremeni ničesar glede tvojega lokalnega stanja. Ne bo posodobil tvojega `main` brancha ali spremenil česarkoli v tvojih datotekah.",
               "",
               "To je pomembno razumeti, ker veliko razvijalcev misli, da bo `git fetch` posodobil njihovo lokalno stanje s stanjem na oddaljenem repozitoriju. Lahko bo prenesel vse potrebne podatke, da to izvede, ampak v bistvu _ne_ spremeni tvojih datotek. V kasnejših lekcijah se bomo naučili ukaze, ki pa naredijo točno to. :D",
               "",

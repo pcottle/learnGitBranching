@@ -65,7 +65,7 @@ exports.level = {
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "Hence, if you look at a branch named `o/master`, the branch name is `master` and the name of the remote is `o`.",
+              "Hence, if you look at a branch named `o/master`, the branch name is `main` and the name of the remote is `o`.",
               "",
               "Most developers actually name their main remote `origin`, not `o`. This is so common that git actually sets up your remote to be named `origin` when you `git clone` a repository.",
               "",
@@ -92,7 +92,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, commit once off of `master` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+              "To finish this level, commit once off of `main` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
             ]
           }
         }
@@ -126,7 +126,7 @@ exports.level = {
               "",
               "* `<nom dépôt distant>/<nom de la branche>`",
               "",
-              "Donc, si vous regardez une branche nommée `o/master`, le nom de la branche est `master` et le nom du dépôt distant est `o`.",
+              "Donc, si vous regardez une branche nommée `o/master`, le nom de la branche est `main` et le nom du dépôt distant est `o`.",
               "",
               "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait votre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
               "",
@@ -153,7 +153,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, faîtes un commit en dehors de `master` puis un après vous être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
+              "Pour finir ce niveau, faîtes un commit en dehors de `main` puis un après vous être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
             ]
           }
         }
@@ -187,7 +187,7 @@ exports.level = {
               "",
               "* `<nombre del remoto>/<nombre de la rama>`",
               "",
-              "Entonces, si mirás una rama llamada `o/master`, el nombre de la rama es `master`, y el nombre del remoto es `o`.",
+              "Entonces, si mirás una rama llamada `o/master`, el nombre de la rama es `main`, y el nombre del remoto es `o`.",
               "",
               "La mayoría de los desarrolladores llaman `origin` a su remoto en lugar de `o`. Esto es tan común que git efectivamente crea tu remoto llamándolo `origin` cuando hacés `git clone` de un repositorio.",
               "",
@@ -214,7 +214,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, commiteá una vez sobre `master` y una después de checkoutear `o/master`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+              "Para completar este nivel, commiteá una vez sobre `main` y una después de checkoutear `o/master`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }
@@ -248,7 +248,7 @@ exports.level = {
               "",
               "* `<nombre del remoto>/<nombre de la rama>`",
               "",
-              "Entonces, si observas una rama llamada `o/master`, el nombre de la rama es `master`, y el nombre del remoto es `o`.",
+              "Entonces, si observas una rama llamada `o/master`, el nombre de la rama es `main`, y el nombre del remoto es `o`.",
               "",
               "La mayoría de los desarrolladores llaman `origin` a su remoto en lugar de `o`. Esto es tan común que git efectivamente crea tu remoto llamándolo `origin` cuando haces `git clone` de un repositorio.",
               "",
@@ -275,7 +275,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, haz commit una vez sobre `master` y otra vez después de checkoutear `o/master`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+              "Para completar este nivel, haz commit una vez sobre `main` y otra vez después de checkoutear `o/master`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }
@@ -309,7 +309,7 @@ exports.level = {
               "",
               "* `<nome do repositório remoto>/<nome do ramo>`",
               "",
-              "Então, se o ramo remoto é chamado `o/master`, o nome do ramo é `master` e o nome do repositório remoto é `o`.",
+              "Então, se o ramo remoto é chamado `o/master`, o nome do ramo é `main` e o nome do repositório remoto é `o`.",
               "",
               "A maioria dos desenvolvedores na verdade chama o repositório remoto principal de `origin`, e não de `o`. Isso é tão comum que o Git define por padrão o nome `origin` para o repositório remoto quando você usa o comando `git clone` para clonar um repositório.",
               "",
@@ -336,7 +336,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, commite uma vez em `master`, e outra vez depois de fazer checkout em `o/master`. Isso vai ajudá-lo a sentir como os ramos remotos se comportam de forma diferente, e como eles apenas se atualizam para refletir o estado do repositório remoto."
+              "Para completar este nível, commite uma vez em `main`, e outra vez depois de fazer checkout em `o/master`. Isso vai ajudá-lo a sentir como os ramos remotos se comportam de forma diferente, e como eles apenas se atualizam para refletir o estado do repositório remoto."
             ]
           }
         }
@@ -370,7 +370,7 @@ exports.level = {
               "",
               "* `<nome do remoto>/<nome da rama>`",
               "",
-              "Entonces, se miras unha rama chamada `o/master`, o nome da rama é `master`, e o nome do remoto é `o`.",
+              "Entonces, se miras unha rama chamada `o/master`, o nome da rama é `main`, e o nome do remoto é `o`.",
               "",
               "A maioría dos desenvolvedores chaman `origin` ó seu remoto no lugar de `o`. Esto é tan común que git efectivamente crea o teu remoto chamandoo `origin` cando fas `git clone` dun repositorio.",
               "",
@@ -492,7 +492,7 @@ exports.level = {
               "",
               "* `<Name des Remote>/<Name des Branches>`",
               "",
-              "Wenn du also einen Remote Branch namens `o/master` hast, ist es eine Abbildung des Branches `master` auf dem Server, der in deinem Repository als `o` bekannt ist.",
+              "Wenn du also einen Remote Branch namens `o/master` hast, ist es eine Abbildung des Branches `main` auf dem Server, der in deinem Repository als `o` bekannt ist.",
               "",
               "Die meisten Entwickler nennen das Haupt-Remote eigentlich `origin` und nicht `o`. Das ist so verbreitet, dass Git den entfernten Server, von dem man ein `git clone` macht, standardmäßig als `origin` im Clone speichert.",
               "",
@@ -519,7 +519,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu bewältigen musst du einen Commit in `master` machen und einen nachdem du `o/master` ausgecheckt hast. Das illustriert noch einmal wie sich Branches und Remote Branches unterschiedlich verhalten und dass letztere sich nur verändern, wenn sich ihr Zustand auf dem entfernten Server ändert."
+              "Um diesen Level zu bewältigen musst du einen Commit in `main` machen und einen nachdem du `o/master` ausgecheckt hast. Das illustriert noch einmal wie sich Branches und Remote Branches unterschiedlich verhalten und dass letztere sich nur verändern, wenn sich ihr Zustand auf dem entfernten Server ändert."
             ]
           }
         }
@@ -553,7 +553,7 @@ exports.level = {
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "因此，如果你看到一个名为 `o/master` 的分支，那么这个分支就叫 `master`，远程仓库的名称就是 `o`。",
+              "因此，如果你看到一个名为 `o/master` 的分支，那么这个分支就叫 `main`，远程仓库的名称就是 `o`。",
               "",
               "大多数的开发人员会将它们主要的远程仓库命名为 `origin`，并不是 `o`。这是因为当你用 `git clone` 某个仓库时，Git 已经帮你把远程仓库的名称设置为 `origin` 了",
               "",
@@ -580,7 +580,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要通过本关，在 `master` 分支上做一次提交；然后检出 `o/master`，再做一提交。这有助于你理解远程分支的不同，他们的更新只是反映了远程的状态。"
+              "要通过本关，在 `main` 分支上做一次提交；然后检出 `o/master`，再做一提交。这有助于你理解远程分支的不同，他们的更新只是反映了远程的状态。"
             ]
           }
         }
@@ -614,7 +614,7 @@ exports.level = {
               "",
               "* `<リモート名>/<ブランチ名>`",
               "",
-              "これに基づいて、`o/master`と名付けられたブランチを見てみると、`master`はブランチの名前、`o`はリモートの名前であることが分かります。",
+              "これに基づいて、`o/master`と名付けられたブランチを見てみると、`main`はブランチの名前、`o`はリモートの名前であることが分かります。",
               "",
               "多くの開発者は、実際にはメインのリモート名として`o`ではなく`origin`を使います。これは一般的には、Gitが`git clone`した時に`origin`という名前をリモートに付与するためです。",
               "",
@@ -641,7 +641,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルを終えるには、まずコミットを`master`に一回行い、その後`o/master`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
+              "このレベルを終えるには、まずコミットを`main`に一回行い、その後`o/master`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
             ]
           }
         }
@@ -675,7 +675,7 @@ exports.level = {
                         "",
                         "* `<удалённый репозиторий>/<имя ветки>`",
                         "",
-                        "Следовательно, если вы взглянете на имя ветки `o/master`, то здесь `master` - это имя ветки, а `o` - это имя удалённого репозитория.",
+                        "Следовательно, если вы взглянете на имя ветки `o/master`, то здесь `main` - это имя ветки, а `o` - это имя удалённого репозитория.",
                         "",
                         "Большинство разработчиков именуют свои главные удалённые репозитории не как `o`, а как `origin`. Также общепринятым является именование удалённого репозитория как `origin`, когда вы клонируете репозиторий командой `git clone`.",
                         "",
@@ -702,7 +702,7 @@ exports.level = {
                 "type": "ModalAlert",
                 "options": {
                     "markdowns": [
-                        "Для завершения уровня выполните коммит единожды на `master`, а затем на `o/master` (предварительно переключившись на эту ветку). Это наглядно продемонстрирует поведение удалённых веток, а также покажет, как изменения влияют на состояние удалённых репозиториев."
+                        "Для завершения уровня выполните коммит единожды на `main`, а затем на `o/master` (предварительно переключившись на эту ветку). Это наглядно продемонстрирует поведение удалённых веток, а также покажет, как изменения влияют на состояние удалённых репозиториев."
                     ]
                 }
             }
@@ -736,7 +736,7 @@ exports.level = {
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "이런 이유로, 만약 `o/master`라는 이름의 브랜치를 보게되면, 브랜치의 이름은 `master`이고 원격 저장소의 이름은 `o`인겁니다.",
+              "이런 이유로, 만약 `o/master`라는 이름의 브랜치를 보게되면, 브랜치의 이름은 `main`이고 원격 저장소의 이름은 `o`인겁니다.",
               "",
               "대부분의 개발자들은 자신의 주 원격 저장소를 `o`가 아닌 `origin`이라고 짓습니다. 사실 보통 다 이렇게 쓰기 때문에 git은 저장소를 `git clone`하게 되면 원격 저장소의 이름을 `origin`이라고 자동으로 설정해놓습니다.",
               "",
@@ -763,7 +763,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "다음 레벨로 가기 위해서는 `master`에서 한번 커밋하고 `o/master`를 체크아웃 하고 다시 한번 커밋을 하세요. 이를 통해서 원격 브랜치가 어떻게 다르게 작동하는지 알아보고, 원격 브랜치는 원격 저장소의 상태를 반영하기만 한다는것을 이해해 봅시다."
+              "다음 레벨로 가기 위해서는 `main`에서 한번 커밋하고 `o/master`를 체크아웃 하고 다시 한번 커밋을 하세요. 이를 통해서 원격 브랜치가 어떻게 다르게 작동하는지 알아보고, 원격 브랜치는 원격 저장소의 상태를 반영하기만 한다는것을 이해해 봅시다."
             ]
           }
         }
@@ -797,7 +797,7 @@ exports.level = {
               "",
               "* `<ім’я віддаленого репо>/<ім’я гілки>`",
               "",
-              "Отже, якщо розглянути гілку з назвою `o/master`, то ім’я гілки -- це `master` а ім’я віддаленого репозиторію -- це `o`.",
+              "Отже, якщо розглянути гілку з назвою `o/master`, то ім’я гілки -- це `main` а ім’я віддаленого репозиторію -- це `o`.",
               "",
               "Більшість розробників насправді називають ім’я головного віддаленого репозиторію `origin` (початок), а не `o`. Це настільки поширена практика, що гіт автоматично називає віддалений репозиторій `origin` коли ти його клонуєш.",
               "",
@@ -824,7 +824,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти цей рівень, зроби один коміт в `master`, а потім переключись в `o/master` і закомітся ще раз. Це наглядно продемонструє поведінку віддалених гілок, а також покаже як зміни впливають на стан віддаленого репозиторію."
+              "Щоб пройти цей рівень, зроби один коміт в `main`, а потім переключись в `o/master` і закомітся ще раз. Це наглядно продемонструє поведінку віддалених гілок, а також покаже як зміни впливають на стан віддаленого репозиторію."
             ]
           }
         }
@@ -858,7 +858,7 @@ exports.level = {
               "",
               "* `<tên kho từ xa>/<tên nhánh>`",
               "",
-              "Do đó, ở trong `o/master` thì `master` là tên nhánh còn `o` là tên kho chứa từ xa.",
+              "Do đó, ở trong `o/master` thì `main` là tên nhánh còn `o` là tên kho chứa từ xa.",
               "",
               "Thực tế thì hầu hết các nhà phát triển đặt tên kho chứa từ xa là `origin` chứ không phải `o`. Nó trở thành thông lệ đến nỗi Git đặt tên `origin` cho kho chứa từ xa khi bạn dùng `git clone` để sao chép một kho chứa.",
               "",
@@ -885,7 +885,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, commit một lần trên `master` và một lần nữa sau khi chuyển sang `o/master`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."
+              "Để hoàn thành cấp độ này, commit một lần trên `main` và một lần nữa sau khi chuyển sang `o/master`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."
             ]
           }
         }
@@ -919,7 +919,7 @@ exports.level = {
               "",
               "* `<ime oddaljenega repota>/<ime brancha>`",
               "",
-              "Posledično, če pogledamo branch poimenovan `o/master`, je ime brancha `master`, ime oddaljenega repota pa `o`.",
+              "Posledično, če pogledamo branch poimenovan `o/master`, je ime brancha `main`, ime oddaljenega repota pa `o`.",
               "",
               "Večina razvijalcev v bistvu poimenuje njihov glavni oddaljeni repozitorij `origin`, ne `o`. To je takoj pogosto, da git ubistvu nastavi tvoj oddaljen repo z imenom `origin` ko izvedeš `git clone` nad repozitorijem.",
               "",
@@ -946,7 +946,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje, commitaj enkrat iz `master` in enkrat, ko checkoutaš `o/master`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
+              "Za dokončanje te stopnje, commitaj enkrat iz `main` in enkrat, ko checkoutaš `o/master`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
             ]
           }
         }
