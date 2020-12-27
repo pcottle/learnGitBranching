@@ -34,21 +34,21 @@ exports.level = {
     "sl_SI": "Žongliranje s Commiti #2"
   },
   "hint": {
-    "en_US": "Don't forget to forward master to the updated changes!",
-    "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche master",
-    "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
-    "es_ES": "¡No te olvides de avanzar master a los cambios actualizados!",
-    "pt_BR": "Não se esqueça de avançar a referência do master para as mudanças efetuadas!",
-    "gl"   : "¡Non te esquezas de avanzar master ós cambios actualizados!",
-    "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
+    "en_US": "Don't forget to forward main to the updated changes!",
+    "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche main",
+    "es_AR": "¡No te olvides de avanzar main a los cambios actualizados!",
+    "es_ES": "¡No te olvides de avanzar main a los cambios actualizados!",
+    "pt_BR": "Não se esqueça de avançar a referência do main para as mudanças efetuadas!",
+    "gl"   : "¡Non te esquezas de avanzar main ós cambios actualizados!",
+    "de_DE": "Vergiss nicht den main auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
     "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-    "zh_CN": "别忘记了将 master 快进到最新的更新上！",
-    "zh_TW": "別忘記了將 master 推到最新的 commit 上面！",
-    "ru_RU": "Не забудь переместить master на последние изменения.",
-    "uk": "Не забудь перемістити master на останні зміни!",
-    "vi": "Đừng quên đẩy nhánh master lên cập nhật mới nhất!",
-    "sl_SI": "Ne pozabi prestaviti master naprej na posodobljene spremembe."
+    "zh_CN": "别忘记了将 main 快进到最新的更新上！",
+    "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
+    "ru_RU": "Не забудь переместить main на последние изменения.",
+    "uk": "Не забудь перемістити main на останні зміни!",
+    "vi": "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
+    "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe."
   },
   "startDialog": {
     "en_US": {
@@ -79,7 +79,7 @@ exports.level = {
               "Nice! Let's move on."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -122,7 +122,7 @@ exports.level = {
               "Bien ! continuons."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -165,7 +165,7 @@ exports.level = {
               "¡Bien! Sigamos..."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -208,7 +208,7 @@ exports.level = {
               "¡Bien! Sigamos..."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -251,7 +251,7 @@ exports.level = {
               "Ótimo! Vamos em frente."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -294,7 +294,7 @@ exports.level = {
               "¡A tope! Seguimos."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -337,7 +337,7 @@ exports.level = {
               "Schick! Und weiter geht's."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -380,7 +380,7 @@ exports.level = {
               "できました！次へ進みましょう"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -421,7 +421,7 @@ exports.level = {
             "afterMarkdowns": [
               "看到了吧？我们继续"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -464,7 +464,7 @@ exports.level = {
             "afterMarkdowns": [
               "太棒了，我們繼續吧！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -505,7 +505,7 @@ exports.level = {
               "좋아요! 계속할게요"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -546,7 +546,7 @@ exports.level = {
               "Ок! Едем дальше!"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -589,7 +589,7 @@ exports.level = {
               "Добре! Продовжуємо"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -632,7 +632,7 @@ exports.level = {
               "Hay! Tiếp tục nào"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -675,7 +675,7 @@ exports.level = {
               "Odlično! Nadaljujmo ..."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {

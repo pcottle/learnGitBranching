@@ -357,6 +357,9 @@ var VisBranch = VisBase.extend({
     if (name === 'HEAD' && isHg) {
       name = '.';
     }
+    if (name.match(/\bmaster\b/)) {
+      name = name.replace(/\bmaster\b/, 'main');
+    }
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
     return name + after;

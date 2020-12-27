@@ -1654,6 +1654,11 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
 
 GitEngine.prototype.resolveStringRef = function(ref) {
   ref = this.crappyUnescape(ref);
+
+  if (ref.match(/\bmain\b/)) {
+    ref = ref.replace(/\bmain\b/, 'master');
+  }
+
   if (this.refs[ref]) {
     return this.refs[ref];
   }

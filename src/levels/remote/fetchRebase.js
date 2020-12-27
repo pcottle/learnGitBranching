@@ -96,7 +96,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! We updated our local representation of the remote with `git fetch`, rebased our work to reflect the new changes in the remote, and then pushed them with `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -121,7 +121,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! We updated our local representation of the remote with `git fetch`, *merged* the new work into our work (to reflect the new changes in the remote), and then pushed them with `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -239,7 +239,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boum ! Nous avons mis à jour notre représentation locale du dépôt avec `git fetch`, rebasé notre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -264,7 +264,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boum ! Nous avons mis à jour notre représentation locale du dépôt distant avec `git fetch`, *fusionné* les nouveaux commits dans notre copie de travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -382,7 +382,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Actualizamos nuestra representación local del remoto con `git fetch`, rebaseamos nuestro trabajo para reflejar los nuevos cambios del remoto, y después los pusheamos con `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -407,7 +407,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Actualizamos nuestra representación local del remoto usando `git fetch`, *mergeamos* el nuevo trabajo junto con el nuestro (para reflejar los nuevos cambios en el remoto), y después los pusheamos usando `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -525,7 +525,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Zas! Actualizamos nuestra representación local del remoto con `git fetch`, hacemos rebase de nuestro trabajo para reflejar los nuevos cambios del remoto, y después los subimos con `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -550,7 +550,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Zas! Actualizamos nuestra representación local del remoto usando `git fetch`, *mergeamos* el nuevo trabajo junto con el nuestro (para reflejar los nuevos cambios en el remoto), y después los subimos usando `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -668,7 +668,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Nós atualizamos a representação local do repositório remoto com `git fetch`, fizemos rebase do nosso trabalho para refletir as novas mudanças no repositório remoto, e então enviamos nossas mudanças com `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -693,7 +693,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Atualizamos nossa representação local do repositório remoto com `git fetch`, fizemos *merge* do novo trabalho com o nosso (para refletir as novas mudanças no repositório remoto), e então fizemos push deles com `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -812,7 +812,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Actualizamos a nosa representación local do remoto con `git fetch`, rebasamos o noso traballo para reflexar os novos cambios do remoto, e despois os empurramos con `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -837,7 +837,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Actualizamos a nosa representación local do remoto usando `git fetch`, *mesturamos* ou *mergeamos* o novo traballo xunto co noso (para reflexar os novos cambios no remoto), e despois os empurramos empregando `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -955,7 +955,7 @@ exports.level = {
             "afterMarkdowns": [
               "看吧！我們利用 `git fetch` 下載了 remote 上面的 commit，並且 rebase 我們的 commit，使得我們的 commit 可以接在 remote 上面最新的版本的後面，接著透過 `git push` 就可以上傳更新了。"
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -980,7 +980,7 @@ exports.level = {
             "afterMarkdowns": [
               "看吧！我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch（這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit），接著再透過 `git push` 上傳到 remote。"
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1098,7 +1098,7 @@ exports.level = {
             "afterMarkdowns": [
               "我们用 `git fetch` 更新了本地仓库中的远程分支，然后用 rebase 将我们的工作移动到最新的提交记录下，最后再用 `git push` 推送到远程仓库。"
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1123,7 +1123,7 @@ exports.level = {
             "afterMarkdowns": [
               "我们用 `git fetch` 更新了本地仓库中的远程分支，然后**合并**了新变更到我们的本地分支（为了包含远程仓库的变更），最后我们用 `git push` 把工作推送到远程仓库"
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1241,7 +1241,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bämm! Wir haben unsere lokale Abbildung des entfernten Repositorys mit `git fetch` auf den neuesten Stand gebracht, unsere Arbeit auf die neueste Version des Remotes drauf gepackt und dann mit `git push` auf den Server geschoben."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1266,7 +1266,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ok. Wir haben die lokale Abbildung des entfernen Repositorys mit `git fetch` aktualisiert, die neuen Änderungen per *Merge* in deine integriert, und letztere dann mit `git push` auf den Server gebracht."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1384,7 +1384,7 @@ exports.level = {
             "afterMarkdowns": [
               "Опа! Мы только что обновили наш локальный образ удалённого репозитория средствами `git fetch`. Ещё мы перебазировали наши наработки, чтобы они отражали все изменения с удалённого репозитория, и опубликовали их с помощью `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1409,7 +1409,7 @@ exports.level = {
             "afterMarkdowns": [
               "Опа! Мы обновили наше локальное представление удалённого репозитория с помощью `git fetch`, *объединили* ваши новые наработки с нашими наработками (чтобы отразить изменения в удалённом репозитории) и затем опубликовали их с помощью `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1527,7 +1527,7 @@ exports.level = {
             "afterMarkdowns": [
               "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業をリベースさせてリモートの新しい変更に適用させ、`git push`でそれをプッシュしました。"
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1552,7 +1552,7 @@ exports.level = {
             "afterMarkdowns": [
               "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業を*マージ*して（リモートの新しい変更を反映するために）、`git push`でそれをプッシュしました。"
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1670,7 +1670,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ка-бум! Ми оновили наш локальний образ віддаленого репозиторію за допомогою `git fetch`, заребейсили наші напрацювання відповідно до змін у віддаленому репо, й завантажили їх за допомогою `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1695,7 +1695,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ка-бум! Ми оновили наш локальний образ віддаленої гілки за допомогою `git fetch`, *змерджили* нові напрацювання з власними (щоб відобразити останні зміни у віддаленій гілці), й відіслали їх за допомогою `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1813,7 +1813,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 변경들로 우리 작업을 리베이스 했습니다, 이제 `git push`하면 끝!"
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1838,7 +1838,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 작업을 우리 작업으로 *병합*했습니다 (원격 저장소의 변경을 반영하기 위해서죠), 이제 `git push`하면 끝!"
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1956,7 +1956,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bùùm! Ta đã cập nhật nhánh từ xa trong kho chứ cục bộ với `git fetch`, dịch chuyển thành quả của mình để phản ánh thay đổi mới của kho chứa từ xa, sau đó đẩy chúng lên với `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -1981,7 +1981,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bùùm! Ta đã cập nhật đại diện nhánh từ xa tại kho chứa địa phương với `git fetch`, *hợp nhất* (*merge*) thành quả mới vào thành quả của ta (để phản ánh thay đổi ở nhánh từ xa), sau đó đẩy chúng lên với `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -2099,7 +2099,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Posodobili smo našo lokalno reprezentacijo oddaljenega repozitorija z `git fetch`, rebaseali naše delo, da vsebuje nove spremembe iz oddaljenega repota, nato pa naložili svoje delo z `git push`."
             ],
-            "command": "git fetch; git rebase o/master; git push",
+            "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },
@@ -2124,7 +2124,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Posodobili smo našo lokalno sliko oddaljenega repozitorija z `git fetch`, *zmergali* novo delo v naše delo (kot odraz novih sprememb na oddaljenem branchu) in jih nato naložili z `git push`."
             ],
-            "command": "git fetch; git merge o/master; git push",
+            "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
           }
         },

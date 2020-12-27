@@ -26,22 +26,22 @@ exports.level = {
     "pl"   : "Ponad 9000 podbić"
   },
   "hint": {
-    "en_US": "Remember, the most efficient way might be to only update master at the end...",
-    "de_DE": "Nicht vergessen: nur den master zu aktualisieren könnte die effizienteste Möglichkeit sein ...",
-    "es_AR": "Acordate, la manera más eficiente podría ser actualizar master sólo al final...",
-    "es_ES": "Recuerda, la manera más eficiente podría ser actualizar master sólo al final...",
-    "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o master por último...",
-    "gl"   : "Lembra, a forma máis eficiente pode ser actualizar a rama master ó final...",
-    "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour master seulement à la fin ...",
+    "en_US": "Remember, the most efficient way might be to only update main at the end...",
+    "de_DE": "Nicht vergessen: nur den main zu aktualisieren könnte die effizienteste Möglichkeit sein ...",
+    "es_AR": "Acordate, la manera más eficiente podría ser actualizar main sólo al final...",
+    "es_ES": "Recuerda, la manera más eficiente podría ser actualizar main sólo al final...",
+    "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o main por último...",
+    "gl"   : "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
+    "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin ...",
     "ja"   : "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
     "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
-    "zh_CN": "记住，最后更新 master 分支可能是最高效的方法……",
-    "zh_TW": "要記住喔! 把 master branch 留到最後更新可能是最有效率的方法。",
+    "zh_CN": "记住，最后更新 main 分支可能是最高效的方法……",
+    "zh_TW": "要記住喔! 把 main branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
-    "uk"   : "Не забувай, що краще всього буде перемістити master в самому кінці... ",
-    "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `master`... ",
+    "uk"   : "Не забувай, що краще всього буде перемістити main в самому кінці... ",
+    "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
-    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `master` na końcu..."
+    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` na końcu..."
   },
   "startDialog": {
     "en_US": {
@@ -52,7 +52,7 @@ exports.level = {
             "markdowns": [
               "### Rebasing Multiple Branches",
               "",
-              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto master.",
+              "Man, we have a lot of branches going on here! Let's rebase all the work from these branches onto main.",
               "",
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
@@ -70,7 +70,7 @@ exports.level = {
             "markdowns": [
               "### Rebaseando múltiples ramas",
               "",
-              "Man, ¡hay un montón de ramas acá! Rebaseemos todo el trabajo de esas ramas sobre master.",
+              "Man, ¡hay un montón de ramas acá! Rebaseemos todo el trabajo de esas ramas sobre main.",
               "",
               "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
               "",
@@ -88,7 +88,7 @@ exports.level = {
             "markdowns": [
               "### Rebaseando múltiples ramas",
               "",
-              "Fíjate, ¡hay un montón de ramas aquí! Rebaseemos todo el trabajo de esas ramas sobre master.",
+              "Fíjate, ¡hay un montón de ramas aquí! Rebaseemos todo el trabajo de esas ramas sobre main.",
               "",
               "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
               "",
@@ -106,7 +106,7 @@ exports.level = {
             "markdowns": [
               "### Fazendo rebase em múltiplos ramos",
               "",
-              "Cara, temos um monte de ramos aqui! Vamos fazer um rebase de todo o trabalho contido nesses ramos para o master.",
+              "Cara, temos um monte de ramos aqui! Vamos fazer um rebase de todo o trabalho contido nesses ramos para o main.",
               "",
               "No entanto, a cúpula da administração está tornando as coisas mais difíceis -- eles querem que os commits estejam todos em ordem sequencial. Isso significa que a nossa árvore final precisa ter o `C7'` por último, `C6'` acima disso, e assim por diante, tudo ordenado.",
               "",
@@ -124,7 +124,7 @@ exports.level = {
             "markdowns": [
               "### Fazendo rebase en múltiples ramas",
               "",
-              "Neno, temos unha chea de ramas aquí! Imos facer rebase de todo o traballo contido nesas ramas para a master.",
+              "Neno, temos unha chea de ramas aquí! Imos facer rebase de todo o traballo contido nesas ramas para a main.",
               "",
               "A xente de administración estanos a facer as cousas complicadas, igual eles queren que os commits estén todos en orde secuencial. Isto significa que a nosa árbore final precisa ter `C7'` de último, `C6'` inda por riba, está por adiante, todo ordeado.",
               "",
@@ -142,7 +142,7 @@ exports.level = {
             "markdowns": [
               "### Rebaser plusieurs branches",
               "",
-              "Dis-donc, nous avons beaucoup de branches par ici ! Rebasons tout le travail de ces branches dans master.",
+              "Dis-donc, nous avons beaucoup de branches par ici ! Rebasons tout le travail de ces branches dans main.",
               "",
               "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient fait de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, tout dans cet ordre.",
               "",
@@ -160,7 +160,7 @@ exports.level = {
             "markdowns": [
               "### Mehrere Branches rebasen",
               "",
-              "Wow, wir haben hier ja eine Menge Branches! Lass uns mal die ganze Arbeit, die in diesen Branches steckt, auf den `master` packen, um sie auf Stand zu bringen.",
+              "Wow, wir haben hier ja eine Menge Branches! Lass uns mal die ganze Arbeit, die in diesen Branches steckt, auf den `main` packen, um sie auf Stand zu bringen.",
               "",
               "Die Führungsetage macht die Sache allerdings etwas trickreicher -- sie möchte, dass alle Commits in aufsteigender Reihenfolge geordnet sind. Das heißt unser fertiger Baum sollte `C7` ganz unten haben, darüber `C6` und so weiter und so fort.",
               "",
@@ -196,7 +196,7 @@ exports.level = {
             "markdowns": [
               "### 多分支 rebase",
               "",
-              "哥们儿，我们准备了很多分支！咱们把这些分支 rebase 到 master 上吧。",
+              "哥们儿，我们准备了很多分支！咱们把这些分支 rebase 到 main 上吧。",
               "",
               "但是你的领导给你提了点要求 —— 他们希望得到有序的提交历史，也就是我们最终的结果应该是 `C6'` 在 `C7'` 上面， `C5'` 在 `C6'` 上面，依此类推。",
               "",
@@ -214,7 +214,7 @@ exports.level = {
             "markdowns": [
               "### rebase 多個 branch",
               "",
-              "嗨！現在我們有很多 branch 了啦！讓我們做一下 rebase，將這些分支接到 master branch 上吧。",
+              "嗨！現在我們有很多 branch 了啦！讓我們做一下 rebase，將這些分支接到 main branch 上吧。",
               "",
               "但是你的主管找了點麻煩，他們希望得到有序的 commit history，也就是我們最終的結果是 `C7'` 在最下面，`C6'` 在它上面，以此類推。",
               "",
@@ -268,7 +268,7 @@ exports.level = {
             "markdowns": [
               "### Ребейсимо кілька гілок",
               "",
-              "В нас тут до біса гілок! Перенесімо всі зміни з різних гілок в master.",
+              "В нас тут до біса гілок! Перенесімо всі зміни з різних гілок в main.",
               "",
               "Але вище керівництво нам не полегшує життя -- вони хочуть, щоб всі коміти були впорядковані. Це означає, що в результаті коміт `C7'` має бути з самого низу, `C6'` трохи вище, і так далі, все за порядком.",
               "",
@@ -286,7 +286,7 @@ exports.level = {
             "markdowns": [
               "### Rebase nhiều nhánh",
               "",
-              "Giời ạ, sao mà nhiều nhánh thế khôn biết! Chuyển hết chúng vào `master` thôi.",
+              "Giời ạ, sao mà nhiều nhánh thế khôn biết! Chuyển hết chúng vào `main` thôi.",
               "",
               "Nhưng mà cha quản lý lại muốn oái oăm hơn cơ -- hắn muốn tất cả commit xếp thẳng hàng. Nghĩa là cây lịch sử của ta sẽ có `C7'` ở cuối, phía trên là`C6'`, và cứ thế theo đúng thứ tự.",
               "",
@@ -303,7 +303,7 @@ exports.level = {
             "markdowns": [
               "### Rebasing Večih Branchev",
               "",
-              "Uf, tu imamo pa res veliko branchev! Pojdimo in rebaseajmo vse delo iz teh branchev na master.",
+              "Uf, tu imamo pa res veliko branchev! Pojdimo in rebaseajmo vse delo iz teh branchev na main.",
               "",
               "Toda vodstvo se je odločilo, da le ne bo tako preprosto -- žeijo da so vsi commiti v zaporednem vrstnem redu. To pomeni, da bo naše ciljno drevo moralo imeti `C7'` na dnu, `C6'` nad njim, in tako dalje po vrsti.",
               "",

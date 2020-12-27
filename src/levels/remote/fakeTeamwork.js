@@ -57,7 +57,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "The default behavior of `fakeTeamwork` is to simply plop down a commit on master."
+              "The default behavior of `fakeTeamwork` is to simply plop down a commit on main."
             ],
             "afterMarkdowns": [
               "There we go -- the remote was updated with a new commit, and we haven't downloaded that commit yet because we haven't run `git fetch`."
@@ -111,7 +111,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Le comportement par défaut de `fakeTeamwork` est tout simplement de faire apparaître un commit sur le master distant :"
+              "Le comportement par défaut de `fakeTeamwork` est tout simplement de faire apparaître un commit sur le main distant :"
             ],
             "afterMarkdowns": [
               "Voilà : le dépôt distant a été mis à jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuté la commande `git fetch`."
@@ -165,7 +165,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "El comportamiento por default de `fakeTeamwork` es simplemente crear un commit en master."
+              "El comportamiento por default de `fakeTeamwork` es simplemente crear un commit en main."
             ],
             "afterMarkdowns": [
               "Ahí está: el remoto se actualizó con un nuevo commit, y todavía no nos bajamos ese commit porque aún no hicimos `git fetch`."
@@ -219,7 +219,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "El comportamiento por default de `fakeTeamwork` es simplemente crear un commit en master."
+              "El comportamiento por default de `fakeTeamwork` es simplemente crear un commit en main."
             ],
             "afterMarkdowns": [
               "Ahí está: el remoto se actualizó con un nuevo commit, y todavía no nos bajamos ese commit porque aún no hicimos `git fetch`."
@@ -273,7 +273,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "O comportamento padrão do `fakeTeamwork` é simplesmente fazer aparecer um commit no master."
+              "O comportamento padrão do `fakeTeamwork` é simplesmente fazer aparecer um commit no main."
             ],
             "afterMarkdowns": [
               "Aqui vamos nos -- o repositório remoto foi atualizado com um novo commit, e ainda não baixamos esse commit porque não executamos um `git fetch`."
@@ -327,7 +327,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "O comportamento por defecto de `fakeTeamwork` é simplemente crear un commit en master na rama remota."
+              "O comportamento por defecto de `fakeTeamwork` é simplemente crear un commit en main na rama remota."
             ],
             "afterMarkdowns": [
               "Ahí o tes: a rama remota actualizouse cun novo commit, e aínda non nos baixamos ese commit porque inda non fixemos `git fetch`."
@@ -381,7 +381,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`fakeTeamwork` 的預設行為是在送一個 commit 給 master 分支"
+              "`fakeTeamwork` 的預設行為是在送一個 commit 給 main 分支"
             ],
             "afterMarkdowns": [
               "我就說吧！remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該 commit。"
@@ -435,7 +435,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`fakeTeamwork` 默认操作就是在远程仓库的 master 分支上做一次提交。"
+              "`fakeTeamwork` 默认操作就是在远程仓库的 main 分支上做一次提交。"
             ],
             "afterMarkdowns": [
               "完成了 —— 远程仓库增加了一个新提交，我们还没有下载它，因为我们还没有执行 `git fetch`。"
@@ -489,7 +489,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Das normale Verhalten von `fakeTeamwork` ist es, einen Commit auf den entfernten `master` zu machen."
+              "Das normale Verhalten von `fakeTeamwork` ist es, einen Commit auf den entfernten `main` zu machen."
             ],
             "afterMarkdowns": [
               "Da haben wir's -- der Server ist mit einem neuen Commit aktualisiert worden und wir haben ihn noch nicht lokal, weil wir weder `git fetch` noch `git pull` ausgeführt haben."
@@ -543,7 +543,7 @@ exports.level = {
                 "type": "GitDemonstrationView",
                 "options": {
                     "beforeMarkdowns": [
-                        "Поведение команды `fakeTeamwork` по умолчанию заключается в том, чтобы просто \"инициировать\" коммит на master-е"
+                        "Поведение команды `fakeTeamwork` по умолчанию заключается в том, чтобы просто \"инициировать\" коммит на main-е"
                     ],
                     "afterMarkdowns": [
                         "Ну вот - удалённый репозиторий был изменён при помощи добавления нового коммита, и мы ещё не скачали этот коммит, потому что не запустили команду `git fetch`."
@@ -653,7 +653,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "За замовчуванням `fakeTeamwork` просто додасть коміт в гілку `master`."
+              "За замовчуванням `fakeTeamwork` просто додасть коміт в гілку `main`."
             ],
             "afterMarkdowns": [
               "Є -- до віддаленого репозиторію додався ще один коміт, проте ми ще його не звантажили, оскільки ще не виконали `git fetch`."
@@ -761,7 +761,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hành xử mặc định của `fakeTeamwork` đơn giản là tạo ra một commit ở trên nhánh master từ xa."
+              "Hành xử mặc định của `fakeTeamwork` đơn giản là tạo ra một commit ở trên nhánh main từ xa."
             ],
             "afterMarkdowns": [
               "Đó -- kho chứa từ xa đã được cập nhật thêm một commit, và ta chưa tải commit đó xuống vì ta chưa hề chạy lệnh `git fetch`."
@@ -815,7 +815,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Privzeto delovanje `fakeTeamwork` je, da samo doda commit na master:"
+              "Privzeto delovanje `fakeTeamwork` je, da samo doda commit na main:"
             ],
             "afterMarkdowns": [
               "Tako -- oddaljen repo je bil posodobljen z novim commitom, katerega še nismo potegnili k sebi, ker še nismo pognali ukaza `git fetch`."

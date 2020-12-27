@@ -10,6 +10,9 @@ FontAwesome-Vectors.pdf
 # Vim swaps
 *.sw*
 
+# sed backups
+*.bak
+
 # Annoying mac stuff
 .DS_STORE
 

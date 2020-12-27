@@ -66,7 +66,7 @@ exports.level = {
               "Here we have some changes that the remote does not have. Let's upload them!"
             ],
             "afterMarkdowns": [
-              "There we go -- the remote received commit `C2`, the branch `master` on the remote was updated to point at `C2`, and our *own* reflection of the remote (`o/master`) was updated as well. Everything is in sync!"
+              "There we go -- the remote received commit `C2`, the branch `main` on the remote was updated to point at `C2`, and our *own* reflection of the remote (`o/main`) was updated as well. Everything is in sync!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -109,7 +109,7 @@ exports.level = {
               "Nous avons fait ici quelques changements que le dépôt distant n'a pas. Envoyons-les !"
             ],
             "afterMarkdowns": [
-              "Et voilà : le dépôt distant a reçu le commit `C2`, la branche `master` a été mise à jour sur `C2`, et votre *propre* représentation de la branche distante (`o/master`) a aussi été mise à jour. Tout est synchronisé !"
+              "Et voilà : le dépôt distant a reçu le commit `C2`, la branche `main` a été mise à jour sur `C2`, et votre *propre* représentation de la branche distante (`o/main`) a aussi été mise à jour. Tout est synchronisé !"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -150,7 +150,7 @@ exports.level = {
               "Acá tenemos algunos cambios que nuestro remoto no tiene. ¡Subámoslos!"
             ],
             "afterMarkdowns": [
-              "Ahí está: el remoto recibió el commit `C2`, la rama `master` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/master`) también fue actualizado. ¡Todo está en sincronía!"
+              "Ahí está: el remoto recibió el commit `C2`, la rama `main` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/main`) también fue actualizado. ¡Todo está en sincronía!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -191,7 +191,7 @@ exports.level = {
               "Aquí tenemos algunos cambios que nuestro remoto no tiene. ¡Subámoslos!"
             ],
             "afterMarkdowns": [
-              "Ahí está: el remoto recibió el commit `C2`, la rama `master` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/master`) también fue actualizado. ¡Todo está en sincronía!"
+              "Ahí está: el remoto recibió el commit `C2`, la rama `main` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/main`) también fue actualizado. ¡Todo está en sincronía!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -234,7 +234,7 @@ exports.level = {
               "Aqui temos algumas mudanças que o repositório remoto não contém. Vamos subi-las!"
             ],
             "afterMarkdowns": [
-              "Aqui vamos nós -- o repositório remoto recebeu o commit `C2`, o ramo `master` no repositório remoto foi atualizado para apontar para `C2`, e a *nossa* reflexão do remoto (`o/master`) foi atualizada também. Está tudo sincronizado!"
+              "Aqui vamos nós -- o repositório remoto recebeu o commit `C2`, o ramo `main` no repositório remoto foi atualizado para apontar para `C2`, e a *nossa* reflexão do remoto (`o/main`) foi atualizada também. Está tudo sincronizado!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -277,7 +277,7 @@ exports.level = {
               "Aquí temos algúns cambios que o repositorio remoto non contén. ¡Imos subilas!"
             ],
             "afterMarkdowns": [
-              "Ahí imos -- o repositorio remoto recibiu o commit `C2`, a rama `master` do repositorio remoto foi actualizado para apuntar para `C2`, e o *noso* reflexo do remoto (`o/master`) foi atualizado tamén. ¡Está todo sincronizado!"
+              "Ahí imos -- o repositorio remoto recibiu o commit `C2`, a rama `main` do repositorio remoto foi actualizado para apuntar para `C2`, e o *noso* reflexo do remoto (`o/main`) foi atualizado tamén. ¡Está todo sincronizado!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -318,7 +318,7 @@ exports.level = {
               "這裡我們有了一些 remote 所沒有的 commit。讓我們來上傳它們吧！"
             ],
             "afterMarkdowns": [
-              "我說的沒錯吧！remote 收到了 commit `C2`，同時在 remote 上的 `master` branch 也一起更新並且指向 `C2`，同時我們*自己的* `o/master` 也一併更新了！"
+              "我說的沒錯吧！remote 收到了 commit `C2`，同時在 remote 上的 `main` branch 也一起更新並且指向 `C2`，同時我們*自己的* `o/main` 也一併更新了！"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -362,7 +362,7 @@ exports.level = {
               "这里我们准备了一些远程仓库中没有的提交记录, 咱们开始先上传吧!"
             ],
             "afterMarkdowns": [
-              "过去了, 远程仓库接收了 `C2`，远程仓库中的 `master` 分支也被更新到指向 `C2` 了，我们的远程分支 (o/master) 也同样被更新了。所有的分支都同步了！"
+              "过去了, 远程仓库接收了 `C2`，远程仓库中的 `main` 分支也被更新到指向 `C2` 了，我们的远程分支 (o/main) 也同样被更新了。所有的分支都同步了！"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -403,7 +403,7 @@ exports.level = {
               "Hier haben wir ein paar Änderungen, die auf dem Remote noch fehlen. Und hoch damit!"
             ],
             "afterMarkdowns": [
-              "Na bitte -- das Remote hat den Commit `C2` bekommen, der `master` auf dem Remote ist entsprechend aktualisiert worden und unsere *eigene* Abbildung des `master` auf dem Remote namens `o/master` wurde auch aktualisiert. Alles im Lot!"
+              "Na bitte -- das Remote hat den Commit `C2` bekommen, der `main` auf dem Remote ist entsprechend aktualisiert worden und unsere *eigene* Abbildung des `main` auf dem Remote namens `o/main` wurde auch aktualisiert. Alles im Lot!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -446,7 +446,7 @@ exports.level = {
                       "Здесь у нас имеются изменения, которых нет в удалённом репозитории. Давайте же закачаем их туда!"
                   ],
                   "afterMarkdowns": [
-                      "Вот так - удалённый репозиторий получил новый коммит `C2`, ветка `master` на удалённом репозитории теперь указывает на `C2`, и наше *собственное* локальное отображение удалённого репозитория (`o/master`) изменилось соответственно. Всё синхронизировалось!"
+                      "Вот так - удалённый репозиторий получил новый коммит `C2`, ветка `main` на удалённом репозитории теперь указывает на `C2`, и наше *собственное* локальное отображение удалённого репозитория (`o/main`) изменилось соответственно. Всё синхронизировалось!"
                   ],
                   "command": "git push",
                   "beforeCommand": "git clone; git commit"
@@ -489,7 +489,7 @@ exports.level = {
               "ここにリモートにはないいくつかの変更点があります。これをアップロードしてみましょう！"
             ],
             "afterMarkdowns": [
-              "さて、いってみましょう -- リモートはコミット`C2`を受け取り、リモート上の`master`ブランチは`C2`の位置に更新され、私たち*自身*のリモートブランチ(`o/master`)も良い具合に更新されました。全てが同期されました！"
+              "さて、いってみましょう -- リモートはコミット`C2`を受け取り、リモート上の`main`ブランチは`C2`の位置に更新され、私たち*自身*のリモートブランチ(`o/main`)も良い具合に更新されました。全てが同期されました！"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -532,7 +532,7 @@ exports.level = {
               "Ось ми маємо деякі зміни яких нема в віддаленому сховищі. Надішлімо їх!"
             ],
             "afterMarkdowns": [
-              "Ось, маєш -- віддалене сховище отримало  `C2`, гілку `master` на ньому було оновлено й тепер вона посилається на `C2`, а наше *власне* відображення віддаленого репо  (`o/master`) було також оновлено. Все синхронізовано!"
+              "Ось, маєш -- віддалене сховище отримало  `C2`, гілку `main` на ньому було оновлено й тепер вона посилається на `C2`, а наше *власне* відображення віддаленого репо  (`o/main`) було також оновлено. Все синхронізовано!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -575,7 +575,7 @@ exports.level = {
               "여기 원격저장소에는 없는 변경이 있습니다. 이것들을 업로드 해 봅시다!"
             ],
             "afterMarkdowns": [
-              "자 됬습니다 -- 원격 저장소가 커밋 `C2`를 받았고, 원격 저장소의 브랜치 `master`가 `C2`라는 지점까지 갱신 되었습니다. 그리고 원격 저장소의 반영인 *우리의* 원격 브랜치 (`o/master`)또한 잘 갱신 되었습니다. 모든게 동기화되어 있습니다!"
+              "자 됬습니다 -- 원격 저장소가 커밋 `C2`를 받았고, 원격 저장소의 브랜치 `main`가 `C2`라는 지점까지 갱신 되었습니다. 그리고 원격 저장소의 반영인 *우리의* 원격 브랜치 (`o/main`)또한 잘 갱신 되었습니다. 모든게 동기화되어 있습니다!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -618,7 +618,7 @@ exports.level = {
               "Ở đây ta có một vài thay đổi mà kho chứa từ xa không có. Hãy tải chúng lên!"
             ],
             "afterMarkdowns": [
-              "Đó -- kho chứa từ xa đã nhận được commit `C2`, nhánh `master` ở kho chứa từ xa đã được cập nhật lên `C2`, và phản chiếu nhánh từ xa *của ta* (`o/master`) cũng được cập nhật luôn. Mọi thứ đã đồng bộ!"
+              "Đó -- kho chứa từ xa đã nhận được commit `C2`, nhánh `main` ở kho chứa từ xa đã được cập nhật lên `C2`, và phản chiếu nhánh từ xa *của ta* (`o/main`) cũng được cập nhật luôn. Mọi thứ đã đồng bộ!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -661,7 +661,7 @@ exports.level = {
               "Tu imamo nekaj sprememb, ki jih oddaljen repo nima. Dajmo jih naložiti!"
             ],
             "afterMarkdowns": [
-              "Tako je -- oddaljen repo je prejel commit `C2`, branch `master` na oddaljenem repotu je bil posodobljen, da kaže na `C2` in naš *lasten* prikaz oddaljenega repota (`o/master`) je bil prav tako posodobljen. Vse je usklajeno!"
+              "Tako je -- oddaljen repo je prejel commit `C2`, branch `main` na oddaljenem repotu je bil posodobljen, da kaže na `C2` in naš *lasten* prikaz oddaljenega repota (`o/main`) je bil prav tako posodobljen. Vse je usklajeno!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
