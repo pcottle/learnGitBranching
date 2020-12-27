@@ -2922,30 +2922,27 @@ var Commit = Backbone.Model.extend({
   },
 
   getLogEntry: function() {
-    // for now we are just joining all these things with newlines which
-    // will get placed by paragraph tags. Not really a fan of this, but
-    // it's better than making an entire template and all that jazz
     return [
       'Author: ' + this.get('author'),
       'Date: ' + this.get('createTime'),
-      '<br/>',
+      '',
       this.get('commitMessage'),
-      '<br/>',
+      '',
       'Commit: ' + this.get('id')
-    ].join('\n' ) + '\n';
+    ].join('<br/>') + '\n';
   },
 
   getShowEntry: function() {
     // same deal as above, show log entry and some fake changes
     return [
-      this.getLogEntry(),
+      this.getLogEntry().replace('\n', ''),
       'diff --git a/bigGameResults.html b/bigGameResults.html',
       '--- bigGameResults.html',
       '+++ bigGameResults.html',
       '@@ 13,27 @@ Winner, Score',
       '- Stanfurd, 14-7',
       '+ Cal, 21-14'
-    ].join('\n') + '\n';
+    ].join('<br/>') + '\n';
   },
 
   validateAtInit: function() {
