@@ -84,14 +84,14 @@ exports.level = {
               "That's it! We wanted commits `C2` and `C4` and git plopped them down right below us. Simple as that!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, simply copy some work from the three branches shown into master. You can see which commits we want by looking at the goal visualization.",
+              "To complete this level, simply copy some work from the three branches shown into main. You can see which commits we want by looking at the goal visualization.",
               ""
             ]
           }
@@ -141,14 +141,14 @@ exports.level = {
               "Voilà ! Nous voulions les commits `C2` et `C4` et git les a fait apparaître juste sous nos jambes. Aussi simple que ça !"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, copiez simplement le travail désigné dans la branche master. Vous pouvez voir les commits que nous souhaitons avoir en regardant dans la fenêtre d'objectif.",
+              "Pour finir ce niveau, copiez simplement le travail désigné dans la branche main. Vous pouvez voir les commits que nous souhaitons avoir en regardant dans la fenêtre d'objectif.",
               ""
             ]
           }
@@ -198,14 +198,14 @@ exports.level = {
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, simplemente copiá algo de trabajo desde otras tres ramas a master. Podés ver qué commits queremos en la visualización del objetivo.",
+              "Para completar este nivel, simplemente copiá algo de trabajo desde otras tres ramas a main. Podés ver qué commits queremos en la visualización del objetivo.",
               ""
             ]
           }
@@ -255,14 +255,14 @@ exports.level = {
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, simplemente copia algo de trabajo desde otras tres ramas a master. Puedes ver qué commits queremos en la visualización del objetivo.",
+              "Para completar este nivel, simplemente copia algo de trabajo desde otras tres ramas a main. Puedes ver qué commits queremos en la visualización del objetivo.",
               ""
             ]
           }
@@ -312,14 +312,14 @@ exports.level = {
               "É isso! Queríamos os commits `C2` e `C4` e o git os inseriu logo abaixo de nós. Simples assim!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, simplesmente copie algum trabalho dos outros três ramos para o master. Você pode ver quais commits queremos copiar na visualização do objetivo.",
+              "Para completar este nível, simplesmente copie algum trabalho dos outros três ramos para o main. Você pode ver quais commits queremos copiar na visualização do objetivo.",
               ""
             ]
           }
@@ -369,14 +369,14 @@ exports.level = {
               "¡Eso é! Queríamos os commits `C2` e `C4` e git insertounos por baixo de nós. ¡Moi sinxelo!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, copia algo de traballo das outras ramas na master. Podes ver qué commits queremos copiar na visualización do obxectivo.",
+              "Para completar este nivel, copia algo de traballo das outras ramas na main. Podes ver qué commits queremos copiar na visualización do obxectivo.",
               ""
             ]
           }
@@ -426,7 +426,7 @@ exports.level = {
               "就是那樣！我們複製了 `C2` 以及 `C4` 並且把它們放到我們的後面，很簡單吧！"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
@@ -482,14 +482,14 @@ exports.level = {
               "这就是了！我们只需要提交记录 `C2` 和 `C4`，所以 Git 就将被它们抓过来放到当前分支下了。 就是这么简单!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要通过此关, 只需要简单的将三个分支中的提交记录复制到 master 上就可以了。目标窗口展示了我们想要哪些提交记录，如果你不小心关掉了的话，通过 `show goal` 命令可以打开，左上角也有“显示目标按钮”",
+              "要通过此关, 只需要简单的将三个分支中的提交记录复制到 main 上就可以了。目标窗口展示了我们想要哪些提交记录，如果你不小心关掉了的话，通过 `show goal` 命令可以打开，左上角也有“显示目标按钮”",
               ""
             ]
           }
@@ -539,7 +539,7 @@ exports.level = {
               "Das war's! Wir wollten die Commits `C2` und `C4` und Git hat die einfach unter unseren aktuellen Checkout kopiert. So einfach ist das."
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
@@ -596,7 +596,7 @@ exports.level = {
               "これだけで終わりです！コミット`C2` と `C4`を取得したかったわけですが、gitが現在の位置の直下に落としてくれました。単純ですね！"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
@@ -653,7 +653,7 @@ exports.level = {
               "Вуаля! Мы хотели перенести коммиты `C2` и `C4`, Git дал нам их там, где они нужны. Всё просто!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
@@ -710,7 +710,7 @@ exports.level = {
               "됬습니다! 우리는 `C2`와 `C4` 커밋을 원했고 git이 우리가 원하는 곳 바로 밑에 톡 떨어뜨려 줬습니다. 아주 간단하죠!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
@@ -767,14 +767,14 @@ exports.level = {
               "Овва! Ми хотіли коміти `C2` та `C4` і git додав їх до поточного розташування. Просто й доступно!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти це рівень, просто скопіюй якісь зміни з трьох гілок показаних на діаграмі в master. В візуалізації видно які коміти потрібно скопіювати.",
+              "Щоб пройти це рівень, просто скопіюй якісь зміни з трьох гілок показаних на діаграмі в main. В візуалізації видно які коміти потрібно скопіювати.",
               ""
             ]
           }
@@ -824,14 +824,14 @@ exports.level = {
               "Thế thôi! Chúng ta chỉ cần các commit `C2` và` C4`, vì vậy Git sẽ lấy chúng và đặt chúng dưới nhánh hiện tại. Thật đơn giản!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, hãy copy thành quả công việc từ 3 nhánh khác vào master. Bạn có thể nhìn vào mô tả mục tiêu để biết chúng ta cần những commit nào.",
+              "Để hoàn thành cấp độ này, hãy copy thành quả công việc từ 3 nhánh khác vào main. Bạn có thể nhìn vào mô tả mục tiêu để biết chúng ta cần những commit nào.",
               ""
             ]
           }
@@ -881,14 +881,14 @@ exports.level = {
               "To je to! Želeli smo commita `C2` in `C4` in git ju je prilimal točno pod nas. Preprosto!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout master; git commit;"
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za končanje te stopnje enostavno skopiraj nekaj dela iz predstavljenih treh branchev v master. V priloženi vizualizaciji lahko vidiš katere commite.",
+              "Za končanje te stopnje enostavno skopiraj nekaj dela iz predstavljenih treh branchev v main. V priloženi vizualizaciji lahko vidiš katere commite.",
               ""
             ]
           }

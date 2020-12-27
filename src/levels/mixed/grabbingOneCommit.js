@@ -99,7 +99,7 @@ exports.level = {
               "",
               "Tous ces debug se retrouvent dans une branche particulière. Je trouve le bug et le répare, comme toujours !",
               "",
-              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une autre façon..."
+              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le main. Il doit y avoir une autre façon..."
             ]
           }
         },

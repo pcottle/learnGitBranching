@@ -20,21 +20,21 @@ exports.level = {
     "sl_SI": "Oddaljeni Branchi"
   },
   "hint": {
-    "en_US": "Pay attention to the ordering -- commit on master first!",
-    "zh_CN": "注意顺序 —— 先在 master 分支上提交!",
-    "zh_TW": "注意順序的問題喔！先在 master branch 上面送 commit",
-    "es_AR": "Prestá atención al orden: ¡commiteá sobre master primero!",
-    "es_ES": "Presta atención al orden: ¡haz commit sobre master primero!",
-    "pt_BR": "Preste atenção na ordem: commite no master primeiro!",
-    "gl"   : "Preta atención á orde: fai commit no master primeiro",
-    "de_DE": "Beachte die Sortierung -- committe zuerst auf dem master!",
+    "en_US": "Pay attention to the ordering -- commit on main first!",
+    "zh_CN": "注意顺序 —— 先在 main 分支上提交!",
+    "zh_TW": "注意順序的問題喔！先在 main branch 上面送 commit",
+    "es_AR": "Prestá atención al orden: ¡commiteá sobre main primero!",
+    "es_ES": "Presta atención al orden: ¡haz commit sobre main primero!",
+    "pt_BR": "Preste atenção na ordem: commite no main primeiro!",
+    "gl"   : "Preta atención á orde: fai commit no main primeiro",
+    "de_DE": "Beachte die Sortierung -- committe zuerst auf dem main!",
     "ja"   : "順番に注意 -- まずmasterに対してcommitしましょう",
-    "fr_FR": "Prêtez attention à l'ordre -- les commits sur master d'abord !",
-    "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на master",
+    "fr_FR": "Prêtez attention à l'ordre -- les commits sur main d'abord !",
+    "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на main",
     "ko"   : "순서에 주의하세요 -- master에서 먼저 커밋하세요!",
     "uk"   : "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
-    "vi"   : "Chú ý đến thứ tự -- commit trên nhánh master trước!",
-    "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na master!"
+    "vi"   : "Chú ý đến thứ tự -- commit trên nhánh main trước!",
+    "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!"
   },
   "startDialog": {
     "en_US": {
@@ -47,7 +47,7 @@ exports.level = {
               "",
               "Now that you've seen `git clone` in action, let's dive into what actually changed.",
               "",
-              "The first thing you may have noticed is that a new branch appeared in our local repository called `o/master`. This type of branch is called a _remote_ branch; remote branches have special properties because they serve a unique purpose.",
+              "The first thing you may have noticed is that a new branch appeared in our local repository called `o/main`. This type of branch is called a _remote_ branch; remote branches have special properties because they serve a unique purpose.",
               "",
               "Remote branches reflect the _state_ of remote repositories (since you last talked to those remote repositories). They help you understand the difference between your local work and what work is public -- a critical step to take before sharing your work with others.",
               "",
@@ -65,7 +65,7 @@ exports.level = {
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "Hence, if you look at a branch named `o/master`, the branch name is `main` and the name of the remote is `o`.",
+              "Hence, if you look at a branch named `o/main`, the branch name is `main` and the name of the remote is `o`.",
               "",
               "Most developers actually name their main remote `origin`, not `o`. This is so common that git actually sets up your remote to be named `origin` when you `git clone` a repository.",
               "",
@@ -82,9 +82,9 @@ exports.level = {
               "Lets check out a remote branch and see what happens."
             ],
             "afterMarkdowns": [
-              "As you can see, git put us into detached `HEAD` mode and then did not update `o/master` when we added a new commit. This is because `o/master` will only update when the remote updates."
+              "As you can see, git put us into detached `HEAD` mode and then did not update `o/main` when we added a new commit. This is because `o/main` will only update when the remote updates."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -92,7 +92,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, commit once off of `main` and once after checking out `o/master`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+              "To finish this level, commit once off of `main` and once after checking out `o/main`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
             ]
           }
         }
@@ -108,7 +108,7 @@ exports.level = {
               "",
               "Maintenant que nous avons vu `git clone` en action, plongeons dans ce qui a changé.",
               "",
-              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans votre dépôt local appelée `o/master`. Ce type de branche est appelée une branche _distante_ ; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
+              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans votre dépôt local appelée `o/main`. Ce type de branche est appelée une branche _distante_ ; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
               "",
               "Les branches distantes reflètent _l'état_ des dépôts distants (depuis la dernière fois où vous avez parlé avec ceux-ci). Elles vous aident à comprendre les différences entre votre travail et le travail public -- une étape critique à effectuer avant de partager son travail avec les autres.",
               "",
@@ -126,7 +126,7 @@ exports.level = {
               "",
               "* `<nom dépôt distant>/<nom de la branche>`",
               "",
-              "Donc, si vous regardez une branche nommée `o/master`, le nom de la branche est `main` et le nom du dépôt distant est `o`.",
+              "Donc, si vous regardez une branche nommée `o/main`, le nom de la branche est `main` et le nom du dépôt distant est `o`.",
               "",
               "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait votre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
               "",
@@ -143,9 +143,9 @@ exports.level = {
               "Rendons-nous sur une branche et regardons ce qui se passe."
             ],
             "afterMarkdowns": [
-              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/master` quand nous avons ajouté un nouveau commit. C'est parce que `o/master` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
+              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/main` quand nous avons ajouté un nouveau commit. C'est parce que `o/main` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -153,7 +153,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, faîtes un commit en dehors de `main` puis un après vous être rendu dans `o/master`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
+              "Pour finir ce niveau, faîtes un commit en dehors de `main` puis un après vous être rendu dans `o/main`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
             ]
           }
         }
@@ -169,7 +169,7 @@ exports.level = {
               "",
               "Ahora que viste `git clone` en acción, ahondemos en lo que realmente cambió.",
               "",
-              "Lo primero que habrás notado es que apareció una nueva rama en tu repositorio local llamada `o/master`. A este tipo de ramas se las llama ramas _remotas_. Las ramas remotas tienen propiedades especiales porque sirven un propósito específico.",
+              "Lo primero que habrás notado es que apareció una nueva rama en tu repositorio local llamada `o/main`. A este tipo de ramas se las llama ramas _remotas_. Las ramas remotas tienen propiedades especiales porque sirven un propósito específico.",
               "",
               "Las ramas remotas reflejan el _estado_ de los repositorios remotos (cómo estaban la última vez que hablaste con ellos). Te ayudan a entender las diferencias entre tu trabajo local y el trabajo que ya está publicado - un paso crítico antes de compartir tu trabajo con los demás.",
               "",
@@ -187,7 +187,7 @@ exports.level = {
               "",
               "* `<nombre del remoto>/<nombre de la rama>`",
               "",
-              "Entonces, si mirás una rama llamada `o/master`, el nombre de la rama es `main`, y el nombre del remoto es `o`.",
+              "Entonces, si mirás una rama llamada `o/main`, el nombre de la rama es `main`, y el nombre del remoto es `o`.",
               "",
               "La mayoría de los desarrolladores llaman `origin` a su remoto en lugar de `o`. Esto es tan común que git efectivamente crea tu remoto llamándolo `origin` cuando hacés `git clone` de un repositorio.",
               "",
@@ -204,9 +204,9 @@ exports.level = {
               "Checkouteemos una rama remota a ver qué pasa."
             ],
             "afterMarkdowns": [
-              "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/master` cuando creamos un nuevo commit. Esto es porque `o/master` sólo va a actualizarse cuando el remoto se actualice."
+              "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/main` cuando creamos un nuevo commit. Esto es porque `o/main` sólo va a actualizarse cuando el remoto se actualice."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -214,7 +214,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, commiteá una vez sobre `main` y una después de checkoutear `o/master`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+              "Para completar este nivel, commiteá una vez sobre `main` y una después de checkoutear `o/main`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }
@@ -230,7 +230,7 @@ exports.level = {
               "",
               "Ahora que viste `git clone` en acción, ahondemos en lo que realmente cambió.",
               "",
-              "Lo primero que habrás notado es que apareció una nueva rama en tu repositorio local llamada `o/master`. A este tipo de ramas se las llama ramas _remotas_. Las ramas remotas tienen propiedades especiales porque sirven un propósito específico.",
+              "Lo primero que habrás notado es que apareció una nueva rama en tu repositorio local llamada `o/main`. A este tipo de ramas se las llama ramas _remotas_. Las ramas remotas tienen propiedades especiales porque sirven un propósito específico.",
               "",
               "Las ramas remotas reflejan el _estado_ de los repositorios remotos (cómo estaban la última vez que hablaste con ellos). Te ayudan a entender las diferencias entre tu trabajo local y el trabajo que ya está publicado - un paso crítico antes de compartir tu trabajo con los demás.",
               "",
@@ -248,7 +248,7 @@ exports.level = {
               "",
               "* `<nombre del remoto>/<nombre de la rama>`",
               "",
-              "Entonces, si observas una rama llamada `o/master`, el nombre de la rama es `main`, y el nombre del remoto es `o`.",
+              "Entonces, si observas una rama llamada `o/main`, el nombre de la rama es `main`, y el nombre del remoto es `o`.",
               "",
               "La mayoría de los desarrolladores llaman `origin` a su remoto en lugar de `o`. Esto es tan común que git efectivamente crea tu remoto llamándolo `origin` cuando haces `git clone` de un repositorio.",
               "",
@@ -265,9 +265,9 @@ exports.level = {
               "Hagamos checkout sobre una rama remota a ver qué pasa."
             ],
             "afterMarkdowns": [
-              "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/master` cuando creamos un nuevo commit. Esto ocurre porque `o/master` sólo va a actualizarse cuando el remoto se actualice."
+              "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/main` cuando creamos un nuevo commit. Esto ocurre porque `o/main` sólo va a actualizarse cuando el remoto se actualice."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -275,7 +275,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, haz commit una vez sobre `main` y otra vez después de checkoutear `o/master`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+              "Para completar este nivel, haz commit una vez sobre `main` y otra vez después de checkoutear `o/main`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }
@@ -291,7 +291,7 @@ exports.level = {
               "",
               "Agora que vimos o `git clone` em ação, vamos estudar aquilo que realmente mudou.",
               "",
-              "A primeira coisa que você pode ter percebido é que um novo ramo chamado `o/master` aparece no nosso repositório local. Esse tipo de ramo é chamado de ramo _remoto_; ramos remotos possuem propriedades especiais pois eles servem a um propósito único.",
+              "A primeira coisa que você pode ter percebido é que um novo ramo chamado `o/main` aparece no nosso repositório local. Esse tipo de ramo é chamado de ramo _remoto_; ramos remotos possuem propriedades especiais pois eles servem a um propósito único.",
               "",
               "Ramos remotos refletem o _estado_ de repositórios remotos (desde a última vez na qual você falou com eles). Eles ajudam a entender as diferenças entre o trabalho local e o trabalho atualmente público -- um passo crítico a ser dado antes de compartilhar seu trabalho com os outros.",
               "",
@@ -309,7 +309,7 @@ exports.level = {
               "",
               "* `<nome do repositório remoto>/<nome do ramo>`",
               "",
-              "Então, se o ramo remoto é chamado `o/master`, o nome do ramo é `main` e o nome do repositório remoto é `o`.",
+              "Então, se o ramo remoto é chamado `o/main`, o nome do ramo é `main` e o nome do repositório remoto é `o`.",
               "",
               "A maioria dos desenvolvedores na verdade chama o repositório remoto principal de `origin`, e não de `o`. Isso é tão comum que o Git define por padrão o nome `origin` para o repositório remoto quando você usa o comando `git clone` para clonar um repositório.",
               "",
@@ -326,9 +326,9 @@ exports.level = {
               "Vamos fazer checkout de um ramo remoto e ver o que acontece."
             ],
             "afterMarkdowns": [
-              "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou o `o/master` quando adicionamos um novo commit. Isso é porque o `o/master` só será atualizado quando o repositório remoto for atualizado."
+              "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou o `o/main` quando adicionamos um novo commit. Isso é porque o `o/main` só será atualizado quando o repositório remoto for atualizado."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -336,7 +336,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, commite uma vez em `main`, e outra vez depois de fazer checkout em `o/master`. Isso vai ajudá-lo a sentir como os ramos remotos se comportam de forma diferente, e como eles apenas se atualizam para refletir o estado do repositório remoto."
+              "Para completar este nível, commite uma vez em `main`, e outra vez depois de fazer checkout em `o/main`. Isso vai ajudá-lo a sentir como os ramos remotos se comportam de forma diferente, e como eles apenas se atualizam para refletir o estado do repositório remoto."
             ]
           }
         }
@@ -352,7 +352,7 @@ exports.level = {
               "",
               "Agora que viches `git clone` en acción, mergullémonos no que realmente mudou.",
               "",
-              "O primeiro que notarías é que apareceu unha nova rama no teu repositorio local chamada `o/master`. A este tipo de ramas chámaselle ramas _remotas_. As ramas remotas teñén propiedades especiais porque serven para un propósito específico.",
+              "O primeiro que notarías é que apareceu unha nova rama no teu repositorio local chamada `o/main`. A este tipo de ramas chámaselle ramas _remotas_. As ramas remotas teñén propiedades especiais porque serven para un propósito específico.",
               "",
               "As ramas remotas reflexan o _estado_ dos repositorios remotos (como estaban á última vez que falaches con eles). Axúdante a entender as diferencias entre o teu traballo local e o teu traballo que xa está publicado - un paso crítico antes de compartir o teu traballo cos demáis.",
               "",
@@ -370,7 +370,7 @@ exports.level = {
               "",
               "* `<nome do remoto>/<nome da rama>`",
               "",
-              "Entonces, se miras unha rama chamada `o/master`, o nome da rama é `main`, e o nome do remoto é `o`.",
+              "Entonces, se miras unha rama chamada `o/main`, o nome da rama é `main`, e o nome do remoto é `o`.",
               "",
               "A maioría dos desenvolvedores chaman `origin` ó seu remoto no lugar de `o`. Esto é tan común que git efectivamente crea o teu remoto chamandoo `origin` cando fas `git clone` dun repositorio.",
               "",
@@ -389,7 +389,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como ves, git púxonos no modo detached `HEAD` e non actualizou `o/mater` cando creamos un novo commit. Esto é porque `o/mater` só vai actualizarse cando o remoto se actualice."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -397,7 +397,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, fai commit unha vez sobre `mater` e despois de facer o checkout a `o/master`. Esto vaite axudar a entender cómo funcionan as ramas remotas, e que só se actualizan para reflexar o estado do remoto."
+              "Para completar este nivel, fai commit unha vez sobre `mater` e despois de facer o checkout a `o/main`. Esto vaite axudar a entender cómo funcionan as ramas remotas, e que só se actualizan para reflexar o estado do remoto."
             ]
           }
         }
@@ -413,7 +413,7 @@ exports.level = {
               "",
               "現在你已經知道 `git clone` 在幹嘛了，讓我們仔細看看到底發生了什麼事。",
               "",
-              "你首先看到的是在你的本地端（local repository）出現了一個新的 branch 叫作 `o/master`，這種型態的 branch 叫作 remote branch （遠端分支），因為特殊的需求，因此 remote branch 有特殊的性質。",
+              "你首先看到的是在你的本地端（local repository）出現了一個新的 branch 叫作 `o/main`，這種型態的 branch 叫作 remote branch （遠端分支），因為特殊的需求，因此 remote branch 有特殊的性質。",
               "",
               "remote branch 反應了 remote repository 的狀態（因為你最後接觸的是這些 remote repository），最重要的是，在你想要分享你的 commit 給其他人時，你必須知道你現在的 commit 跟 remote repository 有哪些不同，而 remote branch 的狀態就是在告訴你這些資訊。",
               "",
@@ -431,7 +431,7 @@ exports.level = {
               "",
               "* `<remote 名稱>/<branch 名稱>`",
               "",
-              "因此，當你看到一個 branch 叫做 `o/master`，就表示這個 branch 叫做 master，而且這個 remote 的名稱叫作 `o`。",
+              "因此，當你看到一個 branch 叫做 `o/main`，就表示這個 branch 叫做 main，而且這個 remote 的名稱叫作 `o`。",
               "",
               "很多程式設計師實際上會把他們的 remote 命名為 `origin`，而不是 `o`，這在 git 是很常見的事情，因為當你使用 `git clone` 時，git 會自動把你的 remote 命名為 `origin`。",
               "",
@@ -448,9 +448,9 @@ exports.level = {
               "讓我們移動到（checkout）一個 remote branch 並且看一下會發生什麼事情"
             ],
             "afterMarkdowns": [
-              "就像你看到的， git 讓我們進到 detached `HEAD` 狀態，同時，當我們加入一個新的 commit 時，`o/master` 都沒有更新，這是因為只有當 remote 更新的時候，`o/master` 才會更新。"
+              "就像你看到的， git 讓我們進到 detached `HEAD` 狀態，同時，當我們加入一個新的 commit 時，`o/main` 都沒有更新，這是因為只有當 remote 更新的時候，`o/main` 才會更新。"
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -458,7 +458,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這一關，先在 master branch 上面做一次 commit，再移動到 `o/master` 上做一次 commit，這有助於我們了解到 remote branch 的不同，它們只會反應 remote 的狀態。"
+              "要完成這一關，先在 main branch 上面做一次 commit，再移動到 `o/main` 上做一次 commit，這有助於我們了解到 remote branch 的不同，它們只會反應 remote 的狀態。"
             ]
           }
         }
@@ -474,7 +474,7 @@ exports.level = {
               "",
               "Nun da du `git clone` in Aktion gesehen hast, lass uns tiefer in die Materie eintauchen.",
               "",
-              "Dir ist wahrscheinlich als Erstes aufgefallen, dass ein neuer Branch namens `o/master` in unserem lokalen Repository aufgetaucht ist. Diese Art von Branch nennt sich _Remote_ Branch; er hat besondere Eigenschaften, weil er einem bestimmten Zweck dient.",
+              "Dir ist wahrscheinlich als Erstes aufgefallen, dass ein neuer Branch namens `o/main` in unserem lokalen Repository aufgetaucht ist. Diese Art von Branch nennt sich _Remote_ Branch; er hat besondere Eigenschaften, weil er einem bestimmten Zweck dient.",
               "",
               "Ein Remote Branch bildet den Zustand des entsprechenden Branch in einem entfernten Repository ab (dem Zustand in dem der Branch war, als du das letzte Mal das entfernte Repository angesprochen hast). Er hilft dir, den Unterschied zwischen deinem lokalen Branch und dem Gegenstück auf dem Server zu sehen -- eine nötige Information, bevor du deine Arbeit mit anderen teilen kannst.",
               "",
@@ -492,7 +492,7 @@ exports.level = {
               "",
               "* `<Name des Remote>/<Name des Branches>`",
               "",
-              "Wenn du also einen Remote Branch namens `o/master` hast, ist es eine Abbildung des Branches `main` auf dem Server, der in deinem Repository als `o` bekannt ist.",
+              "Wenn du also einen Remote Branch namens `o/main` hast, ist es eine Abbildung des Branches `main` auf dem Server, der in deinem Repository als `o` bekannt ist.",
               "",
               "Die meisten Entwickler nennen das Haupt-Remote eigentlich `origin` und nicht `o`. Das ist so verbreitet, dass Git den entfernten Server, von dem man ein `git clone` macht, standardmäßig als `origin` im Clone speichert.",
               "",
@@ -509,9 +509,9 @@ exports.level = {
               "Checken wir mal einen Remote Branch aus und schauen was passiert."
             ],
             "afterMarkdowns": [
-              "Wie du siehst setzt uns Git in den \"Detached `HEAD`\" Modus und aktualisiert dann nach dem Commit nicht den Branch `o/master`. Das liegt daran, dass der Remote Branch nur aktualisiert wird, wenn sich der entsprechende Branch auf dem Remote verändert."
+              "Wie du siehst setzt uns Git in den \"Detached `HEAD`\" Modus und aktualisiert dann nach dem Commit nicht den Branch `o/main`. Das liegt daran, dass der Remote Branch nur aktualisiert wird, wenn sich der entsprechende Branch auf dem Remote verändert."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -519,7 +519,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu bewältigen musst du einen Commit in `main` machen und einen nachdem du `o/master` ausgecheckt hast. Das illustriert noch einmal wie sich Branches und Remote Branches unterschiedlich verhalten und dass letztere sich nur verändern, wenn sich ihr Zustand auf dem entfernten Server ändert."
+              "Um diesen Level zu bewältigen musst du einen Commit in `main` machen und einen nachdem du `o/main` ausgecheckt hast. Das illustriert noch einmal wie sich Branches und Remote Branches unterschiedlich verhalten und dass letztere sich nur verändern, wenn sich ihr Zustand auf dem entfernten Server ändert."
             ]
           }
         }
@@ -535,7 +535,7 @@ exports.level = {
               "",
               "既然你已经看过 `git clone` 命令了，咱们深入地看一下发生了什么。",
               "",
-              "你可能注意到的第一个事就是在我们的本地仓库多了一个名为 `o/master` 的分支, 这种类型的分支就叫**远程**分支。由于远程分支的特性导致其拥有一些特殊属性。",
+              "你可能注意到的第一个事就是在我们的本地仓库多了一个名为 `o/main` 的分支, 这种类型的分支就叫**远程**分支。由于远程分支的特性导致其拥有一些特殊属性。",
               "",
               "远程分支反映了远程仓库(在你上次和它通信时)的**状态**。这会有助于你理解本地的工作与公共工作的差别 —— 这是你与别人分享工作成果前至关重要的一步.",
               "",
@@ -553,7 +553,7 @@ exports.level = {
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "因此，如果你看到一个名为 `o/master` 的分支，那么这个分支就叫 `main`，远程仓库的名称就是 `o`。",
+              "因此，如果你看到一个名为 `o/main` 的分支，那么这个分支就叫 `main`，远程仓库的名称就是 `o`。",
               "",
               "大多数的开发人员会将它们主要的远程仓库命名为 `origin`，并不是 `o`。这是因为当你用 `git clone` 某个仓库时，Git 已经帮你把远程仓库的名称设置为 `origin` 了",
               "",
@@ -570,9 +570,9 @@ exports.level = {
               "如果检出远程分支会怎么样呢？"
             ],
             "afterMarkdowns": [
-              "正如你所见，Git 变成了分离 HEAD 状态，当添加新的提交时 `o/master` 也不会更新。这是因为 `o/master` 只有在远程仓库中相应的分支更新了以后才会更新。"
+              "正如你所见，Git 变成了分离 HEAD 状态，当添加新的提交时 `o/main` 也不会更新。这是因为 `o/main` 只有在远程仓库中相应的分支更新了以后才会更新。"
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -580,7 +580,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要通过本关，在 `main` 分支上做一次提交；然后检出 `o/master`，再做一提交。这有助于你理解远程分支的不同，他们的更新只是反映了远程的状态。"
+              "要通过本关，在 `main` 分支上做一次提交；然后检出 `o/main`，再做一提交。这有助于你理解远程分支的不同，他们的更新只是反映了远程的状态。"
             ]
           }
         }
@@ -614,7 +614,7 @@ exports.level = {
               "",
               "* `<リモート名>/<ブランチ名>`",
               "",
-              "これに基づいて、`o/master`と名付けられたブランチを見てみると、`main`はブランチの名前、`o`はリモートの名前であることが分かります。",
+              "これに基づいて、`o/main`と名付けられたブランチを見てみると、`main`はブランチの名前、`o`はリモートの名前であることが分かります。",
               "",
               "多くの開発者は、実際にはメインのリモート名として`o`ではなく`origin`を使います。これは一般的には、Gitが`git clone`した時に`origin`という名前をリモートに付与するためです。",
               "",
@@ -631,9 +631,9 @@ exports.level = {
               "リモートブランチをチェックアウトすると何が起こるかを見てみましょう"
             ],
             "afterMarkdowns": [
-              "見ていた通り、`o/master`に移ってから新しいコミットをしても`HEAD`が分離状態になり`o/master`は更新されていません。これは、`o/master`がリモートの更新時のみ更新されるからです。"
+              "見ていた通り、`o/main`に移ってから新しいコミットをしても`HEAD`が分離状態になり`o/main`は更新されていません。これは、`o/main`がリモートの更新時のみ更新されるからです。"
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -641,7 +641,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルを終えるには、まずコミットを`main`に一回行い、その後`o/master`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
+              "このレベルを終えるには、まずコミットを`main`に一回行い、その後`o/main`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
             ]
           }
         }
@@ -657,7 +657,7 @@ exports.level = {
                         "",
                         "Теперь, когда вы уже увидели `git clone` в действии, давайте углубимся в детали и посмотрим что же на самом деле изменилось.",
                         "",
-                        "Во-первых, вы должны были заметить, что у нас в локальном репозитории появилась новая ветка с именем `o/master`. Такой тип ветки называется _удалённой_ веткой. Поскольку удалённые ветки играют важную и уникальную роль, они обладают рядом специальных свойств.",
+                        "Во-первых, вы должны были заметить, что у нас в локальном репозитории появилась новая ветка с именем `o/main`. Такой тип ветки называется _удалённой_ веткой. Поскольку удалённые ветки играют важную и уникальную роль, они обладают рядом специальных свойств.",
                         "",
                         "Удалённые ветки отражают _состояние_ удалённых репозиториев (с того момента, как вы обращались к этим удалённым репозиториям в последний раз). Они позволяют вам отслеживать и видеть разницу между вашими локальными наработками и тем, что было сделано другими участниками - важный шаг, который необходимо делать, прежде чем делиться своими наработками с другими.",
                         "",
@@ -675,7 +675,7 @@ exports.level = {
                         "",
                         "* `<удалённый репозиторий>/<имя ветки>`",
                         "",
-                        "Следовательно, если вы взглянете на имя ветки `o/master`, то здесь `main` - это имя ветки, а `o` - это имя удалённого репозитория.",
+                        "Следовательно, если вы взглянете на имя ветки `o/main`, то здесь `main` - это имя ветки, а `o` - это имя удалённого репозитория.",
                         "",
                         "Большинство разработчиков именуют свои главные удалённые репозитории не как `o`, а как `origin`. Также общепринятым является именование удалённого репозитория как `origin`, когда вы клонируете репозиторий командой `git clone`.",
                         "",
@@ -692,9 +692,9 @@ exports.level = {
                         "Давайте извлечём (check out) удалённую ветку и посмотрим что произойдёт"
                     ],
                     "afterMarkdowns": [
-                        "Как вы можете видеть, git отделил (detached) `HEAD` и не обновил `o/master`, когда мы добавили новый коммит. Всё потому, что `o/master` обновится тогда и только тогда, когда обновится сам удалённый репозиторий."
+                        "Как вы можете видеть, git отделил (detached) `HEAD` и не обновил `o/main`, когда мы добавили новый коммит. Всё потому, что `o/main` обновится тогда и только тогда, когда обновится сам удалённый репозиторий."
                     ],
-                    "command": "git checkout o/master; git commit",
+                    "command": "git checkout o/main; git commit",
                     "beforeCommand": "git clone"
                 }
             },
@@ -702,7 +702,7 @@ exports.level = {
                 "type": "ModalAlert",
                 "options": {
                     "markdowns": [
-                        "Для завершения уровня выполните коммит единожды на `main`, а затем на `o/master` (предварительно переключившись на эту ветку). Это наглядно продемонстрирует поведение удалённых веток, а также покажет, как изменения влияют на состояние удалённых репозиториев."
+                        "Для завершения уровня выполните коммит единожды на `main`, а затем на `o/main` (предварительно переключившись на эту ветку). Это наглядно продемонстрирует поведение удалённых веток, а также покажет, как изменения влияют на состояние удалённых репозиториев."
                     ]
                 }
             }
@@ -718,7 +718,7 @@ exports.level = {
               "",
               "이제 `git clone`을 직접 확인 해 보셨습니다. 이제 무엇이 변했는지 살펴 봅시다.",
               "",
-              "가장 먼저 알아차릴만한 변화는 우리의 로컬 저장소에 `o/master`라고하는 새 브랜치가 생긴겁니다. 이런 종류의 브랜치는 _원격_브랜치라고 불립니다; 원격 브랜치는 특정한 목적을 제공하기 때문에 특별한 속성들이 있습니다.",
+              "가장 먼저 알아차릴만한 변화는 우리의 로컬 저장소에 `o/main`라고하는 새 브랜치가 생긴겁니다. 이런 종류의 브랜치는 _원격_브랜치라고 불립니다; 원격 브랜치는 특정한 목적을 제공하기 때문에 특별한 속성들이 있습니다.",
               "",
               "원격 브랜치는 원격 저장소의 _상태_를 반영합니다(가장 최근 원격 원격저장소와 작업을 했을때를 기준으로). 원격 브랜치는 로컬에서의 작업과 공개적으로 되고있는 작업의 차이를 이해하는데 도와줍니다 -- 다른 사람들과 작업을 공유하기전에 반드시해야할 과정이죠.",
               "",
@@ -736,7 +736,7 @@ exports.level = {
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "이런 이유로, 만약 `o/master`라는 이름의 브랜치를 보게되면, 브랜치의 이름은 `main`이고 원격 저장소의 이름은 `o`인겁니다.",
+              "이런 이유로, 만약 `o/main`라는 이름의 브랜치를 보게되면, 브랜치의 이름은 `main`이고 원격 저장소의 이름은 `o`인겁니다.",
               "",
               "대부분의 개발자들은 자신의 주 원격 저장소를 `o`가 아닌 `origin`이라고 짓습니다. 사실 보통 다 이렇게 쓰기 때문에 git은 저장소를 `git clone`하게 되면 원격 저장소의 이름을 `origin`이라고 자동으로 설정해놓습니다.",
               "",
@@ -753,9 +753,9 @@ exports.level = {
               "원격 브랜치를 체크아웃하고 무엇이 일어나는지 확인해 봅시다"
             ],
             "afterMarkdowns": [
-              "보이는것 처럼, git은 우리를 분리된 `HEAD` 모드로 만들고 새로운 커밋을 추가해도 `o/master`를 갱신하지 않습니다. 이것은 `o/master`가 원격 저장소가 갱신될때만 갱신되기 때문입니다."
+              "보이는것 처럼, git은 우리를 분리된 `HEAD` 모드로 만들고 새로운 커밋을 추가해도 `o/main`를 갱신하지 않습니다. 이것은 `o/main`가 원격 저장소가 갱신될때만 갱신되기 때문입니다."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -763,7 +763,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "다음 레벨로 가기 위해서는 `main`에서 한번 커밋하고 `o/master`를 체크아웃 하고 다시 한번 커밋을 하세요. 이를 통해서 원격 브랜치가 어떻게 다르게 작동하는지 알아보고, 원격 브랜치는 원격 저장소의 상태를 반영하기만 한다는것을 이해해 봅시다."
+              "다음 레벨로 가기 위해서는 `main`에서 한번 커밋하고 `o/main`를 체크아웃 하고 다시 한번 커밋을 하세요. 이를 통해서 원격 브랜치가 어떻게 다르게 작동하는지 알아보고, 원격 브랜치는 원격 저장소의 상태를 반영하기만 한다는것을 이해해 봅시다."
             ]
           }
         }
@@ -779,7 +779,7 @@ exports.level = {
               "",
               "Тепер, коли ти познайомився з `git clone` в дії, розгляньмо деталі й подивімося, що дійсно змінилося.",
               "",
-              "Перше, що ти міг помітити -- це те, що з’явився новий бранч з назвою `o/master`. Такі гілки називаються  _віддаленими_ (remote); віддалені гілки в гіт відіграють в певному сенсі унікальну роль, тому в них є деякі спеціальні властивості, непритаманні іншим гілкам.",
+              "Перше, що ти міг помітити -- це те, що з’явився новий бранч з назвою `o/main`. Такі гілки називаються  _віддаленими_ (remote); віддалені гілки в гіт відіграють в певному сенсі унікальну роль, тому в них є деякі спеціальні властивості, непритаманні іншим гілкам.",
               "",
               "Віддалені гілки відображають _стан_ віддалених репозиторіїв (точніше, стан віддаленого репо на момент останньої синхронізації). Вони дозволяють  відрізняти та відслідковувати локальні зміни та зміни інших учасників, що є дуже важливим для успішної синхронізації роботи між різними репозиторіями.",
               "",
@@ -797,7 +797,7 @@ exports.level = {
               "",
               "* `<ім’я віддаленого репо>/<ім’я гілки>`",
               "",
-              "Отже, якщо розглянути гілку з назвою `o/master`, то ім’я гілки -- це `main` а ім’я віддаленого репозиторію -- це `o`.",
+              "Отже, якщо розглянути гілку з назвою `o/main`, то ім’я гілки -- це `main` а ім’я віддаленого репозиторію -- це `o`.",
               "",
               "Більшість розробників насправді називають ім’я головного віддаленого репозиторію `origin` (початок), а не `o`. Це настільки поширена практика, що гіт автоматично називає віддалений репозиторій `origin` коли ти його клонуєш.",
               "",
@@ -814,9 +814,9 @@ exports.level = {
               "Зробімо checkout віддаленої гілки й подивімось, що буде"
             ],
             "afterMarkdowns": [
-              "Як бачиш, git перейшов в стан `detached HEAD` і не оновив `o/master` коли ми зробили новий коміт. Це тому, що `o/master` буде оновлено лише тоді, коли буде оновлено віддалений репозиторій."
+              "Як бачиш, git перейшов в стан `detached HEAD` і не оновив `o/main` коли ми зробили новий коміт. Це тому, що `o/main` буде оновлено лише тоді, коли буде оновлено віддалений репозиторій."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -824,7 +824,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти цей рівень, зроби один коміт в `main`, а потім переключись в `o/master` і закомітся ще раз. Це наглядно продемонструє поведінку віддалених гілок, а також покаже як зміни впливають на стан віддаленого репозиторію."
+              "Щоб пройти цей рівень, зроби один коміт в `main`, а потім переключись в `o/main` і закомітся ще раз. Це наглядно продемонструє поведінку віддалених гілок, а також покаже як зміни впливають на стан віддаленого репозиторію."
             ]
           }
         }
@@ -840,7 +840,7 @@ exports.level = {
               "",
               "Giờ bạn đã thấy cách thức hoạt động của `git clone`, cùng xem xét kỹ hơn những gì đã xảy ra.",
               "",
-              "Điều đầu tiên mà có thể bạn để ý là một nhánh mới xuất hiện trong kho chứa địa phương của ta là `o/master`. Loại nhánh này được gọi là nhánh _từ xa_ (_remote_) ; nhánh từ xa có những thuộc tính đặc biệt vì chúng phục vụ những mục đích duy nhất.",
+              "Điều đầu tiên mà có thể bạn để ý là một nhánh mới xuất hiện trong kho chứa địa phương của ta là `o/main`. Loại nhánh này được gọi là nhánh _từ xa_ (_remote_) ; nhánh từ xa có những thuộc tính đặc biệt vì chúng phục vụ những mục đích duy nhất.",
               "",
               "Nhánh từ xa phản ánh _trạng thái_ (_state_) của kho chứa từ xa (kể từ lần cuối cùng bạn tương tác với kho chứa từ xa). Chúng giúp bạn hiểu về sự khác biệt giữa công tác trên kho chứa cục bộ với kho chứa từ xa -- một bước quan trọng trước khi chia sẻ công việc của bạn với người khác.",
               "",
@@ -858,7 +858,7 @@ exports.level = {
               "",
               "* `<tên kho từ xa>/<tên nhánh>`",
               "",
-              "Do đó, ở trong `o/master` thì `main` là tên nhánh còn `o` là tên kho chứa từ xa.",
+              "Do đó, ở trong `o/main` thì `main` là tên nhánh còn `o` là tên kho chứa từ xa.",
               "",
               "Thực tế thì hầu hết các nhà phát triển đặt tên kho chứa từ xa là `origin` chứ không phải `o`. Nó trở thành thông lệ đến nỗi Git đặt tên `origin` cho kho chứa từ xa khi bạn dùng `git clone` để sao chép một kho chứa.",
               "",
@@ -875,9 +875,9 @@ exports.level = {
               "Hãy thử chuyển sang nhánh từ xa xem điểu gì xảy ra."
             ],
             "afterMarkdowns": [
-              "Như bạn thấy, git đưa ta vào trạng thái `HEAD` và không cập nhật nhánh `o/master` khi ta thêm một commit. Đó là bởi vì `o/master` chỉ cập nhật khi kho chứa từ xa được cập nhật."
+              "Như bạn thấy, git đưa ta vào trạng thái `HEAD` và không cập nhật nhánh `o/main` khi ta thêm một commit. Đó là bởi vì `o/main` chỉ cập nhật khi kho chứa từ xa được cập nhật."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -885,7 +885,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, commit một lần trên `main` và một lần nữa sau khi chuyển sang `o/master`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."
+              "Để hoàn thành cấp độ này, commit một lần trên `main` và một lần nữa sau khi chuyển sang `o/main`. Điều nãy sẽ giúp ta hiểu cách nhánh từ xa hành xử, chúng chỉ cập nhật để phản ánh trạng thái của kho chứa từ xa."
             ]
           }
         }
@@ -901,7 +901,7 @@ exports.level = {
               "",
               "Sedaj ko smo videli `git clone` v praksi se poglobimo v dejanske spremembe.",
               "",
-              "Prva stvar, ki si jo morda opazil je, da se je pojavil nov branch na našem lokalnem repotu imenovan `o/master`. Temu tipu brancha pravimo _oddaljen_ (remote) branch; oddaljeni branchi imajo posebne lastnosti, ker služijo določenim namenom.",
+              "Prva stvar, ki si jo morda opazil je, da se je pojavil nov branch na našem lokalnem repotu imenovan `o/main`. Temu tipu brancha pravimo _oddaljen_ (remote) branch; oddaljeni branchi imajo posebne lastnosti, ker služijo določenim namenom.",
               "",
               "Oddaljeni branchi odražajo _stanje_ oddaljenega repozitorija (od kar si nazadnje komuniciral z oddaljenim repotom). To ti morda pomaga razumeti razliko med tvojim lokalnim delom in delom, ki je javno -- ključni korak, preden deliš svoje delo z ostalimi.",
               "",
@@ -919,7 +919,7 @@ exports.level = {
               "",
               "* `<ime oddaljenega repota>/<ime brancha>`",
               "",
-              "Posledično, če pogledamo branch poimenovan `o/master`, je ime brancha `main`, ime oddaljenega repota pa `o`.",
+              "Posledično, če pogledamo branch poimenovan `o/main`, je ime brancha `main`, ime oddaljenega repota pa `o`.",
               "",
               "Večina razvijalcev v bistvu poimenuje njihov glavni oddaljeni repozitorij `origin`, ne `o`. To je takoj pogosto, da git ubistvu nastavi tvoj oddaljen repo z imenom `origin` ko izvedeš `git clone` nad repozitorijem.",
               "",
@@ -936,9 +936,9 @@ exports.level = {
               "Checkoutajmo oddaljen branch in poglejmo kaj se zgodi."
             ],
             "afterMarkdowns": [
-              "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/master`, ko dodamo nov commit. To je zato, ker se bo `o/master` posodobil šele, ko se bo posodobil oddaljen repo."
+              "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/main`, ko dodamo nov commit. To je zato, ker se bo `o/main` posodobil šele, ko se bo posodobil oddaljen repo."
             ],
-            "command": "git checkout o/master; git commit",
+            "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
           }
         },
@@ -946,7 +946,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje, commitaj enkrat iz `main` in enkrat, ko checkoutaš `o/master`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
+              "Za dokončanje te stopnje, commitaj enkrat iz `main` in enkrat, ko checkoutaš `o/main`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
             ]
           }
         }

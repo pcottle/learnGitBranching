@@ -79,7 +79,7 @@ exports.level = {
             "afterMarkdowns": [
               "See! HEAD was hiding underneath our `main` branch all along."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -91,7 +91,7 @@ exports.level = {
               "",
               "Detaching HEAD just means attaching it to a commit instead of a branch. This is what it looks like beforehand:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -157,7 +157,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ves! HEAD estuvo oculta bajo nuestra rama `main` todo este tiempo."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -169,7 +169,7 @@ exports.level = {
               "",
               "Detachear (_des-adjuntar_) HEAD simplemente significa adjuntarla a un commit en lugar de a un branch. Así es como se ve de antemano:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -235,7 +235,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ves! HEAD estuvo oculta bajo nuestra rama `main` todo este tiempo."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -247,7 +247,7 @@ exports.level = {
               "",
               "Detachear (_des-adjuntar_) HEAD simplemente significa adjuntarla a un commit en lugar de a un branch. Así es como se ve de antemano:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -313,7 +313,7 @@ exports.level = {
             "afterMarkdowns": [
               "Veja! O HEAD estava se escondendo ao lado do nosso `main` esse tempo todo."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -325,7 +325,7 @@ exports.level = {
               "",
               "Soltar o HEAD significa anexá-lo a um commit em vez de anexá-lo a um ramo. Antes do estado solto (\"detached\"), é assim como se parece:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -391,7 +391,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ves! O HEAD estivo ó lado do noso `main` todo este tempo."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -403,7 +403,7 @@ exports.level = {
               "",
               "Soltar o HEAD significa apuntar a un commit en vez de apuntar a unha rama. Antes do estado solo (\"detached\"), é así como aparece:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -469,7 +469,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vous voyez ! HEAD était caché en dessous de la branche `main` tout le long."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -481,7 +481,7 @@ exports.level = {
               "",
               "Détacher HEAD signifie simplement que l'on attache HEAD à un commit au lieu d'une branche. Voilà à quoi cela ressemble actuellement :",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -547,7 +547,7 @@ exports.level = {
             "afterMarkdowns": [
               "Siehst du? `HEAD` war die ganze Zeit unter `main` versteckt."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -624,7 +624,7 @@ exports.level = {
               "（译者注：实际这些命令并不是真的在查看 HEAD 指向，看下一屏就了解了。如果想看 HEAD 指向，可以通过 `cat .git/HEAD` 查看，",
               "如果 HEAD 指向的是一个引用，还可以用 `git symbolic-ref HEAD` 查看它的指向。但是该程序不支持这两个命令）"
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -636,9 +636,9 @@ exports.level = {
               "",
               "分离的 HEAD 就是让其指向了某个具体的提交记录而不是分支名。在命令执行之前的状态如下所示： ",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               "",
-              "HEAD 指向 master， master 指向 C1"
+              "HEAD 指向 main， main 指向 C1"
             ],
             "afterMarkdowns": [
               "现在变成了",
@@ -699,7 +699,7 @@ exports.level = {
             "afterMarkdowns": [
               "看吧！HEAD 一直藏在 `main` 分支的後面。"
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -711,7 +711,7 @@ exports.level = {
               "",
               "分離 HEAD 就是讓其指向一個 commit 而不是 branch 的名稱。這是指令執行之前的樣子：",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -777,7 +777,7 @@ exports.level = {
             "afterMarkdowns": [
               "ほら、HEADが元から`main`ブランチの下に隠れていたんですね！"
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -789,7 +789,7 @@ exports.level = {
               "",
               "HEADの分離(detached HEAD)とは単に、ブランチではなく特定のコミットにHEADを紐づけることです。実行前の状態は次のようです:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -855,7 +855,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вот! HEAD всё это время скрывался за веткой `main`."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -867,7 +867,7 @@ exports.level = {
               "",
               "Отделение (detaching) HEAD означает лишь присвоение его не ветке, а конкретному коммиту. Посмотрим, что было до отделения:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -933,7 +933,7 @@ exports.level = {
             "afterMarkdowns": [
               "보세요! HEAD가 `main`브랜치 아래에 숨어 있던 거군요."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -945,7 +945,7 @@ exports.level = {
               "",
               "HEAD를 분리한다는 것은 HEAD를 브랜치 대신 커밋에 붙이는 것을 의미합니다. 명령을 사용하기 전의 모습은 다음과 같습니다:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -1011,7 +1011,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ти диви! HEAD весь цей час ховався за гілкою `main`."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -1023,7 +1023,7 @@ exports.level = {
               "",
               "Detached HEAD (відокремлена голова) просто означає що HEAD посилається на коміт, а не на якусь гілку. Ось як це виглядає спочатку:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -1089,7 +1089,7 @@ exports.level = {
             "afterMarkdowns": [
               "Thấy chứ? HEAD đã ẩn dưới nhánh `main` suốt."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -1101,7 +1101,7 @@ exports.level = {
               "",
               "Tháo HEAD đơng giản nghĩa là dán nó vào một commit thay vì một nhánh. Lúc trước thì nó trông như thế này:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [
@@ -1167,7 +1167,7 @@ exports.level = {
             "afterMarkdowns": [
               "Evo! HEAD se je vseskozi skrival pod našim `main` branchom."
             ],
-            "command": "git checkout C1; git checkout master; git commit; git checkout C2",
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
           }
         },
@@ -1179,7 +1179,7 @@ exports.level = {
               "",
               "Ločevanje HEAD-a pomeni samo, da ga namestno na branch sedaj pripnemo na commit. Tako je izgledalo prej:",
               "",
-              "HEAD -> master -> C1",
+              "HEAD -> main -> C1",
               ""
             ],
             "afterMarkdowns": [

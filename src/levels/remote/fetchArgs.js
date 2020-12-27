@@ -145,7 +145,7 @@ exports.level = {
               "Pretty simple, but worth going over just once."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -268,7 +268,7 @@ exports.level = {
               "Assez simple, mais ce n'était pas inutile de voir en action."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -391,7 +391,7 @@ exports.level = {
               "Bastante simple, pero vale la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -514,7 +514,7 @@ exports.level = {
               "Bastante simple, pero merece la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -637,7 +637,7 @@ exports.level = {
               "Bastante simples, mas importante de rever ao menos uma vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -760,7 +760,7 @@ exports.level = {
               "Moi sinxelo, pero vale a pena velo ó menos unha vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -883,7 +883,7 @@ exports.level = {
               "超簡單，但是所有的更新只做一次，很值得。"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1006,7 +1006,7 @@ exports.level = {
               "相当简单，但是仅需更新一次，值得你去做！"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1129,7 +1129,7 @@ exports.level = {
               "Ziemlich einfach, aber man sollte es mal gesehen haben."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1252,7 +1252,7 @@ exports.level = {
               "Достаточно просто, после того как мы пережили все эти технические тонкости."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1375,7 +1375,7 @@ exports.level = {
               "간단하지만, 짚고 넘어갑시다."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1498,7 +1498,7 @@ exports.level = {
               "Все дуже просто, але варто було згадати ще раз."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1621,7 +1621,7 @@ exports.level = {
               "Khá là đơn giản, nhưng mà cũng nên xem qua thử."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1744,7 +1744,7 @@ exports.level = {
               "Precej enostavno, ampak vredno, da gremo čez vsaj enkrat."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {

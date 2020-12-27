@@ -78,7 +78,7 @@ exports.level = {
             "afterMarkdowns": [
               "Woah! That's a pretty trippy command but it makes sense -- git resolved `foo^` into a location, uploaded whatever commits that weren't present yet on the remote, and then updated destination."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -91,7 +91,7 @@ exports.level = {
             "afterMarkdowns": [
               "Sweet, that's pretty slick :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -148,7 +148,7 @@ exports.level = {
             "afterMarkdowns": [
               "Woahou ! C'est une commande très alambiquée mais qui a du sens : git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la branche de destination."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -161,7 +161,7 @@ exports.level = {
             "afterMarkdowns": [
               "Cool, c'est habile :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -218,7 +218,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Woow! Ese commando es bastante loco, pero tiene sentido: git resolvió `foo^` a una ubicación, subió cualquier commit de ahí que aún no estuviera en el remoto, y luego actualizó el destino."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -231,7 +231,7 @@ exports.level = {
             "afterMarkdowns": [
               "Genial, simplemente fluye :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -288,7 +288,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Vaya! Ese commando es bastante rompedor, pero tiene sentido: git resolvió `foo^` a una ubicación, subió cualquier commit de ahí que aún no estuviera en el remoto, y luego actualizó el destino."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -301,7 +301,7 @@ exports.level = {
             "afterMarkdowns": [
               "Genial, simplemente fluye :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -358,7 +358,7 @@ exports.level = {
             "afterMarkdowns": [
               "Uau! Esse comando é bastante viajado, mas ele faz sentido -- o Git entendeu a referência `foo^`, enviou quaisquer commits que não estavam presentes no repositório remoto, e então atualizou o destino."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -371,7 +371,7 @@ exports.level = {
             "afterMarkdowns": [
               "Doce, isso é muito bom :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -428,7 +428,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Woow! Ese commando é unha tolemia, pero ten sentido: git resolveu `foo^` a unha ubicación, subiu calquera commit de ahí que aún non estivera no remoto, e logo actualizou o destino."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -441,7 +441,7 @@ exports.level = {
             "afterMarkdowns": [
               "Xenial, sinxelamente tira para adiante."
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -496,9 +496,9 @@ exports.level = {
               "記住， `source` 表示任意可以被 git 辨識的位置："
             ],
             "afterMarkdowns": [
-              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。"
+              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 main branch。"
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -511,7 +511,7 @@ exports.level = {
             "afterMarkdowns": [
               "太讚了，實在非常地簡單:D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -568,7 +568,7 @@ exports.level = {
             "afterMarkdowns": [
               "这是个另人困惑的命令，但是它确实是可以运行的 —— Git 将 `foo^` 解析为一个位置，上传所有未被包含到远程仓库里 `main` 分支中的提交记录。"
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -581,7 +581,7 @@ exports.level = {
             "afterMarkdowns": [
               "很赞吧！它是不是很聪明？！ :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -638,7 +638,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boah! Das ist ein ziemlich abgefahrener Befehl gewesen, aber er ist sinnvoll -- Git hat `foo^` zu einem Commit aufgelöst, alle Commits, die bis zu einschließlich diesem noch nicht auf dem Server waren, hochgeladen und dann dort das Ziel aktualisiert."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -651,7 +651,7 @@ exports.level = {
             "afterMarkdowns": [
               "Schick, das ist ziemlich praktisch. :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -708,7 +708,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вау! Это довольно нетривиальная команда, однако она имеет смысл - git видит в `foo^` не что иное, как местоположение, закачивает все коммиты, которые не присутствуют на удалённом репозитории, и затем обновляет получателя."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -721,7 +721,7 @@ exports.level = {
             "afterMarkdowns": [
               "Класс! Довольно легко! :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -778,7 +778,7 @@ exports.level = {
             "afterMarkdowns": [
               "워 뭔가 잘 안쓸것 같은 명령이지만 잘 됩니다 -- git은 `foo^`의 위치를 알아내서 원격 저장소에 아직 반영되지 않은 커밋들을 업로드하고 destination 브랜치를 갱신했습니다."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -791,7 +791,7 @@ exports.level = {
             "afterMarkdowns": [
               "좋네요, 번지르르 삐까뻔쩍 :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -848,7 +848,7 @@ exports.level = {
             "afterMarkdowns": [
               "Овва! Це доволі незвична команда, але тут все має сенс -- git, знаючи куди вказує `foo^`, завантажив на віддалену сторону ще відсутні там коміти і оновив місце призначення."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -861,7 +861,7 @@ exports.level = {
             "afterMarkdowns": [
               "Спритно, еге-ж? :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -918,7 +918,7 @@ exports.level = {
             "afterMarkdowns": [
               "Wao! Lệnh này khá phức tạp, nhưng mà hợp lý -- git diễn giải `foo^` thành một vị trí, tải lên tất cả các commit từ đó trở về trước mà chưa có trên nhánh đích rồi cập nhật nó."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -931,7 +931,7 @@ exports.level = {
             "afterMarkdowns": [
               "Tuyệt vời, thấy git thú vị không :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -988,7 +988,7 @@ exports.level = {
             "afterMarkdowns": [
               "Woah! To je kar zanimiv ukaz, ampak ima smisel -- git je razrešil `foo^` v lokacijo, naložil commite, ki še niso bili prisotni v oddaljenem repotu in nato posodobil destinacijo."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -1001,7 +1001,7 @@ exports.level = {
             "afterMarkdowns": [
               "Lepa, to je kar kul :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },

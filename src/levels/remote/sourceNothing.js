@@ -69,7 +69,7 @@ exports.level = {
               "There, we successfully deleted the `foo` branch on remote by pushing the concept of \"nothing\" to it. That kinda makes sense..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -122,7 +122,7 @@ exports.level = {
               "Ici, nous avons brillamment supprimé  la branche `foo` du dépôt distant en lui envoyant le concept de \"rien\". Cela paraît à peu près logique..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -175,7 +175,7 @@ exports.level = {
               "Ahí está, borramos la rama `foo` exitosamente del remoto pusheándole el concepto de \"nada\". Tiene algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -228,7 +228,7 @@ exports.level = {
               "Ahí está, eliminamos la rama `foo` exitosamente del remoto haciendo push con \"nada\". Tiene algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -281,7 +281,7 @@ exports.level = {
               "Aqui, excluímos com sucesso o ramo `foo` do repositório remoto por meio de um push de \"coisa nenhuma\" direcionado a ele. Até que faz sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -334,7 +334,7 @@ exports.level = {
               "Ahí está, borramos a rama `foo` exitosamente do remoto empurrando o concepto da \"nada\". Ten algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -387,7 +387,7 @@ exports.level = {
               "看吧，我們藉由把 source \"留空\"，成功用 `push` 刪除了 `foo` branch，這合理吧..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -440,7 +440,7 @@ exports.level = {
               "就是这样子, 我们通过给 push 传空值 source，成功删除了远程仓库中的 `foo` 分支, 这真有意思..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -493,7 +493,7 @@ exports.level = {
               "Und schon haben wir `foo` erfolgreich auf dem Remote gelöscht, weil wir \"Leere\" darauf geschoben haben. Ist auf seine Weise irgendwie logisch ..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -546,7 +546,7 @@ exports.level = {
               "Как видите, мы удалили ветку `foo` в удаленном репозитории, попытавшить протолкнуть(git push) в неё \"ничего\"."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -599,7 +599,7 @@ exports.level = {
               "됬습니다, 원격 저장소의 `foo`브랜치를 성공적으로 삭제했습니다. \"없음\"을 push한다는것이 이것을 이뤘습니다. 흠 말이 되는것 같네요 null을 push했어요..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -652,7 +652,7 @@ exports.level = {
               "Ось, ми успішно видалили гілку `foo` на віддаленому сервері, запушивши в неї \"ніщо\". Ну, ніби все правильно..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -705,7 +705,7 @@ exports.level = {
               "Đó, ta đã xóa thành công nhánh `foo` trên kho chứa từ xa bằng cách đẩy \"không gì cả\" lên nó. Khá là hợp lý..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {
@@ -758,7 +758,7 @@ exports.level = {
               "Tako, uspešno smo izbrisali `foo` branch na oddaljenem repotu s konceptom pushanja \"ničesar\" nanj. To ima nekako smisel ..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin master:foo"
+            "beforeCommand": "git clone; git push origin main:foo"
           }
         },
         {

@@ -64,7 +64,7 @@ exports.level = {
               "Let's see what that looks like:"
             ],
             "afterMarkdowns": [
-              "Nice! Git moved the master branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened."
+              "Nice! Git moved the main branch reference back to `C1`; now our local repository is in a state as if `C2` had never happened."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -127,7 +127,7 @@ exports.level = {
               "Veamos cómo es eso:"
             ],
             "afterMarkdowns": [
-              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
+              "¡Genial! git simplemente movió la referencia de la rama main atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -190,7 +190,7 @@ exports.level = {
               "Veamos cómo es eso:"
             ],
             "afterMarkdowns": [
-              "¡Genial! git simplemente movió la referencia de la rama master atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
+              "¡Genial! git simplemente movió la referencia de la rama main atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -253,7 +253,7 @@ exports.level = {
               "Vejamos como funciona:"
             ],
             "afterMarkdowns": [
-              "Legal! O Git simplesmente moveu a referência do ramo master de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido."
+              "Legal! O Git simplesmente moveu a referência do ramo main de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -316,7 +316,7 @@ exports.level = {
               "Vexamos o seu funcionamento:"
             ],
             "afterMarkdowns": [
-              "¡Bye bye! Git moveu a referencia da rama master cara atrás, ata o commit `C1`; agora o teu repositorio local está coma se o commit `C2` nunca acontecera."
+              "¡Bye bye! Git moveu a referencia da rama main cara atrás, ata o commit `C1`; agora o teu repositorio local está coma se o commit `C2` nunca acontecera."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -505,7 +505,7 @@ exports.level = {
               "Regardons à quoi cela ressemble :"
             ],
             "afterMarkdowns": [
-              "Bravo ! Git a simplement déplacé la référence de la branche master en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu."
+              "Bravo ! Git a simplement déplacé la référence de la branche main en la faisant revenir sur `C1`; désormais notre dépôt est dans le même état que si `C2` n'avait jamais eu lieu."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -569,7 +569,7 @@ exports.level = {
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "漂亮! Git 把 master 分支移回到 `C1`；现在我们的本地代码库根本就不知道有 `C2` 这个提交了。",
+              "漂亮! Git 把 main 分支移回到 `C1`；现在我们的本地代码库根本就不知道有 `C2` 这个提交了。",
               "",
               "（译者注：在reset后， `C2` 所做的变更还在，但是处于未加入暂存区状态。）"
             ],
@@ -634,7 +634,7 @@ exports.level = {
             ],
             "command": "git reset HEAD~1",
             "afterMarkdowns": [
-              "太好了! Git 把 master branch 簡單地移回到 `C1`；現在在我們的 local 已經退回到沒有 commit 過 `C2` 的狀態了。"
+              "太好了! Git 把 main branch 簡單地移回到 `C1`；現在在我們的 local 已經退回到沒有 commit 過 `C2` 的狀態了。"
             ],
             "beforeCommand": "git commit"
           }
@@ -696,7 +696,7 @@ exports.level = {
               "어떤 그림인지 한번 보죠:"
             ],
             "afterMarkdowns": [
-              "그림에서처럼 master 브랜치가 가리키던 커밋을 `C1`로 다시 옮겼습니다; 이러면 로컬 저장소에는 마치 `C2`커밋이 아예 없었던 것과 마찬가지 상태가 됩니다."
+              "그림에서처럼 main 브랜치가 가리키던 커밋을 `C1`로 다시 옮겼습니다; 이러면 로컬 저장소에는 마치 `C2`커밋이 아예 없었던 것과 마찬가지 상태가 됩니다."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -822,7 +822,7 @@ exports.level = {
               "Давайте подивимося, як це виглядає:"
             ],
             "afterMarkdowns": [
-              "Чудово! Git перемістив посилання гілки master назад до `C1`; тепер наш локальний репозиторій в такому стані, наче коміту `C2` ніколи не було."
+              "Чудово! Git перемістив посилання гілки main назад до `C1`; тепер наш локальний репозиторій в такому стані, наче коміту `C2` ніколи не було."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -885,7 +885,7 @@ exports.level = {
               "Cùng xem thử nó trông thế nào nào:"
             ],
             "afterMarkdowns": [
-              "Hay! Git chuyển tham chiếu của master trở lại `C1`; bây giờ kho cá nhân của ta trông như thể commit `C2` chưa bao giờ xảy ra vậy."
+              "Hay! Git chuyển tham chiếu của main trở lại `C1`; bây giờ kho cá nhân của ta trông như thể commit `C2` chưa bao giờ xảy ra vậy."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -948,7 +948,7 @@ exports.level = {
               "Poglejmo kako to izgleda:"
             ],
             "afterMarkdowns": [
-              "Lepo! Git je premaknil master branch referenco nazaj na `C1`; sedaj je naš lokalen repozitorij v stanju, kot da se `C2` sploh ni nikoli zgodil."
+              "Lepo! Git je premaknil main branch referenco nazaj na `C1`; sedaj je naš lokalen repozitorij v stanju, kot da se `C2` sploh ni nikoli zgodil."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"

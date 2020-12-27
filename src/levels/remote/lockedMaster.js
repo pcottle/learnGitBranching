@@ -3,23 +3,23 @@ exports.level = {
   "solutionCommand": "git reset --hard o/master;git checkout -b feature C2; git push origin feature",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "hint": {
-    "en_US": "Make the feature branch from the local master before resetting it back to be the same as origin's master",
-    "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Master-Branch, bevor du den Master-Branch auf den origin/master zurücksetzt.",
-    "ru_RU": "Создайте новую feature ветвь от master перед тем, как откатить изменения в master до состояния o/master.",
-    "uk": "Створіть нову feature гілку від локального master перед тим, як відкотити зміни в master до стану o/master.",
+    "en_US": "Make the feature branch from the local main before resetting it back to be the same as origin's main",
+    "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Master-Branch, bevor du den Master-Branch auf den origin/main zurücksetzt.",
+    "ru_RU": "Создайте новую feature ветвь от main перед тем, как откатить изменения в main до состояния o/main.",
+    "uk": "Створіть нову feature гілку від локального main перед тим, як відкотити зміни в main до стану o/main.",
     "zh_CN": "从本地的master创建一个feature分支, 然后重置master和origin master保持一致。",
-    "es_ES": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen",
-    "pt_BR": "Crie o ramo feature a partir do ramo master no local antes de reestabelecê-lo para que seja o mesmo que o ramo master de origem",
-    "fr_FR": "Créer la branche feature à partir du master local, avant de la restaurer dans le même état que o/master",
-    "ko"   : "로컬 저장소의 master 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 master 브랜치를 reset 하세요.",
-    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin master.",
-    "es_AR": "Crea la rama feature desde la rama master en local antes de restablecerlo para que sea el mismo que la rama master de origen."
+    "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
+    "pt_BR": "Crie o ramo feature a partir do ramo main no local antes de reestabelecê-lo para que seja o mesmo que o ramo main de origem",
+    "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
+    "ko"   : "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
+    "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
+    "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen."
   },
   "name": {
     "en_US": "Locked Master",
     "de_DE": "Gesperrter Master-Branch",
-    "ru_RU": "Заблокированная ветвь master",
-    "uk": "Заблокована гілка master",
+    "ru_RU": "Заблокированная ветвь main",
+    "uk": "Заблокована гілка main",
     "zh_CN": "锁定的Master(Locked Master)",
     "es_ES": "Master bloqueado",
     "pt_BR": "Master bloqueado",
@@ -37,10 +37,10 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "If you work on a large collaborative team its likely that master is locked and requires some Pull Request process to merge changes. If you commit directly to master locally and try pushing you will be greeted with a message similar to this:",
+              "If you work on a large collaborative team its likely that main is locked and requires some Pull Request process to merge changes. If you commit directly to main locally and try pushing you will be greeted with a message similar to this:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -51,9 +51,9 @@ exports.level = {
             "markdowns": [
               "## Why was it rejected?",
               "",
-              "The remote rejected the push of commits directly to master because of the policy on master requiring pull requests to instead be used.",
+              "The remote rejected the push of commits directly to main because of the policy on main requiring pull requests to instead be used.",
               "",
-              "You meant to follow the process creating a branch then pushing that branch and doing a pull request, but you forgot and committed directly to master. Now you are stuck and cannot push your changes."
+              "You meant to follow the process creating a branch then pushing that branch and doing a pull request, but you forgot and committed directly to main. Now you are stuck and cannot push your changes."
             ]
           }
         },
@@ -63,7 +63,7 @@ exports.level = {
             "markdowns": [
               "## The solution",
               "",
-              "Create another branch called feature and push that to the remote. Also reset your master back to be in sync with the remote otherwise you may have issues next time you do a pull and someone else's commit conflicts with yours."
+              "Create another branch called feature and push that to the remote. Also reset your main back to be in sync with the remote otherwise you may have issues next time you do a pull and someone else's commit conflicts with yours."
             ]
           }
         }
@@ -80,7 +80,7 @@ exports.level = {
               "Wenn du in einem großen Team zusammen arbeitest, ist der Master-Branch mit hoher Wahrscheinlichkeit für direkte Änderungen gesperrt. Um Änderungen am Remote-Branch einpflegen zu können, ist ein Pull-Request-Prozess notwendig. Wenn du lokal in deinem Master-Branch einen Commit durchführst und diesen versuchst auf den serverseitigen Master-Branch zu pushen, wirst du folgende Fehlermeldung bekommen:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -120,7 +120,7 @@ exports.level = {
               "如果你是在一个大的合作团队中工作, 很可能是master被锁定了, 需要一些Pull Request流程来合并修改。如果你直接提交(commit)到本地master, 然后试图推送(push)修改, 你将会收到这样类似的信息:",
               "",
               "```",
-              " ! [远程服务器拒绝] master -> master (TF402455: 不允许推送(push)这个分支; 你必须使用pull request来更新这个分支.)",
+              " ! [远程服务器拒绝] main -> main (TF402455: 不允许推送(push)这个分支; 你必须使用pull request来更新这个分支.)",
               "```"
             ]
           }
@@ -160,11 +160,11 @@ exports.level = {
               "Когда вы работаете в составе большой команды разработчиков над проектом, то, вероятнее всего, ветвь `main` будет _заблокирована_. Для внесения изменений в неё в git существует понятие запроса на слияние `Pull Request`. В такой ситуации если вы закоммитите свои наработки непосредственно в `main` ветвь, а после выполните `git push`, то будет сгенерировано сообщение об ошибке:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```",
               "",
               "```",
-              " ! [удалённо отклонено] master -> master (TF402455: Изменение этой ветви запрещены; вы можете использовать pull request для обновления этой ветви.)",
+              " ! [удалённо отклонено] main -> main (TF402455: Изменение этой ветви запрещены; вы можете использовать pull request для обновления этой ветви.)",
               "```"
             ]
           }
@@ -204,11 +204,11 @@ exports.level = {
               "Коли ви працюєте над проектом в складі великої команди розробників, то, швидше за все, гілка `main` буде _заблокована_. Для внесення до неї змін в git існує поняття запиту на злиття `Pull Request`. В такій ситуації, якщо ви закомітите свої зміни безпосередньо в гілку `main`, а потім виконаєте `git push`, то буде згенероване повідомлення про помилку:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```",
               "",
               "```",
-              " ! [віддалено відхилено] master -> master (TF402455: Зміни (push-запити) цієї гілки заборонені; ви повинні використовувати pull-запит для оновлення цієї гілки.)",
+              " ! [віддалено відхилено] main -> main (TF402455: Зміни (push-запити) цієї гілки заборонені; ви повинні використовувати pull-запит для оновлення цієї гілки.)",
               "```"
             ]
           }
@@ -249,7 +249,7 @@ exports.level = {
               "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `main` e intentas realizar `push`, recibirás un mensaje similar a este:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -287,10 +287,10 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Se você trabalha em uma grande equipe colaborativa é provável que o master seja bloqueado e precise de alguns processos de Pull Request para unir mudanças. Se você commitar diretamente para o master localmente e tentar fazer um push você visualizará uma mensagem similar a essa:",
+              "Se você trabalha em uma grande equipe colaborativa é provável que o main seja bloqueado e precise de alguns processos de Pull Request para unir mudanças. Se você commitar diretamente para o main localmente e tentar fazer um push você visualizará uma mensagem similar a essa:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -301,9 +301,9 @@ exports.level = {
             "markdowns": [
               "## Por que foi rejeitado?",
               "",
-              "O repositório remoto rejeitou o push dos commits diretamente para o master por causa da política do master necessitando do uso dos pull requests.",
+              "O repositório remoto rejeitou o push dos commits diretamente para o main por causa da política do main necessitando do uso dos pull requests.",
               "",
-              "Você pretendia seguir o processo de criação de uma ramificação, fazendo um push dessa ramificação e fazendo um pull request, mas você esqueceu e commitou diretamente para o master. Agora você está preso e não consegue publicar suas mudanças."
+              "Você pretendia seguir o processo de criação de uma ramificação, fazendo um push dessa ramificação e fazendo um pull request, mas você esqueceu e commitou diretamente para o main. Agora você está preso e não consegue publicar suas mudanças."
             ]
           }
         },
@@ -313,7 +313,7 @@ exports.level = {
             "markdowns": [
               "## A solução",
               "",
-              "Crie outro branch chamado feature e faça um push dele para o repositório remoto. Além disso, resete o master de volta a estar sincronizado com o repositório remoto para não ter problemas da próxima vez que fizer um pull e os commits de alguém mais conflitarem com o seu."
+              "Crie outro branch chamado feature e faça um push dele para o repositório remoto. Além disso, resete o main de volta a estar sincronizado com o repositório remoto para não ter problemas da próxima vez que fizer um pull e os commits de alguém mais conflitarem com o seu."
             ]
           }
         }
@@ -327,10 +327,10 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Si vous travaillez dans une équipe de grande taille, il est probable que `main` soit verrouillée, et que le mécanisme de `Pull Request` soit nécessaire pour `merge` des changements. Si vous faites un `commit` directement sur le master local, et essayez de `push`, vous serez reçu avec un message de la sorte :",
+              "Si vous travaillez dans une équipe de grande taille, il est probable que `main` soit verrouillée, et que le mécanisme de `Pull Request` soit nécessaire pour `merge` des changements. Si vous faites un `commit` directement sur le main local, et essayez de `push`, vous serez reçu avec un message de la sorte :",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -370,7 +370,7 @@ exports.level = {
               "규모가 큰 개발팀에서 일하는 경우, 보통 원격저장소의 `main` 브랜치는 잠겨있습니다(locked). 그래서 변경사항을 적용하려면 pull request 과정을 거쳐야하죠. 만약에 여러분이 로컬 저장소의 `main`브랜치에서 커밋을 한 후 `push`하려고 시도한다면, 다음과 같은 오류를 받게 될겁니다. :",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -410,7 +410,7 @@ exports.level = {
               "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `main` e intentas realizar `push`, recibirás un mensaje similar a este:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -448,10 +448,10 @@ exports.level = {
             "markdowns": [
               "## Oddaljena Zavrnitev!",
               "",
-              "Če delaš v veliki ekipi je verjetno, da je master zaklenjen in zahteva Pull Request postopek za merganje sprememb. Če commitaš direktno na master lokalno, poizkusi pushati in dobil boš sporočilo podobno temu:",
+              "Če delaš v veliki ekipi je verjetno, da je main zaklenjen in zahteva Pull Request postopek za merganje sprememb. Če commitaš direktno na main lokalno, poizkusi pushati in dobil boš sporočilo podobno temu:",
               "",
               "```",
-              " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
               "```"
             ]
           }
@@ -462,9 +462,9 @@ exports.level = {
             "markdowns": [
               "## Zakaj je bil zavrnjen?",
               "",
-              "Oddaljen repo je zavrnil pushanje commitov direktno na master zaradi politike, da se uporabljajo le pull requesti.",
+              "Oddaljen repo je zavrnil pushanje commitov direktno na main zaradi politike, da se uporabljajo le pull requesti.",
               "",
-              "Mišljeno je, da slediš temu procesu, da narediš branch, ga pushaš, nato pa narediš pull request, ampak si pozabil in commital direktno na master. Sedaj si zataknjen in ne moreš pushati svojih sprememb."
+              "Mišljeno je, da slediš temu procesu, da narediš branch, ga pushaš, nato pa narediš pull request, ampak si pozabil in commital direktno na main. Sedaj si zataknjen in ne moreš pushati svojih sprememb."
             ]
           }
         },
@@ -474,7 +474,7 @@ exports.level = {
             "markdowns": [
               "## Rešitev",
               "",
-              "Naredi še en branch imenovan feature in ga pushaj na remote. Prav tako resetiraj master nazaj, da bo v enakem stanju kot na oddaljenem repozitoriju, drugače imaš lahko težave naslednjič, ko boš pullal spremembe in bo konflikt s commitom nekoga drugega."
+              "Naredi še en branch imenovan feature in ga pushaj na remote. Prav tako resetiraj main nazaj, da bo v enakem stanju kot na oddaljenem repozitoriju, drugače imaš lahko težave naslednjič, ko boš pullal spremembe in bo konflikt s commitom nekoga drugega."
             ]
           }
         }

@@ -64,11 +64,11 @@ exports.level = {
             "markdowns": [
               "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "translates to this in English:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin\". Place whatever commits are missing on that branch and then tell me when you're done.*",
+              "*Go to the branch named \"main\" in my repository, grab all the commits, and then go to the branch \"main\" on the remote named \"origin\". Place whatever commits are missing on that branch and then tell me when you're done.*",
               "",
               "By specifying `main` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
@@ -85,7 +85,7 @@ exports.level = {
             "afterMarkdowns": [
               "There we go! `main` got updated on the remote since we specified those arguments."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -139,11 +139,11 @@ exports.level = {
             "markdowns": [
               "Qu'est ce que ce paramètre `<place>` ? Avant de passer à l'explication, voyons d'abord un exemple. La commande suivante :",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "peut se traduire en français par :",
               "",
-              "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Envoie tous les commits qui lui manquent sur cette branche distante puis préviens-moi quand c'est terminé.*",
+              "*Va dans la branche \"main\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"main\" sur le dépôt nommé \"origin\". Envoie tous les commits qui lui manquent sur cette branche distante puis préviens-moi quand c'est terminé.*",
               "",
               "En spécifiant `main` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
               "",
@@ -160,7 +160,7 @@ exports.level = {
             "afterMarkdowns": [
               "Voilà ! `main` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -211,11 +211,11 @@ exports.level = {
             "markdowns": [
               "¿Qué será este parámetro `<lugar>`, te preguntarás? Ya vamos a entrar en detalle, pero primero un ejemplo. Correr el comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "se traduce así al español:",
               "",
-              "*Andá a la rama llamada \"master\" en mi repositorio, agarrá todos los commits, y después andá a la rama \"master\" del remoto llamado \"origin\". Aplicá ahí todos los commits que falten, y avisame cuando termines.*",
+              "*Andá a la rama llamada \"main\" en mi repositorio, agarrá todos los commits, y después andá a la rama \"main\" del remoto llamado \"origin\". Aplicá ahí todos los commits que falten, y avisame cuando termines.*",
               "",
               "Especificando `main` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
               "",
@@ -232,7 +232,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -283,11 +283,11 @@ exports.level = {
             "markdowns": [
               "¿Qué será este parámetro `<lugar>`, te preguntarás? Vamos a entrar en detalle, pero primero un ejemplo. Ejecutar el comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "se traduce así al español:",
               "",
-              "*Vete a la rama llamada \"master\" en mi repositorio, coge todos los commits, y después vete a la rama \"master\" del remoto llamado \"origin\". Copia ahí todos los commits que falten, y avísame cuando termines.*",
+              "*Vete a la rama llamada \"main\" en mi repositorio, coge todos los commits, y después vete a la rama \"main\" del remoto llamado \"origin\". Copia ahí todos los commits que falten, y avísame cuando termines.*",
               "",
               "Especificando `main` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
               "",
@@ -304,7 +304,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -355,11 +355,11 @@ exports.level = {
             "markdowns": [
               "Você deve estar se perguntando: o que é esse parâmetro `<lugar>`? Vamos discutir as especifidades em breve, mas vejamos primeiro um exemplo. Executar o comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "pode ser traduzido para o seguinte em Português:",
               "",
-              "*Vá ao ramo chamado \"master\" no meu repositório local, pegue todos os commits, então vá ao ramo \"master\" no repositório remoto chamado \"origin\". Coloque quaisquer commits que estiverem faltando nesse ramo, e então me diga quando estiver pronto.*",
+              "*Vá ao ramo chamado \"main\" no meu repositório local, pegue todos os commits, então vá ao ramo \"main\" no repositório remoto chamado \"origin\". Coloque quaisquer commits que estiverem faltando nesse ramo, e então me diga quando estiver pronto.*",
               "",
               "Especificando `main` como parâmetro \"lugar\", dizemos ao Git de onde os commits *vão vir* e para onde os commits *irão*. É essencialmente o \"lugar\" onde sincronizar entre os dois repositórios.",
               "",
@@ -376,7 +376,7 @@ exports.level = {
             "afterMarkdowns": [
               "Aqui vamos nós! O `main` foi atualizado no repositório remoto, já que especificamos os parâmetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -427,11 +427,11 @@ exports.level = {
             "markdowns": [
               "¿Qué será este parámetro `<lugar>`, fixécheste esa pregunta? Xa imos entrar en detalle, pero primeiro un exemplo. Executa o comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "tradúcese así ó galego:",
               "",
-              "*Vai á rama chamada \"master\" no meu repositorio, colle tódolos commits, e despois vai á rama \"master\" do remoto chamado \"origin\". Aplica ahí tódolos commits que falten, e avísame cando remates.*",
+              "*Vai á rama chamada \"main\" no meu repositorio, colle tódolos commits, e despois vai á rama \"main\" do remoto chamado \"origin\". Aplica ahí tódolos commits que falten, e avísame cando remates.*",
               "",
               "Indicando `main` como o parámetro \"lugar\", dixémoslle a git ónde traer os commits, e ónde mandalos. É básicamente, o \"lugar\" ou \"ubicación\" que sincroniza entre ámbolos dous repositorios.",
               "",
@@ -448,7 +448,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí o tes! Actualizouse `main` no remoto, porque especificamos eses parámetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -499,11 +499,11 @@ exports.level = {
             "markdowns": [
               "`<place>` 這個參數表示什麼? 我們等一下會提到細節，但是先來看一個例子，執行以下的指令：",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "將這段解釋成中文：",
               "",
-              "*先到我的 repo 中的 \"master\" branch，抓下所有的 commit，然後到叫作 \"origin\" 的 remote 的 \"master\" branch，檢查 remote 的 commit 有沒有跟我的 repo 一致，如果沒有，就更新。*",
+              "*先到我的 repo 中的 \"main\" branch，抓下所有的 commit，然後到叫作 \"origin\" 的 remote 的 \"main\" branch，檢查 remote 的 commit 有沒有跟我的 repo 一致，如果沒有，就更新。*",
               "",
               "將 `main` 當作 \"place\" 這個參數，我們告訴 git 這些 commit 是*從哪裡來的*，而且它們要*往哪裡去*。對於要同步兩個 repo， \"place\" 或者是 \"location\" 是非常重要的。",
               "",
@@ -520,7 +520,7 @@ exports.level = {
             "afterMarkdowns": [
               "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `main` branch 更新了。"
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -571,13 +571,13 @@ exports.level = {
             "markdowns": [
               "`<place>` 参数是什么意思呢？我们稍后会深入其中的细节, 先看看例子, 这个命令是:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "把这个命令翻译过来就是：",
               "",
-              "*切到本地仓库中的“master”分支，获取所有的提交，再到远程仓库“origin”中找到“master”分支，将远程仓库中没有的提交记录都添加上去，搞定之后告诉我。*",
+              "*切到本地仓库中的“main”分支，获取所有的提交，再到远程仓库“origin”中找到“main”分支，将远程仓库中没有的提交记录都添加上去，搞定之后告诉我。*",
               "",
-              "我们通过“place”参数来告诉 Git 提交记录来自于 master, 要推送到远程仓库中的 master。它实际就是要同步的两个仓库的位置。",
+              "我们通过“place”参数来告诉 Git 提交记录来自于 main, 要推送到远程仓库中的 main。它实际就是要同步的两个仓库的位置。",
               "",
               "需要注意的是，因为我们通过指定参数告诉了 Git 所有它需要的信息, 所以它就忽略了我们所检出的分支的属性！"
             ]
@@ -592,7 +592,7 @@ exports.level = {
             "afterMarkdowns": [
               "好了! 通过指定参数, 远程仓库中的 `main` 分支得到了更新。"
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -646,7 +646,7 @@ exports.level = {
             "markdowns": [
               "Was \"Ort\" sein soll, fragst du? Das klären wir später genau, schauen wir uns zunächst ein Beispiel an:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "Das bedeutet im Klartext:",
               "",
@@ -667,7 +667,7 @@ exports.level = {
             "afterMarkdowns": [
               "Da haben wir's! `main` wurde auf dem Remote aktualisiert, weil wir beide Optionen angegeben haben."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -718,11 +718,11 @@ exports.level = {
             "markdowns": [
               "Что за такой параметр `<целевая_ветка>`? Мы узнаем об этом через секунду, а пока что рассмотрим пример. Допустим, что мы выполняем такую команду:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "дословный перевод с английского будет таким:",
               "",
-              "*Перейди в ветку с именем \"master\" в моём локальном репозитории, возьми все коммиты и затем перейди на ветку \"master\" на удалённом репозитории \"origin.\". На эту удалённую ветку скопируй все отсутствующие коммиты, которые есть у меня, и скажи, когда ты закончишь.*",
+              "*Перейди в ветку с именем \"main\" в моём локальном репозитории, возьми все коммиты и затем перейди на ветку \"main\" на удалённом репозитории \"origin.\". На эту удалённую ветку скопируй все отсутствующие коммиты, которые есть у меня, и скажи, когда ты закончишь.*",
               "",
               "Указывая `main` в качестве аргумента \"целевая_ветка\", мы тем самым говорим git-у откуда будут *приходить* и *уходить* наши коммиты. Аргумент \"целевая_ветка\" или \"местонахождение\" - это синхронизация между двумя репозиториями.",
               "",
@@ -739,7 +739,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вот так! Мы обновили `main` на удалённом репозитории, принудительно указав аргументы в push."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -793,11 +793,11 @@ exports.level = {
             "markdowns": [
               "`<place>`인자가 무엇을 의미할것 같나요? 세부사항은 알아보기 전에 예시부터 봅시다. 다음 명령어를 보세요:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "해석해 보면:",
               "",
-              "*내 저장소에 있는 \"master\"라는 이름의 브랜치로 가서 모든 커밋들을 수집합니다, 그다음 \"origin\"의 \"master\"브랜치로 가서 이 브랜치에 부족한 커밋들을 채워 넣고 완료 되면 알려줍니다.*",
+              "*내 저장소에 있는 \"main\"라는 이름의 브랜치로 가서 모든 커밋들을 수집합니다, 그다음 \"origin\"의 \"main\"브랜치로 가서 이 브랜치에 부족한 커밋들을 채워 넣고 완료 되면 알려줍니다.*",
               "",
               "`main`를 \"place\"인자로 지정해서 우리가 git에게 *어디서부터* 커밋이 오는지, 그리고 *어디로* 커밋이 가야하는지 알려줍니다. 두 저장소간에 동기화 작업을 할 \"장소\"를 지정해 주는것이라고 볼 수 있습니다.",
               "",
@@ -814,7 +814,7 @@ exports.level = {
             "afterMarkdowns": [
               "됬네요! 지정해준 인자들에 의해 원격 저장소의 `main`가 갱신 되었습니다."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -868,11 +868,11 @@ exports.level = {
             "markdowns": [
               "Ви спитаєте, що таке аргумент `<place>`? Ми скоро вдамося в детальні пояснення, але спочатку -- приклад. Виконання команди:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "буквально перекладається як:",
               "",
-              "*Піди в гілку, що називається \"master\" в моєму репозиторії, візьми всі коміти, піди у віддалений \"master\", що називається \"origin\". Додай ті коміти, яких немає в цій гілці і надрукуй, що саме ти зробив.*",
+              "*Піди в гілку, що називається \"main\" в моєму репозиторії, візьми всі коміти, піди у віддалений \"main\", що називається \"origin\". Додай ті коміти, яких немає в цій гілці і надрукуй, що саме ти зробив.*",
               "",
               "Вказуючи `main` в якості аргумента \"place\", ми сказали git-у, *звідки* взяти коміти і *куди* їх додати. (\"Place\") - фактично точка синхронізації двох репозиторіїв.",
               "",
@@ -889,7 +889,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ось так! `main` у віддаленому репозиторії оновився, оскільки ми вказали його в аргументах."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -943,11 +943,11 @@ exports.level = {
             "markdowns": [
               "Tham số `<vị trí>` là gì vậy? Chúng ta sẽ đi sâu vào chi tiết sau sau, hãy xem ví dụ trước. Đưa ra câu lệnh:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "được dịch lại là:",
               "",
-              "*Chuyển sang nhánh \"master\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"master\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*",
+              "*Chuyển sang nhánh \"main\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"main\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*",
               "",
               "Bằng cách chỉ định `main` trong tham số \"vị trí\",ta báo với git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.",
               "",
@@ -964,7 +964,7 @@ exports.level = {
             "afterMarkdowns": [
               "Được rồi! Bằng cách chỉ định các tham số, nhánh `main` trong kho lưu trữ từ xa đã được cập nhật."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -1018,11 +1018,11 @@ exports.level = {
             "markdowns": [
               "Kaj je `<place>` parameter praviš? Kmalu bomo zaplavali v podrobnosti, ampak najprej primer. Izvedba ukaza:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "se v slovenščini prevede v:",
               "",
-              "*Pojdi na branch poimenovan \"master\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"master\" na oddaljenem repotu poimenovanem \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
+              "*Pojdi na branch poimenovan \"main\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"main\" na oddaljenem repotu poimenovanem \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
               "",
               "Z določanjem `masterja` kot \"place\" argument, smo povedali gitu iz kje bodo commiti *prišli* in kam bodo commiti *šli*. V bistvu je to \"mesto\" oziroma \"lokacija\" za uskladitev med dvema repozitorijema.",
               "",
@@ -1039,7 +1039,7 @@ exports.level = {
             "afterMarkdowns": [
               "Evo ga! `main` je bil posodobljen na oddaljenem repotu, ker smo podali te argumente."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
