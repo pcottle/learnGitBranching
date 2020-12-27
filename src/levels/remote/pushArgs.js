@@ -64,13 +64,13 @@ exports.level = {
             "markdowns": [
               "What is a `<place>` parameter you say? We'll dive into the specifics soon, but first an example. Issuing the command:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "translates to this in English:",
               "",
-              "*Go to the branch named \"master\" in my repository, grab all the commits, and then go to the branch \"master\" on the remote named \"origin\". Place whatever commits are missing on that branch and then tell me when you're done.*",
+              "*Go to the branch named \"main\" in my repository, grab all the commits, and then go to the branch \"main\" on the remote named \"origin\". Place whatever commits are missing on that branch and then tell me when you're done.*",
               "",
-              "By specifying `master` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
+              "By specifying `main` as the \"place\" argument, we told git where the commits will *come from* and where the commits *will go*. It's essentially the \"place\" or \"location\" to synchronize between the two repositories.",
               "",
               "Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!"
             ]
@@ -83,9 +83,9 @@ exports.level = {
               "Let's see an example of specifying the arguments. Note the location where we are checked out in this example."
             ],
             "afterMarkdowns": [
-              "There we go! `master` got updated on the remote since we specified those arguments."
+              "There we go! `main` got updated on the remote since we specified those arguments."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -106,7 +106,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, for this level let's update both `foo` and `master` on the remote. The twist is that `git checkout` is disabled for this level!",
+              "Ok, for this level let's update both `foo` and `main` on the remote. The twist is that `git checkout` is disabled for this level!",
               "",
               "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
               "about this... simply use `origin` as the name of the remote like normal.*"
@@ -139,13 +139,13 @@ exports.level = {
             "markdowns": [
               "Qu'est ce que ce paramètre `<place>` ? Avant de passer à l'explication, voyons d'abord un exemple. La commande suivante :",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "peut se traduire en français par :",
               "",
-              "*Va dans la branche \"master\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"master\" sur le dépôt nommé \"origin\". Envoie tous les commits qui lui manquent sur cette branche distante puis préviens-moi quand c'est terminé.*",
+              "*Va dans la branche \"main\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"main\" sur le dépôt nommé \"origin\". Envoie tous les commits qui lui manquent sur cette branche distante puis préviens-moi quand c'est terminé.*",
               "",
-              "En spécifiant `master` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
+              "En spécifiant `main` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
               "",
               "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin pour opérer (en précisant les deux arguments), il n'a donc absolument pas besoin de savoir quelle est la branche courante !"
             ]
@@ -158,9 +158,9 @@ exports.level = {
               "Voyons un exemple d'arguments. Notez bien où se trouve `HEAD` dans cet exemple."
             ],
             "afterMarkdowns": [
-              "Voilà ! `master` a été mise à jour puisque nous avons spécifié ces arguments."
+              "Voilà ! `main` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -181,7 +181,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, pour ce niveau mettez à jour `foo` et `master` sur le dépôt distant. La difficulté est que `git checkout` est désactivée pour ce niveau !"
+              "Ok, pour ce niveau mettez à jour `foo` et `main` sur le dépôt distant. La difficulté est que `git checkout` est désactivée pour ce niveau !"
             ]
           }
         }
@@ -211,13 +211,13 @@ exports.level = {
             "markdowns": [
               "¿Qué será este parámetro `<lugar>`, te preguntarás? Ya vamos a entrar en detalle, pero primero un ejemplo. Correr el comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "se traduce así al español:",
               "",
-              "*Andá a la rama llamada \"master\" en mi repositorio, agarrá todos los commits, y después andá a la rama \"master\" del remoto llamado \"origin\". Aplicá ahí todos los commits que falten, y avisame cuando termines.*",
+              "*Andá a la rama llamada \"main\" en mi repositorio, agarrá todos los commits, y después andá a la rama \"main\" del remoto llamado \"origin\". Aplicá ahí todos los commits que falten, y avisame cuando termines.*",
               "",
-              "Especificando `master` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
+              "Especificando `main` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
               "",
               "Tené en cuenta que, como le dijimos a git todo lo que necesitaba saber (especificando ambos parámetros), ¡ignora totalmente dónde estamos parados en este momento¡"
             ]
@@ -230,9 +230,9 @@ exports.level = {
               "Veamos un ejemplo especificando los parámetros. Notá en dónde estamos parados en este ejemplo."
             ],
             "afterMarkdowns": [
-              "¡Ahí está! Se actualizó `master` en el remoto, porque especificamos esos parámetros."
+              "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -253,7 +253,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok. Para este nivel, actualicemos tanto `foo` como `master` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
+              "Ok. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
             ]
           }
         }
@@ -283,13 +283,13 @@ exports.level = {
             "markdowns": [
               "¿Qué será este parámetro `<lugar>`, te preguntarás? Vamos a entrar en detalle, pero primero un ejemplo. Ejecutar el comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "se traduce así al español:",
               "",
-              "*Vete a la rama llamada \"master\" en mi repositorio, coge todos los commits, y después vete a la rama \"master\" del remoto llamado \"origin\". Copia ahí todos los commits que falten, y avísame cuando termines.*",
+              "*Vete a la rama llamada \"main\" en mi repositorio, coge todos los commits, y después vete a la rama \"main\" del remoto llamado \"origin\". Copia ahí todos los commits que falten, y avísame cuando termines.*",
               "",
-              "Especificando `master` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
+              "Especificando `main` como el parámetro \"lugar\", le dijimos a git de dónde traer los commits, y a dónde mandarlos. Es, básicamente, el \"lugar\" o \"ubicación\" que sincronizar entre ambos repositorios.",
               "",
               "Ten en cuenta que, como le dijimos a git todo lo que necesitaba saber (especificando ambos parámetros), ¡ignora totalmente dónde estamos parados en este momento¡"
             ]
@@ -302,9 +302,9 @@ exports.level = {
               "Veamos un ejemplo especificando los parámetros. Date cuenta dónde estamos parados en este ejemplo."
             ],
             "afterMarkdowns": [
-              "¡Ahí está! Se actualizó `master` en el remoto, porque especificamos esos parámetros."
+              "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -325,7 +325,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Perfecto. Para este nivel, actualicemos tanto `foo` como `master` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
+              "Perfecto. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
             ]
           }
         }
@@ -355,13 +355,13 @@ exports.level = {
             "markdowns": [
               "Você deve estar se perguntando: o que é esse parâmetro `<lugar>`? Vamos discutir as especifidades em breve, mas vejamos primeiro um exemplo. Executar o comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "pode ser traduzido para o seguinte em Português:",
               "",
-              "*Vá ao ramo chamado \"master\" no meu repositório local, pegue todos os commits, então vá ao ramo \"master\" no repositório remoto chamado \"origin\". Coloque quaisquer commits que estiverem faltando nesse ramo, e então me diga quando estiver pronto.*",
+              "*Vá ao ramo chamado \"main\" no meu repositório local, pegue todos os commits, então vá ao ramo \"main\" no repositório remoto chamado \"origin\". Coloque quaisquer commits que estiverem faltando nesse ramo, e então me diga quando estiver pronto.*",
               "",
-              "Especificando `master` como parâmetro \"lugar\", dizemos ao Git de onde os commits *vão vir* e para onde os commits *irão*. É essencialmente o \"lugar\" onde sincronizar entre os dois repositórios.",
+              "Especificando `main` como parâmetro \"lugar\", dizemos ao Git de onde os commits *vão vir* e para onde os commits *irão*. É essencialmente o \"lugar\" onde sincronizar entre os dois repositórios.",
               "",
               "Tenha em mente que já que contamos ao Git tudo que ele precisa saber (especificando ambos os parâmetros), ele ignora totalmente o checkout atual!"
             ]
@@ -374,9 +374,9 @@ exports.level = {
               "Vejamos um exemplo especificando os argumentos. Preste atenção no commit que sofreu checkout neste exemplo."
             ],
             "afterMarkdowns": [
-              "Aqui vamos nós! O `master` foi atualizado no repositório remoto, já que especificamos os parâmetros."
+              "Aqui vamos nós! O `main` foi atualizado no repositório remoto, já que especificamos os parâmetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -397,7 +397,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, neste nível vamos atualizar tanto o `foo` como o `master` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
+              "Ok, neste nível vamos atualizar tanto o `foo` como o `main` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
             ]
           }
         }
@@ -427,13 +427,13 @@ exports.level = {
             "markdowns": [
               "¿Qué será este parámetro `<lugar>`, fixécheste esa pregunta? Xa imos entrar en detalle, pero primeiro un exemplo. Executa o comando:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "tradúcese así ó galego:",
               "",
-              "*Vai á rama chamada \"master\" no meu repositorio, colle tódolos commits, e despois vai á rama \"master\" do remoto chamado \"origin\". Aplica ahí tódolos commits que falten, e avísame cando remates.*",
+              "*Vai á rama chamada \"main\" no meu repositorio, colle tódolos commits, e despois vai á rama \"main\" do remoto chamado \"origin\". Aplica ahí tódolos commits que falten, e avísame cando remates.*",
               "",
-              "Indicando `master` como o parámetro \"lugar\", dixémoslle a git ónde traer os commits, e ónde mandalos. É básicamente, o \"lugar\" ou \"ubicación\" que sincroniza entre ámbolos dous repositorios.",
+              "Indicando `main` como o parámetro \"lugar\", dixémoslle a git ónde traer os commits, e ónde mandalos. É básicamente, o \"lugar\" ou \"ubicación\" que sincroniza entre ámbolos dous repositorios.",
               "",
               "Ten en conta que, como lle dixemos a git todo o que precisaba saber (indicando ambos parámetros), ¡ignora totalmente ónde andabamos neste momento!"
             ]
@@ -446,9 +446,9 @@ exports.level = {
               "Vexamos un exemplo especificando os parámetros. Nota ónde ficamos parados neste exemplo."
             ],
             "afterMarkdowns": [
-              "¡Ahí o tes! Actualizouse `master` no remoto, porque especificamos eses parámetros."
+              "¡Ahí o tes! Actualizouse `main` no remoto, porque especificamos eses parámetros."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -469,7 +469,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok. Para este nivel, actualiza tanto `foo` como `master` no remoto. O tema está en que ¡temos deshabilitado `git checkout` neste nivel!"
+              "Ok. Para este nivel, actualiza tanto `foo` como `main` no remoto. O tema está en que ¡temos deshabilitado `git checkout` neste nivel!"
             ]
           }
         }
@@ -499,13 +499,13 @@ exports.level = {
             "markdowns": [
               "`<place>` 這個參數表示什麼? 我們等一下會提到細節，但是先來看一個例子，執行以下的指令：",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "將這段解釋成中文：",
               "",
-              "*先到我的 repo 中的 \"master\" branch，抓下所有的 commit，然後到叫作 \"origin\" 的 remote 的 \"master\" branch，檢查 remote 的 commit 有沒有跟我的 repo 一致，如果沒有，就更新。*",
+              "*先到我的 repo 中的 \"main\" branch，抓下所有的 commit，然後到叫作 \"origin\" 的 remote 的 \"main\" branch，檢查 remote 的 commit 有沒有跟我的 repo 一致，如果沒有，就更新。*",
               "",
-              "將 `master` 當作 \"place\" 這個參數，我們告訴 git 這些 commit 是*從哪裡來的*，而且它們要*往哪裡去*。對於要同步兩個 repo， \"place\" 或者是 \"location\" 是非常重要的。",
+              "將 `main` 當作 \"place\" 這個參數，我們告訴 git 這些 commit 是*從哪裡來的*，而且它們要*往哪裡去*。對於要同步兩個 repo， \"place\" 或者是 \"location\" 是非常重要的。",
               "",
               "要記住喔，因為我們告訴 git 它所要知道的（有兩個參數），因此它才不會管你現在所 checkout 的 branch！"
             ]
@@ -518,9 +518,9 @@ exports.level = {
               "讓我們來看一個有加上參數的例子，在這個例子中，要特別注意到我們所 checkout 的位置。"
             ],
             "afterMarkdowns": [
-              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `master` branch 更新了。"
+              "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `main` branch 更新了。"
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -541,7 +541,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `master` branch，比較遺憾的是 `git checkout` 在這個關卡中是不被允許的喔！"
+              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `main` branch，比較遺憾的是 `git checkout` 在這個關卡中是不被允許的喔！"
             ]
           }
         }
@@ -571,13 +571,13 @@ exports.level = {
             "markdowns": [
               "`<place>` 参数是什么意思呢？我们稍后会深入其中的细节, 先看看例子, 这个命令是:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "把这个命令翻译过来就是：",
               "",
-              "*切到本地仓库中的“master”分支，获取所有的提交，再到远程仓库“origin”中找到“master”分支，将远程仓库中没有的提交记录都添加上去，搞定之后告诉我。*",
+              "*切到本地仓库中的“main”分支，获取所有的提交，再到远程仓库“origin”中找到“main”分支，将远程仓库中没有的提交记录都添加上去，搞定之后告诉我。*",
               "",
-              "我们通过“place”参数来告诉 Git 提交记录来自于 master, 要推送到远程仓库中的 master。它实际就是要同步的两个仓库的位置。",
+              "我们通过“place”参数来告诉 Git 提交记录来自于 main, 要推送到远程仓库中的 main。它实际就是要同步的两个仓库的位置。",
               "",
               "需要注意的是，因为我们通过指定参数告诉了 Git 所有它需要的信息, 所以它就忽略了我们所检出的分支的属性！"
             ]
@@ -590,9 +590,9 @@ exports.level = {
               "我们看看指定参数的例子。注意下我们当前检出的位置。"
             ],
             "afterMarkdowns": [
-              "好了! 通过指定参数, 远程仓库中的 `master` 分支得到了更新。"
+              "好了! 通过指定参数, 远程仓库中的 `main` 分支得到了更新。"
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -613,7 +613,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本关我们要更新远程仓库中的 `foo` 和 `master`, 但是 `git checkout` 被禁用了！",
+              "本关我们要更新远程仓库中的 `foo` 和 `main`, 但是 `git checkout` 被禁用了！",
               "",
               "*注意：远程分支使用 `o/` 开头是因为 `origin/` 对于 UI 来说太长了。不用太在意这个，直接用 `origin` 作为远程仓库的名称就可以了。*",
               ""
@@ -646,13 +646,13 @@ exports.level = {
             "markdowns": [
               "Was \"Ort\" sein soll, fragst du? Das klären wir später genau, schauen wir uns zunächst ein Beispiel an:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "Das bedeutet im Klartext:",
               "",
-              "\"Geh zum Branch namens `master` in meinem Repository, nimm all seine Commits, dann geh zum Branch `master` auf dem Remote namens `origin`. Lege da alle Commits ab, die fehlen und sage mir, wenn du fertig bist.\"",
+              "\"Geh zum Branch namens `main` in meinem Repository, nimm all seine Commits, dann geh zum Branch `main` auf dem Remote namens `origin`. Lege da alle Commits ab, die fehlen und sage mir, wenn du fertig bist.\"",
               "",
-              "Da wir `master` als \"Ort\" angegeben haben, weiß Git, *woher* die Commits kommen und *wohin* sie sollen. Es ist im Grunde der Name der Orte, die zwischen zwei Repositorys synchronisiert werden sollen.",
+              "Da wir `main` als \"Ort\" angegeben haben, weiß Git, *woher* die Commits kommen und *wohin* sie sollen. Es ist im Grunde der Name der Orte, die zwischen zwei Repositorys synchronisiert werden sollen.",
               "",
               "Da wir Git alles explizit gesagt haben, was es für die Operation wissen muss (durch Angabe von Remote und Ort), ist es vollkommen egal, was gerade ausgecheckt ist."
             ]
@@ -665,9 +665,9 @@ exports.level = {
               "Schauen wir uns noch ein Beispiel an. Beachte, was in diesem Fall gerade ausgecheckt ist."
             ],
             "afterMarkdowns": [
-              "Da haben wir's! `master` wurde auf dem Remote aktualisiert, weil wir beide Optionen angegeben haben."
+              "Da haben wir's! `main` wurde auf dem Remote aktualisiert, weil wir beide Optionen angegeben haben."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -688,7 +688,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, in diesem Level lass uns sowohl `foo` als auch `master` auf dem Remote aktualisieren. Um's spannender zu machen ist `git checkout` in diesem Level deaktiviert."
+              "Ok, in diesem Level lass uns sowohl `foo` als auch `main` auf dem Remote aktualisieren. Um's spannender zu machen ist `git checkout` in diesem Level deaktiviert."
             ]
           }
         }
@@ -718,13 +718,13 @@ exports.level = {
             "markdowns": [
               "Что за такой параметр `<целевая_ветка>`? Мы узнаем об этом через секунду, а пока что рассмотрим пример. Допустим, что мы выполняем такую команду:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "дословный перевод с английского будет таким:",
               "",
-              "*Перейди в ветку с именем \"master\" в моём локальном репозитории, возьми все коммиты и затем перейди на ветку \"master\" на удалённом репозитории \"origin.\". На эту удалённую ветку скопируй все отсутствующие коммиты, которые есть у меня, и скажи, когда ты закончишь.*",
+              "*Перейди в ветку с именем \"main\" в моём локальном репозитории, возьми все коммиты и затем перейди на ветку \"main\" на удалённом репозитории \"origin.\". На эту удалённую ветку скопируй все отсутствующие коммиты, которые есть у меня, и скажи, когда ты закончишь.*",
               "",
-              "Указывая `master` в качестве аргумента \"целевая_ветка\", мы тем самым говорим git-у откуда будут *приходить* и *уходить* наши коммиты. Аргумент \"целевая_ветка\" или \"местонахождение\" - это синхронизация между двумя репозиториями.",
+              "Указывая `main` в качестве аргумента \"целевая_ветка\", мы тем самым говорим git-у откуда будут *приходить* и *уходить* наши коммиты. Аргумент \"целевая_ветка\" или \"местонахождение\" - это синхронизация между двумя репозиториями.",
               "",
               "Имейте в виду, что с тех пор, как мы сказали git-у всё, что ему необходимо (указав оба аргумента), ему - git-у - абсолютно всё равно, что вы зачекаутили до этого!"
             ]
@@ -737,9 +737,9 @@ exports.level = {
               "Давайте взглянем на пример, в котором указаны оба этих аргумента. Обратите внимание на местоположение, в котором мы находимся после чекаута."
             ],
             "afterMarkdowns": [
-              "Вот так! Мы обновили `master` на удалённом репозитории, принудительно указав аргументы в push."
+              "Вот так! Мы обновили `main` на удалённом репозитории, принудительно указав аргументы в push."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -760,7 +760,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Хорошо, для выполнения этого уровня давайте обновим обе ветки `foo` и `master` на удалённом репозитории. Фишка в том, что команда `git checkout` не доступна на этом уровне!",
+              "Хорошо, для выполнения этого уровня давайте обновим обе ветки `foo` и `main` на удалённом репозитории. Фишка в том, что команда `git checkout` не доступна на этом уровне!",
               "",
               "*Замечание: Удалённые ветки помечены как `o/`, а не `origin/`. Дело в том, что полная метка не помещается на экране. Не волнуйтесь ",
               "по этому поводу... просто используйте знакомый нам `origin` для обращения к удалённому репозиторию.*"
@@ -793,13 +793,13 @@ exports.level = {
             "markdowns": [
               "`<place>`인자가 무엇을 의미할것 같나요? 세부사항은 알아보기 전에 예시부터 봅시다. 다음 명령어를 보세요:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "해석해 보면:",
               "",
-              "*내 저장소에 있는 \"master\"라는 이름의 브랜치로 가서 모든 커밋들을 수집합니다, 그다음 \"origin\"의 \"master\"브랜치로 가서 이 브랜치에 부족한 커밋들을 채워 넣고 완료 되면 알려줍니다.*",
+              "*내 저장소에 있는 \"main\"라는 이름의 브랜치로 가서 모든 커밋들을 수집합니다, 그다음 \"origin\"의 \"main\"브랜치로 가서 이 브랜치에 부족한 커밋들을 채워 넣고 완료 되면 알려줍니다.*",
               "",
-              "`master`를 \"place\"인자로 지정해서 우리가 git에게 *어디서부터* 커밋이 오는지, 그리고 *어디로* 커밋이 가야하는지 알려줍니다. 두 저장소간에 동기화 작업을 할 \"장소\"를 지정해 주는것이라고 볼 수 있습니다.",
+              "`main`를 \"place\"인자로 지정해서 우리가 git에게 *어디서부터* 커밋이 오는지, 그리고 *어디로* 커밋이 가야하는지 알려줍니다. 두 저장소간에 동기화 작업을 할 \"장소\"를 지정해 주는것이라고 볼 수 있습니다.",
               "",
               "git이 알아야 할 것은 다 알려줬기 때문에(두 인자를 모두 지정했죠), git은 현재 우리가 체크아웃한 브랜치는 무시하고 명령을 수행합니다."
             ]
@@ -812,9 +812,9 @@ exports.level = {
               "인자를 지정해주는 예제를 눈으로 직접 확인해 봅시다. 이 예제에서 우리가 체크아웃한 곳이 어디인지를 주의하며 봅시다."
             ],
             "afterMarkdowns": [
-              "됬네요! 지정해준 인자들에 의해 원격 저장소의 `master`가 갱신 되었습니다."
+              "됬네요! 지정해준 인자들에 의해 원격 저장소의 `main`가 갱신 되었습니다."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -835,7 +835,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "좋습니다, 이번 레벨에서는 원격저장소의 `foo`, `master`브랜치 모두 갱신해봅시다. 이번 문제는 `git checkout`이 비활성화 되있다는 점이 특징이죠!",
+              "좋습니다, 이번 레벨에서는 원격저장소의 `foo`, `main`브랜치 모두 갱신해봅시다. 이번 문제는 `git checkout`이 비활성화 되있다는 점이 특징이죠!",
               "",
               "*노트: 원격 브랜치들은 `o/`접두어로 분류되어 있습니다. `origin/`으로 생략없이 표현하면 UI에 안맞아서 이렇게 표현했어요. ",
               "그래서... 원격저장소 이름은 원래처럼 `origin`으로 써주세요.*"
@@ -868,13 +868,13 @@ exports.level = {
             "markdowns": [
               "Ви спитаєте, що таке аргумент `<place>`? Ми скоро вдамося в детальні пояснення, але спочатку -- приклад. Виконання команди:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "буквально перекладається як:",
               "",
-              "*Піди в гілку, що називається \"master\" в моєму репозиторії, візьми всі коміти, піди у віддалений \"master\", що називається \"origin\". Додай ті коміти, яких немає в цій гілці і надрукуй, що саме ти зробив.*",
+              "*Піди в гілку, що називається \"main\" в моєму репозиторії, візьми всі коміти, піди у віддалений \"main\", що називається \"origin\". Додай ті коміти, яких немає в цій гілці і надрукуй, що саме ти зробив.*",
               "",
-              "Вказуючи `master` в якості аргумента \"place\", ми сказали git-у, *звідки* взяти коміти і *куди* їх додати. (\"Place\") - фактично точка синхронізації двох репозиторіїв.",
+              "Вказуючи `main` в якості аргумента \"place\", ми сказали git-у, *звідки* взяти коміти і *куди* їх додати. (\"Place\") - фактично точка синхронізації двох репозиторіїв.",
               "",
               "Пам'ятайте, що оскільки ми надали git-у всю необхідну інформацію (вказавши обидва аргументи), не має значення яка гілка є зараз поточною!"
             ]
@@ -887,9 +887,9 @@ exports.level = {
               "Розгляньмо приклад використання аргументів. Зверніть увагу на поточну гілку в цьому прикладі."
             ],
             "afterMarkdowns": [
-              "Ось так! `master` у віддаленому репозиторії оновився, оскільки ми вказали його в аргументах."
+              "Ось так! `main` у віддаленому репозиторії оновився, оскільки ми вказали його в аргументах."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -910,7 +910,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Гаразд, на цьому рівні оновімо віддалені гілки `foo` і `master`. Для ускладнення ми заборонимо використовувати `git checkout`!",
+              "Гаразд, на цьому рівні оновімо віддалені гілки `foo` і `main`. Для ускладнення ми заборонимо використовувати `git checkout`!",
               "",
               "*Пам'ятай, віддалені гілки позначені префіксом `o/`, оскільки повний префікс `origin/` не влазить в наш UI. Але не хвилюйся ",
               "про це... ти можеш використовувати `origin` посилаючись на віддалений репозиторій.*"
@@ -943,13 +943,13 @@ exports.level = {
             "markdowns": [
               "Tham số `<vị trí>` là gì vậy? Chúng ta sẽ đi sâu vào chi tiết sau sau, hãy xem ví dụ trước. Đưa ra câu lệnh:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "được dịch lại là:",
               "",
-              "*Chuyển sang nhánh \"master\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"master\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*",
+              "*Chuyển sang nhánh \"main\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"main\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*",
               "",
-              "Bằng cách chỉ định `master` trong tham số \"vị trí\",ta báo với git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.",
+              "Bằng cách chỉ định `main` trong tham số \"vị trí\",ta báo với git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.",
               "",
               "Lưu ý rằng ta ta đã thông báo cho gi tất cả thông tin cần thiết( thông qua chỉ định 2 tham số), nó sẽ không quan tâm nhánh mà ta đang đứng!"
             ]
@@ -962,9 +962,9 @@ exports.level = {
               "Hãy xem xét một ví dụ về việc xác định tham số. Lưu ý vị trí nhánh mà ta đang đứng."
             ],
             "afterMarkdowns": [
-              "Được rồi! Bằng cách chỉ định các tham số, nhánh `master` trong kho lưu trữ từ xa đã được cập nhật."
+              "Được rồi! Bằng cách chỉ định các tham số, nhánh `main` trong kho lưu trữ từ xa đã được cập nhật."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -985,7 +985,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Được rồi, trong cấp độ này hãy cập nhánh `foo` và `master` trên kho lưu trữ từ xa. Cái khó là ở cấp độ này lệnh `git checkout` đã bị vô hiệu hóa!",
+              "Được rồi, trong cấp độ này hãy cập nhánh `foo` và `main` trên kho lưu trữ từ xa. Cái khó là ở cấp độ này lệnh `git checkout` đã bị vô hiệu hóa!",
               "",
               "*Chú ý: Các nhánh từ xa được đánh dấu bằng tiền tố `o/` bời vì UI của chúng tôi không chứa được hết `origin/`. Đừng lo ",
               "về vấn đề này... đơn giản cứ dùng `origin` như bình thường thôi.*"
@@ -1018,11 +1018,11 @@ exports.level = {
             "markdowns": [
               "Kaj je `<place>` parameter praviš? Kmalu bomo zaplavali v podrobnosti, ampak najprej primer. Izvedba ukaza:",
               "",
-              "`git push origin master`",
+              "`git push origin main`",
               "",
               "se v slovenščini prevede v:",
               "",
-              "*Pojdi na branch poimenovan \"master\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"master\" na oddaljenem repotu poimenovanem \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
+              "*Pojdi na branch poimenovan \"main\" na mojem repozitoriju, zgrabi vse commite in nato pojdi na branch \"main\" na oddaljenem repotu poimenovanem \"origin\". Postavi vse commite, ki manjkajo na branch in me obvesti, ko končaš.*",
               "",
               "Z določanjem `masterja` kot \"place\" argument, smo povedali gitu iz kje bodo commiti *prišli* in kam bodo commiti *šli*. V bistvu je to \"mesto\" oziroma \"lokacija\" za uskladitev med dvema repozitorijema.",
               "",
@@ -1037,9 +1037,9 @@ exports.level = {
               "Poglejmo si primer podajanja argumentov. Bodi pozoren na mesto, kjer smo checkoutani v tem primeru."
             ],
             "afterMarkdowns": [
-              "Evo ga! `master` je bil posodobljen na oddaljenem repotu, ker smo podali te argumente."
+              "Evo ga! `main` je bil posodobljen na oddaljenem repotu, ker smo podali te argumente."
             ],
-            "command": "git checkout C0; git push origin master",
+            "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -1060,7 +1060,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, za to stopnjo posodobimo oba `foo` in `master` na oddaljenem repotu. Trik je, da je `git checkout` onemogočen za to stopnjo!",
+              "Ok, za to stopnjo posodobimo oba `foo` in `main` na oddaljenem repotu. Trik je, da je `git checkout` onemogočen za to stopnjo!",
               "",
               "*Opomba: Oddaljeni branchi so označeni z `o/` predpono, ker celotna `origin/` oznaka ne paše v naš prikaz. Ne skrbi ",
               "glede tega ... preprosto uporabi `origin` kot ime oddaljenega repota kot ponavadi.*"

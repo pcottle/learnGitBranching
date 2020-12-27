@@ -49,9 +49,9 @@ exports.level = {
               "",
               "There are actually many ways to do this -- once you have new commits available locally, you can incorporate them as if they were just normal commits on other branches. This means you could execute commands like:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually provides a command that does both at once! That command is `git pull`."
@@ -65,9 +65,9 @@ exports.level = {
               "Let's first see a `fetch` and a `merge` executed sequentially."
             ],
             "afterMarkdowns": [
-              "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/master`. Now our `master` branch reflects the new work from the remote (in this case, named `origin`)"
+              "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/main`. Now our `main` branch reflects the new work from the remote (in this case, named `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -108,9 +108,9 @@ exports.level = {
               "",
               "Il existe en fait beaucoup de façons de faire cela -- une fois que vous avez de nouveaux commits disponibles localement, vous pouvez les incorporer dans votre branche de travail comme s'ils étaient des commits normaux d'autres branches. Cela signifie que pourriez simplement exécuter des commandes comme :",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`."
@@ -124,9 +124,9 @@ exports.level = {
               "Voyons d'abord un `fetch` puis un `merge` exécutés séquentiellement."
             ],
             "afterMarkdowns": [
-              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/master`. Maintenant notre branche `master` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
+              "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/main`. Maintenant notre branche `main` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -167,9 +167,9 @@ exports.level = {
               "",
               "Realmente hay varias formas de hacer esto: una vez que tenés los commits disponibles localmente, podés integrarlos como si fueran commits comunes de otras ramas. Esto significa que podrías ejecutar comandos como:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!"
@@ -183,9 +183,9 @@ exports.level = {
               "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
             ],
             "afterMarkdowns": [
-              "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
+              "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -226,9 +226,9 @@ exports.level = {
               "",
               "Realmente hay varias formas de hacer esto: una vez que tienes los commits disponibles localmente, puedes integrarlos como si fueran commits comunes de otras ramas. Esto significa que podrías ejecutar comandos como:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!"
@@ -242,9 +242,9 @@ exports.level = {
               "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
             ],
             "afterMarkdowns": [
-              "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/master`. Ahora nuestra rama `master` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
+              "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -285,9 +285,9 @@ exports.level = {
               "",
               "Há, na verdade, muitas formas de fazê-lo -- uma vez que você tenha os novos commits disponíveis localmente, você pode incorporá-los como se eles fossem commits normais em outros ramos. Isso significa que você pode executar comandos como estes a seguir:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "O fluxo de trabalho de executar *fetch* para baixar as mudanças remotas e depois fazer um *merge* delas é tão comum que o Git na verdade fornece um comando que faz ambas as coisas de uma vez só! Esse comando é o `git pull`."
@@ -301,9 +301,9 @@ exports.level = {
               "Vamos primeiro ver um `fetch` e um `merge` executados sequencialmente."
             ],
             "afterMarkdowns": [
-              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/master`. Agora o nosso ramo `master` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
+              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/main`. Agora o nosso ramo `main` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -344,9 +344,9 @@ exports.level = {
               "",
               "Realmente hai varias formas de facer esto: unha vez que teñas os commits dispoñibles localmente, podes integralos coma se foran commits comúns de outras ramas. Esto significa que poderías executar comandos como:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "De feito, o fluxo de traballo de *fetchear* os cambios remotos e depois *mesturalos* é tan común que git inclúe un comando que fai as dúas operacións nunha sola: ¡`giti pull`!"
@@ -360,9 +360,9 @@ exports.level = {
               "Vexamos primeiro un `fetch` e un `merge` executados secuencialmente."
             ],
             "afterMarkdowns": [
-              "Boom: descargamos `C3` cun `fetch` e logo mesturámolos con `git merge o/master`. Agora a nosa rama `master` reflexa o novo traballo do remoto (neste caso, chamado `origin`)"
+              "Boom: descargamos `C3` cun `fetch` e logo mesturámolos con `git merge o/main`. Agora a nosa rama `main` reflexa o novo traballo do remoto (neste caso, chamado `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -403,9 +403,9 @@ exports.level = {
               "",
               "只要在你的 local 有 fetch 到新的 commit，便有很多方法可以做到這件事情，你可以把它們視為在其它 branch 上面的一般的 commit，這表示你可以執行像這樣子的指令:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* 等等‧‧‧",
               "",
               "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！這個命令叫作 `git pull`。"
@@ -419,9 +419,9 @@ exports.level = {
               "讓我們來看循序執行一個 `fetch` 和一個 `merge` 的樣子"
             ],
             "afterMarkdowns": [
-              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/master` 來更新資料，現在我們的 `master` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
+              "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/main` 來更新資料，現在我們的 `main` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -462,9 +462,9 @@ exports.level = {
               "",
               "其实有很多方法的 —— 当远程分支中有新的提交时，你可以像合并本地分支那样来合并远程分支。也就是说就是你可以执行以下命令: ",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* 等等",
               "",
               "实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 `git pull`。"
@@ -478,9 +478,9 @@ exports.level = {
               "我们先来看看 `fetch`、`merge` 依次执行的效果"
             ],
             "afterMarkdowns": [
-              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/master` 合并了这一提交记录。现在我们的 `master` 分支包含了远程仓库中的更新（在本例中远程仓库名为 `origin`）"
+              "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/main` 合并了这一提交记录。现在我们的 `main` 分支包含了远程仓库中的更新（在本例中远程仓库名为 `origin`）"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -521,9 +521,9 @@ exports.level = {
               "",
               "Tatsächlich gibt es eine Menge Wege dies zu erreichen -- sobald du die neuen Commits lokal verfügbar hast, kannst du sie integrieren wie Commits von ganz normalen anderen Branches. Du kannst also:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* usw. usf. ausführen.",
               "",
               "Änderungen vom Server zu holen und dann in die eigene Arbeit zu mergen wird so häufig benötigt, dass Git einen Befehl kennt, der beides auf einmal erledigt! Das ist `git pull`."
@@ -537,9 +537,9 @@ exports.level = {
               "Schauen wir uns erst mal ein `fetch` gefolgt von `merge` an:"
             ],
             "afterMarkdowns": [
-              "Bämm -- wir haben `C3` mit `fetch` heruntergeladen und dann in unseren Branch mit `git merge o/master` integriert. Nun bildet unser `master` dieselben Inhalte ab, wie sie auf dem entfernten Server (`origin`) liegen."
+              "Bämm -- wir haben `C3` mit `fetch` heruntergeladen und dann in unseren Branch mit `git merge o/main` integriert. Nun bildet unser `main` dieselben Inhalte ab, wie sie auf dem entfernten Server (`origin`) liegen."
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -580,9 +580,9 @@ exports.level = {
                           "",
                           "Существует множество вариантов решений - как только у вас имеется локальный коммит, вы можете соединить его с другой веткой. Это значит, вы можете выполнить одну из команд:",
                           "",
-                          "* `git cherry-pick o/master`",
-                          "* `git rebase o/master`",
-                          "* `git merge o/master`",
+                          "* `git cherry-pick o/main`",
+                          "* `git rebase o/main`",
+                          "* `git merge o/main`",
                           "* и т.д.",
                           "",
                           "Процедура *скачивания (fetching)*  изменений с удалённой ветки и *объединения (merging)* настолько частая и распространённая, что git предоставляет вместо двух команд - одну! Эта команда  - `git pull`."
@@ -596,9 +596,9 @@ exports.level = {
                           "Давайте рассмотрим, как `fetch` и `merge` выполняются последовательно"
                       ],
                       "afterMarkdowns": [
-                          "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/master`. Теперь наша ветка `master` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
+                          "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/main`. Теперь наша ветка `main` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
                       ],
-                      "command": "git fetch; git merge o/master",
+                      "command": "git fetch; git merge o/main",
                       "beforeCommand": "git clone; git commit; git fakeTeamwork"
                   }
               },
@@ -639,9 +639,9 @@ exports.level = {
               "",
               "実際には多くの方法があり、ローカルに利用可能なリモートの新しいコミットがある場合、あなたはそのコミットを他のブランチの通常のコミットと同じように、自分の作業に組み込むことができます。これは、あなたが次のようなコマンドを実行することで行えます:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* その他",
               "",
               "実は、リモートの変更を取ってきてマージするという作業の流れはとてもよく行われるので、gitは実際にはその二つを同時に行うコマンドを提供しているのです！それは、`git pull`というコマンドです。"
@@ -655,9 +655,9 @@ exports.level = {
               "まずは、連続して`fetch`して`merge`する流れの方を見てみましょう。"
             ],
             "afterMarkdowns": [
-              "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/master`でこれをマージしました。今や私たちの`master`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
+              "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/main`でこれをマージしました。今や私たちの`main`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -698,9 +698,9 @@ exports.level = {
               "",
               "Насправді, є кілька шляхів як цого досягнути -- щойно нові коміти з’явилися локально, ти можеш додавати їх в бранчі так само, як звичайні коміти. Це означає що ти можеш виконувати команди:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* тощо.",
               "",
               "Насправді, процес *витягування* віддалених змін й подальший *мерджинг* їх є настільки популярним, що гіт пропонує спеціальну команду, що виконує ці дві дії за один раз! Ця команда називається `git pull`."
@@ -714,9 +714,9 @@ exports.level = {
               "Спершу виконаймо по черзі `fetch`, а потім `merge`."
             ],
             "afterMarkdowns": [
-              "Ка-бум -- ми звантажили `C3` за допомогою `fetch` і потім змерджили їх, використавши `git merge o/master`. Тепер наша гілка `master` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
+              "Ка-бум -- ми звантажили `C3` за допомогою `fetch` і потім змерджили їх, використавши `git merge o/main`. Тепер наша гілка `main` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -757,9 +757,9 @@ exports.level = {
               "",
               "사실 이걸 하는 방법은 여러가지 있습니다 -- 새 커밋들을 로컬에 내려받은 이후에는 그냥 다른 브랜치에있는 일반 커밋처럼 활용할 수 있습니다. 이런 명령들을 실행할 수 있다는 뜻 입니다 :",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* 기타 등등",
               "",
               "사실 원격 저장소의 변경을 *fetch*하고 그이후에 *merge*하는 작업의 과정이 워낙 자주있는 일이라서 git은 이 두가지를 한번에 하는 명령을 제공합니다! 이 명령어는 `git pull` 입니다."
@@ -773,9 +773,9 @@ exports.level = {
               "먼저 `fetch` 와 `merge`가 차례로 실행되는것을 확인해 봅시다"
             ],
             "afterMarkdowns": [
-              "Boom -- 우리는 `C3`를 `fetch`로 내려 받고 `git merge o/master`로 우리의 작업으로 병합했습니다. 이제 우리의 `master` 브랜치는 원격 저장소의 새 작업들을 반영하게 됩니다(지금 사례에서 `origin`입니다)."
+              "Boom -- 우리는 `C3`를 `fetch`로 내려 받고 `git merge o/main`로 우리의 작업으로 병합했습니다. 이제 우리의 `main` 브랜치는 원격 저장소의 새 작업들을 반영하게 됩니다(지금 사례에서 `origin`입니다)."
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -816,9 +816,9 @@ exports.level = {
               "",
               "Thực ra thì có nhiều cách đề làm điều này -- một khi bạn đã có các commit này ở ko chứa địa phương, bạn có thể hợp nhất chúng như với các commit ở các nhánh khác. Nghĩa là bạn có thể sử dụng các câu lệnh sau:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* etc., etc.",
               "",
               "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`."
@@ -832,9 +832,9 @@ exports.level = {
               "Trước tiên hãy xem quá trình `nạp` và `hợp nhất` được thực hiện một cách tuần tự."
             ],
             "afterMarkdowns": [
-              "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/master`. Giờ thì nhánh `master` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"
+              "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/main`. Giờ thì nhánh `main` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },
@@ -875,9 +875,9 @@ exports.level = {
               "",
               "V bistvu je več načinov za izvedbo tega -- ko imaš enkrat lokalno na voljo nove commite, jih lahko vključiš, kot da so normalni commiti na drugem branchu. To pomeni, da lahko izvedeš ukaze, kot so:",
               "",
-              "* `git cherry-pick o/master`",
-              "* `git rebase o/master`",
-              "* `git merge o/master`",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
               "* itd., itd.",
               "",
               "Pravzaprav je *fetchanje* oddaljenih sprememb in kasneje *merganje* le-teh tako pogosto, da ima git dejansko ukaz, ki naredi oboje! Ukaz je `git pull`."
@@ -891,9 +891,9 @@ exports.level = {
               "Poglejmo najprej `fetch` in `merge` izvedena zaporedno:"
             ],
             "afterMarkdowns": [
-              "Boom -- prenesli smo `C3` s `fetch` in nato mergali delo z `git merge o/master`. Sedaj naš `master` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)."
+              "Boom -- prenesli smo `C3` s `fetch` in nato mergali delo z `git merge o/main`. Sedaj naš `main` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)."
             ],
-            "command": "git fetch; git merge o/master",
+            "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
           }
         },

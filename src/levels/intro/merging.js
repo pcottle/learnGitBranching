@@ -21,23 +21,23 @@ exports.level = {
     "pl"   : "Łączenie/Scalanie w GIT (merge)"
   },
   "hint": {
-    "en_US": "Remember to commit in the order specified (bugFix before master)",
-    "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann master)",
+    "en_US": "Remember to commit in the order specified (bugFix before main)",
+    "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
     "ja"　　　: "指示された順番でコミットすること（masterの前にbugFixで）",
-    "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de master)",
-    "es_MX": "Acuérdate de hacer commit en el orden especificado (bugFix antes de master)",
-    "es_ES": "Acuérdate de hacer commit en el orden especificado (bugFix antes de master)",
-    "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de master)",
-    "gl"   : "Lembrate de facer commit na orde específica (bugFix antes de master)",
-    "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant master)",
-    "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 master）",
-    "zh_TW": "記住按指定的順序 commit（bugFix 比 master 優先）",
+    "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de main)",
+    "es_MX": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
+    "es_ES": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
+    "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de main)",
+    "gl"   : "Lembrate de facer commit na orde específica (bugFix antes de main)",
+    "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant main)",
+    "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 main）",
+    "zh_TW": "記住按指定的順序 commit（bugFix 比 main 優先）",
     "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
-    "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом master)",
-    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім master)",
-    "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước master)",
-    "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred master)',
-    "pl"   : "Pamiętaj, aby commit-ować w określonej kolejności (bugFix przed master)"
+    "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом main)",
+    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
+    "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước main)",
+    "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred main)',
+    "pl"   : "Pamiętaj, aby commit-ować w określonej kolejności (bugFix przed main)"
   },
   "disabledMap": {
     "git revert": true
@@ -65,32 +65,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
               "",
-              "We will `merge` the branch `bugFix` into `master`."
+              "We will `merge` the branch `bugFix` into `main`."
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `master` now points to a commit that has two parents. If you follow the arrows up the commit tree from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "Woah! See that? First of all, `main` now points to a commit that has two parents. If you follow the arrows up the commit tree from `main`, you will hit every commit along the way to the root. This means that `main` contains all the work in the repository now.",
               "",
               "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
               "",
-              "So here we see that the `master` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+              "So here we see that the `main` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's merge `master` into `bugFix`:"
+              "Let's merge `main` into `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Since `bugFix` was an ancestor of `master`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "Since `bugFix` was an ancestor of `main`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `main` was attached to.",
               "",
               "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -102,9 +102,9 @@ exports.level = {
               "* Make a new branch called `bugFix`",
               "* Checkout the `bugFix` branch with `git checkout bugFix`",
               "* Commit once",
-              "* Go back to `master` with `git checkout`",
+              "* Go back to `main` with `git checkout`",
               "* Commit another time",
-              "* Merge the branch `bugFix` into `master` with `git merge`",
+              "* Merge the branch `bugFix` into `main` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"objective\"!*"
             ]
@@ -134,32 +134,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Hier haben wir zwei Branches; jeder besteht jeweils aus einem eigenen Commit. Das bedeutet, dass keiner der beiden Branches alle Inhalte des gesamten Repositorys kennt. Das werden wir mit einem Merge ändern.",
               "",
-              "Wir werden den Branch `bugFix` in `master` integrieren."
+              "Wir werden den Branch `bugFix` in `main` integrieren."
             ],
             "afterMarkdowns": [
-              "Wow! Hast du das gesehen? Zunächst mal zeigt `master` jetzt auf einen Commit mit zwei Vorgängern. Wenn du den beiden Pfeilen immer weiter folgst, kommst du an jedem Commit im Repository vorbei. Das heißt `master` enthält jetzt alles, was es im Repository gibt.",
+              "Wow! Hast du das gesehen? Zunächst mal zeigt `main` jetzt auf einen Commit mit zwei Vorgängern. Wenn du den beiden Pfeilen immer weiter folgst, kommst du an jedem Commit im Repository vorbei. Das heißt `main` enthält jetzt alles, was es im Repository gibt.",
               "",
               "Siehst du außerdem wie sich die Farben der Commits verändert haben? Um die Vorgänge zu verdeutlichen hab ich etwas Farbe ins Spiel gebracht. Jeder Branch hat seine eindeutige Farbe. Jeder Merge Commit bekommt als Farbe eine Mischung aus den Farben seiner Vorgänger.",
               "",
-              "Wir sehen also, dass die Farbe des Branch `master` in alle Commits gemischt wurde, die von `bugFix` aber nicht. Ändern wir das ..."
+              "Wir sehen also, dass die Farbe des Branch `main` in alle Commits gemischt wurde, die von `bugFix` aber nicht. Ändern wir das ..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Mergen wir `master` in `bugFix`:"
+              "Mergen wir `main` in `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Da `bugFix` ein Vorgänger von `master` war, musste git hier kaum etwas tun; es verschiebt `bugFix` einfach auf den Commit, auf den auch `master` zeigt.",
+              "Da `bugFix` ein Vorgänger von `main` war, musste git hier kaum etwas tun; es verschiebt `bugFix` einfach auf den Commit, auf den auch `main` zeigt.",
               "",
               "Jetzt haben alle Commits dieselbe Farbe, das heißt jeder Branch enthält die Informationen des gesamten Repositorys! Juhu!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -171,9 +171,9 @@ exports.level = {
               "* Lege einen neuen Branch `bugFix` an",
               "* Checke `bugFix` aus mittels `git checkout bugFix`",
               "* Mach einen Commit",
-              "* Geh mit `git checkout` zum `master` zurück",
+              "* Geh mit `git checkout` zum `main` zurück",
               "* Mach noch einen Commit",
-              "* Merge den Branch `bugFix` in `master` mit `git merge`",
+              "* Merge den Branch `bugFix` in `main` mit `git merge`",
               "",
               "*Denk dran, du kannst diese Meldung mit dem Befehl `objective` so oft anzeigen, wie du willst!*"
             ]
@@ -203,32 +203,32 @@ exports.level = {
             "beforeMarkdowns": [
               "それぞれ別のコミットを指している2つのブランチがあります。変更が別々のブランチに分散していて統合されていないケースです。これをマージで1つにまとめてみましょう。",
               "",
-              "`bugFix`ブランチを`master`ブランチにマージしてみます。"
+              "`bugFix`ブランチを`main`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "わあ、見ましたか？まず初めに、`master`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`master`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`master`が完成しました。",
+              "わあ、見ましたか？まず初めに、`main`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`main`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`main`が完成しました。",
               "",
               "色がどう変わったかにも注目して下さい。学習を助けるために、ブランチ毎に色をつけています。それぞれのブランチは自分の色を持っていて、どのブランチから派生して出てくるか次第でコミットごとの色が決まります。",
               "",
-              "今回のコミットには`master`ブランチの色が使われました。しかし`bugFix`ブランチの色がまだ変わってないようなので、これを変えてみましょう。"
+              "今回のコミットには`main`ブランチの色が使われました。しかし`bugFix`ブランチの色がまだ変わってないようなので、これを変えてみましょう。"
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`master`ブランチを`bugFix`ブランチにマージしてみます。"
+              "`main`ブランチを`bugFix`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "`bugFix`ブランチは`master`ブランチの派生元だったので、gitは実際大したことはしていません。`bugFix`ブランチを指していたポインタを`master`が指していたコミットへと移動させただけです。",
+              "`bugFix`ブランチは`main`ブランチの派生元だったので、gitは実際大したことはしていません。`bugFix`ブランチを指していたポインタを`main`が指していたコミットへと移動させただけです。",
               "",
               "これで全てのコミットが同じ色になりました。つまり、リポジトリの中の全ての変更をそれぞれのブランチが持ったことになります。やったね！"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -240,9 +240,9 @@ exports.level = {
               "* `bugFix`という名前で新しいブランチを切る",
               "* `git checkout bugFix`コマンドで`bugFix`ブランチに切り替える",
               "* 一回だけコミット",
-              "* `git checkout`で`master`へ戻る",
+              "* `git checkout`で`main`へ戻る",
               "* もう1回コミットする",
-              "* `git merge`コマンドを使って、`bugFix`ブランチを`master`ブランチへとマージする",
+              "* `git merge`コマンドを使って、`bugFix`ブランチを`main`ブランチへとマージする",
               "",
               "*注：\"objective\"コマンドでこのヘルプにいつでも戻ってこれます*"
             ]
@@ -272,32 +272,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Acá tenemos dos ramas, y cada una tiene un commit que le es único. Esto significa que ninguna de las ramas incluye \"todo el trabajo\" que hay en nuestro repositorio. Hagamos un merge para solucionar eso.",
               "",
-              "Vamos a `merge`ar la rama `bugFix` a `master`."
+              "Vamos a `merge`ar la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
-              "¡Wooow! ¿Viste eso? Primero que nada, `master` ahora apunta a un commit que tiene dos padres. Si seguís las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si seguís las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
               "",
               "Además, ¿viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, incluí algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
               "",
-              "Así que acá vemos que el color de la rama `master` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
+              "Así que acá vemos que el color de la rama `main` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Mergeemos `master` a `bugFix`:"
+              "Mergeemos `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como `bugFix` era un ancestro de `master`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Wiii!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -309,9 +309,9 @@ exports.level = {
               "* Creá una nueva rama, llamada `bugFix`",
               "* Checkouteá la rama `bugFix` usando `git checkout bugFix`",
               "* Hacé un commit",
-              "* Volvé a `master` con `git checkout`",
+              "* Volvé a `main` con `git checkout`",
               "* Hacé otro commit",
-              "* Mergeá la rama `bugFix` a `master` usando `git merge`",
+              "* Mergeá la rama `bugFix` a `main` usando `git merge`",
               "",
               "*Acordate: siempre podés volver a ver este mensaje tipeando \"objective\"!*"
             ]
@@ -341,32 +341,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Acá tenemos dos ramas, y cada una tiene un commit que le es único. Esto significa que ninguna de las ramas incluye \"todo el trabajo\" que hay en nuestro repositorio. Hagamos un merge para solucionar eso.",
               "",
-              "Vamos a `merge`ar la rama `bugFix` a `master`."
+              "Vamos a `merge`ar la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
-              "¡Wooow! ¿Viste eso? Primero que nada, `master` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
               "",
               "Además, ¿Viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, incluí algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
               "",
-              "Así que acá vemos que el color de la rama `master` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
+              "Así que acá vemos que el color de la rama `main` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Mergeemos `master` a `bugFix`:"
+              "Mergeemos `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como `bugFix` era un ancestro de `master`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Súper!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -378,9 +378,9 @@ exports.level = {
               "* Crea una nueva rama, llamada `bugFix`",
               "* Cambia a la rama `bugFix` usando `git checkout bugFix`",
               "* Haz un commit",
-              "* Vuelve a `master` con `git checkout`",
+              "* Vuelve a `main` con `git checkout`",
               "* Haz otro commit",
-              "* Haz un merge de la rama `bugFix` a `master` usando `git merge`",
+              "* Haz un merge de la rama `bugFix` a `main` usando `git merge`",
               "",
               "*Recuerda: siempre puedes volver a ver este mensaje usando el comando \"objective\"!*"
             ]
@@ -410,32 +410,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Aquí tenemos dos ramas, y cada una tiene un commit que le es único. Esto significa que ninguna de las ramas incluye \"todo el trabajo\" que hay en nuestro repositorio. Hagamos un merge para solucionar eso.",
               "",
-              "Vamos a `merge`ar la rama `bugFix` a `master`."
+              "Vamos a `merge`ar la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
-              "¡Caramba! ¿Viste eso? Antes de nada, `master` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "¡Caramba! ¿Viste eso? Antes de nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
               "",
               "Además, ¿viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, he incluido algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
               "",
-              "Así que aquí vemos que el color de la rama `master` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
+              "Así que aquí vemos que el color de la rama `main` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hagamos merge de `master` a `bugFix`:"
+              "Hagamos merge de `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como `bugFix` era un ancestro de `master`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Genial!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -447,9 +447,9 @@ exports.level = {
               "* Crea una nueva rama, llamada `bugFix`",
               "* Haz checkout de la rama `bugFix` usando `git checkout bugFix`",
               "* Crea un commit",
-              "* Vuelve a `master` con `git checkout`",
+              "* Vuelve a `main` con `git checkout`",
               "* Crea otro commit",
-              "* Haz merge de la rama `bugFix` a `master` usando `git merge`",
+              "* Haz merge de la rama `bugFix` a `main` usando `git merge`",
               "",
               "*Recuerda: siempre puedes volver a ver este mensaje escribiendo \"objective\"!*"
             ]
@@ -479,32 +479,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Aqui nós temos dois ramos; cada um tem um commit que é único. Isso significa que nenhum ramo inclui o conjunto do \"trabalho\" que foi realizado no repositório. Vamos consertar isso com um merge.",
               "",
-              "Vamos juntar o ramo `bugFix` no `master`."
+              "Vamos juntar o ramo `bugFix` no `main`."
             ],
             "afterMarkdowns": [
-              "Uau! Viu isso? Antes de tudo, o `master` agora aponta para um commit que possui dois pais. Se você seguir as setas subindo a árvore de commits a partir do `master`, você será capaz de encontrar, ao longo do caminho até a raiz, qualquer um dos commits. Isso significa que o `master` contém todo o trabalho realizado no repositório até o momento.",
+              "Uau! Viu isso? Antes de tudo, o `main` agora aponta para um commit que possui dois pais. Se você seguir as setas subindo a árvore de commits a partir do `main`, você será capaz de encontrar, ao longo do caminho até a raiz, qualquer um dos commits. Isso significa que o `main` contém todo o trabalho realizado no repositório até o momento.",
               "",
               "Além disso, viu como as cores dos commits mudaram? Para ajudá-lo a aprender, eu incluí uma legenda. Cada ramo tem uma cor única. Cada commit tem a cor resultante da mistura das cores de todos os ramos que o contém.",
               "",
-              "Aqui vemos que a cor do ramo `master` está misturada em todos os commits, mas a cor do `bugFix` não está. Vamos corrigir isso..."
+              "Aqui vemos que a cor do ramo `main` está misturada em todos os commits, mas a cor do `bugFix` não está. Vamos corrigir isso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos juntar o `master` no `bugFix`:"
+              "Vamos juntar o `main` no `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como o `bugFix` é um ancestral do `master`, o git não teve trabalho nenhum; ele só precisou mover o `bugFix` para o mesmo commit do `master`.",
+              "Como o `bugFix` é um ancestral do `main`, o git não teve trabalho nenhum; ele só precisou mover o `bugFix` para o mesmo commit do `main`.",
               "",
               "Agora todos os commits possuem a mesma cor, o que significa que ambos os ramos contém todo o trabalho realizado no repositório! Eba!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -516,9 +516,9 @@ exports.level = {
               "* Crie um novo ramo chamado `bugFix`",
               "* Faça checkout no ramo `bugFix` com `git checkout bugFix`",
               "* Faça um commit",
-              "* Volte ao `master` com `git checkout`",
+              "* Volte ao `main` com `git checkout`",
               "* Faça um novo commit",
-              "* Junte o ramo `bugFix` no `master` com `git merge`",
+              "* Junte o ramo `bugFix` no `main` com `git merge`",
               "",
               "*Lembre-se, você pode sempre mostrar esta mensagem novamente com o comando \"objective\"!*"
             ]
@@ -548,32 +548,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Aquí nos temos dúas ramas; cada unha ten un commit que é único. Isto significa que ningunha rama inclúe o conxunto de \"traballo\" feito no noso repositorio. Imos arranxar esto cun merge.",
               "",
-              "Imos xuntar a rama `bugFix` na `master`."
+              "Imos xuntar a rama `bugFix` na `main`."
             ],
             "afterMarkdowns": [
-              "¡Uah! ¿Viches? Antes de todo, `master` agora apunta a un commit que ten dous pais. Se ti sigues as frechas subindo a árbore de commits a partir de `master`, serás capaz de ver tódolos commits ata a raíz, calquera de eles. Isto significa que a rama `master` contén todo o traballo realizado no repositorio ata ese momento.",
+              "¡Uah! ¿Viches? Antes de todo, `main` agora apunta a un commit que ten dous pais. Se ti sigues as frechas subindo a árbore de commits a partir de `main`, serás capaz de ver tódolos commits ata a raíz, calquera de eles. Isto significa que a rama `main` contén todo o traballo realizado no repositorio ata ese momento.",
               "",
               "Ademáis, ¿viches como cambiaron as cores dos commits? Para axudarte a aprender, hai unha lenda. Cada rama ten unha única cor. Cada commit ten a cor resultante de mesturar as cores de tódalas ramas que contén.",
               "",
-              "Aquí vemos que a  rama `master` está mesturada en todos os commits, pero a cor da rama `bugFix` non o está. Imos arranxar eso..."
+              "Aquí vemos que a  rama `main` está mesturada en todos os commits, pero a cor da rama `bugFix` non o está. Imos arranxar eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Imos mesturar a rama `master` en `bugFix`:"
+              "Imos mesturar a rama `main` en `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como o `bugFix` é un ancestro de `master`, o git non ten traballo que facer; el só ten que mover o punteiro de `bugFix` para o mesmo commit que `master`.",
+              "Como o `bugFix` é un ancestro de `main`, o git non ten traballo que facer; el só ten que mover o punteiro de `bugFix` para o mesmo commit que `main`.",
               "",
               "Agora tódolos commits teñen a mesma cor, o que significa que ambas ramas teñen o mesmo traballo no repositorios! Iepa!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -585,9 +585,9 @@ exports.level = {
               "* Crea unha nova ramara chamada `bugFix`",
               "* Fai checkout da rama `bugFix` con `git checkout bugFix`",
               "* Fai un commit",
-              "* Volve á rama `master` con `git checkout`",
+              "* Volve á rama `main` con `git checkout`",
               "* Fai un novo commit",
-              "* Xunta a rama `bugFix` en `master` con `git merge`",
+              "* Xunta a rama `bugFix` en `main` con `git merge`",
               "",
               "¡Recorda, podes amosar esta mensaxe novamente co comando \"objective\"!"
             ]
@@ -603,7 +603,7 @@ exports.level = {
             "markdowns": [
               "## Branches et Merges",
               "",
-                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine (master par exemple).",
+                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine (main par exemple).",
               "",
               "La première méthode que nous allons voir pour combiner le contenu de deux branches est `git merge`. Faire un 'merge' avec Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le contenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
               "",
@@ -617,32 +617,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Ici nous avons deux branches ; chacune a un commit qui lui est propre. Cela signifie qu'aucune des deux branches n'inclut la totalité du \"travail\" qui a été fait dans le dépôt. Arrangeons-cela avec merge.",
               "",
-              "Nous allons `merge` («fusionner») la branche `bugFix` dans `master`."
+              "Nous allons `merge` («fusionner») la branche `bugFix` dans `main`."
             ],
             "afterMarkdowns": [
-              "Youhou ! Vous avez vu ça ? Avant tout, `master` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `master`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `master` contient maintenant tout le travail du dépôt.",
+              "Youhou ! Vous avez vu ça ? Avant tout, `main` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `main`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `main` contient maintenant tout le travail du dépôt.",
               "",
               "Par ailleurs, avez-vous remarqué les nouvelles couleurs des commits ? Pour faciliter l'apprentissage, j'ai inclus une certaine logique dans la coloration. Chaque branche a une unique couleur. Chaque commit est de la couleur de toutes les branches qui le contiennent.",
               "",
-              "Ici nous voyons que la couleur de `master` est intégrée à tous les commits, sauf ceux de `bugFix`. Réparons-cela ..."
+              "Ici nous voyons que la couleur de `main` est intégrée à tous les commits, sauf ceux de `bugFix`. Réparons-cela ..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Faisons un merge  de `master` dans `bugFix`:"
+              "Faisons un merge  de `main` dans `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Puisque `bugFix` était un ancêtre de `master`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "Puisque `bugFix` était un ancêtre de `main`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `main` est attaché.",
               "",
               "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -654,9 +654,9 @@ exports.level = {
               "* Faites une nouvelle branche appelée `bugFix`",
               "* Positionnez-vous sur la branche `bugFix` avec `git checkout bugFix`",
               "* Faites un commit",
-              "* Retournez sur la branche `master` (commande `git checkout`)",
+              "* Retournez sur la branche `main` (commande `git checkout`)",
               "* Faites un nouveau commit",
-              "* Fusionnez la branche `bugFix` dans `master` avec `git merge`",
+              "* Fusionnez la branche `bugFix` dans `main` avec `git merge`",
               "",
               "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"objective\"!*"
             ]
@@ -686,32 +686,32 @@ exports.level = {
             "beforeMarkdowns": [
               "我们准备了两个分支，每个分支上各有一个独有的提交。这意味着没有一个分支包含了我们修改的所有内容。咱们通过合并这两个分支来解决这个问题。",
               "",
-              "我们要把 `bugFix` 合并到 `master` 里"
+              "我们要把 `bugFix` 合并到 `main` 里"
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇哦！看见了吗？首先，`master` 现在指向了一个拥有两个父节点的提交记录。假如从 `master` 开始沿着箭头向上看，在到达起点的路上会经过所有的提交记录。这意味着 `master` 包含了对代码库的所有修改。↓↓↓",
+              "哇哦！看见了吗？首先，`main` 现在指向了一个拥有两个父节点的提交记录。假如从 `main` 开始沿着箭头向上看，在到达起点的路上会经过所有的提交记录。这意味着 `main` 包含了对代码库的所有修改。↓↓↓",
               "",
               "还有，看见各个提交记录的颜色变化了吗？为了帮助学习理解，我引入了颜色搭配。每个分支都有不同的颜色，而每个提交记录的颜色是所有包含该提交记录的分支的颜色混合之后的颜色。",
               "",
-              "所以，`master` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。下面咱们让它也改变一下颜色。"
+              "所以，`main` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。下面咱们让它也改变一下颜色。"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "咱们再把 `master` 分支合并到 `bugFix`："
+              "咱们再把 `main` 分支合并到 `bugFix`："
             ],
-            "command": "git checkout bugFix; git merge master",
+            "command": "git checkout bugFix; git merge main",
             "afterMarkdowns": [
-              "因为 `master` 继承自 `bugFix`，Git 什么都不用做，只是简单地把 `bugFix` 移动到 `master` 所指向的那个提交记录。",
+              "因为 `main` 继承自 `bugFix`，Git 什么都不用做，只是简单地把 `bugFix` 移动到 `main` 所指向的那个提交记录。",
               "",
               "现在所有提交记录的颜色都一样了，这表明每一个分支都包含了代码库的所有修改！大功告成！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -723,9 +723,9 @@ exports.level = {
               "* 创建新分支 `bugFix`",
               "* 用 `git checkout bugFix` 命令切换到该分支",
               "* 提交一次",
-              "* 用 `git checkout master` 切换回 `master`",
+              "* 用 `git checkout main` 切换回 `main`",
               "* 再提交一次",
-              "* 用 `git merge` 把 `bugFix` 合并到 `master`",
+              "* 用 `git merge` 把 `bugFix` 合并到 `main`",
               "",
               "* 你随时都可以用“objective”命令来打开这个对话框！*"
             ]
@@ -741,7 +741,7 @@ exports.level = {
             "markdowns": [
               "## branch 以及 merge",
               "",
-              "太好了! 我們已經知道怎麼使用 commit 和 branch 了。接下來要學的一招是如何合併（merge）兩個不同 branch 的工作。這讓我們可以建立一個新的 branch ，並且在上面開發新功能，然後合併回 master branch。",
+              "太好了! 我們已經知道怎麼使用 commit 和 branch 了。接下來要學的一招是如何合併（merge）兩個不同 branch 的工作。這讓我們可以建立一個新的 branch ，並且在上面開發新功能，然後合併回 main branch。",
               "",
               "`git merge` 是我們要學習 merge 的第一個方法。該 merge 會產生一個特殊的 commit，它包含兩個唯一 parent commit。一個 commit 如果有兩個 parent commit 的話，那就表示：「我想把這兩個 parent commit 本身及它們的 所有的 parent commit 都包含進來。」",
               "",
@@ -755,32 +755,32 @@ exports.level = {
             "beforeMarkdowns": [
               "在這裡，我們有兩個 branch：各自都有一個唯一的 commit。這意味著沒有一個 branch 包含我們對文件的所有修改。讓我們 merge 這兩個 branch 來解決這個問題。",
               "",
-              "我們要 merge `bugFix` 到 `master` "
+              "我們要 merge `bugFix` 到 `main` "
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看見了沒有？首先，`master` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的 commit。這說明了現在 `master` 紀錄了對文件的所有修改。",
+              "哇！看見了沒有？首先，`main` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `main` 開始沿著箭頭向上走，在到達起點的路上會經過所有的 commit。這說明了現在 `main` 紀錄了對文件的所有修改。",
               "",
               "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個 branch 都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有 branch 的混合色。",
               "",
-              "所以，`master` branch 的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
+              "所以，`main` branch 的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "讓我們 merge  `master` branch 到 `bugFix` 吧。"
+              "讓我們 merge  `main` branch 到 `bugFix` 吧。"
             ],
-            "command": "git checkout bugFix; git merge master",
+            "command": "git checkout bugFix; git merge main",
             "afterMarkdowns": [
-              "因為 `bugFix` branch只是 `master` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `master` 指向的 commit。",
+              "因為 `bugFix` branch只是 `main` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `main` 指向的 commit。",
               "",
               "現在所有的 commit 的顏色都是一樣的啦，這表示每一個 branch 都包含了所有文件的修改！太厲害了啦！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -792,9 +792,9 @@ exports.level = {
               "* 建立新的 branch，叫做 `bugFix` ",
               "* 用 `git checkout bugFix` 切換到 `bugFix` branch",
               "* commit 一次",
-              "* 用 `git checkout` 切換回 `master` branch",
+              "* 用 `git checkout` 切換回 `main` branch",
               "* 再 commit 一次",
-              "* 用 `git merge`  將 `bugFix` merge 到 `master`",
+              "* 用 `git merge`  將 `bugFix` merge 到 `main`",
               "",
               "*記住，你可以用 \"objective\" 指令來重新顯示這個對話框！*"
             ]
@@ -824,32 +824,32 @@ exports.level = {
             "beforeMarkdowns": [
               "여기에 브랜치가 두 개 있습니다. 각 브랜치에 독립된 커밋이 하나씩 있구요. 그 말은 이 저장소에 지금까지 작업한 내역이 나뉘어 담겨 있다는 얘기입니다. 두 브랜치를 합쳐서(merge) 이 문제를 해결해 볼까요?",
               "",
-              "`bugFix` 브랜치를 `master` 브랜치에 합쳐(merge) 보겠습니다."
+              "`bugFix` 브랜치를 `main` 브랜치에 합쳐(merge) 보겠습니다."
             ],
             "afterMarkdowns": [
-              "보셨어요? 우선, `master`가 두 부모가 있는 커밋을 가리키고 있습니다. ",
+              "보셨어요? 우선, `main`가 두 부모가 있는 커밋을 가리키고 있습니다. ",
               "",
               "또, 커밋들의 색이 바뀐 것을 눈치 채셨나요? 이해를 돕기위해 색상으로 구분해 표현했습니다. 각 브랜치는 그 브랜치만의 색상으로 그렸습니다. 브랜치가 합쳐지는 커밋의 경우에는, 그 브랜치들의 색을 조합한 색상으로 표시 했습니다.",
               "",
-              "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `master` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
+              "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `main` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "이제 `master` 브랜치에 `bugFix`를 합쳐(merge) 봅시다:"
+              "이제 `main` 브랜치에 `bugFix`를 합쳐(merge) 봅시다:"
             ],
             "afterMarkdowns": [
-              "`bugFix`가 `master`의 부모쪽에 있었기 때문에, git이 별다른 일을 할 필요가 없었습니다; 간단히 `bugFix`를 `master`가 붙어 있는 커밋으로 이동시켰을 뿐입니다.",
+              "`bugFix`가 `main`의 부모쪽에 있었기 때문에, git이 별다른 일을 할 필요가 없었습니다; 간단히 `bugFix`를 `main`가 붙어 있는 커밋으로 이동시켰을 뿐입니다.",
               "",
               "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -861,9 +861,9 @@ exports.level = {
               "* `bugFix`라는 새 브랜치를 만듭니다",
               "* `git checkout bugFix`를 입력해 `bugFix` 브랜치로 이동(checkout)합니다.",
               "* 커밋 한 번 하세요",
-              "* `git checkout` 명령어를 이용해 `master`브랜치로 돌아갑니다",
+              "* `git checkout` 명령어를 이용해 `main`브랜치로 돌아갑니다",
               "* 커밋 또 하세요",
-              "* `git merge` 명령어로 `bugFix`브랜치를 `master`에 합쳐 넣습니다.",
+              "* `git merge` 명령어로 `bugFix`브랜치를 `main`에 합쳐 넣습니다.",
               "",
               "*아 그리고, \"objective\" 명령어로 이 안내창을 다시 볼 수 있다는 것을 기억해 두세요!*"
             ]
@@ -893,32 +893,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Вот у нас две ветки, каждая содержит по одному уникальному коммиту. Это означает, что ни одна из веток не содержит полный набор \"работ\", выполненных в этом репозитории. Можно исправить эту ситуацию, выполнив слияние.",
               "",
-              "Мы сделаем `merge` ветки `bugFix` в ветку `master`."
+              "Мы сделаем `merge` ветки `bugFix` в ветку `main`."
             ],
             "afterMarkdowns": [
-              "Что мы видим? Во-первых, ветка `master` теперь указывает на коммит, у которого два родителя. Если проследовать по стрелкам от этого коммита, вы пройдёте через каждый коммит в дереве прямиком к началу. Это означает, что теперь в ветке `master` содержатся все изменения репозитория.",
+              "Что мы видим? Во-первых, ветка `main` теперь указывает на коммит, у которого два родителя. Если проследовать по стрелкам от этого коммита, вы пройдёте через каждый коммит в дереве прямиком к началу. Это означает, что теперь в ветке `main` содержатся все изменения репозитория.",
               "",
               "Во-вторых, обрати внимание, как изменились цвета коммитов. Мы ввели цветовую дифференциацию, чтобы помочь пониманию. У каждой ветки — свой цвет. Каждый коммит становится того цвета, какого его ветка. Если в нём изменения сразу двух веток - он становится цветом, смешанным из цветов родительских веток.",
               "",
-              "И вот мы видим, что цвет ветки `master` подмешан к каждому коммиту, а ветки `bugFix` - нет. Это можно поправить."
+              "И вот мы видим, что цвет ветки `main` подмешан к каждому коммиту, а ветки `bugFix` - нет. Это можно поправить."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Смерджим ветку `master` в ветку `bugFix`."
+              "Смерджим ветку `main` в ветку `bugFix`."
             ],
             "afterMarkdowns": [
-              "Так как ветка `bugFix` была предшественницей `master`, Git не делал ничего, только сдвинул `bugFix` на тот же коммит, где находится `master`",
+              "Так как ветка `bugFix` была предшественницей `main`, Git не делал ничего, только сдвинул `bugFix` на тот же коммит, где находится `main`",
               "",
               "Теперь все коммиты одного цвета, что означает, что каждая ветка содержит все изменения репозитория! Поздравляем!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -930,9 +930,9 @@ exports.level = {
               "* Создай новую ветку под названием `bugFix`",
               "* Переключись на новую ветку `bugFix` командой `git checkout bugFix`",
               "* Сделай один коммит",
-              "* Вернись на ветку `master` при помощи `git checkout`",
+              "* Вернись на ветку `main` при помощи `git checkout`",
               "* Сделай ещё один коммит",
-              "* Слей ветку `bugFix` с веткой `master` при помощи `git merge`",
+              "* Слей ветку `bugFix` с веткой `main` при помощи `git merge`",
               "",
               "* Если что-то пошло не так - можешь подглядеть в эту шпаргалку командой \"objective\"!*"
             ]
@@ -962,32 +962,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Тут ми маємо дві гілки; кожна з них містить унікальний коміт. Це означає що жодна з них не містить повного набору \"робочої інфи\" в цьому репозиторії. Давайте зіллємо всю інфу докупи за допомогою merge.",
               "",
-              "Ми `змержимо` гілку `bugFix` в `master`."
+              "Ми `змержимо` гілку `bugFix` в `main`."
             ],
             "afterMarkdowns": [
-              "Нічого собі! Ви це бачили? По-перше, `master` тепер вказує на коміт з двома батьками. Якщо ти піднімешся вверх з цього коміту по дереву, починаючи з `master`, на шляху ти зустрінеш кожен коміт аж до кореневого. Це означає що гілка `master` тепер містить всю інфу в цьому репозиторії.",
+              "Нічого собі! Ви це бачили? По-перше, `main` тепер вказує на коміт з двома батьками. Якщо ти піднімешся вверх з цього коміту по дереву, починаючи з `main`, на шляху ти зустрінеш кожен коміт аж до кореневого. Це означає що гілка `main` тепер містить всю інфу в цьому репозиторії.",
               "",
               "А ти помітив як змінилися кольори комітів? Для кращого розуміння процесу я додав певну кольорову диференціацію. Кожен бранч виділено окремим кольором. Колір кожного коміту це суміш кольорів всіх гілок що місять цей коміт.",
               "",
-              "Тож ми бачимо що колір гілки `master` містять всі коміти, але не колір `bugFix`. Давайте виправимо це..."
+              "Тож ми бачимо що колір гілки `main` містять всі коміти, але не колір `bugFix`. Давайте виправимо це..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Давай змержимо `master` в `bugFix`:"
+              "Давай змержимо `main` в `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Так як `bugFix` є нащадком `master`, git'у не потрібно нічого робити; він просто пересунув `bugFix` на тей самий коміт, на якому знаходиться `master`.",
+              "Так як `bugFix` є нащадком `main`, git'у не потрібно нічого робити; він просто пересунув `bugFix` на тей самий коміт, на якому знаходиться `main`.",
               "",
               "Тепер всі коміти одного кольору, що означає що кожен бранч включає в собі всю корисну інфу яка є в цьому репозиторії! Ура!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -999,9 +999,9 @@ exports.level = {
               "* Зроби нову гілку (branch) з назвою `bugFix`",
               "* Перейди на гілку `bugFix` за допомогою `git checkout bugFix`",
               "* Зроби один коміт",
-              "* Повернись до `master` за допомогою `git checkout`",
+              "* Повернись до `main` за допомогою `git checkout`",
               "* Зроби ще один коміт",
-              "* Змерджи (злий) гілку `bugFix` в `master` за допомогою `git merge`",
+              "* Змерджи (злий) гілку `bugFix` в `main` за допомогою `git merge`",
               "",
               "*Не забувай, ти можеш завжди повернутися до цього діалогу за допомогою \"objective\"!*"
             ]
@@ -1031,32 +1031,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Ở đây ta có 2 nhánh; mỗi nhánh có 1 commit độc nhất. Có nghĩa là chẳng nhánh nào có đủ \"thành quả\" trong kho chứa của ta cả. Sửa nó bằng merge nào.",
               "",
-              "Ta sẽ `merge` nhánh `bugFix` vào `master`."
+              "Ta sẽ `merge` nhánh `bugFix` vào `main`."
             ],
             "afterMarkdowns": [
-              "Wao! Thấy chứ? Trước tiên, `master` giờ đã trỏ đến commit có 2 cha. Nếu bạn lần theo mũi tên lên trên từ `master`, bạn sẽ gặp tất cả các commit lên đến commit gốc. Có nghĩa là `master` giờ đã chứa tất cả thành quả trong kho.",
+              "Wao! Thấy chứ? Trước tiên, `main` giờ đã trỏ đến commit có 2 cha. Nếu bạn lần theo mũi tên lên trên từ `main`, bạn sẽ gặp tất cả các commit lên đến commit gốc. Có nghĩa là `main` giờ đã chứa tất cả thành quả trong kho.",
               "",
               "Đồng thời, bạn thấy màu commit thay đổi chứ? Để bạn dễ học hơn, tôi đã phối hợp một số bảng màu. Mỗi nhánh có một màu duy nhất. Mỗi commit mang màu pha trộn của tất cả nhánh chứa nó.",
               "",
-              "Vì vậy, ở đây chúng ta thấy rằng màu nhánh `master` được pha trộn vào tất cả các commit, nhưng màu` bugFix` thì không. Hãy sửa nó nào ..."
+              "Vì vậy, ở đây chúng ta thấy rằng màu nhánh `main` được pha trộn vào tất cả các commit, nhưng màu` bugFix` thì không. Hãy sửa nó nào ..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hãy gộp nhánh `master` vào `bugFix` nào:"
+              "Hãy gộp nhánh `main` vào `bugFix` nào:"
             ],
             "afterMarkdowns": [
-              "Vì `bugFix` là bậc cha ông của `master`, git chẳng phải làm gì cả; nó đơn giản chỉ chuyển `bugFix` vào commit mà `master` đang trỏ tới.",
+              "Vì `bugFix` là bậc cha ông của `main`, git chẳng phải làm gì cả; nó đơn giản chỉ chuyển `bugFix` vào commit mà `main` đang trỏ tới.",
               "",
               "Giờ thì tất cả commit đã có cùng màu, nghĩa là mỗi nhánh đã chứa tất cả thành quả trong kho! Ồ hố!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -1068,9 +1068,9 @@ exports.level = {
               "* Tạo một nhánh mới tên là `bugFix`",
               "* Chuyển sang nhánh `bugFix` với `git checkout bugFix`",
               "* Commit một lần",
-              "* Trở về `master` với `git checkout`",
+              "* Trở về `main` với `git checkout`",
               "* Commit một lần nữa",
-              "* Gộp nhánh `bugFix` vào `master` với `git merge`",
+              "* Gộp nhánh `bugFix` vào `main` với `git merge`",
               "",
               "*Nhớ rằng, bạn luôn luôn có thể bật lại hội thoại này với lệnh \"objective\"!*"
             ]
@@ -1100,32 +1100,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Tu imamo dva brancha; vsak ima en commit, ki je unikaten. To pomeni, da noben branch v repozitorju nima vsega \"dela\". Pa popravimo to z mergeom.",
               "",
-              "Sedaj bomo `mergeali` branch `bugFix` v `master`."
+              "Sedaj bomo `mergeali` branch `bugFix` v `main`."
             ],
             "afterMarkdowns": [
-              "Woah! Si videl to? `master` sedaj kaže na commit, ki ima dva starša. Če slediš puščicam po drevesu commitov iz `master`, boš našel vsak commit po poti do roota. To pomeni, da `master` sedaj vsebuje vso delo iz repozitorija.",
+              "Woah! Si videl to? `main` sedaj kaže na commit, ki ima dva starša. Če slediš puščicam po drevesu commitov iz `main`, boš našel vsak commit po poti do roota. To pomeni, da `main` sedaj vsebuje vso delo iz repozitorija.",
               "",
               "Opaziš tudi, kako so se barve commitov spremenile? V pomoč pri učenju, sem vključil še nekaj barvne pomoči. Vsak branch ima svojo barvo. Vsak commit spremeni barvo v kombinirano barvo vseh branchev, ki imajo ta commit.",
               "",
-              "Torej tukaj vidimo, da je `master` branch barva zmešana v vseh commitih, `bugFix` barva pa ne. Popravimo to ..."
+              "Torej tukaj vidimo, da je `main` branch barva zmešana v vseh commitih, `bugFix` barva pa ne. Popravimo to ..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zmergajmo sedaj `master` v `bugFix`:"
+              "Zmergajmo sedaj `main` v `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Ker je `bugFix` bil prednik `master`, git ni rabil storiti ničesar; preprosto je premaknil `bugFix` v isti commit, kamer kaže `master`.",
+              "Ker je `bugFix` bil prednik `main`, git ni rabil storiti ničesar; preprosto je premaknil `bugFix` v isti commit, kamer kaže `main`.",
               "",
               "Sedaj so vsi commiti iste barve, kar pomeni, da vsak branch vsebuje vse delo v repozitoriju!! Woohoo!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -1137,9 +1137,9 @@ exports.level = {
               "* Naredi novi branch `bugFix`",
               "* Checkoutaj `bugFix` branch z `git checkout bugFix`",
               "* Enkrat commitaj",
-              "* Pojdi nazaj na `master` z `git checkout`",
+              "* Pojdi nazaj na `main` z `git checkout`",
               "* Še enkrat commitaj",
-              "* Mergeaj branch `bugFix` v `master` z `git merge`",
+              "* Mergeaj branch `bugFix` v `main` z `git merge`",
               "",
               "*Pomni, vedno lahko spet pogledaš ta dialog z \"objective\"!*"
             ]
@@ -1169,32 +1169,32 @@ exports.level = {
             "beforeMarkdowns": [
               "Mamy tutaj dwa branch-e (gałęzie); każdy ma po jednym commit-cie, które są unikalne. Oznacza to, że żadna z branch-y nie zawiera \"całej pracy\", które jest w naszym repozytorium. Naprawmy to za pomocą funkcji marge.",
               "",
-              "Użyjmy `merge` aby połączyć branch `bugFix` z `master`."
+              "Użyjmy `merge` aby połączyć branch `bugFix` z `main`."
             ],
             "afterMarkdowns": [
-              "Wow! Widzialiście to? Przede wszystkim \"master\" wskazuje teraz na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa zatwierdzenia od `master`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `master` zawiera teraz całą pracę w repozytorium.",
+              "Wow! Widzialiście to? Przede wszystkim \"main\" wskazuje teraz na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa zatwierdzenia od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `main` zawiera teraz całą pracę w repozytorium.",
               "",
               "Czy widziałeś również, jak zmieniły się kolory zatwierdzeń? Aby Ci pomóc w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Każdy commit staje się kolorem wynikającym z mieszania kolorów wszystkich branch-y, które commit-ujesz",
               "",
-              "Więc tutaj widzimy, że kolor branch-a `master` uczestniczy w miksowaniu wszystkich commit-ów, ale kolor branch-u `bugFix` już nie. Naprawmy to..."
+              "Więc tutaj widzimy, że kolor branch-a `main` uczestniczy w miksowaniu wszystkich commit-ów, ale kolor branch-u `bugFix` już nie. Naprawmy to..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Połączmy brach `master` z branch `bugFix`:"
+              "Połączmy brach `main` z branch `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Ponieważ `bugFix` był przodkiem branch-a `master`, GIT nie musiał wykonywać żadnej pracy; po prostu przeniosł branch `bugFix` do tego samego commit-a, do którego był dołączony branch `master`.",
+              "Ponieważ `bugFix` był przodkiem branch-a `main`, GIT nie musiał wykonywać żadnej pracy; po prostu przeniosł branch `bugFix` do tego samego commit-a, do którego był dołączony branch `main`.",
               "",
               "Teraz wszystkie commit-y mają ten sam kolor, co oznacza, że każdy branch zawiera całą pracę znajdującą się w repozytorium! Super!"
             ],
-            "command": "git checkout bugFix; git merge master",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit; git merge bugFix"
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
           }
         },
         {
@@ -1206,9 +1206,9 @@ exports.level = {
               "* Stwórz nowy branch o nazwie `bugFix`",
               "* Przełącz się na branch `bugFix`, używając polecenia `git checkout bugFix`",
               "* Zrób commit",
-              "* Wróć do branch-u `master` za pomocą polecenia `git checkout`",
+              "* Wróć do branch-u `main` za pomocą polecenia `git checkout`",
               "* Zrób ponownie commit",
-              "* Złącz branch `bugFix` z branch-em `master` używając polecenia `git merge`",
+              "* Złącz branch `bugFix` z branch-em `main` używając polecenia `git merge`",
               "",
               "*Pamiętaj: zawsze możesz zobaczyć tą wiadomość ponownie, wpisując \"objective\"!*"
             ]

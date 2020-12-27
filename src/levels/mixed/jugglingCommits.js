@@ -75,12 +75,12 @@ exports.level = {
               "* We will re-order the commits so the one we want to change is on top with `git rebase -i`",
               "* We will `git commit --amend` to make the slight modification",
               "* Then we will re-order the commits back to how they were previously with `git rebase -i`",
-              "* Finally, we will move master to this updated part of the tree to finish the level (via the method of your choosing)",
+              "* Finally, we will move main to this updated part of the tree to finish the level (via the method of your choosing)",
               "",
               "There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let's focus on this technique.",
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
-              "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `master` branch has the same structure and relative apostrophe differences, I'll give full credit."
+              "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `main` branch has the same structure and relative apostrophe differences, I'll give full credit."
             ]
           }
         }
@@ -109,13 +109,13 @@ exports.level = {
               "* Nous allons réordonner les commits pour que celui que nous voulions changer soit sur le dessus `git rebase -i`",
               "* Nous allons utiliser `git commit --amend` pour faire les petites modifications",
               "* Nous allons réordonner les commits dans l'ordre original avec `git rebase -i`",
-              "* Finalement, nous allons déplacer master vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
+              "* Finalement, nous allons déplacer main vers la nouvelle tête de l'arbre (avec la méthode de votre choix)",
               "",
               "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique.",
               "",
               "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent tous les deux avec une apostrophe. Une deuxième apostrophe est ajoutée sur le commit que nous modifions, ce qui nous donne la forme finale de l'arbre.",
               "",
-              "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `master` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
+              "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `main` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
             ]
           }
         },
@@ -144,13 +144,13 @@ exports.level = {
               "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de todo con `git rebase -i`",
               "* Vamos a hacer `git commit --amend` para aplicar la ligera modificación",
               "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
-              "* Finalmente, vamos a mover master a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
+              "* Finalmente, vamos a mover main a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
               "",
               "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
               "",
               "Por último, prestá atención al estado final acá -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
-              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
             ]
           }
         },
@@ -179,13 +179,13 @@ exports.level = {
               "* Vamos a reordenar los commits para que el que queremos cambiar quede arriba de los demás con `git rebase -i`",
               "* Vamos a hacer `git commit --amend` para aplicar la ligera modificación",
               "* Después vamos a reordenar los commits a como estaban con `git rebase -i`",
-              "* Finalmente, vamos a mover master a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
+              "* Finalmente, vamos a mover main a esta parte actualizada de nuestro árbol de commits para terminar el nivel (usando el método que prefieras)",
               "",
               "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
               "",
               "Por último, presta atención al estado final -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
-              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `master` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
             ]
           }
         },
@@ -214,13 +214,13 @@ exports.level = {
               "* Reordenaremos os commits de forma que aquele que desejamos esteja no topo, com `git rebase -i`",
               "* Usaremos o comando `git commit --amend` para fazer uma pequena modificação",
               "* Vamos, então, reordenar os commits na mesma ordem que estavam anteriormente com `git rebase -i`",
-              "* Finalmente, moveremos o master para essa parte atualizada da árvore para finalizar o nível (usando o método de sua escolha)",
+              "* Finalmente, moveremos o main para essa parte atualizada da árvore para finalizar o nível (usando o método de sua escolha)",
               "",
               "Há muitas formas de alcançar o objetivo final (eu vejo o cherry-pick passando pela sua mente), e veremos mais delas depois, mas por enquanto foquemos nesta técnica.",
               "",
               "Por último, preste atenção no estado do \"objetivo\" aqui -- como nós movemos os commits duas vezes, ambos ficam com um apóstrofo. Um apóstrofo adicional é colocado no commit que sofreu o \"amend\", o que nos dá a forma final da árvore ",
               "",
-              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `master` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
+              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `main` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
             ]
           }
         },
@@ -249,13 +249,13 @@ exports.level = {
               "* Reordenaremos os commits seleccionando aqueles que desexamos que estén no cambio, con `git rebase -i`",
               "* Empregaremos o comando `git commit --amend` para facer unha pequena modificación",
               "* Imos, entón, reordear os commits na mesma orde na que estaban anteriormente con `git rebase -i`",
-              "* Finalmente, moveremos o master para esa parte atualizada da árbore e así finalizar o nivel (usando o método que máis che pete)",
+              "* Finalmente, moveremos o main para esa parte atualizada da árbore e así finalizar o nivel (usando o método que máis che pete)",
               "",
               "Hai moitas formas de obter o obxectivo final (eu vexo o cherry-pick pasando pola túa cachola), e verémolo máis adiante, pero agora ímonos centrar nesta técnica.",
               "",
               "Por último, preste atención no estado do \"objectivo\" aquí -- como movemos os commits dúas veces, ambos teñen o apóstrofo sumado. O apóstrofo engádese polo commit que nos correximos (amend), o cal danos a forma final da árbore.",
               "",
-              "Contado todo esto, a resposta valídase baseándose na estructura e nos diferentes apóstrofes. Cando a rama `master` teña a mesma estructura, e o número de apóstrofos sexa igual, obterás todos os puntos da tarefa."
+              "Contado todo esto, a resposta valídase baseándose na estructura e nos diferentes apóstrofes. Cando a rama `main` teña a mesma estructura, e o número de apóstrofos sexa igual, obterás todos os puntos da tarefa."
             ]
           }
         },
@@ -284,13 +284,13 @@ exports.level = {
               "* Wir sortieren die Commits mit `git rebase -i` so um, dass der Commit, den wir ändern wollen, ganz oben liegt.",
               "* Wir verändern den Commit mit `git commit --amend`.",
               "* Dann sortieren wir die Commits mit einem erneuten `git rebase -i` wieder in die alte Reihenfolge.",
-              "* Schließlich aktualisieren wir den `master` auf das Ende unseres fertigen Baums, um diesen Level abzuschließen.",
+              "* Schließlich aktualisieren wir den `main` auf das Ende unseres fertigen Baums, um diesen Level abzuschließen.",
               "",
               "Es gibt sehr viele Wege um das Endziel dieses Levels zu erreichen (ich sehe, du schielst auf `cherry-pick`) und wir werden uns später noch andere ansehen. Aber für's erste lass uns diese Methode ausprobieren.",
               "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren, bekommen sie jedes Mal ein Apostroph hinzugefügt (weil sie jedes Mal kopiert werden). Ein weiteres Apostroph entsteht durch den `git commit --amend`.",
               "",
-              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `master` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`master`, ist der Level bestanden."
+              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `main` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`main`, ist der Level bestanden."
             ]
           }
         },
@@ -352,12 +352,12 @@ exports.level = {
               "* 先用 `git rebase -i` 将提交重新排序，然后把我们想要修改的提交记录挪到最前",
               "* 然后用 `git commit --amend` 来进行一些小修改",
               "* 接着再用 `git rebase -i` 来将他们调回原来的顺序",
-              "* 最后我们把 master 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
+              "* 最后我们把 main 移到修改的最前端（用你自己喜欢的方法），就大功告成啦！",
               "",
               "当然完成这个任务的方法不止上面提到的一种（我知道你在看 cherry-pick 啦），之后我们会多点关注这些技巧啦，但现在暂时只专注上面这种方法。",
               "最后有必要说明一下目标状态中的那几个`'` —— 我们把这个提交移动了两次，每移动一次会产生一个 `'`；而 C2 上多出来的那个是我们在使用了 amend 参数提交时产生的，所以最终结果就是这样了。",
               "",
-              "也就是说，我在对比结果的时候只会对比提交树的结构，对于 `'` 的数量上的不同，并不纳入对比范围内。只要你的 `master` 分支结构与目标结构相同，我就算你通过。"
+              "也就是说，我在对比结果的时候只会对比提交树的结构，对于 `'` 的数量上的不同，并不纳入对比范围内。只要你的 `main` 分支结构与目标结构相同，我就算你通过。"
             ]
           }
         }
@@ -386,7 +386,7 @@ exports.level = {
               "* 先用 `git rebase -i` 將 commit 重新排序，然後把我們想要修改的 commit 移到最前面",
               "* 然後用 `git commit --amend` 來進行一些修改",
               "* 接著再用 `git rebase -i` 來將他們按照最開始的順序重新排好",
-              "* 最後我們把 master 移到這個修改的最前端（用你自己喜歡的方法），就大功告成啦！",
+              "* 最後我們把 main 移到這個修改的最前端（用你自己喜歡的方法），就大功告成啦！",
               "",
               "當然還有許多方法可以完成這個任務（我知道你在想 cherry-pick 啦），之後我們會多點關注這些技巧啦，但現在暫時只注意上面這種方法。",
               "",
@@ -452,7 +452,7 @@ exports.level = {
               "* Переставить коммит так, чтобы нужный находился наверху при помощи `git rebase -i`",
               "* Внести изменения при помощи `git commit --amend`",
               "* Переставить всё обратно при помощи `git rebase -i`",
-              "* И наконец, переместить master на изменённую часть дерева, чтобы закончить уровень.",
+              "* И наконец, переместить main на изменённую часть дерева, чтобы закончить уровень.",
               "",
               "Это задание можно выполнить несколькими способами (и, гляжу, ты посматриваешь на cherry-picking), но сейчас сосредоточься на вышеописанном методе.",
               "",
@@ -487,12 +487,12 @@ exports.level = {
               "* Ми відсортуємо коміти таким чином, щоб той, який ми хочемо змінити, був останнім за допомогою `git rebase -i`",
               "* Ми виконаємо `git commit --amend` щоб внести невелику правку до останнього коміту",
               "* Тоді ми відсортуємо коміти в попередньому порядку, за допомогою `git rebase -i`",
-              "* І на останок, ми пересунемо master на змінену частину дерева щоб закінчити цей рівень(ти можеш вибрати метод)",
+              "* І на останок, ми пересунемо main на змінену частину дерева щоб закінчити цей рівень(ти можеш вибрати метод)",
               "",
               "Насправді є кілька способів як виконати поставлену задачу (Я бачу, ти поглядаєш на cherry-pick), і ми розберемося з ними всіма трохи пізніше, але зараз скористаймося саме цим методом.",
               "Зверни увагу на фінальний стан в цьому рівні -- позаяк ми перемістили коміти двічі, кожен з них отримає по апострофу. Ще один апостроф додасться коли ми виконаємо commit --amend.",
               "",
-              "Враховуючи сказане вище, я буду порівнювати дерево як за назвою коміта, так і за кількістю апострофів. Щойно дерево цілей та master співпадуть, ти пройдеш цей рівень."
+              "Враховуючи сказане вище, я буду порівнювати дерево як за назвою коміта, так і за кількістю апострофів. Щойно дерево цілей та main співпадуть, ти пройдеш цей рівень."
             ]
           }
         }
@@ -521,12 +521,12 @@ exports.level = {
               "* Ta sẽ dùng `git rebase -i` sắp xếp lại commit để cái ta cần sửa sẽ nằm trên cùng",
               "* Ta sẽ dùng `git commit --amend` tạo ra một điều chỉnh nhỏ",
               "* Sau đó ta sẽ lại sắp xếp lại commit như trước bằng cách dùng `git rebase -i`",
-              "* Cuối cùng, ta sẽ chuyển `master` tới phần đã cập nhật để hoàn thành cấp độ (dùng cách nào tùy bạn)",
+              "* Cuối cùng, ta sẽ chuyển `main` tới phần đã cập nhật để hoàn thành cấp độ (dùng cách nào tùy bạn)",
               "",
               "Có nhiều cách để hoàn thành mục tiêu (Tôi thấy bạn hấp háy sang cherry-pick rồi đấy), rồi ta sẽ thấy chúng nhiều hơn, nhưng giờ hãy cứ tập trung vào kỹ thuật này đã.",
               "Sau cùng thì, để ý các dấu nháy đơn(') chứ?-- vì ta đã chuyển commit 2 lần, nên chúng có thêm một dấu nháy đơn. Và một dấu nữa cho commit mà ta đã sửa đổi, thế là ta có trạng thái cuối cùng của cây lịch sử ",
               "",
-              "Nói cách khác, khi tôi so sánh kết quả, tôi chỉ so sánh cấu trúc của cây lịch sử. Sự khác biệt về số lượng `'`  không được bao gồm trong so sánh. Miễn là cấu trúc nhánh `master` của bạn giống với cấu trúc đích, tôi sẽ vẫn để bạn qua bài."
+              "Nói cách khác, khi tôi so sánh kết quả, tôi chỉ so sánh cấu trúc của cây lịch sử. Sự khác biệt về số lượng `'`  không được bao gồm trong so sánh. Miễn là cấu trúc nhánh `main` của bạn giống với cấu trúc đích, tôi sẽ vẫn để bạn qua bài."
             ]
           }
         }
@@ -555,12 +555,12 @@ exports.level = {
               "* Preuredili bomo commite tako, da bo tisti, ki ga želimo spremeniti, na vrhu z `git rebase -i`",
               "* Izvedli bomo `git commit --amend`, da naredimo naš popravek",
               "* Nato bomo preuredili commite nazaj v začetno stanje z `git rebase -i`",
-              "* Za konec bomo premaknili master na ta posodobljen del drevesa, da zaključimo stopnjo (z metodo po tvoji izbiri)",
+              "* Za konec bomo premaknili main na ta posodobljen del drevesa, da zaključimo stopnjo (z metodo po tvoji izbiri)",
               "",
               "Obstaja več načinov, da dosežemo ta cilj (vidim te kako gledaš cherry-pick) s katerimi se bomo ukvarjali kasneje, ampak za zdaj se osredotočimo na to tehniko.",
               "In nenazadnje, bodi pozoren na ciljno stanje -- ker premaknemo commit dvakrat, oba dobita pripet opuščaj zgoraj. Še eden je dodan za ammendan commit, torej skupno tri.",
               "",
-              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi opuščajev. Dokler ima `master` branch na tvojem drevesu enako strukturo in število opuščajev, dobiš vse točke."
+              "Sedaj lahko primerjam stopnje po strukturi in relativni spremembi opuščajev. Dokler ima `main` branch na tvojem drevesu enako strukturo in število opuščajev, dobiš vse točke."
             ]
           }
         }

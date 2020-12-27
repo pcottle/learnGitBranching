@@ -75,9 +75,9 @@ exports.level = {
               "",
               "One of the most common ways I use relative refs is to move branches around. You can directly reassign a branch to a commit with the `-f` option. So something like:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "moves (by force) the master branch to three parents behind HEAD."
+              "moves (by force) the main branch to three parents behind HEAD."
             ]
           }
         },
@@ -90,7 +90,7 @@ exports.level = {
             "afterMarkdowns": [
               "There we go! Relative refs gave us a concise way to refer to `C1` and branch forcing (`-f`) gave us a way to quickly move a branch to that location."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -100,7 +100,7 @@ exports.level = {
             "markdowns": [
               "Now that you have seen relative refs and branch forcing in combination, let's use them to solve the next level.",
               "",
-              "To complete this level, move `HEAD`, `master`, and `bugFix` to their goal destinations shown."
+              "To complete this level, move `HEAD`, `main`, and `bugFix` to their goal destinations shown."
             ]
           }
         }
@@ -144,9 +144,9 @@ exports.level = {
               "",
               "Una de las formas más comunes en que uso las referencias relativas es para mover las ramas. Podés reasignar directamente una rama a un commit usando la opción `-f`. Así que algo como:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Mueve (forzadamente) la rama master tres padres atrás de HEAD."
+              "Mueve (forzadamente) la rama main tres padres atrás de HEAD."
             ]
           }
         },
@@ -159,7 +159,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí vamos! Las referencias relativas nos dieron una manera concisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -169,7 +169,7 @@ exports.level = {
             "markdowns": [
               "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
               "",
-              "Para completar este nivel, mové `HEAD`, `master` y `bugFix` a sus destinos finales."
+              "Para completar este nivel, mové `HEAD`, `main` y `bugFix` a sus destinos finales."
             ]
           }
         }
@@ -213,9 +213,9 @@ exports.level = {
               "",
               "Una de las formas más comunes en que uso las referencias relativas es para mover las ramas. Puedes reasignar directamente una rama a un commit usando la opción `-f`. Algo así como:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Mueve (forzadamente) la rama master tres padres por detrás de HEAD."
+              "Mueve (forzadamente) la rama main tres padres por detrás de HEAD."
             ]
           }
         },
@@ -228,7 +228,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Allá vamos! Las referencias relativas nos proporcionaron una manera concisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -238,7 +238,7 @@ exports.level = {
             "markdowns": [
               "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
               "",
-              "Para completar este nivel, mueve `HEAD`, `master` y `bugFix` a sus destinos finales."
+              "Para completar este nivel, mueve `HEAD`, `main` y `bugFix` a sus destinos finales."
             ]
           }
         }
@@ -282,9 +282,9 @@ exports.level = {
               "",
               "Uma das situações mais comuns na qual eu uso referências relativas é quando quero trocar ramos de lugar. Você pode redefinir diretamente o commit para o qual um ramo aponta com a opção `-f`. Desta forma, o seguinte comando:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Move (à força) o ramo master 3 ancestrais acima do HEAD."
+              "Move (à força) o ramo main 3 ancestrais acima do HEAD."
             ]
           }
         },
@@ -297,7 +297,7 @@ exports.level = {
             "afterMarkdowns": [
               "Aqui vamos nós! As referências relativas nos deram uma forma concisa de nos referirmos ao `C1`, e a movimentação de ramos (com `-f`) nos deu uma forma de apontar rapidamente um ramo para esse local."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -307,7 +307,7 @@ exports.level = {
             "markdowns": [
               "Agora que você viu referências relativas e movimentação de ramos combinadas, vamos usá-las para resolver o próximo nível.",
               "",
-              "Para completar este nível, mova o `HEAD` e os ramos `master` e `bugFix` para os destinos mostrados no objetivo."
+              "Para completar este nível, mova o `HEAD` e os ramos `main` e `bugFix` para os destinos mostrados no objetivo."
             ]
           }
         }
@@ -351,9 +351,9 @@ exports.level = {
               "",
               "Un dos usos máis comúns para o uso das referencias relativas é para movelas ramas de lugar. Ti podes reasignar directamente unha rama a un commit usando a opción `-f`. Así que con algo coma:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Move (de forma forzosa) a rama master 3 commits enriba do HEAD."
+              "Move (de forma forzosa) a rama main 3 commits enriba do HEAD."
             ]
           }
         },
@@ -364,9 +364,9 @@ exports.level = {
               "Vexamos o comando anterior en acción"
             ],
             "afterMarkdowns": [
-              "¡Agora é o a nosa quenda! As referencias relativas nos darán unha forma concisa de nos referír a `C1`, e forzar a rama (con `-f`) deunos unha forma rápida de movela rama `master` a esa posición."
+              "¡Agora é o a nosa quenda! As referencias relativas nos darán unha forma concisa de nos referír a `C1`, e forzar a rama (con `-f`) deunos unha forma rápida de movela rama `main` a esa posición."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -376,7 +376,7 @@ exports.level = {
             "markdowns": [
               "Xa viches as referencias relativas e o movemento de ramas combinadas, ímolas usar para resolver o próximo exercicio.",
               "",
-              "Para completar este nivel, mova o `HEAD` e as ramas `master` e `bugFix` para os destinos mostrados no obxectivo."
+              "Para completar este nivel, mova o `HEAD` e as ramas `main` e `bugFix` para os destinos mostrados no obxectivo."
             ]
           }
         }
@@ -420,9 +420,9 @@ exports.level = {
               "",
               "L'une des principales façons dont j'utilise les références relatives est pour réorganiser les branches. Vous pouvez directement réassigner les branches à un commit avec l'option `-f`. Ainsi quelque chose comme :",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "bouge (de force) la branche master à trois parents derrière HEAD."
+              "bouge (de force) la branche main à trois parents derrière HEAD."
             ]
           }
         },
@@ -435,7 +435,7 @@ exports.level = {
             "afterMarkdowns": [
               "On y est ! Les références relatives nous donnent une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour bouger une branche à cet emplacement."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -445,7 +445,7 @@ exports.level = {
             "markdowns": [
               "Maintenant que vous avez vu les références relatives et le forçage de branche, utilisons-les pour résoudre le niveau suivant.",
               "",
-              "Pour compléter ce niveau, bouger `HEAD`, `master`, et `bugFix` à leurs destinations désignées."
+              "Pour compléter ce niveau, bouger `HEAD`, `main`, et `bugFix` à leurs destinations désignées."
             ]
           }
         }
@@ -488,9 +488,9 @@ exports.level = {
               "",
               "Das Verschieben von Branches ist einer der häufigsten Anwendungsfälle dafür. Du kannst einen Branchnamen direkt auf einen bestimmten Commit setzen (_ohne_ ihn vorher ausgecheckt haben zu müssen!), indem du den Parameter `-f` benutzt. So in etwa:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Das bewegt (erzwungenermaßen) den `master` auf den Commit drei Vorgänger vor `HEAD`."
+              "Das bewegt (erzwungenermaßen) den `main` auf den Commit drei Vorgänger vor `HEAD`."
             ]
           }
         },
@@ -503,7 +503,7 @@ exports.level = {
             "afterMarkdowns": [
               "Das war's schon! Relative Referenzen ermöglichen es uns den Commit `C1` sehr einfach anzugeben und `git branch -f` ermöglicht es uns, den Branch sehr schnell auf diesen Commit zu setzen."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -513,7 +513,7 @@ exports.level = {
             "markdowns": [
               "Jetzt wo du relative Referenzen und erzwungenes Branching in Kombination gesehen hast können wir damit den nächsten Level bewältigen.",
               "",
-              "Bewege `HEAD`, `master` und `bugFix` an die jeweils angegebenen Positionen, um diesen Level abzuschließen."
+              "Bewege `HEAD`, `main` und `bugFix` an die jeweils angegebenen Positionen, um diesen Level abzuschließen."
             ]
           }
         }
@@ -557,9 +557,9 @@ exports.level = {
               "",
               "我使用相对引用最多的就是移动分支。可以直接使用 `-f` 选项让分支指向另一个提交。例如:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "上面的命令会将 master 分支强制指向 HEAD 的第 3 级父提交。"
+              "上面的命令会将 main 分支强制指向 HEAD 的第 3 级父提交。"
             ]
           }
         },
@@ -572,7 +572,7 @@ exports.level = {
             "afterMarkdowns": [
               "这就对了! 相对引用为我们提供了一种简洁的引用提交记录 `C1` 的方式， 而 `-f` 则容许我们将分支强制移动到那个位置。"
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -582,7 +582,7 @@ exports.level = {
             "markdowns": [
               "既然你已经看过相对引用与强制移动分支的演示了，那么赶快使用这些技巧来挑战这一关吧！",
               "",
-              "要完成此关，移动 `HEAD`，`master` 和 `bugFix` 到目标所示的位置。"
+              "要完成此关，移动 `HEAD`，`main` 和 `bugFix` 到目标所示的位置。"
             ]
           }
         }
@@ -626,9 +626,9 @@ exports.level = {
               "",
               "我使用相對引用最多的就是移動分支。你可以使用 `-f` 選項直接讓分支指向另一個 commit。舉個例子:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "（強制）移動 master 指向從 HEAD 往上數的第三個 parent commit。"
+              "（強制）移動 main 指向從 HEAD 往上數的第三個 parent commit。"
             ]
           }
         },
@@ -636,7 +636,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這一關，移動 `HEAD`，`master` 和 `bugFix` 到目標所示的位置。"
+              "要完成這一關，移動 `HEAD`，`main` 和 `bugFix` 到目標所示的位置。"
             ]
           }
         }
@@ -680,7 +680,7 @@ exports.level = {
               "",
               "相対リファレンスのよくある使い方としてあるのは、ブランチの移動です。`-f`オプションを使ってブランチを直接コミットに関連付けられます。次のようになります",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
               "masterブランチを（強制的に）HEADより親三代前へと移動します。"
             ]
@@ -695,7 +695,7 @@ exports.level = {
             "afterMarkdowns": [
               "できました！相対リファレンスを使うことで、手短く`C1`を指定することができ、`-f`でブランチを強制的にそこへ移動することができました。"
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -705,7 +705,7 @@ exports.level = {
             "markdowns": [
               "相対リファレンスとブランチの強制関連付けを見ましたので、いまここでそれらの方法を使ってみましょう。",
               "",
-              "このレベルをクリアするには`HEAD`、`master`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
+              "このレベルをクリアするには`HEAD`、`main`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
             ]
           }
         }
@@ -749,9 +749,9 @@ exports.level = {
               "",
               "Одна из наиболее распространённых целей, для которых используются относительные ссылки - это перемещение веток. Можно напрямую прикрепить ветку к коммиту при помощи опции `-f`. Например, команда:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Переместит (принудительно) ветку `master` на три родителя назад от `HEAD`."
+              "Переместит (принудительно) ветку `main` на три родителя назад от `HEAD`."
             ]
           }
         },
@@ -764,7 +764,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вуаля! Относительная ссылка дала нам возможность просто сослаться на `C1`, а branch forcing (`-f`) позволил быстро переместить указатель ветки на этот коммит."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -774,7 +774,7 @@ exports.level = {
             "markdowns": [
               "Мы рассмотрели относительные ссылки и branch forcing вкупе, так что теперь пришло время пройти следующий уровень.",
               "",
-              "Чтобы пройти этот уровень, передвинь `HEAD`, `master` и `bugFix` так, как показано на визуализации."
+              "Чтобы пройти этот уровень, передвинь `HEAD`, `main` и `bugFix` так, как показано на визуализации."
             ]
           }
         }
@@ -818,9 +818,9 @@ exports.level = {
               "",
               "제가 상대 참조를 사용하는 가장 일반적인 방법은 브랜치를 옮길 때 입니다. `-f` 옵션을 이용해서 브랜치를 특정 커밋에 직접적으로 재지정 할 수 있습니다. 이런 식으로 말이죠:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "(강제로) master 브랜치를 HEAD에서 세번 뒤로 옮겼습니다. (three parents behind HEAD)."
+              "(강제로) main 브랜치를 HEAD에서 세번 뒤로 옮겼습니다. (three parents behind HEAD)."
             ]
           }
         },
@@ -832,7 +832,7 @@ exports.level = {
             ],
             "afterMarkdowns": [
               "됬네요! 우리는 상대 참조를 통해 `C1`을 간결한 방법으로 참조할 수 있었고 브랜치 강제(`-f`)를 통해 브랜치를 저 위치로 빠르게 옮길 수 있었습니다."            ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -842,7 +842,7 @@ exports.level = {
             "markdowns": [
               "자 이제 상대 참조와 브랜치 강제의 조합을 봤으니 다음 레벨을 해결해 봅시다.",
               "",
-              "이 레벨을 통과하기 위해서, `HEAD`와 `master`와 `bugFix`를 제시되는 골지점으로 옮겨 주십시오."
+              "이 레벨을 통과하기 위해서, `HEAD`와 `main`와 `bugFix`를 제시되는 골지점으로 옮겨 주십시오."
             ]
           }
         }
@@ -886,9 +886,9 @@ exports.level = {
               "",
               "Один з найуживаніших прийомів де я використовую відносні посилання це переміщення гілок. Ти можеш напряму переспрямувати бранч на якийсь коміт використавши опцію `-f` (force, тобто насильно). Щось на зразок:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "Переміщує (насильно) гілку master на три предки позад HEAD."
+              "Переміщує (насильно) гілку main на три предки позад HEAD."
             ]
           }
         },
@@ -901,7 +901,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ось і маєш! Відносні посилання дають нам зручний спосіб доступу до коміту`C1` крім того форсування бранчів (`-f`) дає нам можливість швидко перемістити гілку на цей коміт"
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -911,7 +911,7 @@ exports.level = {
             "markdowns": [
               "Тепер, коли ти побачив відносні посилання та форсування гілок в купі, давай використаємо це щоб пройти поточний рівень.",
               "",
-              "Щоб пройти цей рівень, перемісти `HEAD`, `master` та `bugFix` так як показано в візуалізації."
+              "Щоб пройти цей рівень, перемісти `HEAD`, `main` та `bugFix` так як показано в візуалізації."
             ]
           }
         }
@@ -955,9 +955,9 @@ exports.level = {
               "",
               "Tôi thì hay thường dùng tham chiếu tương đối để dịch chuyển nhánh. Bạn có thể trực tiếp gán lại nhánh cho commit với cú pháp `-f`. Kiểu như thế này:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "dịch chuyển (ép buộc) nhánh master lên 3 commit phía trên HEAD."
+              "dịch chuyển (ép buộc) nhánh main lên 3 commit phía trên HEAD."
             ]
           }
         },
@@ -970,7 +970,7 @@ exports.level = {
             "afterMarkdowns": [
               "Đóóóó! Tham chiếu tương đối cho chúng ta một cách chuẩn xác để trỏ tới `C1` và ép nhánh bằng (`-f`) thì dịch chuyển nhanh chóng nhánh tới đó."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -980,7 +980,7 @@ exports.level = {
             "markdowns": [
               "Giờ thì bạn đã thấy cách kết hợp tham chiếu tương đối và ép nhánh, dùng chúng để vượt level tiếp thôi.",
               "",
-              "Để hoàn thành cấp độ này, chuyển `HEAD`, `master`, và `bugFix` đến mục tiêu được xác định của chúng."
+              "Để hoàn thành cấp độ này, chuyển `HEAD`, `main`, và `bugFix` đến mục tiêu được xác định của chúng."
             ]
           }
         }
@@ -1024,9 +1024,9 @@ exports.level = {
               "",
               "Eden izmed najpogostejših načinov, kjer uporabljam relativne reference je za premikanje branchev naokoli. Direktno lahko premakneš branch na nek commit z `-f` opcijo. Takole nekako:",
               "",
-              "`git branch -f master HEAD~3`",
+              "`git branch -f main HEAD~3`",
               "",
-              "premakne (s force-om) master branch tri commite za HEAD."
+              "premakne (s force-om) main branch tri commite za HEAD."
             ]
           }
         },
@@ -1039,7 +1039,7 @@ exports.level = {
             "afterMarkdowns": [
               "Tako ja! Relativne reference so nam dale jedrnat način s katerim se lahko nanašamo na `C1` in branch force-anje (`-f`) nam je omogočilo, da hitro prestavimo branch na to lokacijo."
             ],
-            "command": "git branch -f master HEAD~3",
+            "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
         },
@@ -1049,7 +1049,7 @@ exports.level = {
             "markdowns": [
               "Sedaj ko smo si pogledali relativne reference in force branchanje v kombinaciji, uporabimo to, da rešimo naslednjo stopnjo.",
               "",
-              "Za dokončanje te stopnje, premakni `HEAD`, `master` in `bugFix` na njihove ciljne prikazane destinacije."
+              "Za dokončanje te stopnje, premakni `HEAD`, `main` in `bugFix` na njihove ciljne prikazane destinacije."
             ]
           }
         }
