@@ -82,7 +82,7 @@ exports.level = {
               "If we specify the place to fetch, everything happens as before with fetch but we merge in whatever was just fetched."
             ],
             "afterMarkdowns": [
-              "See! by specifying `main` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to our currently checked out location which is *not* the local branch `master`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
+              "See! by specifying `main` we downloaded commits onto `o/master` just as normal. Then we merged `o/master` to our currently checked out location which is *not* the local branch `main`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -970,7 +970,7 @@ exports.level = {
               "Nếu ta chỉ định vị trí để nạp, mọi thứ diễn ra như với git fetch nhưng giờ đây có thêm một bước đó là ta hợp nhất những gì mà ta đã nạp"
             ],
             "afterMarkdowns": [
-              "Thấy chứ! Bằng cách chỉ định nhánh `main` ta tải các commit xuống nhánh `o/master` như thường lệ. Sau đó hợp nhất nhánh `o/master` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `master`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
+              "Thấy chứ! Bằng cách chỉ định nhánh `main` ta tải các commit xuống nhánh `o/master` như thường lệ. Sau đó hợp nhất nhánh `o/master` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `main`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -1044,7 +1044,7 @@ exports.level = {
               "Če določimo mesto za fetchanje, se zgodi vse kot prej s fetchem, ampak tudi zmergamo, kar smo pravkar fetchali."
             ],
             "afterMarkdowns": [
-              "Vidiš! Z določitvijo `main` smo prenesli commite na `o/master` kot ponavadi. Potem smo zmergali `o/master` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `master`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
+              "Vidiš! Z določitvijo `main` smo prenesli commite na `o/master` kot ponavadi. Potem smo zmergali `o/master` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `main`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
             ],
             "command": "git pull origin master",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"

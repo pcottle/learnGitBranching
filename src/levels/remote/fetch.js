@@ -530,7 +530,7 @@ exports.level = {
             "markdowns": [
               "### fetch 沒有做的事情",
               "",
-              "然而，`git fetch` 並不會影響到在你的 local repository 中的 `main` branch，他並不會將你的 `master` branch 更新到最新的狀態。",
+              "然而，`git fetch` 並不會影響到在你的 local repository 中的 `main` branch，他並不會將你的 `main` branch 更新到最新的狀態。",
               "",
               "這個觀念很重要，因為很多程式設計師以為 `git fetch` 可以讓他們在 local repository 上面的工作跟 remote repository 的工作可以同步。它是會下載同步所需的資料，但是不會更新任何的檔案，我們會在後面的教學中提到如何做到這件事情。:D",
               "",

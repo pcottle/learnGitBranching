@@ -85,7 +85,7 @@ exports.level = {
               "Let's try to put some work on this new branch. Hit the button below."
             ],
             "afterMarkdowns": [
-              "Oh no! The `main` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `master`."
+              "Oh no! The `main` branch moved but the `newImage` branch didn't! That's because we weren't \"on\" the new branch, which is why the asterisk (*) was on `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -174,7 +174,7 @@ exports.level = {
               "Lass uns mal ein wenig auf dem neuen Branch arbeiten. Machen wir einen Commit:"
             ],
             "afterMarkdowns": [
-              "Oi! Der Branch `main` hat sich verändert, aber der Branch `issue` nicht. Das liegt daran, dass wir nicht \"auf\" dem neuen Branch waren, weshalb das Sternchen `*` auch hinter `master` steht."
+              "Oi! Der Branch `main` hat sich verändert, aber der Branch `issue` nicht. Das liegt daran, dass wir nicht \"auf\" dem neuen Branch waren, weshalb das Sternchen `*` auch hinter `main` steht."
             ],
             "command": "git commit",
             "beforeCommand": "git branch issue"
@@ -329,7 +329,7 @@ exports.level = {
               "Pongamos algo de trabajo en esta nueva rama. Apretá el botón de acá abajo."
             ],
             "afterMarkdowns": [
-              "¡Uh, no! ¡La rama `main` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `master`."
+              "¡Uh, no! ¡La rama `main` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -407,7 +407,7 @@ exports.level = {
               "Pongamos algo de trabajo en esta nueva rama. Aprieta el botón que se encuentra debajo."
             ],
             "afterMarkdowns": [
-              "¡Uh, no! ¡La rama `main` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `master`."
+              "¡Uh, no! ¡La rama `main` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -485,7 +485,7 @@ exports.level = {
               "Pongamos algo de trabajo en esta nueva rama. Aprieta el botón de aquí abajo."
             ],
             "afterMarkdowns": [
-              "¡Vaya! ¡La rama `main` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `master`."
+              "¡Vaya! ¡La rama `main` avanzó, pero `newImage` no! Eso es porque no estábamos \"en\" la rama nueva, y por eso el asterisco (*) estaba en `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -563,7 +563,7 @@ exports.level = {
               "Vamos tentar colocar algum trabalho neste novo ramo. Clique no botão abaixo."
             ],
             "afterMarkdowns": [
-              "Ah não! O ramo `main` se moveu mas o `newImage` não! Isso é porque o novo ramo não era o \"ativo\", e é por isso que o asterisco (*) estava no `master`."
+              "Ah não! O ramo `main` se moveu mas o `newImage` não! Isso é porque o novo ramo não era o \"ativo\", e é por isso que o asterisco (*) estava no `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -641,7 +641,7 @@ exports.level = {
               "Imos intentar colocar algún traballo nesta nova rama. Pincha no botón de abaixo."
             ],
             "afterMarkdowns": [
-              "¡Bueno home! A rama `main` moveuse pero a rama `newImage` non! Eso é porque a nova rama non era a \"actual\", e é por iso que o asterisco (*) ficaba na rama `master`."
+              "¡Bueno home! A rama `main` moveuse pero a rama `newImage` non! Eso é porque a nova rama non era a \"actual\", e é por iso que o asterisco (*) ficaba na rama `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -723,7 +723,7 @@ exports.level = {
               "Travaillons mainenant dans cette branche. Appuyez sur le bouton ci-dessous."
             ],
             "afterMarkdowns": [
-              "Oh non! La branche `main` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'astérisque (*) sur `master`."
+              "Oh non! La branche `main` a bougé mais pas la branche `newImage` ! C'est parce que nous n'étions pas  \"sur\" la nouvelle branche, comme indiqué par l'astérisque (*) sur `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -802,7 +802,7 @@ exports.level = {
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "哎呀！为什么 `main` 分支前进了，但 `newImage` 分支还待在原地呢？！这是因为我们没有“在”这个新分支上，看到 `master` 分支上的那个星号（*）了吗？这表示当前所在的分支是 `master`。"
+              "哎呀！为什么 `main` 分支前进了，但 `newImage` 分支还待在原地呢？！这是因为我们没有“在”这个新分支上，看到 `main` 分支上的那个星号（*）了吗？这表示当前所在的分支是 `main`。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -882,7 +882,7 @@ exports.level = {
             ],
             "command": "git commit",
             "afterMarkdowns": [
-              "太奇怪了啦！ `main` branch 前進了，但 `newImage` branch 沒有前進！這是因為我們沒有「在」這個新的 branch 上，這也是為什麼星號（*）會在 `master` 上。"
+              "太奇怪了啦！ `main` branch 前進了，但 `newImage` branch 沒有前進！這是因為我們沒有「在」這個新的 branch 上，這也是為什麼星號（*）會在 `main` 上。"
             ],
             "beforeCommand": "git branch newImage"
           }
@@ -959,7 +959,7 @@ exports.level = {
               "이 새로운 브랜치에 약간의 작업을 더해봅시다. 아래 버튼을 눌러주세요"
             ],
             "afterMarkdowns": [
-              "앗! `main` 브랜치가 움직이고, `newImage` 브랜치는 이동하지 않았네요! 그건 우리가 새 브랜치 위에 있지 않았었기 때문입니다. 별표(*)가 `master`에 있었던 것이죠."
+              "앗! `main` 브랜치가 움직이고, `newImage` 브랜치는 이동하지 않았네요! 그건 우리가 새 브랜치 위에 있지 않았었기 때문입니다. 별표(*)가 `main`에 있었던 것이죠."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -1118,7 +1118,7 @@ exports.level = {
               "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисни кнопку внизу."
             ],
             "afterMarkdowns": [
-              "От халепа! Гілка `main` просунулася вперед, але гілка `newImage` \u2014 ні! Це тому, що ми були не \"на новій гілці\". Через це зірочка (*) була поруч з  `master`."
+              "От халепа! Гілка `main` просунулася вперед, але гілка `newImage` \u2014 ні! Це тому, що ми були не \"на новій гілці\". Через це зірочка (*) була поруч з  `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -1196,7 +1196,7 @@ exports.level = {
               "Nào cùng thử thêm nội dung vào nhánh mới này nào. Hãy bấm nút bên dưới"
             ],
             "afterMarkdowns": [
-              "Ồ không! Nhánh `main` đã di chuyển nhưng nhánh `newImage` thì không! Đó là do ta không \"nằm trên\" nhánh mới, đó là tại sao dấu hoa thị (*) nằm trên nhánh `master`."
+              "Ồ không! Nhánh `main` đã di chuyển nhưng nhánh `newImage` thì không! Đó là do ta không \"nằm trên\" nhánh mới, đó là tại sao dấu hoa thị (*) nằm trên nhánh `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -1278,7 +1278,7 @@ exports.level = {
               "Poizkusimo dodati nekaj dela na ta nov branch. Pristisni gumb spodaj."
             ],
             "afterMarkdowns": [
-              "O ne! `main` branch se je premaknil ampak `newImage` branch se pa ni! To je zato, ker nismo bili \"na\" novem branchu, kot smo lahko videli z označeno zvezdico (*) na `master` branchu."
+              "O ne! `main` branch se je premaknil ampak `newImage` branch se pa ni! To je zato, ker nismo bili \"na\" novem branchu, kot smo lahko videli z označeno zvezdico (*) na `main` branchu."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -1360,7 +1360,7 @@ exports.level = {
               "Spróbujmy trochę popracować nad tą nowym branch-em (gałęzią).\nKliknij przycisk poniżej."
             ],
             "afterMarkdowns": [
-              "O nie! branch `main` uległ zmianie, a branch `mojBranch` nie! To dlatego, że nie byliśmy \"w\" nowym branch-u (gałęzi) i dlatego gwiazdka (*) była przy `master`"
+              "O nie! branch `main` uległ zmianie, a branch `mojBranch` nie! To dlatego, że nie byliśmy \"w\" nowym branch-u (gałęzi) i dlatego gwiazdka (*) była przy `main`"
             ],
             "command": "git commit",
             "beforeCommand": "git branch mojBranch"

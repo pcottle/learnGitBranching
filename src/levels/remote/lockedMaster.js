@@ -157,7 +157,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Когда вы работаете в составе большой команды разработчиков над проектом, то, вероятнее всего, ветвь `main` будет _заблокирована_. Для внесения изменений в неё в git существует понятие запроса на слияние `Pull Request`. В такой ситуации если вы закоммитите свои наработки непосредственно в `master` ветвь, а после выполните `git push`, то будет сгенерировано сообщение об ошибке:",
+              "Когда вы работаете в составе большой команды разработчиков над проектом, то, вероятнее всего, ветвь `main` будет _заблокирована_. Для внесения изменений в неё в git существует понятие запроса на слияние `Pull Request`. В такой ситуации если вы закоммитите свои наработки непосредственно в `main` ветвь, а после выполните `git push`, то будет сгенерировано сообщение об ошибке:",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -175,7 +175,7 @@ exports.level = {
             "markdowns": [
               "## Почему произошло отклонение моих изменений?",
               "",
-              "Удалённый репозиторий отклонил загруженные коммиты непосредственно в `main` ветку потому, что на `master` _настроена политика_, которая требует использование `Pull request` вместо обычного `git push`.",
+              "Удалённый репозиторий отклонил загруженные коммиты непосредственно в `main` ветку потому, что на `main` _настроена политика_, которая требует использование `Pull request` вместо обычного `git push`.",
               "",
               "Эта политика подразумевает процесс создания новой ветви разработки, внесение в неё всех необходимых коммитов, загрузка изменений в удалённый репозиторий и _открытие нового_ `Pull request`. Однако вы забыли про это и закоммитили наработки непосредственно в `main` ветвь. Теперь вы застряли и не можете запушить свои изменения :(. "
             ]
@@ -201,7 +201,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Коли ви працюєте над проектом в складі великої команди розробників, то, швидше за все, гілка `main` буде _заблокована_. Для внесення до неї змін в git існує поняття запиту на злиття `Pull Request`. В такій ситуації, якщо ви закомітите свої зміни безпосередньо в гілку `master`, а потім виконаєте `git push`, то буде згенероване повідомлення про помилку:",
+              "Коли ви працюєте над проектом в складі великої команди розробників, то, швидше за все, гілка `main` буде _заблокована_. Для внесення до неї змін в git існує поняття запиту на злиття `Pull Request`. В такій ситуації, якщо ви закомітите свої зміни безпосередньо в гілку `main`, а потім виконаєте `git push`, то буде згенероване повідомлення про помилку:",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -219,7 +219,7 @@ exports.level = {
             "markdowns": [
               "## Чому мої зміни були відхилені?",
               "",
-              "Віддалений репозиторій відхилив коміти завантажені безпосередньо в гілку `main` через те, що на `master` _налаштована політика_, яка вимагає використання `Pull request` замість звичайного `git push`.",
+              "Віддалений репозиторій відхилив коміти завантажені безпосередньо в гілку `main` через те, що на `main` _налаштована політика_, яка вимагає використання `Pull request` замість звичайного `git push`.",
               "",
               "Ця політика має на увазі процес створення нової гілки розробки, внесення до неї всіх потрібних комітів, завантаження змін в віддалений репозиторій і _відкриття нового_ `Pull request`. Але ви про це забули (чи не знали) і закомітили свої доробки безпосередньо в гілку `main`. Тепер ви застрягли і не можене запушити свої зміни :(. "
             ]
@@ -246,7 +246,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master` e intentas realizar `push`, recibirás un mensaje similar a este:",
+              "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `main` e intentas realizar `push`, recibirás un mensaje similar a este:",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -260,7 +260,7 @@ exports.level = {
             "markdowns": [
               "## ¿Por qué fue rechazado?",
               "",
-              "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `master` que requiere el uso de `Pull Requests`.",
+              "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `main` que requiere el uso de `Pull Requests`.",
               "",
               "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `main`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
 
@@ -341,7 +341,7 @@ exports.level = {
             "markdowns": [
               "## Pourquoi est-ce rejeté?",
               "",
-              "Le dépôt distant a rejeté le `push` de `commit` directement sur `main`, à cause de la stratégie mise en place sur `master`, imposant plutôt l'usage des `pull requests`.",
+              "Le dépôt distant a rejeté le `push` de `commit` directement sur `main`, à cause de la stratégie mise en place sur `main`, imposant plutôt l'usage des `pull requests`.",
               "",
               "Vous étiez censé suivre le processus suivant : créer une branche, `push`, et faire une `pull request`. Mais vous avez oublié et avez fait un `commit` directement sur `main`. Maintenant vous êtes coincé et ne pouvez pas faire un `push` de vos modifications."
             ]
@@ -367,7 +367,7 @@ exports.level = {
             "markdowns": [
               "## 원격저장소 거부! (Remote Rejected!)",
               "",
-              "규모가 큰 개발팀에서 일하는 경우, 보통 원격저장소의 `main` 브랜치는 잠겨있습니다(locked). 그래서 변경사항을 적용하려면 pull request 과정을 거쳐야하죠. 만약에 여러분이 로컬 저장소의 `master`브랜치에서 커밋을 한 후 `push`하려고 시도한다면, 다음과 같은 오류를 받게 될겁니다. :",
+              "규모가 큰 개발팀에서 일하는 경우, 보통 원격저장소의 `main` 브랜치는 잠겨있습니다(locked). 그래서 변경사항을 적용하려면 pull request 과정을 거쳐야하죠. 만약에 여러분이 로컬 저장소의 `main`브랜치에서 커밋을 한 후 `push`하려고 시도한다면, 다음과 같은 오류를 받게 될겁니다. :",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -381,7 +381,7 @@ exports.level = {
             "markdowns": [
               "## 왜 거부됐나요?",
               "",
-              "원격 저장소는 자신의 `main` 브랜치에 대한 직접적인 커밋을 제한합니다. 왜냐하면 `push` 대신에 pull request가 쓰여야 한다는 규칙이 원격 저장소의 `master` 브랜치에는 적용되어 있기 때문이죠.",
+              "원격 저장소는 자신의 `main` 브랜치에 대한 직접적인 커밋을 제한합니다. 왜냐하면 `push` 대신에 pull request가 쓰여야 한다는 규칙이 원격 저장소의 `main` 브랜치에는 적용되어 있기 때문이죠.",
               "",
               "여러분은 브랜치를 따로 만들어 작업한 다음, 그것을 `push`하고 pull request를 하려 했습니다. 하지만 그걸 잊고 실수로 `main` 브랜치에서 직접 커밋을 해버렸네요! 이제 변경 사항을 `push` 하지도 못하고 옴짝달싹 못하는 상황이 되어버렸습니다."
             ]
@@ -407,7 +407,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `master` e intentas realizar `push`, recibirás un mensaje similar a este:",
+              "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `main` e intentas realizar `push`, recibirás un mensaje similar a este:",
               "",
               "```",
               " ! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -421,7 +421,7 @@ exports.level = {
             "markdowns": [
               "## ¿Por qué fue rechazado?",
               "",
-              "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `master` que requiere el uso de `Pull Requests`.",
+              "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `main` que requiere el uso de `Pull Requests`.",
               "",
               "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `main`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
 

@@ -403,7 +403,7 @@ exports.level = {
               "Hier haben wir ein paar Änderungen, die auf dem Remote noch fehlen. Und hoch damit!"
             ],
             "afterMarkdowns": [
-              "Na bitte -- das Remote hat den Commit `C2` bekommen, der `main` auf dem Remote ist entsprechend aktualisiert worden und unsere *eigene* Abbildung des `master` auf dem Remote namens `o/master` wurde auch aktualisiert. Alles im Lot!"
+              "Na bitte -- das Remote hat den Commit `C2` bekommen, der `main` auf dem Remote ist entsprechend aktualisiert worden und unsere *eigene* Abbildung des `main` auf dem Remote namens `o/master` wurde auch aktualisiert. Alles im Lot!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"

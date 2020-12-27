@@ -68,7 +68,7 @@ exports.level = {
               "We will `merge` the branch `bugFix` into `main`."
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `main` now points to a commit that has two parents. If you follow the arrows up the commit tree from `master`, you will hit every commit along the way to the root. This means that `master` contains all the work in the repository now.",
+              "Woah! See that? First of all, `main` now points to a commit that has two parents. If you follow the arrows up the commit tree from `main`, you will hit every commit along the way to the root. This means that `main` contains all the work in the repository now.",
               "",
               "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
               "",
@@ -85,7 +85,7 @@ exports.level = {
               "Let's merge `main` into `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Since `bugFix` was an ancestor of `main`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `master` was attached to.",
+              "Since `bugFix` was an ancestor of `main`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `main` was attached to.",
               "",
               "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
@@ -137,7 +137,7 @@ exports.level = {
               "Wir werden den Branch `bugFix` in `main` integrieren."
             ],
             "afterMarkdowns": [
-              "Wow! Hast du das gesehen? Zunächst mal zeigt `main` jetzt auf einen Commit mit zwei Vorgängern. Wenn du den beiden Pfeilen immer weiter folgst, kommst du an jedem Commit im Repository vorbei. Das heißt `master` enthält jetzt alles, was es im Repository gibt.",
+              "Wow! Hast du das gesehen? Zunächst mal zeigt `main` jetzt auf einen Commit mit zwei Vorgängern. Wenn du den beiden Pfeilen immer weiter folgst, kommst du an jedem Commit im Repository vorbei. Das heißt `main` enthält jetzt alles, was es im Repository gibt.",
               "",
               "Siehst du außerdem wie sich die Farben der Commits verändert haben? Um die Vorgänge zu verdeutlichen hab ich etwas Farbe ins Spiel gebracht. Jeder Branch hat seine eindeutige Farbe. Jeder Merge Commit bekommt als Farbe eine Mischung aus den Farben seiner Vorgänger.",
               "",
@@ -154,7 +154,7 @@ exports.level = {
               "Mergen wir `main` in `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Da `bugFix` ein Vorgänger von `main` war, musste git hier kaum etwas tun; es verschiebt `bugFix` einfach auf den Commit, auf den auch `master` zeigt.",
+              "Da `bugFix` ein Vorgänger von `main` war, musste git hier kaum etwas tun; es verschiebt `bugFix` einfach auf den Commit, auf den auch `main` zeigt.",
               "",
               "Jetzt haben alle Commits dieselbe Farbe, das heißt jeder Branch enthält die Informationen des gesamten Repositorys! Juhu!"
             ],
@@ -206,7 +206,7 @@ exports.level = {
               "`bugFix`ブランチを`main`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "わあ、見ましたか？まず初めに、`main`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`master`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`master`が完成しました。",
+              "わあ、見ましたか？まず初めに、`main`ブランチが2つのコミットを親に持つ新しいコミットを指してますね。`main`から親をたどっていくと、最も古いコミットにたどり着くまでに全てのコミットを含んでいる様が確認できます。これで、全ての変更を含む`main`が完成しました。",
               "",
               "色がどう変わったかにも注目して下さい。学習を助けるために、ブランチ毎に色をつけています。それぞれのブランチは自分の色を持っていて、どのブランチから派生して出てくるか次第でコミットごとの色が決まります。",
               "",
@@ -223,7 +223,7 @@ exports.level = {
               "`main`ブランチを`bugFix`ブランチにマージしてみます。"
             ],
             "afterMarkdowns": [
-              "`bugFix`ブランチは`main`ブランチの派生元だったので、gitは実際大したことはしていません。`bugFix`ブランチを指していたポインタを`master`が指していたコミットへと移動させただけです。",
+              "`bugFix`ブランチは`main`ブランチの派生元だったので、gitは実際大したことはしていません。`bugFix`ブランチを指していたポインタを`main`が指していたコミットへと移動させただけです。",
               "",
               "これで全てのコミットが同じ色になりました。つまり、リポジトリの中の全ての変更をそれぞれのブランチが持ったことになります。やったね！"
             ],
@@ -275,7 +275,7 @@ exports.level = {
               "Vamos a `merge`ar la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
-              "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si seguís las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si seguís las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
               "",
               "Además, ¿viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, incluí algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
               "",
@@ -292,7 +292,7 @@ exports.level = {
               "Mergeemos `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Wiii!"
             ],
@@ -344,7 +344,7 @@ exports.level = {
               "Vamos a `merge`ar la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
-              "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
               "",
               "Además, ¿Viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, incluí algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
               "",
@@ -361,7 +361,7 @@ exports.level = {
               "Mergeemos `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Súper!"
             ],
@@ -413,7 +413,7 @@ exports.level = {
               "Vamos a `merge`ar la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
-              "¡Caramba! ¿Viste eso? Antes de nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `master` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `master` ahora contiene todo el trabajo que hay en el repositorio.",
+              "¡Caramba! ¿Viste eso? Antes de nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
               "",
               "Además, ¿viste cómo cambiaron los colores de los commits? Para ayudar al aprendizaje, he incluido algunas convenciones de colores. Cada rama tiene un color propio. Cada commmit se vuelve del color resultante de mezclar los colores de todas las ramas que lo contienen.",
               "",
@@ -430,7 +430,7 @@ exports.level = {
               "Hagamos merge de `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `master`.",
+              "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Genial!"
             ],
@@ -482,7 +482,7 @@ exports.level = {
               "Vamos juntar o ramo `bugFix` no `main`."
             ],
             "afterMarkdowns": [
-              "Uau! Viu isso? Antes de tudo, o `main` agora aponta para um commit que possui dois pais. Se você seguir as setas subindo a árvore de commits a partir do `master`, você será capaz de encontrar, ao longo do caminho até a raiz, qualquer um dos commits. Isso significa que o `master` contém todo o trabalho realizado no repositório até o momento.",
+              "Uau! Viu isso? Antes de tudo, o `main` agora aponta para um commit que possui dois pais. Se você seguir as setas subindo a árvore de commits a partir do `main`, você será capaz de encontrar, ao longo do caminho até a raiz, qualquer um dos commits. Isso significa que o `main` contém todo o trabalho realizado no repositório até o momento.",
               "",
               "Além disso, viu como as cores dos commits mudaram? Para ajudá-lo a aprender, eu incluí uma legenda. Cada ramo tem uma cor única. Cada commit tem a cor resultante da mistura das cores de todos os ramos que o contém.",
               "",
@@ -499,7 +499,7 @@ exports.level = {
               "Vamos juntar o `main` no `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como o `bugFix` é um ancestral do `main`, o git não teve trabalho nenhum; ele só precisou mover o `bugFix` para o mesmo commit do `master`.",
+              "Como o `bugFix` é um ancestral do `main`, o git não teve trabalho nenhum; ele só precisou mover o `bugFix` para o mesmo commit do `main`.",
               "",
               "Agora todos os commits possuem a mesma cor, o que significa que ambos os ramos contém todo o trabalho realizado no repositório! Eba!"
             ],
@@ -551,7 +551,7 @@ exports.level = {
               "Imos xuntar a rama `bugFix` na `main`."
             ],
             "afterMarkdowns": [
-              "¡Uah! ¿Viches? Antes de todo, `main` agora apunta a un commit que ten dous pais. Se ti sigues as frechas subindo a árbore de commits a partir de `master`, serás capaz de ver tódolos commits ata a raíz, calquera de eles. Isto significa que a rama `master` contén todo o traballo realizado no repositorio ata ese momento.",
+              "¡Uah! ¿Viches? Antes de todo, `main` agora apunta a un commit que ten dous pais. Se ti sigues as frechas subindo a árbore de commits a partir de `main`, serás capaz de ver tódolos commits ata a raíz, calquera de eles. Isto significa que a rama `main` contén todo o traballo realizado no repositorio ata ese momento.",
               "",
               "Ademáis, ¿viches como cambiaron as cores dos commits? Para axudarte a aprender, hai unha lenda. Cada rama ten unha única cor. Cada commit ten a cor resultante de mesturar as cores de tódalas ramas que contén.",
               "",
@@ -568,7 +568,7 @@ exports.level = {
               "Imos mesturar a rama `main` en `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Como o `bugFix` é un ancestro de `main`, o git non ten traballo que facer; el só ten que mover o punteiro de `bugFix` para o mesmo commit que `master`.",
+              "Como o `bugFix` é un ancestro de `main`, o git non ten traballo que facer; el só ten que mover o punteiro de `bugFix` para o mesmo commit que `main`.",
               "",
               "Agora tódolos commits teñen a mesma cor, o que significa que ambas ramas teñen o mesmo traballo no repositorios! Iepa!"
             ],
@@ -620,7 +620,7 @@ exports.level = {
               "Nous allons `merge` («fusionner») la branche `bugFix` dans `main`."
             ],
             "afterMarkdowns": [
-              "Youhou ! Vous avez vu ça ? Avant tout, `main` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `master`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `master` contient maintenant tout le travail du dépôt.",
+              "Youhou ! Vous avez vu ça ? Avant tout, `main` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `main`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `main` contient maintenant tout le travail du dépôt.",
               "",
               "Par ailleurs, avez-vous remarqué les nouvelles couleurs des commits ? Pour faciliter l'apprentissage, j'ai inclus une certaine logique dans la coloration. Chaque branche a une unique couleur. Chaque commit est de la couleur de toutes les branches qui le contiennent.",
               "",
@@ -637,7 +637,7 @@ exports.level = {
               "Faisons un merge  de `main` dans `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Puisque `bugFix` était un ancêtre de `main`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `master` est attaché.",
+              "Puisque `bugFix` était un ancêtre de `main`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `main` est attaché.",
               "",
               "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
             ],
@@ -690,7 +690,7 @@ exports.level = {
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇哦！看见了吗？首先，`main` 现在指向了一个拥有两个父节点的提交记录。假如从 `master` 开始沿着箭头向上看，在到达起点的路上会经过所有的提交记录。这意味着 `master` 包含了对代码库的所有修改。↓↓↓",
+              "哇哦！看见了吗？首先，`main` 现在指向了一个拥有两个父节点的提交记录。假如从 `main` 开始沿着箭头向上看，在到达起点的路上会经过所有的提交记录。这意味着 `main` 包含了对代码库的所有修改。↓↓↓",
               "",
               "还有，看见各个提交记录的颜色变化了吗？为了帮助学习理解，我引入了颜色搭配。每个分支都有不同的颜色，而每个提交记录的颜色是所有包含该提交记录的分支的颜色混合之后的颜色。",
               "",
@@ -707,7 +707,7 @@ exports.level = {
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因为 `main` 继承自 `bugFix`，Git 什么都不用做，只是简单地把 `bugFix` 移动到 `master` 所指向的那个提交记录。",
+              "因为 `main` 继承自 `bugFix`，Git 什么都不用做，只是简单地把 `bugFix` 移动到 `main` 所指向的那个提交记录。",
               "",
               "现在所有提交记录的颜色都一样了，这表明每一个分支都包含了代码库的所有修改！大功告成！"
             ],
@@ -759,7 +759,7 @@ exports.level = {
             ],
             "command": "git merge bugFix",
             "afterMarkdowns": [
-              "哇！看見了沒有？首先，`main` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `master` 開始沿著箭頭向上走，在到達起點的路上會經過所有的 commit。這說明了現在 `master` 紀錄了對文件的所有修改。",
+              "哇！看見了沒有？首先，`main` 現在指向一個 commit，這個 commit 有兩個 parent commit。假如從 `main` 開始沿著箭頭向上走，在到達起點的路上會經過所有的 commit。這說明了現在 `main` 紀錄了對文件的所有修改。",
               "",
               "還有，看見各個 commit 的顏色變化了嗎？為了幫助學習，我混合了顏色。每個 branch 都有特定的顏色。每個 commit 的顏色都變成了含有此 commit 的所有 branch 的混合色。",
               "",
@@ -776,7 +776,7 @@ exports.level = {
             ],
             "command": "git checkout bugFix; git merge master",
             "afterMarkdowns": [
-              "因為 `bugFix` branch只是 `main` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `master` 指向的 commit。",
+              "因為 `bugFix` branch只是 `main` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `main` 指向的 commit。",
               "",
               "現在所有的 commit 的顏色都是一樣的啦，這表示每一個 branch 都包含了所有文件的修改！太厲害了啦！"
             ],
@@ -844,7 +844,7 @@ exports.level = {
               "이제 `main` 브랜치에 `bugFix`를 합쳐(merge) 봅시다:"
             ],
             "afterMarkdowns": [
-              "`bugFix`가 `main`의 부모쪽에 있었기 때문에, git이 별다른 일을 할 필요가 없었습니다; 간단히 `bugFix`를 `master`가 붙어 있는 커밋으로 이동시켰을 뿐입니다.",
+              "`bugFix`가 `main`의 부모쪽에 있었기 때문에, git이 별다른 일을 할 필요가 없었습니다; 간단히 `bugFix`를 `main`가 붙어 있는 커밋으로 이동시켰을 뿐입니다.",
               "",
               "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
             ],
@@ -896,7 +896,7 @@ exports.level = {
               "Мы сделаем `merge` ветки `bugFix` в ветку `main`."
             ],
             "afterMarkdowns": [
-              "Что мы видим? Во-первых, ветка `main` теперь указывает на коммит, у которого два родителя. Если проследовать по стрелкам от этого коммита, вы пройдёте через каждый коммит в дереве прямиком к началу. Это означает, что теперь в ветке `master` содержатся все изменения репозитория.",
+              "Что мы видим? Во-первых, ветка `main` теперь указывает на коммит, у которого два родителя. Если проследовать по стрелкам от этого коммита, вы пройдёте через каждый коммит в дереве прямиком к началу. Это означает, что теперь в ветке `main` содержатся все изменения репозитория.",
               "",
               "Во-вторых, обрати внимание, как изменились цвета коммитов. Мы ввели цветовую дифференциацию, чтобы помочь пониманию. У каждой ветки — свой цвет. Каждый коммит становится того цвета, какого его ветка. Если в нём изменения сразу двух веток - он становится цветом, смешанным из цветов родительских веток.",
               "",
@@ -913,7 +913,7 @@ exports.level = {
               "Смерджим ветку `main` в ветку `bugFix`."
             ],
             "afterMarkdowns": [
-              "Так как ветка `bugFix` была предшественницей `main`, Git не делал ничего, только сдвинул `bugFix` на тот же коммит, где находится `master`",
+              "Так как ветка `bugFix` была предшественницей `main`, Git не делал ничего, только сдвинул `bugFix` на тот же коммит, где находится `main`",
               "",
               "Теперь все коммиты одного цвета, что означает, что каждая ветка содержит все изменения репозитория! Поздравляем!"
             ],
@@ -965,7 +965,7 @@ exports.level = {
               "Ми `змержимо` гілку `bugFix` в `main`."
             ],
             "afterMarkdowns": [
-              "Нічого собі! Ви це бачили? По-перше, `main` тепер вказує на коміт з двома батьками. Якщо ти піднімешся вверх з цього коміту по дереву, починаючи з `master`, на шляху ти зустрінеш кожен коміт аж до кореневого. Це означає що гілка `master` тепер містить всю інфу в цьому репозиторії.",
+              "Нічого собі! Ви це бачили? По-перше, `main` тепер вказує на коміт з двома батьками. Якщо ти піднімешся вверх з цього коміту по дереву, починаючи з `main`, на шляху ти зустрінеш кожен коміт аж до кореневого. Це означає що гілка `main` тепер містить всю інфу в цьому репозиторії.",
               "",
               "А ти помітив як змінилися кольори комітів? Для кращого розуміння процесу я додав певну кольорову диференціацію. Кожен бранч виділено окремим кольором. Колір кожного коміту це суміш кольорів всіх гілок що місять цей коміт.",
               "",
@@ -982,7 +982,7 @@ exports.level = {
               "Давай змержимо `main` в `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Так як `bugFix` є нащадком `main`, git'у не потрібно нічого робити; він просто пересунув `bugFix` на тей самий коміт, на якому знаходиться `master`.",
+              "Так як `bugFix` є нащадком `main`, git'у не потрібно нічого робити; він просто пересунув `bugFix` на тей самий коміт, на якому знаходиться `main`.",
               "",
               "Тепер всі коміти одного кольору, що означає що кожен бранч включає в собі всю корисну інфу яка є в цьому репозиторії! Ура!"
             ],
@@ -1034,7 +1034,7 @@ exports.level = {
               "Ta sẽ `merge` nhánh `bugFix` vào `main`."
             ],
             "afterMarkdowns": [
-              "Wao! Thấy chứ? Trước tiên, `main` giờ đã trỏ đến commit có 2 cha. Nếu bạn lần theo mũi tên lên trên từ `master`, bạn sẽ gặp tất cả các commit lên đến commit gốc. Có nghĩa là `master` giờ đã chứa tất cả thành quả trong kho.",
+              "Wao! Thấy chứ? Trước tiên, `main` giờ đã trỏ đến commit có 2 cha. Nếu bạn lần theo mũi tên lên trên từ `main`, bạn sẽ gặp tất cả các commit lên đến commit gốc. Có nghĩa là `main` giờ đã chứa tất cả thành quả trong kho.",
               "",
               "Đồng thời, bạn thấy màu commit thay đổi chứ? Để bạn dễ học hơn, tôi đã phối hợp một số bảng màu. Mỗi nhánh có một màu duy nhất. Mỗi commit mang màu pha trộn của tất cả nhánh chứa nó.",
               "",
@@ -1051,7 +1051,7 @@ exports.level = {
               "Hãy gộp nhánh `main` vào `bugFix` nào:"
             ],
             "afterMarkdowns": [
-              "Vì `bugFix` là bậc cha ông của `main`, git chẳng phải làm gì cả; nó đơn giản chỉ chuyển `bugFix` vào commit mà `master` đang trỏ tới.",
+              "Vì `bugFix` là bậc cha ông của `main`, git chẳng phải làm gì cả; nó đơn giản chỉ chuyển `bugFix` vào commit mà `main` đang trỏ tới.",
               "",
               "Giờ thì tất cả commit đã có cùng màu, nghĩa là mỗi nhánh đã chứa tất cả thành quả trong kho! Ồ hố!"
             ],
@@ -1103,7 +1103,7 @@ exports.level = {
               "Sedaj bomo `mergeali` branch `bugFix` v `main`."
             ],
             "afterMarkdowns": [
-              "Woah! Si videl to? `main` sedaj kaže na commit, ki ima dva starša. Če slediš puščicam po drevesu commitov iz `master`, boš našel vsak commit po poti do roota. To pomeni, da `master` sedaj vsebuje vso delo iz repozitorija.",
+              "Woah! Si videl to? `main` sedaj kaže na commit, ki ima dva starša. Če slediš puščicam po drevesu commitov iz `main`, boš našel vsak commit po poti do roota. To pomeni, da `main` sedaj vsebuje vso delo iz repozitorija.",
               "",
               "Opaziš tudi, kako so se barve commitov spremenile? V pomoč pri učenju, sem vključil še nekaj barvne pomoči. Vsak branch ima svojo barvo. Vsak commit spremeni barvo v kombinirano barvo vseh branchev, ki imajo ta commit.",
               "",
@@ -1120,7 +1120,7 @@ exports.level = {
               "Zmergajmo sedaj `main` v `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Ker je `bugFix` bil prednik `main`, git ni rabil storiti ničesar; preprosto je premaknil `bugFix` v isti commit, kamer kaže `master`.",
+              "Ker je `bugFix` bil prednik `main`, git ni rabil storiti ničesar; preprosto je premaknil `bugFix` v isti commit, kamer kaže `main`.",
               "",
               "Sedaj so vsi commiti iste barve, kar pomeni, da vsak branch vsebuje vse delo v repozitoriju!! Woohoo!"
             ],
@@ -1172,7 +1172,7 @@ exports.level = {
               "Użyjmy `merge` aby połączyć branch `bugFix` z `main`."
             ],
             "afterMarkdowns": [
-              "Wow! Widzialiście to? Przede wszystkim \"master\" wskazuje teraz na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa zatwierdzenia od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `master` zawiera teraz całą pracę w repozytorium.",
+              "Wow! Widzialiście to? Przede wszystkim \"master\" wskazuje teraz na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa zatwierdzenia od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `main` zawiera teraz całą pracę w repozytorium.",
               "",
               "Czy widziałeś również, jak zmieniły się kolory zatwierdzeń? Aby Ci pomóc w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Każdy commit staje się kolorem wynikającym z mieszania kolorów wszystkich branch-y, które commit-ujesz",
               "",
@@ -1189,7 +1189,7 @@ exports.level = {
               "Połączmy brach `main` z branch `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Ponieważ `bugFix` był przodkiem branch-a `main`, GIT nie musiał wykonywać żadnej pracy; po prostu przeniosł branch `bugFix` do tego samego commit-a, do którego był dołączony branch `master`.",
+              "Ponieważ `bugFix` był przodkiem branch-a `main`, GIT nie musiał wykonywać żadnej pracy; po prostu przeniosł branch `bugFix` do tego samego commit-a, do którego był dołączony branch `main`.",
               "",
               "Teraz wszystkie commit-y mają ten sam kolor, co oznacza, że każdy branch zawiera całą pracę znajdującą się w repozytorium! Super!"
             ],

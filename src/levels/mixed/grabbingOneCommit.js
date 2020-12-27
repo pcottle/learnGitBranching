@@ -60,7 +60,7 @@ exports.level = {
               "",
               "All of these debugging / print statements are in their own commits. Finally I track down the bug, fix it, and rejoice!",
               "",
-              "Only problem is that I now need to get my `bugFix` back into the `main` branch. If I simply fast-forwarded `master`, then `master` would get all my debug statements which is undesirable. There has to be another way..."
+              "Only problem is that I now need to get my `bugFix` back into the `main` branch. If I simply fast-forwarded `main`, then `main` would get all my debug statements which is undesirable. There has to be another way..."
             ]
           }
         },
@@ -136,7 +136,7 @@ exports.level = {
               "",
               "Todas estas cosas de imprimir y debuggear estan en su propia rama. Finalmente encuentro el problema, lo soluciono, ¡y disfruto!",
               "",
-              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `master`, entonces `master` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
+              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `main`, entonces `main` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
             ]
           }
         },
@@ -175,7 +175,7 @@ exports.level = {
               "",
               "Todas estas cosas de imprimir y debuggear estan en su propia rama. Finalmente encuentro el problema, lo soluciono, ¡y disfruto!",
               "",
-              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `master`, entonces `master` va a tener todos mis agregados de debugging, lo cual no es deseable. Tiene que haber otro modo..."
+              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `main`, entonces `main` va a tener todos mis agregados de debugging, lo cual no es deseable. Tiene que haber otro modo..."
             ]
           }
         },
@@ -214,7 +214,7 @@ exports.level = {
               "",
               "Todos esses comandos de debug e mensagens estão em seus próprios ramos. Finalmente eu encontro o bug, corrijo, e me regozijo!",
               "",
-              "O único problema é que agora eu preciso devolver o meu `bugFix` ao ramo `main`. Se eu simplesmente der um fast-forward no `master`, então o `master` terminará contendo todos os comandos de debug, o que é indesejável. Deve existir alguma outra forma..."
+              "O único problema é que agora eu preciso devolver o meu `bugFix` ao ramo `main`. Se eu simplesmente der um fast-forward no `main`, então o `main` terminará contendo todos os comandos de debug, o que é indesejável. Deve existir alguma outra forma..."
             ]
           }
         },
@@ -253,7 +253,7 @@ exports.level = {
               "",
               "¡Todos esos comandos de debug e mensaxes están nas súas ramas propias. Finalmente eu atopo o erro, arránxoo e reorganizo!",
               "",
-              "O único problema é que agora eu preciso devolver o meu `bugFix` á rama `main`. Se eu fixera simplemente un fast-forward en `master`, entón o `master` rematará contendo tódolos comandos de debug, o que é indesexable. Debe existir algunha outra forma..."
+              "O único problema é que agora eu preciso devolver o meu `bugFix` á rama `main`. Se eu fixera simplemente un fast-forward en `main`, entón o `main` rematará contendo tódolos comandos de debug, o que é indesexable. Debe existir algunha outra forma..."
             ]
           }
         },
@@ -292,7 +292,7 @@ exports.level = {
               "",
               "Die committe ich auch immer wieder, je weiter die Suche mich trägt; natürlich in einem lokalen Branch. Schließlich finde ich den Bug, fixe ihn und freue mich!",
               "",
-              "Einziges Problem ist, dass ich diesen `bugFix` jetzt zurück in den `main` kriegen muss. Wenn ich einfach den `master` vorspule oder meinen Branch hinein merge, bekäme der `master` auch die ganzen Debug-Befehle, was nicht gewünscht ist. Das muss anders gehen ..."
+              "Einziges Problem ist, dass ich diesen `bugFix` jetzt zurück in den `main` kriegen muss. Wenn ich einfach den `main` vorspule oder meinen Branch hinein merge, bekäme der `main` auch die ganzen Debug-Befehle, was nicht gewünscht ist. Das muss anders gehen ..."
             ]
           }
         },
@@ -331,7 +331,7 @@ exports.level = {
               "",
               "これらのデバッグ用のコードはバグ修正用のブランチにコミットされています。そしてついにバグの原因を突き止めて、修正した！やった！",
               "",
-              "あとは`bugFix`ブランチを`main`ブランチに統合できればOK。そこで単純に`master`をfast-forwardすればよいかというと、それでは`master`ブランチの中にデバッグ用のコードも混入してしまいます。"
+              "あとは`bugFix`ブランチを`main`ブランチに統合できればOK。そこで単純に`main`をfast-forwardすればよいかというと、それでは`main`ブランチの中にデバッグ用のコードも混入してしまいます。"
             ]
           }
         },
@@ -372,7 +372,7 @@ exports.level = {
               "",
               "这些调试和打印语句都在它们各自的提交记录里。最后我终于找到了造成这个 Bug 的根本原因，解决掉以后觉得沾沾自喜！",
               "",
-              "最后就差把 `bugFix` 分支里的工作合并回 `main` 分支了。你可以选择通过 fast-forward 快速合并到 `master` 分支上，但这样的话 `master` 分支就会包含我这些调试语句了。你肯定不想这样，应该还有更好的方式……"
+              "最后就差把 `bugFix` 分支里的工作合并回 `main` 分支了。你可以选择通过 fast-forward 快速合并到 `main` 分支上，但这样的话 `main` 分支就会包含我这些调试语句了。你肯定不想这样，应该还有更好的方式……"
             ]
           }
         },
@@ -411,7 +411,7 @@ exports.level = {
               "",
               "所有的這些 debug 的指令都只在 `bugFix` 這個 branch 裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
               "",
-              "現在唯一的問題就是要把我在 `bugFix` branch 裡面所做的修改 merge 回 `main` branch。我可以簡單地透過 fast-forward 來 merge ，但這樣的話 `master` branch 就會包含這些含有 debug 指令的 commit 了。我相信一定有其它方法..."
+              "現在唯一的問題就是要把我在 `bugFix` branch 裡面所做的修改 merge 回 `main` branch。我可以簡單地透過 fast-forward 來 merge ，但這樣的話 `main` branch 就會包含這些含有 debug 指令的 commit 了。我相信一定有其它方法..."
             ]
           }
         },
@@ -450,7 +450,7 @@ exports.level = {
               "",
               "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
               "",
-              "이제 `bugFix`브랜치의 내용을 `main`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `master`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
+              "이제 `bugFix`브랜치의 내용을 `main`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `main`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
             ]
           }
         },
@@ -489,7 +489,7 @@ exports.level = {
               "",
               "Каждая отладочная команда (команды) вывода находится в своём коммите. В итоге мы нашли ошибку, исправили её и порадовались!",
               "",
-              "Но проблема в том, что мы хотим добавить в `main` только исправление ошибки из ветки `bugFix`. Если мы воспользуемся простым fast-forward, то в `master` попадут также отладочные команды. Должен быть другой способ..."
+              "Но проблема в том, что мы хотим добавить в `main` только исправление ошибки из ветки `bugFix`. Если мы воспользуемся простым fast-forward, то в `main` попадут также отладочные команды. Должен быть другой способ..."
             ]
           }
         },
@@ -528,7 +528,7 @@ exports.level = {
               "",
               "Всі ці команди для відлагодження та виводу данних знаходяться в своїх власних комітах. Врешті-решт я знаходжу баг, фікшу його та щиро радію!",
               "",
-              "От тільки лишається проблема, що потрібно мій фікс перенести з `bugFix` назад в гілку `main`. Якщо я просто зроблю фастфорвард (fast-forwarded) в `master`, тоді в `master` потраплять всі мої println'и, що є зайвим. Має бути інший шлях..."
+              "От тільки лишається проблема, що потрібно мій фікс перенести з `bugFix` назад в гілку `main`. Якщо я просто зроблю фастфорвард (fast-forwarded) в `main`, тоді в `main` потраплять всі мої println'и, що є зайвим. Має бути інший шлях..."
             ]
           }
         },
@@ -567,7 +567,7 @@ exports.level = {
               "",
               "Mấy lệnh gỡ lỗi và in này nằm yên trong commit của chúng. Cuối cùng thì tôi cũng tìm ra lỗi, gỡ xong, ngon rồi!",
               "",
-              "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `main`. Nếu mà đơn giản dùng fast-forwarded lên `master`, thì `master` lại có tất cả các lệnh gỡ lỗi kia(chẳng muốn chút nào). Phải có cách khác chứ nhỉ..."
+              "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `main`. Nếu mà đơn giản dùng fast-forwarded lên `main`, thì `main` lại có tất cả các lệnh gỡ lỗi kia(chẳng muốn chút nào). Phải có cách khác chứ nhỉ..."
             ]
           }
         },
@@ -606,7 +606,7 @@ exports.level = {
               "",
               "Vsi te ukazi za debuggiranje / izpisovanje so v svojih commitih. Končno odkrijem bug, ga popravim in se veselim!",
               "",
-              "Edini problem je, da morem sedaj spraviti moj `bugFix` nazaj v `main` branch. Če uporabim samo fast-forward na `masterju`, potem bi `master` vseboval vse moje debug vrstice, česar si ne želim. Mora obstajati še neka druga pot ..."
+              "Edini problem je, da morem sedaj spraviti moj `bugFix` nazaj v `main` branch. Če uporabim samo fast-forward na `masterju`, potem bi `main` vseboval vse moje debug vrstice, česar si ne želim. Mora obstajati še neka druga pot ..."
             ]
           }
         },

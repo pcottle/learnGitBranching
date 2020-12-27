@@ -650,7 +650,7 @@ exports.level = {
               "",
               "Das bedeutet im Klartext:",
               "",
-              "\"Geh zum Branch namens `main` in meinem Repository, nimm all seine Commits, dann geh zum Branch `master` auf dem Remote namens `origin`. Lege da alle Commits ab, die fehlen und sage mir, wenn du fertig bist.\"",
+              "\"Geh zum Branch namens `main` in meinem Repository, nimm all seine Commits, dann geh zum Branch `main` auf dem Remote namens `origin`. Lege da alle Commits ab, die fehlen und sage mir, wenn du fertig bist.\"",
               "",
               "Da wir `main` als \"Ort\" angegeben haben, weiß Git, *woher* die Commits kommen und *wohin* sie sollen. Es ist im Grunde der Name der Orte, die zwischen zwei Repositorys synchronisiert werden sollen.",
               "",
