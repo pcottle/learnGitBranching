@@ -39,7 +39,7 @@ exports.strings = {
     'ko': '다음 레벨로 넘어갈까요? 레벨 *"{nextLevel}"*',
     'vi': 'Bạn có muốn chuyển sang cấp độ tiếp: *"{nextLevel}"* không?',
     'sl_SI': 'Bi rad nadaljeval na *"{nextLevel}"*, naslednjo stopnjo?',
-    'pl': 'Czy chcesz przejść do *"{nextLevel}"*, następnego poziomu?'
+    'pl': 'Czy chcesz przejść do następnego poziomu - *"{nextLevel}"*?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -60,7 +60,7 @@ exports.strings = {
     'ko': '멋져요! 우리의 해답과 일치하거나 우리보다 좀 더 나은 해답입니다.',
     'vi': 'Tuyệt vời! Đáp án của bạn đạt chuẩn thâm chí có thể tốt hơn.',
     'sl_SI': 'Bravo! Izenačil ali celo presegel si našo rešitev.',
-    'pl': 'Niesamowite! Rozwiązano nasze zadanie, a nawet lepiej.'
+    'pl': 'Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -1670,7 +1670,7 @@ exports.strings = {
     'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 마스터 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨길 수 있습니다.',
     'vi': '<span class="fwber">Chú ý:</span> Ở cấp độ này chỉ nhánh master bị kiểm tra. Các nhánh khác chỉ dùng để tham chiếu(có dấu - ở nhãn). Như thường lệ, bạn có thể ẩn mục tiêu bằng "hide goal".',
     'sl_SI': '<span class="fwber">Opomba:</span> Samo master branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z "hide goal"',
-    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie sprawdzana będzie tylko branch główny. Pozostałe branch-e są tylko do odwołania (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno dialogowe z "ukryj cel".'
+    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie sprawdzana będzie tylko główna gałąź. Pozostałe gałęzie są tylko do odwołania (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno dialogowe z "ukryj cel".'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -1796,7 +1796,7 @@ exports.strings = {
     'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!',
     'vi': 'Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở GitHub để cung cấp bản dịch!',
     'sl_SI': 'Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!',
-    'pl': 'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :(\nProszę wejdź na GitHub i zaoferuj tłumaczenie!'
+    'pl': 'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -1817,6 +1817,18 @@ exports.strings = {
     'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!',
     'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
-    'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :(\nZapraszam na GitHub, aby pomóc w tłumaczeniu!'
+    'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'cancel-button': {
+    '__desc__': 'Cancel button label after completing a level',
+    'en_US': 'Cancel',
+    'pl' : 'Powrót'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'confirm-button': {
+    '__desc__': 'Confirm button label after completing a level',
+    'en_US': 'Confirm',
+    'pl' : 'Dalej'
   }
 };

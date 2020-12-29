@@ -18,7 +18,8 @@ exports.level = {
     "ru_RU": "Отмена изменений в Git",
     "uk": "Відміна змін в Git",
     "vi": "Hoàn tác thay đổi trong Git",
-    "sl_SI": "Revertanje Sprememb v Gitu"
+    "sl_SI": "Revertanje Sprememb v Gitu",
+    "pl": "Odwracanie zmian w Gitcie",
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -35,7 +36,8 @@ exports.level = {
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
     "vi": "Lưu ý rằng hoàn tác(revert) và đặt lại(reset) có những đối số khác nhau.",
-    "sl_SI": "Revert in reset sprejmeta različne argumente."
+    "sl_SI": "Revert in reset sprejmeta različne argumente.",
+    "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
   },
   "startDialog": {
     "en_US": {
@@ -983,6 +985,59 @@ exports.level = {
             ]
           }
         }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Odwracanie zmian w Gitcie",
+              "",
+              "Istnieje wiele sposobów na odwrócenie zmian w Gicie. Podobnie jak w przypadku commitowania, odwracanie zmian w Gitcie ma zarówno komponent niskopoziomowy (zapisywanie stanów plików lub ich fragmentów), jak i wysokopoziomowy (sposób, w jaki zmiany są faktycznie odwracane). Nasza aplikacja skupi się na tym ostatnim.",
+              "",
+              "Istnieją dwa podstawowe sposoby na cofnięcie zmian w Gicie - jeden z nich to `git reset`, a drugi `git revert`. Przyjrzymy się każdemu z nich w następnym oknie",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` odwraca zmiany poprzez przesunięcie referencji gałęzi wstecz w czasie do starszego commita. Można myśleć o tym jako \"przepisywaniu historii\", \"resetowanie\" spowoduje cofnięcie gałęzi do tyłu, tak jakby commity powyżej nigdy nie zostały dodane.",
+              "",
+              "Sprawdźmy jak to działa:"
+            ],
+            "afterMarkdowns": [
+              "Świetnie! Git przeniósł referencję gałęzi `main` do `C1`; teraz nasze lokalne repozytoriu jest w stanie, jakby commit `C2` nigdy nie powstał."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Podczas gdy resetowanie działa świetnie dla lokalnych gałęzi na własnej maszynie, jego metoda \"przepisywania historii\" nie działa dla gałęzi zdalnych, które są używane przez innych.",
+              "",
+              "W celu odwrócenia zmian i *podzielenia się* tymi odwróconymi zmianami z innymi, musimy użyć `git revert`. Zobaczmy to w akcji."
+            ],
+            "afterMarkdowns": [
+              "Dziwne, nowy commit spadł poniżej zobowiązania, które chcieliśmy odwrócić. To dlatego, że to nowy commit `C2'` wprowadza *zmiany* -- tak się składa, że wprowadza zmiany, które idealnie odwracają commit `C2`.",
+              "",
+              "Dzięki `git revert`, możesz wypchnąć swoje zmiany, by podzielić się nimi z innymi."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
       ]
     }
   }

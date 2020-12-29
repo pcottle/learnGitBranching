@@ -139,8 +139,8 @@ var ConfirmCancelView = ResolveRejectBase.extend({
     this.destination = options.destination;
     this.deferred = options.deferred || Q.defer();
     this.JSON = {
-      confirm: options.confirm || 'Confirm',
-      cancel: options.cancel || 'Cancel'
+      confirm: options.confirm || intl.str('confirm-button'),
+      cancel: options.cancel || intl.str('cancel-button')
     };
 
     this.render();
