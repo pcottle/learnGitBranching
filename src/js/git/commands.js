@@ -447,8 +447,8 @@ var commandConfig = {
         assertIsRemoteBranch(engine, remoteBranch);
         assertIsBranch(engine, branch);
         engine.setLocalToTrackRemote(
-          engine.refs[branch],
-          engine.refs[remoteBranch]
+          engine.resolveID(branch),
+          engine.resolveID(remoteBranch)
         );
         return;
       }
