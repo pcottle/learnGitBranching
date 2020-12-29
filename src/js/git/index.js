@@ -472,7 +472,6 @@ GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
 };
 
 GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) {
-  debugger;
   localBranch.setRemoteTrackingBranchID(remoteBranch.get('id'));
 
   if (!this.command) {
