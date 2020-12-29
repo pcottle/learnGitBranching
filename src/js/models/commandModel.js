@@ -269,7 +269,6 @@ var Command = Backbone.Model.extend({
 
   parseAll: function() {
     var rawInput = this.get('rawStr');
-    debugger;
     const aliasMap = LevelStore.getAliasMap();
     for (var i = 0; i<Object.keys(aliasMap).length; i++) {
       var alias = Object.keys(aliasMap)[i];
