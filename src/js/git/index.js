@@ -1065,7 +1065,7 @@ GitEngine.prototype.push = function(options) {
     return;
   }
 
-  var sourceBranch = this.refs[options.source];
+  var sourceBranch = this.resolveID(options.source);
   if (sourceBranch && sourceBranch.attributes.type === 'tag') {
     throw new GitError({
       msg: intl.todo('Tags are not allowed as sources for pushing'),
@@ -1083,7 +1083,7 @@ GitEngine.prototype.push = function(options) {
     this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
     this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }
-  var branchOnRemote = this.origin.refs[options.destination];
+  var branchOnRemote = this.origin.resolveID(options.destination);
   var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
