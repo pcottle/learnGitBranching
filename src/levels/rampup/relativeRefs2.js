@@ -17,7 +17,8 @@ exports.level = {
     "ko"   : "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
     "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này",
-    "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje."
+    "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje.",
+    "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednego bezpośredniej referencji (hasza).",
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -34,7 +35,8 @@ exports.level = {
     "ko"   : "상대 참조 #2 (~)",
     "uk": "Відносні посилання №2",
     "vi": "Tham chiếu tương đối #2 (~)",
-    "sl_SI": "Relativne Reference #2 (~)"
+    "sl_SI": "Relativne Reference #2 (~)",
+    "pl": "Referencje względne #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -1054,6 +1056,75 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Operator \"~\"",
+              "",
+              "Powiedzmy, że chcesz przejść o wiele poziomów wstecz na drzewie commitów. Wielokrotne wpisywanie `^` może być męczące. Na tą okazję Git ma również operator - tyldę (~).",
+              "",
+              "",
+              "Operator tyldy (opcjonalnie) przyjmuje numer porządkowy, który określa liczbę rodziców o ile chcesz się wspiąć. Zobaczmy to w akcji."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Podajmy liczbę commitów, które chcemy przeskoczyć za `~`."
+            ],
+            "afterMarkdowns": [
+              "Boom! Tak szybko - referencje względne są czadowe."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forsowanie branczy",
+              "",
+              "Jesteś teraz ekspertem ds. referencji. *Wykorzystajmy* je do czegoś.",
+              "",
+              "Jednym z najczęstszych sposobów, w jaki korzystam z referencji względnych, są działania na gałęziach. Możesz bezpośrednio przypisać gałąź do commita za pomocą opcji `-f`. Coś w tym stylu:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "przenosi (na siłę) gałąź `main` trzy commity wstecz za HEADa."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sprawdźmy poprzednią komendę w akcji."
+            ],
+            "afterMarkdowns": [
+              "Proszę bardzo! Referencje względne umożliwiły w zwięzły sposób, by odnieść się do `C1`, a forsowanie gałęzi (`-f`) pozwoliło na szybkie przeniesienie gałęzi w to konkretne miejsce."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Teraz, gdy poznałeś referencje względne i forsowanie gałęzi w połączeniu, użyj ich do rozwiązania następnego poziomu.",
+              "",
+              "Aby ukończyć ten poziom przenieś `HEAD`, `main` oraz `bugFix` do wyświetlonych celów."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

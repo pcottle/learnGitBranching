@@ -183,7 +183,7 @@ exports.dialog = {
       markdowns: [
         '## Dobra robota!!',
         '',
-        'Rozwiązałeś poziom za pomocą *{numCommands}* poleceń/poleceniach; ',
+        'Rozwiązałeś poziom używając *{numCommands}* poleceń/ia; ',
         'nasze rozwiązanie składa się z {best}.'
       ]
     }
