@@ -405,7 +405,7 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
-  var target = this.origin.refs[branchName].get('target');
+  var target = this.origin.resolveID(branchName).get('target');
   var originTarget = this.findCommonAncestorWithRemote(
     target.get('id')
   );
@@ -1313,7 +1313,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
     var parents = parentIDs.map(function(parentID) {
-      return this.refs[parentID];
+      return this.resolveID(parentID);
     }, this);
     return this.makeCommit(parents, id);
   }.bind(this);
@@ -1345,7 +1345,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
     chain = chain.then(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
-        this.origin.refs[commitJSON.id],
+        this.origin.resolveID(commitJSON.id),
         localBranch
       );
     }.bind(this));
@@ -1361,7 +1361,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   chain = chain.then(function() {
     // update all the destinations
     sourceDestPairs.forEach(function (pair) {
-      var ours = this.refs[pair.destination];
+      var ours = this.resolveID(pair.destination);
       var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
