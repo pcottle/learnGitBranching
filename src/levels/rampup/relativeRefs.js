@@ -17,7 +17,8 @@ exports.level = {
     "ko"   : "상대 참조 (^) (Relative Refs)",
     "uk": "Відносні посилання",
     "vi": "Tham chiếu tương đối (^)",
-    "sl_SI": "Relativne Reference (^)"
+    "sl_SI": "Relativne Reference (^)",
+    "pl": "Referencje względne (^)",
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -34,7 +35,8 @@ exports.level = {
     "ko"   : "(^)연산자를 기억하세요!",
     "uk": "Не забудь оператор `^`",
     "vi": "Đừng quên dấu mũ (^)!",
-    "sl_SI": "Spomni se na (^) operator!"
+    "sl_SI": "Spomni se na (^) operator!",
+    "pl": "Pamiętaj o operatorze karetu (^)!",
   },
   "startDialog": {
     "en_US": {
@@ -1161,6 +1163,81 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relatywne referencje",
+              "",
+              "Poruszanie się w Gitcie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie będziesz miał ładnej wizualizacji drzewa commitów obok swojego terminalu (chyba, że będziesz używać Fork'a lub TortoiseGit'a). Będziesz musiał użyć `git log` aby zobaczyć hasz.",
+              "",
+              "Co więcej, hasz jest zazwyczaj o wiele dłuższy w prawdziwym Gitcie. Na przykład, hash commitu, które był na początku poprzedniego poziomu to `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Spróbuj to przeczytać!",
+              "",
+              "Plusem jest to, że Git jest sprytny jeżeli chodzi o hasze. Wymaga jedynie podania tylu znaków haszu, aż do momentu, gdy jednoznacznie zidentyfikuje konkretny commit. Dlatego mogę wpisać jedynie `fed2` zamiast długiego łańcucha powyżej."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Jak już powiedzieliśmy, wybieranie commitów używając ich hasza nie jest najprzyjemniejszą rzeczą w życiu, dlatego Git ma referencje względne. Są niesamowite!",
+              "",
+              "Korzystając z referencji względnych, możesz zacząć od miejsca, które zapamiętasz (jak np. gałąź `bugFix` lub `HEAD`) i pracować stamtąd.",
+              "",
+              "Relatywne commity są potężne, ale pokażemy tu tylko dwie proste sytuacje:",
+              "",
+              "* Poruszanie się wstecz o jeden commit `^`",
+              "* Poruszanie się wstecz o ileś commitów `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Spójrzmy najpierw na operator Karety / daszek (^). Za każdym razem, gdy dodajesz go do referencji względnej, mówisz Gitowi, aby znalazł rodzica określonego commita.",
+              "",
+              "Więc wpisując `main^` mamy na myśli \"pierwszego rodzica z gałęzi `main`\".",
+              "",
+              "`main^^` to dziadek (przodek drugiego stopnia) gałęzi `main`",
+              "",
+              "Zcheckoutujmy commit powyżej `main`."
+            ],
+            "afterMarkdowns": [
+              "Boom! Zrobione. O wiele łatwiej niż wpisując hasz commitu."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Możesz również odwołać się do `HEAD` jako referencji względnej. Użyjmy tego kilka razy, aby przesunąć się w górę drzewa commitów."
+            ],
+            "afterMarkdowns": [
+              "Łatwizna! Możemy podróżować do tyłu w czasie używając `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby ukończyć ten poziom, zcheckoutuj commit'a-rodzica z gałęzi `bugFix`. To spowoduje odczepienie `HEAD`a.",
+              "",
+              "Możesz wybrać commit'a po haszu jeżeli chcesz, ale spróbuj wykorzystać to czego się nauczyłeś i użyć referencji względnej!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
