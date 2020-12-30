@@ -253,7 +253,7 @@ var commandConfig = {
         source = firstArg;
         assertIsBranch(engine.origin, source);
         // get o/master locally if master is specified
-        destination = engine.origin.refs[source].getPrefixedID();
+        destination = engine.origin.resolveID(source).getPrefixedID();
       } else {
         // can't be detached
         if (engine.getDetachedHead()) {
