@@ -33,7 +33,9 @@ var expectLevelAsync = function(headless, levelBlob) {
   }
 
   return headless.sendCommand(command).then(function() {
-    expect(compareLevelTree(headless, levelBlob)).toBeTruthy();
+    expect(compareLevelTree(headless, levelBlob)).toBeTruthy(
+      'Level "' + levelBlob['name']['en_US'] + '" should get solved'
+    );
   });
 };
 

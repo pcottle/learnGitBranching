@@ -381,7 +381,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
-  if (this.refs[ORIGIN_PREFIX + branchName]) {
+  if (this.doesRefExist(ORIGIN_PREFIX + branchName)) {
     return;
   }
   // if its not a branch on origin then bounce
@@ -394,7 +394,7 @@ GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
 };
 
 GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
-  if (this.refs[branchName]) {
+  if (this.doesRefExist(branchName)) {
     return;
   }
   var where = this.findCommonAncestorForRemote(
@@ -668,7 +668,7 @@ GitEngine.prototype.validateBranchName = function(name) {
 
 GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   id = this.validateBranchName(id);
-  if (this.refs[id]) {
+  if (this.doesRefExist(id)) {
     throw new GitError({
       msg: intl.str(
         'bad-branch-name',
@@ -695,8 +695,14 @@ GitEngine.prototype.validateAndMakeTag = function(id, target) {
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
+  // all main branches are stored as master under the hood
+  if (id.match(/\bmain\b/)) {
+    id = id.replace(/\bmain\b/, 'master');
+  }
+
   if (this.refs[id]) {
-    throw new Error('woah already have that');
+    var err = new Error();
+    throw new Error('woah already have that ref ' + id + ' ' + err.stack);
   }
 
   var branch = new Branch({
@@ -1072,7 +1078,8 @@ GitEngine.prototype.push = function(options) {
     });
   }
 
-  if (!this.origin.refs[options.destination]) {
+  if (!this.origin.doesRefExist(options.destination)) {
+    console.warn('ref', options.destination);
     this.makeBranchOnOriginAndTrack(
       options.destination,
       this.getCommitFromRef(sourceBranch)
@@ -1184,7 +1191,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(function() {
     var localCommit = this.getCommitFromRef(sourceLocation);
-    this.setTargetLocation(this.refs[ORIGIN_PREFIX + options.destination], localCommit);
+    this.setTargetLocation(this.resolveID(ORIGIN_PREFIX + options.destination), localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }.bind(this));
 
@@ -1400,7 +1407,7 @@ GitEngine.prototype.pull = function(options) {
     return;
   }
 
-  var destBranch = this.refs[options.destination];
+  var destBranch = this.resolveID(options.destination);
   // then either rebase or merge
   if (options.isRebase) {
     this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
@@ -1611,7 +1618,8 @@ GitEngine.prototype.resolveName = function(someRef) {
 
 GitEngine.prototype.resolveID = function(idOrTarget) {
   if (idOrTarget === null || idOrTarget === undefined) {
-    throw new Error('Don\'t call this with null / undefined');
+    var err = new Error();
+    throw new Error('Don\'t call this with null / undefined: ' + err.stack);
   }
 
   if (typeof idOrTarget !== 'string') {
@@ -1650,6 +1658,13 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
   }
 
   return commit;
+};
+
+GitEngine.prototype.doesRefExist = function(ref) {
+  if (ref.match(/\bmain\b/)) {
+    ref = ref.replace(/\bmain\b/, 'master');
+  }
+  return !!this.refs[ref]
 };
 
 GitEngine.prototype.resolveStringRef = function(ref) {
@@ -2506,7 +2521,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 GitEngine.prototype.forceBranch = function(branchName, where) {
   branchName = this.crappyUnescape(branchName);
   // if branchname doesn't exist...
-  if (!this.refs[branchName]) {
+  if (!this.doesRefExist(branchName)) {
     this.branch(branchName, where);
   }
 
