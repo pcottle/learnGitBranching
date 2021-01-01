@@ -810,11 +810,11 @@ exports.level = {
               "`git rebase` 명령어로 함께 해보죠."
             ],
             "afterMarkdowns": [
-              "오! 이제 bugFix 브랜치의 작업 내용이 master의 바로 위에 깔끔한 한 줄의 커밋으로 보이게 됐습니다.",
+              "오! 이제 `bugFix` 브랜치의 작업 내용이 `main`의 바로 위에 깔끔한 한 줄의 커밋으로 보이게 됐습니다.",
               "",
-              "C3 커밋은 어딘가에 아직 남아있고(그림에서 흐려짐), C3'는 main 위에 올려 놓은 복사본입니다.",
+              "C3 커밋은 어딘가에 아직 남아있고(그림에서 흐려짐), C3'는 `main` 위에 올려 놓은 복사본입니다.",
               "",
-              "master가 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
+              "`main`이 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
             ],
             "command": "git rebase main",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
@@ -827,7 +827,7 @@ exports.level = {
               "우리는 지금 `main` 브랜치를 선택한 상태입니다. `bugFix` 브랜치쪽으로 리베이스 해보겠습니다..."
             ],
             "afterMarkdowns": [
-              "보세요! `main`가 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
+              "보세요! `main`이 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
@@ -841,8 +841,8 @@ exports.level = {
               "",
               "* `bugFix`라는 새 브랜치를 만들어 선택하세요",
               "* 커밋 한 번 합니다",
-              "* master로 돌아가서 또 커밋합니다",
-              "* bugFix를 다시 선택하고 master에 리베이스 하세요",
+              "* `main` 브랜치로 돌아가서 또 커밋합니다",
+              "* `bugFix`를 다시 선택하고 `main`에 리베이스 하세요",
               "",
               "화이팅!"
             ]

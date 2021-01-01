@@ -34,7 +34,7 @@ exports.level = {
     "gl"   : "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin ...",
     "ja"   : "最も効率的なやり方はmasterを最後に更新するだけかもしれない・・・",
-    "ko": "아마도 master를 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
+    "ko": "아마도 main을 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新 main 分支可能是最高效的方法……",
     "zh_TW": "要記住喔! 把 main branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
@@ -232,7 +232,7 @@ exports.level = {
             "markdowns": [
               "### 여러 브랜치를 리베이스(rebase)하기 ",
               "",
-              "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 master에 리베이스 해볼까요?",
+              "음, 여기 꽤 여러개의 브랜치가 있습니다! 이 브랜치들의 모든 작업내역을 `main` 브랜치에 리베이스 해볼까요?",
               "",
               "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
               "",

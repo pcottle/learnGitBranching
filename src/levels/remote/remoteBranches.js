@@ -31,7 +31,7 @@ exports.level = {
     "ja"   : "順番に注意 -- まずmasterに対してcommitしましょう",
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur main d'abord !",
     "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на main",
-    "ko"   : "순서에 주의하세요 -- master에서 먼저 커밋하세요!",
+    "ko"   : "순서에 주의하세요: main 브랜치 에서 먼저 커밋하세요!",
     "uk"   : "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
     "vi"   : "Chú ý đến thứ tự -- commit trên nhánh main trước!",
     "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!"

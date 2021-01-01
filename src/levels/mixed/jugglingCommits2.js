@@ -42,7 +42,7 @@ exports.level = {
     "gl"   : "¡Non te esquezas de avanzar main ós cambios actualizados!",
     "de_DE": "Vergiss nicht den main auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
-    "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+    "ko": "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 main 快进到最新的更新上！",
     "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
     "ru_RU": "Не забудь переместить main на последние изменения.",
