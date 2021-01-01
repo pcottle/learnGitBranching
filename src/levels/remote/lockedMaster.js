@@ -11,7 +11,7 @@ exports.level = {
     "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "pt_BR": "Crie o ramo feature a partir do ramo main no local antes de reestabelecê-lo para que seja o mesmo que o ramo main de origem",
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
-    "ko"   : "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/master와 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
+    "ko"   : "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/main과 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
     "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen."
   },
@@ -24,7 +24,7 @@ exports.level = {
     "es_ES": "Master bloqueado",
     "pt_BR": "Master bloqueado",
     "fr_FR": "Master verrouillé",
-    "ko"   : "잠겨버린 Master",
+    "ko"   : "잠겨버린 main 브랜치",
     "sl_SI": "Zaklenjen Master",
     "es_AR": "Master bloqueado"
   },

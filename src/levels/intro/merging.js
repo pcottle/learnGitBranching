@@ -32,7 +32,7 @@ exports.level = {
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant main)",
     "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 main）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 main 優先）",
-    "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 master에 커밋)",
+    "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 main에 커밋)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом main)",
     "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
     "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước main)",
