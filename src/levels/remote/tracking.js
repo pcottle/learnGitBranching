@@ -1397,7 +1397,7 @@ exports.level = {
               "설명은 충분히 한듯 합니다. 직접 확인해 봅시다! `foo`라는 이름의 새 브랜치를 checkout하고 이것을 원격 저장소의 `main`를 추적하도록 설정하겠습니다."
             ],
             "afterMarkdowns": [
-              "보이듯이, 우리는 `o/main`를 `foo` 브랜치를 갱신하기 위한 내재된 merge 타겟으로 사용하고 있습니다. master가 갱신되지 않는다는것을 눈치챘죠?"
+              "보이듯이, 우리는 `o/main`를 `foo` 브랜치를 갱신하기 위한 내재된 merge 타겟으로 사용하고 있습니다. main이 갱신되지 않는다는것을 눈치챘죠?"
             ],
             "command": "git checkout -b foo o/main; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
