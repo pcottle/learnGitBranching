@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C11\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C11\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C9\":{\"parents\":[\"C2\",\"C8\"],\"id\":\"C9\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"},\"C10\":{\"parents\":[\"C4\",\"C9\"],\"id\":\"C10\"},\"C11\":{\"parents\":[\"C10\",\"C7\"],\"id\":\"C11\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git checkout master;git pull;git merge side1;git merge side2;git merge side3;git push",
+  "solutionCommand": "git checkout main;git pull;git merge side1;git merge side2;git merge side3;git push",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\",\"localBranchesThatTrackThis\":null},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"master\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C8\",\"id\":\"master\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Merging with remotes",
@@ -46,7 +46,7 @@ exports.level = {
             "markdowns": [
               "## Why not merge?",
               "",
-              "In order to push new updates to the remote, all you need to do is *incorporate* the latest changes from the remote. That means you can either rebase *or* merge in the remote branch (e.g. `o/master`).",
+              "In order to push new updates to the remote, all you need to do is *incorporate* the latest changes from the remote. That means you can either rebase *or* merge in the remote branch (e.g. `o/main`).",
               "",
               "So if you can do either method, why have the lessons focused on rebasing so far? Why is there no love for `merge` when working with remotes?",
               ""
@@ -91,7 +91,7 @@ exports.level = {
             "markdowns": [
               "## Pourquoi pas merge ?",
               "",
-              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, la seule étape préliminaire est *d'incorporer* les derniers changements de ce dépôt dans le nôtre. Concrètement, vous pouvez faire un rebase *ou* un merge de la branche distante (c'est à dire de `o/master`).",
+              "Dans le but d'envoyer de nouvelles modifications sur le dépôt distant, la seule étape préliminaire est *d'incorporer* les derniers changements de ce dépôt dans le nôtre. Concrètement, vous pouvez faire un rebase *ou* un merge de la branche distante (c'est à dire de `o/main`).",
               "",
               "Donc si l'on peut faire les deux méthodes, pourquoi les leçons se sont-elles concentrées sur rebase jusqu'à présent ? Pourquoi préfère-t-on souvent éviter `merge` lorsque l'on travaille avec les branches distantes ?",
               ""
@@ -136,7 +136,7 @@ exports.level = {
             "markdowns": [
               "## ¿Por qué no mergear?",
               "",
-              "Para pushear tus novedades al remoto, todo lo que tenés que hacer es *integrar* los últimos cambios del remoto con los tuyos. Eso significa que podés hacer tanto rebase como merge con la rama remota (por ejemplo, `o/master`).",
+              "Para pushear tus novedades al remoto, todo lo que tenés que hacer es *integrar* los últimos cambios del remoto con los tuyos. Eso significa que podés hacer tanto rebase como merge con la rama remota (por ejemplo, `o/main`).",
               "",
               "Así que si podés hacer cualquiera de las dos, ¿por qué las lecciones sólo se centraron en rebasear hasta ahora? ¿Por qué no dedicarle algo de amor al `merge` cuando trabajamos con remotos?",
               ""
@@ -181,7 +181,7 @@ exports.level = {
             "markdowns": [
               "## ¿Por qué no hacer merge?",
               "",
-              "Para hacer push con tus novedades al remoto, todo lo que tienes que hacer es *integrar* los últimos cambios del remoto con los tuyos. Eso significa que puedes hacer tanto rebase como merge con la rama remota (por ejemplo, `o/master`).",
+              "Para hacer push con tus novedades al remoto, todo lo que tienes que hacer es *integrar* los últimos cambios del remoto con los tuyos. Eso significa que puedes hacer tanto rebase como merge con la rama remota (por ejemplo, `o/main`).",
               "",
               "Así que si puedes hacer cualquiera de las dos, ¿por qué las lecciones sólo se han centrado en rebasear hasta ahora? ¿Por qué no dedicarle algo de amor al `merge` cuando trabajamos con remotos?",
               ""
@@ -226,7 +226,7 @@ exports.level = {
             "markdowns": [
               "## Por que não um merge?",
               "",
-              "Para enviar novas atualizações ao repositório remoto, tudo que você precisa é *incorporar* as últimas mudanças ali presentes. Isso significa que você pode tanto fazer um rebase *quanto* um merge no ramo remoto (ex. `o/master`).",
+              "Para enviar novas atualizações ao repositório remoto, tudo que você precisa é *incorporar* as últimas mudanças ali presentes. Isso significa que você pode tanto fazer um rebase *quanto* um merge no ramo remoto (ex. `o/main`).",
               "",
               "Então, se você pode escolher qualquer um desses métodos, por que as lições focaram no rebase até o momento? Por que não demos nenhum amor ao `merge` quando trabalhamos com repositórios remotos?",
               ""
@@ -271,7 +271,7 @@ exports.level = {
             "markdowns": [
               "## ¿Por qué non mesturar?",
               "",
-              "Para empurrar as túas novidades ó remoto, todo o que tes que facer é *integrar* os últimos cambios do remoto cos teus. Eso significa que podes facer tanto rebase como merge ca rama remota (por exemplo, `o/master`).",
+              "Para empurrar as túas novidades ó remoto, todo o que tes que facer é *integrar* os últimos cambios do remoto cos teus. Eso significa que podes facer tanto rebase como merge ca rama remota (por exemplo, `o/main`).",
               "",
               "Así que podes facer calquera das dúas, ¿por qué as leccións só se centraron en rebasar ata agora? ¿Por qué non adicarlle algo de amor ó `merge` cando traballamos con remotos?",
               ""
@@ -316,7 +316,7 @@ exports.level = {
             "markdowns": [
               "## 為何不要 merge？",
               "",
-              "為了要 push 新的 commit 給 remote，你只需要做的是先同步 remote 的更新，那就表示你可以使用 rebase *或者*是 merge remote branch （例如，`o/master`）。",
+              "為了要 push 新的 commit 給 remote，你只需要做的是先同步 remote 的更新，那就表示你可以使用 rebase *或者*是 merge remote branch （例如，`o/main`）。",
               "",
               "所以假如你已經學會使用其中一個方式了，那為什麼我們到目前為止還在強調 `rebase`？為什麼當提到 remote 的時候，反而 `merge` 比較沒有受到關注？",
               ""
@@ -361,7 +361,7 @@ exports.level = {
             "markdowns": [
               "## Warum nicht Merge?",
               "",
-              "Um neue Dinge auf das Remote zu schieben musst du erst alle Änderungen vom Remote holen und bei dir integrieren. Das bedeutet du kannst den entfernten Branch (z.B. `o/master`) entweder Rebasen *oder* Mergen.",
+              "Um neue Dinge auf das Remote zu schieben musst du erst alle Änderungen vom Remote holen und bei dir integrieren. Das bedeutet du kannst den entfernten Branch (z.B. `o/main`) entweder Rebasen *oder* Mergen.",
               "",
               "Wenn du also beide Methoden benutzen kannst, warum haben sich die Level bisher auf Rebase konzentriert? Warum mag keiner `merge` wenn es um Remotes geht?",
               ""
@@ -376,7 +376,7 @@ exports.level = {
               "",
               "Vorteile:",
               "",
-              "* Rebasen macht den Commit-Baum sehr übersichtlich, weil alles linear aufeinander aufbaut",
+              "* Rebasen macht den Commit-Baum sehr übersichtlich, weil alles linear aufeinander aufbaut.",
               "",
               "Nachteile:",
               "",
@@ -384,7 +384,7 @@ exports.level = {
               "",
               "Zum Beispiel kann durch Rebasen Commit `C1` an Commit `C3` *vorbei* bewegt werden, bzw. eine Kopie von `C1`. Es sieht dann so aus als wären die Änderungen in `C1` nach denen in `C3` gemacht worden, obwohl das nicht stimmt.",
               "",
-              "Manche Entwickler möchten lieber die History lassen wie sie ist und ziehen daher das Mergen vor. Andere (wie ich) haben lieber einen sauberen Commit-Baum und ziehen Rebase vor. Am Ende ist es eine Geschmacksfrage. :D"
+              "Manche Entwickler möchten lieber die History lassen, wie sie ist und ziehen daher das Mergen vor. Andere (wie ich) haben lieber einen sauberen Commit-Baum und ziehen Rebase vor. Am Ende ist es eine Geschmacksfrage. :D"
             ]
           }
         },
@@ -406,7 +406,7 @@ exports.level = {
             "markdowns": [
               "## 为什么不用 merge 呢?",
               "",
-              "为了 push 新变更到远程仓库，你要做的就是**包含**远程仓库中最新变更。意思就是只要你的本地分支包含了远程分支（如 `o/master`）中的最新变更就可以了，至于具体是用 rebase 还是 merge，并没有限制。",
+              "为了 push 新变更到远程仓库，你要做的就是**包含**远程仓库中最新变更。意思就是只要你的本地分支包含了远程分支（如 `o/main`）中的最新变更就可以了，至于具体是用 rebase 还是 merge，并没有限制。",
               "",
               "那么既然没有规定限制，为何前面几节都在着重于 rebase 呢？为什么在操作远程分支时不喜欢用 `merge` 呢？",
               ""
@@ -451,7 +451,7 @@ exports.level = {
             "markdowns": [
               "## なぜマージではいけないのか？",
               "",
-              "新しい更新をリモートにプッシュするため、あなたがする必要があるのはリモートからの最近の変更の*組み込み*です。それは、リモートブランチ(例えば、`o/master`)にリベース*か*マージのどちらかをあなたがする必要があるということを意味します。",
+              "新しい更新をリモートにプッシュするため、あなたがする必要があるのはリモートからの最近の変更の*組み込み*です。それは、リモートブランチ(例えば、`o/main`)にリベース*か*マージのどちらかをあなたがする必要があるということを意味します。",
               "",
               "もしどっちの方法でも行うことができるなら、なぜこれまでのレッスンでは、リベースに焦点を当ててきたのでしょう？リモートへの作業で、なぜ`merge`を推してこなかったのでしょうか？",
               ""
@@ -496,7 +496,7 @@ exports.level = {
             "markdowns": [
               "## Merge? Нет, нет, спасибо.",
               "",
-              "Чтобы закачать (push) новые изменения в удалённый репозиторий, всё, что вам нужно сделать - это *смешать* последние изменения из удалённого репозитория. Это значит, что вы можете выполнить rebase *или* merge на удалённом репозитории (например, `o/master`).",
+              "Чтобы закачать (push) новые изменения в удалённый репозиторий, всё, что вам нужно сделать - это *смешать* последние изменения из удалённого репозитория. Это значит, что вы можете выполнить rebase *или* merge на удалённом репозитории (например, `o/main`).",
               "",
               "Если мы можем воспользоваться одним из двух методов, то почему же эти упражнения сфокусированы в основном на rebase? К чему такая нелюбовь к `merge`, когда речь идёт о работе с удалёнными репозиториями?",
               ""
@@ -541,7 +541,7 @@ exports.level = {
             "markdowns": [
               "## 왜 merge하지 않는거죠?",
               "",
-              "새로운 작업들을 원격 저장소로 push하기위해서 여러분은 원격 저장소의 최근 변경들을 *합치기*만 하면 됩니다. 이 말은 즉 원격 브랜치로(예:`o/master`) rebase를 할 수도 merge를 할 수도 있다는 것입니다.",
+              "새로운 작업들을 원격 저장소로 push하기위해서 여러분은 원격 저장소의 최근 변경들을 *합치기*만 하면 됩니다. 이 말은 즉 원격 브랜치로(예:`o/main`) rebase를 할 수도 merge를 할 수도 있다는 것입니다.",
               "",
               "두가지를 다 할 수 있다면, 왜 지금까지 배운 레슨들은 rebase를 하는것에 집중한거죠? 원격 저장소와 작업을 할때는 왜 `merge`에게 관심을 가져주지 않는건가요?",
               ""
@@ -586,7 +586,7 @@ exports.level = {
             "markdowns": [
               "## Чому б не змерджити?",
               "",
-              "Для того, щоб віддалений сервер прийняв твої зміни, треба *об'єднати* їх з останніми змінами на сервері. Це означає ребейс *або* мердж з віддаленою гілкою (напр. `o/master`).",
+              "Для того, щоб віддалений сервер прийняв твої зміни, треба *об'єднати* їх з останніми змінами на сервері. Це означає ребейс *або* мердж з віддаленою гілкою (напр. `o/main`).",
               "",
               "Хмм, якщо можна використати один із цих методів, для чого нам додаткові уроки про ребейс? Чому ніхто не любить `merge`, працюючи з віддаленим сервером?",
               ""
@@ -631,7 +631,7 @@ exports.level = {
             "markdowns": [
               "## Tại sao không hợp nhất?",
               "",
-              "Để có thể đẩy cập nhật của bạn lên kho nhánh từ xa, tất cả những gì bạn cần làm là *kết nạp* thay đổi mới nhất từ nhánh từ xa. Nghĩa là bạn có thể dùng tái bố trí *hoặc* hợp nhất với nhánh từ xa (ví dụ `o/master`).",
+              "Để có thể đẩy cập nhật của bạn lên kho nhánh từ xa, tất cả những gì bạn cần làm là *kết nạp* thay đổi mới nhất từ nhánh từ xa. Nghĩa là bạn có thể dùng tái bố trí *hoặc* hợp nhất với nhánh từ xa (ví dụ `o/main`).",
               "",
               "Vậy ta có thể sử dụng một trong 2 cách, thì tại sao đến giờ ta chỉ tập trung vào tái bố trí trong các bài học? Tại sao khi làm việc với nhánh từ xa lại ta lại không thích `hợp nhất` (`merge`)?",
               ""
@@ -676,7 +676,7 @@ exports.level = {
             "markdowns": [
               "## Zakaj ne merganje?",
               "",
-              "Da bi poslal nove spremembe na oddaljen repo, je vse kar moraš narediti, da *vključiš* zadnje spremembe iz oddaljenega repota. To pomeni, da lahko rebaseaš *ali* mergeaš v oddaljeni branch (npr. `o/master`).",
+              "Da bi poslal nove spremembe na oddaljen repo, je vse kar moraš narediti, da *vključiš* zadnje spremembe iz oddaljenega repota. To pomeni, da lahko rebaseaš *ali* mergeaš v oddaljeni branch (npr. `o/main`).",
               "",
               "Torej če lahko narediš katero izmed metod, zakaj imeti lekcijo, ki se zaenkrat osredotoča na rebaseanje? Zakaj ni nobene ljubezni do `mergea` pri delanju z oddaljenimi repoti?",
               ""

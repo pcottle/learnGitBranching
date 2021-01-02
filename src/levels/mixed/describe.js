@@ -76,7 +76,7 @@ exports.level = {
               "Let's look at a quick example. For this tree below:"
             ],
             "afterMarkdowns": [
-              "The command `git describe master` would output:",
+              "The command `git describe main` would output:",
               "",
               "`v1_2_gC2`",
               "",
@@ -139,7 +139,7 @@ exports.level = {
               "Regardons un petit exemple. Prenons cet arbre :"
             ],
             "afterMarkdowns": [
-              "La commande`git describe master` donne le résultat :",
+              "La commande`git describe main` donne le résultat :",
               "",
               "`v1_2_gC2`",
               "",
@@ -202,7 +202,7 @@ exports.level = {
               "讓我們來看一個例子，對於下面的 tree："
             ],
             "afterMarkdowns": [
-              "`git describe master` 會輸出：",
+              "`git describe main` 會輸出：",
               "",
               "`v1_2_gC2`",
               "",
@@ -267,7 +267,7 @@ exports.level = {
               "让我们来看一个例子，对于下面的提交树："
             ],
             "afterMarkdowns": [
-              "`git describe master` 会输出：",
+              "`git describe main` 会输出：",
               "",
               "`v1_2_gC2`",
               "",
@@ -330,7 +330,7 @@ exports.level = {
               "Veamos un ejemplo breve. Para este árbol de commits:"
             ],
             "afterMarkdowns": [
-              "El comando `git describe master` mostraría:",
+              "El comando `git describe main` mostraría:",
               "",
               "`v1_2_gC2`",
               "",
@@ -393,7 +393,7 @@ exports.level = {
               "Veamos un ejemplo breve. Para este árbol de commits:"
             ],
             "afterMarkdowns": [
-              "El comando `git describe master` mostraría:",
+              "El comando `git describe main` mostraría:",
               "",
               "`v1_2_gC2`",
               "",
@@ -456,7 +456,7 @@ exports.level = {
               "Vejamos um exemplo rápido. Para a árvore abaixo:"
             ],
             "afterMarkdowns": [
-              "O comando `git describe master` daria a saída:",
+              "O comando `git describe main` daria a saída:",
               "",
               "`v1_2_gC2`",
               "",
@@ -519,7 +519,7 @@ exports.level = {
               "Vexamos un exemplo rápido. Para a árbore de abaixo:"
             ],
             "afterMarkdowns": [
-              "O comando `git describe master` daría a saída:",
+              "O comando `git describe main` daría a saída:",
               "",
               "`v1_2_gC2`",
               "",
@@ -551,9 +551,9 @@ exports.level = {
             "markdowns": [
               "### Git Describe",
               "",
-              "Weil Tags so super als \"Anker\" im Repository dienen können bietet Git einen Befehl um zu *beschreiben* wo du dich relativ zum nächsten \"Anker\" (also Tag) befindest. Und der heißt `git describe`.",
+              "Weil Tags so super als \"Anker\" im Repository dienen können, bietet Git einen Befehl um zu *beschreiben*, wo du dich relativ zum nächsten \"Anker\" (also Tag) befindest. Und der heißt `git describe`.",
               "",
-              "Er hilft dir dabei, dir einen Überblick zu verschaffen nachdem du viele Commits im Log zurück- oder vorgegangen bist; das kann vorkommen nachdem du ein `git bisect` (eine Fehlersuche) abgeschlossen hast oder wenn du dich an den Rechner eines Kollegen setzt, der gerade aus dem Urlaub gekommen ist."
+              "Er hilft dir dabei, dir einen Überblick zu verschaffen nachdem du viele Commits im Log zurück- oder vorgegangen bist; das kann vorkommen, nachdem du ein `git bisect` (eine Fehlersuche) abgeschlossen hast oder wenn du dich an den Rechner eines Kollegen setzt, der gerade aus dem Urlaub gekommen ist."
             ]
           }
         },
@@ -565,7 +565,7 @@ exports.level = {
               "",
               "`git describe <Ref-Name>`",
               "",
-              "Dabei ist `<Ref-Name>` jeder beliebige Name, der einem Commit zugeordnet ist (Branch, Tag etc). Wenn du keinen angibst benutzt Git `HEAD`, also den aktuellen Checkout.",
+              "Dabei ist `<Ref-Name>` jeder beliebige Name, der einem Commit zugeordnet ist (Branch, Tag etc). Wenn du keinen angibst, benutzt Git `HEAD`, also den aktuellen Checkout.",
               "",
               "Die Befehlsausgabe sieht so aus:",
               "",
@@ -573,7 +573,7 @@ exports.level = {
               "",
               "`<Tag-Name>` ist dabei der nächstliegende Tag in den Vorgänger-Commits, `<Anzahl Commits>` zeigt an, wieviele Commits dieses Tag entfernt ist und `<Hash>` ist das SHA des Commits, auf den HEAD zeigt.",
               "",
-              "**Achtung**: `<Anzahl Commits>` und `<Hash>` erscheint nur, wenn HEAD nicht auf ein Tag zeigt. `git describe` verarbeitet standardmässig nur annotierte Tags. Um nicht annotierte tags zu sehen, verwende bitte`git describe --tags`."
+              "**Achtung**: `<Anzahl Commits>` und `<Hash>` erscheint nur, wenn HEAD nicht auf ein Tag zeigt. `git describe` verarbeitet standardmäßig nur annotierte Tags. Um nicht annotierte Tags zu sehen, verwende bitte `git describe --tags`."
             ]
           }
         },
@@ -584,7 +584,7 @@ exports.level = {
               "Schauen wir uns das schnell an einem Beispiel an. Für den folgenden Baum:"
             ],
             "afterMarkdowns": [
-              "Der Befehl `git describe master` würde folgendes ausgeben:",
+              "Der Befehl `git describe main` würde folgendes ausgeben:",
               "",
               "`v1_2_gC2`",
               "",
@@ -647,7 +647,7 @@ exports.level = {
               "軽い例を見てみましょう。この木においての例は以下のようになります:"
             ],
             "afterMarkdowns": [
-              "コマンド`git describe master`の結果は以下のようになります:",
+              "コマンド`git describe main`の結果は以下のようになります:",
               "",
               "`v1_2_gC2`",
               "",
@@ -710,7 +710,7 @@ exports.level = {
               "Посмотрим на простой пример. Для дерева, показанного ниже:"
             ],
             "afterMarkdowns": [
-              "Команда `git describe master` выведет:",
+              "Команда `git describe main` выведет:",
               "",
               "`v1_2_gC2`",
               "",
@@ -773,7 +773,7 @@ exports.level = {
               "간단한 예제를 확인해 봅시다. 아래의 트리에서:"
             ],
             "afterMarkdowns": [
-              "`git describe master` 명령은 다음을 출력합니다:",
+              "`git describe main` 명령은 다음을 출력합니다:",
               "",
               "`v1_2_gC2`",
               "",
@@ -836,7 +836,7 @@ exports.level = {
               "Розгляньмо короткий приклад. Для дерева нижче:"
             ],
             "afterMarkdowns": [
-              "Команда `git describe master` виведе:",
+              "Команда `git describe main` виведе:",
               "",
               "`v1_2_gC2`",
               "",
@@ -899,7 +899,7 @@ exports.level = {
               "Cùng xem nhanh một ví dụ trên cây lịch sử phía dưới:"
             ],
             "afterMarkdowns": [
-              "Câu lệnh `git describe master` sẽ cho kết quả:",
+              "Câu lệnh `git describe main` sẽ cho kết quả:",
               "",
               "`v1_2_gC2`",
               "",
@@ -962,7 +962,7 @@ exports.level = {
               "Poglejmo hiter primer. Za drevo spodaj:"
             ],
             "afterMarkdowns": [
-              "Bi ukaz `git describe master` izpisal:",
+              "Bi ukaz `git describe main` izpisal:",
               "",
               "`v1_2_gC2`",
               "",

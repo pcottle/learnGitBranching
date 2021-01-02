@@ -381,7 +381,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 };
 
 GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
-  if (this.refs[ORIGIN_PREFIX + branchName]) {
+  if (this.doesRefExist(ORIGIN_PREFIX + branchName)) {
     return;
   }
   // if its not a branch on origin then bounce
@@ -394,7 +394,7 @@ GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
 };
 
 GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
-  if (this.refs[branchName]) {
+  if (this.doesRefExist(branchName)) {
     return;
   }
   var where = this.findCommonAncestorForRemote(
@@ -405,7 +405,7 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
-  var target = this.origin.refs[branchName].get('target');
+  var target = this.origin.resolveID(branchName).get('target');
   var originTarget = this.findCommonAncestorWithRemote(
     target.get('id')
   );
@@ -668,7 +668,7 @@ GitEngine.prototype.validateBranchName = function(name) {
 
 GitEngine.prototype.validateAndMakeBranch = function(id, target) {
   id = this.validateBranchName(id);
-  if (this.refs[id]) {
+  if (this.doesRefExist(id)) {
     throw new GitError({
       msg: intl.str(
         'bad-branch-name',
@@ -695,8 +695,14 @@ GitEngine.prototype.validateAndMakeTag = function(id, target) {
 };
 
 GitEngine.prototype.makeBranch = function(id, target) {
+  // all main branches are stored as master under the hood
+  if (id.match(/\bmain\b/)) {
+    id = id.replace(/\bmain\b/, 'master');
+  }
+
   if (this.refs[id]) {
-    throw new Error('woah already have that');
+    var err = new Error();
+    throw new Error('woah already have that ref ' + id + ' ' + err.stack);
   }
 
   var branch = new Branch({
@@ -1065,14 +1071,15 @@ GitEngine.prototype.push = function(options) {
     return;
   }
 
-  var sourceBranch = this.refs[options.source];
+  var sourceBranch = this.resolveID(options.source);
   if (sourceBranch && sourceBranch.attributes.type === 'tag') {
     throw new GitError({
       msg: intl.todo('Tags are not allowed as sources for pushing'),
     });
   }
 
-  if (!this.origin.refs[options.destination]) {
+  if (!this.origin.doesRefExist(options.destination)) {
+    console.warn('ref', options.destination);
     this.makeBranchOnOriginAndTrack(
       options.destination,
       this.getCommitFromRef(sourceBranch)
@@ -1083,7 +1090,7 @@ GitEngine.prototype.push = function(options) {
     this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
     this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }
-  var branchOnRemote = this.origin.refs[options.destination];
+  var branchOnRemote = this.origin.resolveID(options.destination);
   var sourceLocation = this.resolveID(options.source || 'HEAD');
 
   // first check if this is even allowed by checking the sync between
@@ -1184,7 +1191,7 @@ GitEngine.prototype.push = function(options) {
   // HAX HAX update master and remote tracking for master
   chain = chain.then(function() {
     var localCommit = this.getCommitFromRef(sourceLocation);
-    this.setTargetLocation(this.refs[ORIGIN_PREFIX + options.destination], localCommit);
+    this.setTargetLocation(this.resolveID(ORIGIN_PREFIX + options.destination), localCommit);
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }.bind(this));
 
@@ -1313,7 +1320,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
     // need to get the parents first. since we order by depth, we know
     // the dependencies are there already
     var parents = parentIDs.map(function(parentID) {
-      return this.refs[parentID];
+      return this.resolveID(parentID);
     }, this);
     return this.makeCommit(parents, id);
   }.bind(this);
@@ -1345,7 +1352,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
 
     chain = chain.then(function() {
       return this.animationFactory.playHighlightPromiseAnimation(
-        this.origin.refs[commitJSON.id],
+        this.origin.resolveID(commitJSON.id),
         localBranch
       );
     }.bind(this));
@@ -1361,7 +1368,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   chain = chain.then(function() {
     // update all the destinations
     sourceDestPairs.forEach(function (pair) {
-      var ours = this.refs[pair.destination];
+      var ours = this.resolveID(pair.destination);
       var theirCommitID = this.origin.getCommitFromRef(pair.source).get('id');
       // by definition we just made the commit with this id,
       // so we can grab it now
@@ -1400,7 +1407,7 @@ GitEngine.prototype.pull = function(options) {
     return;
   }
 
-  var destBranch = this.refs[options.destination];
+  var destBranch = this.resolveID(options.destination);
   // then either rebase or merge
   if (options.isRebase) {
     this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
@@ -1611,7 +1618,8 @@ GitEngine.prototype.resolveName = function(someRef) {
 
 GitEngine.prototype.resolveID = function(idOrTarget) {
   if (idOrTarget === null || idOrTarget === undefined) {
-    throw new Error('Don\'t call this with null / undefined');
+    var err = new Error();
+    throw new Error('Don\'t call this with null / undefined: ' + err.stack);
   }
 
   if (typeof idOrTarget !== 'string') {
@@ -1652,8 +1660,20 @@ GitEngine.prototype.resolveRelativeRef = function(commit, relative) {
   return commit;
 };
 
+GitEngine.prototype.doesRefExist = function(ref) {
+  if (ref.match(/\bmain\b/)) {
+    ref = ref.replace(/\bmain\b/, 'master');
+  }
+  return !!this.refs[ref]
+};
+
 GitEngine.prototype.resolveStringRef = function(ref) {
   ref = this.crappyUnescape(ref);
+
+  if (ref.match(/\bmain\b/)) {
+    ref = ref.replace(/\bmain\b/, 'master');
+  }
+
   if (this.refs[ref]) {
     return this.refs[ref];
   }
@@ -2501,7 +2521,7 @@ GitEngine.prototype.checkout = function(idOrTarget) {
 GitEngine.prototype.forceBranch = function(branchName, where) {
   branchName = this.crappyUnescape(branchName);
   // if branchname doesn't exist...
-  if (!this.refs[branchName]) {
+  if (!this.doesRefExist(branchName)) {
     this.branch(branchName, where);
   }
 
@@ -2922,30 +2942,27 @@ var Commit = Backbone.Model.extend({
   },
 
   getLogEntry: function() {
-    // for now we are just joining all these things with newlines which
-    // will get placed by paragraph tags. Not really a fan of this, but
-    // it's better than making an entire template and all that jazz
     return [
       'Author: ' + this.get('author'),
       'Date: ' + this.get('createTime'),
-      '<br/>',
+      '',
       this.get('commitMessage'),
-      '<br/>',
+      '',
       'Commit: ' + this.get('id')
-    ].join('\n' ) + '\n';
+    ].join('<br/>') + '\n';
   },
 
   getShowEntry: function() {
     // same deal as above, show log entry and some fake changes
     return [
-      this.getLogEntry(),
+      this.getLogEntry().replace('\n', ''),
       'diff --git a/bigGameResults.html b/bigGameResults.html',
       '--- bigGameResults.html',
       '+++ bigGameResults.html',
       '@@ 13,27 @@ Winner, Score',
       '- Stanfurd, 14-7',
       '+ Cal, 21-14'
-    ].join('\n') + '\n';
+    ].join('<br/>') + '\n';
   },
 
   validateAtInit: function() {

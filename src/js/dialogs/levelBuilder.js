@@ -94,6 +94,25 @@ exports.dialog = {
       ]
     }
   }],
+  'es_MX': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Bienvenido al constructor de niveles!',
+        '',
+        'Estos son los pasos principales:',
+        '',
+        '  * Preparar el entorno inicial usando comandos de Git',
+        '  * Definir el árbol inicial con ```define start```',
+        '  * Introducir la serie de comandos de git que representan la solución óptima',
+        '  * Crear el árbol objetivo con ```define goal```. El objetivo también determina la solución',
+        '  * Opcionalmente, crea pistas con ```define hint```',
+        '  * Dale un nombre con ```define name```',
+        '  * Opcionalmente, crea un mensaje inicial con ```edit dialog```',
+        '  * ¡Introduce el comando ```finish``` para obtener tu nivel en formato JSON!'
+      ]
+    }
+  }],
   'es_ES': [{
     type: 'ModalAlert',
     options: {
@@ -283,6 +302,25 @@ exports.dialog = {
         '  * Uredi ime z ```define name```',
         '  * Opcijsko določi ličen začetni dialog z ```edit dialog```',
         '  * Vnesi ukaz ```finish``` za ustvarjanje JSON različice tvoje stopnje!'
+      ]
+    }
+  }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Witamy w kreatorze poziomów!',
+        '',
+        'Oto główne kroki:',
+        '',
+        '  * Przygotuj środowisko początkowe za pomocą poleceń GIT-a',
+        '  * Zdefiniuj drzewo początkowe za pomocą ```define start```',
+        '  * Wprowadź serię poleceń GIT-a, które tworzą (optymalne) rozwiązanie',
+        '  * Utwórz drzewo celów za pomocą ```define goal```. Określenie celu określa również rozwiązanie',
+        '  * Opcjonalnie utwórz podpowiedzi (wskazówkę) za pomocą ```define hint```',
+        '  * Nadaj nazwę za pomocą ```define name```',
+        '  * Opcjonalnie, utwórz wiadomość początkową za pomocą ```edit dialog```',
+        '  * Wpisz polecenie ```finish```, aby wyświetlić swój poziom w JSON!'
       ]
     }
   }],

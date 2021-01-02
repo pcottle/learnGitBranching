@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git fetch origin master~1:foo;git fetch origin foo:master;git checkout foo;git merge master",
+  "solutionCommand": "git fetch origin main~1:foo;git fetch origin foo:main;git checkout foo;git merge main",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
@@ -145,7 +145,7 @@ exports.level = {
               "Pretty simple, but worth going over just once."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -268,7 +268,7 @@ exports.level = {
               "Assez simple, mais ce n'était pas inutile de voir en action."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -391,7 +391,7 @@ exports.level = {
               "Bastante simple, pero vale la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -514,7 +514,7 @@ exports.level = {
               "Bastante simple, pero merece la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -637,7 +637,7 @@ exports.level = {
               "Bastante simples, mas importante de rever ao menos uma vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -760,7 +760,7 @@ exports.level = {
               "Moi sinxelo, pero vale a pena velo ó menos unha vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -883,7 +883,7 @@ exports.level = {
               "超簡單，但是所有的更新只做一次，很值得。"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1006,7 +1006,7 @@ exports.level = {
               "相当简单，但是仅需更新一次，值得你去做！"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1029,11 +1029,11 @@ exports.level = {
             "markdowns": [
               "## Git Fetch Optionen",
               "",
-              "Nun haben wir also alles über `git push` Optionen gelernt, diesen coolen `<Ort>`-Parameter, and sogar über mit Doppelpunkt getrennte Ref-Spezifikationen (`<Quelle>:<Ziel>`). Können wir all dieses neu erworbene Wissen auch auf `git fetch` anwenden?",
+              "Nun haben wir also alles gelernt über `git push` Optionen, diesen coolen `<Ort>`-Parameter und sogar mit Doppelpunkt getrennte Ref-Spezifikationen (`<Quelle>:<Ziel>`). Können wir all dieses neu erworbene Wissen auch auf `git fetch` anwenden?",
               "",
               "Jede Wette! Die Optionen für `git fetch` sind wirklicht *sehr, sehr* ähnlich denen von `git push`. Es sind dieselben Verfahren, nur in die andere Richtung angewendet (da man bei `fetch` herunterlädt anstatt hochzuladen).",
               "",
-              "Gehen wir die verschiedenen Verfahrensweise mal eine nach der anderen durch ..."
+              "Gehen wir die verschiedenen Verfahrensweisen mal eine nach der anderen durch ..."
             ]
           }
         },
@@ -1070,9 +1070,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Du wunderst dich vielleicht warum Git diese Commits auf den `o/foo` Branch gepacht hat, anstatt einfach direkt auf den lokalen Branch `foo`? Zeigt der Parameter `<Ort>` nicht einen Ort an, der sowohl lokal als auch entfernt existiert?",
+              "Du wunderst dich vielleicht, warum Git diese Commits auf den `o/foo` Branch gepackt hat, anstatt einfach direkt auf den lokalen Branch `foo`? Zeigt der Parameter `<Ort>` nicht einen Ort an, der sowohl lokal als auch entfernt existiert?",
               "",
-              "Nun ja, Git geht diesen Schritt weil du auf `foo` ja noch Commits haben könntest, die nicht auf dem Server sind, und da will es nichts durcheinander bringen. Ähnlich wie beim früheren Level zu `git fetch` -- es aktualisiert nicht deine lokalen Arbeits-Branches, es lädt die Commits nur in die `o` (bzw. `origin`) Branches, damit du sie dir in Ruhe anschauen und integrieren kannst.",
+              "Nun ja, Git geht diesen Schritt, weil du auf `foo` ja noch Commits haben könntest, die nicht auf dem Server sind, und da will es nichts durcheinander bringen. Ähnlich wie beim früheren Level zu `git fetch` -- es aktualisiert nicht deine lokalen Arbeits-Branches, es lädt die Commits nur in die `o` (bzw. `origin`) Branches, damit du sie dir in Ruhe anschauen und integrieren kannst.",
               ""
             ]
           }
@@ -1098,7 +1098,7 @@ exports.level = {
               "Schauen wir uns den Quatsch mal in Aktion an:"
             ],
             "afterMarkdowns": [
-              "Wow! Siehst du, git löst `foo~1` als Ort auf dem Server `origin` auf und lädt dessen Commits herunter in `bar` hinein. Beachte wie `foo` und `o/foo` *nicht* aktualisiert wurden, da wir ein Ziel angegeben haben."
+              "Wow! Siehst du, Git löst `foo~1` als Ort auf dem Server `origin` auf und lädt dessen Commits herunter in `bar` hinein. Beachte wie `foo` und `o/foo` *nicht* aktualisiert wurden, da wir ein Ziel angegeben haben."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1108,10 +1108,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Was ist denn wenn das Ziel nicht existiert, für das ich den Befehl ausführe? Schauen wir uns das letzte Beispiel noch mal an, nur dass `bar` jetzt noch nicht existiert."
+              "Was ist denn, wenn das Ziel nicht existiert, für das ich den Befehl ausführe? Schauen wir uns das letzte Beispiel noch mal an, nur dass `bar` jetzt noch nicht existiert."
             ],
             "afterMarkdowns": [
-              "Siehst du, es ist *genau* wie `git push`. Git erstellt das Ziel lokal bevor es den `fetch` ausführt, genauso wie Git erst das Ziel auf dem Remote erstellt, befor es pusht (falls das Ziel nicht existiert)."
+              "Siehst du, es ist *genau* wie `git push`. Git erstellt das Ziel lokal bevor es den `fetch` ausführt, genauso wie Git erst das Ziel auf dem Remote erstellt, bevor es pusht (falls das Ziel nicht existiert)."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -1129,7 +1129,7 @@ exports.level = {
               "Ziemlich einfach, aber man sollte es mal gesehen haben."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1252,7 +1252,7 @@ exports.level = {
               "Достаточно просто, после того как мы пережили все эти технические тонкости."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1375,7 +1375,7 @@ exports.level = {
               "간단하지만, 짚고 넘어갑시다."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1498,7 +1498,7 @@ exports.level = {
               "Все дуже просто, але варто було згадати ще раз."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1621,7 +1621,7 @@ exports.level = {
               "Khá là đơn giản, nhưng mà cũng nên xem qua thử."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1744,7 +1744,7 @@ exports.level = {
               "Precej enostavno, ampak vredno, da gremo čez vsaj enkrat."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork master"
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {

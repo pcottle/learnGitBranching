@@ -49,6 +49,16 @@ exports.dialog = {
       ]
     }
   }],
+  'es_MX': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¿Estás seguro de que quieres ver la solución?',
+        '',
+        '¡Creo en ti! ¡Yo sé que puedes!'
+      ]
+    }
+  }],
   'es_ES': [{
     type: 'ModalAlert',
     options: {
@@ -142,6 +152,16 @@ exports.dialog = {
         '## Si prepričan, da hočeš videti rešitev?',
         '',
         'Verjamem vate! Maš ti to! Ali pač ne?'
+      ]
+    }
+  }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Czy na pewno chcesz zobaczyć rozwiązanie?',
+        '',
+        'Wierzę w Ciebie! Możesz to zrobić'
       ]
     }
   }]

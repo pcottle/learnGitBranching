@@ -9,6 +9,7 @@ var util = require('../util');
 
 var ActionTypes = AppConstants.ActionTypes;
 var SOLVED_MAP_STORAGE_KEY = 'solvedMap';
+var ALIAS_STORAGE_KEY = 'aliasMap';
 
 var _levelMap = {};
 var _solvedMap = {};
@@ -53,6 +54,26 @@ function _syncToStorage() {
   } catch (e) {
     console.warn('local storage failed on set', e);
   }
+}
+
+function getAliasMap() {
+  try {
+    return JSON.parse(localStorage.getItem(ALIAS_STORAGE_KEY) || '{}') || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function addToAliasMap(alias, expansion) {
+  const aliasMap = getAliasMap();
+  aliasMap[alias] = expansion;
+  localStorage.setItem(ALIAS_STORAGE_KEY, JSON.stringify(aliasMap));
+}
+
+function removeFromAliasMap(alias) {
+  const aliasMap = getAliasMap();
+  delete aliasMap[alias];
+  localStorage.setItem(ALIAS_STORAGE_KEY, JSON.stringify(aliasMap));
 }
 
 var validateLevel = function(level) {
@@ -108,6 +129,10 @@ var LevelStore = Object.assign(
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
 {
+  getAliasMap: getAliasMap,
+  addToAliasMap: addToAliasMap,
+  removeFromAliasMap: removeFromAliasMap,
+
   getSequenceToLevels: function() {
     return levelSequences;
   },

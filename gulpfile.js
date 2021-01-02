@@ -163,7 +163,7 @@ var gitDeployMergeMaster = function(done) {
 };
 
 var gitDeployPushOrigin = function(done) {
-  execSync('git commit -am "rebuild for prod" && ' +
+  execSync('git commit -am "rebuild for prod"; ' +
     'git push origin gh-pages && ' +
     'git branch -f trunk gh-pages && ' +
     'git checkout master'

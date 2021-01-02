@@ -67,6 +67,17 @@ exports.dialog = {
       ]
     }
   }],
+  'es_MX': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## ¡Buen trabajo!',
+        '',
+        'Resolviste el nivel en *{numCommands}* comandos; ',
+        'nuestra mejor solución usa: {best}.'
+      ]
+    }
+  }],
   'es_ES': [{
     type: 'ModalAlert',
     options: {
@@ -165,5 +176,16 @@ exports.dialog = {
         'naša rešitev uporabi {best}.'
       ]
     }
-  }]
+  }],
+  'pl': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Dobra robota!!',
+        '',
+        'Rozwiązałeś poziom używając *{numCommands}* poleceń/ia; ',
+        'nasze rozwiązanie składa się z {best}.'
+      ]
+    }
+  }],
 };

@@ -10,7 +10,7 @@ body {
 }
 
 html, body {
-  font-family: Monaco, Courier, monospace;
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
   color: #eee;
 }
 
@@ -553,7 +553,7 @@ p.commandLine span.prompt {
 
 #commandLineBar p.command {
   margin: 0;
-  margin-left: 12px;
+  margin-left: 20px;
 }
 
 #commandLineBar #commandTextField {
@@ -685,11 +685,12 @@ div.helperBar.show {
   -o-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
-  height: 85px;
+  min-height: 85px;
 }
 
 div.helperBar.show.BaseHelperBar {
   height: auto;
+  min-height: auto;
 }
 
 #commandLineBar,
