@@ -79,13 +79,13 @@ exports.level = {
             "markdowns": [
               "### Can I specify this myself?",
               "",
-              "Yes you can! You can make any arbitrary branch track `o/main`, and if you do so, that branch will have the same implied push destination and merge target as `main`. This means you can run `git push` on a branch named `totallyNotMaster` and have your work pushed to the `main` branch on the remote!",
+              "Yes you can! You can make any arbitrary branch track `o/main`, and if you do so, that branch will have the same implied push destination and merge target as `main`. This means you can run `git push` on a branch named `totallyNotMain` and have your work pushed to the `main` branch on the remote!",
               "",
               "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "Creates a new branch named `totallyNotMaster` and sets it to track `o/main`."
+              "Creates a new branch named `totallyNotMain` and sets it to track `o/main`."
             ]
           }
         },
@@ -197,13 +197,13 @@ exports.level = {
             "markdowns": [
               "### Puis-je configurer cette relation moi-même ?",
               "",
-              "Absolument ! Vous pouvez suivre `o/main` depuis n'importe quelle branche, et si vous le faîtes, cette branche va avoir la même destination de push et cible de merge que pour `main`. Cela signifie que vous pouvez exécuter `git push` sur une branche nommée `totallyNotMaster` mais envoyer tout de même votre travail sur la branche `main` du dépôt distant !",
+              "Absolument ! Vous pouvez suivre `o/main` depuis n'importe quelle branche, et si vous le faîtes, cette branche va avoir la même destination de push et cible de merge que pour `main`. Cela signifie que vous pouvez exécuter `git push` sur une branche nommée `totallyNotMain` mais envoyer tout de même votre travail sur la branche `main` du dépôt distant !",
               "",
               "Il y a deux façons de configurer cette propriété. La première est de créer une nouvelle branche en la branchant immédiatement sur la branche distante, à l'aide de `git checkout -b` :",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "Cette commande crée une nouvelle branche nommée `totallyNotMaster` et la configure pour suivre `o/main`."
+              "Cette commande crée une nouvelle branche nommée `totallyNotMain` et la configure pour suivre `o/main`."
             ]
           }
         },
@@ -793,13 +793,13 @@ exports.level = {
             "markdowns": [
               "### 我可以自己設定嗎？",
               "",
-              "是的你可以！你可以設定任何的 branch 來 track `o/main`， 假如你真的這麼做的話，那麼該 branch 的 push 及 merge 的目標就會跟 `main` 一樣。這就表示說你可以在 `totallyNotMaster` branch 上面執行 `git push`，並且 push 你的 commit 到 remote 的 `main` branch！",
+              "是的你可以！你可以設定任何的 branch 來 track `o/main`， 假如你真的這麼做的話，那麼該 branch 的 push 及 merge 的目標就會跟 `main` 一樣。這就表示說你可以在 `totallyNotMain` branch 上面執行 `git push`，並且 push 你的 commit 到 remote 的 `main` branch！",
               "",
               "有兩個方式可以設定，第一個就是藉由參考一個 remote branch 來 checkout 一個新的 branch。執行",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "建立一個新的 `totallyNotMaster` branch 並且它會 track `o/main`。"
+              "建立一個新的 `totallyNotMain` branch 並且它會 track `o/main`。"
             ]
           }
         },
@@ -912,13 +912,13 @@ exports.level = {
             "markdowns": [
               "### 我能自己指定这个属性吗？",
               "",
-              "当然可以啦！你可以让任意分支跟踪 `o/main`, 然后该分支会像 `main` 分支一样得到隐含的 push 目的地以及 merge 的目标。 这意味着你可以在分支 `totallyNotMaster` 上执行 `git push`，将工作推送到远程仓库的 `main` 分支上。",
+              "当然可以啦！你可以让任意分支跟踪 `o/main`, 然后该分支会像 `main` 分支一样得到隐含的 push 目的地以及 merge 的目标。 这意味着你可以在分支 `totallyNotMain` 上执行 `git push`，将工作推送到远程仓库的 `main` 分支上。",
               "",
               "有两种方法设置这个属性，第一种就是通过远程分支检出一个新的分支，执行: ",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "就可以创建一个名为 `totallyNotMaster` 的分支，它跟踪远程分支 `o/main`。"
+              "就可以创建一个名为 `totallyNotMain` 的分支，它跟踪远程分支 `o/main`。"
             ]
           }
         },
@@ -1144,13 +1144,13 @@ exports.level = {
             "markdowns": [
               "### А могу ли я сделать это самостоятельно?",
               "",
-              "Само собой! Вы можете сказать любой из веток, чтобы она отслеживала `o/main`, и если вы так сделаете, эта ветка будет иметь такой же пункт назначения для push и merge как и локальная ветка `main`. Это значит, что вы можете выполнить `git push`, находясь на ветке `totallyNotMaster`, и все ваши наработки с ветки `totallyNotMaster` будут закачены на ветку `main` удалённого репозитория!",
+              "Само собой! Вы можете сказать любой из веток, чтобы она отслеживала `o/main`, и если вы так сделаете, эта ветка будет иметь такой же пункт назначения для push и merge как и локальная ветка `main`. Это значит, что вы можете выполнить `git push`, находясь на ветке `totallyNotMain`, и все ваши наработки с ветки `totallyNotMain` будут закачены на ветку `main` удалённого репозитория!",
               "",
               "Есть два способа сделать это. Первый - это выполнить checkout для новой ветки, указав удалённую ветку в качестве ссылки. Для этого необходимо выполнить команду",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              ", которая создаст новую ветку с именем `totallyNotMaster` и укажет ей следить за `o/main`."
+              ", которая создаст новую ветку с именем `totallyNotMain` и укажет ей следить за `o/main`."
             ]
           }
         },
@@ -1266,9 +1266,9 @@ exports.level = {
               "",
               "このプロパティを設定するには2つの方法があります。一つ目は、リモートブランチのリファレンスを使用して新しいブランチをチェックアウトするというものです。例えば次のコマンドを走らせてます",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "これは`totallyNotMaster`という名前のブランチを新しく作り、`o/main`への追跡プロパティを設定します。"
+              "これは`totallyNotMain`という名前のブランチを新しく作り、`o/main`への追跡プロパティを設定します。"
             ]
           }
         },
@@ -1380,13 +1380,13 @@ exports.level = {
             "markdowns": [
               "### 내 스스로 지정할수도 있나요?",
               "",
-              "당연하죠! 여러분은 아무 임의의 브랜치를 `o/main`를 추적하게 만들 수 있습니다. 이렇게 하면 이 브랜치 또한 내재된 push,merge 목적지를 `main`로 할 것입니다. 여러분은 이제 `totallyNotMaster`라는 브랜치에서 `git push`를 수행해서 원격 저장소의 브랜치 `main`로 작업을 push할 수 있습니다!",
+              "당연하죠! 여러분은 아무 임의의 브랜치를 `o/main`를 추적하게 만들 수 있습니다. 이렇게 하면 이 브랜치 또한 내재된 push,merge 목적지를 `main`로 할 것입니다. 여러분은 이제 `totallyNotMain`라는 브랜치에서 `git push`를 수행해서 원격 저장소의 브랜치 `main`로 작업을 push할 수 있습니다!",
               "",
               "이 속성을 설정하는데에는 두가지 방법이 있습니다. 첫 번째는 지정한 원격 브랜치를 참조해서 새로운 브랜치를 생성하여 checkout 하는 방법 입니다. 다음을 실행하면",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "`totallyNotMaster`라는 이름의 새 브랜치를 생성하고 `o/main`를 추적하게 설정합니다."
+              "`totallyNotMain`라는 이름의 새 브랜치를 생성하고 `o/main`를 추적하게 설정합니다."
             ]
           }
         },
@@ -1498,13 +1498,13 @@ exports.level = {
             "markdowns": [
               "### А можу я сам вибирати?",
               "",
-              "Так, можеш! Ти можеш вибрати довільну гілку, яка слідкуватиме за `o/main`, і тоді для цієї гілки `push` та `merge` автоматично працюватимуть з `main`. Це означає, що виконання `git push` в гілці з назвою `totallyNotMaster` (зовсім не main) може зберегти локальні коміти у віддалену гілку `main`!",
+              "Так, можеш! Ти можеш вибрати довільну гілку, яка слідкуватиме за `o/main`, і тоді для цієї гілки `push` та `merge` автоматично працюватимуть з `main`. Це означає, що виконання `git push` в гілці з назвою `totallyNotMain` (зовсім не main) може зберегти локальні коміти у віддалену гілку `main`!",
               "",
               "Є два шляхи встановити такий зв'язок. Перший - створити нову гілку з явним вказанням зв'язку (за ким слідкувати). Виконання",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "створить гілку `totallyNotMaster`, яка слідкує за `o/main`."
+              "створить гілку `totallyNotMain`, яка слідкує за `o/main`."
             ]
           }
         },
@@ -1616,13 +1616,13 @@ exports.level = {
             "markdowns": [
               "### Tôi có thể tự chỉ định chứ?",
               "",
-              "Tất nhiên là được chứ! Bạn có thế khiến bất kỳ nhánh nào theo dõi nhánh `o/main`, và nếu bạn làm vậy, nhánh đó sẽ được được chỉ định đích của lệnh đẩy và mục tiêu hợp nhất giống như nhánh `main`. Điều này có nghĩa là bạn có thể chạy lệnh `git push` trên nhánh có tên là `totallyNotMaster` và thành quả của bạn sẽ được đẩy lên nhánh `main` ở kho chứa từ xa!",
+              "Tất nhiên là được chứ! Bạn có thế khiến bất kỳ nhánh nào theo dõi nhánh `o/main`, và nếu bạn làm vậy, nhánh đó sẽ được được chỉ định đích của lệnh đẩy và mục tiêu hợp nhất giống như nhánh `main`. Điều này có nghĩa là bạn có thể chạy lệnh `git push` trên nhánh có tên là `totallyNotMain` và thành quả của bạn sẽ được đẩy lên nhánh `main` ở kho chứa từ xa!",
               "",
               "Có 2 cách để thiết lập thuộc tính này. Cách đầu tiên là chuyển sang một nhánh mới từ một nhánh từ xa bằng cách thực hiện",
               "",
-              "`git checkout -b totallyNotMaster o/main`",
+              "`git checkout -b totallyNotMain o/main`",
               "",
-              "Tạo ra một nhánh mới `totallyNotMaster` và thiết lập cho nó theo dõi nhánh `o/main`."
+              "Tạo ra một nhánh mới `totallyNotMain` và thiết lập cho nó theo dõi nhánh `o/main`."
             ]
           }
         },
