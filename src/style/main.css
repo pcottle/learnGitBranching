@@ -260,6 +260,14 @@ body.hgMode .visBackgroundColor {
   min-height: 400px;
 }
 
+div.ui-draggable-handle {
+  cursor: grab;
+}
+
+div.ui-draggable-dragging div.ui-draggable-handle {
+  cursor: grabbing;
+}
+
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
   height: 100%;
   box-shadow: 0 0 12px rgb(0,0,0);
@@ -431,6 +439,10 @@ div.toolbar > div.controls div.box.flex1 div {
 
 div.toolbar > div.controls div.box.flex1 div:hover {
 
+}
+
+div.ui-draggable div.controls div.box.flex1 div {
+  cursor: pointer;
 }
 
 div.controls div.box.flex1 div.close {
