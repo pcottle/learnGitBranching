@@ -1198,7 +1198,7 @@ exports.strings = {
     'ko': 'LGB는 모바일에서 입력을 받을 수 없습니다. 데스크톱으로 접속하세요! 이것은 가치가 있습니다. :D',
     'vi': 'Đáng tiếc là ứng dụng không thể nhận thông tin từ điện thoại hay máy tính bảng, hãy sử dụng máy tính cá nhân, đáng để bỏ công mà :D',
     'sl_SI': 'LGB ne more sprejeti ukazov na mobilni napravi, obiščite nas na računalinku! Je vredno :D ',
-    'pl'   : 'Przepraszamy, ale LearnGitBranching nie da się odbierać poleceń na urządzeniach mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D'
+    'pl'   : 'Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
