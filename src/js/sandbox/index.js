@@ -234,6 +234,15 @@ var Sandbox = Backbone.View.extend({
   },
 
   resetSolved: function(command, deferred) {
+    if (command.get('regexResults').input !== 'reset solved --confirm') {
+      command.set('error', new Errors.GitError({
+        msg: 'Reset solved will mark each level as not yet solved; because ' +
+             'this is a destructive command, please pass in --confirm to execute',
+      }));
+      command.finishWith(deferred);
+      return;
+    }
+
     LevelActions.resetLevelsSolved();
     command.addWarning(
       intl.str('solved-map-reset')
