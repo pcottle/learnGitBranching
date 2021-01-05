@@ -78,8 +78,8 @@ exports.level = {
               "When the interactive rebase dialog opens, you have the ability to do two things in our educational application:",
               "",
               "* You can reorder commits simply by changing their order in the UI (via dragging and dropping with the mouse).",
-              "* You can choose to keep all commits or drop specific ones. When the dialog opens, each commit is set to being included by the `pick` " +
-              "button being active. To drop a commit, click the `pick` button to toggle it off.",
+              "* You can choose to keep all commits or drop specific ones. When the dialog opens, each commit is set to be included by the `pick` " +
+              "button next to it being active. To drop a commit, toggle off its `pick` button.",
               "",
               "*It is worth mentioning that in the real git interactive rebase you can do many more things like squashing (combining) commits, " +
               "amending commit messages, and even editing the commits themselves. For our purposes though we will focus on these two operations above.*",
