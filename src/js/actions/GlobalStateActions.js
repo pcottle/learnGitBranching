@@ -20,6 +20,12 @@ var GlobalStateActions = {
     });
   },
 
+  disableLevelInstructions: function() {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.DISABLE_LEVEL_INSTRUCTIONS,
+    });
+  },
+
   changeFlipTreeY: function(flipTreeY) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.CHANGE_FLIP_TREE_Y,

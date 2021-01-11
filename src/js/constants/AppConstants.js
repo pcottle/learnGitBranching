@@ -26,6 +26,7 @@ module.exports = {
     SUBMIT_COMMAND: null,
     CHANGE_LOCALE: null,
     CHANGE_LOCALE_FROM_HEADER: null,
+    DISABLE_LEVEL_INSTRUCTIONS: null,
     /**
      * only dispatched when you actually
      * solve the level, not ask for solution
