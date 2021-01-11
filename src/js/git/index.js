@@ -480,9 +480,9 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
   }
 
   var msg = 'local branch "' +
-    localBranch.get('id') +
+    this.postProcessBranchID(localBranch.get('id')) +
     '" set to track remote branch "' +
-    remoteBranch.get('id') +
+    this.postProcessBranchID(remoteBranch.get('id')) +
     '"';
   this.command.addWarning(intl.todo(msg));
 };
@@ -693,6 +693,13 @@ GitEngine.prototype.validateAndMakeTag = function(id, target) {
 
   this.makeTag(id, target);
 };
+
+GitEngine.prototype.postProcessBranchID = function(id) {
+  if (id.match(/\bmaster\b/)) {
+    id = id.replace(/\bmaster\b/, 'main');
+  }
+  return id;
+}
 
 GitEngine.prototype.makeBranch = function(id, target) {
   // all main branches are stored as master under the hood
