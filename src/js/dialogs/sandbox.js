@@ -35,7 +35,7 @@ exports.dialog = {
       markdowns: [
         '## ¡Bienvenid@ a Learn Git Branching!',
         '',
-        'Esta aplicación está diseñada para ayudar a los principantes ',
+        'Esta aplicación está diseñada para ayudar a los principiantes ',
         'a manejar los poderosos conceptos que hay detrás del trabajo ',
         'con ramas (branches) en Git. Esperamos que disfrutes la aplicación ',
         'y tal vez incluso ¡que aprendas algo! ',
@@ -91,7 +91,7 @@ exports.dialog = {
       markdowns: [
         '## ¡Bienvenid@ a Learn Git Branching!',
         '',
-        'Esta aplicación está diseñada para ayudar a los principantes',
+        'Esta aplicación está diseñada para ayudar a los principiantes',
         'a manejar los poderosos conceptos que hay detrás del trabajo',
         'con ramas (branches) en Git. Esperamos que disfrutes la aplicación',
         'y tal vez incluso ¡que aprendas algo!',
@@ -147,7 +147,7 @@ exports.dialog = {
       markdowns: [
         '## ¡Bienvenid@ a Learn Git Branching!',
         '',
-        'Esta aplicación está diseñada para ayudar a los principantes ',
+        'Esta aplicación está diseñada para ayudar a los principiantes ',
         'a manejar los poderosos conceptos que hay detrás del trabajo ',
         'con ramas (branches) en Git. Esperamos que disfrutes la aplicación ',
         'y tal vez incluso ¡que aprendas algo! ',
