@@ -84,6 +84,12 @@ var instantCommands = [
       msg: intl.str('flip-tree-command')
     });
   }],
+  [/^disableLevelInstructions$/, function() {
+    GlobalStateActions.disableLevelInstructions();
+    throw new CommandResult({
+      msg: intl.todo('Level instructions disabled'),
+    });
+  }],
   [/^refresh$/, function() {
     var events = require('../app').getEvents();
 
