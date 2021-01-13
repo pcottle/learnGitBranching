@@ -139,7 +139,7 @@ exports.level = {
             "afterMarkdowns": [
               "Hammer! Was wir in `bugFix` gemacht haben ist jetzt oben auf `main` draufgepackt und wir haben eine schön lineare Abfolge von Commits bekommen.",
               "",
-              "Commit `C3` existiert immer noch irgendwo (deswegen ist er blaß dargestellt) und `C3'` ist die \"Kopie\" die wir auf den `main` gepackt haben.",
+              "Commit `C3` existiert immer noch irgendwo (deswegen ist er blass dargestellt) und `C3'` ist die \"Kopie\" die wir auf den `main` gepackt haben.",
               "",
               "Aber `main` ist jetzt nicht aktualisiert worden, lass uns das gerade noch nachholen ..."
             ],
