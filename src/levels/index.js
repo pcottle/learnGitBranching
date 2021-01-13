@@ -71,7 +71,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Вступ',
       'vi'   : 'Giới thiệu chuỗi luyện tập',
       'sl_SI': 'Uvodno Zaporedje',
-      'pl'   : 'Sekwencja wprowadzająca'
+      'pl'   : 'Wprowadzenie'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -292,7 +292,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Різні прийоми роботи з Git, хитрощі та поради',
       'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích',
       'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
-      'pl'   : 'Po trochu wszystkiego... wskazóweki i triki'
+      'pl'   : 'Po trochu wszystkiego. Wskazówki i triki'
     }
   },
   advanced: {
@@ -313,7 +313,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '고급 문제',
       'vi'   : 'Các chủ đề nâng cao',
       'sl_SI': 'Napredne Teme',
-      'pl'   : 'Zaawansowane tematy'
+      'pl'   : 'Tematy zaawansowane'
     },
     about: {
       'en_US': 'For the truly brave!',
