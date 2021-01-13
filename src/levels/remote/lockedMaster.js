@@ -13,7 +13,8 @@ exports.level = {
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
     "ko"   : "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/main과 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
-    "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen."
+    "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen.",
+    "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。"
   },
   "name": {
     "en_US": "Locked Master",
@@ -26,7 +27,8 @@ exports.level = {
     "fr_FR": "Master verrouillé",
     "ko"   : "잠겨버린 main 브랜치",
     "sl_SI": "Zaklenjen Master",
-    "es_AR": "Master bloqueado"
+    "es_AR": "Master bloqueado",
+    "ja": "ロックされたmaster"
   },
   "startDialog": {
     "en_US": {
@@ -479,6 +481,46 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## リモートが拒否した！",
+              "",
+              "もしあなたが大規模な共同作業チームで働いている場合、mainがロックされていて、変更をマージするために何らかのプルリクエストの処理が必要になるかもしれません。ローカルで直接mainにコミットしてプッシュしようとすると、以下のようなメッセージに遭遇するでしょう:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## なぜ拒否されたのか？",
+              "",
+              "mainに対しては直接でのコミットの代わりにプルリクエストを要求するポリシーによって、リモートはmainに直接コミットしようとするプッシュを拒否しました。",
+              "",
+              "あなたはブランチを作成し、そのブランチをプッシュしてプルリクエストを行うという手順を踏むつもりでしたが、それを忘れてしまい直接mainにコミットしてしまったのです。あなたは行き詰まってしまい、変更をプッシュすることが出来なくなってしまいました。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 解決策",
+              "",
+              "featureという名前の別のブランチを作成し、リモートにプッシュしてください。またmainをresetしてリモートと同じ状態になるようにしてください。そうしないとあなたが次にプルを実行したときに問題が発生し、他の誰かのコミットがあなたのコミットと競合する恐れがあります。"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
