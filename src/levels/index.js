@@ -71,7 +71,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Вступ',
       'vi'   : 'Giới thiệu chuỗi luyện tập',
       'sl_SI': 'Uvodno Zaporedje',
-      'pl'   : 'Wprowadzenie'
+      'pl'   : 'Wprowadzenie',
+      'ta_IN': 'அறிமுக தொடர் வரிசை'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -90,7 +91,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Гарно підібране введення в основні команди git',
       'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển git',
       'sl_SI': 'Prijeten uvod v git ukaze',
-      'pl'   : 'Krótkie wprowadzenie do większości poleceń GIT-a'
+      'pl'   : 'Krótkie wprowadzenie do większości poleceń GIT-a',
+      'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்'
     }
   },
   rampup: {
@@ -111,7 +113,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '다음 단계로',
       'vi'   : 'Tăng tốc',
       'sl_SI': 'Prva Stopnička',
-      'pl'   : 'Rozkręcenie'
+      'pl'   : 'Rozkręcenie',
+      'ta_IN': 'சற்று அதிகப்படுத்த'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -130,7 +133,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : 'git은 아주 멋져요. 왜 멋진지 알려드립니다',
       'vi'   : 'Tận hưởng khẩu phần tuyệt hảo của git. Hi vọng bạn còn đói.',
       'sl_SI': 'Naslednja porcija git izjemnosti. Upam, da si lačen',
-      'pl'   : 'Następna porcja GIT-a jest niesamowita. Mam nadzieję, że jesteś głodny'
+      'pl'   : 'Następna porcja GIT-a jest niesamowita. Mam nadzieję, że jesteś głodny',
+      'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்'
     }
   },
   remote: {
@@ -152,7 +156,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : 'Push & Pull -- Git 원격 저장소!',
       'vi'   : 'Push & Pull -- Tác động git từ xa!',
       'sl_SI': 'Push & Pull -- Oddaljeni Git',
-      'pl'   : 'Push & Pull -- Zdalne repozytoria'
+      'pl'   : 'Push & Pull -- Zdalne repozytoria',
+      'ta_IN': 'Push & Pull -- கிட் Remotes!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -171,7 +176,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '내 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!',
       'vi'   : 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng',
       'sl_SI': 'Čas za deljenje tvojih 1 in 0; kodiranje je pravkar postalo socialno',
-      'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne'
+      'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne',
+      'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது'
     }
   },
   remoteAdvanced: {
@@ -193,7 +199,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '"origin"그 너머로 -- 고급 Git 원격 저장소',
       'vi'   : 'Về với cội nguồn và vươn xa hơn -- nâng cao về các git remote',
       'sl_SI': 'Do Origina In Naprej -- Napredni Oddaljeni Git',
-      'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria'
+      'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria',
+      'ta_IN': 'ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -212,7 +219,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '자비로운 독재자가 되는게 재밌을 줄 알았겠지만...',
       'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui ...',
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
-      'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...'
+      'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
+      'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...'
     }
   },
   move: {
@@ -233,7 +241,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Переміщуємо роботу туди-сюди',
       'vi'   : 'Điều chỉnh vị trí',
       'sl_SI': 'Premikanje Dela Naokrog',
-      'pl'   : 'Przenoszenie pracy'
+      'pl'   : 'Przenoszenie pracy',
+      'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது'
     },
     about: {
       'en_US': '"Git" comfortable with modifying the source tree :P',
@@ -252,7 +261,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Не соромимось змінювати історію',
       'vi'   : 'Chỉnh sửa cây lịch sử Git không hề khó',
       'sl_SI': 'Spretno "Git" premikanje po drevesu :P',
-      'pl'   : 'GIT dobrze radzi sobie z modyfikacją drzewa źródłowego :P'
+      'pl'   : 'GIT dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
+      'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P'
     }
   },
   mixed: {
@@ -273,7 +283,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Всяке',
       'vi'   : 'Những trò mèo đáng đồng tiền bát gạo',
       'sl_SI': 'Mešana Vreča',
-      'pl'   : 'Po trochu wszystkiego'
+      'pl'   : 'Po trochu wszystkiego',
+      'ta_IN': 'ஒரு கலப்பு பை'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -292,7 +303,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Різні прийоми роботи з Git, хитрощі та поради',
       'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích',
       'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
-      'pl'   : 'Po trochu wszystkiego. Wskazówki i triki'
+      'pl'   : 'Po trochu wszystkiego. Wskazówki i triki',
+      'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை'
     }
   },
   advanced: {
@@ -313,7 +325,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '고급 문제',
       'vi'   : 'Các chủ đề nâng cao',
       'sl_SI': 'Napredne Teme',
-      'pl'   : 'Tematy zaawansowane'
+      'pl'   : 'Tematy zaawansowane',
+      'ta_IN': 'மேம்பட்ட தலைப்புகள்'
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -332,7 +345,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : '용기있는 도전자를 위해 준비한 문제입니다',
       'vi'   : 'Mạnh mẽ lên!',
       'sl_SI': 'Za resnično pogumne!',
-      'pl'   : 'Dla naprawdę odważnych!'
+      'pl'   : 'Dla naprawdę odważnych!',
+      'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!'
     }
   }
 };
