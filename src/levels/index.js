@@ -92,7 +92,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển git',
       'sl_SI': 'Prijeten uvod v git ukaze',
       'pl'   : 'Krótkie wprowadzenie do większości poleceń GIT-a',
-      'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்',
+      'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்'
     }
   },
   rampup: {
@@ -114,7 +114,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Tăng tốc',
       'sl_SI': 'Prva Stopnička',
       'pl'   : 'Rozkręcenie',
-      'ta_IN': 'சற்று அதிகப்படுத்த',
+      'ta_IN': 'சற்று அதிகப்படுத்த'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -177,7 +177,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng',
       'sl_SI': 'Čas za deljenje tvojih 1 in 0; kodiranje je pravkar postalo socialno',
       'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne',
-      'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது',
+      'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது'
     }
   },
   remoteAdvanced: {
@@ -220,7 +220,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui ...',
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
       'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
-      'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...',
+      'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...'
     }
   },
   move: {
@@ -303,6 +303,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Різні прийоми роботи з Git, хитрощі та поради',
       'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích',
       'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
+      'pl'   : 'Po trochu wszystkiego. Wskazówki i triki',
       'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை'
     }
   },
@@ -345,7 +346,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Mạnh mẽ lên!',
       'sl_SI': 'Za resnično pogumne!',
       'pl'   : 'Dla naprawdę odważnych!',
-      'en_US': 'உண்மையிலேயே தைரியமானவர்களுக்கு!'
+      'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!'
     }
   }
 };
