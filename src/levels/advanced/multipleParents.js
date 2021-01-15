@@ -18,7 +18,8 @@ exports.level = {
     "ko"   : "다수의 부모",
     'uk': 'Декілька батьків',
     'vi': 'Nhiều cha lắm mẹ',
-    'sl_SI': 'Več Staršev'
+    'sl_SI': 'Več Staršev',
+    'ta_IN': 'ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்'
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -36,7 +37,8 @@ exports.level = {
     "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
     'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання',
     'vi': 'Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định',
-    'sl_SI': 'Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.'
+    'sl_SI': 'Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.',
+    "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக."
   },
   "startDialog": {
     "en_US": {
@@ -1427,6 +1429,93 @@ exports.level = {
               "Za dokončanje te stopnje, ustvari nov brench na določeni destinaciji.",
               "",
               "Seveda bi bilo lažje izbrati commit direktno (npr. s `C6`), ampak te izzivam, da namesto tega poizkusiš z modifikatorji o katerih smo govorili!"
+            ]
+          }
+        }
+      ]
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### துவக்க கிலையை குறிக்க",
+              "",
+              "`~` மாற்றியை போல, `^` மாற்றியும் தேவைப்படின் உள்ளீடாக ஒரு எண்யை ஏற்றுக்கொள்ளும், ஆனால் அது கட்டாயம் அல்ல.",
+              "",
+              "அந்த எண் (`~` போல்) முந்தய கிழை இணைப்புகளுக்கு பின்னோக்கி செல்வதை குறிக்காமல், தற்ப்போதிய கமிட் எந்த கிழை துவக்கத்துடன் இணைக்க வேண்டுமோ அதனை `^`-இன் உள்ளீடு குறிக்கிரது. தொகுப்பு கமிட்கள் ஒன்றுக்கும் மேற்ப்பட்ட மூல கிழைகளை கொண்டு இருக்கும் எனவே இது குழப்பமானதாக இருக்கும்.",
+              "",
+              "கிட் பொதுவாக தொகுப்பு கமிட்டில் இருந்து மேல் நோக்கி உள்ள \"முதல்\" கிழைக்கு பின் இணைப்பை உருவாக்கும், ஆனால் `^`-இற்க்கு கொடுக்கப்படு் உள்ளீட்டு எண் வேரு கிழை முனைப்புகளுடன் இணைக்கி உதவும்.",
+              "",
+              "விவரங்கள் போதும், அதை செயலில் பார்ப்போம்.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இங்கே நாம்மிடன் ஒரு தொகுப்பு கமிட் உள்ளது. இப்போது நாம் checkout `main^` மட்டும் எந்த ஒரு எண்னும் குறிப்பிடாமல் கட்டலையிட்டால் அது கமிட்டின் நேரடி மூல கிழையுடன் இணைப்பை உருவாக்கும். ",
+              "",
+              "(*இங்குள்ள வரைபடத்தில், நேரடி மூழம் தொகுப்பு கமிட்டின் நேர் எதிர் திசையில் மேலக காட்ட பட்டுள்ளது.*)"
+            ],
+            "afterMarkdowns": [
+              "அது பரவாயில்லை -- இது நாம் அனைவரும் பழக்கமாகிவிட்டது."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இப்போது நாம் மாற்றாக இரண்டாவது துவக்க கிழையை குறிக்க செய்வோம்..."
+            ],
+            "afterMarkdowns": [
+              "கவனத்தீர்களா? நாம் அடுத்த கிழை மூழப்புள்ளியின் கீழ் இணைப்பை உருவாக்கி உள்ளொம்."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^` மற்றும் `~` மாற்றிகள் கமிட் மர அமைப்பை சுலபமாக சுற்றி வர உதவுகின்றன:"
+            ],
+            "afterMarkdowns": [
+              "மின்னல் வேகம்!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "மேலும் ஒரு எளிய வழி, இந்த மாற்றிகளை நாம் இணைத்தும் பயன் படுத்தலாம்! இதைப்பாருங்க்:"
+            ],
+            "afterMarkdowns": [
+              "மேல் கண்ட அதே வழி மாற்றம்தான் ஆனால் அனைத்தும் ஒரே கட்டளையில்."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### இப்போது நீங்கள் பயிற்சி செய்யுங்கள்",
+              "",
+              "இந்த படி நிலையை நிரைவு செய்ய, குறிப்பிட்டபட்டுள்ள பிரிவில் ஒரு கிளையை உருவாக்குங்கள்.",
+              "",
+              "வெளிப்படையாக சொல்லப்போனால் (`C6` போன்று) நேரடியாக கிழையை குறிப்பிடமுடியுன், இருப்பினும் இந்த சவால் மேல் குறிப்பிட்ட மாற்றிகளை பயன் படுத்தும் வகையில் அமைக்க பட்டுள்ளது!"
             ]
           }
         }

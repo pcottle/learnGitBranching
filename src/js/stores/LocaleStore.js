@@ -23,7 +23,8 @@ var langLocaleMap = {
   uk: 'uk',
   vi: 'vi',
   sl: 'sl_SI',
-  pl: 'pl'
+  pl: 'pl',
+  ta: 'ta_IN'
 };
 
 var headerLocaleMap = {

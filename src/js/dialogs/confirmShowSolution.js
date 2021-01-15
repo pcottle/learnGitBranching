@@ -164,6 +164,16 @@ exports.dialog = {
         'Wierzę w Ciebie! Możesz to zrobić'
       ]
     }
-  }]
+  }],
+    'ta_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## நீங்கள் நிச்சயமாக தீர்வை காண விரும்புகிறீர்களா?',
+        '',
+        'நான் உங்களால் அதை செய்ய முடியும் என நினைக்கிறேன்!'
+      ]
+    }
+  }],
 };
 
