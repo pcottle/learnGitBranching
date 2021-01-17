@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Розгалуження в Git",
     "vi": "Rẽ nhánh với Git",
     "sl_SI": "Branchanje v Gitu",
-    "pl"   : "Rozgałęzienia w GIT-cie (branch)"
+    "pl"   : "Rozgałęzienia w GIT-cie (branch)",
+    "ta_IN": "கிட் கிளை நிருவாகம்"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
@@ -37,7 +38,8 @@ exports.level = {
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
-    "pl"   : "Utwórz nowy branch za pomocą \"git branch <branch-name>\" i sprawdź ją za pomocą \"git checkout <branch-name>\""
+    "pl"   : "Utwórz nowy branch za pomocą \"git branch <branch-name>\" i sprawdź ją za pomocą \"git checkout <branch-name>\"",
+    "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக"
   },
   "disabledMap": {
     "git revert": true
@@ -1406,6 +1408,99 @@ exports.level = {
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
               "nowy branch ORAZ przełączyć się na niego w tym samym czasie,",
               "możesz po prostu wpisać `git checkout -b [nazwa_branch-u]`."
+            ]
+          }
+        }
+      ]
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## கிட் கிளைகள்",
+              "",
+              "கிட் கிளைகள் மிகவும் இலகுவானவை. அவை ஒரு குரிப்பிட்ட கமிட்டினை சுட்டி காட்டும் ஒரு இணைப்பு குறியீடு மட்டும்தான். இதனால்தான் பல கிட் ஆர்வலர்கள் உச்சரிக்கும் மந்திரம்:",
+              "",
+              "```",
+              "மாற்றம் செய்யும் முன்பே கிளையை உருவாக்குங்ள், அடிக்கடி தேவை என்றால் மேலும் கிளைகளை உருவாக்குங்கள்.",
+              "```",
+              "",
+              "ஏன் என்றால் புதிய கிளைகளை உருவாகுவது சேமிப்புபலுவோ / நினைவக மேலான்மை பலுவோ முற்றிலும் இல்லை, பெரிய பல்வேரு மற்றங்களை கொண்ட பலுமிக்க கிளைகளைக் காட்டிலும் உங்கள் வேலையை தர்க்கமாக சிரு சிரு கிளைகளக பிரிப்பது எளிது.",
+              "",
+              "கிளைகள் மற்றும் கமிட்டுகளை கொண்ட கலவை உருவாக்கும் போது இவை இரண்டின் இனக்கத்தினை விவாதிப்போம். தற்ப்போது, கிளை உருவாக்குதல் என்பதை \"இந்த கமிட்டுடன் இதர்க்கு முன் இருந்த அனைத்து கமிட்டுகளையும் தொகுக்க விரும்புகிறேன்.\" என்பதாக கருதலாம்."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இப்போது நாம் ஒரு கிளை எப்படி இருக்கும் என்பதை பயிற்ச்சி செய்து பார்க்கலாம்.",
+              "",
+              "இங்கு `newImage` என்ற பதிய கிளை ஒன்றை உருவாக்குவோம்."
+            ],
+            "afterMarkdowns": [
+              "அவ்வலவு தான், `newImage` என்ற புதிய கிளை தயாராகி விட்டது மேலும் அது `C1` என்ற கிட்டை மூலமாக குறிக்கும்படி உள்ளது."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இப்போது அதில் சில மாற்றங்களை இணைப்போம். கீலே உள்ள பித்தேனை அமுக்கவும்."
+            ],
+            "afterMarkdowns": [
+              "அடடா! `newImage`க்கு மாறாக `main` கிளை முன்னேறி உள்ளது! ஏன் என்றால் நாம் \"அந்த\" புதிய கிளையில் இல்ல, அதனால்தான் நட்சத்திரக் குறி (*) `main` மேலுள்ளது."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இப்போது நாம் கிட்டை கிளை தாவ சொல்லுவோம்.",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "புதிய மாற்றங்களை கமிட் செய்யும் முன்பு இது நம்மை புதிய கிளைக்கு மாற்றும்."
+            ],
+            "afterMarkdowns": [
+              "அவ்வலவுதான்! நமது மாற்றங்கள் புதிய கிளையின் பதிவு செய்ய பட்டுள்ளது."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*குறிப்பு: கிட் 2.23 முதல், `git switch` என்ற புதிய கட்டளை `git checkout`க்கு மாற்றாக அறிமுகம் செய்ய பட்டுள்ளது, ",
+              "ஏன் என்றால் அது ஒரே கட்டளையில் அதிகப்படியான வேளைகளை செய்கிறது (சொல்லப்போனால் அது கொத்தாக பல தனிப்பட்ட செயல்களை செய்கின்றது). ",
+              "இன்னு பலர் `switch` பயன்படுத்த வழி இல்லாததால் இங்குள்ள பாடங்கள் இன்னும் `switch`க்கு பதில் `checkout` பயன்படுத்து கின்றது. ",
+              "இருப்பினும் இந்த செயலியில் நீங்கள் `switch`ஐ முயற்சிக்க விரும்பினால் செய்யலாம்! <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">மேலும் விவரங்களுக்கு</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "சரி! நீங்கள் இப்போது கிட் கிளை உருவாக்க தயார். இந்த திரை மூடப்பட்டவுடன்,",
+              "`bugFix` எனும் கிளை உருவாக்கி அந்த கிளைக்கு மாறவும்.",
+              "",
+              "சொல்லபோனால், இதற்க்கு ஒரு குறுக்குவழி உள்ளது: ஒரு புதிய கிழையை உருவாக்கி ",
+              "உடனெ அதற்க்கு மாற, நீங்கள்",
+              "`git checkout -b [yourbranchname]` என கட்டளையிட்டால் போதும்."
             ]
           }
         }
