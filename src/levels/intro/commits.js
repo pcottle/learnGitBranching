@@ -770,7 +770,7 @@ exports.level = {
         }
       ]
     },
-    "en_US": {
+    "ta_IN": {
       "childViews": [
         {
           "type": "ModalAlert",
