@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var intl = require('../intl');
 
 var Errors = require('../util/errors');
@@ -16,7 +15,7 @@ var commandConfigs = {
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
     if (!commandConfigs[vcs][name]) {
-      throw new Error('i dont have a command for ' + name);
+      throw new Error('i don\'t have a command for ' + name);
     }
     var config = commandConfigs[vcs][name];
     if (config.delegate) {
@@ -34,11 +33,11 @@ var commands = {
     if (result.multiDelegate) {
       // we need to do multiple delegations with
       // a different command at each step
-      _.each(result.multiDelegate, function(delConfig) {
+      result.multiDelegate.forEach(function(delConfig) {
         // copy command, and then set opts
         commandObj.setOptionsMap(delConfig.options || {});
         commandObj.setGeneralArgs(delConfig.args || []);
-        
+
         commandConfigs[delConfig.vcs][delConfig.name].execute.call(this, engine, commandObj);
       }, this);
     } else {
@@ -70,7 +69,7 @@ var commands = {
       var displayName = config.displayName || name;
       var thisMap = {};
       // start all options off as disabled
-      _.each(config.options, function(option) {
+      (config.options || []).forEach(function(option) {
         thisMap[option] = false;
       });
       optionMap[vcs][displayName] = thisMap;
@@ -102,8 +101,10 @@ var commands = {
   },
 
   loop: function(callback, context) {
-    _.each(commandConfigs, function(commandConfig, vcs) {
-      _.each(commandConfig, function(config, name) {
+    Object.keys(commandConfigs).forEach(function(vcs) {
+      var commandConfig = commandConfigs[vcs];
+      Object.keys(commandConfig).forEach(function(name) {
+        var config = commandConfig[name];
         callback(config, name, vcs);
       });
     });
@@ -116,18 +117,21 @@ var parse = function(str) {
   var options;
 
   // see if we support this particular command
-  _.each(commands.getRegexMap(), function (map, thisVCS) {
-    _.each(map, function(regex, thisMethod) {
+  var regexMap = commands.getRegexMap();
+  Object.keys(regexMap).forEach(function (thisVCS) {
+    var map = regexMap[thisVCS];
+    Object.keys(map).forEach(function(thisMethod) {
+      var regex = map[thisMethod];
       if (regex.exec(str)) {
         vcs = thisVCS;
         method = thisMethod;
         // every valid regex has to have the parts of
         // <vcs> <command> <stuff>
-        // because there are always two spaces
+        // because there are always two space-groups
         // before our "stuff" we can simply
-        // split on spaces and grab everything after
+        // split on space-groups and grab everything after
         // the second:
-        options = str.split(' ').slice(2).join(' ');
+        options = str.match(/('.*?'|".*?"|\S+)/g).slice(2);
       }
     });
   });
@@ -170,11 +174,8 @@ function CommandOptionParser(vcs, method, options) {
 }
 
 CommandOptionParser.prototype.explodeAndSet = function() {
-  // TODO -- this is ugly
-  // split on spaces, except when inside quotes
-  var exploded = this.rawOptions.match(/('.*?'|".*?"|\S+)/g) || [];
-  for (var i = 0; i < exploded.length; i++) {
-    var part = exploded[i];
+  for (var i = 0; i < this.rawOptions.length; i++) {
+    var part = this.rawOptions[i];
 
     if (part.slice(0,1) == '-') {
       // it's an option, check supportedMap
@@ -187,7 +188,7 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      var next = exploded[i + 1];
+      var next = this.rawOptions[i + 1];
       var optionArgs = [];
       if (next && next.slice(0,1) !== '-') {
         // only store the next argument as this

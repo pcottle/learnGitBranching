@@ -11,7 +11,7 @@ var fallbackMap = {
 
 // lets change underscores template settings so it interpolates
 // things like "{branchName} does not exist".
-var templateSettings = _.clone(_.templateSettings);
+var templateSettings = Object.assign({}, _.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;
 var template = exports.template = function(str, params) {
   return _.template(str, params, templateSettings);
@@ -57,7 +57,7 @@ var str = exports.str = function(key, params) {
 
 var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   if (!obj || !obj[key]) {
-    throw new Error('that key ' + key + 'doesnt exist in this blob' + obj);
+    throw new Error('that key ' + key + 'doesn\'t exist in this blob' + obj);
   }
   if (!obj[key][getDefaultLocale()]) {
     console.warn(
@@ -98,7 +98,7 @@ exports.getStartDialog = function(level) {
   var startDialog = getIntlKey(level, 'startDialog');
   if (startDialog) { return startDialog; }
 
-  // this level translation isnt supported yet, so lets add
+  // this level translation isn't supported yet, so lets add
   // an alert to the front and give the english version.
   var errorAlert = {
     type: 'ModalAlert',
@@ -106,7 +106,8 @@ exports.getStartDialog = function(level) {
       markdown: str('error-untranslated')
     }
   };
-  var startCopy = _.clone(
+  var startCopy = Object.assign(
+    {},
     level.startDialog[getDefaultLocale()] || level.startDialog
   );
   startCopy.childViews.unshift(errorAlert);

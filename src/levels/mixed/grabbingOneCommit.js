@@ -11,33 +11,41 @@ exports.level = {
     "git revert": true
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22master%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout master;git cherry-pick C4",
+  "solutionCommand": "git rebase -i main --solution-ordering C4; git rebase bugFix main",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\"},\"debug\":{\"target\":\"C2\",\"id\":\"debug\"},\"printf\":{\"target\":\"C3\",\"id\":\"printf\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
-    "ko": "딱 한개의 커밋만 가져오기",
+    "ko": "딱 한 개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
     "fr_FR": "Choisir seulement 1 commit",
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
+    "es_ES": "Tomando un único commit",
     "pt_BR": "Pegando um único commit",
+    "gl"   : "Escollendo un único commit",
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
     "ru_RU": "Выберем один коммит.",
-    "uk": "Вибираємо всього один коміт"
+    "uk": "Вибираємо всього один коміт",
+    "vi": "Chỉ lấy 1 commit",
+    "sl_SI": "Izbiranje Samo Enega Commita"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
     "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
+    "es_ES": "Recuerda, el rebase interactivo y el cherry-pick son tus amigos",
     "pt_BR": "Lembre-se, o rebase interativo ou o cherry-pick são seus amigos aqui",
+    "gl"   : "Recorda, o rebase interativo ou cherry-pick é un dos teus colegas aquí",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
-    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!"
+    "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
+    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
+    "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja."
       },
   "startDialog": {
     "en_US": {
@@ -52,7 +60,7 @@ exports.level = {
               "",
               "All of these debugging / print statements are in their own commits. Finally I track down the bug, fix it, and rejoice!",
               "",
-              "Only problem is that I now need to get my `bugFix` back into the `master` branch. If I simply fast-forwarded `master`, then `master` would get all my debug statements which is undesirable. There has to be another way..."
+              "Only problem is that I now need to get my `bugFix` back into the `main` branch. If I simply fast-forwarded `main`, then `main` would get all my debug statements which is undesirable. There has to be another way..."
             ]
           }
         },
@@ -73,7 +81,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `master` receives the commit that `bugFix` references."
+              "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `main` receives the commit that `bugFix` references."
             ]
           }
         }
@@ -91,7 +99,7 @@ exports.level = {
               "",
               "Tous ces debug se retrouvent dans une branche particulière. Je trouve le bug et le répare, comme toujours !",
               "",
-              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le master. Il doit y avoir une autre façon..."
+              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le main. Il doit y avoir une autre façon..."
             ]
           }
         },
@@ -110,7 +118,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "C'est un niveau avancé, donc à vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez-vous que `master` reçoive le même commit que `bugFix` référence."
+              "C'est un niveau avancé, donc à vous de choisir quelle commande utiliser, mais pour réussir ce niveau, assurez-vous que `main` reçoive le même commit que `bugFix` référence."
             ]
           }
         }
@@ -128,7 +136,7 @@ exports.level = {
               "",
               "Todas estas cosas de imprimir y debuggear estan en su propia rama. Finalmente encuentro el problema, lo soluciono, ¡y disfruto!",
               "",
-              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `master`. Si simplemente fast-forwardeo `master`, entonces `master` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
+              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `main`, entonces `main` va a tener todos mis agregados de debugging, que es indeseado. Tiene que haber otro modo..."
             ]
           }
         },
@@ -149,7 +157,46 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Este es un nivel más avanzado, así que está en vos decidir cuál de los dos comandos querés usar, pero para completar el nivel asegurate de que `master` recibe el commit que `bugFix` referencia."
+              "Este es un nivel más avanzado, así que está en vos decidir cuál de los dos comandos querés usar, pero para completar el nivel asegurate de que `main` recibe el commit que `bugFix` referencia."
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits localmente stackeados",
+              "",
+              "Esta es una escena que suele pasar cuando uno desarrolla: estoy tratando de encontrar un bug bastante escurridizo. Para ayudar en mi tarea de detective, agrego un par de comandos de debug, y algunas sentencias para imprimir el estado de mi sistema.",
+              "",
+              "Todas estas cosas de imprimir y debuggear estan en su propia rama. Finalmente encuentro el problema, lo soluciono, ¡y disfruto!",
+              "",
+              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `main`, entonces `main` va a tener todos mis agregados de debugging, lo cual no es deseable. Tiene que haber otro modo..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Necesitamos decirle a git que sólo copie uno de los commits. Esto es tal como los niveles anteriores de mover commits por ahí -- podemos usar los mismos comandos:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Para conseguir este resultado."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este es un nivel más avanzado, así que debes decidir cuál de los dos comandos quieres usar, pero para completar el nivel asegurate de que `main` recibe el commit que `bugFix` referencia."
             ]
           }
         }
@@ -167,7 +214,7 @@ exports.level = {
               "",
               "Todos esses comandos de debug e mensagens estão em seus próprios ramos. Finalmente eu encontro o bug, corrijo, e me regozijo!",
               "",
-              "O único problema é que agora eu preciso devolver o meu `bugFix` ao ramo `master`. Se eu simplesmente der um fast-forward no `master`, então o `master` terminará contendo todos os comandos de debug, o que é indesejável. Deve existir alguma outra forma..."
+              "O único problema é que agora eu preciso devolver o meu `bugFix` ao ramo `main`. Se eu simplesmente der um fast-forward no `main`, então o `main` terminará contendo todos os comandos de debug, o que é indesejável. Deve existir alguma outra forma..."
             ]
           }
         },
@@ -188,7 +235,46 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Este é um nível avançado, então vamos deixar para você a decisão de qual comando usar, mas para completar este nível, certifique-se de que o `master` receba o commit referenciado por `bugFix`."
+              "Este é um nível avançado, então vamos deixar para você a decisão de qual comando usar, mas para completar este nível, certifique-se de que o `main` receba o commit referenciado por `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits apilados localmente",
+              "",
+              "Aquí estamos nunha situación que acontece de cotio con desenvolvedores: Estou intentando atopar un erro, mais é escorredizo. Para axudar ó meu traballo de detective, eu coloco algúns comandos de debug e prints.",
+              "",
+              "¡Todos esos comandos de debug e mensaxes están nas súas ramas propias. Finalmente eu atopo o erro, arránxoo e reorganizo!",
+              "",
+              "O único problema é que agora eu preciso devolver o meu `bugFix` á rama `main`. Se eu fixera simplemente un fast-forward en `main`, entón o `main` rematará contendo tódolos comandos de debug, o que é indesexable. Debe existir algunha outra forma..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Precisamos decirlle a git que copie só os commits que nos interesa. Esta situación é exatamente a mesma dos niveis anteriores respecto de como mover o traballo -- podemos usar os mesmos comandos:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Para acadar o objetivo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este é un nivel avanzado, entón imos deixarche a decisión de qué comando empregar, pero para completar este nivel, asegurate de que a rama `main` colla o commit referenciado por `bugFix`."
             ]
           }
         }
@@ -202,11 +288,11 @@ exports.level = {
             "markdowns": [
               "## Lokale Commit-Haufen",
               "",
-              "Folgende Situation habe ich beim Entwickeln des öfteren: ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
+              "Folgende Situation habe ich beim Entwickeln des Öfteren: ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
               "",
               "Die committe ich auch immer wieder, je weiter die Suche mich trägt; natürlich in einem lokalen Branch. Schließlich finde ich den Bug, fixe ihn und freue mich!",
               "",
-              "Einziges Problem ist, dass ich diesen `bugFix` jetzt zurück in den `master` kriegen muss. Wenn ich einfach den `master` vorspule oder meinen Branch hinein merge, bekäme der `master` auch die ganzen Debug-Befehle, was nicht gewünscht ist. Das muss anders gehen ..."
+              "Einziges Problem ist, dass ich diesen `bugFix` jetzt zurück in den `main` kriegen muss. Wenn ich einfach den `main` vorspule oder meinen Branch hinein merge, bekäme der `main` auch die ganzen Debug-Befehle, was nicht gewünscht ist. Das muss anders gehen ..."
             ]
           }
         },
@@ -226,7 +312,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um da Level zu schaffen musst du irgendwie sicherstellen, dass `master` den Commit bekommt, auf den `bugFix` zeigt."
+              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um das Level zu schaffen musst du irgendwie sicherstellen, dass `main` den Commit bekommt, auf den `bugFix` zeigt."
             ]
           }
         }
@@ -245,7 +331,7 @@ exports.level = {
               "",
               "これらのデバッグ用のコードはバグ修正用のブランチにコミットされています。そしてついにバグの原因を突き止めて、修正した！やった！",
               "",
-              "あとは`bugFix`ブランチを`master`ブランチに統合できればOK。そこで単純に`master`をfast-forwardすればよいかというと、それでは`master`ブランチの中にデバッグ用のコードも混入してしまいます。"
+              "あとは`bugFix`ブランチを`main`ブランチに統合できればOK。そこで単純に`main`をfast-forwardすればよいかというと、それでは`main`ブランチの中にデバッグ用のコードも混入してしまいます。"
             ]
           }
         },
@@ -268,7 +354,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "後半の章ですのでどう解決するかをもう自分で考えることができると思います。このレベルをクリアするためには、`bugFix`が持っているコミットを`master`ブランチが受け取る必要がある点には注意してください。"
+              "後半の章ですのでどう解決するかをもう自分で考えることができると思います。このレベルをクリアするためには、`bugFix`が持っているコミットを`main`ブランチが受け取る必要がある点には注意してください。"
             ]
           }
         }
@@ -286,7 +372,7 @@ exports.level = {
               "",
               "这些调试和打印语句都在它们各自的提交记录里。最后我终于找到了造成这个 Bug 的根本原因，解决掉以后觉得沾沾自喜！",
               "",
-              "最后就差把 `bugFix` 分支里的工作合并回 `master` 分支了。你可以选择通过 fast-forward 快速合并到 `master` 分支上，但这样的话 `master` 分支就会包含我这些调试语句了。你肯定不想这样，应该还有更好的方式……"
+              "最后就差把 `bugFix` 分支里的工作合并回 `main` 分支了。你可以选择通过 fast-forward 快速合并到 `main` 分支上，但这样的话 `main` 分支就会包含我这些调试语句了。你肯定不想这样，应该还有更好的方式……"
             ]
           }
         },
@@ -307,7 +393,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "由于我们刚刚闯过类似的关卡，所以要不要再尝试一次就看你自己了。但是如果你想试一把的话，确保 `master` 分支能得到 `bugFix` 分支上的相关提交。"
+              "由于我们刚刚闯过类似的关卡，所以要不要再尝试一次就看你自己了。但是如果你想试一把的话，确保 `main` 分支能得到 `bugFix` 分支上的相关提交。"
             ]
           }
         }
@@ -325,7 +411,7 @@ exports.level = {
               "",
               "所有的這些 debug 的指令都只在 `bugFix` 這個 branch 裡面。最後我終於找到這個 bug，並且 fix 掉它，接著撒花慶祝一下！",
               "",
-              "現在唯一的問題就是要把我在 `bugFix` branch 裡面所做的修改 merge 回 `master` branch。我可以簡單地透過 fast-forward 來 merge ，但這樣的話 `master` branch 就會包含這些含有 debug 指令的 commit 了。我相信一定有其它方法..."
+              "現在唯一的問題就是要把我在 `bugFix` branch 裡面所做的修改 merge 回 `main` branch。我可以簡單地透過 fast-forward 來 merge ，但這樣的話 `main` branch 就會包含這些含有 debug 指令的 commit 了。我相信一定有其它方法..."
             ]
           }
         },
@@ -346,7 +432,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `master` branch 包含到。"
+              "這一個關卡是比較後面的關卡，你可以隨意決定你要選擇使用哪個指令，但是 `bugFix` 所指向的那個 commit 一定要可以被 `main` branch 包含到。"
             ]
           }
         }
@@ -360,11 +446,11 @@ exports.level = {
             "markdowns": [
               "## 로컬에 쌓인 커밋들",
               "",
-              "개발중에 종종 이런 상황이 생깁니다: 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
+              "개발 중에 종종 이런 상황이 생깁니다: 눈에 잘 띄지 않는 버그를 찾아서 해결하려고, 어떤 부분의 문제인지를 찾기 위해 디버그용 코드와 화면에 정보를 프린트하는 코드 몇 줄 넣습니다. ",
               "",
               "디버깅용 코드나 프린트 명령은 그 브랜치에 들어있습니다. 마침내 버그를 찾아서 고쳤고, 원래 작업하는 브랜치에 합치면 됩니다!",
               "",
-              "이제 `bugFix`브랜치의 내용을 `master`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `master`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
+              "이제 `bugFix`브랜치의 내용을 `main`에 합쳐 넣으려 하지만, 한 가지 문제가 있습니다. 그냥 간단히 `main`브랜치를 최신 커밋으로 이동시킨다면(fast-forward) 그 불필요한 디버그용 코드들도 함께 들어가 버린다는 문제죠."
             ]
           }
         },
@@ -387,7 +473,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `master`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
+              "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `main`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
             ]
           }
         }
@@ -403,7 +489,7 @@ exports.level = {
               "",
               "Каждая отладочная команда (команды) вывода находится в своём коммите. В итоге мы нашли ошибку, исправили её и порадовались!",
               "",
-              "Но проблема в том, что мы хотим добавить в `master` только исправление ошибки из ветки `bugFix`. Если мы воспользуемся простым fast-forward, то в `master` попадут также отладочные команды. Должен быть другой способ..."
+              "Но проблема в том, что мы хотим добавить в `main` только исправление ошибки из ветки `bugFix`. Если мы воспользуемся простым fast-forward, то в `main` попадут также отладочные команды. Должен быть другой способ..."
             ]
           }
         },
@@ -424,7 +510,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "В этом уровне тебе решать, какую команду использовать, но чтобы закончить уровень, убедись, что в мастер попал коммит, на который ссылается `bugFix`"
+              "В этом уровне тебе решать, какую команду использовать, но чтобы закончить уровень, убедись, что в мастер попал коммит, на который ссылается `bugFix`."
             ]
           }
         }
@@ -442,7 +528,7 @@ exports.level = {
               "",
               "Всі ці команди для відлагодження та виводу данних знаходяться в своїх власних комітах. Врешті-решт я знаходжу баг, фікшу його та щиро радію!",
               "",
-              "От тільки лишається проблема, що потрібно мій фікс перенести з `bugFix` назад в гілку `master`. Якщо я просто зроблю фастфорвард (fast-forwarded) в `master`, тоді в `master` потраплять всі мої println'и, що є зайвим. Має бути інший шлях..."
+              "От тільки лишається проблема, що потрібно мій фікс перенести з `bugFix` назад в гілку `main`. Якщо я просто зроблю фастфорвард (fast-forwarded) в `main`, тоді в `main` потраплять всі мої println'и, що є зайвим. Має бути інший шлях..."
             ]
           }
         },
@@ -463,7 +549,85 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "На цьому рівні тобі вирішувати якими командами користуватися, але щоб пройти цей рівень, впевнись що в `master` потрапить коміт, на який посилається `bugFix`."
+              "На цьому рівні тобі вирішувати якими командами користуватися, але щоб пройти цей рівень, впевнись що в `main` потрапить коміт, на який посилається `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit xếp chồng tại địa phương",
+              "",
+              "Có tình huống thế này thường hay xảy ra trong quá trình phát triển: Tôi dang cố dò lỗi nhưng mà nó lại khá là trúc trắc. Để hỗ trợ cho việc này, thêm vào vài dòng lệnh gỡ lỗi và lệnh in.",
+              "",
+              "Mấy lệnh gỡ lỗi và in này nằm yên trong commit của chúng. Cuối cùng thì tôi cũng tìm ra lỗi, gỡ xong, ngon rồi!",
+              "",
+              "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `main`. Nếu mà đơn giản dùng fast-forwarded lên `main`, thì `main` lại có tất cả các lệnh gỡ lỗi kia(chẳng muốn chút nào). Phải có cách khác chứ nhỉ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ta cần phải bảo git chỉ sao chép 1 commit thôi. Điều này giống với cấp độ trước về điều chỉnh vị trí -- ta có thể dùng các câu lệnh tương tự:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Để đạt được mục tiêu này."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bây giờ là cấp độ cao hơn rồi nên bạn hãy tự quyết định nên dùng câu lệnh nào, nhưng để hoàn thành được cấp độ, hãy đàm bảo rằng `main` nhận được commit mà `bugFix` tham chiếu tới."
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Lokalno naloženi commiti",
+              "",
+              "Tu je razvijalska situacija, ki se zgodi pogosto: Hočem najti bug, ampak se kar izmika. V pomoč mojemu detektivskemu delu, sem dodal nekaj ukazov za debuggiranje in izpis.",
+              "",
+              "Vsi te ukazi za debuggiranje / izpisovanje so v svojih commitih. Končno odkrijem bug, ga popravim in se veselim!",
+              "",
+              "Edini problem je, da morem sedaj spraviti moj `bugFix` nazaj v `main` branch. Če uporabim samo fast-forward na `masterju`, potem bi `main` vseboval vse moje debug vrstice, česar si ne želim. Mora obstajati še neka druga pot ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Gitu moramo povedati naj skopira čez samo en commit. To je podobno stopnjam prej, ko smo premikali delo okoli -- uporabimo lahko iste ukaze:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "da dosežemo ta cilj."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tebi prepuščam, da se odločiš, kateri ukaz boš uporabil, da končaš stopnjo. Poskrbi samo, da `main` dobi commit na katerega kaže `bugFix` referenca."
             ]
           }
         }

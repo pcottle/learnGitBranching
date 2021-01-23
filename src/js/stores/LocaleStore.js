@@ -2,9 +2,8 @@
 
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
+var util = require('../util');
 var EventEmitter = require('events').EventEmitter;
-
-var assign = require('object-assign');
 
 var ActionTypes = AppConstants.ActionTypes;
 var DEFAULT_LOCALE = 'en_US';
@@ -21,14 +20,25 @@ var langLocaleMap = {
   de: 'de_DE',
   pt: 'pt_BR',
   ru: 'ru_RU',
-  uk: 'uk'
+  uk: 'uk',
+  vi: 'vi',
+  sl: 'sl_SI',
+  pl: 'pl',
+  ta: 'ta_IN'
 };
 
 var headerLocaleMap = {
   'zh-CN': 'zh_CN',
   'zh-TW': 'zh_TW',
-  'pt-BR': 'pt_BR'
+  'pt-BR': 'pt_BR',
+  'es-MX': 'es_MX',
+  'es-ES': 'es_ES',
+  'sl-SI': 'sl_SI'
 };
+
+var supportedLocalesList = Object.values(langLocaleMap)
+                                 .concat(Object.values(headerLocaleMap))
+                                 .filter(function (value, index, self) { return self.indexOf(value) === index;});
 
 function _getLocaleFromHeader(langString) {
   var languages = langString.split(',');
@@ -51,7 +61,7 @@ function _getLocaleFromHeader(langString) {
 }
 
 var _locale = DEFAULT_LOCALE;
-var LocaleStore = assign(
+var LocaleStore = Object.assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
@@ -62,20 +72,25 @@ AppConstants.StoreSubscribePrototype,
   },
 
   getLangLocaleMap: function() {
-    return assign({}, langLocaleMap);
+    return Object.assign({}, langLocaleMap);
   },
 
   getHeaderLocaleMap: function() {
-    return assign({}, headerLocaleMap);
+    return Object.assign({}, headerLocaleMap);
   },
 
   getLocale: function() {
     return _locale;
   },
 
+  getSupportedLocales: function() {
+    return supportedLocalesList.slice();
+  },
+
   dispatchToken: AppDispatcher.register(function(payload) {
     var action = payload.action;
     var shouldInform = false;
+    var oldLocale = _locale;
 
     switch (action.type) {
       case ActionTypes.CHANGE_LOCALE:
@@ -89,6 +104,12 @@ AppConstants.StoreSubscribePrototype,
           shouldInform = true;
         }
         break;
+    }
+
+    if (util.isBrowser() && oldLocale !== _locale) {
+      var url = new URL(document.location.href);
+      url.searchParams.set('locale', _locale);
+      window.history.replaceState({}, '', url.href);
     }
 
     if (shouldInform) {

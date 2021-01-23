@@ -7,6 +7,17 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 
+require('jquery-ui/ui/widget');
+require('jquery-ui/ui/scroll-parent');
+require('jquery-ui/ui/data');
+require('jquery-ui/ui/widgets/mouse');
+require('jquery-ui/ui/ie');
+require('jquery-ui/ui/widgets/sortable');
+require('jquery-ui/ui/plugin');
+require('jquery-ui/ui/safe-active-element');
+require('jquery-ui/ui/safe-blur');
+require('jquery-ui/ui/widgets/draggable');
+
 var InteractiveRebaseView = ContainedBase.extend({
   tagName: 'div',
   template: _.template($('#interactive-rebase-template').html()),
@@ -19,7 +30,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     this.rebaseEntries = new RebaseEntryCollection();
     options.toRebase.reverse();
-    _.each(options.toRebase, function(commit) {
+    options.toRebase.forEach(function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
 
@@ -63,7 +74,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
     // now get the real array
     var toRebase = [];
-    _.each(uiOrder, function(id) {
+    uiOrder.forEach(function(id) {
       // the model pick check
       if (this.entryObjMap[id].get('pick')) {
         toRebase.unshift(this.rebaseMap[id]);
@@ -78,7 +89,7 @@ var InteractiveRebaseView = ContainedBase.extend({
 
   render: function() {
     var json = {
-      num: _.keys(this.rebaseMap).length,
+      num: Object.keys(this.rebaseMap).length,
       solutionOrder: this.options.initialCommitOrdering
     };
 
@@ -164,7 +175,6 @@ var RebaseEntryView = Backbone.View.extend({
   },
 
   render: function() {
-    var json = this.model.toJSON();
     this.$el.append(this.template(this.model.toJSON()));
 
     // hacky :( who would have known jquery barfs on ids with %'s and quotes

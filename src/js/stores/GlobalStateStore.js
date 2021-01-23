@@ -4,15 +4,14 @@ var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 
-var assign = require('object-assign');
-
 var ActionTypes = AppConstants.ActionTypes;
 
 var _isAnimating = false;
 var _flipTreeY = false;
 var _numLevelsSolved = 0;
+var _disableLevelInstructions = false;
 
-var GlobalStateStore = assign(
+var GlobalStateStore = Object.assign(
 {},
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
@@ -27,6 +26,10 @@ AppConstants.StoreSubscribePrototype,
 
   getNumLevelsSolved: function() {
     return _numLevelsSolved;
+  },
+
+  getShouldDisableLevelInstructions: function() {
+    return _disableLevelInstructions;
   },
 
   dispatchToken: AppDispatcher.register(function(payload) {
@@ -44,6 +47,10 @@ AppConstants.StoreSubscribePrototype,
         break;
       case ActionTypes.LEVEL_SOLVED:
         _numLevelsSolved++;
+        shouldInform = true;
+        break;
+      case ActionTypes.DISABLE_LEVEL_INSTRUCTIONS:
+        _disableLevelInstructions = true;
         shouldInform = true;
         break;
     }

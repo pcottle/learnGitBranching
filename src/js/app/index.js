@@ -1,8 +1,9 @@
 var Backbone = require('backbone');
+var jQuery = require('jquery');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
+var ReactDOM = require('react-dom');
 
-var assign = require('object-assign');
 var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
@@ -11,7 +12,17 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-var events = assign(
+
+Backbone.$ = jQuery;
+
+// Bypass jasmine
+if (util.isBrowser()) {
+  window.jQuery = jQuery;
+  window.$ = jQuery;
+  window.Raphael = require('raphael');
+}
+
+var events = Object.assign(
   {},
   EventEmitter.prototype,
   {
@@ -21,7 +32,7 @@ var events = assign(
     }
   }
 );
-// Allow unlimited listeners, so FF doesnt break
+// Allow unlimited listeners, so FF doesn't break
 events.setMaxListeners(0);
 var commandUI;
 var sandbox;
@@ -86,8 +97,28 @@ var vcsModeRefresh = function(eventData) {
   $('body').toggleClass('hgMode', !isGit);
 };
 
+var insertAlternateLinks = function(pageId) {
+  // For now pageId is null, which would link to the main page.
+  // In future if pageId is provided this method should link to a specific page
+
+  // The value of the hreflang attribute identifies the language (in ISO 639-1 format)
+  // and optionally a region (in ISO 3166-1 Alpha 2 format) of an alternate URL
+
+  var altLinks = LocaleStore.getSupportedLocales().map(function(langCode) {
+    var url = "https://learngitbranching.js.org/?locale=" + langCode;
+    return '<link rel="alternate" hreflang="'+langCode+'" href="' + url +'" />';
+  });
+  var defaultUrl = "https://learngitbranching.js.org/?locale=" + LocaleStore.getDefaultLocale();
+  altLinks.push('<link rel="alternate" hreflang="x-default" href="' + defaultUrl +'" />');
+  $('head').prepend(altLinks);
+
+};
+
 var intlRefresh = function() {
   if (!window.$) { return; }
+  var countryCode = LocaleStore.getLocale().split("_")[0];
+  $("html").attr('lang', countryCode);
+  $("meta[http-equiv='content-language']").attr("content", countryCode);
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
     var key = $(el).attr('data-intl');
@@ -145,7 +176,7 @@ var initRootEvents = function(eventBaton) {
 var initDemo = function(sandbox) {
   var params = util.parseQueryString(window.location.href);
 
-  // being the smart programmer I am (not), I dont include a true value on demo, so
+  // being the smart programmer I am (not), I don't include a true value on demo, so
   // I have to check if the key exists here
   var commands;
   if (/(iPhone|iPod|iPad).*AppleWebKit/i.test(navigator.userAgent) || /android/i.test(navigator.userAgent)) {
@@ -232,7 +263,7 @@ var initDemo = function(sandbox) {
   }
   if (params.hasOwnProperty('STARTREACT')) {
     /*
-    React.render(
+    ReactDOM.render(
       React.createElement(CommandView, {}),
       document.getElementById(params['STARTREACT'])
       );*/
@@ -248,6 +279,8 @@ var initDemo = function(sandbox) {
   } else {
     tryLocaleDetect();
   }
+
+  insertAlternateLinks();
 
   if (params.command) {
     var command = unescape(params.command);
@@ -294,11 +327,11 @@ function CommandUI() {
     el: $('#commandLineBar')
   });
 
-  React.render(
+  ReactDOM.render(
     React.createElement(MainHelperBarView),
     document.getElementById('helperBarMount')
   );
-  React.render(
+  ReactDOM.render(
     React.createElement(
       CommandHistoryView,
       { commandCollection: this.commandCollection }
@@ -328,4 +361,3 @@ exports.getLevelDropdown = function() {
 };
 
 exports.init = init;
-

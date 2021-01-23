@@ -228,12 +228,21 @@ var Sandbox = Backbone.View.extend({
     var url =
       'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
     command.setResult(
-      intl.todo('Here is a link to the current state of the tree: ') + url
+      intl.todo('Here is a link to the current state of the tree: ') + '\n' + url
     );
     command.finishWith(deferred);
   },
 
   resetSolved: function(command, deferred) {
+    if (command.get('regexResults').input !== 'reset solved --confirm') {
+      command.set('error', new Errors.GitError({
+        msg: 'Reset solved will mark each level as not yet solved; because ' +
+             'this is a destructive command, please pass in --confirm to execute',
+      }));
+      command.finishWith(deferred);
+      return;
+    }
+
     LevelActions.resetLevelsSolved();
     command.addWarning(
       intl.str('solved-map-reset')

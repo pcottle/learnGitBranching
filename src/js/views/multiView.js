@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
 
@@ -10,6 +9,7 @@ var BuilderViews = require('../views/builderViews');
 var MarkdownPresenter = BuilderViews.MarkdownPresenter;
 
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
+var debounce = require('../util/debounce');
 
 var MultiView = Backbone.View.extend({
   tagName: 'div',
@@ -48,7 +48,7 @@ var MultiView = Backbone.View.extend({
     this.childViews = [];
     this.currentIndex = 0;
 
-    this.navEvents = _.clone(Backbone.Events);
+    this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('negative', this.getNegFunc(), this);
     this.navEvents.on('positive', this.getPosFunc(), this);
     this.navEvents.on('quit', this.finish, this);
@@ -84,13 +84,13 @@ var MultiView = Backbone.View.extend({
   },
 
   getPosFunc: function() {
-    return _.debounce(function() {
+    return debounce(function() {
       this.navForward();
     }.bind(this), this.navEventDebounce, true);
   },
 
   getNegFunc: function() {
-    return _.debounce(function() {
+    return debounce(function() {
       this.navBackward();
     }.bind(this), this.navEventDebounce, true);
   },
@@ -142,7 +142,7 @@ var MultiView = Backbone.View.extend({
     // other views will take if they need to
     this.keyboardListener.mute();
 
-    _.each(this.childViews, function(childView) {
+    this.childViews.forEach(function(childView) {
       childView.die();
     });
 
@@ -159,7 +159,7 @@ var MultiView = Backbone.View.extend({
     if (!this.typeToConstructor[type]) {
       throw new Error('no constructor for type "' + type + '"');
     }
-    var view = new this.typeToConstructor[type](_.extend(
+    var view = new this.typeToConstructor[type](Object.assign(
       {},
       viewJSON.options,
       { wait: true }
@@ -183,7 +183,7 @@ var MultiView = Backbone.View.extend({
 
   render: function() {
     // go through each and render... show the first
-    _.each(this.childViewJSONs, function(childViewJSON, index) {
+    this.childViewJSONs.forEach(function(childViewJSON, index) {
       var childView = this.createChildView(childViewJSON);
       this.childViews.push(childView);
       this.addNavToView(childView, index);
@@ -192,4 +192,3 @@ var MultiView = Backbone.View.extend({
 });
 
 exports.MultiView = MultiView;
-

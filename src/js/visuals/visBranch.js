@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -167,7 +166,7 @@ var VisBranch = VisBase.extend({
 
     var myArray = this.getBranchStackArray();
     var index = -1;
-    _.each(myArray, function(branch, i) {
+    myArray.forEach(function(branch, i) {
       if (branch.obj == this.get('branch')) {
         index = i;
       }
@@ -279,7 +278,7 @@ var VisBranch = VisBase.extend({
       arrowInnerLow,
       arrowStartLow
     ];
-    _.each(coords, function(pos) {
+    coords.forEach(function(pos) {
       pathStr += 'L' + toStringCoords(pos) + ' ';
     }, this);
     pathStr += 'z';
@@ -309,7 +308,7 @@ var VisBranch = VisBase.extend({
     }
 
     var maxWidth = 0;
-    _.each(this.getBranchStackArray(), function(branch) {
+    this.getBranchStackArray().forEach(function(branch) {
       maxWidth = Math.max(maxWidth, getTextWidth(
         branch.obj.get('visBranch')
       ));
@@ -357,6 +356,9 @@ var VisBranch = VisBase.extend({
 
     if (name === 'HEAD' && isHg) {
       name = '.';
+    }
+    if (name.match(/\bmaster\b/)) {
+      name = name.replace(/\bmaster\b/, 'main');
     }
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
@@ -407,11 +409,11 @@ var VisBranch = VisBase.extend({
     var textPos = this.getTextPosition();
     var name = this.getName();
 
-    // when from a reload, we dont need to generate the text
+    // when from a reload, we don't need to generate the text
     var text = paper.text(textPos.x, textPos.y, String(name));
     text.attr({
       'font-size': 14,
-      'font-family': 'Monaco, Courier, font-monospace',
+      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace',
       opacity: this.getTextOpacity()
     });
     this.set('text', text);
@@ -432,7 +434,7 @@ var VisBranch = VisBase.extend({
 
     // set CSS
     var keys = ['text', 'rect', 'arrow'];
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       $(this.get(key).node).css(attr.css);
     }, this);
 
@@ -451,7 +453,7 @@ var VisBranch = VisBase.extend({
       this.get('arrow')
     ];
 
-    _.each(objs, function(rObj) {
+    objs.forEach(function(rObj) {
       rObj.click(this.onClick.bind(this));
     }, this);
   },
@@ -577,4 +579,3 @@ var VisBranchCollection = Backbone.Collection.extend({
 exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
 exports.randomHueString = randomHueString;
-

@@ -49,9 +49,21 @@ describe('Tree Compare', function() {
     );
   });
 
+  it('compares with considering leftover branches', function() {
+    testMethod(
+      {
+        compareAllBranchesAndEnforceBranchCleanup: true,
+      },
+      '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"foo","id":"HEAD"}}',
+      {
+        '{"branches":{"master":{"target":"C2","id":"master","remoteTrackingBranchID":null},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null},"randoBran":{"target":"C2","id":"randoBran","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"foo","id":"HEAD"}}': false,
+      },
+    );
+  });
+
   it('deep compares on origin tree', function() {
     testMethod(
-      {}, // checked for all methods so this doesnt matter
+      {}, // checked for all methods so this doesn't matter
       // state with originTree
       '{"branches":{"master":{"target":"C1","id":"master"},"o/master":{"target":"C1","id":"o/master"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"master","id":"HEAD"},"originTree":{"branches":{"master":{"remoteTrackingBranch":null,"remote":false,"target":"C1","id":"master","type":"branch"}},"commits":{"C0":{"type":"commit","parents":[],"author":"Peter Cottle","createTime":"Wed Jul 24 2013 09:58:50 GMT-0700 (PDT)","commitMessage":"Quick commit. Go Bears!","id":"C0","rootCommit":true},"C1":{"type":"commit","parents":["C0"],"author":"Peter Cottle","createTime":"Wed Jul 24 2013 09:58:50 GMT-0700 (PDT)","commitMessage":"Quick commit. Go Bears!","id":"C1"}},"HEAD":{"target":"master","id":"HEAD","type":"general ref"}}}',
       {
@@ -173,5 +185,3 @@ describe('Tree Compare', function() {
     );
   });
 });
-
-

@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
@@ -261,33 +260,33 @@ var VisNode = VisBase.extend({
   },
 
   setOutgoingEdgesOpacity: function(opacity) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       edge.setOpacity(opacity);
     });
   },
 
   animateOutgoingEdgesToAttr: function(snapShot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       var attr = snapShot[edge.getID()];
       edge.animateToAttr(attr);
     }, this);
   },
 
   animateOutgoingEdges: function(speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       edge.animateUpdatedPath(speed, easing);
     }, this);
   },
 
   animateOutgoingEdgesFromSnapshot: function(snapshot, speed, easing) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       var attr = snapshot[edge.getID()];
       edge.animateToAttr(attr, speed, easing);
     }, this);
   },
 
   setOutgoingEdgesBirthPosition: function(parentCoords) {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       var headPos = edge.get('head').getScreenCoords();
       var path = edge.genSmoothBezierPathStringFromCoords(parentCoords, headPos);
       edge.get('path').stop();
@@ -334,7 +333,7 @@ var VisNode = VisBase.extend({
     }
     var commandStr = 'git checkout ' + this.get('commit').get('id');
     var Main = require('../app');
-    _.each([this.get('circle'), this.get('text')], function(rObj) {
+    [this.get('circle'), this.get('text')].forEach(function(rObj) {
       rObj.click(function() {
         Main.getEventBaton().trigger('commandSubmitted', commandStr);
       });
@@ -347,7 +346,7 @@ var VisNode = VisBase.extend({
 
     // set the opacity on my stuff
     var keys = ['circle', 'text'];
-    _.each(keys, function(key) {
+    keys.forEach(function(key) {
       this.get(key).attr({
         opacity: opacity
       });
@@ -371,7 +370,7 @@ var VisNode = VisBase.extend({
   },
 
   removeAllEdges: function() {
-    _.each(this.get('outgoingEdges'), function(edge) {
+    this.get('outgoingEdges').forEach(function(edge) {
       edge.remove();
     }, this);
   },
@@ -421,7 +420,7 @@ var VisNode = VisBase.extend({
       });
       // continuation calculation
       if ((vx * vx + vy * vy) < 0.1 && Math.abs(y - maxHeight) <= 0.1) {
-        // dont need to animate anymore, we are on ground
+        // don't need to animate anymore, we are on ground
         return false;
       }
       // keep animating!
@@ -452,7 +451,7 @@ var VisNode = VisBase.extend({
     text.attr({
       'font-size': this.getFontSize(this.get('id')),
       'font-weight': 'bold',
-      'font-family': 'Monaco, Courier, font-monospace',
+      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace',
       opacity: this.getOpacity()
     });
 

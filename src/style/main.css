@@ -10,7 +10,7 @@ body {
 }
 
 html, body {
-  font-family: Monaco, Courier, monospace;
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
   color: #eee;
 }
 
@@ -72,6 +72,10 @@ body,
   display: -ms-flexbox;
 }
 
+.contentHolder {
+  display: flex;
+}
+
 body,
 .flex1 {
   -webkit-box-flex: 1;
@@ -121,7 +125,7 @@ body,
   -webkit-box-align: center;
   -moz-box-align: center;
   -ms-flex-align: center;
-  justify-content	: center;
+  justify-content: center;
 }
 
 .startAlign {
@@ -253,7 +257,15 @@ body.hgMode .visBackgroundColor {
 
 #interfaceWrapper {
   min-width: 600px;
-  min-height: 600px;
+  min-height: 400px;
+}
+
+div.ui-draggable-handle {
+  cursor: grab;
+}
+
+div.ui-draggable-dragging div.ui-draggable-handle {
+  cursor: grabbing;
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
@@ -429,6 +441,10 @@ div.toolbar > div.controls div.box.flex1 div:hover {
 
 }
 
+div.ui-draggable div.controls div.box.flex1 div {
+  cursor: pointer;
+}
+
 div.controls div.box.flex1 div.close {
   background-color: #fb625f;
 }
@@ -493,6 +509,7 @@ div.reactCommandView p.commandLine span.icons i:first-child {
 
 p.commandLine span.icons i {
   opacity: 0;
+  line-height: 1em;
 }
 
 p.commandLine.inqueue span.icons i.icon-check-empty,
@@ -548,7 +565,7 @@ p.commandLine span.prompt {
 
 #commandLineBar p.command {
   margin: 0;
-  margin-left: 12px;
+  margin-left: 20px;
 }
 
 #commandLineBar #commandTextField {
@@ -562,6 +579,7 @@ p.commandLine span.prompt {
   margin: 10px;
   border-radius: 5px;
   box-shadow: 1px 0px 15px rgba(100, 100, 100, 1);
+  overflow: auto;
 }
 
 #commandLineHistory #terminal.scrolling {
@@ -679,11 +697,12 @@ div.helperBar.show {
   -o-transform: translate3d(0,0,0);
   -ms-transform: translate3d(0,0,0);
   transform: translate3d(0,0,0);
-  height: 85px;
+  min-height: 85px;
 }
 
 div.helperBar.show.BaseHelperBar {
   height: auto;
+  min-height: auto;
 }
 
 #commandLineBar,
@@ -770,6 +789,19 @@ li.rebaseEntry a#toggleButton {
 li.rebaseEntry.notPicked {
   opacity: 0.2;
 }
+
+li.rebaseEntry.notPicked span.showWhenPicked {
+  display: none;
+}
+
+li.rebaseEntry span.showWhenNotPicked {
+  display: none;
+}
+
+li.rebaseEntry.notPicked span.showWhenNotPicked {
+  display: inline;
+}
+
 /* Modal Views */
 
 div.modalView.box.inFront.show {
@@ -812,6 +844,7 @@ div.modalView.box.inFront.show {
 .modalView .terminal-window-holder {
   border-radius: 5px;
   max-width: 900px;
+  width: 90%;
 }
 
 .modalView .terminal-window {
@@ -1149,6 +1182,12 @@ div.gitDemonstrationView {
   text-shadow: rgba(0,0,0,.4) 0 1px 0;
   color: white;
 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   vertical-align: middle;
   cursor: pointer;
 }
@@ -1243,4 +1282,3 @@ div.gitDemonstrationView {
   border-top-color: #9bcbeb;
   background: #9bcbeb;
 }
-

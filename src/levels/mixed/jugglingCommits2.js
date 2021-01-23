@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout master;git cherry-pick C2;git commit --amend;git cherry-pick C3",
+  "solutionCommand": "git checkout main;git cherry-pick C2;git commit --amend;git cherry-pick C3",
   "disabledMap": {
     "git revert": true
   },
@@ -9,7 +9,7 @@ exports.level = {
   "goalAsserts": {
     "master": [
       function(data) {
-        return data.C2 > data.C3;
+        return data.C2 >= data.C3;
       },
       function(data) {
         return data.C2 > data.C1;
@@ -21,26 +21,34 @@ exports.level = {
     "en_US": "Juggling Commits #2",
     "fr_FR": "Jongler avec les commits #2",
     "es_AR": "Haciendo malabares con los commits #2",
+    "es_ES": "Haciendo malabares con los commits #2",
     "pt_BR": "Malabarismo com commits #2",
+    "gl"   : "Argallando cos commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
     "ja": "コミットをやりくりする その2",
     "zh_CN": "提交的技巧 #2",
     "zh_TW": "commit 的戲法 #2",
     "ru_RU": "Жонглируем коммитами №2",
-    "uk": "Жонглюємо комітами #2"
+    "uk": "Жонглюємо комітами #2",
+    "vi": "Tung hứng commit #2",
+    "sl_SI": "Žongliranje s Commiti #2"
   },
   "hint": {
-    "en_US": "Don't forget to forward master to the updated changes!",
-    "fr_FR": "N'oubliez pas de forwarder la branch master dans la nouvelle branch",
-    "es_AR": "¡No te olvides de avanzar master a los cambios actualizados!",
-    "pt_BR": "Não se esqueça de avançar a referência do master para as mudanças efetuadas!",
-    "de_DE": "Vergiss nicht den master auf die aktuelle Version vorzuspulen",
+    "en_US": "Don't forget to forward main to the updated changes!",
+    "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche main",
+    "es_AR": "¡No te olvides de avanzar main a los cambios actualizados!",
+    "es_ES": "¡No te olvides de avanzar main a los cambios actualizados!",
+    "pt_BR": "Não se esqueça de avançar a referência do main para as mudanças efetuadas!",
+    "gl"   : "¡Non te esquezas de avanzar main ós cambios actualizados!",
+    "de_DE": "Vergiss nicht den main auf die aktuelle Version vorzuspulen",
     "ja": "masterのポインタを先に進めることを忘れずに！",
-    "ko": "master를 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
-    "zh_CN": "别忘记了将 master 快进到最新的更新上！",
-    "zh_TW": "別忘記了將 master 推到最新的 commit 上面！",
-    "ru_RU": "Не забудь переместить master на последние изменения.",
-    "uk": "Не забудь перемістити master на останні зміни!"
+    "ko": "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+    "zh_CN": "别忘记了将 main 快进到最新的更新上！",
+    "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
+    "ru_RU": "Не забудь переместить main на последние изменения.",
+    "uk": "Не забудь перемістити main на останні зміни!",
+    "vi": "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
+    "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe."
   },
   "startDialog": {
     "en_US": {
@@ -55,7 +63,7 @@ exports.level = {
               "",
               "As you saw in the last level, we used `rebase -i` to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.",
               "",
-              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`"
+              "The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let's look at another method with `git cherry-pick`."
             ]
           }
         },
@@ -68,10 +76,10 @@ exports.level = {
               "Here's a small refresher demo:"
             ],
             "afterMarkdowns": [
-              "Nice! Let's move on"
+              "Nice! Let's move on."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -80,7 +88,7 @@ exports.level = {
             "markdowns": [
               "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
               "",
-              "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere"
+              "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere."
             ]
           }
         }
@@ -98,7 +106,7 @@ exports.level = {
               "",
               "Comme vu dans le niveau précédent, nous utilisons `rebase -i` pour réordonner les commits. Une fois que le commit à modifier est celui à la tête, nous pouvons facilement faire un --amend et réordonner dans l'ordre voulu.",
               "",
-              "La difficulté ici est qu'il y a beaucoup de changements, ce qui peut introduire des conflits de rebase. Essayons avec l'autre méthode `git cherry-pick`"
+              "La difficulté ici est qu'il y a beaucoup de changements, ce qui peut introduire des conflits de rebase. Essayons avec l'autre méthode `git cherry-pick`."
             ]
           }
         },
@@ -114,7 +122,7 @@ exports.level = {
               "Bien ! continuons."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -141,7 +149,7 @@ exports.level = {
               "",
               "Como viste en el último nivel, usamos `rebase -i` para reordenar los commits. Una vez que el commit que queríamos cambiar estaba arriba de todo, pudimos `--amend`earlo fácilmente y reordenarlo a como queríamos.",
               "",
-              "El único problema con esto es que hay mucho reordenamiento, que puede generar conflictos al rebasear. Veamos otro método usando `git cherry-pick`"
+              "El único problema con esto es que hay mucho reordenamiento, que puede generar conflictos al rebasear. Veamos otro método usando `git cherry-pick`."
             ]
           }
         },
@@ -157,7 +165,7 @@ exports.level = {
               "¡Bien! Sigamos..."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -166,7 +174,50 @@ exports.level = {
             "markdowns": [
               "Entonces, en este nivel vamos a lograr el mismo objetivo de corregir `C2`, pero sin usar `rebase -i`. Te dejo a vos el darte cuenta cómo :D",
               "",
-              "Acordate, la cantidad exacta de apóstrofes (') en el commit no es importante, sólo la diferencia relativa. Por ejemplo, le voy a dar puntaje a un árbol que matchee el objetivo pero cuyos commits tengan todos un apóstrofe extra"
+              "Acordate, la cantidad exacta de apóstrofes (') en el commit no es importante, sólo la diferencia relativa. Por ejemplo, le voy a dar puntaje a un árbol que matchee el objetivo pero cuyos commits tengan todos un apóstrofe extra."
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Haciendo malabares con los commits #2",
+              "",
+              "*Si no completaste Haciendo malabares con los commits #1 (el nivel anterior), hazlo antes de continuar*",
+              "",
+              "Como viste en el último nivel, usamos `rebase -i` para reordenar los commits. Una vez que el commit que queríamos cambiar se encontraba arriba de todo, pudimos `--amend`earlo fácilmente y reordenarlo a como queríamos.",
+              "",
+              "El único problema con esto es que hay mucho reordenamiento, que puede generar conflictos al rebasear. Veamos otro método usando `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Recuerda que git cherry-pick va a traer un commit de cualquier parte del árbol sobre HEAD (siempre que ese otro commit no sea un ancestro de HEAD).",
+              "",
+              "Una pequeña demo para refrescar la idea:"
+            ],
+            "afterMarkdowns": [
+              "¡Bien! Sigamos..."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Entonces, en este nivel vamos a lograr el mismo objetivo de corregir `C2`, pero sin usar `rebase -i`. Te dejo a ti el darte cuenta cómo :D",
+              "",
+              "Recuerda, la cantidad exacta de apóstrofes (') en el commit no es importante, sólo la diferencia relativa. Por ejemplo, le voy a dar una puntuación a un árbol que coincida con el objetivo pero cuyos commits tengan todos un apóstrofe extra."
             ]
           }
         }
@@ -184,7 +235,7 @@ exports.level = {
               "",
               "Como você viu no nível anterior, usamos `rebase -i` para reordenar os commits. Uma vez que o commit que queríamos mudar estava no topo, pudemos facilmente usar o `--amend` e depois reordená-lo de volta para obter nossa ordem preferida.",
               "",
-              "O único problema aqui é que há muita reordenação ocorrendo, o que pode introduzir conflitos de rebase. Vamos dar uma olhada em outro método, usando o `git cherry-pick`"
+              "O único problema aqui é que há muita reordenação ocorrendo, o que pode introduzir conflitos de rebase. Vamos dar uma olhada em outro método, usando o `git cherry-pick`."
             ]
           }
         },
@@ -197,10 +248,10 @@ exports.level = {
               "Aqui está uma demonstração para refrescar sua memória:"
             ],
             "afterMarkdowns": [
-              "Ótimo! Vamos em frente"
+              "Ótimo! Vamos em frente."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -209,7 +260,50 @@ exports.level = {
             "markdowns": [
               "Então, neste nível, vamos alcançar o mesmo objetivo de fazer \"amend\" no `C2`, mas evitaremos usar o `rebase -i`. Agora vou deixar com você a tarefa de descobrir como fazer! :D",
               "",
-              "Lembre-se, o número exato de apóstrofos (') nos commits não é importante, apenas as diferenças relativas. Por exemplo, darei todos os pontos nesta tarefa se você obtiver o mesmo resultado da árvore da visualização de objetivo com um apóstrofo extra em todos os commits"
+              "Lembre-se, o número exato de apóstrofos (') nos commits não é importante, apenas as diferenças relativas. Por exemplo, darei todos os pontos nesta tarefa se você obtiver o mesmo resultado da árvore da visualização de objetivo com um apóstrofo extra em todos os commits."
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argallando cos commits #2",
+              "",
+              "*No caso de non ter rematado o tema anterior (Argallando cos commits #1), por favor faino antes de continuar*.",
+              "",
+              "Como puideches ver no anterior tema, usamos `rebase -i` para reordear os commits. Unha vez que atopamos o commit que queriamos modificar, puidemos empregar sinxelamente o `--amend`, e depois reordenalo de volta para obter a nosa orde preferida.",
+              "",
+              "O único problema aquí é que hai moita reordenación ocorrendo, o que pode introducir conflitos no rebase. Imos votar unha ollada a outro método, o uso de `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lembra que `git cherry-pick` copiará un commit de qualquera lugar na árbore enriba do HEAD (sempre e cando non sexa ancestro do HEAD).",
+              "",
+              "Aquí está unha demostración para que refresques a memoria:"
+            ],
+            "afterMarkdowns": [
+              "¡A tope! Seguimos."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Entón, neste nivel, imos completar o mesmo obxectivo que facendo \"amend\" no `C2`, pero evitando facer o `rebase -i`. Agora deixámoste que lle des os miolos para sacar o exercicio! :D",
+              "",
+              "Recorda, o número exacto de apóstrofos (') nos commits non é importante, só as diferencias relativas. Por exemplo, levarás todos os puntos desta tarefa se obtés o mesmo resultado da árbore que se mostra na visualización do exercicio con un apóstrofo extra en tódolos commits."
             ]
           }
         }
@@ -225,7 +319,7 @@ exports.level = {
               "",
               "Du solltest \"Jonglieren mit Commits\" (den vorherigen Level) bestanden haben, bevor du dich an diesem hier versuchst.",
               "",
-              "Wie du im letzten Level gesehen hast haben wir `git rebase -i` genutzt, um die Commits neu anzuordnen. Sobald der Commit, den wir ändern wollte, ganz oben war, konnten wir das auch einfach mit `git commit --amend` tun. Danach haben wir die alte Reihenfolge wiederhergestellt.",
+              "Wie du im letzten Level gesehen hast, haben wir `git rebase -i` genutzt, um die Commits neu anzuordnen. Sobald der Commit, den wir ändern wollten, ganz oben war, konnten wir ihn einfach mit `git commit --amend` anpassen. Danach haben wir die alte Reihenfolge wiederhergestellt.",
               "",
               "Das einzige Problem ist hier, dass da eine Menge Umsortieren stattfindet, was zu Rebase-Konflikten führen kann. Schauen wir uns also eine Methode mit `git cherry-pick` an."
             ]
@@ -235,7 +329,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Wie du dich erinnerst macht `git cherry-pick` eine Kopie des angegebenen Commits und fügt sie an `HEAD` an (es sei denn der Commit ist ein Vorgänger von `HEAD`).",
+              "Wie du dich erinnerst, macht `git cherry-pick` eine Kopie des angegebenen Commits und fügt sie an `HEAD` an (es sei denn der Commit ist ein Vorgänger von `HEAD`).",
               "",
               "Hier eine kleine Demo zur Erinnerung:"
             ],
@@ -243,7 +337,7 @@ exports.level = {
               "Schick! Und weiter geht's."
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -286,7 +380,7 @@ exports.level = {
               "できました！次へ進みましょう"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -307,7 +401,7 @@ exports.level = {
             "markdowns": [
               "## 提交的技巧 #2",
               "",
-              "*如果你还没有完成“提交的技巧 #1”（前一关）的话，请选通过以后再来！*",
+              "*如果你还没有完成“提交的技巧 #1”（前一关）的话，请先通过以后再来！*",
               "",
               "正如你在上一关所见到的，我们可以使用 `rebase -i` 对提交记录进行重新排序。只要把我们想要的提交记录挪到最前端，我们就可以很轻松的用 `--amend` 修改它，然后把它们重新排成我们想要的顺序。",
               "",
@@ -327,7 +421,7 @@ exports.level = {
             "afterMarkdowns": [
               "看到了吧？我们继续"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -370,7 +464,7 @@ exports.level = {
             "afterMarkdowns": [
               "太棒了，我們繼續吧！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -411,7 +505,7 @@ exports.level = {
               "좋아요! 계속할게요"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -452,7 +546,7 @@ exports.level = {
               "Ок! Едем дальше!"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -479,7 +573,7 @@ exports.level = {
               "",
               "Як ти бачив в попередньому рівні, ми використали `rebase -i` щоб впорядкувати набір комітів. Як тільки потрібний коміт опиняється вгорі, його досить легко змінити за допомогою --amend й потім відсортувати коміти в попередньому порядку.",
               "",
-              "Єдина проблема з таким підходом полягає в тому, що виконується досить багато перестановок комітів, що може призвести до конфліктів при виконанні rebase. Спробуймо інший підхід який використовує `git cherry-pick`"
+              "Єдина проблема з таким підходом полягає в тому, що виконується досить багато перестановок комітів, що може призвести до конфліктів при виконанні rebase. Спробуймо інший підхід який використовує `git cherry-pick`."
             ]
           }
         },
@@ -495,7 +589,7 @@ exports.level = {
               "Добре! Продовжуємо"
             ],
             "command": "git cherry-pick C2",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout master; git commit"
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
           }
         },
         {
@@ -505,6 +599,92 @@ exports.level = {
               "Отже, в цьому рівні досягнімо тієї ж мети -- модифікації `C2` -- але без використання `rebase -i`. Я думаю, ти розберешся як це зробити! :D",
               "",
               "Зверни увагу, що точне число апострофів (') в коміті не важливе, важлива тільки відносна різниця. Наприклад, якщо кожен коміт буде містити додатковий апостроф, я все одно зарахую такий розв’язок."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tung hứng Commit #2",
+              "",
+              "*Nếu bạn vẫn chưa hoàn thành Tung hứng Commit #1 (cấp độ trước), hãy làm nó trước khi tiếp tục*",
+              "",
+              "Như bạn đã thấy ở cấp độ trước, ta dùng `rebase -i` để sắp xếp lại các commit. Một khi commit mà ta muốn sửa đã ở trên cùng, ta có thể dễ dàng --chỉnh sửa(amend) nó và sau đó sắp xếp lại trật tự lúc trước.",
+              "",
+              "Nhưng mà vẫn tồn tại vấn đề khi mà ta sắp xếp quá nhiều, điều này có thể dẫn đến xung đột khi rebase. Thử dùng cách khác với `git cherry-pick` nào"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hãy nhớ rằng cherry-pick sẽ thả commit ở bất cứ đâu xuống dưới HEAD (miễn là nó không phải cha ông hay tổ tiên gì của HEAD).",
+              "",
+              "Hãy xem thử minh họa nhỏ sau:"
+            ],
+            "afterMarkdowns": [
+              "Hay! Tiếp tục nào"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vậy thì ở cấp độ này, hãy làm hoàn thành mục tiêu tương tự là chỉnh sửa `C2` một lần nhưng hãy tránh dùng `rebase -i`. Tự tìm cách đi nhé! :D",
+              "",
+              "Nhớ rằng, số lượng dấu nháy dơn (') trên commit không quan trọng, quan trọng là mối tương liên các tham chiếu. Nói cách khác, kể cả bất cứ commit nào của bạn có thêm một đấu(') tôi vẫn công nhận đáp án của bạn"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Žongliranje s Commiti #2",
+              "",
+              "Če še nisi končal Žongliranje s Commiti #1 (prejšnjo stopnjo), jo končaj pred nadaljevanjem",
+              "",
+              "Kot si videl v prejšnji stopnji, smo uporabili `rebase -i` za preureditev commitov. Ko je bil commit, ki smo ga želeli spremeniti, na vrhu, smo preprosto uporabili --amend in preuredili nazaj v naše željeno stanje.",
+              "",
+              "Edini problem tu je, da je veliko prerazporejanja, kar lahko povzroči rebase konflikte. Poglejmo si še eno drugo tehniko imenovano `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Git cherry-pick bo skopiral commit iz bilokaterega mesta na drevesu na HEAD (seveda dokler ni ta commit že prednik HEAD).",
+              "",
+              "Tu je mali osvežitveni primer:"
+            ],
+            "afterMarkdowns": [
+              "Odlično! Nadaljujmo ..."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Torej v tej stopnji bi radi enako spremenili `C2`, ampak tokrat brez uporabe `rebase -i`. Kako to narediti, prepustim tebi! :D",
+              "",
+              "Točno število opuščajev (') na commitu ni pomembno, pomembna je samo relativna sprememba. Naprimer, vse točko bom dal tudi za drevo, ki ustreza ciljenmu drevesu, a ima povsod dodaten opuščaj."
             ]
           }
         }

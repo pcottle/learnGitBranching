@@ -1,9 +1,9 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Errors = require('../util/errors');
 
 var ParseWaterfall = require('../level/parseWaterfall').ParseWaterfall;
+var LevelStore = require('../stores/LevelStore');
 var intl = require('../intl');
 
 var CommandProcessError = Errors.CommandProcessError;
@@ -43,7 +43,7 @@ var Command = Backbone.Model.extend({
   },
 
   initDefaults: function() {
-    // weird things happen with defaults if you dont
+    // weird things happen with defaults if you don't
     // make new objects
     this.set('generalArgs', []);
     this.set('supportedMap', {});
@@ -77,13 +77,14 @@ var Command = Backbone.Model.extend({
   mapDotToHead: function() {
     var generalArgs = this.getGeneralArgs();
     var options = this.getOptionsMap();
-    
-    generalArgs = _.map(generalArgs, function(arg) {
+
+    generalArgs = generalArgs.map(function(arg) {
       return this.replaceDotWithHead(arg);
     }, this);
     var newMap = {};
-    _.each(options, function(args, key) {
-      newMap[key] = _.map(args, function(arg) {
+    Object.keys(options).forEach(function(key) {
+      var args = options[key];
+      newMap[key] = Object.values(args).map(function (arg) {
         return this.replaceDotWithHead(arg);
       }, this);
     }, this);
@@ -93,7 +94,7 @@ var Command = Backbone.Model.extend({
 
   deleteOptions: function(options) {
     var map = this.getOptionsMap();
-    _.each(options, function(option) {
+    options.forEach(function(option) {
       delete map[option];
     }, this);
     this.setOptionsMap(map);
@@ -126,18 +127,14 @@ var Command = Backbone.Model.extend({
   oneArgImpliedHead: function(args, option) {
     this.validateArgBounds(args, 0, 1, option);
     // and if it's one, add a HEAD to the back
-    if (args.length === 0) {
-      args.push('HEAD');
-    }
+    this.impliedHead(args, 0);
   },
 
   twoArgsImpliedHead: function(args, option) {
     // our args we expect to be between 1 and 2
     this.validateArgBounds(args, 1, 2, option);
     // and if it's one, add a HEAD to the back
-    if (args.length == 1) {
-      args.push('HEAD');
-    }
+    this.impliedHead(args, 1);
   },
 
   oneArgImpliedOrigin: function(args) {
@@ -149,6 +146,12 @@ var Command = Backbone.Model.extend({
 
   twoArgsForOrigin: function(args) {
     this.validateArgBounds(args, 0, 2);
+  },
+
+  impliedHead: function(args, min) {
+    if(args.length == min) {
+      args.push('HEAD');
+    }
   },
 
   // this is a little utility class to help arg validation that happens over and over again
@@ -265,15 +268,26 @@ var Command = Backbone.Model.extend({
   },
 
   parseAll: function() {
-    var str = this.get('rawStr');
-    var results = this.get('parseWaterfall').parseAll(str);
+    var rawInput = this.get('rawStr');
+    const aliasMap = LevelStore.getAliasMap();
+    for (var i = 0; i<Object.keys(aliasMap).length; i++) {
+      var alias = Object.keys(aliasMap)[i];
+      var searcher = new RegExp(alias + "(\\s|$)", "g");
+      if (searcher.test(rawInput)) {
+        rawInput = rawInput.replace(searcher, aliasMap[alias] + ' ');
+        break;
+      }
+    }
+
+    var results = this.get('parseWaterfall').parseAll(rawInput);
 
     if (!results) {
       // nothing parsed successfully
       return false;
     }
 
-    _.each(results.toSet, function(obj, key) {
+    Object.keys(results.toSet).forEach(function(key) {
+      var obj = results.toSet[key];
       // data comes back from the parsing functions like
       // options (etc) that need to be set
       this.set(key, obj);

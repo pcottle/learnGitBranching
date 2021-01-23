@@ -1,7 +1,9 @@
 var _ = require('underscore');
 var Q = require('q');
+var marked = require('marked');
 
 var Views = require('../views');
+var throttle = require('../util/throttle');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
@@ -97,7 +99,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   keyup: function() {
     if (!this.throttledPreview) {
-      this.throttledPreview = _.throttle(
+      this.throttledPreview = throttle(
         this.updatePreview.bind(this),
         500
       );
@@ -121,7 +123,7 @@ var MarkdownGrabber = ContainedBase.extend({
 
   updatePreview: function() {
     var raw = this.getRawText();
-    var HTML = require('markdown').markdown.toHTML(raw);
+    var HTML = marked(raw);
     this.$('div.insidePreview').html(HTML);
   }
 });
@@ -179,7 +181,7 @@ var DemonstrationBuilder = ContainedBase.extend({
     this.deferred = options.deferred || Q.defer();
     if (options.fromObj) {
       var toEdit = options.fromObj.options;
-      options = _.extend(
+      options = Object.assign(
         {},
         options,
         toEdit,
@@ -295,7 +297,7 @@ var MultiViewBuilder = ContainedBase.extend({
 
     this.JSON = {
       views: this.getChildViews(),
-      supportedViews: _.keys(this.typeToConstructor)
+      supportedViews: Object.keys(this.typeToConstructor)
     };
 
     this.container = new ModalTerminal({
@@ -334,7 +336,7 @@ var MultiViewBuilder = ContainedBase.extend({
       this.addChildViewObj(newView);
     }.bind(this))
     .fail(function() {
-      // they dont want to add the view apparently, so just return
+      // they don't want to add the view apparently, so just return
     })
     .done();
   },
@@ -416,4 +418,3 @@ exports.DemonstrationBuilder = DemonstrationBuilder;
 exports.TextGrabber = TextGrabber;
 exports.MultiViewBuilder = MultiViewBuilder;
 exports.MarkdownPresenter = MarkdownPresenter;
-

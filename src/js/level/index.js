@@ -1,12 +1,12 @@
-var _ = require('underscore');
 var Q = require('q');
+var React = require('react');
+var ReactDOM = require('react-dom');
 
 var util = require('../util');
 var Main = require('../app');
 var intl = require('../intl');
 var log = require('../log');
 
-var React = require('react');
 var Errors = require('../util/errors');
 var Sandbox = require('../sandbox/').Sandbox;
 var GlobalStateActions = require('../actions/GlobalStateActions');
@@ -69,8 +69,15 @@ var Level = Sandbox.extend({
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
+    if (GlobalStateStore.getShouldDisableLevelInstructions()) {
+      setTimeout(function() {
+        deferred.resolve();
+      }, 100);
+      return;
+    }
+
     if (this.level.startDialog && !this.testOption('noIntroDialog')) {
-      new MultiView(_.extend(
+      new MultiView(Object.assign(
         {},
         intl.getStartDialog(this.level),
         { deferred: deferred }
@@ -99,7 +106,7 @@ var Level = Sandbox.extend({
     var dialog = $.extend({}, intl.getStartDialog(levelObj));
     // grab the last slide only
     dialog.childViews = dialog.childViews.slice(-1);
-    new MultiView(_.extend(
+    new MultiView(Object.assign(
       dialog,
       { deferred: deferred }
     ));
@@ -140,7 +147,7 @@ var Level = Sandbox.extend({
         parent: this
       }
     );
-    React.render(
+    ReactDOM.render(
       this.levelToolbar,
       document.getElementById('levelToolbarMount')
     );
@@ -166,6 +173,14 @@ var Level = Sandbox.extend({
 
   startOffCommand: function() {
     var method = this.options.command.get('method');
+    if (GlobalStateStore.getShouldDisableLevelInstructions()) {
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        'hint; show goal'
+      );
+      return;
+    }
+
     if (!this.testOption('noStartCommand') && method !== 'importLevelNow') {
       Main.getEventBaton().trigger(
         'commandSubmitted',
@@ -401,13 +416,14 @@ var Level = Sandbox.extend({
 
   doesCommandCountTowardsTotal: function(command) {
     if (command.get('error')) {
-      // dont count errors towards our count
+      // don't count errors towards our count
       return false;
     }
 
     var matched = false;
-    _.each(Commands.commands.getCommandsThatCount(), function(map) {
-      _.each(map, function(regex) {
+    var commandsThatCount = Commands.commands.getCommandsThatCount();
+    Object.values(commandsThatCount).forEach(function(map) {
+      Object.values(map).forEach(function(regex) {
         matched = matched || regex.test(command.get('rawStr'));
       });
     });
@@ -497,7 +513,7 @@ var Level = Sandbox.extend({
       finishAnimationChain = deferred.promise;
       Main.getEventBaton().trigger(
         'commandSubmitted',
-        'echo "level solved!"'
+        'echo "level solved! type in \'levels\' to access the next level"'
       );
     } else {
       GlobalStateActions.changeIsAnimating(true);
@@ -543,7 +559,7 @@ var Level = Sandbox.extend({
   },
 
   die: function() {
-    React.unmountComponentAtNode(
+    ReactDOM.unmountComponentAtNode(
       document.getElementById('levelToolbarMount')
     );
 
@@ -645,7 +661,7 @@ var Level = Sandbox.extend({
     };
     var method = methodMap[command.get('method')];
     if (!method) {
-      throw new Error('woah we dont support that method yet', method);
+      throw new Error('woah we don\'t support that method yet', method);
     }
 
     method.apply(this, [command, defer]);

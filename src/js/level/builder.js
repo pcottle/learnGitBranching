@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var Q = require('q');
 
@@ -55,7 +54,7 @@ var LevelBuilder = Level.extend({
     // if we are editing a level our behavior is a bit different
     var editLevelJSON;
     if (options.editLevel) {
-      LevelStore.getLevel(options.editLevel);
+      editLevelJSON = LevelStore.getLevel(options.editLevel);
       options.level = editLevelJSON;
     }
 
@@ -68,7 +67,7 @@ var LevelBuilder = Level.extend({
       this.definedGoal = true;
     }
 
-    // we wont be using this stuff, and it is deleted to ensure we overwrite all functions that
+    // we won't be using this stuff, and it is deleted to ensure we overwrite all functions that
     // include that functionality
     delete this.treeCompare;
     delete this.solved;
@@ -271,7 +270,7 @@ var LevelBuilder = Level.extend({
       this.startDialogObj = levelObj;
     }.bind(this))
     .fail(function() {
-      // nothing to do, they dont want to edit it apparently
+      // nothing to do, they don't want to edit it apparently
     })
     .done(function() {
       if (command) {
@@ -335,12 +334,12 @@ var LevelBuilder = Level.extend({
       .then(function() {
         // oh boy this is complex
         var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesnt need resolving just yet...
+        // the undefined here is the command that doesn't need resolving just yet...
         this.editDialog(undefined, whenEditedDialog);
         return whenEditedDialog.promise;
       }.bind(this))
       .fail(function() {
-        // if they dont want to edit the start dialog, do nothing
+        // if they don't want to edit the start dialog, do nothing
       })
       .done(function() {
         askForStartDeferred.resolve();
@@ -360,7 +359,7 @@ var LevelBuilder = Level.extend({
   },
 
   getExportObj: function() {
-    var compiledLevel = _.extend(
+    var compiledLevel = Object.assign(
       {},
       this.level
     );
@@ -385,14 +384,14 @@ var LevelBuilder = Level.extend({
       'help builder': LevelBuilder.__super__.startDialog
     };
     if (!methodMap[command.get('method')]) {
-      throw new Error('woah we dont support that method yet');
+      throw new Error('woah we don\'t support that method yet');
     }
 
     methodMap[command.get('method')].apply(this, arguments);
   },
 
   afterCommandDefer: function(defer, command) {
-    // we dont need to compare against the goal anymore
+    // we don't need to compare against the goal anymore
     defer.resolve();
   },
 

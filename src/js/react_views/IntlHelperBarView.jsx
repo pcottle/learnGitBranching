@@ -1,32 +1,29 @@
+var PropTypes = require('prop-types');
+
 var HelperBarView = require('../react_views/HelperBarView.jsx');
 var Main = require('../app');
 var React = require('react');
 
 var log = require('../log');
 
-var IntlHelperBarView = React.createClass({
+class IntlHelperBarView extends React.Component{
 
-  propTypes: {
-    shown: React.PropTypes.bool.isRequired,
-    onExit: React.PropTypes.func.isRequired
-  },
-
-  render: function() {
+  render() {
     return (
       <HelperBarView
         items={this.getItems()}
         shown={this.props.shown}
       />
     );
-  },
+  }
 
-  fireCommand: function(command) {
+  fireCommand(command) {
     log.viewInteracted('intlSelect');
     Main.getEventBaton().trigger('commandSubmitted', command);
     this.props.onExit();
-  },
+  }
 
-  getItems: function() {
+  getItems() {
     return [{
       text: 'Git Branching',
       testID: 'english',
@@ -61,7 +58,19 @@ var IntlHelperBarView = React.createClass({
       text: 'español',
       testID: 'spanish',
       onClick: function() {
+        this.fireCommand('locale es_ES; levels');
+      }.bind(this)
+    }, {
+      text: 'argentino',
+      testID: 'argentinian',
+      onClick: function() {
         this.fireCommand('locale es_AR; levels');
+      }.bind(this)
+    }, {
+      text: 'mexicano',
+      testID: 'mexican',
+      onClick: function() {
+        this.fireCommand('locale es_MX; levels');
       }.bind(this)
     }, {
       text: 'português',
@@ -94,13 +103,49 @@ var IntlHelperBarView = React.createClass({
         this.fireCommand('locale uk; levels');
       }.bind(this)
     }, {
+      text: 'Tiếng Việt',
+      testID: 'vietnamese',
+      onClick: function() {
+        this.fireCommand('locale vi; levels');
+      }.bind(this)
+    }, {
+      text: 'Galego',
+      testID: 'galician',
+      onClick: function() {
+        this.fireCommand('locale gl; levels');
+      }.bind(this)
+    }, {
+      text: 'Slovensko',
+      testID: 'slovenian',
+      onClick: function() {
+        this.fireCommand('locale sl_SI; levels');
+      }.bind(this)
+    }, {
+      text: 'Polski',
+      testID: 'polish',
+      onClick: function() {
+        this.fireCommand('locale pl; levels');
+      }.bind(this)
+    }, {
+      text: 'தமிழ்',
+      testID: 'tamil',
+      onClick: function() {
+        this.fireCommand('locale ta_IN; levels');
+      }.bind(this)
+    }, {
       icon: 'signout',
       onClick: function() {
         this.props.onExit();
       }.bind(this)
-    }];
+    }
+    ];
   }
 
-});
+};
+
+IntlHelperBarView.propTypes = {
+  shown: PropTypes.bool.isRequired,
+  onExit: PropTypes.func.isRequired
+}
 
 module.exports = IntlHelperBarView;

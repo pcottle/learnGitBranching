@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var escapeString = require('../util/escapeString');
 var intl = require('../intl');
 
 var Graph = require('../graph');
@@ -19,7 +19,7 @@ function isColonRefspec(str) {
 }
 
 var assertIsRef = function(engine, ref) {
-  engine.resolveID(ref); // will throw giterror if cant resolve
+  engine.resolveID(ref); // will throw git error if can't resolve
 };
 
 var validateBranchName = function(engine, name) {
@@ -83,7 +83,7 @@ var assertOriginSpecified = function(generalArgs) {
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
       msg: intl.todo(
-        generalArgs[0] + ' is not a remote in your repository! try adding origin that argument'
+        generalArgs[0] + ' is not a remote in your repository! try adding origin to that argument'
       )
     });
   }
@@ -107,7 +107,7 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   if (!tracking) {
     throw new GitError({
       msg: intl.todo(
-        branchName + ' is not a remote tracking branch! I dont know where to push'
+        branchName + ' is not a remote tracking branch! I don\'t know where to push'
       )
     });
   }
@@ -190,7 +190,7 @@ var commandConfig = {
 
       var set = Graph.getUpstreamSet(engine, 'HEAD');
       // first resolve all the refs (as an error check)
-      var toCherrypick = _.map(generalArgs, function(arg) {
+      var toCherrypick = generalArgs.map(function (arg) {
         var commit = engine.getCommitFromRef(arg);
         // and check that its not upstream
         if (set[commit.get('id')]) {
@@ -253,9 +253,9 @@ var commandConfig = {
         source = firstArg;
         assertIsBranch(engine.origin, source);
         // get o/master locally if master is specified
-        destination = engine.origin.refs[source].getPrefixedID();
+        destination = engine.origin.resolveID(source).getPrefixedID();
       } else {
-        // cant be detached
+        // can't be detached
         if (engine.getDetachedHead()) {
           throw new GitError({
             msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
@@ -394,7 +394,7 @@ var commandConfig = {
         source = firstArg;
         assertIsBranch(engine.origin, source);
         // get o/master locally if master is specified
-        destination = engine.origin.refs[source].getPrefixedID();
+        destination = engine.origin.resolveID(source).getPrefixedID();
       }
       if (source) { // empty string fails this check
         assertIsRef(engine.origin, source);
@@ -431,7 +431,7 @@ var commandConfig = {
         names = names.concat(generalArgs);
         command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
 
-        _.each(names, function(name) {
+        names.forEach(function(name) {
           engine.validateAndDeleteBranch(name);
         });
         return;
@@ -447,8 +447,8 @@ var commandConfig = {
         assertIsRemoteBranch(engine, remoteBranch);
         assertIsBranch(engine, branch);
         engine.setLocalToTrackRemote(
-          engine.refs[branch],
-          engine.refs[remoteBranch]
+          engine.resolveID(branch),
+          engine.resolveID(remoteBranch)
         );
         return;
       }
@@ -519,7 +519,7 @@ var commandConfig = {
         command.addWarning(
           intl.str('git-warning-hard')
         );
-        // dont absorb the arg off of --hard
+        // don't absorb the arg off of --hard
         generalArgs = generalArgs.concat(commandOptions['--hard']);
       }
 
@@ -574,25 +574,26 @@ var commandConfig = {
     }
   },
 
+  revlist: {
+    dontCountForGolf: true,
+    displayName: 'rev-list',
+    regex: /^git +rev-list($|\s)/,
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      command.validateArgBounds(generalArgs, 1);
+
+      engine.revlist(generalArgs);
+    }
+  },
+
   log: {
     dontCountForGolf: true,
     regex: /^git +log($|\s)/,
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
 
-      if (generalArgs.length == 2) {
-        // do fancy git log branchA ^branchB
-        if (generalArgs[1][0] == '^') {
-          engine.logWithout(generalArgs[0], generalArgs[1]);
-        } else {
-          throw new GitError({
-            msg: intl.str('git-error-options')
-          });
-        }
-      }
-
-      command.oneArgImpliedHead(generalArgs);
-      engine.log(generalArgs[0]);
+      command.impliedHead(generalArgs, 0);
+      engine.log(generalArgs);
     }
   },
 
@@ -742,7 +743,7 @@ var commandConfig = {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchName(engine, refspecParts[1]);
-        if (source === "" && !engine.origin.refs[destination]) {
+        if (source === "" && !engine.origin.resolveID(destination)) {
           throw new GitError({
             msg: intl.todo(
               'cannot delete branch ' + options.destination + ' which doesnt exist'
@@ -769,7 +770,7 @@ var commandConfig = {
             sourceObj.getRemoteTrackingBranchID()) {
           assertBranchIsRemoteTracking(engine, source);
           var remoteBranch = sourceObj.getRemoteTrackingBranchID();
-          destination = engine.refs[remoteBranch].getBaseID();
+          destination = engine.resolveID(remoteBranch).getBaseID();
         } else {
           destination = validateBranchName(engine, source);
         }
@@ -810,8 +811,41 @@ var commandConfig = {
 
   tag: {
     regex: /^git +tag($|\s)/,
+    options: [
+      '-d'
+    ],
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
+      var commandOptions = command.getOptionsMap();
+
+      if (commandOptions['-d']) {
+        var tagID = commandOptions['-d'];
+        var tagToRemove;
+
+        assertIsRef(engine, tagID);
+
+        command.oneArgImpliedHead(tagID);
+        engine.tagCollection.each(function(tag) {
+          if(tag.get('id') == tagID){
+            tagToRemove = tag;
+          }
+        }, true);
+
+        if(tagToRemove == undefined){
+          throw new GitError({
+            msg: intl.todo(
+              'No tag found, nothing to remove'
+            )
+          });
+        }
+
+        engine.tagCollection.remove(tagToRemove);
+        delete engine.refs[tagID];
+
+        engine.gitVisuals.refreshTree();
+        return;
+      }
+
       if (generalArgs.length === 0) {
         var tags = engine.getTags();
         engine.printTags(tags);
@@ -820,6 +854,48 @@ var commandConfig = {
 
       command.twoArgsImpliedHead(generalArgs);
       engine.tag(generalArgs[0], generalArgs[1]);
+    }
+  },
+
+  switch: {
+    sc: /^(gsw|git sw)($|\s)/,
+    regex: /^git +switch($|\s)/,
+    options: [
+      '-c',
+      '-'
+    ],
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      var commandOptions = command.getOptionsMap();
+
+      var args = null;
+      if (commandOptions['-c']) {
+        // the user is really trying to just make a
+        // branch and then switch to it. so first:
+        args = commandOptions['-c'].concat(generalArgs);
+        command.twoArgsImpliedHead(args, '-c');
+
+        var validId = engine.validateBranchName(args[0]);
+        engine.branch(validId, args[1]);
+        engine.checkout(validId);
+        return;
+      }
+
+      if (commandOptions['-']) {
+        // get the heads last location
+        var lastPlace = engine.HEAD.get('lastLastTarget');
+        if (!lastPlace) {
+          throw new GitError({
+            msg: intl.str('git-result-nothing')
+          });
+        }
+        engine.HEAD.set('target', lastPlace);
+        return;
+      }
+
+      command.validateArgBounds(generalArgs, 1, 1);
+
+      engine.checkout(engine.crappyUnescape(generalArgs[0]));
     }
   }
 };
@@ -830,7 +906,7 @@ var instantCommands = [
       intl.str('git-version'),
       '<br/>',
       intl.str('git-usage'),
-      _.escape(intl.str('git-usage-command')),
+      escapeString(intl.str('git-usage-command')),
       '<br/>',
       intl.str('git-supported-commands'),
       '<br/>'
@@ -838,9 +914,10 @@ var instantCommands = [
 
     var commands = require('../commands').commands.getOptionMap()['git'];
     // build up a nice display of what we support
-    _.each(commands, function(commandOptions, command) {
+    Object.keys(commands).forEach(function(command) {
+      var commandOptions = commands[command];
       lines.push('git ' + command);
-      _.each(commandOptions, function(vals, optionName) {
+      Object.keys(commandOptions).forEach(function(optionName) {
         lines.push('\t ' + optionName);
       }, this);
     }, this);
@@ -856,4 +933,3 @@ var instantCommands = [
 
 exports.commandConfig = commandConfig;
 exports.instantCommands = instantCommands;
-

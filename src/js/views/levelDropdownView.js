@@ -4,6 +4,7 @@ var Backbone = require('backbone');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
+var debounce = require('../util/debounce');
 var intl = require('../intl');
 var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
@@ -40,8 +41,8 @@ var LevelDropdownView = ContainedBase.extend({
       }]
     };
 
-    this.navEvents = _.clone(Backbone.Events);
-    this.navEvents.on('clickedID', _.debounce(
+    this.navEvents = Object.assign({}, Backbone.Events);
+    this.navEvents.on('clickedID', debounce(
       this.loadLevelID.bind(this),
       300,
       true
@@ -211,7 +212,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getTabIndex: function() {
-    var ids = _.map(this.JSON.tabs, function(tab) {
+    var ids = this.JSON.tabs.map(function(tab) {
       return tab.id;
     });
     return ids.indexOf(this.JSON.selectedTab);
@@ -235,7 +236,7 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   getSequencesOnTab: function() {
-    return _.filter(this.sequences, function(sequenceName) {
+    return this.sequences.filter(function(sequenceName) {
       var tab = LEVELS.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);
@@ -292,7 +293,7 @@ var LevelDropdownView = ContainedBase.extend({
     $(selector).toggleClass('selected', value);
 
     // also go find the series and update the about
-    _.each(this.seriesViews, function(view) {
+    this.seriesViews.forEach(function(view) {
       if (view.levelIDs.indexOf(id) === -1) {
         return;
       }
@@ -343,14 +344,14 @@ var LevelDropdownView = ContainedBase.extend({
   },
 
   updateSolvedStatus: function() {
-    _.each(this.seriesViews, function(view) {
+    this.seriesViews.forEach(function(view) {
       view.updateSolvedStatus();
     }, this);
   },
 
   buildSequences: function() {
     this.seriesViews = [];
-    _.each(this.getSequencesOnTab(), function(sequenceName) {
+    this.getSequencesOnTab().forEach(function(sequenceName) {
       this.seriesViews.push(new SeriesView({
         destination: this.$el,
         name: sequenceName,
@@ -377,7 +378,7 @@ var SeriesView = BaseView.extend({
 
     this.levelIDs = [];
     var firstLevelInfo = null;
-    _.each(this.levels, function(level) {
+    this.levels.forEach(function(level) {
       if (firstLevelInfo === null) {
         firstLevelInfo = this.formatLevelAbout(level.id);
       }
@@ -444,4 +445,3 @@ var SeriesView = BaseView.extend({
 });
 
 exports.LevelDropdownView = LevelDropdownView;
-

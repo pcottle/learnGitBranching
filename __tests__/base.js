@@ -1,3 +1,5 @@
+var Q = require('q');
+
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/graph/treeCompare.js');
 
@@ -26,65 +28,27 @@ var getHeadlessSummary = function(headless) {
 var expectLevelAsync = function(headless, levelBlob) {
   var command = levelBlob.solutionCommand;
   if (command.indexOf('git rebase -i') !== -1) {
-    // dont do interactive rebase levels
+    // don't do interactive rebase levels
     return;
   }
 
-  var hasWarned = false;
-  var start;
-  runs(function() {
-    start = Date.now();
-    headless.sendCommand(command);
+  return headless.sendCommand(command).then(function() {
+    expect(compareLevelTree(headless, levelBlob)).toBeTruthy(
+      'Level "' + levelBlob['name']['en_US'] + '" should get solved'
+    );
   });
-  waitsFor(function() {
-    var diff = (Date.now() - start);
-    if (diff > TIME - 10 && !hasWarned) {
-      hasWarned = true;
-      console.log('this goal tree', loadTree(levelBlob.goalTreeString));
-      console.log('not going to match with command', command);
-      console.log(getHeadlessSummary(headless));
-    }
-    var result = compareLevelTree(headless, levelBlob);
-    if (result) {
-      console.log('solved level ' + levelBlob.name.en_US);
-    }
-    return result;
-  }, 'trees should be equal', TIME);
 };
 
 var expectTreeAsync = function(command, expectedJSON, startJSON) {
   var headless = new HeadlessGit();
-  var start = Date.now();
-  var haveReported = false;
 
   if (startJSON) {
     headless.gitEngine.loadTreeFromString(startJSON);
   }
 
-  runs(function() {
-    headless.sendCommand(command);
+  return headless.sendCommand(command).then(function() {
+    expect(compareAnswer(headless, expectedJSON)).toBeTruthy();
   });
-  waitsFor(function() {
-    var diff = (Date.now() - start);
-    if (diff > TIME - 40 && !haveReported) {
-      haveReported = true;
-      var expected = loadTree(expectedJSON);
-      console.log('not going to match', command);
-      console.log('expected\n>>>>>>>>\n', expected);
-      console.log('\n<<<<<<<<<<<\nactual', getHeadlessSummary(headless));
-      console.log('\n<<<<ORIGIN>>>>>\n');
-      if (expected.originTree) {
-        console.log('expected origin tree:');
-        console.log(expected.originTree);
-        console.log('\n=========\n');
-        console.log('actual origin tree');
-        console.log(getHeadlessSummary(headless).originTree);
-      }
-      console.log(expectedJSON);
-      console.log(JSON.stringify(getHeadlessSummary(headless)));
-    }
-    return compareAnswer(headless, expectedJSON);
-  }, 'trees should be equal', 500);
 };
 
 var expectLevelSolved = function(levelBlob) {
@@ -93,6 +57,19 @@ var expectLevelSolved = function(levelBlob) {
     headless.gitEngine.loadTreeFromString(levelBlob.startTree);
   }
   expectLevelAsync(headless, levelBlob);
+};
+
+var runCommand = function(command, resultHandler) {
+  var headless = new HeadlessGit();
+  var deferred = Q.defer();
+  var msg = null;
+
+  return headless.sendCommand(command, deferred).then(function() {
+    return deferred.promise.then(function(commands) {
+      msg = commands[commands.length - 1].get('error').get('msg');
+      resultHandler(msg);
+    });
+  });
 };
 
 var TIME = 150;
@@ -105,6 +82,6 @@ module.exports = {
   TIME: TIME,
   expectTreeAsync: expectTreeAsync,
   expectLevelSolved: expectLevelSolved,
-  ONE_COMMIT_TREE: ONE_COMMIT_TREE
+  ONE_COMMIT_TREE: ONE_COMMIT_TREE,
+  runCommand: runCommand
 };
-

@@ -1,4 +1,16 @@
+sudo: false
 language: node_js
 node_js:
-  - "4.1"
-  - "5.3"
+  - "10"
+  - "8"
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
+cache:
+  yarn: true
+  directories:
+    - "node_modules"
+script:
+  - ./checkgit.sh "Source files were modified before build; is yarn.lock out of sync with package.json?" || travis_terminate $?
+  - yarn gulp
+  - ./checkgit.sh "Source files were modified by the build" || travis_terminate $?

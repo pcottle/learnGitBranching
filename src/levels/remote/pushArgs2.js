@@ -1,32 +1,40 @@
 exports.level = {
     "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C4\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git push origin master^:foo;git push origin foo:master",
+  "solutionCommand": "git push origin main^:foo;git push origin foo:main",
   "startTree": "{\"branches\":{\"master\":{\"target\":\"C6\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git push arguments -- Expanded!",
     "zh_CN": "Git push 参数 2",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
+    "es_ES": "¡Más! Parámetros de git push",
     "pt_BR": "Parâmetros do git push -- expandido",
+    "gl"   : "Parámetros de git push -- ampliado",
     "de_DE": "Optionen für Git Push -- noch mehr!",
     "ja"   : "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !",
     "ru_RU": "Аргументы для push -- расширенная версия!",
     "ko"   : "git push 인자 -- 확장판!",
-    "uk"   : "Розширені аргументи git push!"
+    "uk"   : "Розширені аргументи git push!",
+    "vi"   : "Tham số git push -- bản mở rộng!",
+    "sl_SI": "Git push argumenti -- Razširjeni!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
     "zh_CN": "如果你认输的话，可以通过“show solution”查看解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
+    "es_ES": "Recuerda que puedes admitir tu derrota y escribir \"show solution\" para ver la solución :P",
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
+    "gl"   : "Lembrate que podes admitir que fuches derrotado e escribir \"show solution\" para amosala solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
     "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
     "ko"   : "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
-    "uk"   : "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P"
+    "uk"   : "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
+    "vi"   : "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
+    "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P"
   },
   "startDialog": {
     "en_US": {
@@ -37,7 +45,7 @@ exports.level = {
             "markdowns": [
               "## `<place>` argument details",
               "",
-              "Remember from the previous lesson that when we specified `master` as the place argument for git push, we specified both the *source* of where the commits would come from and the *destination* of where the commits would go.",
+              "Remember from the previous lesson that when we specified `main` as the place argument for git push, we specified both the *source* of where the commits would come from and the *destination* of where the commits would go.",
               "",
               "You might then be wondering -- what if we wanted the source and destination to be different? What if you wanted to push commits from the `foo` branch locally onto the `bar` branch on remote?",
               "",
@@ -55,7 +63,7 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`)",
+              "This is commonly referred to as a colon refspec. Refspec is just a fancy name for a location that git can figure out (like the branch `foo` or even just `HEAD~1`).",
               "",
               "Once you are specifying both the source and destination independently, you can get quite fancy and precise with remote commands. Let's see a demo!"
             ]
@@ -70,7 +78,7 @@ exports.level = {
             "afterMarkdowns": [
               "Woah! That's a pretty trippy command but it makes sense -- git resolved `foo^` into a location, uploaded whatever commits that weren't present yet on the remote, and then updated destination."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -83,7 +91,7 @@ exports.level = {
             "afterMarkdowns": [
               "Sweet, that's pretty slick :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -107,7 +115,7 @@ exports.level = {
             "markdowns": [
               "## L'argument `<place>` dans le détail",
               "",
-              "Rappelez-vous de notre dernière leçon : quand vous passiez `master` comme argument `<place>` à git push, cela spécifiait à la fois la *source* de provenance des commits et leur *destination*.",
+              "Rappelez-vous de notre dernière leçon : quand vous passiez `main` comme argument `<place>` à git push, cela spécifiait à la fois la *source* de provenance des commits et leur *destination*.",
               "",
               "Vous vous demandez peut-être donc : et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
               "",
@@ -140,7 +148,7 @@ exports.level = {
             "afterMarkdowns": [
               "Woahou ! C'est une commande très alambiquée mais qui a du sens : git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la branche de destination."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -153,7 +161,7 @@ exports.level = {
             "afterMarkdowns": [
               "Cool, c'est habile :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -177,11 +185,11 @@ exports.level = {
             "markdowns": [
               "## Detalles sobre el parámetro `<lugar>`",
               "",
-              "Acordate de la lección anterior que cuando especificamos `master` como el parámetro lugar de git push, especificamos tanto el *origen* del que sacar los commits como el *destino* al que enviarlos.",
+              "Acordate de la lección anterior que cuando especificamos `main` como el parámetro lugar de git push, especificamos tanto el *origen* del que sacar los commits como el *destino* al que enviarlos.",
               "",
-              "Podrías estár preguntándote ¿Y si quisieramos que el origen y el destino sean distintos? ¿Si quisieras pushear los commits de la rama local `foo` a la rama `bar` del remote?",
+              "Podrías estar preguntándote ¿Y si quisiéramos que el origen y el destino sean distintos? ¿Si quisieras pushear los commits de la rama local `foo` a la rama `bar` del remote?",
               "",
-              "Bueno, lamentablemente eso no se puede hacer en git... ¡Bazinga! Claro que se puede :)... git es extremadísimamente flexible (casi casi que demsiado).",
+              "Bueno, lamentablemente eso no se puede hacer en git... ¡Bazinga! Claro que se puede :)... git es extremadísimamente flexible (casi casi que demasiado).",
               "",
               "Veamos cómo hacerlo a continuación..."
             ]
@@ -197,7 +205,7 @@ exports.level = {
               "",
               "Esto se lo suele llamar refspec con dos puntos. Refspec es simplemente un nombre cool para una ubicación que git puede entender (como la rama `foo`, o incluso `HEAD~1`)",
               "",
-              "Una vez que especificás tanto el origen como el destino independientemente, podés ponerte bastante cómodo y preciso con los comandos remotos. ¡Veámos una demo!"
+              "Una vez que especificás tanto el origen como el destino independientemente, podés ponerte bastante cómodo y preciso con los comandos remotos. ¡Veamos una demo!"
             ]
           }
         },
@@ -210,7 +218,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Woow! Ese commando es bastante loco, pero tiene sentido: git resolvió `foo^` a una ubicación, subió cualquier commit de ahí que aún no estuviera en el remoto, y luego actualizó el destino."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -218,12 +226,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "¿Y qué hay si el destino que al querés pushear no existe? ¡No hay drama! Simplemente dale un nombre al branch y git se va a encargar de creártelo en el remoto."
+              "¿Y qué hay si el destino al que querés pushear no existe? ¡No hay drama! Simplemente dale un nombre al branch y git se va a encargar de creártelo en el remoto."
             ],
             "afterMarkdowns": [
               "Genial, simplemente fluye :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -239,6 +247,76 @@ exports.level = {
         }
       ]
     },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalles sobre el parámetro `<lugar>`",
+              "",
+              "Recuerda de la lección anterior que cuando especificamos `main` como el parámetro lugar de git push, especificamos tanto el *origen* del que sacar los commits como el *destino* al que enviarlos.",
+              "",
+              "Podrías estar preguntándote ¿Y si quisiéramos que el origen y el destino fuesen distintos? ¿Si quisieras hacer push de los commits de la rama local `foo` a la rama `bar` del remote?",
+              "",
+              "Bueno, lamentablemente eso no se puede hacer en git... ¡zasca! Claro que se puede :)... git es extremadamente flexible (casi casi que demasiado).",
+              "",
+              "Veamos cómo hacerlo a continuación..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para especificar tanto el origen como el destino de `<lugar>`, simplemente únelos usando el signo `dos puntos`:",
+              "",
+              "`git push origin <origen>:<destino>`",
+              "",
+              "A esto se le suele llamar refspec con dos puntos. Refspec es simplemente un nombre genial para una ubicación que git puede entender (como la rama `foo`, o incluso `HEAD~1`)",
+              "",
+              "Una vez que especificas tanto el origen como el destino independientemente, puedes ponerte bastante cómodo y preciso con los comandos remotos. ¡Veamos una demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Recuerda: `origen` es cualquier ubicación que git pueda entender:"
+            ],
+            "afterMarkdowns": [
+              "¡Vaya! Ese commando es bastante rompedor, pero tiene sentido: git resolvió `foo^` a una ubicación, subió cualquier commit de ahí que aún no estuviera en el remoto, y luego actualizó el destino."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Y qué ocurre si el destino al que quieres hacer push no existe? ¡Sin problema! Simplemente dale un nombre a la rama y git se va a encargar de creártelo en el remoto."
+            ],
+            "afterMarkdowns": [
+              "Genial, simplemente fluye :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, trata de llegar al objetivo final, y recuerda el formato:",
+              "",
+              "`<origen>:<destino>`"
+            ]
+          }
+        }
+      ]
+    },
     "pt_BR": {
       "childViews": [
         {
@@ -247,7 +325,7 @@ exports.level = {
             "markdowns": [
               "## Detalhes sobre `<lugar>`",
               "",
-              "Lembra que na lição anterior especificamos `master` como o parâmetro lugar para o git push? Lá definimos tanto a *origem* de onde os commits viriam quanto o *destino* para onde os commits foram.",
+              "Lembra que na lição anterior especificamos `main` como o parâmetro lugar para o git push? Lá definimos tanto a *origem* de onde os commits viriam quanto o *destino* para onde os commits foram.",
               "",
               "Você pode estar se perguntando -- e se eu quisesse que a origem e o destino fossem diferentes? E se eu quisesse enviar commits do ramo local `foo` para o ramo remoto `bar`?",
               "",
@@ -280,7 +358,7 @@ exports.level = {
             "afterMarkdowns": [
               "Uau! Esse comando é bastante viajado, mas ele faz sentido -- o Git entendeu a referência `foo^`, enviou quaisquer commits que não estavam presentes no repositório remoto, e então atualizou o destino."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -293,7 +371,7 @@ exports.level = {
             "afterMarkdowns": [
               "Doce, isso é muito bom :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -309,6 +387,76 @@ exports.level = {
         }
       ]
     },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalles sobre o parámetro `<lugar>`",
+              "",
+              "Lémbrate da lección anterior cando especificamos `main` como o parámetro lugar de git push, especificamos tanto a *orixe* do que sacar os commits como o *destino* ó que envialos.",
+              "",
+              "Poderías estar a preguntarte ¿E se quixéramos que a orixe  e o destino sexan distintos? ¿Se quixéramos empurrar os commits da  rama local `foo` á rama `bar` do remoto?",
+              "",
+              "Bueno, esto non se pode facer en git... ¡Caramboliñas! Claro que se pode :D. git é extremadísimamente flexibe (case case que de máis).",
+              "",
+              "Vexamos cómo facelo a continuación..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para especificar tanto a orixe como o destino de `<lugar>`, sinxelamente úneos empregando dous puntos:",
+              "",
+              "`git push origin <orixe>:<destino>`",
+              "",
+              "Esto pódeselle chamar refspec con dous puntos. Refspec é sinxelamente un nome cool para unha ubicación que git pode entender (como a rama `foo`, ou incluso `HEAD~1`)",
+              "",
+              "Unha vez que especificas a orixe e o destino independientemente, podes poñerte cómodo e preciso cos  comandos remotos. ¡Vexamos a demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lembra: `orixe` é calquera ubicación que git poida entender:"
+            ],
+            "afterMarkdowns": [
+              "¡Woow! Ese commando é unha tolemia, pero ten sentido: git resolveu `foo^` a unha ubicación, subiu calquera commit de ahí que aún non estivera no remoto, e logo actualizou o destino."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿E qué hai se o destino ó que queres empurrar non existise? ¡Non pasa nada! Sinxelamente dalle un nome á rama e git vaise encargar de crealo no remoto."
+            ],
+            "afterMarkdowns": [
+              "Xenial, sinxelamente tira para adiante."
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, intenta chegar o obxectivo final, e lembrate do formato:",
+              "",
+              "`<orixe>:<destino>`"
+            ]
+          }
+        }
+      ]
+    },
     "zh_TW": {
       "childViews": [
         {
@@ -317,7 +465,7 @@ exports.level = {
             "markdowns": [
               "## `<place>` 這個參數的細節",
               "",
-              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `master`  當作 `<place>` 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*（source） 並且要 *往哪裡去*（destination）。",
+              "回想一下，我們在之前的課程中提到，當我們用 `git push` 並且把 `main`  當作 `<place>` 這個參數的時候，我們就相當於告訴 git 我們的所要更新的 commit 要*從哪裡來*（source） 並且要 *往哪裡去*（destination）。",
               "",
               "你可能會很好奇，當我們的 source 以及 destination 是不同的時候，應該怎麼做？當你想要 push `foo` branch 上面的 commit 到 remote 的 `bar` branch 的時候，應該怎麼做？",
               "",
@@ -348,9 +496,9 @@ exports.level = {
               "記住， `source` 表示任意可以被 git 辨識的位置："
             ],
             "afterMarkdowns": [
-              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 master branch。"
+              "哇!這實在是一個很花俏的指令但是確很合理，git 把 `foo^` 解讀成一個位置，並且 push 該位置的 commit 到目前 remote 的 main branch。"
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -363,7 +511,7 @@ exports.level = {
             "afterMarkdowns": [
               "太讚了，實在非常地簡單:D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -387,7 +535,7 @@ exports.level = {
             "markdowns": [
               "## `<place>`参数详解",
               "",
-              "还记得之前课程说的吧，当为 git push 指定 place 参数为 `master` 时，我们同时指定了提交记录的来源和去向。",
+              "还记得之前课程说的吧，当为 git push 指定 place 参数为 `main` 时，我们同时指定了提交记录的来源和去向。",
               "",
               "你可能想问 —— 如果来源和去向分支的名称不同呢？比如你想把本地的 `foo` 分支推送到远程仓库中的 `bar` 分支。",
               "",
@@ -418,9 +566,9 @@ exports.level = {
               "记住，`source` 可以是任何 Git 能识别的位置："
             ],
             "afterMarkdowns": [
-              "这是个另人困惑的命令，但是它确实是可以运行的 —— Git 将 `foo^` 解析为一个位置，上传所有未被包含到远程仓库里 `master` 分支中的提交记录。"
+              "这是个另人困惑的命令，但是它确实是可以运行的 —— Git 将 `foo^` 解析为一个位置，上传所有未被包含到远程仓库里 `main` 分支中的提交记录。"
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -433,7 +581,7 @@ exports.level = {
             "afterMarkdowns": [
               "很赞吧！它是不是很聪明？！ :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -457,11 +605,11 @@ exports.level = {
             "markdowns": [
               "## Details zum `<Ort>`-Parameter",
               "",
-              "Du erinnerst dich von dem vorherigen Level, dass, als wir `master` als \"Ort\" beim `git push` angegeben haben, daraus sowohl die *Quelle* als auch das *Ziel* für die Operation abgeleitet wurden.",
+              "Du erinnerst dich von dem vorherigen Level, dass, als wir `main` als \"Ort\" beim `git push` angegeben haben, daraus sowohl die *Quelle* als auch das *Ziel* für die Operation abgeleitet wurden.",
               "",
-              "Daher fragst du dich vielleicht -- was wenn wir möchten, dass Quelle und Ziel anders sind? Was wenn du Commits von einem lokalen Branch `foo` in den Branch `bar` auf einem Server schieben möchtest?",
+              "Daher fragst du dich vielleicht -- was wenn wir möchten, dass Quelle und Ziel verschieden voneinander sind? Was wenn du Commits von einem lokalen Branch `foo` in den Branch `bar` auf einem Server schieben möchtest?",
               "",
-              "Tja, leider ist das in Git unmöglich .... ein Scherz! Natürlich ist das möglich. Git besitzt tonnenweise Flexibilität (eher zuviel, als zuwenig).",
+              "Tja, leider ist das in Git unmöglich .... ein Scherz! Natürlich ist das möglich. Git besitzt tonnenweise Flexibilität (eher zu viel, als zu wenig).",
               "",
               "Und gleich sehen wir, wie das geht ..."
             ]
@@ -475,9 +623,9 @@ exports.level = {
               "",
               "`git push origin <Quelle>:<Ziel>`",
               "",
-              "Das wird üblicherweise Refspec (Referenz-Spezifikation) genannt. Refspec ist nur ein anderer Name für einen Ort, mit dem Git etwas anfangen kann (wie mit Branch `foo` oder mit `HEAD~2`)",
+              "Das wird üblicherweise Refspec (Referenz-Spezifikation) genannt. Refspec ist nur ein anderer Name für einen Ort, mit dem Git etwas anfangen kann (wie mit Branch `foo` oder mit `HEAD~2`).",
               "",
-              "Sobald du Quelle und Ziel separat angibt, kannst du flexibel und präzise entfernte Branches ansteuern. Hier eine Demo:"
+              "Sobald du Quelle und Ziel separat angibst, kannst du flexibel und präzise entfernte Branches ansteuern. Hier eine Demo:"
             ]
           }
         },
@@ -488,9 +636,9 @@ exports.level = {
               "Vergiss nicht, `Quelle` ist jeder mögliche Ort, mit dem Git etwas anfangen kann:"
             ],
             "afterMarkdowns": [
-              "Boah! Das ist ein ziemlich abgefahrener Befehl gewesen, aber er ist sinnvoll -- Git hat `foo^` zu einem Commit aufgelöst, alle Commits die bis zu diesem einschließich noch nicht auf dem Server waren hochgeladen und dann dort das Ziel aktualisiert."
+              "Boah! Das ist ein ziemlich abgefahrener Befehl gewesen, aber er ist sinnvoll -- Git hat `foo^` zu einem Commit aufgelöst, alle Commits, die bis zu einschließlich diesem noch nicht auf dem Server waren, hochgeladen und dann dort das Ziel aktualisiert."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -503,7 +651,7 @@ exports.level = {
             "afterMarkdowns": [
               "Schick, das ist ziemlich praktisch. :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -511,7 +659,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um dieses Level zu schaffen versuch den dargestellten Zielzustand zu erreichen und vergiss nicht das Format:",
+              "Um dieses Level zu schaffen versuche den dargestellten Zielzustand zu erreichen und vergiss nicht das Format:",
               "",
               "`<Quelle>:<Ziel>`"
             ]
@@ -527,7 +675,7 @@ exports.level = {
             "markdowns": [
               "## Подробности аргумента `<пункт назначения>`",
               "",
-              "Помните, когда в прошлом занятии мы указали в качестве аргумента ветку `master` для команды git push, мы указали совместно *источник*, откуда будут приходить коммиты, и *пункт назначения (получатель)*, куда коммиты будут уходить.",
+              "Помните, когда в прошлом занятии мы указали в качестве аргумента ветку `main` для команды git push, мы указали совместно *источник*, откуда будут приходить коммиты, и *пункт назначения (получатель)*, куда коммиты будут уходить.",
               "",
               "Однако, вы, наверное, задаётесь вопросом - а что, если я хочу, чтобы мои источник и получатель коммитов были различными? Что, если мы хотим запушить коммиты из локальной ветки `foo` в ветку `bar` на удалённом репозитории?",
               "",
@@ -560,7 +708,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вау! Это довольно нетривиальная команда, однако она имеет смысл - git видит в `foo^` не что иное, как местоположение, закачивает все коммиты, которые не присутствуют на удалённом репозитории, и затем обновляет получателя."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -573,7 +721,7 @@ exports.level = {
             "afterMarkdowns": [
               "Класс! Довольно легко! :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -598,7 +746,7 @@ exports.level = {
               "## `<place>` 인자에 대한 세부사항들",
               "",
               "",
-              "기억하세요? 이전 강의에서 우리는 `master`를 커밋의 근원이되는 *source*와 목적지가 되는 *destination*으로 명령어의 인자로 넣어줌으로써 지정해줬습니다.",
+              "기억하세요? 이전 강의에서 우리는 `main`를 커밋의 근원이되는 *source*와 목적지가 되는 *destination*으로 명령어의 인자로 넣어줌으로써 지정해줬습니다.",
               "여러분은 이런 생각이 들 수 있어요 -- 내가 source와 destination이 다르길 원하면 어떻게 해야되지? 로컬의 `foo` 브랜치에서 원격의 `bar` 브랜치로 커밋을 push하고 싶으면 어떻게 해야 되지?",
               "",
               "사실 git에서는 그게 불가능합니다... 네 농담이고! 당연 가능합니다 :)... git의 어마무시하게 유연합니다(지나칠정도로요).",
@@ -630,7 +778,7 @@ exports.level = {
             "afterMarkdowns": [
               "워 뭔가 잘 안쓸것 같은 명령이지만 잘 됩니다 -- git은 `foo^`의 위치를 알아내서 원격 저장소에 아직 반영되지 않은 커밋들을 업로드하고 destination 브랜치를 갱신했습니다."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -643,7 +791,7 @@ exports.level = {
             "afterMarkdowns": [
               "좋네요, 번지르르 삐까뻔쩍 :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -667,7 +815,7 @@ exports.level = {
             "markdowns": [
               "## Детальніше про аргумент `<place>`",
               "",
-              "З попереднього уроку нам відомо, що коли ми вказуємо `master` в якості аргумента place для git push, ми задаємо і гілку, *з якої* брати нові коміти, і гілку *до якої* їх буде перенесено.",
+              "З попереднього уроку нам відомо, що коли ми вказуємо `main` в якості аргумента place для git push, ми задаємо і гілку, *з якої* брати нові коміти, і гілку *до якої* їх буде перенесено.",
               "",
               "Тут ти можеш задуматись, а чи можуть гілки, звідки беремо, і куди переносимо, бути різними? Що, коли потрібно коміти з локальної гілки `foo` перенести у віддалену гілку `bar`?",
               "",
@@ -700,7 +848,7 @@ exports.level = {
             "afterMarkdowns": [
               "Овва! Це доволі незвична команда, але тут все має сенс -- git, знаючи куди вказує `foo^`, завантажив на віддалену сторону ще відсутні там коміти і оновив місце призначення."
             ],
-            "command": "git push origin foo^:master",
+            "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
           }
         },
@@ -713,7 +861,7 @@ exports.level = {
             "afterMarkdowns": [
               "Спритно, еге-ж? :D"
             ],
-            "command": "git push origin master:newBranch",
+            "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"
           }
         },
@@ -722,6 +870,146 @@ exports.level = {
           "options": {
             "markdowns": [
               "На цьому рівні спробуй досягти стану ропозиторію, показаного у візуалізації і пам'ятай про формат запису з двокрапкою:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Chi tiết về tham số `<vị trí>`",
+              "",
+              "Nhớ lại học trước, khi chỉ định tham số `<vị trí>` là `main` cho lệnh `git push`, ta cũng đã chỉ định nguồn và đích cho các commit.",
+              "",
+              "Có thể bạn sẽ thắng mắc -- Nếu như ta muốn nguồn và đích khác đi thì sao? Nếu như ta muốn đẩy commit từ nhánh cục bộ `foo` lên nhánh từ xa `bar` thì sao?",
+              "",
+              "Chà đáng tiếc là điều này là bất khả thi tron git... đùa thôi! Tất nhiên là làm được chứ :)... git có nhiều và rất nhiều lựa chọn linh động(có lẽ là quá nhiều)",
+              "",
+              "Hãy xem cách nó hoạt động ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Để chỉ định `<vị trí>` cho cả nguồn và đích, chỉ cần sử dụng dấu hai chấm `:` để kết nối cả hai:",
+              "",
+              "`git push origin <nguồn>:<đích>`",
+              "",
+              "Giá trị thực của tham số này là một refspec, \"refspec\" là một từ tự tạo, nghĩa là một vị trí được Git nhận ra (chẳng hạn như nhánh `foo` hoặc` HEAD ~ 1`).",
+              "",
+              "Một khi bạn đã chỉ định các nguồn và đích độc lập, bạn có thể thao tác với kho chứa từ xa một cách khá thú vị và chính xác, hãy xem bản demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nhớ rằng, `nguồn` là bất kỳ vị trí nào mà git hiểu:"
+            ],
+            "afterMarkdowns": [
+              "Wao! Lệnh này khá phức tạp, nhưng mà hợp lý -- git diễn giải `foo^` thành một vị trí, tải lên tất cả các commit từ đó trở về trước mà chưa có trên nhánh đích rồi cập nhật nó."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nếu như đích đến mà bạn muốn không tồn tại thì sao? Chẳng sao cả! Đơn giản hãy gõ tên nhánh và git sẽ tạo nhánh đó trên kho chứa từ xa cho bạn."
+            ],
+            "afterMarkdowns": [
+              "Tuyệt vời, thấy git thú vị không :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ở cấp độ này, hãy hoàn thành mục tiêu được mô tả, và hãy nhớ cấu trúc:",
+              "",
+              "`<nguồn>:<đích>`"
+            ]
+          }
+        }
+      ]
+    },
+    "sl_SI": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Podrobnosti `<place>` argumenta",
+              "",
+              "Spomni se prejšnje lekcije, kjer smo določili `main` kot place argument za git push, določili smo *izvor* iz kje bodo commiti prišli in *destinacijo*, kamor bodo commiti odšli.",
+              "",
+              "Morda se sprašuješ -- kaj če želimo, da sta izvor in destinacija različna? Kaj če želiš pushati commite iz lokalnega `foo` brancha na oddaljen `bar` branch?",
+              "",
+              "Nažalost to v gitu ni možno ... hecam se! Seveda je možno :) ... git ima ogromno opcij (skoraj preveč).",
+              "",
+              "Poglejmo kako v naslednjem razdelku ..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Da bi določili in izvor in destinacijo `<place-a>`, preprosto združimo oba skupaj z dvopičjem:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "To je pogosto omenjeno kot dvopična referenca. Ta referenca je samo ime za lokacijo, ki jo lahko git razvozla (kot je branch `foo` ali samo `HEAD~1`).",
+              "",
+              "Ko enkrat določiš izvor in destinacijo neodvisno, lahko oddaljene ukaze uporabljaš zelo natačno in učinkovito. Poglejmo si primer!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pomni, `source` je bilokatera lokacija, ki jo git razume:"
+            ],
+            "afterMarkdowns": [
+              "Woah! To je kar zanimiv ukaz, ampak ima smisel -- git je razrešil `foo^` v lokacijo, naložil commite, ki še niso bili prisotni v oddaljenem repotu in nato posodobil destinacijo."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kaj če destinacija kamor želiš pushati ne obstaja? Ni problem! Samo podaj ime brancha in git bo naredil branch na oddaljenem repotu zate."
+            ],
+            "afterMarkdowns": [
+              "Lepa, to je kar kul :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Za to stopnjo poizkusi priti v ciljno stanje, prikazano v vizualizaciji in si zapomni obliko:",
               "",
               "`<source>:<destination>`"
             ]

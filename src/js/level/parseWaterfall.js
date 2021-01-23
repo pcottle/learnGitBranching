@@ -1,5 +1,3 @@
-var _ = require('underscore');
-
 var GitCommands = require('../git/commands');
 var Commands = require('../commands');
 var SandboxCommands = require('../sandbox/commands');
@@ -27,7 +25,7 @@ ParseWaterfall.prototype.initParseWaterfall = function() {
     return;
   }
 
-  // by deferring the initialization here, we dont require()
+  // by deferring the initialization here, we don't require()
   // level too early (which barfs our init)
   this.parseWaterfall = this.options.parseWaterfall || [
     Commands.parse,
@@ -68,15 +66,17 @@ ParseWaterfall.prototype.addLast = function(which, value) {
 };
 
 ParseWaterfall.prototype.expandAllShortcuts = function(commandStr) {
-  _.each(this.shortcutWaterfall, function(shortcutMap) {
+  this.shortcutWaterfall.forEach(function(shortcutMap) {
     commandStr = this.expandShortcut(commandStr, shortcutMap);
   }, this);
   return commandStr;
 };
 
 ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
-  _.each(shortcutMap, function(map, vcs) {
-    _.each(map, function(regex, method) {
+  Object.keys(shortcutMap).forEach(function(vcs) {
+    var map = shortcutMap[vcs];
+    Object.keys(map).forEach(function(method) {
+      var regex = map[method];
       var results = regex.exec(commandStr);
       if (results) {
         commandStr = vcs + ' ' + method + ' ' + commandStr.slice(results[0].length);
@@ -87,13 +87,13 @@ ParseWaterfall.prototype.expandShortcut = function(commandStr, shortcutMap) {
 };
 
 ParseWaterfall.prototype.processAllInstants = function(commandStr) {
-  _.each(this.instantWaterfall, function(instantCommands) {
+  this.instantWaterfall.forEach(function(instantCommands) {
     this.processInstant(commandStr, instantCommands);
   }, this);
 };
 
 ParseWaterfall.prototype.processInstant = function(commandStr, instantCommands) {
-  _.each(instantCommands, function(tuple) {
+  instantCommands.forEach(function(tuple) {
     var regex = tuple[0];
     var results = regex.exec(commandStr);
     if (results) {
@@ -109,7 +109,7 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
   }
 
   var toReturn = false;
-  _.each(this.parseWaterfall, function(parseFunc) {
+  this.parseWaterfall.forEach(function(parseFunc) {
     var results = parseFunc(commandStr);
     if (results) {
       toReturn = results;
@@ -120,4 +120,3 @@ ParseWaterfall.prototype.parseAll = function(commandStr) {
 };
 
 exports.ParseWaterfall = ParseWaterfall;
-

@@ -1,3 +1,6 @@
+var { readdirSync, lstatSync } = require('fs');
+var { join } = require('path');
+
 var escapeString = require('../util/escapeString');
 var constants = require('../util/constants');
 
@@ -24,7 +27,8 @@ exports.splitTextCommand = function(value, func, context) {
       .replace(/^(\s+)/, '')
       .replace(/(\s+)$/, '')
       .replace(/&quot;/g, '"')
-      .replace(/&#x27;/g, "'");
+      .replace(/&#x27;/g, "'")
+      .replace(/&#x2F;/g, "/");
 
     if (index > 0 && !command.length) {
       return;
@@ -54,4 +58,17 @@ exports.genParseCommand = function(regexMap, eventName) {
       }
     };
   };
+};
+
+exports.readDirDeep = function(dir) {
+  var paths = [];
+  readdirSync(dir).forEach(function(path) {
+    var aPath = join(dir, path);
+    if (lstatSync(aPath).isDirectory()) {
+      paths.push(...exports.readDirDeep(aPath));
+    } else {
+      paths.push(aPath);
+    }
+  });
+  return paths;
 };

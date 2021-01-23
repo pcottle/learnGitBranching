@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 
 var Collections = require('../models/collections');
@@ -13,7 +12,7 @@ var Visualization = Backbone.View.extend({
   initialize: function(options) {
     options = options || {};
     this.options = options;
-    this.customEvents = _.clone(Backbone.Events);
+    this.customEvents = Object.assign({}, Backbone.Events);
     this.containerElement = options.containerElement;
 
     var _this = this;
@@ -34,7 +33,7 @@ var Visualization = Backbone.View.extend({
     this.paper = paper;
 
     var Main = require('../app');
-    // if we dont want to receive keyboard input (directly),
+    // if we don't want to receive keyboard input (directly),
     // make a new event baton so git engine steals something that no one
     // is broadcasting to
     this.eventBaton = (options.noKeyboardInput) ?
@@ -69,9 +68,7 @@ var Visualization = Backbone.View.extend({
 
     this.myResize();
 
-    $(window).on('resize', function() {
-      this.myResize();
-    }.bind(this));
+    $(window).on('resize', () => this.myResize());
 
     // If the visualization is within a draggable container, we need to update the
     // position whenever the container is moved.
@@ -104,7 +101,7 @@ var Visualization = Backbone.View.extend({
   makeOrigin: function(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
-    this.originVis = new Visualization(_.extend(
+    this.originVis = new Visualization(Object.assign(
       {},
       // copy all of our options over, except...
       this.options,
@@ -258,12 +255,11 @@ var Visualization = Backbone.View.extend({
   myResize: function() {
     if (!this.paper) { return; }
 
-    var smaller = 1;
     var el = this.el;
 
     var elSize = el.getBoundingClientRect();
-    var width = elSize.width - smaller;
-    var height = elSize.height - smaller;
+    var width = elSize.width;
+    var height = elSize.height;
 
     // if we don't have a container, we need to set our
     // position absolutely to whatever we are tracking
