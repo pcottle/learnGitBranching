@@ -1224,13 +1224,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## கிளைகள் மற்றும்  இணைத்தல்",
+              "## கிளைகள் மற்றும் ஒருங்கினைத்தல் இணைத்தல்",
               "",
-              "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
+              "நன்று! நமக்கு இப்போது கமிட் மற்றும் கிளை பிறித்தில் பற்றி தெரியும். இப்போது நாம் இரண்டு வெவ்வேறு கிளைகளிலிருந்து மாற்றங்களை ஒன்றிணைக்கும் வழியை கற்றுக்கொள்ள வேண்டும். இது நம்மை கிளை பிரிக்கவும், அதில் புதிய அம்சத்தை உருவாக்கி, பின்னர் அதை மீண்டும் இணைக்கவும் உதவும்.",
               "",
-              "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
+              "நாம் முதலில் `git merge` எப்படி இணைப்பதற்கான வேலையை செய்கிறது என்பதை காண்போம்.  Gitஇல் ஒருங்கினைக்க இரண்டு கிளைகளின் மாற்றங்களை இணைத்து ஒரு சிற்ப்பு கமிட் உருவாக்க படும். அது \"நான் மாற்றத்தினை முதல் கிளேயில் இருந்தும் மற்ற சில மாற்றங்களை அடுத்த கிளையில் இருந்தும் *மேலும்* அவற்றின் மூலங்களையும் இணைத்து ஒரே தொகுப்பாக உருவாக்க விரும்புகிறைன்.\" என சொல்வதை போன்றதுபோன்றது",
               "",
-              "It's easier with visuals, let's check it out in the next view."
+              "காட்சிகள் மூலம் இதை எளிதாக புறிந்து கொள்ள முடியும், அடுத்த பகுதியில் அதைப் பார்ப்போம்."
             ]
           }
         },
