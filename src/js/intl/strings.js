@@ -315,7 +315,7 @@ exports.strings = {
     'vi': 'Nhánh của bạn không đồng bộ với nhánh remote nên lệnh fetch không thực thi được.',
     'sl_SI': 'Tvoj origin branch ni sinhroniziran z oddaljenim branchem, zato se fetch se ne more izvesti',
     'pl': 'Twój branch nie jest zsynchronizowany ze zdalny branch-em i nie można przeprowadzić pobierania',
-    'ta_IN': 'உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஒத்திசைக்கப்படவில்லை. `fetch` செய்ய முடியாது'
+    'ta_IN': 'உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -416,7 +416,8 @@ exports.strings = {
     'ko': '당신은 메인 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.',
     'vi': 'Bạn không thể xóa nhánh master, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.',
     'sl_SI': 'Ne moreš izbrisati master brancha, brancha na katerem si trenutno ali stvari, ki niso branchi',
-    'pl'   : 'Nie możesz usunąć branch-a master, branch-a nad którym aktualnie pracujesz, ani który nie jest branch-em'
+    'pl'   : 'Nie możesz usunąć branch-a master, branch-a nad którym aktualnie pracujesz, ani który nie jest branch-em',
+    'ta_IN': 'பிரதான கிழை, தற்ப்போது நடப்பில் உள்ள கிழை மற்றும் கிழை அல்லாத வற்றை அழிக்க இயலாது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -436,7 +437,8 @@ exports.strings = {
     'ko': '{target}을 {current}에 병합하세요.',
     'vi': 'Gộp {target} vào {current}.',
     'sl_SI': 'Mergaj {target} v {current}',
-    'pl'   : 'Łączenie {target} z {current}'
+    'pl'   : 'Łączenie {target} z {current}',
+    'ta_IN': '{target}ஐ {current} கிழையுடன் இணை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -456,7 +458,8 @@ exports.strings = {
     'ko': 'rebase를 하기 위한 커밋이 없습니다! 모든 커밋과 변경 사항들의 병합은 이미 적용되었습니다.',
     'vi': 'Không có commit nào để rebase. Mọi thứ là merge commit hoặc thay đổi đã được áp dụng.',
     'sl_SI': 'Ni commitov za rebase! Vse je merge commit ali pa so spremembe že dodane',
-    'pl'   : 'Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane'
+    'pl'   : 'Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane',
+    'ta_IN': '`rebase` செய்ய எந்த கமிட்டும் இல்லை, அனைத்தும் இணைப்பு கமிட்கள் அல்லது முன்பே இணைக்கப்பட்டவை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-nothing': {
@@ -476,7 +479,8 @@ exports.strings = {
     'ko': '할게 없습니다 ...',
     'vi': 'Không có gì để làm ...',
     'sl_SI': 'Ničesar za narediti ...',
-    'pl'   : 'Nie ma nic do zrobienia...'
+    'pl'   : 'Nie ma nic do zrobienia...',
+    'ta_IN': 'செய்வதற்க்கு ஒன்றும் இல்லை...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-fastforward': {
@@ -496,7 +500,8 @@ exports.strings = {
     'ko': 'Fast forward 중입니다...',
     'vi': 'Đang fast forward...',
     'sl_SI': 'Fast forwardiranje',
-    'pl'   : 'Fast forward...'
+    'pl'   : 'Fast forward...',
+    'ta_IN': 'Fast forward...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-result-uptodate': {
@@ -516,7 +521,8 @@ exports.strings = {
     'ko': '브랜치가 이미 최신 상태입니다.',
     'vi': 'Nhánh đã được cập nhật mới nhất.',
     'sl_SI': 'Branch je že posodobljen',
-    'pl'   : 'Branch jest już aktualny'
+    'pl'   : 'Branch jest już aktualny',
+    'ta_IN': 'இந்த கிழை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -536,7 +542,8 @@ exports.strings = {
     'ko': '{ref} 참조가 존재하지 않거나 알 수 없습니다.',
     'vi': 'Tham chiếu {ref} không tồn tại hoặc không thể tìm thấy.',
     'sl_SI': 'Ref {ref} new obstaja ali je neznan',
-    'pl'   : 'Odnośnik {ref} nie istnieje lub jest nieznany'
+    'pl'   : 'Odnośnik {ref} nie istnieje lub jest nieznany',
+    'ta_IN': '{ref} இல்லை அல்லது தெரியவில்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-relative-ref': {
@@ -556,7 +563,8 @@ exports.strings = {
     'ko': '커밋 {commit}은 {match}를 가지고 있지 않습니다.',
     'vi': 'Commit {commit} mà không có {match}.',
     'sl_SI': 'Commit {commit} nima {match}',
-    'pl'   : 'Commit {commit} nie ma {match}'
+    'pl'   : 'Commit {commit} nie ma {match}',
+    'ta_IN': '{commit}க்கு {match} எதுவும் இல்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-detached': {
@@ -576,7 +584,8 @@ exports.strings = {
     'ko': '주의! 분리된 HEAD 상태',
     'vi': 'Cảnh báo! HEAD bị tách rời',
     'sl_SI': 'Opozorilo! Detached HEAD stanje',
-    'pl'   : 'Ostrzeżenie!! Odłączony tryb HEAD'
+    'pl'   : 'Ostrzeżenie!! Odłączony tryb HEAD',
+    'ta_IN': 'எச்சரிக்கை !! `HEAD` துன்டிக்கப்பட்ட நிலையில் உள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-add': {
@@ -596,7 +605,8 @@ exports.strings = {
     'ko': '이 데모에서는 파일을 추가할 필요가 없습니다.',
     'vi': 'Không cần thêm tập tin trong bản giới thiệu này.',
     'sl_SI': 'Ni potrebe po dodajanju datotetk v tem demotu',
-    'pl'   : 'Nie ma potrzeby dodawania plików w tym demo'
+    'pl'   : 'Nie ma potrzeby dodawania plików w tym demo',
+    'ta_IN': 'இந்த நடைமுறையில் கோப்புகளை சேர்க்க தேவையில்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-options': {
@@ -616,7 +626,8 @@ exports.strings = {
     'ko': '당신이 지정한 그 옵션들은 호환되지 않거나 올바르지 않습니다.',
     'vi': 'Các tham số bạn chỉ định không tương thích hoặc không chính xác.',
     'sl_SI': 'Opcije, ki si jih podal, so nezdružljive ali napačne',
-    'pl'   : 'Podane przez Ciebie opcje są niezgodne lub nieprawidłowe'
+    'pl'   : 'Podane przez Ciebie opcje są niezgodne lub nieprawidłowe',
+    'ta_IN': 'நீங்கள் குறிப்பிட்ட அந்த மற்றிகள் பொருந்தாது அல்லது தவறானவை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-already-exists': {
@@ -636,7 +647,8 @@ exports.strings = {
     'ko': '커밋 {commit}은 이미 당신의 변경 내역에 존재합니다. 중단!',
     'vi': 'Commit {commit} đã tồn tại trong những thay đổi của bạn. Đang hủy!',
     'sl_SI': 'Commit {commit} že obstaja v tvoji množici sprememb, prekinjam!',
-    'pl'   : 'Commit {commit} już istnieje w Twoim zbiorze zmian, przerywam!'
+    'pl'   : 'Commit {commit} już istnieje w Twoim zbiorze zmian, przerywam!',
+    'ta_IN': '{commit} உங்கள் மாற்றங்களின் தொகுப்பில் ஏற்கனவே உள்ளது, கட்டளை கைவிடப்பட்டது!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-reset-detached': {
@@ -656,7 +668,8 @@ exports.strings = {
     'ko': '분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.',
     'vi': 'Trong trạng thái tách rời `HEAD` thì không thể `reset`. Dùng `checkout` nếu bạn muốn di chuyển.',
     'sl_SI': 'Ni možno resetat, zaradi detached HEADa',
-    'pl'   : 'Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść'
+    'pl'   : 'Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść',
+    'ta_IN': 'பிரிக்கப்பட்ட தலையில் மீட்டமைக்க முடியாது! நீங்கள் நகர்த்த விரும்பினால் `checkout` பயன்படுத்தவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-warning-hard': {
@@ -684,7 +697,10 @@ exports.strings = {
       ' Nhưng mà hãy nhớ rằng thực tế thì `--mixed` mới là trạng thái mặc định của `reset`.',
     'sl_SI': 'Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.',
     'pl'   : 'Domyślnym zachowaniem dla polecenia `reset` w LearnGitBranching jest parametr --hard, więc możesz pominąć tę opcję, ' +
-      'Pamiętaj tylko, że domyślne zachowanie rzeczywistego GIT-a jest parametr --mixed.'
+      'Pamiętaj tylko, że domyślne zachowanie rzeczywistego GIT-a jest parametr --mixed.',
+    'ta_IN': 'The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit ' +
+      'that option if you get tired of typing it out in our lessons. Just remember that the default ' +
+      'behavior on actual Git is --mixed.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-staging': {
@@ -705,7 +721,8 @@ exports.strings = {
     'ko': '여기엔 파일을 추가하거나 스테이징한다는 개념이 없습니다. 따라서 그 옵션 또는 명령어는 유효하지 않습니다.',
     'vi': 'Không có khái nệm thêm tập tin đệm(staging file), nên tùy chọn đó là bất hợp lệ.',
     'sl_SI': 'Tu ni možnosti addanja/stageanja datotek, zato je ta ukaz nepravilen',
-    'pl'   : 'Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.'
+    'pl'   : 'Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.',
+    'ta_IN': 'கோப்புகளைச் சேர்ப்பது / நிலைநிறுத்துவது என்ற கருத்து ஒன்றும் இல்லை, எனவே அந்த மற்றி அல்லது கட்டளை தவறானது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-revert-msg': {
@@ -725,7 +742,8 @@ exports.strings = {
     'ko': '{oldCommit}:{oldMsg}를 복구중입니다.',
     'vi': 'Hoàn tác {oldCommit}:{oldMsg}.',
     'sl_SI': 'Revertanje {oldCommit}: {oldMsg}',
-    'pl'   : 'Cofam {oldCommit} : {oldMsg}'
+    'pl'   : 'Cofam {oldCommit} : {oldMsg}',
+    'ta_IN': '{oldCommit}: {oldMsg} மீன்டும் மாற்றியமைக்கிறது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-many': {
@@ -745,7 +763,8 @@ exports.strings = {
     'ko': '{what}을 위해 최대 {upper}개의 인자를 받습니다.',
     'vi': 'Có thể có nhiều nhất {upper} tham số cho {what}.',
     'sl_SI': 'Pričakovanih je največ {upper} argumentov za {what}',
-    'pl'   : 'Oczekuję maksymalne {upper} parametrów dla {what}'
+    'pl'   : 'Oczekuję maksymalne {upper} parametrów dla {what}',
+    'ta_IN': 'நான் {what}க்கான உள்ளீடு(கள்) அதிகபட்சமாக {upper} எதிர்பார்க்கிறேன்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-args-few': {
@@ -765,7 +784,8 @@ exports.strings = {
     'ko': '{what}을 위해 최소 {lower}개의 인자를 받습니다.',
     'vi': 'Cần ít nhất {lower} tham số cho {what}.',
     'sl_SI': 'Pričakovanih je najmanj {lower} argumentov za {what}',
-    'pl'   : 'Oczekuję co najmniej {lower} parametrów dla {what}'
+    'pl'   : 'Oczekuję co najmniej {lower} parametrów dla {what}',
+    'ta_IN': 'நான் {what}க்கான உள்ளீடு(கள்) குறைந்தபட்சம் {lower} எதிர்பார்க்கிறேன்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-no-general-args': {
@@ -785,7 +805,8 @@ exports.strings = {
     'ko': '그 명령어는 일반적으로 인자를 받지 않습니다.',
     'vi': 'Lệnh đó không chấp nhận các tham số chung.',
     'sl_SI': 'Ta ukaz ne sprejme splošnih ukazov',
-    'pl'   : 'To polecenie nie przyjmuje żadnych ogólnych parametrów'
+    'pl'   : 'To polecenie nie przyjmuje żadnych ogólnych parametrów',
+    'ta_IN': 'அந்த கட்டளை பொதுவான உள்ளீடு எதுவும் ஏற்கவில்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -805,7 +826,8 @@ exports.strings = {
     'ko': '다음 트리 문자열을 복사하세요.',
     'vi': 'Sao chép chuỗi cây bên dưới.',
     'sl_SI': 'Skopiraj besedilo drevesa spodaj',
-    'pl'   : 'Skopiuj poniższy kod'
+    'pl'   : 'Skopiuj poniższy kod',
+    'ta_IN': '`tree string`ஐ கீழே நகலெடுக்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'learn-git-branching': {
@@ -826,7 +848,8 @@ exports.strings = {
     'ko': '깃 브랜칭을 배워봅시다.',
     'vi': 'Học nhánh Git.',
     'sl_SI': 'Nauči se Git Branching',
-    'pl': 'Nauka GIT Branching-u'
+    'pl': 'Nauka GIT Branching-u',
+    'ta_IN': 'கிட் கிழை அமைத்தல்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -846,7 +869,8 @@ exports.strings = {
     'ko': '레벨을 선택하세요.',
     'vi': 'Chọn một cấp độ.',
     'sl_SI': 'Izberi stopnjo',
-    'pl': 'Wybierz poziom'
+    'pl': 'Wybierz poziom',
+    'ta_IN': 'ஒரு நிலையை தேர்வு செய்யுங்கள்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'main-levels-tab': {
@@ -862,7 +886,8 @@ exports.strings = {
     'ko': '메인',
     'vi': 'Bài học chính',
     'sl_SI': 'Glavno',
-    'pl': 'Główny'
+    'pl': 'Główny',
+    'ta_IN': 'பிரதானம்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'remote-levels-tab': {
@@ -878,7 +903,8 @@ exports.strings = {
     'ko'   : '원격',
     'vi'   : 'Bài học về thao tác từ xa',
     'sl_SI': 'Oddaljeno',
-    'pl'   : 'Zdalny'
+    'pl'   : 'Zdalny',
+    'ta_IN': 'தொலைநிலை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'branch-name-short': {
@@ -898,7 +924,8 @@ exports.strings = {
     'ko': '미안하지만, 우리는 시각적으로 더 좋게 보기위해 짧은 브랜치명이 필요합니다. 당신의 브랜치명은 9자리로 잘라 "{branch}"로 만들었습니다.',
     'vi': 'Xin lỗi, chúng tôi cần giữ tên nhánh ngắn để tiện minh họa. Tên nhánh của bạn đã bị cắt xuống 9 ký tự là "{branch}".',
     'sl_SI': 'Oprosti, imena branchev moramo obdržati kratka zaradi vizualizacije. Tvoje ime brancha je bilo skrajšano na 9 črk, kar predstavlja "{branch}"',
-    'pl': 'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy branch-y. Nazwa Twojego branch-u została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"'
+    'pl': 'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy branch-y. Nazwa Twojego branch-u została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"',
+    'ta_IN': 'மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிழையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, "{branch}" ஆக மற்றப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
@@ -918,7 +945,8 @@ exports.strings = {
     'ko': '"{branch}"라는 브랜치명은 사용할 수 없습니다.',
     'vi': 'Tên nhánh "{branch}" không được chấp nhận.',
     'sl_SI': 'To ime brancha "{branch}" ni dovoljeno!',
-    'pl': 'Ta nazwa oddziału "{branch}" jest niedozwolona!'
+    'pl': 'Ta nazwa oddziału "{branch}" jest niedozwolona!',
+    'ta_IN': '"{branch}" ஐ கிழையின் பெயராக ஏற்க்க இயலாது!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
@@ -938,7 +966,8 @@ exports.strings = {
     'ko': '"{tag}"라는 태그명은 사용할 수 없습니다.',
     'vi': 'Tên thẻ "{tag}" không được chấp nhận.',
     'sl_SI': 'To ime tag-a "{tag}" ni dovoljeno!',
-    'pl': 'Ta nazwa tagu "{tag}" jest niedozwolona!'
+    'pl': 'Ta nazwa tagu "{tag}" jest niedozwolona!',
+    'ta_IN': '"{tag}" ஐ குறிச்சொல் பெயராக ஏற்க்க இயலாது!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'option-not-supported': {
@@ -958,7 +987,8 @@ exports.strings = {
     'ko': '"{option}"(이)라는 옵션은 지원하지 않습니다.',
     'vi': 'Tùy chọn "{option}" không được hỗ trợ.',
     'sl_SI': 'Opcija "{option}" ni podprta! ',
-    'pl': 'Opcja "{option}" nie jest obsługiwana!'
+    'pl': 'Opcja "{option}" nie jest obsługiwana!',
+    'ta_IN': '"{option}" மாற்று செயல் ஆதரிக்கப்படவில்லை!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage-command': {
@@ -978,7 +1008,8 @@ exports.strings = {
     'ko': 'git <명령어> [<인자들>]',
     'vi': 'git <lệnh> [<tham số>]',
     'sl_SI': 'git <ukaz> [<argumenti>]',
-    'pl': 'git <polecenie> [<parametry>]'
+    'pl': 'git <polecenie> [<parametry>]',
+    'ta_IN': 'git <command> [<args>]'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-supported-commands': {
@@ -998,7 +1029,8 @@ exports.strings = {
     'ko': '지원되는 명령어들:',
     'vi': 'Các lệnh được hỗ trợ:',
     'sl_SI': 'Podprti ukazi:',
-    'pl': 'Obsługiwane polecenia:'
+    'pl': 'Obsługiwane polecenia:',
+    'ta_IN': 'செயலாக்கம் உள்ள கட்டளைகள்;'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-usage': {
@@ -1018,7 +1050,8 @@ exports.strings = {
     'ko': '사용법',
     'vi': 'Cách dùng:',
     'sl_SI': 'Uporaba:',
-    'pl': 'Użyj'
+    'pl': 'Użyj',
+    'ta_IN': 'பயன்பாடு'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-version': {
@@ -1038,7 +1071,8 @@ exports.strings = {
     'ko': 'Git Version PCOTILE.1.0',
     'vi': 'Phiên bản Git TTC-Solutions.1.0',
     'sl_SI': 'Git Verzija PCOTTLE.1.0',
-    'pl' : 'Wersja GIT-a OLSZA-1.0'
+    'pl' : 'Wersja GIT-a OLSZA-1.0',
+    'ta_IN': 'Git Version PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
   'flip-tree-command': {
@@ -1058,7 +1092,8 @@ exports.strings = {
     'ko': '트리 뒤집는중...',
     'vi': 'Cây lật...',
     'sl_SI': 'Obračanje drevesa ...',
-    'pl'   : 'Odwracanie drzewa...'
+    'pl'   : 'Odwracanie drzewa...',
+    'ta_IN': 'Flipping tree...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'refresh-tree-command': {
@@ -1078,7 +1113,8 @@ exports.strings = {
     'ko': '트리 다시 불러오는중...',
     'vi': 'Làm mới cây...',
     'sl_SI': 'Osveževanje drevesa ...',
-    'pl'   : 'Odświeżanie drzewa...'
+    'pl'   : 'Odświeżanie drzewa...',
+    'ta_IN': 'Refreshing tree...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-command': {
@@ -1098,7 +1134,8 @@ exports.strings = {
     'ko': '로케일이 {locale}로 설정되었습니다.',
     'vi': 'Ngôn ngữ được thay đổi thành {locale}.',
     'sl_SI': 'Locale nastavljen na {locale}',
-    'pl'   : 'Ustawiono język na {locale}'
+    'pl'   : 'Ustawiono język na {locale}',
+    'ta_IN': 'பிரதேசம் {locale}ஆக மற்ற பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'locale-reset-command': {
@@ -1118,7 +1155,8 @@ exports.strings = {
     'ko': '로케일이 {locale}로 초기화 되었습니다.',
     'vi': 'Ngôn ngữ được đổi thành mặc định: {locale}.',
     'sl_SI': 'Locale ponastavljen na {locale}',
-    'pl'   : 'Przywrócono język do wartości domyślnych, czyli {locale}'
+    'pl'   : 'Przywrócono język do wartości domyślnych, czyli {locale}',
+    'ta_IN': 'பிரதேசம் இயல்புநிலை {locale}க்கி மீட்டமைக்கப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-command': {
@@ -1138,7 +1176,8 @@ exports.strings = {
     'ko': '더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요.',
     'vi': 'Vui lòng dùng một trong các lệnh sau để có thêm thông tin:.',
     'sl_SI': 'Prosim uporabi enega od naslednjih ukazov',
-    'pl'   : 'Aby uzyskać więcej informacji, użyj jednego z następujących poleceń:'
+    'pl'   : 'Aby uzyskać więcej informacji, użyj jednego z następujących poleceń:',
+    'ta_IN': 'மேலும் தகவலுக்கு பின்வரும் கட்டளைகளில் ஒன்றைப் பயன்படுத்தவும்:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-all-commands': {
@@ -1158,7 +1197,8 @@ exports.strings = {
     'ko': '여기에 사용 가능한 모든 명령어들의 리스트가 있습니다.',
     'vi': 'Dưới đây là danh sách tất cả các lệnh hiện hành:.',
     'sl_SI': 'Tu je seznam vseh možnih ukazov:',
-    'pl'   : 'Oto lista wszystkich dostępnych poleceń:'
+    'pl'   : 'Oto lista wszystkich dostępnych poleceń:',
+    'ta_IN': 'கிடைக்கக்கூடிய அனைத்து கட்டளைகளின் பட்டியல்:'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cd-command': {
@@ -1178,7 +1218,8 @@ exports.strings = {
     'ko': '디렉토리가 "/directories/dont/matter/in/this/demo"로 변경되었습니다.',
     'vi': 'Thay đổi thư mục thành "/directories/dont/matter/in/this/demo".',
     'sl_SI': 'Mapa spremenjena na "/directories/dont/matter/in/this/demo"',
-    'pl'   : 'Katalog zmieniony na "/home/users/windows/pl/demo"'
+    'pl'   : 'Katalog zmieniony na "/home/users/windows/pl/demo"',
+    'ta_IN': 'அடைவு "/directories/dont/matter/in/this/demo"க்கு மாற்றப்பட்டது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'ls-command': {
@@ -1198,7 +1239,8 @@ exports.strings = {
     'ko': 'DontWorryAboutFilesInThisDemo.txt (이_데모에서_파일에_대한_걱정은_하지마세요.txt)',
     'vi': 'DontWorryAboutFilesInThisDemo.txt (ĐừngLoLắngVềTậpTinTrongBảnGiớiThiệuNày.txt)',
     'sl_SI': 'DontWorryAboutFilesInThisDemo.txt',
-    'pl'   : 'SpokojnieToTylkoPlikDemo.txt'
+    'pl'   : 'SpokojnieToTylkoPlikDemo.txt',
+    'ta_IN': 'DontWorryAboutFilesInThisDemo.txt'
   },
   'mobile-alert': {
     '__desc__': 'When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them',
@@ -1217,7 +1259,8 @@ exports.strings = {
     'ko': 'LGB는 모바일에서 입력을 받을 수 없습니다. 데스크톱으로 접속하세요! 이것은 가치가 있습니다. :D',
     'vi': 'Đáng tiếc là ứng dụng không thể nhận thông tin từ điện thoại hay máy tính bảng, hãy sử dụng máy tính cá nhân, đáng để bỏ công mà :D',
     'sl_SI': 'LGB ne more sprejeti ukazov na mobilni napravi, obiščite nas na računalinku! Je vredno :D ',
-    'pl'   : 'Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D'
+    'pl'   : 'Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D',
+    'ta_IN': 'LGBஆல் மொபைலில் உள்ளீட்டைப் பெற முடியாது, டெஸ்க்டாப்பில் பார்வையிடவும், அது பயணுள்ளது :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-tree': {
@@ -1237,7 +1280,8 @@ exports.strings = {
     'ko': '친구들과 이 트리를 공유하세요! 그들은 "import tree"를 사용해 이를 로드할 수 있습니다.',
     'vi': 'Hãy chia sẻ cây này với bạn của mình! Họ có thể dùng "import tree" để tải.',
     'sl_SI': 'Deli to drevo s prijatelji! Lahko ga naložijo z "import tree"',
-    'pl'   : 'Udostępnij to drzewo znajomym! Mogą go załadować za pomocą "import tree"'
+    'pl'   : 'Udostępnij to drzewo znajomym! Mogą go załadować za pomocą "import tree"',
+    'ta_IN': 'இந்த `tree`ஐ நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்! அவர்கள் அதை "import tree" மூலம் பெறலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'paste-json': {
@@ -1257,7 +1301,8 @@ exports.strings = {
     'ko': '아래에 JSON blob을 붙여넣으세요.',
     'vi': 'Dán một chuỗi JSON xuống bên dưới.',
     'sl_SI': 'Prilepi JSON kodo spodaj!',
-    'pl'   : 'Wklej poniżej obiekt z kodem JSON!'
+    'pl'   : 'Wklej poniżej obiekt z kodem JSON!',
+    'ta_IN': 'கீழே ஒரு JSON blob ஒட்டவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
