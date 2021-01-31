@@ -417,7 +417,7 @@ exports.strings = {
     'vi': 'Bạn không thể xóa nhánh master, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.',
     'sl_SI': 'Ne moreš izbrisati master brancha, brancha na katerem si trenutno ali stvari, ki niso branchi',
     'pl'   : 'Nie możesz usunąć branch-a master, branch-a nad którym aktualnie pracujesz, ani który nie jest branch-em',
-    'ta_IN': 'பிரதான கிழை, தற்ப்போது நடப்பில் உள்ள கிழை மற்றும் கிழை அல்லாத வற்றை அழிக்க இயலாது'
+    'ta_IN': 'பிரதான கிளை, தற்ப்போது நடப்பில் உள்ள கிளை மற்றும் கிளை அல்லாத வற்றை அழிக்க இயலாது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-merge-msg': {
@@ -438,7 +438,7 @@ exports.strings = {
     'vi': 'Gộp {target} vào {current}.',
     'sl_SI': 'Mergaj {target} v {current}',
     'pl'   : 'Łączenie {target} z {current}',
-    'ta_IN': '{target}ஐ {current} கிழையுடன் இணை'
+    'ta_IN': '{target}ஐ {current} கிளையுடன் இணை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-rebase-none': {
@@ -522,7 +522,7 @@ exports.strings = {
     'vi': 'Nhánh đã được cập nhật mới nhất.',
     'sl_SI': 'Branch je že posodobljen',
     'pl'   : 'Branch jest już aktualny',
-    'ta_IN': 'இந்த கிழை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...'
+    'ta_IN': 'இந்த கிளை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-exist': {
@@ -849,7 +849,7 @@ exports.strings = {
     'vi': 'Học nhánh Git.',
     'sl_SI': 'Nauči se Git Branching',
     'pl': 'Nauka GIT Branching-u',
-    'ta_IN': 'கிட் கிழை அமைத்தல்'
+    'ta_IN': 'கிட் கிளை அமைத்தல்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'select-a-level': {
@@ -925,7 +925,7 @@ exports.strings = {
     'vi': 'Xin lỗi, chúng tôi cần giữ tên nhánh ngắn để tiện minh họa. Tên nhánh của bạn đã bị cắt xuống 9 ký tự là "{branch}".',
     'sl_SI': 'Oprosti, imena branchev moramo obdržati kratka zaradi vizualizacije. Tvoje ime brancha je bilo skrajšano na 9 črk, kar predstavlja "{branch}"',
     'pl': 'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy branch-y. Nazwa Twojego branch-u została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"',
-    'ta_IN': 'மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிழையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, "{branch}" ஆக மற்றப்பட்டுள்ளது'
+    'ta_IN': 'மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிளையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, "{branch}" ஆக மற்றப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-branch-name': {
@@ -946,7 +946,7 @@ exports.strings = {
     'vi': 'Tên nhánh "{branch}" không được chấp nhận.',
     'sl_SI': 'To ime brancha "{branch}" ni dovoljeno!',
     'pl': 'Ta nazwa oddziału "{branch}" jest niedozwolona!',
-    'ta_IN': '"{branch}" ஐ கிழையின் பெயராக ஏற்க்க இயலாது!'
+    'ta_IN': '"{branch}" ஐ கிளையின் பெயராக ஏற்க்க இயலாது!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'bad-tag-name': {
