@@ -1224,13 +1224,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## கிளைகள் மற்றும்  இணைத்தல்",
+              "## கிளைகள் மற்றும் ஒருங்கினைத்தல் இணைத்தல்",
               "",
-              "Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.",
+              "நன்று! நமக்கு இப்போது கமிட் மற்றும் கிளை பிறித்தில் பற்றி தெரியும். இப்போது நாம் இரண்டு வெவ்வேறு கிளைகளிலிருந்து மாற்றங்களை ஒன்றிணைக்கும் வழியை கற்றுக்கொள்ள வேண்டும். இது நம்மை கிளை பிரிக்கவும், அதில் புதிய அம்சத்தை உருவாக்கி, பின்னர் அதை மீண்டும் இணைக்கவும் உதவும்.",
               "",
-              "The first method to combine work that we will examine is `git merge`. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means \"I want to include all the work from this parent over here and this one over here, *and* the set of all their parents.\"",
+              "நாம் முதலில் `git merge` எப்படி இணைப்பதற்கான வேலையை செய்கிறது என்பதை காண்போம்.  Gitஇல் ஒருங்கினைக்க இரண்டு கிளைகளின் மாற்றங்களை இணைத்து ஒரு சிற்ப்பு கமிட் உருவாக்க படும். அது \"நான் மாற்றத்தினை முதல் கிளேயில் இருந்தும் மற்ற சில மாற்றங்களை அடுத்த கிளையில் இருந்தும் *மேலும்* அவற்றின் மூலங்களையும் இணைத்து ஒரே தொகுப்பாக உருவாக்க விரும்புகிறைன்.\" என சொல்வதை போன்றதுபோன்றது",
               "",
-              "It's easier with visuals, let's check it out in the next view."
+              "காட்சிகள் மூலம் இதை எளிதாக புறிந்து கொள்ள முடியும், அடுத்த பகுதியில் அதைப் பார்ப்போம்."
             ]
           }
         },
@@ -1238,16 +1238,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Here we have two branches; each has one commit that's unique. This means that neither branch includes the entire set of \"work\" in the repository that we have done. Let's fix that with merge.",
+              "இங்கே இரண்டு கிளைகள் உள்ளன; ஒவ்வொன்றும் தனித்துவமான ஒரு மாற்றத்துடன் கமிட் கொண்டுள்ளன. இதன் பொருள் என்னவென்றால், நாம் செய்த \"மாற்றங்களின்\" முழு தொகுப்பும் களஞ்சியத்தின் இரு கிளைகளிலும் இல்லை. அதை ஒன்றிணைப்பதன் மூலம் சரிசெய்வோம்.",
               "",
-              "We will `merge` the branch `bugFix` into `main`."
+              "`bugFix` கிளையை `main` உடன் இணைப்போம்(`merge`)."
             ],
             "afterMarkdowns": [
-              "Woah! See that? First of all, `main` now points to a commit that has two parents. If you follow the arrows up the commit tree from `main`, you will hit every commit along the way to the root. This means that `main` contains all the work in the repository now.",
+              "ஓ! அதை பார்தீர்களா? முதலில், `main` இரண்டு பெற்றோர்களைக் கொண்ட ஒரு கமிட்டை சுட்டிக்காட்டுகிறது. `main` கமிட் மரத்திலிருந்து நீங்கள் அம்புகளைப் பின்தொடர்ந்தால், அனைத்து வழியாகவும் வேருக்கு செல்லும் வழியில் இணைவீர்கள். இதன் பொருள் என்னவென்றால், `main` இப்போது களஞ்சியத்தில் உள்ள அனைத்து மாற்றங்களையும் கொண்டுள்ளது.",
               "",
-              "Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.",
+              "மேலும், கமிட்டுகளின் நிறங்கள் எவ்வாறு மாற்றப்பட்டன என்பதைப் பாருங்கள்? கற்றலுக்கு உதவ, நான் சில வண்ண ஒருங்கிணைப்பைச் சேர்த்துள்ளேன். ஒவ்வொரு கிளைக்கும் ஒரு தனித்துவமான நிறம் உள்ளது. ஒவ்வொரு கமிட்டும் அது உள்ள அனைத்து கிளைகளின் கலவையால் ஆன நிறமாக மாறும்.",
               "",
-              "So here we see that the `main` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
+              "ஆகவே, `main` கிளையின் வண்ணம் அனைத்து கமிட்டுகளிலும் கலந்திருப்பதை இங்கே காண்கிறோம், ஆனால் `bugFix` நிறம் மட்டும் இல்லை. அதை சரிசெய்வோம்..."
             ],
             "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
@@ -1257,12 +1257,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's merge `main` into `bugFix`:"
+              "`main`-ஐ `bugFix` உடன் இணைப்போம்:"
             ],
             "afterMarkdowns": [
-              "Since `bugFix` was an ancestor of `main`, git didn't have to do any work; it simply just moved `bugFix` to the same commit `main` was attached to.",
+              "`bugFix` என்பது `main`-இன் மூலக்கிளை என்பதால், கிட் எந்த வேலையும் செய்ய வேண்டியதில்லை; அது `main` இணைந்துள்ள அதே கமிட்டுடன் `bugFix`-ஐ சேர்த்துவிடுகின்றது.",
               "",
-              "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
+              "இப்போது அனைத்து கமிட்களும் ஒரே நிரத்தில் உள்ளது, அதாவது அனைத்து கிளைகளிலும் களஞ்சியத்தில் உள்ள அனைத்து மாற்றங்களும் உள்ளன! வூஹூ!"
             ],
             "command": "git checkout bugFix; git merge main",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
@@ -1272,16 +1272,16 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To complete this level, do the following steps:",
+              "இந்த நிலையை முடிக்க, பின்வரும் படிகளைச் செய்யுங்கள்:",
               "",
-              "* Make a new branch called `bugFix`",
-              "* Checkout the `bugFix` branch with `git checkout bugFix`",
-              "* Commit once",
-              "* Go back to `main` with `git checkout`",
-              "* Commit another time",
-              "* Merge the branch `bugFix` into `main` with `git merge`",
+              "* `bugFix` என்ற புதிய கிளையை உருவாக்குங்கள்",
+              "* `git checkout bugFix` கொண்டு `bugFix` கிளைக்கு மாற்றி கொல்லுங்கள்",
+              "* ஒரு கமிட் செய்யுங்கள்",
+              "* மீண்டும் `main`-க்கு `git checkout` கட்டளைமூலம் மாறுங்கள்",
+              "* மீண்டும் ஒரு கமிட் செய்யுங்கள்",
+              "* இப்போது `bugFix`-ஐ `main` உடன் `git merge` இணைக்கலாம்",
               "",
-              "*Remember, you can always re-display this dialog with \"objective\"!*"
+              "*நினைவில் கொள்ளுங்கள், இந்த உரையாடலை \"குறிக்கோள்\" கொண்டு நீங்கள் மீண்டும் காணலாம்!*"
             ]
           }
         }
