@@ -1302,7 +1302,7 @@ exports.strings = {
     'vi': 'Dán một chuỗi JSON xuống bên dưới.',
     'sl_SI': 'Prilepi JSON kodo spodaj!',
     'pl'   : 'Wklej poniżej obiekt z kodem JSON!',
-    'ta_IN': 'கீழே ஒரு JSON blob ஒட்டவும்'
+    'ta_IN': 'ஒரு JSON blob-ஐ கீழே ஒட்டவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-map-reset': {
@@ -1322,7 +1322,8 @@ exports.strings = {
     'ko': '해결된 지도가 초기화 되었습니다. 당신은 깨끗한 상태에서 시작합니다.',
     'vi': 'Tất cả đáp án đã được xóa, bạn có thể bắt đầu lại từ đầu.',
     'sl_SI': 'Rešena mapa je ponastavljena, začel boš lahko na novo!',
-    'pl'   : 'Rozwiązania zostały wyczyszczone, zaczynasz od czystej karty.'
+    'pl'   : 'Rozwiązania zostały wyczyszczone, zaczynasz od czystej karty.',
+    'ta_IN': 'தீர்க்கப்பட்ட கோப்பு மீட்டமைக்கப்பட்டது, நீங்கள் ஆரம்பத்தில் இருந்து தொடங்குகிறீர்கள்!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-cant-exit': {
@@ -1342,7 +1343,8 @@ exports.strings = {
     'ko': '당신은 샌드박스에 있습니다. "levels"를 사용하여 레벨을 시작하세요.',
     'vi': 'Bạn hiện không ở cấp độ nào cả! Hãy bắt đầu một cấp độ với "levels".',
     'sl_SI': 'Nisi v stopnji! Si v peskovniku, začni stopnjo z "levels"',
-    'pl'   : 'Nie jesteś na poziomie! Jesteś w piaskownicy, zacznij poziom wpisując "levels"'
+    'pl'   : 'Nie jesteś na poziomie! Jesteś w piaskownicy, zacznij poziom wpisując "levels"',
+    'ta_IN': 'ஒரு நிலையில் இல்லாமல், நீங்கள் sandbox-இல் உள்ளீர்கள்! "நிலைகள்" மூலம் ஒரு நிலையைத் தொடங்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-no-id': {
@@ -1362,7 +1364,8 @@ exports.strings = {
     'ko': 'id "{id}"에 대한 레벨이 존재하지 않습니다. 레벨 선택 화면을 열어보세요.',
     'vi': 'Không tìm thấy cấp độ cho định danh "{id}". Mở cửa sổ chọn cấp độ.',
     'sl_SI': 'Stopnja za ta id "{id}" ni bila najdena! Odpiram pogled za izbiro stopnje',
-    'pl'   : 'Nie znaleziono poziomu {id}!. Otwieranie widoku wyboru poziomu...'
+    'pl'   : 'Nie znaleziono poziomu {id}!. Otwieranie widoku wyboru poziomu...',
+    'ta_IN': 'அந்த "{id}"-க்கான நிலை  காணப்படவில்லை! நிலை தேர்வு செய்யும் திரை திறக்கிறது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'undo-stack-empty': {
@@ -1382,7 +1385,8 @@ exports.strings = {
     'ko': '되돌리기 스택이 비었습니다!',
     'vi': 'Không có gì để hoàn tác!',
     'sl_SI': 'Undo seznam je prazen!',
-    'pl'   : 'Nie ma już poleceń do cofnięcia!'
+    'pl'   : 'Nie ma już poleceń do cofnięcia!',
+    'ta_IN': 'மீள்பதிவு அடுக்கு காலியாக உள்ளது!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'already-solved': {
@@ -1402,7 +1406,8 @@ exports.strings = {
     'ko': '당신은 이미 이 레벨을 해결했습니다. "levels"를 사용하여 다른 레벨에 도전하거나 "sandbox"를 사용하여 샌드박스로 돌아가세요.',
     'vi': 'Bạn đã vượt qua cấp độ này. Thử cấp độ khác với "levels" hoặc dùng "sandbox" để trở lại hộp cát.',
     'sl_SI': 'To stopnjo si že rešil, poizkusi druge stopnje z "levels" ali pojdi nazaj v peskovnik s "sandbox"',
-    'pl'   : 'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do piaskownicy za pomocą polecenia "sandbox"'
+    'pl'   : 'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do piaskownicy za pomocą polecenia "sandbox"',
+    'ta_IN': 'நீங்கள் ஏற்கனவே இந்த நிலையை தீர்த்துள்ளீர்கள், "நிலைகள்" மூலம் பிற நிலைகளை முயற்சிக்கவும் அல்லது "sandbox" உடன் sandbox-க்குச் செல்லவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solved-level': {
@@ -1418,7 +1423,8 @@ exports.strings = {
     'ko'   : '해결 완료!!\n:D',
     'vi'   : 'ĐÃ XONG!!\n:D',
     'sl_SI': 'Rešeno!!\n:D',
-    'pl'   : 'Rozwiązany!!\n:D'
+    'pl'   : 'Rozwiązany!!\n:D',
+    'ta_IN': 'தீர்க்கப்பட்டது!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -1438,7 +1444,8 @@ exports.strings = {
     'ko': '그 Git 명령어는 이 레벨에서 사용할 수 없습니다.',
     'vi': 'Ở cấp độ này thì lệnh git đó bị vô hiệu hóa.',
     'sl_SI': 'Ta git ukaz je onemogočen za to stopnjo!',
-    'pl'   : 'To polecenie GIT-a jest wyłączone na tym poziomie!'
+    'pl'   : 'To polecenie GIT-a jest wyłączone na tym poziomie!',
+    'ta_IN': 'இந்த நிலையில் அந்த கிட் கட்டளை முடக்கப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'share-json': {
@@ -1458,7 +1465,8 @@ exports.strings = {
     'ko': '이 레벨을 위한 JSON 데이터가 있습니다! 이를 다른 사람들과 공유하거나 GitHub에서 제게 보내보세요.',
     'vi': 'Đây là chuỗi JSON cho cấp độ này! Hãy chia sẻ với người khắc hoặc với tôi qua GitHub.',
     'sl_SI': 'Tu je JSON za to stopnjo! Deli ga z nekom ali ga pošlji meni na GitHub',
-    'pl'   : 'To jest JSON dla tego poziomu. Udostępnij go, komu chcesz, lub wyślij do mnie na GitHub.'
+    'pl'   : 'To jest JSON dla tego poziomu. Udostępnij go, komu chcesz, lub wyślij do mnie na GitHub.',
+    'ta_IN': 'இதோ இந்த நிலைக்கான JSON, இதை பகிர்ந்து கொள்ளுங்கள் அல்லது GitHub-இல் எனக்கு அனுப்புங்கள்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-start-dialog': {
@@ -1478,7 +1486,8 @@ exports.strings = {
     'ko': '당신은 시작 대화창을 지정하지 않았습니다. 추가 하시겠습니까?',
     'vi': 'Không có cửa sổ hội thoại được chỉ định, thêm một cái chứ?',
     'sl_SI': 'Nisi določil začetnega dialoga, bi ga rad dodal?',
-    'pl'   : 'Nie określiłeś okna startowego, czy chcesz je dodać?'
+    'pl'   : 'Nie określiłeś okna startowego, czy chcesz je dodać?',
+    'ta_IN': 'தொடக்க உரை எதுவும் நீங்கள் குறிப்பிடவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'want-hint': {
@@ -1498,7 +1507,8 @@ exports.strings = {
     'ko': '당신은 힌트를 지정하지 않았습니다. 추가 하시겠습니까?',
     'vi': 'Bạn chưa chỉ định một gợi ý, thêm một cái chứ?',
     'sl_SI': 'Nisi določil namiga, bi ga rad dodal?',
-    'pl'   : 'Nie podałeś podpowiedzi, czy chcesz ją dodać?'
+    'pl'   : 'Nie podałeś podpowiedzi, czy chcesz ją dodać?',
+    'ta_IN': 'நீங்கள் குறிப்பெதுவும் தரவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-hint': {
@@ -1518,7 +1528,8 @@ exports.strings = {
     'ko': '이 레벨을 위한 힌트를 입력하거나 만약 이를 포함시키고 싶지 않을 경우엔 비워두세요.',
     'vi': 'Thêm một gợi ý cho cấp độ này, hoặc cứ để trống nếu bạn không muốn thêm.',
     'sl_SI': 'Vnesi namig za to stopnjo ali pusti to prazno, če ga nočeš dodati',
-    'pl'   : 'Wpisz wskazówkę dotyczącą tego poziomu lub pozostaw ją pustą, jeśli nie chcesz jej uwzględniać.'
+    'pl'   : 'Wpisz wskazówkę dotyczącą tego poziomu lub pozostaw ją pustą, jeśli nie chcesz jej uwzględniać.',
+    'ta_IN': 'இந்த நிலைக்கான குறிப்பை உள்ளிடவும், குறிப்பு தேவை இல்லை என்றால் இதனை காலியாக விடுவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'prompt-name': {
@@ -1538,7 +1549,8 @@ exports.strings = {
     'ko': '레벨 이름을 입력하세요.',
     'vi': 'Nhập tên cho cấp độ này.',
     'sl_SI': 'Vnesi ime za stopnjo',
-    'pl'   : 'Wprowadź nazwę poziomu'
+    'pl'   : 'Wprowadź nazwę poziomu',
+    'ta_IN': 'நிலைக்கான பெயரை உள்ளிடவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'solution-empty': {
@@ -1558,7 +1570,8 @@ exports.strings = {
     'ko': '해답이 비어있습니다. 무언가 잘못되었습니다.',
     'vi': 'Đáp án bị bỏ trống!! Có gì thiếu rồi.',
     'sl_SI': 'Tvoja rešitev je prazna!! Nekaj ni vredu.',
-    'pl'   : 'Twoje rozwiązanie jest puste!! Coś musi zostać zrobione.'
+    'pl'   : 'Twoje rozwiązanie jest puste!! Coś musi zostać zrobione.',
+    'ta_IN': 'உங்கள் தீர்வு காலியாக உள்ளது!! ஏதோ தவறாக இருக்கிறது'
   },
   ///////////////////////////////////////////////////////////////////////////
   'define-start-warning': {
@@ -1578,7 +1591,8 @@ exports.strings = {
     'ko': '시작 지점을 정의하세요... 만약 그것이 먼저 정의된다면 해답과 목표가 덮어씌워질 것입니다.',
     'vi': 'Xác định điểm bắt đầu ... Các giải pháp và mục tiêu sẽ được thay thế nếu đã được chỉ định từ trước.',
     'sl_SI': 'Določanje začetne točke ... rešitev in cilj bosta povožena, če sta bila prej že podana',
-    'pl'   : 'DUstawianie punktu początkowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane'
+    'pl'   : 'DUstawianie punktu początkowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane',
+    'ta_IN': 'தொடக்கத்தை வரையறுத்தல்... தீர்வு மற்றும் குறிக்கோள் முன்னரே வரையறுக்கப்பட்டிருந்தால் மேலெழுதப்படும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-level': {
@@ -1598,7 +1612,8 @@ exports.strings = {
     'ko': '당신은 한 레벨에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. 레슨에 대해 더 알고싶을 땐 "help level", LearnGitBranching을 사용하고 싶을 땐 "help general", 또는 레벨을 어떻게 해결해야할지 알고싶을 땐 "objective"를 선택하세요.',
     'vi': 'Bạn đang ở trong một cấp độ, nên sẽ có nhiều hỗ trợ. Vui lòng dùng "help level" để biết thêm về bài học này, "help general" để sử dụng HọcNhánhGit, hoặc "objective" để biết cách giải quyết bài tập.',
     'sl_SI': 'Si v stopnji, zato so na voljo različne pomoči. Prosim izberi "help level" za več informacij o tej lekciji, "help general" za splošna navodila ali "objective" da izveš kako rešiti to stopnjo',
-    'pl'   : 'Jesteście na jednym z poziomów, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.'
+    'pl'   : 'Jesteście na jednym z poziomów, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.',
+    'ta_IN': 'நீங்கள் ஒரு நிலையில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். இந்த பாடத்தைப் பற்றி மேலும் அறிய "நிலைக்கான உதவி" என்பதைத் தேர்ந்தெடுக்கவும், Learn GitBranching பற்றி மேலும் அறிய "பொது உதவி" பயன்படுத்துக, அல்லது இந்த நிலையை எவ்வாறு தீர்ப்பது என்பது பற்றி அறிய "நோக்கம்" தேர்ந்தெடுக்கவும்.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'help-vague-builder': {
@@ -1618,7 +1633,8 @@ exports.strings = {
     'ko': '당신은 한 레벨 생성기에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. "help general" 또는 "help builder"를 선택해주세요.',
     'vi': 'Bạn đang tạo một cấp độ, nên sẽ có nhiều trợ giúp có sẵn. Vui lòng chọn "help general" hoặc "help builder".',
     'sl_SI': 'Si v graditelju stopenj, zato so na voljo različne pomoči. Prosim izberi "help general" ali "help builder"',
-    'pl'   : 'Jesteś w kreatorze poziomów, więc dostępnych jest wiele form pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów'
+    'pl'   : 'Jesteś w kreatorze poziomów, więc dostępnych jest wiele form pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów',
+    'ta_IN': 'நீங்கள் ஒரு நிலை கட்டமைப்பானில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். தயவுசெய்து "பொது உதவி" அல்லது "கட்டமைப்பான் உதவி" என்பதைத் தேர்ந்தெடுக்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'show-goal-button': {
@@ -1639,7 +1655,8 @@ exports.strings = {
     'ko': '목표 보기',
     'vi': 'Hiển thị mục tiêu',
     'sl_SI': 'Prikaži Cilj',
-    'pl' : 'Pokaż cel'
+    'pl' : 'Pokaż cel',
+    'ta_IN': 'இலக்கைக் காட்டு'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal-button': {
@@ -1660,7 +1677,8 @@ exports.strings = {
     'ko': '목표 숨기기',
     'vi': 'Ẩn mục tiêu',
     'sl_SI': 'Skrij Cilj',
-    'pl' : 'Ukryj cel'
+    'pl' : 'Ukryj cel',
+    'ta_IN': 'இலக்கை மறை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'objective-button': {
@@ -1676,7 +1694,8 @@ exports.strings = {
     'ko': '목적',
     'vi': 'Chỉ dẫn',
     'sl_SI': 'Navodila',
-    'pl' : 'Instrukcje'
+    'pl' : 'Instrukcje',
+    'ta_IN': 'வழிமுறைகள்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-demonstration-title': {
@@ -1692,7 +1711,8 @@ exports.strings = {
     'ko'   : 'Git 데모',
     'vi'   : 'Trình diễn Git',
     'sl_SI': 'Git Predstavitev',
-    'pl'   : 'Demo GIT'
+    'pl'   : 'Demo GIT',
+    'ta_IN': 'கிட் செயல் விளக்கம்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-to-reach': {
@@ -1713,7 +1733,8 @@ exports.strings = {
     'ko': '목표',
     'vi': 'Mục tiêu cần đạt',
     'sl_SI': 'Končni Cilj',
-    'pl': 'Cel do osiągnięcia'
+    'pl': 'Cel do osiągnięcia',
+    'ta_IN': 'அடைய வேண்டிய இலக்கு'
   },
   ///////////////////////////////////////////////////////////////////////////
   'goal-only-master': {
@@ -1734,7 +1755,8 @@ exports.strings = {
     'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 메인 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨길 수 있습니다.',
     'vi': '<span class="fwber">Chú ý:</span> Ở cấp độ này chỉ nhánh master bị kiểm tra. Các nhánh khác chỉ dùng để tham chiếu(có dấu - ở nhãn). Như thường lệ, bạn có thể ẩn mục tiêu bằng "hide goal".',
     'sl_SI': '<span class="fwber">Opomba:</span> Samo master branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z "hide goal"',
-    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie sprawdzana będzie tylko główna gałąź. Pozostałe gałęzie są tylko do odwołania (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno dialogowe z "ukryj cel".'
+    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie sprawdzana będzie tylko główna gałąź. Pozostałe gałęzie są tylko do odwołania (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno dialogowe z "ukryj cel".',
+    'ta_IN': '<span class="fwber">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், "இலக்கை மறை" மூலம் இந்த சாளரத்தை மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-goal': {
@@ -1755,7 +1777,8 @@ exports.strings = {
     'ko': '"hide goal"을 사용하여 이 창을 숨길 수 있습니다.',
     'vi': 'Bạn có thể ẩn cửa sổ này với "hide goal".',
     'sl_SI': 'To okno lahko skriješ z "hide goal"',
-    'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj cel"'
+    'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj cel"',
+    'ta_IN': 'இந்த சாளரத்தை "இலக்கை மறை" மூலம் மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hide-start': {
@@ -1776,7 +1799,8 @@ exports.strings = {
     'ko': '"hide start"를 사용하여 이 창을 숨길 수 있습니다.',
     'vi': 'Bạn có thể ẩn cửa sổ này với "hide start".',
     'sl_SI': 'To okno lahko skriješ z "hide start"',
-    'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj start"'
+    'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj start"',
+    'ta_IN': 'இந்த சாளரத்தை "தொடக்கத்தை மறை" மூலம் மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-builder': {
@@ -1797,7 +1821,8 @@ exports.strings = {
     'ko': '레벨 생성기',
     'vi': 'Trình tạo câp độ',
     'sl_SI': 'Graditelj Stopenj',
-    'pl': 'Twórca poziomu'
+    'pl': 'Twórca poziomu',
+    'ta_IN': 'நிலை கட்டமைப்பான்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-start-dialog': {
@@ -1818,7 +1843,8 @@ exports.strings = {
     'ko': '이 레벨을 위한 시작 대화창이 없습니다.',
     'vi': 'Cấp độ này không được giới thiệu.',
     'sl_SI': 'Ni začetnega dialoga za prikaz te stopnje!',
-    'pl': 'Dla tego poziomu nie ma okna startowego do wyświetlenia!'
+    'pl': 'Dla tego poziomu nie ma okna startowego do wyświetlenia!',
+    'ta_IN': 'இந்த நிலை பற்றி விளக்கிகாட்ட தொடக்க உரையாடல் எதுவும் இல்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
   'no-hint': {
@@ -1839,7 +1865,8 @@ exports.strings = {
     'ko': '흠, 이 레벨을 위한 힌트가 없어보이는군요.',
     'vi': 'Hmmm, có vẻ cấp độ này không có gợi ý rồi. :-/',
     'sl_SI': 'Hmm, izgleda da ni namiga za to stopnjo :-/',
-    'pl': 'Hmm, wydaje się, że nie ma podpowiedzi dla tego poziomu :-/'
+    'pl': 'Hmm, wydaje się, że nie ma podpowiedzi dla tego poziomu :-/',
+    'ta_IN': 'ஹ்ம், இந்த நிலைக்கு ஒரு குறிப்பு எதுவும் இருப்பதாகத் தெரியவில்லை :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated-key': {
@@ -1860,7 +1887,8 @@ exports.strings = {
     'ko': '{key}를 위한 번역은 아직 존재하지 않습니다 :( 번역에 참여해주세요!',
     'vi': 'Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở GitHub để cung cấp bản dịch!',
     'sl_SI': 'Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!',
-    'pl': 'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!'
+    'pl': 'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
+    'ta_IN': '{key}-இன் மொழிபெயர்ப்பு கிடைக்கவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'error-untranslated': {
@@ -1881,18 +1909,21 @@ exports.strings = {
     'ko': '이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역에 참여해주세요!',
     'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
-    'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!'
+    'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
+    'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cancel-button': {
     '__desc__': 'Cancel button label after completing a level',
     'en_US': 'Cancel',
-    'pl' : 'Powrót'
+    'pl' : 'Powrót',
+    'ta_IN': 'இரத்துசெய்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'confirm-button': {
     '__desc__': 'Confirm button label after completing a level',
     'en_US': 'Confirm',
-    'pl' : 'Dalej'
+    'pl' : 'Dalej',
+    'ta_IN': 'உறுதிப்படுத்தவும்'
   }
 };
