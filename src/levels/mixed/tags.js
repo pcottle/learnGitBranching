@@ -17,7 +17,8 @@ exports.level = {
     "ko"   : "Git 태그",
     "uk"   : "Git Tags",
     "vi"   : "Tag trong Git",
-    "sl_SI": "Git Tagi"
+    "sl_SI": "Git Tagi",
+    "pl": "Git Tagi",
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -34,7 +35,8 @@ exports.level = {
     "ko"   : "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
     "uk"   : "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
     "vi"   : "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!",
-    "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!"
+    "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!",
+    "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
   },
   "startDialog": {
     "en_US": {
@@ -816,6 +818,58 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tagi",
+              "",
+              "Jak dowiedziałeś się z poprzednich lekcji, gałęzie są łatwe w przemieszczaniu i często odnoszą się do różnych commitów, w miarę jak praca nad nimi jest kończona. Gałęzie łatwo ulegają mutacjom, często są tymczasowe i zawsze się zmieniają.",
+              "",
+              "Jeśli tak jest, możesz się zastanawiać, czy istnieje sposób na *permanentne* zaznaczanie punktów historycznych w historii projektu. Czy istnieje jakiś sposób na oznaczenie tych commitów czymś bardziej trwałym niż gałąź, w przypadku takich rzeczy jak duże wydania i duże scalenia/merdże?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pewnie, że tak! Znaczniki/tagi Git obsługują dokładnie ten przypadek użycia -- (w pewnym sensie) trwale oznaczają pewne commity jako \"kamienie milowe\", do których można się następnie odnieść (po nazwie) jak do gałęzi.",
+              "",
+              "Co ważniejsze jednak, nigdy się nie przesuwają, gdy tworzone są kolejne commity. Nie można \"checkoutować\" tagu, a następnie zakończyć pracę nad nim (jakby był gałęzią, na której można zapisać nowe zmiany) - tagi istnieją jako kotwice w drzewie commitów, które wyznaczają pewne miejsca.",
+              "",
+              "Zobaczmy jak tagi wyglądają w praktyce."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Spróbujmy zrobić tag w `C1`, który jest naszym prototypem w wersji 1."
+            ],
+            "afterMarkdowns": [
+              "Otóż to! Całkiem proste. Nazwaliśmy tag `v1` i odwołaliśmy się do commitu `C1` w sposób jawny. Jeśli nie wskażesz konkretnego commitu, git użyje commitu na który wskazuje `HEAD`."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dla tego poziomu utwórz tagi takie jak w wizualizacji celu, a następnie zchckoutuj `v1`. Zauważ, że przechodzisz do odłączonego stanu `HEAD` - to dlatego, że nie możesz commitować bezpośrednio na tagu `v1`.",
+              "",
+              "Na kolejnym poziomie przeanalizujemy bardziej interesujący przypadek użycia tagów."
+            ]
+          }
+        }
+      ]
+    },
   }
 };
