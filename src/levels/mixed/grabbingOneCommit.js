@@ -643,7 +643,7 @@ exports.level = {
             "markdowns": [
               "## Lokalnie nałożone commity",
               "",
-              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić błąd, ale jest on dość nieuchwytny. Aby pomóc sobie w mojej pracy detektywistycznej, umieściłem kilka poleceń debugowania i kilka instrukcji print.",
+              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić błąd, ale jest on dość nieuchwytny. Aby pomóc sobie w mojej pracy detektywistycznej, umieszczam kilka poleceń debugowania i kilka instrukcji print.",
               "",
               "Wszystkie te polecenia debugowania / drukowania znajdują się w osobnych commitach. W końcu namierzam błąd, naprawiam go i cieszę się!",
               "",
