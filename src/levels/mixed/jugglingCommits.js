@@ -596,7 +596,7 @@ exports.level = {
               "Istnieje wiele sposobów na osiągnięcie tego ogólnego celu (widzę, że masz oko na cherry-pick'ing), i zobaczymy więcej z nich później, ale na razie skupmy się na tej technice.",
               "Na koniec, zwróć uwagę na stan celu - ponieważ przenosimy commit'y dwukrotnie, oba otrzymują apostrof. Dodajemy jeszcze jeden apostrof dla commitu, który zmieniamy, co daje nam ostateczną postać drzewa",
               "",
-              "To powiedziawszy, mogę teraz porównać poziomy w oparciu o strukturę i względne różnice apostrofów. Tak długo, jak gałąź `main` Twojego drzewa ma taką samą strukturę i względne różnice apostrofów, mogę w to uwierzyć."
+              "To powiedziawszy, mogę teraz porównać poziomy w oparciu o strukturę i względne różnice apostrofów. Tak długo, jak gałąź `main` Twojego drzewa ma taką samą strukturę, rozwiązanie zostanie uznane."
             ]
           }
         }
