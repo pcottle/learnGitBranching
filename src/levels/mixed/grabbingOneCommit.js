@@ -28,7 +28,8 @@ exports.level = {
     "ru_RU": "Выберем один коммит.",
     "uk": "Вибираємо всього один коміт",
     "vi": "Chỉ lấy 1 commit",
-    "sl_SI": "Izbiranje Samo Enega Commita"
+    "sl_SI": "Izbiranje Samo Enega Commita",
+    "pl": "Wzięcie tylko 1 commita",
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -45,7 +46,8 @@ exports.level = {
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
     "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
-    "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja."
+    "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja.",
+    "pl": "Pamiętaj, interaktywny rebase oraz cherry-picking są tu twoimi przyjaciółmi",
       },
   "startDialog": {
     "en_US": {
@@ -632,6 +634,45 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Lokalnie nałożone commity",
+              "",
+              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić błąd, ale jest on dość nieuchwytny. Aby pomóc sobie w mojej pracy detektywistycznej, umieściłem kilka poleceń debugowania i kilka instrukcji print.",
+              "",
+              "Wszystkie te polecenia debugowania / drukowania znajdują się w osobnych commitach. W końcu namierzam błąd, naprawiam go i cieszę się!",
+              "",
+              "Jedynym problemem jest to, że teraz muszę przywrócić mój `bugFix` do gałęzi `main`. Jeśli po prostu zrobiłbym fast-foward `main`, wtedy `main` dostałby wszystkie moje deklaracje debugowania, czego bym nie chciał. Musi być na to inny sposób. . ."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Musimy powiedzieć gitowi, żeby skopiował tylko jeden z commitów. Dokładnie w ten sam sposób jak we wcześniejszych poziomach z przenoszeniem pracy -- używając tych samych komend:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Aby osiągnać ten cel."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Jest to wyższy poziom, więc pozostawimy Ci decyzję, której komendy chcesz użyć, ale aby ukończyć poziom, upewnij się, że `main` otrzyma commit, do którego odwołuje się `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

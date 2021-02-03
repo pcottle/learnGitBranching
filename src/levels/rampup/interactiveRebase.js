@@ -40,7 +40,7 @@ exports.level = {
     "uk"   : "Знайомство з інтерактивним rebase",
     "vi"   : "Giới thiệu về tương tác rebase",
     "sl_SI": "Interaktivni uvod v Rebase",
-    "pl": "Interaktywne wprowadzenie do Rebase'a",
+    "pl": "Wprowadzenie do interaktywnego Rebase'a",
   },
   "startDialog": {
     "en_US": {
@@ -1053,12 +1053,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Kiedy otworzy się interaktywne okno dialogowe rebase, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
+              "Kiedy otworzy się okno dialogowe do interaktywnego rebase'a, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
               "",
               "* Możesz zmienić kolejność commitów poprzez zmianę ich kolejności w oknie (przeciągając je i upuszczając).",
-              "* Możesz zdecydować się na całkowite pominięcie niektórych commitów. Jest to oznaczone przez `pick` -- wpisanie `pick` off oznacza, że nie chcesz uwzględnić tego commitu.",
+              "* Możesz zdecydować się na całkowite pominięcie niektórych commitów. Jest to oznaczone przez `pick`. Wpisanie `pick off` oznacza, że nie chcesz uwzględnić tego commitu.",
               "",
-              "* Warto wspomnieć, że w prawdziwym interaktywnym rebasie możesz zrobić wiele innych rzeczy, takich jak squash (łączenie) commitów, poprawianie wiadomości commitów, a nawet edycja samych commitów. Dla naszych potrzeb jednak skupimy się na tych dwóch operacjach powyżej. *",
+              "* Warto wspomnieć, że w prawdziwym interaktywnym rebasie możesz zrobić wiele innych rzeczy, takich jak squash (łączenie) commitów, poprawianie wiadomości commitów, a nawet edycja samych commitów. Dla naszych potrzeb jednak skupimy się na tych dwóch operacjach powyżej.",
               "",
               "Świetnie! Spójrz na przykład."
             ]
