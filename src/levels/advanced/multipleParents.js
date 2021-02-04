@@ -19,7 +19,8 @@ exports.level = {
     'uk': 'Декілька батьків',
     'vi': 'Nhiều cha lắm mẹ',
     'sl_SI': 'Več Staršev',
-    'ta_IN': 'ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்'
+    'ta_IN': 'ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்',
+    "pl": "Wielu rodziców",
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -38,7 +39,8 @@ exports.level = {
     'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання',
     'vi': 'Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định',
     'sl_SI': 'Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.',
-    "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக."
+    "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
+    "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
   },
   "startDialog": {
     "en_US": {
@@ -1520,6 +1522,93 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Określanie rodzica",
+              "",
+              "Podobnie jak modyfikator `~`, modyfikator `^` również akceptuje opcjonalną liczbę po nim.",
+              "",
+              "Zamiast określać liczbę pokoleń do cofnięcia się (co robi `~`), modyfikator `^` określa, do którego rodzica należy się odwołać po wykonaniu merge commita. Pamiętaj, że polecenia scalania/mergowania mają wielu rodziców, więc ścieżka, którą należy wybrać jest niejednoznaczna.",
+              "",
+              "Git zazwyczaj podąża za \"pierwszym\" rodzicem w górę od commitu scalającego, ale określenie liczby za pomocą `^` zmienia to domyślne zachowanie.",
+              "",
+              "Dość gadania, zobaczmy to w akcji.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tutaj mamy merge commit. Jeśli zcheckoutujemy `main^` bez liczby na końcu, przejdziemy do pierwszego rodzica po merge commicie. ",
+              "",
+              "(*Na naszych wizualizacjach pierwszy rodzic jest umieszczony bezpośrednio nad commitem scalającym.*)"
+            ],
+            "afterMarkdowns": [
+              "Spokojnie - do tego wszyscy jesteśmy przyzwyczajeni."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Teraz spróbujmy określić drugiego rodzica zamiast tego. . ."
+            ],
+            "afterMarkdowns": [
+              "Spójrz. Przenieślismy się do drugiego rodzica."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Modyfikatory `^` i `~` mogą uczynić poruszanie się po drzewie commitów bardzo potężnym:"
+            ],
+            "afterMarkdowns": [
+              "Co za prędkość!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Jeszcze bardziej szalone jest to, że modyfikatory mogą być ze sobą łączone! Sam zobacz:"
+            ],
+            "afterMarkdowns": [
+              "Ten sam ruch co poprzednio, ale wszystko w jednej komendzie."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Zastosuj to w praktyce",
+              "",
+              "Aby ukończyć ten poziom, utwórz nowa gałąź w określonym miejscu docelowym.",
+              "",
+              "Oczywiście, łatwo byłoby określić commit bezpośrednio (coś jak `C6`), lecz zachęcam Cię do użycia modyfikatorów, o których mówiliśmy przed chwilą!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

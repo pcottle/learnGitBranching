@@ -21,7 +21,8 @@ exports.level = {
     "ru_RU": "Спутанные ветки",
     "uk"   : "Макарони з гілок",
     "vi"   : "Nhánh rối như canh hẹ",
-    "sl_SI": "Špageti iz Branchev"
+    "sl_SI": "Špageti iz Branchev",
+    "pl": "Gałęziowe Spaghetti",
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -38,7 +39,8 @@ exports.level = {
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
     "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
-    "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri."
+    "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
+    "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
   },
   "startDialog": {
     "en_US": {
@@ -335,6 +337,26 @@ exports.level = {
               "Branch `one` potrebuje prerazporeditev in izbris `C5`. `two` rabi samo prerazporeditev, `three` pa potrebuje samo en commit!",
               "",
               "Prepustili ti bomo, da sam ugotoviš, kako tole rešiti -- vseeno lahko na koncu preveriš našo rešitev s `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Gałęziowe Spaghetti",
+              "",
+              "W mordę jeża! Na tym poziomie mamy całkiem spory cel do osiągnięcia..",
+              "",
+              "Mamy tutaj gałąź `main`, która jest kilka commitów przed gałęziami `one` `two` i `three`. Z jakiegoś powodu, musimy zaktualizować te trzy inne gałęzie zmodyfikowanymi wersjami ostatnich kilku commitów na main.",
+              "",
+              "Gałąź `one` wymaga zmiany kolejności i usunięcia `C5`. `two` potrzebuje wyłącznie zmiany kolejności, a `three` potrzebuje tylko jednego commitu!",
+              "",
+              "Zastanów się, jak rozwiązać to zadanie -- upewnij się i sprawdź nasze rozwiązanie po wykonaniu zadania za pomocą `show solution`. "
             ]
           }
         }
