@@ -23,7 +23,7 @@ exports.level = {
     "uk"   : "Rebase over 9000 разів",
     "vi"   : "Rebase hơn 9000 lần",
     "sl_SI": "Več kot 9000 Rebaseov",
-    "pl"   : "Ponad 9000 podbić"
+    "pl"   : "Rebase ponad 9000 razy"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -41,7 +41,7 @@ exports.level = {
     "uk"   : "Не забувай, що краще всього буде перемістити main в самому кінці... ",
     "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
-    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` na końcu..."
+    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` tylko na samym końcu..."
   },
   "startDialog": {
     "en_US": {
@@ -312,6 +312,24 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebase Wielu Gałęzi",
+              "",
+              "Człowieku, mamy tu wiele gałęzi! Przeniesiemy wszystkie prace z tych gałęzi na `main`.",
+              "",
+              "Kierownictwo nieco bardziej utrudnia temat -- chcą, aby wszystkie commity były w odpowiedniej kolejności. Oznacza to, że nasze końcowe drzewo powinno mieć `C7'` na dole, `C6'` powyżej, i tak dalej.",
+              "",
+              "Jeśli po drodze namieszasz, nie krępuj się użyć `reset`, aby zacząć od nowa. Przeanalizuj nasze rozwiązanie i sprawdź, czy dasz radę to zrobić używając mniej poleceń!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
