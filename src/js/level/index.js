@@ -200,7 +200,7 @@ var Level = Sandbox.extend({
     var onlyMaster = TreeCompare.onlyMasterCompared(this.level);
     // first we make the goal visualization holder
     this.goalCanvasHolder = new CanvasTerminalHolder({
-      text: (onlyMaster) ? intl.str('goal-only-master') : undefined,
+      text: (onlyMaster) ? intl.str('goal-only-main') : undefined,
       parent: this
     });
 
