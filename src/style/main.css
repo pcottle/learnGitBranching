@@ -296,6 +296,7 @@ div.canvasTerminalHolder.startTree > div.terminal-window-holder div.inside {
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder div.inside {
+  position: relative;
   min-height: 200px;
   border-radius: 0 0 5px 5px;
 }
