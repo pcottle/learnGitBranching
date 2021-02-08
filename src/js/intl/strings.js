@@ -1925,5 +1925,59 @@ exports.strings = {
     'en_US': 'Confirm',
     'pl' : 'Dalej',
     'ta_IN': 'உறுதிப்படுத்தவும்'
-  }
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'level-label': {
+    '__desc__': 'Label in the top of the left-side menu. Rembember to leave some space on the sides',
+    'en_US': ' Level ',
+    'pl' : ' Poziom '
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-helper-bar-levels': {
+    '__desc__': 'Levels command label in the bottom command helper bar.',
+    'en_US': 'Levels',
+    'pl' : 'Poziomy'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-helper-bar-solution': {
+    '__desc__': 'Solution command label in the bottom command helper bar.',
+    'en_US': 'Solution',
+    'pl' : 'Rozwiązanie'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-helper-bar-reset': {
+    '__desc__': 'Reset command label in the bottom command helper bar.',
+    'en_US': 'Reset',
+    'pl' : 'Wyczyść'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-helper-bar-undo': {
+    '__desc__': 'Undo command label in the bottom command helper bar.',
+    'en_US': 'Undo',
+    'pl' : 'Cofnij'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-helper-bar-objective': {
+    '__desc__': 'Objective command label in the bottom command helper bar.',
+    'en_US': 'Objective',
+    'pl' : 'Cel'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'command-helper-bar-help': {
+    '__desc__': 'Help command label in the bottom command helper bar.',
+    'en_US': 'Help',
+    'pl' : 'Pomoc'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'error-command-currently-not-supported': {
+    '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
+    'en_US': 'That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command',
+    'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-command-not-supported': {
+    '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
+    'en_US': 'The command "{command}" isn\'t supported, sorry!',
+    'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
+  },
 };
