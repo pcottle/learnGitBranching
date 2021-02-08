@@ -810,7 +810,7 @@ exports.strings = {
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-error-command-not-supported': {
-    '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
+    '__desc__': 'Message that appears in git console when command was not recognized.',
     'en_US': 'The command "{command}" isn\'t supported, sorry!',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
   },
