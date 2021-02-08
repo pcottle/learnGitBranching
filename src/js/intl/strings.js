@@ -1761,7 +1761,7 @@ exports.strings = {
     'ko': '<span class="fwber">Note:</span> 이 레벨에선 오직 메인 브랜치만이 검사될 것입니다.. 다른 브랜치들은 단순히 참고용입니다. (아래에 대시 라벨로 보여집니다.). "hide goal"을 사용하여 언제든지 창을 숨길 수 있습니다.',
     'vi': '<span class="fwber">Chú ý:</span> Ở cấp độ này chỉ nhánh main bị kiểm tra. Các nhánh khác chỉ dùng để tham chiếu(có dấu - ở nhãn). Như thường lệ, bạn có thể ẩn mục tiêu bằng "hide goal".',
     'sl_SI': '<span class="fwber">Opomba:</span> Samo main branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z "hide goal"',
-    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie sprawdzana będzie tylko główna gałąź. Pozostałe gałęzie są tylko do odwołania (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno dialogowe z "ukryj cel".',
+    'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie będzie sprawdzana tylko poprawność gałęzi main. Pozostałe gałęzie są tylko odniesieniem (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno klikając "Ukryj cel".',
     'ta_IN': '<span class="fwber">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், "இலக்கை மறை" மூலம் இந்த சாளரத்தை மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
