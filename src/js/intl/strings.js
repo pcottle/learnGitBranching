@@ -848,7 +848,7 @@ exports.strings = {
     'ko': '깃 브랜칭을 배워봅시다.',
     'vi': 'Học nhánh Git.',
     'sl_SI': 'Nauči se Git Branching',
-    'pl': 'Nauka GIT Branching-u',
+    'pl': 'Naucz się Git Branching-u',
     'ta_IN': 'கிட் கிளை அமைத்தல்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -924,7 +924,7 @@ exports.strings = {
     'ko': '미안하지만, 우리는 시각적으로 더 좋게 보기위해 짧은 브랜치명이 필요합니다. 당신의 브랜치명은 9자리로 잘라 "{branch}"로 만들었습니다.',
     'vi': 'Xin lỗi, chúng tôi cần giữ tên nhánh ngắn để tiện minh họa. Tên nhánh của bạn đã bị cắt xuống 9 ký tự là "{branch}".',
     'sl_SI': 'Oprosti, imena branchev moramo obdržati kratka zaradi vizualizacije. Tvoje ime brancha je bilo skrajšano na 9 črk, kar predstavlja "{branch}"',
-    'pl': 'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy branch-y. Nazwa Twojego branch-u została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"',
+    'pl': 'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy gałęzi. Nazwa Twojej gałęzi została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"',
     'ta_IN': 'மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிளையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, "{branch}" ஆக மற்றப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -945,7 +945,7 @@ exports.strings = {
     'ko': '"{branch}"라는 브랜치명은 사용할 수 없습니다.',
     'vi': 'Tên nhánh "{branch}" không được chấp nhận.',
     'sl_SI': 'To ime brancha "{branch}" ni dovoljeno!',
-    'pl': 'Ta nazwa oddziału "{branch}" jest niedozwolona!',
+    'pl': 'Ta nazwa gałęzi "{branch}" jest niedozwolona!',
     'ta_IN': '"{branch}" ஐ கிளையின் பெயராக ஏற்க்க இயலாது!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1071,7 +1071,7 @@ exports.strings = {
     'ko': 'Git Version PCOTILE.1.0',
     'vi': 'Phiên bản Git TTC-Solutions.1.0',
     'sl_SI': 'Git Verzija PCOTTLE.1.0',
-    'pl' : 'Wersja GIT-a OLSZA-1.0',
+    'pl' : 'Wersja GIT-a OLSZA-YSC-1.0',
     'ta_IN': 'Git Version PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1280,7 +1280,7 @@ exports.strings = {
     'ko': '친구들과 이 트리를 공유하세요! 그들은 "import tree"를 사용해 이를 로드할 수 있습니다.',
     'vi': 'Hãy chia sẻ cây này với bạn của mình! Họ có thể dùng "import tree" để tải.',
     'sl_SI': 'Deli to drevo s prijatelji! Lahko ga naložijo z "import tree"',
-    'pl'   : 'Udostępnij to drzewo znajomym! Mogą go załadować za pomocą "import tree"',
+    'pl'   : 'Udostępnij to drzewo znajomym! Mogą je załadować za pomocą "import tree"',
     'ta_IN': 'இந்த `tree`ஐ நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்! அவர்கள் அதை "import tree" மூலம் பெறலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1322,7 +1322,7 @@ exports.strings = {
     'ko': '해결된 지도가 초기화 되었습니다. 당신은 깨끗한 상태에서 시작합니다.',
     'vi': 'Tất cả đáp án đã được xóa, bạn có thể bắt đầu lại từ đầu.',
     'sl_SI': 'Rešena mapa je ponastavljena, začel boš lahko na novo!',
-    'pl'   : 'Rozwiązania zostały wyczyszczone, zaczynasz od czystej karty.',
+    'pl'   : 'Rozwiązania zostały wyczyszczone, zaczynasz z czystą kartą.',
     'ta_IN': 'தீர்க்கப்பட்ட கோப்பு மீட்டமைக்கப்பட்டது, நீங்கள் ஆரம்பத்தில் இருந்து தொடங்குகிறீர்கள்!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1343,7 +1343,7 @@ exports.strings = {
     'ko': '당신은 샌드박스에 있습니다. "levels"를 사용하여 레벨을 시작하세요.',
     'vi': 'Bạn hiện không ở cấp độ nào cả! Hãy bắt đầu một cấp độ với "levels".',
     'sl_SI': 'Nisi v stopnji! Si v peskovniku, začni stopnjo z "levels"',
-    'pl'   : 'Nie jesteś na poziomie! Jesteś w piaskownicy, zacznij poziom wpisując "levels"',
+    'pl'   : 'Nie jesteś na poziomie! Jesteś w trybie piaskownicy, zacznij poziom wpisując "levels"',
     'ta_IN': 'ஒரு நிலையில் இல்லாமல், நீங்கள் sandbox-இல் உள்ளீர்கள்! "நிலைகள்" மூலம் ஒரு நிலையைத் தொடங்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1406,7 +1406,7 @@ exports.strings = {
     'ko': '당신은 이미 이 레벨을 해결했습니다. "levels"를 사용하여 다른 레벨에 도전하거나 "sandbox"를 사용하여 샌드박스로 돌아가세요.',
     'vi': 'Bạn đã vượt qua cấp độ này. Thử cấp độ khác với "levels" hoặc dùng "sandbox" để trở lại hộp cát.',
     'sl_SI': 'To stopnjo si že rešil, poizkusi druge stopnje z "levels" ali pojdi nazaj v peskovnik s "sandbox"',
-    'pl'   : 'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do piaskownicy za pomocą polecenia "sandbox"',
+    'pl'   : 'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do trybu piaskownicy za pomocą polecenia "sandbox"',
     'ta_IN': 'நீங்கள் ஏற்கனவே இந்த நிலையை தீர்த்துள்ளீர்கள், "நிலைகள்" மூலம் பிற நிலைகளை முயற்சிக்கவும் அல்லது "sandbox" உடன் sandbox-க்குச் செல்லவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1444,7 +1444,7 @@ exports.strings = {
     'ko': '그 Git 명령어는 이 레벨에서 사용할 수 없습니다.',
     'vi': 'Ở cấp độ này thì lệnh git đó bị vô hiệu hóa.',
     'sl_SI': 'Ta git ukaz je onemogočen za to stopnjo!',
-    'pl'   : 'To polecenie GIT-a jest wyłączone na tym poziomie!',
+    'pl'   : 'To polecenie Gita jest wyłączone na tym poziomie!',
     'ta_IN': 'இந்த நிலையில் அந்த கிட் கட்டளை முடக்கப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1591,7 +1591,7 @@ exports.strings = {
     'ko': '시작 지점을 정의하세요... 만약 그것이 먼저 정의된다면 해답과 목표가 덮어씌워질 것입니다.',
     'vi': 'Xác định điểm bắt đầu ... Các giải pháp và mục tiêu sẽ được thay thế nếu đã được chỉ định từ trước.',
     'sl_SI': 'Določanje začetne točke ... rešitev in cilj bosta povožena, če sta bila prej že podana',
-    'pl'   : 'DUstawianie punktu początkowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane',
+    'pl'   : 'Ustawianie punktu startowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane',
     'ta_IN': 'தொடக்கத்தை வரையறுத்தல்... தீர்வு மற்றும் குறிக்கோள் முன்னரே வரையறுக்கப்பட்டிருந்தால் மேலெழுதப்படும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1612,7 +1612,7 @@ exports.strings = {
     'ko': '당신은 한 레벨에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. 레슨에 대해 더 알고싶을 땐 "help level", LearnGitBranching을 사용하고 싶을 땐 "help general", 또는 레벨을 어떻게 해결해야할지 알고싶을 땐 "objective"를 선택하세요.',
     'vi': 'Bạn đang ở trong một cấp độ, nên sẽ có nhiều hỗ trợ. Vui lòng dùng "help level" để biết thêm về bài học này, "help general" để sử dụng HọcNhánhGit, hoặc "objective" để biết cách giải quyết bài tập.',
     'sl_SI': 'Si v stopnji, zato so na voljo različne pomoči. Prosim izberi "help level" za več informacij o tej lekciji, "help general" za splošna navodila ali "objective" da izveš kako rešiti to stopnjo',
-    'pl'   : 'Jesteście na jednym z poziomów, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.',
+    'pl'   : 'Jesteś na poziomie, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.',
     'ta_IN': 'நீங்கள் ஒரு நிலையில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். இந்த பாடத்தைப் பற்றி மேலும் அறிய "நிலைக்கான உதவி" என்பதைத் தேர்ந்தெடுக்கவும், Learn GitBranching பற்றி மேலும் அறிய "பொது உதவி" பயன்படுத்துக, அல்லது இந்த நிலையை எவ்வாறு தீர்ப்பது என்பது பற்றி அறிய "நோக்கம்" தேர்ந்தெடுக்கவும்.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1633,7 +1633,7 @@ exports.strings = {
     'ko': '당신은 한 레벨 생성기에 들어가 있고, 여러가지 도움 양식들을 사용할 수 있습니다. "help general" 또는 "help builder"를 선택해주세요.',
     'vi': 'Bạn đang tạo một cấp độ, nên sẽ có nhiều trợ giúp có sẵn. Vui lòng chọn "help general" hoặc "help builder".',
     'sl_SI': 'Si v graditelju stopenj, zato so na voljo različne pomoči. Prosim izberi "help general" ali "help builder"',
-    'pl'   : 'Jesteś w kreatorze poziomów, więc dostępnych jest wiele form pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów',
+    'pl'   : 'Znajdujesz się w kreatorze poziomów. Dostępnych jest tu kilka rodzajów pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów',
     'ta_IN': 'நீங்கள் ஒரு நிலை கட்டமைப்பானில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். தயவுசெய்து "பொது உதவி" அல்லது "கட்டமைப்பான் உதவி" என்பதைத் தேர்ந்தெடுக்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
