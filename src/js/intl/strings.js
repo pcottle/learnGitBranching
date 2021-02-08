@@ -354,7 +354,7 @@ exports.strings = {
     'ko': '당신은 원격 브랜치에서 그 명령어를 실행시킬 수 없습니다.',
     'vi': 'Bạn không thể thực thi lệnh đó lên nhánh từ xa.',
     'sl_SI': 'Tega ukaza ne moreš narediti na oddaljenem branchu',
-    'pl'   : 'Nie możesz wykonać tego polecenia w zdalnego branch-u',
+    'pl'   : 'Nie możesz wykonać tego polecenia w zdalnej gałęzi',
     'ta_IN': 'அந்த கட்டளையை நீங்கள் தொலைநிலை கிளையில் இயக்க முடியாது'
   },
   'git-error-origin-required': {
@@ -374,7 +374,7 @@ exports.strings = {
     'ko': '그 명령어를 위한 오리진이 필요합니다.',
     'vi': 'Lệnh đó yêu cầu có origin.',
     'sl_SI': 'Origin je potreben za izvedbo tega ukaza',
-    'pl'   : 'Dla tego polecenia wymagany jest źródło (origin)',
+    'pl'   : 'Dla tego polecenia wymagane jest źródło (origin)',
     'ta_IN': 'அந்த கட்டளைக்கு ஒரு துவக்க மூலம் தேவை'
   },
   'git-error-origin-exists': {
@@ -394,7 +394,7 @@ exports.strings = {
     'ko': '오리진이 이미 존재합니다! 당신은 새로 만들 수 없습니다.',
     'vi': 'Nguyên bản (origin) đã tồn tại. Bạn không thể tạo thêm 1 cái mới',
     'sl_SI': 'Origin že obstaja. Ne moreš narediti novega.',
-    'pl'   : 'origem już istnieje! Nie możesz go ponownie założyć',
+    'pl'   : 'Origin już istnieje! Nie możesz go ponownie założyć',
     'ta_IN': 'துவக்க மூலம் ஒன்று ஏற்கனவே உள்ளது! நீங்கள் மீன்டும் ஒன்றை உருவாக்க முடியாது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -416,7 +416,7 @@ exports.strings = {
     'ko': '당신은 메인 브랜치, 당신이 현재 사용중인 브랜치, 또는 브랜치가 아닌 것들을 삭제할 수 없습니다.',
     'vi': 'Bạn không thể xóa nhánh main, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.',
     'sl_SI': 'Ne moreš izbrisati main brancha, brancha na katerem si trenutno ali stvari, ki niso branchi',
-    'pl'   : 'Nie możesz usunąć branch-a main, branch-a nad którym aktualnie pracujesz, ani który nie jest branch-em',
+    'pl'   : 'Nie możesz usunąć gałezi main, gałęzi na której aktualnie pracujesz, ani która nie jest gałezią',
     'ta_IN': 'பிரதான கிளை, தற்ப்போது நடப்பில் உள்ள கிளை மற்றும் கிளை அல்லாத வற்றை அழிக்க இயலாது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -807,6 +807,12 @@ exports.strings = {
     'sl_SI': 'Ta ukaz ne sprejme splošnih ukazov',
     'pl'   : 'To polecenie nie przyjmuje żadnych ogólnych parametrów',
     'ta_IN': 'அந்த கட்டளை பொதுவான உள்ளீடு எதுவும் ஏற்கவில்லை'
+  },
+  ///////////////////////////////////////////////////////////////////////////
+  'git-error-command-not-supported': {
+    '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
+    'en_US': 'The command "{command}" isn\'t supported, sorry!',
+    'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'copy-tree-string': {
@@ -1975,9 +1981,9 @@ exports.strings = {
     'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy'
   },
   ///////////////////////////////////////////////////////////////////////////
-  'git-error-command-not-supported': {
-    '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
-    'en_US': 'The command "{command}" isn\'t supported, sorry!',
-    'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
+  'interactive-rebase-title': {
+    '__desc__': 'Title for the popup',
+    'en_US': 'Interactive Rebase',
+    'pl' : 'Interaktywny Rebase'
   },
 };

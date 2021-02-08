@@ -7,6 +7,8 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 
+var intl = require('../intl');
+
 require('jquery-ui/ui/widget');
 require('jquery-ui/ui/scroll-parent');
 require('jquery-ui/ui/data');
@@ -42,7 +44,7 @@ var InteractiveRebaseView = ContainedBase.extend({
     }, this);
 
     this.container = new ModalTerminal({
-      title: 'Interactive Rebase'
+      title: intl.str('interactive-rebase-title')
     });
     this.render();
 
