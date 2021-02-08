@@ -48,7 +48,7 @@ class LevelToolbarView extends React.Component {
         <div className="clearfix">
           <div className="levelNameWrapper">
             <i className="icon-bolt"></i>
-            {' Level '}
+            { intl.str('level-label') }
             <span className="levelToolbarSpan">
               {this.props.name}
             </span>
