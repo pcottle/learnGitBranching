@@ -8,6 +8,8 @@ var Tag = require('../git').Tag;
 var Command = require('../models/commandModel').Command;
 var TIME = require('../util/constants').TIME;
 
+var intl = require('../intl');
+
 var CommitCollection = Backbone.Collection.extend({
   model: Commit
 });
@@ -94,8 +96,7 @@ var CommandBuffer = Backbone.Model.extend({
     if (!numListeners) {
       var Errors = require('../util/errors');
       command.set('error', new Errors.GitError({
-        msg: 'That command is valid, but not supported in this current environment!' +
-             ' Try entering a level or level builder to use that command'
+        msg: intl.str('error-command-currently-not-supported')
       }));
       deferred.resolve();
       return;

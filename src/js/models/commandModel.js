@@ -228,7 +228,11 @@ var Command = Backbone.Model.extend({
 
     // if we reach here, this command is not supported :-/
     this.set('error', new CommandProcessError({
-        msg: 'The command "' + this.get('rawStr') + '" isn\'t supported, sorry!'
+        msg: intl.str(
+          'git-error-command-not-supported',
+          {
+            command: this.get('rawStr')
+          })
       })
     );
   },
