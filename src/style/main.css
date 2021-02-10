@@ -301,6 +301,11 @@ div.canvasTerminalHolder > div.terminal-window-holder div.inside {
   border-radius: 0 0 5px 5px;
 }
 
+div.inside  pre {
+  white-space: normal;
+  line-height: 24px;
+}
+
 #controls {
   max-width: 400px;
 }
