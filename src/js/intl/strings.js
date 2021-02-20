@@ -812,6 +812,7 @@ exports.strings = {
   'git-error-command-not-supported': {
     '__desc__': 'Message that appears in git console when command was not recognized.',
     'en_US': 'The command "{command}" isn\'t supported, sorry!',
+    'zh_TW': '很抱歉，目前無法支援指令 "{command}"!',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1922,6 +1923,7 @@ exports.strings = {
   'cancel-button': {
     '__desc__': 'Cancel button label after completing a level',
     'en_US': 'Cancel',
+    'zh_TW': '取消',
     'pl' : 'Powrót',
     'ta_IN': 'இரத்துசெய்'
   },
@@ -1929,6 +1931,7 @@ exports.strings = {
   'confirm-button': {
     '__desc__': 'Confirm button label after completing a level',
     'en_US': 'Confirm',
+    'zh_TW': '確認',
     'pl' : 'Dalej',
     'ta_IN': 'உறுதிப்படுத்தவும்'
   },
@@ -1978,12 +1981,14 @@ exports.strings = {
   'error-command-currently-not-supported': {
     '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
     'en_US': 'That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command',
+    'zh_TW': '這項指令輸入正確，然而目前的環境不支援此指令。試著前往關卡或關卡建造器中使用此指令。',
     'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy'
   },
   ///////////////////////////////////////////////////////////////////////////
   'interactive-rebase-title': {
     '__desc__': 'Title for the popup',
     'en_US': 'Interactive Rebase',
+    'zh_TW': '互動式 Rebase',
     'pl' : 'Interaktywny Rebase'
   },
 };
