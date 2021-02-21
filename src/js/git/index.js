@@ -1617,7 +1617,7 @@ GitEngine.prototype.resolveName = function(someRef) {
     return 'commit ' + obj.get('id');
   }
   if (obj.get('type') == 'branch') {
-    return 'branch "' + obj.get('id') + '"';
+    return 'branch "' + obj.get('id').replace(/\bmaster\b/, 'main') + '"';
   }
   // we are dealing with HEAD
   return this.resolveName(obj.get('target'));
