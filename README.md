@@ -10,10 +10,10 @@ You can input a variety of commands into LearnGitBranching (LGB) -- as commands 
 ![demo-gif](https://user-images.githubusercontent.com/6324814/108740487-02c3c400-7536-11eb-9dd1-53275cdf76fb.gif)
 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
-https://pcottle.github.com/learnGitBranching/?demo
+https://pcottle.github.io/learnGitBranching/?demo
 
 Or, you can launch the application normally here:
-https://pcottle.github.com/learnGitBranching/
+https://pcottle.github.io/learnGitBranching/
 
 ### Sandbox Mode
 
