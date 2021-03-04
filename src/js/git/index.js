@@ -793,8 +793,8 @@ GitEngine.prototype.printBranchesWithout = function(without) {
 
 GitEngine.prototype.printBranches = function(branches) {
   var result = '';
-  branches.forEach(function (branch) {
-    result += (branch.selected ? '* ' : '') + branch.id + '\n';
+  branches.forEach(branch => {
+    result += (branch.selected ? '* ' : '') + this.resolveName(branch.id).split('"')[1] + '\n';
   });
   throw new CommandResult({
     msg: result
