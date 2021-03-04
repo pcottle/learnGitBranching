@@ -71,9 +71,11 @@ TreeCompare.dispatchShallow = function(levelBlob, goalTreeString, treeToCompare)
         treeToCompare, goalTreeString, ['master']
       );
     case !!levelBlob.compareOnlyMasterHashAgnosticWithAsserts:
-      return TreeCompare.compareBranchesWithinTreesHashAgnostic(
+      return (TreeCompare.compareBranchesWithinTreesHashAgnostic(
         treeToCompare, goalTreeString, ['master']
-      ) && TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
+      ) || TreeCompare.compareBranchesWithinTreesHashAgnostic(
+        treeToCompare, goalTreeString, ['main']
+      )) && TreeCompare.evalAsserts(treeToCompare, levelBlob.goalAsserts);
     default:
       return TreeCompare.compareAllBranchesWithinTreesAndHEAD(
         treeToCompare, goalTreeString
