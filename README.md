@@ -7,13 +7,13 @@ LearnGitBranching is a git repository visualizer, sandbox, and a series of educa
 
 You can input a variety of commands into LearnGitBranching (LGB) -- as commands are processed, the nearby commit tree will dynamically update to reflect the effects of each command:
 
-![demo-gif](https://user-images.githubusercontent.com/7308241/39848730-040bd09e-53df-11e8-964e-2d48f35a4355.gif)
+![demo-gif](https://user-images.githubusercontent.com/6324814/108740487-02c3c400-7536-11eb-9dd1-53275cdf76fb.gif)
 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
-https://pcottle.github.com/learnGitBranching/?demo
+https://pcottle.github.io/learnGitBranching/?demo
 
 Or, you can launch the application normally here:
-https://pcottle.github.com/learnGitBranching/
+https://pcottle.github.io/learnGitBranching/
 
 ### Sandbox Mode
 
@@ -133,6 +133,7 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 <a href="https://github.com/tym-network"><img src="https://avatars1.githubusercontent.com/u/2879545?v=4" title="tym-network" width="80" height="80"></a>
 <a href="https://github.com/zhyu"><img src="https://avatars1.githubusercontent.com/u/1728523?v=4" title="zhyu" width="80" height="80"></a>
 <a href="https://github.com/mgarciaisaia"><img src="https://avatars1.githubusercontent.com/u/1190974?v=4" title="mgarciaisaia" width="80" height="80"></a>
+<a href="https://github.com/YourSenseiCreeper"><img src="https://avatars1.githubusercontent.com/u/6324814?&v=4" title="YourSenseiCreeper" width="80" height="80"></a>
 <a href="https://github.com/olsza"><img src="https://avatars1.githubusercontent.com/u/12556170?v=4" title="Olsza" width="80" height="80"></a>
 
 [//]: contributor-faces
@@ -162,6 +163,7 @@ And the following heroes for assisting in translating:
 * Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
 * Aliaksei Berkau ("alexeiberkov")
 * Mizunashi Mana ("mizunashi-mana")
+* YourSenseiCreeper
 * Olsza
 
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
