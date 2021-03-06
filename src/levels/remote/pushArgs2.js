@@ -566,7 +566,7 @@ exports.level = {
               "记住，`source` 可以是任何 Git 能识别的位置："
             ],
             "afterMarkdowns": [
-              "这是个另人困惑的命令，但是它确实是可以运行的 —— Git 将 `foo^` 解析为一个位置，上传所有未被包含到远程仓库里 `main` 分支中的提交记录。"
+              "这是个令人困惑的命令，但是它确实是可以运行的 —— Git 将 `foo^` 解析为一个位置，上传所有未被包含到远程仓库里 `main` 分支中的提交记录。"
             ],
             "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
