@@ -17,7 +17,8 @@ exports.level = {
     "ko"   : "원격 브랜치(remote branch)",
     "uk"   : "Віддалені гілки",
     "vi"   : "Nhánh từ xa",
-    "sl_SI": "Oddaljeni Branchi"
+    "sl_SI": "Oddaljeni Branchi",
+    "pl"   : "Zdalne gałęzie"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -34,7 +35,8 @@ exports.level = {
     "ko"   : "순서에 주의하세요: main 브랜치 에서 먼저 커밋하세요!",
     "uk"   : "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
     "vi"   : "Chú ý đến thứ tự -- commit trên nhánh main trước!",
-    "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!"
+    "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!",
+    "pl"   : "Zwróć uwagę na kolejność -- najpierw zatwierdzaj na main"
   },
   "startDialog": {
     "en_US": {
@@ -947,6 +949,67 @@ exports.level = {
           "options": {
             "markdowns": [
               "Za dokončanje te stopnje, commitaj enkrat iz `main` in enkrat, ko checkoutaš `o/main`. To ti bo pomagalo osvojiti, kako se oddaljeni branchi obnašajo drugače in se posodobijo le da odražajo stanje na oddaljenem repozitoriju."
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Zdalne gałęzie git",
+              "",
+              "Teraz gdy widziałeś już działanie `git clone`, przyjrzyjmy się temu, co faktycznie się zmieniło.",
+              "",
+              "Pierwszą rzeczą, jaką mogłeś zauważyć, jest to, że w naszym lokalnym repozytorium pojawiła się nowa gałąź o nazwie `o/main`. Ten typ gałęzi nazywany jest gałęzią _zdalną_; gałęzie zdalne mają specjalne właściwości, ponieważ służą do wyjątkowego celu.",
+              "",
+              "Zdalne gałęzie odzwierciedlają _stan_ zdalnych repozytoriów (od czasu ostatniej rozmowy z tymi zdalnymi repozytoriami). Pomagają zrozumieć różnicę między pracą lokalną a pracą publiczną -- krytyczny krok, który należy wykonać przed udostępnieniem swojej pracy innym.",
+              "",
+              "Zdalne gałęzie mają specjalną właściwość, że kiedy je sprawdzasz, jesteś wprowadzany w odłączony tryb `HEAD`. Git robi to celowo, ponieważ nie możesz pracować bezpośrednio na tych gałęziach; musisz pracować w innym miejscu, a następnie dzielić się swoją pracą zdalnie (po czym twoje zdalne gałęzie zostaną zaktualizowane)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Czym jest `o/`?",
+              "",
+              "Możesz się zastanawiać, do czego służy początkowy znak `o/` w zdalnych gałęziach. Otóż, zdalne gałęzie również mają (wymaganą) konwencję nazewnictwa -- są wyświetlane w formacie:",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "Więc jeśli spojrzysz na gałąź o nazwie `o/main`, nazwą gałęzi (branch name) jest `main` a nazwą zdalną (remote name) jest `o`.",
+              "",
+              "Większość deweloperów w rzeczywistości nazywa główne zdalne gałęzie `origin`, nie `o`. Jest to tak powszechne, że git w rzeczywistości ustawia zdalną nazwę na `origin` kiedy wykonujesz `git clone` na repozytorium.",
+              "",
+              "Niestety pełna nazwa `origin` nie zmieści się w naszym interfejsie, więc używamy `o` jako skrótu :( Pamiętaj więc, że kiedy używasz prawdziwego gita twoja zdalna nazwa najprawdopodobniej brzmi `origin`!",
+              "",
+              "To dużo do przyswojenia, więc zobaczmy to wszystko w akcji."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sprawdźmy zdalną gałąź i zobaczmy co się stanie."
+            ],
+            "afterMarkdowns": [
+              "Jak widzisz git przełączył nas w odłączony tryb `HEAD` i nie zaktualizował `o/main` kiedy dodaliśmy nowy commit. Jest tak ponieważ `o/main` aktualizuje się tylko, gdy aktualizujesz go ze zdalnym repozytorium."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby ukończyć ten poziom, zacommituj raz z `main` i raz, po przełączeniu się, z `o/main`. Pomoże to zrozumieć, jak zachowują się zdalne gałęzie i jak są wykorzystywane w celu odzwierciedlenia zdalnego repozytorium."
             ]
           }
         }
