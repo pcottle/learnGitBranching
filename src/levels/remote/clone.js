@@ -16,7 +16,8 @@ exports.level = {
     "ko"   : "Clone 소개",
     "uk"   : "Знайомство з clone",
     "vi"   : "Giới thiệu về clone",
-    "sl_SI": "Uvod v Git Clone"
+    "sl_SI": "Uvod v Git Clone",
+    "pl"   : "Wstęp do klonowania (clone)"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -33,7 +34,8 @@ exports.level = {
     "ko"   : "그냥 git clone 하세요!",
     "uk"   : "Просто git clone!",
     "vi"   : "Đơn giản là `git clone`!",
-    "sl_SI": "Preprosto samo git clone!"
+    "sl_SI": "Preprosto samo git clone!",
+    "pl"   : "Po prostu git clone!"
   },
   "startDialog": {
     "en_US": {
@@ -885,6 +887,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Za dokončanje te stopnje, uporabi `git clone` na svojem obstoječem repozitoriju. Pravo učenje pride v lekcijah, ki sledijo."
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Zdalny git",
+              "",
+              "Zdalne repozytoria nie są w rzeczywistości takie skomplikowane. W dzisiejszym świecie przetwarzania w chmurze łatwo jest pomyśleć, że za zdalnym gitem kryje się wiele magii, ale w rzeczywistości są to tylko kopie repozytorium na innym komputerze. Zwykle możesz komunikować się z innym komputerem przez Internet, co umożliwia przesyłanie commitów tam i z powrotem. ",
+              "",
+              "Mówiąc to, zdalne repozytoria mają kilka świetnych właściwości:",
+              "",
+              "- Przede wszystkim zdalne repozytoria służą jako świetna kopia zapasowa! Lokalne repozytoria git mają możliwość przywracania plików do poprzedniego stanu (jak wiesz), ale wszystkie te informacje są przechowywane lokalnie. Mając kopie repozytorium git na innych komputerach, możesz stracić wszystkie swoje dane lokalne i kontynuować pracę od miejsca, w którym przerwałeś.",
+              "",
+              "- Co ważniejsze, zdalne repozytoria sprawiają, że kodowanie jest społeczne! Teraz gdy kopia twojego projektu jest umieszczona gdzie indziej, twoi znajomi mogą bardzo łatwo wnieść wkład do twojego projektu (lub pobrać najnowsze zmiany).",
+              "",
+              "Bardzo popularne stało się korzystanie ze stron internetowych, które wizualizują aktywność wokół zdalnych repozytoriów (takich jak [GitHub](https://github.com/) lub [Phabricator](http://phabricator.org/)), ale zdalne repozytoria _zawsze_ służą jako podstawa tych narzędzi. Dlatego ważne jest, aby je zrozumieć!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Polecenia do tworzenia zdalnych repozytoriów",
+              "",
+              "Do tego momentu Learn Git Branching skupiało się na nauczaniu podstaw pracy z repozytoriami _lokalnymi_ (branch, merge, rebase itp.). Jednak teraz, gdy chcemy dowiedzieć się więcej o pracy ze zdalnym repozytorium, potrzebujemy polecenia, aby skonfigurować środowisko dla tych lekcji. Tym poleceniem będzie `git clone`.",
+              "",
+              "Technicznie rzecz biorąc, `git clone` w prawdziwym świecie jest poleceniem, którego będziesz używać do tworzenia _lokalnych_ kopii zdalnych repozytoriów (na przykład z github). Używamy tego polecenia nieco inaczej w Learn Git Branching -- `git clone` faktycznie tworzy zdalne repozytorium z lokalnego. Jasne, jest to technicznie odwrotne znaczenie prawdziwego polecenia, ale pomaga zbudować połączenie między klonowaniem a pracą zdalnego repozytorium, więc na razie uruchommy to.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Zacznijmy powoli i spójrzmy tylko, jak wygląda zdalne repozytorium (w naszej wizualizacji).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Tu jest! Teraz mamy zdalne repozytorium naszego projektu. Wygląda dość podobnie, z wyjątkiem pewnych zmian wizualnych, aby rozróżnienie było widoczne -- na kolejnych poziomach zobaczysz, jak udostępniamy pracę w tych repozytoriach."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby ukończyć ten poziom po prostu wpisz `git clone` na swoim repozytorium. Prawdziwa nauka przyjdzie w następnych lekcjach."
             ]
           }
         }
