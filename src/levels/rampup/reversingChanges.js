@@ -158,7 +158,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, revertí los dos commits más recientes, tanto en `local` como en `pushed`.",
+              "Para completar este nivel, revertí el commit más reciente, tanto en `local` como en `pushed`.",
               "",
               "Tené en cuenta que `pushed` es una rama remota y `local` es una rama local -- eso debería ayudarte a elegir qué métodos usar."
             ]
@@ -221,7 +221,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, deshaz los dos commits más recientes, tanto en `local` como en `pushed`.",
+              "Para completar este nivel, revierte el commit más reciente, tanto en `local` como en `pushed`.",
               "",
               "Ten en cuenta que `pushed` es una rama remota y `local` es una rama local -- eso debería ayudarte a elegir qué métodos usar."
             ]
@@ -284,7 +284,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, reverta os dois commits mais recentes tanto em `local` como em `pushed`.",
+              "Para completar este nível, reverta o commit mais recente tanto em `local` como em `pushed`.",
               "",
               "Tenha em mente que `pushed` é um ramo remoto, e `local` é um ramo local -- isso deve ajudá-lo a escolher o método apropriado."
             ]
@@ -347,7 +347,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, reverte os dous commits máis recentes tanto en `local` como en `pushed`.",
+              "Para completar este nivel, reverte o commit máis recente tanto en `local` como en `pushed`.",
               "",
               "Ten en mente que `pushed` é unha rama remota, e `local` é unha rama local -- Iso poida que te axude a aplicar o método apropriado."
             ]
@@ -410,7 +410,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level abzuschließen musst du sowohl auf `local` also auch auf `pushed` jeweils die zwei letzten Commits zurücknehmen.",
+              "Um diesen Level abzuschließen musst du sowohl auf `local` als auch auf `pushed` jeweils den letzten Commit zurücknehmen.",
               "",
               "Vergiss nicht, dass `pushed` auch auf einem Server liegt und `local` ein rein lokaler Branch ist -- das sollte dir helfen, die richtige Methode zu wählen."
             ]
