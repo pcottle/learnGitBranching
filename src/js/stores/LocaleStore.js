@@ -24,7 +24,8 @@ var langLocaleMap = {
   vi: 'vi',
   sl: 'sl_SI',
   pl: 'pl',
-  ta: 'ta_IN'
+  ta: 'ta_IN',
+  it: 'it_IT'
 };
 
 var headerLocaleMap = {
@@ -33,7 +34,9 @@ var headerLocaleMap = {
   'pt-BR': 'pt_BR',
   'es-MX': 'es_MX',
   'es-ES': 'es_ES',
-  'sl-SI': 'sl_SI'
+  'sl-SI': 'sl_SI',
+  'it-IT': 'it_IT',
+
 };
 
 var supportedLocalesList = Object.values(langLocaleMap)
