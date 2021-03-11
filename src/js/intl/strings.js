@@ -1640,6 +1640,7 @@ exports.strings = {
     pl: "Rozwiązania zostały wyczyszczone, zaczynasz z czystą kartą.",
     ta_IN:
       "தீர்க்கப்பட்ட கோப்பு மீட்டமைக்கப்பட்டது, நீங்கள் ஆரம்பத்தில் இருந்து தொடங்குகிறீர்கள்!",
+ it_IT: "I progresse salvati sono stati resettati, stai iniziando da zero!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "level-cant-exit": {
