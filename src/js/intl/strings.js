@@ -1031,6 +1031,7 @@ exports.strings = {
     en_US: 'The command "{command}" isn\'t supported, sorry!',
     zh_TW: '很抱歉，目前無法支援指令 "{command}"!',
     pl: 'Polecenie "{command}" niestety nie jest obsługiwane.',
+    it_IT: 'Mi spiace, il comando "{command}" non è supportato.',
   },
   ///////////////////////////////////////////////////////////////////////////
   "copy-tree-string": {
@@ -1052,6 +1053,7 @@ exports.strings = {
     sl_SI: "Skopiraj besedilo drevesa spodaj",
     pl: "Skopiuj poniższy kod",
     ta_IN: "`tree string`ஐ கீழே நகலெடுக்கவும்",
+    it_IT: "Copia il codice dell'albero qua sotto",
   },
   ///////////////////////////////////////////////////////////////////////////
   "learn-git-branching": {
@@ -1074,6 +1076,7 @@ exports.strings = {
     sl_SI: "Nauči se Git Branching",
     pl: "Naucz się Git Branching-u",
     ta_IN: "கிட் கிளை அமைத்தல்",
+    it_IT: "Impara Git Branching",
   },
   ///////////////////////////////////////////////////////////////////////////
   "select-a-level": {
@@ -1095,6 +1098,7 @@ exports.strings = {
     sl_SI: "Izberi stopnjo",
     pl: "Wybierz poziom",
     ta_IN: "ஒரு நிலையை தேர்வு செய்யுங்கள்",
+    it_IT: "Scegli un livello",
   },
   ///////////////////////////////////////////////////////////////////////////
   "main-levels-tab": {
@@ -1112,6 +1116,7 @@ exports.strings = {
     sl_SI: "Glavno",
     pl: "Główny",
     ta_IN: "பிரதானம்",
+    it_IT: "Menu",
   },
   ///////////////////////////////////////////////////////////////////////////
   "remote-levels-tab": {
@@ -1129,6 +1134,7 @@ exports.strings = {
     sl_SI: "Oddaljeno",
     pl: "Zdalny",
     ta_IN: "தொலைநிலை",
+    it_IT: "Remoto",
   },
   ///////////////////////////////////////////////////////////////////////////
   "branch-name-short": {
@@ -1168,6 +1174,8 @@ exports.strings = {
       'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy gałęzi. Nazwa Twojej gałęzi została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"',
     ta_IN:
       'மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிளையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, "{branch}" ஆக மற்றப்பட்டுள்ளது',
+    it_IT:
+      'Scusa ma i nomi dei rami devono essere brevi per essere visualizzati. Il nome del tuo ramo è stato accorciato a 9 caratteri, rinominandolo come "{branch}"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "bad-branch-name": {
@@ -1189,6 +1197,7 @@ exports.strings = {
     sl_SI: 'To ime brancha "{branch}" ni dovoljeno!',
     pl: 'Ta nazwa gałęzi "{branch}" jest niedozwolona!',
     ta_IN: '"{branch}" ஐ கிளையின் பெயராக ஏற்க்க இயலாது!',
+    it_IT: 'Il nome "{branch}" per i rami non è consentito!',
   },
   ///////////////////////////////////////////////////////////////////////////
   "bad-tag-name": {
@@ -1210,6 +1219,7 @@ exports.strings = {
     sl_SI: 'To ime tag-a "{tag}" ni dovoljeno!',
     pl: 'Ta nazwa tagu "{tag}" jest niedozwolona!',
     ta_IN: '"{tag}" ஐ குறிச்சொல் பெயராக ஏற்க்க இயலாது!',
+    it_IT: 'Il nome "{tag}" per i tag non è consentito!',
   },
   ///////////////////////////////////////////////////////////////////////////
   "option-not-supported": {
@@ -1232,6 +1242,7 @@ exports.strings = {
     sl_SI: 'Opcija "{option}" ni podprta! ',
     pl: 'Opcja "{option}" nie jest obsługiwana!',
     ta_IN: '"{option}" மாற்று செயல் ஆதரிக்கப்படவில்லை!',
+    it_IT: 'L\'opzione "{option}" non è supportata!',
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-usage-command": {
@@ -1253,6 +1264,7 @@ exports.strings = {
     sl_SI: "git <ukaz> [<argumenti>]",
     pl: "git <polecenie> [<parametry>]",
     ta_IN: "git <command> [<args>]",
+    it_IT: "git <command> [<args>]",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-supported-commands": {
@@ -1275,6 +1287,7 @@ exports.strings = {
     sl_SI: "Podprti ukazi:",
     pl: "Obsługiwane polecenia:",
     ta_IN: "செயலாக்கம் உள்ள கட்டளைகள்;",
+    it_IT: "Comandi supportati:",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-usage": {
@@ -1297,6 +1310,7 @@ exports.strings = {
     sl_SI: "Uporaba:",
     pl: "Użyj",
     ta_IN: "பயன்பாடு",
+    en_US: "Utilizzo:",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-version": {
@@ -1319,6 +1333,7 @@ exports.strings = {
     sl_SI: "Git Verzija PCOTTLE.1.0",
     pl: "Wersja GIT-a OLSZA-YSC-1.0",
     ta_IN: "Git Version PCOTTLE.1.0",
+    it_IT: "Git Version SHARDANA_SOFT.1.0.0",
   },
   ///////////////////////////////////////////////////////////////////////////
   "flip-tree-command": {
@@ -1340,6 +1355,7 @@ exports.strings = {
     sl_SI: "Obračanje drevesa ...",
     pl: "Odwracanie drzewa...",
     ta_IN: "Flipping tree...",
+    it_IT: "Girando l'albero...",
   },
   ///////////////////////////////////////////////////////////////////////////
   "refresh-tree-command": {
