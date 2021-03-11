@@ -2445,7 +2445,7 @@ exports.strings = {
     ta_IN:
       "இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!",
     it_IT:
-      "Questo messaggio o testo non è ancora stato tradotto nella tua lingua yet translated in your locale :(  Fai un salto su GitHub e dacci una mano!",
+      "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "cancel-button": {
