@@ -1932,6 +1932,8 @@ exports.strings = {
       "Wpisz wskazówkę dotyczącą tego poziomu lub pozostaw ją pustą, jeśli nie chcesz jej uwzględniać.",
     ta_IN:
       "இந்த நிலைக்கான குறிப்பை உள்ளிடவும், குறிப்பு தேவை இல்லை என்றால் இதனை காலியாக விடுவும்",
+    it_IT:
+      "Inserisci un suggerimento per questo livello, oppure lascialo vuoto se non ne vuoi aggiungere",
   },
   ///////////////////////////////////////////////////////////////////////////
   "prompt-name": {
@@ -1953,6 +1955,7 @@ exports.strings = {
     sl_SI: "Vnesi ime za stopnjo",
     pl: "Wprowadź nazwę poziomu",
     ta_IN: "நிலைக்கான பெயரை உள்ளிடவும்",
+    it_IT: "Inserisci il nome per questo livello",
   },
   ///////////////////////////////////////////////////////////////////////////
   "solution-empty": {
@@ -1976,6 +1979,7 @@ exports.strings = {
     sl_SI: "Tvoja rešitev je prazna!! Nekaj ni vredu.",
     pl: "Twoje rozwiązanie jest puste!! Coś musi zostać zrobione.",
     ta_IN: "உங்கள் தீர்வு காலியாக உள்ளது!! ஏதோ தவறாக இருக்கிறது",
+    it_IT: "La soluzione è vuota!! Manca qualcosa.",
   },
   ///////////////////////////////////////////////////////////////////////////
   "define-start-warning": {
@@ -2013,6 +2017,8 @@ exports.strings = {
       "Ustawianie punktu startowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane",
     ta_IN:
       "தொடக்கத்தை வரையறுத்தல்... தீர்வு மற்றும் குறிக்கோள் முன்னரே வரையறுக்கப்பட்டிருந்தால் மேலெழுதப்படும்",
+    it_IT:
+      "Definendo punto di partenza... soluzione e obiettivo saranno sovvrascritti se erano già stati definiti.",
   },
   ///////////////////////////////////////////////////////////////////////////
   "help-vague-level": {
@@ -2052,6 +2058,8 @@ exports.strings = {
       'Jesteś na poziomie, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.',
     ta_IN:
       'நீங்கள் ஒரு நிலையில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். இந்த பாடத்தைப் பற்றி மேலும் அறிய "நிலைக்கான உதவி" என்பதைத் தேர்ந்தெடுக்கவும், Learn GitBranching பற்றி மேலும் அறிய "பொது உதவி" பயன்படுத்துக, அல்லது இந்த நிலையை எவ்வாறு தீர்ப்பது என்பது பற்றி அறிய "நோக்கம்" தேர்ந்தெடுக்கவும்.',
+    it_IT:
+      'Sei dentro a un livello, hai a disposizione vari tipi di aiuto. Digita "help level" per saperne di più su questa lezione, "help general" per come usare Learn GitBranching, o "objective" per capire come risolvere il livello.',
   },
   ///////////////////////////////////////////////////////////////////////////
   "help-vague-builder": {
@@ -2091,6 +2099,8 @@ exports.strings = {
       'Znajdujesz się w kreatorze poziomów. Dostępnych jest tu kilka rodzajów pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów',
     ta_IN:
       'நீங்கள் ஒரு நிலை கட்டமைப்பானில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். தயவுசெய்து "பொது உதவி" அல்லது "கட்டமைப்பான் உதவி" என்பதைத் தேர்ந்தெடுக்கவும்',
+    it_IT:
+      'Sei in un generatore di livelli, hai a disposizione vari tipi di aiuto. Digita "help general" o "help builder"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "show-goal-button": {
@@ -2113,6 +2123,7 @@ exports.strings = {
     sl_SI: "Prikaži Cilj",
     pl: "Pokaż cel",
     ta_IN: "இலக்கைக் காட்டு",
+    it_IT: "Mostra obiettivo",
   },
   ///////////////////////////////////////////////////////////////////////////
   "hide-goal-button": {
@@ -2135,6 +2146,7 @@ exports.strings = {
     sl_SI: "Skrij Cilj",
     pl: "Ukryj cel",
     ta_IN: "இலக்கை மறை",
+    it_IT: "Nasconti obiettivo",
   },
   ///////////////////////////////////////////////////////////////////////////
   "objective-button": {
@@ -2152,6 +2164,7 @@ exports.strings = {
     sl_SI: "Navodila",
     pl: "Instrukcje",
     ta_IN: "வழிமுறைகள்",
+    it_IT: "Istruzioni",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-demonstration-title": {
@@ -2169,6 +2182,7 @@ exports.strings = {
     sl_SI: "Git Predstavitev",
     pl: "Demo GIT",
     ta_IN: "கிட் செயல் விளக்கம்",
+    it_IT: "Dimostrazione Git",
   },
   ///////////////////////////////////////////////////////////////////////////
   "goal-to-reach": {
@@ -2191,6 +2205,7 @@ exports.strings = {
     sl_SI: "Končni Cilj",
     pl: "Cel do osiągnięcia",
     ta_IN: "அடைய வேண்டிய இலக்கு",
+    it_IT: "Obiettivo da raggiungere",
   },
   ///////////////////////////////////////////////////////////////////////////
   "goal-only-main": {
@@ -2232,6 +2247,8 @@ exports.strings = {
       '<span class="fwber"> Uwaga:</span> Na tym poziomie będzie sprawdzana tylko poprawność gałęzi main. Pozostałe gałęzie są tylko odniesieniem (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno klikając "Ukryj cel".',
     ta_IN:
       '<span class="fwber">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், "இலக்கை மறை" மூலம் இந்த சாளரத்தை மறைக்கலாம்',
+    it_IT:
+      '<span class="fwber">Nota:</span> In questo livello sarà selezionato solo il ramo main. Gli altri rami ci sono solo come riferimento (mostrati come etichette tratteggiate). Come sempre, puoi nascondere questa finestra con "hide goal"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "hide-goal": {
