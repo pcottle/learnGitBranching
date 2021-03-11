@@ -1620,15 +1620,15 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "### Specifying Parents",
+              "### Selezionare i genitori",
               "",
-              "Like the `~` modifier, the `^` modifier also accepts an optional number after it.",
+              "Come il modificatore `~` , anche il modificatore `^`accetta un numero (opzionale) dopo di esso.",
               "",
-              "Rather than specifying the number of generations to go back (what `~` takes), the modifier on `^` specifies which parent reference to follow from a merge commit. Remember that merge commits have multiple parents, so the path to choose is ambiguous.",
+              "Invece che specificare il numero di generazioni di cui tornare indietro (come accade con `~`), il modificatore `^` specifica quale genitore seguire partendo da un merge commit (di fusione). Ricorda che i merge commit hanno genitori multipli, quindi il percorso da seguire può essere ambiguo.",
               "",
-              'Git will normally follow the "first" parent upwards from a merge commit, but specifying a number with `^` changes this default behavior.',
+              'Git normalmente sege il primo genitore partendo da un merge commit, ma specificando un numero con `^` cambia questo comportamento predefinito.',
               "",
-              "Enough talking, let's see it in action.",
+              "Basta parlare, vediamolo in azione.",
               "",
             ],
           },
@@ -1637,7 +1637,7 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Here we have a merge commit. If we checkout `main^` without the modifier, we will follow the first parent after the merge commit. ",
+              "Qui abbiamo un merge commit. Se facciamo checkout `main^` senza modificatore, we will follow the first parent after the merge commit. ",
               "",
               "(*In our visuals, the first parent is positioned directly above the merge commit.*)",
             ],
