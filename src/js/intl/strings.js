@@ -840,7 +840,8 @@ exports.strings = {
       "Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść",
     ta_IN:
       "பிரிக்கப்பட்ட தலையில் மீட்டமைக்க முடியாது! நீங்கள் நகர்த்த விரும்பினால் `checkout` பயன்படுத்தவும்",
-    it_IT: "Non posso fare reset in modalità testa distaccata (detached head)! Utilizza checkout se vuoi spostarti",
+    it_IT:
+      "Non posso fare reset in modalità testa distaccata (detached head)! Utilizza checkout se vuoi spostarti",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-warning-hard": {
@@ -888,7 +889,7 @@ exports.strings = {
       "The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit " +
       "that option if you get tired of typing it out in our lessons. Just remember that the default " +
       "behavior on actual Git is --mixed.",
-       it_IT:
+    it_IT:
       "Il comportamento base per i resets su LearnGitBranching è --hard, per cui puoi tranquillamente omettere " +
       "quella opzione se ti sei stancato di scriverla. Ricorda però che in Git, " +
       "l'opzione di default è --mixed.",
@@ -929,6 +930,9 @@ exports.strings = {
       "Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.",
     ta_IN:
       "கோப்புகளைச் சேர்ப்பது / நிலைநிறுத்துவது என்ற கருத்து ஒன்றும் இல்லை, எனவே அந்த மற்றி அல்லது கட்டளை தவறானது",
+    it_IT:
+      "Non esiste il concetto di aggiungere / indicizzare i file, quindi quell'opzione o " +
+      "comando non è valido!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-revert-msg": {
@@ -950,6 +954,7 @@ exports.strings = {
     sl_SI: "Revertanje {oldCommit}: {oldMsg}",
     pl: "Cofam {oldCommit} : {oldMsg}",
     ta_IN: "{oldCommit}: {oldMsg} மீன்டும் மாற்றியமைக்கிறது",
+    it_IT: "Ripristino {oldCommit}: {oldMsg}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-args-many": {
@@ -972,6 +977,7 @@ exports.strings = {
     pl: "Oczekuję maksymalne {upper} parametrów dla {what}",
     ta_IN:
       "நான் {what}க்கான உள்ளீடு(கள்) அதிகபட்சமாக {upper} எதிர்பார்க்கிறேன்",
+    it_IT: "Mi aspetto al massimo {upper} parametro/i per {what}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-args-few": {
@@ -994,6 +1000,7 @@ exports.strings = {
     pl: "Oczekuję co najmniej {lower} parametrów dla {what}",
     ta_IN:
       "நான் {what}க்கான உள்ளீடு(கள்) குறைந்தபட்சம் {lower} எதிர்பார்க்கிறேன்",
+    it_IT: "Mi aspetto come minumo {lower} parametro/i per {what}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-no-general-args": {
@@ -1015,6 +1022,7 @@ exports.strings = {
     sl_SI: "Ta ukaz ne sprejme splošnih ukazov",
     pl: "To polecenie nie przyjmuje żadnych ogólnych parametrów",
     ta_IN: "அந்த கட்டளை பொதுவான உள்ளீடு எதுவும் ஏற்கவில்லை",
+    it_IT: "Quel comando non accetta parametri generici",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-command-not-supported": {
