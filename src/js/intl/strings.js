@@ -2271,6 +2271,7 @@ exports.strings = {
     sl_SI: 'To okno lahko skriješ z "hide goal"',
     pl: 'Możesz ukryć to okno za pomocą opcji "ukryj cel"',
     ta_IN: 'இந்த சாளரத்தை "இலக்கை மறை" மூலம் மறைக்கலாம்',
+    it_IT: 'Puoi nascondere questa finestra con "hide goal"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "hide-start": {
@@ -2294,6 +2295,7 @@ exports.strings = {
     sl_SI: 'To okno lahko skriješ z "hide start"',
     pl: 'Możesz ukryć to okno za pomocą opcji "ukryj start"',
     ta_IN: 'இந்த சாளரத்தை "தொடக்கத்தை மறை" மூலம் மறைக்கலாம்',
+    it_IT: 'Puoi nascondere questa finestra con "hide start"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "level-builder": {
@@ -2316,6 +2318,7 @@ exports.strings = {
     sl_SI: "Graditelj Stopenj",
     pl: "Twórca poziomu",
     ta_IN: "நிலை கட்டமைப்பான்",
+    it_IT: "Generatore di livelli",
   },
   ///////////////////////////////////////////////////////////////////////////
   "no-start-dialog": {
@@ -2339,6 +2342,7 @@ exports.strings = {
     sl_SI: "Ni začetnega dialoga za prikaz te stopnje!",
     pl: "Dla tego poziomu nie ma okna startowego do wyświetlenia!",
     ta_IN: "இந்த நிலை பற்றி விளக்கிகாட்ட தொடக்க உரையாடல் எதுவும் இல்லை",
+    it_it: "Non esiste una finestra di partenza per questo livello!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "no-hint": {
@@ -2362,6 +2366,7 @@ exports.strings = {
     pl: "Hmm, wydaje się, że nie ma podpowiedzi dla tego poziomu :-/",
     ta_IN:
       "ஹ்ம், இந்த நிலைக்கு ஒரு குறிப்பு எதுவும் இருப்பதாகத் தெரியவில்லை :-/",
+    it_IT: "Mmh, sembra non ci sia un suggerimento per questo livello :-/",
   },
   ///////////////////////////////////////////////////////////////////////////
   "error-untranslated-key": {
@@ -2398,6 +2403,8 @@ exports.strings = {
       'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
     ta_IN:
       "{key}-இன் மொழிபெயர்ப்பு கிடைக்கவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!",
+    it_IT:
+      "La traduzione per {key} non esiste ancora :( Fai un salto su GitHub e dacci una mano!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "error-untranslated": {
@@ -2437,6 +2444,8 @@ exports.strings = {
       "Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!",
     ta_IN:
       "இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!",
+    it_IT:
+      "Questo messaggio o testo non è ancora stato tradotto nella tua lingua yet translated in your locale :(  Fai un salto su GitHub e dacci una mano!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "cancel-button": {
@@ -2445,6 +2454,7 @@ exports.strings = {
     zh_TW: "取消",
     pl: "Powrót",
     ta_IN: "இரத்துசெய்",
+    it_IT: "Annulla",
   },
   ///////////////////////////////////////////////////////////////////////////
   "confirm-button": {
@@ -2453,6 +2463,7 @@ exports.strings = {
     zh_TW: "確認",
     pl: "Dalej",
     ta_IN: "உறுதிப்படுத்தவும்",
+    it_IT: "Conferma",
   },
   ///////////////////////////////////////////////////////////////////////////
   "level-label": {
@@ -2460,42 +2471,49 @@ exports.strings = {
       "Label in the top of the left-side menu. Rembember to leave some space on the sides",
     en_US: " Level ",
     pl: " Poziom ",
+    it_IT: " Livello ",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-helper-bar-levels": {
     __desc__: "Levels command label in the bottom command helper bar.",
     en_US: "Levels",
     pl: "Poziomy",
+    it_IT: "Livelli",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-helper-bar-solution": {
     __desc__: "Solution command label in the bottom command helper bar.",
     en_US: "Solution",
     pl: "Rozwiązanie",
+    it_IT: "Soluzione",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-helper-bar-reset": {
     __desc__: "Reset command label in the bottom command helper bar.",
     en_US: "Reset",
     pl: "Wyczyść",
+    it_IT: "Reset",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-helper-bar-undo": {
     __desc__: "Undo command label in the bottom command helper bar.",
     en_US: "Undo",
     pl: "Cofnij",
+    it_IT: "Annulla",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-helper-bar-objective": {
     __desc__: "Objective command label in the bottom command helper bar.",
     en_US: "Objective",
     pl: "Cel",
+    it_IT: "Obiettivo",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-helper-bar-help": {
     __desc__: "Help command label in the bottom command helper bar.",
     en_US: "Help",
     pl: "Pomoc",
+    it_IT: "Aiuto",
   },
   ///////////////////////////////////////////////////////////////////////////
   "error-command-currently-not-supported": {
@@ -2507,6 +2525,8 @@ exports.strings = {
       "這項指令輸入正確，然而目前的環境不支援此指令。試著前往關卡或關卡建造器中使用此指令。",
     pl:
       "To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy",
+    it_IT:
+      "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
   },
   ///////////////////////////////////////////////////////////////////////////
   "interactive-rebase-title": {
@@ -2514,5 +2534,6 @@ exports.strings = {
     en_US: "Interactive Rebase",
     zh_TW: "互動式 Rebase",
     pl: "Interaktywny Rebase",
+    en_US: "Rebase interattivo",
   },
 };
