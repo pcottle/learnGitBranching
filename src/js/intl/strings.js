@@ -1640,7 +1640,7 @@ exports.strings = {
     pl: "Rozwiązania zostały wyczyszczone, zaczynasz z czystą kartą.",
     ta_IN:
       "தீர்க்கப்பட்ட கோப்பு மீட்டமைக்கப்பட்டது, நீங்கள் ஆரம்பத்தில் இருந்து தொடங்குகிறீர்கள்!",
- it_IT: "I progresse salvati sono stati resettati, stai iniziando da zero!",
+    it_IT: "I progresse salvati sono stati resettati, stai iniziando da zero!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "level-cant-exit": {
@@ -1673,6 +1673,8 @@ exports.strings = {
       'Nie jesteś na poziomie! Jesteś w trybie piaskownicy, zacznij poziom wpisując "levels"',
     ta_IN:
       'ஒரு நிலையில் இல்லாமல், நீங்கள் sandbox-இல் உள்ளீர்கள்! "நிலைகள்" மூலம் ஒரு நிலையைத் தொடங்கவும்',
+    it_IT:
+      'Non ti trovi in un livello! Sei nella sandbox, inizia un livello con "levels"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "level-no-id": {
@@ -1703,6 +1705,8 @@ exports.strings = {
     pl: "Nie znaleziono poziomu {id}!. Otwieranie widoku wyboru poziomu...",
     ta_IN:
       'அந்த "{id}"-க்கான நிலை  காணப்படவில்லை! நிலை தேர்வு செய்யும் திரை திறக்கிறது',
+    it_IT:
+      'Non è stato trovato un livello con id "{id}"! Apro la finestra con la selezione dei livelli',
   },
   ///////////////////////////////////////////////////////////////////////////
   "undo-stack-empty": {
@@ -1725,6 +1729,7 @@ exports.strings = {
     sl_SI: "Undo seznam je prazen!",
     pl: "Nie ma już poleceń do cofnięcia!",
     ta_IN: "மீள்பதிவு அடுக்கு காலியாக உள்ளது!",
+    it_IT: "Non sono presenti comandi da annullare!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "already-solved": {
@@ -1763,6 +1768,8 @@ exports.strings = {
       'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do trybu piaskownicy za pomocą polecenia "sandbox"',
     ta_IN:
       'நீங்கள் ஏற்கனவே இந்த நிலையை தீர்த்துள்ளீர்கள், "நிலைகள்" மூலம் பிற நிலைகளை முயற்சிக்கவும் அல்லது "sandbox" உடன் sandbox-க்குச் செல்லவும்',
+    it_IT:
+      'Hai già risolto questo livello, prova altri livelli con "levels" o torna alla sandbox con "sandbox"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "solved-level": {
@@ -1780,6 +1787,7 @@ exports.strings = {
     sl_SI: "Rešeno!!\n:D",
     pl: "Rozwiązany!!\n:D",
     ta_IN: "தீர்க்கப்பட்டது!!\n:D",
+    it_IT: "Risolto!!\n:D",
   },
   ///////////////////////////////////////////////////////////////////////////
   "command-disabled": {
@@ -1802,6 +1810,7 @@ exports.strings = {
     sl_SI: "Ta git ukaz je onemogočen za to stopnjo!",
     pl: "To polecenie Gita jest wyłączone na tym poziomie!",
     ta_IN: "இந்த நிலையில் அந்த கிட் கட்டளை முடக்கப்பட்டுள்ளது",
+    it_IT: "Questo comando git è disabilitato per questo livello!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "share-json": {
@@ -1838,6 +1847,8 @@ exports.strings = {
       "To jest JSON dla tego poziomu. Udostępnij go, komu chcesz, lub wyślij do mnie na GitHub.",
     ta_IN:
       "இதோ இந்த நிலைக்கான JSON, இதை பகிர்ந்து கொள்ளுங்கள் அல்லது GitHub-இல் எனக்கு அனுப்புங்கள்",
+    it_IT:
+      "Ecco il JSON per questo livello! Condividilo con qualcuno o inviamelo tramite GitHub",
   },
   ///////////////////////////////////////////////////////////////////////////
   "want-start-dialog": {
@@ -1862,6 +1873,8 @@ exports.strings = {
     pl: "Nie określiłeś okna startowego, czy chcesz je dodać?",
     ta_IN:
       "தொடக்க உரை எதுவும் நீங்கள் குறிப்பிடவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?",
+    it_IT:
+      "Non hai specificato una finestra di partenza, ne vuoi aggiungere una?",
   },
   ///////////////////////////////////////////////////////////////////////////
   "want-hint": {
@@ -1885,6 +1898,7 @@ exports.strings = {
     pl: "Nie podałeś podpowiedzi, czy chcesz ją dodać?",
     ta_IN:
       "நீங்கள் குறிப்பெதுவும் தரவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?",
+    it_IT: "Non hai specificato un suggerimento, ne vuoi aggiungere uno?",
   },
   ///////////////////////////////////////////////////////////////////////////
   "prompt-hint": {
