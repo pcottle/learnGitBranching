@@ -1377,6 +1377,7 @@ exports.strings = {
     sl_SI: "Osveževanje drevesa ...",
     pl: "Odświeżanie drzewa...",
     ta_IN: "Refreshing tree...",
+    it_IT: "Aggiornando l'albero...",
   },
   ///////////////////////////////////////////////////////////////////////////
   "locale-command": {
@@ -1398,6 +1399,7 @@ exports.strings = {
     sl_SI: "Locale nastavljen na {locale}",
     pl: "Ustawiono język na {locale}",
     ta_IN: "பிரதேசம் {locale}ஆக மற்ற பட்டுள்ளது",
+    it_IT: "Locale impostato a {locale}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "locale-reset-command": {
@@ -1419,6 +1421,7 @@ exports.strings = {
     sl_SI: "Locale ponastavljen na {locale}",
     pl: "Przywrócono język do wartości domyślnych, czyli {locale}",
     ta_IN: "பிரதேசம் இயல்புநிலை {locale}க்கி மீட்டமைக்கப்பட்டுள்ளது",
+    it_IT: "Locale resettato al valore di default, che è {locale}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "show-command": {
@@ -1443,6 +1446,7 @@ exports.strings = {
     sl_SI: "Prosim uporabi enega od naslednjih ukazov",
     pl: "Aby uzyskać więcej informacji, użyj jednego z następujących poleceń:",
     ta_IN: "மேலும் தகவலுக்கு பின்வரும் கட்டளைகளில் ஒன்றைப் பயன்படுத்தவும்:",
+    it_IT: "Usa uno dei seguenti comandi per maggiori informazioni:",
   },
   ///////////////////////////////////////////////////////////////////////////
   "show-all-commands": {
@@ -1464,6 +1468,7 @@ exports.strings = {
     sl_SI: "Tu je seznam vseh možnih ukazov:",
     pl: "Oto lista wszystkich dostępnych poleceń:",
     ta_IN: "கிடைக்கக்கூடிய அனைத்து கட்டளைகளின் பட்டியல்:",
+    it_IT: "Ecco la lista con tutti i comandi disponibili:",
   },
   ///////////////////////////////////////////////////////////////////////////
   "cd-command": {
@@ -1487,6 +1492,7 @@ exports.strings = {
     sl_SI: 'Mapa spremenjena na "/directories/dont/matter/in/this/demo"',
     pl: 'Katalog zmieniony na "/home/users/windows/pl/demo"',
     ta_IN: 'அடைவு "/directories/dont/matter/in/this/demo"க்கு மாற்றப்பட்டது',
+    it_IT: 'Cartella modificata in  "/directories/dont/matter/in/this/demo"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "ls-command": {
@@ -1511,6 +1517,7 @@ exports.strings = {
     sl_SI: "DontWorryAboutFilesInThisDemo.txt",
     pl: "SpokojnieToTylkoPlikDemo.txt",
     ta_IN: "DontWorryAboutFilesInThisDemo.txt",
+    it_IT: "NoNdEvIpReOcCuPaRtIdEiFiLeInQuEsTaDeMo.txt",
   },
   "mobile-alert": {
     __desc__:
@@ -1546,6 +1553,8 @@ exports.strings = {
       "Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D",
     ta_IN:
       "LGBஆல் மொபைலில் உள்ளீட்டைப் பெற முடியாது, டெஸ்க்டாப்பில் பார்வையிடவும், அது பயணுள்ளது :D",
+    it_IT:
+      "LGB non funziona su mobile, vieni a trovarci da pc! Ne vale veramente la pena :D",
   },
   ///////////////////////////////////////////////////////////////////////////
   "share-tree": {
@@ -1578,6 +1587,8 @@ exports.strings = {
       'Udostępnij to drzewo znajomym! Mogą je załadować za pomocą "import tree"',
     ta_IN:
       'இந்த `tree`ஐ நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்! அவர்கள் அதை "import tree" மூலம் பெறலாம்',
+    it_IT:
+      'Condividi quest\'albero con i tuoi amici! Può essere importato tramite "import tree"',
   },
   ///////////////////////////////////////////////////////////////////////////
   "paste-json": {
@@ -1599,6 +1610,7 @@ exports.strings = {
     sl_SI: "Prilepi JSON kodo spodaj!",
     pl: "Wklej poniżej obiekt z kodem JSON!",
     ta_IN: "ஒரு JSON blob-ஐ கீழே ஒட்டவும்",
+    it_IT: "Incolla un blob JSON qui sotto!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "solved-map-reset": {
