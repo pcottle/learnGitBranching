@@ -159,7 +159,7 @@ exports.strings = {
     sl_SI: "Opcija -A ni potrebna za to aplikacijo, samo commitaj!",
     pl: "Opcja -A nie jest wymagana w tej aplikacji, po prostu zrób `commit`!",
     ta_IN: "இந்த பயன்பாட்டிற்கு -A மாற்று தேவையில்லை, `கமிட்` செய்யுங்கள்",
-    en_US: "L'opzione -A non è necessiaria, fai semplicemente commit!",
+    it_IT: "L'opzione -A non è necessiaria, fai semplicemente commit!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "hg-error-no-status": {
@@ -198,7 +198,7 @@ exports.strings = {
       "W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`",
     ta_IN:
       "கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்",
-    en_US:
+    it_IT:
       "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -221,6 +221,7 @@ exports.strings = {
     sl_SI: "Potrebujem opcijo {option} za ta ukaz!",
     pl: "Potrzebuję opcji {option} dla tego polecenia!",
     ta_IN: "எனக்கு அந்த கட்டளைக்கு மாற்று {option} தேவை",
+    it_IT: "Ho bisogno di {option} per quel comando!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "hg-error-log-no-follow": {
@@ -246,6 +247,7 @@ exports.strings = {
     pl: "`hg log` bez -f nie jest obecnie obsługiwany, użyj -f",
     ta_IN:
       "-f இல்லாமல் `hg log` தற்போது ஆதரிக்கப்படவில்லை, -f ஐப் பயன்படுத்தவும்",
+    it_IT: "hg log senza -f non è attualmente supportato, usa -f",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-status-detached": {
@@ -267,6 +269,7 @@ exports.strings = {
     sl_SI: "Detached head!",
     pl: "Odłączono HEAD!",
     ta_IN: "பிரிக்கப்பட்ட தலை!",
+    it_IT: "Testa distaccata (Detached head)!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-status-onbranch": {
@@ -288,6 +291,7 @@ exports.strings = {
     sl_SI: "Na branchu {branch}",
     pl: "Na branch-u {branch}",
     ta_IN: "{branch} கிளையில்",
+    it_IT: "Sul ramo {branch}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-status-readytocommit": {
@@ -310,6 +314,7 @@ exports.strings = {
     pl: "Gotowy commit! (jak zawsze w tym demo)",
     ta_IN:
       "`commit` செய்ய தயார்! (இந்த செயல் விளக்கத்தில் எப்போதும் செய்வதை போல)",
+    it_IT: "Pronto al commit! (come sempre in questa demo)",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-dummy-msg": {
@@ -333,6 +338,7 @@ exports.strings = {
     sl_SI: "Hiter commit.",
     pl: "Szybki commit.",
     ta_IN: "Quick commit. Go Bears!",
+    it_IT: "Laura I love you, but our dogs too (Barone & Duchessa)!",
   },
   "git-error-origin-fetch-uptodate": {
     __desc__: "One of the error messages for git",
@@ -353,6 +359,7 @@ exports.strings = {
     sl_SI: "Že posodobljeno!",
     pl: "Już aktualne!",
     ta_IN: "ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது!",
+    it_IT: "E' gia la versione più recente!",
   },
   "git-error-origin-fetch-no-ff": {
     __desc__: "One of the error messages for git",
@@ -389,6 +396,8 @@ exports.strings = {
       "Twój branch nie jest zsynchronizowany ze zdalny branch-em i nie można przeprowadzić pobierania",
     ta_IN:
       "உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது",
+    it_IT:
+      "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non puù essere eseguito",
   },
   "git-error-origin-push-no-ff": {
     __desc__: "One of the error messages for git",
@@ -426,6 +435,8 @@ exports.strings = {
       "Zdalne repozytorium różni się od lokalnego repozytorium, dlatego twoich zmian nie można przesłać za pomocą prostego szybkiego `fast forward` (i dlatego polecenie `push` zostało odrzucone). Najpierw zrób `pull` aby pobrać nowe zmiany do lokalnego repozytorium, zintegruj je z branch-em i spróbuj ponownie. Możesz to zrobić za pomocą `git pull` lub `git pull --rebase`",
     ta_IN:
       "தொலைநிலை களஞ்சியம் உங்கள் களஞ்சியத்திலிருந்து வேறுபட்டுள்ளது, எனவே உங்கள் மாற்றங்களை எளிமையான `fast forward` முறையில் பதிவேற்ற இயலாது (இதனால் உங்கள் `push` நிராகரிக்கப்பட்டது). தொலை களஞ்சியத்தில் புதிய மாற்றங்களை `pull` செய்து, அவற்றை இந்த கிளையில் இணைத்து, மீண்டும் முயற்சிக்கவும். நீங்கள் அவ்வாறு `git pull` அல்லது `git pull --rebase` கட்டளை கொண்டு செய்யலாம்",
+    it_it:
+      "Il repository remoto è diverso dal tuo repository locale, quindi il caricamento non è un semplice fast forward (e per questo il tuo push è fallito). Per favore esegui pull per scaricare i nuovi cambiamenti dal repository remoto, incorporarli in questo ramo, e provare ancora. Puoi effettuarlo tramite i comandi git pull o git pull --rebase",
   },
   "git-error-remote-branch": {
     __desc__: "One of the error messages for git",
@@ -446,6 +457,7 @@ exports.strings = {
     sl_SI: "Tega ukaza ne moreš narediti na oddaljenem branchu",
     pl: "Nie możesz wykonać tego polecenia w zdalnej gałęzi",
     ta_IN: "அந்த கட்டளையை நீங்கள் தொலைநிலை கிளையில் இயக்க முடியாது",
+    it_it: "Non puoi eseguire questo comando su un ramo remoto",
   },
   "git-error-origin-required": {
     __desc__: "One of the error messages for git",
@@ -466,6 +478,7 @@ exports.strings = {
     sl_SI: "Origin je potreben za izvedbo tega ukaza",
     pl: "Dla tego polecenia wymagane jest źródło (origin)",
     ta_IN: "அந்த கட்டளைக்கு ஒரு துவக்க மூலம் தேவை",
+    it_IT: "E' necessario definire origin per questo comando",
   },
   "git-error-origin-exists": {
     __desc__: "One of the error messages for git",
@@ -487,6 +500,7 @@ exports.strings = {
     pl: "Origin już istnieje! Nie możesz go ponownie założyć",
     ta_IN:
       "துவக்க மூலம் ஒன்று ஏற்கனவே உள்ளது! நீங்கள் மீன்டும் ஒன்றை உருவாக்க முடியாது",
+    it_IT: "Origin già esistente! Non puoi crearne uno nuovo",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-branch": {
@@ -526,6 +540,9 @@ exports.strings = {
       "Nie możesz usunąć gałezi main, gałęzi na której aktualnie pracujesz, ani która nie jest gałezią",
     ta_IN:
       "பிரதான கிளை, தற்ப்போது நடப்பில் உள்ள கிளை மற்றும் கிளை அல்லாத வற்றை அழிக்க இயலாது",
+    it_IT:
+      "Non puoi eliminare il ramo main, il ramo in cui sei, o cose che " +
+      "non sono rami",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-merge-msg": {
@@ -547,6 +564,7 @@ exports.strings = {
     sl_SI: "Mergaj {target} v {current}",
     pl: "Łączenie {target} z {current}",
     ta_IN: "{target}ஐ {current} கிளையுடன் இணை",
+    it_IT: "Merge  {target} in {current}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-rebase-none": {
@@ -584,6 +602,8 @@ exports.strings = {
       "Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane",
     ta_IN:
       "`rebase` செய்ய எந்த கமிட்டும் இல்லை, அனைத்தும் இணைப்பு கமிட்கள் அல்லது முன்பே இணைக்கப்பட்டவை",
+    it_IT:
+      "Non ci sono commit da ribasare! Sono tutti commit di merge o i cambiamenti sono giò stati applicati",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-result-nothing": {
@@ -605,6 +625,7 @@ exports.strings = {
     sl_SI: "Ničesar za narediti ...",
     pl: "Nie ma nic do zrobienia...",
     ta_IN: "செய்வதற்க்கு ஒன்றும் இல்லை...",
+    it_IT: "Niente da fare...",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-result-fastforward": {
@@ -626,6 +647,7 @@ exports.strings = {
     sl_SI: "Fast forwardiranje",
     pl: "Fast forward...",
     ta_IN: "Fast forward...",
+    it_it: "Fast forwarding...",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-result-uptodate": {
@@ -647,6 +669,7 @@ exports.strings = {
     sl_SI: "Branch je že posodobljen",
     pl: "Branch jest już aktualny",
     ta_IN: "இந்த கிளை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...",
+    it_IT: "Il ramo è già aggiornato",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-exist": {
@@ -668,6 +691,7 @@ exports.strings = {
     sl_SI: "Ref {ref} new obstaja ali je neznan",
     pl: "Odnośnik {ref} nie istnieje lub jest nieznany",
     ta_IN: "{ref} இல்லை அல்லது தெரியவில்லை",
+    it_IT: "Il riferimento (ref) {ref} non esiste o è sconosciuto",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-relative-ref": {
@@ -689,6 +713,7 @@ exports.strings = {
     sl_SI: "Commit {commit} nima {match}",
     pl: "Commit {commit} nie ma {match}",
     ta_IN: "{commit}க்கு {match} எதுவும் இல்லை",
+    it_IT: "Commit {commit} non ha un {match}",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-warning-detached": {
@@ -712,6 +737,7 @@ exports.strings = {
     sl_SI: "Opozorilo! Detached HEAD stanje",
     pl: "Ostrzeżenie!! Odłączony tryb HEAD",
     ta_IN: "எச்சரிக்கை !! `HEAD` துன்டிக்கப்பட்ட நிலையில் உள்ளது",
+    it_IT: "Attenzione!! Situazione di testa distaccata(Detached HEAD)",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-warning-add": {
@@ -733,6 +759,7 @@ exports.strings = {
     sl_SI: "Ni potrebe po dodajanju datotetk v tem demotu",
     pl: "Nie ma potrzeby dodawania plików w tym demo",
     ta_IN: "இந்த நடைமுறையில் கோப்புகளை சேர்க்க தேவையில்லை",
+    it_IT: "Non c'è bisogno di aggiungere file in questa demo",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-options": {
@@ -755,6 +782,7 @@ exports.strings = {
     sl_SI: "Opcije, ki si jih podal, so nezdružljive ali napačne",
     pl: "Podane przez Ciebie opcje są niezgodne lub nieprawidłowe",
     ta_IN: "நீங்கள் குறிப்பிட்ட அந்த மற்றிகள் பொருந்தாது அல்லது தவறானவை",
+    it_IT: "Le opzioni che hai specificato sono incompatibili o sbagliate",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-already-exists": {
@@ -778,6 +806,7 @@ exports.strings = {
     pl: "Commit {commit} już istnieje w Twoim zbiorze zmian, przerywam!",
     ta_IN:
       "{commit} உங்கள் மாற்றங்களின் தொகுப்பில் ஏற்கனவே உள்ளது, கட்டளை கைவிடப்பட்டது!",
+    it_IT: "Il commit {commit} è già presente, annullo!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-reset-detached": {
@@ -811,6 +840,7 @@ exports.strings = {
       "Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść",
     ta_IN:
       "பிரிக்கப்பட்ட தலையில் மீட்டமைக்க முடியாது! நீங்கள் நகர்த்த விரும்பினால் `checkout` பயன்படுத்தவும்",
+    it_IT: "Non posso fare reset in modalità testa distaccata (detached head)! Utilizza checkout se vuoi spostarti",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-warning-hard": {
@@ -858,6 +888,10 @@ exports.strings = {
       "The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit " +
       "that option if you get tired of typing it out in our lessons. Just remember that the default " +
       "behavior on actual Git is --mixed.",
+       it_IT:
+      "Il comportamento base per i resets su LearnGitBranching è --hard, per cui puoi tranquillamente omettere " +
+      "quella opzione se ti sei stancato di scriverla. Ricorda però che in Git, " +
+      "l'opzione di default è --mixed.",
   },
   ///////////////////////////////////////////////////////////////////////////
   "git-error-staging": {
