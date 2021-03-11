@@ -159,6 +159,7 @@ exports.strings = {
     sl_SI: "Opcija -A ni potrebna za to aplikacijo, samo commitaj!",
     pl: "Opcja -A nie jest wymagana w tej aplikacji, po prostu zrób `commit`!",
     ta_IN: "இந்த பயன்பாட்டிற்கு -A மாற்று தேவையில்லை, `கமிட்` செய்யுங்கள்",
+    en_US: "L'opzione -A non è necessiaria, fai semplicemente commit!",
   },
   ///////////////////////////////////////////////////////////////////////////
   "hg-error-no-status": {
@@ -197,6 +198,8 @@ exports.strings = {
       "W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`",
     ta_IN:
       "கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்",
+    en_US:
+      "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
   },
   ///////////////////////////////////////////////////////////////////////////
   "hg-error-need-option": {
