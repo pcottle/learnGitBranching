@@ -292,7 +292,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: 'Spretno "Git" premikanje po drevesu :P',
       pl: "GIT dobrze radzi sobie z modyfikacją drzewa źródłowego :P",
       ta_IN: '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
-      it_IT: '"Git" a suo agio nel modificare l\'albero sorgente :P',
+      it_IT: 'Modificare l\'albero con facilità. "GIT" ready :P',
     },
   },
   mixed: {
