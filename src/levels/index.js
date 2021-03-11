@@ -224,7 +224,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: "Do Origina In Naprej -- Napredni Oddaljeni Git",
       pl: "Do źródła i dalej -- zaawansowane zdalne repozytoria",
       ta_IN: "ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!",
-      it_IT: "To Origin And Beyond -- Advanced Git Remotes!",
+      it_IT: "Verso Origin e oltre -- Git Remoto Avanzato!",
     },
     about: {
       en_US: "And you thought being a benevolent dictator would be fun...",
@@ -248,6 +248,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       pl: "A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...",
       ta_IN:
         "நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...",
+      it_IT: "E tu credevi che essere un bravo dittatore fosse divertente...",
     },
   },
   move: {
@@ -270,6 +271,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: "Premikanje Dela Naokrog",
       pl: "Przenoszenie pracy",
       ta_IN: "வேலைகளை பகிர்ந்து கொள்வது",
+      it_IT: "Spostare il lavoro in giro",
     },
     about: {
       en_US: '"Git" comfortable with modifying the source tree :P',
@@ -290,6 +292,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: 'Spretno "Git" premikanje po drevesu :P',
       pl: "GIT dobrze radzi sobie z modyfikacją drzewa źródłowego :P",
       ta_IN: '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
+      it_IT: '"Git" a suo agio nel modificare l\'albero sorgente :P',
     },
   },
   mixed: {
@@ -312,6 +315,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: "Mešana Vreča",
       pl: "Po trochu wszystkiego",
       ta_IN: "ஒரு கலப்பு பை",
+      it_IT: "Un po di tutto",
     },
     about: {
       en_US: "A mixed bag of Git techniques, tricks, and tips",
@@ -333,6 +337,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       pl: "Po trochu wszystkiego. Wskazówki i triki",
       ta_IN:
         "கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை",
+      it_IT: "Comandi Git assortiti, trucchi e consigli",
     },
   },
   advanced: {
@@ -355,6 +360,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: "Napredne Teme",
       pl: "Tematy zaawansowane",
       ta_IN: "மேம்பட்ட தலைப்புகள்",
+      it_IT: "Argomenti avanzati",
     },
     about: {
       en_US: "For the truly brave!",
@@ -375,6 +381,7 @@ var sequenceInfo = (exports.sequenceInfo = {
       sl_SI: "Za resnično pogumne!",
       pl: "Dla naprawdę odważnych!",
       ta_IN: "உண்மையிலேயே தைரியமானவர்களுக்கு!",
+      it_IT: "Per i più temerari!",
     },
   },
 });
