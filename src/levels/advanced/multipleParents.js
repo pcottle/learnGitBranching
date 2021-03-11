@@ -1637,11 +1637,11 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Qui abbiamo un merge commit. Se facciamo checkout `main^` senza modificatore, we will follow the first parent after the merge commit. ",
+              "Qui abbiamo un merge commit. Se facciamo checkout `main^` senza modificatore, seguiremo il primo genitore dopo il merge commit. ",
               "",
-              "(*In our visuals, the first parent is positioned directly above the merge commit.*)",
+              "(*Nell'immagine, il primo genitore è situato direttamente al di sopra al merge commit.*)",
             ],
-            afterMarkdowns: ["Easy -- this is what we are all used to."],
+            afterMarkdowns: ["Facile -- questo è quello a cui siamo abituati."],
             command: "git checkout main^",
             beforeCommand:
               "git checkout HEAD^; git commit; git checkout main; git merge C2",
@@ -1651,9 +1651,9 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Now let's try specifying the second parent instead...",
+              "Ora invece proviamo a specificare il secondo genitore...",
             ],
-            afterMarkdowns: ["See? We followed the other parent upwards."],
+            afterMarkdowns: ["Vedi? Abbiamo seguito il secondo genitore verso l'alto."],
             command: "git checkout main^2",
             beforeCommand:
               "git checkout HEAD^; git commit; git checkout main; git merge C2",
@@ -1663,9 +1663,9 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "The `^` and `~` modifiers can make moving around a commit tree very powerful:",
+              "I modificatori `^` e `~` riescono a farci muovere lungo l'albero dei commit in modo agevole:",
             ],
-            afterMarkdowns: ["Lightning fast!"],
+            afterMarkdowns: ["Super veloce!"],
             command:
               "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             beforeCommand:
@@ -1676,10 +1676,10 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Even crazier, these modifiers can be chained together! Check this out:",
+              "Ancora più sorprendente, questi modificatori possono essere concatenati tra loro! Dai un occhiata:",
             ],
             afterMarkdowns: [
-              "The same movement as before, but all in one command.",
+              "Stessi passaggi di prima, ma tutto con un comando.",
             ],
             command: "git checkout HEAD~^2~2",
             beforeCommand:
@@ -1690,11 +1690,11 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "### Put it to practice",
+              "### Mettilo in pratica",
               "",
-              "To complete this level, create a new branch at the specified destination.",
+              "Per completare questo livello, crea un nuovo ramo alla destinazione specificata.",
               "",
-              "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!",
+              "Sarebbe facile specificare il commit direttamente (con qualcosa del tipo `C6`), ovvio, ma ti sfido invece a utilizare i modificatori di cui abbiamo parlato!",
             ],
           },
         },
