@@ -1206,7 +1206,7 @@ exports.level = {
         },
       ],
     },
-    en_US: {
+    it_IT: {
       childViews: [
         {
           type: "ModalAlert",
