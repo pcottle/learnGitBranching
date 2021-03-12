@@ -695,11 +695,11 @@ exports.level = {
             markdowns: [
               "## Commit impilati localmente",
               "",
-              "Here's a development situation that often happens: I'm trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.",
+              "Ecco una situazione che accade spesso in fase di sviluppo: Sto cercando di scovare un bug. Per aiutarmi nel mio lavoro di detective, inserisco alcuni comandi per il debug e alcune print per fare stampe.",
               "",
-              "All of these debugging / print statements are in their own commits. Finally I track down the bug, fix it, and rejoice!",
+              "Questi comandi aggiunti per il debug vengono salvati con un commit loro dedicato. Finalmente riesco a beccare il bug, sistemo il tutto, e brindo!",
               "",
-              "Only problem is that I now need to get my `bugFix` back into the `main` branch. If I simply fast-forwarded `main`, then `main` would get all my debug statements which is undesirable. There has to be another way...",
+              "Ora l'unico problema è che devo salvare il lavoro di `bugFix` nel ramo `main`. Se eseguo un semplice fast-forwarded `main`, allora il `main` andrebbe a prendere anche tutto ciò che è stato aggiunto per il debug. Se solo ci fosse un altro modo...",
             ],
           },
         },
@@ -707,12 +707,12 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "We need to tell git to copy only one of the commits over. This is just like the levels earlier on moving work around -- we can use the same commands:",
+              "Dobbiamo dire a Git di fare la copia di un solo commit. Questo assomiglia ai primi livelli -- possiamo riusare gli stessi comandi:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "To achieve this goal.",
+              "Per raggiungere l'obiettivo.",
             ],
           },
         },
@@ -720,7 +720,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `main` receives the commit that `bugFix` references.",
+              "Questo è un livello più avanzato, lascerò a te la libertà di decidere quale comando usare, ma per concludere il livello, assicurati che `main` riceva il commit puntato da `bugFix`.",
             ],
           },
         },
