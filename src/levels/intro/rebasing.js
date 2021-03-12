@@ -1226,18 +1226,18 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)",
+              "Anche qui abbiamo ancora due rami; prestate attenzione al fatto che il ramo selezionato è bugFix (notare l'asterisco*)",
               "",
-              "We would like to move our work from bugFix directly onto the work from main. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.",
+              "Ora vogliamo spostare il nostro lavoro dal ramo bugFix direttamente sul ramo main. In questo modo sembrerà che i due lavori sono stati sviluppati in sequenza, quando in realtà sono stati sviluppati in parallelo.",
               "",
-              "Let's do that with the `git rebase` command.",
+              "Vediamo il comando `git rebase` all'opera.",
             ],
             afterMarkdowns: [
-              "Awesome! Now the work from our bugFix branch is right on top of main and we have a nice linear sequence of commits.",
+              "Fantastico! Ora il lavoro del ramo bugFix è sopra al main e abbiamo una sequenza lineare di commit.",
               "",
-              'Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3\' is the "copy" that we rebased onto main.',
+              'Nota che il commit C3 continua ad esistere (messo in trasparenza), e C3\' è la "copy" che abbiamo ribasato sul main.',
               "",
-              "The only problem is that main hasn't been updated either, let's do that now...",
+              "L'unico problema è che il main non è ancora stato aggiornato, facciamolo ora...",
             ],
             command: "git rebase main",
             beforeCommand: "git commit; git checkout -b bugFix C1; git commit",
@@ -1247,10 +1247,10 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Now we are checked out on the `main` branch. Let's go ahead and rebase onto `bugFix`...",
+              "Ora il ramo selezionato è il main. Procediamo e facciamo rebase su `bugFix`...",
             ],
             afterMarkdowns: [
-              "There! Since `main` was an ancestor of `bugFix`, git simply moved the `main` branch reference forward in history.",
+              "Ecco qua! Visto che main era un antenato di `bugFix`, git sposta semplicemente il riferimento al ramo `main` branch in avanti.",
             ],
             command: "git rebase bugFix",
             beforeCommand:
@@ -1261,14 +1261,14 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "To complete this level, do the following",
+              "Per completare questo livello, esegui i seguenti passaggi",
               "",
-              "* Checkout a new branch named `bugFix`",
-              "* Commit once",
-              "* Go back to main and commit again",
-              "* Check out bugFix again and rebase onto main",
+              "* Crea un nuovo ramo di nome `bugFix`",
+              "* Crea un commit",
+              "* Torna al main e crea un nuovo commit",
+              "* Seleziona nuovamente bugFix e fai rebase sul main",
               "",
-              "Good luck!",
+              "In bocca alla.... balena!",
             ],
           },
         },
