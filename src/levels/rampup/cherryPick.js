@@ -1002,7 +1002,7 @@ exports.level = {
               "",
               "E' un modo chiaro e diretto di dire che vuoi la copia di una serie di commit da applicare sulla posizione in cui ti trovi attualmente (`HEAD`). Io personalmente adoro `cherry-pick` perché e semplice e facile da capire.",
               "",
-              "Let's see a demo!",
+              "Vediamo una demo!",
               "",
             ],
           },
@@ -1025,7 +1025,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "Per completare questo livello, copia il lavoro dai tre rami sul main. Puoi vedere quali sono i commit richiesti guardando gli obbiettivi.",
+              "Per completare questo livello, copia il lavoro dai tre rami sul main. Puoi vedere quali sono i commit richiesti guardando l'obbiettivo.",
               "",
             ],
           },
