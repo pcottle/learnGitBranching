@@ -40,7 +40,7 @@ exports.level = {
     vi: "Dùng mã băm (hash) của commit để hoàn thành!",
     sl_SI: "Uporabi oznako (hash) commita za pomoč!",
     pl: "Wpisz (hash) w wiadomości commita aby uzyskać pomoc!",
-    it_IT: "Usa l'etichetta(hash) sul commit per aiutarti!",
+    it_IT: "Usa l'etichetta (hash) sul commit per aiutarti!",
   },
   startDialog: {
     en_US: {
