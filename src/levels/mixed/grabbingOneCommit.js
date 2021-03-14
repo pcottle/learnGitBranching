@@ -33,7 +33,7 @@ exports.level = {
     vi: "Chỉ lấy 1 commit",
     sl_SI: "Izbiranje Samo Enega Commita",
     pl: "Wzięcie tylko 1 commita",
-    it_It: "Prendi solo 1 Commit",
+    it_IT: "Prendi solo 1 Commit",
   },
   hint: {
     en_US: "Remember, interactive rebase or cherry-pick is your friend here",
