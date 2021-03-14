@@ -899,7 +899,7 @@ exports.dialog = {
           "leggi [qui per ulteriori dettagli](https://github.com/github/renaming). In modo da adattare questo cambiamento ",
           "e tenere la retrocompatibilità , questi nomi saranno considerati equivalenti. `main` sarà comunque ",
           "il nome predefinito. Ci siamo impegnati per aggiornare tutti i livelli, ma ci sarà ",
-          "sicuramente qualcosa che potremmo aver dimenticato. Esegui una PR (o segnala un problema) se ne trovate, ",
+          "sicuramente qualcosa che potremmo aver dimenticato. Esegui una PR (o segnala un problema) se ne trovi, ",
           "vi ringrazio per l'aiuto.",
         ],
       },
