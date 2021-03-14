@@ -1580,7 +1580,7 @@ exports.level = {
               "git checkout <name>",
               "```",
               "",
-              "Questo ci mettera sul nuovo ramo prima di fare un nuovo commit.",
+              "Questo ci metterà sul nuovo ramo prima di fare un nuovo commit.",
             ],
             afterMarkdowns: [
               "Ecco qua! I cambiamenti sono stati memorizzati sul nuovo ramo.",
