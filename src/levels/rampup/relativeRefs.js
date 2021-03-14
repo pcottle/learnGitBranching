@@ -40,7 +40,7 @@ exports.level = {
     vi: "Đừng quên dấu mũ (^)!",
     sl_SI: "Spomni se na (^) operator!",
     pl: "Pamiętaj o operatorze karetu (^)!",
-    it_IT: "Ricorda l'operatore caret(^)... l'accento circonflesso!",
+    it_IT: "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
   },
   startDialog: {
     en_US: {
@@ -1253,7 +1253,7 @@ exports.level = {
               "",
               "Spostarsi in Git specificando l'hash dei commit può essere una scocciatura. Nella vita vera non avrai un bel albero con tutti i commit sullo schermo, dovrai usare `git log` per vedere gli hash.",
               "",
-              "Inoltre, gli hash sono solitamente molto più lunghi. Per esempio, l'hash del commit nel livello precedente è `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Non così semplice da dire ne da ricordare...",
+              "Inoltre, gli hash sono solitamente molto più lunghi. Per esempio, l'hash del commit nel livello precedente è `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Non così semplice da ricordare...",
               "",
               "La nota positiva è che Git è furbo con gli hash. Richiede un numero di caratteri dell'hash tali da poter identificare in modo univoco il commit. Posso scrivere `fed2` invece dell'hash completo.",
             ],
@@ -1263,11 +1263,11 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "Come detto prima, specificare un commit tramite l'hash non è assolutamente il modo migliore, ragion per cui Git ha i riferimenti relativi Sono stupendi!",
+              "Come detto prima, specificare un commit tramite l'hash non è assolutamente il modo migliore, ragion per cui Git ha i riferimenti relativi. Sono stupendi!",
               "",
-              "Con riferimenti relativi, puoi partire da un punto facile da ricordate (per esempio dal ramo `bugFix` o `HEAD`) e procedere da li.",
+              "Tramite i riferimenti relativi, puoi partire da un punto facile da ricordare (per esempio dal ramo `bugFix` o `HEAD`) e procedere da li.",
               "",
-              "Questi riferimenti sono strumenti potenti, ne introduciamo due facili:",
+              "Questi riferimenti sono strumenti potenti, introduciamo i più semplici:",
               "",
               "* Risalire di un commit alla volta con `^`",
               "* Risalire di tot commit alla volta con `~<num>`",
@@ -1278,7 +1278,7 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Diamo un occhiata all'operatore Caret (^)..(accento circonflesso). Ogni volta che lo aggiungi a un riferimento, stai dicendo a GIt di cercare il genitore del commit specificato.",
+              "Diamo un occhiata all'operatore (^) chiamato Caret o accento circonflesso. Ogni volta che lo aggiungi a un riferimento, stai dicendo a Git di cercare il genitore del commit specificato.",
               "",
               'Quindi, dire `main^` è equivalente a dire "il primo genitore di `main`".',
               "",

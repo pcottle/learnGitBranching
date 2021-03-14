@@ -1141,7 +1141,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "### Forzatura nei rami (branch forcing)",
+              "### Forzatura dei rami (branch forcing)",
               "",
               "Ormai sei un esperto di riferimenti relativi, quindi facciamone realmente *uso* per qualcosa.",
               "",
