@@ -1362,7 +1362,7 @@ exports.level = {
               "Per completare questo livello, esegui i seguenti passaggi:",
               "",
               "* Crea un nuovo ramo di nome `bugFix`",
-              "* Seleziona il ramo`bugFix` con il comando `git checkout bugFix`",
+              "* Seleziona il ramo `bugFix` con il comando `git checkout bugFix`",
               "* Esegui un commit",
               "* Ritorna al ramo `main` con `git checkout`",
               "* Esegui un nuovo commit",
