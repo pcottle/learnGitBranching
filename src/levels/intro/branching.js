@@ -1551,7 +1551,7 @@ exports.level = {
               "Qui creeremo un nuovo ramo di nome `newImage`.",
             ],
             afterMarkdowns: [
-              "Ecco, questo è la divisione in rami! Il ramo `newImage` ora punta al commit `C1`.",
+              "Ecco, questa è la divisione in rami! Il ramo `newImage` ora punta al commit `C1`.",
             ],
             command: "git branch newImage",
             beforeCommand: "",
