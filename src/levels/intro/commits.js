@@ -828,7 +828,7 @@ exports.level = {
               "",
               'Git conserva i commit nella modo più leggero possibile, perciò non copia cecamente l\'intera cartella per ogni commit. Può (ove possibile) comprimere un commit come un insieme di cambiamenti, o "delta", da una versione alla successiva del repository.',
               "",
-              "Git memorizza anche la storia di tutti i commit effettuati. Questo è il motivo per cui molti commit hanno genitori sopra di essi -- questo viene rappresentato con delle frecce nelle nostre spiegazioni. Ricordare la storia è utilissimo per tutti quelli che collaborano ad un progetto!",
+              "Git memorizza anche la storia di tutti i commit effettuati. Questo è il motivo per cui molti commit hanno genitori sopra di essi -- questo viene rappresentato con delle frecce nelle nostre spiegazioni. Conoscere la storia è utilissimo per tutti quelli che collaborano ad un progetto!",
               "",
               "C'è tanto da sapere, ma per ora pensa ai commit come delle instantanee del progetto. I commit sono leggerissimi e si può passare da uno all'altro in un battibaleno!",
             ],
