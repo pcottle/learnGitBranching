@@ -1313,9 +1313,9 @@ exports.level = {
             markdowns: [
               "## Rami e fusione",
               "",
-              "Ottimo! Ora sappaimo come funzionano i commit e i rami. Adesso dobbiamo trovare il modo per unire il lavoro di due rami diversi. Questo ci permettera di creare un nuovo ramo, aggiungere una nuova funzionalità, e poi riunire il tutto.",
+              "Ottimo! Ora sappaimo come funzionano i commit e i rami. Adesso dobbiamo trovare il modo per unire il lavoro di due rami diversi. Questo ci permetterà di creare un nuovo ramo, aggiungere una nuova funzionalità, e poi riunire il tutto.",
               "",
-              'Il primo metodo che vediamo per unire il lavoro è  `git merge` (fusione). La fusione in Git crea un commit speciale che possiede due genitori distinti. Un commit con due genitori significa  "Voglio unire tutto il lavoro da questo e da quest altro genitore, *e anche* di tutti i loro genitori."',
+              'Il primo metodo che vediamo per unire il lavoro è `git merge` (fusione). La fusione in Git crea un commit speciale che possiede due genitori distinti. Un commit con due genitori significa "Voglio unire tutto il lavoro da questo e da quest altro genitore, *e anche* di tutti i loro genitori."',
               "",
               "E' più semplice con le immagini, vediamolo nella prossima schermata.",
             ],
