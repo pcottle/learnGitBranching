@@ -1072,9 +1072,9 @@ exports.level = {
             markdowns: [
               "### Git Describe",
               "",
-              'Visto che i tag fungono da "ancore", git ha il comando *describe* per capire dove ci si trova in riferimento all\'"ancora" (tag) più vicina!',
+              'Visto che i tag fungono da "ancore", si può usare il comando `git describe` per capire dove ci si trova in riferimento all\'"ancora" (tag) più vicina!',
               "",
-              "Git describe aiuta ad orientarti dopo che hai creato molti commit su per giù nell'albero; può succedere dopo che hai concluso un git bisect (per ricercare bug) o quando utilizzi il computer di un collega che è appena tornato dalle vacanze.",
+              "Git describe aiuta ad orientarti dopo che hai creato molti commit su per giù nell'albero; oppure dopo che hai concluso un git bisect (per ricercare bug) o quando utilizzi il computer di un collega che è appena tornato dalle vacanze.",
             ],
           },
         },
@@ -1082,7 +1082,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "Git describe è composto da:",
+              "Git describe ha questa forma:",
               "",
               "`git describe <ref>`",
               "",
