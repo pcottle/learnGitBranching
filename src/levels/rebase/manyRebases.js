@@ -58,7 +58,7 @@ exports.level = {
     pl:
       "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` tylko na samym końcu...",
     it_IT:
-      "Ricorda, il modo migliore potrebbe essere di aggiornare il mail alla fine...",
+      "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
   },
   startDialog: {
     en_US: {
@@ -359,7 +359,7 @@ exports.level = {
               "",
               "Hey, qui abbiamo un bel po di rami! Facciamo un po di rebase di questi rami nel main.",
               "",
-              "I piani alti ci stanno rendendo la vita complicata -- vogliono i commit tutti in ordine progressivo. Questo significa che alla fine il nostro albero avrà `C7'` alla fine, `C6'` sopra di esso, e così via, tutto in ordine.",
+              "I piani alti ci stanno rendendo la vita complicata -- vogliono i commit tutti in ordine progressivo. Questo significa che alla fine il nostro albero avrà `C7'` come ultimo commit, `C6'` sopra di esso, e così via, tutto in ordine.",
               "",
               "Se ti smarrisci lungo la via, usa `reset` senza problemi per ripartire da capo. Assicurati di raggiungere l'obiettivo e cerca di farlo con il minor numero di comandi!",
             ],
