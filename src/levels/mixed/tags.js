@@ -891,7 +891,7 @@ exports.level = {
             markdowns: [
               "## Git Tag",
               "",
-              "Come hai già imparato nelle lezioni precedenti, i rami sono facili da spostare e puntano a commit differenti man mano che il lavoro avanza. I rami cambiano spesso, spesso temportaneamente, e sempre in continua evoluzione.",
+              "Come hai già imparato nelle lezioni precedenti, i rami sono facili da spostare e puntano a commit differenti man mano che il lavoro avanza. I rami subiscono modifiche, spesso temporaneamente, ma sono sempre in continua evoluzione.",
               "",
               "Se questo è il caso, ti starai chedendo se esiste un modo *definitivo* per segnare un particolare commit del repository. Nel caso di release importanti e grandi merge (fusioni), esiste un modo per segnare questo commit con qualcosa di più permanente dei rami?",
               "",
