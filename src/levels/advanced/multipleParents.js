@@ -1620,7 +1620,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "### Selezionare i genitori",
+              "### Speficicare i genitori",
               "",
               "Come il modificatore `~` , anche il modificatore `^` accetta un numero (opzionale) dopo di esso.",
               "",
