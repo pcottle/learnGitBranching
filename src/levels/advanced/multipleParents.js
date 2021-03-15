@@ -1622,7 +1622,7 @@ exports.level = {
             markdowns: [
               "### Selezionare i genitori",
               "",
-              "Come il modificatore `~` , anche il modificatore `^`accetta un numero (opzionale) dopo di esso.",
+              "Come il modificatore `~` , anche il modificatore `^` accetta un numero (opzionale) dopo di esso.",
               "",
               "Invece che specificare il numero di generazioni di cui tornare indietro (come accade con `~`), il modificatore `^` specifica quale genitore seguire partendo da un merge commit (di fusione). Ricorda che i merge commit hanno genitori multipli, quindi il percorso da seguire può essere ambiguo.",
               "",
