@@ -1123,7 +1123,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "Fare rebase interattivo significa usare il comando `rebase`con l'opzione `-i`.",
+              "Fare rebase interattivo significa usare il comando `rebase` con l'opzione `-i`.",
               "",
               "Se aggiungi quest'opzione, git aprirà un'interfaccia per mostrarti quali commit stanno per essere copiati sotto il commit su cui vuoi fare il rebase. Verrà anche mostrato l'hash e il messaggio del commit, il che è grandioso per darci l'idea di cos'è cosa",
               "",
