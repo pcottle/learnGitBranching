@@ -707,7 +707,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "Dobbiamo dire a Git di fare la copia di un solo commit. Questo assomiglia ai primi livelli -- possiamo riusare gli stessi comandi:",
+              "Dobbiamo dire a Git di fare la copia di un solo commit. Questo assomiglia a quanto visto in precedenza -- possiamo riusare gli stessi comandi:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
