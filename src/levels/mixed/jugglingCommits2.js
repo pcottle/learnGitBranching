@@ -760,7 +760,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "In questo livello, dobbiamo fare amend di `C2` una volta senza usare `rebase -i`. Lascerò a te il compito di scoprire come farlo! :D",
+              "In questo livello, dobbiamo fare amend di `C2` una volta, evitando di usare `rebase -i`. Lascerò a te il compito di scoprire come farlo! :D",
               "",
               "Ricorda, il numero esatto di apostrofi sul commit non sono importanti, solo le differenze tra essi. Per esempio, considererò l'albero che corrisponde a quello della soluzione ma che ha un apostrofo extra dappertutto.",
             ],
