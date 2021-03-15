@@ -893,7 +893,7 @@ exports.level = {
               "",
               "Come hai già imparato nelle lezioni precedenti, i rami sono facili da spostare e puntano a commit differenti man mano che il lavoro avanza. I rami subiscono modifiche, spesso temporaneamente, ma sono sempre in continua evoluzione.",
               "",
-              "Se questo è il caso, ti starai chedendo se esiste un modo *definitivo* per segnare un particolare commit del repository. Nel caso di release importanti e grandi merge (fusioni), esiste un modo per segnare questo commit con qualcosa di più permanente dei rami?",
+              "Ti starai chedendo se esiste un modo *definitivo* per segnare un particolare commit del repository. Nel caso di release importanti e grandi merge (fusioni), esiste un modo per segnare questi commit con qualcosa di più permanente dei rami?",
               "",
             ],
           },
@@ -927,7 +927,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "In questo livello riproduci gli stessi tag mostrati nell'obbiettivo, e alla fine seleziona il tag v1. Presta attenzione a come vai nello stato di detached `HEAD` -- questo perché non puoicreare commit direttamente da un tag.",
+              "In questo livello riproduci gli stessi tag mostrati nell'obbiettivo, e alla fine seleziona il tag `v1`. Presta attenzione a come vai nello stato di detached `HEAD` -- questo perché non puoi creare commit direttamente dal tag `v1.",
               "",
               "Nel livello successivo vedremo un utilizzo più interessante dell'uso dei tag.",
             ],
