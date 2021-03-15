@@ -43,7 +43,7 @@ exports.level = {
     vi: "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
     sl_SI: "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje.",
     pl: "Zcommituj raz na bugFix kiedy jesteś gotowy, aby przejść dalej",
-    it_IT: "Assicurati di fare prima il commit da bugFix",
+    it_IT: "Fai un commit da bugFix per procedere",
   },
   startDialog: {
     en_US: {
