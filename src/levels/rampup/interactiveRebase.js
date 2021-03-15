@@ -1111,7 +1111,7 @@ exports.level = {
             markdowns: [
               "## Git rebase interattivo",
               "",
-              "Git cherry-pick è fantastico quando sai quale commit vuoi (_e_ conosci l'hash corrispondente) --è difficile avere di meglio.",
+              "Git cherry-pick è fantastico quando sai quale commit vuoi (_e_ conosci l'hash corrispondente) -- è difficile avere di meglio.",
               "",
               "Ma cosa accade se non sai quale commit ti serve? Per fortuna git ci viene in contro anche in questo caso! Possiamo usare il rebase interattivo -- è il miglior modo per rivedere la sequenza di commit di cui stai per fare il rebase.",
               "",
