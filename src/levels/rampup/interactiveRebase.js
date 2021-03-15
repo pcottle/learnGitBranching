@@ -1125,7 +1125,7 @@ exports.level = {
             markdowns: [
               "Fare rebase interattivo significa usare il comando `rebase` con l'opzione `-i`.",
               "",
-              "Se aggiungi quest'opzione, git aprirà un'interfaccia per mostrarti quali commit stanno per essere copiati sotto il commit su cui vuoi fare il rebase. Verrà anche mostrato l'hash e il messaggio del commit, il che è grandioso per darci l'idea di cos'è cosa",
+              "Se aggiungi quest'opzione, git aprirà un'interfaccia per mostrarti quali commit stanno per essere copiati sotto il commit su cui vuoi fare il rebase. Verrà anche mostrato l'hash e il messaggio del commit, il che è grandioso per darci l'idea di cosa è cosa",
               "",
               'Nel git "vero", l\'interfaccia che si apre in realtà è un editor di testo come `vim`. Nel nostro caso, ho creato una piccola finestra che si comporta allo stesso modo.',
             ],
