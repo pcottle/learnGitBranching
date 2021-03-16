@@ -199,4 +199,19 @@ exports.dialog = {
       ]
     }
   }],
+   "it_IT": [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Ben fatto!!",
+          "",
+          "Hai risolto il livello con *{numCommands}* comando(i); ",
+          "noi l'abbiamo risolto con {best}.",
+        ],
+      },
+    },
+  ],
+};
+
 };
