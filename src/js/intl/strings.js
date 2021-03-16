@@ -619,6 +619,7 @@ exports.strings = {
     'vi': 'Cảnh báo! HEAD bị tách rời',
     'sl_SI': 'Opozorilo! Detached HEAD stanje',
     'pl'   : 'Ostrzeżenie!! Odłączony tryb HEAD',
+    'it_IT': "Attenzione!! Situazione di testa distaccata (Detached HEAD)",
     'ta_IN': 'எச்சரிக்கை !! `HEAD` துன்டிக்கப்பட்ட நிலையில் உள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -640,6 +641,7 @@ exports.strings = {
     'vi': 'Không cần thêm tập tin trong bản giới thiệu này.',
     'sl_SI': 'Ni potrebe po dodajanju datotetk v tem demotu',
     'pl'   : 'Nie ma potrzeby dodawania plików w tym demo',
+    'it_IT': "Non c'è bisogno di aggiungere file in questa demo",
     'ta_IN': 'இந்த நடைமுறையில் கோப்புகளை சேர்க்க தேவையில்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -661,6 +663,7 @@ exports.strings = {
     'vi': 'Các tham số bạn chỉ định không tương thích hoặc không chính xác.',
     'sl_SI': 'Opcije, ki si jih podal, so nezdružljive ali napačne',
     'pl'   : 'Podane przez Ciebie opcje są niezgodne lub nieprawidłowe',
+    'it_IT': "Le opzioni che hai specificato sono incompatibili o sbagliate",
     'ta_IN': 'நீங்கள் குறிப்பிட்ட அந்த மற்றிகள் பொருந்தாது அல்லது தவறானவை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -682,6 +685,7 @@ exports.strings = {
     'vi': 'Commit {commit} đã tồn tại trong những thay đổi của bạn. Đang hủy!',
     'sl_SI': 'Commit {commit} že obstaja v tvoji množici sprememb, prekinjam!',
     'pl'   : 'Commit {commit} już istnieje w Twoim zbiorze zmian, przerywam!',
+    'it_IT': "Il commit {commit} è già presente, annullo!",
     'ta_IN': '{commit} உங்கள் மாற்றங்களின் தொகுப்பில் ஏற்கனவே உள்ளது, கட்டளை கைவிடப்பட்டது!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -703,6 +707,8 @@ exports.strings = {
     'vi': 'Trong trạng thái tách rời `HEAD` thì không thể `reset`. Dùng `checkout` nếu bạn muốn di chuyển.',
     'sl_SI': 'Ni možno resetat, zaradi detached HEADa',
     'pl'   : 'Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść',
+    'it_IT':
+      "Non posso fare reset in modalità testa distaccata (detached head)! Utilizza checkout se vuoi spostarti",
     'ta_IN': 'பிரிக்கப்பட்ட தலையில் மீட்டமைக்க முடியாது! நீங்கள் நகர்த்த விரும்பினால் `checkout` பயன்படுத்தவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -732,6 +738,10 @@ exports.strings = {
     'sl_SI': 'Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.',
     'pl'   : 'Domyślnym zachowaniem dla polecenia `reset` w LearnGitBranching jest parametr --hard, więc możesz pominąć tę opcję, ' +
       'Pamiętaj tylko, że domyślne zachowanie rzeczywistego GIT-a jest parametr --mixed.',
+        'it_IT':
+      "Il comportamento base per i resets su LearnGitBranching è --hard, per cui puoi tranquillamente omettere " +
+      "quella opzione se ti sei stancato di scriverla. Ricorda però che in Git, " +
+      "l'opzione di default è --mixed.",
     'ta_IN': 'The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit ' +
       'that option if you get tired of typing it out in our lessons. Just remember that the default ' +
       'behavior on actual Git is --mixed.'
@@ -756,6 +766,9 @@ exports.strings = {
     'vi': 'Không có khái nệm thêm tập tin đệm(staging file), nên tùy chọn đó là bất hợp lệ.',
     'sl_SI': 'Tu ni možnosti addanja/stageanja datotek, zato je ta ukaz nepravilen',
     'pl'   : 'Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.',
+     'it_IT':
+      "Non esiste il concetto di aggiungere / indicizzare i file, quindi quell'opzione o " +
+      "comando non è valido!",
     'ta_IN': 'கோப்புகளைச் சேர்ப்பது / நிலைநிறுத்துவது என்ற கருத்து ஒன்றும் இல்லை, எனவே அந்த மற்றி அல்லது கட்டளை தவறானது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -777,6 +790,7 @@ exports.strings = {
     'vi': 'Hoàn tác {oldCommit}:{oldMsg}.',
     'sl_SI': 'Revertanje {oldCommit}: {oldMsg}',
     'pl'   : 'Cofam {oldCommit} : {oldMsg}',
+    'it_IT': "Ripristino {oldCommit}: {oldMsg}",
     'ta_IN': '{oldCommit}: {oldMsg} மீன்டும் மாற்றியமைக்கிறது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -798,6 +812,7 @@ exports.strings = {
     'vi': 'Có thể có nhiều nhất {upper} tham số cho {what}.',
     'sl_SI': 'Pričakovanih je največ {upper} argumentov za {what}',
     'pl'   : 'Oczekuję maksymalne {upper} parametrów dla {what}',
+    'it_IT': "Mi aspetto al massimo {upper} parametro/i per {what}",
     'ta_IN': 'நான் {what}க்கான உள்ளீடு(கள்) அதிகபட்சமாக {upper} எதிர்பார்க்கிறேன்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -819,6 +834,7 @@ exports.strings = {
     'vi': 'Cần ít nhất {lower} tham số cho {what}.',
     'sl_SI': 'Pričakovanih je najmanj {lower} argumentov za {what}',
     'pl'   : 'Oczekuję co najmniej {lower} parametrów dla {what}',
+    'it_IT': "Mi aspetto come minimo {lower} parametro/i per {what}",
     'ta_IN': 'நான் {what}க்கான உள்ளீடு(கள்) குறைந்தபட்சம் {lower} எதிர்பார்க்கிறேன்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -840,6 +856,7 @@ exports.strings = {
     'vi': 'Lệnh đó không chấp nhận các tham số chung.',
     'sl_SI': 'Ta ukaz ne sprejme splošnih ukazov',
     'pl'   : 'To polecenie nie przyjmuje żadnych ogólnych parametrów',
+    'it_IT': "Quel comando non accetta parametri generici",
     'ta_IN': 'அந்த கட்டளை பொதுவான உள்ளீடு எதுவும் ஏற்கவில்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -847,6 +864,7 @@ exports.strings = {
     '__desc__': 'Message that appears in git console when command was not recognized.',
     'en_US': 'The command "{command}" isn\'t supported, sorry!',
     'zh_TW': '很抱歉，目前無法支援指令 "{command}"!',
+    'it_IT': 'Mi spiace, il comando "{command}" non è supportato.',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -868,6 +886,7 @@ exports.strings = {
     'vi': 'Sao chép chuỗi cây bên dưới.',
     'sl_SI': 'Skopiraj besedilo drevesa spodaj',
     'pl'   : 'Skopiuj poniższy kod',
+    'it_IT': "Copia il codice dell'albero qua sotto",
     'ta_IN': '`tree string`ஐ கீழே நகலெடுக்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -890,6 +909,7 @@ exports.strings = {
     'vi': 'Học nhánh Git.',
     'sl_SI': 'Nauči se Git Branching',
     'pl': 'Naucz się Git Branching-u',
+    'it_IT': "Impara Git Branching",
     'ta_IN': 'கிட் கிளை அமைத்தல்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -911,6 +931,7 @@ exports.strings = {
     'vi': 'Chọn một cấp độ.',
     'sl_SI': 'Izberi stopnjo',
     'pl': 'Wybierz poziom',
+    'it_IT': "Scegli un livello",
     'ta_IN': 'ஒரு நிலையை தேர்வு செய்யுங்கள்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -928,6 +949,7 @@ exports.strings = {
     'vi': 'Bài học chính',
     'sl_SI': 'Glavno',
     'pl': 'Główny',
+    'it_IT': "Menu",
     'ta_IN': 'பிரதானம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -945,6 +967,7 @@ exports.strings = {
     'vi'   : 'Bài học về thao tác từ xa',
     'sl_SI': 'Oddaljeno',
     'pl'   : 'Zdalny',
+    'it_IT': "Remoto",
     'ta_IN': 'தொலைநிலை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -966,6 +989,8 @@ exports.strings = {
     'vi': 'Xin lỗi, chúng tôi cần giữ tên nhánh ngắn để tiện minh họa. Tên nhánh của bạn đã bị cắt xuống 9 ký tự là "{branch}".',
     'sl_SI': 'Oprosti, imena branchev moramo obdržati kratka zaradi vizualizacije. Tvoje ime brancha je bilo skrajšano na 9 črk, kar predstavlja "{branch}"',
     'pl': 'Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy gałęzi. Nazwa Twojej gałęzi została skrócona do 9 znaków, w wyniku czego otrzymano "{branch}"',
+    'it_IT':
+      'Scusa ma i nomi dei rami devono essere brevi per essere visualizzati. Il nome del tuo ramo è stato accorciato a 9 caratteri, rinominandolo come "{branch}"',
     'ta_IN': 'மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிளையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, "{branch}" ஆக மற்றப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -987,6 +1012,7 @@ exports.strings = {
     'vi': 'Tên nhánh "{branch}" không được chấp nhận.',
     'sl_SI': 'To ime brancha "{branch}" ni dovoljeno!',
     'pl': 'Ta nazwa gałęzi "{branch}" jest niedozwolona!',
+    'it_IT': 'Il nome "{branch}" per i rami non è consentito!',
     'ta_IN': '"{branch}" ஐ கிளையின் பெயராக ஏற்க்க இயலாது!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1008,6 +1034,7 @@ exports.strings = {
     'vi': 'Tên thẻ "{tag}" không được chấp nhận.',
     'sl_SI': 'To ime tag-a "{tag}" ni dovoljeno!',
     'pl': 'Ta nazwa tagu "{tag}" jest niedozwolona!',
+    'it_IT': 'Il nome "{tag}" per i tag non è consentito!',
     'ta_IN': '"{tag}" ஐ குறிச்சொல் பெயராக ஏற்க்க இயலாது!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1029,6 +1056,7 @@ exports.strings = {
     'vi': 'Tùy chọn "{option}" không được hỗ trợ.',
     'sl_SI': 'Opcija "{option}" ni podprta! ',
     'pl': 'Opcja "{option}" nie jest obsługiwana!',
+    'it_IT': 'L\'opzione "{option}" non è supportata!',
     'ta_IN': '"{option}" மாற்று செயல் ஆதரிக்கப்படவில்லை!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1050,6 +1078,7 @@ exports.strings = {
     'vi': 'git <lệnh> [<tham số>]',
     'sl_SI': 'git <ukaz> [<argumenti>]',
     'pl': 'git <polecenie> [<parametry>]',
+    'it_IT': "git <command> [<args>]",
     'ta_IN': 'git <command> [<args>]'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1071,6 +1100,7 @@ exports.strings = {
     'vi': 'Các lệnh được hỗ trợ:',
     'sl_SI': 'Podprti ukazi:',
     'pl': 'Obsługiwane polecenia:',
+    'it_IT': "Comandi supportati:",
     'ta_IN': 'செயலாக்கம் உள்ள கட்டளைகள்;'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1092,6 +1122,7 @@ exports.strings = {
     'vi': 'Cách dùng:',
     'sl_SI': 'Uporaba:',
     'pl': 'Użyj',
+    'it_IT': "Utilizzo:",
     'ta_IN': 'பயன்பாடு'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1113,6 +1144,7 @@ exports.strings = {
     'vi': 'Phiên bản Git TTC-Solutions.1.0',
     'sl_SI': 'Git Verzija PCOTTLE.1.0',
     'pl' : 'Wersja GIT-a OLSZA-YSC-1.0',
+    'it_IT': "Git Version SHARDANA_SOFT.1.0.0",
     'ta_IN': 'Git Version PCOTTLE.1.0'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1134,6 +1166,7 @@ exports.strings = {
     'vi': 'Cây lật...',
     'sl_SI': 'Obračanje drevesa ...',
     'pl'   : 'Odwracanie drzewa...',
+    'it_IT': "Girando l'albero...",
     'ta_IN': 'Flipping tree...'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1155,6 +1188,7 @@ exports.strings = {
     'vi': 'Làm mới cây...',
     'sl_SI': 'Osveževanje drevesa ...',
     'pl'   : 'Odświeżanie drzewa...',
+    'it_IT': "Aggiornando l'albero...",
     'ta_IN': 'Refreshing tree...'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1176,6 +1210,7 @@ exports.strings = {
     'vi': 'Ngôn ngữ được thay đổi thành {locale}.',
     'sl_SI': 'Locale nastavljen na {locale}',
     'pl'   : 'Ustawiono język na {locale}',
+    'it_IT': "Locale impostato a {locale}",
     'ta_IN': 'பிரதேசம் {locale}ஆக மற்ற பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1197,6 +1232,7 @@ exports.strings = {
     'vi': 'Ngôn ngữ được đổi thành mặc định: {locale}.',
     'sl_SI': 'Locale ponastavljen na {locale}',
     'pl'   : 'Przywrócono język do wartości domyślnych, czyli {locale}',
+    'it_IT': "Locale resettato al valore di default, che è {locale}",
     'ta_IN': 'பிரதேசம் இயல்புநிலை {locale}க்கி மீட்டமைக்கப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1218,6 +1254,7 @@ exports.strings = {
     'vi': 'Vui lòng dùng một trong các lệnh sau để có thêm thông tin:.',
     'sl_SI': 'Prosim uporabi enega od naslednjih ukazov',
     'pl'   : 'Aby uzyskać więcej informacji, użyj jednego z następujących poleceń:',
+    'it_IT': "Usa uno dei seguenti comandi per maggiori informazioni:",
     'ta_IN': 'மேலும் தகவலுக்கு பின்வரும் கட்டளைகளில் ஒன்றைப் பயன்படுத்தவும்:'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1239,6 +1276,7 @@ exports.strings = {
     'vi': 'Dưới đây là danh sách tất cả các lệnh hiện hành:.',
     'sl_SI': 'Tu je seznam vseh možnih ukazov:',
     'pl'   : 'Oto lista wszystkich dostępnych poleceń:',
+    'it_IT': "Ecco la lista con tutti i comandi disponibili:",
     'ta_IN': 'கிடைக்கக்கூடிய அனைத்து கட்டளைகளின் பட்டியல்:'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1260,6 +1298,7 @@ exports.strings = {
     'vi': 'Thay đổi thư mục thành "/directories/dont/matter/in/this/demo".',
     'sl_SI': 'Mapa spremenjena na "/directories/dont/matter/in/this/demo"',
     'pl'   : 'Katalog zmieniony na "/home/users/windows/pl/demo"',
+    'it_IT': 'Cartella modificata in  "/directories/dont/matter/in/this/demo"',
     'ta_IN': 'அடைவு "/directories/dont/matter/in/this/demo"க்கு மாற்றப்பட்டது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1281,6 +1320,7 @@ exports.strings = {
     'vi': 'DontWorryAboutFilesInThisDemo.txt (ĐừngLoLắngVềTậpTinTrongBảnGiớiThiệuNày.txt)',
     'sl_SI': 'DontWorryAboutFilesInThisDemo.txt',
     'pl'   : 'SpokojnieToTylkoPlikDemo.txt',
+    'it_IT': "NoNdEvIpReOcCuPaRtIdEiFiLeInQuEsTaDeMo.txt",
     'ta_IN': 'DontWorryAboutFilesInThisDemo.txt'
   },
   'mobile-alert': {
@@ -1301,6 +1341,8 @@ exports.strings = {
     'vi': 'Đáng tiếc là ứng dụng không thể nhận thông tin từ điện thoại hay máy tính bảng, hãy sử dụng máy tính cá nhân, đáng để bỏ công mà :D',
     'sl_SI': 'LGB ne more sprejeti ukazov na mobilni napravi, obiščite nas na računalinku! Je vredno :D ',
     'pl'   : 'Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D',
+    'it_IT':
+      "LGB non funziona su mobile, vieni a trovarci da pc! Ne vale veramente la pena :D",
     'ta_IN': 'LGBஆல் மொபைலில் உள்ளீட்டைப் பெற முடியாது, டெஸ்க்டாப்பில் பார்வையிடவும், அது பயணுள்ளது :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1322,6 +1364,8 @@ exports.strings = {
     'vi': 'Hãy chia sẻ cây này với bạn của mình! Họ có thể dùng "import tree" để tải.',
     'sl_SI': 'Deli to drevo s prijatelji! Lahko ga naložijo z "import tree"',
     'pl'   : 'Udostępnij to drzewo znajomym! Mogą je załadować za pomocą "import tree"',
+    'it_IT':
+      'Condividi quest\'albero con i tuoi amici! Può essere importato tramite "import tree"',
     'ta_IN': 'இந்த `tree`ஐ நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்! அவர்கள் அதை "import tree" மூலம் பெறலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1343,6 +1387,7 @@ exports.strings = {
     'vi': 'Dán một chuỗi JSON xuống bên dưới.',
     'sl_SI': 'Prilepi JSON kodo spodaj!',
     'pl'   : 'Wklej poniżej obiekt z kodem JSON!',
+    'it_IT': "Incolla un blob JSON qui sotto!",
     'ta_IN': 'ஒரு JSON blob-ஐ கீழே ஒட்டவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1364,6 +1409,7 @@ exports.strings = {
     'vi': 'Tất cả đáp án đã được xóa, bạn có thể bắt đầu lại từ đầu.',
     'sl_SI': 'Rešena mapa je ponastavljena, začel boš lahko na novo!',
     'pl'   : 'Rozwiązania zostały wyczyszczone, zaczynasz z czystą kartą.',
+    'it_IT': "I progresse salvati sono stati resettati, stai iniziando da zero!",
     'ta_IN': 'தீர்க்கப்பட்ட கோப்பு மீட்டமைக்கப்பட்டது, நீங்கள் ஆரம்பத்தில் இருந்து தொடங்குகிறீர்கள்!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1385,6 +1431,8 @@ exports.strings = {
     'vi': 'Bạn hiện không ở cấp độ nào cả! Hãy bắt đầu một cấp độ với "levels".',
     'sl_SI': 'Nisi v stopnji! Si v peskovniku, začni stopnjo z "levels"',
     'pl'   : 'Nie jesteś na poziomie! Jesteś w trybie piaskownicy, zacznij poziom wpisując "levels"',
+    'it_IT':
+      'Non ti trovi in un livello! Sei nella sandbox, inizia un livello con "levels"',
     'ta_IN': 'ஒரு நிலையில் இல்லாமல், நீங்கள் sandbox-இல் உள்ளீர்கள்! "நிலைகள்" மூலம் ஒரு நிலையைத் தொடங்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
