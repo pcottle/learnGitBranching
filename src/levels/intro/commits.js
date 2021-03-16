@@ -17,6 +17,7 @@ exports.level = {
     'vi': 'Giới thiệu về Git Commit',
     'sl_SI': "Uvod v Git Commit",
     'pl'   : "Wprowadzenie do zatwierdzeń GIT-a (commit)",
+    'it_IT': "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்"
   },
   "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C3\",\"id\":\"master\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
@@ -40,6 +41,7 @@ exports.level = {
     'vi': "Đơn giản là cứ gõ 'git commit' 2 lần",
     'sl_SI': "Preprosto dvakrat vpiši 'git commit' in zaključi!",
     "pl"   : "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!",
+    'it_IT': "Digita 'git commit' due volte per finire!",
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!"
   },
   "disabledMap": {
@@ -811,6 +813,48 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Git Commits",
+              "Un commit in git memorizza un'instantanea di tutti i file (tracciati) della cartella di lavoro. E' come un enorme copia-incolla, ma migliore!",
+              "",
+              'Git conserva i commit nella modo più leggero possibile, perciò non copia cecamente l\'intera cartella per ogni commit. Può (ove possibile) comprimere un commit come un insieme di cambiamenti, o "delta", da una versione alla successiva del repository.',
+              "",
+              "Git memorizza anche la storia di tutti i commit effettuati. Questo è il motivo per cui molti commit hanno genitori sopra di essi -- questo viene rappresentato con delle frecce nelle nostre spiegazioni. Conoscere la storia è utilissimo per tutti quelli che collaborano ad un progetto!",
+              "",
+              "C'è tanto da sapere, ma per ora pensa ai commit come delle instantanee del progetto. I commit sono leggerissimi e si può passare da uno all'altro in un battibaleno!",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Vediamolo in pratica. Sulla destra abbiamo l'immagine di un (piccolo) repository git. Ci sono due commit --il primo commit, `C0`,e un altro dopo, `C1`, che potrebbe avere modifiche importanti.",
+              "",
+              "Premi il pulsante qua sotto per eseguire un nuovo commit.",
+            ],
+            afterMarkdowns: [
+              "Ecco qua! Fantastico. Abbiamo modificato il repository e salvato con un commit. Il commit che abbiamo creato ha un genitore, `C1`, che ci indica su cui è basato il nostro commit.",
+            ],
+            command: "git commit",
+            beforeCommand: "",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Vai avanti e prova da solo! Dopo che questa finestra si chiude, crea due commit per completare il livello.",
+            ],
+          },
+        },
+      ],
+    },
   }
 };
