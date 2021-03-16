@@ -342,5 +342,27 @@ exports.dialog = {
         '  * ```finish``` கொண்டு இந்த நிலையின் JSON!-ஐ அச்சிடுக.'
       ]
     }
-  }]
+  }],
+   "it_IT": [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Benvenuto al generatore di livelli !",
+          "",
+          "Ecco i passaggi principali:",
+          "",
+          "  * Inizializza l'ambiente con i comandi git",
+          "  * Definisci l'albero di partenza con ```define start```",
+          "  * Inserisci la serie di comandi git che compongono la soluzione (ottimale)",
+          "  * Definisci l'albero finale da ottenere con ```define goal```. L'albero finale costituisce la soluzione",
+          "  * E' possibile inserire un suggerimento con ```define hint```",
+          "  * Modifica il nome con ```define name```",
+          "  * E' possibile personalizzare la finestra iniziale con ```edit dialog```",
+          "  * Inserire il comando ```finish``` per generare il livello JSON!",
+        ],
+      },
+    },
+  ],
+};
 };
