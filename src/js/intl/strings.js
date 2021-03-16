@@ -1454,6 +1454,8 @@ exports.strings = {
     'vi': 'Không tìm thấy cấp độ cho định danh "{id}". Mở cửa sổ chọn cấp độ.',
     'sl_SI': 'Stopnja za ta id "{id}" ni bila najdena! Odpiram pogled za izbiro stopnje',
     'pl'   : 'Nie znaleziono poziomu {id}!. Otwieranie widoku wyboru poziomu...',
+    'it_IT':
+      'Non è stato trovato un livello con id "{id}"! Apro la finestra con la selezione dei livelli',
     'ta_IN': 'அந்த "{id}"-க்கான நிலை  காணப்படவில்லை! நிலை தேர்வு செய்யும் திரை திறக்கிறது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1475,6 +1477,7 @@ exports.strings = {
     'vi': 'Không có gì để hoàn tác!',
     'sl_SI': 'Undo seznam je prazen!',
     'pl'   : 'Nie ma już poleceń do cofnięcia!',
+    'it_IT': "Non sono presenti comandi da annullare!",
     'ta_IN': 'மீள்பதிவு அடுக்கு காலியாக உள்ளது!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1496,6 +1499,8 @@ exports.strings = {
     'vi': 'Bạn đã vượt qua cấp độ này. Thử cấp độ khác với "levels" hoặc dùng "sandbox" để trở lại hộp cát.',
     'sl_SI': 'To stopnjo si že rešil, poizkusi druge stopnje z "levels" ali pojdi nazaj v peskovnik s "sandbox"',
     'pl'   : 'Już rozwiązałeś ten poziom, wypróbuj inne, używając "levels" lub wróć do trybu piaskownicy za pomocą polecenia "sandbox"',
+    'it_IT':
+      'Hai già risolto questo livello, prova altri livelli con "levels" o torna alla sandbox con "sandbox"',
     'ta_IN': 'நீங்கள் ஏற்கனவே இந்த நிலையை தீர்த்துள்ளீர்கள், "நிலைகள்" மூலம் பிற நிலைகளை முயற்சிக்கவும் அல்லது "sandbox" உடன் sandbox-க்குச் செல்லவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1513,6 +1518,7 @@ exports.strings = {
     'vi'   : 'ĐÃ XONG!!\n:D',
     'sl_SI': 'Rešeno!!\n:D',
     'pl'   : 'Rozwiązany!!\n:D',
+    'it_IT': "Risolto!!\n:D",
     'ta_IN': 'தீர்க்கப்பட்டது!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1534,6 +1540,7 @@ exports.strings = {
     'vi': 'Ở cấp độ này thì lệnh git đó bị vô hiệu hóa.',
     'sl_SI': 'Ta git ukaz je onemogočen za to stopnjo!',
     'pl'   : 'To polecenie Gita jest wyłączone na tym poziomie!',
+    'it_IT': "Questo comando git è disabilitato per questo livello!",
     'ta_IN': 'இந்த நிலையில் அந்த கிட் கட்டளை முடக்கப்பட்டுள்ளது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1555,6 +1562,8 @@ exports.strings = {
     'vi': 'Đây là chuỗi JSON cho cấp độ này! Hãy chia sẻ với người khắc hoặc với tôi qua GitHub.',
     'sl_SI': 'Tu je JSON za to stopnjo! Deli ga z nekom ali ga pošlji meni na GitHub',
     'pl'   : 'To jest JSON dla tego poziomu. Udostępnij go, komu chcesz, lub wyślij do mnie na GitHub.',
+    'it_IT':
+      "Ecco il JSON per questo livello! Condividilo con qualcuno o inviamelo tramite GitHub",
     'ta_IN': 'இதோ இந்த நிலைக்கான JSON, இதை பகிர்ந்து கொள்ளுங்கள் அல்லது GitHub-இல் எனக்கு அனுப்புங்கள்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1576,6 +1585,8 @@ exports.strings = {
     'vi': 'Không có cửa sổ hội thoại được chỉ định, thêm một cái chứ?',
     'sl_SI': 'Nisi določil začetnega dialoga, bi ga rad dodal?',
     'pl'   : 'Nie określiłeś okna startowego, czy chcesz je dodać?',
+    'it_IT':
+      "Non hai specificato una finestra di partenza, ne vuoi aggiungere una?",
     'ta_IN': 'தொடக்க உரை எதுவும் நீங்கள் குறிப்பிடவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1597,6 +1608,7 @@ exports.strings = {
     'vi': 'Bạn chưa chỉ định một gợi ý, thêm một cái chứ?',
     'sl_SI': 'Nisi določil namiga, bi ga rad dodal?',
     'pl'   : 'Nie podałeś podpowiedzi, czy chcesz ją dodać?',
+    'it_IT': "Non hai specificato un suggerimento, ne vuoi aggiungere uno?",
     'ta_IN': 'நீங்கள் குறிப்பெதுவும் தரவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1618,6 +1630,8 @@ exports.strings = {
     'vi': 'Thêm một gợi ý cho cấp độ này, hoặc cứ để trống nếu bạn không muốn thêm.',
     'sl_SI': 'Vnesi namig za to stopnjo ali pusti to prazno, če ga nočeš dodati',
     'pl'   : 'Wpisz wskazówkę dotyczącą tego poziomu lub pozostaw ją pustą, jeśli nie chcesz jej uwzględniać.',
+    'it_IT':
+      "Inserisci un suggerimento per questo livello, oppure lascialo vuoto se non ne vuoi aggiungere",
     'ta_IN': 'இந்த நிலைக்கான குறிப்பை உள்ளிடவும், குறிப்பு தேவை இல்லை என்றால் இதனை காலியாக விடுவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1639,6 +1653,7 @@ exports.strings = {
     'vi': 'Nhập tên cho cấp độ này.',
     'sl_SI': 'Vnesi ime za stopnjo',
     'pl'   : 'Wprowadź nazwę poziomu',
+    'it_IT': "Inserisci il nome per questo livello",
     'ta_IN': 'நிலைக்கான பெயரை உள்ளிடவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1660,6 +1675,7 @@ exports.strings = {
     'vi': 'Đáp án bị bỏ trống!! Có gì thiếu rồi.',
     'sl_SI': 'Tvoja rešitev je prazna!! Nekaj ni vredu.',
     'pl'   : 'Twoje rozwiązanie jest puste!! Coś musi zostać zrobione.',
+    'it_IT': "C'è qualcosa che non va. La soluzione è vuota!! ",
     'ta_IN': 'உங்கள் தீர்வு காலியாக உள்ளது!! ஏதோ தவறாக இருக்கிறது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1681,6 +1697,8 @@ exports.strings = {
     'vi': 'Xác định điểm bắt đầu ... Các giải pháp và mục tiêu sẽ được thay thế nếu đã được chỉ định từ trước.',
     'sl_SI': 'Določanje začetne točke ... rešitev in cilj bosta povožena, če sta bila prej že podana',
     'pl'   : 'Ustawianie punktu startowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane',
+    'it_IT':
+      "Definendo punto di partenza... soluzione e obiettivo saranno sovvrascritti se erano già stati definiti.",
     'ta_IN': 'தொடக்கத்தை வரையறுத்தல்... தீர்வு மற்றும் குறிக்கோள் முன்னரே வரையறுக்கப்பட்டிருந்தால் மேலெழுதப்படும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1702,6 +1720,8 @@ exports.strings = {
     'vi': 'Bạn đang ở trong một cấp độ, nên sẽ có nhiều hỗ trợ. Vui lòng dùng "help level" để biết thêm về bài học này, "help general" để sử dụng HọcNhánhGit, hoặc "objective" để biết cách giải quyết bài tập.',
     'sl_SI': 'Si v stopnji, zato so na voljo različne pomoči. Prosim izberi "help level" za več informacij o tej lekciji, "help general" za splošna navodila ali "objective" da izveš kako rešiti to stopnjo',
     'pl'   : 'Jesteś na poziomie, więc istnieje kilka rodzajów pomocy. Wpisz "help level", aby dowiedzieć się więcej o tej lekcji, wpisz "help general", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz "objective", aby dowiedzieć się, jak rozwiązać ten poziom.',
+    'it_IT':
+      'Sei dentro a un livello, hai a disposizione vari tipi di aiuto. Digita "help level" per saperne di più su questa lezione, "help general" per come usare Learn GitBranching, o "objective" per capire come risolvere il livello.',
     'ta_IN': 'நீங்கள் ஒரு நிலையில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். இந்த பாடத்தைப் பற்றி மேலும் அறிய "நிலைக்கான உதவி" என்பதைத் தேர்ந்தெடுக்கவும், Learn GitBranching பற்றி மேலும் அறிய "பொது உதவி" பயன்படுத்துக, அல்லது இந்த நிலையை எவ்வாறு தீர்ப்பது என்பது பற்றி அறிய "நோக்கம்" தேர்ந்தெடுக்கவும்.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1723,6 +1743,8 @@ exports.strings = {
     'vi': 'Bạn đang tạo một cấp độ, nên sẽ có nhiều trợ giúp có sẵn. Vui lòng chọn "help general" hoặc "help builder".',
     'sl_SI': 'Si v graditelju stopenj, zato so na voljo različne pomoči. Prosim izberi "help general" ali "help builder"',
     'pl'   : 'Znajdujesz się w kreatorze poziomów. Dostępnych jest tu kilka rodzajów pomocy. Wpisz "help general", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz "help builder", aby uzyskać pomoc dotyczącą konstruktora poziomów',
+    'it_IT':
+      'Sei in un generatore di livelli, hai a disposizione vari tipi di aiuto. Digita "help general" o "help builder"',
     'ta_IN': 'நீங்கள் ஒரு நிலை கட்டமைப்பானில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். தயவுசெய்து "பொது உதவி" அல்லது "கட்டமைப்பான் உதவி" என்பதைத் தேர்ந்தெடுக்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1745,6 +1767,7 @@ exports.strings = {
     'vi': 'Hiển thị mục tiêu',
     'sl_SI': 'Prikaži Cilj',
     'pl' : 'Pokaż cel',
+    'it_IT': "Mostra obiettivo",
     'ta_IN': 'இலக்கைக் காட்டு'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1767,6 +1790,7 @@ exports.strings = {
     'vi': 'Ẩn mục tiêu',
     'sl_SI': 'Skrij Cilj',
     'pl' : 'Ukryj cel',
+    'it_IT': "Nasconti obiettivo",
     'ta_IN': 'இலக்கை மறை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1784,6 +1808,7 @@ exports.strings = {
     'vi': 'Chỉ dẫn',
     'sl_SI': 'Navodila',
     'pl' : 'Instrukcje',
+    'it_IT': "Istruzioni",
     'ta_IN': 'வழிமுறைகள்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1801,6 +1826,7 @@ exports.strings = {
     'vi'   : 'Trình diễn Git',
     'sl_SI': 'Git Predstavitev',
     'pl'   : 'Demo GIT',
+    'it_IT': "Dimostrazione Git",
     'ta_IN': 'கிட் செயல் விளக்கம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1823,6 +1849,7 @@ exports.strings = {
     'vi': 'Mục tiêu cần đạt',
     'sl_SI': 'Končni Cilj',
     'pl': 'Cel do osiągnięcia',
+    'it_IT': "Obiettivo da raggiungere",
     'ta_IN': 'அடைய வேண்டிய இலக்கு'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1845,6 +1872,8 @@ exports.strings = {
     'vi': '<span class="fwber">Chú ý:</span> Ở cấp độ này chỉ nhánh main bị kiểm tra. Các nhánh khác chỉ dùng để tham chiếu(có dấu - ở nhãn). Như thường lệ, bạn có thể ẩn mục tiêu bằng "hide goal".',
     'sl_SI': '<span class="fwber">Opomba:</span> Samo main branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z "hide goal"',
     'pl': '<span class="fwber"> Uwaga:</span> Na tym poziomie będzie sprawdzana tylko poprawność gałęzi main. Pozostałe gałęzie są tylko odniesieniem (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno klikając "Ukryj cel".',
+    'it_IT':
+      '<span class="fwber">Nota:</span> In questo livello sarà selezionato solo il ramo main. Gli altri rami ci sono solo come riferimento (mostrati come etichette tratteggiate). Come sempre, puoi nascondere questa finestra con "hide goal"',
     'ta_IN': '<span class="fwber">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், "இலக்கை மறை" மூலம் இந்த சாளரத்தை மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1867,6 +1896,7 @@ exports.strings = {
     'vi': 'Bạn có thể ẩn cửa sổ này với "hide goal".',
     'sl_SI': 'To okno lahko skriješ z "hide goal"',
     'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj cel"',
+    'it_IT': 'Puoi nascondere questa finestra con "hide goal"',
     'ta_IN': 'இந்த சாளரத்தை "இலக்கை மறை" மூலம் மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1889,6 +1919,7 @@ exports.strings = {
     'vi': 'Bạn có thể ẩn cửa sổ này với "hide start".',
     'sl_SI': 'To okno lahko skriješ z "hide start"',
     'pl': 'Możesz ukryć to okno za pomocą opcji "ukryj start"',
+    'it_IT': 'Puoi nascondere questa finestra con "hide start"',
     'ta_IN': 'இந்த சாளரத்தை "தொடக்கத்தை மறை" மூலம் மறைக்கலாம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1911,6 +1942,7 @@ exports.strings = {
     'vi': 'Trình tạo câp độ',
     'sl_SI': 'Graditelj Stopenj',
     'pl': 'Twórca poziomu',
+    'it_IT': "Generatore di livelli",
     'ta_IN': 'நிலை கட்டமைப்பான்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1933,6 +1965,7 @@ exports.strings = {
     'vi': 'Cấp độ này không được giới thiệu.',
     'sl_SI': 'Ni začetnega dialoga za prikaz te stopnje!',
     'pl': 'Dla tego poziomu nie ma okna startowego do wyświetlenia!',
+    'it_it': "Non esiste una finestra di partenza per questo livello!",
     'ta_IN': 'இந்த நிலை பற்றி விளக்கிகாட்ட தொடக்க உரையாடல் எதுவும் இல்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1955,6 +1988,7 @@ exports.strings = {
     'vi': 'Hmmm, có vẻ cấp độ này không có gợi ý rồi. :-/',
     'sl_SI': 'Hmm, izgleda da ni namiga za to stopnjo :-/',
     'pl': 'Hmm, wydaje się, że nie ma podpowiedzi dla tego poziomu :-/',
+    'it_IT': "Mmh, sembra non ci sia un suggerimento per questo livello :-/",
     'ta_IN': 'ஹ்ம், இந்த நிலைக்கு ஒரு குறிப்பு எதுவும் இருப்பதாகத் தெரியவில்லை :-/'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1977,6 +2011,8 @@ exports.strings = {
     'vi': 'Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở GitHub để cung cấp bản dịch!',
     'sl_SI': 'Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!',
     'pl': 'Tłumaczenie dla klucza "{key}" jeszcze nie istnieje tłumaczenia :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
+    'it_IT':
+      "La traduzione per {key} non esiste ancora :( Fai un salto su GitHub e dacci una mano!",
     'ta_IN': '{key}-இன் மொழிபெயர்ப்பு கிடைக்கவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1999,6 +2035,8 @@ exports.strings = {
     'vi': 'Hội thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi. :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
     'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
+    'it_IT':
+      "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
     'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2007,6 +2045,7 @@ exports.strings = {
     'en_US': 'Cancel',
     'zh_TW': '取消',
     'pl' : 'Powrót',
+    'it_IT': "Annulla",
     'ta_IN': 'இரத்துசெய்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2015,48 +2054,56 @@ exports.strings = {
     'en_US': 'Confirm',
     'zh_TW': '確認',
     'pl' : 'Dalej',
+    'it_IT': "Conferma",
     'ta_IN': 'உறுதிப்படுத்தவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-label': {
     '__desc__': 'Label in the top of the left-side menu. Rembember to leave some space on the sides',
     'en_US': ' Level ',
+    'it_IT': " Livello ",
     'pl' : ' Poziom '
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-levels': {
     '__desc__': 'Levels command label in the bottom command helper bar.',
     'en_US': 'Levels',
+    'it_IT': "Livelli",
     'pl' : 'Poziomy'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-solution': {
     '__desc__': 'Solution command label in the bottom command helper bar.',
     'en_US': 'Solution',
+    'it_IT': "Soluzione",
     'pl' : 'Rozwiązanie'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-reset': {
     '__desc__': 'Reset command label in the bottom command helper bar.',
     'en_US': 'Reset',
+    'it_IT': "Reset",
     'pl' : 'Wyczyść'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-undo': {
     '__desc__': 'Undo command label in the bottom command helper bar.',
     'en_US': 'Undo',
+    'it_IT': "Annulla",
     'pl' : 'Cofnij'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-objective': {
     '__desc__': 'Objective command label in the bottom command helper bar.',
     'en_US': 'Objective',
+    'it_IT': "Obiettivo",
     'pl' : 'Cel'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-help': {
     '__desc__': 'Help command label in the bottom command helper bar.',
     'en_US': 'Help',
+    'it_IT': "Aiuto",
     'pl' : 'Pomoc'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2064,6 +2111,8 @@ exports.strings = {
     '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
     'en_US': 'That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command',
     'zh_TW': '這項指令輸入正確，然而目前的環境不支援此指令。試著前往關卡或關卡建造器中使用此指令。',
+    'it_IT':
+      "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
     'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2071,6 +2120,7 @@ exports.strings = {
     '__desc__': 'Title for the popup',
     'en_US': 'Interactive Rebase',
     'zh_TW': '互動式 Rebase',
+    'it_IT': "Rebase interattivo",
     'pl' : 'Interaktywny Rebase'
   },
 };
