@@ -365,4 +365,4 @@ exports.dialog = {
     },
   ],
 };
-};
+
