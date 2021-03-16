@@ -396,6 +396,7 @@ exports.strings = {
     'vi': 'Lệnh đó yêu cầu có origin.',
     'sl_SI': 'Origin je potreben za izvedbo tega ukaza',
     'pl'   : 'Dla tego polecenia wymagane jest źródło (origin)',
+    'it_IT': "E' necessario definire origin per questo comando",
     'ta_IN': 'அந்த கட்டளைக்கு ஒரு துவக்க மூலம் தேவை'
   },
   'git-error-origin-exists': {
@@ -416,6 +417,7 @@ exports.strings = {
     'vi': 'Nguyên bản (origin) đã tồn tại. Bạn không thể tạo thêm 1 cái mới',
     'sl_SI': 'Origin že obstaja. Ne moreš narediti novega.',
     'pl'   : 'Origin już istnieje! Nie możesz go ponownie założyć',
+    'it_IT': "Origin già esistente! Non puoi crearne uno nuovo",
     'ta_IN': 'துவக்க மூலம் ஒன்று ஏற்கனவே உள்ளது! நீங்கள் மீன்டும் ஒன்றை உருவாக்க முடியாது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -438,6 +440,9 @@ exports.strings = {
     'vi': 'Bạn không thể xóa nhánh main, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh.',
     'sl_SI': 'Ne moreš izbrisati main brancha, brancha na katerem si trenutno ali stvari, ki niso branchi',
     'pl'   : 'Nie możesz usunąć gałezi main, gałęzi na której aktualnie pracujesz, ani która nie jest gałezią',
+      'it_IT':
+      "Non puoi eliminare il ramo main, il ramo in cui sei, o cose che " +
+      "non sono rami",
     'ta_IN': 'பிரதான கிளை, தற்ப்போது நடப்பில் உள்ள கிளை மற்றும் கிளை அல்லாத வற்றை அழிக்க இயலாது'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -459,6 +464,7 @@ exports.strings = {
     'vi': 'Gộp {target} vào {current}.',
     'sl_SI': 'Mergaj {target} v {current}',
     'pl'   : 'Łączenie {target} z {current}',
+    'it_IT': "Merge  {target} in {current}",
     'ta_IN': '{target}ஐ {current} கிளையுடன் இணை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -480,6 +486,8 @@ exports.strings = {
     'vi': 'Không có commit nào để rebase. Mọi thứ là merge commit hoặc thay đổi đã được áp dụng.',
     'sl_SI': 'Ni commitov za rebase! Vse je merge commit ali pa so spremembe že dodane',
     'pl'   : 'Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane',
+    'it_IT':
+      "Non ci sono commit da ribasare! Sono tutti commit di merge o i cambiamenti sono giò stati applicati",
     'ta_IN': '`rebase` செய்ய எந்த கமிட்டும் இல்லை, அனைத்தும் இணைப்பு கமிட்கள் அல்லது முன்பே இணைக்கப்பட்டவை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -501,6 +509,7 @@ exports.strings = {
     'vi': 'Không có gì để làm ...',
     'sl_SI': 'Ničesar za narediti ...',
     'pl'   : 'Nie ma nic do zrobienia...',
+    'it_IT': "Niente da fare...",
     'ta_IN': 'செய்வதற்க்கு ஒன்றும் இல்லை...'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -522,6 +531,7 @@ exports.strings = {
     'vi': 'Đang fast forward...',
     'sl_SI': 'Fast forwardiranje',
     'pl'   : 'Fast forward...',
+    'it_it': "Fast forwarding...",
     'ta_IN': 'Fast forward...'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -543,6 +553,7 @@ exports.strings = {
     'vi': 'Nhánh đã được cập nhật mới nhất.',
     'sl_SI': 'Branch je že posodobljen',
     'pl'   : 'Branch jest już aktualny',
+    'it_IT': "Il ramo è già aggiornato",
     'ta_IN': 'இந்த கிளை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -564,6 +575,7 @@ exports.strings = {
     'vi': 'Tham chiếu {ref} không tồn tại hoặc không thể tìm thấy.',
     'sl_SI': 'Ref {ref} new obstaja ali je neznan',
     'pl'   : 'Odnośnik {ref} nie istnieje lub jest nieznany',
+    'it_IT': "Il riferimento (ref) {ref} non esiste o è sconosciuto",
     'ta_IN': '{ref} இல்லை அல்லது தெரியவில்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -585,6 +597,7 @@ exports.strings = {
     'vi': 'Commit {commit} mà không có {match}.',
     'sl_SI': 'Commit {commit} nima {match}',
     'pl'   : 'Commit {commit} nie ma {match}',
+    'it_IT': "Commit {commit} non ha un {match}",
     'ta_IN': '{commit}க்கு {match} எதுவும் இல்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
