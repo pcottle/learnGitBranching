@@ -72,6 +72,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Giới thiệu chuỗi luyện tập',
       'sl_SI': 'Uvodno Zaporedje',
       'pl'   : 'Wprowadzenie',
+      'it_IT': "Sequenza introduttiva",
       'ta_IN': 'அறிமுக தொடர் வரிசை'
     },
     about: {
@@ -92,6 +93,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển git',
       'sl_SI': 'Prijeten uvod v git ukaze',
       'pl'   : 'Krótkie wprowadzenie do większości poleceń GIT-a',
+      'it_IT': "Un'introduzione graduale ai principali comandi Git",
       'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்'
     }
   },
@@ -114,6 +116,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Tăng tốc',
       'sl_SI': 'Prva Stopnička',
       'pl'   : 'Rozkręcenie',
+      'it_IT': "Diamoci dentro",
       'ta_IN': 'சற்று அதிகப்படுத்த'
     },
     about: {
@@ -134,6 +137,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Tận hưởng khẩu phần tuyệt hảo của git. Hi vọng bạn còn đói.',
       'sl_SI': 'Naslednja porcija git izjemnosti. Upam, da si lačen',
       'pl'   : 'Następna porcja GIT-a jest niesamowita. Mam nadzieję, że jesteś głodny',
+      'it_IT': "Porzione con il 100% di grandiosità Git, spero tu sia affamato",
       'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்'
     }
   },
@@ -157,6 +161,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Push & Pull -- Tác động git từ xa!',
       'sl_SI': 'Push & Pull -- Oddaljeni Git',
       'pl'   : 'Push & Pull -- Zdalne repozytoria',
+      'it_IT': "Push & Pull -- Git Remotes!",
       'ta_IN': 'Push & Pull -- கிட் Remotes!'
     },
     about: {
@@ -177,6 +182,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng',
       'sl_SI': 'Čas za deljenje tvojih 1 in 0; kodiranje je pravkar postalo socialno',
       'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne',
+      'it_IT':
+        "Ragazzi è arrivato il momento di condividere i vostri 0 e 1; programmare diventa social",
       'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது'
     }
   },
@@ -200,6 +207,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Về với cội nguồn và vươn xa hơn -- nâng cao về các git remote',
       'sl_SI': 'Do Origina In Naprej -- Napredni Oddaljeni Git',
       'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria',
+      'it_IT': "Verso Origin e oltre -- Git Remoto Avanzato!",
       'ta_IN': 'ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!'
     },
     about: {
@@ -220,6 +228,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui ...',
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
       'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
+      'it_IT': "E tu credevi che essere un bravo dittatore fosse divertente...",
       'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...'
     }
   },
@@ -242,6 +251,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Điều chỉnh vị trí',
       'sl_SI': 'Premikanje Dela Naokrog',
       'pl'   : 'Przenoszenie pracy',
+      'it_IT': "Spostare il lavoro in giro",
       'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது'
     },
     about: {
@@ -262,6 +272,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Chỉnh sửa cây lịch sử Git không hề khó',
       'sl_SI': 'Spretno "Git" premikanje po drevesu :P',
       'pl'   : 'GIT dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
+      'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
       'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P'
     }
   },
@@ -284,6 +295,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Những trò mèo đáng đồng tiền bát gạo',
       'sl_SI': 'Mešana Vreča',
       'pl'   : 'Po trochu wszystkiego',
+      'it_IT': "Un po di tutto",
       'ta_IN': 'ஒரு கலப்பு பை'
     },
     about: {
@@ -304,6 +316,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích',
       'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
       'pl'   : 'Po trochu wszystkiego. Wskazówki i triki',
+      'it_IT': "Comandi Git assortiti, trucchi e consigli",
       'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை'
     }
   },
@@ -326,6 +339,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Các chủ đề nâng cao',
       'sl_SI': 'Napredne Teme',
       'pl'   : 'Tematy zaawansowane',
+      'it_IT': "Argomenti avanzati",
       'ta_IN': 'மேம்பட்ட தலைப்புகள்'
     },
     about: {
@@ -346,6 +360,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Mạnh mẽ lên!',
       'sl_SI': 'Za resnično pogumne!',
       'pl'   : 'Dla naprawdę odważnych!',
+      'it_IT': "Per i più temerari!",
       'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!'
     }
   }
