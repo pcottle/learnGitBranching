@@ -175,5 +175,18 @@ exports.dialog = {
       ]
     }
   }],
+    "it_IT": [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Sicuro di voler sbirciare la soluzione?",
+          "",
+          "Io credo in te, dai che ce la fai!",
+        ],
+      },
+    },
+  ],
 };
+
 
