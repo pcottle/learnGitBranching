@@ -19,6 +19,7 @@ exports.strings = {
     'vi': 'Wao! Bạn đã phá đảo, quá tuyệt!',
     'sl_SI': 'Wow! Končal si zadnjo stopnjo, fantastično!',
     'pl': 'Wow! Ukończono ostatni poziom, świetnie!',
+    'it_IT': "Wow! Hai concluso l'ultimo livello, grandioso!",
     'ta_IN': 'ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -41,6 +42,7 @@ exports.strings = {
     'vi': 'Bạn có muốn chuyển sang cấp độ tiếp: *"{nextLevel}"* không?',
     'sl_SI': 'Bi rad nadaljeval na *"{nextLevel}"*, naslednjo stopnjo?',
     'pl': 'Czy chcesz przejść do następnego poziomu - *"{nextLevel}"*?',
+    'it_IT': 'Ti andrebbe di passare al prossimo livello, *"{nextLevel}"*?',
     'ta_IN': 'அடுத்த நிலை * "{nextLevel}" * க்கு செல்ல விரும்புகிறீர்களா?'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -63,6 +65,7 @@ exports.strings = {
     'vi': 'Tuyệt vời! Đáp án của bạn đạt chuẩn thâm chí có thể tốt hơn.',
     'sl_SI': 'Bravo! Izenačil ali celo presegel si našo rešitev.',
     'pl': 'Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.',
+    'it_IT': "Grandioso! Hai uguagliato o migliorato la nostra soluzione.",
     'ta_IN': 'அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -85,6 +88,7 @@ exports.strings = {
     'vi': 'Thử xem bạn có thể giảm xuống {best} không? :D',
     'sl_SI': 'Misliš da lahko spraviš rešitev na {best}? :D',
     'pl': 'Sprawdź, czy dasz radę to zrobić w {best} krokach :D',
+    'it_IT': "Prova a migliorarti facendolo solo con {best} comandi :D",
     'ta_IN': 'நீங்கள் அதை குறைக்க முடியுமா என்று பாருங்கள் {best} :D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -106,6 +110,8 @@ exports.strings = {
     'vi': 'Cảnh báo! Mercurial cần thực hiện thu gom rác và thu nhỏ cây lịch sử của bạn.',
     'sl_SI': 'Opozorilo! Mercurial ima agresivno politiko garbage collectiona in bo obrezal vaše drevo',
     'pl': 'Ostrzeżenie! Mercurial prowadzi agresywną kolekcję śmieci i dlatego musi przycinać Twoje drzewo',
+     'it_IT':
+      "Attenzione! Mercurial ha un garbage collector molto aggressivo e perciò deve potare il tuo albero",
     'ta_IN': 'எச்சரிக்கை! மெர்குரியல் வலிய களிவு சேகரிப்பு செய்கிறது, இதனால் உங்கள் மரத்தை கத்தரிக்க வேண்டிவரும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -127,6 +133,7 @@ exports.strings = {
     'vi': 'Không cần thiết phải dùng tùy chọn -A trên ứng dụng này, cứ commit là được!',
     'sl_SI': 'Opcija -A ni potrebna za to aplikacijo, samo commitaj!',
     'pl': 'Opcja -A nie jest wymagana w tej aplikacji, po prostu zrób `commit`!',
+    'it_IT': "L'opzione -A non è necessiaria, fai semplicemente commit!",
     'ta_IN': 'இந்த பயன்பாட்டிற்கு -A மாற்று தேவையில்லை, `கமிட்` செய்யுங்கள்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -148,6 +155,8 @@ exports.strings = {
     'vi': 'Ứng dụng này không hỗ trợ lệnh `status` vì không có tệp nhớ đệm, thay vì đó hãy dùng lệnh `hg summary`',
     'sl_SI': 'Za to aplikacijo ni na voljo `status` ukaza, ker tu ni `stage-anja` datotek. Poizkusiš lahko `hg summary`',
     'pl' : 'W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`',
+    'it_IT':
+      "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
     'ta_IN': 'கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -169,6 +178,7 @@ exports.strings = {
     'vi': 'Câu lệnh đó cần tùy chọn {option}!',
     'sl_SI': 'Potrebujem opcijo {option} za ta ukaz!',
     'pl': 'Potrzebuję opcji {option} dla tego polecenia!',
+    'it_IT': "Ho bisogno di {option} per quel comando!",
     'ta_IN': 'எனக்கு அந்த கட்டளைக்கு மாற்று {option} தேவை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -190,6 +200,7 @@ exports.strings = {
     'vi': 'Hiện tại thì `hg log` mà không có tùy chọn -f chưa được hỗ trợ, hãy viết thêm -f.',
     'sl_SI': 'hg log brez -f trenutno ni podprt, uporabi -f',
     'pl': '`hg log` bez -f nie jest obecnie obsługiwany, użyj -f',
+    'it_IT': "hg log senza -f non è attualmente supportato, usa -f",
     'ta_IN': '-f இல்லாமல் `hg log` தற்போது ஆதரிக்கப்படவில்லை, -f ஐப் பயன்படுத்தவும்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -211,6 +222,7 @@ exports.strings = {
     'vi': 'HEAD bị tách biệt!',
     'sl_SI': 'Detached head!',
     'pl': 'Odłączono HEAD!',
+    'it_IT': "Testa distaccata (Detached head)!",
     'ta_IN': 'பிரிக்கப்பட்ட தலை!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -232,6 +244,7 @@ exports.strings = {
     'vi': 'Đang trên nhánh {branch}',
     'sl_SI': 'Na branchu {branch}',
     'pl': 'Na branch-u {branch}',
+    'it_IT': "Sul ramo {branch}",
     'ta_IN': '{branch} கிளையில்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -253,6 +266,7 @@ exports.strings = {
     'vi': 'Sẵn sàng để commit! (khi demo thì luôn có thể commit)',
     'sl_SI': 'Pripravljen za commit! (kot vedno v tem demotu)',
     'pl': 'Gotowy commit! (jak zawsze w tym demo)',
+    'it_IT': "Pronto al commit! (come sempre in questa demo)",
     'ta_IN': '`commit` செய்ய தயார்! (இந்த செயல் விளக்கத்தில் எப்போதும் செய்வதை போல)'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -275,6 +289,7 @@ exports.strings = {
     'vi': 'Commit luôn đi cho nóng!',
     'sl_SI': 'Hiter commit.',
     'pl': 'Szybki commit.',
+    'it_IT': "Laura I love you, but our dogs too (Barone & Duchessa)!",
     'ta_IN': 'Quick commit. Go Bears!'
   },
   'git-error-origin-fetch-uptodate': {
@@ -295,6 +310,7 @@ exports.strings = {
     'vi': 'Cập nhật mới nhất rồi!',
     'sl_SI': 'Že posodobljeno!',
     'pl': 'Już aktualne!',
+    'it_IT': "E' gia la versione più recente!",
     'ta_IN': 'ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது!'
   },
   'git-error-origin-fetch-no-ff': {
@@ -315,6 +331,8 @@ exports.strings = {
     'vi': 'Nhánh của bạn không đồng bộ với nhánh remote nên lệnh fetch không thực thi được.',
     'sl_SI': 'Tvoj origin branch ni sinhroniziran z oddaljenim branchem, zato se fetch se ne more izvesti',
     'pl': 'Twój branch nie jest zsynchronizowany ze zdalny branch-em i nie można przeprowadzić pobierania',
+    'it_IT':
+      "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non puù essere eseguito",
     'ta_IN': 'உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது'
   },
   'git-error-origin-push-no-ff': {
@@ -335,6 +353,8 @@ exports.strings = {
     'vi': 'Kho chứa từ xa có sự khác biệt với kho chứa cục bộ của bạn, nên không thể tự động (fast forward) cập nhật thay đổi của bạn (và vì thế hoạt động push của bạn bị từ chối). Vui lòng kéo về thay đổi từ kho chứa từ xa, kết nạp vào nhánh hiện tại, và thử lại lần nữa. Bạn có thể dùng lệnh `git pull` hoặc `git pull --rebase`',
     'sl_SI': 'Oddaljen repozitorij se je ločil od tvojega lokalnega repozitorija, zato nalaganje sprememb ni možno z `fast forward` opcijo (zato je bil `push` zavrnjen). Prosim pull-aj dol nove spremembe iz oddaljenega repozitorija, jih vključi v svoj branch, nato pa poizkusi ponovno. To lahko narediš z `git pull` ali `git pull --rebase`',
     'pl'   : 'Zdalne repozytorium różni się od lokalnego repozytorium, dlatego twoich zmian nie można przesłać za pomocą prostego szybkiego `fast forward` (i dlatego polecenie `push` zostało odrzucone). Najpierw zrób `pull` aby pobrać nowe zmiany do lokalnego repozytorium, zintegruj je z branch-em i spróbuj ponownie. Możesz to zrobić za pomocą `git pull` lub `git pull --rebase`',
+    'it_it':
+      "Il repository remoto è diverso dal tuo repository locale, quindi il caricamento non è un semplice fast forward (e per questo il tuo push è fallito). Per favore esegui pull per scaricare i nuovi cambiamenti dal repository remoto, incorporarli in questo ramo, e provare ancora. Puoi effettuarlo tramite i comandi git pull o git pull --rebase",
     'ta_IN': 'தொலைநிலை களஞ்சியம் உங்கள் களஞ்சியத்திலிருந்து வேறுபட்டுள்ளது, எனவே உங்கள் மாற்றங்களை எளிமையான `fast forward` முறையில் பதிவேற்ற இயலாது (இதனால் உங்கள் `push` நிராகரிக்கப்பட்டது). தொலை களஞ்சியத்தில் புதிய மாற்றங்களை `pull` செய்து, அவற்றை இந்த கிளையில் இணைத்து, மீண்டும் முயற்சிக்கவும். நீங்கள் அவ்வாறு `git pull` அல்லது `git pull --rebase` கட்டளை கொண்டு செய்யலாம்'
   },
   'git-error-remote-branch': {
@@ -355,6 +375,7 @@ exports.strings = {
     'vi': 'Bạn không thể thực thi lệnh đó lên nhánh từ xa.',
     'sl_SI': 'Tega ukaza ne moreš narediti na oddaljenem branchu',
     'pl'   : 'Nie możesz wykonać tego polecenia w zdalnej gałęzi',
+    'it_it': "Non puoi eseguire questo comando su un ramo remoto",
     'ta_IN': 'அந்த கட்டளையை நீங்கள் தொலைநிலை கிளையில் இயக்க முடியாது'
   },
   'git-error-origin-required': {
