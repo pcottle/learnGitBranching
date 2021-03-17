@@ -19,6 +19,7 @@ exports.level = {
     "vi": "Gộp nhánh trong Git",
     "sl_SI": "Merganje v Gitu",
     "pl"   : "Łączenie/Scalanie w GIT (merge)",
+    'it_IT': "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்"
   },
   "hint": {
@@ -39,6 +40,8 @@ exports.level = {
     "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước main)",
     "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred main)',
     "pl"   : "Pamiętaj, aby commit-ować w określonej kolejności (bugFix przed main)",
+    "it_IT":
+      "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க"
   },
   "disabledMap": {
@@ -1286,6 +1289,76 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Rami e fusione",
+              "",
+              "Ottimo! Ora sappaimo come funzionano i commit e i rami. Adesso dobbiamo trovare il modo per unire il lavoro di due rami diversi. Questo ci permetterà di creare un nuovo ramo, aggiungere una nuova funzionalità, e poi riunire il tutto.",
+              "",
+              'Il primo metodo che vediamo per unire il lavoro è `git merge` (fusione). La fusione in Git crea un commit speciale che possiede due genitori distinti. Un commit con due genitori significa "Voglio unire tutto il lavoro da questo e da quest altro genitore, *e anche* di tutti i loro genitori."',
+              "",
+              "E' più semplice con le immagini, vediamolo nella prossima schermata.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              'Qui abbiamo due rami; ognuno di essi ha un commit univoco. Ciò significa che nessuno dei rami contiene per intero il "lavoro" del repository. Sistemiamo le cose con una fusione.',
+              "",
+              "Ora facciamo `merge` del ramo `bugFix` nel `main`.",
+            ],
+            afterMarkdowns: [
+              "WOW! Visto? Prima di tutto, `main` ora punta a un commit con due genitori. Se ripercorri l'albero dei commit dal  `main`, potrai attraversare tutti i commit fino alla radice (root). Questo significa che `main` ora contiene tutto il lavoro del repository.",
+              "",
+              "Hai visto come è cambiato il colore del commit è cambiato? Per imparare più facilmente, ho aggiunto i colori. Ogni ramo ha un colore univoco. Ogni (merge) commit ha un colore che è la combinazione dei colori dei rami che lo compongono.",
+              "",
+              "Qui vediamo che il colore del ramo `main` è la combinazione di tutti i commit , ma il colore di `bugFix` è diverso. Sistemiamolo...",
+            ],
+            command: "git merge bugFix",
+            beforeCommand:
+              "git checkout -b bugFix; git commit; git checkout main; git commit",
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: ["Fondiamo `main` in `bugFix`:"],
+            afterMarkdowns: [
+              "Visto che `bugFix` era un antenato di `main`, git non ha dovuto fare nulla di che; ha semplicemente spostato `bugFix` sullo stesso commit in cui era collegato `main`.",
+              "",
+              "Ora tutti i commit hanno lo stesso colore, il che significa che ogni ramo contiene tutti il lavoro del repository! WoWoWoW!",
+            ],
+            command: "git checkout bugFix; git merge main",
+            beforeCommand:
+              "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Per completare questo livello, esegui i seguenti passaggi:",
+              "",
+              "* Crea un nuovo ramo di nome `bugFix`",
+              "* Seleziona il ramo `bugFix` con il comando `git checkout bugFix`",
+              "* Esegui un commit",
+              "* Ritorna al ramo `main` con `git checkout`",
+              "* Esegui un nuovo commit",
+              "* Fondi il ramo `bugFix` nel `main` con `git merge`",
+              "",
+              '*Ricorda, puoi sempre rivedere questa schermata digitando "objective"!*',
+            ],
+          },
+        },
+      ],
+    },
+
   }
 };

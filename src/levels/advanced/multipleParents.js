@@ -20,6 +20,7 @@ exports.level = {
     'vi': 'Nhiều cha lắm mẹ',
     'sl_SI': 'Več Staršev',
     'ta_IN': 'ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்',
+    'it_IT': "Genitori multipli",
     "pl": "Wielu rodziców",
   },
   "hint": {
@@ -40,6 +41,8 @@ exports.level = {
     'vi': 'Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định',
     'sl_SI': 'Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.',
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
+      'it_IT':
+      "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
   },
   "startDialog": {
@@ -1609,6 +1612,92 @@ exports.level = {
           }
         }
       ]
+    },
+    'it_IT': {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "### Speficicare i genitori",
+              "",
+              "Come il modificatore `~` , anche il modificatore `^` accetta un numero (opzionale) dopo di esso.",
+              "",
+              "Invece che specificare il numero di generazioni di cui tornare indietro (come accade con `~`), il modificatore `^` specifica quale genitore seguire partendo da un merge commit (di fusione). Ricorda che i merge commit hanno genitori multipli, quindi il percorso da seguire può essere ambiguo.",
+              "",
+              'Git normalmente sege il primo genitore partendo da un merge commit, ma specificando un numero con `^` cambia questo comportamento predefinito.',
+              "",
+              "Basta parlare, vediamolo in azione.",
+              "",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Qui abbiamo un merge commit. Se facciamo checkout `main^` senza modificatore, seguiremo il primo genitore dopo il merge commit. ",
+              "",
+              "(*Nell'immagine, il primo genitore è situato direttamente al di sopra al merge commit.*)",
+            ],
+            afterMarkdowns: ["Facile -- questo è quello a cui siamo abituati."],
+            command: "git checkout main^",
+            beforeCommand:
+              "git checkout HEAD^; git commit; git checkout main; git merge C2",
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Ora invece proviamo a specificare il secondo genitore...",
+            ],
+            afterMarkdowns: ["Vedi? Abbiamo seguito il secondo genitore verso l'alto."],
+            command: "git checkout main^2",
+            beforeCommand:
+              "git checkout HEAD^; git commit; git checkout main; git merge C2",
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "I modificatori `^` e `~` riescono a farci muovere lungo l'albero dei commit in modo agevole:",
+            ],
+            afterMarkdowns: ["Super veloce!"],
+            command:
+              "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            beforeCommand:
+              "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit",
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Ancora più sorprendente, questi modificatori possono essere concatenati tra loro! Dai un occhiata:",
+            ],
+            afterMarkdowns: [
+              "Stessi passaggi di prima, ma tutto con un comando.",
+            ],
+            command: "git checkout HEAD~^2~2",
+            beforeCommand:
+              "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "### Mettilo in pratica",
+              "",
+              "Per completare questo livello, crea un nuovo ramo alla destinazione specificata.",
+              "",
+              "Sarebbe facile specificare il commit direttamente (con qualcosa del tipo `C6`), ovvio, ma ti sfido invece a utilizare i modificatori di cui abbiamo parlato!",
+            ],
+          },
+        },
+      ],
     },
   }
 };

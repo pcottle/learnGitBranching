@@ -813,4 +813,37 @@ exports.dialog = {
       ]
     }
   }],
+  "it_IT": [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Benvenuto su Learn Git Branching",
+          "",
+          "Vorresti imparare Git? Bene, sei nel posto giusto! ",
+          '"Learn Git Branching" è il modo più chiaro e interattivo per imparare Git ',
+          "su internet; sarai messo alla prova tramite livelli stimolanti, con dimostrazioni ",
+          "passo a passo sulle sue potenzialità, e perché no, magari ti divertirai lungo questo percorso.",
+          "",
+          "Dopo questa finestra vedrai una varietà di livelli che abbiamo da offrire. Se sei alle",
+          "prime armi, procedi e parti dall'inizio. Se hai delle conoscenze base di Git , ",
+          "prova con gli ultimi livelli più impegnativi.",
+          "",
+          "Puoi vedere tutti i comandi disponibili digitando `show commands` sul terminale.",
+          "",
+          "PS: Preferisci andare direttamente al sandbox?",
+          "Prova ",
+          "[questo link](https://pcottle.github.io/learnGitBranching/?NODEMO?locale=it_IT)",
+          "",
+          "PPS: GitHub (e il settore in generale) sta modificando il nome del ramo di default in `main` invece che `master` ",
+          "leggi [qui per ulteriori dettagli](https://github.com/github/renaming). In modo da adattare questo cambiamento ",
+          "e tenere la retrocompatibilità , questi nomi saranno considerati equivalenti. `main` sarà comunque ",
+          "il nome predefinito. Ci siamo impegnati per aggiornare tutti i livelli, ma ci sarà ",
+          "sicuramente qualcosa che potremmo aver dimenticato. Esegui una PR (o segnala un problema) se ne trovi, ",
+          "vi ringrazio per l'aiuto.",
+        ],
+      },
+    },
+  ],
 };
+ 

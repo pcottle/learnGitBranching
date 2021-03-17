@@ -29,6 +29,7 @@ exports.level = {
     "uk": "Вибираємо всього один коміт",
     "vi": "Chỉ lấy 1 commit",
     "sl_SI": "Izbiranje Samo Enega Commita",
+    "it_IT": "Prendi solo 1 Commit",
     "pl": "Wzięcie tylko 1 commita",
   },
   "hint": {
@@ -47,6 +48,7 @@ exports.level = {
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
     "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
     "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja.",
+    "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
     "pl": "Pamiętaj, interaktywny rebase oraz cherry-picking są tu twoimi przyjaciółmi",
       },
   "startDialog": {
@@ -673,6 +675,45 @@ exports.level = {
           }
         }
       ]
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Commit impilati localmente",
+              "",
+              "Ecco una situazione che accade spesso in fase di sviluppo: Sto cercando di scovare un bug. Per aiutarmi nel mio lavoro di detective, inserisco alcuni comandi per il debug e alcune print per fare stampe.",
+              "",
+              "Questi comandi aggiunti per il debug vengono salvati con un commit loro dedicato. Finalmente riesco a beccare il bug, sistemo il tutto, e brindo!",
+              "",
+              "Ora l'unico problema è che devo salvare il lavoro di `bugFix` nel ramo `main`. Se eseguo un semplice fast-forwarded `main`, allora il `main` andrebbe a prendere anche tutto ciò che è stato aggiunto per il debug. Se solo ci fosse un altro modo...",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Dobbiamo dire a Git di fare la copia di un solo commit. Questo assomiglia a quanto visto in precedenza -- possiamo riusare gli stessi comandi:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Per raggiungere l'obiettivo.",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Questo è un livello più avanzato, lascerò a te la libertà di decidere quale comando usare, ma per concludere il livello, assicurati che `main` riceva il commit puntato da `bugFix`.",
+            ],
+          },
+        },
+      ],
     },
   }
 };
