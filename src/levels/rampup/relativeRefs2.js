@@ -18,6 +18,8 @@ exports.level = {
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
     "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này",
     "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje.",
+    "it_IT":
+      "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednego bezpośredniej referencji (hasza).",
   },
   "name": {
@@ -36,6 +38,7 @@ exports.level = {
     "uk": "Відносні посилання №2",
     "vi": "Tham chiếu tương đối #2 (~)",
     "sl_SI": "Relativne Reference #2 (~)",
+    "it_IT": "Riferimenti relativi #2 (~)",
     "pl": "Referencje względne #2 (~)"
   },
   "startDialog": {
@@ -1126,5 +1129,72 @@ exports.level = {
         }
       ]
     },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              '### L\'operatore "~"',
+              "",
+              "Nel caso in cui vuoi risalire di più livelli l'albero dei commit, è una seccatura aggiungere `^` per ogni salto, per questo Git ha l'operatore tilde(~).",
+              "",
+              "",
+              "A questo operatore si può (facoltativamente) aggiungere un numero che specifica di quanti livelli si vuole risalire l'albero dei commit. Vediamolo in azione.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Specifichiamo il numero di commit con `~`.",
+            ],
+            afterMarkdowns: ["Fatto! Breve ed efficace -- i riferimenti relativi sono stupendi."],
+            command: "git checkout HEAD~4",
+            beforeCommand: "git commit; git commit; git commit",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "### Forzatura dei rami (branch forcing)",
+              "",
+              "Ormai sei un esperto di riferimenti relativi, quindi facciamone realmente *uso* per qualcosa.",
+              "",
+              "Uno dei motivi più comuni per cui uso i riferimenti relativi è per spostare i rami. E' possibile assegnare un ramo a un commit con l'opzione  `-f`. Per esempio:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "sposta (con la forza) il ramo main al terzo antenato di HEAD.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: ["Vediamolo in azione."],
+            afterMarkdowns: [
+              "Ecco qua! I riferimenti relativi ci permettono facilmente di specificare `C1` e il branch forcing (`-f`) ci da modo di spostare rapidamente il ramo su quella posizione.",
+            ],
+            command: "git branch -f main HEAD~3",
+            beforeCommand:
+              "git commit; git commit; git commit; git checkout -b bugFix",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Ora che hai visto i riferimenti relativi e il branch forcing, usiamoli per completare il prossimo livello.",
+              "",
+              "Per completare questo livello, sposta `HEAD`, `main`, e `bugFix` alla loro destinazione finale mostrata nell'obiettivo.",
+            ],
+          },
+        },
+      ],
+    },
+
   }
 };
