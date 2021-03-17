@@ -32,6 +32,7 @@ exports.level = {
     "uk": "Жонглюємо комітами #2",
     "vi": "Tung hứng commit #2",
     "sl_SI": "Žongliranje s Commiti #2",
+    "it_IT": "Giocoliere di commit #2",
     "pl": "Żonglowanie commitami #2",
   },
   "hint": {
@@ -50,6 +51,8 @@ exports.level = {
     "uk": "Не забудь перемістити main на останні зміни!",
     "vi": "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
     "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe.",
+     "it_IT":
+      "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
     "pl": "Nie zapomnij zforwardować maina do najnowszych zmian!",
   },
   "startDialog": {
@@ -735,5 +738,48 @@ exports.level = {
         }
       ]
     },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Giocoliere di commit #2",
+              "",
+              "*Se non hai completato Giocoliere di commit #1 (il livello precedente), sei pregato di farlo prima di proseguire*",
+              "",
+              "Come hai visto nell'ultimo livello, abbiamo usato `rebase -i` per riordinare i commit. Una volta che il commit che volevamo modificare era in cima, abbiamo potuto facilmente fare --amend per poi ritornare nell'ordine di partenza.",
+              "",
+              "L'unico problema qui è che ci sono tanti riordini da fare, che può portare a conflitti nel rebase. Vediamo di farlo attraverso il metodo `git cherry-pick`.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Ricorda che git cherry-pick creerà un qualsiasi commit del repository su HEAD (a condizione che il commit non sia un antenato di HEAD).",
+              "",
+              "Qui un breve demo per rinfrescare la memoria:",
+            ],
+            afterMarkdowns: ["Grande! Andiamo avanti."],
+            command: "git cherry-pick C2",
+            beforeCommand:
+              "git checkout -b bugFix; git commit; git checkout main; git commit",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "In questo livello, dobbiamo fare amend di `C2` una volta, evitando di usare `rebase -i`. Lascerò a te il compito di scoprire come farlo! :D",
+              "",
+              "Ricorda, il numero esatto di apostrofi sul commit non sono importanti, solo le differenze tra essi. Per esempio, considererò l'albero che corrisponde a quello della soluzione ma che ha un apostrofo extra dappertutto.",
+            ],
+          },
+        },
+      ],
+    },
+
   }
 };
