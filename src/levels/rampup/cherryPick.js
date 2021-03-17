@@ -22,6 +22,7 @@ exports.level = {
     "uk": "Знайомство з cherry-pick",
     "vi"   : "Giới thiệu về cherry-pick",
     "sl_SI": "Uvod v Cherry-pick",
+    "it_IT": "Introduzione al cherry-pick",
     "pl": "Wprowadzenie do Cherry-pick'ingu"
   },
   "hint": {
@@ -40,6 +41,7 @@ exports.level = {
     "uk": "git cherry-pick базується на іменах комітів!",
     "vi"   : "git cherry-pick sau đó là tên commit!",
     "sl_SI": "git cherry-pick nato pa imena commitov.",
+    "it_IT": "git cherry-pick seguito dai nomi dei commit!",
     "pl": "git cherry-pick a po nim nazwy commitów!",
   },
   "startDialog": {
@@ -953,6 +955,64 @@ exports.level = {
           }
         }
       ]
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Spostare il lavoro in giro",
+              "",
+              "Fino a ora abbiamo intravisto le basi di git -- creazione di commit, rami, e come spostarsi sull'albero dei commit. Questi concetti sono sufficienti per sfruttare il 90% della potenza di git, e soddisfano gli utilizzi standard degli sviluppatori.",
+              "",
+              'Il restante 10%, può rivelarsi utile in situazioni più complesse (o se ti sei messo nei guai). Il prossimo concetto che affronteremo è lo "spostare il lavoro in giro" -- in altre parole, è un modo per gli sviluppatori di dire "Voglio questo lavoro qua e quel lavoro la" in maniera chiara e precisa.',
+              "",
+              "Sembra un grosso lavoro, ma è un concetto semplice.",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Git Cherry-pick",
+              "",
+              "Il primo comando si chiama `git cherry-pick`. Il comando ha il seguente aspetto:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "E' un modo chiaro e diretto di dire che vuoi la copia di una serie di commit da applicare sulla posizione in cui ti trovi attualmente (`HEAD`). Io personalmente adoro `cherry-pick` perché e semplice e facile da capire.",
+              "",
+              "Vediamo una demo!",
+              "",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "In questo repository abbiamo del lavoro nel ramo `side` che vogliamo copiare nel `main`. Questo può essere eseguito tramite rebase (che abbiamo già imparato), ma vediamo il cherry-pick all'opera.",
+            ],
+            afterMarkdowns: [
+              "Ecco qua! Volevamo i commit `C2` and `C4` e git gli ha copiati sotto di noi. Semplicissimo!",
+            ],
+            command: "git cherry-pick C2 C4",
+            beforeCommand:
+              "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Per completare questo livello, copia il lavoro dai tre rami sul main. Puoi vedere quali sono i commit richiesti guardando l'obbiettivo.",
+              "",
+            ],
+          },
+        },
+      ],
     },
   }
 };
