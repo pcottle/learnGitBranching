@@ -23,6 +23,7 @@ exports.level = {
     "uk"   : "Rebase over 9000 разів",
     "vi"   : "Rebase hơn 9000 lần",
     "sl_SI": "Več kot 9000 Rebaseov",
+    "it_IT": "Rebasing livello 8000",
     "pl"   : "Rebase ponad 9000 razy"
   },
   "hint": {
@@ -41,6 +42,8 @@ exports.level = {
     "uk"   : "Не забувай, що краще всього буде перемістити main в самому кінці... ",
     "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
+    "it_IT":
+      "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
     "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` tylko na samym końcu..."
   },
   "startDialog": {
@@ -330,6 +333,24 @@ exports.level = {
           }
         }
       ]
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "### Fare rebase con più rami",
+              "",
+              "Hey, qui abbiamo un bel po di rami! Facciamo un po di rebase di questi rami nel main.",
+              "",
+              "I piani alti ci stanno rendendo la vita complicata -- vogliono i commit tutti in ordine progressivo. Questo significa che alla fine il nostro albero avrà `C7'` come ultimo commit, `C6'` sopra di esso, e così via, tutto in ordine.",
+              "",
+              "Se ti smarrisci lungo la via, usa `reset` senza problemi per ripartire da capo. Assicurati di raggiungere l'obiettivo e cerca di farlo con il minor numero di comandi!",
+            ],
+          },
+        },
+      ],
     },
   }
 };
