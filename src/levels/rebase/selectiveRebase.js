@@ -22,6 +22,7 @@ exports.level = {
     "uk"   : "Макарони з гілок",
     "vi"   : "Nhánh rối như canh hẹ",
     "sl_SI": "Špageti iz Branchev",
+    "it_IT": "Rami spaghettificati",
     "pl": "Gałęziowe Spaghetti",
   },
   "hint": {
@@ -40,6 +41,7 @@ exports.level = {
     "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
     "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
+    "it_IT": "Assicurati di fare tutto nel giusto ordine! Prima il primo ramo, poi il secondo, poi il terzo",
     "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
   },
   "startDialog": {
@@ -357,6 +359,26 @@ exports.level = {
               "Gałąź `one` wymaga zmiany kolejności i usunięcia `C5`. `two` potrzebuje wyłącznie zmiany kolejności, a `three` potrzebuje tylko jednego commitu!",
               "",
               "Zastanów się, jak rozwiązać to zadanie -- upewnij się i sprawdź nasze rozwiązanie po wykonaniu zadania za pomocą `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rami spaghettificati",
+              "",
+              "Accidenti! C'è tanto da fare per raggiungere l'obiettivo questa volta.",
+              "",
+              "Qui abbiamo il `main` situato qualche commit più avanti rispetto ai rami `one` `two` e `three`. Per una qualche ragione, dobbiamo aggiungere questi altri tre rami con versioni aggiornate degli ultimi commit sul main.",
+              "",
+              "Il ramo `one` deve essere riordinato e il commit`C5` è da rimuovere. `two` deve essere riordinato, e `three` deve avere un solo commit!",
+              "",
+              "Tocca a te capire come farlo -- controlla la soluzione alla fine con il comando `show solution`. "
             ]
           }
         }

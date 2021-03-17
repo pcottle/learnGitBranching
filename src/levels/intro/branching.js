@@ -19,6 +19,7 @@ exports.level = {
     "vi": "Rẽ nhánh với Git",
     "sl_SI": "Branchanje v Gitu",
     "pl"   : "Rozgałęzienia w GIT-cie (branch)",
+    'it_IT': "Creare rami in Git",
     "ta_IN": "கிட் கிளை நிருவாகம்"
   },
   "hint": {
@@ -39,6 +40,8 @@ exports.level = {
     "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
     "pl"   : "Utwórz nowy branch za pomocą \"git branch <branch-name>\" i sprawdź ją za pomocą \"git checkout <branch-name>\"",
+     'it_IT':
+      'Crea un nuovo ramo con "git branch <branch-name>" and selezionalo con "git checkout <branch-name>"',
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக"
   },
   "disabledMap": {
@@ -1505,6 +1508,99 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Rami Git",
+              "",
+              "Anche i rami in Git sono incredibilmenteare leggeri. Sono semplicemente puntatori a uno specifico commit -- nulla di più. Questo è il motivo per cui gli appassionati di Git predicano:",
+              "",
+              "```",
+              "ramifica presto, e ramifica spesso",
+              "```",
+              "",
+              "Perché non c'è un sovraccarico della memoria nel fare molti rami, è più semplice suddividere il lavoro piuttosto che avere rami enormi.",
+              "",
+              'Quando iniziamo a mischiare rami e commit, vedremo come queste caratteristiche si combinano. Per ora però, ricorda che un ramo essenzialmente dice "Voglio includere il lavoro di questo commit e tutti i commit del genitore."',
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Vediamo nella pratica cosa sono i rami.",
+              "",
+              "Qui creeremo un nuovo ramo di nome `newImage`.",
+            ],
+            afterMarkdowns: [
+              "Ecco, questa è la divisione in rami! Il ramo `newImage` ora punta al commit `C1`.",
+            ],
+            command: "git branch newImage",
+            beforeCommand: "",
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Proviamo ad aggiungere un po di lavoro su questo nuovo ramo. Premi il pulsante qua sotto.",
+            ],
+            afterMarkdowns: [
+              "Oh no! Il ramo `main` si è spostato ma il ramo `newImage` no! Questo perché non eravamo sul nuovo ramo, infatti l'asterisco (*) era su `main`.",
+            ],
+            command: "git commit",
+            beforeCommand: "git branch newImage",
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Diciamo a Git che vogliamo selezionare il ramo con",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "Questo ci metterà sul nuovo ramo prima di fare un nuovo commit.",
+            ],
+            afterMarkdowns: [
+              "Ecco qua! I cambiamenti sono stati memorizzati sul nuovo ramo.",
+            ],
+            command: "git checkout newImage; git commit",
+            beforeCommand: "git branch newImage",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "*Nota: In Git versione 2.23, è stato introdotto un nuovo comando, `git switch`, per sostituire `git checkout`, ",
+              "che è sovraccaricato di funzionalità (fa un sacco di cose diverse). Queste lezioni usano comunque ",
+              "`checkout` invece che `switch` perché molti non hanno ancora accesso a `switch`, ma quest'app supporta comunque il comando ",
+              'se sei curioso di provarlo! Potete <a href="https://git-scm.com/docs/git-switch" target="_blank">scoprire di piu qui</a>.* ',
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Ok! Ora sei pronto a lavorare con i rami. Dopo che questa finestra si chiude,",
+              "crea un nuovo ramo `bugFix` e passa su quel ramo.",
+              "",
+              "Comunque, c'è una scorciatoia: se vuoi creare un nuovo ",
+              "ramo E selezionarlo in un solo passaggio, puoi semplicemente ",
+              "digitare `git checkout -b [yourbranchname]`.",
+            ],
+          },
+        },
+      ],
+    },
   }
 };

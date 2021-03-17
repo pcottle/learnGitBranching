@@ -22,6 +22,8 @@ exports.level = {
     "uk"   : "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
     "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase",
     "sl_SI": "Uporabiš lahko bilokateri branch ali relativno referenco (HEAD~), da določiš cilj za rebase.",
+    "it_IT":
+      "Puoi usare sia i rami o i riferimenti relativi (HEAD~) per specificare l'obbiettivo del rebase",
     "pl": "Możesz użyć gałęzi lub referencji względnych (HEAD~), aby określić cel rebase'a"
   },
   "name": {
@@ -40,6 +42,7 @@ exports.level = {
     "uk"   : "Знайомство з інтерактивним rebase",
     "vi"   : "Giới thiệu về tương tác rebase",
     "sl_SI": "Interaktivni uvod v Rebase",
+    "it_IT": "Introduzione al rebase interattivo",
     "pl": "Wprowadzenie do interaktywnego Rebase'a",
   },
   "startDialog": {
@@ -1086,6 +1089,74 @@ exports.level = {
           }
         }
       ]
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Git rebase interattivo",
+              "",
+              "Git cherry-pick è fantastico quando sai quale commit vuoi (_e_ conosci l'hash corrispondente) -- è difficile avere di meglio.",
+              "",
+              "Ma cosa accade se non sai quale commit ti serve? Per fortuna git ci viene in contro anche in questo caso! Possiamo usare il rebase interattivo -- è il miglior modo per rivedere la sequenza di commit di cui stai per fare il rebase.",
+              "",
+              "Vediamolo nel dettaglio...",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Fare rebase interattivo significa usare il comando `rebase` con l'opzione `-i`.",
+              "",
+              "Se aggiungi quest'opzione, git aprirà un'interfaccia per mostrarti quali commit stanno per essere copiati sotto il commit su cui vuoi fare il rebase. Verrà anche mostrato l'hash e il messaggio del commit, il che è grandioso per darci l'idea di cosa è cosa",
+              "",
+              'Nel git "vero", l\'interfaccia che si apre in realtà è un editor di testo come `vim`. Nel nostro caso, ho creato una piccola finestra che si comporta allo stesso modo.',
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Quando la finestra si apre, hai la possibilità di fare due cose:",
+              "",
+              "* Puoi riordinare i commit modificandone l'ordine (drag & drop con il mouse).",
+              "* Puoi decidere se conservare tutti i commit o rimuoverne qualcuno. Quando la finestra si apre, ogni commit è considerato preso dal pulsante `pick` " +
+                "attivo affianco a esso. Per scartare un commit, disattiva il suo pulsante `pick`.",
+              "",
+              "*Vale la pena ricordare che nel vero rebase interattivo puoi fare molte più cose come lo squashing (combinazione) di commit, " +
+                "la modifica del messaggio di commit (amending), e perfino la modifica dello stesso commit. Noi ci concentreremo sulle due funzioni descritte sopra.*",
+              "",
+              "Bene! Vediamo un esempio.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Quando premi il pulsante, apparira la finestra del rebase interattivo. Riordina qualche commit (o sentiti libero di scartarne qualcuno) e vediamo il risultato!",
+            ],
+            afterMarkdowns: [
+              "Boom! Git ha fatto la copia nell'ordine esatto che hai specificato nell'interfaccia grafica.",
+            ],
+            command: "git rebase -i HEAD~4 --aboveAll",
+            beforeCommand: "git commit; git commit; git commit; git commit",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Per concludere questo livello, esegui un rebase interattivo e raggiungi l'obiettivo mostrato. Ricordati che puoi sempre fare `undo` o `reset` per correggere gli errori :D",
+            ],
+          },
+        },
+      ],
     },
   }
 };

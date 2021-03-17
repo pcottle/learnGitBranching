@@ -33,6 +33,7 @@ exports.level = {
     "uk": "Жонглюємо комітами",
     "vi": "Tung hứng commit",
     "sl_SI": "Žongliranje s Commiti",
+    "it_IT": "Giocoliere di Commit",
     "pl": "Żonglowanie commitami",
   },
   "hint": {
@@ -51,6 +52,7 @@ exports.level = {
     "uk": "Перша команда має бути git rebase -i HEAD~2",
     "vi": "Lệnh đầu tiên là git rebase -i HEAD~2",
     "sl_SI": "Prvi ukaz je git rebase -i HEAD~2.",
+    "it_IT": "Il primo comando è git rebase -i HEAD~2",
     "pl": "Pierwszą komendą jest git rebase -i HEAD~2",
   },
   "startDialog": {
@@ -601,6 +603,40 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Giocoliere di commit",
+              "",
+              "Ecco una situazione che capita spesso. Hai dei cambiamenti (`newImage`) e un altro insieme di modifiche (`caption`) che sono collegate tra loro, quindi sono posizionate una dopo l'altra nel repository.",
+              "",
+              "La cosa complicata è che a volte hai bisogno di fare una piccola modifica a un commit precedente. In questo caso, dobbiamo apporre una modifica a `newImage`, anche se questo commit non risulta essere l'ultimo!!",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Supereremo queste difficoltà facendo i seguenti passaggi:",
+              "",
+              "* Riordineremo i commit in modo che quello che vogliamo modificare risulti l'ultimo con `git rebase -i`",
+              "* Faremo `git commit --amend` per apporre la modifica",
+              "* Riordineremo i commit nello stesso ordine in cui erano, sempre con `git rebase -i`",
+              "* Alla fine, sposteremo main in questo ramo aggiornato dell'albero per finire il livello (utilizzate il metodo che volete)",
+              "",
+              "Ci sono vari modi per raggiungere l'obbiettivo finale (vedo che strizzi l'occhio verso cherry-pick), e ne vedremo altri più tardi, ma per ora concentriamoci su questa tecnica.",
+              "In fine, presta attenzione all'obiettivo -- visto che spostiamo i commit due volte, a entrambi viene messo un apostrofo. Un ulteriore apostrofo è aggiunto per il commit --amend, che completa in fine l'albero.",
+              "",
+              "Detto questo, posso confrontare i livelli in base alla struttura e i relativi apostrofi. Finchè il tuo ramo `main` avrà la stessa struttura con i giusti apostrofi, ti darò pieni voti.",
+            ],
+          },
+        },
+      ],
+    },
   }
 };

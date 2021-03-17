@@ -18,6 +18,7 @@ exports.level = {
     "uk"   : "Git Tags",
     "vi"   : "Tag trong Git",
     "sl_SI": "Git Tagi",
+    "it_IT": "Git Tag",
     "pl": "Git Tagi",
   },
   "hint": {
@@ -36,6 +37,8 @@ exports.level = {
     "uk"   : "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
     "vi"   : "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!",
     "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!",
+    "it_IT":
+      "Puoi fare direttamente checkout del commit o semplicemente del tag!",
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
   },
   "startDialog": {
@@ -870,6 +873,58 @@ exports.level = {
           }
         }
       ]
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Git Tag",
+              "",
+              "Come hai già imparato nelle lezioni precedenti, i rami sono facili da spostare e puntano a commit differenti man mano che il lavoro avanza. I rami subiscono modifiche, spesso temporaneamente, ma sono sempre in continua evoluzione.",
+              "",
+              "Ti starai chedendo se esiste un modo *definitivo* per segnare un particolare commit del repository. Nel caso di release importanti e grandi merge (fusioni), esiste un modo per segnare questi commit con qualcosa di più permanente dei rami?",
+              "",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              'Ci puoi scommettere! Git tags serve proprio a questo -- i tag contrassegnano in modo permanente dei commit "importanti" a cui puoi far riferimento come avviene con i rami.',
+              "",
+              'Ancora più importante il fatto che non si spostano anche se vengono eseguiti nuovi commit. Non puoi selezionare un tag e aggiungere del lavoro su quel tag -- i tag esistono come ancore nell\'albero dei commit, e si riferiscono a determinati punti.',
+              "",
+              "Vediamo in pratica a cosa servono i tag.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Creiamo un tag in `C1` che è la nostra versione 1 del prototipo.",
+            ],
+            afterMarkdowns: [
+              "Ecco! Abbastanza facile. Abbiamo creato il tag `v1` che si riferisce al solo commit `C1`. Se non specifichi il commit, git creera il tag sul commit puntato da `HEAD`.",
+            ],
+            command: "git tag v1 C1",
+            beforeCommand: "git commit",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "In questo livello riproduci gli stessi tag mostrati nell'obbiettivo, e alla fine seleziona il tag `v1`. Presta attenzione a come vai nello stato di detached `HEAD` -- questo perché non puoi creare commit direttamente dal tag `v1.",
+              "",
+              "Nel livello successivo vedremo un utilizzo più interessante dell'uso dei tag.",
+            ],
+          },
+        },
+      ],
     },
   }
 };

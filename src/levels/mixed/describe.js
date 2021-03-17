@@ -18,6 +18,7 @@ exports.level = {
     "uk"   : "Git Describe",
     "vi": "Git Describe(mô tả)",
     "sl_SI": "Git Describe",
+    "it_IT": "Git Describe",
     "pl": "Git Describe"
   },
   "hint": {
@@ -36,6 +37,7 @@ exports.level = {
     "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
     "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
     "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje.",
+    "it_IT": "Fai un commit da bugFix per procedere",
     "pl": "Zcommituj raz na bugFix kiedy jesteś gotowy, aby przejść dalej",
   },
   "startDialog": {
@@ -1050,6 +1052,70 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "### Git Describe",
+              "",
+              'Visto che i tag fungono da "ancore", si può usare il comando `git describe` per capire dove ci si trova in riferimento all\'"ancora" (tag) più vicina!',
+              "",
+              "Git describe aiuta ad orientarti dopo che hai creato molti commit su per giù nell'albero; oppure dopo che hai concluso un git bisect (per ricercare bug) o quando utilizzi il computer di un collega che è appena tornato dalle vacanze.",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Git describe ha questa forma:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Dove `<ref>` è qualunque cosa che può indicare un commit. Se non specifichi un ref, git farà riferimento alla tua posizione attuale (`HEAD`).",
+              "",
+              "L'output del comando sarà:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Dove `tag` è il tag antenato più vicino, `numCommits` corrisponde al numero di commit tra ref e il tag, e `<hash>` è l'hash del commit che è descritto.",
+            ],
+          },
+        },
+        {
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
+              "Vediamo un esempio semplice. In quest'albero:",
+            ],
+            afterMarkdowns: [
+              "Il comando `git describe main` genera come output:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "Mentre `git describe side` genererà:",
+              "",
+              "`v2_1_gC4`",
+            ],
+            command: "git tag v2 C3",
+            beforeCommand:
+              "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0",
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Questo è più o meno quanto fa git describe! Prova questo comando in vari punti in questo livello per prendere confidenza.",
+              "",
+              "Quando hai finito, procedi e crea un commit per concludere il livello. Consideralo un omaggio della casa :P",
+            ],
+          },
+        },
+      ],
+    },
   }
 };
