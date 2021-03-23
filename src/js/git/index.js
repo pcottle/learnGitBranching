@@ -1610,6 +1610,19 @@ GitEngine.prototype.commit = function(options) {
   return newCommit;
 };
 
+GitEngine.prototype.resolveNameNoPrefix = function(someRef) {
+  // first get the obj
+  var obj = this.resolveID(someRef);
+  if (obj.get('type') == 'commit') {
+    return obj.get('id');
+  }
+  if (obj.get('type') == 'branch') {
+    return obj.get('id').replace(/\bmaster\b/, 'main');
+  }
+  // we are dealing with HEAD
+  return this.resolveNameNoPrefix(obj.get('target'));
+};
+
 GitEngine.prototype.resolveName = function(someRef) {
   // first get the obj
   var obj = this.resolveID(someRef);
@@ -2740,7 +2753,7 @@ GitEngine.prototype.status = function() {
   if (this.getDetachedHead()) {
     lines.push(intl.str('git-status-detached'));
   } else {
-    var branchName = this.HEAD.get('target').get('id');
+    var branchName = this.resolveNameNoPrefix('HEAD');
     lines.push(intl.str('git-status-onbranch', {branch: branchName}));
   }
   lines.push('Changes to be committed:');
