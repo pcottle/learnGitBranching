@@ -467,7 +467,7 @@ var VisBranch = VisBase.extend({
       return;
     }
 
-    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var commandStr = 'git checkout ' + this.gitEngine.resolveNameNoPrefix(this.get('branch'))
     var Main = require('../app');
     Main.getEventBaton().trigger('commandSubmitted', commandStr);
   },
