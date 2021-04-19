@@ -79,7 +79,7 @@ var LevelBuilder = Level.extend({
   initGoalData: function() {
     // add some default behavior in the beginning if we are not editing
     if (!this.options.editLevel) {
-      this.level.goalTreeString = '{"branches":{"master":{"target":"C1","id":"master"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
+      this.level.goalTreeString = '{"branches":{"main":{"target":"C1","id":"main"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
       this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
     }
     LevelBuilder.__super__.initGoalData.apply(this, arguments);
@@ -294,8 +294,8 @@ var LevelBuilder = Level.extend({
       this.defineName();
     }
 
-    var masterDeferred = Q.defer();
-    var chain = masterDeferred.promise;
+    var mainDeferred = Q.defer();
+    var chain = mainDeferred.promise;
 
     if (this.level.hint === undefined) {
       var askForHintDeferred = Q.defer();
@@ -355,7 +355,7 @@ var LevelBuilder = Level.extend({
       command.finishWith(deferred);
     }.bind(this));
 
-    masterDeferred.resolve();
+    mainDeferred.resolve();
   },
 
   getExportObj: function() {

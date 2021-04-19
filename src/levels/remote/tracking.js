@@ -1,7 +1,7 @@
 exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%2C%22o/master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/master%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22master%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22master%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22master%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
+  "goalTreeString": "%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%7D%2C%22o/main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
   "solutionCommand": "git checkout -b side o/main;git commit;git pull --rebase;git push",
-  "startTree": "{\"branches\":{\"master\":{\"target\":\"C1\",\"id\":\"master\",\"remoteTrackingBranchID\":\"o/master\"},\"o/master\":{\"target\":\"C1\",\"id\":\"o/master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"master\":{\"target\":\"C2\",\"id\":\"master\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}}",
+  "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Tracking",
     "zh_CN": "远程追踪",
@@ -317,13 +317,13 @@ exports.level = {
             "markdowns": [
               "### ¿Puedo especificarlo yo?",
               "",
-              "¡Claro que sí! Podés hacer que cualquier rama que quieras trackee `o/main`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `main`. Eso significa que podés correr `git push` en una rama llamada `absolutamenteNoEsMaster` y ¡que tu trabajo se pushee a la rama `main` del remoto!",
+              "¡Claro que sí! Podés hacer que cualquier rama que quieras trackee `o/main`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `main`. Eso significa que podés correr `git push` en una rama llamada `absolutamenteNoEsMain` y ¡que tu trabajo se pushee a la rama `main` del remoto!",
               "",
               "Hay dos formas de establecer esta propiedad. La primera es checkoutear una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
               "",
-              "`git checkout -b absolutamenteNoEsMaster o/main`",
+              "`git checkout -b absolutamenteNoEsMain o/main`",
               "",
-              "Crea una nueva rama llamada `absolutamenteNoEsMaster` y la hace trackear a `o/main`."
+              "Crea una nueva rama llamada `absolutamenteNoEsMain` y la hace trackear a `o/main`."
             ]
           }
         },
@@ -437,13 +437,13 @@ exports.level = {
             "markdowns": [
               "### ¿Puedo especificarlo yo?",
               "",
-              "¡Claro que sí! Puedes hacer que cualquier rama que quieras trackee `o/main`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `main`. Eso significa que puedes ejecutar `git push` en una rama llamada `absolutamenteNoEsMaster` y ¡que tu trabajo se pushee a la rama `main` del remoto!",
+              "¡Claro que sí! Puedes hacer que cualquier rama que quieras trackee `o/main`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `main`. Eso significa que puedes ejecutar `git push` en una rama llamada `absolutamenteNoEsMain` y ¡que tu trabajo se pushee a la rama `main` del remoto!",
               "",
               "Hay dos formas de establecer esta propiedad. La primera es hacer checkout sobre una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
               "",
-              "`git checkout -b absolutamenteNoEsMaster o/main`",
+              "`git checkout -b absolutamenteNoEsMain o/main`",
               "",
-              "Crea una nueva rama llamada `absolutamenteNoEsMaster` y la hace trackear a `o/main`."
+              "Crea una nueva rama llamada `absolutamenteNoEsMain` y la hace trackear a `o/main`."
             ]
           }
         },
@@ -555,13 +555,13 @@ exports.level = {
             "markdowns": [
               "### Posso eu mesmo especificar isso?",
               "",
-              "Sim, você pode! Você pode fazer com que qualquer ramo arbitrário siga o `o/main`, e se você fizer isso, esse ramo terá o mesmo destino de push implícito que e o mesmo alvo de merge que o `main`. Isso significa que você pode executar `git push` em um ramo chamado `realmenteNaoSouOMaster` e ainda assim ter seu trabalho enviado ao ramo `main` do repositório remoto!",
+              "Sim, você pode! Você pode fazer com que qualquer ramo arbitrário siga o `o/main`, e se você fizer isso, esse ramo terá o mesmo destino de push implícito que e o mesmo alvo de merge que o `main`. Isso significa que você pode executar `git push` em um ramo chamado `realmenteNaoSouOMain` e ainda assim ter seu trabalho enviado ao ramo `main` do repositório remoto!",
               "",
               "Há duas formas de configurar essa propriedade. A primeira consiste em fazer checkout de um novo ramo usando o ramo remoto como especificação de referência. Executar",
               "",
-              "`git checkout -b realmenteNaoSouOMaster o/main`",
+              "`git checkout -b realmenteNaoSouOMain o/main`",
               "",
-              "Cria um novo ramo chamado `realmenteNaoSouOMaster` e o configura para seguir o `o/main`."
+              "Cria um novo ramo chamado `realmenteNaoSouOMain` e o configura para seguir o `o/main`."
             ]
           }
         },
@@ -675,13 +675,13 @@ exports.level = {
             "markdowns": [
               "### ¿Podo especificalo eu?",
               "",
-              "¡Claro que sí! Podes facer que calquera rama que quixeras seguir `o/main`, e se o fixeras, esa rama vai ter o mesmo destino implícito de push e  obxectivo implícito de merge que `main`. Eso significa que podes executar `git push` nunha rama chamada `nonMaster` e ¡que o teu traballo se empurre á rama `main` do remoto!",
+              "¡Claro que sí! Podes facer que calquera rama que quixeras seguir `o/main`, e se o fixeras, esa rama vai ter o mesmo destino implícito de push e  obxectivo implícito de merge que `main`. Eso significa que podes executar `git push` nunha rama chamada `nonMain` e ¡que o teu traballo se empurre á rama `main` do remoto!",
               "",
               "Hai dúas formas de establecer esta propiedade. A primeira é facer checkout a unha nova rama empregando unha rama remota como a referencia especificada. Executar",
               "",
-              "`git checkout -b nonMaster o/main`",
+              "`git checkout -b nonMain o/main`",
               "",
-              "Crea unha nova rama chamada `nonMaster` e persigue a `o/main`."
+              "Crea unha nova rama chamada `nonMain` e persigue a `o/main`."
             ]
           }
         },
@@ -1024,13 +1024,13 @@ exports.level = {
             "markdowns": [
               "### Kann ich das auch selbst machen?",
               "",
-              "Na klar! Du kannst jeden beliebigen Branch so einstellen, dass er `o/main` trackt, und wenn du das tust wird der Branch dieselben impliziten Zielangaben für `push` und `pull` haben wie `main`. Du kannst also `git push` auf dem Branch `absolut_nicht_master` ausführen und deine Commits auf `main` des entfernten Servers schieben lassen.",
+              "Na klar! Du kannst jeden beliebigen Branch so einstellen, dass er `o/main` trackt, und wenn du das tust wird der Branch dieselben impliziten Zielangaben für `push` und `pull` haben wie `main`. Du kannst also `git push` auf dem Branch `absolut_nicht_main` ausführen und deine Commits auf `main` des entfernten Servers schieben lassen.",
               "",
               "Es gibt zwei Möglichkeiten diese Eigenschaft zu definieren. Die erste ist, einen neuen lokalen Branch von einem Remote Branch auszuchecken. Wenn man",
               "",
-              "    git checkout -b absolut_nicht_master o/main",
+              "    git checkout -b absolut_nicht_main o/main",
               "",
-              "eingibt, wird ein neuer lokaler Branch namens `absolut_nicht_master` angelegt, der `o/main` trackt."
+              "eingibt, wird ein neuer lokaler Branch namens `absolut_nicht_main` angelegt, der `o/main` trackt."
             ]
           }
         },
@@ -1262,7 +1262,7 @@ exports.level = {
             "markdowns": [
               "### 私は自分でトラッキングを設定できますか？",
               "",
-              "はい、できます！あなたは、全てのブランチについて`o/main`との追跡を設定でき、もしそうした時は、同じ暗黙のプッシュ先と取り込み先を`main`として設定します。これは、例えば`tottallyNotMaster`という名前のブランチで`git push`を走らせ、作業をリモートの`main`ブランチにプッシュするといったことができるということを意味しています！",
+              "はい、できます！あなたは、全てのブランチについて`o/main`との追跡を設定でき、もしそうした時は、同じ暗黙のプッシュ先と取り込み先を`main`として設定します。これは、例えば`tottallyNotMain`という名前のブランチで`git push`を走らせ、作業をリモートの`main`ブランチにプッシュするといったことができるということを意味しています！",
               "",
               "このプロパティを設定するには2つの方法があります。一つ目は、リモートブランチのリファレンスを使用して新しいブランチをチェックアウトするというものです。例えば次のコマンドを走らせてます",
               "",
@@ -1349,7 +1349,7 @@ exports.level = {
               "지난 몇개의 레슨에서 \"마법\"처럼 보일 수 있는게 하나 있었는데, git이 `main`브랜치가 `o/main`와 연관 되어있는걸 안다는 것입니다. 물론 이 두 브랜치가 이름이 비슷하기 때문에 로컬 `main`브랜치가 원격의 `main`브랜치와 연결 되어있다고 하자면 어찌 논리적으로 말이 되긴 합니다만..., 이 연결은 두가지 시나리오를 통해 뚜렷하게 확인이 됩니다:",
               "",
               "* pull 작업을 하는 도중, 커밋들은 `o/main`에 내려받아 지고 그다음 `main` 브랜치로 *merge*됩니다. merge에서 내재된 타겟은 이 연결에서 결정합니다.",
-              "* push 작업을 하는 도중, `main` 브랜치의 작업은 원격의 `main`브랜치(로컬에서 `o/main`로 표현되는)로 push 됩니다. push의 *목적지*는 master와 `o/main`의 연결에서 결정됩니다.",
+              "* push 작업을 하는 도중, `main` 브랜치의 작업은 원격의 `main`브랜치(로컬에서 `o/main`로 표현되는)로 push 됩니다. push의 *목적지*는 main와 `o/main`의 연결에서 결정됩니다.",
               ""
             ]
           }
@@ -1734,13 +1734,13 @@ exports.level = {
             "markdowns": [
               "### Ali ga lahko določim sam?",
               "",
-              "Seveda se da! Narediš lahko, da bilokateri branch sledi `o/main`. V tem primeru bo imel ta branch enak impliciran cilj za push in merge kot `main`. To pomeni, da lahko poženeš `git push` na branchu poimenovanem `splohNiMaster` in pushas svoje delo na `main` branch na oddaljenem repotu!",
+              "Seveda se da! Narediš lahko, da bilokateri branch sledi `o/main`. V tem primeru bo imel ta branch enak impliciran cilj za push in merge kot `main`. To pomeni, da lahko poženeš `git push` na branchu poimenovanem `splohNiMain` in pushas svoje delo na `main` branch na oddaljenem repotu!",
               "",
               "Obstajata dva načina, da nastaviš to lastnost. Prvi je, da checkoutaš nov branch z uporabo oddaljenega brancha kot določeno referenca. Izvedba",
               "",
-              "`git checkout -b splohNiMaster o/main`",
+              "`git checkout -b splohNiMain o/main`",
               "",
-              "Ustvari nov branch imenovan `splohNiMaster` in nastavi, da sledi `o/main`."
+              "Ustvari nov branch imenovan `splohNiMain` in nastavi, da sledi `o/main`."
             ]
           }
         },

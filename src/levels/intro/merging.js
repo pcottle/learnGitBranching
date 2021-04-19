@@ -1,5 +1,5 @@
 exports.level = {
-  "goalTreeString": "{\"branches\":{\"master\":{\"target\":\"C4\",\"id\":\"master\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"master\",\"id\":\"HEAD\"}}",
+  "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
@@ -25,7 +25,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
-    "ja"　　　: "指示された順番でコミットすること（masterの前にbugFixで）",
+    "ja"　　　: "指示された順番でコミットすること（mainの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de main)",
     "es_MX": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "es_ES": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",

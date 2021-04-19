@@ -30,7 +30,7 @@ var indexFile = readFileSync('src/template.index.html').toString();
 var indexTemplate = _.template(indexFile);
 
 var compliments = [
-  'Thanks to Hongarc for the modern and amazing gulp workflow!',
+  'Thanks to Hong4rc for the modern and amazing gulp workflow!',
   'I hope you all have a great day :)'
 ];
 var compliment = (done) => {
@@ -157,7 +157,7 @@ var gitAdd = function(done) {
   done();
 };
 
-var gitDeployMergeMaster = function(done) {
+var gitDeployMergeMain = function(done) {
   execSync('git checkout gh-pages && git merge master -m "merge master"');
   done();
 };
@@ -184,7 +184,7 @@ var deploy = series(
   clean,
   jasmine,
   jshint,
-  gitDeployMergeMaster,
+  gitDeployMergeMain,
   build,
   gitDeployPushOrigin,
   compliment

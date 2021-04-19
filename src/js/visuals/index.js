@@ -550,8 +550,8 @@ GitVisuals.prototype.calcBranchStacks = function() {
     map[thisId].sort(function(a, b) {
       var aId = a.obj.get('id');
       var bId = b.obj.get('id');
-      if (aId == 'master' || bId == 'master') {
-        return aId == 'master' ? -1 : 1;
+      if (aId == 'main' || bId == 'main') {
+        return aId == 'main' ? -1 : 1;
       }
       return aId.localeCompare(bId);
     });
