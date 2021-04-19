@@ -85,7 +85,7 @@ var Sandbox = Backbone.View.extend({
   },
 
   releaseControl: function() {
-    // we will be handling commands that are submitted, mainly to add the sanadbox
+    // we will be handling commands that are submitted, mainly to add the sandbox
     // functionality (which is included by default in ParseWaterfall())
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
     // we obviously take care of sandbox commands

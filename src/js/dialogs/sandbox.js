@@ -20,7 +20,7 @@ exports.dialog = {
         'Try out ',
         '[this special link](https://pcottle.github.io/learnGitBranching/?NODEMO)',
         '',
-        'PPS: GitHub (and the industry at large) is moving to naming the default branch as `main` instead of `master` ',
+        'PPS: GitHub (and the industry at large) is moving to naming the default branch as `main` instead of `main` ',
         'with [more details available here](https://github.com/github/renaming). In order to accommodate this change in ',
         'a backwards-compatible way, these two names will be considered aliases of each other, with `main` being ',
         'the preferred one to display. We\'ve made a best-effort attempt to update all of the level content, but ',
@@ -803,7 +803,7 @@ exports.dialog = {
         'அப்படியானால் பின் வரும் இணைப்பை பயன்பாடித்துக ',
         '[this special link](https://pcottle.github.io/learnGitBranching/?NODEMO)',
         '',
-        'பின்குறிப்பு: GitHub (பெரிய அளவில் பயன்பாட்டில் உள்ள இணையதலம்) `main` என்ற கிளையை `master`-க்கு பதில் ',
+        'பின்குறிப்பு: GitHub (பெரிய அளவில் பயன்பாட்டில் உள்ள இணையதலம்) `main` என்ற கிளையை `main`-க்கு பதில் ',
         'முன்னிருப்பு கிளையாக பயன் படுத்த உள்ளது [more details available here](https://github.com/github/renaming). ',
         'இந்த மாற்றத்தை பின்னோக்கி இணக்கமான வழியில் பொருத்துவதற்காக, `main`-ஐ முதன்மையாக கருதி ',
         'இந்த இரண்டு பெயர்களும் ஒன்றுக்கொன்று மாற்றுப்பெயர்களாகக் கருதப்படும். ',
@@ -835,7 +835,7 @@ exports.dialog = {
           "Prova ",
           "[questo link](https://pcottle.github.io/learnGitBranching/?NODEMO?locale=it_IT)",
           "",
-          "PPS: GitHub (e il settore in generale) sta modificando il nome del ramo di default in `main` invece che `master` ",
+          "PPS: GitHub (e il settore in generale) sta modificando il nome del ramo di default in `main` invece che `main` ",
           "leggi [qui per ulteriori dettagli](https://github.com/github/renaming). In modo da adattare questo cambiamento ",
           "e tenere la retrocompatibilità , questi nomi saranno considerati equivalenti. `main` sarà comunque ",
           "il nome predefinito. Ci siamo impegnati per aggiornare tutti i livelli, ma ci sarà ",
@@ -846,4 +846,3 @@ exports.dialog = {
     },
   ],
 };
- 
