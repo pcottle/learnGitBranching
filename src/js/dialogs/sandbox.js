@@ -21,9 +21,9 @@ exports.dialog = {
         '[this special link](https://pcottle.github.io/learnGitBranching/?NODEMO)',
         '',
         'PPS: GitHub has started naming the default branch `main` instead of `master` ',
-        'to migrate away from biased terminology [(more details available here)](https://github.com/github/renaming). '.
-	'In accordance with this industry-wide movement, we have also updated LearnGitBranching to '.
-	'use `main` instead of `master` in our lessons. This rename should be fairly consistent by '.
+        'to migrate away from biased terminology [(more details available here)](https://github.com/github/renaming). ',
+	'In accordance with this industry-wide movement, we have also updated LearnGitBranching to ',
+	'use `main` instead of `master` in our lessons. This rename should be fairly consistent by ',
 	'now but if you notice any errors, feel free to submit a PR (or open an issue).'
       ]
     }
