@@ -158,7 +158,7 @@ var gitAdd = function(done) {
 };
 
 var gitDeployMergeMain = function(done) {
-  execSync('git checkout gh-pages && git merge main -m "merge main"');
+  execSync('git checkout gh-pages && git merge master -m "merge master"');
   done();
 };
 
@@ -166,7 +166,7 @@ var gitDeployPushOrigin = function(done) {
   execSync('git commit -am "rebuild for prod"; ' +
     'git push origin gh-pages --force && ' +
     'git branch -f trunk gh-pages && ' +
-    'git checkout main'
+    'git checkout master'
   );
   done();
 };
