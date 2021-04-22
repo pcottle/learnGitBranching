@@ -18,7 +18,7 @@ exports.level = {
     "uk": "Розгалуження в Git",
     "vi": "Rẽ nhánh với Git",
     "sl_SI": "Branchanje v Gitu",
-    "pl"   : "Rozgałęzienia w GIT-cie (branch)",
+    "pl"   : "Rozgałęzienia w Gitcie",
     'it_IT': "Creare rami in Git",
     "ta_IN": "கிட் கிளை நிருவாகம்"
   },
@@ -39,7 +39,7 @@ exports.level = {
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
-    "pl"   : "Utwórz nowy branch za pomocą \"git branch <branch-name>\" i sprawdź ją za pomocą \"git checkout <branch-name>\"",
+    "pl"   : "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i sprawdź ją za pomocą \"git checkout <nazwa-gałęzi>\"",
      'it_IT':
       'Crea un nuovo ramo con "git branch <branch-name>" and selezionalo con "git checkout <branch-name>"',
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக"
@@ -1329,17 +1329,19 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## GIT Branch",
+              "## Git Branch",
               "",
-              "Branch w GIT są niezwykle lekkie. Są po prostu wskazówkami dla konkretnego commit-u (zatwierdzenia) i to wszytko. Dlatego tak wielu entuzjastów GIT-a przestrzega Mantry:",
+              "Gałęzie w Gitcie są niezwykle lekkie. Są po prostu wskazówkami dla konkretnego commita. Wielu entuzjastów gita przestrzega Mantry:",
               "",
               "```",
-              "twórz branch-e wcześnie i często",
+              "twórz gałęzie wcześnie i często",
               "```",
               "",
-              "Ponieważ tworzenie wielu branch-y nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci, dlatego łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, mocne branch-e.",
+              "W polskim nazewnictwie stosuje się wymiennie nawzwę branch oraz gałąź. Natomiast commit (zatwierdzenie) stosuje się tylko w różnych odmienionych formach np. commita, commitów itp",
               "",
-              "Kiedy zaczniemy mieszać branch-e i commit-y, zobaczymy, jak łączą się te dwie funkcje. Na&nbsp;razie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego zatwierdzenia oraz wszystkie commit-y nadrzędnych\"."
+              "Tworzenie wielu gałęzi nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci. Z tego powodu łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, różne od siebie gałęzi.",
+              "",
+              "Kiedy zaczniemy mieszać gałęzie i commity, zobaczymy, jak łączą się te dwie funkcje. Narazie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego commita oraz wszystkie poprzednie commity\"."
             ]
           }
         },
@@ -1347,14 +1349,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zobaczmy, jak wyglądają branch-e (gałęzie) w&nbsp;praktyce.",
+              "Zobaczmy, jak wyglądają gałęzie w praktyce.",
               "",
-              "Tutaj utworzymy nowy branch o nazwie `mojBranch`."
+              "Tutaj utworzymy nową gałąź o nazwie `myBranch`."
             ],
             "afterMarkdowns": [
-              "To wszystko o rozgałęzieniu! Branch (gałąź) `mojBranch` odnosi się teraz do commit-u (zatwierdzenia) `C1`."
+              "To wszystko o rozgałęzianiu! Gałąź `myBranch` odnosi się teraz do commita `C1`."
             ],
-            "command": "git branch mojBranch",
+            "command": "git branch myBranch",
             "beforeCommand": ""
           }
         },
@@ -1362,42 +1364,42 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Spróbujmy trochę popracować nad tą nowym branch-em (gałęzią).\nKliknij przycisk poniżej."
+              "Spróbujmy trochę popracować nad tą nową gałęzią.\nKliknij przycisk poniżej."
             ],
             "afterMarkdowns": [
-              "O nie! branch `main` uległ zmianie, a branch `mojBranch` nie! To dlatego, że nie byliśmy \"w\" nowym branch-u (gałęzi) i dlatego gwiazdka (*) była przy `main`"
+              "O nie! Gałąź `main` uległa zmianie, a gałąź `myBranch` nie! To dlatego, że nie byliśmy \"w\" nowej gałęzi i dlatego, że gwiazdka (*) była przy `main`"
             ],
             "command": "git commit",
-            "beforeCommand": "git branch mojBranch"
+            "beforeCommand": "git branch myBranch"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Powiedzmy GIT-owi, z którym branch-em chcemy pracować",
+              "Powiedzmy gitowi, z którą gałęzią chcemy pracować",
               "",
               "```",
-              "git checkout <nazwa_branch>",
+              "git checkout <nazwa-gałęzi>",
               "```",
               "",
-              "Spowoduje to przeniesienie nas do nowego branch-a przed wprowadzeniem zmian."
+              "Spowoduje to przeniesienie nas do nowej gałęzi przed wprowadzeniem zmian."
             ],
             "afterMarkdowns": [
-              "Gotowe! Nasze zmiany zostały zarejestrowane w nowym branch-u."
+              "Gotowe! Nasze zmiany zostały zarejestrowane w nowej gałęzi."
             ],
-            "command": "git checkout mojBranch; git commit",
-            "beforeCommand": "git branch mojBranch"
+            "command": "git checkout myBranch; git commit",
+            "beforeCommand": "git branch myBranch"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "*Uwaga: w wersji 2.23 GIT-a zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
-              "a jest nieco przeciążony poleceniem (robi ono kilka oddzielnych rzeczy). Lekcje tutaj będą nadal używane",
-              "`checkout` zamiast `switch`, ponieważ większość ludzi nie ma jeszcze dostępu do nowego polecenia `switch`, ale w tej aplikacja obsługuje nowe polecenie, ",
-              "jeśli chcesz możesz ją wypróbować! Możesz dowiedzieć się więcej o poleceniu <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">tutaj</a>.* "
+              "*Uwaga: w wersji 2.23 Gita zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
+              "a jest nieco przeciążonym poleceniem (robi kilka oddzielnych rzeczy). Tutaj nadal będziemy używać",
+              "`checkout` zamiast `switch`, ponieważ wciąż jest najczęściej stosowanym poleceniem",
+              "Jeśli chcesz możesz je wypróbować, ta aplikacja jest na to gotowa! Jeśli chciałbyś dowiedzieć się więcej o poleceniu <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">tutaj</a>.* "
             ]
           }
         },
@@ -1405,12 +1407,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! Teraz jesteś gotowy do samodzielnego tworzenia gałęzi (branching-u).",
-              "Po zamknięciu tego okna, stwórz nowy branch o nazwie `bugFix` i przełącz się na ten branch.",
+              "Okej, teraz jesteś gotowy do samodzielnego tworzenia gałęzi.",
+              "Po zamknięciu tego okna, stwórz nową gałąź o nazwie `bugFix` i przełącz się na nią.",
               "",
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
-              "nowy branch ORAZ przełączyć się na niego w tym samym czasie,",
-              "możesz po prostu wpisać `git checkout -b [nazwa_branch-u]`."
+              "nową gałąź ORAZ przełączyć się na nią w tym samym czasie,",
+              "możesz wpisać `git checkout -b <nazwa-gałęzi>`."
             ]
           }
         }
