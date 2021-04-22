@@ -16,7 +16,7 @@ exports.level = {
     'uk': 'Знайомство з комітами в Git',
     'vi': 'Giới thiệu về Git Commit',
     'sl_SI': "Uvod v Git Commit",
-    'pl'   : "Wprowadzenie do zatwierdzeń GIT-a (commit)",
+    'pl'   : "Wprowadzenie do commitów Gita",
     'it_IT': "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்"
   },
@@ -736,14 +736,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Zatwierdzenia GIT-a (commit)",
-              "`commit` w repozytorium GIT-a rejestruje migawkę wszystkich (śledzonych) plików w twoim katalogu. To jak gigantyczne kopiowanie i wklejanie, ale jeszcze lepsze!",
+              "## Commity Gita",
+              "`commit` w repozytorium Gita rejestruje migawkę wszystkich (śledzonych) plików w twoim katalogu. To jak gigantyczne kopiowanie i wklejanie, ale jeszcze lepsze!",
               "",
-              "GIT stara się, aby commit-y były tak lekkie, jak to tylko możliwe, więc nie kopiuje na ślepo całego katalogu za każdym razem, gdy zatwierdzasz zmiany. Możesz (jeśli to możliwe) skompresować zatwierdzenie jako zestaw zmian (lub _\"delta\"_) między jedną wersją w repozytorium a następną.",
+              "Git stara się, aby commity były tak lekkie, jak to tylko możliwe, więc nie kopiuje na ślepo całego katalogu za każdym razem, gdy zatwierdzasz zmiany. Możesz (jeśli to możliwe) skompresować commita jako zestaw zmian (lub _\"delta\"_) między jedną wersją w repozytorium a następną.",
               "",
-              "GIT przechowuje również historię, kiedy dokonano zatwierdzenia. Dlatego większość commit-ów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Utrzymanie historii jest świetne dla wszystkich, którzy pracują nad projektem!",
+              "Git przechowuje również historię, kiedy dokonano zatwierdzenia. Dlatego większość commitów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Utrzymanie historii jest świetne dla wszystkich, którzy pracują nad projektem!",
               "",
-              "Jest mnóstwo rzeczy do zagłębienia, ale na razie możesz myśleć o commit-ach jako migawkach projektu. Zatwierdzenia są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
+              "Jest mnóstwo rzeczy do zagłębienia, ale na razie możesz myśleć o commitach jako migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
             ]
           }
         },
@@ -751,12 +751,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zobaczmy, jak to wygląda w praktyce. Po prawej stronie mamy wizualizację (małego) repozytorium GIT-a. Istnieją dwa zatwierdzenia:\n początkowy commit `C0`, a następnie po nim commit `C1`, które mogą mieć kilka interesujących zmian.",
+              "Zobaczmy, jak to wygląda w praktyce. Po prawej stronie mamy wizualizację (małego) repozytorium Gita. Istnieją dwa zatwierdzenia:\n początkowy commit `C0`, a następnie po nim commit `C1`, które mogą mieć kilka interesujących zmian.",
               "",
-              "Kliknij poniższy przycisk, aby dokonać nowy commit."
+              "Kliknij poniższy przycisk, aby dodać nowego commita."
             ],
             "afterMarkdowns": [
-              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako zatwierdzenie (commit). Utworzony przez nas commit ma rodzica `C1`, który odnosi się do commit-a, na który został oparty."
+              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako commita. Commit, który właśnie wykonaliśmy ma rodzica `C1`, który odnosi się do commitu, na którym się opierał."
             ],
             "command": "git commit",
             "beforeCommand": ""
@@ -766,7 +766,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Śmiało i wypróbuj to sam! Po zamknięciu tego okna wykonaj dwa zatwierdzenia (tj. commit-y), aby ukończyć poziom."
+              "Śmiało, wypróbuj to sam! Po zamknięciu tego okna wykonaj dwa commity, aby ukończyć poziom."
             ]
           }
         }
