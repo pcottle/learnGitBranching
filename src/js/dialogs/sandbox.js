@@ -727,56 +727,21 @@ exports.dialog = {
       markdowns: [
         '## Witaj w Learn Git Branching!',
         '',
-        'Celem tej aplikacji jest zilustrowanie rozległych i złożonych relacji pomiędzy procesami związanymi z pracą z GIT-em.',
-        'Mam nadzieję, że ci się to spodoba i może nawet się czegoś nauczysz!',
-        '"Learn Git Branching" to najbardziej wizualny i interaktywny sposób na naukę GIT-a w sieci.',
-        'Będziesz miał do czynienia z ekscytującymi poziomami wraz z pokazaniem krok po kroku potężnych funkcji, a może nawet z odrobiną zabawy po drodze.',
+        'Jesteś zainteresowany nauką Gita? Cóż, trafiłeś we właściwe miejsce!',
+        '"Learn Git Branching" jest najbardziej wizualnym i interaktywnym sposobem na naukę gita w sieci.',
+        'Czekają na Ciebie ekscytujące poziomy, demonstracje zaawansowanych funkcji krok po kroku. Może nawet będziesz się dobrze bawić.',
         '',
+        'Po tym oknie dialogowym zobaczysz różnorodność poziomów, które mamy do zaoferowania.',
         'Jeśli jesteś początkujący, po prostu zacznij od pierwszego poziomu.',
-        'Jeśli znasz już podstawy GIT-a, wypróbuj niektóre z naszych późniejszych, bardziej wymagających poziomów.',
+        'Jeśli znasz już podstawy gita, wypróbuj niektóre z naszych późniejszych, bardziej wymagających poziomów.',
         '',
-        '# Demo!',
+        'Możesz zobaczyć wszystkie komendy wpisując `show commands` w terminalu.',
         '',
-        'Jeśli nie widziałeś tej demonstracji, możesz ją obejrzeć tutaj:',
+        'Chcesz następnym razem przejść prosto do trybu piaskownicy? Kilknij [tutaj](https://pcottle.github.io/learnGitBranching/?NODEMO)',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?demo](https://pcottle.github.io/learnGitBranching/?demo)',
-        '',
-        'Masz dość tego okna? Dodaj `?NODEMO` do adresu URL, aby się go pozbyć, w ten sposób:',
-        '',
-        '[https://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Komendy GIT-a',
-        '',
-        'W trybie piaskownicy dostępna jest duża liczba poleceń GIT. Między innymi',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Dzielenie się jest Fajne!',
-        '',
-        'Podziel się tymi drzewami GIT-a z przyjaciółmi, wpisując `export tree` oraz `import tree`.',
-        '',
-        'Czy masz coś, co warto wiedzieć o GIT-cie? Spróbuj zbudować swój poziom wpisując `build level` lub spróbuj poziomu znajomego wpisując `import level`',
-        '',
-        'Aby zobaczyć wszystkie polecenia, wpisz `show commands`. Pod spodem są "małe skarby" jak `undo`(cofnij) i `reset`',
-        '',
-        'Na razie zacznijmy od wpisania `levels`...'
+        'PS. GitHub zaczął nazywać domyślną gałąź `main` zamiast `master`, aby odejść od tendencyjnej terminologii. [(więcej informacji tutaj)](https://github.com/github/renaming)',,
+        'Zgodnie z tym ogólnobranżowym ruchem, zaktualizowaliśmy również "Learn Git Branching", by używać `main` zamiast `master` w naszych zadaniach.',
+        'Ta zmiana nazwy powinna być już w miarę spójna, ale jeśli zauważysz jakieś błędy, nie krępuj się dodać pull request (lub zgłosić issue na githubie - prawy górny róg).'
       ]
     }
   }],

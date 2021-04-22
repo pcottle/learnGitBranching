@@ -1127,11 +1127,11 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "Drugim sposobem na łączenie naszej pracy między branch-ami jest *rebase*. Rebase zasadniczo pobiera zestaw commit-ów, \"kopiuje\" je i umieszcza w innym miejscu.",
+              "Drugim sposobem na łączenie naszej pracy między gałęziami jest *rebase*. Rebase zasadniczo pobiera zestaw commitów, \"kopiuje\" je i umieszcza w innym miejscu.",
               "",
-              "Chociaż brzmi to zagmatwane, zaletą rebase jest to, że można jej użyć do stworzenia ładnej liniowej sekwencji zatwierdzeń. Rebase sprawi, że historia commit-ów w repozytorium będzie wyglądał na dużo prostszy, ponieważ unika się commit-ów scalających (merge).",
+              "Chociaż brzmi to niejasno, zaletą rebase jest to, że można go użyć do stworzenia ładnej, prostej sekwencji commitów. Rebase sprawi, że historia commitów w repozytorium będzie wyglądała na dużo prostszą, ponieważ nia ma wtedy commitów scalających.",
               "",
-              "Zobaczmy to w akcji..."
+              "Sparwdźmy to w akcji..."
             ]
           }
         },
@@ -1139,18 +1139,18 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tutaj znowu mamy dwa gałęzie (branch-e); zwróć uwagę, że branch bugFix jest aktualnie wybrany (zwróć uwagę, że ma gwiazdkę)",
+              "Tutaj znowu mamy dwa gałęzie. Zwróć uwagę, że gałąź bugFix jest aktualnie wybrana (zwróć uwagę, że ma gwiazdkę)",
               "",
-              "Chcielibyśmy przenieść nasze pracę z branch-a bugFix bezpośrednio do branch-a main. W&nbsp;ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
+              "Chcielibyśmy przenieść nasze pracę z gałęzi bugFix bezpośrednio na gałąź main. W ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
               "",
               "Zróbmy to za pomocą polecenia `git rebase`."
             ],
             "afterMarkdowns": [
-              "Świetnie! Teraz nasz branch bugFix znajduje się tuż nad main i mamy ładną liniową sekwencję zatwierdzeń tj. commit-ów.",
+              "Świetnie! Teraz nasz branch bugFix znajduje się tuż nad main i mamy ładną liniową sekwencję commitów.",
               "",
-              "Zauważ, że commit C3 nadal gdzieś istnieje (ma wyblakły wygląd w drzewie), a commit C3' jest \"kopią\", którą nadpisujemy na main.",
+              "Zauważ, że commit C3 nadal gdzieś istnieje (jest wyblakły w drzewie), a commit C3' jest \"kopią\", którą przenosimy na main.",
               "",
-              "Jedynym problemem jest to, że main też nie został zaktualizowany, zróbmy to teraz..."
+              "Jedynym problemem jest to, że `main` nie jest teraz aktualny. Zaktualizujmy go..."
             ],
             "command": "git rebase main",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
@@ -1160,10 +1160,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Jesteśmy teraz na branch-u `main`. Przejdźmy dalej i zróbmy połączenie rebase z branch-em `bugFix`..."
+              "Znajdujemy się na gałęzi `main`. Przejdźmy dalej i zróbmy połączenie rebase z branchem `bugFix`..."
             ],
             "afterMarkdowns": [
-              "Oto jest! Ponieważ `main` był przodkiem `bugFix`, GIT po prostu przesunął odniesienie do branch-a `main` do przodu w historii."
+              "Oto jest! Ponieważ `main` był przodkiem `bugFix`, git po prostu przesunął odniesienie do `main` do przodu w historii."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
@@ -1175,10 +1175,10 @@ exports.level = {
             "markdowns": [
               "Aby ukończyć ten poziom, wykonaj następujące czynności:",
               "",
-              "* Przejdź do nowego utworzonego branch-u o nazwie `bugFix`",
+              "* Przejdź do nowej gałęzi o nazwie `bugFix`",
               "* Zrób commit",
-              "* Wróć do branch-a main i zrób kolejny commit",
-              "* Przejdź do bugFix oraz połącz za pomocą rebase z main",
+              "* Wróć do gałęzi `main` i zrób kolejny commit",
+              "* Przejdź do `bugFix` i połącz za pomocą rebase z main",
               "",
               "Powodzenia, misja zakończona!"
             ]
