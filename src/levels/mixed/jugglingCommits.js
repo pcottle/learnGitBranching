@@ -273,7 +273,7 @@ exports.level = {
             "markdowns": [
               "## Jonglieren mit Commits",
               "",
-              "Eine weitere häufig vorkommende Situation: du hast einige Änderungen in `newImage` und weitere Änderungen in `caption`. Die Änderungen hängen voneinander ab, das heißt in diesem Fall `caption` ist ein Nachfolger von `newImage`.",
+              "Eine weitere häufig vorkommende Situation: Du hast einige Änderungen in `newImage` und weitere Änderungen in `caption`. Die Änderungen hängen voneinander ab, das heißt in diesem Fall `caption` ist ein Nachfolger von `newImage`.",
               "",
               "Nun kann es vorkommen, dass du einen früheren Commit verändern willst. In unserem Fall will die Design-Abteilung, dass die Abmessungen in `newImage` leicht verändert werden, obwohl das mitten in unserer History liegt!"
             ]
@@ -294,7 +294,7 @@ exports.level = {
               "",
               "Beachte den geschilderten Zielzustand. Da wir die Commits zweimal umsortieren, bekommen sie jedes Mal ein Apostroph hinzugefügt (weil sie jedes Mal kopiert werden). Ein weiteres Apostroph entsteht durch den `git commit --amend`.",
               "",
-              "Zuguterletzt noch eine Bemerkung: ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `main` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`main`, ist der Level bestanden."
+              "Zu guter Letzt noch eine Bemerkung: Ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `main` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`main`, ist der Level bestanden."
             ]
           }
         },

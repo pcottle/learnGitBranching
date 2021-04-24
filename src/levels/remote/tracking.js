@@ -1012,7 +1012,7 @@ exports.level = {
               "",
               "Du fragst dich vielleicht wieso diese Eigenschaft auf dem `main` definiert ist, wenn du das doch gar nicht explizit gemacht hast. Naja, beim Clonen eines Repository macht Git das für den `main` automatisch.",
               "",
-              "Während des Clonens erstellt Git einen Remote Branch für jeden Branch, den es auf dem Remote Server findet (also Branches wie `o/main`); dann erstellt es für den Branch, auf den auf dem entfernten Server `HEAD` zeigt (meistens `main`) automatisch einen lokalen Branch und stellt ihn so ein, dass er sein Gegenstück auf dem Server trackt. Deswegen hast du beim clonen vielleicht schon mal dies gesehen:",
+              "Während des Clonens erstellt Git einen Remote Branch für jeden Branch, den es auf dem Remote Server findet (also Branches wie `o/main`); dann erstellt es für den Branch, auf den auf dem entfernten Server `HEAD` zeigt (meistens `main`) automatisch einen lokalen Branch und stellt ihn so ein, dass er sein Gegenstück auf dem Server trackt. Deswegen hast du beim Clonen vielleicht schon mal dies gesehen:",
               "",
               "    local branch \"main\" set to track remote branch \"o/main\""
             ]

@@ -500,7 +500,7 @@ exports.level = {
               "",
               "Leider passt der ganze Name, `origin`, nicht in unsere Darstellung, deshalb benutzen wir hier kurz `o`. :( Merk dir einfach: wenn du echtes Git benutzt, werden die Remotes meistens `origin` heißen!",
               "",
-              "So, das war eine Menge zu verdauen, schauen wir uns das in Aktion an."
+              "So, das war eine Menge zu verdauen. Schauen wir uns das in Aktion an."
             ]
           }
         },
@@ -521,7 +521,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu bewältigen musst du einen Commit in `main` machen und einen nachdem du `o/main` ausgecheckt hast. Das illustriert noch einmal wie sich Branches und Remote Branches unterschiedlich verhalten und dass letztere sich nur verändern, wenn sich ihr Zustand auf dem entfernten Server ändert."
+              "Um diesen Level zu bewältigen, musst du einen Commit in `main` machen und einen, nachdem du `o/main` ausgecheckt hast. Das illustriert noch einmal wie sich Branches und Remote Branches unterschiedlich verhalten und dass letztere sich nur verändern, wenn sich ihr Zustand auf dem entfernten Server ändert."
             ]
           }
         }
