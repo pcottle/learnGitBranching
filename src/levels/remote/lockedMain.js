@@ -93,7 +93,7 @@ exports.level = {
             "markdowns": [
               "## Wieso wurde diese Aktion zurückgewiesen?",
               "",
-              "Auf Grund der serverseitig voreingestellten Richtlinien sind direkte Änderungen am Main-Branch nicht erlaubt, und erfordert einen Pull-Request.",
+              "Auf Grund der serverseitig voreingestellten Richtlinien sind direkte Änderungen am Main-Branch nicht erlaubt und erfordern einen Pull-Request.",
               "",
               "Um die eigenen lokalen Änderungen in den Main-Branch einbringen zu können, ist es erforderlich einen lokalen Feature-Branch zu erstellen. Dieser Feature-Branch muss dann auf den Server hochgeladen werden, damit dann ein Pull-Request eingeleitet werden kann. Dies wurde vorher durch den direkten Push des Main-Branch nicht berücksichtigt, weswegen man die Änderungen nicht hochladen konnte."
             ]

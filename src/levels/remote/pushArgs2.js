@@ -607,7 +607,7 @@ exports.level = {
               "",
               "Du erinnerst dich von dem vorherigen Level, dass, als wir `main` als \"Ort\" beim `git push` angegeben haben, daraus sowohl die *Quelle* als auch das *Ziel* für die Operation abgeleitet wurden.",
               "",
-              "Daher fragst du dich vielleicht -- was wenn wir möchten, dass Quelle und Ziel verschieden voneinander sind? Was wenn du Commits von einem lokalen Branch `foo` in den Branch `bar` auf einem Server schieben möchtest?",
+              "Daher fragst du dich vielleicht -- was wäre, wenn wir möchten, dass Quelle und Ziel verschieden voneinander sind? Was wäre, wenn du Commits von einem lokalen Branch `foo` in den Branch `bar` auf einem Server schieben möchtest?",
               "",
               "Tja, leider ist das in Git unmöglich .... ein Scherz! Natürlich ist das möglich. Git besitzt tonnenweise Flexibilität (eher zu viel, als zu wenig).",
               "",

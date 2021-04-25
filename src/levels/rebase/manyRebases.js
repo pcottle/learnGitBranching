@@ -28,7 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
-    "de_DE": "Nicht vergessen: nur den main zu aktualisieren könnte die effizienteste Möglichkeit sein ...",
+    "de_DE": "Nicht vergessen: Nur den main zu aktualisieren könnte die effizienteste Möglichkeit sein ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar main sólo al final...",
     "es_ES": "Recuerda, la manera más eficiente podría ser actualizar main sólo al final...",
     "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o main por último...",

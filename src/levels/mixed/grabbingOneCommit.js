@@ -34,7 +34,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
-    "de_DE": "Vergiss nicht: hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
+    "de_DE": "Vergiss nicht: Hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "es_ES": "Recuerda, el rebase interactivo y el cherry-pick son tus amigos",
@@ -292,7 +292,7 @@ exports.level = {
             "markdowns": [
               "## Lokale Commit-Haufen",
               "",
-              "Folgende Situation habe ich beim Entwickeln des Öfteren: ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
+              "Folgende Situation habe ich beim Entwickeln des Öfteren: Ich bin auf der Suche nach einem Bug, aber er ist echt schwer zu finden. Um ihm auf die Spur zu kommen schreibe ich mehrere Debug-Kommandos und print-Befehle in den Code.",
               "",
               "Die committe ich auch immer wieder, je weiter die Suche mich trägt; natürlich in einem lokalen Branch. Schließlich finde ich den Bug, fixe ihn und freue mich!",
               "",
@@ -316,7 +316,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Da dies ein späterer Level ist überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um das Level zu schaffen musst du irgendwie sicherstellen, dass `main` den Commit bekommt, auf den `bugFix` zeigt."
+              "Da dies ein späterer Level ist, überlasse ich es dir zu entscheiden, welchen Befehl du benutzen willst. Aber um das Level zu schaffen musst du irgendwie sicherstellen, dass `main` den Commit bekommt, auf den `bugFix` zeigt."
             ]
           }
         }
