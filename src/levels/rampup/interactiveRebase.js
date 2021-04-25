@@ -32,7 +32,7 @@ exports.level = {
     "es_ES": "Introducción al rebase interactivo",
     "pt_BR": "Introdução ao rebase interativo",
     "gl"   : "Introducción ó rebase interativo",
-    "de_DE": "Einführung Interactive Rebase",
+    "de_DE": "Einführung Interaktives Rebase",
     "ja"   : "インタラクティブrebase入門",
     "fr_FR": "Introduction au rebase interactif",
     "zh_CN": "交互式 rebase",

@@ -147,7 +147,7 @@ exports.level = {
               "",
               "Normalerweise folgt Git dem \"ersten\" Vorgänger des Merge-Commit, aber durch Angabe einer Zahl nach dem `^` lässt sich dieses Verhalten ändern.",
               "",
-              "Aber genug gequatscht, schauen wir's uns in Aktion an.",
+              "Aber genug gequatscht, schauen wir es uns in Aktion an.",
               ""
             ]
           }
@@ -197,7 +197,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-            "Noch abgefahrener: die beiden Operatoren können verkettet werden. Aufgepasst:"
+            "Noch abgefahrener: Die beiden Operatoren können verkettet werden. Aufgepasst:"
             ],
             "afterMarkdowns": [
             "Gleicher Ablauf wie zuvor, nur alles in einem Befehl."

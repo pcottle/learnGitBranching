@@ -22,7 +22,7 @@ exports.level = {
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
     "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
-    "de_DE": "Nicht vergessen, du kannst angeben wieviele Commits simuliert werden sollen.",
+    "de_DE": "Nicht vergessen, du kannst angeben wie viele Commits simuliert werden sollen.",
     "ja"   : "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "es_ES": "Recuerda que puedes especificar cuántos commits simular",
@@ -502,7 +502,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Du kannst auch angeben wieviele Commits oder auf welchem Branch sie gemacht werden sollen, indem du das an den Befehl anhängst."
+              "Du kannst auch angeben wie viele Commits oder auf welchem Branch sie gemacht werden sollen, indem du das an den Befehl anhängst."
             ],
             "afterMarkdowns": [
               "Mit einem Befehlt haben wir simuliert, dass ein Kollege drei Commits auf den  Branch `foo` gepackt hat."

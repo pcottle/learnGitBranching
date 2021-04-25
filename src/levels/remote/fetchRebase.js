@@ -10,7 +10,7 @@ exports.level = {
     "es_ES": "Historia divergente",
     "pt_BR": "Histórico divergente",
     "gl"   : "Histórico diverxente",
-    "de_DE": "Abweichende History",
+    "de_DE": "Abweichende Historie",
     "fr_FR": "Historique divergent",
     "ja"   : "履歴の分岐",
     "ru_RU": "Расхождение в истории",
@@ -1192,7 +1192,7 @@ exports.level = {
               "",
               "Bisher haben wir gesehen wie man per `pull` Commits von Anderen ins lokale Repository holt und die eigenen Änderungen in ein entferntes `push`t. Ist doch ziemlich einfach, wie kann man da durcheinander kommen?",
               "",
-              "Die Schwierigkeiten entstehen, wenn die Historys der beiden Repositorys *divergieren*, also voneinander abweichen. Bevor wir die Einzelheiten besprechen, schauen wir uns ein Beispiel an ...",
+              "Die Schwierigkeiten entstehen, wenn die Historien der beiden Repositorys *divergieren*, also voneinander abweichen. Bevor wir die Einzelheiten besprechen, schauen wir uns ein Beispiel an ...",
               ""
             ]
           }
@@ -1205,7 +1205,7 @@ exports.level = {
               "",
               "In diesem Fall ist ein `git push` problematisch. Wenn du es ausführst, soll Git das entfernte Repository in den Zustand von Montag zurückversetzen? Soll es versuchen deinen Code auf die aktuelle Version zu packen? Oder soll es deine Änderungen einfach ignorieren, weil sie total veraltet sind?",
               "",
-              "Da es in dieser Situation so viele Mehrdeutigkeiten gibt (da die Historys divergieren), erlaubt Git dir nicht, deine Änderungen einfach zu `push`en. Es zwingt dich, zuerst die neuesten Änderungen vom Server zu holen und in deine zu integrieren, bevor du deine Arbeit mit anderen teilen kannst."
+              "Da es in dieser Situation so viele Mehrdeutigkeiten gibt (da die Historien divergieren), erlaubt Git dir nicht, deine Änderungen einfach zu `push`en. Es zwingt dich, zuerst die neuesten Änderungen vom Server zu holen und in deine zu integrieren, bevor du deine Arbeit mit anderen teilen kannst."
             ]
           }
         },

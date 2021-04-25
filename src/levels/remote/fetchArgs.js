@@ -1031,7 +1031,7 @@ exports.level = {
               "",
               "Nun haben wir also alles gelernt über `git push` Optionen, diesen coolen `<Ort>`-Parameter und sogar mit Doppelpunkt getrennte Ref-Spezifikationen (`<Quelle>:<Ziel>`). Können wir all dieses neu erworbene Wissen auch auf `git fetch` anwenden?",
               "",
-              "Jede Wette! Die Optionen für `git fetch` sind wirklicht *sehr, sehr* ähnlich denen von `git push`. Es sind dieselben Verfahren, nur in die andere Richtung angewendet (da man bei `fetch` herunterlädt anstatt hochzuladen).",
+              "Jede Wette! Die Optionen für `git fetch` sind wirklich *sehr, sehr* ähnlich denen von `git push`. Es sind dieselben Verfahren, nur in die andere Richtung angewendet (da man bei `fetch` herunterlädt anstatt hochzuladen).",
               "",
               "Gehen wir die verschiedenen Verfahrensweisen mal eine nach der anderen durch ..."
             ]

@@ -9,7 +9,7 @@ exports.level = {
   "name": {
     "fr_FR": "Introduction à cherry-pick",
     "en_US": "Cherry-pick Intro",
-    "de_DE": "Einführung Cherry-picking",
+    "de_DE": "Einführung Cherry-Picking",
     "ja"   : "cherry-pick入門",
     "es_AR": "Introducción a cherry-pick",
     "es_ES": "Introducción a cherry-pick",
@@ -550,7 +550,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu schaffen musst du einfach nur einige Commits aus den drei gezeigten Branches in den `main` kopieren. Der Zielbaum zeigt dir, welche.",
+              "Um diesen Level zu schaffen, musst du einfach nur einige Commits aus den drei gezeigten Branches in den `main` kopieren. Der Zielbaum zeigt dir, welche.",
               ""
             ]
           }

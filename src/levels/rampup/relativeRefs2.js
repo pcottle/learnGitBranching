@@ -466,7 +466,7 @@ exports.level = {
               "",
               "Nehmen wir an, du willst viele Schritte im Commit-Baum zurückgehen. Dann wird es schnell mühsam immer wieder `^` einzugeben; deswegen gibt es in Git den Tilde-Operator `~`.",
               "",
-              "Der Tilde-Operator akzeptiert optional eine Zahl, mit der du angeben kannst, wieviele Vorgänger du zurückgehen willst. Keine Anzahl anzugeben, bewirkt dasselbe wie `~1`."
+              "Der Tilde-Operator akzeptiert optional eine Zahl, mit der du angeben kannst, wie viele Vorgänger du zurückgehen willst. Keine Anzahl anzugeben, bewirkt dasselbe wie `~1`."
             ]
           }
         },
@@ -474,7 +474,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Geben wir mit `~` an, wieviele Commits wir zurückgehen wollen."
+              "Geben wir mit `~` an, wie viele Commits wir zurückgehen wollen."
             ],
             "afterMarkdowns": [
               "Peng! So einfach -- relative Referenzen sind super."
