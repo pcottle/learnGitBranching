@@ -68,7 +68,7 @@ var VisBranch = VisBase.extend({
       this.refreshOffset();
 
       this.set('fill', GRAPHICS.headRectFill);
-    } else if (id !== 'master') {
+    } else if (id !== 'main') {
       // we need to set our color to something random
       this.set('fill', randomHueString());
     }
@@ -103,16 +103,16 @@ var VisBranch = VisBase.extend({
    * compared in the goal (used in a goal visualization context
    */
   getIsLevelBranchCompared: function() {
-    if (this.getIsMaster()) {
-      return true; // master always compared
+    if (this.getIsMain()) {
+      return true; // main always compared
     }
-    // we are not master, so return true if its not just master being compared
+    // we are not main, so return true if its not just main being compared
     var levelBlob = this.get('gitVisuals').getLevelBlob();
-    return !TreeCompare.onlyMasterCompared(levelBlob);
+    return !TreeCompare.onlyMainCompared(levelBlob);
   },
 
-  getIsMaster: function() {
-    return this.get('branch').get('id') == 'master';
+  getIsMain: function() {
+    return this.get('branch').get('id') == 'main';
   },
 
   getFlipValue: function(commit, visNode) {
@@ -357,9 +357,6 @@ var VisBranch = VisBase.extend({
     if (name === 'HEAD' && isHg) {
       name = '.';
     }
-    if (name.match(/\bmaster\b/)) {
-      name = name.replace(/\bmaster\b/, 'main');
-    }
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
     return name + after;
@@ -467,7 +464,7 @@ var VisBranch = VisBase.extend({
       return;
     }
 
-    var commandStr = 'git checkout ' + this.get('branch').get('id');
+    var commandStr = 'git checkout ' + this.gitEngine.resolveNameNoPrefix(this.get('branch'))
     var Main = require('../app');
     Main.getEventBaton().trigger('commandSubmitted', commandStr);
   },

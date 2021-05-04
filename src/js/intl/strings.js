@@ -863,6 +863,7 @@ exports.strings = {
   'git-error-command-not-supported': {
     '__desc__': 'Message that appears in git console when command was not recognized.',
     'en_US': 'The command "{command}" isn\'t supported, sorry!',
+    'de_DE': 'Entschuldigung, der Befehl "{command}" wird nicht unterstützt!',
     'zh_TW': '很抱歉，目前無法支援指令 "{command}"!',
     'it_IT': 'Mi spiace, il comando "{command}" non è supportato.',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.'
@@ -1705,7 +1706,7 @@ exports.strings = {
   'help-vague-level': {
     '__desc__': 'When you are in a level and you say help, its vague and you need to specify',
     'en_US': 'You are in a level, so multiple forms of help are available. Please select either "help level" to learn more about this lesson, "help general" for using Learn GitBranching, or "objective" to learn about how to solve the level.',
-    'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr úber dieses Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
+    'de_DE': 'Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib "help level" ein um mehr über dieses Level zu erfahren, "help general" um zu sehen wie Learn Git Branching bedient wird, oder "objective" um das Ziel dieses Levels zu erfahren.',
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
     'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
     'es_AR': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elegí entre "help level" para aprender algo más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
@@ -2043,6 +2044,7 @@ exports.strings = {
   'cancel-button': {
     '__desc__': 'Cancel button label after completing a level',
     'en_US': 'Cancel',
+    'de_DE': 'Abbrechen',
     'zh_TW': '取消',
     'pl' : 'Powrót',
     'it_IT': "Annulla",
@@ -2052,6 +2054,7 @@ exports.strings = {
   'confirm-button': {
     '__desc__': 'Confirm button label after completing a level',
     'en_US': 'Confirm',
+    'de_DE': 'Bestätigen',
     'zh_TW': '確認',
     'pl' : 'Dalej',
     'it_IT': "Conferma",
@@ -2061,6 +2064,7 @@ exports.strings = {
   'level-label': {
     '__desc__': 'Label in the top of the left-side menu. Rembember to leave some space on the sides',
     'en_US': ' Level ',
+    'de_DE': ' Level ',
     'it_IT': " Livello ",
     'pl' : ' Poziom '
   },
@@ -2068,6 +2072,7 @@ exports.strings = {
   'command-helper-bar-levels': {
     '__desc__': 'Levels command label in the bottom command helper bar.',
     'en_US': 'Levels',
+    'de_DE': 'Levels',
     'it_IT': "Livelli",
     'pl' : 'Poziomy'
   },
@@ -2075,6 +2080,7 @@ exports.strings = {
   'command-helper-bar-solution': {
     '__desc__': 'Solution command label in the bottom command helper bar.',
     'en_US': 'Solution',
+    'de_DE': 'Lösung',
     'it_IT': "Soluzione",
     'pl' : 'Rozwiązanie'
   },
@@ -2082,6 +2088,7 @@ exports.strings = {
   'command-helper-bar-reset': {
     '__desc__': 'Reset command label in the bottom command helper bar.',
     'en_US': 'Reset',
+    'de_DE': 'Zurücksetzen',
     'it_IT': "Reset",
     'pl' : 'Wyczyść'
   },
@@ -2089,6 +2096,7 @@ exports.strings = {
   'command-helper-bar-undo': {
     '__desc__': 'Undo command label in the bottom command helper bar.',
     'en_US': 'Undo',
+    'de_DE': 'Rückgängig',
     'it_IT': "Annulla",
     'pl' : 'Cofnij'
   },
@@ -2096,6 +2104,7 @@ exports.strings = {
   'command-helper-bar-objective': {
     '__desc__': 'Objective command label in the bottom command helper bar.',
     'en_US': 'Objective',
+    'de_DE': 'Zielvorgabe',
     'it_IT': "Obiettivo",
     'pl' : 'Cel'
   },
@@ -2103,6 +2112,7 @@ exports.strings = {
   'command-helper-bar-help': {
     '__desc__': 'Help command label in the bottom command helper bar.',
     'en_US': 'Help',
+    'de_DE': 'Hilfe',
     'it_IT': "Aiuto",
     'pl' : 'Pomoc'
   },
@@ -2110,6 +2120,7 @@ exports.strings = {
   'error-command-currently-not-supported': {
     '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
     'en_US': 'That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command',
+    'de_DE': 'Der Befehl ist gültig, aber in der aktuellen Umgebung nicht unterstützt! Rufe ein Level oder den Level-Editor auf, um diesen Befehl zu nutzen',
     'zh_TW': '這項指令輸入正確，然而目前的環境不支援此指令。試著前往關卡或關卡建造器中使用此指令。',
     'it_IT':
       "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
@@ -2119,6 +2130,7 @@ exports.strings = {
   'interactive-rebase-title': {
     '__desc__': 'Title for the popup',
     'en_US': 'Interactive Rebase',
+    'de_DE': 'Interaktives Rebase',
     'zh_TW': '互動式 Rebase',
     'it_IT': "Rebase interattivo",
     'pl' : 'Interaktywny Rebase'

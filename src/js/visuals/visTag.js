@@ -81,9 +81,9 @@ var VisTag = VisBase.extend({
    * compared in the goal (used in a goal visualization context
    */
   getIsLevelTagCompared: function() {
-    // we are not master, so return true if its not just master being compared
+    // we are not main, so return true if its not just main being compared
     var levelBlob = this.get('gitVisuals').getLevelBlob();
-    return !TreeCompare.onlyMasterCompared(levelBlob);
+    return !TreeCompare.onlyMainCompared(levelBlob);
   },
 
   getTagStackIndex: function() {

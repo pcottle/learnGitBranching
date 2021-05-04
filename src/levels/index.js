@@ -37,7 +37,7 @@ exports.levelSequences = {
     require('./remote/fakeTeamwork').level,
     require('./remote/push').level,
     require('./remote/fetchRebase').level,
-    require('./remote/lockedMaster').level
+    require('./remote/lockedMain').level
   ],
   remoteAdvanced: [
     require('./remote/pushManyFeatures').level,
@@ -92,7 +92,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Гарно підібране введення в основні команди git',
       'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển git',
       'sl_SI': 'Prijeten uvod v git ukaze',
-      'pl'   : 'Krótkie wprowadzenie do większości poleceń GIT-a',
+      'pl'   : 'Krótkie wprowadzenie do większości poleceń Gita',
       'it_IT': "Un'introduzione graduale ai principali comandi Git",
       'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்'
     }
@@ -136,7 +136,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ko'   : 'git은 아주 멋져요. 왜 멋진지 알려드립니다',
       'vi'   : 'Tận hưởng khẩu phần tuyệt hảo của git. Hi vọng bạn còn đói.',
       'sl_SI': 'Naslednja porcija git izjemnosti. Upam, da si lačen',
-      'pl'   : 'Następna porcja GIT-a jest niesamowita. Mam nadzieję, że jesteś głodny',
+      'pl'   : 'Następna porcja gita jest niesamowita. Mam nadzieję, że jesteś głodny',
       'it_IT': "Porzione con il 100% di grandiosità Git, spero tu sia affamato",
       'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்'
     }
@@ -271,7 +271,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'uk'   : 'Не соромимось змінювати історію',
       'vi'   : 'Chỉnh sửa cây lịch sử Git không hề khó',
       'sl_SI': 'Spretno "Git" premikanje po drevesu :P',
-      'pl'   : 'GIT dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
+      'pl'   : 'Git dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
       'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
       'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P'
     }
