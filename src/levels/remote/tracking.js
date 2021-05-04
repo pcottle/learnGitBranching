@@ -1809,6 +1809,124 @@ exports.level = {
           }
         }
       ]
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### தொலை கிளையை கண்காணித்தல்",
+              "",
+              "கடந்த சில பாடங்களில் கிட் `main` மற்றும் `o/main` தொடர்பை கிட் அறிந்திருந்தது ஒரு  \"தந்திரம் போன்று\" தோன்றி இருக்கலாம்.  நிச்சயமாக இரு கிளைகளுக்கும் ஒத்த பெயர்கள் உள்ளன, மேலும் தொலைதூரத்தில் உள்ள  `main` கிளையை நமது கணினில் உள்ள  `main` கிளையுடன் இணைக்க இது சரியான காரணமாக தெரியலாம், ஆனால் இந்த இணைப்பு இரண்டு காரணிகளில் தெளிவாக நிரூபிக்கப்பட்டுள்ளது:",
+              "",
+              "* புல் செயல்பாட்டின் போது, கமிட்ஸ் `o/main` மீது பதிவிறக்கம் செய்யப்பட்டு `main` உடன் *ஒன்றிணைக்கப்படுகின்றது *.  கிழைகளுக்கு இடையிலான இணைப்பின் மறைமுக இலக்கு இந்த தொடர்பினால்  தீர்மானிக்கப்படுகிறது.",
+              "* During a push operation, work from the `main` branch was pushed onto the remote's `main` branch (which was then represented by `o/main` locally). The *destination* of the push is determined from the connection between `main` and `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Long story short, this connection between `main` and `o/main` is explained simply by the \"remote tracking\" property of branches. The `main` branch is set to track `o/main` -- this means there is an implied merge target and implied push destination for the `main` branch.",
+              "",
+              "You may be wondering how this property got set on the `main` branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically. ",
+              "",
+              "During a clone, git creates a remote branch for every branch on the remote (aka branches like `o/main`). It then creates a local branch that tracks the currently active branch on the remote, which is `main` in most cases.",
+              "",
+              "Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!",
+              "",
+              "This also explains why you may see the following command output when cloning:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Can I specify this myself?",
+              "",
+              "Yes you can! You can make any arbitrary branch track `o/main`, and if you do so, that branch will have the same implied push destination and merge target as `main`. This means you can run `git push` on a branch named `totallyNotMain` and have your work pushed to the `main` branch on the remote!",
+              "",
+              "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "Creates a new branch named `totallyNotMain` and sets it to track `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Enough talking, let's see a demonstration! We will checkout a new branch named `foo` and set it to track `main` on the remote."
+            ],
+            "afterMarkdowns": [
+              "As you can see, we used the implied merge target of `o/main` to update the `foo` branch. Note how main doesn't get updated!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "This also applies for git push."
+            ],
+            "afterMarkdowns": [
+              "Boom. We pushed our work to the `main` on the remote even though our branch was named something totally different."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Way #2",
+              "",
+              "Another way to set remote tracking on a branch is to simply use the `git branch -u` option. Running",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "will set the `foo` branch to track `o/main`. If `foo` is currently checked out you can even leave it off:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Let's see this other way of specifying remote tracking real quick..."
+            ],
+            "afterMarkdowns": [
+              "Same as before, just a more explicit command. Sweet!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! For this level let's push work onto the `main` branch on remote while *not* checked out on `main` locally. I'll let you figure out the rest since this is the advanced course :P"
+            ]
+          }
+        }
+      ]
     }
   }
 };
