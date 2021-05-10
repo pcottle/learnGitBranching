@@ -47,6 +47,6 @@
     "raphael": "^2.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
-    "underscore": "~1.4.3"
+    "underscore": "~1.12.1"
   }
 }
