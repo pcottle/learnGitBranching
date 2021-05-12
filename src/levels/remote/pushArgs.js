@@ -769,6 +769,81 @@ exports.level = {
         }
       ]
     },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pushの引数",
+              "",
+              "すばらしい！リモートトラッキングについて理解したので、次は git push、fetch、pull 動作の謎を追っていきましょう。一つずつコマンドを見ていきますが、各コマンドのコンセプトは非常に似ています。",
+              "",
+              "まずは、`git push`からです。リモートトラッキングブランチのレッスンでは、gitは現在チェックアウトされているブランチのプロパティを参照して、pushするリモートとブランチを決めるということを学びました（そのリモートは、ブランチの追跡対象でもあります）。これは git push の引数が指定されていない場合の動作ですが、git push は次の引数も取ることができます。",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<place>`パラメータとは何でしょうか？説明の前に、まずは例をみてみましょう。",
+              "",
+              "`git push origin main`",
+              "",
+              "これを日本語訳すると、次のようになります。",
+              "",
+              "*リポジトリの \"main\" ブランチに移動し、すべてのコミットを取得してから、リモートの \"origin\" にある \"main\" ブランチへ移動します。存在していないコミットをリモートのリポジトリに反映させて、完了したら私に教えて下さい。*",
+              "",
+              "\"place\"引数に`main`を指定することで、コミットがどこから来てどこへ行くのかをgitに伝えました。この\"place\"引数は基本的に、２つのリポジトリ間で同期する場所の名前です。",
+              "",
+              "なお、git に（２つの引数を指定して）必要なことを伝えたので、現在チェックアウトされているブランチを無視することに注意してください。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "引数を指定した例を見てみましょう。この例ではチェックアウトされている場所に注意してください。"
+            ],
+            "afterMarkdowns": [
+              "やったね！これらの引数を指定していたので、リモートの`main`が更新されました。"
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "引数を指定しなかった場合、何が起こるでしょうか？"
+            ],
+            "afterMarkdowns": [
+              "（ご覧の通り）コマンドは失敗しました。`HEAD`がリモートトラッキング設定のあるブランチにチェックアウトされていないためです。"
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "よし、それではこのレベルでは`foo`と`main`の両方をリモートに更新してみましょう。ここでは`git checkout`が無効になっているので注意してください。",
+              "",
+              "注：`origin/`ラベルがUIに収まらないため、リモートブランチには`o/`が付いていますが心配しないでください。",
+              "これについては、通常のようにリモートの名前に`origin`を使用してくださいね。"
+            ]
+          }
+        }
+      ]
+    },
     "ko": {
       "childViews": [
         {
