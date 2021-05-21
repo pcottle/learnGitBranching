@@ -365,7 +365,7 @@ exports.level = {
             "markdowns": [
               "## Änderungen in Git rückgängig machen",
               "",
-              "Es gibt viele Möglichkeiten, Änderungen in Git zurückzunehmen. Und ebenso wie das Committen hat auch das rückgängig Machen eine Basis-Komponente (Dateien und Inhalte vormerken) und einen übergeordneten Aspekt (wie die Änderungen tatsächlich zurückgenommen werden). Dieses Level beschäftigt sich mit den übergeordneten Vorgängen.",
+              "Es gibt viele Möglichkeiten, Änderungen in Git zurückzunehmen. Und ebenso wie das Committen hat auch das Rückgängigmachen eine Basis-Komponente (Dateien und Inhalte vormerken) und einen übergeordneten Aspekt (wie die Änderungen tatsächlich zurückgenommen werden). Dieses Level beschäftigt sich mit den übergeordneten Vorgängen.",
               "",
               "Es gibt grundsätzlich zwei Arten in Git etwas rückgängig zu machen -- einerseits `git reset` und andererseits `git revert`. Wir schauen uns beide mal an.",
               ""
