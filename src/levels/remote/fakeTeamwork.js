@@ -710,7 +710,7 @@ exports.level = {
               "`fakeTeamwork`의 기본 행동은 원격 main에 간단히 하나의 커밋을 하는것 입니다."
             ],
             "afterMarkdowns": [
-              "자 됬습니다 -- 원격 저장소에 새로운 커밋이 갱신되었습니다. 아직 `git fetch`를 하지 않았기 때문에 로컬로 내려받아지지는 않았습니다."
+              "자, 됐습니다 -- 원격 저장소에 새로운 커밋이 갱신되었습니다. 아직 `git fetch`를 하지 않았기 때문에 로컬로 내려받아지지는 않았습니다."
             ],
             "command": "git fakeTeamwork",
             "beforeCommand": "git clone"
