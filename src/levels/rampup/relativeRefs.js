@@ -910,7 +910,7 @@ exports.level = {
               "main 위에 있는 부모를 체크아웃 해 봅시다."
             ],
             "afterMarkdowns": [
-              "Boom! 됬습니다. 커밋의 해시를 입력하는 것보다 훨씬 쉬운 방법입니다."
+              "Boom! 됐습니다. 커밋의 해시를 입력하는 것보다 훨씬 쉬운 방법입니다."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git commit"
