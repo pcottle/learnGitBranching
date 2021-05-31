@@ -887,7 +887,7 @@ exports.level = {
               "인자를 지정해주는 예제를 눈으로 직접 확인해 봅시다. 이 예제에서 우리가 체크아웃한 곳이 어디인지를 주의하며 봅시다."
             ],
             "afterMarkdowns": [
-              "됬네요! 지정해준 인자들에 의해 원격 저장소의 `main`가 갱신 되었습니다."
+              "됐네요! 지정해준 인자들에 의해 원격 저장소의 `main`가 갱신 되었습니다."
             ],
             "command": "git checkout C0; git push origin main",
             "beforeCommand": "git clone; git commit"
