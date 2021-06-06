@@ -8,6 +8,7 @@ exports.level = {
     "ru_RU": "Создайте новую feature ветвь от main перед тем, как откатить изменения в main до состояния o/main.",
     "uk": "Створіть нову feature гілку від локального main перед тим, як відкотити зміни в main до стану o/main.",
     "zh_CN": "从本地的main创建一个feature分支, 然后重置main和origin main保持一致。",
+    "zh_TW": "從本地的 main 分支建一個 feature 分支, 且記得要重置(同步sync)本地 main 分支和 origin/main, 讓他們保持一致。",
     "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "pt_BR": "Crie o ramo feature a partir do ramo main no local antes de reestabelecê-lo para que seja o mesmo que o ramo main de origem",
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
@@ -22,6 +23,7 @@ exports.level = {
     "ru_RU": "Заблокированная ветвь main",
     "uk": "Заблокована гілка main",
     "zh_CN": "锁定的Main(Locked Main)",
+    "zh_TW": "被鎖定的 Main(Locked Main)",
     "es_ES": "Main bloqueado",
     "pt_BR": "Main bloqueado",
     "fr_FR": "Main verrouillé",
@@ -517,6 +519,46 @@ exports.level = {
               "## 解決策",
               "",
               "featureという名前の別のブランチを作成し、リモートにプッシュしてください。またmainをresetしてリモートと同じ状態になるようにしてください。そうしないとあなたが次にプルを実行したときに問題が発生し、他の誰かのコミットがあなたのコミットと競合する恐れがあります。"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 遠端伺服器拒絕!(Remote Rejected!)",
+              "",
+              "如果今天你在一個較大型的多人合作專案，那很有可能 main 是被鎖住的，不允許你直接更動 main，你必須藉由 Pull Request(發PR) 來處理更動。如果你嘗試在本地 main 做提交(commit)然後推送(push)，你可能會收到這個訊息:",
+              "",
+              "```",
+              " ! [遠端伺服器拒絕] main -> main (TF402455: 推送(push)到這個分支是不允許的; 你必須使用 pull request(發PR) 來更新這個分支.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 為什麼會被拒絕推送?(Why was it rejected?)",
+              "",
+              "因為這時候 main 的政策(規則)是必須透過 pull request(發PR) 才能對 main 做更動，遠端伺服器會拒絕直接 push 到 main 這件事。",
+              "",
+              "你應該按照流程，首先建一個分支(自己的 branch)，然後推送(push)這個分支並發起 pull request(發PR)，但是你忘記了，並直接提交給了 main，所以現在你的行動停住了，而且你不能推送(push)此次更動。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 解決辦法:",
+              "",
+              "新建一個叫 feature 的分支，然後推送到遠端伺服器。記得重置(同步一下) 你的 main 分支和遠端伺服器保持一致，不然有可能下一次你拉的時候(pull)會跟別人的提交(commit)產生衝突。"
             ]
           }
         }
