@@ -21,7 +21,7 @@ var GRAPHICS = {
   defaultAnimationTime: 400,
 
   rectFill: 'hsb(0.8816909813322127,0.6,1)',
-  headRectFill: '#2831FF',
+  headRectFill: '#7278FF',
   rectStroke: '#FFF',
   rectStrokeWidth: '3',
 
@@ -51,4 +51,3 @@ var GRAPHICS = {
 exports.TIME = TIME;
 exports.GRAPHICS = GRAPHICS;
 exports.VIEWPORT = VIEWPORT;
-
