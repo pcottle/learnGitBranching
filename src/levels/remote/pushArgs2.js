@@ -667,6 +667,86 @@ exports.level = {
         }
       ]
     },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` 引数",
+              "",
+              "前のレッスンでmainブランチをpushする際に、pushするコミットがどこから来て(source)、どこへ行くのか(destination)を`<place>`引数で指定したことを思い出してください",
+              "",
+              "では、sourceとdestinationを別々のブランチにしたい場合はどうすればよいのでしょうか？",
+              "",
+              "ローカルのfooブランチに存在するコミットをリモートのbarブランチにpushするにはどうすればよいのでしょうか？",
+              "",
+              "残念ながら、Gitでそれをしようと思っても不可能なのです... ",
+              "",
+              "というのは冗談です！もちろん可能ですし、Gitにはものすごく柔軟性があります！",
+              "",
+              "次の説明に移りましょう"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<place>`引数でsourceとdestinationを指定するのはとても簡単です。次のようにコロンで連結すればよいのです！",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "この書式は一般的にコロンRefspecと呼ばれています。Refspecとは、ブランチや、HEAD~1といったGitが解決できる場所を表す名称です。",
+              "",
+              "sourceとdestinationを別々に指定すると、よりきめ細やかなブランチ操作がリモートコマンドで行うことができます。",
+              "",
+              "それでは実際にデモを見ていきましょう!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "sourceはgitが解決できる場所であればどこでも良いことを思い出してください。"
+            ],
+            "afterMarkdowns": [
+              "うわぁ！これはかなり奇抜な見た目のコマンドです...が実は理にかなっています。",
+              "",
+              "Gitはfoo^の場所を解決し、リモートに存在していないコミットをアップロードして、destinationに指定されたmainブランチを更新しました。"
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "存在していないブランチにpushしようとするとどうなると思いますか？心配ご無用です！",
+              "",
+              "Gitは与えられた名前を利用してリモート上にブランチを作成してくれます！"
+            ],
+            "afterMarkdowns": [
+              "うん、とても良いですね。"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルでは、ゴールで示されている状態になるように挑戦してください。困ったときはこの書き方を思い出してくださいね。",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
     "ru_RU": {
       "childViews": [
         {
