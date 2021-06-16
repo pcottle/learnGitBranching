@@ -519,6 +519,63 @@ exports.level = {
         }
       ]
     },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<source>`の変わり種",
+              "",
+              "Gitは`git push`や`git fetch`の引数としてsourceに何も指定しないことで悪用することができます。",
+              "",
+              "何も指定しない方法は次のようにsourceに空の引数を渡すことです。",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "こうするとどうなるでしょうか..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "リモートブランチに「無」をpushするとどうなるでしょうか？",
+              "",
+              "結果はそのブランチが削除されてしまいます！"
+            ],
+            "afterMarkdowns": [
+              "「無」という概念をブランチに押し付けることで、リモートの`foo`ブランチを削除することに成功しました。"
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "最後に「無」をローカル上に`fetch`すると、実際に新しいブランチが作られます。"
+            ],
+            "afterMarkdowns": [
+              "非常に奇妙ですが、気にする程のことでもありません。"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "このレベルは難しくありません！リモートのブランチを削除して`git fetch`で新しいブランチを作成するだけで完了します。"
+            ]
+          }
+        }
+      ]
+    },
     "ru_RU": {
       "childViews": [
         {
