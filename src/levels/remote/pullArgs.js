@@ -703,6 +703,89 @@ exports.level = {
         }
       ]
     },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pullの引数",
+              "",
+              "`git fetch`と`git pull`の引数について学んできたので、`git pull`について新しく学ばないといけないことは殆ど残っていません！",
+              "",
+              "なぜなら、実は`git pull`はfetchした後に、fetchしたコミットをマージするための省略形だからです！",
+              "",
+              "これはとても複雑な引数を与えた場合でも変わりません。いくつか、例を見てみましょう!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ここでは同等の働きをするコマンドを紹介します。",
+              "",
+              "`git pull  origin foo` は次と同じ働きをします。",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "他にも...",
+              "",
+              "`git pull  origin bar~1:bugFix` は次と同じ働きをします。",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "ご覧の通り、`git pull`は単なるfetch + mergeの略語であり、git pullが必要とするのはコミットがどこへ行くのか（fetchにおける`<destination>`）だけなのです。",
+              "",
+              "デモを見ていきましょう！"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "fetchする場所を指定すると"
+            ],
+            "afterMarkdowns": [
+              "ご覧ください！`main`を指定することで、`o/main`にコミットをダウンロードしてきました。そして`o/main`を現在チェックアウトしている場所にマージしましたが、これはローカルの`main`ブランチではありません。",
+              "",
+              "このような挙動をするので、複数のブランチを更新するためには異なる場所（かつ同じ引数）で`git pull`を実行しなければいけません。"
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`<source>`と`<destination>`にも対応しているかですって？",
+              "",
+              "その通りです。実際に見ていきましょう！"
+            ],
+            "afterMarkdowns": [
+              "ひとつのコマンドで実に大量の操作を行っていますね！",
+              "ローカルに`foo`ブランチを作成し、リモート上の`main`から`foo`ブランチにコミットをダウンロードして、そのブランチを今、チェックアウトしている`bar`ブランチにmergeしました！"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "示されているゴールの状態になるように頑張ってください！",
+              "",
+              "コミットをいくつかfetchして新しいブランチを作成し、それらのブランチを他のブランチにmergeする必要があります。",
+              "",
+              "しかし、それほど多くのコマンドは必要ありません！"
+            ]
+          }
+        }
+      ]
+    },
     "ru_RU": {
       "childViews": [
         {
