@@ -1144,6 +1144,144 @@ exports.level = {
         }
       ]
     },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch の引数",
+              "",
+              "ここまでで、git pushの引数やとても便利な`<place>`引数、コロンでの参照指定(<source>:<destination>)などについて学んできました。",
+              "",
+              "これらの知識は`git fetch`コマンドにも応用できるのでしょうか？",
+              "",
+              "その通り！`git fetch`の引数はとても、と〜っても`git push`の引数と似ています。実はfetchとpushは同種の概念ですが、適用される方向が逆なだけです。（今は、コミットをアップロードするのではなく、ダウンロードしています）",
+              "",
+              "ひとつずつしっかりと確認していきましょう..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<place>`引数",
+              "",
+              "次のように`git fetch`で場所を指定すると、",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Gitはリモートの`foo`ブランチに移動して、ローカル上に存在しないコミットを全てローカルの`o/foo`ブランチにダウンロードしてきます。",
+              "",
+              "実際に確認してみましょう（おさらいとして）"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "場所を指定することで..."
+            ],
+            "afterMarkdowns": [
+              "`foo`ブランチ上のコミットだけをダウンロードしてきて、",
+              "",
+              "`o/foo`ブランチに置きます。"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "しかし、なぜGitはダウンロードしてきたコミットをローカルの`foo`ブランチではなく`o/foo`ブランチに置いたのでしょうか？",
+              "",
+              "`<place>`引数に指定したブランチはローカルとリモートの両方に存在しているはずなのに...",
+              "",
+              "なぜなら、Gitは`foo`ブランチでの作業を台無しにしたくないからです！これは先ほどの`git fetch`のレッスンと関連しています。",
+              "",
+              "`git fetch`はローカルのブランチを更新するのではなく、リモートからコミットをダウンロードするだけです!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "では、ダウンロード元とダウンロード先を`<source>:<destination>`で明示的に指定してあげるとどうなるのでしょうか？",
+              "",
+              "コミットをローカルブランチ上に「直接」取り込みたいという強い理由があるのでしたら、コロンを使ったRefspecで指定することができます。今チェックアウトしているブランチでない限り、直接取り込むことができます。",
+              "",
+              "`<source>`がリモート上の場所になり、`<destination>`がそのコミットを置くローカル上の場所になるということです。",
+              "",
+              "これは`git push`と真逆で、データを逆方向に転送するということになります！",
+              "",
+              "とはいえ、開発者が実際にこの操作を行うことはありません。",
+              "ここでは、`fetch`と`push`がいかに似ていて、方向性が逆であるかを概念的に説明するために紹介しています。"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "このクレイジーさを実際に確認してみましょう。"
+            ],
+            "afterMarkdowns": [
+              "うわぁ〜！gitは`foo~1`をorigin上の場所として解決し、そのコミットをローカルの`bar`ブランチに直接ダウンロードしました。",
+              "",
+              "保存先を指定したので`foo`と`o/foo`ブランチが更新されていないことに注目しましょう。"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "コマンドを実行する際にダウンロード先のブランチが存在しない場合はどうなるでしょう？"
+            ],
+            "afterMarkdowns": [
+              "ご覧ください！`git push`と同じです。Gitはfetchする前にローカルへダウンロード先を作成しています。これはpushする際に、リモートにアップロード先が存在しない時、リモート上にアップロード先を作るのと同じです。"
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "引数がなかったらどうなるでしょう？",
+              "",
+              "`git fetch`に引数を渡さなかった時は、リモート上に存在する全てのブランチのコミットをダウンロードしてきます・"
+            ],
+            "afterMarkdowns": [
+              "とてもシンプルですね。確認してみましょう。"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "よし、話はここまでにしましょう！このレベルをクリアするにはゴールで示されている指定されたコミットだけを`fetch`します。",
+              "",
+              "コマンドを駆使してみましょう！",
+              "",
+              "両方の`fetch`コマンドにsourceとdestinationを指定する必要があります。IDが入れ替わる可能性があるのでゴールをよく確認してください。"
+            ]
+          }
+        }
+      ]
+    },
     "ru_RU": {
       "childViews": [
         {
