@@ -17,7 +17,8 @@ exports.level = {
     "uk"   : "Git pull",
     "ko"   : "Git pull",
     "vi"   : "Git pull",
-    "sl_SI": "Git Pull"
+    "sl_SI": "Git Pull",
+    "pl": "Git Pull",
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -34,7 +35,8 @@ exports.level = {
     "uk"   : "Просто виконай git pull !",
     "ko"   : "그냥 git pull을 하세요!",
     "vi"   : "Đơn giản là gõ git pull!",
-    "sl_SI": "Samo izvedi git pull!"
+    "sl_SI": "Samo izvedi git pull!",
+    "pl"   : "Po prostu uruchom git pull!",
   },
   "startDialog": {
     "en_US": {
@@ -921,6 +923,65 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Teraz, gdy widzieliśmy jak pobierać dane ze zdalnego repozytorium za pomocą `git fetch`, zaktualizujmy naszą pracę, aby odzwierciedlić te zmiany!",
+              "",
+              "Istnieje wiele sposobów, aby to zrobić - kiedy masz już nowe commity dostępne lokalnie, możesz je włączyć tak, jakby były zwykłymi commitami na innych gałęziach. Oznacza to, że możesz wykonywać polecenia takie jak:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* itd., itd.",
+              "",
+              "W rzeczywistości flow pracy polegające na *pobieraniu* zdalnych zmian, a następnie *połączeniu* ich jest tak powszechny, że git faktycznie zapewnia polecenie, które robi obie te rzeczy naraz! Tą komendą jest `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Zobaczmy najpierw `fetch` i `merge` wykonywane jedno po drugim."
+            ],
+            "afterMarkdowns": [
+              "Boom -- pobraliśmy `C3` za pomocą `fetch`, a następnie połączyliśmy tę pracę za pomocą `git merge o/main`. Teraz nasza gałąź `main` odzwierciedla nową pracę z remote (w tym przypadku o nazwie `origin`)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Co by się stało, gdybyśmy zamiast tego użyli `git pull`?"
+            ],
+            "afterMarkdowns": [
+              "Dokładnie to samo! To powinno wyjaśnić, że `git pull` jest w zasadzie skrótem do `git fetch`, po którym następuje scalenie gałęzi, która została właśnie pobrana."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Szczegóły działania `git pull` poznamy później (w tym opcje i argumenty), ale na razie wypróbujmy je na tym poziomie.",
+              "",
+              "Pamiętaj -- możesz rozwiązać ten poziom używając tylko `fetch` i `merge`, ale będzie Cię to kosztowało dodatkową komendę :P"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
