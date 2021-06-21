@@ -17,7 +17,8 @@ exports.level = {
     "uk"   : "Симуляція колективної роботи",
     "ko"   : "가짜 팀워크",
     "vi"   : "Giả lập làm việc nhóm",
-    "sl_SI": "Lažno Ekipno Delo"
+    "sl_SI": "Lažno Ekipno Delo",
+    "pl"   : "Symulacja pracy zespołowej",
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
@@ -34,7 +35,8 @@ exports.level = {
     "uk"   : "пам’ятай що ти можеш вказати кількість фейкових комітів",
     "ko"   : "가장할 커밋의 갯수를 조절할 수 있습니다.",
     "vi"   : "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập.",
-    "sl_SI": "Spomni se, da lahko določiš število lažnih commitov."
+    "sl_SI": "Spomni se, da lahko določiš število lažnih commitov.",
+    "pl"   : "pamiętaj, że możesz określić liczbę commitów do podrobienia",
   },
   "startDialog": {
     "en_US": {
@@ -848,6 +850,60 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Symulacja pracy zespołowej",
+              "",
+              "Więc tutaj jest trudna rzecz -- na potrzeby niektórych z nadchodzących lekcji, musimy nauczyć Cię jak ściągać zmiany, które zostały wprowadzone na zdalnej gałęzi przez innych.",
+              "",
+              "Oznacza to, że musimy zasadniczo \"udawać\", że gałąź zdalna została zaktualizowana przez jednego z twoich współpracowników / przyjaciół / współtwórców, na określonej gałęzi lub określonej liczbie commitów.",
+              "",
+              "Aby to zrobić, wprowadziliśmy trafnie nazwaną komendę `git fakeTeamwork`! Jest to dość oczywiste, zobaczmy demo. . ."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Domyślnym zachowaniem `fakeTeamwork` jest po prostu umieszczenie commitu na gałęzi main."
+            ],
+            "afterMarkdowns": [
+              "Proszę bardzo - zdalny serwer został zaktualizowany o nowy commit, a my jeszcze go nie pobraliśmy, ponieważ nie uruchomiliśmy `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Możesz również określić liczbę commitów lub gałąź poprzez dołączenie ich do polecenia."
+            ],
+            "afterMarkdowns": [
+              "Za pomocą jednej komendy symulujemy, że kolega z zespołu wypycha trzy commity do gałęzi `foo` na naszej gałęzi zdalnej."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Nadchodzące poziomy będą dość trudne, więc prosimy Cię o większe niż zazwyczaj skupienie na tym poziomie.",
+              "",
+              "Nie bój się, stwórz zdalną gałąź (używając `git clone`), podrób kilka zmian na zdalnej gałęzi, zcommituj swoje zmiany, a następnie ściągnij te zmiany. To jak kilka lekcji w jednej!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
