@@ -63,7 +63,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` reverts changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
+              "`git reset` reverses changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as \"rewriting history;\" `git reset` will move a branch backwards as if the commit had never been made in the first place.",
               "",
               "Let's see what that looks like:"
             ],
