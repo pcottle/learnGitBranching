@@ -2065,6 +2065,7 @@ exports.strings = {
     '__desc__': 'Label in the top of the left-side menu. Rembember to leave some space on the sides',
     'en_US': ' Level ',
     'de_DE': ' Level ',
+    'zh_TW': '關卡 ',
     'it_IT': " Livello ",
     'pl' : ' Poziom '
   },
@@ -2073,6 +2074,7 @@ exports.strings = {
     '__desc__': 'Levels command label in the bottom command helper bar.',
     'en_US': 'Levels',
     'de_DE': 'Levels',
+    'zh_TW': '關卡',
     'it_IT': "Livelli",
     'pl' : 'Poziomy'
   },
@@ -2081,6 +2083,7 @@ exports.strings = {
     '__desc__': 'Solution command label in the bottom command helper bar.',
     'en_US': 'Solution',
     'de_DE': 'Lösung',
+    'zh_TW': '解答',
     'it_IT': "Soluzione",
     'pl' : 'Rozwiązanie'
   },
@@ -2089,6 +2092,7 @@ exports.strings = {
     '__desc__': 'Reset command label in the bottom command helper bar.',
     'en_US': 'Reset',
     'de_DE': 'Zurücksetzen',
+    'zh_TW': '重新開始',
     'it_IT': "Reset",
     'pl' : 'Wyczyść'
   },
@@ -2097,6 +2101,7 @@ exports.strings = {
     '__desc__': 'Undo command label in the bottom command helper bar.',
     'en_US': 'Undo',
     'de_DE': 'Rückgängig',
+    'zh_TW': '回到上一步',
     'it_IT': "Annulla",
     'pl' : 'Cofnij'
   },
@@ -2105,6 +2110,7 @@ exports.strings = {
     '__desc__': 'Objective command label in the bottom command helper bar.',
     'en_US': 'Objective',
     'de_DE': 'Zielvorgabe',
+    'zh_TW': '目標',
     'it_IT': "Obiettivo",
     'pl' : 'Cel'
   },
@@ -2113,6 +2119,7 @@ exports.strings = {
     '__desc__': 'Help command label in the bottom command helper bar.',
     'en_US': 'Help',
     'de_DE': 'Hilfe',
+    'zh_TW': '幫助',
     'it_IT': "Aiuto",
     'pl' : 'Pomoc'
   },
