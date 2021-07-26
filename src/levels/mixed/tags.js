@@ -115,7 +115,7 @@ exports.level = {
             "markdowns": [
               "Vous l'avez deviné ! Les tags Git offrent cette fonctionnalité : les tags marquent à jamais certains commits comme \"milestone\" (étape clé) auxquels vous pouvez vous référer comme à des branches.",
               "",
-              "Encore plus important, il sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag : les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
+              "Encore plus important, ils sont définitifs. Vous ne pouvez donc pas rajouter de commit dans un tag : les tags sont un peu comme un pointeur définitif dans l'arbre des commits.",
               "",
               "Voyons les tags en pratique."
             ]
