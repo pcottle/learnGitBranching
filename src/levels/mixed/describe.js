@@ -112,7 +112,7 @@ exports.level = {
             "markdowns": [
               "### Git describe",
               "",
-              "Parce ce que les tags sont de très bonnes références dans le code, git à une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe` !",
+              "Parce ce que les tags sont de très bonnes références dans le code, git a une commande pour *décrire* (describe) la différence entre le commit et le tag le plus récent. Cette commande s'appelle `git describe` !",
               "",
               "Git describe peut vous aider lorsque vous vous êtes beaucoup déplacé; cela peut arriver après un git bisect (chercher l'apparition d'un bug) ou lorsque vous revenez de vacances après 3 semaines sur l'ordinateur d'un collègue."
             ]
