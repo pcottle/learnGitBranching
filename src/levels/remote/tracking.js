@@ -1816,12 +1816,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### தொலை கிளையை கண்காணித்தல்",
+              "### தூரத்திலுள்ள கிளையை கண்காணித்தல்",
               "",
               "கடந்த சில பாடங்களில் கிட் `main` மற்றும் `o/main` தொடர்பை கிட் அறிந்திருந்தது ஒரு  \"தந்திரம் போன்று\" தோன்றி இருக்கலாம்.  நிச்சயமாக இரு கிளைகளுக்கும் ஒத்த பெயர்கள் உள்ளன, மேலும் தொலைதூரத்தில் உள்ள  `main` கிளையை நமது கணினில் உள்ள  `main` கிளையுடன் இணைக்க இது சரியான காரணமாக தெரியலாம், ஆனால் இந்த இணைப்பு இரண்டு காரணிகளில் தெளிவாக நிரூபிக்கப்பட்டுள்ளது:",
               "",
-              "* புல் செயல்பாட்டின் போது, கமிட்ஸ் `o/main` மீது பதிவிறக்கம் செய்யப்பட்டு `main` உடன் *ஒன்றிணைக்கப்படுகின்றது *.  கிழைகளுக்கு இடையிலான இணைப்பின் மறைமுக இலக்கு இந்த தொடர்பினால்  தீர்மானிக்கப்படுகிறது.",
-              "* During a push operation, work from the `main` branch was pushed onto the remote's `main` branch (which was then represented by `o/main` locally). The *destination* of the push is determined from the connection between `main` and `o/main`.",
+              "* புல் செயல்பாட்டின் போது, கமிட்ஸ் `o/main` மீது பதிவிறக்கம் செய்யப்பட்டு `main` உடன் *ஒன்றிணைக்கப்படுகின்றது *.  கிளைகளுக்கு இடையிலான இணைப்பின் மறைமுக இலக்கு இந்த தொடர்பினால்  தீர்மானிக்கப்படுகிறது.",
+              "* புஸ் செயல்பாட்டின் பொது, `main` கிளையில் உள்ள மாற்றங்கள் தூரத்திலுள்ள `main` கிளைக்கு தள்ளப்படிகிரது (அது பின்னர் `o/main` என்று நம்மிடத்தில் குறித்துக்காட்டப்படும்).`main` மற்றும் `o/main` இடையிலான தொடர்பினை பொருத்து புஸ் செயலின் இலக்கு தீர்மானிக்கப்படுகிறது.",
               ""
             ]
           }
@@ -1830,17 +1830,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Remote tracking",
+              "## தொலைதூர இலக்கை கண்காணித்தல்",
               "",
-              "Long story short, this connection between `main` and `o/main` is explained simply by the \"remote tracking\" property of branches. The `main` branch is set to track `o/main` -- this means there is an implied merge target and implied push destination for the `main` branch.",
+              "சுருக்கமாக கூரினால், `main` மற்றும் `o/main` இடையிலான தொடர்பு  \"remote tracking\" குணத்தினால் விளக்கப்பட்டுகிறது. `main` கிளை `o/main` கிளையை கண்காணிக்குமாரு  அமைக்கப்பட்டுள்ளது  -- என்றால் இணைப்பிற்க்கான இலக்கும் புஸ்க்கான இலக்கும் மறைமுகமாக குறிக்கப்பட்டுள்ளது.",
               "",
-              "You may be wondering how this property got set on the `main` branch when you didn't run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically. ",
+              "எந்த ஓரு கட்டளையும் கொடுக்கப்படாமல் இந்த குணம் எப்படி  கிடைத்தது  என்ற குழப்பன் வேண்டாம்,  அது நீங்கள் ஒரு களஞ்சியத்தை நகல் எடுக்கும் போது  தானாக பொறுத்த படுகிறது. ",
               "",
-              "During a clone, git creates a remote branch for every branch on the remote (aka branches like `o/main`). It then creates a local branch that tracks the currently active branch on the remote, which is `main` in most cases.",
+              "நகல் எடுக்கும் பொலுது, கிட் தூரத்திலுள்ள கிளைகளுக்கும் ஒரு கிளையை உருவாக்குகிறது (`o/main` கிளையை போன்று).  பின்பு அது தூரத்தில் நடைமுறையில் உள்ள கிளையை கண்காணிக்கும் படி ஒரு கிளையை நமது இடத்தில் உருவாக்கும், அது பொதுவாக `main`ஆக இருக்கும்.",
               "",
-              "Once git clone is complete, you only have one local branch (so you aren't overwhelmed) but you can see all the different branches on the remote (if you happen to be very curious). It's the best of both worlds!",
+              "நகால் எடுத்த பின்பு, நம்மிடம் உள்ள கிளை மட்டும் மீதம் இருக்கும் (எனவே நீங்கள் அதிகபடியாக எதையும் பெரவில்லை) ஆயினும் தேவைப்பட்டால் நீங்கள் தூரத்தில் உள்ள அனைத்து கிளைகளையும் காணலாம்.  இது இரு நிளைககளிலும் சிறந்தது!",
               "",
-              "This also explains why you may see the following command output when cloning:",
+              "இதுதான் பின் வரும் கட்டளை நகல் எடுக்கும் போது பதிவு செயப்படுவதன் காரனம்:",
               "",
               "    local branch \"main\" set to track remote branch \"o/main\""
             ]
@@ -1850,15 +1850,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Can I specify this myself?",
+              "### இதை நானே குறிப்பிட முடியுமா?",
               "",
-              "Yes you can! You can make any arbitrary branch track `o/main`, and if you do so, that branch will have the same implied push destination and merge target as `main`. This means you can run `git push` on a branch named `totallyNotMain` and have your work pushed to the `main` branch on the remote!",
+              "ஆமாம் கண்டிப்பாக!  உங்களால் எந்த ஒரு கிளையையும் `o/main` கண்காணிக்கும் படி அமைக்க முடியும், அப்படி செய்தால் அதிலும் இணைப்பிற்க்கான இலக்கு மற்றும்  புஸ்க்கான இலக்கு் இரண்டும் மறைமுகமாக `main`ஐ குறிக்கும் படி இருக்கும்.  அதலான் `totallyNotMain` கிளையில் செய்யப்படும் `git push` தூரத்தில் உள்ள `main` கிளையில் மாற்றங்களை இணைத்துவிடும்.",
               "",
-              "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
+              "இதனை இரண்டு வகையாக செய்யலாம். முதலாவதாக புதிய கிளையை பின் வரும் கட்டளை கொண்டு பதிப்பித்தல்",
               "",
               "`git checkout -b totallyNotMain o/main`",
               "",
-              "Creates a new branch named `totallyNotMain` and sets it to track `o/main`."
+              "அல்லது `totallyNotMain` என்ற கிளையை உருவாக்கி `o/main` கண்காணிக்கு படி அமைத்தல்."
             ]
           }
         },
@@ -1866,10 +1866,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Enough talking, let's see a demonstration! We will checkout a new branch named `foo` and set it to track `main` on the remote."
+              "விளக்கங்கள் போதும், இப்போது செயல்முறையை காண்போம்! `foo` கிளையை `main` கண்காணிக்கு படி பதிப்பிப்போம்."
             ],
             "afterMarkdowns": [
-              "As you can see, we used the implied merge target of `o/main` to update the `foo` branch. Note how main doesn't get updated!!"
+              "நீங்கள் பார்ப்பதை போன்று, `foo` கிளை `o/main`ஐ மறைமுக இணை்ப்பு இல்க்காக அமைக்கப்பட்டுள்ளது.  எவ்வளவு `main` புதுப்பிக்கப்படவில்லை என்பதை நினைவில் கொள்க!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
@@ -1879,10 +1879,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "This also applies for git push."
+              "கிட் புஸ்-ஐயும் செயல் படுத்துங்கள்."
             ],
             "afterMarkdowns": [
-              "Boom. We pushed our work to the `main` on the remote even though our branch was named something totally different."
+              "சிரப்பு. நமது  கிளைக்கு முற்றிலும் வேறுபட்ட பெயரிடப்பட்டிருந்தாலும், நமது மாற்றங்களை தொலைதூரத்தில் உள்ள `main`தள்ளினோம்."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
             "beforeCommand": "git clone"
@@ -1892,13 +1892,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Way #2",
+              "### வழி #2",
               "",
-              "Another way to set remote tracking on a branch is to simply use the `git branch -u` option. Running",
+              "தூரத்திலுள்ள கிளையை கண்காணிக்கும் மற்றும் ஒரு முறை `git branch -u`ஐ பயன்படுத்துவது.  பின்வருமாரு கட்டளையிட்டு",
               "",
               "`git branch -u o/main foo`",
               "",
-              "will set the `foo` branch to track `o/main`. If `foo` is currently checked out you can even leave it off:",
+              "இது `foo` `o/main`ஐ கண்காணிக்கும் படி செய்யும்.  `foo` ஏற்க்கனவே பதிப்பிட பட்டு இருந்தால் அதையும் நீ்ங்கள் உள்ளீடாக தர அவசியம் இல்லை:",
               "",
               "`git branch -u o/main`",
               ""
@@ -1909,10 +1909,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's see this other way of specifying remote tracking real quick..."
+              "இப்போது இந்த இரண்டாவது முறையை விரைவாக காண்போம்..."
             ],
             "afterMarkdowns": [
-              "Same as before, just a more explicit command. Sweet!"
+              "முன்பு குறிப்பிட்டது போன்றுதான், மேலும் சற்று வெளிப்படையன கட்டளையாக!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
             "beforeCommand": "git clone; git checkout -b foo"
@@ -1922,7 +1922,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! For this level let's push work onto the `main` branch on remote while *not* checked out on `main` locally. I'll let you figure out the rest since this is the advanced course :P"
+              "சரி! இந்த நிலைக்கு நாம் தூரத்தில் உள்ள `main` கிளைக்கு அதனை பதிப்பிடாமல் மாற்றங்களை தள்ளுவோம்.  இது உயர்நிலை பாட பகுதி என்பதால் அதை எவ்வாரு செய்யலாம் என்பது உங்களிடமெ விட்டு விடுகின்றேன் :P"
             ]
           }
         }
