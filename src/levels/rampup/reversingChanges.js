@@ -1063,7 +1063,7 @@ exports.level = {
             beforeMarkdowns: [
               "## Git Reset",
               "",
-              '`git reset` annulla le modifiche spostando il puntatore al ramo indietro nel tempo a un commit precedente. Puoi vederla come se stessi "riscriveno la storia;" `git reset` torna al commit precedente come se il nuovo commit non fosse mai esistito.',
+              '`git reset` annulla le modifiche spostando il puntatore al ramo indietro nel tempo a un commit precedente. Puoi vederla come se stessi "riscrivendo la storia;" `git reset` torna al commit precedente come se il nuovo commit non fosse mai esistito.',
               "",
               "Vediamone una rappresentazione:",
             ],
