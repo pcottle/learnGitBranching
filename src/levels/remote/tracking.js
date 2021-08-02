@@ -214,7 +214,7 @@ exports.level = {
               "Assez parlé, faisons une démonstration ! Nous allons nous placer sur une nouvelle branche nommée `foo` et la configurer pour suivre `main` du dépôt distant."
             ],
             "afterMarkdowns": [
-              "Comme vous pouvez le voir, nous avons utilisé la cible de fusion déclarée pour `o/main` afin de mettre à jour la branche `foo`. Remarquez que la branche main n'a pas été mise à jour !!"
+              "Comme vous pouvez le voir, nous avons utilisé la cible de fusion déclarée pour `o/main` afin de mettre à jour la branche `foo`. Remarquez que la branche `main` n'a pas été mise à jour !!"
             ],
             "command": "git checkout -b foo o/main; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
