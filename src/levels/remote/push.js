@@ -20,7 +20,8 @@ exports.level = {
     "uk"   : "Git push",
     "ko"   : "Git push",
     "vi"   : "Git push",
-    "sl_SI": "Git Push"
+    "sl_SI": "Git Push",
+    "pl": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -36,7 +37,8 @@ exports.level = {
     "uk"   : "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
     "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
     "vi"   : "Nhớ rằng bạn phải clone trước khi push!",
-    "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!"
+    "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!",
+    "pl": "Najpierw sklonuj, potem pushuj!",
   },
   "startDialog": {
     "en_US": {
@@ -676,6 +678,51 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, więc pobraliśmy zmiany ze zdalnego repozytorium i włączyliśmy je do naszej pracy lokalnie. To wspaniale i w ogóle... ale jak mamy się podzielić _naszą_ wspaniałą pracą z wszystkimi innymi?",
+              "",
+              "Cóż, sposób przesyłania współdzielonej pracy jest przeciwieństwem pobierania współdzielonej pracy. A co jest przeciwieństwem `git pull`? `git push`!",
+              "",
+              "Polecenie `git push` jest odpowiedzialne za przesłanie i aktualizację _naszych_ zmian na wybranego remote'a, aby zawierał nowe commity. Gdy `git push` zostanie ukończony, wszyscy twoi przyjaciele będą mogli pobrać twoją pracę z serwera zdalnego.",
+              "",
+              "Możesz myśleć o `git push` jako o komendzie do \"publikowania\" swojej pracy. Ma on wiele szczegółów, które wkrótce omówimy, ale zacznijmy od małych kroczków...",
+              "",
+              "*uwaga -- zachowanie `git push` bez argumentów różni się w zależności od jednego z ustawień git o nazwie `push. default`. Domyślna wartość tego ustawienia zależy od wersji git, której używasz. W naszych lekcjach będziemy używać wartości `upstream`. Nie jest to wielka sprawa, ale warto sprawdzić swoje ustawienia przed wprowadzeniem ich do własnych projektów.*",
+              "",
+              "*uwaga 2 -- odpowiednik gałęzi na zdalnym repozytorium będziemy nazywać remotem. Nazwa ta jest wykorzystywana w branży, dlatego będziemy się jej trzymać, aby nie wprowadzać zawiłego nazewnictwa*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tutaj mamy kilka zmian, których nie ma remote. Załadujmy je!"
+            ],
+            "afterMarkdowns": [
+              "No i proszę -- remote otrzymał commit `C2`, gałąź `main` na zdalnym repozytorium została zaktualizowana do `C2`, a nasze *własne* odzwierciedlenie zdalnego (`o/main`) również zostało zaktualizowane. Wszystko jest zsynchronizowane!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby zakończyć ten poziom, po prostu podziel się dwoma nowymi commitami z innymi użytkownikami repozytorium. Przygotuj się jednak na coraz trudniejsze lekcje!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
