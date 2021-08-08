@@ -17,7 +17,8 @@ exports.level = {
     "uk"   : "Розбіжності в історії",
     "ko"   : "엇갈린 히스토리",
     "vi"   : "Dị biệt lịch sử",
-    "sl_SI": "Razdeljena Zgodovina"
+    "sl_SI": "Razdeljena Zgodovina",
+    "pl": "Rozbieżna  historia"
   },
   "hint": {
     "en_US": "check out the ordering from the goal visualization",
@@ -34,7 +35,8 @@ exports.level = {
     "uk"   : "перевірте порядок в візуалізації цілі",
     "ko"   : "순서는 goal을 참고하세요",
     "vi"   : "kiểm tra kỹ thứ tự trên mô hình mục tiêu",
-    "sl_SI": "Preveri vrstni red iz ciljne vizualizacije."
+    "sl_SI": "Preveri vrstni red iz ciljne vizualizacije.",
+    "pl": "sprawdź, jak wygląda kolejność z wizualizacji bramki",
   },
   "startDialog": {
     "en_US": {
@@ -752,7 +754,6 @@ exports.level = {
         }
       ]
     },
-
     "gl": {
       "childViews": [
         {
@@ -2182,6 +2183,149 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rozbieżna praca",
+              "",
+              "Do tej pory widzieliśmy jak `pull` pobiera commity od innych i jak `push` wysyła nasze własne zmiany. Wydaje się to całkiem proste, więc jak ludzie mogą być tak zdezorientowani?",
+              "",
+              "Trudność pojawia się, gdy historia repozytorium *rozbiega się*. Zanim omówimy szczegóły tego rozwiązania, zobaczmy przykład..",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Wyobraźmy sobie, że klonujemy repozytorium w poniedziałek i zaczynamy pracować nad dodatkową funkcjonalnością. W piątek jesteśmy gotowi aby opublikować swoje zmiany -- ale o nie! Twoi współpracownicy napisali w ciągu tygodnia mnóstwo kodu, który sprawił, że Twoja funkcjonalność stała się nieaktualna (i przestarzała). Opublikowali również te poprawki we wspólnym zdalnym repozytorium, więc teraz *twoja* praca jest oparta na *starej* wersji projektu, która nie jest już aktualna.",
+              "",
+              "W tym przypadku, komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`, czy git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy powinien on próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy też powinien on całkowicie zignorować Twoje zmiany, ponieważ są one całkowicie nieaktualne?",
+              "",
+              "Ponieważ w tej sytuacji jest tak wiele niejasności (gdzie historia się rozbiegła), git nie pozwala ci na `push` twoich zmian. W rzeczywistości zmusza Cię do połączenia najnowszego stanu remota, zanim będziesz mógł udostępnić swoją pracę."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dosyć gadania! Zobaczmy tę sytuację w działaniu."
+            ],
+            "afterMarkdowns": [
+              "Spójrz, nic się nie zmieniło, ponieważ polecenie nie powiodło się. Polecenie `git push` nie powiedzie się, ponieważ twój najnowszy commit `C3` jest oparty na zdalnym `C1`. Zdalny został jednak zaktualizowany do `C2`, więc git odrzuca twojego pusha."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Jak rozwiążesz tę sytuację? To proste, wszystko co musisz zrobić, to oprzeć swoją pracę na najnowszej wersji remota.",
+              "",
+              "Jest kilka sposobów, aby to zrobić, ale najprostszym jest przeniesienie pracy poprzez rebase. Zobaczmy, jak to wygląda."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Teraz, jeśli zamiast tego zrobimy rebase przed wypchnięciem..."
+            ],
+            "afterMarkdowns": [
+              "Boom! Zaktualizowaliśmy naszą lokalną reprezentację remota za pomocą `git fetch`, zmieniliśmy naszą pracę, aby odzwierciedlić nowe zmiany na remotcie, a następnie wypchnęliśmy je za pomocą `git push`."
+            ],
+            "command": "git fetch; git rebase o/main; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Czy istnieją inne sposoby na aktualizację naszej pracy, gdy zdalne repozytorium zostało zaktualizowane? Oczywiście! Spróbujmy rozwiązać to z użyciem `merge`.",
+              "",
+              "Chociaż `git merge` nie przenosi twojej pracy (a zamiast tego po prostu tworzy commit scalający), jest to sposób na powiedzenie gitowi, że włączyłeś wszystkie zmiany z remota. Dzieje się tak dlatego, że zdalna gałąź jest teraz *przodkiem* twojej własnej gałęzi, co oznacza, że twój commit odzwierciedla wszystkie commity w zdalnej gałęzi.",
+              "",
+              "Sprawdźmy jak to wygląda..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Teraz jeżeli zmergujemy zamiast rebasować..."
+            ],
+            "afterMarkdowns": [
+              "Boom! Zaktualizowaliśmy naszą lokalną reprezentację remota za pomocą `git fetch`, git *zmergował* nową pracę do naszej pracy (aby odzwierciedlić nowe zmiany na remotcie), a następnie wypchnął je za pomocą `git push`."
+            ],
+            "command": "git fetch; git merge o/main; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Wspaniale! Czy jest jakiś sposób, abym mógł to zrobić bez wpisywania tylu komend?",
+              "",
+              "Oczywiście -- znasz już `git pull ` - jest po prostu skrótem dla fetch i merge. `git pull --rebase` jest bardzo wygodnym skrótem od fetch i rebase!",
+              "",
+              "Zobaczmy te skrócone komendy w pracy."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Na początku z `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "Tak samo jak wcześniej! Tylko sporo krócej."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A teraz z klasycznym `pull`."
+            ],
+            "afterMarkdowns": [
+              "Jeszcze raz, dokładnie tak samo jak wcześniej!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ten flow pracy fetchowania, rebase/merge i push jest dość powszechny. W kolejnych lekcjach zajmiemy się bardziej skomplikowanymi wersjami tych flow. Na razie wypróbujmy to czego się nauczyliśmy.",
+              "",
+              "Aby rozwiązać ten poziom, wykonaj następujące kroki:",
+              "",
+              "* Sklonuj swoje repozytorium",
+              "* Sfałszuj trochę pracy zespołowej (1 commit)",
+              "* Zcommituj trochę swojej pracy (1 commit)",
+              "* Opublikuj swoją pracę korzystając z *rebase*"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
