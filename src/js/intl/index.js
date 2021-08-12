@@ -57,7 +57,7 @@ var str = exports.str = function(key, params) {
 
 var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   if (!obj || !obj[key]) {
-    throw new Error('that key ' + key + 'doesn\'t exist in this blob' + obj);
+    throw new Error('that key ' + key + ' doesn\'t exist in this blob ' + obj);
   }
   if (!obj[key][getDefaultLocale()]) {
     console.warn(

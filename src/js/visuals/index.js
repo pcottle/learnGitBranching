@@ -219,7 +219,7 @@ GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
 GitVisuals.prototype.finishAnimation = function(speed) {
   speed = speed || 1.0;
   if (!speed) {
-    throw new Error('need speed by time i finish animation' + speed);
+    throw new Error('need speed by time i finish animation ' + speed);
   }
 
   var _this = this;
@@ -309,7 +309,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
     animationDone.resolve();
   })
   .fail(function(reason) {
-    console.warn('animation error' + reason);
+    console.warn('animation error ' + reason);
   })
   .done();
 
