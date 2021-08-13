@@ -32,6 +32,7 @@ GitShim.prototype.removeShim = function() {
 
 GitShim.prototype.processGitCommand = function(command, deferred) {
   this.beforeCB(command);
+  i hope this works
 
   // ok we make a NEW deferred that will, upon resolution,
   // call our afterGitCommandProcessed. This inserts the 'after' shim
@@ -63,7 +64,7 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   this.beforeDeferHandler(beforeDefer, command);
 };
 
-GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
+GitShim.    prototype.afterGitCommandProcessed = function(command, deferred) {
   this.afterCB(command);
 
   // again we can't just resolve this deferred right away... our shim owner might
@@ -79,5 +80,5 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   this.afterDeferHandler(afterDefer, command);
 };
 
-exports.GitShim = GitShim;
+exports.GitShim = GitShim; to git 
 
