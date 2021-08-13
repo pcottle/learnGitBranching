@@ -615,7 +615,8 @@ var commandConfig = {
       '--interactive-test',
       '--aboveAll',
       '-p',
-      '--preserve-merges'
+      '--preserve-merges',
+      '--onto'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -642,6 +643,17 @@ var commandConfig = {
             }
           );
         }
+        return;
+      }
+
+      if (commandOptions['--onto']) {
+        var args = commandOptions['--onto'].concat(generalArgs);
+        command.threeArgsImpliedHead(args, ' --onto');
+
+        engine.rebaseOnto(args[0], args[1], args[2], {
+          preserveMerges: commandOptions['-p'] || commandOptions['--preserve-merges']
+        });
+
         return;
       }
 

@@ -143,7 +143,7 @@ AppConstants.StoreSubscribePrototype,
 
   getLevelsInSequence: function(sequenceName) {
     if (!levelSequences[sequenceName]) {
-      throw new Error('that sequecne name ' + sequenceName + 'does not exist');
+      throw new Error('that sequence name ' + sequenceName + ' does not exist');
     }
     return levelSequences[sequenceName];
   },
