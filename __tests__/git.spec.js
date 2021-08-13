@@ -423,4 +423,27 @@ describe('Git', function() {
       });
     });
   });
+
+  describe ('Git rebase onto', function () {
+    it('rebase onto with two arguments', function() {
+      return expectTreeAsync(
+        'git commit; git commit; git switch -c F1 main~2; git commit; git commit; git switch -c F2; git commit; git commit; git rebase --onto main F1;',
+        '%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22F1%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22F1%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22F2%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22F2%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22tags%22%3A%7B%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22F2%22%2C%22id%22%3A%22HEAD%22%7D%7D'
+      );
+    });
+
+    it('rebase onto with three arguments', function() {
+      return expectTreeAsync(
+        'git commit; git commit; git switch -c F1 main~2; git commit; git commit; git switch -c F2; git commit; git commit; git checkout C1; git rebase --onto main F1 F2;',
+        '%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22F1%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22F1%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22F2%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22F2%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22tags%22%3A%7B%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22F2%22%2C%22id%22%3A%22HEAD%22%7D%7D'
+      );
+    });
+
+    it('rebase onto fast forward', function() {
+      return expectTreeAsync(
+        'git switch -c F1; git commit; git switch -c F1; git commit;',
+        '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null},"F1":{"target":"C2","id":"F1","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"F1","id":"HEAD"}}'
+      );
+    });
+  });
 });
