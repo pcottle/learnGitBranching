@@ -124,17 +124,23 @@ var Command = Backbone.Model.extend({
     }
   },
 
-  oneArgImpliedHead: function(args, option) {
-    this.validateArgBounds(args, 0, 1, option);
+  argImpliedHead: function (args, lower, upper, option) {
+    // our args we expect to be between {lower} and {upper}
+    this.validateArgBounds(args, lower, upper, option);
     // and if it's one, add a HEAD to the back
-    this.impliedHead(args, 0);
+    this.impliedHead(args, lower);
+  },
+
+  oneArgImpliedHead: function(args, option) {
+    this.argImpliedHead(args, 0, 1, option);
   },
 
   twoArgsImpliedHead: function(args, option) {
-    // our args we expect to be between 1 and 2
-    this.validateArgBounds(args, 1, 2, option);
-    // and if it's one, add a HEAD to the back
-    this.impliedHead(args, 1);
+    this.argImpliedHead(args, 1, 2, option);
+  },
+
+  threeArgsImpliedHead: function(args, option) {
+    this.argImpliedHead(args, 2, 3, option);
   },
 
   oneArgImpliedOrigin: function(args) {

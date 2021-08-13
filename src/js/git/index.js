@@ -2165,6 +2165,21 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
 };
 
+GitEngine.prototype.rebaseOnto = function(targetSource, oldSource, unit, options) {
+  if (this.isUpstreamOf(unit, targetSource)) {
+    this.setTargetLocation(unit, this.getCommitFromRef(targetSource));
+    this.command.setResult(intl.str('git-result-fastforward'));
+
+    this.checkout(unit);
+    return;
+  }
+
+  var stopSet = Graph.getUpstreamSet(this, targetSource);
+  var oldBranchSet = Graph.getUpstreamSet(this, oldSource);
+  var toRebaseRough = this.getUpstreamDiffFromSet(oldBranchSet, unit);
+  return this.rebaseFinish(toRebaseRough, stopSet, targetSource, unit, options);
+};
+
 GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
   var set = {};
   this.getUpstreamDiffFromSet(stopSet, location).forEach(function (commit) {
