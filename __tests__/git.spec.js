@@ -441,7 +441,7 @@ describe('Git', function() {
 
     it('rebase onto fast forward', function() {
       return expectTreeAsync(
-        'git switch -c F1; git commit; git switch -c F1; git commit;',
+        'git switch -c F1; git commit; git rebase --onto F1 main;',
         '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null},"F1":{"target":"C2","id":"F1","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"F1","id":"HEAD"}}'
       );
     });
