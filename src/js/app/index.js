@@ -251,7 +251,7 @@ var initDemo = function(sandbox) {
         }
         eventBaton.trigger(
           'commandSubmitted',
-          'importLevelNow ' + escape(file.content) + '; clear'
+          'importLevelNow ' + escape(file.content) + '; clear; show goal;'
         );
       }
     });
