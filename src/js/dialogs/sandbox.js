@@ -799,7 +799,7 @@ exports.dialog = {
           "Prova ",
           "[questo link](https://pcottle.github.io/learnGitBranching/?NODEMO?locale=it_IT)",
           "",
-          "PPS: GitHub (e il settore in generale) sta modificando il nome del ramo di default in `main` invece che `main` ",
+          "PPS: GitHub (e il settore in generale) sta modificando il nome del ramo di default in `main` invece che `master` ",
           "leggi [qui per ulteriori dettagli](https://github.com/github/renaming). In modo da adattare questo cambiamento ",
           "e tenere la retrocompatibilità , questi nomi saranno considerati equivalenti. `main` sarà comunque ",
           "il nome predefinito. Ci siamo impegnati per aggiornare tutti i livelli, ma ci sarà ",
