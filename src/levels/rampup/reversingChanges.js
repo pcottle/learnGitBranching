@@ -1099,7 +1099,7 @@ exports.level = {
             markdowns: [
               "Per completare questo livello, annulla i commit più recenti sia in `local` che in `pushed`. Alla fine annullerai due commit in totale (uno per ramo).",
               "",
-              "Tieni presente che `pushed` è un ramo  remoto e `local` è un ramo remoto -- questo dovrebbe aiutarti a scegliere quale metodo usare.",
+              "Tieni presente che `pushed` è un ramo remoto e `local` è un ramo locale -- questo dovrebbe aiutarti a scegliere quale metodo usare.",
             ],
           },
         },
