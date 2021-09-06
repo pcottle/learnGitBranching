@@ -1339,7 +1339,7 @@ exports.level = {
               "",
               "W polskim nazewnictwie stosuje się wymiennie nawzwę branch oraz gałąź. Natomiast commit (zatwierdzenie) stosuje się tylko w różnych odmienionych formach np. commita, commitów itp",
               "",
-              "Tworzenie wielu gałęzi nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci. Z tego powodu łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, różne od siebie gałęzi.",
+              "Tworzenie wielu gałęzi nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci. Z tego powodu łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, różne od siebie gałęzie.",
               "",
               "Kiedy zaczniemy mieszać gałęzie i commity, zobaczymy, jak łączą się te dwie funkcje. Narazie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego commita oraz wszystkie poprzednie commity\"."
             ]
