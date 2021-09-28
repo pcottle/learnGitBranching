@@ -823,7 +823,7 @@ exports.level = {
               "## Git Commits",
               "Un commit in git memorizza un'instantanea di tutti i file (tracciati) della cartella di lavoro. E' come un enorme copia-incolla, ma migliore!",
               "",
-              'Git conserva i commit nella modo più leggero possibile, perciò non copia cecamente l\'intera cartella per ogni commit. Può (ove possibile) comprimere un commit come un insieme di cambiamenti, o "delta", da una versione alla successiva del repository.',
+              'Git conserva i commit nel modo più leggero possibile, perciò non copia cecamente l\'intera cartella per ogni commit. Può (ove possibile) comprimere un commit come un insieme di cambiamenti, o "delta", da una versione alla successiva del repository.',
               "",
               "Git memorizza anche la storia di tutti i commit effettuati. Questo è il motivo per cui molti commit hanno genitori sopra di essi -- questo viene rappresentato con delle frecce nelle nostre spiegazioni. Conoscere la storia è utilissimo per tutti quelli che collaborano ad un progetto!",
               "",
@@ -835,12 +835,12 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Vediamolo in pratica. Sulla destra abbiamo l'immagine di un (piccolo) repository git. Ci sono due commit --il primo commit, `C0`,e un altro dopo, `C1`, che potrebbe avere modifiche importanti.",
+              "Vediamolo in pratica. Sulla destra abbiamo l'immagine di un (piccolo) repository git. Ci sono due commit -- il primo commit, `C0`, e un altro dopo, `C1`, che potrebbe avere modifiche importanti.",
               "",
               "Premi il pulsante qua sotto per eseguire un nuovo commit.",
             ],
             afterMarkdowns: [
-              "Ecco qua! Fantastico. Abbiamo modificato il repository e salvato con un commit. Il commit che abbiamo creato ha un genitore, `C1`, che ci indica su cui è basato il nostro commit.",
+              "Ecco qua! Fantastico. Abbiamo modificato il repository e salvato con un commit. Il commit che abbiamo creato ha un genitore, `C1`, che ci indica su chi è basato il nostro commit.",
             ],
             command: "git commit",
             beforeCommand: "",
