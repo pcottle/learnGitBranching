@@ -1333,7 +1333,7 @@ exports.level = {
             afterMarkdowns: [
               "Visto che `bugFix` era un antenato di `main`, git non ha dovuto fare nulla di che; ha semplicemente spostato `bugFix` sullo stesso commit in cui era collegato `main`.",
               "",
-              "Ora tutti i commit hanno lo stesso colore, il che significa che ogni ramo contiene tutti il lavoro del repository! WoWoWoW!",
+              "Ora tutti i commit hanno lo stesso colore, il che significa che ogni ramo contiene tutto il lavoro del repository! WoWoWoW!",
             ],
             command: "git checkout bugFix; git merge main",
             beforeCommand:
