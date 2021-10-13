@@ -6,37 +6,37 @@ exports.level = {
     "en_US": "Git Fetchin'",
     "fr_FR": "Git fetch",
     "de_DE": "Git Fetch",
-    "ja"   : "Git Fetch",
+    "ja": "Git Fetch",
     "es_AR": "git fetch",
     "es_ES": "git fetch",
     "pt_BR": "Git Fetch",
-    "gl"   : "Git Fetch",
+    "gl": "Git Fetch",
     "zh_CN": "Git Fetch",
     "zh_TW": "git fetch",
     "ru_RU": "Git fetch",
-    "uk"   : "Git fetch",
-    "ko"   : "Git Fetch",
-    "vi"   : "Git Fetch",
+    "uk": "Git fetch",
+    "ko": "Git Fetch",
+    "vi": "Git Fetch",
     "sl_SI": "Git Fetch",
-    "pl"   : "Git Fetch"
+    "pl": "Git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
     "fr_FR": "Exécuter juste git fetch",
     "de_DE": "Einfach git fetch ausführen!",
-    "ja"   : "単にgit fetchを実行！",
+    "ja": "単にgit fetchを実行！",
     "es_AR": "Simplemente ¡hacé git fetch!",
     "es_ES": "Simplemente ¡escribe git fetch!",
     "pt_BR": "Simplesmente chame git fetch!",
-    "gl"   : "¡Sinxelamente fai git fetch!",
+    "gl": "¡Sinxelamente fai git fetch!",
     "zh_CN": "只需要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令",
     "ru_RU": "Просто выполните git fetch!",
-    "uk"   : "Просто виконай git fetch!",
-    "ko"   : "그냥 git fetch를 하세요!",
-    "vi"   : "Gõ git fetch là được!",
+    "uk": "Просто виконай git fetch!",
+    "ko": "그냥 git fetch를 하세요!",
+    "vi": "Gõ git fetch là được!",
     "sl_SI": "Le izvedi git fetch!",
-    "pl"   : "Po prostu uruchom git fetch!"
+    "pl": "Po prostu uruchom git fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -771,75 +771,75 @@ exports.level = {
     },
     "ru_RU": {
       "childViews": [
-          {
-              "type": "ModalAlert",
-              "options": {
-                  "markdowns": [
-                      "## Git Fetch",
-                      "",
-                      "Работа с удалёнными git репозиториями сводится к передаче данных _в_ и _из_ других репозиториев. До тех пор, пока мы можем отправлять коммиты туда-обратно, мы можем делиться любыми изменениями, которые отслеживает git (следовательно, делиться новыми файлами, свежими идеями, любовными письмами и т.д.).",
-                      "",
-                      "В этом уроке вы научитесь тому, как извлекать данные _из_ удалённого репозитория - и для этого у нас есть соответствующая команда `git fetch`.",
-                      "",
-                      "Вы увидите, что как только мы изменим представление нашего удалённого репозитория, наши _удалённые_ ветки обновятся соответствующим образом и отобразят это представление. Это связывает воедино предыдущий урок про удалённые репозитории."
-                  ]
-              }
-          },
-          {
-              "type": "GitDemonstrationView",
-              "options": {
-                  "beforeMarkdowns": [
-                      "Прежде чем углубляться в детали команды `git fetch`, давайте взглянем на её визуализацию в действии! Здесь у нас имеется удалённый репозиторий, который содержит в себе два коммита, отсутствующих в нашем локальном репозитории."
-                  ],
-                  "afterMarkdowns": [
-                      "Вот и всё! Коммиты `C2` и `C3` были успешно скачаны в наш локальный репозиторий, и наша удалённая ветка `o/main` отобразила эти изменения соответствующим образом."
-                  ],
-                  "command": "git fetch",
-                  "beforeCommand": "git clone; git fakeTeamwork 2"
-              }
-          },
-          {
-              "type": "ModalAlert",
-              "options": {
-                  "markdowns": [
-                      "### Что делает fetch",
-                      "",
-                      "`git fetch` выполняет две и только две основные операции. А именно:",
-                      "",
-                      "* связывается с указанным удалённым репозиторием и забирает все те данные проекта, которых у вас ещё нет, при этом...",
-                      "* у вас должны появиться ссылки на все ветки из этого удалённого репозитория (например, `o/main`)",
-                      "",
-                      "Фактически, `git fetch` синхронизирует _локальное_ представление удалённых репозиториев с тем, что является _актуальным_ на текущий момент времени.",
-                      "",
-                      "Насколько вы помните, в предыдущем уроке мы сказали, что удалённые ветки отображают состояние удалённых репозиториев _на тот момент_ когда вы 'общались' с ними в последний раз. `git fetch` является тем механизмом, который даёт вам возможность общаться с удалёнными репозиториями! Надеюсь, что связь между удалёнными ветками и командой `git fetch` теперь прояснилась.",
-                      "",
-                      "`git fetch` обычно 'общается' с удалёнными репозиториями посредством Интернета (через такие протоколы, как `http://` или `git://`).",
-                      ""
-                  ]
-              }
-          },
-          {
-              "type": "ModalAlert",
-              "options": {
-                  "markdowns": [
-                      "### Чего fetch не делает",
-                      "",
-                      "Важно отметить, что команда `git fetch` забирает данные в ваш _локальный_ репозиторий, но не сливает их с какими-либо вашими наработками и не модифицирует то, над чем вы работаете в данный момент.",
-                      "",
-                      "Важно это помнить и понимать, потому что многие разработчики думают, что, запустив команду `git fetch`, они приведут всю свою локальную работу к такому же виду, как и на удалённом репозитории. Команда всего лишь скачивает все необходимые данные, но вам потребуется вручную слить эти данные с вашими, когда вы будете готовы. В следующих уроках мы научимся это делать :D",
-                      "",
-                      "Одним словом, вы можете относиться к `git fetch` как к процедуре скачивания."
-                  ]
-              }
-          },
-          {
-              "type": "ModalAlert",
-              "options": {
-                  "markdowns": [
-                      "Чтобы выполнить уровень, просто запустите `git fetch` и скачайте все коммиты!"
-                  ]
-              }
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Работа с удалёнными git репозиториями сводится к передаче данных _в_ и _из_ других репозиториев. До тех пор, пока мы можем отправлять коммиты туда-обратно, мы можем делиться любыми изменениями, которые отслеживает git (следовательно, делиться новыми файлами, свежими идеями, любовными письмами и т.д.).",
+              "",
+              "В этом уроке вы научитесь тому, как извлекать данные _из_ удалённого репозитория - и для этого у нас есть соответствующая команда `git fetch`.",
+              "",
+              "Вы увидите, что как только мы изменим представление нашего удалённого репозитория, наши _удалённые_ ветки обновятся соответствующим образом и отобразят это представление. Это связывает воедино предыдущий урок про удалённые репозитории."
+            ]
           }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Прежде чем углубляться в детали команды `git fetch`, давайте взглянем на её визуализацию в действии! Здесь у нас имеется удалённый репозиторий, который содержит в себе два коммита, отсутствующих в нашем локальном репозитории."
+            ],
+            "afterMarkdowns": [
+              "Вот и всё! Коммиты `C2` и `C3` были успешно скачаны в наш локальный репозиторий, и наша удалённая ветка `o/main` отобразила эти изменения соответствующим образом."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Что делает fetch",
+              "",
+              "`git fetch` выполняет две и только две основные операции. А именно:",
+              "",
+              "* связывается с указанным удалённым репозиторием и забирает все те данные проекта, которых у вас ещё нет, при этом...",
+              "* у вас должны появиться ссылки на все ветки из этого удалённого репозитория (например, `o/main`)",
+              "",
+              "Фактически, `git fetch` синхронизирует _локальное_ представление удалённых репозиториев с тем, что является _актуальным_ на текущий момент времени.",
+              "",
+              "Насколько вы помните, в предыдущем уроке мы сказали, что удалённые ветки отображают состояние удалённых репозиториев _на тот момент_ когда вы 'общались' с ними в последний раз. `git fetch` является тем механизмом, который даёт вам возможность общаться с удалёнными репозиториями! Надеюсь, что связь между удалёнными ветками и командой `git fetch` теперь прояснилась.",
+              "",
+              "`git fetch` обычно 'общается' с удалёнными репозиториями посредством Интернета (через такие протоколы, как `http://` или `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Чего fetch не делает",
+              "",
+              "Важно отметить, что команда `git fetch` забирает данные в ваш _локальный_ репозиторий, но не сливает их с какими-либо вашими наработками и не модифицирует то, над чем вы работаете в данный момент.",
+              "",
+              "Важно это помнить и понимать, потому что многие разработчики думают, что, запустив команду `git fetch`, они приведут всю свою локальную работу к такому же виду, как и на удалённом репозитории. Команда всего лишь скачивает все необходимые данные, но вам потребуется вручную слить эти данные с вашими, когда вы будете готовы. В следующих уроках мы научимся это делать :D",
+              "",
+              "Одним словом, вы можете относиться к `git fetch` как к процедуре скачивания."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы выполнить уровень, просто запустите `git fetch` и скачайте все коммиты!"
+            ]
+          }
+        }
       ]
     },
     "uk": {
@@ -1140,13 +1140,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Fetch",
+              "## Git fetch",
               "",
-              "Praca z zdalnymi gitami tak naprawdę sprowadza się do przesyłania danych _do_ i _z_ innych repozytoriów. Tak długo jak możemy przesyłać zatwierdzenia tam i z powrotem, możemy udostępniać wszelkiego rodzaju aktualizacje śledzone przez git (a tym samym dzielić się pracą, nowymi plikami, pomysłami, listami miłosnymi itp.).",
+              "Praca z zdalnymi Gitami tak naprawdę sprowadza się do przesyłania danych _do_ i _z_ innych repozytoriów. Tak długo jak możemy przesyłać zatwierdzenia tam i z powrotem, możemy udostępniać wszelkiego rodzaju aktualizacje śledzone przez Git (a tym samym dzielić się pracą, nowymi plikami, pomysłami, listami miłosnymi itp.).",
               "",
-              "W tej lekcji nauczymy się, jak pobierać dane _z_ zdalnego repozytorium -- polecenie to nosi nazwę `git fetch`.",
+              "W tej lekcji nauczymy się, jak pobierać dane _ze_ zdalnego repozytorium -- polecenie to nosi nazwę `git fetch`.",
               "",
-              "Zauważysz, że gdy aktualizujemy naszą reprezentację zdalnego repozytorium, nasze _zdalne_ gałęzie zostaną zaktualizowane, aby odzwierciedlić tę nową reprezentację. Wiąże się to z poprzednią lekcją dotyczącą zdalnych gałęzi."
+              "Zauważysz, że gdy aktualizujemy reprezentację zdalnego repozytorium, nasze _zdalne_ gałęzie zostaną zaktualizowane, aby odzwierciedlić tę nową reprezentację. Wiąże się to z poprzednią lekcją dotyczącą zdalnych gałęzi."
             ]
           }
         },
@@ -1154,10 +1154,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zanim przejdziemy do szczegółów polecenia `git fetch`, zobaczmy, jak działa! Tutaj mamy zdalne repozytorium, które zawiera dwa commity, których nie ma w naszym lokalnym repozytorium."
+              "Zanim przejdziemy do szczegółów polecenia `git fetch`, zobaczmy, jak działa! Mamy tu zdalne repozytorium, zawierające dwa commity, których nie ma w naszym lokalnym repozytorium."
             ],
             "afterMarkdowns": [
-              "No to jedziemy! Commity `C2` i `C3` zostały pobrane do naszego lokalnego repozytorium, a nasza zdalna gałąż `o/main` została zaktualizowana, aby to odzwierciedlić."
+              "No to jedziemy! Commity `C2` i `C3` zostały pobrane do naszego lokalnego repozytorium, a zdalna gałąż `o/main` została zaktualizowana, aby to odzwierciedlić."
             ],
             "command": "git fetch",
             "beforeCommand": "git clone; git fakeTeamwork 2"
@@ -1172,13 +1172,13 @@ exports.level = {
               "`git fetch` wykonuje dwie rzeczy. Są to:",
               "",
               "* pobiera commity, które są w zdalnym repozytorium, ale których brakuje w naszym lokalnym repozytorium i...",
-              "* aktualizuje miejsce, które wskazują nasze zdalne gałęzie (na przykład `o/main`)",
+              "* aktualizuje miejsca, które wskazują nasze zdalne gałęzie (na przykład `o/main`)",
               "",
-              "`git fetch` zasadniczo synchronizuje _lokalną_ reprezentację zdalnego repozytorium z tym jak w _rzeczywistości_ wygląda zdalne repozytorium (w danej chwili).",
+              "`git fetch` zasadniczo synchronizuje _lokalną_ reprezentację zdalnego repozytorium z tym jak w _rzeczywistości_ zdalne repozytorium wygląda (w danej chwili).",
               "",
-              "Jak pamiętasz z poprzedniej lekcji, powiedzieliśmy, że zdalne gałęzie odzwierciedlają stan zdalnych repozytoriów od czasu, gdy ostatnio komunikowałeś się z tymi repozytoriami. `git fetch` to sposób, w jaki rozmiawiasz z tymi repozytoriami! Mamy nadzieję, że związek między zdalnymi gałęziami a `git fetch` jest teraz widoczny.",
+              "Jak pamiętasz z poprzedniej lekcji, powiedzieliśmy, że zdalne gałęzie odzwierciedlają stan zdalnych repozytoriów od czasu, ostatniej komunikacji nimi. `git fetch` to sposób, w jaki rozmiawiasz z tymi repozytoriami! Mamy nadzieję, że związek między zdalnymi gałęziami a `git fetch` jest teraz jasny.",
               "",
-              "`git fetch` zwykle komunikuje się z zdalnym repozytorium przez Internet (za pośrednictwem protokołu takiego jak `http://` lub `git://`).",
+              "`git fetch` zwykle komunikuje się z zdalnym repozytorium przez internet (za pośrednictwem protokołu takiego jak `http://` lub `git://`).",
               ""
             ]
           }
@@ -1189,11 +1189,11 @@ exports.level = {
             "markdowns": [
               "### Czego fetch nie robi",
               "",
-              "Jednak `git fetch` nie zmienia nic w _twoim_ stanie lokalnym Nie zakutalizuje twjej gałęzi `main` ani nie zmieni niczego w wyglądzie twojego systemu plików.",
+              "Zauważ, że `git fetch` nie zmienia nic w _twoim_ stanie lokalnym. Nie zaktualizuje twjej gałęzi `main` ani nie zmieni niczego w wyglądzie twojego systemu plików.",
               "",
-              "Jest to ważne, żeby to zrozumieć, ponieważ wielu programistów uważa, że uruchomienie `git fetch` spowoduje, że ich lokalna praca będzie odzwierciedlać stan zdalny. Może pobrać wszystkie niezbędne do tego dane, ale _nie zmienia_ żadnego z plików lokalnych. Do tego kroku przejdziemy w następnych lekcjach :D",
+              "Zrozumienie tego to ważna sprawa! Wielu programistów uważa, że uruchomienie `git fetch` spowoduje, że ich lokalna praca będzie odzwierciedlać stan zdalny. Mimo że `git fetch` pobiera wszystkie niezbędne do tego dane, ale _nie zmienia_ żadnego z plików lokalnych. Poleceń, które służą właśnie do tego celu nauczymy później. :D",
               "",
-              "Więc, na koniec dnia, możesz myśleć o `git fetch` jako o kroku pobierania."
+              "Dlatego, podsumowując to wszystko, możesz myśleć o `git fetch` jako pobieraniu."
             ]
           }
         },
@@ -1201,7 +1201,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć poziom po prostu użyj polecenia `git fetch` i pobierz wszystkie commity!"
+              "Aby ukończyć ten poziom po prostu użyj polecenia `git fetch` i pobierz wszystkie commity!"
             ]
           }
         }

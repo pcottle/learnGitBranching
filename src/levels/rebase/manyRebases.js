@@ -13,18 +13,18 @@ exports.level = {
     "es_AR": "Rebaseando más de 9000 veces",
     "es_ES": "Rebaseando más de 9000 veces",
     "pt_BR": "Fazendo mais de 9000 rebases",
-    "gl"   : "Facendo máis de 9000 rebases",
+    "gl": "Facendo máis de 9000 rebases",
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
-    "ja"   : "9000回以上のrebase",
+    "ja": "9000回以上のrebase",
     "zh_CN": "多次 Rebase",
     "zh_TW": "N次Rebase",
     "ru_RU": "Rebase over 9000 раз",
-    "uk"   : "Rebase over 9000 разів",
-    "vi"   : "Rebase hơn 9000 lần",
+    "uk": "Rebase over 9000 разів",
+    "vi": "Rebase hơn 9000 lần",
     "sl_SI": "Več kot 9000 Rebaseov",
     "it_IT": "Rebasing livello 8000",
-    "pl"   : "Rebase ponad 9000 razy"
+    "pl": "Rebase ponad 9000 razy"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -32,19 +32,19 @@ exports.level = {
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar main sólo al final...",
     "es_ES": "Recuerda, la manera más eficiente podría ser actualizar main sólo al final...",
     "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o main por último...",
-    "gl"   : "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
+    "gl": "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin ...",
-    "ja"   : "最も効率的なやり方はmainを最後に更新するだけかもしれない・・・",
+    "ja": "最も効率的なやり方はmainを最後に更新するだけかもしれない・・・",
     "ko": "아마도 main을 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新 main 分支可能是最高效的方法……",
     "zh_TW": "要記住喔! 把 main branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
-    "uk"   : "Не забувай, що краще всього буде перемістити main в самому кінці... ",
-    "vi"   : "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
+    "uk": "Не забувай, що краще всього буде перемістити main в самому кінці... ",
+    "vi": "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
     "it_IT":
       "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
-    "pl"   : "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` tylko na samym końcu..."
+    "pl": "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` dopiero na samym końcu..."
   },
   "startDialog": {
     "en_US": {
@@ -298,7 +298,7 @@ exports.level = {
           }
         }
       ]
-    },"sl_SI": {
+    }, "sl_SI": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -322,13 +322,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Rebase Wielu Gałęzi",
+              "### Rebase wielu gałęzi",
               "",
-              "Człowieku, mamy tu wiele gałęzi! Przeniesiemy wszystkie prace z tych gałęzi na `main`.",
+              "Człowieku, ależ tu pełno gałęzi! Przenieśmy wszystkie prace z tych gałęzi na `main`.",
               "",
-              "Kierownictwo nieco bardziej utrudnia temat -- chcą, aby wszystkie commity były w odpowiedniej kolejności. Oznacza to, że nasze końcowe drzewo powinno mieć `C7'` na dole, `C6'` powyżej, i tak dalej.",
+              "Kierownictwo trochę utrudnia sprawę -- chcą, aby wszystkie commity były w odpowiedniej kolejności. Oznacza to, że nasze końcowe drzewo powinno mieć `C7'` na dole, `C6'` powyżej, i tak dalej.",
               "",
-              "Jeśli po drodze namieszasz, nie krępuj się użyć `reset`, aby zacząć od nowa. Przeanalizuj nasze rozwiązanie i sprawdź, czy dasz radę to zrobić używając mniej poleceń!"
+              "Jeśli po drodze namieszasz, nie krępuj się użyć `reset`, aby zacząć od nowa. Przeanalizuj nasze rozwiązanie i sprawdź, czy dasz radę to zrobić używając mniejszej liczby poleceń!"
             ]
           }
         }

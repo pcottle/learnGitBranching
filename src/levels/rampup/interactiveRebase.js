@@ -11,15 +11,15 @@ exports.level = {
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_ES": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "pt_BR": "Você pode usar ou ramos ou referências relativas (HEAD~) para especificar o alvo do rebase",
-    "gl"   : "Podes usar ramas ou referencias relativas (HEAD~) para especificar o obxectivo do rebase",
+    "gl": "Podes usar ramas ou referencias relativas (HEAD~) para especificar o obxectivo do rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spécifier la cible à rebaser",
     "zh_CN": "branch 或者是相对位置（HEAD~）都可以用來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
-    "ja"   : "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
-    "ko"   : "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
-    "uk"   : "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
+    "ja": "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
+    "ko": "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
+    "uk": "ти можеш використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
     "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase",
     "sl_SI": "Uporabiš lahko bilokateri branch ali relativno referenco (HEAD~), da določiš cilj za rebase.",
     "it_IT":
@@ -31,19 +31,19 @@ exports.level = {
     "es_AR": "Introducción al rebase interactivo",
     "es_ES": "Introducción al rebase interactivo",
     "pt_BR": "Introdução ao rebase interativo",
-    "gl"   : "Introducción ó rebase interativo",
+    "gl": "Introducción ó rebase interativo",
     "de_DE": "Einführung Interaktives Rebase",
-    "ja"   : "インタラクティブrebase入門",
+    "ja": "インタラクティブrebase入門",
     "fr_FR": "Introduction au rebase interactif",
     "zh_CN": "交互式 rebase",
     "zh_TW": "介紹互動式的 rebase",
     "ru_RU": "Введение в интерактивный Rebase",
-    "ko"   : "인터랙티브 리베이스 소개",
-    "uk"   : "Знайомство з інтерактивним rebase",
-    "vi"   : "Giới thiệu về tương tác rebase",
+    "ko": "인터랙티브 리베이스 소개",
+    "uk": "Знайомство з інтерактивним rebase",
+    "vi": "Giới thiệu về tương tác rebase",
     "sl_SI": "Interaktivni uvod v Rebase",
     "it_IT": "Introduzione al rebase interattivo",
-    "pl": "Wprowadzenie do interaktywnego Rebase'a",
+    "pl": "Wprowadzenie do interaktywnego rebase'a",
   },
   "startDialog": {
     "en_US": {
@@ -1030,11 +1030,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Interaktywny Rebase w Gitcie",
+              "## Interaktywny rebase w Gicie",
               "",
-              "Cherry-pick'ing jest świetny, gdy wiesz, które commity (_oraz_ znasz ich hasze) chcesz przenieść - trudno jest dyskutować z prostotą, którą zapewnia.",
+              "Cherry-pick jest świetny, gdy wiesz, które commity chcesz przenieść (_oraz_ znasz ich hasze) - trudno jest dyskutować z prostotą, którą zapewnia.",
               "",
-              "Ale co w sytuacji, gdy nie wiesz, które commity chcesz przenieść? Na szczęście git jest przygotowany również na tą sytuację! Możemy wykorzystać do tego interaktywny rebasing - to najlepszy sposób, aby przejrzeć serię commitów, które zamierzasz rebase'ować.",
+              "Ale co w sytuacji, gdy nie wiesz, które commity chcesz przenieść? Na szczęście Git jest przygotowany również na tę sytuację! Możemy wykorzystać do tego interaktywny rebase - to najlepszy sposób, aby przejrzeć serię commitów, które zamierzasz rebase'ować (czyli: przebazować).",
               "",
               "Przejdźmy do szczegółów..."
             ]
@@ -1046,9 +1046,9 @@ exports.level = {
             "markdowns": [
               "Wszystkie interaktywne znaczniki rebase używają polecenia `rebase` z opcją `-i`.",
               "",
-              "Jeśli włączysz tę opcję, git otworzy okno, aby pokazać ci, które commity mają być skopiowane poniżej wskazanego celu (np. HEAD'a) do rebase'a. W oknie pokażą się również wiadomości i hasze commitów, co zdecydowanie ułatwia zrozumienie co jest czym.",
+              "Jeśli włączysz tę opcję, Git otworzy okno, aby pokazać ci, które commity mają być skopiowane poniżej wskazanego celu przebazowania (np. HEADa). W oknie pokażą się również wiadomości i hasze commitów żeby ułatwić ci zrozumienie co jest czym.",
               "",
-              "Dla \"prawdziwego\" gita, otwarte okno oznacza otwarcie pliku w edytorze tekstu takim jak np. `vim`. Dla naszych potrzeb, zbudowałem małe okno dialogowe, które zachowuje się tak samo."
+              "Dla \"prawdziwego\" Gita, otwarte okno oznacza otwarcie pliku w edytorze tekstu takim jak np. `vim`. Dla naszych potrzeb, zbudowałem małe okno dialogowe, które zachowuje się tak samo."
             ]
           }
         },
@@ -1056,14 +1056,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Kiedy otworzy się okno dialogowe do interaktywnego rebase'a, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
+              "Kiedy otworzy się okno dialogowe do interaktywnego przeabazowania, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
               "",
-              "* Możesz zmienić kolejność commitów poprzez zmianę ich kolejności w oknie (przeciągając je i upuszczając).",
-              "* Możesz zdecydować się na całkowite pominięcie niektórych commitów. Jest to oznaczone przez `pick`. Wpisanie `pick off` oznacza, że nie chcesz uwzględnić tego commitu.",
+              "* Możesz zmienić kolejność commitów po prostu przeciągając i upuszczając je myszką w oknie.",
+              "* Możesz zdecydować się na zachować wszystkie commity lub pominąć niektóre z nich. Jest to oznaczone przez aktywny przycisk `pick`. Wyłączenie przycisku spowoduje pominięciu commitu.",
               "",
-              "* Warto wspomnieć, że w prawdziwym interaktywnym rebasie możesz zrobić wiele innych rzeczy, takich jak squash (łączenie) commitów, poprawianie wiadomości commitów, a nawet edycja samych commitów. Dla naszych potrzeb jednak skupimy się na tych dwóch operacjach powyżej.",
+              "* Warto wspomnieć, że w prawdziwym interaktywnym rebase'ie możesz zrobić wiele innych rzeczy, takich jak squash (łączenie) commitów, poprawianie wiadomości commitów, a nawet edycja samych commitów. Dla naszych potrzeb jednak wystarczy, że skupimy się na dwóch omówionych operacjach.",
               "",
-              "Świetnie! Spójrz na przykład."
+              "Świetnie! Spójrzmy na przykład."
             ]
           }
         },
@@ -1071,10 +1071,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Po naciśnięciu przycisku, pojawi się interaktywne okno rebase'owania. Zmień kolejność niektórych commitów (lub usuń niektóre z nich, a co!) i zobacz wynik!"
+              "Po naciśnięciu przycisku, pojawi się interaktywne okno przebazowania. Zmień kolejność niektórych commitów (lub usuń niektóre z nich, a co!) i zobacz wynik!"
             ],
             "afterMarkdowns": [
-              "Boom! Git skopiował commity w ten sam sposób w jaki podałeś to w oknie."
+              "Gotowe! Git skopiował commity w ten sam sposób w jaki podałeś to w oknie."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -1084,7 +1084,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, zrób interaktywny rebase i osiągnij kolejność pokazaną w wizualizacji celu. Pamiętaj, że zawsze możesz użyć komend `undo` lub `reset` aby naprawić błędy :D"
+              "Aby ukończyć ten poziom, zrób interaktywny rebase i ustaw kolejność pokazaną w wizualizacji celu. Pamiętaj, że zawsze możesz użyć `undo` lub `reset` aby naprawić błędy :D"
             ]
           }
         }
@@ -1126,10 +1126,10 @@ exports.level = {
               "",
               "* Puoi riordinare i commit modificandone l'ordine (drag & drop con il mouse).",
               "* Puoi decidere se conservare tutti i commit o rimuoverne qualcuno. Quando la finestra si apre, ogni commit è considerato preso dal pulsante `pick` " +
-                "attivo affianco a esso. Per scartare un commit, disattiva il suo pulsante `pick`.",
+              "attivo affianco a esso. Per scartare un commit, disattiva il suo pulsante `pick`.",
               "",
               "*Vale la pena ricordare che nel vero rebase interattivo puoi fare molte più cose come lo squashing (combinazione) di commit, " +
-                "la modifica del messaggio di commit (amending), e perfino la modifica dello stesso commit. Noi ci concentreremo sulle due funzioni descritte sopra.*",
+              "la modifica del messaggio di commit (amending), e perfino la modifica dello stesso commit. Noi ci concentreremo sulle due funzioni descritte sopra.*",
               "",
               "Bene! Vediamo un esempio.",
             ],

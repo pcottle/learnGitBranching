@@ -4,12 +4,12 @@ exports.level = {
   "name": {
     "en_US": "Rebase Introduction",
     "de_DE": "Einführung in Rebase",
-    "ja"   : "Rebaseの解説",
+    "ja": "Rebaseの解説",
     "es_AR": "Introducción a rebase",
     "es_MX": "Introducción a rebase",
     "es_ES": "Introducción a rebase",
     "pt_BR": "Introdução ao rebase",
-    "gl"   : "Introducción a rebase",
+    "gl": "Introducción a rebase",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "Git Rebase",
@@ -19,18 +19,18 @@ exports.level = {
     "vi": "Giới thiệu về rebase",
     'sl_SI': 'Uvod v Rebase',
     'it_IT': "Introduzione al rebase (ribasare)",
-    "pl"   : "Wprowadzenie do Rebase"
+    "pl": "Wprowadzenie do Rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
-    "ja"   : "初めにbugFixを指した状態でコミットする",
+    "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
     "es_MX": "Asegúrate de hacer commit desde bugFix primero",
     "es_ES": "Asegúrate de hacer commit desde bugFix primero",
     "pt_BR": "O bugFix precisa ser commitado primeiro",
-    "gl"   : "Asegurate de facer o commit dende bugFix primeiro",
+    "gl": "Asegurate de facer o commit dende bugFix primeiro",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "先在 bugFix 分支上进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
@@ -39,7 +39,7 @@ exports.level = {
     "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
     'sl_SI': 'Prepričaj se, da si najprej commital bugFix.',
     'it_IT': "Assicurati di fare prima il commit da bugFix",
-    "pl"   : "Upewnij się, że masz commit z bugFix"
+    "pl": "Upewnij się, że masz już commit z bugFix"
   },
   "disabledMap": {
     "git revert": true
@@ -1052,7 +1052,8 @@ exports.level = {
           }
         }
       ]
-    },"sl_SI": {
+    },
+    "sl_SI": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -1127,11 +1128,11 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "Drugim sposobem na łączenie naszej pracy między gałęziami jest *rebase*. Rebase zasadniczo pobiera zestaw commitów, \"kopiuje\" je i umieszcza w innym miejscu.",
+              "Drugim sposobem na łączenie naszej pracy z różnych gałęzi jest *rebase*. Rebase zasadniczo pobiera zestaw commitów, \"kopiuje\" je i umieszcza w innym miejscu.",
               "",
               "Chociaż brzmi to niejasno, zaletą rebase jest to, że można go użyć do stworzenia ładnej, prostej sekwencji commitów. Rebase sprawi, że historia commitów w repozytorium będzie wyglądała na dużo prostszą, ponieważ nia ma wtedy commitów scalających.",
               "",
-              "Sparwdźmy to w akcji..."
+              "Sparwdźmy jak to działa..."
             ]
           }
         },
@@ -1139,7 +1140,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tutaj znowu mamy dwa gałęzie. Zwróć uwagę, że gałąź bugFix jest aktualnie wybrana (zwróć uwagę, że ma gwiazdkę)",
+              "Tutaj znowu mamy dwie gałęzie. Zauważ, że gałąź bugFix jest aktualnie wybrana (zwróć uwagę, że ma gwiazdkę)",
               "",
               "Chcielibyśmy przenieść nasze pracę z gałęzi bugFix bezpośrednio na gałąź main. W ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
               "",
@@ -1150,7 +1151,7 @@ exports.level = {
               "",
               "Zauważ, że commit C3 nadal gdzieś istnieje (jest wyblakły w drzewie), a commit C3' jest \"kopią\", którą przenosimy na main.",
               "",
-              "Jedynym problemem jest to, że `main` nie jest teraz aktualny. Zaktualizujmy go..."
+              "Jedynym problemem jest to, że `main` nie został jeszcze zaktualizowany. Zróbmy to teraz..."
             ],
             "command": "git rebase main",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
@@ -1163,7 +1164,7 @@ exports.level = {
               "Znajdujemy się na gałęzi `main`. Przejdźmy dalej i zróbmy połączenie rebase z branchem `bugFix`..."
             ],
             "afterMarkdowns": [
-              "Oto jest! Ponieważ `main` był przodkiem `bugFix`, git po prostu przesunął odniesienie do `main` do przodu w historii."
+              "Gotowe! Ponieważ `main` był przodkiem `bugFix`, git po prostu przesunął odniesienie do `main` do przodu w historii."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
@@ -1178,9 +1179,9 @@ exports.level = {
               "* Przejdź do nowej gałęzi o nazwie `bugFix`",
               "* Zrób commit",
               "* Wróć do gałęzi `main` i zrób kolejny commit",
-              "* Przejdź do `bugFix` i połącz za pomocą rebase z main",
+              "* Przejdź do `bugFix` i połącz za pomocą rebase z `main`",
               "",
-              "Powodzenia, misja zakończona!"
+              "Powodzenia!"
             ]
           }
         }

@@ -5,16 +5,16 @@ exports.level = {
   "name": {
     "en_US": "Relative Refs (^)",
     "fr_FR": "Références relatives (^)",
-    "ja"   : "相対リファレンス (^)",
+    "ja": "相対リファレンス (^)",
     "zh_CN": "相对引用（^）",
     "zh_TW": "相對引用（^）",
     "es_AR": "Referencias relativas (^)",
     "es_ES": "Referencias relativas (^)",
     "pt_BR": "Referências relativas (^)",
-    "gl"   : "Referencias relativas (^)",
+    "gl": "Referencias relativas (^)",
     "de_DE": "Relative Referenzen (^)",
     "ru_RU": "Относительные ссылки (^)",
-    "ko"   : "상대 참조 (^) (Relative Refs)",
+    "ko": "상대 참조 (^) (Relative Refs)",
     "uk": "Відносні посилання",
     "vi": "Tham chiếu tương đối (^)",
     "sl_SI": "Relativne Reference (^)",
@@ -24,21 +24,21 @@ exports.level = {
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
     "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
-    "ja"   : "相対リファレンス(^)を思い出して！",
+    "ja": "相対リファレンス(^)を思い出して！",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
     "es_ES": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
-    "gl"   : "Non se esqueza do operador circunflexo (^)",
+    "gl": "Non se esqueza do operador circunflexo (^)",
     "zh_CN": "记住操作符（^）！",
     "zh_TW": "不要忘記插入（^）符號！",
     "ru_RU": "Не забудь оператор `^`",
-    "ko"   : "(^)연산자를 기억하세요!",
+    "ko": "(^)연산자를 기억하세요!",
     "uk": "Не забудь оператор `^`",
     "vi": "Đừng quên dấu mũ (^)!",
     "sl_SI": "Spomni se na (^) operator!",
     "it_IT": "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
-    "pl": "Pamiętaj o operatorze karetu (^)!",
+    "pl": "Pamiętaj o operatorze wstawienia (^)!",
   },
   "startDialog": {
     "en_US": {
@@ -866,7 +866,7 @@ exports.level = {
         }
       ]
     },
-  "ko": {
+    "ko": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -1174,11 +1174,11 @@ exports.level = {
             "markdowns": [
               "## Relatywne referencje",
               "",
-              "Poruszanie się w Gitcie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie będziesz miał ładnej wizualizacji drzewa commitów obok swojego terminalu (chyba, że będziesz używać Fork'a lub TortoiseGit'a). Będziesz musiał użyć `git log` aby zobaczyć hasz.",
+              "Poruszanie się w Gicie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie zobaczysz ładnej wizualizacji drzewa commitów obok swojego terminala (chyba, że używasz Forka lub TortoiseGita). Musisz użyć `git log` aby zobaczyć hasze.",
               "",
-              "Co więcej, hasz jest zazwyczaj o wiele dłuższy w prawdziwym Gitcie. Na przykład, hash commitu, które był na początku poprzedniego poziomu to `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Spróbuj to przeczytać!",
+              "Co więcej, hasze są zazwyczaj o wiele dłuższe w prawdziwym Gicie. Na przykład, hash commita, które był na początku poprzedniego poziomu to `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Spróbuj to przeczytać!",
               "",
-              "Plusem jest to, że Git jest sprytny jeżeli chodzi o hasze. Wymaga jedynie podania tylu znaków haszu, aż do momentu, gdy jednoznacznie zidentyfikuje konkretny commit. Dlatego mogę wpisać jedynie `fed2` zamiast długiego łańcucha powyżej."
+              "Plusem jest to, że Git sprytnie radzi sobie z haszami. Wymaga jedynie podania tylu znaków hasza ile potrzebuje, aby jednoznacznie zidentyfikować konkretny commit. Dlatego mogę wpisać jedynie `fed2` zamiast długiego łańcucha powyżej."
             ]
           }
         },
@@ -1192,8 +1192,8 @@ exports.level = {
               "",
               "Relatywne commity są potężne, ale pokażemy tu tylko dwie proste sytuacje:",
               "",
-              "* Poruszanie się wstecz o jeden commit `^`",
-              "* Poruszanie się wstecz o ileś commitów `~<num>`"
+              "* Poruszanie się wstecz o jeden commit za pomocą `^`",
+              "* Poruszanie się wstecz o ileś commitów z `~<num>`"
             ]
           }
         },
@@ -1210,7 +1210,7 @@ exports.level = {
               "Zcheckoutujmy commit powyżej `main`."
             ],
             "afterMarkdowns": [
-              "Boom! Zrobione. O wiele łatwiej niż wpisując hasz commitu."
+              "Gotowe! O wiele łatwiej niż wpisując hasz commita."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git commit"
@@ -1223,7 +1223,7 @@ exports.level = {
               "Możesz również odwołać się do `HEAD` jako referencji względnej. Użyjmy tego kilka razy, aby przesunąć się w górę drzewa commitów."
             ],
             "afterMarkdowns": [
-              "Łatwizna! Możemy podróżować do tyłu w czasie używając `HEAD^`"
+              "Łatwizna! Możemy cofać się w czasie używając `HEAD^`"
             ],
             "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -1233,9 +1233,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, zcheckoutuj commit'a-rodzica z gałęzi `bugFix`. To spowoduje odczepienie `HEAD`a.",
+              "Aby ukończyć ten poziom, zcheckoutuj commita-rodzica z gałęzi `bugFix`. To spowoduje odczepienie `HEADa`.",
               "",
-              "Możesz wybrać commit'a po haszu jeżeli chcesz, ale spróbuj wykorzystać to czego się nauczyłeś i użyć referencji względnej!"
+              "Możesz wybrać commita po haszu jeżeli chcesz, ale spróbuj wykorzystać nowe umiejętności i użyć referencji względnej!"
             ]
           }
         }
