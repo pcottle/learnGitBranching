@@ -1271,7 +1271,7 @@ exports.strings = {
     'pt_BR': 'Esta é uma lista dos comandos disponíveis:',
     'gl'   : 'Esta é unha lista dos comando dispoñibles:',
     'fr_FR': 'Ci-dessous est la liste de toutes les commandes disponibles :',
-    'ru_RU': 'Вот все поддерживаемуе команды:',
+    'ru_RU': 'Вот все поддерживаемые команды:',
     'uk': 'Ось список всіх можливих команд:',
     'ko': '여기에 사용 가능한 모든 명령어들의 리스트가 있습니다.',
     'vi': 'Dưới đây là danh sách tất cả các lệnh hiện hành:.',
