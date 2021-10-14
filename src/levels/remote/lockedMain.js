@@ -41,7 +41,7 @@ exports.level = {
             "markdowns": [
               "## Remote Rejected!",
               "",
-              "If you work on a large collaborative team its likely that main is locked and requires some Pull Request process to merge changes. If you commit directly to main locally and try pushing you will be greeted with a message similar to this:",
+              "If you work on a large collaborative team it's likely that main is locked and requires some Pull Request process to merge changes. If you commit directly to main locally and try pushing you will be greeted with a message similar to this:",
               "",
               "```",
               " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
