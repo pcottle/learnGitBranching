@@ -909,9 +909,9 @@ exports.level = {
               "",
               "Do tej pory zajmowaliśmy się podstawami Gita - commitami, gałęziami i poruszaniem się w drzewie źródłowym. Samo to wystarczy, aby wykorzystać 90% mocy repozytoriów Git i zaspokoić główne potrzeby programistów.",
               "",
-              "Pozostałe 10% może być jednak dość użyteczne podczas niecodziennych zadań (lub kiedy wpakujesz się w kłopoty). Kolejny temat, którą zamierzamy omówić to \"przenoszenie pracy\" - innymi słowy, jest to sposób, w jaki programiści mogą powiedzieć: \"Chcę te zmiany tu, a tamte tam\" w precyzyjny, elegancki i elastyczny sposób.",
+              "Pozostałe 10% może być jednak dość użyteczne podczas niecodziennych zadań (lub kiedy wpakujesz się w kłopoty). Kolejny temat, który zamierzamy omówić, to \"przenoszenie pracy\" - innymi słowy, jest to sposób, w jaki programiści mogą powiedzieć: \"Chcę te zmiany tu, a tamte tam\" w precyzyjny, elegancki i elastyczny sposób.",
               "",
-              "Może się to wydawać się skomplikowane, ale tak nie jest."
+              "Może się to wydawać skomplikowane, ale tak nie jest."
             ]
           }
         },
@@ -921,11 +921,11 @@ exports.level = {
             "markdowns": [
               "## Git cherry-pick",
               "",
-              "Pierwsza polecenie w tej serii nazywa się `git cherry-pick`. Przyjmuje ono następującą formę:",
+              "Pierwsze polecenie w tej serii nazywa się `git cherry-pick`. Przyjmuje ono następującą formę:",
               "",
               "* `git cherry-pick <Commit1> <Commit2> <...>`",
               "",
-              "Jest to bardzo prosty sposób określenia że chcesz przenieść zmiany poniżej swojej obecnej lokalizacji (`HEAD`). Osobiście uwielbiam `cherry-pick` ponieważ działa prosto i skutecznie.",
+              "Jest to bardzo prosty sposób określenia, że chcesz przenieść zmiany poniżej swojej obecnej lokalizacji (`HEAD`). Osobiście uwielbiam `cherry-pick`, ponieważ działa prosto i skutecznie.",
               "",
               "Zobaczmy demo!",
               ""
@@ -936,10 +936,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "W tym repozytorium mamy trochę pracy na gałęzi `side`, którą chcemy skopiować do gałęzi `main`. Można by to osiągnąć przy użyciu rebase (którego już się nauczyliśmy), ale zobaczmy jak działa cherry-pick."
+              "W tym repozytorium mamy trochę pracy na gałęzi `side`, którą chcemy skopiować do gałęzi `main`. Można by to osiągnąć przy użyciu rebase (którego już się nauczyliśmy), ale zobaczmy, jak działa cherry-pick."
             ],
             "afterMarkdowns": [
-              "To jest to! Chcieliśmy aby git dodał do `main` commity `C2` i `C4`. Bułka z masłem!"
+              "No i fajnie! Chcieliśmy commity `C2` i `C4` i Git zrzucił je nam zaraz pod spód. Bułka z masłem!"
             ],
             "command": "git cherry-pick C2 C4",
             "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
@@ -949,7 +949,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, po prostu skopiuj część pracy z trzech pokazanych gałęzi do `main`. Commity, które należy skopiować znajdują się na wizualizacji celu.",
+              "Aby ukończyć ten poziom, po prostu skopiuj część pracy z trzech pokazanych gałęzi do `main`. Commity, które należy skopiować, znajdują się na wizualizacji celu.",
               ""
             ]
           }

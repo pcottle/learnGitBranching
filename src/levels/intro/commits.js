@@ -741,9 +741,9 @@ exports.level = {
               "",
               "Git stara się, aby commity były tak lekkie, jak to tylko możliwe, więc nie kopiuje na ślepo całego katalogu za każdym razem, gdy zatwierdzasz zmiany. Możesz (jeśli to możliwe) skompresować commita jako zestaw zmian (lub _\"delta\"_) między jedną wersją w repozytorium a następną.",
               "",
-              "Git przechowuje również całą historię kiedy dokonano każdego zatwierdzenia. Dlatego większość commitów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Zachowanie historii to świetna funkcja dla wszystkich, którzy pracują nad projektem!",
+              "Git przechowuje również całą historię, kiedy dokonano każdego zatwierdzenia. Dlatego większość commitów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Zachowanie historii to świetna funkcja dla wszystkich, którzy pracują nad projektem!",
               "",
-              "To sporo do zapamiętania, ale na razie możesz myśleć o commitach jako migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
+              "To sporo do zapamiętania, ale na razie możesz myśleć o commitach jako \"rewiznajch\" albo migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
             ]
           }
         },
@@ -756,7 +756,7 @@ exports.level = {
               "Kliknij przycisk poniżej, aby dodać nowego commita."
             ],
             "afterMarkdowns": [
-              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako commita. Commit, który właśnie wykonaliśmy ma rodzica `C1`, który odnosi się do commitu, na którym się opierał."
+              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako commita. Commit, który właśnie wykonaliśmy, ma rodzica `C1`, który odnosi się do commitu, na którym się opierał."
             ],
             "command": "git commit",
             "beforeCommand": ""

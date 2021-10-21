@@ -1068,10 +1068,10 @@ exports.level = {
             "markdowns": [
               "### Operator \"~\"",
               "",
-              "Powiedzmy, że chcesz przejść o wiele poziomów wstecz na drzewie commitów. Wielokrotne wpisywanie `^` może być męczące. Na tą okazję Git ma również operator - tyldę (~).",
+              "Powiedzmy, że chcesz przejść o wiele poziomów wstecz na drzewie commitów. Wielokrotne wpisywanie `^` może być męczące. Na tę okazję Git ma również operator - tyldę (~).",
               "",
               "",
-              "Do pperatora tyldy możesz (opcjonalnie) dodać numer, który określa o jaką liczbę rodziców chcesz się cofnąć. Zobaczmy jak to działa."
+              "Do operatora tyldy możesz (opcjonalnie) dodać numer, który określa, o jaką liczbę rodziców chcesz się cofnąć. Zobaczmy, jak to działa."
             ]
           }
         },
@@ -1079,10 +1079,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Podajmy liczbę commitów, które chcemy przeskoczyć za `~`."
+              "Podajmy liczbę commitów, które chcemy przeskoczyć, za `~`."
             ],
             "afterMarkdowns": [
-              "I gotowe! Ale szybko - referencje względne są czadowe."
+              "Tadam! Ale szybko - referencje względne są czadowe."
             ],
             "command": "git checkout HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
@@ -1108,10 +1108,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zobaczmy jak działa poprzednie polecenie."
+              "Zobaczmy, jak działa poprzednie polecenie."
             ],
             "afterMarkdowns": [
-              "Proszę bardzo! Referencje względne umożliwiły ci w zwięzły sposób odnieść się do `C1`, a forsowanie gałęzi (`-f`) pozwoliło na szybkie przeniesienie gałęzi w to konkretne miejsce."
+              "Proszę bardzo! Referencje względne umożliwiły ci odnieść się w zwięzły sposób do `C1`, a forsowanie gałęzi (`-f`) pozwoliło na szybkie przeniesienie gałęzi w to konkretne miejsce."
             ],
             "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -1121,9 +1121,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Teraz, gdy wiesz już jak połączyć referencje względne i forsowanie gałęzi, użyj ich do rozwiązania następnego poziomu.",
+              "Teraz, gdy wiesz już, jak połączyć referencje względne i forsowanie gałęzi, użyj ich do rozwiązania następnego poziomu.",
               "",
-              "Aby ukończyć ten poziom przenieś `HEAD`, `main` oraz `bugFix` do wskazanych celów."
+              "Aby ukończyć ten poziom, przenieś `HEAD`, `main` oraz `bugFix` do wskazanych celów."
             ]
           }
         }

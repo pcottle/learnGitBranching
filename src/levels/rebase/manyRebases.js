@@ -326,9 +326,9 @@ exports.level = {
               "",
               "Człowieku, ależ tu pełno gałęzi! Przenieśmy wszystkie prace z tych gałęzi na `main`.",
               "",
-              "Kierownictwo trochę utrudnia sprawę -- chcą, aby wszystkie commity były w odpowiedniej kolejności. Oznacza to, że nasze końcowe drzewo powinno mieć `C7'` na dole, `C6'` powyżej, i tak dalej.",
+              "Kierownictwo trochę utrudnia sprawę -- chcą, aby wszystkie commity były w odpowiedniej kolejności. Oznacza to, że nasze końcowe drzewo powinno mieć `C7'` na dole, `C6'` powyżej i tak dalej.",
               "",
-              "Jeśli po drodze namieszasz, nie krępuj się użyć `reset`, aby zacząć od nowa. Przeanalizuj nasze rozwiązanie i sprawdź, czy dasz radę to zrobić używając mniejszej liczby poleceń!"
+              "Jeśli po drodze namieszasz, nie krępuj się użyć `reset`, aby zacząć od nowa. Przeanalizuj nasze rozwiązanie i sprawdź, czy dasz radę to zrobić, używając mniejszej liczby poleceń!"
             ]
           }
         }

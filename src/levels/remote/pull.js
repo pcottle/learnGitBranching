@@ -932,7 +932,7 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Teraz, gdy zobacyliśmy jak pobierać dane ze zdalnego repozytorium za pomocą `git fetch`, zaktualizujmy naszą pracę, aby odzwierciedlić te zmiany!",
+              "Teraz, gdy zobaczyliśmy, jak pobierać dane ze zdalnego repozytorium za pomocą `git fetch`, zaktualizujmy naszą pracę, aby odzwierciedlić te zmiany!",
               "",
               "Istnieje wiele sposobów, aby to zrobić - kiedy masz już nowe commity dostępne lokalnie, możesz je dołączyć tak, jakby były zwykłymi commitami na innych gałęziach. Oznacza to, że możesz wykonywać polecenia takie jak:",
               "",
@@ -941,7 +941,7 @@ exports.level = {
               "* `git merge o/main`",
               "* itd., itd.",
               "",
-              "W rzeczywistości kolejność działań polegająca na *pobieraniu* zdalnych zmian (fetch), a następnie *łączeniu* ich (merge) jest tak powszechna, że sam Git zapewnia polecenie, które robi obie te rzeczy naraz! Jest to `git pull`."
+              "W rzeczywistości kolejność działań polegająca na *pobieraniu* zdalnych zmian (fetch), a następnie *łączeniu* ich (merge), jest tak powszechna, że sam Git zapewnia polecenie, które robi obie te rzeczy naraz! Jest to `git pull`."
             ]
           }
         },
@@ -952,7 +952,7 @@ exports.level = {
               "Zobaczmy najpierw `fetch` i `merge` wykonywane jedno po drugim."
             ],
             "afterMarkdowns": [
-              "Raz, dwa -- pobraliśmy `C3` za pomocą `fetch`, a następnie połączyliśmy tę pracę za pomocą `git merge o/main`. Teraz nasza gałąź `main` odzwierciedla nową pracę z remote (w tym przypadku o nazwie `origin`)"
+              "Tadam -- pobraliśmy `C3` za pomocą `fetch`, a następnie połączyliśmy tę pracę za pomocą `git merge o/main`. Teraz nasza gałąź `main` odzwierciedla nową pracę z remote (w tym przypadku o nazwie `origin`)"
             ],
             "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -975,9 +975,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "W szczegóły `git pull`zgłębymy się później (również w opcje i argumenty), ale na tym poziomie po prostu wypróbujmy jak działa.",
+              "W szczegóły `git pull`zagłębimy się później (również w opcje i argumenty), ale na tym poziomie po prostu wypróbujmy, jak działa.",
               "",
-              "Pamiętaj -- możesz rozwiązać ten poziom używając tylko `fetch` i `merge`, ale będzie cię to kosztowało dodatkowe poelecenie :P"
+              "Pamiętaj -- możesz rozwiązać ten poziom, używając tylko `fetch` i `merge`, ale będzie cię to kosztowało dodatkowe polecenie :P"
             ]
           }
         }

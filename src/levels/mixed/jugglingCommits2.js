@@ -53,7 +53,7 @@ exports.level = {
     "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe.",
     "it_IT":
       "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
-    "pl": "Nie zapomnij zforwardować maina do najnowszych zmian!",
+    "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
   },
   "startDialog": {
     "en_US": {
@@ -705,7 +705,7 @@ exports.level = {
               "",
               "*Ukończ poprzedni poziom Żonglowania commitami przed przejściem dalej*",
               "",
-              "Na poprzednim poziomie, użyliśmy `rebase -i` aby zmienić kolejność commitów. Kiedy commit, który chcieliśmy zmienić, był już na górze, mogliśmy go łatwo zmienić (`--amend`), a następnie przywrócić do odpowiedniej kolejności.",
+              "Na poprzednim poziomie użyliśmy `rebase -i`, aby zmienić kolejność commitów. Kiedy commit, który chcieliśmy zmienić, był już na górze, mogliśmy łatwo to zrobić (`--amend`), a następnie przywrócić do odpowiedniej kolejności.",
               "",
               "Jedynym problemem jest to, że dokonuje się wiele zmian w kolejności, co może powodować konflikty podczas rebase'u. Przyjrzyjmy się innej metodzie korzystającej z `git cherry-pick`."
             ]
@@ -715,7 +715,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Pamiętaj, że git cherry-pick umieści commit z dowolnego miejsca drzewa na HEAD (o ile ten commit nie jest przodkiem HEAD).",
+              "Pamiętaj, że git cherry-pick zrzuci commit z dowolnego miejsca drzewa na HEAD (o ile ten commit nie jest przodkiem HEAD).",
               "",
               "Oto małe demo na odświeżenie pamięci:"
             ],
@@ -730,7 +730,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Więc na tym poziomie, osiągnijmy ten sam cel zmiany `C2`, ale unikając użycia `rebase -i`. Zostawię Ci to do rozgryzienia! :D",
+              "Więc na tym poziomie osiągnijmy ten sam cel zmiany `C2`, ale unikając użycia `rebase -i`. Zostawię ci to do rozgryzienia! :D",
               "",
               "Pamiętaj, że dokładna liczba apostrofów (') nie jest ważna, tylko względne różnice. Na przykład, uznam drzewo, które pasuje do drzewa celu, ale ma wszędzie jeden dodatkowy apostrof."
             ]

@@ -1174,11 +1174,11 @@ exports.level = {
             "markdowns": [
               "## Relatywne referencje",
               "",
-              "Poruszanie się w Gicie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie zobaczysz ładnej wizualizacji drzewa commitów obok swojego terminala (chyba, że używasz Forka lub TortoiseGita). Musisz użyć `git log` aby zobaczyć hasze.",
+              "Poruszanie się w Gicie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie zobaczysz ładnej wizualizacji drzewa commitów obok swojego terminala (chyba, że używasz Forka lub TortoiseGita). Musisz użyć `git log`, aby zobaczyć hasze.",
               "",
-              "Co więcej, hasze są zazwyczaj o wiele dłuższe w prawdziwym Gicie. Na przykład, hash commita, które był na początku poprzedniego poziomu to `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Spróbuj to przeczytać!",
+              "Co więcej, hasze są zazwyczaj o wiele dłuższe w prawdziwym Gicie. Na przykład hash commita, który był na początku poprzedniego poziomu, to `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Spróbuj to przeczytać!",
               "",
-              "Plusem jest to, że Git sprytnie radzi sobie z haszami. Wymaga jedynie podania tylu znaków hasza ile potrzebuje, aby jednoznacznie zidentyfikować konkretny commit. Dlatego mogę wpisać jedynie `fed2` zamiast długiego łańcucha powyżej."
+              "Plusem jest to, że Git sprytnie radzi sobie z haszami. Wymaga jedynie podania tylu znaków hasza, ile potrzebuje, aby jednoznacznie zidentyfikować konkretny commit. Dlatego mogę wpisać jedynie `fed2` zamiast długiego łańcucha powyżej."
             ]
           }
         },
@@ -1186,9 +1186,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Jak już powiedzieliśmy, wybieranie commitów używając ich hasza nie jest najprzyjemniejszą rzeczą w życiu, dlatego Git ma referencje względne. Są niesamowite!",
+              "Jak już powiedzieliśmy, wybieranie commitów, używając ich hasza, nie jest najprzyjemniejszą rzeczą w życiu, dlatego Git ma referencje względne. Są niesamowite!",
               "",
-              "Korzystając z referencji względnych, możesz zacząć od miejsca, które zapamiętasz (jak np. gałąź `bugFix` lub `HEAD`) i pracować stamtąd.",
+              "Korzystając z referencji względnych, możesz zacząć od miejsca, które zapamiętasz (jak np. gałąź `bugFix` lub `HEAD`), i pracować stamtąd.",
               "",
               "Relatywne commity są potężne, ale pokażemy tu tylko dwie proste sytuacje:",
               "",
@@ -1203,14 +1203,14 @@ exports.level = {
             "beforeMarkdowns": [
               "Spójrzmy najpierw na operator Karety / daszek (^). Za każdym razem, gdy dodajesz go do referencji względnej, mówisz Gitowi, aby znalazł rodzica określonego commita.",
               "",
-              "Więc wpisując `main^` mamy na myśli \"pierwszego rodzica z gałęzi `main`\".",
+              "Więc wpisując `main^`, mamy na myśli \"pierwszego rodzica z gałęzi `main`\".",
               "",
               "`main^^` to dziadek (przodek drugiego stopnia) gałęzi `main`",
               "",
-              "Zcheckoutujmy commit powyżej `main`."
+              "checkoutujmy commit powyżej `main`."
             ],
             "afterMarkdowns": [
-              "Gotowe! O wiele łatwiej niż wpisując hasz commita."
+              "Tadam! Gotowe! O wiele łatwiej niż wpisując hasz commita."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git commit"
@@ -1223,7 +1223,7 @@ exports.level = {
               "Możesz również odwołać się do `HEAD` jako referencji względnej. Użyjmy tego kilka razy, aby przesunąć się w górę drzewa commitów."
             ],
             "afterMarkdowns": [
-              "Łatwizna! Możemy cofać się w czasie używając `HEAD^`"
+              "Łatwizna! Możemy cofać się w czasie, używając `HEAD^`"
             ],
             "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -1233,9 +1233,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, zcheckoutuj commita-rodzica z gałęzi `bugFix`. To spowoduje odczepienie `HEADa`.",
+              "Aby ukończyć ten poziom, checkoutuj commita-rodzica z gałęzi `bugFix`. To spowoduje odczepienie `HEADa`.",
               "",
-              "Możesz wybrać commita po haszu jeżeli chcesz, ale spróbuj wykorzystać nowe umiejętności i użyć referencji względnej!"
+              "Możesz wybrać commita po haszu, jeżeli chcesz, ale spróbuj wykorzystać nowe umiejętności i użyć referencji względnej!"
             ]
           }
         }

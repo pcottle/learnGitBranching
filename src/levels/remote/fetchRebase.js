@@ -36,7 +36,7 @@ exports.level = {
     "ko": "순서는 goal을 참고하세요",
     "vi": "kiểm tra kỹ thứ tự trên mô hình mục tiêu",
     "sl_SI": "Preveri vrstni red iz ciljne vizualizacije.",
-    "pl": "Przyjżyj się kolejności na wizualizacji celu",
+    "pl": "Przyjrzyj się kolejności na wizualizacji celu",
   },
   "startDialog": {
     "en_US": {
@@ -2192,7 +2192,7 @@ exports.level = {
             "markdowns": [
               "## Rozbieżna praca",
               "",
-              "Widzieliśmy wcześniej jak `pull` pobiera commity od innych i jak `push` wysyła nasze własne zmiany. Wydaje się to całkiem proste, więc jak ludzie mogą być tak zdezorientowani?",
+              "Widzieliśmy wcześniej, jak `pull` pobiera commity od innych i jak `push` wysyła nasze własne zmiany. Wydaje się to całkiem proste, więc jak ludzie mogą być tak zdezorientowani?",
               "",
               "Trudności pojawiają się, gdy historia repozytorium zaczyna się *rozbiegać*. Zanim omówimy szczegóły tego rozwiązania, zobaczmy przykład..",
               ""
@@ -2205,7 +2205,7 @@ exports.level = {
             "markdowns": [
               "Wyobraźmy sobie, że klonujesz repozytorium w poniedziałek i zaczynasz pracować nad dodatkową funkcjonalnością. W piątek chcesz opublikować swoje zmiany -- ale, o nie! Współpracownicy napisali w ciągu tygodnia mnóstwo kodu, który sprawił, że twoja praca stała się nieaktualna (przestarzała). Opublikowali również te poprawki we wspólnym zdalnym repozytorium, więc teraz *twoja* praca jest oparta na *starej* wersji projektu, która nie jest już aktualna.",
               "",
-              "W tym przypadku, komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`, czy Git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy powinien próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy też ma całkowicie zignorować twoje zmiany, ponieważ są one zupełnie przestarzałe?",
+              "W tym przypadku komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`: czy Git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy powinien próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy też ma całkowicie zignorować twoje zmiany, ponieważ są one zupełnie przestarzałe?",
               "",
               "Ponieważ w tej sytuacji (gdzie historia się rozbiegła) jest tak wiele niejasności, Git nie pozwala ci na `push` twoich zmian. W rzeczywistości zmusza cię do połączenia najnowszego stanu remote'a, zanim pozwoli ci udostępnić swoją pracę."
             ]
@@ -2228,7 +2228,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Jak rozwiążesz tę sytuację? To proste, wszystko co musisz zrobić, to oprzeć swoją pracę na najnowszej wersji remote'a.",
+              "Jak rozwiążesz tę sytuację? To proste. Wszystko, co musisz zrobić, to oprzeć swoją pracę na najnowszej wersji remote'a.",
               "",
               "Jest kilka sposobów, aby to zrobić, ale najprostszym jest przeniesienie pracy poprzez rebase. Zobaczmy, jak to wygląda."
             ]
@@ -2241,7 +2241,7 @@ exports.level = {
               "Zróbmy teraz inaczej: rebase przed wypchnięciem..."
             ],
             "afterMarkdowns": [
-              "Boom! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, przebazowaliśmy naszą pracę, aby odzwierciedlić nowe zmiany na zdalnej gałęzi, a następnie wypchnęliśmy je za pomocą `git push`."
+              "Tadam! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, przebazowaliśmy naszą pracę, aby odzwierciedlić nowe zmiany na zdalnej gałęzi, a następnie wypchnęliśmy je za pomocą `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2255,7 +2255,7 @@ exports.level = {
               "",
               "Chociaż `git merge` nie przenosi twojej pracy (a zamiast tego po prostu tworzy commit scalający), jest to sposób na powiedzenie Gitowi, że dołączasz wszystkie zmiany z remote'a. Dzieje się tak dlatego, że zdalna gałąź jest teraz *przodkiem* twojej własnej gałęzi, co oznacza, że twój commit odzwierciedla wszystkie commity w zdalnej gałęzi.",
               "",
-              "Zobaczmy jak to wygląda..."
+              "Zobaczmy, jak to wygląda..."
             ]
           }
         },
@@ -2263,10 +2263,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "A jeśeli użyjemy `merge` zamiast `rebase`..."
+              "A jeśli użyjemy `merge` zamiast `rebase`..."
             ],
             "afterMarkdowns": [
-              "Boom! Zaktualizowaliśmy naszą lokalną reprezentację remota za pomocą `git fetch`, git dołączył (*merge*) nową pracę do naszej pracy (aby odzwierciedlić nowe zmiany na zdalnej gałęzi), a następnie wypchnął je za pomocą `git push`."
+              "Tadam! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, git dołączył (*merge*) nową pracę do naszej pracy (aby odzwierciedlić nowe zmiany na zdalnej gałęzi), a następnie wypchnął je za pomocą `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2280,7 +2280,7 @@ exports.level = {
               "",
               "Oczywiście -- znasz już `git pull ` - jest po prostu skrótem dla fetch i merge. `git pull --rebase` jest bardzo wygodnym skrótem dla fetch i rebase!",
               "",
-              "Zobaczmy jak działają te skrócone polecenia."
+              "Zobaczmy, jak działają te skrócone polecenia."
             ]
           }
         },
@@ -2314,14 +2314,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ta kolejność fetchowania, rebase/merge i push jest dość powszechna. W kolejnych lekcjach zajmiemy się bardziej skomplikowanymi możliwościami . Na razie wypróbujmy to czego się nauczyliśmy.",
+              "Ta kolejność fetchowania, rebase/merge i push jest dość powszechna. W kolejnych lekcjach zajmiemy się bardziej skomplikowanymi możliwościami . Na razie wypróbujmy to, czego się nauczyliśmy.",
               "",
-              "Aby ukońćzyć ten poziom, wykonaj następujące kroki:",
+              "Aby ukończyć ten poziom, wykonaj następujące kroki:",
               "",
               "* Sklonuj swoje repozytorium",
-              "* Zasumuluj pracę zespołową (1 commit)",
-              "* Zcommituj własną pracę (1 commit)",
-              "* Opublikuj swoją pracę korzystając z *rebase*"
+              "* Zasymuluj pracę zespołową (1 commit)",
+              "* Scommituj własną pracę (1 commit)",
+              "* Opublikuj swoją pracę, korzystając z *rebase*"
             ]
           }
         }

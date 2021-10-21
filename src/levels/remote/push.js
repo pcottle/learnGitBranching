@@ -687,7 +687,7 @@ exports.level = {
             "markdowns": [
               "## Git push",
               "",
-              "Ok, pobraliśmy zmiany ze zdalnego repozytorium i włączyliśmy je do naszej pracy lokalnie. Wszystko fajnie ale... jak mamy się podzielić _naszą_ wspaniałą pracą z wszystkimi innymi?",
+              "Ok, pobraliśmy zmiany ze zdalnego repozytorium i włączyliśmy je do naszej pracy lokalnie. Wszystko fajnie, ale... jak mamy się podzielić _naszą_ wspaniałą pracą ze wszystkimi innymi?",
               "",
               "Cóż, wysyłanie współdzielonej pracy jest przeciwieństwem pobierania współdzielonej pracy. A co jest przeciwieństwem `git pull`? `git push`!",
               "",

@@ -18,7 +18,7 @@ exports.level = {
     "uk": "Злиття гілок в Git",
     "vi": "Gộp nhánh trong Git",
     "sl_SI": "Merganje v Gitu",
-    "pl": "Mergowanie w Gicie",
+    "pl": "Merge w Gicie",
     'it_IT': "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்"
   },
@@ -1158,13 +1158,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Mergowanie branchów",
+              "## Łączenie gałęzi",
               "",
-              "Świetnie! Już wiemy, jak dodawać commity oraz jak tworzyć gałęzie (czyli branche). Teraz musimy się nauczyć jak połączyć pracę dwóch z nich. Stwórzmy nową gałąź, wprowadźmy nową funkcjonalność, a następnie je połączmy.",
+              "Świetnie! Już wiemy, jak dodawać commity oraz jak tworzyć gałęzie (czyli branche). Teraz musimy się nauczyć, jak połączyć pracę dwóch z nich. Stwórzmy nową gałąź, wprowadźmy nową funkcjonalność, a następnie połączmy gałęzie.",
               "",
-              "Pierwszą metodą łączenia gałęzi, której zamierzamy użyć, jest `git merge` (stąd merge'owanie czyt. merdżowanie). Połączenie to tworzy w Git specjalny commit, który ma dwoje różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych rodziców *oraz* zbiory wszystkich swoich przodków\".",
+              "Pierwszą metodą scalania (łączenia) gałęzi, której zamierzamy użyć, jest `git merge` (w Polsce możesz spotkać się z takimi określeniami jak merge'owanie albo usłyszeć o merdżowaniu). Połączenie to tworzy w Git specjalny commit, który ma dwoje różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych rodziców *oraz* zbiory wszystkich swoich przodków\".",
               "",
-              "Zaraz zobaczysz jak to wygląda i łatwiej ci będzie wszystko zrozumieć."
+              "Zaraz zobaczysz, jak to wygląda i łatwiej będzie ci wszystko zrozumieć."
             ]
           }
         },
@@ -1174,12 +1174,12 @@ exports.level = {
             "beforeMarkdowns": [
               "Mamy tutaj dwie gałęzie. Każda z nich ma po jednym unikalnym commicie. Oznacza to, że żadna z nich nie zawiera \"całej pracy\", którą wykonaliśmy w naszym repozytorium. Naprawmy to!.",
               "",
-              "Użyjmy `git merge` aby połączyć branche `bugFix` oraz `main`."
+              "Użyjmy `git merge`, aby połączyć branche `bugFix` oraz `main`."
             ],
             "afterMarkdowns": [
-              "Wow! Widzisz? Teraz \"main\" wskazuje na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa źródłowego od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `main` zawiera teraz całą pracę w repozytorium.",
+              "Łał! Widzisz to? Teraz \"main\" wskazuje na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa źródłowego od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `main` zawiera teraz całą pracę w repozytorium.",
               "",
-              "Spójrz też jak zmieniły się kolory commitów. Aby pomóc Ci w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Kolor każdego commita to mieszanka kolorów wszystkich gałęzi, które commitujesz",
+              "Zobacz też, jak zmieniły się kolory commitów. Aby pomóc Ci w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Kolor każdego commita to mieszanka kolorów wszystkich gałęzi, które commitujesz",
               "",
               "Tutaj widzimy, że kolor gałęzi `main` jest składową kolorów wszystkich commitów, ale kolor gałęzi `bugFix` już nie. Naprawmy to..."
             ],
@@ -1194,7 +1194,7 @@ exports.level = {
               "Połączmy gałąź `main` z gałęzią `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Ponieważ `bugFix` był przodkiem gałęzi `main`, git nie musiał wykonywać żadnej pracy. Po prostu przeniosł branch `bugFix` do tego samego commita, do którego dołączony był `main`.",
+              "Ponieważ `bugFix` był przodkiem gałęzi `main`, git nie musiał wykonywać żadnej pracy. Po prostu przeniósł branch `bugFix` do tego samego commita, do którego dołączony był `main`.",
               "",
               "Teraz wszystkie commity mają ten sam kolor, co oznacza, że każda gałąź zawiera całą pracę znajdującą się w repozytorium! Super!"
             ],
@@ -1213,7 +1213,7 @@ exports.level = {
               "* Zrób jeden commit",
               "* Wróć do gałęzi `main` za pomocą polecenia `git checkout`",
               "* Zrób kolejny commit",
-              "* Połącz gałąź `bugFix` z gałęzią `main` używając polecenia `git merge`",
+              "* Połącz gałąź `bugFix` z gałęzią `main`, używając polecenia `git merge`",
               "",
               "*Pamiętaj: zawsze możesz zobaczyć tę wiadomość ponownie, wpisując \"objective\"!*"
             ]

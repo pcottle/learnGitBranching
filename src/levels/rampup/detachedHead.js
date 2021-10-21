@@ -38,7 +38,7 @@ exports.level = {
     "vi": "Dùng mã băm (hash) của commit để hoàn thành!",
     "sl_SI": "Uporabi oznako (hash) commita za pomoč!",
     "it_IT": "Usa l'etichetta (hash) sul commit per aiutarti!",
-    "pl": "Użyj nazwy commita (hasha)!",
+    "pl": "Użyj nazwy commita (hasza)!",
   },
   "startDialog": {
     "en_US": {
@@ -1217,7 +1217,7 @@ exports.level = {
               "",
               "Zanim przejdziemy do niektórych z bardziej zaawansowanych funkcji Gita, ważne jest, aby zrozumieć różne sposoby poruszania się po drzewie commitów, które reprezentują twój projekt.",
               "",
-              "Kiedy już poczujesz się z tym wygodnie to i inne komendy Gita nabiorą więcej mocy!",
+              "Kiedy już poczujesz się z tym wygodnie, to i inne komendy Gita nabiorą więcej mocy!",
               "",
               "",
               "",
@@ -1232,7 +1232,7 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "Najpierw musimy porozmawiać o \"HEAD\". HEAD to symboliczna nazwa dla aktualnie zcheckoutowanego (wyciągniętego) commita - jest to zasadniczo ostatni commit nad, którym pracowałeś.",
+              "Najpierw musimy porozmawiać o \"HEAD\". HEAD to symboliczna nazwa dla aktualnie checkoutowanego (wyciągniętego) commita - jest to zasadniczo commit z najnowszymi zmianami.",
               "",
               "HEAD zawsze wskazuje na najnowszy commit, który jest odzwierciedlony w drzewie zmian. Większość poleceń git, które wprowadzają zmiany w drzewie, zaczyna się od zmiany HEADa.",
               "",
@@ -1244,7 +1244,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zobaczmy jak to działa. Pokażemy HEAD przed i po commicie."
+              "Zobaczmy, jak to działa. Pokażemy HEAD przed i po commicie."
             ],
             "afterMarkdowns": [
               "Zobacz! HEAD przez cały czas ukrywał się pod naszą gałęzią `main`."
@@ -1279,7 +1279,7 @@ exports.level = {
             "markdowns": [
               "Aby ukończyć ten poziom, odłącz HEADa od gałęzi `bugFix` i dołącz go do commita.",
               "",
-              "Możesz wybrać konkretnego commita posługując się jego haszem. Hasz każdego commita jest wyświetlany na okręgu, który go reprezentuje."
+              "Możesz wybrać konkretnego commita, posługując się jego haszem. Hasz każdego commita jest wyświetlany na okręgu, który go reprezentuje."
             ]
           }
         }

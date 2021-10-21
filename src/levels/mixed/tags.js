@@ -830,7 +830,7 @@ exports.level = {
             "markdowns": [
               "## Tagi Gita",
               "",
-              "Jak wiesz z poprzednich lekcji, gałęzie łatwo przemieszczać i w momencie ukończenia pracy nad nimi często odnoszą się do różnych commitów. Gałęzie łatwo ulegają mutacjom, często są tymczasowe i zawsze się zmieniają.",
+              "Jak wiesz z poprzednich lekcji, gałęzie łatwo przemieszczać, i w momencie ukończenia pracy nad nimi często odnoszą się do różnych commitów. Gałęzie łatwo ulegają mutacjom, często są tymczasowe i zawsze się zmieniają.",
               "",
               "A skoro tak, to możesz się zastanawiać, czy istnieje sposób na *trwałe* zaznaczanie ważnych punktów  w historii projektu. Czy istnieje jakiś sposób na oznaczenie tych commitów czymś bardziej trwałym niż gałąź, w przypadku takich rzeczy jak duże wydania i duże scalenia/ merge?",
               ""
@@ -845,7 +845,7 @@ exports.level = {
               "",
               "Co ważniejsze jednak, nigdy się nie przesuwają, gdy tworzone są kolejne commity. Nie można \"checkoutować\" tagu, a następnie zakończyć pracy nad nim (jakby był gałęzią, na której można zapisać nowe zmiany) - tagi są jak kotwice w drzewie commitów, które wyznaczają pewne miejsca.",
               "",
-              "Zobaczmy jak tagi wyglądają w praktyce."
+              "Zobaczmy, jak tagi wyglądają w praktyce."
             ]
           }
         },
@@ -856,7 +856,7 @@ exports.level = {
               "Spróbujmy zrobić tag w `C1`, który jest prototypem naszej wersji 1."
             ],
             "afterMarkdowns": [
-              "Otóż to! Całkiem proste. Nazwaliśmy tag `v1` i odwołaliśmy się do commitu `C1` w sposób jawny. Jeśli nie wskażesz konkretnego commitu, Git użyje commitu na który wskazuje `HEAD`."
+              "Otóż to! Całkiem proste. Nazwaliśmy tag `v1` i odwołaliśmy się do commitu `C1` w sposób jawny. Jeśli nie wskażesz konkretnego commitu, Git użyje commitu, na który wskazuje `HEAD`."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -866,7 +866,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dla tego poziomu utwórz tagi takie jak w wizualizacji celu, a następnie zcheckoutuj `v1`. Zauważ, że przechodzisz do odłączonego stanu `HEAD` - to dlatego, że nie możesz commitować bezpośrednio na tagu `v1`.",
+              "Dla tego poziomu utwórz tagi takie jak w wizualizacji celu, a następnie checkoutuj `v1`. Zauważ, że przechodzisz do odłączonego stanu `HEAD` - to dlatego, że nie możesz commitować bezpośrednio na tagu `v1`.",
               "",
               "Na kolejnym poziomie przeanalizujemy bardziej interesujący przypadek użycia tagów."
             ]

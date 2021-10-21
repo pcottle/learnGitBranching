@@ -960,15 +960,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Zdalne gałęzie git",
+              "## Zdalne gałęzie Git",
               "",
-              "Teraz gdy zobaczyliśmy już jak działa `git clone`, przyjrzyjmy się temu, co faktycznie się zmieniło.",
+              "Teraz, gdy zobaczyliśmy już, jak działa `git clone`, przyjrzyjmy się temu, co faktycznie się zmieniło.",
               "",
               "Pierwszą rzeczą, która mogła ci się rzucić w oczy, jest to, że w naszym lokalnym repozytorium pojawiła się nowa gałąź o nazwie `o/main`. Ten typ gałęzi nazywany jest gałęzią _zdalną_. Gałęzie zdalne mają specjalne właściwości, ponieważ służą do wyjątkowego celu.",
               "",
-              "Zdalne gałęzie odzwierciedlają _stan_ zdalnych repozytoriów (od czasu ostatniej komunikacji z nimi). Pomagają zrozumieć różnicę między pracą lokalną a dostępną publicznie -- to niezwykle ważna sprawa przez udostępnieniem swojej pracy innym.",
+              "Zdalne gałęzie odzwierciedlają _stan_ zdalnych repozytoriów (od czasu ostatniej komunikacji z nimi). Pomagają zrozumieć różnicę między pracą lokalną a dostępną publicznie -- to niezwykle ważna sprawa przed udostępnieniem swojej pracy innym.",
               "",
-              "Zdalne gałęzie mają specjalną właściwość. Kiedy je checkoutujesz, Git wprowdza cię w tryb odłączonego `HEADa`. Robi to celowo, ponieważ nie możesz pracować bezpośrednio na tych gałęziach; musisz pracować w innym miejscu, a następnie udostępnić swoją pracą zdalnie (i wtedy twoje zdalne gałęzie zostaną zaktualizowane)."
+              "Zdalne gałęzie mają specjalną właściwość. Kiedy je checkoutujesz, Git wprowdza cię w tryb odłączonego `HEADa`. Robi to celowo, ponieważ nie możesz pracować bezpośrednio na tych gałęziach; musisz pracować w innym miejscu, a następnie udostępnić swoją pracę zdalnie (i wtedy twoje zdalne gałęzie zostaną zaktualizowane)."
             ]
           }
         },
@@ -978,17 +978,17 @@ exports.level = {
             "markdowns": [
               "### Czym jest `o/`?",
               "",
-              "Możesz się zastanawiać, do czego służy początkowy znak `o/` w zdalnych gałęziach. Otóż, zdalne gałęzie również mają (wymaganą) konwencję nazewnictwa -- są wyświetlane w formacie:",
+              "Możesz się zastanawiać, do czego służy początkowy znak `o/` w zdalnych gałęziach. Otóż zdalne gałęzie również mają (wymaganą) konwencję nazewnictwa -- są wyświetlane w formacie:",
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "Więc jeśli spojrzysz na gałąź o nazwie `o/main`, nazwą gałęzi (branch name) jest `main` a nazwą zdalną (remote name) jest `o`.",
+              "Więc jeśli spojrzysz na gałąź o nazwie `o/main`, nazwą gałęzi (branch name) jest `main`, a nazwą zdalną (remote name) jest `o`.",
               "",
-              "Większość programistów w rzeczywistości nazywa główną (main) zdalną gałąź `origin`,a nie `o`. Jest to tak powszechne, że Git w praktyce sam ustawia zdalną nazwę na `origin` kiedy wykonujesz `git clone` na repozytorium.",
+              "Większość programistów w rzeczywistości nazywa główną (main) zdalną gałąź `origin`, a nie `o`. Jest to tak powszechne, że Git w praktyce sam ustawia zdalną nazwę na `origin`, kiedy wykonujesz `git clone` na repozytorium.",
               "",
-              "Niestety pełna nazwa `origin` nie zmieści się w naszym interfejsie, więc używamy `o` jako skrótu :( Pamiętaj więc, że kiedy używasz prawdziwego Gita twoja zdalna nazwa najprawdopodobniej brzmi `origin`!",
+              "Niestety pełna nazwa `origin` nie zmieści się w naszym interfejsie, więc używamy `o` jako skrótu :( Pamiętaj więc, że kiedy używasz prawdziwego Gita, twoja zdalna nazwa najprawdopodobniej brzmi `origin`!",
               "",
-              "To dużo do przyswojenia, więc przyjrzyjmy się jak to wszystko działa."
+              "To dużo do przyswojenia, więc przyjrzyjmy się, jak to wszystko działa."
             ]
           }
         },
@@ -996,10 +996,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Wyciągnijmy (check out) zdalną gałąź i zobaczmy co się stanie."
+              "Wyciągnijmy (check out) zdalną gałąź i zobaczmy, co się stanie."
             ],
             "afterMarkdowns": [
-              "Jak widzisz git przełączył nas w tryb odłączonego `HEADa` i nie zaktualizował `o/main` kiedy dodaliśmy nowy commit. Dzieje się tak ponieważ `o/main` zaktualizuje się tylko, przy aktualizacji zdalnego repozytorium."
+              "Jak widzisz, git przełączył nas w tryb odłączonego `HEADa` i nie zaktualizował `o/main`, kiedy dodaliśmy nowy commit. Dzieje się tak, ponieważ `o/main` zaktualizuje się tylko przy aktualizacji zdalnego repozytorium."
             ],
             "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
@@ -1009,7 +1009,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, zrób jeden commit z `main` i drugi, po przełączeniu się (check out) na `o/main`. Pomoże ci to zrozumieć różnice w zachowaniu zdalnych gałęzi i zapamiętać, że aktualizują się wyłącznie aby odzwierciedlić stan zdalnego repozytorium."
+              "Aby ukończyć ten poziom, zrób jeden commit z `main` i drugi, po przełączeniu się (check out) na `o/main`. Pomoże ci to zrozumieć różnice w zachowaniu zdalnych gałęzi i zapamiętać, że aktualizują się wyłącznie, aby odzwierciedlić stan zdalnego repozytorium."
             ]
           }
         }

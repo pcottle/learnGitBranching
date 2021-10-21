@@ -1535,11 +1535,11 @@ exports.level = {
               "",
               "Podobnie jak modyfikator `~`, modyfikator `^` również przyjmuje po sobie opcjonalną liczbę.",
               "",
-              "Zamiast określać liczbę pokoleń do cofnięcia się (co robi `~`), modyfikator `^` określa, do którego rodzica należy się odwołać po wykonaniu merge commita. Pamiętaj, że polecenia scalania/mergowania mają wielu rodziców, więc ścieżka, którą należy wybrać jest niejednoznaczna.",
+              "Zamiast określać liczbę pokoleń do cofnięcia się (co robi `~`), modyfikator `^` określa, do którego rodzica należy się odwołać po wykonaniu merge commita. Pamiętaj, że scalanie ma wielu rodziców, więc wybór ścieżki nie jest jednoznaczny.",
               "",
               "Git zazwyczaj podąża za \"pierwszym\" rodzicem w górę od commitu scalającego, ale określenie liczby za pomocą `^` zmienia to domyślne zachowanie.",
               "",
-              "Dość gadania, zobaczmy jak to działa.",
+              "Dość gadania - zobaczmy, jak to działa.",
               ""
             ]
           }
@@ -1548,7 +1548,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tutaj mamy merge commit. Jeśli zcheckoutujemy `main^` bez liczby na końcu, przejdziemy do pierwszego rodzica po merge commicie. ",
+              "Tutaj mamy merge commit. Jeśli checkoutujemy `main^` bez liczby na końcu, przejdziemy do pierwszego rodzica po merge commicie. ",
               "",
               "(*Na naszych wizualizacjach pierwszy rodzic jest umieszczony bezpośrednio nad commitem scalającym.*)"
             ],
@@ -1606,7 +1606,7 @@ exports.level = {
               "",
               "Aby ukończyć ten poziom, utwórz nową gałąź w określonym miejscu docelowym.",
               "",
-              "Oczywiście, łatwo byłoby określić commit bezpośrednio (coś jak `C6`), ale spróbuj użyć modyfikatorów, o których mówiliśmy przed chwilą!"
+              "Oczywiście łatwo byłoby określić commit bezpośrednio (coś jak `C6`), ale spróbuj użyć modyfikatorów, o których mówiliśmy przed chwilą!"
             ]
           }
         }

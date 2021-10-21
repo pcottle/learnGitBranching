@@ -38,7 +38,7 @@ exports.level = {
     "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
     "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje.",
     "it_IT": "Fai un commit da bugFix per procedere",
-    "pl": "Zcommituj raz na bugFix, żeby przejść dalej",
+    "pl": "Scommituj raz na bugFix, żeby przejść dalej",
   },
   "startDialog": {
     "en_US": {
@@ -1012,7 +1012,7 @@ exports.level = {
               "",
               "`git describe <ref>`",
               "",
-              "Gdzie `<ref>` jest czymkolwiek, co git może odnieść do commita. Jeśli nie podasz `<ref>`, git użyje miejsca, w którym jesteś teraz zcheckoutowany (`HEAD`).",
+              "Gdzie `<ref>` jest czymkolwiek, co git może odnieść do commita. Jeśli nie podasz `<ref>`, git użyje aktualnie checkoutowanego miejsca (`HEAD`).",
               "",
               "Wynik polecenia wygląda następująco:",
               "",

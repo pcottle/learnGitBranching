@@ -1128,11 +1128,11 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "Drugim sposobem na łączenie naszej pracy z różnych gałęzi jest *rebase*. Rebase zasadniczo pobiera zestaw commitów, \"kopiuje\" je i umieszcza w innym miejscu.",
+              "Drugim sposobem na łączenie naszej pracy z różnych gałęzi jest *rebase*. Rebase zasadniczo pobiera zestaw commitów, \"kopiuje\" je i wrzuca je gdzie indziej.",
               "",
               "Chociaż brzmi to niejasno, zaletą rebase jest to, że można go użyć do stworzenia ładnej, prostej sekwencji commitów. Rebase sprawi, że historia commitów w repozytorium będzie wyglądała na dużo prostszą, ponieważ nia ma wtedy commitów scalających.",
               "",
-              "Sparwdźmy jak to działa..."
+              "Sprawdźmy, jak to działa..."
             ]
           }
         },
@@ -1142,7 +1142,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Tutaj znowu mamy dwie gałęzie. Zauważ, że gałąź bugFix jest aktualnie wybrana (zwróć uwagę, że ma gwiazdkę)",
               "",
-              "Chcielibyśmy przenieść nasze pracę z gałęzi bugFix bezpośrednio na gałąź main. W ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
+              "Chcielibyśmy przenieść naszą pracę z gałęzi bugFix bezpośrednio na gałąź main. W ten sposób wyglądałoby to tak, jakby te dwa zadania były rozwijane sekwencyjnie, podczas gdy w rzeczywistości rozwijano je równolegle.",
               "",
               "Zróbmy to za pomocą polecenia `git rebase`."
             ],

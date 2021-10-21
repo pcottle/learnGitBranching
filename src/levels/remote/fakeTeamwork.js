@@ -36,7 +36,7 @@ exports.level = {
     "ko": "가장할 커밋의 갯수를 조절할 수 있습니다.",
     "vi": "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập.",
     "sl_SI": "Spomni se, da lahko določiš število lažnih commitov.",
-    "pl": "pamiętaj, że możesz określić liczbę symulowanych commitów",
+    "pl": "Pamiętaj, że możesz określić liczbę symulowanych commitów",
   },
   "startDialog": {
     "en_US": {
@@ -859,11 +859,11 @@ exports.level = {
             "markdowns": [
               "## Symulacja pracy zespołowej",
               "",
-              "Pora na małe oszustwo -- na potrzeby niektórych z nadchodzących lekcji, musimy nauczyć cię jak ściągać (pull) zmiany, które zostały wprowadzone na zdalnej gałęzi przez innych.",
+              "Pora na małe oszustwo -- na potrzeby niektórych z nadchodzących lekcji musimy nauczyć cię, jak ściągać (pull) zmiany, które zostały wprowadzone na zdalnej gałęzi przez innych.",
               "",
-              "W zasadzie oznacza to, że musimy \"udawać\", że zdalne rpozytorium zostało zaktualizowane przez jednego z twoich współpracowników / przyjaciół / współtwórców na jakiejś gałęzi lub kilku commitach.",
+              "W zasadzie oznacza to, że musimy \"udawać\", że zdalne repozytorium zostało zaktualizowane przez jednego z twoich współpracowników / przyjaciół / współtwórców na jakiejś gałęzi lub kilku commitach.",
               "",
-              "Aby to zrobić, wprowadziliśmy polecenie `git fakeTeamwork`! Po polsku byłoby to symulujPracę :D -- zobaczmy jak to działa..."
+              "Aby to zrobić, wprowadziliśmy polecenie `git fakeTeamwork`! Po polsku byłoby to symulujPracę :D -- zobaczmy, jak to działa..."
             ]
           }
         },
@@ -871,7 +871,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Domyślnym zachowaniem `fakeTeamwork` jest po prostu umieszczenie commitu na gałęzi main."
+              "Domyślnym zachowaniem `fakeTeamwork` jest po prostu wrzucenie commita na gałąź main."
             ],
             "afterMarkdowns": [
               "Proszę bardzo - zdalny serwer został zaktualizowany o nowy commit, a my jeszcze go nie pobraliśmy, ponieważ nie uruchomiliśmy `git fetch`."
@@ -899,7 +899,7 @@ exports.level = {
             "markdowns": [
               "Kolejne poziomy będą dość trudne, więc tym razem twoje zadanie też jest bardziej wymagające.",
               "",
-              "Nie bój się, stwórz zdalne repozytorium (używając `git clone`), zasymuluj na nim kilka zmian i zatwierdz je, a następnie ściągnij (pull) je. To jak kilka lekcji w jednej!"
+              "Nie bój się, stwórz zdalne repozytorium (używając `git clone`), zasymuluj na nim kilka zmian i zatwierdź je, a następnie ściągnij (pull) je. To jak kilka lekcji w jednej!"
             ]
           }
         }

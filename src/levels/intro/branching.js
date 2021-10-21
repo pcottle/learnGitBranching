@@ -1336,7 +1336,7 @@ exports.level = {
               "twórz gałęzie wcześnie i często",
               "```",
               "",
-              "W polskim nazewnictwie stosuje się wymiennie nazwę branch oraz gałąź. Natomiast commit (zatwierdzenie) stosuje się tylko w różnych odmienionych formach np. commita, commitów itp",
+              "W polskim nazewnictwie stosuje się wymiennie nazwę branch oraz gałąź. Natomiast commit (zatwierdzenie) stosuje się tylko w różnych odmienionych formach, np. commita, commitów itp.",
               "",
               "Tworzenie wielu gałęzi nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci. Z tego powodu łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, różne od siebie gałęzie.",
               "",
@@ -1398,7 +1398,7 @@ exports.level = {
               "*Uwaga: w wersji 2.23 Gita zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
               "a jest nieco przeciążone (robi kilka oddzielnych rzeczy). Tutaj nadal będziemy używać",
               "`checkout` zamiast `switch`, ponieważ wciąż jest to najczęściej stosowane polecenie",
-              "Jeśli chcesz możesz je wypróbować, ta aplikacja jest na to gotowa! Jeśli chcesz dowiedzieć się więcej o poleceniu <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">zajrzyj tutaj</a>.* "
+              "Jeśli chcesz, możesz je wypróbować, ta aplikacja jest na to gotowa! Jeśli chcesz dowiedzieć się więcej o poleceniu <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">, zajrzyj tutaj</a>.* "
             ]
           }
         },
@@ -1407,7 +1407,7 @@ exports.level = {
           "options": {
             "markdowns": [
               "Okej, teraz możesz samodzielnie zacząć tworzyć gałęzie.",
-              "Po zamknięciu tego okna, stwórz nową gałąź o nazwie `bugFix` i przełącz się na nią.",
+              "Po zamknięciu tego okna stwórz nową gałąź o nazwie `bugFix` i przełącz się na nią.",
               "",
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
               "nową gałąź ORAZ przełączyć się na nią w tym samym czasie,",

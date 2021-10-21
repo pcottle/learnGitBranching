@@ -1142,7 +1142,7 @@ exports.level = {
             "markdowns": [
               "## Git fetch",
               "",
-              "Praca z zdalnymi Gitami tak naprawdę sprowadza się do przesyłania danych _do_ i _z_ innych repozytoriów. Tak długo jak możemy przesyłać zatwierdzenia tam i z powrotem, możemy udostępniać wszelkiego rodzaju aktualizacje śledzone przez Git (a tym samym dzielić się pracą, nowymi plikami, pomysłami, listami miłosnymi itp.).",
+              "Praca ze zdalnymi Gitami tak naprawdę sprowadza się do przesyłania danych _do_ i _z_ innych repozytoriów. Tak długo jak możemy przesyłać zatwierdzenia tam i z powrotem, możemy udostępniać wszelkiego rodzaju aktualizacje śledzone przez Git (a tym samym dzielić się pracą, nowymi plikami, pomysłami, listami miłosnymi itp.).",
               "",
               "W tej lekcji nauczymy się, jak pobierać dane _ze_ zdalnego repozytorium -- polecenie to nosi nazwę `git fetch`.",
               "",
@@ -1157,7 +1157,7 @@ exports.level = {
               "Zanim przejdziemy do szczegółów polecenia `git fetch`, zobaczmy, jak działa! Mamy tu zdalne repozytorium, zawierające dwa commity, których nie ma w naszym lokalnym repozytorium."
             ],
             "afterMarkdowns": [
-              "No to jedziemy! Commity `C2` i `C3` zostały pobrane do naszego lokalnego repozytorium, a zdalna gałąż `o/main` została zaktualizowana, aby to odzwierciedlić."
+              "No to jedziemy! Commity `C2` i `C3` zostały pobrane do naszego lokalnego repozytorium, a zdalna gałąź `o/main` została zaktualizowana, aby to odzwierciedlić."
             ],
             "command": "git fetch",
             "beforeCommand": "git clone; git fakeTeamwork 2"
@@ -1169,16 +1169,16 @@ exports.level = {
             "markdowns": [
               "### Co robi fetch",
               "",
-              "`git fetch` wykonuje dwie rzeczy. Są to:",
+              "`git fetch` wykonuje dwie rzeczy:",
               "",
               "* pobiera commity, które są w zdalnym repozytorium, ale których brakuje w naszym lokalnym repozytorium i...",
               "* aktualizuje miejsca, które wskazują nasze zdalne gałęzie (na przykład `o/main`)",
               "",
-              "`git fetch` zasadniczo synchronizuje _lokalną_ reprezentację zdalnego repozytorium z tym jak w _rzeczywistości_ zdalne repozytorium wygląda (w danej chwili).",
+              "`git fetch` zasadniczo synchronizuje _lokalną_ reprezentację zdalnego repozytorium z tym, jak w _rzeczywistości_ zdalne repozytorium wygląda (w danej chwili).",
               "",
-              "Jak pamiętasz z poprzedniej lekcji, powiedzieliśmy, że zdalne gałęzie odzwierciedlają stan zdalnych repozytoriów od czasu, ostatniej komunikacji nimi. `git fetch` to sposób, w jaki rozmiawiasz z tymi repozytoriami! Mamy nadzieję, że związek między zdalnymi gałęziami a `git fetch` jest teraz jasny.",
+              "Jak pamiętasz z poprzedniej lekcji, powiedzieliśmy, że zdalne gałęzie odzwierciedlają stan zdalnych repozytoriów od czasu ostatniej komunikacji nimi. `git fetch` to sposób, w jaki rozmiawiasz z tymi repozytoriami! Mamy nadzieję, że związek między zdalnymi gałęziami a `git fetch` jest teraz jasny.",
               "",
-              "`git fetch` zwykle komunikuje się z zdalnym repozytorium przez internet (za pośrednictwem protokołu takiego jak `http://` lub `git://`).",
+              "`git fetch` zwykle komunikuje się ze zdalnym repozytorium przez internet (za pośrednictwem protokołu takiego jak `http://` lub `git://`).",
               ""
             ]
           }
@@ -1191,7 +1191,7 @@ exports.level = {
               "",
               "Zauważ, że `git fetch` nie zmienia nic w _twoim_ stanie lokalnym. Nie zaktualizuje twjej gałęzi `main` ani nie zmieni niczego w wyglądzie twojego systemu plików.",
               "",
-              "Zrozumienie tego to ważna sprawa! Wielu programistów uważa, że uruchomienie `git fetch` spowoduje, że ich lokalna praca będzie odzwierciedlać stan zdalny. Mimo że `git fetch` pobiera wszystkie niezbędne do tego dane, ale _nie zmienia_ żadnego z plików lokalnych. Poleceń, które służą właśnie do tego celu nauczymy później. :D",
+              "Zrozumienie tego to ważna sprawa! Wielu programistów uważa, że uruchomienie `git fetch` spowoduje, że ich lokalna praca będzie odzwierciedlać stan zdalny. Mimo że `git fetch` pobiera wszystkie niezbędne do tego dane, _nie zmienia_ żadnego z plików lokalnych. Poleceń, które służą właśnie do tego celu, nauczymy się później. :D",
               "",
               "Dlatego, podsumowując to wszystko, możesz myśleć o `git fetch` jako pobieraniu."
             ]
@@ -1201,7 +1201,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom po prostu użyj polecenia `git fetch` i pobierz wszystkie commity!"
+              "Aby ukończyć ten poziom, po prostu użyj polecenia `git fetch` i pobierz wszystkie commity!"
             ]
           }
         }

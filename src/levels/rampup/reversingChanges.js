@@ -20,7 +20,7 @@ exports.level = {
     "vi": "Hoàn tác thay đổi trong Git",
     "sl_SI": "Revertanje Sprememb v Gitu",
     "it_IT": "Annullare i cambiamenti in Git",
-    "pl": "Odwracanie zmian w Gitcie",
+    "pl": "Odwracanie zmian w Gicie",
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -1012,7 +1012,7 @@ exports.level = {
               "",
               "`git reset` odwraca zmiany poprzez przesunięcie referencji gałęzi wstecz w czasie do starszego commita. Można myśleć o tym jako \"przepisywaniu historii\", \"resetowanie\" spowoduje cofnięcie gałęzi, tak jakby commit nigdy nie został dodany.",
               "",
-              "Sprawdźmy jak to działa:"
+              "Sprawdźmy, jak to działa:"
             ],
             "afterMarkdowns": [
               "Nieźle! Git przeniósł referencję gałęzi `main` do `C1`; teraz nasze lokalne repozytorium jest w takim stanie, jakby commita `C2` nigdy nie było."
@@ -1029,12 +1029,12 @@ exports.level = {
               "",
               "Mimo że resetowanie działa świetnie w przypadku lokalnych gałęzi na twoim komputerze, jego metoda \"przepisywania historii\" nie działa dla gałęzi zdalnych, które są używane przez innych.",
               "",
-              "W celu odwrócenia zmian i *podzielenia się* nimi z innymi, musimy użyć `git revert`. Zobaczmy jak to działa."
+              "W celu odwrócenia zmian i *podzielenia się* nimi z innymi, musimy użyć `git revert`. Zobaczmy, jak to działa."
             ],
             "afterMarkdowns": [
               "Dziwne, nowy commit spadł poniżej tego, który chcieliśmy odwrócić. To dlatego, że ten nowy commit `C2'` wprowadza *zmiany* -- akurat takie, które idealnie odwracają commit `C2`.",
               "",
-              "Dzięki `git revert`, możesz wypchnąć swoje zmiany, by podzielić się nimi z innymi."
+              "Dzięki `git revert` możesz wypchnąć swoje zmiany, by podzielić się nimi z innymi."
             ],
             "command": "git revert HEAD",
             "beforeCommand": "git commit"

@@ -1046,9 +1046,9 @@ exports.level = {
             "markdowns": [
               "Wszystkie interaktywne znaczniki rebase używają polecenia `rebase` z opcją `-i`.",
               "",
-              "Jeśli włączysz tę opcję, Git otworzy okno, aby pokazać ci, które commity mają być skopiowane poniżej wskazanego celu przebazowania (np. HEADa). W oknie pokażą się również wiadomości i hasze commitów żeby ułatwić ci zrozumienie co jest czym.",
+              "Jeśli włączysz tę opcję, Git otworzy okno, aby pokazać ci, które commity mają być skopiowane poniżej wskazanego celu przebazowania (np. HEADa). W oknie pokażą się również wiadomości i hasze commitów, żeby ułatwić ci zrozumienie, co jest czym.",
               "",
-              "Dla \"prawdziwego\" Gita, otwarte okno oznacza otwarcie pliku w edytorze tekstu takim jak np. `vim`. Dla naszych potrzeb, zbudowałem małe okno dialogowe, które zachowuje się tak samo."
+              "Dla \"prawdziwego\" Gita otwarte okno oznacza otwarcie pliku w edytorze tekstu, takim jak np. `vim`. Dla naszych potrzeb zbudowałem małe okno dialogowe, które zachowuje się tak samo."
             ]
           }
         },
@@ -1058,8 +1058,8 @@ exports.level = {
             "markdowns": [
               "Kiedy otworzy się okno dialogowe do interaktywnego przeabazowania, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
               "",
-              "* Możesz zmienić kolejność commitów po prostu przeciągając i upuszczając je myszką w oknie.",
-              "* Możesz zdecydować się na zachować wszystkie commity lub pominąć niektóre z nich. Jest to oznaczone przez aktywny przycisk `pick`. Wyłączenie przycisku spowoduje pominięciu commitu.",
+              "* Możesz zmienić kolejność commitów, po prostu przeciągając i upuszczając je myszką w oknie.",
+              "* Możesz zdecydować się zachować wszystkie commity lub pominąć niektóre z nich. Jest to oznaczone przez aktywny przycisk `pick`. Wyłączenie przycisku spowoduje pominięciu commitu.",
               "",
               "* Warto wspomnieć, że w prawdziwym interaktywnym rebase'ie możesz zrobić wiele innych rzeczy, takich jak squash (łączenie) commitów, poprawianie wiadomości commitów, a nawet edycja samych commitów. Dla naszych potrzeb jednak wystarczy, że skupimy się na dwóch omówionych operacjach.",
               "",
@@ -1071,10 +1071,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Po naciśnięciu przycisku, pojawi się interaktywne okno przebazowania. Zmień kolejność niektórych commitów (lub usuń niektóre z nich, a co!) i zobacz wynik!"
+              "Po naciśnięciu przycisku pojawi się interaktywne okno przebazowania. Zmień kolejność niektórych commitów (lub usuń niektóre z nich, a co!) i zobacz wynik!"
             ],
             "afterMarkdowns": [
-              "Gotowe! Git skopiował commity w ten sam sposób w jaki podałeś to w oknie."
+              "Tadam! Git skopiował commity w sposób podany w oknie."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"
@@ -1084,7 +1084,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, zrób interaktywny rebase i ustaw kolejność pokazaną w wizualizacji celu. Pamiętaj, że zawsze możesz użyć `undo` lub `reset` aby naprawić błędy :D"
+              "Aby ukończyć ten poziom, zrób interaktywny rebase i ustaw kolejność pokazaną w wizualizacji celu. Pamiętaj, że zawsze możesz użyć `undo` lub `reset`, aby naprawić błędy :D"
             ]
           }
         }
