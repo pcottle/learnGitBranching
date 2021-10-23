@@ -9,15 +9,16 @@ exports.level = {
     "es_AR": "Trackeando remotos",
     "es_ES": "Trackeando remotos",
     "pt_BR": "Seguindo remotos",
-    "gl"   : "Traceando os remotos",
+    "gl": "Traceando os remotos",
     "de_DE": "Remote Tracking",
-    "ja"   : "リモートのトラッキング",
+    "ja": "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante",
     "ru_RU": "Слежка за удалённым репозиторием",
-    "ko"   : "원격 저장소 추적하기",
-    "uk"   : "Слідкуємо за віддаленим репозиторієм",
-    "vi"   : "Theo dõi từ xa",
-    "sl_SI": "Sledenje Oddaljenega Repota"
+    "ko": "원격 저장소 추적하기",
+    "uk": "Слідкуємо за віддаленим репозиторієм",
+    "vi": "Theo dõi từ xa",
+    "sl_SI": "Sledenje Oddaljenega Repota",
+    "pl": "Śledzenie zdalnych repo"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -26,15 +27,16 @@ exports.level = {
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
     "es_ES": "¡Recuerda que hay dos formas de trackear un remoto!",
     "pt_BR": "Lembre-se que há duas formas de seguir um ramo remoto!",
-    "gl"   : "¡Lembrate de que hai dúas formas de seguir unha rama remota!",
+    "gl": "¡Lembrate de que hai dúas formas de seguir unha rama remota!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
-    "ja"   : "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
+    "ja": "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !",
     "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!",
-    "ko"   : "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!",
-    "uk"   : "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
-    "vi"   : "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!",
-    "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota."
+    "ko": "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!",
+    "uk": "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
+    "vi": "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!",
+    "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota.",
+    "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!"
   },
   "startDialog": {
     "en_US": {
@@ -869,7 +871,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -1923,6 +1925,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "சரி! இந்த நிலைக்கு நாம் தூரத்தில் உள்ள `main` கிளைக்கு அதனை பதிப்பிடாமல் மாற்றங்களை தள்ளுவோம்.  இது உயர்நிலை பாட பகுதி என்பதால் அதை எவ்வாரு செய்யலாம் என்பது உங்களிடமெ விட்டு விடுகின்றேன் :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Gałęzie śledzące",
+              "",
+              "Może ci się wydawać od kilku lekcji, że Git jakoś \"magicznie\" wie, że gałąź `main` jest powiązana z `o/main`. Co prawda nazwy tych gałęzi są podobne i, logicznie rzecz biorąc, `main` na zdalnym repo można skojarzyć z lokalną gałęzią `main`, ale na dwóch przykładach pokażemy, jak to działa w rzeczywistości:",
+              "",
+              "* Podczas operacji pull, commity są pobierane do `o/main`, a następnie za pomocą *merge* scalane z gałęzią `main`. Na podstawie tego połączenia określa się pośrednio cel scalania.",
+              "* Podczas operacji push praca z gałęzi `main` jest wypychana do zdalnej gałęzi `main` (lokalnie reprezentowanej przez `o/main`). *Cel* polecenia push jest określony przez połączenie pomiędzy `main` a `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Żeby nie przedłużać: połączenie pomiędzy `main` i `o/main` da się wyjaśnić po prostu jedną z właściwości gałęzi: \"remote tracking\". Gałąź `main` ma ustawione śledzenie gałęzi `o/main` -- a to oznacza, że dla operacji merge i push określony jest domyślny cel.",
+              "",
+              "Może się zastanawiasz, jak to się stało, że `main` ma już ustawione śledzenie, skoro nie robiliśmy tego żadnym poleceniem. Otóż, kiedy klonujesz repozytorium w Gicie, ta właściwość jest ustawiana za ciebie automatycznie. ",
+              "",
+              "Przy klonowaniu Git tworzy zdalną gałąź dla każdej z gałęzi zdalnego repozytorium (czyli gałęzie takie jak `o/main`). Następnie tworzy lokalną gałąź, która śledzi aktualnie aktywną gałąź na zdalnym repo - czyli najczęściej `main`.",
+              "",
+              "Po zakończeniu klonowania lokalnie masz tylko jedną gałąź (żeby nie zawracać sobie niepotrzebnie głowy), ale możesz zobaczyć wszystkie gałęzie na zdalnym repozytorium (jeśli aż tak cię to ciekawi). To idealne dwa w jednym!",
+              "",
+              "A przy okazji to wyjaśnia, dlaczego przy klonowaniu możesz zobaczyć:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### A czy mogę to określić samodzielnie?",
+              "",
+              "Jasne, że tak! Możesz kazać dowolnej gałęzi śledzić `o/main`, i w takim wypadku będzie miała taki sam domyślny cel operacji push i merge, co `main`. To znaczy, że możesz zrobić `git push` na gałęzi o nazwie `totallyNotMain`, a twoja praca i tak zostanie wypchnięta do gałęzi `main` w zdalnym repozytorium!",
+              "",
+              "Są dwa sposoby ustawienia tej właściwości. Pierwszym jest checkout nowej gałęzi wykorzystujący zdalną gałąź jako określoną referencję. Polecenie",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "tworzy nową gałąź o nazwie `totallyNotMain` i każe jej śledzić `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dość gadania, pora zobaczyć, jak to działa! Będziemy checkoutować nową gałąź o nazwie `foo` i każemy jej śledzić `main` na zdalnym repozytorium."
+            ],
+            "afterMarkdowns": [
+              "Jak widzisz, użyliśmy domyślnego celu scalania `o/main`, żeby zaktualizować gałąź `foo`. Zwróć uwagę, że `main` się nie aktualizuje!!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dotyczy to również git push."
+            ],
+            "afterMarkdowns": [
+              "Tadam! Wypchnęliśmy naszą pracę do `main` na `remote`, mimo że nasza gałąź nazywała się zupełnie inaczej."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Sposób #2",
+              "",
+              "Inny sposób na ustawienie remote tracking na branchu to po prostu użycie opcji `git branch -u`. Polecenie",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "spowoduje, że gałąź `foo` będzie śledzić `o/main`. Jeśli aktualnie wybraną gałęzią jest `foo`, to możesz nawet pominąć jej nazwę:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Spójrzmy jeszcze szybko, jak to wygląda w praktyce..."
+            ],
+            "afterMarkdowns": [
+              "Tak samo jak poprzednio, tylko wyraźniej widać to w poleceniu. Pięknie!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oki! Na tym poziomie wypchnijmy (push) pracę do gałęzi `main`na zdalnym repozytorium, *nie* checkoutując `main` lokalnie. Wymyśl samodzielnie, jak to zrobić. To przecież zaawansowana część kursu :P"
             ]
           }
         }

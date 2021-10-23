@@ -9,15 +9,16 @@ exports.level = {
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
     "es_ES": "Recuerda que siempre puedes usar los comandos reset y undo",
     "pt_BR": "Lembre-se que você sempre pode usar undo ou reset",
-    "gl"   : "Lembra que sempre podes usar undo ou reset",
+    "gl": "Lembra que sempre podes usar undo ou reset",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
-    "ja"   : "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
+    "ja": "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
-    "ko"   : "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
-    "uk"   : "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
-    "vi"   : "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
-    "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo."
+    "ko": "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
+    "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
+    "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
+    "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
+    "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
   },
   "name": {
     "en_US": "Push Main!",
@@ -26,15 +27,16 @@ exports.level = {
     "es_AR": "¡Push Main!",
     "es_ES": "¡Push Main!",
     "pt_BR": "Push Main!",
-    "gl"   : "Empurra ó Main!",
+    "gl": "Empurra ó Main!",
     "de_DE": "Push Main!",
-    "ja"   : "Push Main!",
+    "ja": "Push Main!",
     "fr_FR": "Maître du push !",
     "ru_RU": "Push Мастер!",
-    "ko"   : "Push Main!",
-    "uk"   : "Push Maйстер!",
-    "vi"   : "Push Main!",
-    "sl_SI": "Push Main!"
+    "ko": "Push Main!",
+    "uk": "Push Maйстер!",
+    "vi": "Push Main!",
+    "sl_SI": "Push Main!",
+    "pl": "Wypychanie dla wytrwałych!"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -462,7 +464,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -828,6 +830,59 @@ exports.level = {
               "* Oddaljen repo se je medtem posodobil, zato bomo morali vključiti tudi to delo",
               "",
               ":O Naporno! Srečno, končanje te stopnje je velik korak."
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Scalanie gałęzi feature",
+              "",
+              "Teraz, kiedy fetch, pull ani push nie mają już przed tobą tajemnic, sprawdźmy, jak poradzisz sobie z inną kolejnością działań.",
+              "",
+              "W dużych projektach często pracuje się na gałęziach tematycznych (zazwyczaj nazywanych `feature`), a nie na `main`, i scala się je dopiero po ukończeniu pracy. To sytuacja zbliżona do tej z poprzedniej lekcji (gałęzie boczne wypychaliśmy do remote), ale tu dodamy jeszcze jeden krok.",
+              "",
+              "Niektórzy używają push i pull, tylko będąc na gałęzi `main` - dzięki temu `main` zawsze odzwierciedla to, co jest na zdalnej gałęzi (`o/main`).",
+              "",
+              "Dlatego tym razem połączymy dwie rzeczy:",
+              "",
+              "* integrację pracy na gałęzi `feature` z `main` oraz",
+              "* push i pull ze zdalnego repozytorium"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Przypomnijmy sobie w skrócie, jak uaktualnić `main` i wypchnąć naszą pracę."
+            ],
+            "afterMarkdowns": [
+              "Wykonaliśmy dwa polecenia, które:",
+              "",
+              "* przebazowały naszą pracę ponad nowymi commitami ze zdalnego repozytorium oraz",
+              "* opublikowały naszą pracę na remote"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ten poziom jest dość ciężki: oto ogólny zarys problemu do rozwiązania:",
+              "",
+              "* Mamy trzy boczne gałęzie: `side1` `side2` i `side3`",
+              "* Każdą z nich chcemy kolejno wypchnąć do zdalnego repozytorium",
+              "* Zdalne repo było w tym czasie zmieniane, więc te zmiany również musimy nanieść",
+              "",
+              ":O Ciężka sprawa... Powodzenia! Ukończenie tego poziomu to duży krok naprzód."
             ]
           }
         }

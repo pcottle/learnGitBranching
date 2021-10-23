@@ -13,15 +13,16 @@ exports.level = {
     "es_AR": "Parámetros de git push",
     "es_ES": "Parámetros de git push",
     "pt_BR": "Parâmetros do git push",
-    "gl"   : "Parámetros de git push",
+    "gl": "Parámetros de git push",
     "de_DE": "Optionen für Git Push",
-    "ja"   : "Git pushの引数",
+    "ja": "Git pushの引数",
     "fr_FR": "Arguments de git push",
     "ru_RU": "Аргументы git push",
-    "ko"   : "git push의 인자들",
-    "uk"   : "Аргументи git push",
-    "vi"   : "Tham số git push",
-    "sl_SI": "Git push argumenti"
+    "ko": "git push의 인자들",
+    "uk": "Аргументи git push",
+    "vi": "Tham số git push",
+    "sl_SI": "Git push argumenti",
+    "pl": "Argumenty git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -30,15 +31,16 @@ exports.level = {
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
     "es_ES": "Siempre puedes ver el último mensaje escribiendo \"objective\"",
     "pt_BR": "Você sempre pode rever o último slide com o comando \"objective\"",
-    "gl"   : "Ti sempre podes desfacer último mensaxe escribindo \"objective\"",
+    "gl": "Ti sempre podes desfacer último mensaxe escribindo \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
-    "ja"   : "ダイアログの最後のスライドを参照するには\"objective\"を実行",
+    "ja": "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
     "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
-    "ko"   : "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
-    "uk"   : "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
-    "vi"   : "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại",
-    "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\"."
+    "ko": "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
+    "uk": "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
+    "vi": "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại",
+    "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\".",
+    "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu"
   },
   "startDialog": {
     "en_US": {
@@ -548,7 +550,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -1140,6 +1142,81 @@ exports.level = {
               "",
               "*Opomba: Oddaljeni branchi so označeni z `o/` predpono, ker celotna `origin/` oznaka ne paše v naš prikaz. Ne skrbi ",
               "glede tega ... preprosto uporabi `origin` kot ime oddaljenega repota kot ponavadi.*"
+            ]
+          }
+        }
+      ]
+    },
+    "en_US": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumenty push",
+              "",
+              "Świetnie! Teraz, kiedy wiesz już, jak działa śledzenie zdalnych gałęzi, możemy zacząć zgłębiać tajemnice pracy z git push, fetch i pull. Zmierzymy się z tymi poleceniami po kolei, ale idea działania każdego z nich jest bardzo podobna.",
+              "",
+              "Najpierw spójrzmy na `git push`. Z lekcji o remote tracking wiesz, że Git określa zdalne repozytorium *oraz* gałąź docelową dzięki właściwościom aktualnie wybranej gałęzi (\"śledzącej\" zdalną). Tak to działa, jeśli nie określisz żadnych argumentów, ale git push może też przyjąć opcjonalnie następujące argumenty:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pytasz, czego dotyczy parametr `<place>`? Zaraz zajmiemy się tym konkretnie, ale najpierw przykład. Polecenie Gita:",
+              "",
+              "`git push origin main`",
+              "",
+              "to, mówiąc po ludzku:",
+              "",
+              "*Przejdź do gałęzi o nazwie \"main\" w moim repozytorium, weź wszystkie commity, a potem idź do gałęzi \"main\" na zdalnym repozytorium, które nazywa się \"origin\". Umieść na tej gałęzi wszystkie commity, których tam jeszcze nie ma, i daj znać, jak skończysz.*",
+              "",
+              "Wpisując `main` w miejscu argumentu \"place\" (miejsce), powiedzieliśmy Gitowi, *skąd ma wziąć* commity i *gdzie je umieścić*. To w zasadzie właśnie \"miejsce\", czyli \"lokalizacja\" do zsynchronizowania na obu repozytoriach.",
+              "",
+              "Pamiętaj, że skoro powiedzieliśmy Gitowi wszystko, co musi wiedzieć (podając oba argumenty), będzie kompletnie ignorować, jakie miejsce mamy aktualnie wybrane!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Spójrzmy na przykład określający argumenty. Zwróć uwagę na wybrany commit (checkout)."
+            ],
+            "afterMarkdowns": [
+              "No i proszę! Zaktualizowaliśmy `main` na zdalnym repozytorium, ponieważ określiliśmy argumenty."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A gdybyśmy nie określili argumentów? Co by się stało?"
+            ],
+            "afterMarkdowns": [
+              "Polecenie (jak widzisz) nie działa, ponieważ `HEAD` nie jest wybrany na gałęzi śledzącej."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oki, na tym poziomie uaktualnijmy zarówno `foo`, jak i `main` na zdalnym repozytorium. Haczyk polega na tym, że zablokowaliśmy na tym poziomie `git checkout`!",
+              "",
+              "*Uwaga: Zdalne gałęzie mają przedrostek `o/`, ponieważ pełna nazwa `origin/` nie mieści się w naszym interfejsie. Nie przejmuj się tym... ",
+              "po prostu użyj `origin` jako nazwy zdalnego repozytorium.*"
             ]
           }
         }
