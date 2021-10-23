@@ -168,7 +168,7 @@ exports.level = {
               "",
               "- Primero y principal, los remotos ¡son un genial backup! Los repositorios locales de git tienen la habilidad de restaurar archivos a un estado previo (como ya sabés), pero toda esa información está almacenada localmente. Al tener copias de tu repositorio git en otras computadoras, podés perder todos tus datos locales y aún así retomar de donde habías dejado.",
               "",
-              "- Más importante, ¡los remotos sociabilizan la programación! Ahora que hay una copia de tu proyecto hosteada en otro lugar, tus amigos pueden contribuir a tu proyecto (o bajarse los últimos cambios) de un modo muy sencillo.",
+              "- Más importante, ¡los remotos sociabilizan la programación! Ahora que hay una copia de tu proyecto hosteada en otro lugar, tus amig@s pueden contribuir a tu proyecto (o bajarse los últimos cambios) de un modo muy sencillo.",
               "",
               "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [GitHub](https://github.com/) o [Phabricator](http://phabricator.org/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
             ]

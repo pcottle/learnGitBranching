@@ -157,7 +157,7 @@ exports.level = {
               "",
               "* Rebasear modifica la historia (aparente) de tu árbol de commits.",
               "",
-              "Por ejemplo, el commit `C1` puede rebasearse para que aparezca *después* de `C3`. Entonces, parece que el trabajo de `C1'` se hizo después de `C3`, cuando en realizad se había hecho antes.",
+              "Por ejemplo, el commit `C1` puede rebasearse para que aparezca *después* de `C3`. Entonces, parece que el trabajo de `C1'` se hizo después de `C3`, cuando en realidad se había hecho antes.",
               "",
               "Algunos desarrolladores aman preservar la historia, por lo que prefieren mergear. Otros (como yo) preferimos tener un árbol de commits limpios, y preferimos rebasear. Todo es una cuestión de preferencias :D"
             ]

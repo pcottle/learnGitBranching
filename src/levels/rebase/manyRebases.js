@@ -73,7 +73,7 @@ exports.level = {
             "markdowns": [
               "### Rebaseando múltiples ramas",
               "",
-              "Man, ¡hay un montón de ramas acá! Rebaseemos todo el trabajo de esas ramas sobre main.",
+              "Fijate, ¡hay un montón de ramas acá! Rebaseemos todo el trabajo de esas ramas sobre main.",
               "",
               "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
               "",

@@ -79,7 +79,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Bienvenido al constructor de niveles!',
+        '## ¡Bienvenid@ al constructor de niveles!',
         '',
         'Estos son los pasos principales:',
         '',

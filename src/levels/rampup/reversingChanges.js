@@ -143,9 +143,9 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "Mientras que resetear los cambios funciona genial para ramas locales en tu máquina, su método de \"reescribir la historia\" no funciona para ramas remotas que otros están usando.",
+              "Mientras que resetear los cambios funciona genial para ramas locales en tu máquina, su método de \"reescribir la historia\" no funciona para ramas remotas que otr@s están usando.",
               "",
-              "Para revertir cambios y *compartir* esa _revertida_ con otros, necesitamos usar `git revert`. Veámoslo en acción"
+              "Para revertir cambios y *compartir* esa _revertida_ con otr@s, necesitamos usar `git revert`. Veámoslo en acción"
             ],
             "afterMarkdowns": [
               "Extraño. Hay un nuevo commit aplicado sobre el que queríamos revertir. Eso es porque este nuevo commit `C2'` introduce *cambios* - sólo que esos cambios son exactamente los necesarios para revertir los que introdujo `C2`.",

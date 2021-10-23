@@ -362,7 +362,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "¡Ok! Ya estás listo para manejar ramas. Cuando se cierre esta ventana,",
+              "¡Ok! Ya estás list@ para manejar ramas. Cuando se cierre esta ventana,",
               "creá una nueva rama llamada `bugFix` y cambiate a ella."
             ]
           }

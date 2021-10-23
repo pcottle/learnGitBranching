@@ -45,7 +45,7 @@ exports.dialog = {
         '',
         '[https://pcottle.github.io/learnGitBranching/?demo](https://pcottle.github.io/learnGitBranching/?demo)',
         '',
-        '¿Harto de este mensaje? Agregale `?NODEMO` a la URL para dejar de verlo, como en este link:',
+        '¿Hart@ de este mensaje? Agregale `?NODEMO` a la URL para dejar de verlo, como en este link:',
         '',
         '[https://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
       ]
