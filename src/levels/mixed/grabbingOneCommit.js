@@ -2,7 +2,7 @@ exports.level = {
   "compareOnlyMainHashAgnosticWithAsserts": true,
   "goalAsserts": {
     "main": [
-      function(data) {
+      function (data) {
         return data.C4 > data.C1;
       }
     ]
@@ -21,7 +21,7 @@ exports.level = {
     "es_AR": "Tomando un único commit",
     "es_ES": "Tomando un único commit",
     "pt_BR": "Pegando um único commit",
-    "gl"   : "Escollendo un único commit",
+    "gl": "Escollendo un único commit",
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
@@ -39,7 +39,7 @@ exports.level = {
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
     "es_ES": "Recuerda, el rebase interactivo y el cherry-pick son tus amigos",
     "pt_BR": "Lembre-se, o rebase interativo ou o cherry-pick são seus amigos aqui",
-    "gl"   : "Recorda, o rebase interativo ou cherry-pick é un dos teus colegas aquí",
+    "gl": "Recorda, o rebase interativo ou cherry-pick é un dos teus colegas aquí",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
@@ -49,8 +49,8 @@ exports.level = {
     "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
     "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja.",
     "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
-    "pl": "Pamiętaj, interaktywny rebase oraz cherry-picking są tu twoimi przyjaciółmi",
-      },
+    "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
+  },
   "startDialog": {
     "en_US": {
       "childViews": [
@@ -645,11 +645,11 @@ exports.level = {
             "markdowns": [
               "## Lokalnie nałożone commity",
               "",
-              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić błąd, ale jest on dość nieuchwytny. Aby pomóc sobie w mojej pracy detektywistycznej, umieszczam kilka poleceń debugowania i kilka instrukcji print.",
+              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić buga, ale on jest nieuchwytny. Aby pomóc sobie w poszukiwaniach, dodaję kilka poleceń debugowania i kilka instrukcji print.",
               "",
               "Wszystkie te polecenia debugowania / drukowania znajdują się w osobnych commitach. W końcu namierzam błąd, naprawiam go i cieszę się!",
               "",
-              "Jedynym problemem jest to, że teraz muszę przywrócić mój `bugFix` do gałęzi `main`. Jeśli po prostu zrobiłbym fast-foward `main`, wtedy `main` dostałby wszystkie moje deklaracje debugowania, czego bym nie chciał. Musi być na to inny sposób. . ."
+              "Jedynym problemem jest to, że teraz muszę przywrócić mój `bugFix` do gałęzi `main`. Jeśli po prostu zrobiłbym fast-foward `main`, wtedy `main` dostałby wszystkie moje deklaracje debugowania, a tego bym nie chciał. Musi być na to inny sposób. . ."
             ]
           }
         },
@@ -657,12 +657,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Musimy powiedzieć gitowi, żeby skopiował tylko jeden z commitów. Dokładnie w ten sam sposób jak we wcześniejszych poziomach z przenoszeniem pracy -- używając tych samych komend:",
+              "Musimy powiedzieć Gitowi, żeby skopiował tylko jeden z commitów. Dokładnie w ten sam sposób jak we wcześniejszych poziomach z przenoszeniem pracy -- używając tych samych poleceń:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
               "",
-              "Aby osiągnać ten cel."
+              "aby osiągnać ten cel."
             ]
           }
         },
@@ -670,7 +670,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Jest to wyższy poziom, więc pozostawimy Ci decyzję, której komendy chcesz użyć, ale aby ukończyć poziom, upewnij się, że `main` otrzyma commit, do którego odwołuje się `bugFix`."
+              "Jest to wyższy poziom, więc pozostawimy ci decyzję, której komendy chcesz użyć, ale aby ukończyć poziom, upewnij się, że `main` otrzyma commit, do którego odwołuje się `bugFix`."
             ]
           }
         }

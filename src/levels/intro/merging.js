@@ -8,29 +8,29 @@ exports.level = {
     "es_MX": "Haciendo merge en Git",
     "es_ES": "Haciendo merge en Git",
     "pt_BR": "Merge no Git",
-    "gl"   : "Merge en Git",
+    "gl": "Merge en Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
-    "ja"　　　: "ブランチとマージ",
+    "ja": "ブランチとマージ",
     "zh_CN": "Git Merge",
     "zh_TW": "git 中的 merge",
     "ru_RU": "Слияния веток в Git",
     "uk": "Злиття гілок в Git",
     "vi": "Gộp nhánh trong Git",
     "sl_SI": "Merganje v Gitu",
-    "pl"   : "Mergowanie w Gitcie",
+    "pl": "Merge w Gicie",
     'it_IT': "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
-    "ja"　　　: "指示された順番でコミットすること（mainの前にbugFixで）",
+    "ja": "指示された順番でコミットすること（mainの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de main)",
     "es_MX": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "es_ES": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de main)",
-    "gl"   : "Lembrate de facer commit na orde específica (bugFix antes de main)",
+    "gl": "Lembrate de facer commit na orde específica (bugFix antes de main)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant main)",
     "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 main）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 main 優先）",
@@ -39,7 +39,7 @@ exports.level = {
     "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
     "vi": "Nhớ là commit theo đúng thứ tự(bugFix trước main)",
     "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred main)',
-    "pl"   : "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
+    "pl": "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
     "it_IT":
       "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க"
@@ -608,7 +608,7 @@ exports.level = {
             "markdowns": [
               "## Branches et Merges",
               "",
-                "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine (main par exemple).",
+              "Super ! Nous savons désormais comment faire des commits et des branches. Maintenant nous devons apprendre comment combiner ensemble les contenus de deux branches différentes. Ceci nous permettra de créer une nouvelle branche, développer une nouvelle fonctionnalité sur cette dernière, puis intégrer cette fonctionnalité en combinant le contenu de cette branche de développement à la branche d'origine (main par exemple).",
               "",
               "La première méthode que nous allons voir pour combiner le contenu de deux branches est `git merge`. Faire un 'merge' avec Git crée un commit spécial qui a deux parents. Un commit avec deux parents indique en susbtance \"Je veux inclure le contenu de ce parent et le contenu de cet autre parent, *et* l'ensemble de leurs parents.\"",
               "",
@@ -1158,13 +1158,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Mergowanie gałęzi",
+              "## Łączenie gałęzi",
               "",
-              "Świetnie! Już wiemy, jak dodawać commity oraz jak tworzyć gałęzie. Teraz musimy się nauczyć jak połączyć pracę dwóch różnych branchy. Stwórzmy nową gałąź, wprowadźmy nową funkcjonalność, a następnie je połączmy.",
+              "Świetnie! Już wiemy, jak dodawać commity oraz jak tworzyć gałęzie (czyli branche). Teraz musimy się nauczyć, jak połączyć pracę dwóch z nich. Stwórzmy nową gałąź, wprowadźmy nową funkcjonalność, a następnie połączmy gałęzie.",
               "",
-              "Pierwszą metodą łączenia gałęzi, którą zamierzamy użyć, jest `git merge` (stąd mergowanie czyt. merdżowanie). Połączenie te tworzy w Git specjalny commit, który ma dwóch różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych dwóch rodziców oraz zbiory wszystkich swoich przodków\".",
+              "Pierwszą metodą scalania (łączenia) gałęzi, której zamierzamy użyć, jest `git merge` (w Polsce możesz spotkać się z takimi określeniami jak merge'owanie albo usłyszeć o merdżowaniu). Połączenie to tworzy w Git specjalny commit, który ma dwoje różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych rodziców *oraz* zbiory wszystkich swoich przodków\".",
               "",
-              "Wszystko powinno się wyjaśnić, kiedy to zobaczymy już za chwilę."
+              "Zaraz zobaczysz, jak to wygląda i łatwiej będzie ci wszystko zrozumieć."
             ]
           }
         },
@@ -1172,14 +1172,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Mamy tutaj dwie gałęzie. Każda z nich ma po jednym unikalnym commitcie. Oznacza to, że żadna z gałęzi nie zawiera \"całej pracy\", które jest w naszym repozytorium. Naprawmy to!.",
+              "Mamy tutaj dwie gałęzie. Każda z nich ma po jednym unikalnym commicie. Oznacza to, że żadna z nich nie zawiera \"całej pracy\", którą wykonaliśmy w naszym repozytorium. Naprawmy to!.",
               "",
-              "Użyjmy `git merge` aby połączyć gałęzie `bugFix` oraz `main`."
+              "Użyjmy `git merge`, aby połączyć branche `bugFix` oraz `main`."
             ],
             "afterMarkdowns": [
-              "Wow! Widziałeś to? Teraz \"main\" wskazuje na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa źródłowego od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `main` zawiera teraz całą pracę w repozytorium.",
+              "Łał! Widzisz to? Teraz \"main\" wskazuje na commit, który ma dwoje rodziców. Jeśli podążasz za strzałkami w górę drzewa źródłowego od `main`, trafisz na każdy commit po drodze do korzenia. Oznacza to, że `main` zawiera teraz całą pracę w repozytorium.",
               "",
-              "Czy widziałeś również, jak zmieniły się kolory commitów? Aby pomóc Ci w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Każdy commit staje się kolorem wynikającym z mieszania kolorów wszystkich branchy, które commitujesz",
+              "Zobacz też, jak zmieniły się kolory commitów. Aby pomóc Ci w nauce, dołączyłem kilka konwencji kolorów. Każdy branch ma swój własny kolor. Kolor każdego commita to mieszanka kolorów wszystkich gałęzi, które commitujesz",
               "",
               "Tutaj widzimy, że kolor gałęzi `main` jest składową kolorów wszystkich commitów, ale kolor gałęzi `bugFix` już nie. Naprawmy to..."
             ],
@@ -1194,9 +1194,9 @@ exports.level = {
               "Połączmy gałąź `main` z gałęzią `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Ponieważ `bugFix` był przodkiem gałęzi `main`, git nie musiał wykonywać żadnej pracy. Po prostu przeniosł gałąź `bugFix` do tego samego commita.",
+              "Ponieważ `bugFix` był przodkiem gałęzi `main`, git nie musiał wykonywać żadnej pracy. Po prostu przeniósł branch `bugFix` do tego samego commita, do którego dołączony był `main`.",
               "",
-              "Teraz wszystkie commity mają ten sam kolor, co oznacza, że każdy branch zawiera całą pracę znajdującą się w repozytorium! Super!"
+              "Teraz wszystkie commity mają ten sam kolor, co oznacza, że każda gałąź zawiera całą pracę znajdującą się w repozytorium! Super!"
             ],
             "command": "git checkout bugFix; git merge main",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
@@ -1208,14 +1208,14 @@ exports.level = {
             "markdowns": [
               "Aby ukończyć ten poziom, wykonaj następujące czynności:",
               "",
-              "* Stwórz nowy branch o nazwie `bugFix`",
-              "* Przełącz się na branch `bugFix`, używając polecenia `git checkout bugFix`",
-              "* Zrób commit",
-              "* Wróć do brancha `main` za pomocą polecenia `git checkout`",
-              "* Zrób ponownie commit",
-              "* Zmerguj gałąź `bugFix` z gałęzią `main` używając polecenia `git merge`",
+              "* Stwórz nową gałąź o nazwie `bugFix`",
+              "* Przełącz się na gałąź `bugFix`, używając polecenia `git checkout bugFix`",
+              "* Zrób jeden commit",
+              "* Wróć do gałęzi `main` za pomocą polecenia `git checkout`",
+              "* Zrób kolejny commit",
+              "* Połącz gałąź `bugFix` z gałęzią `main`, używając polecenia `git merge`",
               "",
-              "*Pamiętaj: zawsze możesz zobaczyć tą wiadomość ponownie, wpisując \"objective\"!*"
+              "*Pamiętaj: zawsze możesz zobaczyć tę wiadomość ponownie, wpisując \"objective\"!*"
             ]
           }
         }

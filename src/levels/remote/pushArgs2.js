@@ -1,5 +1,5 @@
 exports.level = {
-    "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C6\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C4\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
+  "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C6\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C4\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C5\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C5\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git push origin main^:foo;git push origin foo:main",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C6\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
@@ -9,15 +9,16 @@ exports.level = {
     "es_AR": "¡Más! Parámetros de git push",
     "es_ES": "¡Más! Parámetros de git push",
     "pt_BR": "Parâmetros do git push -- expandido",
-    "gl"   : "Parámetros de git push -- ampliado",
+    "gl": "Parámetros de git push -- ampliado",
     "de_DE": "Optionen für Git Push -- noch mehr!",
-    "ja"   : "Git pushの引数 -- 拡張編!",
+    "ja": "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !",
     "ru_RU": "Аргументы для push -- расширенная версия!",
-    "ko"   : "git push 인자 -- 확장판!",
-    "uk"   : "Розширені аргументи git push!",
-    "vi"   : "Tham số git push -- bản mở rộng!",
-    "sl_SI": "Git push argumenti -- Razširjeni!"
+    "ko": "git push 인자 -- 확장판!",
+    "uk": "Розширені аргументи git push!",
+    "vi": "Tham số git push -- bản mở rộng!",
+    "sl_SI": "Git push argumenti -- Razširjeni!",
+    "pl": "Argumenty git push -- Głębiej!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -26,15 +27,16 @@ exports.level = {
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
     "es_ES": "Recuerda que puedes admitir tu derrota y escribir \"show solution\" para ver la solución :P",
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
-    "gl"   : "Lembrate que podes admitir que fuches derrotado e escribir \"show solution\" para amosala solución :P",
+    "gl": "Lembrate que podes admitir que fuches derrotado e escribir \"show solution\" para amosala solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
-    "ja"   : "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
+    "ja": "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
-    "ko"   : "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
-    "uk"   : "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
-    "vi"   : "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
-    "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P"
+    "ko": "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
+    "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
+    "vi": "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
+    "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P",
+    "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -1092,6 +1094,76 @@ exports.level = {
               "Za to stopnjo poizkusi priti v ciljno stanje, prikazano v vizualizaciji in si zapomni obliko:",
               "",
               "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Szczegóły argumentu `<place>`",
+              "",
+              "Przypomnij sobie, że na poprzedniej lekcji określając `main` jako argument miejsca dla polecenia git push, wybraliśmy zarówno *źródło*, z którego mają pochodzić commity, jak i *cel*, do którego mają trafić.",
+              "",
+              "No i może zastanawiasz się teraz -- co by było, gdybyśmy chcieli, żeby źródło i cel były różne od siebie? Co, gdybyśmy chcieli wypchać commity z lokalnej gałęzi `foo` do zdalnej gałęzi `bar`?",
+              "",
+              "Cóż... niestety w Gicie nie da się tego zrobić... Żart! Jasne, że się da :) Git jest bardzo, bardzo elastyczny (może aż za bardzo).",
+              "",
+              "Zobaczmy, jak bardzo, na następnym slajdzie..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aby określić zarówno źródło, jak i cel dla `<place>`, po prostu połącz je dwukropkiem:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "To nic innego jak refspec z dwukropkiem. Refspec to tylko wymyślny termin oznaczający lokalizację, którą Git potrafi zidentyfikować (na przykład gałąź `foo` albo po prostu `HEAD~1`).",
+              "",
+              "Kiedy już zaczniesz określać niezależnie źródła i cele, to możesz trochę zaszaleć na zdalnych repozytoriach. Zobaczmy demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pamiętaj, że `source` (źródło) to dowolna lokalizacja, którą Git zrozumie:"
+            ],
+            "afterMarkdowns": [
+              "Łaaał! Niezły odlot, ale jest w tym poleceniu jakiś sens -- Git zinterpretował `foo^` jako konkretną lokalizację, wrzucił tam wszystkie commity, jakich brakowało jeszcze w zdalnym repo, i na koniec zaktualizował cel."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A co, jeśli miejsce, do którego chcesz zrobić push, nie istnieje? Żaden problem! Wybierz tylko nazwę dla gałęzi, a Git stworzy ją dla ciebie w zdalnym repozytorium."
+            ],
+            "afterMarkdowns": [
+              "Pięknie! Całkiem sprytne! :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Na tym poziomie postaraj się uzyskać drzewo takie jak na wizualizacji, i pamiętaj o formacie:",
+              "",
+              "`<źródło>:<cel>`"
             ]
           }
         }

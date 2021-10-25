@@ -10,36 +10,36 @@ exports.level = {
     "fr_FR": "Introduction à cherry-pick",
     "en_US": "Cherry-pick Intro",
     "de_DE": "Einführung Cherry-Picking",
-    "ja"   : "cherry-pick入門",
+    "ja": "cherry-pick入門",
     "es_AR": "Introducción a cherry-pick",
     "es_ES": "Introducción a cherry-pick",
     "pt_BR": "Introdução ao cherry-pick",
-    "gl"   : "Introuducción a cherry-pick",
+    "gl": "Introuducción a cherry-pick",
     "zh_CN": "Git Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
-    "ko"   : "Cherry-pick 소개",
+    "ko": "Cherry-pick 소개",
     "uk": "Знайомство з cherry-pick",
-    "vi"   : "Giới thiệu về cherry-pick",
+    "vi": "Giới thiệu về cherry-pick",
     "sl_SI": "Uvod v Cherry-pick",
     "it_IT": "Introduzione al cherry-pick",
-    "pl": "Wprowadzenie do Cherry-pick'ingu"
+    "pl": "Wprowadzenie do cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
     "en_US": "git cherry-pick followed by commit names!",
     "de_DE": "git cherry-pick gefolgt von Commit-Namen.",
-    "ja"   : "git cherry-pickの後にコミット名を追加",
+    "ja": "git cherry-pickの後にコミット名を追加",
     "es_AR": "git cherry-pick seguido de los nombres de los commits",
     "es_ES": "git cherry-pick seguido de los nombres de los commits",
     "pt_BR": "git cherry-pick seguido dos nomes dos commits",
-    "gl"   : "git cherry-pick seguido das referencias a commits",
+    "gl": "git cherry-pick seguido das referencias a commits",
     "zh_CN": "git cherry-pick 后面要跟提交的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
-    "ko"   : "커밋의 이름들로 git cherry-pick 하세요!",
+    "ko": "커밋의 이름들로 git cherry-pick 하세요!",
     "uk": "git cherry-pick базується на іменах комітів!",
-    "vi"   : "git cherry-pick sau đó là tên commit!",
+    "vi": "git cherry-pick sau đó là tên commit!",
     "sl_SI": "git cherry-pick nato pa imena commitov.",
     "it_IT": "git cherry-pick seguito dai nomi dei commit!",
     "pl": "git cherry-pick a po nim nazwy commitów!",
@@ -671,7 +671,7 @@ exports.level = {
         }
       ]
     },
-  "ko": {
+    "ko": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -907,11 +907,11 @@ exports.level = {
             "markdowns": [
               "## Przenoszenie pracy",
               "",
-              "Do tej pory zajmowaliśmy się podstawami gita - commitowaniem, gałęziami i poruszaniem się w drzewie źródłowym. Tylko te koncepcje wystarczą, aby wykorzystać 90% mocy repozytoriów git i pokryć główne potrzeby deweloperów.",
+              "Do tej pory zajmowaliśmy się podstawami Gita - commitami, gałęziami i poruszaniem się w drzewie źródłowym. Samo to wystarczy, aby wykorzystać 90% mocy repozytoriów Git i zaspokoić główne potrzeby programistów.",
               "",
-              "Pozostałe 10% może być jednak dość użyteczne podczas niecodziennych zadań (lub gdy o czymś zapomniałeś). Kolejna koncepcja, którą zamierzamy omówić to \"przenoszenie pracy\" - innymi słowy, jest to sposób, w jaki deweloperzy mogą powiedzieć: \"Chcę te zmiany tu i tam\" w precyzyjny, wymowny i elastyczny sposób.",
+              "Pozostałe 10% może być jednak dość użyteczne podczas niecodziennych zadań (lub kiedy wpakujesz się w kłopoty). Kolejny temat, który zamierzamy omówić, to \"przenoszenie pracy\" - innymi słowy, jest to sposób, w jaki programiści mogą powiedzieć: \"Chcę te zmiany tu, a tamte tam\" w precyzyjny, elegancki i elastyczny sposób.",
               "",
-              "To może wydawać się sporo, ale to prosta koncepcja."
+              "Może się to wydawać skomplikowane, ale tak nie jest."
             ]
           }
         },
@@ -919,13 +919,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Cherry-pick",
+              "## Git cherry-pick",
               "",
-              "Pierwsza komenda w tej serii nazywa się `git cherry-pick`. Przyjmuje ona następującą formę:",
+              "Pierwsze polecenie w tej serii nazywa się `git cherry-pick`. Przyjmuje ono następującą formę:",
               "",
               "* `git cherry-pick <Commit1> <Commit2> <...>`",
               "",
-              "Jest to bardzo prosty sposób określenia jakie zmiany poniżej swojej obecnej lokalizacji (`HEAD`) chciałbyś przenieść. Osobiście uwielbiam `cherry-pick'ing`, ponieważ jest to proste jak budowa cepa.",
+              "Jest to bardzo prosty sposób określenia, że chcesz przenieść zmiany poniżej swojej obecnej lokalizacji (`HEAD`). Osobiście uwielbiam `cherry-pick`, ponieważ działa prosto i skutecznie.",
               "",
               "Zobaczmy demo!",
               ""
@@ -936,10 +936,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Mamy tutaj repozytorium, gdzie mamy trochę pracy na gałęzi `side`, które chcemy skopiować do gałęzi `main`. Można by to osiągnąć dzięki komendy rebase'owi (którego już się nauczyliśmy), ale zobaczmy, jak działa cherry-pick."
+              "W tym repozytorium mamy trochę pracy na gałęzi `side`, którą chcemy skopiować do gałęzi `main`. Można by to osiągnąć przy użyciu rebase (którego już się nauczyliśmy), ale zobaczmy, jak działa cherry-pick."
             ],
             "afterMarkdowns": [
-              "To jest to! Chcieliśmy aby commity `C2` i `C4` i git wziął i dodał do `main`. Bułka z masłem!"
+              "No i fajnie! Chcieliśmy commity `C2` i `C4` i Git zrzucił je nam zaraz pod spód. Bułka z masłem!"
             ],
             "command": "git cherry-pick C2 C4",
             "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
@@ -949,8 +949,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, po prostu skopiuj część pracy z trzech pokazanych gałęzi `main`. Commity, które należy skopiować znajdują się na wizualizacji celu.",
-             ""
+              "Aby ukończyć ten poziom, po prostu skopiuj część pracy z trzech pokazanych gałęzi do `main`. Commity, które należy skopiować, znajdują się na wizualizacji celu.",
+              ""
             ]
           }
         }

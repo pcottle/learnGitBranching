@@ -7,15 +7,15 @@ exports.level = {
     "zh_CN": "两个父节点",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
-    "ja"   : "複数の親",
+    "ja": "複数の親",
     "es_AR": "Múltiples padres",
     "es_MX": "Múltiples padres",
     "es_ES": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
-    "gl"   : "Múltiples pais",
+    "gl": "Múltiples pais",
     "zh_TW": "多個 parent commit",
     "ru_RU": "Здоровая семья, или несколько родителей",
-    "ko"   : "다수의 부모",
+    "ko": "다수의 부모",
     'uk': 'Декілька батьків',
     'vi': 'Nhiều cha lắm mẹ',
     'sl_SI': 'Več Staršev',
@@ -26,22 +26,22 @@ exports.level = {
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
-    "ja"   : "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
+    "ja": "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
     'fr_FR': 'Utilisez "git branch bugWork" avec un commit pour créer une référence manquante',
     "zh_CN": "使用 `git branch bugWork` 加上一个目标提交记录来创建消失的引用。",
     "es_AR": "Usá `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "es_MX": "Use `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "es_ES": "Usa `git branch bugWork` sobre algún commit para crear la referencia que falta",
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
-    "gl"   : "Usa `git branch bugWork` sobre calquera commit para crear a referencia que falta",
+    "gl": "Usa `git branch bugWork` sobre calquera commit para crear a referencia que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
     "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
-    "ko"   : "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
+    "ko": "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
     'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання',
     'vi': 'Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định',
     'sl_SI': 'Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.',
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
-      'it_IT':
+    'it_IT':
       "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
   },
@@ -156,12 +156,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-            "Hier sehen wir einen Merge-Commit. Wenn wir einen Checkout von `main^` ohne Zahl machen, wird Git auf den ersten Vorgänger des Commits zurückgehen. ",
+              "Hier sehen wir einen Merge-Commit. Wenn wir einen Checkout von `main^` ohne Zahl machen, wird Git auf den ersten Vorgänger des Commits zurückgehen. ",
               "",
               "*(In unserer Darstellung befindet sich der erste Vorgänger direkt über dem Merge-Commit.)*"
             ],
             "afterMarkdowns": [
-            "Simpel -- so kennen wir das."
+              "Simpel -- so kennen wir das."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
@@ -171,10 +171,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-            "Jetzt versuchen wir mal stattdessen den zweiten Vorgänger anzugeben ..."
+              "Jetzt versuchen wir mal stattdessen den zweiten Vorgänger anzugeben ..."
             ],
             "afterMarkdowns": [
-            "Gesehen? Wir gehen zu dem anderen Vorgänger zurück."
+              "Gesehen? Wir gehen zu dem anderen Vorgänger zurück."
             ],
             "command": "git checkout main^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
@@ -187,7 +187,7 @@ exports.level = {
               "Die Operatoren `^` und `~` geben uns eine Menge Möglichkeiten für das Navigieren durch den Commit-Baum:"
             ],
             "afterMarkdowns": [
-            "Bämm!"
+              "Bämm!"
             ],
             "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
@@ -197,10 +197,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-            "Noch abgefahrener: Die beiden Operatoren können verkettet werden. Aufgepasst:"
+              "Noch abgefahrener: Die beiden Operatoren können verkettet werden. Aufgepasst:"
             ],
             "afterMarkdowns": [
-            "Gleicher Ablauf wie zuvor, nur alles in einem Befehl."
+              "Gleicher Ablauf wie zuvor, nur alles in einem Befehl."
             ],
             "command": "git checkout HEAD~^2~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
@@ -210,7 +210,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-            "### Setzen wir's um",
+              "### Setzen wir's um",
               "",
               "Erstelle einen neuen Branch an dem angegebenen Ziel, um diesen Level abzuschließen.",
               "",
@@ -742,7 +742,6 @@ exports.level = {
         }
       ]
     },
-
     "gl": {
       "childViews": [
         {
@@ -1532,15 +1531,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Określanie rodzica",
+              "### Określanie rodziców",
               "",
-              "Podobnie jak modyfikator `~`, modyfikator `^` również akceptuje opcjonalną liczbę po nim.",
+              "Podobnie jak modyfikator `~`, modyfikator `^` również przyjmuje po sobie opcjonalną liczbę.",
               "",
-              "Zamiast określać liczbę pokoleń do cofnięcia się (co robi `~`), modyfikator `^` określa, do którego rodzica należy się odwołać po wykonaniu merge commita. Pamiętaj, że polecenia scalania/mergowania mają wielu rodziców, więc ścieżka, którą należy wybrać jest niejednoznaczna.",
+              "Zamiast określać liczbę pokoleń do cofnięcia się (co robi `~`), modyfikator `^` określa, do którego rodzica należy się odwołać po wykonaniu merge commita. Pamiętaj, że scalanie ma wielu rodziców, więc wybór ścieżki nie jest jednoznaczny.",
               "",
               "Git zazwyczaj podąża za \"pierwszym\" rodzicem w górę od commitu scalającego, ale określenie liczby za pomocą `^` zmienia to domyślne zachowanie.",
               "",
-              "Dość gadania, zobaczmy to w akcji.",
+              "Dość gadania - zobaczmy, jak to działa.",
               ""
             ]
           }
@@ -1549,7 +1548,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Tutaj mamy merge commit. Jeśli zcheckoutujemy `main^` bez liczby na końcu, przejdziemy do pierwszego rodzica po merge commicie. ",
+              "Tutaj mamy merge commit. Jeśli checkoutujemy `main^` bez liczby na końcu, przejdziemy do pierwszego rodzica po merge commicie. ",
               "",
               "(*Na naszych wizualizacjach pierwszy rodzic jest umieszczony bezpośrednio nad commitem scalającym.*)"
             ],
@@ -1564,7 +1563,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Teraz spróbujmy określić drugiego rodzica zamiast tego. . ."
+              "A teraz spróbujmy określić drugiego rodzica..."
             ],
             "afterMarkdowns": [
               "Spójrz. Przenieślismy się do drugiego rodzica."
@@ -1577,7 +1576,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Modyfikatory `^` i `~` mogą uczynić poruszanie się po drzewie commitów bardzo potężnym:"
+              "Modyfikatory `^` i `~` mogą dodać supermoce do poruszania się po drzewie commitów:"
             ],
             "afterMarkdowns": [
               "Co za prędkość!"
@@ -1590,10 +1589,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Jeszcze bardziej szalone jest to, że modyfikatory mogą być ze sobą łączone! Sam zobacz:"
+              "Jeszcze bardziej szalone jest to, że modyfikatory mogą być ze sobą łączone! Zobacz:"
             ],
             "afterMarkdowns": [
-              "Ten sam ruch co poprzednio, ale wszystko w jednej komendzie."
+              "Ten sam ruch co poprzednio, ale wszystko w jednym poleceniu."
             ],
             "command": "git checkout HEAD~^2~2",
             "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
@@ -1605,9 +1604,9 @@ exports.level = {
             "markdowns": [
               "### Zastosuj to w praktyce",
               "",
-              "Aby ukończyć ten poziom, utwórz nowa gałąź w określonym miejscu docelowym.",
+              "Aby ukończyć ten poziom, utwórz nową gałąź w określonym miejscu docelowym.",
               "",
-              "Oczywiście, łatwo byłoby określić commit bezpośrednio (coś jak `C6`), lecz zachęcam Cię do użycia modyfikatorów, o których mówiliśmy przed chwilą!"
+              "Oczywiście łatwo byłoby określić commit bezpośrednio (coś jak `C6`), ale spróbuj użyć modyfikatorów, o których mówiliśmy przed chwilą!"
             ]
           }
         }

@@ -12,10 +12,11 @@ exports.level = {
     "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "pt_BR": "Crie o ramo feature a partir do ramo main no local antes de reestabelecê-lo para que seja o mesmo que o ramo main de origem",
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
-    "ko"   : "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/main과 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
+    "ko": "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/main과 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
     "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen.",
-    "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。"
+    "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。",
+    "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin"
   },
   "name": {
     "en_US": "Locked Main",
@@ -27,10 +28,11 @@ exports.level = {
     "es_ES": "Main bloqueado",
     "pt_BR": "Main bloqueado",
     "fr_FR": "Main verrouillé",
-    "ko"   : "잠겨버린 main 브랜치",
+    "ko": "잠겨버린 main 브랜치",
     "sl_SI": "Zaklenjen Main",
     "es_AR": "Main bloqueado",
-    "ja": "ロックされたmain"
+    "ja": "ロックされたmain",
+    "pl": "Zablokowany main"
   },
   "startDialog": {
     "en_US": {
@@ -114,7 +116,7 @@ exports.level = {
       ]
     },
     "zh_CN": {
-        "childViews": [
+      "childViews": [
         {
           "type": "ModalAlert",
           "options": {
@@ -564,5 +566,45 @@ exports.level = {
         }
       ]
     },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote odrzuca!",
+              "",
+              "Jeśli pracujesz w dużym zespole, to może się zdarzyć, że main będzie zablokowany i przed scaleniem zmian trzeba będzie zrobić pull request. Jeśli commitujesz bezpośrednio do lokalnego main i spróbujesz zrobić push, to możesz dostać wiadomość podobną do tej:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Skąd to odrzucenie?",
+              "",
+              "Remote odrzuca pushowanie twoich commitów bezpośrednio do main ze względu na regułę wymagającą korzystania z pull requestów.",
+              "",
+              "Twoim zamiarem było najpierw stworzyć gałąź, a potem wypchnąć ją do zdalnego repozytorium i zrobić pull request, ale zamiast tego commitujesz bezpośrednio do main. Dlatego masz problem i nie możesz wypchnąć swoich zmian."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rozwiązanie",
+              "",
+              "Stwórz inną gałąź, nazywaną często boczną albo tematyczną, a po angielsku: feature (funkcyjną), i wypchnij ją do remote. Zresetuj również swój main, tak aby był zsynchronizowany ze zdalnym repozytorium. Jeśli tego nie zrobisz, to możesz mieć problem następnym razem, kiedy zrobisz pull, a czyjś commit będzie miał konflikt z twoim."
+            ]
+          }
+        }
+      ]
+    }
   }
 };

@@ -9,14 +9,14 @@ exports.level = {
     "es_AR": "Historia divergente",
     "es_ES": "Historia divergente",
     "pt_BR": "Histórico divergente",
-    "gl"   : "Histórico diverxente",
+    "gl": "Histórico diverxente",
     "de_DE": "Abweichende Historie",
     "fr_FR": "Historique divergent",
-    "ja"   : "履歴の分岐",
+    "ja": "履歴の分岐",
     "ru_RU": "Расхождение в истории",
-    "uk"   : "Розбіжності в історії",
-    "ko"   : "엇갈린 히스토리",
-    "vi"   : "Dị biệt lịch sử",
+    "uk": "Розбіжності в історії",
+    "ko": "엇갈린 히스토리",
+    "vi": "Dị biệt lịch sử",
     "sl_SI": "Razdeljena Zgodovina",
     "pl": "Rozbieżna  historia"
   },
@@ -27,16 +27,16 @@ exports.level = {
     "es_AR": "Prestá atención al orden del objetivo",
     "es_ES": "Presta atención al orden del objetivo",
     "pt_BR": "Preste atenção na ordem da visualização do objetivo",
-    "gl"   : "Presta atención ó orixe do obxectivo",
+    "gl": "Presta atención ó orixe do obxectivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
-    "ja"   : "ゴールのツリーの順番を参考にすること",
+    "ja": "ゴールのツリーの順番を参考にすること",
     "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели",
-    "uk"   : "перевірте порядок в візуалізації цілі",
-    "ko"   : "순서는 goal을 참고하세요",
-    "vi"   : "kiểm tra kỹ thứ tự trên mô hình mục tiêu",
+    "uk": "перевірте порядок в візуалізації цілі",
+    "ko": "순서는 goal을 참고하세요",
+    "vi": "kiểm tra kỹ thứ tự trên mô hình mục tiêu",
     "sl_SI": "Preveri vrstni red iz ciljne vizualizacije.",
-    "pl": "sprawdź, jak wygląda kolejność z wizualizacji bramki",
+    "pl": "Przyjrzyj się kolejności na wizualizacji celu",
   },
   "startDialog": {
     "en_US": {
@@ -1040,7 +1040,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -2192,9 +2192,9 @@ exports.level = {
             "markdowns": [
               "## Rozbieżna praca",
               "",
-              "Do tej pory widzieliśmy jak `pull` pobiera commity od innych i jak `push` wysyła nasze własne zmiany. Wydaje się to całkiem proste, więc jak ludzie mogą być tak zdezorientowani?",
+              "Widzieliśmy wcześniej, jak `pull` pobiera commity od innych i jak `push` wysyła nasze własne zmiany. Wydaje się to całkiem proste, więc jak ludzie mogą być tak zdezorientowani?",
               "",
-              "Trudność pojawia się, gdy historia repozytorium *rozbiega się*. Zanim omówimy szczegóły tego rozwiązania, zobaczmy przykład..",
+              "Trudności pojawiają się, gdy historia repozytorium zaczyna się *rozbiegać*. Zanim omówimy szczegóły tego rozwiązania, zobaczmy przykład...",
               ""
             ]
           }
@@ -2203,11 +2203,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Wyobraźmy sobie, że klonujemy repozytorium w poniedziałek i zaczynamy pracować nad dodatkową funkcjonalnością. W piątek jesteśmy gotowi aby opublikować swoje zmiany -- ale o nie! Twoi współpracownicy napisali w ciągu tygodnia mnóstwo kodu, który sprawił, że Twoja funkcjonalność stała się nieaktualna (i przestarzała). Opublikowali również te poprawki we wspólnym zdalnym repozytorium, więc teraz *twoja* praca jest oparta na *starej* wersji projektu, która nie jest już aktualna.",
+              "Wyobraźmy sobie, że klonujesz repozytorium w poniedziałek i zaczynasz pracować nad dodatkową funkcjonalnością. W piątek chcesz opublikować swoje zmiany -- ale, o nie! Współpracownicy napisali w ciągu tygodnia mnóstwo kodu, który sprawił, że twoja praca stała się nieaktualna (przestarzała). Opublikowali również te poprawki we wspólnym zdalnym repozytorium, więc teraz *twoja* praca jest oparta na *starej* wersji projektu, która nie jest już aktualna.",
               "",
-              "W tym przypadku, komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`, czy git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy powinien on próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy też powinien on całkowicie zignorować Twoje zmiany, ponieważ są one całkowicie nieaktualne?",
+              "W tym przypadku komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`: czy Git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy powinien próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy też ma całkowicie zignorować twoje zmiany, ponieważ są one zupełnie przestarzałe?",
               "",
-              "Ponieważ w tej sytuacji jest tak wiele niejasności (gdzie historia się rozbiegła), git nie pozwala ci na `push` twoich zmian. W rzeczywistości zmusza Cię do połączenia najnowszego stanu remota, zanim będziesz mógł udostępnić swoją pracę."
+              "Ponieważ w tej sytuacji (gdzie historia się rozbiegła) jest tak wiele niejasności, Git nie pozwala ci na `push` twoich zmian. W rzeczywistości zmusza cię do połączenia najnowszego stanu remote'a, zanim pozwoli ci udostępnić swoją pracę."
             ]
           }
         },
@@ -2215,10 +2215,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Dosyć gadania! Zobaczmy tę sytuację w działaniu."
+              "Dość gadania! Zobaczmy tę sytuację w działaniu."
             ],
             "afterMarkdowns": [
-              "Spójrz, nic się nie zmieniło, ponieważ polecenie nie powiodło się. Polecenie `git push` nie powiedzie się, ponieważ twój najnowszy commit `C3` jest oparty na zdalnym `C1`. Zdalny został jednak zaktualizowany do `C2`, więc git odrzuca twojego pusha."
+              "Spójrz, nic się nie zmieniło, ponieważ wykonanie polecenia nie powiodło się. Polecenie `git push` nie powiedzie się, ponieważ twój najnowszy commit `C3` jest oparty na zdalnym `C1`. Zdalny został jednak zaktualizowany do `C2`, więc Git odrzuca twojego pusha."
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2228,7 +2228,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Jak rozwiążesz tę sytuację? To proste, wszystko co musisz zrobić, to oprzeć swoją pracę na najnowszej wersji remota.",
+              "Jak rozwiążesz tę sytuację? To proste. Wszystko, co musisz zrobić, to oprzeć swoją pracę na najnowszej wersji remote'a.",
               "",
               "Jest kilka sposobów, aby to zrobić, ale najprostszym jest przeniesienie pracy poprzez rebase. Zobaczmy, jak to wygląda."
             ]
@@ -2238,10 +2238,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Teraz, jeśli zamiast tego zrobimy rebase przed wypchnięciem..."
+              "Zróbmy teraz inaczej: rebase przed wypchnięciem..."
             ],
             "afterMarkdowns": [
-              "Boom! Zaktualizowaliśmy naszą lokalną reprezentację remota za pomocą `git fetch`, zmieniliśmy naszą pracę, aby odzwierciedlić nowe zmiany na remotcie, a następnie wypchnęliśmy je za pomocą `git push`."
+              "Tadam! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, przebazowaliśmy naszą pracę, aby odzwierciedlić nowe zmiany na zdalnej gałęzi, a następnie wypchnęliśmy je za pomocą `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2251,11 +2251,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Czy istnieją inne sposoby na aktualizację naszej pracy, gdy zdalne repozytorium zostało zaktualizowane? Oczywiście! Spróbujmy rozwiązać to z użyciem `merge`.",
+              "Czy istnieją inne sposoby na aktualizację naszej pracy, gdy zdalne repozytorium zostało zaktualizowane? Oczywiście! Spróbujmy rozwiązać to również z użyciem `merge`.",
               "",
-              "Chociaż `git merge` nie przenosi twojej pracy (a zamiast tego po prostu tworzy commit scalający), jest to sposób na powiedzenie gitowi, że włączyłeś wszystkie zmiany z remota. Dzieje się tak dlatego, że zdalna gałąź jest teraz *przodkiem* twojej własnej gałęzi, co oznacza, że twój commit odzwierciedla wszystkie commity w zdalnej gałęzi.",
+              "Chociaż `git merge` nie przenosi twojej pracy (a zamiast tego po prostu tworzy commit scalający), jest to sposób na powiedzenie Gitowi, że dołączasz wszystkie zmiany z remote'a. Dzieje się tak dlatego, że zdalna gałąź jest teraz *przodkiem* twojej własnej gałęzi, co oznacza, że twój commit odzwierciedla wszystkie commity w zdalnej gałęzi.",
               "",
-              "Sprawdźmy jak to wygląda..."
+              "Zobaczmy, jak to wygląda..."
             ]
           }
         },
@@ -2263,10 +2263,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Teraz jeżeli zmergujemy zamiast rebasować..."
+              "A jeśli użyjemy `merge` zamiast `rebase`..."
             ],
             "afterMarkdowns": [
-              "Boom! Zaktualizowaliśmy naszą lokalną reprezentację remota za pomocą `git fetch`, git *zmergował* nową pracę do naszej pracy (aby odzwierciedlić nowe zmiany na remotcie), a następnie wypchnął je za pomocą `git push`."
+              "Tadam! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, git dołączył (*merge*) nową pracę do naszej pracy (aby odzwierciedlić nowe zmiany na zdalnej gałęzi), a następnie wypchnął je za pomocą `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2276,11 +2276,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Wspaniale! Czy jest jakiś sposób, abym mógł to zrobić bez wpisywania tylu komend?",
+              "Wspaniale! Czy jest jakiś sposób, żeby zrobić to bez wpisywania tylu komend?",
               "",
-              "Oczywiście -- znasz już `git pull ` - jest po prostu skrótem dla fetch i merge. `git pull --rebase` jest bardzo wygodnym skrótem od fetch i rebase!",
+              "Oczywiście -- znasz już `git pull ` - jest po prostu skrótem dla fetch i merge. `git pull --rebase` jest bardzo wygodnym skrótem dla fetch i rebase!",
               "",
-              "Zobaczmy te skrócone komendy w pracy."
+              "Zobaczmy, jak działają te skrócone polecenia."
             ]
           }
         },
@@ -2291,7 +2291,7 @@ exports.level = {
               "Na początku z `--rebase`..."
             ],
             "afterMarkdowns": [
-              "Tak samo jak wcześniej! Tylko sporo krócej."
+              "Tak samo jak wcześniej! Tylko o wiele krócej."
             ],
             "command": "git pull --rebase; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -2314,14 +2314,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ten flow pracy fetchowania, rebase/merge i push jest dość powszechny. W kolejnych lekcjach zajmiemy się bardziej skomplikowanymi wersjami tych flow. Na razie wypróbujmy to czego się nauczyliśmy.",
+              "Ta kolejność fetchowania, rebase/merge i push jest dość powszechna. W kolejnych lekcjach zajmiemy się bardziej skomplikowanymi możliwościami . Na razie wypróbujmy to, czego się nauczyliśmy.",
               "",
-              "Aby rozwiązać ten poziom, wykonaj następujące kroki:",
+              "Aby ukończyć ten poziom, wykonaj następujące kroki:",
               "",
               "* Sklonuj swoje repozytorium",
-              "* Sfałszuj trochę pracy zespołowej (1 commit)",
-              "* Zcommituj trochę swojej pracy (1 commit)",
-              "* Opublikuj swoją pracę korzystając z *rebase*"
+              "* Zasymuluj pracę zespołową (1 commit)",
+              "* Scommituj własną pracę (1 commit)",
+              "* Opublikuj swoją pracę, korzystając z *rebase*"
             ]
           }
         }
