@@ -9,15 +9,16 @@ exports.level = {
     "es_AR": "Mergeando con los remotos",
     "es_ES": "Haciendo merge con los remotos",
     "pt_BR": "Merge com remotos",
-    "gl"   : "Merge cos repos remotos",
+    "gl": "Merge cos repos remotos",
     "de_DE": "Änderungen vom Remote zusammenführen",
-    "ja"   : "リモートとのmerge",
+    "ja": "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes",
     "ru_RU": "Слияние с удалённым репозиторием",
-    "ko"   : "원격 작업과 merge하기",
-    "uk"   : "Мердж з віддаленим репозиторієм",
-    "vi"   : "Hợp nhất nhánh từ xa",
-    "sl_SI": "Merganje z oddaljenim repozitorijem"
+    "ko": "원격 작업과 merge하기",
+    "uk": "Мердж з віддаленим репозиторієм",
+    "vi": "Hợp nhất nhánh từ xa",
+    "sl_SI": "Merganje z oddaljenim repozitorijem",
+    "pl": "Scalanie z remote"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -26,15 +27,16 @@ exports.level = {
     "es_AR": "¡Prestá atención al árbol final!",
     "es_ES": "¡Presta atención al árbol final!",
     "pt_BR": "Preste atenção na árvore do objetivo!",
-    "gl"   : "Presta atención á arbore final!",
+    "gl": "Presta atención á arbore final!",
     "de_DE": "Beachte den Ziel-Baum!",
-    "ja"   : "ゴールツリーをよく見てください！",
+    "ja": "ゴールツリーをよく見てください！",
     "fr_FR": "Respectez l'arbre représentant l'objectif !",
     "ru_RU": "Внимательно посмотрите на цель уровня!",
-    "ko"   : "goal을 잘 살펴보세요!",
-    "uk"   : "Уважно подивись як має виглядати результат!",
-    "vi"   : "Hãy để ý đến cây mục tiêu!",
-    "sl_SI": "Poglej si ciljno drevo!"
+    "ko": "goal을 잘 살펴보세요!",
+    "uk": "Уважно подивись як має виглядати результат!",
+    "vi": "Hãy để ý đến cây mục tiêu!",
+    "sl_SI": "Poglej si ciljno drevo!",
+    "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -398,7 +400,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -708,6 +710,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Za to stopnjo, poizkusimo rešiti prešnjo stopnjo z *merganjem*. Mogoče bo malo zakomplicirano, vendar bo lepo ponazorilo poanto."
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Dlaczego nie merge?",
+              "",
+              "Aby wypchnąć nowe wersje, musisz tylko *nanieść* najnowsze zmiany ze zdalnego repozytorium. A to znaczy, że możesz zrobić albo rebase, *albo* merge gałęzi w zdalnym repozytorium (np. `o/main`).",
+              "",
+              "Skoro można to zrobić na oba sposoby, to dlaczego lekcje skupiały się do tej pory na przebazowaniu? Dlaczego `merge` nie jest lubianym poleceniem przy pracy na zdalnych repo?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Wśród osób zajmujących się programowaniem toczą się spory, co jest lepsze: merge czy rebase. Oto ogólne za i przeciw rebase'owania:",
+              "",
+              "Za:",
+              "",
+              "* Przebazowanie sprawi, że twoje drzewo commitów będzie wyglądać bardzo czysto, ponieważ wszystko znajdzie się w jednej linii",
+              "",
+              "Przeciw:",
+              "",
+              "* Rebase zmienia (pozornie) historię drzewa commitów.",
+              "",
+              "Na przykład: commit `C1` można przebazować *za* `C3`. Pozornie będzie to wyglądać tak, jakby praca na `C1'` została wykonana później niż na `C3`, a w rzeczywistości było zupełnie odwrotnie.",
+              "",
+              "Część osób ceni sobie oryginalną historię i dlatego woli merdżować. Inni (w tym ja) wolą mieć czyste drzewo commitów i dlatego używają rebase. To po prostu kwestia osobistych preferencji :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Na tym poziomie spróbujemy rozwiązać zadanie z poprzedniego, ale tym razem użyjemy *merge*. Może się to wydawać lekko pogmatwane, ale dobrze pokazuje tę metodę."
             ]
           }
         }

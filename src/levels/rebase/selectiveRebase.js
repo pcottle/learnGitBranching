@@ -14,16 +14,16 @@ exports.level = {
     "es_AR": "Enslada de branches",
     "es_ES": "Ensalada de ramas",
     "pt_BR": "Espaguete de ramos",
-    "gl"   : "Espaguete de ramas",
+    "gl": "Espaguete de ramas",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "纠缠不清的分支",
     "zh_TW": "branch 漿糊",
     "ru_RU": "Спутанные ветки",
-    "uk"   : "Макарони з гілок",
-    "vi"   : "Nhánh rối như canh hẹ",
+    "uk": "Макарони з гілок",
+    "vi": "Nhánh rối như canh hẹ",
     "sl_SI": "Špageti iz Branchev",
     "it_IT": "Rami spaghettificati",
-    "pl": "Gałęziowe Spaghetti",
+    "pl": "Spaghetti gałęzi",
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -32,14 +32,14 @@ exports.level = {
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "es_ES": "¡Asegúrate de hacer las cosas en el orden correcto! Crea primero la rama `one`, después `two`, y después `three`.",
     "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie o ramo `one` primeiro, depois `two`, depois `three`.",
-    "gl"   : "¡Afiánzate de facer as cousas no orde correcto! Crea ramas `one` de primeiras, e logo `two` e `three`.",
+    "gl": "¡Afiánzate de facer as cousas no orde correcto! Crea ramas `one` de primeiras, e logo `two` e `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
-    "uk":    "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
-    "vi":    "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
+    "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
+    "vi": "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
     "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
     "it_IT": "Assicurati di fare tutto nel giusto ordine! Prima il primo ramo, poi il secondo, poi il terzo",
     "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
@@ -324,7 +324,7 @@ exports.level = {
           }
         }
       ]
-    },"sl_SI": {
+    }, "sl_SI": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -350,15 +350,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Gałęziowe Spaghetti",
+              "## Spaghetti gałęzi",
               "",
-              "W mordę jeża! Na tym poziomie mamy całkiem spory cel do osiągnięcia..",
+              "Łałałiła! Na tym poziomie mamy poważny cel do osiągnięcia..",
               "",
-              "Mamy tutaj gałąź `main`, która jest kilka commitów przed gałęziami `one` `two` i `three`. Z jakiegoś powodu, musimy zaktualizować te trzy inne gałęzie zmodyfikowanymi wersjami ostatnich kilku commitów na main.",
+              "Mamy tutaj gałąź `main`, która jest kilka commitów przed gałęziami `one`, `two` i `three`. Z jakiegoś powodu musimy zaktualizować te trzy inne gałęzie zmodyfikowanymi wersjami ostatnich kilku commitów na main.",
               "",
-              "Gałąź `one` wymaga zmiany kolejności i usunięcia `C5`. `two` potrzebuje wyłącznie zmiany kolejności, a `three` potrzebuje tylko jednego commitu!",
+              "Gałąź `one` wymaga zmiany kolejności i usunięcia `C5`. `two` potrzebuje wyłącznie zmiany kolejności, a `three` potrzebuje tylko przeniesienia jednego commitu!",
               "",
-              "Zastanów się, jak rozwiązać to zadanie -- upewnij się i sprawdź nasze rozwiązanie po wykonaniu zadania za pomocą `show solution`. "
+              "Samodzielnie zastanów się, jak rozwiązać to zadanie -- po wykonaniu go koniecznie sprawdź nasze rozwiązanie za pomocą `show solution`. "
             ]
           }
         }

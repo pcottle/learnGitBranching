@@ -6,10 +6,10 @@ exports.level = {
   "compareOnlyMainHashAgnosticWithAsserts": true,
   "goalAsserts": {
     "main": [
-      function(data) {
+      function (data) {
         return data.C2 > data.C3;
       },
-      function(data) {
+      function (data) {
         return data.C2 > data.C1;
       }
     ]
@@ -25,7 +25,7 @@ exports.level = {
     "es_AR": "Haciendo malabares con los commits",
     "es_ES": "Haciendo malabares con los commits",
     "pt_BR": "Malabarismo com commits",
-    "gl"   : "Argallando cos commits",
+    "gl": "Argallando cos commits",
     "ja": "コミットをやりくりする",
     "zh_CN": "提交的技巧 #1",
     "zh_TW": "commit 的戲法",
@@ -43,7 +43,7 @@ exports.level = {
     "es_AR": "El primer comando es git rebase -i HEAD~2",
     "es_ES": "El primer comando es git rebase -i HEAD~2",
     "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
-    "gl"   : "O primeiro comando é git rebase -i HEAD~2",
+    "gl": "O primeiro comando é git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
     "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
@@ -53,7 +53,7 @@ exports.level = {
     "vi": "Lệnh đầu tiên là git rebase -i HEAD~2",
     "sl_SI": "Prvi ukaz je git rebase -i HEAD~2.",
     "it_IT": "Il primo comando è git rebase -i HEAD~2",
-    "pl": "Pierwszą komendą jest git rebase -i HEAD~2",
+    "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
   },
   "startDialog": {
     "en_US": {
@@ -283,7 +283,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-            "Um das zu schaffen gehen wir wie folgt vor:",
+              "Um das zu schaffen gehen wir wie folgt vor:",
               "",
               "* Wir sortieren die Commits mit `git rebase -i` so um, dass der Commit, den wir ändern wollen, ganz oben liegt.",
               "* Wir verändern den Commit mit `git commit --amend`.",
@@ -578,9 +578,9 @@ exports.level = {
             "markdowns": [
               "## Żonglowanie commitami",
               "",
-              "Oto inna sytuacja, która zdarza się dość często. Masz pewne zmiany (`newImage`) i inny zestaw zmian (`caption`), które są powiązane, więc są one ułożone jeden na drugim w twoim repozytorium (tzw. jeden po drugim).",
+              "Oto inna sytuacja, która zdarza się dość często. Masz pewne zmiany (`newImage`) i inny zestaw zmian (`caption`), które są powiązane, więc są one ułożone jedne na drugim w twoim repozytorium (tzw. jeden po drugim).",
               "",
-              "Podstępną rzeczą jest to, że czasami trzeba dokonać małej modyfikacji wcześniejszego commitu. W tym przypadku projektant chce, abyśmy zmienili nieco wymiary `newImage`, nawet jeśli ten commit jest daleko w tyle w naszej historii!!!"
+              "Problem polega na tym, że czasami trzeba dokonać małej modyfikacji wcześniejszego commitu. W tym przypadku projektant chce, abyśmy zmienili nieco wymiary `newImage`, mimo że ten commit jest daleko w tyle w naszej historii!!!"
             ]
           }
         },
@@ -593,12 +593,12 @@ exports.level = {
               "* Zmienimy kolejność commitów tak, aby ten, który chcemy zmienić, był na górze, używając `git rebase -i`.",
               "* Wykonamy `git commit --amend`, aby dokonać niewielkiej modyfikacji",
               "* Następnie zmienimy kolejność commitów z powrotem na taką, jaka była poprzednio za pomocą `git rebase -i`.",
-              "* Na koniec przeniesiemy się do tej zaktualizowanej części drzewa, aby zakończyć poziom (w wybrany przez Ciebie sposób)",
+              "* Na koniec przeniesiemy się do tej zaktualizowanej części drzewa, aby ukończyć ten poziom (w wybrany przez ciebie sposób)",
               "",
-              "Istnieje wiele sposobów na osiągnięcie tego ogólnego celu (widzę, że masz oko na cherry-pick'ing), i zobaczymy więcej z nich później, ale na razie skupmy się na tej technice.",
-              "Na koniec, zwróć uwagę na stan celu - ponieważ przenosimy commit'y dwukrotnie, oba otrzymują apostrof. Dodajemy jeszcze jeden apostrof dla commitu, który zmieniamy, co daje nam ostateczną postać drzewa",
+              "Istnieje wiele sposobów na osiągnięcie tego ogólnego celu (widzę, że masz na oku cherry-pick), i później zobaczymy ich więcej, ale na razie skupmy się na tej technice.",
+              "Na koniec zwróć uwagę na stan celu - ponieważ przenosimy commity dwukrotnie, oba otrzymują apostrof. Dodajemy jeszcze jeden apostrof dla commitu, który zmieniamy, co daje nam ostateczną postać drzewa",
               "",
-              "To powiedziawszy, mogę teraz porównać poziomy w oparciu o strukturę i względne różnice apostrofów. Tak długo, jak gałąź `main` Twojego drzewa ma taką samą strukturę, rozwiązanie zostanie uznane."
+              "Uwzględniając to, mogę teraz porównać poziomy w oparciu o strukturę i względne różnice apostrofów. Tak długo, jak gałąź `main` twojego drzewa ma taką samą strukturę, rozwiązanie zostanie uznane."
             ]
           }
         }

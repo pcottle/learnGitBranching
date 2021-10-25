@@ -6,39 +6,39 @@ exports.level = {
     "en_US": "Git Describe",
     "fr_FR": "Git describe",
     "de_DE": "Git Describe",
-    "ja"   : "Git Describe",
+    "ja": "Git Describe",
     "es_AR": "Git Describe",
     "es_ES": "Git Describe",
     "pt_BR": "Git Describe",
-    "gl"   : "Git Describe",
+    "gl": "Git Describe",
     "zh_TW": "git describe",
     "zh_CN": "Git Describe",
     "ru_RU": "Git describe",
-    "ko"   : "Git describe(묘사)",
-    "uk"   : "Git Describe",
+    "ko": "Git describe(묘사)",
+    "uk": "Git Describe",
     "vi": "Git Describe(mô tả)",
     "sl_SI": "Git Describe",
     "it_IT": "Git Describe",
-    "pl": "Git Describe"
+    "pl": "Git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes prêt",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
-    "ja"   : "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
+    "ja": "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
     "es_ES": "Simplemente crea un commit en la rama bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
-    "gl"   : "Simplemente fai commit en bugFix cando estés listo para continuar.",
+    "gl": "Simplemente fai commit en bugFix cando estés listo para continuar.",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你准备好时，在 bugFix 分支上面提交一次就可以了",
     "ru_RU": "Когда закончишь, просто сделай commit",
-    "ko"   : "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
-    "uk"   : "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
+    "ko": "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
+    "uk": "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
     "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
     "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje.",
     "it_IT": "Fai un commit da bugFix per procedere",
-    "pl": "Zcommituj raz na bugFix kiedy jesteś gotowy, aby przejść dalej",
+    "pl": "Scommituj raz na bugFix, żeby przejść dalej",
   },
   "startDialog": {
     "en_US": {
@@ -484,7 +484,7 @@ exports.level = {
         }
       ]
     },
-    "gl" : {
+    "gl": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -738,7 +738,7 @@ exports.level = {
         }
       ]
     },
-  "ko": {
+    "ko": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -996,11 +996,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Git Describe",
+              "### Git describe",
               "",
-              "Ponieważ znaczniki służą jako tak wspaniałe \"kotwice\" w bazie kodu, git ma polecenie *opisujące*, gdzie jesteś w stosunku do najbliższej \"kotwicy\". Ta komenda nazywa się `git describe`!",
+              "Ponieważ znaczniki służą jako świetne \"kotwice\" w bazie kodu, git ma polecenie *opisujące*, gdzie jesteś w stosunku do najbliższej \"kotwicy\". I jest to `git describe`!",
               "",
-              "`Git describe` może pomóc Ci zorientować się w sytuacji, gdy przesunąłeś wiele commitów wstecz lub do przodu w historii; może się to zdarzyć po wykonaniu bisekcji git (na potrzeby debugowania) lub gdy siedzisz przy komputerze współpracownika, który właśnie wrócił z wakacji."
+              "`Git describe` może pomóc ci zorientować się w sytuacji, gdy przesuniesz wiele commitów wstecz lub do przodu w historii; może się to zdarzyć po użyciu git bisect (na potrzeby debugowania) lub gdy siedzisz przy komputerze współpracownika, który właśnie wrócił z wakacji."
             ]
           }
         },
@@ -1012,13 +1012,13 @@ exports.level = {
               "",
               "`git describe <ref>`",
               "",
-              "Gdzie `<ref>` jest czymkolwiek, co git może przekształcić w commit. Jeśli nie podasz `<ref>`, git użyje miejsca, w którym jesteś teraz zcheckoutowany (`HEAD`).",
+              "Gdzie `<ref>` jest czymkolwiek, co git może odnieść do commita. Jeśli nie podasz `<ref>`, git użyje aktualnie checkoutowanego miejsca (`HEAD`).",
               "",
               "Wynik polecenia wygląda następująco:",
               "",
               "`<tag>_<numCommits>_g<hash>`",
               "",
-              "Gdzie `tag` jest najbliższym tagiem przodka w historii, `numCommits` jest liczbą commitów od tego tagu, a `<hash>` jest hashem opisywanego commitu."
+              "`tag` jest znacznikiem najbliższego przodka w historii, `numCommits` jest liczbą commitów od tego znacznika, a `<hash>` jest haszem opisywanego commitu."
             ]
           }
         },
@@ -1026,14 +1026,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Przyjrzyjmy się szybkiemu przykładowi. Dla tego drzewa poniżej:"
+              "Przyjrzyjmy się krótkiemu przykładowi. Dla tego drzewa poniżej:"
             ],
             "afterMarkdowns": [
-              "Polecenie `git describe main` dałoby wynik:",
+              "polecenie `git describe main` dałoby wynik:",
               "",
               "`v1_2_gC2`",
               "",
-              "Gdzie `git describe side` dałoby wynik:",
+              "a `git describe side` dałoby wynik:",
               "",
               "`v2_1_gC4`"
             ],
@@ -1045,9 +1045,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To w zasadzie wszystko, co jest musisz wiedzieć o `git describe`! Spróbuj opisać kilka miejsc na tym poziomie, aby wyczuć to polecenie.",
+              "To w zasadzie wszystko, co musisz wiedzieć o `git describe`! Spróbuj opisać kilka miejsc na tym poziomie, aby wyczuć to polecenie.",
               "",
-              "Kiedy będziesz gotowy, po prostu zrób jeden commit, aby ukończyć poziom. Dajemy Ci bonusa :P"
+              "Kiedy zechesz przejść dalej, po prostu zrób jeden commit, aby ukończyć poziom. Masz to w gratisie :P"
             ]
           }
         }

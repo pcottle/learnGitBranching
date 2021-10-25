@@ -15,15 +15,16 @@ exports.level = {
     "es_AR": "Origen de nada",
     "es_ES": "Origen de nada",
     "pt_BR": "Origem vazia",
-    "gl"   : "Orixen de nada",
+    "gl": "Orixen de nada",
     "de_DE": "Die Quelle des Nichts",
-    "ja"   : "無のsource",
+    "ja": "無のsource",
     "fr_FR": "Source de rien du tout",
     "ru_RU": "Пустой источник",
-    "ko"   : "Source가 없다",
-    "uk"   : "Нема джерела",
-    "vi"   : "Không có nguồn",
-    "sl_SI": "Izvor Ničesar"
+    "ko": "Source가 없다",
+    "uk": "Нема джерела",
+    "vi": "Không có nguồn",
+    "sl_SI": "Izvor Ničesar",
+    "pl": "Źródło nicości"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -32,15 +33,16 @@ exports.level = {
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "es_ES": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
-    "gl"   : "O comando branch está deshabilitado para este nivel, entón terás que empregar o comando fetch!",
+    "gl": "O comando branch está deshabilitado para este nivel, entón terás que empregar o comando fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
-    "ja"   : "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
+    "ja": "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
-    "ko"   : "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
-    "uk"   : "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
-    "vi"   : "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!",
-    "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!"
+    "ko": "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
+    "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
+    "vi": "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!",
+    "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!",
+    "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -414,7 +416,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -837,6 +839,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "To je hitra stopnja -- samo izbriši en oddaljen branch in naredi novega z `git fetch`, da zaključiš!"
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Osobliwości `<source>`",
+              "",
+              "Git pozwala wykorzystać parametr `<source>` (źródło) na dwa osobliwe sposoby. Oba są dziwaczne dlatego, że - technicznie rzecz biorąc - możesz określić \"nic\" jako poprawne `źródło` zarówno dla git push, jak i git fetch. Tę \"nicość\" określasz za pomocą pustego argumentu:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Zobaczmy, co z tego wyniknie..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Co daje wypchnięcie \"nicości\" na zdalną gałąź? Usuwa ją!"
+            ],
+            "afterMarkdowns": [
+              "Oto właśnie usunęliśmy skutecznie gałąź `foo` na zdalnym repozytorium, wypychając do niej ideę \"nicości\". To nawet ma jakiś sens..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Natomiast ściągnięcie \"nicości\" za pomocą fetch do lokalnego miejsca tworzy nową gałąź."
+            ],
+            "afterMarkdowns": [
+              "Osobliwe i dziwaczne, ale nic nie poradzisz... Git tak ma!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To jest krótki poziom -- żeby go ukończyć, po prostu usuń jedną zdalną gałąź i stwórz jedną nową, używając `git fetch`!"
             ]
           }
         }

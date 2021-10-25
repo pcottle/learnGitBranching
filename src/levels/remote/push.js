@@ -12,16 +12,16 @@ exports.level = {
     "es_AR": "git push",
     "es_ES": "git push",
     "pt_BR": "Git Push",
-    "gl"   : "Git Push",
+    "gl": "Git Push",
     "de_DE": "Git Push",
-    "ja"   : "Git Push",
+    "ja": "Git Push",
     "fr_FR": "Git push",
     "ru_RU": "Git push",
-    "uk"   : "Git push",
-    "ko"   : "Git push",
-    "vi"   : "Git push",
+    "uk": "Git push",
+    "ko": "Git push",
+    "vi": "Git push",
     "sl_SI": "Git Push",
-    "pl": "Git Push"
+    "pl": "Git push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -31,12 +31,12 @@ exports.level = {
     "es_ES": "¡Recuerda que tienes que clonar antes de hacer push!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
-    "ja"   : "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
+    "ja": "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
-    "uk"   : "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
-    "ko"   : "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
-    "vi"   : "Nhớ rằng bạn phải clone trước khi push!",
+    "uk": "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
+    "ko": "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
+    "vi": "Nhớ rằng bạn phải clone trước khi push!",
     "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!",
     "pl": "Najpierw sklonuj, potem pushuj!",
   },
@@ -336,7 +336,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -423,45 +423,45 @@ exports.level = {
     },
     "ru_RU": {
       "childViews": [
-          {
-              "type": "ModalAlert",
-              "options": {
-                  "markdowns": [
-                      "## Git Push",
-                      "",
-                      "Хорошо, мы скачали изменения с удалённого репозитория и включили их в наши локальные наработки. Всё это замечательно, но как нам поделиться _своими_ наработками и изменениями с другими участниками проекта?",
-                      "",
-                      "Способ, которым мы воспользуемся, является противоположным тому способу, которым мы пользовались ранее для скачивания наработок (`git pull`). Этот способ - использование команды `git push`!",
-                      "",
-                      "Команда `git push` отвечает за загрузку _ваших_ изменений в указанный удалённый репозиторий, а также включение ваших коммитов в состав удалённого репозитория. По окончании работы команды `git push` все ваши друзья смогут скачать себе все сделанные вами наработки.",
-                      "",
-                      "Вы можете рассматривать команду `git push` как \"публикацию\" своей работы. Эта команда скрывает в себе множество тонкостей и нюансов, с которыми мы познакомимся в ближайшее время, а пока что давайте начнём с малого...",
-                      "",
-                      "*замечание - поведение команды `git push` без аргументов варьируется в зависимости от значения `push.default`, указанной в настройках git-а. Значение по умолчанию зависит от версии git, которую вы используете, однако в наших уроках мы будем использовать значение `upstream`. Лучше всегда проверять эту опцию прежде чем push-ить ваши настоящие проекты.*"
-                  ]
-              }
-          },
-          {
-              "type": "GitDemonstrationView",
-              "options": {
-                  "beforeMarkdowns": [
-                      "Здесь у нас имеются изменения, которых нет в удалённом репозитории. Давайте же закачаем их туда!"
-                  ],
-                  "afterMarkdowns": [
-                      "Вот так - удалённый репозиторий получил новый коммит `C2`, ветка `main` на удалённом репозитории теперь указывает на `C2`, и наше *собственное* локальное отображение удалённого репозитория (`o/main`) изменилось соответственно. Всё синхронизировалось!"
-                  ],
-                  "command": "git push",
-                  "beforeCommand": "git clone; git commit"
-              }
-          },
-          {
-              "type": "ModalAlert",
-              "options": {
-                  "markdowns": [
-                      "Чтобы выполнить задачу этого упражнения, просто поделитесь своими двумя новыми коммитами с удалённым репозиторием. Соберитесь, потому что все последующие уроки будут намного сложнее предыдущих!"
-                  ]
-              }
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Хорошо, мы скачали изменения с удалённого репозитория и включили их в наши локальные наработки. Всё это замечательно, но как нам поделиться _своими_ наработками и изменениями с другими участниками проекта?",
+              "",
+              "Способ, которым мы воспользуемся, является противоположным тому способу, которым мы пользовались ранее для скачивания наработок (`git pull`). Этот способ - использование команды `git push`!",
+              "",
+              "Команда `git push` отвечает за загрузку _ваших_ изменений в указанный удалённый репозиторий, а также включение ваших коммитов в состав удалённого репозитория. По окончании работы команды `git push` все ваши друзья смогут скачать себе все сделанные вами наработки.",
+              "",
+              "Вы можете рассматривать команду `git push` как \"публикацию\" своей работы. Эта команда скрывает в себе множество тонкостей и нюансов, с которыми мы познакомимся в ближайшее время, а пока что давайте начнём с малого...",
+              "",
+              "*замечание - поведение команды `git push` без аргументов варьируется в зависимости от значения `push.default`, указанной в настройках git-а. Значение по умолчанию зависит от версии git, которую вы используете, однако в наших уроках мы будем использовать значение `upstream`. Лучше всегда проверять эту опцию прежде чем push-ить ваши настоящие проекты.*"
+            ]
           }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Здесь у нас имеются изменения, которых нет в удалённом репозитории. Давайте же закачаем их туда!"
+            ],
+            "afterMarkdowns": [
+              "Вот так - удалённый репозиторий получил новый коммит `C2`, ветка `main` на удалённом репозитории теперь указывает на `C2`, и наше *собственное* локальное отображение удалённого репозитория (`o/main`) изменилось соответственно. Всё синхронизировалось!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Чтобы выполнить задачу этого упражнения, просто поделитесь своими двумя новыми коммитами с удалённым репозиторием. Соберитесь, потому что все последующие уроки будут намного сложнее предыдущих!"
+            ]
+          }
+        }
       ]
     },
     "ja": {
@@ -685,19 +685,19 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Push",
+              "## Git push",
               "",
-              "Ok, więc pobraliśmy zmiany ze zdalnego repozytorium i włączyliśmy je do naszej pracy lokalnie. To wspaniale i w ogóle... ale jak mamy się podzielić _naszą_ wspaniałą pracą z wszystkimi innymi?",
+              "Ok, pobraliśmy zmiany ze zdalnego repozytorium i włączyliśmy je do naszej pracy lokalnie. Wszystko fajnie, ale... jak mamy się podzielić _naszą_ wspaniałą pracą ze wszystkimi innymi?",
               "",
-              "Cóż, sposób przesyłania współdzielonej pracy jest przeciwieństwem pobierania współdzielonej pracy. A co jest przeciwieństwem `git pull`? `git push`!",
+              "Cóż, wysyłanie współdzielonej pracy jest przeciwieństwem pobierania współdzielonej pracy. A co jest przeciwieństwem `git pull`? `git push`!",
               "",
-              "Polecenie `git push` jest odpowiedzialne za przesłanie i aktualizację _naszych_ zmian na wybranego remote'a, aby zawierał nowe commity. Gdy `git push` zostanie ukończony, wszyscy twoi przyjaciele będą mogli pobrać twoją pracę z serwera zdalnego.",
+              "Polecenie `git push` odpowiada za przesłanie i aktualizację _naszych_ zmian na wybranego remote'a, aby zawierał nowe commity. Gdy `git push` zostanie ukończony, wszyscy twoi przyjaciele będą mogli pobrać twoją pracę z serwera zdalnego.",
               "",
-              "Możesz myśleć o `git push` jako o komendzie do \"publikowania\" swojej pracy. Ma on wiele szczegółów, które wkrótce omówimy, ale zacznijmy od małych kroczków...",
+              "Możesz myśleć o `git push` jak o poleceniu do \"publikowania\" swojej pracy. Ma ono wiele szczegółów, które wkrótce omówimy, ale zacznijmy od małych kroczków...",
               "",
-              "*uwaga -- zachowanie `git push` bez argumentów różni się w zależności od jednego z ustawień git o nazwie `push. default`. Domyślna wartość tego ustawienia zależy od wersji git, której używasz. W naszych lekcjach będziemy używać wartości `upstream`. Nie jest to wielka sprawa, ale warto sprawdzić swoje ustawienia przed wprowadzeniem ich do własnych projektów.*",
+              "*uwaga -- zachowanie `git push` bez argumentów różni się w zależności od jednego z ustawień Git o nazwie `push.default`. Domyślna wartość tego ustawienia zależy od wersji Git, której używasz. W naszych lekcjach będziemy używać wartości `upstream`. Nie jest to wielka sprawa, ale warto sprawdzić swoje ustawienia przed użyciem `push` we własnych projektach.*",
               "",
-              "*uwaga 2 -- odpowiednik gałęzi na zdalnym repozytorium będziemy nazywać remotem. Nazwa ta jest wykorzystywana w branży, dlatego będziemy się jej trzymać, aby nie wprowadzać zawiłego nazewnictwa*"
+              "*uwaga 2 -- odpowiednik gałęzi na zdalnym repozytorium będziemy nazywać remote'em. Nazwa ta jest wykorzystywana w Polsce, dlatego będziemy jej używać, aby nie wprowadzać zawiłego nazewnictwa*"
             ]
           }
         },
@@ -708,7 +708,7 @@ exports.level = {
               "Tutaj mamy kilka zmian, których nie ma remote. Załadujmy je!"
             ],
             "afterMarkdowns": [
-              "No i proszę -- remote otrzymał commit `C2`, gałąź `main` na zdalnym repozytorium została zaktualizowana do `C2`, a nasze *własne* odzwierciedlenie zdalnego (`o/main`) również zostało zaktualizowane. Wszystko jest zsynchronizowane!"
+              "No i proszę -- remote otrzymał commit `C2`, gałąź `main` na zdalnym repozytorium została zaktualizowana do `C2`. Nasze *własne* odzwierciedlenie zdalnego (`o/main`) również zostało zaktualizowane. Wszystko jest zsynchronizowane!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -718,7 +718,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby zakończyć ten poziom, po prostu podziel się dwoma nowymi commitami z innymi użytkownikami repozytorium. Przygotuj się jednak na coraz trudniejsze lekcje!"
+              "Aby zakończyć ten poziom, wystarczy, że podzielisz się dwoma nowymi commitami z innymi użytkownikami repozytorium. Ale zapnij pasy i przygotuj się na ostrą jazdę na kolejnych lekcjach!"
             ]
           }
         }

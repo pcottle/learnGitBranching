@@ -9,15 +9,16 @@ exports.level = {
     "es_AR": "Parámetros de pull",
     "es_ES": "Parámetros de pull",
     "pt_BR": "Parâmetros do pull",
-    "gl"   : "Parámetros de pull",
+    "gl": "Parámetros de pull",
     "de_DE": "Optionen für Pull",
-    "ja"   : "Pullの引数",
+    "ja": "Pullの引数",
     "fr_FR": "Arguments de pull",
     "ru_RU": "Аргументы для pull",
-    "ko"   : "pull 인자들",
-    "uk"   : "Аргументи pull",
-    "vi"   : "Tham số pull",
-    "sl_SI": "Pull argumenti"
+    "ko": "pull 인자들",
+    "uk": "Аргументи pull",
+    "vi": "Tham số pull",
+    "sl_SI": "Pull argumenti",
+    "pl": "Argumenty pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -26,15 +27,16 @@ exports.level = {
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "es_ES": "Recuerda que puedes crear nuevas ramas locales usando los parámetros de fetch/pull",
     "pt_BR": "Lembre-se que você pode criar novos ramos locais com parâmetros de fetch/pull",
-    "gl"   : "Lémbrate que podes crear novas ramas locais con parámetros de fetch/pull",
+    "gl": "Lémbrate que podes crear novas ramas locais con parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
-    "ja"   : "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
+    "ja": "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
-    "ko"   : "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
-    "uk"   : "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
-    "vi"   : "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
-    "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti."
+    "ko": "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
+    "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
+    "vi": "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
+    "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
+    "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie"
   },
   "startDialog": {
     "en_US": {
@@ -539,7 +541,7 @@ exports.level = {
               "他是不是也可以同時指定 source 以及 destination？你說對了啦！讓我們來看一下："
             ],
             "afterMarkdowns": [
-                "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `main` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。這實在是太超過了！！！"
+              "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `main` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。這實在是太超過了！！！"
             ],
             "command": "git pull origin main:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -555,7 +557,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -1151,6 +1153,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, da zaključiš, pridi v stanje iz ciljne vizualizacije. Prenesti boš moral nekaj commitov, narediti nekaj novih branchev in zmergati te branche v druge branche, ampak ne bi smelo zahtevati veliko ukazov. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumenty git pull",
+              "",
+              "Teraz, kiedy wiesz już właściwie *wszystko*, co można wiedzieć o argumentach `git fetch` oraz `git push`, naprawdę nie zostało już prawie nic do omówienia przy `git pull` :)",
+              "",
+              "To dlatego, że w zasadzie git pull to *naprawdę* tylko skrót polecenia fetch i scalania wszystkiego, co zostało nim pobrane. Możesz to sobie wyobrazić jako uruchomienie git fetch z określonymi *tymi samymi* argumentami, a potem scalenie pobranych commitów *tam*, dokąd trafiły.",
+              "",
+              "I działa to w ten sposób, nawet jeśli określisz kompletnie szalone argumenty. Zobaczmy kilka przykładów:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oto kilka równoważnych poleceń w Gicie:",
+              "",
+              "`git pull  origin foo` nie różni się od:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "A...",
+              "",
+              "`git pull  origin bar~1:bugFix` daje taki sam efekt jak:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Widzisz? git pull to naprawdę tylko skrót dla fetch + merge i jedyne, co się liczy dla git pull, to gdzie trafią commity (argument `celu`, który Git zinterpretuje sobie, wykonując fetch).",
+              "",
+              "Zobaczmy demo:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Jeśli określimy dla fetch miejsce, to wszystko potoczy się tak jak wcześniej, ale scalimy wszystko, co zostało pobrane przez fetch."
+            ],
+            "afterMarkdowns": [
+              "Zobacz! Określając `main`, pobraliśmy commity do `o/main` tak jak zawsze. Potem scaliliśmy `o/main` z aktualnie wybranym miejscem, którym *nie* jest lokalna gałąź `main`. Właśnie z tego powodu może mieć sens wykonanie git pull wiele razy (z tymi samymi argumentami) z różnych lokalizacji, aby zaktualizować wiele gałęzi."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Czy w przypadku źródła i celu będzie tak samo? Jasne, że tak! Zobaczmy:"
+            ],
+            "afterMarkdowns": [
+              "No nieźle, jedno polecenie, a tyle się dzieje. Stworzyliśmy nową lokalną gałąź `foo`, pobraliśmy commity ze zdalnej gałęzi `main` do `foo`, a potem jeszcze scaliliśmy ją z aktualnie wybraną gałęzią `bar`. Grubo ponad osiem tysięcy!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oki, żeby ukończyć poziom, doprowadź drzewo do takiego stanu jak na wizualizacji. Musisz pobrać parę commitów, stworzyć kilka gałęzi i scalić je z innymi, ale nie powinno to wymagać zbyt wielu poleceń :P"
             ]
           }
         }

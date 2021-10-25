@@ -9,16 +9,16 @@ exports.level = {
     "es_AR": "git pull",
     "es_ES": "git pull",
     "pt_BR": "Git Pull",
-    "gl"   : "Git Pull",
+    "gl": "Git Pull",
     "de_DE": "Git Pull",
-    "ja"   : "Git Pull",
+    "ja": "Git Pull",
     "fr_FR": "Git pull",
     "ru_RU": "Git pull",
-    "uk"   : "Git pull",
-    "ko"   : "Git pull",
-    "vi"   : "Git pull",
+    "uk": "Git pull",
+    "ko": "Git pull",
+    "vi": "Git pull",
     "sl_SI": "Git Pull",
-    "pl": "Git Pull",
+    "pl": "Git pull",
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -27,16 +27,16 @@ exports.level = {
     "es_AR": "Simplemente ¡hacé git pull!",
     "es_ES": "Simplemente ¡ejecuta git pull!",
     "pt_BR": "Basta executar git pull!",
-    "gl"   : "Sinxelamente fai git pull!",
+    "gl": "Sinxelamente fai git pull!",
     "de_DE": "Führe einfach git pull aus.",
-    "ja"   : "単にgit pullを実行！",
+    "ja": "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !",
     "ru_RU": "Запустите комманду git pull !",
-    "uk"   : "Просто виконай git pull !",
-    "ko"   : "그냥 git pull을 하세요!",
-    "vi"   : "Đơn giản là gõ git pull!",
+    "uk": "Просто виконай git pull !",
+    "ko": "그냥 git pull을 하세요!",
+    "vi": "Đơn giản là gõ git pull!",
     "sl_SI": "Samo izvedi git pull!",
-    "pl"   : "Po prostu uruchom git pull!",
+    "pl": "Po prostu uruchom git pull!",
   },
   "startDialog": {
     "en_US": {
@@ -452,7 +452,7 @@ exports.level = {
         }
       ]
     },
-    "zh_CN":{
+    "zh_CN": {
       "childViews": [
         {
           "type": "ModalAlert",
@@ -570,65 +570,65 @@ exports.level = {
         }
       ]
     },
-      "ru_RU": {
-          "childViews": [
-              {
-                  "type": "ModalAlert",
-                  "options": {
-                      "markdowns": [
-                          "## Git Pull",
-                          "",
-                          "Теперь, когда мы познакомились с тем, как извлекать данные из удалённого репозитория с помощью `git fetch`, давайте обновим нашу работу, чтобы отобразить все эти изменения!",
-                          "",
-                          "Существует множество вариантов решений - как только у вас имеется локальный коммит, вы можете соединить его с другой веткой. Это значит, вы можете выполнить одну из команд:",
-                          "",
-                          "* `git cherry-pick o/main`",
-                          "* `git rebase o/main`",
-                          "* `git merge o/main`",
-                          "* и т.д.",
-                          "",
-                          "Процедура *скачивания (fetching)*  изменений с удалённой ветки и *объединения (merging)* настолько частая и распространённая, что git предоставляет вместо двух команд - одну! Эта команда  - `git pull`."
-                      ]
-                  }
-              },
-              {
-                  "type": "GitDemonstrationView",
-                  "options": {
-                      "beforeMarkdowns": [
-                          "Давайте рассмотрим, как `fetch` и `merge` выполняются последовательно"
-                      ],
-                      "afterMarkdowns": [
-                          "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/main`. Теперь наша ветка `main` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
-                      ],
-                      "command": "git fetch; git merge o/main",
-                      "beforeCommand": "git clone; git commit; git fakeTeamwork"
-                  }
-              },
-              {
-                  "type": "GitDemonstrationView",
-                  "options": {
-                      "beforeMarkdowns": [
-                          "Что же произойдёт, если вместо этих команд мы воспользуемся `git pull`?"
-                      ],
-                      "afterMarkdowns": [
-                          "Абсолютно то же самое! Нужно чётко понимать, что `git pull` существенно уменьшает вашу рутинную работу, если бы вы использовали `git fetch` и последующее слияние (merging) скаченной ветки."
-                      ],
-                      "command": "git pull",
-                      "beforeCommand": "git clone; git commit; git fakeTeamwork"
-                  }
-              },
-              {
-                  "type": "ModalAlert",
-                  "options": {
-                      "markdowns": [
-                          "Мы изучим детали команды `git pull` чуть позже (включая опции и аргументы вызова команды), а пока что давайте просто попробуем эту команду.",
-                          "",
-                          "Помните, вы также можете выполнить этот уровень с помощью команд `fetch` и `merge`, но нужно ли делать так, когда можно воспользоваться всего лишь одной командой ? :P"
-                      ]
-                  }
-              }
-          ]
-      },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Теперь, когда мы познакомились с тем, как извлекать данные из удалённого репозитория с помощью `git fetch`, давайте обновим нашу работу, чтобы отобразить все эти изменения!",
+              "",
+              "Существует множество вариантов решений - как только у вас имеется локальный коммит, вы можете соединить его с другой веткой. Это значит, вы можете выполнить одну из команд:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* и т.д.",
+              "",
+              "Процедура *скачивания (fetching)*  изменений с удалённой ветки и *объединения (merging)* настолько частая и распространённая, что git предоставляет вместо двух команд - одну! Эта команда  - `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Давайте рассмотрим, как `fetch` и `merge` выполняются последовательно"
+            ],
+            "afterMarkdowns": [
+              "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/main`. Теперь наша ветка `main` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Что же произойдёт, если вместо этих команд мы воспользуемся `git pull`?"
+            ],
+            "afterMarkdowns": [
+              "Абсолютно то же самое! Нужно чётко понимать, что `git pull` существенно уменьшает вашу рутинную работу, если бы вы использовали `git fetch` и последующее слияние (merging) скаченной ветки."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Мы изучим детали команды `git pull` чуть позже (включая опции и аргументы вызова команды), а пока что давайте просто попробуем эту команду.",
+              "",
+              "Помните, вы также можете выполнить этот уровень с помощью команд `fetch` и `merge`, но нужно ли делать так, когда можно воспользоваться всего лишь одной командой ? :P"
+            ]
+          }
+        }
+      ]
+    },
     "ja": {
       "childViews": [
         {
@@ -932,16 +932,16 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Teraz, gdy widzieliśmy jak pobierać dane ze zdalnego repozytorium za pomocą `git fetch`, zaktualizujmy naszą pracę, aby odzwierciedlić te zmiany!",
+              "Teraz, gdy zobaczyliśmy, jak pobierać dane ze zdalnego repozytorium za pomocą `git fetch`, zaktualizujmy naszą pracę, aby odzwierciedlić te zmiany!",
               "",
-              "Istnieje wiele sposobów, aby to zrobić - kiedy masz już nowe commity dostępne lokalnie, możesz je włączyć tak, jakby były zwykłymi commitami na innych gałęziach. Oznacza to, że możesz wykonywać polecenia takie jak:",
+              "Istnieje wiele sposobów, aby to zrobić - kiedy masz już nowe commity dostępne lokalnie, możesz je dołączyć tak, jakby były zwykłymi commitami na innych gałęziach. Oznacza to, że możesz wykonywać polecenia takie jak:",
               "",
               "* `git cherry-pick o/main`",
               "* `git rebase o/main`",
               "* `git merge o/main`",
               "* itd., itd.",
               "",
-              "W rzeczywistości flow pracy polegające na *pobieraniu* zdalnych zmian, a następnie *połączeniu* ich jest tak powszechny, że git faktycznie zapewnia polecenie, które robi obie te rzeczy naraz! Tą komendą jest `git pull`."
+              "W rzeczywistości kolejność działań polegająca na *pobieraniu* zdalnych zmian (fetch), a następnie *łączeniu* ich (merge), jest tak powszechna, że sam Git zapewnia polecenie, które robi obie te rzeczy naraz! Jest to `git pull`."
             ]
           }
         },
@@ -952,7 +952,7 @@ exports.level = {
               "Zobaczmy najpierw `fetch` i `merge` wykonywane jedno po drugim."
             ],
             "afterMarkdowns": [
-              "Boom -- pobraliśmy `C3` za pomocą `fetch`, a następnie połączyliśmy tę pracę za pomocą `git merge o/main`. Teraz nasza gałąź `main` odzwierciedla nową pracę z remote (w tym przypadku o nazwie `origin`)"
+              "Tadam -- pobraliśmy `C3` za pomocą `fetch`, a następnie połączyliśmy tę pracę za pomocą `git merge o/main`. Teraz nasza gałąź `main` odzwierciedla nową pracę z remote (w tym przypadku o nazwie `origin`)"
             ],
             "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -965,7 +965,7 @@ exports.level = {
               "Co by się stało, gdybyśmy zamiast tego użyli `git pull`?"
             ],
             "afterMarkdowns": [
-              "Dokładnie to samo! To powinno wyjaśnić, że `git pull` jest w zasadzie skrótem do `git fetch`, po którym następuje scalenie gałęzi, która została właśnie pobrana."
+              "Dokładnie to samo! Chyba bardzo wyraźnie widać, że `git pull` to w zasadzie dwa w jednym: `git fetch`, po którym następuje scalenie przed chwilą pobranej gałęzi."
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -975,9 +975,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Szczegóły działania `git pull` poznamy później (w tym opcje i argumenty), ale na razie wypróbujmy je na tym poziomie.",
+              "W szczegóły `git pull` zagłębimy się później (również w opcje i argumenty), ale na tym poziomie po prostu wypróbujmy, jak działa.",
               "",
-              "Pamiętaj -- możesz rozwiązać ten poziom używając tylko `fetch` i `merge`, ale będzie Cię to kosztowało dodatkową komendę :P"
+              "Pamiętaj -- możesz rozwiązać ten poziom, używając tylko `fetch` i `merge`, ale będzie cię to kosztowało dodatkowe polecenie :P"
             ]
           }
         }

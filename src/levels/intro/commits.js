@@ -6,9 +6,9 @@ exports.level = {
     "es_MX": "Introducción a los commits de Git",
     "es_ES": "Introducción a los commits de Git",
     "pt_BR": "Introdução aos commits no Git",
-    "gl"   : "Introducción ós commits de Git",
+    "gl": "Introducción ós commits de Git",
     "fr_FR": "Introduction aux commits avec Git",
-    "ja"   : "Gitのコミット",
+    "ja": "Gitのコミット",
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commit',
     'zh_TW': '介紹 git commit ',
@@ -16,7 +16,7 @@ exports.level = {
     'uk': 'Знайомство з комітами в Git',
     'vi': 'Giới thiệu về Git Commit',
     'sl_SI': "Uvod v Git Commit",
-    'pl'   : "Wprowadzenie do commitów Gita",
+    'pl': "Wprowadzenie do commitów Gita",
     'it_IT': "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்"
   },
@@ -30,17 +30,17 @@ exports.level = {
     "es_MX": "¡Simplemente escribe 'git commit' dos veces para terminar!",
     "es_ES": "¡Simplemente escribe 'git commit' dos veces para terminar!",
     "pt_BR": "Simplesmente digite 'git commit' duas vezes para concluir!",
-    "gl"   : "Simplemente escribe 'git commit' dúas veces para terminar.",
+    "gl": "Simplemente escribe 'git commit' dúas veces para terminar.",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "执行两次 'git commit' 就可以过关了！",
     "zh_TW": "輸入兩次 'git commit' 就可以完成！",
-    "ja"   : "'git commit'コマンドを2回打てば完成!",
+    "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!",
     "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)",
     "uk": "Спробуй двічі виконати команду 'git commit' ;)",
     'vi': "Đơn giản là cứ gõ 'git commit' 2 lần",
     'sl_SI': "Preprosto dvakrat vpiši 'git commit' in zaključi!",
-    "pl"   : "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!",
+    "pl": "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!",
     'it_IT': "Digita 'git commit' due volte per finire!",
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!"
   },
@@ -96,7 +96,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-            "## Git Commits",
+              "## Git Commits",
               "Ein Commit in einem Git-Repository speichert eine Abbildung aller Dateien in deinem Projektverzeichnis. Es ist wie ein riesiges Kopieren und Einfügen, nur besser.",
               "",
               "Allerdings will Git die Commits so schlank wie möglich halten, also kopiert es nicht einfach stur das ganze Verzeichnis jedes Mal wenn du committest. Es kann (wenn möglich) Commits als Menge von Änderungen zusammenpacken, von einer Version des Repositorys zur nächsten.",
@@ -741,9 +741,9 @@ exports.level = {
               "",
               "Git stara się, aby commity były tak lekkie, jak to tylko możliwe, więc nie kopiuje na ślepo całego katalogu za każdym razem, gdy zatwierdzasz zmiany. Możesz (jeśli to możliwe) skompresować commita jako zestaw zmian (lub _\"delta\"_) między jedną wersją w repozytorium a następną.",
               "",
-              "Git przechowuje również historię, kiedy dokonano zatwierdzenia. Dlatego większość commitów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Utrzymanie historii jest świetne dla wszystkich, którzy pracują nad projektem!",
+              "Git przechowuje również całą historię, kiedy dokonano każdego zatwierdzenia. Dlatego większość commitów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Zachowanie historii to świetna funkcja dla wszystkich, którzy pracują nad projektem!",
               "",
-              "Jest mnóstwo rzeczy do zagłębienia, ale na razie możesz myśleć o commitach jako migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
+              "To sporo do zapamiętania, ale na razie możesz myśleć o commitach jako \"rewiznajch\" albo migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
             ]
           }
         },
@@ -751,12 +751,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Zobaczmy, jak to wygląda w praktyce. Po prawej stronie mamy wizualizację (małego) repozytorium Gita. Istnieją dwa zatwierdzenia:\n początkowy commit `C0`, a następnie po nim commit `C1`, które mogą mieć kilka interesujących zmian.",
+              "Zobaczmy, jak to wygląda w praktyce. Po prawej stronie mamy wizualizację (małego) repozytorium Gita. Istnieją dwa zatwierdzenia:\n początkowy commit `C0`, a następnie po nim commit `C1`, który może mieć kilka interesujących zmian.",
               "",
-              "Kliknij poniższy przycisk, aby dodać nowego commita."
+              "Kliknij przycisk poniżej, aby dodać nowego commita."
             ],
             "afterMarkdowns": [
-              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako commita. Commit, który właśnie wykonaliśmy ma rodzica `C1`, który odnosi się do commitu, na którym się opierał."
+              "Gotowe! Niesamowite. Właśnie wprowadziliśmy zmiany w repozytorium i zapisaliśmy je jako commita. Commit, który właśnie wykonaliśmy, ma rodzica `C1`, który odnosi się do commitu, na którym się opierał."
             ],
             "command": "git commit",
             "beforeCommand": ""
@@ -766,7 +766,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Śmiało, wypróbuj to sam! Po zamknięciu tego okna wykonaj dwa commity, aby ukończyć poziom."
+              "Śmiało, wypróbuj to! Po zamknięciu tego okna wykonaj dwa commity, aby ukończyć poziom."
             ]
           }
         }
