@@ -145,7 +145,7 @@ exports.level = {
             "markdowns": [
               "### Forzando los branches",
               "",
-              "Ahora que sos expert@ en las referencias relativas, *usémoslas* para algo.",
+              "Ahora que conocés todo sobre las referencias relativas, *usémoslas* para algo.",
               "",
               "Una de las formas más comunes en que uso las referencias relativas es para mover las ramas. Podés reasignar directamente una rama a un commit usando la opción `-f`. Así que algo como:",
               "",

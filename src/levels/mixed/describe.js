@@ -352,7 +352,7 @@ exports.level = {
             "markdowns": [
               "¡Eso es prácticamente todo lo que hay sobre git describe! Probá describiendo algunas referencias en este nivel para amigarte con el comando.",
               "",
-              "Cuando estés list@, hacé un commit para terminar el nivel. Te estamos dando una gratis :P"
+              "Cuando quieras, hacé un commit para terminar el nivel. Te estamos dando una gratis :P"
             ]
           }
         }

@@ -205,7 +205,7 @@ exports.level = {
               "",
               "Esto se lo suele llamar refspec con dos puntos. Refspec es simplemente un nombre cool para una ubicación que git puede entender (como la rama `foo`, o incluso `HEAD~1`)",
               "",
-              "Una vez que especificás tanto el origen como el destino independientemente, podés ponerte bastante cómod@ y precis@ con los comandos remotos. ¡Veamos una demo!"
+              "Una vez que especificás tanto el origen como el destino independientemente, podés ponerte bastante elegante y detallista con los comandos remotos. ¡Veamos una demo!"
             ]
           }
         },

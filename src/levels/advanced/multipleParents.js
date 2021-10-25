@@ -422,7 +422,7 @@ exports.level = {
               "(*En nuestras visualizaciones, el primer padre se ubica directamente arriba del commit de merge.*)"
             ],
             "afterMarkdowns": [
-              "Fácil -- esto es a lo que estamos acostumbrad@s."
+              "Fácil -- esto es algo habitual."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"

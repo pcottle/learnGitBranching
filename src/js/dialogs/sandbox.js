@@ -32,7 +32,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Bienvenid@ a Learn Git Branching!',
+        '## ¡Te damos la bienvenida a Learn Git Branching!',
         '',
         'Esta aplicación está diseñada para ayudar a los principiantes ',
         'a manejar los poderosos conceptos que hay detrás del trabajo ',
@@ -45,7 +45,7 @@ exports.dialog = {
         '',
         '[https://pcottle.github.io/learnGitBranching/?demo](https://pcottle.github.io/learnGitBranching/?demo)',
         '',
-        '¿Hart@ de este mensaje? Agregale `?NODEMO` a la URL para dejar de verlo, como en este link:',
+        '¿Queres dejar de ver este mensaje? Agregale `?NODEMO` a la URL para dejar de verlo, como en este link:',
         '',
         '[https://pcottle.github.io/learnGitBranching/?NODEMO](?NODEMO)'
       ]

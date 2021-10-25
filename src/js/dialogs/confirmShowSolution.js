@@ -43,7 +43,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¿Estás segur@ de que querés ver la solución?',
+        '## ¿Realmente quieres ver la solución?',
         '',
         '¡Creo en vos! ¡Dale que podés!'
       ]
