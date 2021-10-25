@@ -1911,7 +1911,7 @@ exports.level = {
               "",
               "No ba... Argumenty `git fetch` są w gruncie rzeczy *bardzo, bardzo* podobne do tych z `git push`. To ta sama idea, tyle że zastosowana w odwrotną stronę (przecież nie wysyłasz commitów, tylko je pobierasz).",
               "",
-              "Powtórzmy krok po kroku na czym to polega..."
+              "Powtórzmy krok po kroku, na czym to polega..."
             ]
           }
         },
@@ -1925,7 +1925,7 @@ exports.level = {
               "",
               "`git fetch origin foo`",
               "",
-              "Git przejdzie do gałęzi `foo` w zdalnym repozytorium, weźmie wszystkie commity, których brakuje lokalnie i zrzuci je nam na lokalną gałąź `o/foo`.",
+              "Git przejdzie do gałęzi `foo` w zdalnym repozytorium, weźmie wszystkie commity, których brakuje lokalnie, i zrzuci je nam na lokalną gałąź `o/foo`.",
               "",
               "Zobaczmy, jak to działa (tylko dla odświeżenia pamięci)."
             ]
@@ -1961,7 +1961,7 @@ exports.level = {
             "markdowns": [
               "\"No to co się w takim razie stanie, jeśli samodzielnie określę źródło i cel za pomocą `<source>:<destination>`?\"",
               "",
-              "Jeśli naprawdę czujesz wewnętrzną potrzebę, żeby robić fetch *bezpośrednio* na lokalną gałąź, to proszę bardzo, możesz wykorzystać refspec z dwukropkiem. Nie możesz tylko ściągnąć przy użyciu fetch commitów na aktualnie wybraną za pomocą checkout gałąź. Poza tym Git pozwoli ci zrobić, co chcesz..",
+              "Jeśli naprawdę czujesz wewnętrzną potrzebę, żeby robić fetch *bezpośrednio* na lokalną gałąź, to proszę bardzo, możesz wykorzystać refspec z dwukropkiem. Nie możesz tylko ściągnąć przy użyciu fetch commitów na aktualnie wybraną za pomocą checkout gałąź. Poza tym Git pozwoli ci zrobić, co chcesz.",
               "",
               "Jest jednak jeden haczyk -- `<źródło>` to teraz *zdalne* miejsce, a `<cel>` jest *lokalnym* miejscem, na które trafią commity. To dokładne przeciwieństwo git push, i to ma sens, skoro przenosimy teraz dane w odwrotnym kierunku!",
               "",
@@ -1976,7 +1976,7 @@ exports.level = {
               "Zobaczmy, jak to szaleństwo działa:"
             ],
             "afterMarkdowns": [
-              "Nieźle! Spójrz. Git zinterpretował `foo~1` jako miejsce na origin i pobrał z niego commity do `bar` (czyli lokalną gałąź). Zauważ, że ani `foo` ani `o/foo` nie zostały zaktualizowane, ponieważ określiliśmy cel."
+              "Nieźle! Spójrz. Git zinterpretował `foo~1` jako miejsce na origin i pobrał z niego commity do `bar` (czyli lokalną gałąź). Zauważ, że ani `foo`, ani `o/foo` nie zostały zaktualizowane, ponieważ określiliśmy cel."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"

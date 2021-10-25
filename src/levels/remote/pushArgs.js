@@ -1147,7 +1147,7 @@ exports.level = {
         }
       ]
     },
-    "en_US": {
+    "pl": {
       "childViews": [
         {
           "type": "ModalAlert",

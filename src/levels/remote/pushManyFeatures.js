@@ -18,7 +18,7 @@ exports.level = {
     "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
     "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
     "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
-    "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
+    "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset"
   },
   "name": {
     "en_US": "Push Main!",
@@ -878,7 +878,7 @@ exports.level = {
             "markdowns": [
               "Ten poziom jest dość ciężki: oto ogólny zarys problemu do rozwiązania:",
               "",
-              "* Mamy trzy boczne gałęzie: `side1` `side2` i `side3`",
+              "* Mamy trzy boczne gałęzie: `side1`, `side2` i `side3`",
               "* Każdą z nich chcemy kolejno wypchnąć do zdalnego repozytorium",
               "* Zdalne repo było w tym czasie zmieniane, więc te zmiany również musimy nanieść",
               "",

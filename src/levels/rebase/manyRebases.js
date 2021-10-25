@@ -24,7 +24,7 @@ exports.level = {
     "vi": "Rebase hơn 9000 lần",
     "sl_SI": "Več kot 9000 Rebaseov",
     "it_IT": "Rebasing livello 8000",
-    "pl": "Rebase ponad 9000 razy"
+    "pl": "Rebase ponad 8000 razy"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",

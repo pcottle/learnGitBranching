@@ -1940,7 +1940,7 @@ exports.level = {
               "",
               "Może ci się wydawać od kilku lekcji, że Git jakoś \"magicznie\" wie, że gałąź `main` jest powiązana z `o/main`. Co prawda nazwy tych gałęzi są podobne i, logicznie rzecz biorąc, `main` na zdalnym repo można skojarzyć z lokalną gałęzią `main`, ale na dwóch przykładach pokażemy, jak to działa w rzeczywistości:",
               "",
-              "* Podczas operacji pull, commity są pobierane do `o/main`, a następnie za pomocą *merge* scalane z gałęzią `main`. Na podstawie tego połączenia określa się pośrednio cel scalania.",
+              "* Podczas operacji pull commity są pobierane do `o/main`, a następnie za pomocą *merge* scalane z gałęzią `main`. Na podstawie tego połączenia określa się pośrednio cel scalania.",
               "* Podczas operacji push praca z gałęzi `main` jest wypychana do zdalnej gałęzi `main` (lokalnie reprezentowanej przez `o/main`). *Cel* polecenia push jest określony przez połączenie pomiędzy `main` a `o/main`.",
               ""
             ]
@@ -1972,7 +1972,7 @@ exports.level = {
             "markdowns": [
               "### A czy mogę to określić samodzielnie?",
               "",
-              "Jasne, że tak! Możesz kazać dowolnej gałęzi śledzić `o/main`, i w takim wypadku będzie miała taki sam domyślny cel operacji push i merge, co `main`. To znaczy, że możesz zrobić `git push` na gałęzi o nazwie `totallyNotMain`, a twoja praca i tak zostanie wypchnięta do gałęzi `main` w zdalnym repozytorium!",
+              "Jasne, że tak! Możesz kazać dowolnej gałęzi śledzić `o/main`, i w takim wypadku będzie miała taki sam domyślny cel operacji push i merge co `main`. To znaczy, że możesz zrobić `git push` na gałęzi o nazwie `totallyNotMain`, a twoja praca i tak zostanie wypchnięta do gałęzi `main` w zdalnym repozytorium!",
               "",
               "Są dwa sposoby ustawienia tej właściwości. Pierwszym jest checkout nowej gałęzi wykorzystujący zdalną gałąź jako określoną referencję. Polecenie",
               "",
@@ -2032,7 +2032,7 @@ exports.level = {
               "Spójrzmy jeszcze szybko, jak to wygląda w praktyce..."
             ],
             "afterMarkdowns": [
-              "Tak samo jak poprzednio, tylko wyraźniej widać to w poleceniu. Pięknie!"
+              "Tak samo jak poprzednio, tylko wyraźniej, widać to w poleceniu. Pięknie!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
             "beforeCommand": "git clone; git checkout -b foo"

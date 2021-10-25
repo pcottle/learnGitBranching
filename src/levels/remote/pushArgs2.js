@@ -36,7 +36,7 @@ exports.level = {
     "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
     "vi": "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
     "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P",
-    "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P",
+    "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -1109,7 +1109,7 @@ exports.level = {
               "",
               "Przypomnij sobie, że na poprzedniej lekcji określając `main` jako argument miejsca dla polecenia git push, wybraliśmy zarówno *źródło*, z którego mają pochodzić commity, jak i *cel*, do którego mają trafić.",
               "",
-              "No i może zastanawiasz się teraz-- co by było, gdybyśmy chcieli, żeby źródło i cel były różne od siebie? Co, gdybyśmy chcieli wypchać commity z lokalnej gałęzi `foo` do zdalnej gałęzi `bar`?",
+              "No i może zastanawiasz się teraz -- co by było, gdybyśmy chcieli, żeby źródło i cel były różne od siebie? Co, gdybyśmy chcieli wypchać commity z lokalnej gałęzi `foo` do zdalnej gałęzi `bar`?",
               "",
               "Cóż... niestety w Gicie nie da się tego zrobić... Żart! Jasne, że się da :) Git jest bardzo, bardzo elastyczny (może aż za bardzo).",
               "",
@@ -1161,7 +1161,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Na tym poziomie postaraj się uzyskać drzewo, takie jak na wizualizacji, i pamiętaj o formacie:",
+              "Na tym poziomie postaraj się uzyskać drzewo takie jak na wizualizacji, i pamiętaj o formacie:",
               "",
               "`<źródło>:<cel>`"
             ]

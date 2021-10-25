@@ -600,11 +600,11 @@ exports.level = {
             "markdowns": [
               "## Rozwiązanie",
               "",
-              "Stwórz inną gałąź, nazywaną często boczną albo tematyczną, a po angielsku: feature (funkcyjną) i wypchnij ją do remote. Zresetuj również swój main, tak aby był zsynchronizowany ze zdalnym repozytorium. Jeśli tego nie zrobisz, to możesz mieć problem następnym razem, kiedy zrobisz pull, a czyjś commit będzie miał konflikt z twoim."
+              "Stwórz inną gałąź, nazywaną często boczną albo tematyczną, a po angielsku: feature (funkcyjną), i wypchnij ją do remote. Zresetuj również swój main, tak aby był zsynchronizowany ze zdalnym repozytorium. Jeśli tego nie zrobisz, to możesz mieć problem następnym razem, kiedy zrobisz pull, a czyjś commit będzie miał konflikt z twoim."
             ]
           }
         }
       ]
-    },
+    }
   }
 };
