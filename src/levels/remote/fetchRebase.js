@@ -2194,7 +2194,7 @@ exports.level = {
               "",
               "Widzieliśmy wcześniej, jak `pull` pobiera commity od innych i jak `push` wysyła nasze własne zmiany. Wydaje się to całkiem proste, więc jak ludzie mogą być tak zdezorientowani?",
               "",
-              "Trudności pojawiają się, gdy historia repozytorium zaczyna się *rozbiegać*. Zanim omówimy szczegóły tego rozwiązania, zobaczmy przykład..",
+              "Trudności pojawiają się, gdy historia repozytorium zaczyna się *rozbiegać*. Zanim omówimy szczegóły tego rozwiązania, zobaczmy przykład...",
               ""
             ]
           }

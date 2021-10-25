@@ -2042,7 +2042,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Oki! Na tym poziomie wypchnijmy (push) pracę do gałęzi `main`na zdalnym repozytorium, *nie* checkoutując `main` lokalnie. Wymyśl samodzielnie, jak to zrobić. To przecież zaawansowana część kursu :P"
+              "Oki! Na tym poziomie wypchnijmy (push) pracę do gałęzi `main` na zdalnym repozytorium, *nie* checkoutując `main` lokalnie. Wymyśl samodzielnie, jak to zrobić. To przecież zaawansowana część kursu :P"
             ]
           }
         }

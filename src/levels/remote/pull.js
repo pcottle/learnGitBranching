@@ -975,7 +975,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "W szczegóły `git pull`zagłębimy się później (również w opcje i argumenty), ale na tym poziomie po prostu wypróbujmy, jak działa.",
+              "W szczegóły `git pull` zagłębimy się później (również w opcje i argumenty), ale na tym poziomie po prostu wypróbujmy, jak działa.",
               "",
               "Pamiętaj -- możesz rozwiązać ten poziom, używając tylko `fetch` i `merge`, ale będzie cię to kosztowało dodatkowe polecenie :P"
             ]
