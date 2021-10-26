@@ -243,7 +243,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "¿Y si no especificabamos los parámetros? ¿Qué hubiera pasado?"
+              "¿Y si no especificábamos los parámetros? ¿Qué hubiera pasado?"
             ],
             "afterMarkdowns": [
               "El comando falla (como podés ver), porque `HEAD` no está sobre ninguna rama que trackee algún remoto."

@@ -303,7 +303,7 @@ exports.level = {
               "",
               "Durante un clone, git crea una rama remota por cada rama en el remoto (por ejemplo, ramas como `o/main`). Pero después crea una rama local que trackea la rama activa del remote, que suele ser `main`.",
               "",
-              "Una vez completado el git clone, sólo tenés una única rama local (para que no te asustes) pero podés ver todas las ramas que del remoto (si fueras tan curioso). ¡Es lo mejor de ambos mundos!",
+              "Una vez completado el git clone, sólo tenés una única rama local (para que no te asustes) pero podés ver todas las ramas del remoto (si fueras tan curioso). ¡Es lo mejor de ambos mundos!",
               "",
               "Esto también explica por qué podrías ver un mensaje como este durante la clonación:",
               "",

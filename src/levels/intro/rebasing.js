@@ -287,7 +287,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ahora estamos parados sobre la rama `main`. Avancemos y rebaseémosla sobre `bugFix`..."
+              "Ahora nos encontramos sobre la rama `main`. Avancemos y rebaseémosla sobre `bugFix`..."
             ],
             "afterMarkdowns": [
               "¡Ahí está! Como `main` era un ancestro de `bugFix`, git simplemente movió la referencia de `main` hacia adelante en la historia."
