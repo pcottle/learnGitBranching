@@ -167,9 +167,9 @@ exports.level = {
             "markdowns": [
               "## Moviendo el trabajo por ahí",
               "",
-              "Hasta ahora cubrimos lo básico de git -- commitear, branchear, y movernos por el árbol de commits. Estos conceptos alcanzan para aprovechar el 90% del poder de los repositorios de git y cubrir las necesidades principales de los desarrolladores.",
+              "Hasta ahora cubrimos lo básico de git -- commitear, branchear, y movernos por el árbol de commits. Estos conceptos alcanzan para aprovechar el 90% del poder de los repositorios de git y cubrir las necesidades principales de quienes programan.",
               "",
-              "El 10% restante, sin embargo, puede ser bastante útil en flujos de trabajo complejos (o cuando te metiste en algún problema complicado). El próximo concepto que vamos a cubrir es el de \"mover el trabajo por ahí\" -- en otras palabras, una forma que tienen los desarrolladores de decir \"Quiero este trabajo allá y este otro allá\" de una manera precisa, elocuente y flexible.",
+              "El 10% restante, sin embargo, puede ser bastante útil en flujos de trabajo complejos (o cuando te metiste en algún problema complicado). El próximo concepto que vamos a cubrir es el de \"mover el trabajo por ahí\" -- en otras palabras, una forma que tienen quienes programan de decir \"Quiero este trabajo allá y este otro allá\" de una manera precisa, elocuente y flexible.",
               "",
               "Puede parecer un montón, pero es un concepto bastante simple."
             ]
