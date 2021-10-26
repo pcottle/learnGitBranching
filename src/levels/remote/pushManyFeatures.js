@@ -152,11 +152,11 @@ exports.level = {
             "markdowns": [
               "## Mergeando feature branches",
               "",
-              "Ahora que fetcheas, pulleas y pusheas sin problemas, pongamos a prueba estas habilidades con un nuevo flujo de trabajo.",
+              "Ahora que fetcheás, pulleás y pusheás sin problemas, pongamos a prueba estas habilidades con un nuevo flujo de trabajo.",
               "",
               "Es bastante común que quienes desarrollan en los grandes proyectos trabajen sobre ramas específicas para cada tarea (feature branches) basadas en `main`, y que las integren sólo cuando están listas. Esto es similar a la lección anterior, en que pusheabamos las ramas periféricas al remoto, pero acá tenemos un paso más.",
               "",
-              "Quienes desarrollan sólo pushean y pullean cuando están en `main`: de ese modo, `main` siempre se mantiene actualizado con el remoto (`o/main`).",
+              "Hay quienes sólo pushean y pullean cuando están en `main`: de ese modo, `main` siempre se mantiene actualizado con el remoto (`o/main`).",
               "",
               "Entonces, en este flujo de trabajo combinamos dos cosas:",
               "",
