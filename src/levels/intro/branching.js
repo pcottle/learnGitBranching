@@ -834,6 +834,16 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
+              "*注意：在 Git 2.23 版本中，引入了一个名为 `git switch` 的新命令，最终会取代 `git checkout`，因为 `checkout` 作为单个命令有点超载（它承载了很多独立的功能）。",
+              "由于现在很多人还无法使用 `switch`，本次课程仍然使用 `checkout` 而不是 `switch`，",
+              "但是如果你想尝试一下新命令，我们的应用也是支持的！并且你可以从<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">这里</a>学到更多关于新命令的内容。*",
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "OK，你们都已经准备好使用分支了。当前窗口关闭后，",
               "创建一个名为 `bugFix` 的新分支，然后切换过去。",
               "",
