@@ -743,7 +743,7 @@ exports.level = {
               "",
               "Git przechowuje również całą historię, kiedy dokonano każdego zatwierdzenia. Dlatego większość commitów ma na sobie zmiany przodków -- oznaczamy to strzałkami w naszej wizualizacji. Zachowanie historii to świetna funkcja dla wszystkich, którzy pracują nad projektem!",
               "",
-              "To sporo do zapamiętania, ale na razie możesz myśleć o commitach jako \"rewiznajch\" albo migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
+              "To sporo do zapamiętania, ale na razie możesz myśleć o commitach jako \"rewizjach\" albo migawkach projektu. Są bardzo lekkie, a przełączanie się między nimi jest niesamowicie szybkie!"
             ]
           }
         },
