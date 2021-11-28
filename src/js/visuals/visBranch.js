@@ -316,7 +316,7 @@ var VisBranch = VisBase.extend({
 
     return firefoxFix({
       w: maxWidth,
-      h: textNode.clientHeight
+      h: textNode.getBoundingClientRect().height,
     });
   },
 
