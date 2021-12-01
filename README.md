@@ -37,7 +37,7 @@ You can share a link to LearnGitBranching with an arbitrary set of commands that
 
 ### Level Builder
 
-You can build levels with `build level`. The dialog will walk you through the process, and at the end you can `export level` to get a JSON blob. Paste that in a gist or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run "import level" or simply specify a gist ID in the url params like so:
+You can build levels with the `build level` command. A dialog will walk you through the process, and at the end it will show you a JSON blob that represents the level you just created. Paste that in a [gist](gist.github.com) or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run `import level` and paste the JSON in the resulting text field, or simply send them a custom URL with the the gist ID in the parameters, like so:
 https://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
 ## Reporting Bugs / Opening Issues
