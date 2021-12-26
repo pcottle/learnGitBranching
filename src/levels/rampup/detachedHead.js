@@ -1312,7 +1312,7 @@ exports.level = {
               "",
               "Prima di tutto dobbiamo parlare di \"HEAD\". HEAD (testa) è il nome simbolico dato al commit selezionato -- in pratica è il commit su cui stai lavorando.",
               "",
-              "HEAD punta sempre al commit più recente. La maggiorparte dei commandi git che fanno cambiamenti all'albero dei commit, faranno cambiamento a HEAD.",
+              "HEAD punta sempre al commit più recente. La maggior parte dei commandi git che fanno cambiamenti all'albero dei commit, faranno cambiamento a HEAD.",
               "",
               "Di norma HEAD punta al nome di un ramo (per esempio bugFix). Quando esegui un commit, lo stato di bugFix viene modificato, e questo cambiamento è visibile attraverso HEAD.",
             ],
