@@ -1442,7 +1442,7 @@ exports.level = {
               "자 이 다른 방법이 작동하는 모습을 확인해 봅시다..."
             ],
             "afterMarkdowns": [
-              "이전과 같습니다,  좀 더 분명하게 알 수 있느 명령어죠. 좋아요!"
+              "이전과 같습니다,  좀 더 분명하게 알 수 있는 명령어죠. 좋아요!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
             "beforeCommand": "git clone; git checkout -b foo"
