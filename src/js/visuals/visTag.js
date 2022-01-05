@@ -24,8 +24,8 @@ var VisTag = VisBase.extend({
     offsetX: GRAPHICS.nodeRadius,
     offsetY: GRAPHICS.nodeRadius,
 
-    vPad: 2,
-    hPad: 2,
+    vPad: 4,
+    hPad: 4,
 
     animationSpeed: GRAPHICS.defaultAnimationTime,
     animationEasing: GRAPHICS.defaultEasing
@@ -182,7 +182,7 @@ var VisTag = VisBase.extend({
 
     return firefoxFix({
       w: maxWidth,
-      h: textNode.clientHeight
+      h: textNode.getBoundingClientRect().height,
     });
   },
 
