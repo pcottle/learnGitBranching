@@ -49,3 +49,5 @@ VendorLib/Breakpad/src/tools/mac/dump_syms/build
 DerivedData
 VendorLib/clang/lib/arc
 VendorLib/clang/lib/c++
+
+.idea
