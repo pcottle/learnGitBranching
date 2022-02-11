@@ -1287,3 +1287,12 @@ div.gitDemonstrationView {
   border-top-color: #9bcbeb;
   background: #9bcbeb;
 }
+
+
+
+#shadow{
+  position: absolute;
+  bottom: 0px;
+  left: 21px;
+  opacity: 0.4;
+}

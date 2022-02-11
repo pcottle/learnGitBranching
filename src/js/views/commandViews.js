@@ -1,4 +1,5 @@
 var Backbone = require('backbone');
+const {getAllCommands} = require('../sandbox/commands');
 
 var Main = require('../app');
 var CommandLineStore = require('../stores/CommandLineStore');
@@ -49,13 +50,26 @@ var CommandPromptView = Backbone.View.extend({
   },
 
   onKeyDown: function(e) {
-    // If its a tab, prevent losing focus
+    var el = e.target;
+
+    const shadowEl = document.querySelector('#shadow');
+    const uc = el.value.replace(/ {2,}/g, ' ');
+    shadowEl.innerHTML = '';
+    if(uc.length){
+      const commands = Object.keys(getAllCommands());
+      for(const c of commands){
+        if(c.indexOf(uc) === 0){
+          shadowEl.innerHTML = c;
+          break;
+        }
+      }
+    }
+
     if (e.keyCode === 9) {
       e.preventDefault();
-      // Maybe one day do tab completion or something? :O
-      return;
+      el.value = shadowEl.innerHTML;
     }
-    var el = e.target;
+
     this.updatePrompt(el);
   },
 

@@ -193,6 +193,7 @@ var getAllCommands = function() {
   return allCommands;
 };
 
+exports.getAllCommands = getAllCommands;
 exports.instantCommands = instantCommands;
 exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 
