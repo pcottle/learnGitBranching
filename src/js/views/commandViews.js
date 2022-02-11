@@ -8,6 +8,23 @@ var CommandLineActions = require('../actions/CommandLineActions');
 var log = require('../log');
 var keyboard = require('../util/keyboard');
 
+const allCommands = Object.keys(getAllCommands());
+// Lets push a few commands up in the suggestion order,
+// which overrides the order from the exportj
+const autoCompleteSuggestionOrder = [
+  'levels', // above "level"
+  'help', // above help level since you might not be in a level
+  'show solution', // above show goal since you start with a goal view
+  'reset', // over reset solved
+  'import level', // over import tree
+];
+
+const allCommandsSorted = autoCompleteSuggestionOrder.concat(
+  // add the rest that arent in the list above
+  allCommands.map(command => autoCompleteSuggestionOrder.indexOf(command) > 0 ? null : command)
+  .filter(command => !!command)
+);
+
 var CommandPromptView = Backbone.View.extend({
   initialize: function() {
     Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
@@ -56,8 +73,7 @@ var CommandPromptView = Backbone.View.extend({
     const uc = el.value.replace(/ {2,}/g, ' ');
     shadowEl.innerHTML = '';
     if(uc.length){
-      const commands = Object.keys(getAllCommands());
-      for(const c of commands){
+      for(const c of allCommandsSorted){
         if(c.indexOf(uc) === 0){
           shadowEl.innerHTML = c;
           break;

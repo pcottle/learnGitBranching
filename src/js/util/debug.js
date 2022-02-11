@@ -29,6 +29,7 @@ var toGlobalize = {
   TreeCompare: require('../graph/treeCompare'),
   Level: require('../level'),
   Sandbox: require('../sandbox/'),
+  SandboxCommands: require('../sandbox/commands'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
   Markdown: require('marked'),
   LevelDropdownView: require('../views/levelDropdownView'),
