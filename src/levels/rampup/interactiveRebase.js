@@ -10,6 +10,7 @@ exports.level = {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_ES": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
+    "es_MX": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "pt_BR": "Você pode usar ou ramos ou referências relativas (HEAD~) para especificar o alvo do rebase",
     "gl": "Podes usar ramas ou referencias relativas (HEAD~) para especificar o obxectivo do rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
@@ -30,6 +31,7 @@ exports.level = {
     "en_US": "Interactive Rebase Intro",
     "es_AR": "Introducción al rebase interactivo",
     "es_ES": "Introducción al rebase interactivo",
+    "es_MX": "Introducción al rebase interactivo",
     "pt_BR": "Introdução ao rebase interativo",
     "gl": "Introducción ó rebase interativo",
     "de_DE": "Einführung Interaktives Rebase",
@@ -424,6 +426,72 @@ exports.level = {
             ],
             "afterMarkdowns": [
               "¡Zas! Git copió los commits exactamente de la misma manera que lo especificaste en la UI."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar el nivel, haz un rebase interactivo y alcanza el orden que se muestra en la visualización objetivo. Recuerda que siempre puedes hacer `undo` y `reset` para arreglar errores :D"
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git rebase interactivo",
+              "",
+              "git cherry-pick es genial cuando sabes qué commits quieres (_y_ sabes sus hashes) -- es dificil superar la simpleza que provee.",
+              "",
+              "Pero ¿qué pasa cuando no sabes qué commits quieres? Por suerte ¡Git te cubre en esta situación también! Podemos usar el rebase interactivo para esto -- es la mejor manera de revisar una serie de commits que estás a punto de rebasear.",
+              "",
+              "Entremos en los detalles..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Todo rebase interactivo significa usar el comando `rebase` con la opción `-i`.",
+              "",
+              "Si incluyes esta opción, git abrirá una UI para mostrarte qué commits están a punto de ser copiados sobre el objetivo del rebase. También muestra sus hashes y mensajes, que ayuda mucho para saber qué es cada commit.",
+              "",
+              "Para el git \"de verdad\", la UI signfica abrir un archivo en un editor de textos como `vim`. Para nuestro propósito, hice una pequeña interfaz que se comporta de ese mismo modo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Cuando el diálogo de rebase interactivo se abre, tienes la capacidad de hacer 2 cosas:",
+              "",
+              "* Puedes reordenar las confirmaciones con solamente cambiar su orden en la UI (en nuestra ventana, eso significa arrastrar y soltar con el mouse).",
+              "* Puedes elegir mantener todas las confirmciones o ignorar algunas específicas. Cuando la ventana se abre, cada confirmación se asigna como incluido por medio del botón `pick` que está activo al lado. Para ignorar una confirmación, desactiva el botón `pick`.",
+              "",
+              "Vale la pena mencionar que en el rebase interactivo puedes hacer muchas más cosas como combinar confirmaciones, modificar los mensajes d elas confirmaciones e incluso editar las confirmaciones. Para nuestros propósitos nos centraremos en las dos operaciones anteriores.",
+              "",
+              "¡Genial! Veamos un ejemplo."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cuando presiones el botón, va a aparecer una ventana de rebase interactivo. Reordena los commits (siéntete libre de ignorar alguno, también) ¡y observa el resultado!"
+            ],
+            "afterMarkdowns": [
+              "¡Vientos! Git copió las cofirmaciones exactamente de la misma manera que lo especificaste en la UI."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
             "beforeCommand": "git commit; git commit; git commit; git commit"

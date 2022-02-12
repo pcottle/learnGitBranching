@@ -22,6 +22,7 @@ exports.level = {
     "fr_FR": "Jongler avec les commits #2",
     "es_AR": "Haciendo malabares con los commits #2",
     "es_ES": "Haciendo malabares con los commits #2",
+    "es_MX": "Malabareando con las confirmaciones #2",
     "pt_BR": "Malabarismo com commits #2",
     "gl": "Argallando cos commits #2",
     "de_DE": "Jonglieren mit Commits Teil 2",
@@ -40,6 +41,7 @@ exports.level = {
     "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche main",
     "es_AR": "¡No te olvides de avanzar main a los cambios actualizados!",
     "es_ES": "¡No te olvides de avanzar main a los cambios actualizados!",
+    "es_MX": "¡No te olvides de avanzar main a los cambios actualizados!",
     "pt_BR": "Não se esqueça de avançar a referência do main para as mudanças efetuadas!",
     "gl": "¡Non te esquezas de avanzar main ós cambios actualizados!",
     "de_DE": "Vergiss nicht den main auf die aktuelle Version vorzuspulen",
@@ -223,6 +225,49 @@ exports.level = {
               "Entonces, en este nivel vamos a lograr el mismo objetivo de corregir `C2`, pero sin usar `rebase -i`. Te dejo a ti el darte cuenta cómo :D",
               "",
               "Recuerda, la cantidad exacta de apóstrofes (') en el commit no es importante, sólo la diferencia relativa. Por ejemplo, le voy a dar una puntuación a un árbol que coincida con el objetivo pero cuyos commits tengan todos un apóstrofe extra."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Malabareando con las confirmaciones #2",
+              "",
+              "*Si no completaste Malabareando con las confirmaciones #1 (el nivel anterior), hazlo antes de continuar*",
+              "",
+              "Como viste en el último nivel, usamos `rebase -i` para reordenar las confirmaciones. Una vez que la confirmación que queríamos cambiar se encontraba arriba de todo, pudimos `--amend` (enmendarlo) fácilmente y reordenarlo a como queríamos.",
+              "",
+              "El único problema con esto es que hay mucho reordenamiento, que puede generar conflictos al rebasear. Veamos otro método usando `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Recuerda que git cherry-pick va a traer un commit de cualquier parte del árbol sobre HEAD (siempre que ese otro commit no sea un ancestro de HEAD).",
+              "",
+              "Una pequeña demostración para refrescar la idea:"
+            ],
+            "afterMarkdowns": [
+              "¡Bien! Sigamos..."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Entonces, en este nivel vamos a lograr el mismo objetivo de corregir `C2`, pero sin usar `rebase -i`. Te dejo a ti el darte cuenta cómo :D",
+              "",
+              "Recuerda, la cantidad exacta de apóstrofes (') en el commit no es importante, sólo la diferencia relativa. Por ejemplo, le voy a dar puntos a un árbol que coincida con el objetivo pero cuyos commits tengan todos un apóstrofe extra."
             ]
           }
         }

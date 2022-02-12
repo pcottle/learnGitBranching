@@ -10,6 +10,7 @@ exports.level = {
     "fr_FR": "Annuler des changements avec Git",
     "es_AR": "Revirtiendo cambios en git",
     "es_ES": "Revirtiendo cambios en git",
+    "es_MX": "Revirtiendo cambios en Git",
     "pt_BR": "Revertendo mudanças no Git",
     "gl": "Revertindo cambios en git",
     "ko": "Git에서 작업 되돌리기",
@@ -27,6 +28,7 @@ exports.level = {
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "Notez que `revert` et `reset` n'ont pas les mêmes arguments.",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
+    "es_MX": "Observa que revert y reset utilizan parámetros distintos",
     "es_ES": "Observa que revert y reset utilizan parámetros distintos",
     "pt_BR": "Lembre que revert e reset recebem parâmetros diferentes",
     "gl": "Lembra que revert e reset usan parámetros distintos",
@@ -207,6 +209,69 @@ exports.level = {
               "## Git Revert",
               "",
               "Mientras que resetear los cambios funciona estupendamente para ramas locales en tu máquina, su método de \"reescribir la historia\" no funciona para ramas remotas que otros están usando.",
+              "",
+              "Para revertir cambios y *compartir* esa _revertida_ con otros, necesitamos usar `git revert`. Veámoslo en acción"
+            ],
+            "afterMarkdowns": [
+              "Extraño. Hay un nuevo commit aplicado sobre el que queríamos revertir. Eso es porque este nuevo commit `C2'` introduce *cambios* - sólo que esos cambios son exactamente los necesarios para revertir los que introdujo `C2`.",
+              "",
+              "Cuando utilices revert, puedes hacer push sobre ese cambio para compartirlo con otros."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, revierte el commit más reciente, tanto en `local` como en `pushed`.",
+              "",
+              "Ten en cuenta que `pushed` es una rama remota y `local` es una rama local -- eso debería ayudarte a elegir qué métodos usar."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Revirtiendo cambios en Git",
+              "",
+              "Hay varias maneras de revertir cambios en Git. Y tal como al confirmar, revertir cambios en Git tiene tanto un componente de bajo nivel (indexar archivos o fragmentos individualmente) como un componente de alto nivel (cómo son efectivamente revertidos los cambios). Nuestra aplicación se va a concentrar en esto último.",
+              "",
+              "Hay dos formas principales de deshacer cambios en Git -- uno es usando `git reset` y el otro es usando `git revert`. Vamos a ver cada uno de ellos a continuación",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` deshace los cambios moviendo la referencia de una rama hacia atrás en el tiempo a un commit anterior. En este sentido puedes imaginarlo como \"reescribir la historia\". `git reset` va a mover la rama hacia atrás, como si el commit nunca se hubiera hecho.",
+              "",
+              "Veamos cómo se ve eso:"
+            ],
+            "afterMarkdowns": [
+              "¡Genial! git simplemente movió la referencia de la rama main atrás hacia `C1`. Ahora tu repositorio local está en un estado como si `C2` nunca hubiera ocurrido."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Mientras que reiniciar (reset) los cambios funciona estupendamente para ramas locales en tu máquina, su método de \"reescribir la historia\" no funciona para ramas remotas que otros están usando.",
               "",
               "Para revertir cambios y *compartir* esa _revertida_ con otros, necesitamos usar `git revert`. Veámoslo en acción"
             ],

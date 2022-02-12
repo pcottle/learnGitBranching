@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
+    "es_MX": "Separa tu HEAD",
     "es_AR": "Desatacheá tu HEAD",
     "es_ES": "Desatachea tu HEAD",
     "pt_BR": "Solte a sua cabeça",
@@ -268,6 +269,84 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nivel, detaheemos HEAD de `bugFix` y atacheemosla al commit, en cambio.",
+              "",
+              "Especifica este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Moviéndonos por ahí en Git",
+              "",
+              "Antes de meternos en algunas de las funcionalidades más avanzadas de Git, es importante entender las distintas maneras de moverse por el árbol de confirmaciones que representa tu proyecto.",
+              "",
+              "Una vez que estés cómodo moviendote por ahí, tus poderes con los otros comandos de git ¡van a amplificarse!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Primero tenemos que hablar de \"HEAD\". HEAD es el nombre simbólico del commit sobre el que hemos hecho checkout -- es, básicamente, el commit sobre el que estás trabajando.",
+              "",
+              "HEAD siempre apunta al commit más reciente, reflejado en el árbol de commits. La mayoría de los comandos de git que hacen cambios al árbol de commits empiezan modificando HEAD.",
+              "",
+              "Normalmente HEAD apunta al nombre de una rama (como bugFix). Cuando creas un commit, el estado de bugFix se altera y este cambio es visible a través de HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veámoslo en acción. A continuación vamos a ver a HEAD antes y después de un commit."
+            ],
+            "afterMarkdowns": [
+              "¡Ves! HEAD estuvo oculta bajo nuestra rama `main` todo este tiempo."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Separando HEAD",
+              "",
+              "Separar HEAD simplemente significa adjuntarla a un commit en lugar de a un branch. Así es como se ve de antemano:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Y así queda ahora:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, separemos HEAD de `bugFix` y juntémoslo en su lugar al commit.",
               "",
               "Especifica este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
             ]

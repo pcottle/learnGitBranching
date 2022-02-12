@@ -28,6 +28,7 @@ exports.level = {
     "ja": "相対リファレンス　その２ (~)",
     "es_AR": "Referencias relativas #2 (~)",
     "es_ES": "Referencias relativas #2 (~)",
+    "es_MX": "Referencias relativas #2 (~)",
     "pt_BR": "Referências relativas #2 (~)",
     "gl": "Referencias relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
@@ -232,6 +233,75 @@ exports.level = {
             ],
             "afterMarkdowns": [
               "¡Allá vamos! Las referencias relativas nos proporcionaron una manera concisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ahora que viste las referencias relativas y el forzar ramas combinados, usémoslos para resolver el siguiente nivel.",
+              "",
+              "Para completar este nivel, mueve `HEAD`, `main` y `bugFix` a sus destinos finales."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### El operador \"~\"",
+              "",
+              "Digamos que quieres moverte un montón de niveles atrás en tu árbol de commits. Podría ser tedioso escribir `^` muchas veces y por eso Git tiene el operador ~.",
+              "",
+              "",
+              "El operador ~ (opcionalmente) toma la cantidad especificada de padres que quieres volver hacia atrás. Veámoslo en acción"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Especifiquemos una cantidad de confirmaciones hacia atrás con `~`."
+            ],
+            "afterMarkdowns": [
+              "¡Vientos! Genial -- las referencias relativas son lo mejor."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forzando las ramas",
+              "",
+              "Ahora que eres un experto en las referencias relativas, *usémoslas* para algo.",
+              "",
+              "Una de las formas más comunes en que uso las referencias relativas es para mover las ramas. Puedes reasignar directamente una rama a un commit usando la opción `-f`. Algo así como:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "Mueve (forzadamente) la rama main tres padres por detrás de HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos ese comando previo en acción"
+            ],
+            "afterMarkdowns": [
+              "¡Allá vamos! Las referencias relativas nos proporcionaron una manera breve de referenciar a `C1` y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
             "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"

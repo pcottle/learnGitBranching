@@ -330,11 +330,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Mergeando ramas",
+              "## Mezclando ramas",
               "",
-              "¡Genial! Ya sabemos cómo hacer commit y cómo crear ramas. Ahora tenemos que aprender algún modo de unificar el trabajo de dos ramas diferentes. Esto nos va a permitir abrir una nueva rama de desarrollo, implementar alguna nueva funcionalidad, y después unirla de nuevo con el trabajo principal.",
+              "¡Genial! Ya sabemos cómo hacer commit y cómo crear ramas. Ahora tenemos que aprender algún modo de unificar el trabajo de dos ramas diferentes. Esto nos va a permitir abrir una nueva rama de desarrollo, implementar alguna nueva funcionalidad y después unirla de nuevo con el trabajo principal.",
               "",
-              "El primer método para combinarlas que vamos a explorar es `git merge`. Mergear en Git crea un commit especial que tiene dos padres diferentes. Un commit con dos padres esencialmente significa \"Quiero incluir todo el trabajo de este padre de acá y este otro padre de acá, *y* del conjunto de todos sus ancestros\"",
+              "El primer método para combinarlas que vamos a explorar es `git merge`. Mezclar en Git crea un commit especial que tiene dos padres diferentes. Un commit con dos padres esencialmente significa \"Quiero incluir todo el trabajo de este padre de acá y este otro padre de acá, *y* del conjunto de todos sus ancestros\"",
               "",
               "Es más simple visualizarlo, veámoslo a continuación"
             ]
@@ -344,9 +344,9 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Acá tenemos dos ramas, y cada una tiene un commit que le es único. Esto significa que ninguna de las ramas incluye \"todo el trabajo\" que hay en nuestro repositorio. Hagamos un merge para solucionar eso.",
+              "Acá tenemos dos ramas y cada una tiene un commit único. Esto significa que ninguna de las ramas incluye \"todo el trabajo\" que hay en nuestro repositorio. Hagamos una mezcla para solucionar eso.",
               "",
-              "Vamos a `merge`ar la rama `bugFix` a `main`."
+              "Vamos a `merge`(mezclar) la rama `bugFix` a `main`."
             ],
             "afterMarkdowns": [
               "¡Wooow! ¿Viste eso? Primero que nada, `main` ahora apunta a un commit que tiene dos padres. Si sigues las flechas por el árbol de commits empezando desde `main` vas a cruzarte con cada commit del repositorio hasta llegar a la raíz. Esto significa que `main` ahora contiene todo el trabajo que hay en el repositorio.",
@@ -363,7 +363,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Mergeemos `main` a `bugFix`:"
+              "Merge (mezclemos) `main` a `bugFix`:"
             ],
             "afterMarkdowns": [
               "Como `bugFix` era un ancestro de `main`, git no tuvo que hacer ningún trabajo; simplemente movió `bugFix` al mismo commit al que estaba anexado `main`.",

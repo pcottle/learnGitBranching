@@ -24,6 +24,7 @@ exports.level = {
     "fr_FR": "Jongler avec les commits",
     "es_AR": "Haciendo malabares con los commits",
     "es_ES": "Haciendo malabares con los commits",
+    "es_MX": "Malabareando con las confirmaciones",
     "pt_BR": "Malabarismo com commits",
     "gl": "Argallando cos commits",
     "ja": "コミットをやりくりする",
@@ -190,6 +191,41 @@ exports.level = {
               "Por último, presta atención al estado final -- como movemos los commits dos veces, ambos quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
               "",
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
+            ]
+          }
+        },
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Malabareando con las confirmaciones",
+              "",
+              "Esta es otra situación que sucede comúnmente. Tienes algunos cambios (`newImage`) y otro conjunto de cambios (`caption`) que están relacionados, entonces están apilados en tu repositorio uno encima del otro (es decir, uno después del otro).",
+              "",
+              "El tema es que a veces tienes que hacer una pequeña modificación a un commit previo. En este caso, la gente de diseño requiere que cambiemos ligeramente las dimensiones de `newImage`, ¡incluso aunque ese commit ya se encuentre atrás en nuestra historia!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Superaremos esta dificultad haciendo lo siguiente:",
+              "",
+              "* Vamos a reordenar las confirmaciones para que la que queremos cambiar quede arriba de las demás con `git rebase -i`",
+              "* Vamos a hacer `git commit --amend` para aplicar la ligera modificación",
+              "* Después vamos a reordenar las confirmaciones a como estaban con `git rebase -i`",
+              "* Finalmente, vamos a mover main a esta parte actualizada de nuestro árbol de confirmaciones para terminar el nivel (usando el método que prefieras)",
+              "",
+              "Hay varias maneras de lograr este objetivo en general (ya te veo haciéndole ojitos al cherry-pick), y veremos algunos más después, pero por ahora concentrémonos en esta técnica.",
+              "",
+              "Por último, presta atención al estado final -- como movemos las confirmaciones dos veces, ambas quedan con un apóstrofe. El commit que corregimos tiene un apóstrofe extra, y así nos queda nuestro árbol final",
+              "",
+              "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes te voy a dar el puntaje completo."
             ]
           }
         },

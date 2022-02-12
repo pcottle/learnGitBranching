@@ -380,7 +380,7 @@ exports.level = {
               "Las ramas (branches) en Git son increíblemente livianas. Son sólo referencias a un commit específico - nada más. Por esto es que tantos entusiastas de Git siguen el mantra:",
               "",
               "```",
-              "branchea temprano, y branchea seguido",
+              "ramifica temprano, y ramifica seguido",
               "```",
               "",
               "Como no hay consumo extra de almacenamiento ni memoria al hacer varias ramas, es más fácil dividir lógicamente tu trabajo que tener un par de ramas grandes.",
@@ -398,7 +398,7 @@ exports.level = {
               "Acá vamos a crear una rama nueva llamada `newImage`."
             ],
             "afterMarkdowns": [
-              "Ahí está, ¡eso es todo lo que hay que hacer para branchear! La rama `newImage` ahora referencia al commit `C1`."
+              "Ahí está, ¡eso es todo lo que hay que hacer para ramificar! La rama `newImage` ahora hace referencia al commit `C1`."
             ],
             "command": "git branch newImage",
             "beforeCommand": ""
