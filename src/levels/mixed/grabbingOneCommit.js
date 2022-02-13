@@ -20,6 +20,7 @@ exports.level = {
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
     "es_ES": "Tomando un único commit",
+    "es_MX": "Tomando un único commit",
     "pt_BR": "Pegando um único commit",
     "gl": "Escollendo un único commit",
     "ja": "一つのコミットのみを取得",
@@ -188,6 +189,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Necesitamos decirle a git que sólo copie uno de los commits. Esto es tal como los niveles anteriores de mover commits por ahí -- podemos usar los mismos comandos:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Para conseguir este resultado."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este es un nivel más avanzado, así que debes decidir cuál de los dos comandos quieres usar, pero para completar el nivel asegurate de que `main` recibe el commit que `bugFix` referencia."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits localmente apilados",
+              "",
+              "Esta es una situación que suele pasar cuando uno desarrolla: estoy tratando de encontrar un bug bastante escurridizo. Para ayudar en mi tarea de detective, agrego un par de comandos de depuración y algunas sentencias para imprimir el estado de mi sistema.",
+              "",
+              "Todas estas cosas de imprimir y depurar estan en su propia rama. Finalmente encuentro el problema, lo soluciono y ¡disfruto!",
+              "",
+              "El único problema es que ahora necesito llevar mi `bugFix` a la rama `main`. Si simplemente fast-forwardeo `main`, entonces `main` va a tener todos mis agregados de depuración, lo cual no es deseable. Tiene que haber otro modo..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Necesitamos decirle a Git que sólo copie uno de los commits. Esto es tal como los niveles anteriores de mover commits por ahí -- podemos usar los mismos comandos:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",
