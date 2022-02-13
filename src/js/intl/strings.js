@@ -1508,6 +1508,7 @@ exports.strings = {
   'solved-level': {
     '__desc__': 'When you solved a level',
     'en_US': 'Solved!!\n:D',
+    'es_MX': '¡Resuelto!',
     'de_DE': 'Gelöst!\n:D',
     'zh_CN': '恭喜过关！！',
     'zh_TW': '恭喜，本關解決了！！',
@@ -1710,7 +1711,7 @@ exports.strings = {
     'zh_CN': '您正在关卡中，这里有多种形式的帮助，请选择 "help level" (关卡帮助)或 "help general" (一般帮助)',
     'zh_TW': '您正在進行關卡中，這裡有多種不同型式的幫助，請選擇 "help level" 來了解這個關卡，或者是選擇 "help general" 來學習如何使用 Learn GitBranching，或者是選擇 "objective" 來學習如何解決這個關卡',
     'es_AR': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elegí entre "help level" para aprender algo más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
-    'es_MX': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elige entre "help level" para aprender algo más sobre ésta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
+    'es_MX': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elige entre "help level" para aprender algo más sobre ésta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "bjective" para aprender a resolver este nivel.',
     'es_ES': 'Estás en un nivel, por lo que hay varios tipos de ayuda. Por favor elige "help level" para aprender más sobre esta lección, "help general" para ayuda sobre el uso de Learn GitBranching, o "objective" para aprender a resolver este nivel.',
     'pt_BR': 'Você está em um nível, então há vários tipos de ajuda. Selecione "help level" para aprender mais sobre esta lição, "help general" para aprender a usar o Learn GitBranching, ou "objective" ver como resolver o nível.',
     'gl'   : 'Estás nun nivel, entón hai varios tipos de axuda. Selecione "help level" para aprender máis sobre esta lección, "gelp general" para aprender a usar o Learn Git Branching, ou "objective" para ver como resolver o nivel.',
@@ -1802,6 +1803,7 @@ exports.strings = {
     'zh_TW': '提示',
     'zh_CN': '提示',
     'es_ES': 'Objetivo',
+    'es_MX': 'Objetivo',
     'gl'   : 'Obxectivo',
     'ru_RU': 'Задача',
     'uk': 'Задача',
@@ -1820,6 +1822,7 @@ exports.strings = {
     'zh_TW': 'Git示範',
     'zh_CN': 'Git示范',
     'es_ES': 'Demostración de Git',
+    'es_MX': 'Demostración de Git',
     'gl'   : 'Demostración de Git',
     'ru_RU': 'Git демо',
     'uk'   : 'Git демо',
@@ -1954,7 +1957,7 @@ exports.strings = {
     'zh_CN': '这个关卡没有介绍！',
     'zh_TW': '這關沒有介紹!',
     'es_AR': '¡No hay mensaje de inicio para este nivel!',
-    'es_MX': '¡No hay mensaje de inicio para éste nivel!',
+    'es_MX': '¡No hay mensaje de inicio para este nivel!',
     'es_ES': '¡No hay mensaje de inicio para este nivel!',
     'pt_BR': 'Não há mensagem de início para este nível!',
     'gl'   : '¡Non hai mensaxe de inicio para este nivel!',
@@ -1977,7 +1980,7 @@ exports.strings = {
     'zh_CN': "呃……，这关好像没有提示 :-/",
     'zh_TW': "嗯‧‧‧這關沒有提示 :-/",
     'es_AR': 'Mmm... Pareciera no haber pistas para este nivel :-/',
-    'es_MX': 'Mmm... Parece que no hay pistas para éste nivel. :-/',
+    'es_MX': 'Mmm... Parece que no hay pistas para Este nivel. :-/',
     'es_ES': 'Mmm... Parece que no hay pistas para este nivel. :-/',
     'pt_BR': 'Hmm, não existe nenhuma pista para este nível :-/',
     'gl'   : 'Hmm, non existe ningunha pista para este nivel :-/',
@@ -2044,6 +2047,7 @@ exports.strings = {
   'cancel-button': {
     '__desc__': 'Cancel button label after completing a level',
     'en_US': 'Cancel',
+    'es_MX': 'Cancelar',
     'de_DE': 'Abbrechen',
     'zh_TW': '取消',
     'pl' : 'Powrót',
@@ -2054,6 +2058,7 @@ exports.strings = {
   'confirm-button': {
     '__desc__': 'Confirm button label after completing a level',
     'en_US': 'Confirm',
+    'es_MX': 'Confirmar',
     'de_DE': 'Bestätigen',
     'zh_TW': '確認',
     'pl' : 'Dalej',
@@ -2064,6 +2069,7 @@ exports.strings = {
   'level-label': {
     '__desc__': 'Label in the top of the left-side menu. Rembember to leave some space on the sides',
     'en_US': ' Level ',
+    'es_MX': 'Nivel',
     'de_DE': ' Level ',
     'zh_TW': '關卡 ',
     'it_IT': " Livello ",
@@ -2073,6 +2079,7 @@ exports.strings = {
   'command-helper-bar-levels': {
     '__desc__': 'Levels command label in the bottom command helper bar.',
     'en_US': 'Levels',
+    'es_MX': 'Niveles',
     'de_DE': 'Levels',
     'zh_TW': '關卡',
     'it_IT': "Livelli",
@@ -2082,6 +2089,7 @@ exports.strings = {
   'command-helper-bar-solution': {
     '__desc__': 'Solution command label in the bottom command helper bar.',
     'en_US': 'Solution',
+    'es_MX': 'Solución',
     'de_DE': 'Lösung',
     'zh_TW': '解答',
     'it_IT': "Soluzione",
@@ -2091,6 +2099,7 @@ exports.strings = {
   'command-helper-bar-reset': {
     '__desc__': 'Reset command label in the bottom command helper bar.',
     'en_US': 'Reset',
+    'es_MX': 'Reiniciar',
     'de_DE': 'Zurücksetzen',
     'zh_TW': '重新開始',
     'it_IT': "Reset",
@@ -2100,6 +2109,7 @@ exports.strings = {
   'command-helper-bar-undo': {
     '__desc__': 'Undo command label in the bottom command helper bar.',
     'en_US': 'Undo',
+    'es_MX': 'Deshacer',
     'de_DE': 'Rückgängig',
     'zh_TW': '回到上一步',
     'it_IT': "Annulla",
@@ -2109,6 +2119,7 @@ exports.strings = {
   'command-helper-bar-objective': {
     '__desc__': 'Objective command label in the bottom command helper bar.',
     'en_US': 'Objective',
+    'es_MX': 'Objetivo',
     'de_DE': 'Zielvorgabe',
     'zh_TW': '目標',
     'it_IT': "Obiettivo",
@@ -2118,6 +2129,7 @@ exports.strings = {
   'command-helper-bar-help': {
     '__desc__': 'Help command label in the bottom command helper bar.',
     'en_US': 'Help',
+    'es_MX': 'Ayuda',
     'de_DE': 'Hilfe',
     'zh_TW': '幫助',
     'it_IT': "Aiuto",
@@ -2127,6 +2139,7 @@ exports.strings = {
   'error-command-currently-not-supported': {
     '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
     'en_US': 'That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command',
+    'es_MX': '¡El comando es válido, pero no es suportado en este ambiente! Intenta ingresar un nivel o un constructor de niveles para usar ese comando',
     'de_DE': 'Der Befehl ist gültig, aber in der aktuellen Umgebung nicht unterstützt! Rufe ein Level oder den Level-Editor auf, um diesen Befehl zu nutzen',
     'zh_TW': '這項指令輸入正確，然而目前的環境不支援此指令。試著前往關卡或關卡建造器中使用此指令。',
     'it_IT':
@@ -2137,6 +2150,7 @@ exports.strings = {
   'interactive-rebase-title': {
     '__desc__': 'Title for the popup',
     'en_US': 'Interactive Rebase',
+    'es_MX': 'Rebase interactivo',
     'de_DE': 'Interaktives Rebase',
     'zh_TW': '互動式 Rebase',
     'it_IT': "Rebase interattivo",

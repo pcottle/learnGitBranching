@@ -8,6 +8,7 @@ exports.level = {
     "ja": "Gitのタグ",
     "es_AR": "Tags en git",
     "es_ES": "Tags en git",
+    "es_MX": "Tags de Git",
     "pt_BR": "Tags no Git",
     "gl": "Etiquetas en git",
     "fr_FR": "Git Tags",
@@ -28,6 +29,7 @@ exports.level = {
     "ja": "コミットを直接チェックアウトできますが、簡単にタグでチェックアウトすることも可能!",
     "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
     "es_ES": "Puedes hacer checkout directamente el commit, ¡o simplemente el tag!",
+    "es_MX": "Puedes cambiar (checkout) directamente a la confirmación, ¡o simplemente cambiar (checkout) al tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
     "gl": "Podes saltar directamente ó commit, ¡ou a etiqueta, que é máis doado!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
@@ -347,6 +349,58 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para este nivel, simplemente crea los tags en la visualización final y después haz checkout con `v1`. Observa cómo entras en el estado detached -- esto es porque no puedes hacer commit directamente sobre el tag `v1`.",
+              "",
+              "En el próximo nivel vamos a examinar un caso de uso más interesante para los tags."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tags en git",
+              "",
+              "Como aprendiste en lecciones anteriores, las ramas pueden moverse fácilmente y en general van referenciando distintas confirmaciones a medida que el trabajo se va completando en ellas. Las ramas cambian fácilmente, suelen ser temporales y siempre cambiantes.",
+              "",
+              "Si ese es el caso, te podrías estar preguntando si hay una manera de marcar *permanentemente* puntos en la historia de tu proyecto. Para cosas como releases mayores o grandes mezclas (merges), ¿hay algún modo de marcar esas confirmaciones con algo más permanente que una rama?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Apuesto a que lo hay! Los tags de Git soportan exactamente este caso de uso -- marcan (bastante) permanentemente determinadas confirmaciones como \"hitos\" que puedes referenciar como a una rama.",
+              "",
+              "Aún más importante, los tags no avanzan cuando se crean nuevas confirmaciones. No puedes hacer checkout a un tag y completar el trabajo en ese tag - los tags son marcas fijas en el árbol de confirmaciones que designan ciertos puntos.",
+              "",
+              "Veamos cómo se ven los tags en práctica..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Intentemos crear un tag en `C1`, que es la versión 1 de nuestro prototipo"
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Bastante simple. Nombramos al tag `v1` y referenciamos explícitamente a la confirmación `C1`. Si no especificas la confirmación Git va a usar al apuntado por `HEAD`."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, simplemente crea los tags en la visualización final y después haz checkout con `v1`. Observa cómo entras en el estado detached -- esto es porque no puedes confirmar (commit) directamente sobre el tag `v1`.",
               "",
               "En el próximo nivel vamos a examinar un caso de uso más interesante para los tags."
             ]
