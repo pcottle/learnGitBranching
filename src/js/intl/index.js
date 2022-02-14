@@ -6,7 +6,9 @@ var strings = require('../intl/strings').strings;
 var getDefaultLocale = LocaleStore.getDefaultLocale;
 
 var fallbackMap = {
-  'zh_TW': 'zh_CN'
+  'zh_TW': 'zh_CN',
+  'es_AR': 'es_ES',
+  'es_MX': 'es_ES'
 };
 
 // lets change underscores template settings so it interpolates
