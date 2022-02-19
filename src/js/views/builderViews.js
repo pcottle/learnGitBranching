@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var Q = require('q');
-var marked = require('marked');
+var { marked } = require('marked');
 
 var Views = require('../views');
 var throttle = require('../util/throttle');
