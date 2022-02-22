@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var Q = require('q');
 var Backbone = require('backbone');
-var { marked } = require('marked');
+var marked = require('marked');
 
 var util = require('../util');
 var intl = require('../intl');

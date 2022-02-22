@@ -31,7 +31,7 @@ var toGlobalize = {
   Sandbox: require('../sandbox/'),
   SandboxCommands: require('../sandbox/commands'),
   GitDemonstrationView: require('../views/gitDemonstrationView'),
-  Markdown: require('marked').marked,
+  Markdown: require('marked'),
   LevelDropdownView: require('../views/levelDropdownView'),
   BuilderViews: require('../views/builderViews'),
   Util: require('../util/index'),
