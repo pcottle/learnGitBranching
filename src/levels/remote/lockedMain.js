@@ -16,7 +16,8 @@ exports.level = {
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
     "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen.",
     "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。",
-    "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin"
+    "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin",
+    "vi": "Tạo những nhánh tính năng từ nhánh địa phương trước khi trả chúng về lại giống như o/main"
   },
   "name": {
     "en_US": "Locked Main",
@@ -32,7 +33,8 @@ exports.level = {
     "sl_SI": "Zaklenjen Main",
     "es_AR": "Main bloqueado",
     "ja": "ロックされたmain",
-    "pl": "Zablokowany main"
+    "pl": "Zablokowany main",
+    "vi": "Nhánh chính bị khóa (Locked Main)"
   },
   "startDialog": {
     "en_US": {
@@ -567,6 +569,7 @@ exports.level = {
       ]
     },
     "pl": {
+
       "childViews": [
         {
           "type": "ModalAlert",
@@ -605,6 +608,51 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Kết nối remote bị từ chối!",
+              "",
+              "Nếu bạn làm việc trong một nhóm cộng tác lớn, có khả năng nhánh main bị khóa và yêu cầu một số quy" +
+              " trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh địa phương và thử" +
+              " push, bạn sẽ được chào đón bằng một thông báo tương tự như sau:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Why was it rejected?",
+              "",
+              "Remote từ chối push các commit trực tiếp đến main vì chính sách của main yêu cầu các pull" +
+              " request được sử dụng thay thế.",
+              "",
+              "You meant to follow the process creating a branch then pushing that branch and doing a pull request, but you forgot and committed directly to main. Now you are stuck and cannot push your changes."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## The solution",
+              "",
+              "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main" +
+              " của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện" +
+              " pull và commit của người khác xung đột với bạn."
+            ]
+          }
+        }
+      ]
+    },
   }
 };
