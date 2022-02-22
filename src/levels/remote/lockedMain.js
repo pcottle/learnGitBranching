@@ -617,9 +617,7 @@ exports.level = {
             "markdowns": [
               "## Kết nối remote bị từ chối!",
               "",
-              "Nếu bạn làm việc trong một nhóm cộng tác lớn, có khả năng nhánh main bị khóa và yêu cầu một số quy" +
-              " trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh địa phương và thử" +
-              " push, bạn sẽ được chào đón bằng một thông báo tương tự như sau:",
+              "Nếu bạn làm việc trong một nhóm cộng tác lớn, có khả năng nhánh main bị khóa và yêu cầu một số quy trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh địa phương và thử push, bạn sẽ được chào đón bằng một thông báo tương tự như sau:",
               "",
               "```",
               " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -633,8 +631,7 @@ exports.level = {
             "markdowns": [
               "## Why was it rejected?",
               "",
-              "Remote từ chối push các commit trực tiếp đến main vì chính sách của main yêu cầu các pull" +
-              " request được sử dụng thay thế.",
+              "Remote từ chối push các commit trực tiếp đến main vì chính sách của main yêu cầu các pull request được sử dụng thay thế.",
               "",
               "You meant to follow the process creating a branch then pushing that branch and doing a pull request, but you forgot and committed directly to main. Now you are stuck and cannot push your changes."
             ]
@@ -646,9 +643,7 @@ exports.level = {
             "markdowns": [
               "## The solution",
               "",
-              "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main" +
-              " của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện" +
-              " pull và commit của người khác xung đột với bạn."
+              "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main  của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện pull và commit của người khác xung đột với bạn."
             ]
           }
         }
