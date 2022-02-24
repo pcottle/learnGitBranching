@@ -16,7 +16,7 @@ var fallbackMap = {
 var templateSettings = Object.assign({}, _.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;
 var template = exports.template = function(str, params) {
-  return _.template(str, params, templateSettings);
+  return _.template(str, templateSettings)(params);
 };
 
 var str = exports.str = function(key, params) {
