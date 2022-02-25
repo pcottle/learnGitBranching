@@ -70,12 +70,17 @@ var CommandPromptView = Backbone.View.extend({
     var el = e.target;
 
     const shadowEl = document.querySelector('#shadow');
-    const uc = el.value.replace(/ {2,}/g, ' ');
+
+    const currentValue = el.value;
+    const allCommand = currentValue.split(';');
+    const lastCommand = allCommand[allCommand.length - 1]
+      .replace(/\s\s+/g, ' ').replace(/^\s/, '');
+
     shadowEl.innerHTML = '';
-    if(uc.length){
-      for(const c of allCommandsSorted){
-        if(c.indexOf(uc) === 0){
-          shadowEl.innerHTML = c;
+    if (lastCommand.length) {
+      for (const c of allCommandsSorted) {
+        if (c.startsWith(lastCommand)) {
+          shadowEl.innerHTML = (currentValue + c.replace(lastCommand, '')).replace(/ /g, '&nbsp;');
           break;
         }
       }
@@ -83,7 +88,7 @@ var CommandPromptView = Backbone.View.extend({
 
     if (e.keyCode === 9) {
       e.preventDefault();
-      el.value = shadowEl.innerHTML;
+      el.value = shadowEl.innerHTML.replace(/&nbsp;/g, ' ');
     }
 
     this.updatePrompt(el);
