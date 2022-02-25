@@ -88,7 +88,9 @@ var CommandPromptView = Backbone.View.extend({
 
     if (e.keyCode === 9) {
       e.preventDefault();
-      el.value = shadowEl.innerHTML.replace(/&nbsp;/g, ' ');
+      if (shadowEl.innerHTML) {
+        el.value = shadowEl.innerHTML.replace(/&nbsp;/g, ' ');
+      }
     }
 
     this.updatePrompt(el);
