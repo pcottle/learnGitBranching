@@ -1,5 +1,9 @@
 var { execSync } = require('child_process');
-var { writeFileSync, readdirSync, readFileSync } = require('fs');
+var {
+  writeFileSync, readdirSync, readFileSync,
+  existsSync, statSync, mkdirSync, copyFileSync,
+} = require('fs');
+var path = require('path');
 
 var glob = require('glob');
 var _ = require('underscore');
@@ -48,6 +52,22 @@ const lintStrings = (done) => {
 
 var destDir = './build/';
 
+var copyRecursiveSync = (src, dest) => {
+  var exists = existsSync(src);
+  var stats = exists && statSync(src);
+  var isDirectory = exists && stats.isDirectory();
+  if (isDirectory) {
+    mkdirSync(dest);
+    readdirSync(src).forEach((childItemName) => {
+      copyRecursiveSync(
+        path.join(src, childItemName),
+        path.join(dest, childItemName));
+    });
+  } else {
+    copyFileSync(src, dest);
+  }
+};
+
 var buildIndex = function(done) {
   log('Building index...');
 
@@ -72,8 +92,11 @@ var buildIndex = function(done) {
   }
   log('Found hashed style file: ' + styleFile);
 
+  var buildDir = process.env.CI ? '.' : 'build';
+
   // output these filenames to our index template
   var outputIndex = indexTemplate({
+    buildDir,
     jsFile,
     styleFile,
   });
@@ -86,7 +109,14 @@ var buildIndex = function(done) {
       removeComments: true,
     });
   }
-  writeFileSync('index.html', outputIndex);
+
+  if (process.env.CI) {
+    writeFileSync('build/index.html', outputIndex);
+    copyRecursiveSync('assets', 'build/assets');
+    copyRecursiveSync('lib', 'build/lib');
+  } else {
+    writeFileSync('index.html', outputIndex);
+  }
   done();
 };
 
