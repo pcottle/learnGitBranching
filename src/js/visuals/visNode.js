@@ -394,7 +394,7 @@ var VisNode = VisBase.extend({
     var y = circle.attr('cy');
 
     var maxWidth = this.gitVisuals.paper.width;
-    var maxHeight = this.gitVisuals.paper.height;
+    var maxHeight = this.gitVisuals.paper.height - circle.attrs.r;
     var elasticity = 0.8 / speed;
     var dt = 1.0;
 
