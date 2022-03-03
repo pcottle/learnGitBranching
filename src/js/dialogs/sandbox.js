@@ -617,7 +617,7 @@ exports.dialog = {
         '',
         'Достало это сообщение? Добавь `NODEMO` к адресу и навсегда забудь о нём, ниже ссылка для удобства:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=uru_RU&NODEMO](?locale=ru_RU&NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=ru_RU&NODEMO](?locale=ru_RU&NODEMO)'
       ]
     }
   }, {
