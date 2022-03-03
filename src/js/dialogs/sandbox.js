@@ -47,7 +47,7 @@ exports.dialog = {
         '',
         '¿Querés dejar de ver este mensaje? Agregale `NODEMO` a la URL para dejar de verlo, como en este link:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=es_AR&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=es_AR&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=es_AR&NODEMO)'
       ]
     }
   }, {
@@ -103,7 +103,7 @@ exports.dialog = {
         '',
         '¿Harto de este mensaje? Agregale `NODEMO` a la URL para dejar de verlo, como en éste link:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=es_MX&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=es_MX&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=es_MX&NODEMO)'
       ]
     }
   }, {
@@ -159,7 +159,7 @@ exports.dialog = {
         '',
         '¿Harto de este mensaje? Agrégale `NODEMO` a la URL para dejar de verlo, como en este link:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=es_ES&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=es_ES&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=es_ES&NODEMO)'
       ]
     }
   }, {
@@ -215,7 +215,7 @@ exports.dialog = {
         '',
         'Farto desta mensagem? Acrescente `NODEMO` ao endereço para se livrar dela, como no link abaixo:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=pt_BR&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=pt_BR&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=pt_BR&NODEMO)'
       ]
     }
   }, {
@@ -271,7 +271,7 @@ exports.dialog = {
         '',
         '¿Farto destas mensaxes? Engade `NODEMO` á dirección para librarte dela, como no link de abaixo:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=gl&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=gl&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=gl&NODEMO)'
       ]
     }
   }, {
@@ -324,7 +324,7 @@ exports.dialog = {
         '',
         'Genervt von diesem Fenster? Häng `NODEMO` an die URL um es los zu werden, so wie hier:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=de_DE&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=de_DE&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=de_DE&NODEMO)'
       ]
     }
   }, {
@@ -438,7 +438,7 @@ exports.dialog = {
         '',
         '如果你还没看过演示，请[到此](?demo)查看。',
         '',
-        'PS：想直接进入沙盒？ 在 URL 后头加上 `NODEMO` 就可以了，试一下[这个链接](&NODEMO)：'
+        'PS：想直接进入沙盒？ 在 URL 后头加上 `NODEMO` 就可以了，试一下[这个链接](https://pcottle.github.io/learnGitBranching/?locale=zh_CN&NODEMO)'
       ]
     }
   }],
@@ -561,7 +561,7 @@ exports.dialog = {
         '',
         'Agacé par ce dialogue ? Ajoutez `NODEMO` à l\'URL pour le supprimer, en lien ci-dessous pour votre commodité :',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=fr_FR&NODEMO](NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=fr_FR&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=fr_FR&NODEMO)'
       ]
     }
   }, {
