@@ -695,9 +695,9 @@ exports.level = {
               "",
               "Możesz myśleć o `git push` jak o poleceniu do \"publikowania\" swojej pracy. Ma ono wiele szczegółów, które wkrótce omówimy, ale zacznijmy od małych kroczków...",
               "",
-              "*uwaga -- zachowanie `git push` bez argumentów różni się w zależności od jednego z ustawień Git o nazwie `push.default`. Domyślna wartość tego ustawienia zależy od wersji Git, której używasz. W naszych lekcjach będziemy używać wartości `upstream`. Nie jest to wielka sprawa, ale warto sprawdzić swoje ustawienia przed użyciem `push` we własnych projektach.*",
+              "*Uwaga 1 -- zachowanie `git push` bez argumentów różni się w zależności od jednego z ustawień Git o nazwie `push.default`. Domyślna wartość tego ustawienia zależy od wersji Git, której używasz. W naszych lekcjach będziemy używać wartości `upstream`. Nie jest to wielka sprawa, ale warto sprawdzić swoje ustawienia przed użyciem `push` we własnych projektach.*",
               "",
-              "*uwaga 2 -- odpowiednik gałęzi na zdalnym repozytorium będziemy nazywać remote'em. Nazwa ta jest wykorzystywana w Polsce, dlatego będziemy jej używać, aby nie wprowadzać zawiłego nazewnictwa*"
+              "*Uwaga 2 -- odpowiednik gałęzi na zdalnym repozytorium będziemy nazywać remote'em. Nazwa ta jest wykorzystywana w Polsce, dlatego będziemy jej używać, aby nie wprowadzać zawiłego nazewnictwa.*"
             ]
           }
         },

@@ -1189,7 +1189,7 @@ exports.level = {
             "markdowns": [
               "### Czego fetch nie robi",
               "",
-              "Zauważ, że `git fetch` nie zmienia nic w _twoim_ stanie lokalnym. Nie zaktualizuje twjej gałęzi `main` ani nie zmieni niczego w wyglądzie twojego systemu plików.",
+              "Zauważ, że `git fetch` nie zmienia nic w _twoim_ stanie lokalnym. Nie zaktualizuje twojej gałęzi `main` ani nie zmieni niczego w wyglądzie twojego systemu plików.",
               "",
               "Zrozumienie tego to ważna sprawa! Wielu programistów uważa, że uruchomienie `git fetch` spowoduje, że ich lokalna praca będzie odzwierciedlać stan zdalny. Mimo że `git fetch` pobiera wszystkie niezbędne do tego dane, _nie zmienia_ żadnego z plików lokalnych. Poleceń, które służą właśnie do tego celu, nauczymy się później. :D",
               "",

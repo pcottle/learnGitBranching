@@ -1064,7 +1064,7 @@ exports.level = {
               "",
               "Istnieje wiele sposobów na odwrócenie zmian w Gicie. Podobnie jak w przypadku commitowania, odwracanie zmian w Gicie ma zarówno komponent niskopoziomowy (zapisywanie stanów plików lub ich fragmentów), jak i wysokopoziomowy (sposób, w jaki zmiany są faktycznie odwracane). Nasza aplikacja skupi się na tym ostatnim.",
               "",
-              "Istnieją dwa podstawowe sposoby na cofnięcie zmian w Gicie - jeden z nich to `git reset`, a drugi `git revert`. Przyjrzymy się każdemu z nich w następnym oknie",
+              "Istnieją dwa podstawowe sposoby na cofnięcie zmian w Gicie - jeden z nich to `git reset`, a drugi `git revert`. W następnym oknie przyjrzymy się każdemu z nich.",
               ""
             ]
           }
@@ -1075,7 +1075,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` odwraca zmiany poprzez przesunięcie referencji gałęzi wstecz w czasie do starszego commita. Można myśleć o tym jako \"przepisywaniu historii\", \"resetowanie\" spowoduje cofnięcie gałęzi, tak jakby commit nigdy nie został dodany.",
+              "`git reset` odwraca zmiany poprzez przesunięcie referencji gałęzi wstecz w czasie do starszego commita. Można myśleć o tym jako \"przepisywaniu historii\"; \"resetowanie\" spowoduje cofnięcie gałęzi, tak jakby commit nigdy nie został dodany.",
               "",
               "Sprawdźmy, jak to działa:"
             ],

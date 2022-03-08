@@ -1124,7 +1124,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Kiedy otworzy się okno dialogowe do interaktywnego przeabazowania, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
+              "Kiedy otworzy się okno dialogowe do interaktywnego przebazowania, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
               "",
               "* Możesz zmienić kolejność commitów, po prostu przeciągając i upuszczając je myszką w oknie.",
               "* Możesz zdecydować się zachować wszystkie commity lub pominąć niektóre z nich. Jest to oznaczone przez aktywny przycisk `pick`. Wyłączenie przycisku spowoduje pominięciu commitu.",

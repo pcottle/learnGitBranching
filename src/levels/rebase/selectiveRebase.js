@@ -352,7 +352,7 @@ exports.level = {
             "markdowns": [
               "## Spaghetti gałęzi",
               "",
-              "Łałałiła! Na tym poziomie mamy poważny cel do osiągnięcia..",
+              "Łałałiła! Na tym poziomie mamy poważny cel do osiągnięcia.",
               "",
               "Mamy tutaj gałąź `main`, która jest kilka commitów przed gałęziami `one`, `two` i `three`. Z jakiegoś powodu musimy zaktualizować te trzy inne gałęzie zmodyfikowanymi wersjami ostatnich kilku commitów na main.",
               "",

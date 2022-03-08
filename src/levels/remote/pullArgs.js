@@ -1168,7 +1168,7 @@ exports.level = {
               "",
               "Teraz, kiedy wiesz już właściwie *wszystko*, co można wiedzieć o argumentach `git fetch` oraz `git push`, naprawdę nie zostało już prawie nic do omówienia przy `git pull` :)",
               "",
-              "To dlatego, że w zasadzie git pull to *naprawdę* tylko skrót polecenia fetch i scalania wszystkiego, co zostało nim pobrane. Możesz to sobie wyobrazić jako uruchomienie git fetch z określonymi *tymi samymi* argumentami, a potem scalenie pobranych commitów *tam*, dokąd trafiły.",
+              "To dlatego, że w zasadzie `git pull` to *naprawdę* tylko skrót polecenia fetch i scalania wszystkiego, co zostało nim pobrane. Możesz to sobie wyobrazić jako uruchomienie `git fetch` z określonymi *tymi samymi* argumentami, a potem scalenie pobranych commitów *tam*, dokąd trafiły.",
               "",
               "I działa to w ten sposób, nawet jeśli określisz kompletnie szalone argumenty. Zobaczmy kilka przykładów:"
             ]
@@ -1190,7 +1190,7 @@ exports.level = {
               "",
               "`git fetch origin bar~1:bugFix; git merge bugFix`",
               "",
-              "Widzisz? git pull to naprawdę tylko skrót dla fetch + merge i jedyne, co się liczy dla git pull, to gdzie trafią commity (argument `celu`, który Git zinterpretuje sobie, wykonując fetch).",
+              "Widzisz? Polecenie `git pull` to naprawdę tylko skrót dla fetch + merge i jedyne, co się liczy dla `git pull`, to gdzie trafią commity (argument `celu`, który Git zinterpretuje sobie, wykonując fetch).",
               "",
               "Zobaczmy demo:"
             ]

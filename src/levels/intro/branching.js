@@ -1408,8 +1408,8 @@ exports.level = {
             "markdowns": [
               "*Uwaga: w wersji 2.23 Gita zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
               "a jest nieco przeciążone (robi kilka oddzielnych rzeczy). Tutaj nadal będziemy używać",
-              "`checkout` zamiast `switch`, ponieważ wciąż jest to najczęściej stosowane polecenie",
-              "Jeśli chcesz, możesz je wypróbować, ta aplikacja jest na to gotowa! Jeśli chcesz dowiedzieć się więcej o poleceniu <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">, zajrzyj tutaj</a>.* "
+              "`checkout` zamiast `switch`, ponieważ wciąż jest to najczęściej stosowane polecenie.",
+              "Jeśli chcesz, możesz je wypróbować, ta aplikacja jest na to gotowa! Jeśli chcesz dowiedzieć się więcej o poleceniu, <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">zajrzyj tutaj</a>.* "
             ]
           }
         },
