@@ -1000,7 +1000,7 @@ exports.level = {
               "",
               "Ponieważ znaczniki służą jako świetne \"kotwice\" w bazie kodu, git ma polecenie *opisujące*, gdzie jesteś w stosunku do najbliższej \"kotwicy\". I jest to `git describe`!",
               "",
-              "`Git describe` może pomóc ci zorientować się w sytuacji, gdy przesuniesz wiele commitów wstecz lub do przodu w historii; może się to zdarzyć po użyciu git bisect (na potrzeby debugowania) lub gdy siedzisz przy komputerze współpracownika, który właśnie wrócił z wakacji."
+              "Polecenie `git describe` może pomóc ci zorientować się w sytuacji, gdy przesuniesz wiele commitów wstecz lub do przodu w historii; może się to zdarzyć po użyciu `git bisect` (na potrzeby debugowania) lub gdy siedzisz przy komputerze współpracownika, który właśnie wrócił z wakacji."
             ]
           }
         },

@@ -1248,7 +1248,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Relatywne referencje",
+              "## Referencje względne",
               "",
               "Poruszanie się w Gicie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie zobaczysz ładnej wizualizacji drzewa commitów obok swojego terminala (chyba, że używasz Forka lub TortoiseGita). Musisz użyć `git log`, aby zobaczyć hasze.",
               "",
@@ -1277,13 +1277,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Spójrzmy najpierw na operator Karety / daszek (^). Za każdym razem, gdy dodajesz go do referencji względnej, mówisz Gitowi, aby znalazł rodzica określonego commita.",
+              "Spójrzmy najpierw na operator karety / daszek (^). Za każdym razem, gdy dodajesz go do referencji względnej, mówisz Gitowi, aby znalazł rodzica określonego commita.",
               "",
-              "Więc wpisując `main^`, mamy na myśli \"pierwszego rodzica z gałęzi `main`\".",
+              "Wpisując zatem `main^`, mamy na myśli \"pierwszego rodzica z gałęzi `main`\".",
               "",
-              "`main^^` to dziadek (przodek drugiego stopnia) gałęzi `main`",
+              "`main^^` to dziadek (przodek drugiego stopnia) gałęzi `main`.",
               "",
-              "checkoutujmy commit powyżej `main`."
+              "Zcheckoutujmy commit powyżej `main`:"
             ],
             "afterMarkdowns": [
               "Tadam! Gotowe! O wiele łatwiej niż wpisując hasz commita."

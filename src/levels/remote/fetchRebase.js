@@ -2205,7 +2205,7 @@ exports.level = {
             "markdowns": [
               "Wyobraźmy sobie, że klonujesz repozytorium w poniedziałek i zaczynasz pracować nad dodatkową funkcjonalnością. W piątek chcesz opublikować swoje zmiany -- ale, o nie! Współpracownicy napisali w ciągu tygodnia mnóstwo kodu, który sprawił, że twoja praca stała się nieaktualna (przestarzała). Opublikowali również te poprawki we wspólnym zdalnym repozytorium, więc teraz *twoja* praca jest oparta na *starej* wersji projektu, która nie jest już aktualna.",
               "",
-              "W tym przypadku komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`: czy Git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy powinien próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy też ma całkowicie zignorować twoje zmiany, ponieważ są one zupełnie przestarzałe?",
+              "W tym przypadku komenda `git push` jest niejednoznaczna. Jeśli uruchomisz `git push`, to czy Git powinien zmienić zdalne repozytorium z powrotem na takie, jakie było w poniedziałek? Czy może powinien próbować dodać twój kod, nie usuwając jednocześnie nowego kodu? Czy może też ma całkowicie zignorować twoje zmiany, ponieważ są one zupełnie przestarzałe?",
               "",
               "Ponieważ w tej sytuacji (gdzie historia się rozbiegła) jest tak wiele niejasności, Git nie pozwala ci na `push` twoich zmian. W rzeczywistości zmusza cię do połączenia najnowszego stanu remote'a, zanim pozwoli ci udostępnić swoją pracę."
             ]

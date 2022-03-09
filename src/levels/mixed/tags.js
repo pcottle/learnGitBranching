@@ -884,7 +884,7 @@ exports.level = {
             "markdowns": [
               "## Tagi Gita",
               "",
-              "Jak wiesz z poprzednich lekcji, gałęzie łatwo przemieszczać, i w momencie ukończenia pracy nad nimi często odnoszą się do różnych commitów. Gałęzie łatwo ulegają mutacjom, często są tymczasowe i zawsze się zmieniają.",
+              "Jak wiesz z poprzednich lekcji, gałęzie łatwo przemieszczać, a w momencie ukończenia pracy nad nimi, często odnoszą się do różnych commitów. Gałęzie łatwo ulegają mutacjom, często są tymczasowe i zawsze się zmieniają.",
               "",
               "A skoro tak, to możesz się zastanawiać, czy istnieje sposób na *trwałe* zaznaczanie ważnych punktów  w historii projektu. Czy istnieje jakiś sposób na oznaczenie tych commitów czymś bardziej trwałym niż gałąź, w przypadku takich rzeczy jak duże wydania i duże scalenia/ merge?",
               ""
