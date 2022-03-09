@@ -601,14 +601,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ici nous avons encore une fois deux branches; notez que nous sommes sur la branche bugFix (cf. l'astérisque)",
+              "Ici nous avons encore une fois deux branches ; notez que nous sommes sur la branche bugFix (cf. l'astérisque)",
               "",
               "Nous voudrions transférer notre travail de la branche 'bugFix' directement sur le travail existant dans 'main'. Ainsi on aurait l'impression que ces deux travaux ont été développés séquentiellement alors qu'en réalité ils ont été réalisés en parallèle.",
               "",
               "Faisons cela avec la commande `git rebase`."
             ],
             "afterMarkdowns": [
-              "Super! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'main' et nous avons une belle séquence linéaire de commits.",
+              "Super ! Désormais, le travail de la branche 'bugFix' est juste en haut de la branche 'main' et nous avons une belle séquence linéaire de commits.",
               "",
               "Notez que le commit C3 existe toujours quelque part (il est en grisé sur l'arbre), et C3' est la  \"copie\" que nous avons créée sur main avec rebase.",
               "",
@@ -623,7 +623,7 @@ exports.level = {
           "options": {
             "beforeMarkdowns": [
               "Nous sommes désormais positionnés sur la branche `main`. Continuons en faisant le rebase sur `bugFix`…",
-              "Et voilà ! Puisque `main` était un ascendant de `bugFix`, git a simplement déplacé la référence de la branche `main` en avant dans le temps."
+              "Et voilà ! Puisque `main` était un ascendant de `bugFix`, Git a simplement déplacé la référence de la branche `main` en avant dans le temps."
             ],
             "afterMarkdowns": [
               "Voilà vous avez vu comment cela fonctionne",

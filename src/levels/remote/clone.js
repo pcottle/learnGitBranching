@@ -109,7 +109,7 @@ exports.level = {
               "",
               "Cela dit, les branches distantes ont plusieurs propriétés puissantes :",
               "",
-              "- Avant toute chose, le dépôt distant sert de sauvegarde ! Le dépôt local de git a la capacité de restaurer des fichiers à un état précédent (comme vous le savez), mais toutes les informations sont stockées localement. En ayant des copies de votre dépôt git sur d'autres ordinateurs, vous pouvez perdre vos données et toujours repartir de là où vous en étiez resté.",
+              "- Avant toute chose, le dépôt distant sert de sauvegarde ! Le dépôt local de Git a la capacité de restaurer des fichiers à un état précédent (comme vous le savez), mais toutes les informations sont stockées localement. En ayant des copies de votre dépôt Git sur d'autres ordinateurs, vous pouvez perdre vos données et toujours repartir de là où vous en étiez resté.",
               "",
               "- Plus important encore, les dépôts distants sociabilisent le projet ! Maintenant qu'il est hébergé quelque part ailleurs, vos amis peuvent y contribuer facilement (ou récupérer vos derniers changements).",
               "",

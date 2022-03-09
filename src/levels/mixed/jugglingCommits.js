@@ -118,7 +118,7 @@ exports.level = {
               "",
               "Il y a plusieurs façons d'atteindre ce but (cherry-pick semble très tentant), mais nous allons parler de cherry-pick plus tard, pour le moment concentrez-vous sur cette technique.",
               "",
-              "Pour terminer, Faites attention au but -- Dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent tous les deux avec une apostrophe. Une deuxième apostrophe est ajoutée sur le commit que nous modifions, ce qui nous donne la forme finale de l'arbre.",
+              "Pour terminer, Faites attention au but -- dû au fait que nous déplaçons les commits 2 fois, ils se retrouvent tous les deux avec une apostrophe. Une deuxième apostrophe est ajoutée sur le commit que nous modifions, ce qui nous donne la forme finale de l'arbre.",
               "",
               "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `main` a la même structure et les différentes apostrophes le niveau sera considéré réussi."
             ]

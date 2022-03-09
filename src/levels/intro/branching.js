@@ -738,7 +738,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Indiquons à git que nous voulons nous positionner sur la branche avec ",
+              "Indiquons à Git que nous voulons nous positionner sur la branche avec ",
               "",
               "```",
               "git checkout [nom]",

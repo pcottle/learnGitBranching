@@ -232,7 +232,7 @@ exports.level = {
               "",
               "Au lieu d'entrer le nombre de générations à remonter (ce que `~` fait), le symbole `^` détermine quel parent est à remonter. Attention, un merge commit a deux parents ce qui peut porter à confusion.",
               "",
-              "Normalement Git suit le \"premier\" parent pour un commit/merge, mais avec un numéro suivi de `^` le comportement par défaut est modifié.",
+              "Normalement Git suit le \"premier\" parent pour un commit/merge, mais avec un numéro après `^` le comportement par défaut est modifié.",
               "",
               "Assez de bla bla, passons à l\'action",
               ""
@@ -248,7 +248,7 @@ exports.level = {
               "(*Dans notre vue, le premier parent se situe juste au dessus du merge.*)"
             ],
             "afterMarkdowns": [
-              "Facile -- C\'est ce que nous faisons tout le temps."
+              "Facile -- c\'est ce que nous faisons tout le temps."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"

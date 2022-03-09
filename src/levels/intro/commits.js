@@ -395,9 +395,9 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Commits Git",
-              "Un commit dans un dépôt (repository) git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
+              "Un commit dans un dépôt (repository) Git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
               "",
-              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tout le répertoire à chaque commit. En fait, git n'enregistre que l'ensemble des changements (\"delta\") depuis la version précédente du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
+              "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tout le répertoire à chaque commit. En fait, Git n'enregistre que l'ensemble des changements (\"delta\") depuis la version précédente du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
               "",
               "Pour cloner un dépôt, il faut décompresser (\"résoudre\") tous ces deltas. C'est la raison pour laquelle la commande écrit :",
               "",
@@ -413,7 +413,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Voyons à quoi cela ressemble en pratique. Sur la droite, on peut visualiser un (petit) dépôt git. Il y a pour l'instant deux commits -- le premier commit initial, `C0`, et un commit suivant `C1` qui aurait des changements significatifs.",
+              "Voyons à quoi cela ressemble en pratique. Sur la droite, on peut visualiser un (petit) dépôt Git. Il y a pour l'instant deux commits -- le premier commit initial, `C0`, et un commit suivant `C1` qui aurait des changements significatifs.",
               "",
               "Appuyez sur le bouton ci-dessous pour faire un nouveau commit."
             ],

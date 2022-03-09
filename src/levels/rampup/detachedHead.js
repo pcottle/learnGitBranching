@@ -520,7 +520,7 @@ exports.level = {
               "",
               "Avant que nous découvrions quelques-unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
               "",
-              "Une fois que ces déplacements seront aisés, votre puissance avec les autres commandes de git sera amplifiée !",
+              "Une fois que ces déplacements seront aisés, votre puissance avec les autres commandes de Git sera amplifiée !",
               "",
               "",
               "",
@@ -537,7 +537,7 @@ exports.level = {
               "",
               "Premièrement nous avons parlé de \"HEAD\". HEAD est le nom symbolique pour le commit sur lequel nous nous situons actuellement -- plus simplement c'est le commit sur lequel nous travaillons.",
               "",
-              "HEAD pointe toujours sur le commit le plus récent dans l'arbre des commits. La plupart des commandes git qui modifient l'arbre des commits vont commencer par modifier HEAD.",
+              "HEAD pointe toujours sur le commit le plus récent dans l'arbre des commits. La plupart des commandes Git qui modifient l'arbre des commits vont commencer par modifier HEAD.",
               "",
               "Normalement HEAD pointe sur le nom d'une branche (comme bugFix). Quand vous effectuez un commit, le statut de bugFix est modifié et ce changement est visible par le biais de HEAD."
             ]

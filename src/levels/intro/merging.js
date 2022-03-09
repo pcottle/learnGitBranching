@@ -629,7 +629,7 @@ exports.level = {
               "",
               "Par ailleurs, avez-vous remarqué les nouvelles couleurs des commits ? Pour faciliter l'apprentissage, j'ai inclus une certaine logique dans la coloration. Chaque branche a une unique couleur. Chaque commit est de la couleur de toutes les branches qui le contiennent.",
               "",
-              "Ici nous voyons que la couleur de `main` est intégrée à tous les commits, sauf ceux de `bugFix`. Réparons-cela ..."
+              "Ici nous voyons que la couleur de `main` est intégrée à tous les commits, sauf ceux de `bugFix`. Réparons cela..."
             ],
             "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
@@ -639,12 +639,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Faisons un merge  de `main` dans `bugFix`:"
+              "Faisons un merge  de `main` dans `bugFix` :"
             ],
             "afterMarkdowns": [
-              "Puisque `bugFix` était un ancêtre de `main`, git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `main` est attaché.",
+              "Puisque `bugFix` était un ancêtre de `main`, Git n'avait aucun travail à effectuer; il a simplement déplacé `bugFix` au même commit auquel `main` est attaché.",
               "",
-              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo!"
+              "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo !"
             ],
             "command": "git checkout bugFix; git merge main",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
@@ -663,7 +663,7 @@ exports.level = {
               "* Faites un nouveau commit",
               "* Fusionnez la branche `bugFix` dans `main` avec `git merge`",
               "",
-              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"objective\"!*"
+              "*Rappelez-vous que vous pouvez à tout moment réafficher ces indications avec \"objective\" !*"
             ]
           }
         }
