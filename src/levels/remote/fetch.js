@@ -120,7 +120,7 @@ exports.level = {
             "markdowns": [
               "## Git Fetch",
               "",
-              "Travailler avec les dépôts gits distants se résume en pratique à transférer nos données _depuis_ et _vers_ ces autres dépôts. Du moment que nous pouvons envoyer des commits en avance et en retard, nous pouvons partager tous les types de mises à jour qui sont gérées par git (et donc partager notre travail, de nouveaux fichiers, de nouvelles idées, des lettres d'amour, etc.).",
+              "Travailler avec les dépôts Git distants se résume en pratique à transférer nos données _depuis_ et _vers_ ces autres dépôts. Du moment que nous pouvons envoyer des commits en avance et en retard, nous pouvons partager tous les types de mises à jour qui sont gérés par Git (et donc partager notre travail, de nouveaux fichiers, de nouvelles idées, des lettres d'amour, etc.).",
               "",
               "Dans cette leçon nous allons apprendre comment rapporter (fetch) des données _depuis_ un dépôt distant vers le nôtre : la commande pour cela est astucieusement dénommée `git fetch`.",
               "",
@@ -132,7 +132,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Avant d'aller dans les détails de `git fetch`, voyons-le en action ! Ici nous avons un dépôt distant qui contient deux commits que notre dépôt local n'a pas."
+              "Avant d'entrer dans les détails de `git fetch`, voyons-le en action ! Ici nous avons un dépôt distant qui contient deux commits que notre dépôt local n'a pas."
             ],
             "afterMarkdowns": [
               "Voilà ! Les commits `C2` et `C3` ont été téléchargés dans notre dépôt local, et notre branche distante `o/main` a été mise à jour pour refléter cela."

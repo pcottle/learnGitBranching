@@ -100,7 +100,7 @@ exports.level = {
               "",
               "Vous pouvez voir `git push` comme une commande qui \"publie\" votre travail. Elle présente quelques subtilités que nous allons voir rapidement, mais commençons par le B.A.-BA...",
               "",
-              "*Note : le comportement de `git push` avec aucun argument varie avec l'un des réglages de configuration de git nommé `push.default`. La valeur par défaut de ce réglage dépend de la version de git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Cela ne change pas grand chose pour ces exercices, mais vérifiez tout de même vos réglages avant de pusher vos propres projets.*"
+              "*Note : le comportement de `git push` avec aucun argument varie selon l'un des réglages de configuration de Git nommé `push.default`. La valeur par défaut de ce réglage dépend de la version de Git utilisée, mais nous allons utiliser la valeur `upstream` dans nos leçons. Cela ne change pas grand chose pour ces exercices, mais vérifiez tout de même vos réglages avant de pusher vos propres projets.*"
             ]
           }
         },

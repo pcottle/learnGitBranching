@@ -128,7 +128,7 @@ exports.level = {
               "",
               "Bien ! Maintenant que vous connaissez le suivi des branches, nous pouvons fouiller ce qui se cache derrière le fonctionnement de push, fetch, et pull. Nous allons aborder une commande à la fois, mais elles sont très similaires.",
               "",
-              "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches distantes que git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (c'est à dire la branche distante que cette dernière \"suit\" -- track). C'est le comportement rencontré quand aucun argument n'est spécifié, mais git push accepte aussi des arguments de la forme :",
+              "En premier lieu regardons `git push`. Vous avez appris dans la leçon sur le suivi des branches distantes que Git détermine le dépôt distant *et* la branche à envoyer en regardant les propriétés de la branche courante (c'est à dire la branche distante que cette dernière \"suit\" -- track). C'est le comportement rencontré quand aucun argument n'est spécifié, mais git push accepte aussi des arguments de la forme :",
               "",
               "`git push <remote> <place>`",
               "",
@@ -148,9 +148,9 @@ exports.level = {
               "",
               "*Va dans la branche \"main\" de mon dépôt, récupère tous les commits, et ensuite va dans la branche distante \"main\" sur le dépôt nommé \"origin\". Envoie tous les commits qui lui manquent sur cette branche distante puis préviens-moi quand c'est terminé.*",
               "",
-              "En spécifiant `main` comme argument `<place>`, nous avons dit à git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
+              "En spécifiant `main` comme argument `<place>`, nous avons dit à Git *d'où* les commits venaient et où ils *allaient*. C'est en fait \"l'emplacement\" à synchroniser entre les deux dépôts.",
               "",
-              "Gardez à l'esprit que nous avons dit à git tout ce dont il a besoin pour opérer (en précisant les deux arguments), il n'a donc absolument pas besoin de savoir quelle est la branche courante !"
+              "Gardez à l'esprit que nous avons dit à Git tout ce dont il a besoin pour opérer (en précisant les deux arguments), il n'a donc absolument pas besoin de savoir quelle est la branche courante !"
             ]
           }
         },

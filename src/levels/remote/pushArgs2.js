@@ -121,7 +121,7 @@ exports.level = {
               "",
               "Vous vous demandez peut-être donc : et si nous voulions avoir une source et une destination différentes ? Et si vous voulez envoyez des commits de la branche locale `foo` dans la branche distante `bar` ?",
               "",
-              "Malheureusement ce n'est pas possible avec git... Mais non, je plaisante ! Bien sûr que c'est possible :)... git a des tonnes de flexibilité (presque trop).",
+              "Malheureusement ce n'est pas possible avec Git... Mais non, je plaisante ! Bien sûr que c'est possible :)... Git a des tonnes de flexibilité (presque trop).",
               "",
               "Voyons cela au prochain slide..."
             ]
@@ -135,7 +135,7 @@ exports.level = {
               "",
               "`git push origin <source>:<destination>`",
               "",
-              "On en parle souvent comme d'un \"refspec\". Refspec est juste un nom exotique pour un emplacement que git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
+              "On en parle souvent comme d'un \"refspec\". Refspec est juste un nom exotique pour un emplacement que Git peut résoudre (comme la branche `foo` ou juste `HEAD~1`)",
               "",
               "Lorsque vous utilisez cette notation permettant de préciser la source et la destination indépendamment, vous pouvez produire des commandes à la fois très sophistiquées et très précises pour travailler avec les dépôts distants. Faisons une démo !"
             ]
@@ -145,10 +145,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Rappelez-vous, `source` peut être n'importe quel emplacement que git peut résoudre :"
+              "Rappelez-vous, `source` peut être n'importe quel emplacement que Git peut résoudre :"
             ],
             "afterMarkdowns": [
-              "Woahou ! C'est une commande très alambiquée mais qui a du sens : git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la branche de destination."
+              "Woahou ! C'est une commande très alambiquée mais qui a du sens : Git résoud `foo^` en un emplacement, envoie tous les commits qui n'étaient pas encore présents sur le dépôt distant, et met ensuite à jour la branche de destination."
             ],
             "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -158,7 +158,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Que se passe-t-il quand la destination du push n'existe pas encore ? Pas de problème ! Donnez simplement un nom de branche et git va créer la branche distante pour vous."
+              "Que se passe-t-il quand la destination du push n'existe pas encore ? Pas de problème ! Donnez simplement un nom de branche et Git va créer la branche distante pour vous."
             ],
             "afterMarkdowns": [
               "Cool, c'est habile :D"

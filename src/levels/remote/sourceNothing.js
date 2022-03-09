@@ -111,7 +111,7 @@ exports.level = {
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
               "",
-              "Voyons ce que cela fait ..."
+              "Voyons ce que cela fait..."
             ]
           }
         },
@@ -135,7 +135,7 @@ exports.level = {
               "Ensuite, un fetch de \"rien\" dans un emplacement local crée une nouvelle branche."
             ],
             "afterMarkdowns": [
-              "Très étrange, mais peu importe. C'est git !"
+              "Très étrange, mais peu importe. C'est Git !"
             ],
             "command": "git fetch origin :bar",
             "beforeCommand": "git clone"
