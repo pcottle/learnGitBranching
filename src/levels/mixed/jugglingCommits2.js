@@ -760,7 +760,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Pamiętaj, że git cherry-pick zrzuci commit z dowolnego miejsca drzewa na HEAD (o ile ten commit nie jest przodkiem HEAD).",
+              "Pamiętaj, że `git cherry-pick` zrzuci commit z dowolnego miejsca drzewa na HEAD (o ile ten commit nie jest przodkiem HEAD).",
               "",
               "Oto małe demo na odświeżenie pamięci:"
             ],

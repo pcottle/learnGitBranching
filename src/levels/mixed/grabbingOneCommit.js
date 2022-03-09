@@ -685,11 +685,11 @@ exports.level = {
             "markdowns": [
               "## Lokalnie nałożone commity",
               "",
-              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić buga, ale on jest nieuchwytny. Aby pomóc sobie w poszukiwaniach, dodaję kilka poleceń debugowania i kilka instrukcji print.",
+              "Oto sytuacja, która często się zdarza podczas pisania kodu: próbuję wytropić buga, ale jest on nieuchwytny. Aby pomóc sobie w poszukiwaniach, dodaję kilka poleceń debugowania i kilka instrukcji print.",
               "",
               "Wszystkie te polecenia debugowania / drukowania znajdują się w osobnych commitach. W końcu namierzam błąd, naprawiam go i cieszę się!",
               "",
-              "Jedynym problemem jest to, że teraz muszę przywrócić mój `bugFix` do gałęzi `main`. Jeśli po prostu zrobiłbym fast-foward `main`, wtedy `main` dostałby wszystkie moje deklaracje debugowania, a tego bym nie chciał. Musi być na to inny sposób. . ."
+              "Jedynym problemem jest to, że teraz muszę przywrócić mój `bugFix` do gałęzi `main`. Jeśli po prostu zrobiłbym fast-foward `main`, wtedy `main` dostałby wszystkie moje deklaracje debugowania, a tego bym nie chciał. Musi być na to inny sposób..."
             ]
           }
         },

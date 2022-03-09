@@ -632,7 +632,7 @@ exports.level = {
               "* Na koniec przeniesiemy się do tej zaktualizowanej części drzewa, aby ukończyć ten poziom (w wybrany przez ciebie sposób)",
               "",
               "Istnieje wiele sposobów na osiągnięcie tego ogólnego celu (widzę, że masz na oku cherry-pick), i później zobaczymy ich więcej, ale na razie skupmy się na tej technice.",
-              "Na koniec zwróć uwagę na stan celu - ponieważ przenosimy commity dwukrotnie, oba otrzymują apostrof. Dodajemy jeszcze jeden apostrof dla commitu, który zmieniamy, co daje nam ostateczną postać drzewa",
+              "Na koniec zwróć uwagę na stan celu - ponieważ przenosimy commity dwukrotnie, oba otrzymują apostrof. Dodajemy jeszcze jeden apostrof dla commitu, który zmieniamy, co daje nam ostateczną postać drzewa.",
               "",
               "Uwzględniając to, mogę teraz porównać poziomy w oparciu o strukturę i względne różnice apostrofów. Tak długo, jak gałąź `main` twojego drzewa ma taką samą strukturę, rozwiązanie zostanie uznane."
             ]

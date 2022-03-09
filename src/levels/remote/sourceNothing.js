@@ -852,7 +852,7 @@ exports.level = {
             "markdowns": [
               "### Osobliwości `<source>`",
               "",
-              "Git pozwala wykorzystać parametr `<source>` (źródło) na dwa osobliwe sposoby. Oba są dziwaczne dlatego, że - technicznie rzecz biorąc - możesz określić \"nic\" jako poprawne `źródło` zarówno dla git push, jak i git fetch. Tę \"nicość\" określasz za pomocą pustego argumentu:",
+              "Git pozwala wykorzystać parametr `<source>` (źródło) na dwa osobliwe sposoby. Oba są dziwaczne dlatego, że - technicznie rzecz biorąc - możesz określić \"nic\" jako poprawne `źródło` zarówno dla `git push`, jak i `git fetch`. Tę \"nicość\" określasz za pomocą pustego argumentu:",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
