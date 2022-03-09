@@ -121,12 +121,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe où dans l'arbre de git et le mettre devant HEAD (sauf s'il est un ancêtre de HEAD).",
+              "N'oubliez pas que git cherry-pick va prendre un commit de n'importe où dans l'arbre de Git et le mettre devant HEAD (sauf s'il est un ancêtre de HEAD).",
               "",
               "Un petit rappel :"
             ],
             "afterMarkdowns": [
-              "Bien ! continuons."
+              "Bien ! Continuons."
             ],
             "command": "git cherry-pick C2",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"

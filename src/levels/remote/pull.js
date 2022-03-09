@@ -115,7 +115,7 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`."
+              "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que Git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`."
             ]
           }
         },

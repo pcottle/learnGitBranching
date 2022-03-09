@@ -33,7 +33,7 @@ exports.level = {
     "es_ES": "Recuerda, la manera más eficiente podría ser actualizar main sólo al final...",
     "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o main por último...",
     "gl": "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
-    "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin ...",
+    "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin...",
     "ja": "最も効率的なやり方はmainを最後に更新するだけかもしれない・・・",
     "ko": "아마도 main을 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新 main 分支可能是最高效的方法……",
@@ -147,7 +147,7 @@ exports.level = {
               "",
               "Dis-donc, nous avons beaucoup de branches par ici ! Rebasons tout le travail de ces branches dans main.",
               "",
-              "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient fait de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, tout dans cet ordre.",
+              "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient faits de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, tout dans cet ordre.",
               "",
               "Si vous faites une erreur en chemin, n'hésitez pas à utiliser `reset` pour recommencer. Pensez à comparer votre solution à la notre et voyez si vous pouvez le faire en moins de commandes !"
             ]

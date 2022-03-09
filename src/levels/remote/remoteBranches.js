@@ -108,11 +108,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Les branches distantes de git",
+              "## Les branches distantes de Git",
               "",
               "Maintenant que nous avons vu `git clone` en action, plongeons dans ce qui a changé.",
               "",
-              "La première chose que vous avez peut-être remarqué est qu'une nouvelle branche est apparue dans votre dépôt local appelée `o/main`. Ce type de branche est appelée une branche _distante_ ; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
+              "La première chose que vous avez peut-être remarquée est qu'une nouvelle branche est apparue dans votre dépôt local appelée `o/main`. Ce type de branche est appelée une branche _distante_ ; les branches distantes ont des propriétés spécifiques car elles servent à un but précis.",
               "",
               "Les branches distantes reflètent _l'état_ des dépôts distants (depuis la dernière fois où vous avez parlé avec ceux-ci). Elles vous aident à comprendre les différences entre votre travail et le travail public -- une étape critique à effectuer avant de partager son travail avec les autres.",
               "",
@@ -132,9 +132,9 @@ exports.level = {
               "",
               "Donc, si vous regardez une branche nommée `o/main`, le nom de la branche est `main` et le nom du dépôt distant est `o`.",
               "",
-              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que git configure en fait votre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
+              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que Git configure en fait votre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
               "",
-              "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai git, votre dépôt distant est probablement nommé `origin`!",
+              "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai Git, votre dépôt distant est probablement nommé `origin`!",
               "",
               "Cela fait beaucoup d'un coup, donc voyons cela en action."
             ]
@@ -147,7 +147,7 @@ exports.level = {
               "Rendons-nous sur une branche et regardons ce qui se passe."
             ],
             "afterMarkdowns": [
-              "Comme vous pouvez le voir, git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/main` quand nous avons ajouté un nouveau commit. C'est parce que `o/main` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
+              "Comme vous pouvez le voir, Git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/main` quand nous avons ajouté un nouveau commit. C'est parce que `o/main` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
             ],
             "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"

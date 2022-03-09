@@ -106,7 +106,7 @@ exports.level = {
               "",
               "Comme appris dans les niveaux précédents, les branches sont faciles à manipuler et se réfèrent aux commits qui ont été faits pour compléter le travail fait sur celles-ci. Les branches sont donc constamment en mouvement.",
               "",
-              "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des livraisons majeures ou d'importantes fusions, existe-t-il une façon plus stable qu'une branche de garder l'état d'une branche à un instant précis ?",
+              "Dans ce cas, vous vous demandez peut-être s'il y a un moyen d'ajouter une marque *permanente* dans l'historique de votre projet. Pour des commits comme des livraisons majeures ou d'importantes fusions, existe-t-il une façon plus stable qu'une branche pour garder l'état d'une branche à un instant précis ?",
               ""
             ]
           }

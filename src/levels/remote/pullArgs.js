@@ -133,7 +133,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Voici quelques commandes équivalentes dans git :",
+              "Voici quelques commandes équivalentes dans Git :",
               "",
               "`git pull origin foo` est équivalent à :",
               "",
