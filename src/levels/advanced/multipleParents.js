@@ -1624,7 +1624,7 @@ exports.level = {
               "",
               "Invece che specificare il numero di generazioni di cui tornare indietro (come accade con `~`), il modificatore `^` specifica quale genitore seguire partendo da un merge commit (di fusione). Ricorda che i merge commit hanno genitori multipli, quindi il percorso da seguire può essere ambiguo.",
               "",
-              'Git normalmente sege il primo genitore partendo da un merge commit, ma specificando un numero con `^` cambia questo comportamento predefinito.',
+              'Git normalmente segue il primo genitore partendo da un merge commit, ma specificando un numero con `^` cambia questo comportamento predefinito.',
               "",
               "Basta parlare, vediamolo in azione.",
               "",

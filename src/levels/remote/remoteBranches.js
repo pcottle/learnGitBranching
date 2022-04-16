@@ -38,7 +38,7 @@ exports.level = {
     "vi": "Chú ý đến thứ tự -- commit trên nhánh main trước!",
     "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!",
     "pl": "Zwróć uwagę na kolejność -- najpierw zatwierdzaj na main",
-    "it_IT": "Presta attenzione all'ordine -- committa prima sul main!"
+    "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!"
   },
   "startDialog": {
     "en_US": {
@@ -1027,7 +1027,7 @@ exports.level = {
               "",
               "Adesso che hai visto `git clone` in azione, tuffiamoci all'interno di quello che è effettivamente cambiato.",
               "",
-              "Come potrai aver notato un nuovo ramo è apparso nel nostro repository locale chiamato `o/main`. Questo tipo di ramo è chiamato ramo remoto; i rami remoti hanno proprietà speciali perchè servono ad un unico scopo.",
+              "Come potrai aver notato un nuovo ramo è apparso nel nostro repository locale chiamato `o/main`. Questo tipo di ramo è chiamato ramo remoto; i rami remoti hanno proprietà speciali perché servono ad un unico scopo.",
               "",
               "I rami remoti  riflettono lo _stato_ dei repository remoti (dall'ultima volta che hai comunicato con quei repository remoti). Ti aiutano a capire la differenza tra il tuo lavoro locale e quello pubblico -- un passo fondamentale da fare prima di condividere il tuo lavoro con gli altri.",
               "",
@@ -1041,11 +1041,11 @@ exports.level = {
             "markdowns": [
               "### Cos'è o/?",
               "",
-              "Ti starai chiedendo a cosa serve `o/` su questi rami remoti. Bene,i rami remoti hanno anche un nome convenzionale (obbligatorio) -- vengono visualizzati nel formato:",
+              "Ti starai chiedendo a cosa serve `o/` su questi rami remoti. Bene, i rami remoti hanno anche un nome convenzionale (obbligatorio) -- vengono visualizzati nel formato:",
               "",
               "* `<remote name>/<branch name>`",
               "",
-              "Quindi , se guardi ad un ramo chiamato `o/main`, il nome del ramo è `main` e il nome del remoto è `o`.",
+              "Quindi, se guardi ad un ramo chiamato `o/main`, il nome del ramo è `main` e il nome del remoto è `o`.",
               "",
               "La maggior parte degli sviluppatori in realtà nomina il loro main remoto `origin`, non `o`. Questo è così comune che git in realtà configura il remoto per essere chiamato `origin` quando si `git clone` un repository.",
               "",
@@ -1062,7 +1062,7 @@ exports.level = {
               "Dai un'occhiata ad un ramo remoto e vedi che cosa fa."
             ],
             "afterMarkdowns": [
-              "Come puoi vedere , git ci ha messo im modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perchè `o/main` si aggiornerà solo quando lo farà anche il remoto."
+              "Come puoi vedere , git ci ha messo im modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
             ],
             "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"

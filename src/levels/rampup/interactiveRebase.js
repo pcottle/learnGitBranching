@@ -24,7 +24,7 @@ exports.level = {
     "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase",
     "sl_SI": "Uporabiš lahko bilokateri branch ali relativno referenco (HEAD~), da določiš cilj za rebase.",
     "it_IT":
-      "Puoi usare sia i rami o i riferimenti relativi (HEAD~) per specificare l'obbiettivo del rebase",
+      "Puoi usare sia i rami che i riferimenti relativi (HEAD~) per specificare l'obiettivo del rebase",
     "pl": "Możesz użyć gałęzi lub referencji względnych (HEAD~), aby określić cel rebase'a"
   },
   "name": {

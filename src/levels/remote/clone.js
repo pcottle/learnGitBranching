@@ -957,9 +957,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Remotes",
+              "## Git Remoto",
               "",
-              "I repository remoti non sono così tanto complicati. Nell'odierno mondo del cloud computing è facile pensare che vi sia una sorta di magia dietro i remote di git, ma in effetti sono solo copie del tuo repository in un altro computer. Puoi comunicare con quest'altro computer tramite Internet, consentendoti di trasferire commits dall'uno all'altro.",
+              "I repository remoti non sono così tanto complicati. Nell'odierno mondo del cloud computing è facile pensare che vi sia una sorta di magia dietro i remote di git, ma in effetti sono solo copie del tuo repository in un altro computer. Puoi comunicare con quest'altro computer tramite Internet, consentendoti di trasferire commit dall'uno all'altro.",
               "",
               "Detto ciò, i repository remoti hanno diverse proprietà interessanti:",
               "",
@@ -975,7 +975,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Nostri comandi per creare repository remoti",
+              "## I nostri comandi per creare repository remoti",
               "",
               "Finora, Learn Git Branching si è focalizzato nell'insegnare le basi del lavoro _locale_ sui repository (creazione di rami, fusione, rebasing, etc). Tuttavia, ora che vogliamo esplorare il lavoro con i repository remoti, abbiamo bisogno di un comando per impostare l'ambiente per tali lezioni. Questo comando sarà `git clone`.",
               "",
@@ -988,7 +988,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Partendo lentamente, esaminiamo come un repository remoto appare nella nostra visualizazione.",
+              "Partendo lentamente, esaminiamo come un repository remoto appare nella nostra visualizzazione.",
               ""
             ],
             "afterMarkdowns": [

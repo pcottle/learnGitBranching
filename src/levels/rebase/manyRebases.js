@@ -342,7 +342,7 @@ exports.level = {
             markdowns: [
               "### Fare rebase con più rami",
               "",
-              "Hey, qui abbiamo un bel po di rami! Facciamo un po di rebase di questi rami nel main.",
+              "Hey, qui abbiamo un bel po' di rami! Facciamo un po' di rebase di questi rami nel main.",
               "",
               "I piani alti ci stanno rendendo la vita complicata -- vogliono i commit tutti in ordine progressivo. Questo significa che alla fine il nostro albero avrà `C7'` come ultimo commit, `C6'` sopra di esso, e così via, tutto in ordine.",
               "",

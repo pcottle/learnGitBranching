@@ -161,7 +161,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Push & Pull -- Tác động git từ xa!',
       'sl_SI': 'Push & Pull -- Oddaljeni Git',
       'pl'   : 'Push & Pull -- Zdalne repozytoria',
-      'it_IT': "Push & Pull -- Git Remotes!",
+      'it_IT': "Push & Pull -- Git Remoto!",
       'ta_IN': 'Push & Pull -- கிட் Remotes!'
     },
     about: {
@@ -228,7 +228,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui ...',
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
       'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
-      'it_IT': "E tu credevi che essere un bravo dittatore fosse divertente...",
+      'it_IT': "E tu credevi che essere un dittatore benevolo fosse divertente...",
       'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...'
     }
   },
@@ -295,7 +295,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'vi'   : 'Những trò mèo đáng đồng tiền bát gạo',
       'sl_SI': 'Mešana Vreča',
       'pl'   : 'Po trochu wszystkiego',
-      'it_IT': "Un po di tutto",
+      'it_IT': "Un po' di tutto",
       'ta_IN': 'ஒரு கலப்பு பை'
     },
     about: {

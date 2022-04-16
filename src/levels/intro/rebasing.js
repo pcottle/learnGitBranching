@@ -1231,7 +1231,7 @@ exports.level = {
               "Ora il ramo selezionato è il main. Procediamo e facciamo rebase su `bugFix`...",
             ],
             afterMarkdowns: [
-              "Ecco qua! Visto che main era un antenato di `bugFix`, git sposta semplicemente il riferimento al ramo `main` branch in avanti.",
+              "Ecco qua! Visto che main era un antenato di `bugFix`, git sposta semplicemente il riferimento al ramo `main` in avanti.",
             ],
             command: "git rebase bugFix",
             beforeCommand:
