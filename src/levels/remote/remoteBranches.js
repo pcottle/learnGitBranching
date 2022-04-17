@@ -1023,15 +1023,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Rami Remoti",
+              "## Rami remoti di Git",
               "",
               "Adesso che hai visto `git clone` in azione, tuffiamoci all'interno di quello che è effettivamente cambiato.",
               "",
               "Come potrai aver notato un nuovo ramo è apparso nel nostro repository locale chiamato `o/main`. Questo tipo di ramo è chiamato ramo remoto; i rami remoti hanno proprietà speciali perché servono ad un unico scopo.",
               "",
-              "I rami remoti  riflettono lo _stato_ dei repository remoti (dall'ultima volta che hai comunicato con quei repository remoti). Ti aiutano a capire la differenza tra il tuo lavoro locale e quello pubblico -- un passo fondamentale da fare prima di condividere il tuo lavoro con gli altri.",
+              "I rami remoti riflettono lo _stato_ dei repository remoti (dall'ultima volta che hai comunicato con quei repository remoti). Ti aiutano a capire la differenza tra il tuo lavoro locale e quello pubblico -- un passo fondamentale da fare prima di condividere il tuo lavoro con gli altri.",
               "",
-              "I rami remoti hanno la proprietà speciale che quando li controlli, `HEAD` viene inserito nella modalità di distacco. Git fa questo di proposito così che tu non possa lavorare direttamente su questi rami; ma dovrai lavorare altrove per poi condividere il tuo lavoro con  il remoto (dopodichè i tuoi rami remoti verranno aggiornati)."
+              "I rami remoti hanno la proprietà speciale che quando li controlli, `HEAD` viene inserito nella modalità di distacco. Git fa questo di proposito così che tu non possa lavorare direttamente su questi rami; ma dovrai lavorare altrove per poi condividere il tuo lavoro con il remoto (dopodiché i tuoi rami remoti verranno aggiornati)."
             ]
           }
         },
@@ -1047,7 +1047,7 @@ exports.level = {
               "",
               "Quindi, se guardi ad un ramo chiamato `o/main`, il nome del ramo è `main` e il nome del remoto è `o`.",
               "",
-              "La maggior parte degli sviluppatori in realtà nomina il loro main remoto `origin`, non `o`. Questo è così comune che git in realtà configura il remoto per essere chiamato `origin` quando si `git clone` un repository.",
+              "La maggior parte degli sviluppatori in realtà nomina il loro main remoto `origin`, non `o`. Questo è così comune che git in realtà configura il remoto per essere chiamato `origin` quando viene eseguito `git clone` su un repository.",
               "",
               "Sfortunatamente il nome completo di `origin` non si adatta alla nostra interfaccia utente, quindi usiamo `o` come abbreviazione :( Ricorda solo che quando usi git realmente, il tuo remoto probabilmente si chiamerà `origin`!",
               "",
@@ -1062,7 +1062,7 @@ exports.level = {
               "Dai un'occhiata ad un ramo remoto e vedi che cosa fa."
             ],
             "afterMarkdowns": [
-              "Come puoi vedere , git ci ha messo im modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
+              "Come puoi vedere, git ci ha messo im modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
             ],
             "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
@@ -1072,7 +1072,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Per completare questo livello, fai un commit una volta fuori dal `main` e una volta dopo aver controllato `o/main`. Questo ti aiuterà a capire come i rami remoti si comportano differentemente, e  si aggiornano solo per riflettere lo stato del remoto"
+              "Per completare questo livello, fai un commit una volta dal `main` e una volta dopo aver aver eseguito il checkout su `o/main`. Questo ti aiuterà a capire come i rami remoti si comportano differentemente, e si aggiornano solo per riflettere lo stato del remoto"
             ]
           }
         }

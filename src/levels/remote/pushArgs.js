@@ -22,7 +22,8 @@ exports.level = {
     "uk": "Аргументи git push",
     "vi": "Tham số git push",
     "sl_SI": "Git push argumenti",
-    "pl": "Argumenty git push"
+    "pl": "Argumenty git push",
+    "it_IT": "Parametri di git push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -40,7 +41,8 @@ exports.level = {
     "uk": "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
     "vi": "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại",
     "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\".",
-    "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu"
+    "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu",
+    "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\""
   },
   "startDialog": {
     "en_US": {
@@ -1217,6 +1219,81 @@ exports.level = {
               "",
               "*Uwaga: Zdalne gałęzie mają przedrostek `o/`, ponieważ pełna nazwa `origin/` nie mieści się w naszym interfejsie. Nie przejmuj się tym... ",
               "po prostu użyj `origin` jako nazwy zdalnego repozytorium.*"
+            ]
+          }
+        }
+      ]
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parametri di git push",
+              "",
+              "Ottimo! Ora che hai presente cos'è il tracciamento remoto dei rami possiamo dare un'occhiata ad alcuni dei misteri dietro al funzionamento di git push, fetch e pull. Affronteremo un comando alla volta ma i concetti tra questi saranno molto simili.",
+              "",
+              "Come prima cosa daremo un'occhiata a `git push`. Hai imparato nella lezione sul tracciamento remoto che git decide il ramo remoto *e* il ramo su cui caricare i dati osservando le proprietà del ramo su cui stiamo lavorando attualmente (il remoto che sta \"tracciando\"). Questo è il comportamento senza parametri aggiunti, ma git push può prendere dei parametri aggiuntivi nella forma di:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "E cosa indica il parametro `<place>`? Vedremo presto le specifiche, ma prima un esempio. Il comando:",
+              "",
+              "`git push origin main`",
+              "",
+              "equivale a questo in italiano:",
+              "",
+              "*Vai al ramo chiamato \"main\" nel mio repository locale, prendi tutti i commit, poi vai nel ramo \"main\" sul repository remoto chiamato \"origin\". Mettici tutti i commit che mancano e poi dimmi quando hai finito.*",
+              "",
+              "Specificando `main` come parametro \"place\", abbiamo detto a git da dove tutti i commit *proverranno* e dove i commit *dovranno andare*. Si tratta essenzialmente del \"luogo\" o \"posizione\" da sincronizzare tra i due repository.",
+              "",
+              "Tieni a mente che poiché abbiamo detto a git tutto ciò che gli serve sapere (specificando entrambi i parametri), non tiene conto del ramo sul quale ci troviamo attualmente!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vediamo un esempio dove specifichiamo i parametri. Da notare la posizione su cui ci troviamo attualmente in questo esempio."
+            ],
+            "afterMarkdowns": [
+              "Ecco qui! `main` è stato aggiornato sul repository remoto come specificato dai parametri."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E se non avessimo specificato i parametri? Cosa succederebbe?"
+            ],
+            "afterMarkdowns": [
+              "Il comando fallisce (come puoi vedere), in quanto `HEAD` non si trova su un ramo che traccia il remoto."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, per questo livello aggiorniamo sia il ramo `foo` che `main` sul remoto. Attenzione perché git checkout è disabilitato per questo livello!",
+              "",
+              "*Nota: I rami remoti hanno i prefissi `o/` perché `origin/` non si adattava bene alla nostra interfaccia. Non preoccuparti ",
+              "... usa pure `origin` come nome del repository remoto come sempre.*"
             ]
           }
         }

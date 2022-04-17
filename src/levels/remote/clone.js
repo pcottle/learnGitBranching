@@ -979,7 +979,7 @@ exports.level = {
               "",
               "Finora, Learn Git Branching si è focalizzato nell'insegnare le basi del lavoro _locale_ sui repository (creazione di rami, fusione, rebasing, etc). Tuttavia, ora che vogliamo esplorare il lavoro con i repository remoti, abbiamo bisogno di un comando per impostare l'ambiente per tali lezioni. Questo comando sarà `git clone`.",
               "",
-              "Tecnicamente, `git clone` nel mondo reale è il comando che userai per creare copie _locali_ di repository remoti (da github per esempio). In Learn Git Branching, però, useremo questo comando in modo leggermente diverso -- `git clone` creerà un repository remoto a partire da quello tuo locale. E' chiaro che questo è il significato tecnicamente opposto del comando reale, ma questo aiuta nel costruire la connessione tra il cloning e il lavoro sui repository remoti, quindi utilizziamo così per ora.",
+              "Tecnicamente, `git clone` nel mondo reale è il comando che userai per creare copie _locali_ di repository remoti (da github per esempio). In Learn Git Branching, però, useremo questo comando in modo leggermente diverso -- `git clone` creerà un repository remoto a partire da quello tuo locale. E' chiaro che questo è il significato tecnicamente opposto del comando reale, ma questo aiuta nel costruire la connessione tra il cloning e il lavoro sui repository remoti, quindi per ora lo utilizzeremo così.",
               ""
             ]
           }
