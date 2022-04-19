@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Аргументи pull",
     "vi": "Tham số pull",
     "sl_SI": "Pull argumenti",
-    "pl": "Argumenty pull"
+    "pl": "Argumenty pull",
+    "it_IT": "Parametri di git pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -36,7 +37,8 @@ exports.level = {
     "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
     "vi": "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
     "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
-    "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie"
+    "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
+    "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri"
   },
   "startDialog": {
     "en_US": {
@@ -1231,6 +1233,80 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parametri di git pull",
+              "",
+              "Ora che conosci praticamente *tutto* quello che c'è da sapere sui parametri per `git fetch` e `git push`, non è rimasto quasi nulla di cui parlare per git pull :)",
+              "",
+              "Questo perché git pull alla fine non è altro che una scorciatoia per un fetch seguito dalla fusione verso ciò che è stato appena recuperato. Puoi vederlo come eseguire git fetch con gli *stessi* parametri specificati e poi eseguire una fusione *dove* i commit reucperati sono finiti.",
+              "",
+              "Ciò è valido anche quando vengono usati dei parametri incredibilmente complessi. Vediamo qualche esempio:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ecco alcuni comandi equivalenti in git:",
+              "",
+              "`git pull  origin foo` è equivalente a:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "E...",
+              "",
+              "`git pull  origin bar~1:bugFix` è equivalente a:",
+              "",
+              "`git fetch origin bar~1:bugFix; git merge bugFix`",
+              "",
+              "Visto? git pull non è altro che una scorciatoia per fetch + merge, e l'unica cosa che interessa a quel comando è la posizione d'arrivo dei commit (il parametro `destination` specificato durante il fetch).",
+              "",
+              "Vediamo una demo:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Se specifichiamo il luogo da cui vogliamo recuperare i dati, l'unico cambiamento rispetto alla lezione precedente consiste nella fusione con ciò che è stato appena recuperato."
+            ],
+            "afterMarkdowns": [
+              "Visto! specificando `main` abbiamo scaricato i commit sul ramo `o/main` come sempre. Poi abbiamo fuso `o/main` con il ramo sul quale stavamo lavorando attualmente, il quale *non* è il ramo `main` locale. Per questo motivo può avere effettivamente senso eseguire più volte git pull (con gli stessi parametri) da posizioni differenti per aggiornare così più rami."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Funziona anche con source e destination? Ci puoi scommettere! Vediamolo all'opera:"
+            ],
+            "afterMarkdowns": [
+              "Wow, è tantissimo per un comando solo! Abbiamo creato un nuovo ramo locale chiamato `foo`, scaricato i commit dal main remoto sul nuovo ramo `foo`, e poi fuso quel ramo con `bar`, quello sul quale stavamo lavorando attualmente. È oltre gli 8000!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok per concludere, raggiungi lo stato mostrato nella finestra dell'obiettivo. Dovrai scaricare alcuni commit, creare alcuni rami, e fondere quei rami in altri rami, ma senza usare troppi comandi :P"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

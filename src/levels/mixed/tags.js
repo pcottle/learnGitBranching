@@ -947,7 +947,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              'Ci puoi scommettere! Git tags serve proprio a questo -- i tag contrassegnano in modo permanente dei commit "importanti" a cui puoi far riferimento come avviene con i rami.',
+              'Ci puoi scommettere! Git tag serve proprio a questo -- i tag contrassegnano in modo permanente dei commit "importanti" a cui puoi far riferimento come avviene con i rami.',
               "",
               'Ancora più importante il fatto che non si spostano anche se vengono eseguiti nuovi commit. Non puoi selezionare un tag e aggiungere del lavoro su quel tag -- i tag esistono come ancore nell\'albero dei commit, e si riferiscono a determinati punti.',
               "",
@@ -972,7 +972,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "In questo livello riproduci gli stessi tag mostrati nell'obbiettivo, e alla fine seleziona il tag `v1`. Presta attenzione a come vai nello stato di detached `HEAD` -- questo perché non puoi creare commit direttamente dal tag `v1.",
+              "In questo livello riproduci gli stessi tag mostrati nell'obiettivo, e alla fine seleziona il tag `v1`. Presta attenzione a come vai nello stato di detached `HEAD` -- questo perché non puoi creare commit direttamente dal tag `v1.",
               "",
               "Nel livello successivo vedremo un utilizzo più interessante dell'uso dei tag.",
             ],

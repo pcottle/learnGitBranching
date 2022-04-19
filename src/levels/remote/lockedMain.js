@@ -17,7 +17,8 @@ exports.level = {
     "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen.",
     "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。",
     "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin",
-    "vi": "Tạo những nhánh tính năng từ nhánh địa phương trước khi trả chúng về lại giống như o/main"
+    "vi": "Tạo những nhánh tính năng từ nhánh địa phương trước khi trả chúng về lại giống như o/main",
+    "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto"
   },
   "name": {
     "en_US": "Locked Main",
@@ -34,7 +35,8 @@ exports.level = {
     "es_AR": "Main bloqueado",
     "ja": "ロックされたmain",
     "pl": "Zablokowany main",
-    "vi": "Nhánh chính bị khóa (Locked Main)"
+    "vi": "Nhánh chính bị khóa (Locked Main)",
+    "it_IT": "Main bloccato"
   },
   "startDialog": {
     "en_US": {
@@ -649,6 +651,46 @@ exports.level = {
               "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main" +
               " của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện" +
               " pull và commit của người khác xung đột với bạn."
+            ]
+          }
+        }
+      ]
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rifiuto remoto!",
+              "",
+              "Se fari parte di un team di grandi dimensioni è probabile che il main sia bloccato e che richieda un processo di Pull Request per fondere il proprio lavoro. Se effettui localmente un commit al main e provi a caricare le modifiche al repository remoto troverai come risposta un messaggio di questo tipo:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Perché è stato rifiutato?",
+              "",
+              "Il repository remoto ha rifiutato l'invio di commit direttamente al main in quanto per questo ramo è richiesto di effettuare una pull request: una richiesta di includere le nostre modifiche personali nel repository remoto.",
+              "",
+              "Avresti dovuto seguire il processo di creare un nuovo ramo, fare il push di quel ramo ed effettuare una pull request, ma ti sei scordato e hai effettuato il commit direttamente sul main. Ora sei bloccato e non puoi caricare le tue modifiche."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## La soluzione",
+              "",
+              "Crea un nuovo ramo chiamato feature e carica quest'ultimo sul repository remoto. Inoltre reimposta il tuo ramo main affinché sia al pari con il remoto altrimenti potresti andare in contro a dei problemi la prossima volta che proverai ad effettuare un pull e i commit di qualcun'altro andranno in conflitto con i tuoi."
             ]
           }
         }

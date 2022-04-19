@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Мердж з віддаленим репозиторієм",
     "vi": "Hợp nhất nhánh từ xa",
     "sl_SI": "Merganje z oddaljenim repozitorijem",
-    "pl": "Scalanie z remote"
+    "pl": "Scalanie z remote",
+    "it_IT": "Fondere in remoto"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -36,7 +37,8 @@ exports.level = {
     "uk": "Уважно подивись як має виглядати результат!",
     "vi": "Hãy để ý đến cây mục tiêu!",
     "sl_SI": "Poglej si ciljno drevo!",
-    "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!"
+    "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!",
+    "it_IT": "Fai attenzione all'albero nell'obiettivo"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -759,6 +761,51 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Perché non fondere?",
+              "",
+              "Per riuscire a caricare nuovi aggiornamenti al repository remoto, serve solamente *incorporare* le modifiche più recenti avvenute sul remoto. Ciò significa che puoi ribasare *oppure* fondere le nuove modifiche al ramo remoto (e.g. `o/main`).",
+              "",
+              "Quindi, se entrambi i metodi sono validi, perché le lezioni si sono concentrate sul ribasare? Perché non c'è amore per il `merge` quando si lavora con i repository remoti?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "C'è abbastanza dibattito sui compromessi tra il fondere e il ribasare nell'ambiente degli sviluppatori. Qui presentiamo in generale i pro e contro del ribasare:",
+              "",
+              "Pro:",
+              "",
+              "* Ribasare rende il tuo albero dei commit più semplice da leggere in quanto tutto rientra in una linea dritta",
+              "",
+              "Cons:",
+              "",
+              "* Ribasare modifica lo storico (apparente) dell'albero dei commit.",
+              "",
+              "Ad esempio, il commit `C1` può essere ribasato *dopo* di `C3`. Apparirà che il lavoro per `C1` è avvenuto dopo `C3` quando in realtà era stato completato in precedenza.",
+              "",
+              "Alcuni sviluppatori amano preservare lo storico e perciò prediligono la fusione di commit. Altri (come il sottoscritto) preferiscono avere un albero dei commit più pulito, e perciò preferiscono ribasare. È una questione di gusti :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Per questo livello, prova a risolvere il livello precedente ma usando il *merge* invece che il *rebase*. L'albero apparirà più \"ingarbugliato\", ma dovrebbe riuscire a rendere bene l'idea."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

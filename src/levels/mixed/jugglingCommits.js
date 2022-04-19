@@ -34,7 +34,7 @@ exports.level = {
     "uk": "Жонглюємо комітами",
     "vi": "Tung hứng commit",
     "sl_SI": "Žongliranje s Commiti",
-    "it_IT": "Giocoliere di Commit",
+    "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
   },
   "hint": {
@@ -665,7 +665,7 @@ exports.level = {
               "* Riordineremo i commit nello stesso ordine in cui erano, sempre con `git rebase -i`",
               "* Alla fine, sposteremo main in questo ramo aggiornato dell'albero per finire il livello (utilizzate il metodo che volete)",
               "",
-              "Ci sono vari modi per raggiungere l'obbiettivo finale (vedo che strizzi l'occhio verso cherry-pick), e ne vedremo altri più tardi, ma per ora concentriamoci su questa tecnica.",
+              "Ci sono vari modi per raggiungere l'obiettivo finale (vedo che strizzi l'occhio verso cherry-pick), e ne vedremo altri più tardi, ma per ora concentriamoci su questa tecnica.",
               "In fine, presta attenzione all'obiettivo -- visto che spostiamo i commit due volte, a entrambi viene messo un apostrofo. Un ulteriore apostrofo è aggiunto per il commit --amend, che completa in fine l'albero.",
               "",
               "Detto questo, posso confrontare i livelli in base alla struttura e i relativi apostrofi. Finchè il tuo ramo `main` avrà la stessa struttura con i giusti apostrofi, ti darò pieni voti.",

@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Розширені аргументи git push!",
     "vi": "Tham số git push -- bản mở rộng!",
     "sl_SI": "Git push argumenti -- Razširjeni!",
-    "pl": "Argumenty git push -- Głębiej!"
+    "pl": "Argumenty git push -- Głębiej!",
+    "it_IT": "Parametri di git push - Espansione!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -36,7 +37,8 @@ exports.level = {
     "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
     "vi": "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
     "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P",
-    "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P"
+    "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P",
+    "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -1168,6 +1170,76 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Dettagli sul parametro `<place>`",
+              "",
+              "Ricorderai dalle lezioni precedenti che quando abbiamo specificato `main` come parametro place per git push, abbiamo specificato sia la *fonte* di provenienza dei commit che la *destinazione* d'arrivo.",
+              "",
+              "Potresti star pensando -- e se volessimo che la fonte e la destinazione fossero distinte? Se volessi caricare con push dei commit dal ramo locale `foo` verso il ramo remoto `bar`?",
+              "",
+              "Sfortunatamente ciò non è possibile in git... scherzetto! Ovviamente lo possiamo fare :)... git è davvero molto flessibile (forse troppo).",
+              "",
+              "Vediamo come nella prossima slide..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Per specificare sia la fonte che la destinazione di `<place>`, basta unire le due tramite i due punti:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Questo è comunemente conosciuto come colon refspec (*colon* sono i due punti). Refspec è solo un nome complicato per riferirsi ad una posizione che git può interpretare (come il ramo `foo` o anche solo `HEAD~1`).",
+              "",
+              "Potendo specificare sia fonte che destinazione in maniera indipendente, puoi sfruttare i comandi remoti in maniera molto precisa. Vediamo una demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ricorda, `source` può essere una qualsiasi posizione che git può capire:"
+            ],
+            "afterMarkdowns": [
+              "Wow! Un comando bello contorto ma sensato -- git ha interpretato `foo^` come una posizione, caricato i commit che non erano presenti nel repository remoto, e poi aggiornato la destinazione."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E se la destinazione alla quale vuoi caricare i dati non esiste? Nessun problema! Basta specificare il nome di un ramo e git lo creerà sul remoto per te."
+            ],
+            "afterMarkdowns": [
+              "Facile così :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Per questo livello, prova a raggiungere lo stato finale mostrato nella finestra obiettivo, e ricorda il formato:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

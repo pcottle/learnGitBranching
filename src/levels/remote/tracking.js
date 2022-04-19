@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Слідкуємо за віддаленим репозиторієм",
     "vi": "Theo dõi từ xa",
     "sl_SI": "Sledenje Oddaljenega Repota",
-    "pl": "Śledzenie zdalnych repo"
+    "pl": "Śledzenie zdalnych repo",
+    "it_IT": "Tracciamento remoto"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -36,7 +37,8 @@ exports.level = {
     "uk": "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
     "vi": "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!",
     "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota.",
-    "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!"
+    "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!",
+    "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!"
   },
   "startDialog": {
     "en_US": {
@@ -2043,6 +2045,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Oki! Na tym poziomie wypchnijmy (push) pracę do gałęzi `main` na zdalnym repozytorium, *nie* checkoutując `main` lokalnie. Wymyśl samodzielnie, jak to zrobić. To przecież zaawansowana część kursu :P"
+            ]
+          }
+        }
+      ]
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rami che tracciano il remoto",
+              "",
+              "Una cosa che può esser sembrata \"magica\" riguardo le ultime lezioni è come git sapesse che il ramo `main` fosse connesso a `o/main`. Certo questi rami hanno dei nomi simili e avrebbe senso collegare il ramo `main` sul repository remoto al ramo `main` locale, ma questa connessione è chiaramente dimostrata in due scenari:",
+              "",
+              "* Durante un'operazione di pull, i commit sono scaricati su `o/main` e poi *fusi* al ramo `main`. Il destinatario del merge è determinato da questa connessione.",
+              "* Durante un'operazione di push, il lavoro proveniente dal ramo `main` è stato caricato sul ramo `main` remoto (rappresentato localmente da `o/main`). La *destinazione* del push è determinata dalla connessione tra `main` e `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tracciamento remoto",
+              "",
+              "Per farla breve, questa connessione tra `main` e `o/main` viene spiegata facilmente dalla proprietà di \"tracciamento remoto\" dei rami. Il ramo `main` è impostato per tracciare `o/main` -- questo significa che sono presenti un destinatario implicito della fusione e una destinazione implicita del push per il ramo `main`.",
+              "",
+              "Potresti chiederti come questa proprietà è stata impostata sul ramo `main` quando tu non hai eseguito alcun comando per specificarlo. Quando cloni un repository con git, questa proprietà viene impostata automaticamente.",
+              "",
+              "Durante un clone, git crea un ramo remoto per ciascun ramo presente sul repository remoto (aka rami come `o/main`). Crea poi un ramo locale che traccia il ramo attivo al momento sul remoto, che risulta essere `main` nella maggior parte dei casi.",
+              "",
+              "Una volta terminato git clone, di questi rimane solo un ramo locale (per non sovraccaricarti) ma puoi vedere tutti i vari rami presenti sul remoto (in caso tu fossi curioso). È come prendere due piccioni con una fava!",
+              "",
+              "Questo spiega inoltre perché potresti ricevere questo output durante la clonazione:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Posso specificarlo io?",
+              "",
+              "Sì che puoi! Puoi decidere arbitrariamente di far tracciare a qualsiasi ramo `o/main`, e se lo fai, quel ramo avrà le stesse destinazioni implicite per push e merge di `main`. Ciò significa che puoi eseguire `git push` su un ramo chiamato `perNienteIlMain` e vedere il tuo lavoro caricato sul ramo `main` nel repository remoto!",
+              "",
+              "Ci sono due modi per impostare questa proprietà. Il primo è creare il nuovo ramo tramite checkout specificando un ramo remoto come riferimento. Eseguire",
+              "",
+              "`git checkout -b perNienteIlMain o/main`",
+              "",
+              "Crea un nuovo ramo chiamato `perNienteIlMain` e lo imposta a tracciare `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Abbiamo parlato abbastanza, vediamo una dimostrazione! Creeremo tramite checkout un nuovo ramo chiamato `foo` e verrà impostato a tracciare `main` sul remoto."
+            ],
+            "afterMarkdowns": [
+              "Come puoi vedere, abbiamo usato il destinatario implicito di `o/main` per aggiornare il ramo `foo`. Se vedi il main non è stato aggiornato!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lo stesso vale per git push."
+            ],
+            "afterMarkdowns": [
+              "Boom. Abbiamo caricato il nostro lavoro al ramo `main` sul repository remoto nonostante il nostro ramo avesse un nome totalmente diverso."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Way #2",
+              "",
+              "Un altro modo per impostare il tracciamento remoto su un ramo è tramite l'opzione `git branch -u`. Eseguire",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "imposterà il ramo `foo` a tracciare `o/main`. Se stiamo attualmente lavorando su `foo` possiamo ometterlo:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vediamo al volo quest'altro metodo per specificare il tracciamento remoto..."
+            ],
+            "afterMarkdowns": [
+              "Come prima, solo tramite un comando più esplicito. Bene dai!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Per qusto livello carica del lavoro sul ramo `main` del remoto mentre *non* sei attualmente sul ramo `main` locale. Al resto devi arrivarci tu, d'altronde questo è il corso avanzato :P"
             ]
           }
         }

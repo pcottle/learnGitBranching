@@ -332,7 +332,7 @@ exports.strings = {
     'sl_SI': 'Tvoj origin branch ni sinhroniziran z oddaljenim branchem, zato se fetch se ne more izvesti',
     'pl': 'Twój branch nie jest zsynchronizowany ze zdalny branch-em i nie można przeprowadzić pobierania',
     'it_IT':
-      "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non puù essere eseguito",
+      "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non può essere eseguito",
     'ta_IN': 'உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது'
   },
   'git-error-origin-push-no-ff': {
@@ -464,7 +464,7 @@ exports.strings = {
     'vi': 'Gộp {target} vào {current}.',
     'sl_SI': 'Mergaj {target} v {current}',
     'pl'   : 'Łączenie {target} z {current}',
-    'it_IT': "Merge  {target} in {current}",
+    'it_IT': "Fuso {target} in {current}",
     'ta_IN': '{target}ஐ {current} கிளையுடன் இணை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -487,7 +487,7 @@ exports.strings = {
     'sl_SI': 'Ni commitov za rebase! Vse je merge commit ali pa so spremembe že dodane',
     'pl'   : 'Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane',
     'it_IT':
-      "Non ci sono commit da ribasare! Sono tutti commit di merge o i cambiamenti sono giò stati applicati",
+      "Non ci sono commit da ribasare! Sono tutti commit di merge o i cambiamenti sono già stati applicati",
     'ta_IN': '`rebase` செய்ய எந்த கமிட்டும் இல்லை, அனைத்தும் இணைப்பு கமிட்கள் அல்லது முன்பே இணைக்கப்பட்டவை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -597,7 +597,7 @@ exports.strings = {
     'vi': 'Commit {commit} mà không có {match}.',
     'sl_SI': 'Commit {commit} nima {match}',
     'pl'   : 'Commit {commit} nie ma {match}',
-    'it_IT': "Commit {commit} non ha un {match}",
+    'it_IT': "Il commit {commit} non ha un {match}",
     'ta_IN': '{commit}க்கு {match} எதுவும் இல்லை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1700,7 +1700,7 @@ exports.strings = {
     'sl_SI': 'Določanje začetne točke ... rešitev in cilj bosta povožena, če sta bila prej že podana',
     'pl'   : 'Ustawianie punktu startowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane',
     'it_IT':
-      "Definendo punto di partenza... soluzione e obiettivo saranno sovvrascritti se erano già stati definiti.",
+      "Definendo punto di partenza... soluzione e obiettivo saranno sovrascritti se erano già stati definiti.",
     'ta_IN': 'தொடக்கத்தை வரையறுத்தல்... தீர்வு மற்றும் குறிக்கோள் முன்னரே வரையறுக்கப்பட்டிருந்தால் மேலெழுதப்படும்'
   },
   ///////////////////////////////////////////////////////////////////////////
