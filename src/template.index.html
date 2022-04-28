@@ -198,37 +198,37 @@
             </div>
           </div>
           <div class="singleViewButtons box horizontal">
-            <div class="uiButton uiButtonRed box deleteButton" data-index="<%=i%>">
+            <button class="noStyle uiButton uiButtonRed box deleteButton" data-index="<%=i%>">
               Delete
-            </div>
-            <div class="uiButton uiButtonWhite box editButton" data-index="<%=i%>" data-type="<%= views[i].type %>">
+            </button>
+            <button class="noStyle uiButton uiButtonWhite box editButton" data-index="<%=i%>" data-type="<%= views[i].type %>">
               Edit
-            </div>
-            <div class="uiButton box testButton" data-index="<%=i%>">
+            </button>
+            <button class="noStyle uiButton box testButton" data-index="<%=i%>">
               Test
-            </div>
+            </button>
           </div>
         </div>
       <% } %>
     </div>
     <div class="buttons box horizontal center">
       <% for (var i = 0; i < supportedViews.length; i++) { %>
-        <div class="uiButton addView uiButtonYellow" data-type="<%=supportedViews[i]%>">
+        <button class="noStyle uiButton addView uiButtonYellow" data-type="<%=supportedViews[i]%>">
         Add <%=supportedViews[i]%> View
-        </div>
+        </button>
       <% } %>
     </div>
     <div class="controlsForView box horizontal center">
-        <div class="uiButton uiButtonRed cancelView">
+        <button class="noStyle uiButton uiButtonRed cancelView">
           Cancel
-        </div>
+        </button>
         <% if (views.length) { %>
-          <div class="uiButton uiButtonWhite testEntireView">
+          <button class="noStyle uiButton uiButtonWhite testEntireView">
             Test Entire View
-          </div>
-          <div class="uiButton saveView">
+          </button>
+          <button class="noStyle uiButton saveView">
             Save Entire View
-          </div>
+          </button>
         <% } %>
    </div>
   </script>
@@ -304,34 +304,34 @@
   <script type="text/html" id="left-right-template">
     <% if (!showLeft && lastNav ) { %>
       <div class="box right">
-        <i class="icon-ok exit"></i>
+        <button class="noStyle"><i aria-hidden="true" class="icon-ok exit"></i><span class="visuallyHidden">OK</span></button>
       </div>
     <% } else { %>
       <% if (showLeft) { %>
         <div class="box left">
-          <i class="icon-circle-arrow-left"></i>
+          <button class="noStyle"><i aria-hidden="true" class="icon-circle-arrow-left"></i><span class="visuallyHidden">Previous</span></button>
       <% } else { %>
         <div class="box exit">
-          <i class="icon-signout"></i>
+          <button class="noStyle"><i aria-hidden="true" class="icon-signout"></i><span class="visuallyHidden">Close</span></button>
       <% } %>
       </div>
       <div class="box right">
         <% if (!lastNav) { %>
-          <i class="icon-circle-arrow-right"></i>
+          <button class="noStyle"><i aria-hidden="true" class="icon-circle-arrow-right"></i><span class="visuallyHidden">Next</span></button>
         <% } else { %>
-          <i class="icon-ok"></i>
+          <button class="noStyle"><i aria-hidden="true"  class="icon-ok"></i><span class="visuallyHidden">OK</span></button>
         <% } %>
       </div>
     <% } %>
   </script>
 
   <script type="text/html" id="confirm-cancel-template">
-    <a class="box cancelButton uiButton uiButtonRed">
+    <button class="noStyle box cancelButton uiButton uiButtonRed">
       <%= cancel %>
-    </a>
-    <a class="box confirmButton uiButton uiButtonYellow">
+    </button>
+    <button class="noStyle box confirmButton uiButton uiButtonYellow">
       <%= confirm %>
-    </a>
+    </button>
   </script>
 
   <script type="text/html" id="interactive-rebase-entry-template">
@@ -341,14 +341,14 @@
         <span class="idwrapper">
           <%= id %>
         </span>
-        <a id="toggleButton" class="uiButton uiButtonPink">
+        <button id="toggleButton" class="noStyle uiButton uiButtonPink">
           <span class="showWhenPicked">
             Omit
           </span>
           <span class="showWhenNotPicked">
             Pick
           </span>
-        </a>
+        </button>
       </div>
     </li>
   </script>
