@@ -1145,14 +1145,14 @@ exports.level = {
             beforeMarkdowns: [
               "## Git Revert",
               "",
-              'Git reset funziona perfettamente in locale sul proprio computer, la funzione di  "riscrivere la storia" non va d\'accordo con i rami salvati in remoto utilizzati da altri colleghi.',
+              'Git reset funziona perfettamente in locale sul proprio computer, ma la funzione di  "riscrivere la storia" non va d\'accordo con i rami salvati in remoto utilizzati da altri colleghi.',
               "",
               "Per fare in modo di annullare e *condividere* con gli altri le modifiche annullate, dobbiamo usare `git revert`. Vediamolo in azione.",
             ],
             afterMarkdowns: [
               "Strano, un nuovo commit è stato creato sotto il commit che volevamo annullare. Questo perché il nuovo commit `C2'` porta *cambiamenti* -- per l'esattezza i cambiamenti sono quelli che annullano il commit `C2`.",
               "",
-              "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altrri.",
+              "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altri.",
             ],
             command: "git revert HEAD",
             beforeCommand: "git commit",

@@ -1024,7 +1024,7 @@ exports.level = {
               "",
               "Fino a ora abbiamo intravisto le basi di git -- creazione di commit, rami, e come spostarsi sull'albero dei commit. Questi concetti sono sufficienti per sfruttare il 90% della potenza di git, e soddisfano gli utilizzi standard degli sviluppatori.",
               "",
-              'Il restante 10%, può rivelarsi utile in situazioni più complesse (o se ti sei messo nei guai). Il prossimo concetto che affronteremo è lo "spostare il lavoro in giro" -- in altre parole, è un modo per gli sviluppatori di dire "Voglio questo lavoro qua e quel lavoro la" in maniera chiara e precisa.',
+              'Il restante 10%, può rivelarsi utile in situazioni più complesse (o se ti sei messo nei guai). Il prossimo concetto che affronteremo è lo "spostare il lavoro in giro" -- in altre parole, è un modo per gli sviluppatori di dire "Voglio questo lavoro qua e quel lavoro là" in maniera chiara e precisa.',
               "",
               "Sembra un grosso lavoro, ma è un concetto semplice.",
             ],
@@ -1054,7 +1054,7 @@ exports.level = {
               "In questo repository abbiamo del lavoro nel ramo `side` che vogliamo copiare nel `main`. Questo può essere eseguito tramite rebase (che abbiamo già imparato), ma vediamo il cherry-pick all'opera.",
             ],
             afterMarkdowns: [
-              "Ecco qua! Volevamo i commit `C2` and `C4` e git gli ha copiati sotto di noi. Semplicissimo!",
+              "Ecco qua! Volevamo i commit `C2` e `C4` e git li ha copiati sotto di noi. Semplicissimo!",
             ],
             command: "git cherry-pick C2 C4",
             beforeCommand:
@@ -1065,7 +1065,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "Per completare questo livello, copia il lavoro dai tre rami sul main. Puoi vedere quali sono i commit richiesti guardando l'obbiettivo.",
+              "Per completare questo livello, copia il lavoro dai tre rami sul main. Puoi vedere quali sono i commit richiesti guardando l'obiettivo.",
               "",
             ],
           },

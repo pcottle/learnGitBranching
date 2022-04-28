@@ -24,7 +24,8 @@ exports.level = {
     "uk": "Нема джерела",
     "vi": "Không có nguồn",
     "sl_SI": "Izvor Ničesar",
-    "pl": "Źródło nicości"
+    "pl": "Źródło nicości",
+    "it_IT": "Fonte del nulla"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -42,7 +43,8 @@ exports.level = {
     "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
     "vi": "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!",
     "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!",
-    "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!"
+    "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!",
+    "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -892,6 +894,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "To jest krótki poziom -- żeby go ukończyć, po prostu usuń jedną zdalną gałąź i stwórz jedną nową, używając `git fetch`!"
+            ]
+          }
+        }
+      ]
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Stranezze di `<source>`",
+              "",
+              "Git abusa del parametro `<source>` in due strani modi. Questi due abusi derivano dal fatto che tu puoi tecnicamente specificare \"nulla\" come una fonte valida sia per git push che per git fetch. Si può fare ciò lasciando il parametro vuoto:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Vediamo cosa fanno questi..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "In cosa consiste il caricare \"nulla\" ad un ramo remoto? Lo elimina!"
+            ],
+            "afterMarkdowns": [
+              "Ecco, abbiamo eliminato con successo il ramo `foo` avendovi caricato il concetto di \"nulla\". Ha senso effettivamente..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Infine, scaricare il \"nulla\" in una posizione locale va a creare un nuovo ramo."
+            ],
+            "afterMarkdowns": [
+              "Molto strano, ma vabbé. Questo e altro da git!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Questo è un livello rapido -- elimina un ramo remoto e creane uno localmente tramite `git fetch` per terminare il livello!"
             ]
           }
         }

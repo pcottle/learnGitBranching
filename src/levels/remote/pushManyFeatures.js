@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
     "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
     "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
-    "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset"
+    "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
+    "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset"
   },
   "name": {
     "en_US": "Push Main!",
@@ -36,7 +37,8 @@ exports.level = {
     "uk": "Push Maйстер!",
     "vi": "Push Main!",
     "sl_SI": "Push Main!",
-    "pl": "Wypychanie dla wytrwałych!"
+    "pl": "Wypychanie dla wytrwałych!",
+    "it_IT": "Push main!"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -887,6 +889,59 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Fondere rami di funzionalità",
+              "",
+              "Ora che ti sei ambientato con fetch, pull e push, vediamo di testare queste skill in un nuovo flusso di lavoro.",
+              "",
+              "È comune che gli sviluppatori di grandi progetti svolgano il loro lavoro su dei rami per le funzionalità (feature branch, basati sul `main`). Questo è simile alla lezione precedente (dove rami secondari vengono caricati nel remoto), ma qui aggiungiamo un ulteriore passo.",
+              "",
+              "Alcuni sviluppatori caricano e scaricano commit solo quando sono sul ramo `main` -- in questo modo `main` rimane sempre aggiornato allo stato del remoto ('`o/main`).",
+              "",
+              "Quindi per questo flusso di lavoro devi unire due cose:",
+              "",
+              "* integrare feature branch a partire dal `main`, e",
+              "* usare push e pull verso il repository remoto"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Diamo una rinfrescata veloce su come aggiornare `main` e caricare il nostro lavoro."
+            ],
+            "afterMarkdowns": [
+              "Abbiamo eseguito due comandi:",
+              "",
+              "* abbiamo ribasato il nostro lavoro sul nuovo commit dal remoto, e",
+              "* abbiamo pubblicato il nostro lavoro sul remoto"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Questo livello è abbastanza impegnativo -- ecco come risolverlo a grandi linee:",
+              "",
+              "* Ci sono tre feature branch -- `side1` `side2` e `side3`",
+              "* Vogliamo caricare ciascuna di queste funzionalità, in ordine, sul remoto",
+              "* Il remoto nel mentre è stato aggiornato, quindi dobbiamo prima incorporare quelle modifiche",
+              "",
+              "tosto :O! buona fortuna, completare questo livello è un gran passo."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

@@ -376,7 +376,7 @@ exports.level = {
               "",
               "Qui abbiamo il `main` situato qualche commit più avanti rispetto ai rami `one` `two` e `three`. Per una qualche ragione, dobbiamo aggiungere questi altri tre rami con versioni aggiornate degli ultimi commit sul main.",
               "",
-              "Il ramo `one` deve essere riordinato e il commit`C5` è da rimuovere. `two` deve essere riordinato, e `three` deve avere un solo commit!",
+              "Il ramo `one` deve essere riordinato e il commit `C5` è da rimuovere. `two` deve essere riordinato, e `three` deve avere un solo commit!",
               "",
               "Tocca a te capire come farlo -- controlla la soluzione alla fine con il comando `show solution`. "
             ]

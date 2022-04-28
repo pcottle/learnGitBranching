@@ -18,7 +18,8 @@ exports.level = {
     "uk": "Аргументи для fetch",
     "vi": "Tham số fetch",
     "sl_SI": "Fetch argumenti",
-    "pl": "Argumenty fetch"
+    "pl": "Argumenty fetch",
+    "it_IT": "Parametri di git fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -36,7 +37,8 @@ exports.level = {
     "uk": "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\"",
     "vi": "Lưu ý id của các commit bị tráo đổi, bạn có thể dùng \"help level\" để đọc lại hội thoại",
     "sl_SI": "Bodi pozoren kako so se commit id-ji morda zamenjali! Ponovno lahko prebereš navodila z \"help level\".",
-    "pl": "Zauważ, że identyfikatory commitów mogły zostać zamienione! Slajdy możesz przeczytać jeszcze raz po wpisaniu: \"help level\""
+    "pl": "Zauważ, że identyfikatory commitów mogły zostać zamienione! Slajdy możesz przeczytać jeszcze raz po wpisaniu: \"help level\"",
+    "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\""
   },
   "startDialog": {
     "en_US": {
@@ -2021,6 +2023,129 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Parametri di git fetch",
+              "",
+              "Abbiamo imparato un sacco sui parametri di git push, su questo bel `<place>`, e persino sui colon refspec (`<source>:<destination>`). Possiamo usare tutta questa conoscenza anche per `git fetch`?",
+              "",
+              "Ma certo! I parametri di `git fetch` sono *molto, molto* simili a quelli di `git push`. È lo stesso tipo di concetto ma applicato nel verso opposto (in quanto ora stai scaricando commit invece che caricarli in un repository remoto).",
+              "",
+              "Vediamo i vari concetti uno per volta..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Il parametro `<place>`",
+              "",
+              "Se specifici un luogo con git fetch come nel comando seguente:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git andrà al ramo `foo` sul remoto, prenderà tutti i commit che non sono presenti in locale, e li andrà a mettere nel ramo locale `o/foo`.",
+              "",
+              "Vediamolo in azione (per rinfrescare le idee)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Specificando un luogo..."
+            ],
+            "afterMarkdowns": [
+              "Scarichiamo solamente i commit da `foo` e li piazziamo su `o/foo`."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Potresti domandarti -- perché git ha messo i commit sul ramo remoto `o/foo` invece che metterli sul mio ramo locale `foo`? Il parametro `<place>` non era un luogo esistente sia localmente che sul remoto?",
+              "",
+              "Git fa un'eccezione in questo caso dato che potresti avere del lavoro sul ramo `foo` che non vuoi venga messo a rischio!! Questo si collega alla vecchia lezione su `git fetch` -- non aggiorna i tuoi rami locali, non-remoti, va solo a scaricare i commit (così che sia tu ad esaminarli / fonderli più avanti).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Bene allora, cosa succede se definisco esplicitamente sia la fonte che la destinazione con `<source>:<destination>`?\"",
+              "",
+              "Se ti senti abbastanza ispirato da voler scaricare commit *direttamente* su di un ramo locale, allora sì, puoi farlo con un colon refspec. Non puoi scaricare commit sul ramo nel quale sei attualmente, a parte questo git te lo permetterà.",
+              "",
+              "Qui c'è la fregatura però -- `<source>` è ora un luogo sul repository *remoto* e `<destination>` è un luogo *locale* nel quale piazzare i commit recuperati. È l'esatto opposto di git push, il che ha senso dato che stiamo trasferendo dati nella direzione opposta!",
+              "",
+              "Detto ciò, gli sviluppatori raramente lo fanno. Lo sto introducendo principalmente come metodo per concettualizzare come `fetch` e `push` siano molto simili, solo in direzioni opposte."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vediamo questa pazzia sul campo:"
+            ],
+            "afterMarkdowns": [
+              "Wow! Vediamo, git ha risolto `foo~1` come un luogo sul repository remoto e ha poi scaricato quei commit su `bar` (nostro ramo locale). Notiamo come `foo` e `o/foo` non sono stati aggiornati in quanto abbiamo specificato una destinazione."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E se la destinazione non esistesse nel momento in cui eseguo il comando? Vediamo la slide precedente ma con l'assenza del ramo `bar`."
+            ],
+            "afterMarkdowns": [
+              "Visto, è PROPRIO come git push. Git ha creato la destinazione in locale prima di recuperare i dati, allo stesso modo in cui avrebbe creato la destinazione in remoto prima di caricarli con push (in caso non esista)."
+            ],
+            "command": "git fetch origin foo~1:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Senza parametri?",
+              "",
+              "Se `git fetch` non riceve parametri, scarica semplicemente tutti i commit dal repository remoto su tutti i rami remoti..."
+            ],
+            "afterMarkdowns": [
+              "Abbastanza semplice, ma vale la pena darci almeno un'occhiata."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Abbiamo parlato abbastanza! Per finire questo livello, scarica solo i commit specificati nella finestra dell'obiettivo. Scatenati con quei comandi!",
+              "",
+              "Dovrai specificare la fonte e la destinazione per entrambi i comandi di fetch. Presta attenzione alla finestra obiettivo in quanto gli ID dei commit potrebbero essere scambiati!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

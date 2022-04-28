@@ -19,6 +19,7 @@ exports.level = {
     "vi": "Giả lập làm việc nhóm",
     "sl_SI": "Lažno Ekipno Delo",
     "pl": "Symulacja pracy zespołowej",
+    "it_IT": "Simulare il lavoro di squadra"
   },
   "hint": {
     "en_US": "remember you can specify the number of commits to fake",
@@ -37,6 +38,7 @@ exports.level = {
     "vi": "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập.",
     "sl_SI": "Spomni se, da lahko določiš število lažnih commitov.",
     "pl": "Pamiętaj, że możesz określić liczbę symulowanych commitów",
+    "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare"
   },
   "startDialog": {
     "en_US": {
@@ -905,5 +907,59 @@ exports.level = {
         }
       ]
     },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simulare la cooperazione",
+              "",
+              "La questione è la seguente -- per alcune delle prossime lezioni, dovremo insegnarti come recuperare delle modifiche effettuate al repository remoto.",
+              "",
+              "Questo significa che dobbiamo essenzialmente \"far finta\" che quest'ultimo sia stato aggiornato da uno dei nostri colleghi / amici / collaboratori, a volte in un certo ramo o per un certo numero di commit.",
+              "",
+              "Per fare ciò, abbiamo introdotto un comando ad hoc: `git fakeTeamwork`. È abbastanza autoesplicativo, vediamo una demo..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Il comportamento predefinito di `fakeTeamwork` consiste semplicemente nell'effettuare un commit sul main."
+            ],
+            "afterMarkdowns": [
+              "Ecco qua -- il repository remoto è stato aggiornato con un nuovo commit, e non lo abbiamo ancora scaricato in quanto non abbiamo eseguito `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Puoi anche specificare il numero di commit o il ramo su cui effettuali specificandolo nel comando."
+            ],
+            "afterMarkdowns": [
+              "Con un comando abbiamo simulato un nostro collega che invia tre commit al ramo `foo` del repository remoto."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "I prossimi livelli saranno abbastanza tosti, quindi ti chiediamo un po' di più già da ora.",
+              "",
+              "Crea un repository remoto (con `git clone`), simula alcune modifiche su quel repository, effettua tu un commit, e poi recupera quelle modifiche. È come più lezioni in una!"
+            ]
+          }
+        }
+      ]
+    }
   }
 };

@@ -18,7 +18,8 @@ exports.level = {
     "ko": "Git Fetch",
     "vi": "Git Fetch",
     "sl_SI": "Git Fetch",
-    "pl": "Git fetch"
+    "pl": "Git fetch",
+    "it_IT": "Git Fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -36,7 +37,8 @@ exports.level = {
     "ko": "그냥 git fetch를 하세요!",
     "vi": "Gõ git fetch là được!",
     "sl_SI": "Le izvedi git fetch!",
-    "pl": "Po prostu uruchom git fetch!"
+    "pl": "Po prostu uruchom git fetch!",
+    "it_IT": "Semplicemente git fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -1206,6 +1208,79 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Lavorare con git remoto consiste essenzialmente nel trasferimento di dati _verso_ e _da_ altri repository. Fino a che possiamo inviare commit avanti e indietro, possiamo condividere qualsiasi tipo di aggiornamento tracciabile da git (e quindi condividere lavoro, nuovi file, nuove idee, letterine d'amore, etc.).",
+              "",
+              "In questa lezione vedremo come recuperare dati _da_ un repository remoto -- il comando per fare ciò è `git fetch`.",
+              "",
+              "Man mano che aggiorneremo la nostra rappresentazione del repository remoto, noterai che i nostri rami _remoti_ si aggiorneranno per riflettere quella nuova rappresentazione. Questo si collega alla lezione precedente sui rami remoti."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Prima di addentrarci nei dettagli di `git fetch`, vediamolo in azione! Qui abbiamo un repository remoto contenente due commit che il nostro repository locale non ha."
+            ],
+            "afterMarkdowns": [
+              "Ecco fatto! I commit `C2` e `C3` sono stati scaricati nel nostro repository locale, e il nostro ramo remoto `o/main` è stato aggiornato per riflettere questo cambiamento."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Cosa fa git fetch",
+              "",
+              "`git fetch` compie unicamente queste due azioni:",
+              "",
+              "* scarica i commit presenti in remoto ma assenti dal nostro repository locale, e...",
+              "* aggiorna dove puntano i nostri rami remoti (ad esempio, `o/main`)",
+              "",
+              "`git fetch` essenzialmente porta la nostra rappresentazione _locale_ del repository remoto al pari con lo stato _attuale_ dello stesso (in questo momento).",
+              "",
+              "Se ti ricordi, nella lezione precedente abbiamo visto che i rami remoti riflettono lo stato del repository remoto dall'_ultima volta_ in cui hai comunicato con esso. `git fetch` è il modo per comunicare con i repository remoti! Ora il legame tra i rami remoti e `git fetch` dovrebbe essere più chiaro.",
+              "",
+              "`git fetch` generalmente comunica con il repository remoto attraverso Internet (tramite un protocollo come `http://` o `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Cosa non fa git fetch",
+              "",
+              "`git fetch`, però, non effettua modifiche a ciò che è già presente in locale sul _tuo_ sistema. Non aggiornerà il tuo ramo `main` e non apporterà modifiche ai tuoi file.",
+              "",
+              "Questo è importante da comprendere in quanto molti sviluppatori pensano che eseguire `git fetch` porterà il loro lavoro a riflettere lo stato del repository remoto. Va a scaricare tutti i dati necessari per farlo, ma _non_ va a modificare effettivamente alcun file locale. Impareremo nelle prossime lezioni i comandi per fare proprio questo :D",
+              "",
+              "In fin dei conti, puoi considerare `git fetch` come una fase di download di dati."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Per completare il livello, digita `git fetch` per scaricare tutti i commit!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

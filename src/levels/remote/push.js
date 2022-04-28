@@ -21,7 +21,8 @@ exports.level = {
     "ko": "Git push",
     "vi": "Git push",
     "sl_SI": "Git Push",
-    "pl": "Git push"
+    "pl": "Git push",
+    "it_IT": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -39,6 +40,7 @@ exports.level = {
     "vi": "Nhớ rằng bạn phải clone trước khi push!",
     "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!",
     "pl": "Najpierw sklonuj, potem pushuj!",
+    "it_IT": "Ricorda di clonare il repository prima di usare push!"
   },
   "startDialog": {
     "en_US": {
@@ -724,5 +726,48 @@ exports.level = {
         }
       ]
     },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, ho recuperato tutti gli aggiornamenti dal repository remoto e li ho incorporati al mio repository locale. Fin qui tutto apposto ma... come faccio a condividere il _mio_ fantastico lavoro con gli altri?",
+              "",
+              "Bene, per caricare il lavoro da condividere si deve fare l'opposto dello scaricarlo. E qual è l'opposto di `git pull`? `git push`!",
+              "",
+              "`git push` è responsabile dell'inviare le _tue_ modifiche ad uno specifico repository remoto e di aggiornarlo per far sì che incorpori i tuoi nuovi commit. Una volta eseguito `git push`, tutti i tuoi amici possono scaricare il tuo lavoro dal repository remoto.",
+              "",
+              "Puoi considerare `git push` come un comando per \"pubblicare\" il tuo lavoro. Ha una serie di sottigliezze che vedremo più avanti, per ora iniziamo dalle basi...",
+              "",
+              "*nota -- il comportamento di `git push` senza argomenti dipende da un'impostazione di git chiamata `push.default`. Il valore predefinito di quest'impostazione dipende dalla versione di git in uso; noi andremo ad usare il valore `upstream` nelle lezioni. Non è un problema, ma vale la pena controllare le impostazioni prima di usare push nei tuoi progetti.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Qui abbiamo alcuni cambiamenti che non sono presenti nel repository remoto. Andiamo a caricarli!"
+            ],
+            "afterMarkdowns": [
+              "Ecco qui -- il repository remoto ha ricevuto il commit `C2`, il ramo `main` sul remoto è stato aggiornato a puntare a `C2`, ed anche il *nostro* riflesso del repository remoto (`o/main`) è stato aggiornato. Tutto è stato sincronizzato!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Per terminare questo livello, condividi due nuovi commit con il repository remoto. Preparati però, perché le prossime lezioni saranno belle toste!"
+            ]
+          }
+        }
+      ]
+    }
   }
 };

@@ -1325,7 +1325,7 @@ exports.level = {
             markdowns: [
               "## Riferimenti relativi",
               "",
-              "Spostarsi in Git specificando l'hash dei commit può essere una scocciatura. Nella vita vera non avrai un bel albero con tutti i commit sullo schermo, dovrai usare `git log` per vedere gli hash.",
+              "Spostarsi in Git specificando l'hash dei commit può essere una scocciatura. Nella vita vera non avrai un bell'albero con tutti i commit sullo schermo, dovrai usare `git log` per vedere gli hash.",
               "",
               "Inoltre, gli hash sono solitamente molto più lunghi. Per esempio, l'hash del commit nel livello precedente è `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Non così semplice da ricordare...",
               "",
