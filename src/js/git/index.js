@@ -1843,6 +1843,7 @@ GitEngine.prototype.pruneTree = function(doPrintWarning = true) {
   Object.keys(headSet).forEach(function(commitID) {
     set[commitID] = true;
   });
+  Object.keys(this.getUpstreamTagSet()).forEach(commitID => set[commitID] = true);
 
   var toDelete = [];
   this.commitCollection.each(function(commit) {
@@ -1877,7 +1878,6 @@ GitEngine.prototype.pruneTree = function(doPrintWarning = true) {
 
   return true;
 };
-
 GitEngine.prototype.getUpstreamBranchSet = function() {
   return this.getUpstreamCollectionSet(this.branchCollection);
 };
