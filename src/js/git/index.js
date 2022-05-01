@@ -1836,7 +1836,7 @@ GitEngine.prototype.pruneTreeAndPlay = function() {
     this.animationFactory.playRefreshAnimationSlow(this.gitVisuals);
 };
 
-GitEngine.prototype.pruneTree = function() {
+GitEngine.prototype.pruneTree = function(doPrintWarning = true) {
   var set = this.getUpstreamBranchSet();
   // don't prune commits that HEAD depends on
   var headSet = Graph.getUpstreamSet(this, 'HEAD');
@@ -1857,7 +1857,7 @@ GitEngine.prototype.pruneTree = function() {
     // the switch sync
     return;
   }
-  if (this.command) {
+  if (this.command && doPrintWarning) {
     this.command.addWarning(intl.str('hg-prune-tree'));
   }
 

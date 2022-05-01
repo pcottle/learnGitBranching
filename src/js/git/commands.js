@@ -208,6 +208,14 @@ var commandConfig = {
     }
   },
 
+  gc: {
+    displayName: 'gc',
+    regex: /^git +gc($|\s)/,
+    execute: function(engine, command) {
+      engine.pruneTree(false);
+    }
+  },
+
   pull: {
     regex: /^git +pull($|\s)/,
     options: [
