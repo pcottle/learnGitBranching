@@ -821,13 +821,13 @@ exports.level = {
           options: {
             markdowns: [
               "## Git Commits",
-              "Un commit in git memorizza un'instantanea di tutti i file (tracciati) della cartella di lavoro. E' come un enorme copia-incolla, ma migliore!",
+              "Un commit in git memorizza un'instantanea di tutti i file (tracciati) della cartella di lavoro. È come un enorme copia-incolla, ma migliore!",
               "",
-              'Git conserva i commit nel modo più leggero possibile, perciò non copia cecamente l\'intera cartella per ogni commit. Può (ove possibile) comprimere un commit come un insieme di cambiamenti, o "delta", da una versione alla successiva del repository.',
+              'Git conserva i commit nel modo più leggero possibile, perciò non copia ciecamente l\'intera cartella per ogni commit. Può (ove possibile) comprimere un commit come un insieme di cambiamenti, o "delta", da una versione alla successiva del repository.',
               "",
               "Git memorizza anche la storia di tutti i commit effettuati. Questo è il motivo per cui molti commit hanno genitori sopra di essi -- questo viene rappresentato con delle frecce nelle nostre spiegazioni. Conoscere la storia è utilissimo per tutti quelli che collaborano ad un progetto!",
               "",
-              "C'è tanto da sapere, ma per ora pensa ai commit come delle instantanee del progetto. I commit sono leggerissimi e si può passare da uno all'altro in un battibaleno!",
+              "C'è tanto da sapere, ma per ora pensa ai commit come a delle instantanee del progetto. I commit sono leggerissimi e si può passare da uno all'altro in un battibaleno!",
             ],
           },
         },

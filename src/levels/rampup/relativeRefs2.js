@@ -1207,7 +1207,7 @@ exports.level = {
             markdowns: [
               '### L\'operatore "~"',
               "",
-              "Nel caso in cui vuoi risalire di più livelli l'albero dei commit, è una seccatura aggiungere `^` per ogni salto, per questo Git ha l'operatore tilde(~).",
+              "Nel caso in cui voglia risalire di più livelli l'albero dei commit, è una seccatura aggiungere `^` per ogni salto, per questo Git ha l'operatore tilde(~).",
               "",
               "",
               "A questo operatore si può (facoltativamente) aggiungere un numero che specifica di quanti livelli si vuole risalire l'albero dei commit. Vediamolo in azione.",

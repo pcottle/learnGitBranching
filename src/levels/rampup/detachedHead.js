@@ -1374,7 +1374,7 @@ exports.level = {
               "",
               "Prima di imparare comandi avanzati in Git, è fondamentale conoscere i diversi modi per spostarsi nell'albero dei commit che costituiscono il tuo progetto.",
               "",
-              "Una volta che ti sentirai a tuo agio, il potere con gli altri comandi git sarà amplificato!",
+              "Una volta che ti sentirai a tuo agio, il tuo potere con gli altri comandi git sarà amplificato!",
               "",
               "",
               "",

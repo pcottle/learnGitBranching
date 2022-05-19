@@ -56,7 +56,7 @@ exports.level = {
               "",
               "- More importantly, remotes make coding social! Now that a copy of your project is hosted elsewhere, your friends can contribute to your project (or pull in your latest changes) very easily.",
               "",
-              "It's become very popular to use websites that visualize activity around remote repos (like [GitHub](https://github.com/) or [Phabricator](http://phabricator.org/)), but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
+              "It's become very popular to use websites that visualize activity around remote repos (like [GitHub](https://github.com/)), but remote repositories _always_ serve as the underlying backbone for these tools. So it's important to understand them!"
             ]
           }
         },
@@ -113,7 +113,7 @@ exports.level = {
               "",
               "- Plus important encore, les dépôts distants sociabilisent le projet ! Maintenant qu'il est hébergé quelque part ailleurs, vos amis peuvent y contribuer facilement (ou récupérer vos derniers changements).",
               "",
-              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (comme [GitHub](https://github.com/) ou [Phabricator](http://phabricator.org/)), mais les dépôts distants servent _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
+              "Il est devenu courant de visualiser l'activité sur dépôt distant via des sites internet (comme [GitHub](https://github.com/)), mais les dépôts distants servent _toujours_ de colonne vertébrale à ce système. C'est donc important de les comprendre !"
             ]
           }
         },
@@ -170,7 +170,7 @@ exports.level = {
               "",
               "- Más importante, ¡los remotos sociabilizan la programación! Ahora que hay una copia de tu proyecto hosteada en otro lugar, cualquiera puede contribuir a tu proyecto (o bajarse los últimos cambios) de un modo muy sencillo.",
               "",
-              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [GitHub](https://github.com/) o [Phabricator](http://phabricator.org/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
+              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [GitHub](https://github.com/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
             ]
           }
         },
@@ -227,7 +227,7 @@ exports.level = {
               "",
               "- Más importante, ¡los remotos sociabilizan la programación! Ahora que hay una copia de tu proyecto hosteada en otro lugar, tus amigos pueden contribuir a tu proyecto (o bajarse los últimos cambios) de un modo muy sencillo.",
               "",
-              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [GitHub](https://github.com/) or [Phabricator](http://phabricator.org/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
+              "Se volvió bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [GitHub](https://github.com/)), pero esos repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
             ]
           }
         },
@@ -284,7 +284,7 @@ exports.level = {
               "",
               "- Ainda mais importante, repositórios remotos tornam o desenvolvimento uma atividade social! Agora que uma cópia do seu projeto está hospedada em outro lugar, seus amigos podem contribuir para o seu projeto (ou obter as suas últimas alterações) de uma forma bastante simples.",
               "",
-              "Está se tornando bastante popular o uso de websites para visualizar a atividade em repositórios (como o [GitHub](https://github.com/) ou o [Phabricator](http://phabricator.org/)), mas o recurso de repositórios remotos _sempre_ serve como mecanismo base para essas ferramentas. Então é importante entender como ele funciona!"
+              "Está se tornando bastante popular o uso de websites para visualizar a atividade em repositórios (como o [GitHub](https://github.com/)), mas o recurso de repositórios remotos _sempre_ serve como mecanismo base para essas ferramentas. Então é importante entender como ele funciona!"
             ]
           }
         },
@@ -341,7 +341,7 @@ exports.level = {
               "",
               "- Máis importante aún, ¡os repositorios remotos fan que o desenvolvemento sexa social! Agora que existe unha copia do teu código noutro lugar, os teus amigos poden contribuír no teu proxecto (ou obter os últimos cambios) dunha forma moi simple.",
               "",
-              "Hai webs moi populares onde se pode ver a actividade dos repositorios (como [GitHub](https://github.com/) ou [Phabricator](http://phabricator.org/)), pero estes recursos remotos _sempre_ axudan como mecanismo de base para esas ferramentas. ¡Entón é importante saber cómo funcionan!"
+              "Hai webs moi populares onde se pode ver a actividade dos repositorios (como [GitHub](https://github.com/)), pero estes recursos remotos _sempre_ axudan como mecanismo de base para esas ferramentas. ¡Entón é importante saber cómo funcionan!"
             ]
           }
         },
@@ -455,7 +455,7 @@ exports.level = {
               "",
               "- 还有就是, 远程让代码社交化了! 既然你的项目被托管到别的地方了, 你的朋友可以更容易地为你的项目做贡献(或者拉取最新的变更)",
               "",
-              "现在用网站来对远程仓库进行可视化操作变得越发流行了(像 [GitHub](https://github.com/) 或 [Phabricator](http://phabricator.org/)), 但远程仓库**永远**是这些工具的顶梁柱, 因此理解其概念非常的重要!"
+              "现在用网站来对远程仓库进行可视化操作变得越发流行了(像 [GitHub](https://github.com/)), 但远程仓库**永远**是这些工具的顶梁柱, 因此理解其概念非常的重要!"
             ]
           }
         },
@@ -511,7 +511,7 @@ exports.level = {
               "",
               "- Noch wichtiger: Remotes geben dem Entwickeln eine soziale Komponente! Wenn eine Kopie deines Projekts woanders liegt, können deine Freunde sehr einfach etwas zu dem Projekt beitragen (oder sich deine neuesten Änderungen holen).",
               "",
-              "Websites, die die Aktivitäten um diese entfernten Repositorys darstellen (wie [GitHub](https://github.com/) oder [Phabricator](http://phabricator.org/)) erfreuen sich zunehmender Beliebtheit. Aber entfernte Repositorys sind _immer_ das Rückgrat für diese Werkzeuge. Deshalb ist es wichtig, sie zu verstehen."
+              "Websites, die die Aktivitäten um diese entfernten Repositorys darstellen (wie [GitHub](https://github.com/)) erfreuen sich zunehmender Beliebtheit. Aber entfernte Repositorys sind _immer_ das Rückgrat für diese Werkzeuge. Deshalb ist es wichtig, sie zu verstehen."
             ]
           }
         },
@@ -625,7 +625,7 @@ exports.level = {
               "",
               "- Что ещё более важно, удалённые репозитории позволяют сделать процесс разработки более социальным! Теперь, когда копия вашего проекта размещена в другом месте, ваши друзья запросто могут внести свой вклад в ваш проект или забрать последние и актуальные изменения.",
               "",
-              "Набирает популярность использование web-сайтов для визуализации активности удалённых репозиториев (например, [GitHub](https://github.com/) или [Phabricator](http://phabricator.org/)), однако удалённые репозитории _всегда_ выступают в качестве базы для таких инструментов. Поэтому так важно понимать, как устроены удалённые репозитории!"
+              "Набирает популярность использование web-сайтов для визуализации активности удалённых репозиториев (например, [GitHub](https://github.com/)), однако удалённые репозитории _всегда_ выступают в качестве базы для таких инструментов. Поэтому так важно понимать, как устроены удалённые репозитории!"
             ]
           }
         },
@@ -739,7 +739,7 @@ exports.level = {
               "",
               "- Що не менш важливо, віддалені репозиторії роблять програмування соціальним! Коли копія твого проекту розміщена в мережі, твої друзі мають змогу допомогти твоєму проекту (чи стягнути останні зміни) без зайвих зусиль.",
               "",
-              "Стало дуже популярним користуватися веб-сайтами, що візуалізують активність на віддалених репозиторіях (наприклад [GitHub](https://github.com/) чи [Phabricator](http://phabricator.org/)), але віддалені репозиторії _завжди_ слугують як основа цих сервісів. Тому важливо розуміти їх!"
+              "Стало дуже популярним користуватися веб-сайтами, що візуалізують активність на віддалених репозиторіях (наприклад [GitHub](https://github.com/)), але віддалені репозиторії _завжди_ слугують як основа цих сервісів. Тому важливо розуміти їх!"
             ]
           }
         },
@@ -853,7 +853,7 @@ exports.level = {
               "",
               "- Še pomembneje, kodiranje lahko naredijo družabno! Sedaj, ko je kopija tvojega projekta nekje objavljena, lahko tvoji prijatelji pomagajo tvojemu projektu (ali pridobijo zadnje spremembe) zelo enostavno.",
               "",
-              "Uporaba strani, ki vizualizirajo oddaljene repozitorije je postala zelo popularna (npr. [GitHub](https://github.com/) ali [Phabricator](http://phabricator.org/)), ampak bistvo teh strani vseeno predstavljajo oddaljeni repozitoriji. Zato je pomembno, da jih razumemo!"
+              "Uporaba strani, ki vizualizirajo oddaljene repozitorije je postala zelo popularna (npr. [GitHub](https://github.com/)), ampak bistvo teh strani vseeno predstavljajo oddaljeni repozitoriji. Zato je pomembno, da jih razumemo!"
             ]
           }
         },
@@ -910,7 +910,7 @@ exports.level = {
               "",
               "- Co ważniejsze, zdalne repozytoria sprawiają, że kodowanie jest społeczne! Teraz, gdy kopia twojego projektu jest umieszczona gdzie indziej, twoi znajomi mogą bardzo łatwo wnieść swój wkład do twojego projektu (lub pobrać najnowsze zmiany).",
               "",
-              "Bardzo popularne stało się korzystanie ze stron internetowych, które wizualizują aktywność w zdalnych repozytoriach (takich jak [GitHub](https://github.com/) lub [Phabricator](http://phabricator.org/)), ale podstawą tych narzędzi _zawsze_ są zdalne repozytoria. Dlatego ważne jest, aby je zrozumieć!"
+              "Bardzo popularne stało się korzystanie ze stron internetowych, które wizualizują aktywność w zdalnych repozytoriach (takich jak [GitHub](https://github.com/)), ale podstawą tych narzędzi _zawsze_ są zdalne repozytoria. Dlatego ważne jest, aby je zrozumieć!"
             ]
           }
         },
@@ -967,7 +967,7 @@ exports.level = {
               "",
               "- Seconda cosa, ancora più importante, l'utilizzo di repository remoti introduce al coding sociale! Ora che una copia del tuo progetto è ospitata anche altrove, i tuoi amici possono contribuire al tuo progetto molto agevolmente (o recuperare le tue ultime modifiche) .",
               "",
-              "E' diventato molto popolare l'utilizzo di siti web che mostrano le attività di repository remoti (come [GitHub](https://github.com/) o [Phabricator](http://phabricator.org/)), ma questi repository _sempre_ rappresentano la base sottostante per questi strumenti. Per cui è importante conoscerli a fondo!"
+              "E' diventato molto popolare l'utilizzo di siti web che mostrano le attività di repository remoti (come [GitHub](https://github.com/)), ma questi repository _sempre_ rappresentano la base sottostante per questi strumenti. Per cui è importante conoscerli a fondo!"
             ]
           }
         },

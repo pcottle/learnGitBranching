@@ -65,7 +65,7 @@ exports.strings = {
     'vi': 'Tuyệt vời! Đáp án của bạn đạt chuẩn thâm chí có thể tốt hơn.',
     'sl_SI': 'Bravo! Izenačil ali celo presegel si našo rešitev.',
     'pl': 'Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.',
-    'it_IT': "Grandioso! Hai uguagliato o migliorato la nostra soluzione.",
+    'it_IT': "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     'ta_IN': 'அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.'
   },
   ///////////////////////////////////////////////////////////////////////////
