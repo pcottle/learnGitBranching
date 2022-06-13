@@ -906,7 +906,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "place를 지정하면, 이전에 fecth를 하던때와 완전히 똑같이 진행되고 fetch한것을 병합합니다."
+              "place를 지정하면, 이전에 fetch를 하던때와 완전히 똑같이 진행되고 fetch한것을 병합합니다."
             ],
             "afterMarkdowns": [
               "보이죠! `main`를 지정해서 우리는 `o/main`에 평소처럼 커밋들을 내려받았습니다. 그다음 우리가 있는 곳으로 `o/main`를 병합했습니다 현재 체크아웃된 브랜치와 *상관없이* 말이죠"
