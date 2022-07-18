@@ -3393,8 +3393,8 @@ shasum-object@^1.0.0:
     fast-safe-stringify "^2.0.7"
 
 shell-quote@^1.6.1:
-  version "1.7.2"
-  resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.2.tgz"
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
 
 side-channel@^1.0.4:
   version "1.0.4"
