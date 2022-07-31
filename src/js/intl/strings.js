@@ -2046,6 +2046,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'cancel-button': {
     '__desc__': 'Cancel button label after completing a level',
+    'es_AR': 'Cancelar',
     'en_US': 'Cancel',
     'es_MX': 'Cancelar',
     'de_DE': 'Abbrechen',
@@ -2057,6 +2058,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'confirm-button': {
     '__desc__': 'Confirm button label after completing a level',
+    'es_AR': 'Confirmar',
     'en_US': 'Confirm',
     'es_MX': 'Confirmar',
     'de_DE': 'Bestätigen',
@@ -2068,6 +2070,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'level-label': {
     '__desc__': 'Label in the top of the left-side menu. Rembember to leave some space on the sides',
+    'es_AR': 'Nivel',
     'en_US': ' Level ',
     'es_MX': 'Nivel',
     'de_DE': ' Level ',
@@ -2078,6 +2081,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-levels': {
     '__desc__': 'Levels command label in the bottom command helper bar.',
+    'es_AR': 'Niveles',
     'en_US': 'Levels',
     'es_MX': 'Niveles',
     'de_DE': 'Levels',
@@ -2088,6 +2092,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-solution': {
     '__desc__': 'Solution command label in the bottom command helper bar.',
+    'es_AR': 'Solución',
     'en_US': 'Solution',
     'es_MX': 'Solución',
     'de_DE': 'Lösung',
@@ -2098,6 +2103,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-reset': {
     '__desc__': 'Reset command label in the bottom command helper bar.',
+    'es_AR': 'Reiniciar',
     'en_US': 'Reset',
     'es_MX': 'Reiniciar',
     'de_DE': 'Zurücksetzen',
@@ -2108,6 +2114,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-undo': {
     '__desc__': 'Undo command label in the bottom command helper bar.',
+    'es_AR': 'Deshacer',
     'en_US': 'Undo',
     'es_MX': 'Deshacer',
     'de_DE': 'Rückgängig',
@@ -2118,6 +2125,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-objective': {
     '__desc__': 'Objective command label in the bottom command helper bar.',
+    'es_AR': 'Objetivo',
     'en_US': 'Objective',
     'es_MX': 'Objetivo',
     'de_DE': 'Zielvorgabe',
@@ -2128,6 +2136,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-help': {
     '__desc__': 'Help command label in the bottom command helper bar.',
+    'es_AR': 'Ayuda',
     'en_US': 'Help',
     'es_MX': 'Ayuda',
     'de_DE': 'Hilfe',
@@ -2138,6 +2147,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'error-command-currently-not-supported': {
     '__desc__': 'Message that appears in git console when command is not supported in the current environment.',
+    'es_AR': '¡El comando es valido, pero no está soportado en este ambiente! intentá ingresar un nivel o un constructor de nivel para usar ese comando',
     'en_US': 'That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command',
     'es_MX': '¡El comando es válido, pero no es suportado en este ambiente! Intenta ingresar un nivel o un constructor de niveles para usar ese comando',
     'de_DE': 'Der Befehl ist gültig, aber in der aktuellen Umgebung nicht unterstützt! Rufe ein Level oder den Level-Editor auf, um diesen Befehl zu nutzen',
@@ -2149,6 +2159,7 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'interactive-rebase-title': {
     '__desc__': 'Title for the popup',
+    'es_AR': 'Rebase interactivo',
     'en_US': 'Interactive Rebase',
     'es_MX': 'Rebase interactivo',
     'de_DE': 'Interaktives Rebase',
