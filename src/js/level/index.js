@@ -58,6 +58,7 @@ var Level = Sandbox.extend({
     this.startOffCommand();
 
     this.handleOpen(options.deferred);
+    LevelActions.setIsSolvingLevel(true);
   },
 
   getIsGoalExpanded: function() {
@@ -65,6 +66,7 @@ var Level = Sandbox.extend({
   },
 
   handleOpen: function(deferred) {
+    LevelActions.setIsSolvingLevel(true);
     deferred = deferred || Q.defer();
 
     // if there is a multiview in the beginning, open that
@@ -573,6 +575,7 @@ var Level = Sandbox.extend({
     delete this.mainVis;
     delete this.goalVis;
     delete this.goalCanvasHolder;
+    LevelActions.setIsSolvingLevel(false);
   },
 
   getInstantCommands: function() {

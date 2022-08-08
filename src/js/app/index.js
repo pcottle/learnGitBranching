@@ -75,6 +75,10 @@ var init = function() {
   window.LocaleStore = LocaleStore;
   window.LocaleActions = LocaleActions;
   window.intl = intl;
+
+  $(window).on('beforeunload', function(e) {
+    return GlobalStateStore.getIsSolvingLevel() ? 'you have a level in progress' : null;
+  });
 };
 
 var vcsModeRefresh = function(eventData) {

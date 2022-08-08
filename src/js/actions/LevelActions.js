@@ -18,7 +18,14 @@ var LevelActions = {
     AppDispatcher.handleViewAction({
       type: ActionTypes.RESET_LEVELS_SOLVED
     });
-  }
+  },
+
+  setIsSolvingLevel: function(isSolvingLevel) {
+    AppDispatcher.handleViewAction({
+      type: ActionTypes.SET_IS_SOLVING_LEVEL,
+      isSolvingLevel: isSolvingLevel,
+    });
+  },
 
 };
 
