@@ -32,7 +32,8 @@ module.exports = {
      * solve the level, not ask for solution
      * or solve it again.
      */
-    SOLVE_LEVEL: null
+    SOLVE_LEVEL: null,
+    SET_IS_SOLVING_LEVEL: null,
   }),
 
   PayloadSources: keyMirror({
