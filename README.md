@@ -102,6 +102,14 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/pcottle/learnGitBranching/blob/main/src/js/git/index.js)
 
+### Docker
+
+You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment with at [http://localhost:8080/](<http://localhost:8080/>)
+
+You can build the app and image with the command: `docker build -t ghcr.io/pcottle/learngitbranching:latest`. See the [Makefile](Makefile) for information on how to build locally with docker.
+
+
+
 [//]: contributor-faces
 <a href="https://github.com/pcottle"><img src="https://avatars0.githubusercontent.com/u/1135007?v=4" title="pcottle" width="80" height="80"></a>
 <a href="https://github.com/Hongarc"><img src="https://avatars1.githubusercontent.com/u/19208123?v=4" title="Hongarc" width="80" height="80"></a>
