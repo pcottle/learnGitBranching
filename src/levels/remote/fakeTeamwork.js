@@ -236,7 +236,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "También puedes especificar la cantidad de commits o la ramma agregándolos al comando."
+              "También puedes especificar la cantidad de commits o la rama agregándolos al comando."
             ],
             "afterMarkdowns": [
               "Con un único comando simulamos que un compañero de equipo pusheó tres commits a la rama `foo` de nuestro remoto."
