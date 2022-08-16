@@ -99,6 +99,7 @@ Here is the high-level process of the build:
 
 Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
 
+## Some of our amazing contributors
 
 [//]: contributor-faces
 <a href="https://github.com/pcottle"><img src="https://avatars0.githubusercontent.com/u/1135007?v=4" title="pcottle" width="80" height="80"></a>
