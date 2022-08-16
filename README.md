@@ -44,29 +44,6 @@ https://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
 When reporting bugs, try running the command `debug_copyTree()` in your JS console when in a state just before reproducing a bug. This can avoid having to copy all the commands you used to get into a specific state. (I can then use the `importTreeNow` command to get to that exact state)
 
-## How the app works / Contributing functionality
-
-LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in JavaScript. The production version (on github.io) literally just serves up an HTML page with some JS and CSS. The rest of the magic lies in the 9k+ lines of JavaScript :P
-
-Because the app contains a lot of code, I have written everything into Nodejs-style modules. The modules are packaged together with the `Browserify` and then sent down in a format the browser can understand.
-
-As of December 2013, I've migrated the build process to use Grunt >0.4, since the older version was giving a lot of people build headaches. It should be fairly rock solid now!
-
-Here is the high-level process of the build:
-
-* The code is written into the node.js modules which require other modules
-* CSS is written into just one stylesheet (there is not a whole ton of styling)
-* New HTML is written into a template HTML file (`template.index.html`). Only needed
-  for new views
-* The app is "built", which outputs:
-  * `index.html` in the root directory
-  * CSS and JS files in `./build` directory
-* If the app is being built for production, then these CSS and JS files
-  are hashed (to bust caches) and tests are run
-* That's it!
-
-Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
-
 ## Building yourself / Contributing Functionality
 
 For contributing core functionality in the app, you'll probably want to test your changes
@@ -88,6 +65,7 @@ vim ./src/js/git/index.js # some changes
 yarn gulp fastBuild # skips tests and linting, faster build
 
 # after building you can open up your browser to the index.html
+open ./index.html
 # file generated and see your changes
 
 vim ./src/js/git/index.js # more changes
@@ -102,13 +80,32 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/pcottle/learnGitBranching/blob/main/src/js/git/index.js)
 
+
+## Other Technical Details
+
+LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in JavaScript. The production version (on github.io) literally just serves up an HTML page with some JS and CSS.
+
+Here is the high-level process of the build:
+
+* CSS is written into just one stylesheet (there is not a whole ton of styling)
+* New HTML is written into a template HTML file (`template.index.html`). This is only needed
+  for new views
+* The app is "built", which outputs:
+  * `index.html` in the root directory
+  * CSS and JS files in `./build` directory
+* If the app is being built for production, then these CSS and JS files
+  are hashed (to bust caches) and tests are run
+* That's it!
+
+Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
+
 ### Docker
 
 You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment with at [http://localhost:8080/](<http://localhost:8080/>)
 
 You can build the app and image with the command: `docker build -t ghcr.io/pcottle/learngitbranching:latest`. See the [Makefile](Makefile) for information on how to build locally with docker.
 
-
+## Some of our amazing contributors
 
 [//]: contributor-faces
 <a href="https://github.com/pcottle"><img src="https://avatars0.githubusercontent.com/u/1135007?v=4" title="pcottle" width="80" height="80"></a>
