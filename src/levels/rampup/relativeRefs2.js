@@ -465,7 +465,7 @@ exports.level = {
             "markdowns": [
               "### L'opérateur \"~\"",
               "",
-              "Disons que vous souhaitez remonter beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, ainsi Git a aussi l'opérateur tilde (~).",
+              "Imaginons que vous souhaitiez remonter beaucoup de niveaux dans l'arbre des commits. Cela peut être ennuyeux d'utiliser `^` plusieurs fois, c'est pourquoi Git a aussi l'opérateur tilde (~).",
               "",
               "",
               "L'opérateur tilde prend optionnellement à sa suite un nombre qui spécifie le nombre de parents que vous souhaitez remonter. Voyons cela en action."
@@ -493,7 +493,7 @@ exports.level = {
               "",
               "Vous êtes maintenant un expert des références relatives, alors servons-nous en.",
               "",
-              "L'une des principales façons dont j'utilise les références relatives est pour réorganiser les branches. Vous pouvez directement réassigner les branches à un commit avec l'option `-f`. Ainsi quelque chose comme :",
+              "L'une des principales raisons pour lesquelles j'utilise les références relatives est qu'elles permettent de réorganiser les branches. Vous pouvez directement réassigner les branches à un commit avec l'option `-f`. Ainsi la commande suivante :",
               "",
               "`git branch -f main HEAD~3`",
               "",

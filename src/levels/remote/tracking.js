@@ -167,7 +167,7 @@ exports.level = {
             "markdowns": [
               "### Le suivi des branches distantes",
               "",
-              "Dans les dernières leçons, Git savait que la branche `main` était reliée à `o/main`, et cela a pu vous paraître \"magique\". Il est certain que ces deux branches ont des noms similaires et il peut être logique de croire que la branche locale `main` est liée à la branche distante `main`, mais la relation n'est prouvée que dans deux scénarios :",
+              "Dans les dernières leçons, Git savait que la branche `main` était reliée à `o/main`, et cela a pu vous paraître \"magique\". Il est certain que ces deux branches ont des noms similaires et il peut être logique de croire que la branche locale `main` est liée à la branche distante `main`, mais la relation n'est avérée que dans deux scénarios :",
               "",
               "* Pendant un pull, les commits sont téléchargés dans `o/main` et ensuite *fusionnés* (merge) dans la branche `main`. La cible impliquée dans cette fusion est déterminée par cette relation.",
               "* Pendant un push, le travail de la branche `main` a été envoyé sur la branche distante `main` (qui est localement représentée par `o/main`). La *destination* du push est déterminée par la relation entre `main` and `o/main`.",
@@ -247,7 +247,7 @@ exports.level = {
               "",
               "`git branch -u o/main foo`",
               "",
-              "Ce qui va configurer la branche `foo` (déjà existante) pour suivre `o/main`. Si `foo` est la branche courante, vous pouvez même ne pas la préciser :",
+              "Ce qui va configurer la branche `foo` (déjà existante) en la faisant suivre `o/main`. Si `foo` est la branche courante, vous pouvez même ne pas la préciser :",
               "",
               "`git branch -u o/main`",
               ""

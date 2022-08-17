@@ -625,7 +625,7 @@ exports.level = {
               "Nous allons `merge` («fusionner») la branche `bugFix` dans `main`."
             ],
             "afterMarkdowns": [
-              "Youhou ! Vous avez vu ça ? Avant tout, `main` pointe donc maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `main`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `main` contient maintenant tout le travail du dépôt.",
+              "Youhou ! Vous avez vu ça ? Pour commencer, `main` pointe maintenant sur un commit qui a deux parents. Si vous remontez l'enchaînement des flèches depuis `main`, vous allez passez par tous les commits jusqu'à la racine. Cela signifie que `main` contient maintenant tout le travail du dépôt.",
               "",
               "Par ailleurs, avez-vous remarqué les nouvelles couleurs des commits ? Pour faciliter l'apprentissage, j'ai inclus une certaine logique dans la coloration. Chaque branche a une unique couleur. Chaque commit est de la couleur de toutes les branches qui le contiennent.",
               "",

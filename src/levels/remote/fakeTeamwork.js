@@ -22,8 +22,8 @@ exports.level = {
     "it_IT": "Simulare il lavoro di squadra"
   },
   "hint": {
-    "en_US": "remember you can specify the number of commits to fake",
-    "fr_FR": "rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
+    "en_US": "Remember you can specify the number of commits to fake",
+    "fr_FR": "Rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wie viele Commits simuliert werden sollen.",
     "ja": "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
@@ -105,7 +105,7 @@ exports.level = {
               "",
               "C'est là que cela devient compliqué : pour certaines des leçons à venir, nous avons besoin de vous enseigner comment récupérer les changements effectués sur le dépôt distant.",
               "",
-              "Cela signifie que nous devons \"prétendre\" que le dépôt distant a été modifié par un collègue / ami / collaborateur, et parfois même sur une branche spécifique ou avec plusieurs commits.",
+              "Cela signifie que nous devons faire semblant que le dépôt distant a été modifié par un collègue / ami / collaborateur, et parfois même sur une branche spécifique ou avec plusieurs commits.",
               "",
               "Pour faire cela, nous introduisons à point nommé la commande `git fakeTeamwork` ! Elle devrait vous paraître assez intuitive, voyons une démo..."
             ]
@@ -141,7 +141,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Les niveaux suivants vont devenir assez difficiles, donc nous augmentons un peu la difficulté de cet exercice.",
+              "Les niveaux suivants vont devenir assez difficiles, nous augmentons donc un peu la difficulté de cet exercice.",
               "",
               "Vous devrez créer un dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commiter les vôtres, et enfin appliquer les changements distants dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
             ]

@@ -395,7 +395,7 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Commits Git",
-              "Un commit dans un dépôt (repository) Git enregistre une image (snapshot) de tous les fichiers du repertoire. Comme un Copier-Coller géant, mais en bien mieux !",
+              "Un commit dans un dépôt Git (repository) enregistre une image (snapshot) de tous les fichiers du répertoire. Comme un Copier-Coller géant, mais en bien mieux !",
               "",
               "Git fait en sorte que les commits soient aussi légers que possible donc il ne recopie pas tout le répertoire à chaque commit. En fait, Git n'enregistre que l'ensemble des changements (\"delta\") depuis la version précédente du dépôt. C'est pour cette raison que la plupart des commits ont un commit parent -- ainsi que nous le verrons plus tard.",
               "",

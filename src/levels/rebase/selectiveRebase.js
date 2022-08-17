@@ -27,7 +27,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
-    "fr_FR": "Faites attention à tout faire dans le bon ordre ! La branche one d'abord, puis la seconde, puis la troisième",
+    "fr_FR": "Faites attention à tout faire dans le bon ordre ! La première branche d'abord, puis la seconde, puis la troisième",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "es_ES": "¡Asegúrate de hacer las cosas en el orden correcto! Crea primero la rama `one`, después `two`, y después `three`.",
@@ -75,7 +75,7 @@ exports.level = {
               "",
               "WOAHHHhhh ! Nous avons pas mal d'objectifs dans ce niveau.",
               "",
-              "Actuellement nous avons `main` qui se situe quelques commits devant les branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur main.",
+              "Actuellement nous avons `main` qui se situe quelques commits en avance par rapport aux branches `one` `two` et `three`. Pour une raison quelconque, nous avons besoin de mettre ces trois branches à jour avec les modifications des derniers commits sur main.",
               "",
               "La branche `one` a besoin d'une réorganisation et de la suppression de `C5`. `two` doit simplement être réordonnée, et `three` ne nécessite qu'un commit !",
               "",
