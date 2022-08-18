@@ -19,7 +19,7 @@ exports.level = {
     "vi": "Rẽ nhánh với Git",
     "sl_SI": "Branchanje v Gitu",
     "pl": "Rozgałęzienia w Gicie",
-    'it_IT': "Creare rami in Git",
+    "it_IT": "Creare rami in Git",
     "ta_IN": "கிட் கிளை நிருவாகம்"
   },
   "hint": {

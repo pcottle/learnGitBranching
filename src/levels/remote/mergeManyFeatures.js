@@ -118,7 +118,7 @@ exports.level = {
               "",
               "Par exemple, le commit `C1` peut être rebasé *après* `C3`. Cela fait croire que le travail de `C1'` est arrivé après `C3` alors qu'en réalité il était achevé et commité avant.",
               "",
-              "Certains développeurs aiment préserver l'historique et préfèrent donc merge. Les autres (comme moi) préfèrent avoir un arbre des commits propre et préfèrent rebase. C'est une question de goût :D"
+              "Certains développeurs aiment préserver l'historique et préfèrent donc merge. Les autres (comme moi) préfèrent avoir un arbre des commits propre et préfèrent rebase. C'est une question de goûts :D"
             ]
           }
         },

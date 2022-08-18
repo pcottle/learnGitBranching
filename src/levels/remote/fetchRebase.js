@@ -5,7 +5,7 @@ exports.level = {
   "name": {
     "en_US": "Diverged History",
     "zh_CN": "偏离的提交历史",
-    "zh_TW": "diverged history",
+    "zh_TW": "Diverged history",
     "es_AR": "Historia divergente",
     "es_ES": "Historia divergente",
     "pt_BR": "Histórico divergente",
@@ -22,7 +22,7 @@ exports.level = {
     "it_IT": "Storico divergente"
   },
   "hint": {
-    "en_US": "check out the ordering from the goal visualization",
+    "en_US": "Check out the ordering from the goal visualization",
     "zh_CN": "按照目标中的提交树的顺序进行检出",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
@@ -31,7 +31,7 @@ exports.level = {
     "gl": "Presta atención ó orixe do obxectivo",
     "de_DE": "Beachte die Reihenfolge in der Zieldarstellung",
     "ja": "ゴールのツリーの順番を参考にすること",
-    "fr_FR": "regardez l'ordre dans la fenêtre de visualisation d'objectif",
+    "fr_FR": "Regardez l'ordre dans la fenêtre de visualisation d'objectif",
     "ru_RU": "проверьте сортировку в визуализации цели",
     "uk": "перевірте порядок в візуалізації цілі",
     "ko": "순서는 goal을 참고하세요",
@@ -192,9 +192,9 @@ exports.level = {
             "markdowns": [
               "## Travail divergent",
               "",
-              "Jusqu'à présent nous avons vu comment rapatrier (`pull`) les commits de nos collaborateurs et comment envoyer les nôtres (`push`). Cela a l'air simple, alors comment certains peuvent trouver le sujet aussi confus ?",
+              "Jusqu'à présent nous avons vu comment rapatrier (`pull`) les commits de nos collaborateurs et comment envoyer les nôtres (`push`). Cela a l'air simple, alors comment se fait-il que certains puissent trouver le sujet aussi confus ?",
               "",
-              "La difficulté arrive quand l'historique du dépôt *diverge*. Avant d'aborder les détails de cette situation, voyons un exemple...",
+              "La difficulté apparaît lorsque l'historique du dépôt *diverge*. Avant d'aborder les détails de cette situation, voyons un exemple...",
               ""
             ]
           }
@@ -218,7 +218,7 @@ exports.level = {
               "Assez parlé ! Observons cette situation en action :"
             ],
             "afterMarkdowns": [
-              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car votre plus récent commit `C3` est basé sur le dépôt distant sur `C1`. Le dépôt distant a depuis été mis à jour avec `C2`, donc Git rejette votre push."
+              "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car votre commit le plus récent `C3` est basé sur `C1` sur le dépôt distant. Le dépôt distant a été mis à jour depuis avec `C2`, donc Git rejette votre push."
             ],
             "command": "git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"
@@ -304,7 +304,7 @@ exports.level = {
               "Et maintenant avec un `pull` normal :"
             ],
             "afterMarkdowns": [
-              "À nouveau, c'est exactement la même chose qu'auparavant !"
+              "Encore une fois, c'est exactement la même chose qu'auparavant !"
             ],
             "command": "git pull; git push",
             "beforeCommand": "git clone; git fakeTeamwork; git commit"

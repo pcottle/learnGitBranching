@@ -556,9 +556,9 @@ exports.level = {
             "markdowns": [
               "## Annuler des changements avec Git",
               "",
-              "Il y a de nombreuses façons d'annuler des changements avec Git. De même que pour les commits, annuler des changements avec Git est à la fois un aspect bas-niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
+              "Il y a de nombreuses façons d'annuler des changements avec Git. De même que pour les commits, annuler des changements avec Git est à la fois un aspect bas niveau (gestion des fichiers et morceaux de fichiers) et un aspect de plus haut niveau (comment les changements sont effectivement annulés). Nous allons nous intéresser à ce dernier point.",
               "",
-              "Il y a principalement deux façons d'annuler des changements avec Git : l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune de ces façons.",
+              "Il y a principalement deux façons d'annuler des changements avec Git : l'une est `git reset` et l'autre est `git revert`. Nous allons maintenant voir chacune d'entre elles.",
               ""
             ]
           }
@@ -569,7 +569,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "`git reset` annule des changements en déplaçant la référence en arrière dans le temps sur un commit plus ancien. En ce sens, on peut considérer cela comme une façon de \"réécrire l'histoire\"; `git reset` fait remonter une branche en arrière comme si le(s) commit(s) n'avait jamais eu lieu.",
+              "`git reset` annule des changements en déplaçant la référence en arrière dans le temps sur un commit plus ancien. En ce sens, on peut considérer cela comme une façon de \"réécrire l'histoire\"; `git reset` fait remonter une branche en arrière comme si le(s) commit(s) n'avai(en)t jamais eu lieu.",
               "",
               "Regardons à quoi cela ressemble :"
             ],

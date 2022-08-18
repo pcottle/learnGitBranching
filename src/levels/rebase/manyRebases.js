@@ -147,9 +147,9 @@ exports.level = {
               "",
               "Dis-donc, nous avons beaucoup de branches par ici ! Rebasons tout le travail de ces branches dans main.",
               "",
-              "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient faits de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, tout dans cet ordre.",
+              "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient faits de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, dans cet ordre.",
               "",
-              "Si vous faites une erreur en chemin, n'hésitez pas à utiliser `reset` pour recommencer. Pensez à comparer votre solution à la notre et voyez si vous pouvez le faire en moins de commandes !"
+              "Si vous faites une erreur en cours de route, n'hésitez pas à utiliser `reset` pour recommencer. Pensez à comparer votre solution à la nôtre et voyez si vous pouvez le faire en moins de commandes !"
             ]
           }
         }

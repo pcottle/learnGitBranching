@@ -159,7 +159,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour finir ce niveau, faîtes un commit en dehors de `main` puis un après vous être rendu dans `o/main`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
+              "Pour finir ce niveau, faites un commit en dehors de `main` puis un après vous être rendu dans `o/main`. Cela va nous aider à comprendre la différence de comportement des branches distantes, et le fait qu'elles se mettent à jour uniquement pour refléter l'état du dépôt distant."
             ]
           }
         }

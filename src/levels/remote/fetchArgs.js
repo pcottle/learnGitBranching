@@ -23,7 +23,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
-    "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez lire une nouvelle fois les slides avec \"help level\"",
+    "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez relire les slides avec \"help level\"",
     "zh_CN": "注意下提交对象的 id 是如何交换的! 你可以通过 `help level` 重新阅读本关卡的所有对话框!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
     "es_AR": "¡Prestá atención a cómo podrían haberse invertido los ids de los commits! Podés volver a leer toda la lección usando \"help level\"",
@@ -215,7 +215,7 @@ exports.level = {
             "markdowns": [
               "Vous vous posez peut-être la question : pourquoi Git a-t-il fait apparaître ces commits dans la branche distante `o/foo` plutôt que les placer directement dans ma branche locale `foo` ? Je croyais que le paramètre `<place>` était un emplacement qui existait à la fois localement et sur le dépôt distant ?",
               "",
-              "En fait Git fait une exception dans ce cas parce que vous pourriez avoir du travail en cours dans la branche `foo` que vous ne voulez pas écraser !! Cela provient de ce que nous avions vu dans la leçon précédente sur `git fetch` : cette commande ne met pas à jour vos branches locales, elle télécharge uniquement les commits (pour que vous puissiez les inspecter et/ou les fusionner plus tard).",
+              "En fait Git fait une exception dans ce cas parce que vous pourriez avoir du travail en cours dans la branche `foo` que vous ne voulez pas écraser !! Cela vient de ce que nous avions vu dans la leçon précédente sur `git fetch` : cette commande ne met pas à jour vos branches locales, elle télécharge uniquement les commits (pour que vous puissiez les inspecter et/ou les fusionner plus tard).",
               ""
             ]
           }
@@ -226,11 +226,11 @@ exports.level = {
             "markdowns": [
               "\"Bon, mais dans ce cas, que se passe-t-il si je spécifie explicitement la source et la destination avec `<source>:<destination>` ?\"",
               "",
-              "Si vous vous sentez assez déterminé pour rapatrier (fetch) des commits *directement* dans votre branche locale, alors oui vous pouvez préciser cela avec la notation refspec. Vous ne pouvez cependant pas rapatrier les commits dans la branche courante.",
+              "Si vous êtes déterminé à rapatrier (fetch) des commits *directement* dans votre branche locale, alors oui vous pouvez préciser cela avec la notation refspec. Vous ne pouvez cependant pas rapatrier les commits dans la branche courante.",
               "",
               "Il y a un petit piège cependant : dans ce cas précis `<source>` est l'emplacement sur le dépôt *distant* et `<destination>` l'emplacement sur le dépôt *local* où seront placés ces commits. C'est l'exact opposé de git push, et cela se tient puisque nous transférons des données dans le sens opposé !",
               "",
-              "Cela dit, les développeurs utilisent rarement cette syntaxe en pratique. Je l'introduis principalement pour concrétiser le fait que `fetch` et `push` sont très similaires, fonctionnant simplement dans des sens opposées."
+              "Cela dit, les développeurs utilisent rarement cette syntaxe en pratique. Je l'introduis principalement pour concrétiser le fait que `fetch` et `push` sont très similaires, fonctionnant simplement dans des sens opposés."
             ]
           }
         },
@@ -238,7 +238,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Voyons ce délire en action :"
+              "Voyons ce phénomène en action :"
             ],
             "afterMarkdowns": [
               "Wow ! Vous voyez, Git a résolu `foo~1` comme un emplacement sur origin et a ensuite téléchargé les commits dans `bar` (qui était une branche locale). Remarquez aussi que `foo` et `o/foo` n'ont pas été mises à jour puisque nous avons spécifié une destination."
@@ -254,7 +254,7 @@ exports.level = {
               "Que se passe-t-il si l'emplacement n'existe pas avant que j'exécute la commande ? Voyons cela dans ce dernier slide, en nous mettant dans la situation où `bar` n'existe pas encore."
             ],
             "afterMarkdowns": [
-              "Vous voyez, c'est COMME un git push. Git a créé la destination localement avant le fetch, exactement comme avec push il crée au préalable la destination sur le dépôt distant (si elle n'existe pas)."
+              "Vous voyez, c'est COMME un git push. Git a créé la destination localement avant le fetch, exactement comme il fait avec push en créant au préalable la destination sur le dépôt distant (si elle n'existe pas)."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -269,7 +269,7 @@ exports.level = {
               "Si `git fetch` ne reçoit pas d'arguments, cela télécharge simplement tous les commits du dépôt distant au sein de toutes les branches distantes..."
             ],
             "afterMarkdowns": [
-              "Assez simple, mais ce n'était pas inutile de voir en action."
+              "Assez simple, mais ce n'était pas inutile de le voir en action."
             ],
             "command": "git fetch",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
