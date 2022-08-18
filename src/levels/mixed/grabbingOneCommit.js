@@ -100,11 +100,11 @@ exports.level = {
             "markdowns": [
               "## Les commits empilés localement",
               "",
-              "Voici une situation qui arrive souvent : j'ai un bug assez caché à corriger. Pour trouver la source je rajoute des commandes et prints de debug à travers le code.",
+              "Voici une situation qui arrive souvent : j'ai un bug assez difficile à trouver et corriger. Pour localiser la source du problème je rajoute des commandes et prints de debug à travers le code.",
               "",
               "Tous ces debug se retrouvent dans une branche particulière. Je trouve le bug et le répare, comme toujours !",
               "",
-              "Le seul problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le main. Il doit y avoir une autre façon..."
+              "Le problème c'est que je ne peux pas faire de merge ou rebase, car tous ces commits de debug seront dans le main. Il doit y avoir une autre façon..."
             ]
           }
         },

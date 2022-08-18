@@ -518,9 +518,9 @@ exports.level = {
             "markdowns": [
               "## Se déplacer dans Git",
               "",
-              "Avant que nous découvrions quelques-unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
+              "Avant que nous ne découvrions quelques-unes des fonctionnalités les plus avancées de Git, il est important de comprendre les différents manières de se déplacer dans l'arbre des commits qui représente votre projet.",
               "",
-              "Une fois que ces déplacements seront aisés, votre puissance avec les autres commandes de Git sera amplifiée !",
+              "Une fois à l'aise avec ces déplacements, votre puissance avec les autres commandes de Git en sera amplifiée !",
               "",
               "",
               "",
@@ -550,7 +550,7 @@ exports.level = {
               "Voyons cela en action. Ici nous allons indiquer où se situe HEAD avant et après un commit."
             ],
             "afterMarkdowns": [
-              "Vous voyez ! HEAD était caché en dessous de la branche `main` tout le long."
+              "Vous voyez ! HEAD était caché en-dessous de la branche `main` tout le long."
             ],
             "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""

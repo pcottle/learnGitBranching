@@ -113,7 +113,7 @@ exports.level = {
               "",
               "Nous avons maintenant pratiqué les bases de Git -- commits, branches, et déplacements dans l'arbre des commits. Ces seuls concepts sont suffisants pour utiliser 90% du pouvoir des dépôts Git et satisfaire les principaux besoins des développeurs.",
               "",
-              "Les 10% restants, cependant, peuvent être assez utiles pour les systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"le déplacement de travail\" (moving work around) -- en d'autres termes, c'est une façon pour les développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
+              "Les 10% restants, cependant, peuvent être assez utiles pour les systèmes assez complexes (ou quand vous vous êtes mis tout seul dans le pétrin). Le prochain concept que nous allons aborder est \"déplacer son travail\" (moving work around) -- en d'autres termes, c'est une façon pour les développeurs de dire  \"Je veux ce travail ici et cet autre là.\".",
               "",
               "Cela peut sembler compliqué, mais c'est un concept simple."
             ]
@@ -125,7 +125,7 @@ exports.level = {
             "markdowns": [
               "## Git Cherry-pick",
               "",
-              "La première commande de cette série est `git cherry-pick`. Elle a le prototype suivant :",
+              "La première commande de cette série est `git cherry-pick`. Elle s'utilise ainsi :",
               "",
               "* `git cherry-pick <Commit1> <Commit2> <...>`",
               "",
@@ -143,7 +143,7 @@ exports.level = {
               "Ici le dépôt que nous avons contient du travail dans la branche `side`, que nous voulons copier dans `main`. Cela pourrait être fait avec un rebase (que nous avons déjà appris), mais voyons comment cherry-pick fonctionne."
             ],
             "afterMarkdowns": [
-              "Voilà ! Nous voulions les commits `C2` et `C4` et Git les a fait apparaître juste sous nos jambes. Aussi simple que ça !"
+              "Voilà ! Nous voulions les commits `C2` et `C4` et Git les a fait apparaître juste sous nos pieds. Aussi simple que ça !"
             ],
             "command": "git cherry-pick C2 C4",
             "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"

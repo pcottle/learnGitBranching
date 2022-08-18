@@ -67,7 +67,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "All interactive rebase means is using the `rebase` command with the `-i` option.",
+              "All interactive rebase means Git is using the `rebase` command with the `-i` option.",
               "",
               "If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what's what.",
               "",
@@ -125,7 +125,7 @@ exports.level = {
               "",
               "Git cherry-pick est pratique quand vous savez exactement quels commits vous voulez (_et_ que vous connaissez leurs identifiants) -- il est difficile de battre sa simplicité.",
               "",
-              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement Git a pensé à vous pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de reconsidérer une série de commits que vous vous apprêtez à rebaser.",
+              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement Git a pensé à vous pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de réexaminer une série de commits que vous vous apprêtez à rebaser.",
               "",
               "Entrons un peu plus dans les détails..."
             ]
@@ -137,7 +137,7 @@ exports.level = {
             "markdowns": [
               "Tout rebase interactif signifie utiliser la commande `rebase` avec l'option `-i`.",
               "",
-              "Si vous mettez cette option, Git va ouvrir une interface graphique pour vous montrer quels commits vont être copiés en dessous de la cible sur laquelle vous rebasez. Elle vous montre aussi les identifiants et commentaires des commits, ce qui est pratique pour s'orienter parmi les commits.",
+              "Si vous mettez cette option, Git va ouvrir une interface graphique pour vous montrer quels commits vont être copiés en-dessous de la cible sur laquelle vous rebasez. Elle vous montre aussi les identifiants et commentaires des commits, ce qui est pratique pour s'orienter parmi les commits.",
               "",
               "Pour le \"vrai\" Git, l'interface graphique correspond en fait à ouvrir un fichier dans un éditeur de texte comme `vim`. Pour notre exemple, j'ai construit une petite fenêtre de dialogue qui se comporte de la même façon."
             ]
@@ -147,7 +147,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Quand le rebase interactif s'ouvre, vous avez la possibilité de faire 3 choses :",
+              "Quand le rebase interactif s'ouvre, vous avez trois possibilités :",
               "",
               "* Vous pouvez réarranger les commits simplement en changeant leur ordre dans l'interface graphique (dans notre fenêtre de dialogue, cela signifie déplacer les objets avec la souris -- drag and drop).",
               "* Vous pouvez omettre certains commits. Cela est désigné par `pick` : cliquer sur `pick` désélectionne/resélectionne le commit.",
