@@ -230,6 +230,9 @@ var commandConfig = {
 
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
+      if (commandOptions['--rebase']) {
+        generalArgs = commandOptions['--rebase'].concat(generalArgs);
+      }
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
       // here is the deal -- git pull is pretty complex with
