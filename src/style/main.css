@@ -340,6 +340,11 @@ div.canvasTerminalHolder > div.terminal-window-holder {
   overflow: visible !important;
 }
 
+
+div.canvasTerminalHolder > div.terminal-window-holder div.inside svg {
+  top: unset !important;
+}
+
 /* Toolbar */
 div.toolbar {
   /* borrowed from try.github.com along with a bunch of other things */
