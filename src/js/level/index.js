@@ -223,7 +223,9 @@ var Level = Sandbox.extend({
     // repo visualization a bit to make room. This way, you could have the goal window hang out on
     // the right side of the screen and still see the repo visualization.
     this.goalVis.customEvents.on('drag', function(event, ui) {
-      if (ui.position.left > 0.5 * $(window).width()) {
+      // our left is a negative value now that we start goal windows on the
+      // right, so we have to take absolute value
+      if (Math.abs(ui.position.left) < 0.4 * $(window).width()) {
         if (!$('#goalPlaceholder').is(':visible')) {
           $('#goalPlaceholder').show();
           this.mainVis.myResize();

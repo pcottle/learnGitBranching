@@ -672,7 +672,7 @@ var CanvasTerminalHolder = BaseView.extend({
 
     // Set the new position/size
     this.$terminal.animate({
-      left: left + 'px',
+      right: right + 'px',
       top: top + 'px',
       height: height + 'px'
     }, this.getAnimationTime(), function () {
