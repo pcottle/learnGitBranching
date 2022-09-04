@@ -257,7 +257,7 @@ div.canvasTerminalHolder {
   height: 0;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 10px;
   z-index: 3;
 }
 
@@ -335,9 +335,14 @@ div.inside  pre {
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder {
-  max-width: 500px;
-  min-width: 500px;
+  max-width: 400px;
+  min-width: 400px;
   overflow: visible !important;
+}
+
+
+div.canvasTerminalHolder > div.terminal-window-holder div.inside svg {
+  top: unset !important;
 }
 
 /* Toolbar */
