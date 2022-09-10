@@ -1160,9 +1160,9 @@ exports.level = {
             "markdowns": [
               "## Łączenie gałęzi",
               "",
-              "Świetnie! Już wiemy, jak dodawać commity oraz jak tworzyć gałęzie (czyli branche). Teraz musimy się nauczyć, jak połączyć pracę dwóch z nich. Stwórzmy nową gałąź, wprowadźmy nową funkcjonalność, a następnie połączmy gałęzie.",
+              "Świetnie! Już wiemy, jak dodawać commity oraz jak tworzyć gałęzie (czyli branche). Teraz musimy się nauczyć, jak połączyć pracę dwóch różnych gałęzi. Stwórzmy nową gałąź, wprowadźmy nową funkcjonalność, a następnie połączmy gałęzie.",
               "",
-              "Pierwszą metodą scalania (łączenia) gałęzi, której zamierzamy użyć, jest `git merge` (w Polsce możesz spotkać się z takimi określeniami jak merge'owanie albo usłyszeć o merdżowaniu). Połączenie to tworzy w Git specjalny commit, który ma dwoje różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych rodziców *oraz* zbiory wszystkich swoich przodków\".",
+              "Pierwszą metodą scalania (łączenia) gałęzi, której zamierzamy użyć, jest `git merge` (w Polsce możesz spotkać się z takimi określeniami jak merge'owanie albo usłyszeć o merdżowaniu). Połączenie to tworzy w Git specjalny commit, który ma dwoje różnych rodziców. Commit z dwojgiem rodziców zasadniczo oznacza: \"Chcę uwzględnić całą pracę tych rodziców *oraz* wszystkich ich przodków\".",
               "",
               "Zaraz zobaczysz, jak to wygląda i łatwiej będzie ci wszystko zrozumieć."
             ]
