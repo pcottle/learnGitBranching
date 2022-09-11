@@ -39,7 +39,7 @@ exports.level = {
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
-    "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i sprawdź ją za pomocą \"git checkout <nazwa-gałęzi>\"",
+    "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
     "it_IT": 'Crea un nuovo ramo con "git branch <branch-name>" e selezionalo con "git checkout <branch-name>"',
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக"
   },
@@ -1341,7 +1341,7 @@ exports.level = {
             "markdowns": [
               "## Git Branch",
               "",
-              "Gałęzie w Gicie są niezwykle lekkie. Są po prostu wskazówkami do konkretnego commita. Wielu entuzjastów Gita przestrzega mantry:",
+              "Gałęzie w Gicie zajmują niezwykle mało zasobów. Są po prostu wskaźnikami do konkretnego commita. Dlatego, wielu entuzjastów Gita przestrzega mantry:",
               "",
               "```",
               "twórz gałęzie wcześnie i często",
@@ -1349,7 +1349,7 @@ exports.level = {
               "",
               "W polskim nazewnictwie stosuje się wymiennie nazwę branch oraz gałąź. Natomiast commit (zatwierdzenie) stosuje się tylko w różnych odmienionych formach, np. commita, commitów itp.",
               "",
-              "Tworzenie wielu gałęzi nie wiąże się z dodatkowymi kosztami przestrzeni czy też pamięci. Z tego powodu łatwiej jest logicznie podzielić swoją pracę, niż mieć duże, różne od siebie gałęzie.",
+              "Tworzenie wielu gałęzi nie wiąże się z żadnymi dodatkowymi kosztami, więc warto dzielić swoją pracę na pojedyńcze funkcjonalności i bug-fixy.",
               "",
               "Kiedy zaczniemy mieszać gałęzie i commity, zobaczymy, jak łączą się te dwie funkcje. Na razie jednak pamiętaj, że branch zasadniczo mówi: \"Chcę uwzględnić pracę tego commita oraz wszystkie poprzednie commity\"."
             ]
@@ -1377,7 +1377,7 @@ exports.level = {
               "Spróbujmy trochę popracować nad tą nową gałęzią.\nKliknij przycisk poniżej."
             ],
             "afterMarkdowns": [
-              "O nie! Gałąź `main` uległa zmianie, a gałąź `myBranch` nie! To dlatego, że nie byliśmy \"w\" nowej gałęzi i dlatego, że gwiazdka (*) była przy `main`"
+              "O nie! Gałąź `main` uległa zmianie, a gałąź `myBranch` nie! To dlatego, że nie byliśmy \"w\" nowej gałęzi, co podpowiada gwiazdka (*) przy `main`"
             ],
             "command": "git commit",
             "beforeCommand": "git branch myBranch"
@@ -1407,9 +1407,9 @@ exports.level = {
           "options": {
             "markdowns": [
               "*Uwaga: w wersji 2.23 Gita zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
-              "a jest nieco przeciążone (robi kilka oddzielnych rzeczy). Tutaj nadal będziemy używać",
-              "`checkout` zamiast `switch`, ponieważ wciąż jest to najczęściej stosowane polecenie.",
-              "Jeśli chcesz, możesz je wypróbować, ta aplikacja jest na to gotowa! Jeśli chcesz dowiedzieć się więcej o poleceniu, <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">zajrzyj tutaj</a>.* "
+              "które jest nieco przeciążone (robi wiele oddzielnych rzeczy zależnie od argumentów). Tutaj będziemy omawiać tylko",
+              "`git checkout`, ponieważ wciąż jest to najczęściej stosowane polecenie.",
+              "Mimo to, możesz wypróbować funkcjonalność `switch` sam. Aplikacja jest na to gotowa! <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">Dowiedz się wiecej</a>.* "
             ]
           }
         },
@@ -1421,8 +1421,8 @@ exports.level = {
               "Po zamknięciu tego okna stwórz nową gałąź o nazwie `bugFix` i przełącz się na nią.",
               "",
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
-              "nową gałąź ORAZ przełączyć się na nią w tym samym czasie,",
-              "możesz wpisać `git checkout -b <nazwa-gałęzi>`."
+              "nową gałąź ORAZ się na nią przełączyć,",
+              "użyj `git checkout -b <nazwa-gałęzi>`."
             ]
           }
         }
