@@ -1792,7 +1792,7 @@ exports.strings = {
     'vi': 'Ẩn mục tiêu',
     'sl_SI': 'Skrij Cilj',
     'pl' : 'Ukryj cel',
-    'it_IT': "Nasconti obiettivo",
+    'it_IT': "Nascondi obiettivo",
     'ta_IN': 'இலக்கை மறை'
   },
   ///////////////////////////////////////////////////////////////////////////
