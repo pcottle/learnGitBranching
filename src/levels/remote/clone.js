@@ -7,6 +7,7 @@ exports.level = {
     "de_DE": "Clone Einführung",
     "ja": "Clone入門",
     "es_AR": "Introducción a clone",
+    'es_MX': 'Introducción a clone',
     "es_ES": "Introducción a clone",
     "pt_BR": "Introdução à clonagem",
     "gl": "Introducción a clone",

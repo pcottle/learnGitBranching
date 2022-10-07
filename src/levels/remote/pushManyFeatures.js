@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "你随时都可以使用 undo 或 reset 命令。",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
+    "es_MX": "Recuerda que siempre puedes usar los comandos reset y undo",
     "es_ES": "Recuerda que siempre puedes usar los comandos reset y undo",
     "pt_BR": "Lembre-se que você sempre pode usar undo ou reset",
     "gl": "Lembra que sempre podes usar undo ou reset",

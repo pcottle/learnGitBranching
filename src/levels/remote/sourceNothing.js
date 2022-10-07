@@ -13,6 +13,7 @@ exports.level = {
     "zh_CN": "没有 source 的 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
+    "es_MX": "Origen de nada",
     "es_ES": "Origen de nada",
     "pt_BR": "Origem vazia",
     "gl": "Orixen de nada",

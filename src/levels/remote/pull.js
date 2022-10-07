@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Git Pull",
     "zh_TW": "git pull",
     "es_AR": "git pull",
+    "es_MX": "git pull",
     "es_ES": "git pull",
     "pt_BR": "Git Pull",
     "gl": "Git Pull",

@@ -11,6 +11,7 @@ exports.level = {
     "zh_CN": "Git push 的参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
+    "es_MX": "Parámetros de git push",
     "es_ES": "Parámetros de git push",
     "pt_BR": "Parâmetros do git push",
     "gl": "Parámetros de git push",

@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "合并远程仓库",
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
+    "es_MX": "Haciendo merge con los remotos",
     "es_ES": "Haciendo merge con los remotos",
     "pt_BR": "Merge com remotos",
     "gl": "Merge cos repos remotos",

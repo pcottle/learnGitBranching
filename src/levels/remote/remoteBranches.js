@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "远程分支",
     "zh_TW": "remote branch （遠端分支）",
     "es_AR": "Ramas remotas",
+    'es_MX': 'Ramas remotas',
     "es_ES": "Ramas remotas",
     "pt_BR": "Ramos remotos",
     "gl": "Ramas remotas",

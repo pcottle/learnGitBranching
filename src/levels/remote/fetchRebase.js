@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "偏离的提交历史",
     "zh_TW": "Diverged history",
     "es_AR": "Historia divergente",
+    "es_MX": "Historia divergente",
     "es_ES": "Historia divergente",
     "pt_BR": "Histórico divergente",
     "gl": "Histórico diverxente",

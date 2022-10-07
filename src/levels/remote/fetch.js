@@ -8,6 +8,7 @@ exports.level = {
     "de_DE": "Git Fetch",
     "ja": "Git Fetch",
     "es_AR": "git fetch",
+    "es_MX": "git fetch",
     "es_ES": "git fetch",
     "pt_BR": "Git Fetch",
     "gl": "Git Fetch",

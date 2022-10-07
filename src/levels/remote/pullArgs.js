@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "Git pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
+    "es_MX": "Parámetros de pull",
     "es_ES": "Parámetros de pull",
     "pt_BR": "Parâmetros do pull",
     "gl": "Parámetros de pull",

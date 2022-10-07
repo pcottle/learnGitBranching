@@ -7,6 +7,7 @@ exports.level = {
     "zh_CN": "远程追踪",
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
+    "es_MX": "Trackeando remotos",
     "es_ES": "Trackeando remotos",
     "pt_BR": "Seguindo remotos",
     "gl": "Traceando os remotos",

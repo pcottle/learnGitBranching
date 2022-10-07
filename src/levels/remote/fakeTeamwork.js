@@ -8,6 +8,7 @@ exports.level = {
     "de_DE": "Teamarbeit simulieren",
     "ja": "擬似的なチーム作業",
     "es_AR": "Simulando el trabajo en equipo",
+    "es_MX": "Simulando el trabajo en equipo",
     "es_ES": "Simulando el trabajo en equipo",
     "pt_BR": "Simulando trabalho em equipe",
     "gl": "Simulando o traballo no repositorio",

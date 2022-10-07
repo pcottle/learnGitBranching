@@ -8,6 +8,7 @@ exports.level = {
     "zh_CN": "Git fetch 的参数",
     "zh_TW": "fetch 的參數",
     "es_AR": "Parámetros de fetch",
+    "es_MX": "Parámetros de fetch",
     "es_ES": "Parámetros de fetch",
     "pt_BR": "Parâmetros do fetch",
     "gl": "Parámetros de fetch",
