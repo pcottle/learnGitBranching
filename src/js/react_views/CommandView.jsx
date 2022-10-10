@@ -50,7 +50,7 @@ class CommandView extends React.Component{
     ]);
 
     return (
-      <output id={this.props.id} className="reactCommandView">
+      <div id={this.props.id} className="reactCommandView">
         <p className={commandClass}>
           <span className="prompt">{'$'}</span>
           {' '}
@@ -69,7 +69,7 @@ class CommandView extends React.Component{
         <div className="commandLineWarnings">
           {this.renderFormattedWarnings()}
         </div>
-      </output>
+      </div>
     );
   }
 
@@ -104,9 +104,9 @@ class CommandView extends React.Component{
       }
     }
     return (
-      <output className={'commandLineResult'}>
+      <div className={'commandLineResult'}>
         {result}
-      </output>
+      </div>
     );
   }
 
