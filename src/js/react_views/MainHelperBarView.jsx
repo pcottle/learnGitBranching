@@ -57,7 +57,7 @@ class MainHelperBarView extends React.Component {
           shownBar: BARS.COMMANDS
         });
       }.bind(this),
-      title: 'Show help'
+      title: 'Show commands'
     }, {
       icon: 'globe',
       onClick: function() {
