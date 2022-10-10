@@ -252,7 +252,7 @@ var ModalView = Backbone.View.extend({
 
   show: function() {
     Array.from(document.body.children).forEach(function(child) {
-      if (child.className === 'modalView') return;
+      if (child.classList.contains('modalView')) return;
       child.setAttribute('inert', '');
     });
 
@@ -276,7 +276,7 @@ var ModalView = Backbone.View.extend({
 
     
     Array.from(document.body.children).forEach(function(child) {
-      if (child.className === 'modalView') return;
+      if (child.classList.contains('modalView')) return;
       child.removeAttribute('inert');
     });
   },
