@@ -493,28 +493,28 @@ div.controls div.box.flex1 div.plus {
 }
 
 /* Command Line */
-output.reactCommandView p.commandLine i {
+div.reactCommandView p.commandLine i {
   margin: 0 5px;
 }
 
 p.commandLine,
-output.commandLineResult {
+div.commandLineResult {
   opacity: 1;
   font-size: 1em;
   margin: 0px;
 }
 
 div.commandLineWarnings p,
-output.commandLineResult p {
+div.commandLineResult p {
   margin: 0px;
 }
 
-output.commandLineResult p:first-child,
+div.commandLineResult p:first-child,
 div.commandLineWarnings p:first-child {
   padding-top: 8px;
 }
 
-output.commandLineResult p:last-child,
+div.commandLineResult p:last-child,
 div.commandLineWarnings p:last-child {
   padding-bottom: 8px;
 }
@@ -536,7 +536,7 @@ p.commandLine span.icons i:first-child {
   margin-left: 5px;
 }
 
-output.reactCommandView p.commandLine span.icons i:first-child {
+div.reactCommandView p.commandLine span.icons i:first-child {
   margin-left: 4px;
   position: relative;
   left: 1px;
