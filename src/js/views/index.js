@@ -251,6 +251,11 @@ var ModalView = Backbone.View.extend({
   },
 
   show: function() {
+    Array.from(document.body.children).forEach(function(child) {
+      if (child.classList.contains('modalView')) return;
+      child.setAttribute('inert', '');
+    });
+
     this.toggleZ(true);
     // on reflow, change our class to animate. for whatever
     // reason if this is done immediately, chrome might combine
@@ -268,6 +273,12 @@ var ModalView = Backbone.View.extend({
         this.toggleZ(false);
       }
     }.bind(this), this.getAnimationTime());
+
+    
+    Array.from(document.body.children).forEach(function(child) {
+      if (child.classList.contains('modalView')) return;
+      child.removeAttribute('inert');
+    });
   },
 
   getInsideElement: function() {

@@ -39,7 +39,8 @@ class HelperBarView extends React.Component {
           key={'helper_bar_' + index}
           onClick={item.onClick}
           target="_blank"
-          href={item.href}>
+          href={item.href}
+          title={item.title}>
           <i className={'icon-' + item.icon} />
           {' '}
         </a>
@@ -49,7 +50,8 @@ class HelperBarView extends React.Component {
       <a
         data-testid={testID}
         key={'helper_bar_' + index}
-        onClick={item.onClick}>
+        onClick={item.onClick}
+        title={item.title}>
         {item.text ? item.text :
           <i className={'icon-' + item.icon} />
         }
