@@ -251,11 +251,6 @@ var ModalView = Backbone.View.extend({
   },
 
   show: function() {
-    Array.from(document.body.children).forEach(function(child) {
-      if (child.classList.contains('modalView')) return;
-      child.setAttribute('inert', '');
-    });
-
     this.toggleZ(true);
     // on reflow, change our class to animate. for whatever
     // reason if this is done immediately, chrome might combine
@@ -273,12 +268,6 @@ var ModalView = Backbone.View.extend({
         this.toggleZ(false);
       }
     }.bind(this), this.getAnimationTime());
-
-    
-    Array.from(document.body.children).forEach(function(child) {
-      if (child.classList.contains('modalView')) return;
-      child.removeAttribute('inert');
-    });
   },
 
   getInsideElement: function() {
@@ -290,8 +279,18 @@ var ModalView = Backbone.View.extend({
     if (this.shown === value) { return; }
 
     if (value) {
+      Array.from(document.body.children).forEach(function(child) {
+        if (child.classList.contains('modalView')) return;
+        if (!child.hasAttribute('inert')) child.setAttribute('inert', '');
+      });
+
       this.stealKeyboard();
     } else {
+      Array.from(document.body.children).forEach(function(child) {
+        if (child.classList.contains('modalView')) return;
+        if (child.hasAttribute('inert')) child.removeAttribute('inert');
+      });
+
       this.releaseKeyboard();
     }
 
