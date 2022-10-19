@@ -952,7 +952,7 @@ div.seriesView p.levelInfo {
   font-style: italic;
 }
 
-div.levelIcon {
+a.levelIcon {
   height: 40px;
   width: 40px;
   border-radius: 5px;
@@ -964,9 +964,10 @@ div.levelIcon {
   background-image: -ms-linear-gradient(top, white, #AAB1AA);
   background-image: linear-gradient(top, white, #AAB1AA);
   cursor: pointer;
+  text-decoration: none;
 }
 
-div.levelIcon:hover {
+a.levelIcon:hover {
   background-image: -webkit-linear-gradient(top, #DADADA, #888686);
   background-image: -moz-linear-gradient(top, #DADADA, #888686);
   background-image: -o-linear-gradient(top, #DADADA, #888686);
@@ -974,7 +975,7 @@ div.levelIcon:hover {
   background-image: linear-gradient(top, #DADADA, #888686);
 }
 
-div.levelIcon:active {
+a.levelIcon:active {
   background-image: -webkit-linear-gradient(top, #888686, #7A7A7A);
   background-image: -moz-linear-gradient(top, #888686, #7A7A7A);
   background-image: -o-linear-gradient(top, #888686, #7A7A7A);
@@ -982,11 +983,11 @@ div.levelIcon:active {
   background-image: linear-gradient(top, #888686, #7A7A7A);
 }
 
-div.levelIcon.selected {
+a.levelIcon.selected {
   box-shadow: 0 0 15px #25F6FF;
 }
 
-div.levelIcon.solved {
+a.levelIcon.solved {
   background: -webkit-linear-gradient(top, #F3F86B, #35A30F);
   background: -moz-linear-gradient(top, #F3F86B, #35A30F);
   background: -o-linear-gradient(top, #F3F86B, #35A30F);
@@ -995,17 +996,17 @@ div.levelIcon.solved {
   border-top: 1px solid #f4ffa1;
 }
 
-div.levelIcon.solved:hover {
+a.levelIcon.solved:hover {
   border-top-color: #30f03d;
   background: #30f03d;
 }
 
-div.levelIcon.solved:active {
+a.levelIcon.solved:active {
   border-top-color: #5edb15;
   background: #5edb15;
 }
 
-div.levelIcon div.index {
+a.levelIcon div.index {
   font-weight: 400;
   text-shadow: 1px 1px 2px #CCC, 0 2px 0 #C9C9C9;
   font-size: 1.125em;
@@ -1013,11 +1014,11 @@ div.levelIcon div.index {
   -webkit-text-stroke: 1px #111;
 }
 
-div.levelIcon div.index i {
+a.levelIcon div.index i {
   display: none;
 }
 
-div.levelIcon.solved div.index i {
+a.levelIcon.solved div.index i {
   display: block;
   color: white;
   -webkit-text-stroke: 0;
@@ -1025,7 +1026,7 @@ div.levelIcon.solved div.index i {
   font-size: 2em;
 }
 
-div.levelIcon.solved div.index div.indexNum {
+a.levelIcon.solved div.index div.indexNum {
   display: none;
 }
 
