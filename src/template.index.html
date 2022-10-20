@@ -127,14 +127,14 @@
     </p>
     <div class="iconHolder box horizontal">
       <% for (var i = 0; i < ids.length; i++) { %>
-        <div class="levelIcon box center centerAlign vertical" id="levelIcon-<%=ids[i]%>" data-id="<%=ids[i]%>">
+        <a href="javascript:void(0)" class="levelIcon box center centerAlign vertical" id="levelIcon-<%=ids[i]%>" data-id="<%=ids[i]%>">
           <div class="index box" data-id="<%=ids[i]%>">
             <i class="icon-ok-circle" data-id="<%=ids[i]%>"></i>
             <div class="indexNum" data-id="<%=ids[i]%>">
               <%= i + 1 %>
             </div>
           </div>
-        </div>
+        </a>
       <% } %>
     </div>
   </script>

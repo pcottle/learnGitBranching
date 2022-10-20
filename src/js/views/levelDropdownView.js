@@ -366,8 +366,8 @@ var SeriesView = BaseView.extend({
   className: 'seriesView box flex1 vertical',
   template: _.template($('#series-view').html()),
   events: {
-    'click div.levelIcon': 'click',
-    'mouseenter div.levelIcon': 'enterIcon'
+    'click a.levelIcon': 'click',
+    'mouseenter a.levelIcon': 'enterIcon'
   },
 
   initialize: function(options) {
