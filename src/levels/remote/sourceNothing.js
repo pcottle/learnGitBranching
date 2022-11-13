@@ -39,7 +39,7 @@ exports.level = {
     "ja": "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
-    "ko": "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 되요!",
+    "ko": "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 돼요!",
     "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
     "vi": "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!",
     "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!",

@@ -922,7 +922,7 @@ exports.level = {
               "source 와 destination 모두 적용될까요? 추측해보세요! 확인해봅시다:"
             ],
             "afterMarkdowns": [
-              "이야, 명령어 하나에 많은게 일어나고있습니다. 로컬에 이름이 `foo`인 새 브랜치를 만들고, 원격 저장소의 master에서 이 브랜치 `foo`에 커밋들을 내려받습니다, 그후 그 브랜치를 우리가 현재 체크아웃한 브랜치 `bar`로 병합했습니다. 오오오!!!"
+              "이야, 명령어 하나에 많은게 일어나고있습니다. 로컬에 이름이 `foo`인 새 브랜치를 만들고, 원격 저장소의 main에서 이 브랜치 `foo`에 커밋들을 내려받습니다, 그후 그 브랜치를 우리가 현재 체크아웃한 브랜치 `bar`로 병합했습니다. 오오오!!!"
             ],
             "command": "git pull origin main:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
