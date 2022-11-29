@@ -559,7 +559,8 @@ var commandConfig = {
   merge: {
     regex: /^git +merge($|\s)/,
     options: [
-      '--no-ff'
+      '--no-ff',
+      '--squash'
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
@@ -568,7 +569,10 @@ var commandConfig = {
 
       var newCommit = engine.merge(
         generalArgs[0],
-        { noFF: !!commandOptions['--no-ff'] }
+        {
+          noFF: !!commandOptions['--no-ff'],
+          squash: !!commandOptions['--squash']
+        }
       );
 
       if (newCommit === undefined) {
