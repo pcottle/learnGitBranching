@@ -228,6 +228,13 @@ describe('Git', function() {
     );
   });
 
+  it('if squash is specified, will always make a squash merge commit', function() {
+    return expectTreeAsync(
+      'git commit; go -b side HEAD~1; git commit; git merge main; go main; git merge side --squash',
+      '{"branches":{"main":{"target":"C5","id":"main","remoteTrackingBranchID":null},"side":{"target":"C4","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"},"C5":{"parents":["C2"],"id":"C5"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
   it('makes a tag', function() {
     return expectTreeAsync(
       'git tag v1',
