@@ -2474,7 +2474,7 @@ GitEngine.prototype.merge = function(targetSource, options) {
     });
   }
 
-  if (this.isUpstreamOf(currentLocation, targetSource) && !options.noFF) {
+  if (this.isUpstreamOf(currentLocation, targetSource) && !options.noFF && !options.squash) {
     // just set the target of this current location to the source
     this.setTargetLocation(currentLocation, this.getCommitFromRef(targetSource));
     // get fresh animation to happen
@@ -2496,8 +2496,15 @@ GitEngine.prototype.merge = function(targetSource, options) {
   );
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
+  var commitParents = [parent1];
+  
+  if (!options.squash) {
+    // a squash commit doesn't include the reference to the second parent
+    commitParents.push(parent2);
+  }
+
   var mergeCommit = this.makeCommit(
-    [parent1, parent2],
+    commitParents,
     null,
     {
       commitMessage: msg
