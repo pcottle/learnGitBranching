@@ -564,7 +564,7 @@ var commandConfig = {
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
-      var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []);
+      var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []).concat(commandOptions['--squash'] || []);
       command.validateArgBounds(generalArgs, 1, 1);
 
       var newCommit = engine.merge(
