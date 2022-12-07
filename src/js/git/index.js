@@ -2386,6 +2386,7 @@ GitEngine.prototype.rebaseFinish = function(
 ) {
   options = options || {};
   // now we have the all the commits between currentLocation and the set of target to rebase.
+  var localBranches = this.getLocalBranches();
   var destinationBranch = this.resolveID(targetSource);
   var deferred = options.deferred || Q.defer();
   var chain = options.chain || deferred.promise;
@@ -2406,6 +2407,7 @@ GitEngine.prototype.rebaseFinish = function(
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
   var hasStartedChain = false;
+  var refsToUpdate = [];
   // each step makes a new commit
   var chainStep = function(oldCommit) {
     var newId = this.rebaseAltID(oldCommit.get('id'));
@@ -2425,6 +2427,17 @@ GitEngine.prototype.rebaseFinish = function(
     base = newCommit;
     hasStartedChain = true;
 
+    if (options.updateRefs) {
+      refsToUpdate = refsToUpdate.concat(
+        localBranches
+          .filter(function(localBranch) {
+            return this.getCommitFromRef(localBranch.id).get('id') == oldCommit.get('id');
+          }.bind(this))
+          .map(function(localBranch) {
+            return { id: localBranch.id, newCommit: newCommit };
+          }));
+    }
+
     return this.animationFactory.playCommitBirthPromiseAnimation(
       newCommit,
       this.gitVisuals
@@ -2439,6 +2452,10 @@ GitEngine.prototype.rebaseFinish = function(
   }, this);
 
   chain = chain.then(function() {
+    refsToUpdate.forEach(function(refToUpdate) {
+      this.setTargetLocation(refToUpdate.id, refToUpdate.newCommit);
+    }.bind(this));
+
     if (this.resolveID(currentLocation).get('type') == 'commit') {
       // we referenced a commit like git rebase C2 C1, so we have
       // to manually check out C1'
@@ -2497,7 +2514,7 @@ GitEngine.prototype.merge = function(targetSource, options) {
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
   var commitParents = [parent1];
-  
+
   if (!options.squash) {
     // a squash commit doesn't include the reference to the second parent
     commitParents.push(parent2);

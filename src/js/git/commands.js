@@ -631,7 +631,8 @@ var commandConfig = {
       '--aboveAll',
       '-p',
       '--preserve-merges',
-      '--onto'
+      '--onto',
+      '--update-refs'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -674,7 +675,8 @@ var commandConfig = {
 
       command.twoArgsImpliedHead(generalArgs);
       engine.rebase(generalArgs[0], generalArgs[1], {
-        preserveMerges: commandOptions['-p'] || commandOptions['--preserve-merges']
+        preserveMerges: commandOptions['-p'] || commandOptions['--preserve-merges'],
+        updateRefs: !!commandOptions['--update-refs']
       });
     }
   },
