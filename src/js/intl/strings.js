@@ -1507,21 +1507,21 @@ exports.strings = {
   ///////////////////////////////////////////////////////////////////////////
   'solved-level': {
     '__desc__': 'When you solved a level',
-    'en_US': 'Solved!!\n:D',
-    'es_MX': '¡Resuelto!',
-    'de_DE': 'Gelöst!\n:D',
-    'zh_CN': '恭喜过关！！',
-    'zh_TW': '恭喜，本關解決了！！',
-    'es_ES': '¡Resuelto!\n:D',
-    'gl'   : '¡Resolto!',
-    'ru_RU': 'Решено!!\n:D',
-    'uk'   : 'Вирішено!!\n:D',
-    'ko'   : '해결 완료!!\n:D',
-    'vi'   : 'ĐÃ XONG!!\n:D',
-    'sl_SI': 'Rešeno!!\n:D',
-    'pl'   : 'Rozwiązany!!\n:D',
-    'it_IT': "Risolto!!\n:D",
-    'ta_IN': 'தீர்க்கப்பட்டது!!\n:D'
+    'en_US': 'Solved!!!\n:D',
+    'es_MX': '¡Resuelto!!!',
+    'de_DE': 'Gelöst!!!\n:D',
+    'zh_CN': '恭喜过关!!!',
+    'zh_TW': '恭喜，本關解決了!!!',
+    'es_ES': '¡Resuelto!!!\n:D',
+    'gl'   : '¡Resolto!!!',
+    'ru_RU': 'Решено!!!\n:D',
+    'uk'   : 'Вирішено!!!\n:D',
+    'ko'   : '해결 완료!!!\n:D',
+    'vi'   : 'ĐÃ XONG!!!\n:D',
+    'sl_SI': 'Rešeno!!!\n:D',
+    'pl'   : 'Rozwiązany!!!\n:D',
+    'it_IT': "Risolto!!!\n:D",
+    'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
