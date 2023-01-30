@@ -3,7 +3,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Great Job!!',
+        '## Great Job!!!',
         '',
         'You solved the level in *{numCommands}* command(s); ',
         'our solution uses {best}.'
@@ -14,7 +14,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Super gemacht',
+        '## Super gemacht!!!',
         '',
         'Du hast den Level in *{numCommands}* Befehl(en) gelöst;',
         'meine Lösung besteht aus {best}.'
@@ -25,7 +25,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 完成!',
+        '## 完成!!!',
         '',
         'あなたは*{numCommands}*回のコマンドでこの課題をクリアしました; ',
         '模範解答では{best}回です。',
@@ -38,7 +38,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 好样的！',
+        '## 好样的!!!',
         '',
         '你用 *{numCommands}* 条命令通过了这一关；',
         '我们的答案要用 {best} 条命令。'
@@ -49,7 +49,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 太棒了！',
+        '## 太棒了!!!',
         '',
         '您用了 *{numCommands}* 個指令完成這一關，',
         '我們的解答用了 {best} 個。'
@@ -60,7 +60,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Buen trabajo!',
+        '## ¡Buen trabajo!!!',
         '',
         'Resolviste el nivel en *{numCommands}* comandos; ',
         'nuestra mejor solución usa {best}.'
@@ -71,7 +71,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Buen trabajo!',
+        '## ¡Buen trabajo!!!',
         '',
         'Resolviste el nivel en *{numCommands}* comandos; ',
         'nuestra mejor solución usa: {best}.'
@@ -82,7 +82,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ¡Buen trabajo!',
+        '## ¡Buen trabajo!!!',
         '',
         'Resolviste el nivel en *{numCommands}* comandos; ',
         'nuestra mejor solución usa {best}.'
@@ -93,7 +93,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bom trabalho!!',
+        '## Bom trabalho!!!',
         '',
         'Você resolveu o nível usando *{numCommands}* comandos; ',
         'nossa melhor solução usa {best}.'
@@ -104,7 +104,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bo traballo!!',
+        '## Bo traballo!!!',
         '',
         'Resolviches o nivel empregando *{numCommands}* comandos; ',
         'a nosa mellor solución é en {best}.'
@@ -115,7 +115,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Beau Travail!!',
+        '## Beau Travail!!!',
         '',
         'Vous avez résolu le niveau en *{numCommands}* commande(s); ',
         'notre solution le fait en {best}.'
@@ -126,7 +126,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Супер!',
+        '## Супер!!!',
         '',
         'Ты прошёл уровень. Количество использованных команд - *{numCommands}* ; ',
         'а наше решение состоит из {best}.'
@@ -137,7 +137,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Молодець!',
+        '## Молодець!!!',
         '',
         'Ти пройшов рівень. Кількість використаних команд \u2014 *{numCommands}*; ',
         'наш розв’язок складається з {best}.'
@@ -148,7 +148,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## 훌륭합니다!!',
+        '## 훌륭합니다!!!',
         '',
         '*{numCommands}*개의 명령으로 레벨을 통과했습니다; ',
         '모범 답안은 {best}개를 사용합니다.'
@@ -159,7 +159,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Làm tốt lắm!!',
+        '## Làm tốt lắm!!!',
         '',
         'Bạn hoàn thành cấp độ này với *{numCommands}* câu lệnh; ',
         'Đáp án của chúng tôi sử dụng {best}.'
@@ -170,7 +170,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Dobro opravljeno!!',
+        '## Dobro opravljeno!!!',
         '',
         'Rešil si stopnjo z *{numCommands}* ukazi; ',
         'naša rešitev uporabi {best}.'
@@ -181,7 +181,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Dobra robota!!',
+        '## Dobra robota!!!',
         '',
         'Rozwiązałeś poziom używając *{numCommands}* poleceń/ia; ',
         'nasze rozwiązanie składa się z {best}.'
@@ -192,7 +192,7 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## ஆக சிரந்த செயல்!!',
+        '## ஆக சிரந்த செயல்!!!',
         '',
         'நீங்கள் *{numCommands}* நிலைக்கான கட்டளை(கள்) கொண்டு தீர்வை அடிந்து விட்டீர்கள்; ',
         'நமது தீர்வு {best}-ஐ பயன்படுத்து கின்றது.'
@@ -204,7 +204,7 @@ exports.dialog = {
       type: "ModalAlert",
       options: {
         markdowns: [
-          "## Ben fatto!!",
+          "## Ben fatto!!!",
           "",
           "Hai risolto il livello con *{numCommands}* comando(i); ",
           "noi l'abbiamo risolto con {best}.",
