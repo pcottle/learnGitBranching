@@ -142,7 +142,8 @@ var InteractiveRebaseView = ContainedBase.extend({
     // finally get our buttons
     new ConfirmCancelView({
       destination: this.$('.confirmCancel'),
-      deferred: deferred
+      deferred: deferred,
+      disableCancelButton: !!this.options.aboveAll,
     });
   }
 });

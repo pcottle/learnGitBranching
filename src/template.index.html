@@ -326,9 +326,13 @@
   </script>
 
   <script type="text/html" id="confirm-cancel-template">
-    <button class="noStyle box cancelButton uiButton uiButtonRed">
-      <%= cancel %>
-    </button>
+    <% if (disableCancelButton) { %>
+      <span></span>
+    <% } else { %>
+      <button class="noStyle box cancelButton uiButton uiButtonRed">
+        <%= cancel %>
+      </button>
+    <% } %>
     <button class="noStyle box confirmButton uiButton uiButtonYellow">
       <%= confirm %>
     </button>
