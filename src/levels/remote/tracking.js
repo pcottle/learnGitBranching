@@ -918,7 +918,7 @@ exports.level = {
               "",
               "当然可以啦！你可以让任意分支跟踪 `o/main`, 然后该分支会像 `main` 分支一样得到隐含的 push 目的地以及 merge 的目标。 这意味着你可以在分支 `totallyNotMain` 上执行 `git push`，将工作推送到远程仓库的 `main` 分支上。",
               "",
-              "有两种方法设置这个属性，第一种就是通过远程分支检出一个新的分支，执行: ",
+              "有两种方法设置这个属性，第一种就是通过远程分支切换到一个新的分支，执行: ",
               "",
               "`git checkout -b totallyNotMain o/main`",
               "",
@@ -930,7 +930,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "闲话少说，咱们先看看演示！我们检出一个名叫 `foo` 的新分支，让其跟踪远程仓库中的 `main`"
+              "闲话少说，咱们先看看演示！我们切换到一个名叫 `foo` 的新分支，让其跟踪远程仓库中的 `main`"
             ],
             "afterMarkdowns": [
               "正如你所看到的, 我们使用了隐含的目标 `o/main` 来更新 `foo` 分支。需要注意的是 main 并未被更新！"
@@ -986,7 +986,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "OK! 本节我们在**不**检出 `main` 分支的情况下将工作推送到的远程仓库中的 `main` 分支上。因为这是高级课程, 就不做过多的提示了! :P"
+              "OK! 本节我们在**不**切换到 `main` 分支的情况下将工作推送到的远程仓库中的 `main` 分支上。因为这是高级课程, 就不做过多的提示了! :P"
             ]
           }
         }
