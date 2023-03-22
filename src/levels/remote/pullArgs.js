@@ -604,7 +604,7 @@ exports.level = {
               "如果我们指定要抓取的 place，所有的事情都会跟之前一样发生，只是增加了 merge 操作"
             ],
             "afterMarkdowns": [
-              "看到了吧! 通过指定 `main` 我们更新了 `o/main`。然后将 `o/main` merge 到我们的检出位置，**无论**我们当前检出的位置是哪。"
+              "看到了吧! 通过指定 `main` 我们更新了 `o/main`。然后将 `o/main` merge 到我们的所在的分支，**无论**我们当前所在的位置是哪。"
             ],
             "command": "git pull origin main",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -617,7 +617,7 @@ exports.level = {
               "pull 也可以用 source:destination 吗? 当然喽, 看看吧:"
             ],
             "afterMarkdowns": [
-              " 哇, 这个命令做的事情真多。它先在本地创建了一个叫 `foo` 的分支，从远程仓库中的 main 分支中下载提交记录，并合并到 `foo`，然后再 merge 到我们的当前检出的分支 `bar` 上。操作够多的吧？！"
+              " 哇, 这个命令做的事情真多。它先在本地创建了一个叫 `foo` 的分支，从远程仓库中的 main 分支中下载提交记录，并合并到 `foo`，然后再 merge 到我们的当前所在的分支 `bar` 上。操作够多的吧？！"
             ],
             "command": "git pull origin main:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
