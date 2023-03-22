@@ -23,7 +23,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
-    "zh_CN": "按照目标中的提交树的顺序进行检出",
+    "zh_CN": "按照目标中的提交树的顺序进行切换",
     "zh_TW": "確認視覺化的目標中的順序",
     "es_AR": "Prestá atención al orden del objetivo",
     "es_ES": "Presta atención al orden del objetivo",
