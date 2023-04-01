@@ -13,3 +13,6 @@ These are great too! If you are adding new functionality to the git engine, I wo
 For bug fixes or CSS/style layout issues, simply attach screenshots of the before and after. For more obscure browsers, targeted CSS rules by browser is a bit more preferred.
 
 Thanks for stopping by!
+
+
+#This is sample text
