@@ -491,7 +491,7 @@ exports.level = {
               "",
               "在這個教學中，我們會學習到如何從 remote repository 來 fetch （抓取）資料，這個指令叫作 `git fetch`。",
               "",
-              "你將會注意到當我們的 remote repository 更新的時候，相對應的 _remote_ branch 也會反應該更新，這個跟我們之前所提到的 remote branch 的特性是吻合的。"
+              "你將會注意到當我們的 remote repository 更新的時候，相對應的 _remote_ branch 也會反映該更新，這個跟我們之前所提到的 remote branch 的特性是吻合的。"
             ]
           }
         },
@@ -521,7 +521,7 @@ exports.level = {
               "",
               "基本上，`git fetch` 同步了我們的 local repository 以及 remote repository 的最新狀態。",
               "",
-              "假如你還記得之前的教學的話，我們說過 remote branch 反應了 remote repository 的狀態，原因在於說你最後接觸的是這些 remote repository，而你就是利用 `git fetch` 來接觸這些 remote repository！現在 remote branch 跟 `git fetch` 的關係已經很明顯了。",
+              "假如你還記得之前的教學的話，我們說過 remote branch 反映了 remote repository 的狀態，原因在於說你最後接觸的是這些 remote repository，而你就是利用 `git fetch` 來接觸這些 remote repository！現在 remote branch 跟 `git fetch` 的關係已經很明顯了。",
               "",
               "`git fetch` 通常是透過網路來跟 remote 溝通（透過一個 protocol （協定），例如 `http://` 或者是 `git://`）。",
               ""
