@@ -24,7 +24,7 @@ exports.level = {
     "ru_RU": "Git describe",
     "ko": "Git describe(묘사)",
     "uk": "Git Describe",
-    "vi": "Git Describe(mô tả)",
+    "vi": "Git Describe (mô tả)",
     "sl_SI": "Git Describe",
     "it_IT": "Git Describe",
     "pl": "Git describe"
@@ -880,9 +880,9 @@ exports.level = {
             "markdowns": [
               "### Mô tả của Git",
               "",
-              "Bởi gì thẻ đóng vai trò như là \"mỏ neo\" trên cây lịch sử rất tốt rồi, git cũng có lệnh để *mô tả* tương quan của bạn dến vị trí \"mỏ neo\" (thẻ) gần nhất. Và đó là `git describe`!",
+              "Bởi gì thẻ đóng vai trò như là \"mỏ neo\" trên cây lịch sử rất tốt rồi, Git cũng có lệnh để *mô tả* tương quan của bạn đến vị trí \"mỏ neo\" (thẻ) gần nhất. Và đó là `git describe`!",
               "",
-              "`git descripe` có thể giúp bạn định hướng sau khi dịch chuyển qua lại nhiều lần trên cây lịch sử; đặc biệt là sau khi sử dụng `git bisect` (công cụ tìm kiếm lỗi của git) hoặc khi sử dụng máy của đồng nghiệp mới đi nghỉ mát về."
+              "`git describe` có thể giúp bạn định hướng sau khi dịch chuyển qua lại nhiều lần trên cây lịch sử; đặc biệt là sau khi sử dụng `git bisect` (công cụ tìm kiếm lỗi của Git) hoặc khi sử dụng máy của đồng nghiệp mới đi nghỉ mát về."
             ]
           }
         },
@@ -894,7 +894,7 @@ exports.level = {
               "",
               "`git describe <thamchiếu>`",
               "",
-              "Trong đó `<thamchiếu>` là bất kỳ thứ gì mà git có thể dùng để xác định commit. Nếu bạn không chỉ định tham chiếu, git sẽ dùng vị trí hiện tại của bạn (`HEAD`).",
+              "Trong đó `<thamchiếu>` là bất kỳ thứ gì mà Git có thể dùng để xác định commit. Nếu bạn không chỉ định tham chiếu, Git sẽ dùng vị trí hiện tại của bạn (`HEAD`).",
               "",
               "Đầu ra của câu lệnh sẽ như sau:",
               "",

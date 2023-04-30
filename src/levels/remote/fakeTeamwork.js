@@ -35,7 +35,7 @@ exports.level = {
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk": "пам’ятай що ти можеш вказати кількість фейкових комітів",
     "ko": "가장할 커밋의 갯수를 조절할 수 있습니다.",
-    "vi": "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập.",
+    "vi": "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập",
     "sl_SI": "Spomni se, da lahko določiš število lažnih commitov.",
     "pl": "Pamiętaj, że możesz określić liczbę symulowanych commitów",
     "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare"

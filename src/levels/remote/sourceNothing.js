@@ -748,7 +748,7 @@ exports.level = {
             "markdowns": [
               "### Sự kỳ quặc của `<nguồn>`",
               "",
-              "Git lợi dụng tham số `<nguồn>` theo 2 cách khá dị.Hai cách lợi dụng này bắt nguồn từ thục tế là bạn có thể \"không chỉ định\" `nguồn` cho cả git push và git fetch. Bạn có thể làm điều này bằng cách để trống tham số như sau:",
+              "Git lợi dụng tham số `<nguồn>` theo 2 cách khá dị. Hai cách lợi dụng này bắt nguồn từ thực tế là bạn có thể \"không chỉ định\" `nguồn` cho cả git push và git fetch. Bạn có thể làm điều này bằng cách để trống tham số như sau:",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
@@ -777,7 +777,7 @@ exports.level = {
               "Cuối cùng, nạp \"không gì cả\" vào một kho chứa cục bộ thực tế sẽ tạo ra một nhánh mới"
             ],
             "afterMarkdowns": [
-              "Khá là quái và dị. Nhưng mà dó là những gì git làm!"
+              "Khá là quái và dị. Nhưng mà đó là những gì Git làm!"
             ],
             "command": "git fetch origin :bar",
             "beforeCommand": "git clone"

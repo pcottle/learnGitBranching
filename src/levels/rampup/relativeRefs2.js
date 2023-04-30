@@ -1000,10 +1000,10 @@ exports.level = {
             "markdowns": [
               "### Toán tử \"~\"",
               "",
-              "Giả sử bạn muốn leo lên nhiều cấp trong git. Dùng `^` vài lần thì tù lắm, nên Git đã có dấu ngã (~) cho việc đó.",
+              "Giả sử bạn muốn leo lên nhiều cấp trong Git. Dùng `^` vài lần thì tù lắm, nên Git đã có dấu ngã (~) cho việc đó.",
               "",
               "",
-              "Theo sau toán tử ngã (~) là số lượng cha ông mà bạn muốn leo lên(không bắt buộc). Xem thử làm thật thì thế nào nào"
+              "Theo sau toán tử ngã (~) là số lượng cha ông mà bạn muốn leo lên (không bắt buộc). Xem thử làm thật thì thế nào nào."
             ]
           }
         },
@@ -1043,7 +1043,7 @@ exports.level = {
               "Xem thử cái lệnh trên hoạt động sao nào."
             ],
             "afterMarkdowns": [
-              "Đóóóó! Tham chiếu tương đối cho chúng ta một cách chuẩn xác để trỏ tới `C1` và ép nhánh bằng (`-f`) thì dịch chuyển nhanh chóng nhánh tới đó."
+              "Đóóóó! Tham chiếu tương đối cho chúng ta một cách chuẩn xác để trỏ tới `C1` và ép nhánh bằng (`-f`) để dịch chuyển nhanh chóng nhánh tới đó."
             ],
             "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -1053,7 +1053,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Giờ thì bạn đã thấy cách kết hợp tham chiếu tương đối và ép nhánh, dùng chúng để vượt level tiếp thôi.",
+              "Bây giờ khi bạn đã biết về các tham chiếu tương đối và ép buộc nhánh, hãy sử dụng chúng để giải quyết cấp độ tiếp theo",
               "",
               "Để hoàn thành cấp độ này, chuyển `HEAD`, `main`, và `bugFix` đến mục tiêu được xác định của chúng."
             ]

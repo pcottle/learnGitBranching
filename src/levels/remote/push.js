@@ -603,15 +603,15 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "Được rồi, ta đã biết cách nạp thay đổi từ kho chứa từ xa và kết hợp chúng vào các nhánh cục bộ. Khá là tuyệt rồi... nhưng nếu tôi muốn chia sẻ tác phẩm tuyệt vời _của tôi_ với mọi người khác thì sao?",
+              "Được rồi, ta đã biết cách nạp thay đổi từ kho chứa từ xa và kết hợp chúng vào các nhánh cục bộ. Khá là tuyệt rồi... nhưng nếu tôi muốn chia sẻ tác phẩm tuyệt vời _của tôi_ với mọi người thì sao?",
               "",
-              "Chà, cách tải lên thì phải ngược với tải xuống rồi. Vậy thì đối nghịch của `git pull`(kéo) là gì? `git push`(đẩy)!",
+              "Chà, cách tải lên thì phải ngược với tải xuống rồi. Vậy thì đối nghịch của `git pull` (kéo) là gì? `git push` (đẩy)!",
               "",
               "`git push` có trách nhiệm tải lên thay đổi _của bạn_ vào nhánh từ xa được chỉ định và cập nhật nhánh đó để kết hợp với commit đẩy lên của bạn. Một khi lệnh `git push` hoàn thành, tất cả bạn bè của bạn có thể tải xuống thay đổi của nhánh từ xa đó đó.",
               "",
               "Bạn có thể xem `git push` là câu lệnh để \"xuất bản\" thành quả công việc của bạn. Lệnh này có nhiều tính năng tinh tế mà ta sẽ tìm hiểu nhanh thôi, nhưng giờ hãy cứ bắt đầu với từng bước nhỏ đã...",
               "",
-              "*lưu ý --`git push` mà không có tham số hành xử tùy biến phụ thuộc vào cài đặt của git là `push.default`. Giá trị mặc định cho cài đặt này phụ thuộc vào phiên bản git mà bạn đang sử dụng, còn ở bài học của chúng ta thì ta sẽ sử dụng giá trị `upstream` (ngược dòng). Bây giờ thì đó chưa phải là vấn đề gì lớn, nhưng chúng tôi khuyến nghị bạn kiểm tra cài đặt của mình trước khi đẩy lên dự án của bạn.*"
+              "*lưu ý --`git push` mà không có tham số hành xử tùy biến phụ thuộc vào cài đặt của Git là `push.default`. Giá trị mặc định cho cài đặt này phụ thuộc vào phiên bản Git mà bạn đang sử dụng, còn ở bài học của chúng ta thì ta sẽ sử dụng giá trị `upstream` (ngược dòng). Bây giờ thì đó chưa phải là vấn đề gì lớn, nhưng chúng tôi khuyến nghị bạn kiểm tra cài đặt của mình trước khi đẩy lên dự án của bạn.*"
             ]
           }
         },

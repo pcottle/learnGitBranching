@@ -816,16 +816,16 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Ta đã biết cách dùng `git fetch` để nạp các commit từ kho chứa từ xa, giờ hãy cập nhật các commit này vào các nhánh địa phương!",
+              "Ta đã biết cách dùng `git fetch` để nạp các commit từ kho chứa từ xa, giờ hãy cập nhật công việc của chúng ta để phản ánh những thay đổi đó!",
               "",
-              "Thực ra thì có nhiều cách đề làm điều này -- một khi bạn đã có các commit này ở ko chứa địa phương, bạn có thể hợp nhất chúng như với các commit ở các nhánh khác. Nghĩa là bạn có thể sử dụng các câu lệnh sau:",
+              "Thực ra thì có nhiều cách đề làm điều này -- một khi bạn đã có các commit này ở kho chứa cục bộ, bạn có thể hợp nhất chúng như với các commit ở các nhánh khác. Nghĩa là bạn có thể sử dụng các câu lệnh sau:",
               "",
               "* `git cherry-pick o/main`",
               "* `git rebase o/main`",
               "* `git merge o/main`",
-              "* etc., etc.",
+              "* vân vân và mây mây",
               "",
-              "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`."
+              "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi Git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`."
             ]
           }
         },
@@ -859,9 +859,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ta sẽ tìm hiều chi tiết về `git pull` sau (bao gồm các tùy chọn và tham số), còn bây giờ thì cứ dùng thử nó ở cấp độ này đã.",
+              "Ta sẽ tìm hiểu chi tiết về `git pull` sau (bao gồm các tùy chọn và tham số), còn bây giờ thì cứ dùng thử nó ở cấp độ này đã.",
               "",
-              "Nhớ rằng -- bạn có thể giải quyết cấp độ này với `fetch` và sau đó `merge`, nhưng mà như thế thì lại tốn têm một câu lệnh :P"
+              "Nhớ rằng -- bạn có thể giải quyết cấp độ này với `fetch` và sau đó `merge`, nhưng mà như thế thì lại tốn thêm một câu lệnh :P"
             ]
           }
         }
