@@ -1100,11 +1100,11 @@ exports.level = {
             "markdowns": [
               "## Tham chiếu tương đối",
               "",
-              "Dịch chuyển trong Git bằng cách chỉ định mã băm(hash) của commit cỏ vẻ hơi buồn tẻ. Trong đời thực thì sẽ không có mô tả git trực quan ngay bên cạnh terminal của bạn đâu, nên nếu bạn muốn nhìn mã băm của commit thì phải dùng `git log` thôi.",
+              "Dịch chuyển trong Git bằng cách chỉ định mã băm (hash) của commit cỏ vẻ hơi buồn tẻ. Trong đời thực thì sẽ không có mô tả Git trực quan ngay bên cạnh terminal của bạn đâu, nên nếu bạn muốn nhìn mã băm của commit thì phải dùng `git log` thôi.",
               "",
               "Hơn nữa, mã băm thực tế thường dài hơn rất nhiều. Ví dụ, mã băm của commit được giới thiệu trong phần trước là `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Đọc mà xoắn hết cả lưỡi...",
               "",
-              "Được cái là Git cũng khá thông minh về mã băm. Nó chỉ yêu cầu bạn chỉ định mã băm đủ để xác định commit. Cho nên tôi có thể đơn giản chỉ cần gõ `fed2` thay vì cái chuỗi dài ngoằng phía trên."
+              "Được cái là Git cũng khá thông minh về mã băm. Chỉ cần cung cấp kí tự mã băm đủ để phân biệt với các commit khác. Cho nên tôi có thể đơn giản chỉ cần gõ `fed2` thay vì cái chuỗi dài ngoằng phía trên."
             ]
           }
         },
@@ -1112,14 +1112,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Như tôi đã nói, xác định commit bằng mã băm của nó chẳng hề thuận tiện tẹo nào, đó là tại sao Git có những `tham chiếu tương đối`. Chúng rất tuyệt vời!",
+              "Như tôi đã nói, xác định commit bằng mã băm chẳng hề thuận tiện tẹo nào, đó là tại sao Git có những `tham chiếu tương đối`. Chúng rất tuyệt vời!",
               "",
               "Với tham chiếu tương đối, bạn có thể bắt đầu từ những nơi có thể ghi nhớ được (như là nhánh `bugFix` hoặc `HEAD`) và làm việc trên đó.",
               "",
-              "Những commits tương đối rất mạnh mẽ, nhưng chúng tôi sẽ chỉ giới thiệu 2 loại đơn giản sau:",
+              "Những commit tương đối (relative commits) rất mạnh mẽ, nhưng chúng tôi sẽ chỉ giới thiệu 2 loại đơn giản sau:",
               "",
-              "* Dịch chuyển 1 commit lên trên trong 1 lần với `^`",
-              "* Dịch chuyển nhiều commit lên trên trong 1 lần với `~<số>`"
+              "* Dịch chuyển lên 1 commit mỗi lần với `^`",
+              "* Dịch chuyển lên nhiều commit mỗi lần với `~<số>`"
             ]
           }
         },
@@ -1136,7 +1136,7 @@ exports.level = {
               "Thử nhảy sang commit trước main nào"
             ],
             "afterMarkdowns": [
-              "BÙUM! Đã xong. Đơn giản hơn gõ mã băm nhiều"
+              "BÙUM! Đã xong. Đơn giản hơn gõ mã băm nhiều."
             ],
             "command": "git checkout main^",
             "beforeCommand": "git commit"
@@ -1146,7 +1146,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Bạn cũng có thể dùng `HEAD` như là tham chiếu tương đối. Thử dùng nó để leo commit vài lần nào"
+              "Bạn cũng có thể dùng `HEAD` như là tham chiếu tương đối. Thử dùng nó để leo commit vài lần nào."
             ],
             "afterMarkdowns": [
               "Game là dễ! Du hành ngược thời gian với `HEAD^`"

@@ -1140,7 +1140,7 @@ exports.level = {
               "",
               "Trước khi học thêm vài chức năng nâng cao trong Git, ta cần phải biết cách dịch chuyển qua lại các commit có trong kho chứa.",
               "",
-              "Một khi bạn đã thành thao với chuyển dịch, khả năng sử dụng các lệnh git của bạn đã được nâng cao!",
+              "Một khi bạn đã thành thạo với chuyển dịch, khả năng sử dụng các lệnh Git của bạn đã được nâng cao!",
               "",
               "",
               "",
@@ -1155,11 +1155,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "Đầu tiên hãy bàn về 'HEAD'. HEAD là cái tên biểu tượng cho commit iện tại đang được trỏ đến -- về căn bản nó là commit mà bạn đang làm việc.",
+              "Đầu tiên hãy bàn về 'HEAD'. HEAD là cái tên biểu tượng cho commit hiện tại đang được trỏ đến -- về căn bản nó là commit mà bạn đang làm việc.",
               "",
-              "HEAD luôn luôn trỏ đến commit gần nhất được phản ánh trong cây làm việc. Hầu hết các lệnh git mà làm thay đổi nội dung cây làm việc thường bắt đầu với HEAD.",
+              "HEAD luôn luôn trỏ đến commit gần nhất được phản ánh trong cây làm việc. Hầu hết các lệnh Git mà làm thay đổi nội dung cây làm việc thường bắt đầu với HEAD.",
               "",
-              "Bình thường HEAD thì trỏ tới tên nhánh (ví dụ bugFix). Khi bạn commit, thì trạng thái của bugFix được thay đổi và thay đổi này được trông thấy thông qua HEAD."
+              "Bình thường HEAD trỏ tới tên nhánh (ví dụ bugFix). Khi bạn commit, trạng thái của bugFix được thay đổi và thay đổi này được trông thấy thông qua HEAD."
             ]
           }
         },
@@ -1167,7 +1167,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Xem thử thực tế nào. Ở đây ta sẽ bộc lộ HEAD trước và sau khi commit."
+              "Xem thử thực tế nào. Ở đây ta sẽ làm rõ HEAD trước và sau khi commit."
             ],
             "afterMarkdowns": [
               "Thấy chứ? HEAD đã ẩn dưới nhánh `main` suốt."
@@ -1182,7 +1182,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### Tháo HEAD",
               "",
-              "Tháo HEAD đơng giản nghĩa là dán nó vào một commit thay vì một nhánh. Lúc trước thì nó trông như thế này:",
+              "Tháo HEAD đơn giản nghĩa là dán nó vào một commit thay vì một nhánh. Lúc trước thì nó trông như thế này:",
               "",
               "HEAD -> main -> C1",
               ""
@@ -1200,7 +1200,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, hãy tháo HEAD khỏi `bugFix` thay vì đó hãy dán nó vào commit.",
+              "Để hoàn thành cấp độ này, hãy tháo HEAD khỏi `bugFix` và dán nó vào commit.",
               "",
               "Chỉ rõ commit bằng mã băm (hash) của nó. Mã băm của mỗi commit nằm trong trong vòng tròn biểu thị commit đó."
             ]

@@ -35,7 +35,7 @@ exports.level = {
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko": "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
     "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
-    "vi": "Nhớ rằng,bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
+    "vi": "Nhớ rằng, bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
     "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
     "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
     "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri"
@@ -1032,7 +1032,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dưới đây là một vài câu lệnh tương đồng nhau trong git:",
+              "Dưới đây là một vài câu lệnh tương đồng nhau trong Git:",
               "",
               "`git pull  origin foo` tương đương với:",
               "",
@@ -1057,7 +1057,7 @@ exports.level = {
               "Nếu ta chỉ định vị trí để nạp, mọi thứ diễn ra như với git fetch nhưng giờ đây có thêm một bước đó là ta hợp nhất những gì mà ta đã nạp"
             ],
             "afterMarkdowns": [
-              "Thấy chứ! Bằng cách chỉ định nhánh `main` ta tải các commit xuống nhánh `o/main` như thường lệ. Sau đó hợp nhất nhánh `o/main` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `main`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull(với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
+              "Thấy chứ! Bằng cách chỉ định nhánh `main` ta tải các commit xuống nhánh `o/main` như thường lệ. Sau đó hợp nhất nhánh `o/main` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `main`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull (với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
             ],
             "command": "git pull origin main",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"

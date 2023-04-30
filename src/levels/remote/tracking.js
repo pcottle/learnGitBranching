@@ -1586,10 +1586,10 @@ exports.level = {
             "markdowns": [
               "### Theo dõi nhánh từ xa",
               "",
-              "Trong những bài học vừa qua có một điểu có vẻ như là \"ma thuật\" đó là git lại biết được nhánh `main` có liên kết đến nhánh `o/main`. Đúng là chúng có tên tương tự và nhánh `main` ở kho chứa từ xa có kết nối đến nhánh `main` ở kho chứa địa phương có vẻ như là hợp lý, nhưng kết nối này được thể hiện rõ ràng trong 2 trường hợp:",
+              "Trong những bài học vừa qua có một điểu có vẻ như là \"ma thuật\" đó là Git lại biết được nhánh `main` có liên kết đến nhánh `o/main`. Dù các nhánh này có tên giống nhau và có vẻ hợp lý để kết nối nhánh `main` trên remote với nhánh `main` trên local, nhưng điều này được thể hiện rõ ràng qua hai tình huống sau:",
               "",
               "* Trong quá trình thực hiện thao tác kéo, các commit được tải xuống nhánh `o/main` và sau đó *hợp nhất* vào nhánh `main`. Mục tiêu hợp nhất dược ngầm định bởi kết nối này.",
-              "* Trong quá trình thực hiện thao tác đẩy, thảnh quả trên nhánh `main` được đẩy lên nhánh `main` từ xa (sau dó được biểu thị bằng nhánh `o/main` ở kho chứa địa phương). *Đích đến* của lệnh đẩy được xác định bằng kết nối giữa nhánh `main` và nhánh `o/main`.",
+              "* Trong quá trình thực hiện thao tác đẩy, thảnh quả trên nhánh `main` được đẩy lên nhánh `main` từ xa (sau đó được biểu thị bằng nhánh `o/main` ở kho chứa cục bộ). *Đích đến* của lệnh đẩy được xác định bằng kết nối giữa nhánh `main` và nhánh `o/main`.",
               ""
             ]
           }
@@ -1600,13 +1600,13 @@ exports.level = {
             "markdowns": [
               "## Theo dõi từ xa",
               "",
-              "Nói tóm lại, kết nối giữa nhánh `main` và nhánh `o/main` đơn giản được giải thích bằng thuộc tính \"theo dõi từ xa\" (\"remote tracking\") của các nhánh. Nhánh `main` được thiết lập để theo dõi nhánh `o/main` -- Điều này có nghĩa là nhánh `main` được chỉ định đích của lệnh đẩy và mục tiêu hợp nhất sau khi kéo.",
+              "Nói tóm lại, kết nối giữa nhánh `main` và nhánh `o/main` đơn giản được giải thích bằng thuộc tính \"theo dõi từ xa\" (\"remote tracking\") của các nhánh. Nhánh `main` được thiết lập để theo dõi nhánh `o/main` -- Điều này có nghĩa là có điểm đến ngụ ý cho việc hợp nhất (merge) và đẩy lên (push) của nhánh `main`.",
               "",
-              "Có thể bạn sẽ thắc mắc rằng tại sao thuộc tính này được thiết lập lên nhánh `main` trong khi bạn chẳng hề chạy một câu lệnh nào chỉ định điều này. Chà, khi bạn dùng git để nhân bản kho chứa, thì thuộc tính này đã được tự động thiết lập cho bạn rồi. ",
+              "Có thể bạn sẽ thắc mắc rằng tại sao thuộc tính này được thiết lập lên nhánh `main` trong khi bạn chẳng hề chạy một câu lệnh nào chỉ định điều này. Chà, khi bạn dùng Git để nhân bản kho chứa, thì thuộc tính này đã được tự động thiết lập cho bạn rồi. ",
               "",
-              "Trong quá trình thực hiện nhân bản, git tạo ra nhánh từ xa trên kho chứa địa phương cho tất cả các nhánh trên kho chứa từ xa (các nhánh như `o/main`). Sau đó nó sẽ tạo một nhánh địa phương theo dõi nhánh hoạt dộng hiện tại của kho chứa từ xa, đa phần các trường hợp là nhánh `main`.",
+              "Trong quá trình thực hiện nhân bản, Git tạo ra nhánh từ xa trên kho chứa cục bộ cho tất cả các nhánh trên kho chứa từ xa (các nhánh như `o/main`). Sau đó nó sẽ tạo một nhánh cục bộ theo dõi nhánh hoạt động hiện tại của kho chứa từ xa, đa phần các trường hợp là nhánh `main`.",
               "",
-              "Một khi quá trình nhân bản hoàn thành, bạn sẽ chỉ có một nhánh địa phương (để bạn không thấy quá tải) nhưng bạn có thể thấy tất cả các nhánh trên kho chứa từ xa (phòng trường hợp bạn thấy tò mò). Đây là phương án tối ưu!",
+              "Một khi quá trình nhân bản hoàn thành, bạn sẽ chỉ có một nhánh cục bộ (để bạn không thấy quá tải) nhưng bạn có thể thấy tất cả các nhánh trên kho chứa từ xa (phòng trường hợp bạn thấy tò mò). Đây là phương án tối ưu!",
               "",
               "Điều này giải thích việc sau khi nhân bản bạn có thể thấy dòng lệnh sau xuất hiện:",
               "",
@@ -1637,7 +1637,7 @@ exports.level = {
               "Nói vậy là đủ rồi, hãy xem thử một mô tả nào! Ta sẽ chuyển sang một nhánh tên là `foo` và thiết lập cho nó theo dõi nhánh `main` trên kho chứa từ xa."
             ],
             "afterMarkdowns": [
-              "Như bạn đã thấy, chúng tôi đã sử dụng mục tiêu ngầm `o / main` để cập nhật nhánh` foo. Để ý rằng nhánh `main` không được cập nhật!!"
+              "Như bạn đã thấy, chúng tôi đã sử dụng mục tiêu ngầm `o / main` để cập nhật nhánh `foo`. Để ý rằng nhánh `main` không được cập nhật!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
@@ -1647,7 +1647,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Điểu này cũng được áp dụng cho lệnh git push."
+              "Điều này cũng được áp dụng cho lệnh git push."
             ],
             "afterMarkdowns": [
               "Bùùm. Ta đã đẩy thành quả lên nhánh `main` ở kho chứa tù xa mặc dù nhánh của ta có tên hoàn toàn khác biệt"
@@ -1662,7 +1662,7 @@ exports.level = {
             "markdowns": [
               "### Cách thứ #2",
               "",
-              "Cách khác để thiết lập theo dõi trên một nhánh đó là đơn giản sử dụng lệnh `git branch -u`. Thực hiện",
+              "Cách khác để thiết lập theo dõi trên một nhánh đó là sử dụng lệnh `git branch -u`. Thực hiện",
               "",
               "`git branch -u o/main foo`",
               "",
@@ -1677,10 +1677,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Hãy xem thử cách khác để thiết lập theo dõi..."
+              "Hãy xem thử cách này để thiết lập theo dõi..."
             ],
             "afterMarkdowns": [
-              "Y hệt như trước, nhưng lệnh này biểu hiện rõ ràng hơn. Tuyệt!"
+              "Y hệt như trước, nhưng biểu hiện rõ ràng hơn. Tuyệt!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
             "beforeCommand": "git clone; git checkout -b foo"
@@ -1690,7 +1690,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Được rồi! Ở cấp độ này hãy để thành quả lên nhánh `main` trên kho lưu trữ từ xa mà không chuyển sang nhánh `main` tại kho địa phương. Hãy tự tìm ra cách nhé, giờ là khóa học nâng cao rồi :P"
+              "Được rồi! Ở cấp độ này hãy để thành quả lên nhánh `main` trên kho lưu trữ từ xa mà không chuyển sang nhánh `main` tại kho chứa cục bộ. Hãy tự tìm ra cách nhé, giờ là khóa học nâng cao rồi :P"
             ]
           }
         }

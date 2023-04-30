@@ -780,7 +780,7 @@ exports.level = {
             "markdowns": [
               "## Tag trong Git",
               "",
-              "Qua các bài học trước, bạn đã biết được rằng rất dễ dàng để di chuyển qua lại giữa các nhánh và chúng thường tham chiếu đến các commit khác nhau trong quá trình ta làm việc trên chúng. Nhánh thường dễ biết đổi, thường chỉ là tạm thời và chúng luôn như vậy.",
+              "Qua các bài học trước, bạn đã biết được rằng rất dễ dàng để di chuyển qua lại giữa các nhánh và chúng thường tham chiếu đến các commit khác nhau trong quá trình ta làm việc trên chúng. Nhánh dễ dàng chỉnh sửa, thường tạm thời và luôn thay đổi.",
               "",
               "Nếu như vậy thì bạn có thể sẽ thắc mắc liệu có cách nào để đánh dấu *vĩnh viễn* một thời điểm nào đó trong lịch sử làm việc không? Khi mà dự án càng ngày càng mở rộng và merge thì diễn ra liên tục, vậy thì có cách nào để đánh dấu những commit đó một cách cố định hơn nhánh không?",
               ""
@@ -791,9 +791,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tất nhiên là có chứ! Git có các tag(thẻ) để hỗ trợ vấn đề này -- chúng (bằng cách nào đó) đánh dấu vĩnh viễn một commit cụ thể nào đó như một \"cột mốc\" mà sau đó bạn có thể tham chiếu đến như với nhánh.",
+              "Tất nhiên là có chứ! Git có các tag (thẻ) để hỗ trợ vấn đề này -- chúng (một phần chứ không hoàn toàn) đánh dấu vĩnh viễn một số commit nhất định là \"cột mốc\" mà sau này bạn có thể tham chiếu đến như với nhánh.",
               "",
-              "Quan trọng hơn là, khi ta commit thì chúng không hề bị di chuyển. Bạn không thể \"check out\" một tag rồi làm việc trên đó -- tag giống như là mỏ neo để chỉ định một điểm cụ thể nào dó trên cây lịch sử.",
+              "Quan trọng hơn là, khi ta commit thì chúng không hề bị di chuyển. Bạn không thể \"check out\" một tag rồi làm việc trên đó -- tag giống như là mỏ neo để chỉ định một điểm cụ thể nào đó trên cây lịch sử.",
               "",
               "Cùng xem tag thực tế là như thế nào nào."
             ]
@@ -816,7 +816,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Trong cấp độ này hãy tạo ra một thẻ tại vị trí chỉ định và chuyển sang `v1`. Để ý rằng bạn sẽ chuyến sang trạng thái tách biệt `HEAD` -- bởi vì bạn không thể tham chiếu đến thẻ `v1`.",
+              "Trong cấp độ này hãy tạo ra một thẻ tại vị trí chỉ định và chuyển sang `v1`. Để ý rằng bạn sẽ chuyển sang trạng thái tách biệt `HEAD` -- bởi vì bạn không thể tham chiếu đến thẻ `v1`.",
               "",
               "Sang cấp độ tới ta sẽ xem xét một vài cách hay ho để dùng thẻ."
             ]
