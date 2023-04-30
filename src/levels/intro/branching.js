@@ -37,7 +37,7 @@ exports.level = {
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
-    "vi": "Tạo một nhánh mới với lệnh \"git branch <ten-nhanh>\" và chuyển sang đó với lệnh \"git checkout <ten-nhanh>\"",
+    "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
     "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
     "it_IT": 'Crea un nuovo ramo con "git branch <branch-name>" e selezionalo con "git checkout <branch-name>"',
@@ -1183,9 +1183,9 @@ exports.level = {
               "rẽ nhánh sớm, rẽ nhánh thường xuyên",
               "```",
               "",
-              "Bởi vì chẳng tốn bao nhiêu bộ nhớ cho việc rẽ nhánh cả, và nó dễ dàng phân chia công việc hơn là có một cái nhánh to tổ chảng.",
+              "Bởi vì chẳng tốn bao nhiêu bộ nhớ cho việc rẽ nhánh cả và nó dễ dàng phân chia công việc hơn là có một cái nhánh to tổ chảng.",
               "",
-              "Khi bạn trộn lẫn commit và nhánh, bạn sẽ thấy chúng kết hợp với nhau thế nào. Còn bây giờ, đơn giản hãy nhớ nhánh cơ bản muốn nói \"Tôi muốn thành quả trong commit này và tất cả cha ông của nó\""
+              "Khi bạn trộn lẫn commit và nhánh, bạn sẽ thấy chúng kết hợp với nhau thế nào. Hãy nhớ về cơ bản nhánh muốn nói \"Tôi muốn thành quả trong commit này và tất cả cha ông của nó\""
             ]
           }
         },
@@ -1208,7 +1208,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Nào cùng thử thêm nội dung vào nhánh mới này nào. Hãy bấm nút bên dưới"
+              "Nào cùng thử thêm nội dung vào nhánh mới này nào. Hãy bấm nút bên dưới."
             ],
             "afterMarkdowns": [
               "Ồ không! Nhánh `main` đã di chuyển nhưng nhánh `newImage` thì không! Đó là do ta không \"nằm trên\" nhánh mới, đó là tại sao dấu hoa thị (*) nằm trên nhánh `main`."
@@ -1230,10 +1230,22 @@ exports.level = {
               "Lệnh này sẽ chuyển ta sang nhánh mới trước khi commit."
             ],
             "afterMarkdowns": [
-              "Đó! Thay đổi của ta đã được lưu sang nhánh mới"
+              "Đó! Thay đổi của ta đã được lưu sang nhánh mới."
             ],
             "command": "git checkout newImage; git commit",
             "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*Note: Ở phiên bản Git 2.23, một câu lệnh mới được giới thiệu mang tên `git switch`, mục đích là để thay thế cho lệnh `git checkout`, ",
+              "vì lệnh cũ có quá nhiều tham số, mỗi tham số truyền vào sẽ thực hiện nhiều thứ khác nhau. Bài học này vẫn sẽ sử dụng ",
+              "`checkout` thay vì `switch`, vì lệnh `switch` hiện vẫn đang trong giai đoạn thử nghiệm và cú pháp có thể thay đổi trong tương lai. ",
+              "Mặc dù vậy, bạn vẫn có thể thử dùng câu lệnh `switch` ở ứng dụng này, và ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">tìm hiểu thêm tại đây</a>.* "
+            ]
           }
         },
         {

@@ -994,9 +994,9 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "Cách thứ 2 để kết hợp thành của của 2 nhánh là *rebase.* Rebase về căn bản là chọn một loạt các commit, \"sao chép\" chúng, và ném chúng sang chỗ khác.",
+              "Cách thứ 2 để kết hợp thành quả của 2 nhánh là *rebase.* Rebase về căn bản là chọn một loạt các commit, \"sao chép\" chúng, và ném chúng sang chỗ khác.",
               "",
-              "Nghe có vẻ phức tạp, lợi thế của rebase là có thể tạo ra cây lịch sử thẳng tuột. Ljch sử commit nhìn sẽ gọn gàng hơn nhiều.",
+              "Nghe có vẻ phức tạp, lợi thế của rebase là có thể tạo ra cây lịch sử thẳng tuột. Lịch sử commit nhìn sẽ gọn gàng hơn nhiều.",
               "",
               "Xem nó hoạt động thế nào nào..."
             ]
@@ -1008,9 +1008,9 @@ exports.level = {
             "beforeMarkdowns": [
               "Giờ ta lại có 2 nhánh; để ý rằng nhánh bugFix đang được chọn (thấy dấu hoa thị chứ?)",
               "",
-              "Ta muốn chuyển bugFix trực tiếp sang main. Theo cách đó thì các chức năng nhìn có vẻ được phát triển tuần tự, trong khi thực tế chúng được phát triển song song.",
+              "Ta muốn chuyển công việc từ bugFix trực tiếp sang main. Theo cách đó thì các chức năng nhìn có vẻ được phát triển tuần tự, trong khi thực tế chúng được phát triển song song.",
               "",
-              "Dùng lệnh `git rebase` để thử nào"
+              "Dùng lệnh `git rebase` để thử nào."
             ],
             "afterMarkdowns": [
               "Tuyệt vời! Giờ thành quả của nhánh bugFix nằm ngay trên main và ta có các commit nằm thẳng tuột.",
@@ -1030,7 +1030,7 @@ exports.level = {
               "Giờ thì ta đã chuyển sang nhánh `main`. Tiếp tục dán nó vào `bugFix` nào..."
             ],
             "afterMarkdowns": [
-              "Đó! Bởi vì `main` là cha ông của `bugFix`, git đơn giản chuyển tham chiếu của nhánh `main` tiến lên."
+              "Đó! Bởi vì `main` là cha ông của `bugFix`, Git đơn giản chuyển tham chiếu của nhánh `main` tiến lên."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"

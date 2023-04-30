@@ -16,7 +16,7 @@ exports.level = {
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
     "ko": "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
     "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
-    "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh ",
+    "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh",
     "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
     "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
     "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset"
@@ -741,7 +741,7 @@ exports.level = {
               "",
               "Giờ thì bạn đã quen thuộc với tìm nạp, kéo và đẩy, bây giờ chúng tôi sẽ kiểm tra kỹ năng của bạn với một quy trình làm việc mới.",
               "",
-              "Trong các dự án lớn, các nhà phát triển thường làm việc trên các nhánh tính năng (được phân nhánh từ `main`) và chỉ thực hiện tích hợp sau khi công việc hoàn thành. Điều này tương tự như mô tả trong bài học trước (đẩy nhánh bên sang kho lưu trữ từ xa), nhưng chúng ta sẽ đi sâu hơn một chút trong phần này.",
+              "Trong các dự án lớn, các nhà phát triển thường làm việc trên các nhánh tính năng (feature branch) (được phân nhánh từ `main`) và chỉ thực hiện tích hợp sau khi công việc hoàn thành. Điều này tương tự như mô tả trong bài học trước (đẩy nhánh bên sang kho lưu trữ từ xa), nhưng chúng ta sẽ đi sâu hơn một chút trong phần này.",
               "",
               "Một vài nhà phát triển chỉ thực hiện đẩy và kéo khi ở trên nhánh `main` -- như vậy thì nhánh `main` luôn luôn được cập nhật với nhánh từ xa (`o/main`).",
               "",
@@ -774,9 +774,9 @@ exports.level = {
             "markdowns": [
               "Cấp độ này khá là phức tạp đấy -- để hoàn thành thì hãy xem qua hướng dẫn cơ bản sau:",
               "",
-              "* Có 3 nhánh chức năng là -- `side1` `side2` vả `side3`",
+              "* Có 3 nhánh chức năng là -- `side1`, `side2` và `side3`",
               "* Chúng tôi muốn bạn đẩy từng nhánh chức năng, theo thứ tự, lên nhánh từ xa",
-              "* Nhánh từ xa cũng đã được cập nhật, nên ta cũng cần sát nhập thay đổi đó nữa",
+              "* Nhánh từ xa cũng đã được cập nhật, nên ta cũng cần sáp nhập thay đổi đó nữa",
               "",
               ":O khoai đây! Cố lên nhé, hoàn thành cấp độ này là lên trình nhiều lắm đấy."
             ]

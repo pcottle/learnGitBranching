@@ -41,7 +41,7 @@ exports.level = {
     "ru_RU": "Введение в интерактивный Rebase",
     "ko": "인터랙티브 리베이스 소개",
     "uk": "Знайомство з інтерактивним rebase",
-    "vi": "Giới thiệu về tương tác rebase",
+    "vi": "Giới thiệu về rebase tương tác",
     "sl_SI": "Interaktivni uvod v Rebase",
     "it_IT": "Introduzione al rebase interattivo",
     "pl": "Wprowadzenie do interaktywnego rebase'a",
@@ -971,7 +971,7 @@ exports.level = {
               "",
               "Khi bạn biết rõ mình muốn những commit nào (và mã băm tương ứng của chúng) thì Git cherry-pick là công cụ tuyệt vời -- nó đơn giản đến bất ngờ.",
               "",
-              "Nhưng mà lỡ như bạn không biết mình cần commit nào thì sao? May mà git cũng có công cụ cho việc này! Ta có thể dùng rebase tương tác cho việc này -- đó là cách tốt nhất để cân nhắc lựa chọn các commit mà bạn muốn rebase.",
+              "Nhưng mà lỡ như bạn không biết mình cần commit nào thì sao? May mà Git cũng có công cụ cho việc này! Ta có thể dùng rebase tương tác cho việc này -- đó là cách tốt nhất để cân nhắc lựa chọn các commit mà bạn muốn rebase.",
               "",
               "Hãy đi sâu vào chi tiết nào..."
             ]
@@ -983,9 +983,9 @@ exports.level = {
             "markdowns": [
               "Rebase tương tác nghĩa là dùng lệnh `rebase` với tùy chọn `-i`.",
               "",
-              "Nếu lệnh của bạn có bao hàm tùy chọn này, git sẽ mở một giao diện người dùng để cho bạn biết những commit nào sẽ được sao chép xuống dưới mục tiêu rebase. Nó cũng đồng thời thể hiện mã băm và thông điệp của commit, điều này là tuyệt vời bởi nhờ đó ta có thể phân biệt được chúng.",
+              "Nếu lệnh của bạn có bao hàm tùy chọn này, Git sẽ mở một giao diện người dùng để cho bạn biết những commit nào sẽ được sao chép xuống dưới mục tiêu rebase. Nó cũng đồng thời thể hiện mã băm và thông điệp của commit, điều này thật tuyệt bởi nhờ đó ta có thể phân biệt được chúng.",
               "",
-              "Với git \"thật\", cửa sổ UI (giao diện người dùng) sẽ được mở thông qua một tệp nhờ công cụ chỉnh sửa văn bản như là `vim`. Vì mục đích học tập, tôi đã xây dựng một cửa sổ hội thoại nhỏ mà nó hành xử cũng tương tự như vậy."
+              "Với Git \"thật\", cửa sổ UI (giao diện người dùng) sẽ được mở thông qua một tệp nhờ công cụ chỉnh sửa văn bản như là `vim`. Vì mục đích học tập, tôi đã xây dựng một hộp thoại nhỏ mà nó hành xử cũng tương tự như vậy."
             ]
           }
         },
@@ -993,11 +993,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Khi hội thoại tương tác rebase bật lên, bạn có thể làm được 3 điều:",
+              "Khi hộp thoại rebase tương tác bật lên, trong ứng dụng giáo dục của chúng tôi, bạn có khả năng làm hai điều sau:",
               "",
-              "* Bạn có thể sắp xếp lại commit một cách đơn giản thông qua UI (bạn có thể làm điều này bằng cách kéo thả trên công cụ của chúng tôi).",
-              "* Bạn có thẻ bỏ qua một vài commit. Điều này được thể hiện qua nút `pick` -- tắt nút `pick` nghĩa là bạn bỏ qua commit đó.",
-              "* Cuối cùng, bạn có thể nén các commit. Đáng tiếc là trình độ của chúng tôi chưa hỗ trợ được chức năng này do vài vấn đề logic, cho nên tôi sẽ bỏ qua phần này. Nói dơn giản thì -- nó cho phép bạn kết hợp các commit.",
+              "* Bạn có thể sắp xếp lại commit một cách đơn giản thông qua UI (bằng cách kéo thả trên công cụ của chúng tôi).",
+              "* Bạn có thể chọn hoặc loại bỏ một vài commit cụ thể. Điều này được thể hiện qua nút `pick` -- tắt nút `pick` nghĩa là bạn loại bỏ commit đó.",
+              "",
+              "*Chú ý rằng, đối với rebase tương tác trong thực tế, bạn có thể làm nhiều thứ hơn như squash (kết hợp) commit, " +
+              "sửa đổi commit message, thậm chí là chỉnh sửa commit. Tuy nhiên, chúng ta chỉ cần tập trung vào hai thao tác trên.*",
               "",
               "Tuyệt! Cùng xem qua một ví dụ nào."
             ]
@@ -1007,7 +1009,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Khi bạn bấm nút, một cửa sổ tương tác rebase sẽ xuất hiện. Sắp xếp lại một vài commit (hoặc thậm chí bỏ qua một vài cái) và xem thử kết quả!"
+              "Khi bấm nút, một cửa sổ rebase tương tác sẽ xuất hiện. Bạn có thể sắp xếp lại một số commit (hoặc có thể xóa bớt) và xem thử kết quả!"
             ],
             "afterMarkdowns": [
               "BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI."
@@ -1020,7 +1022,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+              "Để hoàn thành cấp độ này, thực hiện rebase tương tác sao cho thứ tự commit giống với mục tiêu. Hãy nhớ rằng nếu gặp lỗi bạn luôn có thể hoàn tác hoặc đặt lại :D"
             ]
           }
         }

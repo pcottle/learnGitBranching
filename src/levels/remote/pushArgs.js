@@ -1007,11 +1007,11 @@ exports.level = {
             "markdowns": [
               "## Tham số đẩy",
               "",
-              "Tuyệt! Bạn đã biết đến theo dõi từ xa, giờ thì ta có thể tìm hiểu sâu hơn về cách hoạt động của đẩy( `git push`), tìm nạp(`git fetch`) và kéo(`git pull`). Ta sẽ giải quyết từng câu lệnh một nhưng về căn bản chúng khá là giống nhau.",
+              "Tuyệt! Bạn đã biết đến theo dõi từ xa, giờ thì ta có thể tìm hiểu sâu hơn về cách hoạt động của đẩy (`git push`), tìm nạp (`git fetch`) và kéo (`git pull`). Ta sẽ giải quyết từng câu lệnh một nhưng về căn bản chúng khá là giống nhau.",
               "",
-              "Trước hết hãy xem qua `git push`. Trong bài học về theo dõi từ xa bạn đã biết rằng git sử dụng thuộc tính(nhánh từ xa mà nó \"theo dõi\") của nhánh hiện tại để xác định kho và nhánh từ xa để đẩy. Git làm việc này mà không cần tham số chỉ định, nhưng lệnh git push có thể thêm tham số dưới dạng sau:",
+              "Trước hết hãy xem qua `git push`. Trong bài học về theo dõi từ xa bạn đã biết rằng Git sử dụng thuộc tính (nhánh từ xa mà nó \"theo dõi\") của nhánh hiện tại để xác định kho và nhánh từ xa để đẩy. Git làm việc này mà không cần tham số chỉ định, nhưng lệnh git push có thể thêm tham số dưới dạng sau:",
               "",
-              "`git push <tên kho từ xa> <vị trí>`",
+              "`git push <tên kho chứa từ xa> <vị trí>`",
               "",
               ""
             ]
@@ -1021,7 +1021,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tham số `<vị trí>` là gì vậy? Chúng ta sẽ đi sâu vào chi tiết sau sau, hãy xem ví dụ trước. Đưa ra câu lệnh:",
+              "Tham số `<vị trí>` là gì vậy? Chúng ta sẽ đi sâu vào chi tiết sau, hãy xem ví dụ trước. Câu lệnh:",
               "",
               "`git push origin main`",
               "",
@@ -1029,9 +1029,9 @@ exports.level = {
               "",
               "*Chuyển sang nhánh \"main\" trong kho lưu trữ cục bộ, nhận tất cả các commit và tìm nhánh \"main\" trong kho chứa từ xa tên là \"origin\". Thêm tất cả các commit không có trong nhánh đó và báo cho tôi biết khi nào hoàn tất.*",
               "",
-              "Bằng cách chỉ định `main` trong tham số \"vị trí\",ta báo với git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.",
+              "Bằng cách chỉ định `main` trong tham số \"vị trí\", ta báo với Git nơi mà commit *xuất phát* và nơi chúng *sẽ đến*. Về căn bản nó là \"địa điểm\" để đồng bộ hóa 2 kho chứa.",
               "",
-              "Lưu ý rằng ta ta đã thông báo cho gi tất cả thông tin cần thiết( thông qua chỉ định 2 tham số), nó sẽ không quan tâm nhánh mà ta đang đứng!"
+              "Lưu ý rằng ta đã thông báo cho Git tất cả thông tin cần thiết (thông qua chỉ định 2 tham số), nó sẽ không quan tâm nhánh mà ta đang đứng!"
             ]
           }
         },

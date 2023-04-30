@@ -34,7 +34,7 @@ exports.level = {
     "ru_RU": "Простой git clone!",
     "ko": "그냥 git clone 하세요!",
     "uk": "Просто git clone!",
-    "vi": "Đơn giản là `git clone`!",
+    "vi": "Đơn giản là git clone!",
     "sl_SI": "Preprosto samo git clone!",
     "pl": "Po prostu git clone!",
     "it_IT": "Semplicemente git clone!"
@@ -786,17 +786,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Remotes(Kho lưu trữ từ xa)",
+              "## Git Remotes (Kho lưu trữ từ xa)",
               "",
-              "Thực ra thì kho remote cũng không khó hiểu lắm đâu. Giờ đây đâu đâu cũng thấy điện toán đám mây nên ai ai cũng tưởng git remote nó là cái gì đó ma thuật lắm, nhưng chúng thực ra chỉ là những bản sao chép ko chứa của bạn lên máy tính khác. Bạn có thể giao tiếp với chúng qua internet, tù đó mà chuyển giao commit qua lại.",
+              "Thực ra thì kho chứa từ xa cũng không khó hiểu lắm đâu. Giờ đây, đâu đâu cũng thấy điện toán đám mây nên ai ai cũng tưởng git remote nó là cái gì đó ma thuật lắm, nhưng chúng thực ra chỉ là những bản sao chép kho chứa của bạn lên máy tính khác. Bạn có thể giao tiếp với chúng qua internet, từ đó mà chuyển giao commit qua lại.",
               "",
-              "Vì lẽ đó mà kho remote có những đặc tính tuyệt vời:",
+              "Vì lẽ đó mà kho chứa từ xa có những đặc tính tuyệt vời:",
               "",
-              "- Trước hết, có tác dụng như là bản sao dự phòng! Bạn đã biết rằng kho địa phương có thể khôi phục trở lại trạng thái trước đó, nhưng tất cả thông tin đó chỉ được lưu trữ cục bộ. Bằng cách sao chép toàn bộ kho chứa của bạn lên máy tính ở xa, bạn hoàn toàn có thể mất hết dữ liệu tại máy tính mà vẫn tiếp tục làm việc như chưa có gì xảy ra.",
+              "- Trước hết, có tác dụng như là bản sao dự phòng! Bạn đã biết rằng kho cục bộ có thể khôi phục trở lại trạng thái trước đó, nhưng tất cả thông tin đó chỉ được lưu trữ cục bộ. Bằng cách sao chép toàn bộ kho chứa của bạn lên máy tính ở xa, một khi dữ liệu trong máy tính bị mất, bạn vẫn có thể tiếp tục làm việc như chưa có gì xảy ra.",
               "",
-              "- Quạn trọng hơn nữa, kho remote khiến lập trình có tính cộng đồng hơn! Bây giờ bản sao dự án của bạn đã được lưu trũ ở nơi khác, bạn bè của bạn có thể đóng góp (hoặc kéo về cập nhật mới nhất) dự án của bạn rất dễ dàng.",
+              "- Quan trọng hơn nữa, kho chứa từ xa khiến lập trình có tính cộng đồng hơn! Bây giờ bản sao dự án của bạn đã được lưu trữ ở nơi khác, bạn bè của bạn có thể đóng góp (hoặc kéo về cập nhật mới nhất) dự án của bạn rất dễ dàng.",
               "",
-              "Trực quan hóa các kho lưu trữ từ xa bằng cách sử dụng các trang web đang trở nên phổ biến hơn (như [GitHub] (https://github.com/) hoặc [Photypeator] (http://phovenator.org/)), nhưng các kho lưu trữ từ xa * * Luôn luôn ** là trụ cột của các công cụ này, vì vậy điều quan trọng là phải hiểu khái niệm này!"
+              "Trực quan hóa các kho lưu trữ từ xa bằng cách sử dụng các trang web đang trở nên phổ biến hơn (như [GitHub](https://github.com/)), nhưng các kho lưu trữ từ xa _luôn luôn_ là trụ cột của các công cụ này, vì vậy điều quan trọng là phải hiểu khái niệm này!"
             ]
           }
         },
@@ -806,9 +806,9 @@ exports.level = {
             "markdowns": [
               "## Câu lệnh của chúng tôi để tạo kho lưu trữ từ xa",
               "",
-              "Cho đến bây giờ, Learn Git Branching đã tập trung dạy về làm việc trên kho chứa _địa phương_ (rẽ nhánh `branch`, hợp nhánh `merge`, dịch chuyển nhánh `rebase`, vân vân ...). Nhưng bây giờ ta lại muốn học về làm việc trên kho lưu trữ từ xa, ta cần một câu lệnh để cài đặt môi trường cho những bài học này. Đó là `git clone`",
+              "Cho đến bây giờ, Học Nhánh Git đã tập trung dạy về làm việc trên kho chứa _cục bộ_ (rẽ nhánh `branch`, hợp nhánh `merge`, dịch chuyển nhánh `rebase`,...). Nhưng bây giờ ta lại muốn học về làm việc trên kho lưu trữ từ xa, ta cần một câu lệnh để cài đặt môi trường cho những bài học này. Đó là `git clone`.",
               "",
-              "Về mặt kỹ thuật, thì `git clone` thực tế là câu lệnh dùng để tạo một bản sao chép _địa phương_ của khó chứa từ xa (ví dụ từ github chẳng hạn). Nhưng trong Learn Git Branching ta sẽ dùng câu lệnh này hơi khác biệt một chút -- `git clone` sẽ tạo ra một bản sao chép lên kho lưu trữu từ xa dựa trên kho chứa cục bộ của bạn. Điều này hoàn toàn ngược lại với câu lệnh thực tế, nhưng nó giúp ta nhân bản và làm việc với kho lưu trữ từ xa, nên ta sẽ dùng nó trong quá trình học.",
+              "Về mặt kỹ thuật, thì `git clone` thực tế là câu lệnh dùng để tạo một bản sao chép _cục bộ_ của kho chứa từ xa (ví dụ từ GitHub chẳng hạn). Nhưng trong Học Nhánh Git ta sẽ dùng câu lệnh này hơi khác biệt một chút -- `git clone` sẽ tạo ra một bản sao chép lên kho lưu trữ từ xa dựa trên kho chứa cục bộ của bạn. Điều này hoàn toàn ngược lại với câu lệnh thực tế, nhưng nó giúp ta nhân bản và làm việc với kho lưu trữ từ xa, nên ta sẽ dùng nó trong quá trình học.",
               ""
             ]
           }
@@ -821,7 +821,7 @@ exports.level = {
               ""
             ],
             "afterMarkdowns": [
-              "Nó đây rồi! Giờ ta đã có kho lưu trữ dự án chúng ta từ xa. Nhìn nó cũng khá tương tự chỉ là được minh họa khác biệt một chút -- đến các cấp độ sau ta sẽ tìm hiểu thêm về cách thức trao đổi nội dung giữa các kho chứa này."
+              "Nó đây rồi! Giờ ta đã có kho lưu trữ dự án từ xa. Nhìn nó cũng khá tương tự chỉ là được minh họa khác biệt một chút -- đến các cấp độ sau ta sẽ tìm hiểu thêm về cách thức trao đổi nội dung giữa các kho chứa này."
             ],
             "command": "git clone",
             "beforeCommand": ""

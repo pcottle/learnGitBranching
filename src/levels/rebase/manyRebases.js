@@ -40,7 +40,7 @@ exports.level = {
     "zh_TW": "要記住喔! 把 main branch 留到最後更新可能是最有效率的方法。",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
     "uk": "Не забувай, що краще всього буде перемістити main в самому кінці... ",
-    "vi": "Hãy nhớ rằng, cách tốt nhất có lẽ là nên cuối cùng mới cập nhật nhánh `main`... ",
+    "vi": "Hãy nhớ rằng, cách tốt nhất có thể là cập nhật nhánh `main` sau cùng...",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
     "it_IT":
       "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
@@ -289,16 +289,17 @@ exports.level = {
             "markdowns": [
               "### Rebase nhiều nhánh",
               "",
-              "Giời ạ, sao mà nhiều nhánh thế khôn biết! Chuyển hết chúng vào `main` thôi.",
+              "Giời ạ, sao mà nhiều nhánh thế không biết! Chuyển hết chúng vào `main` thôi.",
               "",
-              "Nhưng mà cha quản lý lại muốn oái oăm hơn cơ -- hắn muốn tất cả commit xếp thẳng hàng. Nghĩa là cây lịch sử của ta sẽ có `C7'` ở cuối, phía trên là`C6'`, và cứ thế theo đúng thứ tự.",
+              "Nhưng mà cha quản lý lại muốn oái oăm hơn cơ -- hắn muốn tất cả commit xếp thẳng hàng. Nghĩa là cây lịch sử của ta sẽ có `C7'` ở cuối, phía trên là `C6'`, và cứ thế theo đúng thứ tự.",
               "",
               "Nếu mà nhỡ may bạn làm nhầm thì có thể dùng lệnh `reset` để bắt đầu lại. Hãy nhớ đối chiếu với đáp án của chúng tôi xem bạn có thể hoàn thành với ít câu lệnh hơn không!"
             ]
           }
         }
       ]
-    }, "sl_SI": {
+    },
+    "sl_SI": {
       "childViews": [
         {
           "type": "ModalAlert",

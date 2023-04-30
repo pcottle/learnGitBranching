@@ -38,7 +38,7 @@ exports.level = {
     "ja": "revertとresetとで引数が異なることに注意。",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
-    "vi": "Lưu ý rằng hoàn tác(revert) và đặt lại(reset) có những đối số khác nhau.",
+    "vi": "Lưu ý rằng hoàn tác (revert) và đặt lại (reset) có những đối số khác nhau.",
     "sl_SI": "Revert in reset sprejmeta različne argumente.",
     "it_IT": "Revert e reset hanno parametri diversi.",
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
@@ -938,7 +938,7 @@ exports.level = {
               "",
               "Có rất nhiều cách để hoàn tác thay đổi trong Git. Và cũng tương tự như commit, hủy thay đổi trong Git có cả thành phần bậc thấp (tạm thời lưu trữ một số tệp hoặc đoạn độc lập) và thành phần bậc cao (cách mà các thay đổi thực sự bị hủy). Ứng dụng của chúng tôi tập trung vào cái sau.",
               "",
-              "Có 2 cách nguyên thủy để hủy thay đổi trong Git -- một là dùng `git reset` và cách khác là dùng `git revert`. Chúng ta sẽ xem xét từng cái trong hội thoại sau",
+              "Có 2 cách cơ bản để hủy thay đổi trong Git -- một là dùng `git reset`, hai là dùng `git revert`. Chúng ta sẽ xem xét từng cái trong hộp thoại sau",
               ""
             ]
           }
@@ -954,7 +954,7 @@ exports.level = {
               "Cùng xem thử nó trông thế nào nào:"
             ],
             "afterMarkdowns": [
-              "Hay! Git chuyển tham chiếu của main trở lại `C1`; bây giờ kho cá nhân của ta trông như thể commit `C2` chưa bao giờ xảy ra vậy."
+              "Hay! Git chuyển tham chiếu của main trở lại `C1`; bây giờ kho lưu trữ trông như thể commit `C2` chưa bao giờ xảy ra vậy."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -966,12 +966,12 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "Trong khi git reset hoạt động rất tốt tại nhánh cục bộ trên máy cá nhân, cách thức \"viết lại lịch sử\" chẳng hề có tác dụng lên nhánh ở phương xa mà người khác sử dụng.",
+              "Trong khi git reset hoạt động rất tốt tại nhánh cục bộ trên máy cá nhân, cách thức \"viết lại lịch sử\" chẳng hề có tác dụng lên nhánh ở từ xa mà người khác sử dụng.",
               "",
               "Để có thể hoàn tác và *chia sẻ* hoàn tác đó với người khác, thì ta cần sử dụng `git revert`. Xem thử cách thức nó hoạt động nào"
             ],
             "afterMarkdowns": [
-              "Lạ nhỉ, một commit mới được thả vào bên dưới commit mà ta muốn hoàn tác. Đó là bởi vì commit mới `C2'` này có chứa *thay đổi* -- đó là những thay đổi về hoàn tác commit `C2`.",
+              "Lạ nhỉ, một commit mới được thả vào bên dưới commit mà ta muốn hoàn tác. Đó là bởi vì commit mới `C2'` này có chứa những *thay đổi* hoàn toàn ngược lại với những thay đổi trong commit `C2`.",
               "",
               "Dùng revert thì bạn có thể đẩy thay đổi mình lên và chia sẻ với người khác."
             ],
@@ -983,9 +983,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, hoàn tác commit gần nhất trên cả `local` (`cục bộ`) và `pushed` (`được đẩy`). Bạn sẽ hoàn tác tổng cộng 2 commit(một trên mỗi nhánh).",
+              "Để hoàn thành cấp độ này, hoàn tác commit gần nhất trên cả `local` và `pushed`. Bạn sẽ hoàn tác tổng cộng 2 commit (một trên mỗi nhánh).",
               "",
-              "Nhớ rằng `pushed` là nhánh ở phương xa và `local` là nhánh địa phương -- như thế thì bạn sẽ chọn được phương án phù hợp."
+              "Nhớ rằng `pushed` là nhánh từ xa và `local` là nhánh cục bộ -- như thế thì bạn sẽ chọn được phương án phù hợp."
             ]
           }
         }

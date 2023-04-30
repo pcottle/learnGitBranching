@@ -1278,7 +1278,7 @@ exports.level = {
               "",
               "Thông thường thì sẽ chọn cha \"đầu tiên\" từ commit merge, nhưng nếu sau dấu `^` có một con số thì cách hành xử sẽ khác đi.",
               "",
-              "Không nói dông dài nữa, làm thử một ví dụ nào",
+              "Không nói dông dài nữa, làm thử một ví dụ nào.",
               ""
             ]
           }
@@ -1289,7 +1289,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Ở đây ta có 1 commit merge. Nếu ta dùng lệnh `main^` mà không bổ nghĩa cho nó, ta sẽ đi ngược lên commit cha đầu tiên của merge commit. ",
               "",
-              "(*Trong hình minh họa bên trái thì commit cha đầu tiên được xếp hẳng hàng ngay phía trên của commit merge.*)"
+              "(*Trong hình minh họa bên trái thì commit cha đầu tiên được xếp thẳng hàng ngay phía trên của commit merge.*)"
             ],
             "afterMarkdowns": [
               "Dễ dàng -- đó là cách mà ta thường làm."

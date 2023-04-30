@@ -664,9 +664,9 @@ exports.level = {
               "",
               "*Nếu bạn vẫn chưa hoàn thành Tung hứng Commit #1 (cấp độ trước), hãy làm nó trước khi tiếp tục*",
               "",
-              "Như bạn đã thấy ở cấp độ trước, ta dùng `rebase -i` để sắp xếp lại các commit. Một khi commit mà ta muốn sửa đã ở trên cùng, ta có thể dễ dàng --chỉnh sửa(amend) nó và sau đó sắp xếp lại trật tự lúc trước.",
+              "Như bạn đã thấy ở cấp độ trước, ta dùng `rebase -i` để sắp xếp lại các commit. Một khi commit mà ta muốn sửa đã ở trên cùng, ta có thể dễ dàng --chỉnh sửa (amend) nó và sau đó sắp xếp lại trật tự lúc trước.",
               "",
-              "Nhưng mà vẫn tồn tại vấn đề khi mà ta sắp xếp quá nhiều, điều này có thể dẫn đến xung đột khi rebase. Thử dùng cách khác với `git cherry-pick` nào"
+              "Nhưng mà vẫn tồn tại vấn đề khi mà ta sắp xếp quá nhiều, điều này có thể dẫn đến xung đột khi rebase. Thử dùng cách khác với `git cherry-pick` nào."
             ]
           }
         },
@@ -691,7 +691,7 @@ exports.level = {
             "markdowns": [
               "Vậy thì ở cấp độ này, hãy làm hoàn thành mục tiêu tương tự là chỉnh sửa `C2` một lần nhưng hãy tránh dùng `rebase -i`. Tự tìm cách đi nhé! :D",
               "",
-              "Nhớ rằng, số lượng dấu nháy dơn (') trên commit không quan trọng, quan trọng là mối tương liên các tham chiếu. Nói cách khác, kể cả bất cứ commit nào của bạn có thêm một đấu(') tôi vẫn công nhận đáp án của bạn"
+              "Nhớ rằng, số lượng dấu nháy đơn (') trên commit không quan trọng, quan trọng là sự khác biệt tương đối. Nói cách khác, kể cả bất cứ commit nào của bạn có thêm một đấu(') tôi vẫn công nhận đáp án của bạn"
             ]
           }
         }

@@ -973,9 +973,9 @@ exports.level = {
               "",
               "Có thể bạn sẽ thắng mắc -- Nếu như ta muốn nguồn và đích khác đi thì sao? Nếu như ta muốn đẩy commit từ nhánh cục bộ `foo` lên nhánh từ xa `bar` thì sao?",
               "",
-              "Chà đáng tiếc là điều này là bất khả thi tron git... đùa thôi! Tất nhiên là làm được chứ :)... git có nhiều và rất nhiều lựa chọn linh động(có lẽ là quá nhiều)",
+              "Chà đáng tiếc là điều này là bất khả thi tron Git... đùa thôi! Tất nhiên là làm được chứ :)... Git có nhiều và rất nhiều lựa chọn linh động (có lẽ là quá nhiều)",
               "",
-              "Hãy xem cách nó hoạt động ..."
+              "Hãy xem cách nó hoạt động..."
             ]
           }
         },
@@ -987,7 +987,7 @@ exports.level = {
               "",
               "`git push origin <nguồn>:<đích>`",
               "",
-              "Giá trị thực của tham số này là một refspec, \"refspec\" là một từ tự tạo, nghĩa là một vị trí được Git nhận ra (chẳng hạn như nhánh `foo` hoặc` HEAD ~ 1`).",
+              "Giá trị thực của tham số này là một refspec, \"refspec\" là một từ tự tạo, nghĩa là một vị trí Git có thể nhận ra (chẳng hạn như nhánh `foo` hoặc `HEAD ~ 1`).",
               "",
               "Một khi bạn đã chỉ định các nguồn và đích độc lập, bạn có thể thao tác với kho chứa từ xa một cách khá thú vị và chính xác, hãy xem bản demo!"
             ]
@@ -997,10 +997,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Nhớ rằng, `nguồn` là bất kỳ vị trí nào mà git hiểu:"
+              "Nhớ rằng, `nguồn` là bất kỳ vị trí nào mà Git hiểu:"
             ],
             "afterMarkdowns": [
-              "Wao! Lệnh này khá phức tạp, nhưng mà hợp lý -- git diễn giải `foo^` thành một vị trí, tải lên tất cả các commit từ đó trở về trước mà chưa có trên nhánh đích rồi cập nhật nó."
+              "Wao! Lệnh này khá phức tạp, nhưng mà hợp lý -- Git diễn giải `foo^` thành một vị trí, tải lên tất cả các commit từ đó trở về trước mà chưa có trên nhánh đích rồi cập nhật nó."
             ],
             "command": "git push origin foo^:main",
             "beforeCommand": "git clone; go -b foo; git commit; git commit"
@@ -1010,10 +1010,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Nếu như đích đến mà bạn muốn không tồn tại thì sao? Chẳng sao cả! Đơn giản hãy gõ tên nhánh và git sẽ tạo nhánh đó trên kho chứa từ xa cho bạn."
+              "Nếu như đích đến mà bạn muốn không tồn tại thì sao? Chẳng sao cả! Đơn giản hãy gõ tên nhánh và Git sẽ tạo nhánh đó trên kho chứa từ xa cho bạn."
             ],
             "afterMarkdowns": [
-              "Tuyệt vời, thấy git thú vị không :D"
+              "Tuyệt vời, thấy Git thú vị không :D"
             ],
             "command": "git push origin main:newBranch",
             "beforeCommand": "git clone; git commit"

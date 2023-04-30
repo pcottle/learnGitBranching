@@ -35,7 +35,7 @@ exports.level = {
     "ru_RU": "Обратите внимание на то, как номера коммитов могут меняться! Вы можете прочесть слайды вновь, воспользовавшись командой \"help level\"",
     "ko": "커밋 ID가 바뀔수도있으니 주의하세요! \"help level\"을 입력하면 슬라이드들을 다시 읽어볼수 있습니다.",
     "uk": "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\"",
-    "vi": "Lưu ý id của các commit bị tráo đổi, bạn có thể dùng \"help level\" để đọc lại hội thoại",
+    "vi": "Lưu ý id của các commit bị tráo đổi, bạn có thể dùng \"help level\" để đọc lại hộp thoại",
     "sl_SI": "Bodi pozoren kako so se commit id-ji morda zamenjali! Ponovno lahko prebereš navodila z \"help level\".",
     "pl": "Zauważ, że identyfikatory commitów mogły zostać zamienione! Slajdy możesz przeczytać jeszcze raz po wpisaniu: \"help level\"",
     "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\""
@@ -1665,7 +1665,7 @@ exports.level = {
               "",
               "Chúng ta vừa tìm hiểu về tham số của git push, sự tuyệt vời của tham số `<vị trí>`, và thậm chí cả refspecs (`<nguồn>:<đích>`). Liệu ta có thể áp dụng điều này vào `git fetch` không nhỉ?",
               "",
-              "Đoán chuẩn rồi đấy! Tham số cho lệnh `git fetch` thực ra *rất, rất* giống với `git push`. Chúng có chung khái niệm nhưng được áp dụng cho hướng ngược lại(vì bây giờ ta tải xuống commit chứ không phải tải lên).",
+              "Đoán chuẩn rồi đấy! Tham số cho lệnh `git fetch` thực ra *rất, rất* giống với `git push`. Chúng có chung khái niệm nhưng được áp dụng cho hướng ngược lại (vì bây giờ ta tải xuống commit chứ không phải tải lên).",
               "",
               "Hãy lần lượt đi qua từng khái niệm một..."
             ]
@@ -1704,9 +1704,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Có thể bạn sẽ thắc mắc -- tại sao git lại thả các commit xuống nhánh `o/foo` thay vì nhánh `foo` ở kho chứa cục bộ? Tôi tưởng tham số `<vị trí>` tồn tại ở cả kho chứa cục bộ và kho chứa từ xa mà?",
+              "Có thể bạn sẽ thắc mắc -- tại sao Git lại thả các commit xuống nhánh `o/foo` thay vì nhánh `foo` ở kho chứa cục bộ? Tôi tưởng tham số `<vị trí>` tồn tại ở cả kho chứa cục bộ và kho chứa từ xa mà?",
               "",
-              "Chà trong trường hợp này git ứng xử có một chút ngoại lệ đặc biệt, vì có thể bạn đang làm việc trên nhánh `foo` ở kho chứa cục bộ mà bạn không muốn nó bị làm rối!! Điều này liên kết đến bài học trước về `git fetch` -- nó không cập nhật nhánh cục bộ không liên kết nhánh từ xa của bạn(nhánh không có tiền tố `origin/`), nó chỉ tải xuống các commit( mà bạn có thể xem xét hoặc hợp nhất sau).",
+              "Chà trong trường hợp này Git ứng xử có một chút ngoại lệ đặc biệt, vì có thể bạn đang làm việc trên nhánh `foo` ở kho chứa cục bộ mà bạn không muốn nó bị làm rối!! Điều này liên kết đến bài học trước về `git fetch` -- nó không cập nhật nhánh cục bộ không liên kết nhánh từ xa của bạn (nhánh không có tiền tố `origin/`), nó chỉ tải xuống các commit (mà bạn có thể xem xét hoặc hợp nhất sau).",
               ""
             ]
           }
@@ -1717,9 +1717,9 @@ exports.level = {
             "markdowns": [
               "\"Nếu vậy, thì điều gì sẽ xảy ra nếu tôi chỉ định cả nguồn và đích với `<nguồn>:<đích>`?\"",
               "",
-              "Nếu bạn nhất quyết muốn tải commit *trực tiếp* xuống nhánh cục bộ,thì bạn có thể chỉ định điều này bằng cách dùng refspec hai chấm. Bạn không thể nạp commit vào nhánh mà bạn đang đứng, nhưng git sẽ cho phép bạn làm điều này:",
+              "Nếu bạn nhất quyết muốn tải commit *trực tiếp* xuống nhánh cục bộ, thì bạn có thể chỉ định điều này bằng cách dùng refspec hai chấm. Bạn không thể nạp commit vào nhánh mà bạn đang đứng, nhưng Git sẽ cho phép bạn làm điều này:",
               "",
-              "Đây là cách duy nhất -- `<nguồn>` là vị trí trên kho *từ xa* và `<đích>` là vị trí *cục bộ* để đặt các commit. Điều này hoàn toàn ngược lại với `git push`, và đó là tất nhiên thôi vì ta đang chuyển giao dữ liệu theo hướng ngược lại!",
+              "Đây là cách duy nhất -- `<nguồn>` là vị trí trên kho chứa *từ xa* và `<đích>` là vị trí *cục bộ* để đặt các commit. Điều này hoàn toàn ngược lại với `git push`, và đó là tất nhiên thôi vì ta đang chuyển giao dữ liệu theo hướng ngược lại!",
               "",
               "Thực tế là, các nhà phát triển rất hiếm khi làm điều này. Tôi giới thiệu về nó chủ yếu là vì muốn giải thích rõ hơn việc `fetch` và `push` là khá tương đồng, chỉ là theo hướng ngược lại."
             ]
@@ -1732,7 +1732,7 @@ exports.level = {
               "Lấy một ví dụ điên rồ..."
             ],
             "afterMarkdowns": [
-              "Wao! Thấy chứ, git diễn giải `foo~1` thành một vị trí trên kho chứa từ xa sau đó tải xuống các commit lên nhánh `bar` ở kho chứa cục bộ. Để ý rằng nhánh `foo` và `o/foo` không hề được cập nhật vì ta đã chỉ định đích đến."
+              "Wao! Thấy chứ, Git diễn giải `foo~1` thành một vị trí trên kho chứa từ xa sau đó tải xuống các commit lên nhánh `bar` ở kho chứa cục bộ. Để ý rằng nhánh `foo` và `o/foo` không hề được cập nhật vì ta đã chỉ định đích đến."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1745,7 +1745,7 @@ exports.level = {
               "Nếu như đích đến chưa hề tồn tại trước khi tôi chạy lệnh thì sao? Cùng xem lại ví dụ vừa rồi nhưng lần này nhánh `bar` chưa hề tồn tại."
             ],
             "afterMarkdowns": [
-              "Thấy chứ, nó Y HỆT với git push. Git tạo ra đích đến ở kho chứa cục bộ trước khi nạp, cũng giống như git sẽ tạo ra đích đến trên kho chứa từ xa trước khi đẩy (trong trường hợp nó không tồn tại)."
+              "Thấy chứ, nó Y HỆT với git push. Git tạo ra đích đến ở kho chứa cục bộ trước khi nạp, cũng giống như Git sẽ tạo ra đích đến trên kho chứa từ xa trước khi đẩy (trong trường hợp nó không tồn tại)."
             ],
             "command": "git fetch origin foo~1:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -1772,7 +1772,7 @@ exports.level = {
             "markdowns": [
               "Được rồi, lý thuyết như vậy là đủ rồi! Để hoàn thành cấp độ này, hãy chỉ nạp những commit được chỉ định trong mô tả mục tiêu. Thoải mái ứng biến với những câu lệnh nhé!",
               "",
-              "Bạn sẽ phải chỉ định nguồn và dích cho lệnh fetch. Chú ý đến mô tả mục tiêu vì các ID có thể bị xáo trộn!"
+              "Bạn sẽ phải chỉ định nguồn và đích cho lệnh fetch. Chú ý đến mô tả mục tiêu vì các ID có thể bị xáo trộn!"
             ]
           }
         }

@@ -17,7 +17,7 @@ exports.level = {
     "es_AR": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen.",
     "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。",
     "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin",
-    "vi": "Tạo những nhánh tính năng từ nhánh địa phương trước khi trả chúng về lại giống như o/main",
+    "vi": "Tạo những nhánh tính năng từ nhánh cục bộ trước khi trả chúng về lại giống như o/main",
     "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto"
   },
   "name": {
@@ -620,7 +620,7 @@ exports.level = {
               "## Kết nối remote bị từ chối!",
               "",
               "Nếu bạn làm việc trong một nhóm cộng tác lớn, có khả năng nhánh main bị khóa và yêu cầu một số quy" +
-              " trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh địa phương và thử" +
+              " trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh cục bộ và thử" +
               " push, bạn sẽ được chào đón bằng một thông báo tương tự như sau:",
               "",
               "```",
@@ -633,12 +633,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Why was it rejected?",
+              "## Tại sao bị từ chối?",
               "",
               "Remote từ chối push các commit trực tiếp đến main vì chính sách của main yêu cầu các pull" +
               " request được sử dụng thay thế.",
               "",
-              "You meant to follow the process creating a branch then pushing that branch and doing a pull request, but you forgot and committed directly to main. Now you are stuck and cannot push your changes."
+              "Bạn định tạo một nhánh sau đó đẩy nhánh lên rồi thực hiện pull request theo đúng quy trình, tuy nhiên bạn lại lỡ tay commit trực tiếp vào nhánh main. Bây giờ bạn bị mắc kẹt và không thể đẩy các thay đổi của mình lên."
             ]
           }
         },
@@ -646,11 +646,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## The solution",
+              "## Giải pháp",
               "",
               "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main" +
               " của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện" +
-              " pull và commit của người khác xung đột với bạn."
+              " pull và commit của người khác xung đột với của bạn."
             ]
           }
         }

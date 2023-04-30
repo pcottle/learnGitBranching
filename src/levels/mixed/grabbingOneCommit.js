@@ -47,7 +47,7 @@ exports.level = {
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
-    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick!",
+    "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick",
     "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja.",
     "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
@@ -605,13 +605,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Commit xếp chồng tại địa phương",
+              "## Commit xếp chồng cục bộ",
               "",
-              "Có tình huống thế này thường hay xảy ra trong quá trình phát triển: Tôi dang cố dò lỗi nhưng mà nó lại khá là trúc trắc. Để hỗ trợ cho việc này, thêm vào vài dòng lệnh gỡ lỗi và lệnh in.",
+              "Có tình huống thế này thường hay xảy ra trong quá trình phát triển: Tôi đang cố dò lỗi nhưng mà nó lại khá khó tìm. Để hỗ trợ cho việc này, tôi thêm vào vài dòng lệnh gỡ lỗi và lệnh in.",
               "",
               "Mấy lệnh gỡ lỗi và in này nằm yên trong commit của chúng. Cuối cùng thì tôi cũng tìm ra lỗi, gỡ xong, ngon rồi!",
               "",
-              "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `main`. Nếu mà đơn giản dùng fast-forwarded lên `main`, thì `main` lại có tất cả các lệnh gỡ lỗi kia(chẳng muốn chút nào). Phải có cách khác chứ nhỉ..."
+              "Bây giờ thì lại phải đưa `bugFix` trở về nhánh `main`. Nếu mà đơn giản dùng fast-forwarded lên `main`, thì `main` lại có tất cả các lệnh gỡ lỗi kia, chẳng muốn chút nào. Phải có cách khác chứ nhỉ..."
             ]
           }
         },
@@ -619,7 +619,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ta cần phải bảo git chỉ sao chép 1 commit thôi. Điều này giống với cấp độ trước về điều chỉnh vị trí -- ta có thể dùng các câu lệnh tương tự:",
+              "Ta cần phải bảo Git chỉ sao chép 1 commit thôi. Điều này giống với cấp độ trước về điều chỉnh vị trí -- ta có thể dùng các câu lệnh tương tự:",
               "",
               "* `git rebase -i`",
               "* `git cherry-pick`",

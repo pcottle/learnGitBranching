@@ -281,7 +281,7 @@ exports.dialog = {
         '  * Định nghĩa cây mục tiêu với ```define goal```. Định nghĩa mục tiêu đồng thời cũng xác định đáp án',
         '  * Có thể định nghĩa gợi ý với ```define hint```',
         '  * Chỉnh sửa tên với ```define name```',
-        '  * Có thể định nghĩa hội thoại bắt đầu với ```edit dialog```',
+        '  * Có thể định nghĩa hộp thoại bắt đầu với ```edit dialog```',
         '  * Nhập lệnh ```finish``` xuất cấp độ của bạn dưới dạng JSON!'
       ]
     }
