@@ -129,17 +129,25 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   positive: function() {
-    if (this.demonstrated || !this.hasControl) {
+    if (!this.hasControl) {
       // don't do anything if we are demonstrating, and if
       // we receive a meta nav event and we aren't listening,
       // then don't do anything either
       return;
     }
+
+    // already demonstrated, let's reset demonstration
+    if(this.demonstrated) {
+      this.reset();
+      return;
+    }
+
     this.demonstrated = true;
     this.demonstrate();
   },
 
   demonstrate: function() {
+    this.releaseControl();
     this.$el.toggleClass('demonstrating', true);
 
     var whenDone = Q.defer();
@@ -147,7 +155,7 @@ var GitDemonstrationView = ContainedBase.extend({
     whenDone.promise.then(function() {
       this.$el.toggleClass('demonstrating', false);
       this.$el.toggleClass('demonstrated', true);
-      this.releaseControl();
+      this.takeControl();
     }.bind(this));
   },
 
