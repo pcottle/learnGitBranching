@@ -1146,6 +1146,10 @@ div.gitDemonstrationView {
   opacity: 0;
 }
 
+.gitDemonstrationView  p.uiButton[target="reset"] {
+  display: none;
+}
+
 .gitDemonstrationView.demonstrated div.afterText {
   opacity: 1;
 }
@@ -1155,7 +1159,12 @@ div.gitDemonstrationView {
 }
 
 .gitDemonstrationView.demonstrated p.uiButton {
-  opacity: 0.4;
+  display: none;
+}
+
+.gitDemonstrationView.demonstrated p.uiButton[target="reset"] {
+  display: block;
+  opacity: 0.5;
 }
 
 /* LeftRightView */
