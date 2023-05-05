@@ -20,7 +20,8 @@ var GitDemonstrationView = ContainedBase.extend({
   template: _.template($('#git-demonstration-view').html()),
 
   events: {
-    'click div.command > p.uiButton': 'positive'
+    'click div.command > p.uiButton:not([target="reset"])': 'positive',
+    'click div.command > p.uiButton[target="reset"]': 'onResetButtonClick',
   },
 
   initialize: function(options) {
@@ -59,6 +60,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
+    this.navEvents.on('onResetButtonClick', this.onResetButtonClick, this);
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
       aliasMap: {
@@ -129,25 +131,22 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   positive: function() {
-    if (!this.hasControl) {
+    if (this.demonstrated || !this.hasControl) {
       // don't do anything if we are demonstrating, and if
       // we receive a meta nav event and we aren't listening,
       // then don't do anything either
       return;
     }
-
-    // already demonstrated, let's reset demonstration
-    if(this.demonstrated) {
-      this.reset();
-      return;
-    }
-
     this.demonstrated = true;
     this.demonstrate();
   },
 
+  onResetButtonClick: function() {
+    this.takeControl();
+    this.reset();
+  },
+
   demonstrate: function() {
-    this.releaseControl();
     this.$el.toggleClass('demonstrating', true);
 
     var whenDone = Q.defer();
@@ -155,7 +154,7 @@ var GitDemonstrationView = ContainedBase.extend({
     whenDone.promise.then(function() {
       this.$el.toggleClass('demonstrating', false);
       this.$el.toggleClass('demonstrated', true);
-      this.takeControl();
+      this.releaseControl();
     }.bind(this));
   },
 
