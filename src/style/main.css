@@ -1164,6 +1164,7 @@ div.gitDemonstrationView {
 
 .gitDemonstrationView.demonstrated p.uiButton[target="reset"] {
   display: block;
+  opacity: 0.5;
 }
 
 /* LeftRightView */
