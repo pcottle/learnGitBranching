@@ -398,7 +398,7 @@ exports.level = {
               "",
               "- 更重要的是, remote 讓大家一起來 coding！現在你的 project 放在 remote 上面，你的朋友可以很容易地對你的 project 做出貢獻（或者是 pull 你最後的修改） 。",
               "",
-              "使用網站去對 remote repository 做視覺化非常流行（例如 [GitHub](https://github.com/） 或者是 [Phabricator]（http://phabricator.org/）），但這背後最大的功臣是 remote repository，因此我們務必要了解它。"
+              "使用網站去對 remote repository 做視覺化非常流行（例如 [GitHub](https://github.com/) 或者是 [Phabricator](http://phabricator.org/)），但這背後最大的功臣是 remote repository，因此我們務必要了解它。"
             ]
           }
         },
