@@ -4,7 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C7\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
-    "zh_CN": "两个父节点",
+    "zh_CN": "两个 parent 节点",
     'fr_FR': 'Parents multiples',
     "de_DE": "Mehrere Vorgänger",
     "ja": "複数の親",
@@ -313,13 +313,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### 选择父提交记录",
+              "### 选择 parent 提交记录",
               "",
               "操作符 `^` 与 `~` 符一样，后面也可以跟一个数字。",
               "",
-              "但是该操作符后面的数字与 `~` 后面的不同，并不是用来指定向上返回几代，而是指定合并提交记录的某个父提交。还记得前面提到过的一个合并提交有两个父提交吧，所以遇到这样的节点时该选择哪条路径就不是很清晰了。",
+              "但是该操作符后面的数字与 `~` 后面的不同，并不是用来指定向上返回几代，而是指定合并提交记录的某个 parent 提交。还记得前面提到过的一个合并提交有两个 parent 提交吧，所以遇到这样的节点时该选择哪条路径就不是很清晰了。",
               "",
-              "Git 默认选择合并提交的“第一个”父提交，在操作符 `^` 后跟一个数字可以改变这一默认行为。",
+              "Git 默认选择合并提交的“第一个” parent 提交，在操作符 `^` 后跟一个数字可以改变这一默认行为。",
               "",
               "废话不多说，举个例子。",
               ""
@@ -330,9 +330,9 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "这里有一个合并提交记录。如果不加数字修改符直接切换到 `main^`，会回到第一个父提交记录。",
+              "这里有一个合并提交记录。如果不加数字修改符直接切换到 `main^`，会回到第一个 parent 提交记录。",
               "",
-              "(*在我们的图示中，第一个父提交记录是指合并提交记录正上方的那个提交记录。*)"
+              "(*在我们的图示中，第一个 parent 提交记录是指合并提交记录正上方的那个提交记录。*)"
             ],
             "afterMarkdowns": [
               "这正是我们都已经习惯的方法。"
@@ -345,10 +345,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "现在来试试选择另一个父提交……"
+              "现在来试试选择另一个 parent 提交……"
             ],
             "afterMarkdowns": [
-              "看见了吧？我们回到了另外一个父提交上。"
+              "看见了吧？我们回到了另外一个 parent 提交上。"
             ],
             "command": "git checkout main^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
