@@ -677,13 +677,13 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "首先看看操作符 (^)。把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交。",
+              "首先看看操作符 (^)。把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的 parent 提交。",
               "",
-              "所以 `main^` 相当于“`main` 的父节点”。",
+              "所以 `main^` 相当于“`main` 的 parent 节点”。",
               "",
-              "`main^^` 是 `main` 的第二个父节点",
+              "`main^^` 是 `main` 的第二个 parent 节点",
               "",
-              "现在咱们切换到 main 的父节点"
+              "现在咱们切换到 main 的 parent 节点"
             ],
             "afterMarkdowns": [
               "搞定。这种方式是不是比输入哈希值方便多了？！"
@@ -709,7 +709,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成此关，切换到 `bugFix` 的父节点。这会进入分离 `HEAD` 状态。",
+              "要完成此关，切换到 `bugFix` 的 parent 节点。这会进入分离 `HEAD` 状态。",
               "",
               "如果你愿意的话，使用哈希值也可以过关，但请尽量使用相对引用！"
             ]

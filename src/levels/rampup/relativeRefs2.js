@@ -634,7 +634,7 @@ exports.level = {
               "",
               "`git branch -f main HEAD~3`",
               "",
-              "上面的命令会将 main 分支强制指向 HEAD 的第 3 级父提交。"
+              "上面的命令会将 main 分支强制指向 HEAD 的第 3 级 parent 提交。"
             ]
           }
         },
