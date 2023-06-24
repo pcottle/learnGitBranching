@@ -264,13 +264,14 @@ var Level = Sandbox.extend({
     var toIssue = this.level.solutionCommand;
     var issueFunc = function() {
       this.isShowingSolution = true;
+      this.wasResetAfterSolved = true;
       Main.getEventBaton().trigger(
         'commandSubmitted',
         toIssue
       );
       log.showLevelSolution(this.getEnglishName());
     }.bind(this);
-
+  
     var commandStr = command.get('rawStr');
     if (!this.testOptionOnString(commandStr, 'noReset')) {
       toIssue = 'reset --forSolution; ' + toIssue;
@@ -281,25 +282,30 @@ var Level = Sandbox.extend({
       return;
     }
 
-    // allow them for force the solution
-    var confirmDefer = Q.defer();
-    var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
-    var confirmView = new ConfirmCancelTerminal({
-      markdowns: dialog.options.markdowns,
-      deferred: confirmDefer
-    });
+    if(!LevelStore.isLevelSolved(this.level.id)){
+      // allow them for force the solution
+      var confirmDefer = Q.defer();
+      var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
+      var confirmView = new ConfirmCancelTerminal({
+        markdowns: dialog.options.markdowns,
+        deferred: confirmDefer
+      });
 
-    confirmDefer.promise
-    .then(issueFunc)
-    .fail(function() {
-      command.setResult("");
-    })
-    .done(function() {
-     // either way we animate, so both options can share this logic
-     setTimeout(function() {
-        command.finishWith(deferred);
-      }, confirmView.getAnimationTime());
-    });
+      confirmDefer.promise
+      .then(issueFunc)
+      .fail(function() {
+        command.setResult("");
+      })
+      .done(function() {
+      // either way we animate, so both options can share this logic
+      setTimeout(function() {
+          command.finishWith(deferred);
+        }, confirmView.getAnimationTime());
+      });
+    } else {
+      issueFunc();
+      command.finishWith(deferred);
+    }
   },
 
   toggleObjective: function() {
