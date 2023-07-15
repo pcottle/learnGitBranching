@@ -744,7 +744,9 @@ var commandConfig = {
   push: {
     regex: /^git +push($|\s)/,
     options: [
-      '--force'
+      '--force',
+      '--delete',
+      '-d'
     ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
@@ -758,14 +760,46 @@ var commandConfig = {
       var source;
       var sourceObj;
       var commandOptions = command.getOptionsMap();
+      var isDelete = commandOptions['-d'] || commandOptions['--delete'];
 
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
+      
+      // put the commandOption of delete back in the generalArgs
+      // as it is a flag option
+      if(isDelete) {
+        let option = commandOptions['-d'] || commandOptions['--delete'];
+        generalArgs = option[0] === 'origin'
+        ? option.concat(generalArgs)
+        : generalArgs.concat(option);
+      }
+
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
-
       var firstArg = generalArgs[1];
+
+      if(isDelete) {
+        if(!firstArg) {
+          throw new GitError({
+            msg: intl.todo(
+              '--delete doesn\'t make sense without any refs'
+            )
+          });
+        }
+
+        if(isColonRefspec(firstArg)) {
+          throw new GitError({
+            msg: intl.todo(
+              '--delete only accepts plain target ref names'
+            )
+          });
+        }
+
+        // transform delete target ref to delete colon refspec
+        firstArg = ":"+firstArg;
+      }
+
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
@@ -773,7 +807,7 @@ var commandConfig = {
         if (source === "" && !engine.origin.resolveID(destination)) {
           throw new GitError({
             msg: intl.todo(
-              'cannot delete branch ' + options.destination + ' which doesnt exist'
+              'cannot delete branch ' + options.destination + ' which doesn\'t exist'
             )
           });
         }
