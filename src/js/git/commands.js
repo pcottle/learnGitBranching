@@ -3,7 +3,6 @@ var intl = require('../intl');
 
 var Graph = require('../graph');
 var Errors = require('../util/errors');
-const { compact } = require('underscore');
 var CommandProcessError = Errors.CommandProcessError;
 var GitError = Errors.GitError;
 var Warning = Errors.Warning;
