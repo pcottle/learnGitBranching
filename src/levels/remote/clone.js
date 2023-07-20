@@ -7,6 +7,7 @@ exports.level = {
     "de_DE": "Clone Einführung",
     "ja": "Clone入門",
     "es_AR": "Introducción a clone",
+    "es_MX": "Introducción a clone",
     "es_ES": "Introducción a clone",
     "pt_BR": "Introdução à clonagem",
     "gl": "Introducción a clone",
@@ -27,6 +28,7 @@ exports.level = {
     "ja": "単にgit clone!",
     "zh_CN": "只要 git clone 就可以了!",
     "es_AR": "Simplemente hacé git clone!",
+    "es_MX": "Simplemente haz git clone!",
     "es_ES": "¡Simplemente escribe `git clone`!",
     "pt_BR": "Basta fazer um git clone!",
     "gl": "¡Chega con facer git clone!",
@@ -206,6 +208,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nivel, simplemente hacé `git clone` de tu repositorio existente. El verdadero aprendizaje viene en las próximas lecciones."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Los repositorios remotos no son realmente _tan_ complicados. En el mundo actual de la computación en la nube es facil pensar que hay un montón de magia detrás de los git remotes, pero en realidad sólo son copias de tu repositorio en otra computadora. Típicamente vas a comunicarte con esta otra computadora a través de Internet, lo que te permite transferir commits de un lado a otro.",
+              "",
+              "Habiendo dicho eso, los repositorios remotos tienen un montón de propiedades geniales:",
+              "",
+              "- Primero y principalmente, los remotes ¡funcionan como un respaldo increible! Los repositorios locales de git tienen la habilidad de restaurar archivos a un estado previo (como ya sabes), pero toda esa información se encuentra almacenada localmente. Al tener copias de tu repositorio git en otras computadoras, puedes perder todos tus datos locales y aún así retomar el trabajo en donde lo dejaste.",
+              "",
+              "- Más importante, ¡los remotes hacen más social la programación! Ahora que hay una copia de tu proyecto almacenada en otro lugar, tus amigos pueden contribuir a tu proyecto (u obtener los últimos cambios) de un modo muy sencillo.",
+              "",
+              "Se ha vuelto bastante popular el uso de sitios web que muestran la actividad de los repositorios (como [GitHub](https://github.com/)), pero los repositorios remotos _siempre_ sirven como la base subyacente de esas herramientas. Así que ¡es importante entenderlos!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nuestro comando para crear remotes",
+              "",
+              "Hasta este punto, Learn Git Branching se ha centrado en enseñar las bases del trabajo con repositorios _locales_ (manejo de ramas, mezclar, rebasear, etc). Sin embargo, ahora que queremos aprender sobre el trabajo con repositorios remotos, necesitamos un comando para inicializar nuestro entorno para esas lecciones. Ese comando será `git clone`.",
+              "",
+              "Técnicamente, `git clone` en el mundo real es el comando que usarías para crear copias _locales_ de un repositorio remoto (de GitHub, por ejemplo). Nosotros, en Learn Git Branching, lo usamos de un modo un poco diferente -- `git clone` va a crear un repositorio remoto a partir del tuyo local. Estamos de acuerdo en que técnicamente es lo opuesto al comando real, pero ayuda bastante a entender la conexión entre el clonado y el trabajo en un repositorio remoto, así que vamos a seguir así por ahora.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Comencemos despacio y simplemente veamos cómo se ve un repositorio remoto en nuestro caso.",
+              ""
+            ],
+            "afterMarkdowns": [
+              "¡Ahí está! Ahora tenemos un repositorio remoto de nuestro proyecto. Se ve bastante similar, excepto por algunos cambios visuales para hacer evidente la distinción -- en niveles posteriores vas a ver cómo compartir trabajo entre estos repositorios."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, simplemente ejecuta `git clone` en tu repositorio existente. El verdadero aprendizaje viene en las próximas lecciones."
             ]
           }
         }
