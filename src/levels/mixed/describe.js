@@ -16,6 +16,7 @@ exports.level = {
     "de_DE": "Git Describe",
     "ja": "Git Describe",
     "es_AR": "Git Describe",
+    "es_MX": "Git Describe",
     "es_ES": "Git Describe",
     "pt_BR": "Git Describe",
     "gl": "Git Describe",
@@ -35,6 +36,7 @@ exports.level = {
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "ja": "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
     "es_AR": "Simplemente commiteá una vez en bugFix cuando estés listo para seguir",
+    "es_MX": "Simplemente crea un commit en la rama bugFix cuando estés listo para continuar",
     "es_ES": "Simplemente crea un commit en la rama bugFix cuando estés listo para seguir",
     "pt_BR": "Simplesmente commite uma vez em bugFix quando quiser parar de experimentar",
     "gl": "Simplemente fai commit en bugFix cando estés listo para continuar.",
@@ -361,6 +363,69 @@ exports.level = {
               "¡Eso es prácticamente todo lo que hay sobre git describe! Probá describiendo algunas referencias en este nivel para amigarte con el comando.",
               "",
               "Cuando quieras, hacé un commit para terminar el nivel. Te estamos dando una gratis :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Como los tags sirven genial como \"marcas\" en el código, git tiene un comando para _describir_ dónde estás relativo a la \"marca\" (es decir, al \"tag\") más cercana. Y ese comamndo se llama ¡`git describe`!",
+              "",
+              "`git describe` puede ayudarte a saber dónde estás después de haberte movido varios commits hacia adelante o atrás en la historia. Esto puede pasarte después de que termines un _git bisect_ (una búsqueda de debug) o cuando te sientas delante de la computadora de un compañero de trabajo que acaba de volver de vacaciones."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe tiene la siguiente forma:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Donde `<ref>` es cualquier cosa que git puede resolver a un commit. Si no especificas ninguna referencia, git simplemente usa el commit en el que estás en ese momento (`HEAD`).",
+              "",
+              "La salida de ese comando se ve así:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Donde `tag` es el tag más cercano en la historia, `numCommits` es a cuántos commits de ese tag estás, y `<hash>` es el hash del commit que está siendo descrito."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos un ejemplo rápido. Para este árbol de commits:"
+            ],
+            "afterMarkdowns": [
+              "El comando `git describe main` mostraría:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "Mientras que `git describe side` mostraría:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Eso es prácticamente todo lo que hay sobre git describe! Prueba describiendo algunas _ubicaciones_ en este nivel para familiarizarte con el comando.",
+              "",
+              "Cuando estés listo, crea un commit para terminar el nivel. Te estamos dejando este nivel de regalo. :P"
             ]
           }
         }
