@@ -2190,7 +2190,7 @@ GitEngine.prototype.getUpstreamDiffSetFromSet = function(stopSet, location) {
 
 GitEngine.prototype.getUpstreamDiffFromSet = function(stopSet, location) {
   var result = Graph.bfsFromLocationWithSet(this, location, stopSet);
-  result.sort(this.dateSortFunc);
+  result.reverse();
   return result;
 };
 

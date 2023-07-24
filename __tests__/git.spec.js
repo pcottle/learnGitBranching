@@ -88,6 +88,13 @@ describe('Git', function() {
     );
   });
 
+  it('Rebases reordered commits in their new order', function() {
+    return expectTreeAsync(
+      'gc;gc;gc;gc;git branch one C1;git branch two C1;git branch three C1;git rebase C2 three;git checkout one;git cherry-pick C4 C3 C2; git checkout two; git cherry-pick C5; git rebase two one',
+      '%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22one%22%3A%7B%22target%22%3A%22C2%27%27%22%2C%22id%22%3A%22one%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22two%22%3A%7B%22target%22%3A%22C5%27%22%2C%22id%22%3A%22two%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22three%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22three%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C4%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%7D%2C%22tags%22%3A%7B%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22one%22%2C%22id%22%3A%22HEAD%22%7D%7D'
+    );
+  })
+
   it('Switch branch and execute interactive rebase', function() {
     return expectTreeAsync(
       'git branch test;git rebase -i C0 test --interactive-test',
