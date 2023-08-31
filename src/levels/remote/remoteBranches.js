@@ -1141,7 +1141,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Per completare questo livello, fai un commit una volta dal `main` e una volta dopo aver aver eseguito il checkout su `o/main`. Questo ti aiuterà a capire come i rami remoti si comportano differentemente, e si aggiornano solo per riflettere lo stato del remoto"
+              "Per completare questo livello, fai un commit una volta dal `main` e una volta dopo aver eseguito il checkout su `o/main`. Questo ti aiuterà a capire come i rami remoti si comportano differentemente, e si aggiornano solo per riflettere lo stato del remoto"
             ]
           }
         }
