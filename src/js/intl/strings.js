@@ -20,7 +20,8 @@ exports.strings = {
     'sl_SI': 'Wow! Končal si zadnjo stopnjo, fantastično!',
     'pl': 'Wow! Ukończono ostatni poziom, świetnie!',
     'it_IT': "Wow! Hai concluso l'ultimo livello, grandioso!",
-    'ta_IN': 'ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!'
+    'ta_IN': 'ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!',
+    'tr_TR': 'Wow! son seviyeyi tamamladın, tebrikler!',
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -43,7 +44,8 @@ exports.strings = {
     'sl_SI': 'Bi rad nadaljeval na *"{nextLevel}"*, naslednjo stopnjo?',
     'pl': 'Czy chcesz przejść do następnego poziomu - *"{nextLevel}"*?',
     'it_IT': 'Ti andrebbe di passare al prossimo livello, *"{nextLevel}"*?',
-    'ta_IN': 'அடுத்த நிலை * "{nextLevel}" * க்கு செல்ல விரும்புகிறீர்களா?'
+    'ta_IN': 'அடுத்த நிலை * "{nextLevel}" * க்கு செல்ல விரும்புகிறீர்களா?',
+    'tr_TR': 'Bir sonraki seviye olan *"{nextLevel}"* seviyesine geçmek ister misin?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -66,7 +68,9 @@ exports.strings = {
     'sl_SI': 'Bravo! Izenačil ali celo presegel si našo rešitev.',
     'pl': 'Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.',
     'it_IT': "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
-    'ta_IN': 'அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.'
+    'ta_IN': 'அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.',
+    'tr_TR': 'Mükemmel! ideal çözümle aynı veya daha iyi bir çözüm yaptınız.',
+
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {

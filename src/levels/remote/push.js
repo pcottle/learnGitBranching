@@ -22,7 +22,8 @@ exports.level = {
     "vi": "Git push",
     "sl_SI": "Git Push",
     "pl": "Git push",
-    "it_IT": "Git Push"
+    "it_IT": "Git Push",
+    "tr_TR": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -40,7 +41,8 @@ exports.level = {
     "vi": "Nhớ rằng bạn phải clone trước khi push!",
     "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!",
     "pl": "Najpierw sklonuj, potem pushuj!",
-    "it_IT": "Ricorda di clonare il repository prima di usare push!"
+    "it_IT": "Ricorda di clonare il repository prima di usare push!",
+    "tr_TR": "Unutmayın push işlemini yapmadan önce clone işlemini yapmanız gerekiyor!"
   },
   "startDialog": {
     "en_US": {
@@ -768,6 +770,49 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, so I've fetched changes from remote and incorporated them into my work locally. That's great and all... but how do I share _my_ awesome work with everyone else?",
+              "",
+              "Well, the way to upload shared work is the opposite of downloading shared work. And what's the opposite of `git pull`? `git push`!",
+              "",
+              "`git push` is responsible for uploading _your_ changes to a specified remote and updating that remote to incorporate your new commits. Once `git push` completes, all your friends can then download  your work from the remote.",
+              "",
+              "You can think of `git push` as a command to \"publish\" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps...",
+              "",
+              "*note -- the behavior of `git push` with no arguments varies depending on one of git's settings called `push.default`. The default value for this setting depends on the version of git you're using, but we are going to use the `upstream` value in our lessons. This isn't a huge deal, but it's worth checking your settings before pushing in your own projects.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Here we have some changes that the remote does not have. Let's upload them!"
+            ],
+            "afterMarkdowns": [
+              "There we go -- the remote received commit `C2`, the branch `main` on the remote was updated to point at `C2`, and our *own* reflection of the remote (`o/main`) was updated as well. Everything is in sync!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };
