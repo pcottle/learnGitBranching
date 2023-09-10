@@ -187,6 +187,16 @@ exports.dialog = {
       },
     },
   ],
+  'tr_TR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Çözümü görmek istediğine emin misin?',
+        '',
+        'Sana inanıyorum bunu yapabilirsin!'
+      ]
+    }
+  }],
 };
 
 

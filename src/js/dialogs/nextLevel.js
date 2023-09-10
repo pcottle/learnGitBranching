@@ -212,5 +212,16 @@ exports.dialog = {
       },
     },
   ],
+  'tr_TR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Mükemmel!!!',
+        '',
+        '*{numCommands}* komut ile bu seviyeyi çözdün!; ',
+        'İdeal çözüm {best} komut içeriyor.'
+      ]
+    }
+  }],
 };
  
