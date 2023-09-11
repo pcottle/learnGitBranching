@@ -4,7 +4,7 @@ var EventEmitter = require('events').EventEmitter;
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var util = require('../util');
+var util = require('../uti');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
