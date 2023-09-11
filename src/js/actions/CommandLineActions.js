@@ -15,6 +15,9 @@ var CommandLineActions = {
   importantfuncition: function () {
     console.log("important work");
   },
+  secondImportantFunction: function () {
+    console.log("here");
+  },
 };
 
 module.exports = CommandLineActions;
