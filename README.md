@@ -18,9 +18,9 @@ https://pcottle.github.io/learnGitBranching/
 
 By default the application launches in "sandbox mode" with a basic repository already created. Here you can enter commands and mess around with a repository as much as you like. Keep in mind you can
 
-* `undo` to undo the effects of the last command
-* `reset` to start over with a clean slate (works in levels too)
-* `git clone` to simulate remote repositories!
+- `undo` to undo the effects of the last command
+- `reset` to start over with a clean slate (works in levels too)
+- `git clone` to simulate remote repositories!
 
 Sandbox mode can be great for demonstrating something to a friend, but the real learning is with levels...
 
@@ -79,34 +79,34 @@ Alternatively, you can also build and run the app in a pre-configured online wor
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/pcottle/learnGitBranching/blob/main/src/js/git/index.js)
 
-
 ## Other Technical Details
 
 LearnGitBranching is a pretty simple application (from a technical perspective). There's no backend database or any AJAX requests -- it's a 100% clientside application written in JavaScript. The production version (on github.io) literally just serves up an HTML page with some JS and CSS.
 
 Here is the high-level process of the build:
 
-* CSS is written into just one stylesheet (there is not a whole ton of styling)
-* New HTML is written into a template HTML file (`template.index.html`). This is only needed
+- CSS is written into just one stylesheet (there is not a whole ton of styling)
+- New HTML is written into a template HTML file (`template.index.html`). This is only needed
   for new views
-* The app is "built", which outputs:
-  * `index.html` in the root directory
-  * CSS and JS files in `./build` directory
-* If the app is being built for production, then these CSS and JS files
+- The app is "built", which outputs:
+  - `index.html` in the root directory
+  - CSS and JS files in `./build` directory
+- If the app is being built for production, then these CSS and JS files
   are hashed (to bust caches) and tests are run
-* That's it!
+- That's it!
 
-Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
+Thus, if you build the application locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
 
 ### Docker
 
-You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment with at [http://localhost:8080/](<http://localhost:8080/>)
+You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment with at [http://localhost:8080/](http://localhost:8080/)
 
 You can build the app and image with the command: `docker build -t ghcr.io/pcottle/learngitbranching:latest`. See the [Makefile](Makefile) for information on how to build locally with docker.
 
 ## Some of our amazing contributors
 
 [//]: contributor-faces
+
 <a href="https://github.com/pcottle"><img src="https://avatars0.githubusercontent.com/u/1135007?v=4" title="pcottle" width="80" height="80"></a>
 <a href="https://github.com/Hongarc"><img src="https://avatars1.githubusercontent.com/u/19208123?v=4" title="Hongarc" width="80" height="80"></a>
 <a href="https://github.com/twmht"><img src="https://avatars1.githubusercontent.com/u/1567200?v=4" title="twmht" width="80" height="80"></a>
@@ -143,32 +143,34 @@ You can build the app and image with the command: `docker build -t ghcr.io/pcott
 [//]: contributor-faces
 
 ## Helpful Folks
+
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
 
-* Nikita Kouevda
-* Maksim Ioffe
-* Dan Miller
+- Nikita Kouevda
+- Maksim Ioffe
+- Dan Miller
 
 And the following heroes for assisting in translating:
-* Jake Chen
-* 우리깃 ("urigit")
-* "bcho"
-* "scientific-coder"
-* "ace-coder"
-* Joël Thieffry
-* Jens Bremmekamp ("nem75")
-* "hilojack"
-* Ming-Hsuan-Tu ("twmht")
-* Mikhail Usov ("mikhailusov")
-* Matias Garcia Isaia ("mgarciaisaia")
-* Marc-Olivier Arsenault ("marcolivierarsenault")
-* Eroany H Leader ("lhyqy5")
-* Honorat ("ahonorat")
-* Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
-* Aliaksei Berkau ("alexeiberkov")
-* Mizunashi Mana ("mizunashi-mana")
-* YourSenseiCreeper
-* Olsza
+
+- Jake Chen
+- 우리깃 ("urigit")
+- "bcho"
+- "scientific-coder"
+- "ace-coder"
+- Joël Thieffry
+- Jens Bremmekamp ("nem75")
+- "hilojack"
+- Ming-Hsuan-Tu ("twmht")
+- Mikhail Usov ("mikhailusov")
+- Matias Garcia Isaia ("mgarciaisaia")
+- Marc-Olivier Arsenault ("marcolivierarsenault")
+- Eroany H Leader ("lhyqy5")
+- Honorat ("ahonorat")
+- Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
+- Aliaksei Berkau ("alexeiberkov")
+- Mizunashi Mana ("mizunashi-mana")
+- YourSenseiCreeper
+- Olsza
 
 Also huge shoutout for everyone who has put up a pull request that was pulled! Check out the 30+ contributors we have in the [Contributors View](https://github.com/pcottle/learnGitBranching/graphs/contributors)
 
