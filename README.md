@@ -93,7 +93,7 @@ Here is the high-level process of the build:
   - CSS and JS files in `./build` directory
 - If the app is being built for production, then these CSS and JS files
   are hashed (to bust caches) and tests are run
-- That's it!
+- That's it!dfdfsfsdfsfsf
 
 Thus, if you build the application locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
 
@@ -166,7 +166,7 @@ And the following heroes for assisting in translating:
 - Marc-Olivier Arsenault ("marcolivierarsenault")
 - Eroany H Leader ("lhyqy5")
 - Honorat ("ahonorat")
-- Vasil Kulakov ("coyl") & Lyubov Agadjanyan ("shayenblue")
+- Vasil Kulakov ("coyl") & Lyubov Agadjanyansdfsdfsdfsdf ("shayenblue")
 - Aliaksei Berkau ("alexeiberkov")
 - Mizunashi Mana ("mizunashi-mana")
 - YourSenseiCreeper
