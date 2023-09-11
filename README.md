@@ -47,7 +47,7 @@ When reporting bugs, try running the command `debug_copyTree()` in your JS conso
 
 For contributing core functionality in the app, you'll probably want to test your changes
 at least once before submitting a pull request. That means you'll need the "gulp.js" build tool to build the app:
-
+sadasdassadsdaasdasd
 https://gulpjs.com/docs/en/getting-started/quick-start
 
 You'll also need `yarn` to download all the dependencies of the project.
@@ -145,6 +145,7 @@ You can build the app and image with the command: `docker build -t ghcr.io/pcott
 ## Helpful Folks
 
 A big shoutout to these brave souls for extensively testing our sandbox and finding bugs and/or inconsistencies:
+saddasfasffffffffffffffffffffffffffffffffasasfssfasfafafasfasffasasf
 
 - Nikita Kouevda
 - Maksim Ioffe
@@ -176,3 +177,4 @@ Also huge shoutout for everyone who has put up a pull request that was pulled! C
 
 And everyone who has reported an issue that was successfully closed!
 sdffsdfggsfgdffdhrdhdhrdhger
+sddasdddddd
