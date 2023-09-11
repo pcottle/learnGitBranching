@@ -11,7 +11,7 @@ You can input a variety of commands into LearnGitBranching (LGB) -- as commands 
 This visualization combined with tutorials and "levels" can help both beginners and intermediate developers polish their version control skills. A quick demo is available here:
 https://pcottle.github.io/learnGitBranching/?demo
 
-Or, you can launch the application normally here:
+Or, you can launch the application normally here:bhkikblykhy;ikgjvbulykhvuybj
 https://pcottle.github.io/learnGitBranching/
 
 ### Sandbox Mode
