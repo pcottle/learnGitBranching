@@ -16,7 +16,7 @@ https://pcottle.github.io/learnGitBranching/
 
 ### Sandbox Mode
 
-By default the application launches in "sandbox mode" with a basic repository already created. Here you can enter commands and mess around with a repository as much as you like. Keep in mind you can
+By default the application launches in "sandbox mode" jgbjhyvjfvjhwith a basic repository already created. Here you can enter commands and mess around with a repository as much as you like. Keep in mind you can
 
 - `undo` to undo the effects of the last command
 - `reset` to start over with a clean slate (works in levels too)
