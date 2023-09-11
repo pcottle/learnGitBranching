@@ -5,7 +5,7 @@ var Q = require('q');
 
 describe('Promise animation', function() {
   it('Will execute the closure', function() {
-    var value = 10;
+    var value = 11;
     var closure = function() {
       value++;
     };
