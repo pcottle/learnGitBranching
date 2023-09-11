@@ -1,19 +1,20 @@
 "use strict";
 
-var AppConstants = require('../constants/AppConstants');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var AppConstants = require("../constants/AppConstants");
+var AppDispatcher = require("../dispatcher/AppDispatcher");
 
 var ActionTypes = AppConstants.ActionTypes;
 
 var CommandLineActions = {
-
-  submitCommand: function(text) {
+  submitCommand: function (text) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.SUBMIT_COMMAND,
-      text: text
+      text: text,
     });
-  }
-
+  },
+  importantfuncition: function () {
+    console.log("important work");
+  },
 };
 
 module.exports = CommandLineActions;
