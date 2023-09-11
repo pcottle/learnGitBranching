@@ -19,7 +19,7 @@ describe('Promise animation', function() {
   });
 
   it('also takes animation packs', function() {
-    var value = 7;
+    var value = 8;
     var animation = new PromiseAnimation({
       animation: function() { value++; }
     });
