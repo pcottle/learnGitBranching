@@ -1537,7 +1537,8 @@ exports.strings = {
     'sl_SI': 'Rešeno!!!\n:D',
     'pl'   : 'Rozwiązany!!!\n:D',
     'it_IT': "Risolto!!!\n:D",
-    'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D'
+    'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D',
+    'tr_TR': 'Tebrikler!!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -2057,7 +2058,8 @@ exports.strings = {
     'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
     'it_IT':
       "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
-    'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!'
+    'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!',
+    'tr_TR': 'Bu ileti veya metin henüz dilimize çevrilmemiş :( Çeviriye yardımcı olmak için GitHub\'da bize katılın!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cancel-button': {
@@ -2070,7 +2072,8 @@ exports.strings = {
     'pl' : 'Powrót',
     'it_IT': "Annulla",
     'ta_IN': 'இரத்துசெய்',
-    'vi': 'Hủy'
+    'vi': 'Hủy',
+    'tr_TR': 'İptal'
   },
   ///////////////////////////////////////////////////////////////////////////
   'confirm-button': {
@@ -2083,7 +2086,8 @@ exports.strings = {
     'pl' : 'Dalej',
     'it_IT': "Conferma",
     'ta_IN': 'உறுதிப்படுத்தவும்',
-    'vi': 'Đồng ý'
+    'vi': 'Đồng ý',
+    'tr_TR': 'Tamam'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-label': {
@@ -2094,7 +2098,8 @@ exports.strings = {
     'de_DE': ' Level ',
     'zh_TW': '關卡 ',
     'it_IT': " Livello ",
-    'pl' : ' Poziom '
+    'pl' : ' Poziom ',
+    'tr_TR': ' Seviye '
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-levels': {
@@ -2173,7 +2178,8 @@ exports.strings = {
     'it_IT':
       "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
     'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy',
-    'vi': 'Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh'
+    'vi': 'Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh',
+    'tr_TR': 'Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir, bu komutu kullanmak için bir seviye (level) ya da seviye oluşturucu ekleyin (level builder).'
   },
   ///////////////////////////////////////////////////////////////////////////
   'interactive-rebase-title': {

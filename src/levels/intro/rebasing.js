@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Giới thiệu về rebase",
     'sl_SI': 'Uvod v Rebase',
     'it_IT': "Introduzione al rebase (ribasare)",
-    "pl": "Wprowadzenie do Rebase"
+    "pl": "Wprowadzenie do Rebase",
+    "tr_TR": "Rebase İşlemine Giriş"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -39,7 +40,8 @@ exports.level = {
     "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
     'sl_SI': 'Prepričaj se, da si najprej commital bugFix.',
     'it_IT': "Assicurati di fare prima il commit da bugFix",
-    "pl": "Upewnij się, że masz już commit z bugFix"
+    "pl": "Upewnij się, że masz już commit z bugFix",
+    "tr_TR": "Önce bugFix'tencommit attığınıza emin olun"
   },
   "disabledMap": {
     "git revert": true
@@ -1254,6 +1256,73 @@ exports.level = {
           },
         },
       ],
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Branch'ler arasında çalışmayı birleştirmenin ikinci yolu, *rebasing* (tekrar temele almak) işlemidir. Rebasing, temelde bir dizi commit'i alır, bunları \"kopyalar\" ve başka bir yere yerleştirir.",
+              "",
+              "Bu karmaşık gibi görünse de, rebasing'in avantajı, güzel bir doğrusal commit dizisi oluşturmak için kullanılabilmesidir. Yalnızca rebasing'e izin verildiğinde, repo commit kaydı / geçmişi çok daha temiz gözükebilmektedir.",
+              "",
+              "Nasıl çalıştığını görelim..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İşte yine karşımızda iki branch'imiz var; bugFix branch'inin şu an seçili olduğuna dikkat edin (yıldız işareti ile belirtilmiş).",
+              "",
+              "BugFix branch'indeki çalışmamızı doğrudan main branch'indeki çalışmanın üzerine taşımak istiyoruz. Böylece bu iki özelliğin sırayla geliştirildiği görünürken, gerçekte eşzamanlı olarak geliştirildiği anlaşılacaktır.",
+              "",
+              "Hadi bunu `git rebase` komutuyla yapalım."
+            ],
+            "afterMarkdowns": [
+              "Harika! Şimdi bugFix branch'indeki çalışmamız doğrudan main'in üstünde ve güzel bir doğrusal commit dizimiz var.",
+              "",
+              "C3 commit'inin hala bir yerde bulunduğunu (ağaçta soluk bir görünümde olduğunu) ve C3'ün main üzerine yeniden temellendiği (rebase) ve bir \"kopya\" olduğunu unutmayın.",
+              "",
+              "Tek sorun, main'in henüz güncellenmemiş olması, hadi şimdi bunu yapalım..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Şu anda `main` branch'inde bulunuyoruz. Şimdi `bugFix` branch'ini yeniden temel alalım..."
+            ],
+            "afterMarkdowns": [
+              "İşte! main, bugFix'in atsı olduğu için, git sadece main dalının referansını tarihte ileri taşıdı."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi tamamlamak için aşağıdaki adımları uygulamanız gerekiyor:",
+              "",
+              "* `bugFix` isminde yeni bir branch'e geçin",
+              "* Bir commit atın",
+              "* main'e geri dönün ve bir commit daha atın",
+              "* bugFix'e geri dönün ve main'e rebase atın",
+              "",
+              "Bol Şans!"
+            ]
+          }
+        }
+      ]
     },
   }
 };
