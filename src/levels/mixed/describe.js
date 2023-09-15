@@ -28,7 +28,8 @@ exports.level = {
     "vi": "Git Describe (mô tả)",
     "sl_SI": "Git Describe",
     "it_IT": "Git Describe",
-    "pl": "Git describe"
+    "pl": "Git describe",
+    "tr_TR": "git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -49,6 +50,7 @@ exports.level = {
     "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje.",
     "it_IT": "Fai un commit da bugFix per procedere",
     "pl": "Scommituj raz na bugFix, żeby przejść dalej",
+    "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir."
   },
   "startDialog": {
     "en_US": {
@@ -1189,6 +1191,23 @@ exports.level = {
           },
         },
       ],
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe (Tanımla)",
+              "",
+              "Etiketler kod tabanında harika \"çekirdekler\" olarak hizmet ettiği için, Git size en yakın \"anchor'a (etikete)\" göre nerede olduğunuzu açıklamak için bir komut sunar. Bu komut `git describe` 'dır!",
+              "",
+              "Git describe, birçok commit'i geriye veya ileriye doğru hareket ettikten sonra nerede bulunduğunuzun anlaşılmasına yardımcı olabilir; bu, bir hata ayıklama araması olan git bisect'i tamamladıktan sonra veya tatilden yeni dönen bir iş arkadaşının bilgisayarına oturduğunuzda karşınıza çıkabilir."
+            ]
+          }
+        },
+        
+      ]
     },
   }
 };

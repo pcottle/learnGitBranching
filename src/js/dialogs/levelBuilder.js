@@ -364,5 +364,24 @@ exports.dialog = {
       },
     },
   ],
+  'tr_TR': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Level oluşturucusuna hoş geldiniz!',
+        '',
+        'İşte ana adımlar:',
+        '',
+        '  * Git komutlarıyla başlangıç ortamını ayarlayın',
+        '  * Başlangıç ağacını ```define start``` ile tanımlayın',
+        '  * (İdeal) çözümü oluşturan git komutlarını girin',
+        '  * Hedef ağacını ```define goal``` ile tanımlayın. Hedefi tanımlamak aynı zamanda çözümü tanımlar',
+        '  * İsteğe bağlı olarak ipucu ekleyin ```define hint```',
+        '  * İsmi düzenleyin ```define name```',
+        '  * İsteğe bağlı olarak hoş bir başlangıç diyalogu tanımlayın ```edit dialog```',
+        '  * Level JSON\'unuzu çıkarmak için ```finish``` komutunu girin!'
+      ]
+    }
+  }],
 };
 
