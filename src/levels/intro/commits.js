@@ -18,7 +18,8 @@ exports.level = {
     'sl_SI': "Uvod v Git Commit",
     'pl': "Wprowadzenie do commitów Gita",
     'it_IT': "Introduzione ai commit in Git",
-    "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்"
+    "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்",
+    "tr_TR": "Git Commit'e Giriş"
   },
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -42,7 +43,8 @@ exports.level = {
     'sl_SI': "Preprosto dvakrat vpiši 'git commit' in zaključi!",
     "pl": "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!",
     'it_IT': "Digita 'git commit' due volte per finire!",
-    "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!"
+    "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!",
+    "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir."
   },
   "disabledMap": {
     "git revert": true
@@ -856,5 +858,47 @@ exports.level = {
         },
       ],
     },
-  }
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commit'leri",
+              "Git commit'leri, projenizin tüm (izlenen) dosyalarının anlık bir fotoğrafını çeker. Düşünün ki bu, büyük bir kopyala-yapıştır işlemi gibi, ama işte burada daha eğlenceli bir olay var!",
+              "",
+              "Git, commit'leri hafif tutmak ister, bu yüzden her seferinde sırf her şeyi körü körüne kopyalamaz. Mümkün olduğunda, bir commit'i değişikliklerin seti olarak sıkıştırabilir veya bir sürümün bir sonraki sürüme olan farkını, yani bir \"delta\"yı yakalayabilir.",
+              "",
+              "Git aynı zamanda hangi commit'lerin ne zaman yapıldığını da kayıt altında tutar. İşte bu yüzden çoğu commit, üstünde atası olan başka commit'lerle gelir - bu görselde oklarla belirtilir. Tarih tutmak, projede çalışan herkes için harika bir şeydir!",
+              "",
+              "İlk bakışta karmaşık gelebilir, ama şimdilik commit'leri projenizin anlık fotoğrafları gibi düşünün. Commit'ler hafiftir ve aralarında çok hızlı geçiş yapılabilir!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bakalım bu pratikte nasıl görünüyor. Sağ tarafta, (küçük) bir git deposunun görselleştirmesini görüyorsunuz. Şu anda iki commit var - ilk başlangıç commit'i, `C0`, ve ondan sonra gelen anlamlı değişiklikler içerebilecek bir commit olan `C1`.",
+              "",
+              "Yeni bir commit için aşağıdaki düğmeye tıklayın."
+            ],
+            "afterMarkdowns": [
+              "İşte bu! Harika. Depoya değişiklikler yaptık ve onları bir commit olarak kaydettik. Yeni yaptığımız commit'in bir atası var, `C1`, bu da commit\'imizin ne üzerine inşa edildiğini gösteren bir referans içerir."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Şimdi sıra sende! Bu pencere kapanır kapanmaz, seviyeyi tamamlamak için iki commit yap."
+            ]
+          }
+        }
+      ]
+    },
+  },
 };

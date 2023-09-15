@@ -20,29 +20,30 @@ exports.level = {
     "sl_SI": "Merganje v Gitu",
     "pl": "Merge w Gicie",
     'it_IT': "Fusione in Git",
-    "ta_IN": "கிட்டில் இணைத்தல்"
+    "ta_IN": "கிட்டில் இணைத்தல்",
+    "tr_TR": "Git'te Merge işlemleri"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
-    "ja": "指示された順番でコミットすること（mainの前にbugFixで）",
+    "ja":    "指示された順番でコミットすること（mainの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de main)",
     "es_MX": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "es_ES": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de main)",
-    "gl": "Lembrate de facer commit na orde específica (bugFix antes de main)",
+    "gl":    "Lembrate de facer commit na orde específica (bugFix antes de main)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant main)",
     "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 main）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 main 優先）",
-    "ko": "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 main에 커밋)",
+    "ko":    "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 main에 커밋)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом main)",
-    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
-    "vi": "Nhớ là commit theo đúng thứ tự (bugFix trước main)",
+    "uk":    "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
+    "vi":    "Nhớ là commit theo đúng thứ tự (bugFix trước main)",
     "sl_SI": 'Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred main)',
-    "pl": "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
-    "it_IT":
-      "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
-    "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க"
+    "pl":    "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
+    "it_IT": "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
+    "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க",
+    "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)"
   },
   "disabledMap": {
     "git revert": true
@@ -1360,5 +1361,74 @@ exports.level = {
       ],
     },
 
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch'ler ve Merge İşlemleri",
+              "",
+              "Harika! Nasıl commit yapılacağını ve branch oluşturulacağını öğrendik. Şimdi iki farklı branch'in çalışmasını birleştirmenin (merge) bir yolunu öğrenmemiz gerekiyor. Bu, yeni bir özellik geliştirmek için bir branch'i alacak ve sonra onu geri birleştirebilmemizi sağlayacak.",
+              "",
+              "Birleştirme işlemini inceleyeceğimiz ilk yöntem `git merge`'dir. Git'te birleştirme işlemi, iki benzersiz üst öğesi olan özel bir commit oluşturur. İki ata'sı olan bir commit, temelde \"Bu kaynak kodun bu noktadaki tüm çalışmasını ve diğer noktadaki kaynak kodun tüm çalışmasını *ve* tüm bu kaynak kodlarının üstündeki kaynak kodlarını dahil etmek istiyorum.\" anlamına gelir.",
+              "",
+              "Bu işlem görsellerle daha kolay anlaşılır, bir sonraki görünümde görelim."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İşte iki branch'imiz var; her birinin benzersiz bir commit'i var. Bu, her iki branch'in de repo'da yaptığımız \"çalışmanın\" tamamını içermediği anlamına gelir. Birleştirme (merge) ile bunu düzeltebiliriz.",
+              "",
+              "`bugFix` branch'ini `main` ile `merge` edeceğiz."
+            ],
+            "afterMarkdowns": [
+              "Vay canına! Görüyor musunuz? İlk olarak, `main` artık iki ata'sı (Parent) olan bir commit'e işaret ediyor. `main` üzerinden commit ağacındaki okları takip ederseniz, köke giden yol boyunca her commit'e ulaşırsınız. Bu, `main`'in artık repo'nun tamamındaki tüm çalışmayı içerdiği anlamına gelir.",
+              "",
+              "Ayrıca, commit'lerim renklerinin nasıl değiştiğini gördünüz mü? Öğrenmenize yardımcı olmak için bazı renk koordinasyonları ekledik. Her branch'in kendine özgü bir rengi vardır. Her commit, kendisini içeren tüm branch'lerin karışık bir kombinasyonu olan bir renge dönüşür.",
+              "",
+              "Yani burada `main` branch'inin renginin tüm commit'lere karıştığını, ancak `bugFix` renginin karışmadığını görüyoruz. Şimdi bunu düzeltelim..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hadi`main`'i `bugFix`'e merge'leyelim:"
+            ],
+            "afterMarkdowns": [
+              "`bugFix`, `main`'in atası olduğu için, git'in ekstra hiçbir iş yapmasına gerek kalmadı; sadece`bugFix`'i `main`'in bağlı olduğu aynı commit'e taşıdı.",
+              "",
+              "Artık tüm commit'ler aynı renk oldu, bu da her branch'in repo'daki tüm çalışmaları içerdiği anlamına geliyor! Yaşasın!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu level'i tamamlamak için aşağıdaki adımları yapmanız gerekiyor:",
+              "",
+              "* `bugFix` adında yeni bir branch oluşturun",
+              "* `git checkout bugFix` komutu ile `bugFix` branch'ine geçin ",
+              "* bir commit atın",
+              "* `git checkout` komutu ile `main` branch'ine geri dönün ",
+              "* başka bir commit atın",
+              "* Ardından `git merge` komutu ile `bugFix`'i `main`'e merge edin",
+              "",
+              "*Unutmayın, \"objective\" komutunu kullanılarak bu iletişim penceresini her zaman yeniden görüntüleyebilirsiniz!*"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

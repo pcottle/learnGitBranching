@@ -20,7 +20,8 @@ exports.strings = {
     'sl_SI': 'Wow! Končal si zadnjo stopnjo, fantastično!',
     'pl': 'Wow! Ukończono ostatni poziom, świetnie!',
     'it_IT': "Wow! Hai concluso l'ultimo livello, grandioso!",
-    'ta_IN': 'ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!'
+    'ta_IN': 'ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!',
+    'tr_TR': 'Wow! son seviyeyi tamamladın, tebrikler!',
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-next': {
@@ -43,7 +44,8 @@ exports.strings = {
     'sl_SI': 'Bi rad nadaljeval na *"{nextLevel}"*, naslednjo stopnjo?',
     'pl': 'Czy chcesz przejść do następnego poziomu - *"{nextLevel}"*?',
     'it_IT': 'Ti andrebbe di passare al prossimo livello, *"{nextLevel}"*?',
-    'ta_IN': 'அடுத்த நிலை * "{nextLevel}" * க்கு செல்ல விரும்புகிறீர்களா?'
+    'ta_IN': 'அடுத்த நிலை * "{nextLevel}" * க்கு செல்ல விரும்புகிறீர்களா?',
+    'tr_TR': 'Bir sonraki seviye olan *"{nextLevel}"* seviyesine geçmek ister misin?'
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-win': {
@@ -66,7 +68,9 @@ exports.strings = {
     'sl_SI': 'Bravo! Izenačil ali celo presegel si našo rešitev.',
     'pl': 'Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.',
     'it_IT': "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
-    'ta_IN': 'அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.'
+    'ta_IN': 'அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.',
+    'tr_TR': 'Mükemmel! ideal çözümle aynı veya daha iyi bir çözüm yaptınız.',
+
   },
   ///////////////////////////////////////////////////////////////////////////
   'finish-dialog-lose': {
@@ -89,7 +93,8 @@ exports.strings = {
     'sl_SI': 'Misliš da lahko spraviš rešitev na {best}? :D',
     'pl': 'Sprawdź, czy dasz radę to zrobić w {best} krokach :D',
     'it_IT': "Prova a migliorarti facendolo solo con {best} comandi :D",
-    'ta_IN': 'நீங்கள் அதை குறைக்க முடியுமா என்று பாருங்கள் {best} :D'
+    'ta_IN': 'நீங்கள் அதை குறைக்க முடியுமா என்று பாருங்கள் {best} :D',
+    'tr_TR': 'Bakalım bunu {en iyi} adıma indirebilir misin? :D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-prune-tree': {
@@ -112,7 +117,8 @@ exports.strings = {
     'pl': 'Ostrzeżenie! Mercurial prowadzi agresywną kolekcję śmieci i dlatego musi przycinać Twoje drzewo',
      'it_IT':
       "Attenzione! Mercurial ha un garbage collector molto aggressivo e perciò deve potare il tuo albero",
-    'ta_IN': 'எச்சரிக்கை! மெர்குரியல் வலிய களிவு சேகரிப்பு செய்கிறது, இதனால் உங்கள் மரத்தை கத்தரிக்க வேண்டிவரும்'
+    'ta_IN': 'எச்சரிக்கை! மெர்குரியல் வலிய களிவு சேகரிப்பு செய்கிறது, இதனால் உங்கள் மரத்தை கத்தரிக்க வேண்டிவரும்',
+    'tr_TR': 'Uyarı! Mercurial, agresif garbage collection yapar bu nedenle ağacınızı prune etmeniz gerekebilir.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-a-option': {
@@ -134,7 +140,8 @@ exports.strings = {
     'sl_SI': 'Opcija -A ni potrebna za to aplikacijo, samo commitaj!',
     'pl': 'Opcja -A nie jest wymagana w tej aplikacji, po prostu zrób `commit`!',
     'it_IT': "L'opzione -A non è necessiaria, fai semplicemente commit!",
-    'ta_IN': 'இந்த பயன்பாட்டிற்கு -A மாற்று தேவையில்லை, `கமிட்` செய்யுங்கள்'
+    'ta_IN': 'இந்த பயன்பாட்டிற்கு -A மாற்று தேவையில்லை, `கமிட்` செய்யுங்கள்',
+    'tr_TR': 'Bu uygulama için -A seçeneği gereksizdir, sadece commit atın!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-no-status': {
@@ -157,7 +164,8 @@ exports.strings = {
     'pl' : 'W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`',
     'it_IT':
       "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
-    'ta_IN': 'கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்'
+    'ta_IN': 'கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்',
+    'tr_TR': 'Bu uygulama için bir status komutu yok, çünkü dosyalar stage edilemiyor. Bunun yerine hg summit komutunu deneyin.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-need-option': {
@@ -179,7 +187,8 @@ exports.strings = {
     'sl_SI': 'Potrebujem opcijo {option} za ta ukaz!',
     'pl': 'Potrzebuję opcji {option} dla tego polecenia!',
     'it_IT': "Ho bisogno di {option} per quel comando!",
-    'ta_IN': 'எனக்கு அந்த கட்டளைக்கு மாற்று {option} தேவை'
+    'ta_IN': 'எனக்கு அந்த கட்டளைக்கு மாற்று {option} தேவை',
+    'tr_TR': 'Bu komut için {seçenek} seçeneğine ihtiyacım var!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'hg-error-log-no-follow': {
@@ -201,7 +210,8 @@ exports.strings = {
     'sl_SI': 'hg log brez -f trenutno ni podprt, uporabi -f',
     'pl': '`hg log` bez -f nie jest obecnie obsługiwany, użyj -f',
     'it_IT': "hg log senza -f non è attualmente supportato, usa -f",
-    'ta_IN': '-f இல்லாமல் `hg log` தற்போது ஆதரிக்கப்படவில்லை, -f ஐப் பயன்படுத்தவும்'
+    'ta_IN': '-f இல்லாமல் `hg log` தற்போது ஆதரிக்கப்படவில்லை, -f ஐப் பயன்படுத்தவும்',
+    'tr_TR': '-f olmadan hg logu şu anda desteklenmiyor, -f kullanın.'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-detached': {
@@ -223,7 +233,8 @@ exports.strings = {
     'sl_SI': 'Detached head!',
     'pl': 'Odłączono HEAD!',
     'it_IT': "Testa distaccata (Detached head)!",
-    'ta_IN': 'பிரிக்கப்பட்ட தலை!'
+    'ta_IN': 'பிரிக்கப்பட்ட தலை!',
+    'tr_TR': 'Detached head!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-onbranch': {
@@ -245,7 +256,8 @@ exports.strings = {
     'sl_SI': 'Na branchu {branch}',
     'pl': 'Na branch-u {branch}',
     'it_IT': "Sul ramo {branch}",
-    'ta_IN': '{branch} கிளையில்'
+    'ta_IN': '{branch} கிளையில்',
+    'tr_TR': '{branch} branch\'indesiniz'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-status-readytocommit': {
@@ -267,7 +279,8 @@ exports.strings = {
     'sl_SI': 'Pripravljen za commit! (kot vedno v tem demotu)',
     'pl': 'Gotowy commit! (jak zawsze w tym demo)',
     'it_IT': "Pronto al commit! (come sempre in questa demo)",
-    'ta_IN': '`commit` செய்ய தயார்! (இந்த செயல் விளக்கத்தில் எப்போதும் செய்வதை போல)'
+    'ta_IN': '`commit` செய்ய தயார்! (இந்த செயல் விளக்கத்தில் எப்போதும் செய்வதை போல)',
+    'tr_TR': 'Commit etmeye hazır! (bu demoda her zaman olduğu gibi)'
   },
   ///////////////////////////////////////////////////////////////////////////
   'git-dummy-msg': {
@@ -311,7 +324,8 @@ exports.strings = {
     'sl_SI': 'Že posodobljeno!',
     'pl': 'Już aktualne!',
     'it_IT': "E' gia la versione più recente!",
-    'ta_IN': 'ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது!'
+    'ta_IN': 'ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது!',
+    'tr_TR': 'Zaten güncel!'
   },
   'git-error-origin-fetch-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -333,7 +347,8 @@ exports.strings = {
     'pl': 'Twój branch nie jest zsynchronizowany ze zdalny branch-em i nie można przeprowadzić pobierania',
     'it_IT':
       "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non può essere eseguito",
-    'ta_IN': 'உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது'
+    'ta_IN': 'உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது',
+    'tr_TR': 'Origin Branch\'iniz, Remote branch ile uyumsuzdur ve `fetch` işlemi gerçekleştirilemez.'
   },
   'git-error-origin-push-no-ff': {
     '__desc__': 'One of the error messages for git',
@@ -1522,7 +1537,8 @@ exports.strings = {
     'sl_SI': 'Rešeno!!!\n:D',
     'pl'   : 'Rozwiązany!!!\n:D',
     'it_IT': "Risolto!!!\n:D",
-    'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D'
+    'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D',
+    'tr_TR': 'Tebrikler!!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-disabled': {
@@ -2042,7 +2058,8 @@ exports.strings = {
     'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
     'it_IT':
       "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
-    'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!'
+    'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!',
+    'tr_TR': 'Bu ileti veya metin henüz dilimize çevrilmemiş :( Çeviriye yardımcı olmak için GitHub\'da bize katılın!'
   },
   ///////////////////////////////////////////////////////////////////////////
   'cancel-button': {
@@ -2055,7 +2072,8 @@ exports.strings = {
     'pl' : 'Powrót',
     'it_IT': "Annulla",
     'ta_IN': 'இரத்துசெய்',
-    'vi': 'Hủy'
+    'vi': 'Hủy',
+    'tr_TR': 'İptal'
   },
   ///////////////////////////////////////////////////////////////////////////
   'confirm-button': {
@@ -2068,7 +2086,8 @@ exports.strings = {
     'pl' : 'Dalej',
     'it_IT': "Conferma",
     'ta_IN': 'உறுதிப்படுத்தவும்',
-    'vi': 'Đồng ý'
+    'vi': 'Đồng ý',
+    'tr_TR': 'Tamam'
   },
   ///////////////////////////////////////////////////////////////////////////
   'level-label': {
@@ -2079,7 +2098,8 @@ exports.strings = {
     'de_DE': ' Level ',
     'zh_TW': '關卡 ',
     'it_IT': " Livello ",
-    'pl' : ' Poziom '
+    'pl' : ' Poziom ',
+    'tr_TR': ' Seviye '
   },
   ///////////////////////////////////////////////////////////////////////////
   'command-helper-bar-levels': {
@@ -2158,7 +2178,8 @@ exports.strings = {
     'it_IT':
       "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
     'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy',
-    'vi': 'Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh'
+    'vi': 'Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh',
+    'tr_TR': 'Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir, bu komutu kullanmak için bir seviye (level) ya da seviye oluşturucu ekleyin (level builder).'
   },
   ///////////////////////////////////////////////////////////////////////////
   'interactive-rebase-title': {
