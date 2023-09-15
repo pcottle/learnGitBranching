@@ -216,10 +216,17 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
+<<<<<<< HEAD
         '## Muhteşem!!!',
         '',
         'Bu seviyeyi *{numCommands}* komut ile çözdünüz.',
         'İdeal çözüm {best} komuttan oluşuyor.'
+=======
+        '## Mükemmel!!!',
+        '',
+        '*{numCommands}* komut ile bu seviyeyi çözdün!; ',
+        'İdeal çözüm {best} komut içeriyor.'
+>>>>>>> main
       ]
     }
   }],
