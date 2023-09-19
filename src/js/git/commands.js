@@ -924,6 +924,7 @@ var commandConfig = {
     options: [
       '-c',
       '--create',
+      '-C',
       '-'
     ],
     execute: function(engine, command) {
@@ -935,11 +936,25 @@ var commandConfig = {
         if (createOption) {
           // the user is really trying to just make a
           // branch and then switch to it. so first:
-          var args = createOption.concat(generalArgs)
+          let args = createOption.concat(generalArgs)
           command.twoArgsImpliedHead(args, '-c');
 
-          var validId = engine.validateBranchName(args[0]);
+          let validId = engine.validateBranchName(args[0]);
           engine.branch(validId, args[1]);
+          engine.checkout(validId);
+          return;
+        }
+      }
+
+      {
+        let fc = '-C';
+        let fcOption = commandOptions[fc];
+        if (fcOption) {
+          let args = fcOption.concat(generalArgs);
+          command.twoArgsImpliedHead(args, fc);
+
+          let validId = engine.validateBranchName(args[0]);
+          engine.forceBranch(validId, args[1]);
           engine.checkout(validId);
           return;
         }
