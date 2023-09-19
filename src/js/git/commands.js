@@ -925,6 +925,7 @@ var commandConfig = {
       '-c',
       '--create',
       '-C',
+      '--force-create',
       '-'
     ],
     execute: function(engine, command) {
@@ -947,11 +948,12 @@ var commandConfig = {
       }
 
       {
-        let fc = '-C';
-        let fcOption = commandOptions[fc];
+        let sfc = '-C';
+        let lfc = '--force-create';
+        let fcOption = commandOptions[sfc] ? commandOptions[sfc] : commandOptions[lfc];
         if (fcOption) {
           let args = fcOption.concat(generalArgs);
-          command.twoArgsImpliedHead(args, fc);
+          command.twoArgsImpliedHead(args, sfc);
 
           let validId = engine.validateBranchName(args[0]);
           engine.forceBranch(validId, args[1]);

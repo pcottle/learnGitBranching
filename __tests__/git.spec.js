@@ -105,6 +105,22 @@ describe('Git', function() {
         '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
       );
     });
+
+    it('to a branch with --force-create option', function() {
+      return expectTreeAsync(
+        'git switch --force-create side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with --force-create option and given base branch', function() {
+      return expectTreeAsync(
+        'git switch --force-create side main',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
+      );
+    });
   });
 
   it('Rebases', function() {
