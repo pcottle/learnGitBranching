@@ -765,7 +765,7 @@ var commandConfig = {
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
       var generalArgs = command.getGeneralArgs();
-      
+
       // put the commandOption of delete back in the generalArgs
       // as it is a flag option
       if(isDelete) {
@@ -923,21 +923,36 @@ var commandConfig = {
     regex: /^git +switch($|\s)/,
     options: [
       '-c',
+      '--create',
+      '-C',
+      '--force-create',
       '-'
     ],
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       var commandOptions = command.getOptionsMap();
 
-      var args = null;
-      if (commandOptions['-c']) {
+      let createOption = commandOptions['-c'] ? commandOptions['-c'] : commandOptions['--create'];
+      if (createOption) {
         // the user is really trying to just make a
         // branch and then switch to it. so first:
-        args = commandOptions['-c'].concat(generalArgs);
+        let args = createOption.concat(generalArgs)
         command.twoArgsImpliedHead(args, '-c');
 
-        var validId = engine.validateBranchName(args[0]);
+        let validId = engine.validateBranchName(args[0]);
         engine.branch(validId, args[1]);
+        engine.checkout(validId);
+        return;
+      }
+      let sfc = '-C';
+      let lfc = '--force-create';
+      let fcOption = commandOptions[sfc] ? commandOptions[sfc] : commandOptions[lfc];
+      if (fcOption) {
+        let args = fcOption.concat(generalArgs);
+        command.twoArgsImpliedHead(args, sfc);
+
+        let validId = engine.validateBranchName(args[0]);
+        engine.forceBranch(validId, args[1]);
         engine.checkout(validId);
         return;
       }
