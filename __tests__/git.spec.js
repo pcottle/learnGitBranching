@@ -60,11 +60,67 @@ describe('Git', function() {
     );
   });
 
-  it('Switches', function() {
-    return expectTreeAsync(
-      'git switch -c side',
-      '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}'
-    );
+  describe('Switches', function() {
+    it("to a commit", function () {
+      return expectTreeAsync(
+        'git switch C0',
+        '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
+      );
+    });
+
+    it("to a branch", function () {
+      return expectTreeAsync(
+        'git switch side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with -c option', function() {
+      return expectTreeAsync(
+        'git switch -c side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with --create option', function() {
+      return expectTreeAsync(
+        'git switch --create side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with -C option', function() {
+      return expectTreeAsync(
+        'git switch -C side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with -C option and given base branch', function() {
+      return expectTreeAsync(
+        'git switch -C side main',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with --force-create option', function() {
+      return expectTreeAsync(
+        'git switch --force-create side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+      );
+    });
+
+    it('to a branch with --force-create option and given base branch', function() {
+      return expectTreeAsync(
+        'git switch --force-create side main',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"side","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C0","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
+      );
+    });
   });
 
   it('Rebases', function() {

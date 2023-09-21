@@ -923,23 +923,43 @@ var commandConfig = {
     regex: /^git +switch($|\s)/,
     options: [
       '-c',
+      '--create',
+      '-C',
+      '--force-create',
       '-'
     ],
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       var commandOptions = command.getOptionsMap();
 
-      var args = null;
-      if (commandOptions['-c']) {
-        // the user is really trying to just make a
-        // branch and then switch to it. so first:
-        args = commandOptions['-c'].concat(generalArgs);
-        command.twoArgsImpliedHead(args, '-c');
+      {
+        let createOption = commandOptions['-c'] ? commandOptions['-c'] : commandOptions['--create'];
+        if (createOption) {
+          // the user is really trying to just make a
+          // branch and then switch to it. so first:
+          let args = createOption.concat(generalArgs)
+          command.twoArgsImpliedHead(args, '-c');
 
-        var validId = engine.validateBranchName(args[0]);
-        engine.branch(validId, args[1]);
-        engine.checkout(validId);
-        return;
+          let validId = engine.validateBranchName(args[0]);
+          engine.branch(validId, args[1]);
+          engine.checkout(validId);
+          return;
+        }
+      }
+
+      {
+        let sfc = '-C';
+        let lfc = '--force-create';
+        let fcOption = commandOptions[sfc] ? commandOptions[sfc] : commandOptions[lfc];
+        if (fcOption) {
+          let args = fcOption.concat(generalArgs);
+          command.twoArgsImpliedHead(args, sfc);
+
+          let validId = engine.validateBranchName(args[0]);
+          engine.forceBranch(validId, args[1]);
+          engine.checkout(validId);
+          return;
+        }
       }
 
       if (commandOptions['-']) {
