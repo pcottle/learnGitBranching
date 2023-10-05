@@ -35,6 +35,7 @@ exports.level = {
     "sl_SI": "Žongliranje s Commiti #2",
     "it_IT": "Giocoliere di commit #2",
     "pl": "Żonglowanie commitami #2",
+    "tr_TR": "Commit Hokkabazlığı #2",
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
@@ -43,19 +44,19 @@ exports.level = {
     "es_ES": "¡No te olvides de avanzar main a los cambios actualizados!",
     "es_MX": "¡No te olvides de avanzar main a los cambios actualizados!",
     "pt_BR": "Não se esqueça de avançar a referência do main para as mudanças efetuadas!",
-    "gl": "¡Non te esquezas de avanzar main ós cambios actualizados!",
+    "gl":    "¡Non te esquezas de avanzar main ós cambios actualizados!",
     "de_DE": "Vergiss nicht den main auf die aktuelle Version vorzuspulen",
-    "ja": "mainのポインタを先に進めることを忘れずに！",
-    "ko": "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+    "ja":    "mainのポインタを先に進めることを忘れずに！",
+    "ko":    "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 main 快进到最新的更新上！",
     "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
     "ru_RU": "Не забудь переместить main на последние изменения.",
-    "uk": "Не забудь перемістити main на останні зміни!",
-    "vi": "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
+    "uk":    "Не забудь перемістити main на останні зміни!",
+    "vi":    "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
     "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe.",
-    "it_IT":
-      "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
-    "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
+    "it_IT": "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
+    "pl":    "Nie zapomnij sforwardować maina do najnowszych zmian!",
+    "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
   },
   "startDialog": {
     "en_US": {
@@ -825,6 +826,48 @@ exports.level = {
         },
       ],
     },
-
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit Hokkabazlığı #2",
+              "",
+              "*Eğer Commit Hokkabazlığı #1'i (bir önceki level) bitirmediyseniz, devam etmeden önce lütfen önce o bölümü bitirin*",
+              "",
+              "Bir önceki seviyeden hatırlayacağınız gibi, `rebase -i` kullanarak commit'leri yeniden sıralayabiliyorduk. Değiştirmek istediğimiz commit en üstte olduğunda, onu kolayca düzeltebilir `--amend` ve tercih ettiğimiz sıraya yeniden düzenleyebilirdik.",
+              "",
+              "Tek sorun şu ki, birçok yeniden sıralama yapıldığında, bu yeniden sıralama çatışmalarını ortaya çıkarabilir. Başka bir yöntemi, git cherry-pick ile inceleyelim."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Unutmayın ki git cherry-pick, HEAD'in herhangi bir yerinde (bu commit, HEAD'in atası değilse) bulunan bir commit'i HEAD üzerine bırakacaktır.",
+              "",
+              "İşte küçük bir hatırlatma demosu:"
+            ],
+            "afterMarkdowns": [
+              "Harika! Devam Edelim."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyede, `C2` commit'ini düzeltmek için `rebase -i` kullanmadan aynı sonuca ulaşmaya çalışın. Nasıl ulaşabileceğimizi size bırakıyorum! :D",
+              "",
+              "Unutmayın, commit'lerdeki tırnakların (') tam olarak eşleşmesi önemli değil, yalnızca göreceli farklar önemlidir. Örneğin, hedef ağaçla eşleşen ancak her yerde ekstra bir tırnak bulunan bir ağaçtan da puan alınabilir."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

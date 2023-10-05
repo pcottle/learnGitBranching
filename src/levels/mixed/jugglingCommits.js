@@ -36,6 +36,7 @@ exports.level = {
     "sl_SI": "Žongliranje s Commiti",
     "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
+    "tr_TR": "Commit Hokkabazlığı",
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -55,6 +56,7 @@ exports.level = {
     "sl_SI": "Prvi ukaz je git rebase -i HEAD~2.",
     "it_IT": "Il primo comando è git rebase -i HEAD~2",
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
+    "tr_TR": "İlk komutunuz git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -673,6 +675,40 @@ exports.level = {
           },
         },
       ],
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit Hokkabazlığı",
+              "",
+              "Şimdiki senaryomuz aslında sık karşılaşılan başka bir durumdur. İlgili olan iki değişiklik kümeniz (`newImage` ve `caption`) vardır, bu nedenle bu iki küme reponuzda  üst üste yığılıdır (veya diğer adıyla birbiri ardına gelmişlerdir).",
+              "",
+              "Zor olan şey, bazen önceki bir commit üzerinde küçük bir değişiklik yapmanız gerektiğidir. Bu durumda, tasarım ekibi `newImage` 'in boyutlarını biraz değiştirmemizi istiyor, ancak bu commit geçmişimizde çok eski bir tarihte yer alıyor!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu zorluğun üstesinden şu şekilde gelebiliriz:",
+              "",
+              "* `git rebase -i` komutu ile değiştirmek istediğimiz commit'i en üste getireceğiz.",
+              "* Küçük değişikliği yapmak için `git commit --amend` komutunu kullanacağız.",
+              "* Ardından, `git rebase -i` komutu ile komitleri önceki sıralarına geri döndüreceğiz.",
+              "* Son olarak, main branch'ini ağacın bu güncellenmiş kısmına taşıyarak seviyeyi bitireceğiz (tabi sizin seçtiğiniz yöntemle).",
+              "",
+              "Bunu başarmak için birçok yol vardır (cherry-pick komutuna göz diktiğinizi görüyorum) ve ileride daha fazlasını göreceğiz, ancak şimdilik bu tekniğe odaklanalım.",
+              "Son olarak, buradaki hedef duruma dikkat edin - commit'leri iki kez taşıdığımızdan, her ikisi de bir tırnak işareti alıyor. Değiştirdiğimiz commit için bir tırnak işareti daha eklenir, bu da bize ağacın son halini verir. ",
+              "",
+              "Şunu da belirtmek isteriz ki, artık seviyeleri yapı ve göreceli tırnak işareti farklılıklarına göre karşılaştırabiliyoruz. Ağacınızın `main` branch'i aynı yapıya ve göreceli tırnak işareti farklılıklarına sahip olduğu sürece tam puan alacaksınız."
+            ]
+          }
+        }
+      ]
     },
   }
 };
