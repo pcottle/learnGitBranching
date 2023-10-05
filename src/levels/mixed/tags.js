@@ -1004,7 +1004,7 @@ exports.level = {
               "",
               "Daha da önemlisi, daha fazla commit oluşturulduğunda asla hareket etmezler. Bir etiketi \"checkout\" edemez ve sonra o etiket üzerinde çalışmayı tamamlayamazsınız - tagler, belirli noktaları belirleyen commit ağacındaki referans noktaları olarak varlıklarını sürdürürler.",
               "",
-              "Let's see what tags look like in practice."
+              "Gelin, tag'ler pratikte nasıl görünüyor bakalım."
             ]
           }
         },
@@ -1012,10 +1012,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's try making a tag at `C1` which is our version 1 prototype."
+              "Hadi `C1` üzerinde bir tag oluşturmayı deneyelim, bu bizim 1. sürüm prototipimizdir."
             ],
             "afterMarkdowns": [
-              "There! Quite easy. We named the tag `v1` and referenced the commit `C1` explicitly. If you leave the commit off, git will just use whatever `HEAD` is at."
+              "İşte bu! Oldukça kolay. Etiketi `v1` olarak adlandırdık ve `C1` commit'ini açıkça refere ettik. Eğer commit'i belirtmezseniz, git sadece `HEAD` neredeyse onu kullanır."
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -1025,9 +1025,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
+              "Bu seviye için sadece hedef görselleştirmede tag'leri oluşturun ve ardından `v1`i kontrol edin. Dikkatinizi çekecektir ki bağımsız (detached) `HEAD` durumuna giriyorsunuz - bu, `v1` etiketi üzerine doğrudan commit yapamayacağınız içindir.",
               "",
-              "In the next level we'll examine a more interesting use case for tags."
+              "Sonraki seviyede, etiketlerin daha ilginç bir kullanım durumunu inceleyeceğiz."
             ]
           }
         }
