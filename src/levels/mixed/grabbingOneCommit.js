@@ -32,6 +32,7 @@ exports.level = {
     "sl_SI": "Izbiranje Samo Enega Commita",
     "it_IT": "Prendi solo 1 Commit",
     "pl": "Wzięcie tylko 1 commita",
+    "tr_TR": "Sadece 1 commit'i yakalamak"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -51,6 +52,7 @@ exports.level = {
     "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja.",
     "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
+    "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız."
   },
   "startDialog": {
     "en_US": {
@@ -754,6 +756,45 @@ exports.level = {
           },
         },
       ],
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Yerel Olarak Birikmiş Commitler",
+              "",
+              "Şu sıkça karşılaşılan bir geliştirme senaryosudur: Bir hatayı izlemeye çalışıyorum, ancak bu hata oldukça belirsiz. Dedektiflik çalışmalarıma yardımcı olmak için bazı hata ayıklama komutları ve yazdırma ifadeleri eklerim.",
+              "",
+              "Bu hata ayıklama veya yazdırma ifadeleri, her biri kendi commit'lerine sahiptir. Sonunda hatayı bulurum, düzeltirim ve sevinirim!",
+              "",
+              "Tek sorun şu ki şimdi `bugFix` branch'imi `main` branch'imden almalıyım. Eğer sadece `main` branch'ini süratle ileri alırsam, `main` branch'i tüm hata ayıklama ifadelerimi alır ki bu istenmeyen bir durumdur. Bunun için başka bir yol bulunmalıdır..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git'e sadece bir commit'i kopyalamasını söylememiz gerekiyor. Bu, daha önce yaptığımız işleri taşımak için yaptığımız işlemler gibi, orada kullandığımız;",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "komutlarını burada da kullanabiliriz."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu biraz daha ileri bir seviye olduğundan hangi komutu kullanmak istediğiniz size kalmış, ancak `main` branch'inin `bugFix` tarafından atılan ve `main`'e atıfta bulunan commit'i alması gerektiğini unutmayın."
+            ]
+          }
+        }
+      ]
     },
   }
 };

@@ -5,22 +5,23 @@ exports.level = {
   "name": {
     "en_US": "Git Tags",
     "de_DE": "Git Tags",
-    "ja": "Gitのタグ",
+    "ja":    "Gitのタグ",
     "es_AR": "Tags en git",
     "es_ES": "Tags en git",
     "es_MX": "Tags de Git",
     "pt_BR": "Tags no Git",
-    "gl": "Etiquetas en git",
+    "gl":    "Etiquetas en git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tag",
     "zh_TW": "git tag",
     "ru_RU": "git tag",
-    "ko": "Git 태그",
-    "uk": "Git Tags",
-    "vi": "Tag trong Git",
+    "ko":    "Git 태그",
+    "uk":    "Git Tags",
+    "vi":    "Tag trong Git",
     "sl_SI": "Git Tagi",
     "it_IT": "Git Tag",
-    "pl": "Tagi Gita",
+    "pl":    "Tagi Gita",
+    "tr_TR": "Git Tagleri"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -39,9 +40,9 @@ exports.level = {
     "uk": "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
     "vi": "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!",
     "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!",
-    "it_IT":
-      "Puoi fare direttamente checkout del commit o semplicemente del tag!",
+    "it_IT": "Puoi fare direttamente checkout del commit o semplicemente del tag!",
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
+    "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
   },
   "startDialog": {
     "en_US": {
@@ -979,6 +980,58 @@ exports.level = {
           },
         },
       ],
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tag'leri",
+              "",
+              "Önceki derslerden öğrendiğiniz gibi, branch'ler kolayca taşınabilir ve üzerlerinde çalışma tamamlandıkça farklı commitlere işaret ederler. Branch'ler kolayca değiştirilebilir, genellikle geçici ve her zaman değişkendirler.",
+              "",
+              "Eğer durum buysa, projenizin tarihindeki belirli noktaları *kalıcı* olarak işaretlemenin bir yolunun olup olmadığını merak ediyor olabilirsiniz. Büyük sürümler ve önemli birleştirmeler gibi durumlar için, bunları bir branch üzerine tag'lemek yerine daha kalıcı bir şekilde nasıl tag'leyeceğinizi düşünüyor olabilirsiniz.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Direkt olarak işaretlemek mümkün! Git tag'leri tam da bu kullanım durumunu destekler - belirli commit'leri \"milestone\" olarak (bir dereceye kadar) kalıcı olarak işaretler ve sonra bir branch gibi başvurabileceğiniz şekilde kullanabilirsiniz.",
+              "",
+              "Daha da önemlisi, daha fazla commit oluşturulduğunda asla hareket etmezler. Bir etiketi \"checkout\" edemez ve sonra o etiket üzerinde çalışmayı tamamlayamazsınız - tagler, belirli noktaları belirleyen commit ağacındaki referans noktaları olarak varlıklarını sürdürürler.",
+              "",
+              "Gelin, tag'ler pratikte nasıl görünüyor bakalım."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hadi `C1` üzerinde bir tag oluşturmayı deneyelim, bu bizim 1. sürüm prototipimizdir."
+            ],
+            "afterMarkdowns": [
+              "İşte bu! Oldukça kolay. Etiketi `v1` olarak adlandırdık ve `C1` commit'ini açıkça refere ettik. Eğer commit'i belirtmezseniz, git sadece `HEAD` neredeyse onu kullanır."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviye için sadece hedef görselleştirmede tag'leri oluşturun ve ardından `v1`i kontrol edin. Dikkatinizi çekecektir ki bağımsız (detached) `HEAD` durumuna giriyorsunuz - bu, `v1` etiketi üzerine doğrudan commit yapamayacağınız içindir.",
+              "",
+              "Sonraki seviyede, etiketlerin daha ilginç bir kullanım durumunu inceleyeceğiz."
+            ]
+          }
+        }
+      ]
     },
   }
 };
