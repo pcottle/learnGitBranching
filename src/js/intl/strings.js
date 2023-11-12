@@ -1540,7 +1540,7 @@ exports.strings = {
     'pl'   : 'Rozwiązany!!!\n:D',
     'it_IT': "Risolto!!!\n:D",
     'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D',
-    'pt_BR': 'Resolvido!!!\n:D",
+    'pt_BR': 'Resolvido!!!\n:D',
     'tr_TR': 'Tebrikler!!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
