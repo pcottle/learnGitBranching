@@ -51,7 +51,7 @@ exports.strings = {
   'finish-dialog-win': {
     '__desc__': 'One of the lines in the next level dialog',
     'en_US': 'Awesome! You matched or exceeded our solution.',
-    'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto ou melhor que a nossa.',
+    'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto, ou melhor que a nossa.',
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
     'ja': '素晴らしい！このレベルをクリアしましたね',
     'zh_CN': '太强了！你的答案符合标准答案甚至更好。',
@@ -162,8 +162,7 @@ exports.strings = {
     'vi': 'Ứng dụng này không hỗ trợ lệnh `status` vì không có tệp nhớ đệm, thay vì đó hãy dùng lệnh `hg summary`',
     'sl_SI': 'Za to aplikacijo ni na voljo `status` ukaza, ker tu ni `stage-anja` datotek. Poizkusiš lahko `hg summary`',
     'pl' : 'W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`',
-    'it_IT':
-      "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
+    'it_IT': "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
     'ta_IN': 'கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்',
     'tr_TR': 'Bu uygulama için bir status komutu yok, çünkü dosyalar stage edilemiyor. Bunun yerine hg summit komutunu deneyin.'
   },
@@ -293,7 +292,7 @@ exports.strings = {
     'es_AR': 'Otro commit más, y van...',
     'es_MX': 'Otro commit más, y van...',
     'es_ES': 'Hagamos un commit. Atlanta, Georgia! Escucha WHATUPRG también.',
-    'pt_BR': 'Commitando.. Vai Timão!',
+    'pt_BR': 'Commitando.. Vai Fluzão !',
     'gl'   : 'Mesturando.. ¡Alá imos!',
     'fr_FR': 'Commit rapide. NoMaN Sux!',
     'ru_RU': 'Быстрый коммит. А надо!',
@@ -336,7 +335,7 @@ exports.strings = {
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'es_MX': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'es_ES': 'Tu rama origin no está sicronizada con la rama remota, así que el fetch no se puede realizar.',
-    'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
+    'pt_BR': 'O fetch não pode ser realizado, pois o ramo de origem está fora de sincronia com o ramo remoto',
     'gl'   : 'O fetch non pode ser realizado xa que a rama de orixe non está sincronizada  ca rama remota',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
     'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch',
@@ -359,7 +358,7 @@ exports.strings = {
     'es_AR': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y probá de nuevo. Podés hacerlo con git pull o git pull --rebase',
     'es_MX': 'El repositorio remoto divergió de tu repositorio local, por lo que subir tus cambios no es un simple fast forward (y por eso se rechazó tu push). Por favor, hacé pull de los nuevos cambios en el repositorio remoto, incorporalos a esta rama y prueba de nuevo. Puedes hacerlo con `git pull` o `git pull --rebase`',
     'es_ES': 'El repositorio remoto se ha desviado del repositorio local. Subir cambios no es un avance en cámara rápida (por eso fue rechazado tu push). Por favor haz pull para descargar los cambios en el repositorio remoto para que los incorpores en la rama actual. Los cambios se pueden hacer pull con el comando "git pull" o "git pull --rebase"',
-    'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não é um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
+    'pt_BR': 'O repositório remoto divergiu do repositório local, então enviar suas mudanças não são um simples fast forward (e por isso seu push foi rejeitado). Por favor, faça pull das novas mudanças do repositório remoto, incorpore-os a este ramo, e tente novamente. Você pode fazê-lo com git pull ou git pull --rebase',
     'gl'   : 'O repositorio remoto diverxe do teu repositorio local. Subir os cambios non é un fast-forward (avance rápido) e por iso foi rechazado o teu push. Por favor, fai un pull dos novos cambios do repositorio remoto e inclúeos na túa rama actual. Os cambios pódense facer co comando "git pull" ou "git pull --rebase"',
     'fr_FR': 'Le dépôt distant a divergé de votre référentiel local, donc l\'envoi de vos modifications n\'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase',
     'ru_RU': 'Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase',
@@ -713,7 +712,7 @@ exports.strings = {
     'es_AR': 'No podés hacer reset en el modo detached. Usá checkout si querés moverte',
     'es_MX': 'No puedes hacer reset en el modo separado. Usa checkout si quieres moverte',
     'es_ES': 'No puedes hacer reset en el modo separado. Usa checkout si quieres moverte.',
-    'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser se mover',
+    'pt_BR': 'Não se pode fazer reset no modo detached. Use checkout se quiser mover',
     'gl'   : 'Non se pode facer reset no modo detached. Use checkout se te queres mover',
     'fr_FR': 'On ne peut pas effectuer un reset quand HEAD est détaché. Utilisez checkout pour déplacer',
     'ru_RU': 'Это невозможно в режиме detached HEAD! Используйте checkout!',
@@ -882,6 +881,7 @@ exports.strings = {
     'zh_TW': '很抱歉，目前無法支援指令 "{command}"!',
     'it_IT': 'Mi spiace, il comando "{command}" non è supportato.',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.',
+    'pt_BR': 'O comando "{command}" não é suportado!',
     'vi': 'Xin lỗi, lệnh "{command}" không được hỗ trợ!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -917,7 +917,7 @@ exports.strings = {
     'es_AR': 'Aprendé a Branchear en Git',
     'es_MX': 'Aprende Git Branching',
     'es_ES': 'Aprende Git Branching',
-    'pt_BR': 'Learn Git Branching',
+    'pt_BR': 'Aprenda Git Branching',
     'gl'   : 'Aprende Git Branching',
     'fr_FR': 'Apprenez Git Branching',
     'ru_RU': 'Изучаем ветвление в git',
@@ -967,6 +967,7 @@ exports.strings = {
     'sl_SI': 'Glavno',
     'pl': 'Główny',
     'it_IT': "Menu",
+    'pt_BR': 'Main',
     'ta_IN': 'பிரதானம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -985,6 +986,7 @@ exports.strings = {
     'sl_SI': 'Oddaljeno',
     'pl'   : 'Zdalny',
     'it_IT': "Remoto",
+    'pt_BR': 'Remote',
     'ta_IN': 'தொலைநிலை'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1218,7 +1220,7 @@ exports.strings = {
     'es_AR': 'Localización actualizada a {locale}',
     'es_MX': 'Idioma actualizado a {locale}',
     'es_ES': 'Idioma puesto a {locale}',
-    'pt_BR': 'Língua trocada para {locale}',
+    'pt_BR': 'Idioma trocado para {locale}',
     'gl'   : 'Cambiado o idioma a {locale}',
     'fr_FR': 'Langue changée à {locale}',
     'ru_RU': 'Локаль теперь равна {locale}',
@@ -1240,7 +1242,7 @@ exports.strings = {
     'es_AR': 'Localización vuelta al default, que es {locale}',
     'es_MX': 'Idioma reestablecido al default, que es {locale}',
     'es_ES': 'Idioma reajustado a su valor por defecto ({locale})',
-    'pt_BR': 'Língua retornada para a padrão, que é {locale}',
+    'pt_BR': 'Idioma retornado para o padrão, que é {locale}',
     'gl'   : 'Lingua reaxustada ó seu valor por defecto {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}',
     'ru_RU': 'Локаль сброшена. Теперь она равна {locale}',
@@ -1538,6 +1540,7 @@ exports.strings = {
     'pl'   : 'Rozwiązany!!!\n:D',
     'it_IT': "Risolto!!!\n:D",
     'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D',
+    'pt_BR': 'Resolvido!!!\n:D',
     'tr_TR': 'Tebrikler!!!\n:D'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1753,7 +1756,7 @@ exports.strings = {
     'es_AR': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elegí entre "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'es_MX': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elige "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'es_ES': 'Estás en un constructor de niveles, por lo que hay varios tipos de ayuda. Elige "help general" para ayuda sobre Learn GitBranching o "help builder" para ayuda sobre el constructor de niveles',
-    'pt_BR': 'Você está no construtor de nívels, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
+    'pt_BR': 'Você está no construtor de níveis, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
     'gl'   : 'Estás no constructor de niveis, polo que hai varios tipos de axuda. Elixe "help general" ou "help builder"',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
     'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"',
@@ -1829,6 +1832,7 @@ exports.strings = {
     'sl_SI': 'Navodila',
     'pl' : 'Instrukcje',
     'it_IT': "Istruzioni",
+    'pt_BR': 'Instruções',
     'ta_IN': 'வழிமுறைகள்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1848,6 +1852,7 @@ exports.strings = {
     'sl_SI': 'Git Predstavitev',
     'pl'   : 'Demo GIT',
     'it_IT': "Dimostrazione Git",
+    'pt_BR': 'Demonstração Git',
     'ta_IN': 'கிட் செயல் விளக்கம்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2056,8 +2061,7 @@ exports.strings = {
     'vi': 'Hộp thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
     'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
-    'it_IT':
-      "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
+    'it_IT': "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
     'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!',
     'tr_TR': 'Bu ileti veya metin henüz dilimize çevrilmemiş :( Çeviriye yardımcı olmak için GitHub\'da bize katılın!'
   },
@@ -2073,6 +2077,7 @@ exports.strings = {
     'it_IT': "Annulla",
     'ta_IN': 'இரத்துசெய்',
     'vi': 'Hủy',
+    'pt_BR': 'Cancelar',
     'tr_TR': 'İptal'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2087,6 +2092,7 @@ exports.strings = {
     'it_IT': "Conferma",
     'ta_IN': 'உறுதிப்படுத்தவும்',
     'vi': 'Đồng ý',
+    'pt_BR': 'Confirmar',
     'tr_TR': 'Tamam'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2099,6 +2105,7 @@ exports.strings = {
     'zh_TW': '關卡 ',
     'it_IT': " Livello ",
     'pl' : ' Poziom ',
+    'pt_BR': 'Nível',
     'tr_TR': ' Seviye '
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2110,6 +2117,7 @@ exports.strings = {
     'de_DE': 'Levels',
     'zh_TW': '關卡',
     'it_IT': "Livelli",
+    'pt_BR': 'Níveis',
     'pl' : 'Poziomy'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2121,6 +2129,7 @@ exports.strings = {
     'de_DE': 'Lösung',
     'zh_TW': '解答',
     'it_IT': "Soluzione",
+    'pt_BR': 'Solução',
     'pl' : 'Rozwiązanie'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2132,6 +2141,7 @@ exports.strings = {
     'de_DE': 'Zurücksetzen',
     'zh_TW': '重新開始',
     'it_IT': "Reset",
+    'pt_BR': 'Resetar',
     'pl' : 'Wyczyść'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2143,6 +2153,7 @@ exports.strings = {
     'de_DE': 'Rückgängig',
     'zh_TW': '回到上一步',
     'it_IT': "Annulla",
+    'pt_BR': 'Desfazer',
     'pl' : 'Cofnij'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2154,6 +2165,7 @@ exports.strings = {
     'de_DE': 'Zielvorgabe',
     'zh_TW': '目標',
     'it_IT': "Obiettivo",
+    'pt_BR': 'Objetivo',
     'pl' : 'Cel'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2165,6 +2177,7 @@ exports.strings = {
     'de_DE': 'Hilfe',
     'zh_TW': '幫助',
     'it_IT': "Aiuto",
+    'pt_BR': 'Ajuda',
     'pl' : 'Pomoc'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2179,6 +2192,7 @@ exports.strings = {
       "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
     'pl' : 'To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy',
     'vi': 'Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh',
+    'pt_BR': 'Este comando é válido, mas não é suportado nesse ambiente!. Tente novamente entrando num nível ou num construtor de nível para usar esse comando',
     'tr_TR': 'Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir, bu komutu kullanmak için bir seviye (level) ya da seviye oluşturucu ekleyin (level builder).'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2191,6 +2205,7 @@ exports.strings = {
     'zh_TW': '互動式 Rebase',
     'it_IT': "Rebase interattivo",
     'pl' : 'Interaktywny Rebase',
+    'pt_BR': 'Rebase interativo',
     'vi': 'Rebase tương tác'
   },
 };
