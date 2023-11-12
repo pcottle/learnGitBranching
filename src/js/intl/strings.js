@@ -1756,7 +1756,7 @@ exports.strings = {
     'es_AR': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elegí entre "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'es_MX': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elige "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'es_ES': 'Estás en un constructor de niveles, por lo que hay varios tipos de ayuda. Elige "help general" para ayuda sobre Learn GitBranching o "help builder" para ayuda sobre el constructor de niveles',
-    'pt_BR': 'Você está no construtor de nívels, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
+    'pt_BR': 'Você está no construtor de níveis, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
     'gl'   : 'Estás no constructor de niveis, polo que hai varios tipos de axuda. Elixe "help general" ou "help builder"',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
     'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"',
@@ -2061,8 +2061,7 @@ exports.strings = {
     'vi': 'Hộp thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi :( Hãy lên GitHub để cung cấp bản dịch!',
     'sl_SI': 'Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!',
     'pl' : 'Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!',
-    'it_IT':
-      "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
+    'it_IT': "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
     'ta_IN': 'இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!',
     'tr_TR': 'Bu ileti veya metin henüz dilimize çevrilmemiş :( Çeviriye yardımcı olmak için GitHub\'da bize katılın!'
   },
@@ -2142,6 +2141,7 @@ exports.strings = {
     'de_DE': 'Zurücksetzen',
     'zh_TW': '重新開始',
     'it_IT': "Reset",
+    'pt_BR': 'Resetar',
     'pl' : 'Wyczyść'
   },
   ///////////////////////////////////////////////////////////////////////////
