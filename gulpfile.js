@@ -227,6 +227,7 @@ var watching = function() {
     '__tests__/git.spec.js',
     'src/js/**/*.js',
     'src/js/**/**/*.js',
+    'src/js/**/*.jsx',
     'src/levels/**/*.js'
   ], series([fastBuild , jasmine, jshint, lintStrings]));
 };
