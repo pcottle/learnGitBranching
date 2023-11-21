@@ -83,7 +83,9 @@ exports.level = {
               "",
               "`git branch -f main HEAD~3`",
               "",
-              "moves (by force) the main branch to three parents behind HEAD."
+              "moves (by force) the main branch to three parents behind HEAD.",
+              "",
+              "*Note: In a real git environment `git branch -f command` is not allowed for your current branch.*"
             ]
           }
         },
