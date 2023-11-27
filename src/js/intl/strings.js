@@ -51,7 +51,7 @@ exports.strings = {
   'finish-dialog-win': {
     '__desc__': 'One of the lines in the next level dialog',
     'en_US': 'Awesome! You matched or exceeded our solution.',
-    'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto ou melhor que a nossa.',
+    'pt_BR': 'Maravilha! Você fez uma solução tão boa quanto, ou melhor que a nossa.',
     'de_DE': 'Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.',
     'ja': '素晴らしい！このレベルをクリアしましたね',
     'zh_CN': '太强了！你的答案符合标准答案甚至更好。',
@@ -336,7 +336,7 @@ exports.strings = {
     'es_AR': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'es_MX': 'Tu rama origin está desincronizada con la rama remota, por lo que no se puede hacer el fetch',
     'es_ES': 'Tu rama origin no está sicronizada con la rama remota, así que el fetch no se puede realizar.',
-    'pt_BR': 'O fetch não pode ser realizado pois o ramo de origem está fora de sincronia com o ramo remoto',
+    'pt_BR': 'O fetch não pode ser realizado, pois o ramo de origem está fora de sincronia com o ramo remoto',
     'gl'   : 'O fetch non pode ser realizado xa que a rama de orixe non está sincronizada  ca rama remota',
     'fr_FR': 'Votre branche origin n\'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l\'option --force',
     'ru_RU': 'Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch',
@@ -882,6 +882,7 @@ exports.strings = {
     'zh_TW': '很抱歉，目前無法支援指令 "{command}"!',
     'it_IT': 'Mi spiace, il comando "{command}" non è supportato.',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.',
+    'pt_BR': 'O comando "{command}" não é suportado!',
     'vi': 'Xin lỗi, lệnh "{command}" không được hỗ trợ!'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -917,7 +918,7 @@ exports.strings = {
     'es_AR': 'Aprendé a Branchear en Git',
     'es_MX': 'Aprende Git Branching',
     'es_ES': 'Aprende Git Branching',
-    'pt_BR': 'Learn Git Branching',
+    'pt_BR': 'Aprenda Git Branching',
     'gl'   : 'Aprende Git Branching',
     'fr_FR': 'Apprenez Git Branching',
     'ru_RU': 'Изучаем ветвление в git',
@@ -1218,7 +1219,7 @@ exports.strings = {
     'es_AR': 'Localización actualizada a {locale}',
     'es_MX': 'Idioma actualizado a {locale}',
     'es_ES': 'Idioma puesto a {locale}',
-    'pt_BR': 'Língua trocada para {locale}',
+    'pt_BR': 'Idioma trocado para {locale}',
     'gl'   : 'Cambiado o idioma a {locale}',
     'fr_FR': 'Langue changée à {locale}',
     'ru_RU': 'Локаль теперь равна {locale}',
@@ -1240,7 +1241,7 @@ exports.strings = {
     'es_AR': 'Localización vuelta al default, que es {locale}',
     'es_MX': 'Idioma reestablecido al default, que es {locale}',
     'es_ES': 'Idioma reajustado a su valor por defecto ({locale})',
-    'pt_BR': 'Língua retornada para a padrão, que é {locale}',
+    'pt_BR': 'Idioma retornado para o padrão, que é {locale}',
     'gl'   : 'Lingua reaxustada ó seu valor por defecto {locale}',
     'fr_FR': 'Langue remise par défaut, qui est {locale}',
     'ru_RU': 'Локаль сброшена. Теперь она равна {locale}',
@@ -1536,6 +1537,7 @@ exports.strings = {
     'vi'   : 'ĐÃ XONG!!!\n:D',
     'sl_SI': 'Rešeno!!!\n:D',
     'pl'   : 'Rozwiązany!!!\n:D',
+    'pt_BR': 'Resolvido!!!\n:D',
     'it_IT': "Risolto!!!\n:D",
     'ta_IN': 'தீர்க்கப்பட்டது!!!\n:D',
     'tr_TR': 'Tebrikler!!!\n:D'
@@ -1753,7 +1755,7 @@ exports.strings = {
     'es_AR': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elegí entre "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'es_MX': 'Estás en el constructor de niveles, por lo que hay varios tipos de ayuda. Elige "help general" para ayuda sobre Learn GitBranching y "help builder" para ayuda sobre el constructor de niveles',
     'es_ES': 'Estás en un constructor de niveles, por lo que hay varios tipos de ayuda. Elige "help general" para ayuda sobre Learn GitBranching o "help builder" para ayuda sobre el constructor de niveles',
-    'pt_BR': 'Você está no construtor de nívels, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
+    'pt_BR': 'Você está no construtor de níveis, então há vários tipos de ajuda. Selecione "help general" ou "help builder"',
     'gl'   : 'Estás no constructor de niveis, polo que hai varios tipos de axuda. Elixe "help general" ou "help builder"',
     'fr_FR': 'Vous êtes dans l\'éditeur de niveaux, donc plusieurs formes d\'aide sont disponibles. Merci de sélectionner soit "help general" soit "help builder"',
     'ru_RU': 'При создании уровней доступны несколько видов помощи. Выбери между "help general" и "help builder"',
@@ -1829,6 +1831,7 @@ exports.strings = {
     'sl_SI': 'Navodila',
     'pl' : 'Instrukcje',
     'it_IT': "Istruzioni",
+    'pt_BR': 'Instruções',
     'ta_IN': 'வழிமுறைகள்'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -1847,6 +1850,7 @@ exports.strings = {
     'vi'   : 'Trình diễn Git',
     'sl_SI': 'Git Predstavitev',
     'pl'   : 'Demo GIT',
+    'pt_BR': 'Demonstração Git',
     'it_IT': "Dimostrazione Git",
     'ta_IN': 'கிட் செயல் விளக்கம்'
   },
@@ -2125,6 +2129,7 @@ exports.strings = {
     'de_DE': 'Lösung',
     'zh_TW': '解答',
     'it_IT': "Soluzione",
+    'pt_BR': 'Solução',
     'pl' : 'Rozwiązanie'
   },
   ///////////////////////////////////////////////////////////////////////////
@@ -2160,6 +2165,7 @@ exports.strings = {
     'de_DE': 'Zielvorgabe',
     'zh_TW': '目標',
     'it_IT': "Obiettivo",
+    'pt_BR': 'Objetivo',
     'pl' : 'Cel'
   },
   ///////////////////////////////////////////////////////////////////////////
