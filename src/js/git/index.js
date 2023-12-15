@@ -453,10 +453,17 @@ GitEngine.prototype.findCommonAncestorWithRemote = function(originTarget) {
 };
 
 GitEngine.prototype.makeBranchOnOriginAndTrack = function(branchName, target) {
-  var remoteBranch = this.makeBranch(
-    ORIGIN_PREFIX + branchName,
-    this.getCommitFromRef(target)
-  );
+  var remoteBranch = this.refs[ORIGIN_PREFIX + branchName];
+
+  // If the remote branch exists but the branch on origin was deleted, updates its target location
+  if (remoteBranch) {
+    this.setTargetLocation(remoteBranch, target);
+  } else {
+    remoteBranch = this.makeBranch(
+      ORIGIN_PREFIX + branchName,
+      this.getCommitFromRef(target)
+    );
+  }
 
   if (this.refs[branchName]) { // not all remote branches have tracking ones
     this.setLocalToTrackRemote(this.refs[branchName], remoteBranch);
