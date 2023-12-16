@@ -589,6 +589,47 @@ var commandConfig = {
     }
   },
 
+  mergeMR: {
+    regex: /^git +merge[MP]R($|\s)/,
+    options: ['--delete-after-merge'],
+    execute: function(engine, command) {
+      var generalArgs = command.getGeneralArgs();
+      var commandOptions = command.getOptionsMap();
+      if (!engine.hasOrigin()) {
+        throw new GitError({
+          msg: intl.str('git-error-origin-required'),
+        });
+      }
+
+      command.validateArgBounds(generalArgs, 2, 2);
+
+      var fromBranch = validateOriginBranchName(engine, generalArgs[0]);
+      var intoBranch = validateOriginBranchName(engine, generalArgs[1]);
+
+      var origin = engine.origin;
+
+      origin.checkout(intoBranch);
+      var mergeCommit = origin.merge(fromBranch, { noFF: true });
+
+      origin.animationFactory.genCommitBirthAnimation(
+        origin.animationQueue,
+        mergeCommit,
+        origin.gitVisuals
+      );
+
+      if (!!commandOptions['--delete-after-merge']) {
+        origin.validateAndDeleteBranch(fromBranch);
+      }
+
+      origin.checkout('main');
+
+      origin.animationFactory.playRefreshAnimationAndFinish(
+        origin.gitVisuals,
+        origin.animationQueue
+      );
+    }
+  },
+
   revlist: {
     dontCountForGolf: true,
     displayName: 'rev-list',
