@@ -1,5 +1,8 @@
 var base = require('./base');
+var intl = require('../src/js/intl');
+var Q = require('q');
 var expectTreeAsync = base.expectTreeAsync;
+var runCommand = base.runCommand;
 
 describe('Git Remotes', function() {
   it('clones', function() {
@@ -242,6 +245,20 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('will push to a new remote branch if tracking was previously set up but remote branch was merged on origin', function() {
+    return expectTreeAsync(
+      `git clone;
+      git switch -c feat;
+      git commit;
+      git push;
+      git fakeTeamwork;
+      git mergeMR feat main --delete-after-merge;
+      git commit;
+      git push;`,
+      '{"branches":{"main":{"remoteTrackingBranchID":"o/main","target":"C1","id":"main"},"o/main":{"remoteTrackingBranchID":null,"target":"C1","id":"o/main"},"feat":{"remoteTrackingBranchID":"o/feat","target":"C5","id":"feat"},"o/feat":{"remoteTrackingBranchID":null,"target":"C5","id":"o/feat"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C5":{"parents":["C2"],"id":"C5"}},"tags":{},"HEAD":{"id":"HEAD","target":"feat"},"originTree":{"branches":{"main":{"remoteTrackingBranchID":null,"target":"C4","id":"main"},"feat":{"remoteTrackingBranchID":null,"target":"C5","id":"feat"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3","C2"],"id":"C4"},"C5":{"parents":["C2"],"id":"C5"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
   it('will not fetch if ref does not exist on remote', function() {
     return expectTreeAsync(
       'git clone; git fakeTeamwork; git fetch foo:main',
@@ -440,5 +457,64 @@ describe('Git Remotes', function() {
     );
   });
 
+  describe('mergeMR/mergePR on remote', function() {
+    it('requires a remote', function() {
+      return runCommand('git mergeMR', function(commandMsg) {
+        expect(commandMsg).toBe(intl.str('git-error-origin-required'));
+      });
+    });
 
+    it('requires exactly 2 parameters', function() {
+      return Q.all([
+        runCommand('git clone; git mergeMR', function(commandMsg) {
+          expect(commandMsg).toBe(
+            intl.str('git-error-args-few', {
+              lower: '2',
+              what: 'with git mergeMR',
+            })
+          );
+        }),
+        runCommand('git clone; git mergeMR feat', function(commandMsg) {
+          expect(commandMsg).toBe(
+            intl.str('git-error-args-few', {
+              lower: '2',
+              what: 'with git mergeMR',
+            })
+          );
+        }),
+        runCommand('git clone; git mergeMR a b main', function(commandMsg) {
+          expect(commandMsg).toBe(
+            intl.str('git-error-args-many', {
+              upper: '2',
+              what: 'with git mergeMR',
+            })
+          );
+        }),
+      ]);
+    });
+
+    it('merges one remote branch into another', function() {
+      return expectTreeAsync(
+        `git clone;
+        git switch -c feat;
+        git commit;
+        git push;
+        git fakeTeamwork;
+        git mergeMR feat main`,
+        '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"feat":{"target":"C2","id":"feat","remoteTrackingBranchID":"o/feat"},"o/feat":{"target":"C2","id":"o/feat","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"feat","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C4","id":"main","remoteTrackingBranchID":null},"feat":{"target":"C2","id":"feat","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3","C2"],"id":"C4"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+      );
+    });
+
+    it('deletes the merged remote branch after merging', function() {
+      return expectTreeAsync(
+        `git clone;
+        git switch -c feat;
+        git commit;
+        git push;
+        git fakeTeamwork;
+        git mergeMR feat main --delete-after-merge`,
+        '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"feat":{"target":"C2","id":"feat","remoteTrackingBranchID":"o/feat"},"o/feat":{"target":"C2","id":"o/feat","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"feat","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C4","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3","C2"],"id":"C4"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+      );
+    });
+  });
 });
