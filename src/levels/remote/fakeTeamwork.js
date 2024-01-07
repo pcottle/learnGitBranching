@@ -9,6 +9,7 @@ exports.level = {
     "ja": "擬似的なチーム作業",
     "es_AR": "Simulando el trabajo en equipo",
     "es_ES": "Simulando el trabajo en equipo",
+    "es_MX": "Simulando el trabajo en equipo",
     "pt_BR": "Simulando trabalho em equipe",
     "gl": "Simulando o traballo no repositorio",
     "zh_CN": "模拟团队合作",
@@ -28,6 +29,7 @@ exports.level = {
     "ja": "擬似的に作成するコミット数を指定できるのをお忘れなく",
     "es_AR": "Acordate que podés especificar cuántos commits simular",
     "es_ES": "Recuerda que puedes especificar cuántos commits simular",
+    "es_MX": "Recuerda que puedes especificar cuántos commits simular",
     "pt_BR": "Lembre-se que você pode especificar quantos commits quer simular",
     "gl": "Lembra que podes especifar cantos commits queres simular",
     "zh_CN": "记住你可以指定仿真提交的个数",
@@ -252,6 +254,60 @@ exports.level = {
               "Los niveles siguientes van a ser algo difíciles, así que vamos a exigirte un poco más en este nivel.",
               "",
               "Anímate y crea un remoto (con `git clone`), simula algunos cambios en ese remoto, haz commit en tu repo local, y luego haz pull de esos cambios. ¡Es como si fueran varias lecciones en una!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simulando la colaboración",
+              "",
+              "Aquí está lo complicado -- para alguna de las siguientes lecciones, necesitamos enseeñarte como descargar los cambios que fueron introducidos en remoto",
+              "",
+              "Eso significa que necesitamos esencialmente \"pretender\" que el remoto fue actualizado por uno de tus compañeros / amigos / colaboradores, a veces en una rama específica o un cierto numero de commits ",
+              "",
+              "Para hacer esto, hemos introducido el acertadamente llamado ¡`git fakeTeamwork`! Esto bastante autoexplicativo, veamos una demostración."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "El comportamiento predeterminado de `fakeTeamwork` simplemente es crear un commit dentro de la rama de main."
+            ],
+            "afterMarkdowns": [
+              "Aquí vamos -- El remoto fue actualizado con un nuevo commit, y no a sido descargado aún ese commit debido a que no se a corrido `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También puedes especificar el número de commits o la rama para añadirlo en el comando."
+            ],
+            "afterMarkdowns": [
+              "Con un comando simulamos a un compañero de equipo creando 3 commits a la rama `foo` en nuestro remoto."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Los siguientes niveles serán bastante dificiles, pedimos más de ti para este nivel.",
+              "",
+              "Vamos adelante y crea un remoto (con `git clone`) simula algunos cambios en ese remoto, commit tú mismo, y después descarga esos cambios. ¡Es como algunas lecciones en una!"
             ]
           }
         }
