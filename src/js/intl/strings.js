@@ -883,6 +883,9 @@ exports.strings = {
     'it_IT': 'Mi spiace, il comando "{command}" non è supportato.',
     'pl' : 'Polecenie "{command}" niestety nie jest obsługiwane.',
     'pt_BR': 'O comando "{command}" não é suportado!',
+    'es_AR': 'El comando "{command}" no es compatible, ¡disculpa!',
+    'es_MX': 'La orden "{command}" no es compatible, ¡disculpa!',
+    'es_ES': 'El comando "{command}" no está soportado, ¡disculpa!',
     'vi': 'Xin lỗi, lệnh "{command}" không được hỗ trợ!'
   },
   ///////////////////////////////////////////////////////////////////////////
