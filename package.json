@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
     "prepare": "gulp fastBuild",
     "test": "gulp test"
   },
