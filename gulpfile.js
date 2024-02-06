@@ -112,7 +112,7 @@ var buildIndex = function(done) {
 
   if (process.env.CI) {
     writeFileSync('build/index.html', outputIndex);
-    copyRecursiveSync('public/assets', 'build/assets');
+    copyRecursiveSync('assets', 'build/assets');
   } else {
     writeFileSync('index.html', outputIndex);
   }
