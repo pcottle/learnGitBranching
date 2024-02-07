@@ -1,6 +1,7 @@
-# NPM and Yarn
+# NPM / Yarn / Pnpm
 npm-debug.log
 yarn-error.log
+pnpm-lock.yaml
 node_modules/
 
 # Build artifacts and asset stuff
