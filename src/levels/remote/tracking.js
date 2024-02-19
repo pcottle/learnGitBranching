@@ -153,7 +153,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! For this level let's push work onto the `main` branch on remote while *not* checked out on `main` locally. I'll let you figure out the rest since this is the advanced course :P"
+              "Ok! For this level let's push work onto the `main` branch on remote while *not* checked out on `main` locally. You should instead a branch named `side` which the level hint will show."
             ]
           }
         }
