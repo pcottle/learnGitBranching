@@ -74,7 +74,7 @@ jobs:
       - name: Save Docker Image archive to local filesystem
         run: "docker save --output learnGitBranching.tar ${{env.REGISTRY}}/${{ steps.lowercaseImageName.outputs.lowercase }}"
       - name: Upload application's Docker Image as pipeline artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           path: learnGitBranching.tar
           name: learnGitBranching.tar
