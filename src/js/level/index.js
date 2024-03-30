@@ -271,7 +271,7 @@ var Level = Sandbox.extend({
       );
       log.showLevelSolution(this.getEnglishName());
     }.bind(this);
-  
+
     var commandStr = command.get('rawStr');
     if (!this.testOptionOnString(commandStr, 'noReset')) {
       toIssue = 'reset --forSolution; ' + toIssue;
@@ -282,7 +282,9 @@ var Level = Sandbox.extend({
       return;
     }
 
-    if(!LevelStore.isLevelSolved(this.level.id)){
+    // if the level doesn't have an ID, its a GIST import and
+    // we don't need to worry about the solved map regardless
+    if(this.level.id && !LevelStore.isLevelSolved(this.level.id)){
       // allow them for force the solution
       var confirmDefer = Q.defer();
       var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
