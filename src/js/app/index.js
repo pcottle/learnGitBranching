@@ -237,6 +237,10 @@ var initDemo = function(sandbox) {
       'levels'
     ];
     commands = commands.join(';#').split('#'); // hax
+  } else if (params.hasOwnProperty('level')) {
+    commands = [
+      'level ' + unescape(params.level),
+    ];
   } else if (params.gist_level_id) {
     $.ajax({
       url: 'https://api.github.com/gists/' + params.gist_level_id,
