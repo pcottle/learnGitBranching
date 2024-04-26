@@ -22,6 +22,14 @@ var assertIsRef = function(engine, ref) {
   engine.resolveID(ref); // will throw git error if can't resolve
 };
 
+var assertRefNoModifiers = function(ref) {
+  if (/~|\^/.test(ref)) {
+    throw new GitError({
+      msg: intl.str('git-error-exist', {ref: ref})
+    });
+  }
+}
+
 var validateBranchName = function(engine, name) {
   return engine.validateBranchName(name);
 };
@@ -255,6 +263,7 @@ var commandConfig = {
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
+        assertRefNoModifiers(source);
         destination = validateBranchNameIfNeeded(
           engine,
           crappyUnescape(refspecParts[1])
@@ -264,7 +273,6 @@ var commandConfig = {
         source = firstArg;
         assertIsBranch(engine.origin, source);
         // get o/main locally if main is specified
-        destination = engine.origin.resolveID(source).getPrefixedID();
       } else {
         // can't be detached
         if (engine.getDetachedHead()) {
@@ -277,8 +285,7 @@ var commandConfig = {
         var branch = engine.getOneBeforeCommit('HEAD');
         var branchName = branch.get('id');
         assertBranchIsRemoteTracking(engine, branchName);
-        destination = branch.getRemoteTrackingBranchID();
-        source = destination.replace(ORIGIN_PREFIX, '');
+        source = branch.getRemoteTrackingBranchID().replace(ORIGIN_PREFIX, '');
       }
 
       engine.pull({
@@ -392,6 +399,7 @@ var commandConfig = {
       if (firstArg && isColonRefspec(firstArg)) {
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
+        assertRefNoModifiers(source);
         destination = validateBranchNameIfNeeded(
           engine,
           crappyUnescape(refspecParts[1])
@@ -405,7 +413,6 @@ var commandConfig = {
         source = firstArg;
         assertIsBranch(engine.origin, source);
         // get o/main locally if main is specified
-        destination = engine.origin.resolveID(source).getPrefixedID();
       }
       if (source) { // empty string fails this check
         assertIsRef(engine.origin, source);
