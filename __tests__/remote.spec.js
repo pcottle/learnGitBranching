@@ -89,6 +89,13 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('can fetch with --force where otherwise it would error', function() {
+    return expectTreeAsync(
+      'git clone; git fakeTeamwork; git commit; git checkout C1; git fetch origin main:main --force;',
+      '{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C3":{"parents":["C1"],"id":"C3"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"C1","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}',
+    );
+  });
+
   it('checks all branches for fetching', function() {
     return expectTreeAsync(
       'git branch bugFix; git clone; git fakeTeamwork; git fetch',
@@ -164,7 +171,7 @@ describe('Git Remotes', function() {
       'git branch foo; git clone; git push origin --delete',
       '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/foo"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
     );
-    
+
     expectTreeAsync(
       'git branch foo; git clone; git push origin --delete main:foo',
       '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/foo"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
