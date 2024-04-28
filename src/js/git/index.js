@@ -393,12 +393,12 @@ GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
   return this.makeRemoteBranchForRemote(branchName);
 };
 
-GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
+GitEngine.prototype.makeBranchIfNeeded = function(branchName, originName) {
   if (this.doesRefExist(branchName)) {
     return;
   }
-
-  return this.validateAndMakeBranch(branchName, this.rootCommit);
+  var originTarget = this.findCommonAncestorWithRemote(this.origin.getCommitFromRef(originName).get('id'));
+  return this.validateAndMakeBranch(branchName, this.getCommitFromRef(originTarget));
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -1240,7 +1240,7 @@ GitEngine.prototype.fetch = function(options) {
     return;
   } else if (options.source) {
     var sourceDestPairs = [];
-    didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(options.source);
+    didMakeBranch = this.makeRemoteBranchIfNeeded(options.source);
     var source = this.origin.resolveID(options.source);
     if (source.get('type') == 'branch') {
       sourceDestPairs.push({
@@ -1249,7 +1249,7 @@ GitEngine.prototype.fetch = function(options) {
       });
 	}
     if (options.destination) {
-      didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
+      didMakeBranch = this.makeBranchIfNeeded(options.destination, options.source) || didMakeBranch;
       sourceDestPairs.push({
         destination: options.destination,
         source: options.source
@@ -1278,14 +1278,16 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   // first check if our local remote branch is upstream of the origin branch set.
   // this check essentially pretends the local remote branch is in origin and
   // could be fast forwarded (basic sanity check)
-  sourceDestPairs.forEach(function (pair) {
-    this.checkUpstreamOfSource(
-      this,
-      this.origin,
-      pair.destination,
-      pair.source
-    );
-  }, this);
+  if (!options.force) {
+    sourceDestPairs.forEach(function (pair) {
+      this.checkUpstreamOfSource(
+        this,
+        this.origin,
+        pair.destination,
+        pair.source
+      );
+    }, this);
+  }
 
   // then we get the difference in commits between these two graphs
   var commitsToMake = [];
@@ -1304,9 +1306,16 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   }, this);
 
   if (!commitsToMake.length && !options.dontThrowOnNoFetch) {
-    throw new GitError({
-      msg: intl.str('git-error-origin-fetch-uptodate')
-    });
+    var ge = this;
+    if (!options.force || !sourceDestPairs.some(function(pair) {
+	  var sourceCommit = ge.getCommitFromRef(ge.origin.resolveID(pair.source));
+      var destinationCommit = ge.getCommitFromRef(ge.resolveID(pair.destination));
+      return sourceCommit.id !== destinationCommit.id;
+	})) {
+      throw new GitError({
+        msg: intl.str('git-error-origin-fetch-uptodate')
+      });
+    }
   }
 
   // we did this for each remote branch, but we still need to reduce to unique
@@ -1406,6 +1415,7 @@ GitEngine.prototype.pull = function(options) {
   var pendingFetch = this.fetch({
     dontResolvePromise: true,
     dontThrowOnNoFetch: true,
+    force: options.force,
     source: options.source,
     destination: options.destination
   });

@@ -227,6 +227,7 @@ var commandConfig = {
   pull: {
     regex: /^git +pull($|\s)/,
     options: [
+      '--force',
       '--rebase'
     ],
     execute: function(engine, command) {
@@ -237,6 +238,7 @@ var commandConfig = {
       }
 
       var commandOptions = command.getOptionsMap();
+      var force = !!commandOptions['--force'];
       var generalArgs = command.getGeneralArgs();
       if (commandOptions['--rebase']) {
         generalArgs = commandOptions['--rebase'].concat(generalArgs);
@@ -261,6 +263,10 @@ var commandConfig = {
       var firstArg = generalArgs[1];
       // COPY PASTA validation code from fetch. maybe fix this?
       if (firstArg && isColonRefspec(firstArg)) {
+        if (firstArg[0] == '+') {
+          force = true;
+          firstArg = firstArg.substr(1);
+        }
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         assertRefNoModifiers(source);
@@ -291,6 +297,7 @@ var commandConfig = {
       engine.pull({
         source: source,
         destination: destination,
+        force: force,
         isRebase: !!commandOptions['--rebase']
       });
     }
@@ -382,6 +389,9 @@ var commandConfig = {
 
   fetch: {
     regex: /^git +fetch($|\s)/,
+    options: [
+      '--force',
+    ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
         throw new GitError({
@@ -391,12 +401,18 @@ var commandConfig = {
 
       var source;
       var destination;
+      var commandOptions = command.getOptionsMap();
+      var force = !!commandOptions['--force'];
       var generalArgs = command.getGeneralArgs();
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
       var firstArg = generalArgs[1];
       if (firstArg && isColonRefspec(firstArg)) {
+        if (firstArg[0] == '+') {
+          force = true;
+          firstArg = firstArg.substr(1);
+        }
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         assertRefNoModifiers(source);
@@ -420,7 +436,8 @@ var commandConfig = {
 
       engine.fetch({
         source: source,
-        destination: destination
+        destination: destination,
+        force: force
       });
     }
   },
@@ -808,6 +825,7 @@ var commandConfig = {
       var source;
       var sourceObj;
       var commandOptions = command.getOptionsMap();
+      var force = !!commandOptions['--force'];
       var isDelete = commandOptions['-d'] || commandOptions['--delete'];
 
       // git push is pretty complex in terms of
@@ -849,6 +867,10 @@ var commandConfig = {
       }
 
       if (firstArg && isColonRefspec(firstArg)) {
+        if (firstArg[0] == '+') {
+          force = true;
+          firstArg = firstArg.substr(1);
+        }
         var refspecParts = firstArg.split(':');
         source = refspecParts[0];
         destination = validateBranchName(engine, refspecParts[1]);
@@ -893,7 +915,7 @@ var commandConfig = {
         // are always, always strings. very important :D
         destination: destination,
         source: source,
-        force: !!commandOptions['--force']
+        force: force
       });
     }
   },
