@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C6\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C7\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C3\",\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git fetch origin main~1:foo;git fetch origin foo:main;git checkout foo;git merge main",
+  "solutionCommand": "git fetch origin c3:foo;git fetch origin c6:main;git checkout foo;git merge main",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
@@ -118,7 +118,7 @@ exports.level = {
               "Let's see this craziness in action:"
             ],
             "afterMarkdowns": [
-              "Wow! See, git resolved `C2` as a place on the origin and then downloaded those commits to `bar` (which was a local branch). Notice how `foo` and `o/foo` were not updated since we specified a destination."
+              "Wow! See, git resolved `C2` as a place on the origin and then downloaded those commits to `bar` (which was a local branch)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -241,7 +241,7 @@ exports.level = {
               "Voyons ce phénomène en action :"
             ],
             "afterMarkdowns": [
-              "Wow ! Vous voyez, Git a résolu `C2` comme un emplacement sur origin et a ensuite téléchargé les commits dans `bar` (qui était une branche locale). Remarquez aussi que `foo` et `o/foo` n'ont pas été mises à jour puisque nous avons spécifié une destination."
+              "Wow ! Vous voyez, Git a résolu `C2` comme un emplacement sur origin et a ensuite téléchargé les commits dans `bar` (qui était une branche locale)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -364,7 +364,7 @@ exports.level = {
               "Veamos esta locura en acción:"
             ],
             "afterMarkdowns": [
-              "¡Wow! Mirá: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local). Notá como `foo` y `o/foo` no fueron actualizados, dado que especificamos un destino."
+              "¡Wow! Mirá: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -487,7 +487,7 @@ exports.level = {
               "Veamos esta locura en acción:"
             ],
             "afterMarkdowns": [
-              "¡Caramba! Mira: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local). Observa como `foo` y `o/foo` no fueron actualizados, dado que especificamos un destino."
+              "¡Caramba! Mira: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -610,7 +610,7 @@ exports.level = {
               "Vejamos essa loucura em ação:"
             ],
             "afterMarkdowns": [
-              "Wow! Viu, o Git entendeu o `C2` como um lugar de origin e baixou os commits para o ramo local `bar`. Veja como `foo` e `o/foo` não foram atualizados, já que especificamos outro destino."
+              "Wow! Viu, o Git entendeu o `C2` como um lugar de origin e baixou os commits para o ramo local `bar`."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -733,7 +733,7 @@ exports.level = {
               "Vexamos esta locura en acción"
             ],
             "afterMarkdowns": [
-              "¡Wow! Mira: git resolveu `C2` como un lugar no que a orixe descargou eses commits a `bar` (que era unha rama local). Nota como `foo` e `o/foo` non foron actualizados, xa que especificamos o destino."
+              "¡Wow! Mira: git resolveu `C2` como un lugar no que a orixe descargou eses commits a `bar` (que era unha rama local)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -856,7 +856,7 @@ exports.level = {
               "讓我們來實際看一下這個瘋狂的事情："
             ],
             "afterMarkdowns": [
-              "哇！看到了吧，git 把  `C2` 解讀成一個在 origin 上的位置，而且把該位置上面的 commit 下載到 `bar`（這是一個 local branch）上面，注意，因為我們有指定目的地，因此 `foo` 跟 `o/foo` 並沒有被更新。"
+              "哇！看到了吧，git 把  `C2` 解讀成一個在 origin 上的位置，而且把該位置上面的 commit 下載到 `bar`（這是一個 local branch）上面。"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -979,7 +979,7 @@ exports.level = {
               "来看个疯狂的例子："
             ],
             "afterMarkdowns": [
-              "哇! 看见了吧, Git 将 `C2` 解析成一个 origin 仓库的位置，然后将那些提交记录下载到了本地的 `bar` 分支（一个本地分支）上。注意由于我们指定了目标分支，`foo` 和 `o/foo` 都没有被更新。"
+              "哇! 看见了吧, Git 将 `C2` 解析成一个 origin 仓库的位置，然后将那些提交记录下载到了本地的 `bar` 分支（一个本地分支）上。"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1102,7 +1102,7 @@ exports.level = {
               "Schauen wir uns den Quatsch mal in Aktion an:"
             ],
             "afterMarkdowns": [
-              "Wow! Siehst du, Git löst `C2` als Ort auf dem Server `origin` auf und lädt dessen Commits herunter in `bar` hinein. Beachte wie `foo` und `o/foo` *nicht* aktualisiert wurden, da wir ein Ziel angegeben haben."
+              "Wow! Siehst du, Git löst `C2` als Ort auf dem Server `origin` auf und lädt dessen Commits herunter in `bar` hinein."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1236,9 +1236,7 @@ exports.level = {
               "このクレイジーさを実際に確認してみましょう。"
             ],
             "afterMarkdowns": [
-              "うわぁ〜！gitは`C2`をorigin上の場所として解決し、そのコミットをローカルの`bar`ブランチに直接ダウンロードしました。",
-              "",
-              "保存先を指定したので`foo`と`o/foo`ブランチが更新されていないことに注目しましょう。"
+              "うわぁ〜！gitは`C2`をorigin上の場所として解決し、そのコミットをローカルの`bar`ブランチに直接ダウンロードしました。"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1363,7 +1361,7 @@ exports.level = {
               "Давайте взглянем на всё это в действии:"
             ],
             "afterMarkdowns": [
-              "Ого! Видите, git распознал `C2` как место в origin и затем скачал эти коммиты в `bar`, которая является локальной веткой. Обратите внимание, что ветки `foo` и `o/foo` не изменились, так как в аргументах мы явно указали получателя."
+              "Ого! Видите, git распознал `C2` как место в origin и затем скачал эти коммиты в `bar`, которая является локальной веткой."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1486,7 +1484,7 @@ exports.level = {
               "자 이 해괴한 작업을 직접 확인해봅시다:"
             ],
             "afterMarkdowns": [
-              "이야! 보셨습니까, git이 `C2`을 origin의 place로 지정하고 커밋들을 내려받아 `bar`(로컬 브랜치)에 추가했습니다. `foo`와 `o/foo`는 갱신되지 않는게 확인되나요? destination을 지정해줬기 때문입니다."
+              "이야! 보셨습니까, git이 `C2`을 origin의 place로 지정하고 커밋들을 내려받아 `bar`(로컬 브랜치)에 추가했습니다."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1609,7 +1607,7 @@ exports.level = {
               "Подивімось на це божевілля в дії:"
             ],
             "afterMarkdowns": [
-              "Ого! Дивись, git прийняв `C2` за джерело, і звантажив коміти в `bar` (локальна гілка). Зауваж, що `foo` і `o/foo` не оновлювались, оскільки ми явно вказали звідки і куди передавати коміти."
+              "Ого! Дивись, git прийняв `C2` за джерело, і звантажив коміти в `bar` (локальна гілка)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1732,7 +1730,7 @@ exports.level = {
               "Lấy một ví dụ điên rồ..."
             ],
             "afterMarkdowns": [
-              "Wao! Thấy chứ, Git diễn giải `C2` thành một vị trí trên kho chứa từ xa sau đó tải xuống các commit lên nhánh `bar` ở kho chứa cục bộ. Để ý rằng nhánh `foo` và `o/foo` không hề được cập nhật vì ta đã chỉ định đích đến."
+              "Wao! Thấy chứ, Git diễn giải `C2` thành một vị trí trên kho chứa từ xa sau đó tải xuống các commit lên nhánh `bar` ở kho chứa cục bộ."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1855,7 +1853,7 @@ exports.level = {
               "Poglejmo si to zmešnjavo v praksi:"
             ],
             "afterMarkdowns": [
-              "Wow! Vidiš, git je naredil `C2` kot mesto na originu in nato prenesel commite na `bar` (ki je bil lokalen branch). Opazi, kako `foo` in `o/foo` nista bila posodobljena, ker smo določili destinacijo."
+              "Wow! Vidiš, git je naredil `C2` kot mesto na originu in nato prenesel commite na `bar` (ki je bil lokalen branch)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -1978,7 +1976,7 @@ exports.level = {
               "Zobaczmy, jak to szaleństwo działa:"
             ],
             "afterMarkdowns": [
-              "Nieźle! Spójrz. Git zinterpretował `C2` jako miejsce na origin i pobrał z niego commity do `bar` (czyli lokalną gałąź). Zauważ, że ani `foo`, ani `o/foo` nie zostały zaktualizowane, ponieważ określiliśmy cel."
+              "Nieźle! Spójrz. Git zinterpretował `C2` jako miejsce na origin i pobrał z niego commity do `bar` (czyli lokalną gałąź)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -2101,7 +2099,7 @@ exports.level = {
               "Vediamo questa pazzia sul campo:"
             ],
             "afterMarkdowns": [
-              "Wow! Vediamo, git ha risolto `C2` come un luogo sul repository remoto e ha poi scaricato quei commit su `bar` (nostro ramo locale). Notiamo come `foo` e `o/foo` non sono stati aggiornati in quanto abbiamo specificato una destinazione."
+              "Wow! Vediamo, git ha risolto `C2` come un luogo sul repository remoto e ha poi scaricato quei commit su `bar` (nostro ramo locale)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"

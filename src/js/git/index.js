@@ -397,11 +397,8 @@ GitEngine.prototype.makeBranchIfNeeded = function(branchName) {
   if (this.doesRefExist(branchName)) {
     return;
   }
-  var where = this.findCommonAncestorForRemote(
-    this.getCommitFromRef('HEAD').get('id')
-  );
 
-  return this.validateAndMakeBranch(branchName, this.getCommitFromRef(where));
+  return this.validateAndMakeBranch(branchName, this.rootCommit);
 };
 
 GitEngine.prototype.makeRemoteBranchForRemote = function(branchName) {
@@ -1241,17 +1238,26 @@ GitEngine.prototype.fetch = function(options) {
       this.getCommitFromRef('HEAD')
     );
     return;
-  } else if (options.destination && options.source) {
+  } else if (options.source) {
+    var sourceDestPairs = [];
     didMakeBranch = didMakeBranch || this.makeRemoteBranchIfNeeded(options.source);
-    didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
-    options.didMakeBranch = didMakeBranch;
-
-    return this.fetchCore([{
+    var source = this.origin.resolveID(options.source);
+    if (source.get('type') == 'branch') {
+      sourceDestPairs.push({
+        destination: this.origin.resolveID(options.source).getPrefixedID(),
+        source: options.source
+      });
+	}
+    if (options.destination) {
+      didMakeBranch = didMakeBranch || this.makeBranchIfNeeded(options.destination);
+      sourceDestPairs.push({
         destination: options.destination,
         source: options.source
-      }],
-      options
-    );
+      });
+    }
+    options.didMakeBranch = didMakeBranch;
+    options.dontThrowOnNoFetch = options.dontThrowOnNoFetch || didMakeBranch;
+    return this.fetchCore(sourceDestPairs, options);
   }
   // get all remote branches and specify the dest / source pairs
   var allBranchesOnRemote = this.origin.branchCollection.toArray();
@@ -1409,7 +1415,7 @@ GitEngine.prototype.pull = function(options) {
     return;
   }
 
-  var destBranch = this.resolveID(options.destination);
+  var destBranch = this.resolveID(options.destination || this.origin.resolveID(options.source).getPrefixedID());
   // then either rebase or merge
   if (options.isRebase) {
     this.pullFinishWithRebase(pendingFetch, localBranch, destBranch);
