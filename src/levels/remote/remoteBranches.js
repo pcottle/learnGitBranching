@@ -1094,13 +1094,13 @@ exports.level = {
             "markdowns": [
               "## Rami remoti di Git",
               "",
-              "Adesso che hai visto `git clone` in azione, tuffiamoci all'interno di quello che è effettivamente cambiato.",
+              "Adesso che hai visto `git clone` in azione, approfondiamo cosa effettivamente è cambiato.",
               "",
               "Come potrai aver notato un nuovo ramo è apparso nel nostro repository locale chiamato `o/main`. Questo tipo di ramo è chiamato ramo remoto; i rami remoti hanno proprietà speciali perché servono ad un unico scopo.",
               "",
-              "I rami remoti riflettono lo _stato_ dei repository remoti (dall'ultima volta che hai comunicato con quei repository remoti). Ti aiutano a capire la differenza tra il tuo lavoro locale e quello pubblico -- un passo fondamentale da fare prima di condividere il tuo lavoro con gli altri.",
+              "I rami remoti riflettono lo _stato_ dei repository remoti (dall'ultima volta che hai comunicato con quei repository remoti). Ti aiutano a capire la differenza tra il tuo lavoro locale e quello pubblico -- un passo fondamentale da compiere prima di condividere il tuo lavoro con gli altri.",
               "",
-              "I rami remoti hanno la proprietà speciale che quando li controlli, `HEAD` viene inserito nella modalità di distacco. Git fa questo di proposito così che tu non possa lavorare direttamente su questi rami; ma dovrai lavorare altrove per poi condividere il tuo lavoro con il remoto (dopodiché i tuoi rami remoti verranno aggiornati)."
+              "I rami remoti hanno la proprietà speciale che quando li controlli, `HEAD` viene passato nella modalità di distacco. Git utilizza questa modalità affinché tu non possa lavorare direttamente su questi rami; ma dovrai lavorare altrove per poi condividere il tuo lavoro con il remoto (dopodiché i tuoi rami remoti verranno aggiornati)."
             ]
           }
         },
@@ -1108,7 +1108,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Cos'è o/?",
+              "### Cos'è `o/`?",
               "",
               "Ti starai chiedendo a cosa serve `o/` su questi rami remoti. Bene, i rami remoti hanno anche un nome convenzionale (obbligatorio) -- vengono visualizzati nel formato:",
               "",
@@ -1118,9 +1118,9 @@ exports.level = {
               "",
               "La maggior parte degli sviluppatori in realtà nomina il loro main remoto `origin`, non `o`. Questo è così comune che git in realtà configura il remoto per essere chiamato `origin` quando viene eseguito `git clone` su un repository.",
               "",
-              "Sfortunatamente il nome completo di `origin` non si adatta alla nostra interfaccia utente, quindi usiamo `o` come abbreviazione :( Ricorda solo che quando usi git realmente, il tuo remoto probabilmente si chiamerà `origin`!",
+              "Sfortunatamente il nome completo di `origin` non si adatta alla nostra interfaccia utente, quindi usiamo `o` come abbreviazione :( Ricorda solo che quando userai git realmente, il tuo remoto probabilmente si chiamerà `origin`!",
               "",
-              "Tutto questo è molto da elaborare, quindi vediamolo in azione."
+              "C'è ancora molto da fare, quindi vediamo quanto detto in azione."
             ]
           }
         },
@@ -1128,10 +1128,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Dai un'occhiata ad un ramo remoto e vedi che cosa fa."
+              "Controlliamo un ramo remoto e vediamo cosa succede."              
             ],
             "afterMarkdowns": [
-              "Come puoi vedere, git ci ha messo im modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
+              "Come puoi vedere, git ci ha messo in modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
             ],
             "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
@@ -1146,6 +1146,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

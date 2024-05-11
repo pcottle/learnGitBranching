@@ -41,8 +41,7 @@ exports.level = {
     'vi': 'Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định',
     'sl_SI': 'Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.',
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
-    'it_IT':
-      "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
+    'it_IT': "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
   },
   "startDialog": {
@@ -1618,7 +1617,7 @@ exports.level = {
           type: "ModalAlert",
           options: {
             markdowns: [
-              "### Speficicare i genitori",
+              "### Specificare i genitori",
               "",
               "Come il modificatore `~` , anche il modificatore `^` accetta un numero (opzionale) dopo di esso.",
               "",
@@ -1637,7 +1636,7 @@ exports.level = {
             beforeMarkdowns: [
               "Qui abbiamo un merge commit. Se facciamo checkout `main^` senza modificatore, seguiremo il primo genitore dopo il merge commit. ",
               "",
-              "(*Nell'immagine, il primo genitore è situato direttamente al di sopra al merge commit.*)",
+              "(*Nell'immagine, il primo genitore è situato direttamente al di sopra del merge commit.*)",
             ],
             afterMarkdowns: ["Facile -- questo è quello a cui siamo abituati."],
             command: "git checkout main^",
@@ -1674,7 +1673,7 @@ exports.level = {
           type: "GitDemonstrationView",
           options: {
             beforeMarkdowns: [
-              "Ancora più sorprendente, questi modificatori possono essere concatenati tra loro! Dai un occhiata:",
+              "Ancora più sorprendente, questi modificatori possono essere concatenati tra loro! Dai un'occhiata:",
             ],
             afterMarkdowns: [
               "Stessi passaggi di prima, ma tutto con un comando.",
