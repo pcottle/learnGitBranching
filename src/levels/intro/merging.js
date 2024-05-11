@@ -1316,7 +1316,7 @@ exports.level = {
               "Ora facciamo `merge` del ramo `bugFix` nel `main`.",
             ],
             afterMarkdowns: [
-              "WOW! Visto? Prima di tutto, `main` ora punta a un commit con due genitori. Se ripercorri l'albero dei commit dal  `main`, potrai attraversare tutti i commit fino alla radice (root). Questo significa che `main` ora contiene tutto il lavoro del repository.",
+              "WOW! Visto? Prima di tutto, `main` ora punta a un commit con due genitori. Se ripercorri l'albero dei commit dal `main`, potrai attraversare tutti i commit fino alla radice (root). Questo significa che `main` ora contiene tutto il lavoro del repository.",
               "",
               "Hai visto come è cambiato il colore del commit? Per imparare più facilmente, ho aggiunto i colori. Ogni ramo ha un colore univoco. Ogni (merge) commit ha un colore che è la combinazione dei colori dei rami che lo compongono.",
               "",
@@ -1360,7 +1360,6 @@ exports.level = {
         },
       ],
     },
-
     "tr_TR": {
       "childViews": [
         {

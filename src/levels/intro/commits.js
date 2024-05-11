@@ -829,7 +829,7 @@ exports.level = {
               "",
               "Git memorizza anche la storia di tutti i commit effettuati. Questo è il motivo per cui molti commit hanno genitori sopra di essi -- questo viene rappresentato con delle frecce nelle nostre spiegazioni. Conoscere la storia è utilissimo per tutti quelli che collaborano ad un progetto!",
               "",
-              "C'è tanto da sapere, ma per ora pensa ai commit come a delle instantanee del progetto. I commit sono leggerissimi e si può passare da uno all'altro in un battibaleno!",
+              "C'è tanto da imparare, ma per ora pensa ai commit come a delle instantanee del progetto. I commit sono leggerissimi e si può passare da uno all'altro in un battibaleno!",
             ],
           },
         },
