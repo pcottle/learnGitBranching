@@ -1051,7 +1051,7 @@ exports.level = {
               ""
             ],
             "afterMarkdowns": [
-              "Eccolo! Ora abbiamo un repository remoto del nostro progetto. Appare molto similie eccetto per qualche modifica nella visualizzazione per far notare la distinzione -- nei successivi livelli vedrai come condividere il lavoro tra questi repository."
+              "Eccolo! Ora abbiamo un repository remoto del nostro progetto. Appare molto simile eccetto per qualche modifica nella visualizzazione per far notare la distinzione -- nei successivi livelli vedrai come condividere il lavoro tra questi repository."
             ],
             "command": "git clone",
             "beforeCommand": ""
