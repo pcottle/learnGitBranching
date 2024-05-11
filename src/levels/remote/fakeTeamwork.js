@@ -996,7 +996,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Puoi anche specificare il numero di commit o il ramo su cui effettuali specificandolo nel comando."
+              "Puoi anche specificare il numero di commit o il ramo su cui effettuarle specificandolo nel comando."
             ],
             "afterMarkdowns": [
               "Con un comando abbiamo simulato un nostro collega che invia tre commit al ramo `foo` del repository remoto."
