@@ -327,6 +327,14 @@ var ModalTerminal = ContainedBase.extend({
     };
 
     this.render();
+
+    this.$terminal = this.$el.find('.terminal-window-holder').first();
+    this.$terminal.draggable({
+      cursor: 'move',
+      handle: '.toolbar',
+      containment: '#interfaceWrapper',
+      scroll: false
+    });
   },
 
   updateTitle: function(/*string*/ title) {
