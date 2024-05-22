@@ -1884,7 +1884,7 @@ exports.strings = {
   'goal-only-main': {
     '__desc__': 'the helper message for the window that shows the goal tree when the goal will only be compared using the main branch',
     'en_US': '<span class="fwber">Note:</span> Only the main branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with "hide goal"',
-    'fr_FR': '<span class="fwber">Note:</span> Dans ce niveau on ne doit faire de git checkout que sur la branche main. Les autres branches représentées ici (entourées d\'un cadre en tirets) doivent être utilisées uniquement comme références. Comme toujours, vous pouvez cacher cette fenêtre avec "Cacher les objectifs"',
+    'fr_FR': '<span class="fwber">Note:</span> Dans ce niveau on ne doit faire de git checkout que sur la branche main. Les autres branches représentées ici (entourées d\'un cadre en tirets) doivent être utilisées uniquement comme références. Comme toujours, vous pouvez cacher cette fenêtre avec "hide goal"',
     'de_DE': '<span class="fwber">Hinweis:</span> In diesem Level wird nur der Branch main geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit "hide goal" ausblenden',
     'es_AR': '<span class="fwber">Nota:</span> Sólo la rama main va a ser chequeada en este nivel. Las otras ramas sólo son para referencia. Como siempre, podés ocultar este mensaje con "hide goal"',
     'es_MX': '<span class="fwber">Nota:</span> Sólo la rama main va a ser inspeccionada en este nivel. Las otras ramas sólo son para referencia (etiquetados abajo con guión). Como siempre, puedes ocultar éste mensaje con "hide goal"',
@@ -1916,7 +1916,7 @@ exports.strings = {
     'es_ES': 'Puedes ocultar esta ventana con "hide goal."',
     'pt_BR': 'Você pode ocultar esta janela com "hide goal"',
     'gl'   : 'Podes ocultar esta ventá con "hide goal"',
-    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "Cacher les cibles"',
+    'fr_FR': 'Vous pouvez masquer cette fenêtre avec "hide goal"',
     'ja'   : 'このウィンドウは"hide goal"と打つかクリックで閉じれます',
     'ru_RU': 'Можно скрыть это окно при помощи "hide goal"',
     'uk': 'Можна сховати це вікно за допомогою "hide goal"',
