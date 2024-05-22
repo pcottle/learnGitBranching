@@ -184,7 +184,7 @@ exports.dialog = {
         '  * Définissez l\'arbre cible avec ```define goal```. Cela définit aussi la solution',
         '  * Optionnellement, définissez un indice avec ```define hint```',
         '  * Changez le nom avec ```define name```',
-        '  * Optionellement, definissez un joli dialogue de départ avec ```edit dialog```',
+        '  * Optionnellement, définissez un joli dialogue de départ avec ```edit dialog```',
         '  * Entrez la commande ```finish``` pour délivrer votre niveau JSON!'
       ]
     }
