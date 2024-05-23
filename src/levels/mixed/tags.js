@@ -141,7 +141,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pour ce niveau, créez simplement les tags visibles dans les objectifs puis faites un checkout sur le tag `v1`. Remarquez le passage à l'état `HEAD` détachée -- c'est parce que vous ne pouvez pas commiter sur le tag `v1`.",
+              "Pour ce niveau, créez simplement les tags visibles dans l'objectif puis faites un checkout sur le tag `v1`. Remarquez le passage à l'état `HEAD` détachée -- c'est parce que vous ne pouvez pas commiter sur le tag `v1`.",
               "",
               "Dans les niveaux suivants vous verrez un cas plus intéressant d'utilisation des tags."
             ]
