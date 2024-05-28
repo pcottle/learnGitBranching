@@ -21,7 +21,7 @@ var GitDemonstrationView = ContainedBase.extend({
 
   events: {
     'click div.command > p.uiButton:not([target="reset"])': 'positive',
-    'click div.command > p.uiButton[target="reset"]': 'onResetButtonClick',
+    'click div.command > p[target="reset"]': 'onResetButtonClick',
   },
 
   initialize: function(options) {

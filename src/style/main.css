@@ -1146,8 +1146,26 @@ div.gitDemonstrationView {
   opacity: 0;
 }
 
-.gitDemonstrationView  p.uiButton[target="reset"] {
+.gitDemonstrationView p[target="reset"] {
   display: none;
+  opacity: 0.0;
+}
+
+.gitDemonstrationView p.uiButton {
+  margin: 0.5em 0;
+}
+
+.gitDemonstrationView.demonstrated p[target="reset"] {
+  display: block;
+  margin: 0.5em 0;
+  opacity: 0.3;
+  font-size: 8pt;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.gitDemonstrationView  div.afterText p {
+  margin-top: 0.1em;
 }
 
 .gitDemonstrationView.demonstrated div.afterText {
@@ -1159,12 +1177,10 @@ div.gitDemonstrationView {
 }
 
 .gitDemonstrationView.demonstrated p.uiButton {
-  display: none;
-}
-
-.gitDemonstrationView.demonstrated p.uiButton[target="reset"] {
-  display: block;
-  opacity: 0.5;
+  opacity: 0.6;
+  margin-bottom: 0.1em;
+  cursor: auto;
+  pointer-events: none;
 }
 
 /* LeftRightView */
