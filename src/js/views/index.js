@@ -335,7 +335,7 @@ var ModalTerminal = ContainedBase.extend({
   },
 
   onCloseButtonClick: function() {
-    console.log('triggering stuff');
+    Main.getEventBaton().trigger('onCloseButtonClick');
   },
 
   onClick: function() {

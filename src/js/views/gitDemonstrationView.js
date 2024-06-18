@@ -85,8 +85,6 @@ var GitDemonstrationView = ContainedBase.extend({
   },
 
   receiveMetaNav: function(navView, metaContainerView) {
-    console.log('receive meta nav');
-    debugger;
     var _this = this;
     navView.navEvents.on('positive', this.positive, this);
     navView.navEvents.on('exit', this.exit, this);

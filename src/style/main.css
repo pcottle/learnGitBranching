@@ -480,6 +480,10 @@ div.ui-draggable div.controls div.box.flex1 div {
   cursor: pointer;
 }
 
+div.modalTerminal div.close {
+  cursor: pointer !important;
+}
+
 div.controls div.box.flex1 div.close {
   background-color: #fb625f;
 }
