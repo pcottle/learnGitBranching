@@ -30,11 +30,18 @@ KeyboardListener.prototype.listen = function() {
   }
   this.listening = true;
   Main.getEventBaton().stealBaton('docKeydown', this.keydown, this);
+  Main.getEventBaton().stealBaton('onCloseButtonClick', this.onCloseButtonClick, this);
+
 };
 
 KeyboardListener.prototype.mute = function() {
   this.listening = false;
   Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
+  Main.getEventBaton().releaseBaton('onCloseButtonClick', this.onCloseButtonClick, this);
+};
+
+KeyboardListener.prototype.onCloseButtonClick = function(e) {
+  this.fireEvent('esc', e);
 };
 
 KeyboardListener.prototype.keydown = function(e) {
@@ -59,4 +66,3 @@ KeyboardListener.prototype.passEventBack = function(e) {
 
 exports.KeyboardListener = KeyboardListener;
 exports.mapKeycodeToKey = mapKeycodeToKey;
-

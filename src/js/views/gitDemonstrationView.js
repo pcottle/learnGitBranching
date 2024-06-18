@@ -60,6 +60,7 @@ var GitDemonstrationView = ContainedBase.extend({
     this.navEvents = Object.assign({}, Backbone.Events);
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
+    this.navEvents.on('exit', this.exit, this);
     this.navEvents.on('onResetButtonClick', this.onResetButtonClick, this);
     this.keyboardListener = new KeyboardListener({
       events: this.navEvents,
@@ -79,9 +80,14 @@ var GitDemonstrationView = ContainedBase.extend({
     }
   },
 
+  exit: function() {
+    alert('exittt');
+  },
+
   receiveMetaNav: function(navView, metaContainerView) {
     var _this = this;
     navView.navEvents.on('positive', this.positive, this);
+    navView.navEvents.on('exit', this.exit, this);
     this.metaContainerView = metaContainerView;
   },
 

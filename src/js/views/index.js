@@ -314,7 +314,8 @@ var ModalTerminal = ContainedBase.extend({
   className: 'modalTerminal box flex1',
   template: _.template($('#terminal-window-template').html()),
   events: {
-    'click div.inside': 'onClick'
+    'click div.inside': 'onClick',
+    'click div.controls div.close': 'onCloseButtonClick'
   },
 
   initialize: function(options) {
@@ -331,6 +332,10 @@ var ModalTerminal = ContainedBase.extend({
 
   updateTitle: function(/*string*/ title) {
     this.$('.modal-title').text(title);
+  },
+
+  onCloseButtonClick: function() {
+    Main.getEventBaton().trigger('onCloseButtonClick');
   },
 
   onClick: function() {
