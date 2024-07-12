@@ -16,8 +16,8 @@ exports.dialog = {
       markdowns: [
         '## Super gemacht!!!',
         '',
-        'Du hast den Level in *{numCommands}* Befehl(en) gelöst;',
-        'meine Lösung besteht aus {best}.'
+        'Du hast das Level mit *{numCommands}* Befehl(en) gelöst;',
+        'unsere Lösung nutzt {best}.'
       ]
     }
   }],
