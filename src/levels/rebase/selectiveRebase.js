@@ -25,6 +25,7 @@ exports.level = {
     "sl_SI": "Špageti iz Branchev",
     "it_IT": "Rami spaghettificati",
     "pl": "Spaghetti gałęzi",
+    "tr_TR": "Branch Spagettisi"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -45,6 +46,7 @@ exports.level = {
     "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
     "it_IT": "Assicurati di fare tutto nel giusto ordine! Prima il primo ramo, poi il secondo, poi il terzo",
     "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
+    "tr_TR": "Her şeyi doğru sırada yaptığından emin ol! Önce ilk branch (one), ardından ikinci branch (two), ardından üçüncü branch (three)"
   },
   "startDialog": {
     "en_US": {
@@ -402,6 +404,26 @@ exports.level = {
               "Il ramo `one` deve essere riordinato e il commit `C5` è da rimuovere. `two` deve essere riordinato, e `three` deve avere un solo commit!",
               "",
               "Tocca a te capire come farlo -- controlla la soluzione alla fine con il comando `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spagettisi",
+              "",
+              "Vay canına! Bu bölümde ulaşmamız gereken hedef oldukça büyük.",
+              "",
+              "Burada `main`, `one` `two` ve `three` dallarından birkaç commit önde. Herhangi bir nedenden ötürü, bu diğer üç dalı main'deki son birkaç commit'in değiştirilmiş versiyonlarıyla güncellememiz gerekiyor.",
+              "",
+              "`one` branchi bu commitlerin yeniden düzenlenmesine ve an `C5`\'in hariç tutulması/bırakılmasına ihtiyaç duyuyor. `two` branchi sadece commitlerin yeniden sıralanmasına ihtiyaç duyuyuor, ve `three` için sadece bir commit transferi gerekiyor!",
+              "",
+              "Bunu nasıl çözeceğinizi size anlatacağız -- daha sonrasında bizim çözümümüzü `show solution` ile kontrol etmeyi unutmayın."
             ]
           }
         }

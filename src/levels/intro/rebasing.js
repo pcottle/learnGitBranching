@@ -41,7 +41,7 @@ exports.level = {
     'sl_SI': 'Prepričaj se, da si najprej commital bugFix.',
     'it_IT': "Assicurati di fare prima il commit da bugFix",
     "pl": "Upewnij się, że masz już commit z bugFix",
-    "tr_TR": "Önce bugFix'tencommit attığınıza emin olun"
+    "tr_TR": "Önce bugFix'ten commit attığınıza emin olun"
   },
   "disabledMap": {
     "git revert": true
