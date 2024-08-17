@@ -73,7 +73,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Uvodno Zaporedje',
       'pl'   : 'Wprowadzenie',
       'it_IT': "Sequenza introduttiva",
-      'ta_IN': 'அறிமுக தொடர் வரிசை'
+      'ta_IN': 'அறிமுக தொடர் வரிசை',
+      'tr_TR': 'Giriş bölümü'
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -94,7 +95,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Prijeten uvod v git ukaze',
       'pl'   : 'Krótkie wprowadzenie do większości poleceń Gita',
       'it_IT': "Un'introduzione graduale ai principali comandi Git",
-      'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்'
+      'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்',
+      'tr_TR': 'Git komutlarının çoğunun yüksek tempolu bir tanıtımı'
     }
   },
   rampup: {
@@ -117,7 +119,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Prva Stopnička',
       'pl'   : 'Rozkręcenie',
       'it_IT': "Diamoci dentro",
-      'ta_IN': 'சற்று அதிகப்படுத்த'
+      'ta_IN': 'சற்று அதிகப்படுத்த',
+      'tr_TR': 'Hızlanma'
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -138,7 +141,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Naslednja porcija git izjemnosti. Upam, da si lačen',
       'pl'   : 'Następna porcja gita jest niesamowita. Mam nadzieję, że jesteś głodny',
       'it_IT': "Porzione con il 100% di grandiosità Git, spero tu sia affamato",
-      'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்'
+      'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்',
+      'tr_TR': 'Git\'in muhteşemliklerinden bir porsiyon daha. Umarım açsındır'
     }
   },
   remote: {
@@ -162,7 +166,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Push & Pull -- Oddaljeni Git',
       'pl'   : 'Push & Pull -- Zdalne repozytoria',
       'it_IT': "Push & Pull -- Git Remoto!",
-      'ta_IN': 'Push & Pull -- கிட் Remotes!'
+      'ta_IN': 'Push & Pull -- கிட் Remotes!',
+      'tr_TR': 'Push & Pull -- Git Uzak Depoları (Remotes)!'
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -184,7 +189,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne',
       'it_IT':
         "Ragazzi è arrivato il momento di condividere i vostri 0 e 1; programmare diventa social",
-      'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது'
+      'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது',
+      'tr_TR': '0\'ları ve 1\'ler\'i paylaşma zamanı çocuklar, kodlama sosyal bir hal alıyor',
     }
   },
   remoteAdvanced: {
@@ -208,7 +214,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Do Origina In Naprej -- Napredni Oddaljeni Git',
       'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria',
       'it_IT': "Verso Origin e oltre -- Git Remoto Avanzato!",
-      'ta_IN': 'ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!'
+      'ta_IN': 'ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!',
+      'tr_TR': 'Origin ve Ötesine -- Gelişmiş Git Uzak Depoları (Remotes)'
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -229,7 +236,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
       'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
       'it_IT': "E tu credevi che essere un dittatore benevolo fosse divertente...",
-      'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...'
+      'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...',
+      'tr_TR': 'Ve hayırsever bir diktatör olmanın eğlenceli olacağını düşündün...'
     }
   },
   move: {
@@ -252,7 +260,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Premikanje Dela Naokrog',
       'pl'   : 'Przenoszenie pracy',
       'it_IT': "Spostare il lavoro in giro",
-      'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது'
+      'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது',
+      'tr_TR': 'İşi yürüt'
     },
     about: {
       'en_US': '"Git" comfortable with modifying the source tree :P',
@@ -273,7 +282,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Spretno "Git" premikanje po drevesu :P',
       'pl'   : 'Git dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
       'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
-      'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P'
+      'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
+      'tr_TR': '"Git" kaynak ağacını (source tree) değiştirirken rahat olun :P '
     }
   },
   mixed: {
@@ -296,7 +306,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Mešana Vreča',
       'pl'   : 'Po trochu wszystkiego',
       'it_IT': "Un po' di tutto",
-      'ta_IN': 'ஒரு கலப்பு பை'
+      'ta_IN': 'ஒரு கலப்பு பை',
+      'tr_TR': 'Ortaya Karışık'
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -317,7 +328,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
       'pl'   : 'Po trochu wszystkiego. Wskazówki i triki',
       'it_IT': "Comandi Git assortiti, trucchi e consigli",
-      'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை'
+      'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை',
+      'tr_TR': 'Git teknikleri, taktikleri ve püf noktalarından oluşan karma bir bölüm'
     }
   },
   advanced: {
@@ -340,7 +352,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Napredne Teme',
       'pl'   : 'Tematy zaawansowane',
       'it_IT': "Argomenti avanzati",
-      'ta_IN': 'மேம்பட்ட தலைப்புகள்'
+      'ta_IN': 'மேம்பட்ட தலைப்புகள்',
+      'tr_TR': 'İleri Seviye Konular'
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -361,7 +374,8 @@ var sequenceInfo = exports.sequenceInfo = {
       'sl_SI': 'Za resnično pogumne!',
       'pl'   : 'Dla naprawdę odważnych!',
       'it_IT': "Per i più temerari!",
-      'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!'
+      'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!',
+      'tr_TR': 'Gerçekten cesur olanlara!'
     }
   }
 };
