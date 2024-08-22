@@ -500,16 +500,27 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Git 브랜치 배우기를 시작합니다!',
+        '## Git 브랜치 배우기에 어서오세요!',
         '',
-        '이 애플리케이션은 git을 쓸 때 필요한 브랜치에 대한 개념을',
-        '탄탄히 잡게끔 도와드리기 위해 만들었습니다. 재밌게 사용해주시기를',
-        '바라며, 무언가를 배워가신다면 더 기쁘겠습니다!',
+        'Git을 배우고 싶으신가요? 잘 찾아오셨습니다!',
+        '"Learn Git Branching"은 웹에서 Git을 배울 수 있는 가장',
+        '시각적이고 인터랙티브한 방법입니다.',
+        '',
+        '당신은 강력한 기능들에 대한 단계별 데모를 통해 흥미진진한 레벨들에 도전하게 되며,',
+        '이 대화상자가 끝나면 저희가 제공하는 다양한 레벨을 볼 수 있습니다.',
+        '초보자라면 첫 번째 레벨부터 시작하세요.',
+        '이미 Git의 기본 사항을 알고 있다면 더 어려운 레벨에 도전해보세요.',
+        '',
+        '터미널에서 `show commands`로 사용 가능한 모든 명령어를 볼 수 있습니다.',
+        '',
+        '안내1: 데모링크로 바로가기 [링크](https://pcottle.github.io/learnGitBranching/?demo&locale=ko)',
+        '안내2: GitHub는 편향된 용어에서 벗어나기 위해',
+        '기본 브랜치의 이름을 `master` 대신 `main`으로 명명하기 시작했습니다.[자세히](https://github.com/github/renaming)',
+        '이러한 업계 전반의 움직임에 따라, 저희도 `master` 대신 `main`을 사용하도록',
+        '`Git 브랜치 배우기` 강의를 업데이트했습니다.',
+        '해당 사항이 반영되지 않은 오류가 발견될 시 언제든지 PR을 제출(또는 이슈를 오픈)해 주세요.',
         '',
         '이 애플리케이션은 [Peter Cottle](https://github.io/pcottle)님의 [LearnGitBranching](https://pcottle.github.io/learnGitBranching/)를 번역한 것입니다.',
-        '아래 데모를 먼저 보셔도 좋습니다.',
-        '',
-        '<https://pcottle.github.io/learnGitBranching/?demo&locale=ko>'
       ]
     }
   }, {
@@ -536,9 +547,9 @@ exports.dialog = {
       markdowns: [
         '## 공유해주세요!',
         '',
-        '`export tree` 와 `import tree`로 여러분의 친구들에게 트리를 공유해주세요',
+        '`export tree` 또는 `import tree` 명령어로 git의 트리 구조를 친구들에게 공유할 수 있습니다.',
         '',
-        '훌륭한 학습 자료가 있으신가요? `build level`로 레벨을 만들어 보시거나, 친구의 레벨을 `import level`로 가져와서 실험해보세요',
+        '훌륭한 학습 자료가 있으신가요? `build level`로 레벨을 만들어 보시거나, 친구의 레벨을 `import level`로 가져와서 도전해보세요',
         '',
         '이제 레슨을 시작해봅시다...'
       ]
