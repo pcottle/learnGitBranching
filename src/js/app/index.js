@@ -62,11 +62,7 @@ var init = function() {
     wait: true
   });
 
-  LocaleStore.subscribe(function() {
-    if (LocaleStore.getLocale() !== LocaleStore.getDefaultLocale()) {
-      intlRefresh();
-    }
-  });
+  LocaleStore.subscribe(intlRefresh);
   events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
