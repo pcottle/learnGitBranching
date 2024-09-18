@@ -51,7 +51,7 @@ class MainHelperBarView extends React.Component {
 
   getItems() {
     return [{
-      icon: 'question-sign',
+      icon: 'fa-solid fa-question',
       onClick: function() {
         this.setState({
           shownBar: BARS.COMMANDS
@@ -59,7 +59,7 @@ class MainHelperBarView extends React.Component {
       }.bind(this),
       title: 'Show commands'
     }, {
-      icon: 'globe',
+      icon: 'fa-solid fa-language',
       onClick: function() {
         this.setState({
           shownBar: BARS.INTL
@@ -68,9 +68,9 @@ class MainHelperBarView extends React.Component {
       title: 'Show available languages'
     }, {
       newPageLink: true,
-      icon: 'twitter',
-      href: 'https://twitter.com/petermcottle',
-      title: 'Follow me on Twitter'
+      icon: 'fa-brands fa-threads',
+      href: 'https://www.threads.net/@pcottle',
+      title: 'Follow me on Threads'
     }];
   }
 

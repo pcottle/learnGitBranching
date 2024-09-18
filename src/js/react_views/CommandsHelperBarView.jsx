@@ -54,7 +54,7 @@ class CommandsHelperBarView extends React.Component {
         this.fireCommand('help general; git help');
       }.bind(this)
     }, {
-      icon: 'signout',
+      icon: 'fa-solid fa-right-from-bracket',
       onClick: function() {
         this.props.onExit();
       }.bind(this)

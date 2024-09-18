@@ -41,7 +41,7 @@ class HelperBarView extends React.Component {
           target="_blank"
           href={item.href}
           title={item.title}>
-          <i className={'icon-' + item.icon} />
+          <i className={item.icon} />
           {' '}
         </a>
       );
@@ -53,7 +53,7 @@ class HelperBarView extends React.Component {
         onClick={item.onClick}
         title={item.title}>
         {item.text ? item.text :
-          <i className={'icon-' + item.icon} />
+          <i className={item.icon} />
         }
         {' '}
       </a>
