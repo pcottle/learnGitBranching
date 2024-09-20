@@ -1356,3 +1356,8 @@ div.gitDemonstrationView {
   left: 21px;
   opacity: 0.4;
 }
+
+a.home-link {
+  text-decoration: none;
+  cursor: alias;
+}
