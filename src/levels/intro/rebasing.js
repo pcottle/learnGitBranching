@@ -1132,7 +1132,7 @@ exports.level = {
               "",
               "Drugim sposobem na łączenie naszej pracy z różnych gałęzi jest *rebase*. Rebase zasadniczo pobiera zestaw commitów, \"kopiuje\" je i wrzuca je gdzie indziej.",
               "",
-              "Chociaż brzmi to niejasno, zaletą rebase jest to, że można go użyć do stworzenia ładnej, liniowej sekwencji commitów. Rebase sprawi, że historia commitów w repozytorium będzie wyglądała na dużo prostszą, ponieważ nia ma wtedy commitów scalających.",
+              "Chociaż brzmi to niejasno, zaletą rebase jest to, że można go użyć do stworzenia ładnej, liniowej sekwencji commitów. Rebase sprawi, że historia commitów w repozytorium będzie wyglądała na dużo prostszą, ponieważ nie ma wtedy commitów scalających.",
               "",
               "Sprawdźmy, jak to działa..."
             ]
