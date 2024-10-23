@@ -8,7 +8,7 @@ var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
-
+change added
 /**
  * Globals
  */
