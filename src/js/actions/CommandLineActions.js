@@ -10,10 +10,11 @@ var CommandLineActions = {
   submitCommand: function(text) {
     AppDispatcher.handleViewAction({
       type: ActionTypes.SUBMIT_COMMAND,
-      text: text
+      text: text 
     });
   }
 
-};
+}; history
+
 
 module.exports = CommandLineActions;
