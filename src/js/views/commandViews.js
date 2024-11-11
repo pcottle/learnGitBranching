@@ -93,6 +93,30 @@ var CommandPromptView = Backbone.View.extend({
       }
     }
 
+    // lets also handle control + U to clear the line
+    if (e.keyCode === 85 && e.ctrlKey && e.type === 'keydown') {
+      e.preventDefault();
+      el.value = '';
+      el.selectionStart = el.selectionEnd = 0;
+    }
+
+    // Handle Ctrl+Backspace to delete last word
+    if ((e.keyCode === 8 || e.keyCode === 87) && e.ctrlKey && e.type === 'keydown') {
+      e.preventDefault();
+      const cursorPos = el.selectionStart;
+      const textBeforeCursor = el.value.substring(0, cursorPos);
+      // Find the last word boundary
+      const lastSpaceIndex = textBeforeCursor.trimEnd().lastIndexOf(' ');
+      if (lastSpaceIndex >= 0) {
+        el.value = el.value.substring(0, lastSpaceIndex + 1) + 
+                  el.value.substring(cursorPos);
+        el.selectionStart = el.selectionEnd = lastSpaceIndex + 1;
+      } else {
+        // If no space found, clear to start
+        el.value = el.value.substring(cursorPos);
+        el.selectionStart = el.selectionEnd = 0;
+      }
+    }
     this.updatePrompt(el);
   },
 
