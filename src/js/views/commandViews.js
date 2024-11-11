@@ -17,6 +17,15 @@ const autoCompleteSuggestionOrder = [
   'show solution', // above show goal since you start with a goal view
   'reset', // over reset solved
   'import level', // over import tree
+  // for the git commands, we did an analysis and got a better order.
+  // That way cherry pick is not before checkout
+  "git commit",
+  "git clone",
+  "git fakeTeamwork",
+  "git checkout",
+  "git branch",
+  "git fetch",
+  "git pull",
 ];
 
 const allCommandsSorted = autoCompleteSuggestionOrder.concat(
