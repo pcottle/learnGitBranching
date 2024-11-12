@@ -109,8 +109,14 @@ var CommandPromptView = Backbone.View.extend({
       el.selectionStart = el.selectionEnd = 0;
     }
 
-    // Handle Ctrl+Backspace to delete last word
-    if ((e.keyCode === 8 || e.keyCode === 87) && e.ctrlKey && e.type === 'keydown') {
+     // handle control + W to delete up to previous word
+    const isDeleteWord = (
+      e.keyCode === 87 && e.ctrlKey && e.type === 'keydown'
+    ) || (
+      // handle alt + backspace to delete up to previous word
+      e.keyCode === 8 && e.altKey && e.type === 'keydown'
+    );
+    if (isDeleteWord) {
       e.preventDefault();
       const cursorPos = el.selectionStart;
       const textBeforeCursor = el.value.substring(0, cursorPos);
