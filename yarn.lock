@@ -1384,8 +1384,8 @@ electron-to-chromium@^1.4.71:
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.72.tgz"
 
 elliptic@^6.0.0, elliptic@^6.5.4:
-  version "6.5.7"
-  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.5.7.tgz#8ec4da2cb2939926a1b9a73619d768207e647c8b"
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/elliptic/-/elliptic-6.6.0.tgz#5919ec723286c1edf28685aa89261d4761afa210"
   dependencies:
     bn.js "^4.11.9"
     brorand "^1.1.0"
@@ -3618,8 +3618,8 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     inherits "^2.0.1"
 
 rollup@^3.27.1:
-  version "3.29.4"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.29.4.tgz#4d70c0f9834146df8705bfb69a9a19c9e1109981"
+  version "3.29.5"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-3.29.5.tgz#8a2e477a758b520fb78daf04bca4c522c1da8a54"
   optionalDependencies:
     fsevents "~2.3.2"
 
