@@ -5,6 +5,7 @@ var {
 } = require('fs');
 var path = require('path');
 
+var { marked } = require('marked');
 var glob = require('glob');
 var _ = require('underscore');
 
@@ -136,6 +137,11 @@ var clean = function () {
     .pipe(gClean());
 };
 
+var convertMarkdownStringsToHTML = function(markdowns) {
+  return marked(markdowns.join('\n'));
+};
+
+
 var jshint = function() {
   return src([
     'gulpfile.js',
@@ -200,6 +206,75 @@ var gitDeployPushOrigin = function(done) {
   done();
 };
 
+var generateLevelDocs = function(done) {
+  log('Generating level documentation...');
+  
+  // Get all level files
+  const allLevels= require('./src/levels/index');
+  const cssContent = readFileSync('./generatedDocs/github-markdown.css');
+  
+  let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Learn Git Branching - Level Documentation</title>
+      <style>${cssContent}</style>
+      <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 40px; }
+        .level { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .level-name { color: #333; }
+        .level-goal { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+        .level-solution { font-family: monospace; background: #f0f0f0; padding: 10px; }
+        .level-hint { color: #666; font-style: italic; }
+      </style>
+    </head>
+    <body>
+      <div class="markdown-body">
+        <h1>Learn Git Branching - All Levels Documentation</h1>
+  `;
+
+  Object.keys(allLevels.sequenceInfo).forEach(sequenceKey => {
+    log('Processing sequence: ', sequenceKey);
+
+    const sequenceInfo = allLevels.sequenceInfo[sequenceKey];
+    htmlContent += `
+      <h2>Level Sequence: ${sequenceInfo.displayName.en_US}</h2>
+      <h6>${sequenceInfo.about.en_US}</h6>
+    `;
+
+    const levels = allLevels.levelSequences[sequenceKey];
+    for (const level of levels) {
+      htmlContent += `<h3>Level: ${level.name.en_US}</h3>`;
+
+      const startDialog = level.startDialog.en_US;
+      for (const dialog of startDialog.childViews) {
+        const childViewType = dialog.type;
+        if (childViewType === 'ModalAlert') {
+          htmlContent += convertMarkdownStringsToHTML(dialog.options.markdowns);
+        } else if (childViewType === 'GitDemonstrationView') {
+          htmlContent += convertMarkdownStringsToHTML(dialog.options.beforeMarkdowns);
+          htmlContent += `<pre class="level-solution">${dialog.options.command}</pre>`;
+          htmlContent += convertMarkdownStringsToHTML(dialog.options.afterMarkdowns);
+        } else {
+          throw new Error(`Unknown child view type: ${childViewType}`);
+        }
+      }
+    }
+
+  });
+
+  htmlContent += `
+    </div>
+    </body>
+    </html>
+  `;
+
+  // Write the file
+  writeFileSync('generatedDocs/levels.html', htmlContent);
+  log('Level documentation generated at build/levels.html');
+  done();
+};
+
 var fastBuild = series(clean, ifyBuild, style, buildIndex, jshint);
 
 var build = series(
@@ -240,4 +315,5 @@ module.exports = {
   build,
   test: jasmine,
   deploy,
+  generateLevelDocs,
 };
