@@ -200,6 +200,63 @@ var gitDeployPushOrigin = function(done) {
   done();
 };
 
+var generateLevelDocs = function(done) {
+  log('Generating level documentation...');
+  
+  // Get all level files
+  const levelFiles = glob.sync('src/levels/**/*.js');
+  
+  let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Learn Git Branching - Level Documentation</title>
+      <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .level { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .level-name { color: #333; }
+        .level-goal { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+        .level-solution { font-family: monospace; background: #f0f0f0; padding: 10px; }
+        .level-hint { color: #666; font-style: italic; }
+      </style>
+    </head>
+    <body>
+      <h1>Learn Git Branching - Level Documentation</h1>
+  `;
+
+  levelFiles.forEach(file => {
+    const content = require('./' + file.replace('.js', ''));
+    const level = content.level;
+    
+    if (!level) return; // Skip if not a valid level file
+
+    htmlContent += `
+      <div class="level">
+        <h2 class="level-name">${level.name?.en_US || 'Unnamed Level'}</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">${level.goalTreeString || 'No goal tree specified'}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">${level.solutionCommand || 'No solution specified'}</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">${level.hint?.en_US || 'No hint available'}</p>
+      </div>
+    `;
+  });
+
+  htmlContent += `
+    </body>
+    </html>
+  `;
+
+  // Write the file
+  writeFileSync('generatedDocs/levels.html', htmlContent);
+  log('Level documentation generated at build/levels.html');
+  done();
+};
+
 var fastBuild = series(clean, ifyBuild, style, buildIndex, jshint);
 
 var build = series(
@@ -240,4 +297,5 @@ module.exports = {
   build,
   test: jasmine,
   deploy,
+  generateLevelDocs,
 };

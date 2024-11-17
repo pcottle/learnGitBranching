@@ -1,0 +1,462 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Learn Git Branching - Level Documentation</title>
+      <style>
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .level { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        .level-name { color: #333; }
+        .level-goal { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+        .level-solution { font-family: monospace; background: #f0f0f0; padding: 10px; }
+        .level-hint { color: #666; font-style: italic; }
+      </style>
+    </head>
+    <body>
+      <h1>Learn Git Branching - Level Documentation</h1>
+  
+      <div class="level">
+        <h2 class="level-name">Multiple parents</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C7","id":"main"},"bugWork":{"target":"C2","id":"bugWork"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C2"],"id":"C5"},"C6":{"parents":["C4","C5"],"id":"C6"},"C7":{"parents":["C6"],"id":"C7"}},"HEAD":{"target":"main","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git branch bugWork main^^2^</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Use `git branch bugWork` with a target commit to create the missing reference.</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Branching in Git</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C1","id":"main"},"bugFix":{"target":"C1","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"bugFix","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git branch bugFix;git checkout bugFix</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Make a new branch with "git branch <branch-name>" and check it out with "git checkout <branch-name>"</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Introduction to Git Commits</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C3","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"main","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git commit;git commit</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Just type in 'git commit' twice to finish!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Merging in Git</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C4","id":"main"},"bugFix":{"target":"C2","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3","C2"],"id":"C4"}},"HEAD":{"target":"main","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout -b bugFix;git commit;git checkout main;git commit;git merge bugFix</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember to commit in the order specified (bugFix before main)</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Rebase Introduction</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22main%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout -b bugFix;git commit;git checkout main;git commit;git checkout bugFix;git rebase main</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Make sure you commit from bugFix first</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git Describe</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null},"side":{"target":"C4","id":"side","remoteTrackingBranchID":null},"bugFix":{"target":"C7","id":"bugFix","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"},"C6":{"parents":["C5"],"id":"C6"},"C7":{"parents":["C6"],"id":"C7"}},"tags":{"v0":{"target":"C0","id":"v0","type":"tag"},"v1":{"target":"C3","id":"v1","type":"tag"}},"HEAD":{"target":"bugFix","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git commit </pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Just commit once on bugFix when you're ready to move on</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Grabbing Just 1 Commit</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22main%22%7D%2C%22debug%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22debug%22%7D%2C%22printf%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22printf%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git rebase -i main --solution-ordering C4; git rebase bugFix main</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember, interactive rebase or cherry-pick is your friend here</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Juggling Commits</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22main%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git rebase -i HEAD~2 --solution-ordering C3,C2;git commit --amend;git rebase -i HEAD~2 --solution-ordering C2'',C3';git rebase caption main</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">The first command is git rebase -i HEAD~2</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Juggling Commits #2</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22main%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout main;git cherry-pick C2;git commit --amend;git cherry-pick C3</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Don't forget to forward main to the updated changes!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git Tags</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C5","id":"main","remoteTrackingBranchID":null},"side":{"target":"C3","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C1"],"id":"C4"},"C5":{"parents":["C2","C4"],"id":"C5"}},"tags":{"v1":{"target":"C2","id":"v1","type":"tag"},"v0":{"target":"C1","id":"v0","type":"tag"}},"HEAD":{"target":"C2","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git tag v1 side~1;git tag v0 main~2;git checkout v1</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">you can either check out the commit directly or simply checkout the tag!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Cherry-pick Intro</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22main%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git cherry-pick C3 C4 C7</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">git cherry-pick followed by commit names!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Detach yo' HEAD</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C2","id":"main"},"bugFix":{"target":"C4","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"}},"HEAD":{"target":"C4","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout C4</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Use the label (hash) on the commit for help!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Interactive Rebase Intro</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22main%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git rebase -i overHere --solution-ordering C3,C5,C4</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">you can use either branches or relative refs (HEAD~) to specify the rebase target</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Relative Refs (^)</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C2","id":"main"},"bugFix":{"target":"C4","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"}},"HEAD":{"target":"C3","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout bugFix^</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember the Caret (^) operator!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Relative Refs #2 (~)</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C6","id":"main"},"bugFix":{"target":"C0","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"},"C5":{"parents":["C3"],"id":"C5"},"C6":{"parents":["C5"],"id":"C6"}},"HEAD":{"target":"C1","id":"HEAD"}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git branch -f main C6;git checkout HEAD~1;git branch -f bugFix HEAD~1</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">You'll need to use at least one direct reference (hash) to complete this level</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Reversing Changes in Git</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22main%22%7D%2C%22pushed%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22pushed%22%7D%2C%22local%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22local%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22pushed%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git reset HEAD~1;git checkout pushed;git revert HEAD</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Notice that revert and reset take different arguments.</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Rebasing over 9000 times</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22main%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22bugFix%22%7D%2C%22side%22%3A%7B%22target%22%3A%22C6%27%22%2C%22id%22%3A%22side%22%7D%2C%22another%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22another%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git rebase main bugFix;git rebase bugFix side;git rebase side another;git rebase another main</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember, the most efficient way might be to only update main at the end...</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Branch Spaghetti</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C5%22%2C%22id%22%3A%22main%22%7D%2C%22one%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22one%22%7D%2C%22two%22%3A%7B%22target%22%3A%22C2%27%27%22%2C%22id%22%3A%22two%22%7D%2C%22three%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22three%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C4%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22two%22%2C%22id%22%3A%22HEAD%22%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout one; git cherry-pick C4 C3 C2; git checkout two; git cherry-pick C5 C4 C3 C2; git branch -f three C2</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Make sure to do everything in the proper order! Branch one first, then two, then three</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Clone Intro</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git clone</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Just git clone!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Faking Teamwork</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C5","id":"main","remoteTrackingBranchID":"o/main","localBranchesThatTrackThis":null},"o/main":{"target":"C3","id":"o/main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["main"]}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C4":{"parents":["C1"],"id":"C4"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C5":{"parents":["C3","C4"],"id":"C5"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C3","id":"main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git clone;git fakeTeamwork 2;git commit ;git pull</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember you can specify the number of commits to fake</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git Fetchin'</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C2","id":"main"},"bugFix":{"target":"C3","id":"bugFix"},"o/main":{"target":"C5","id":"o/main"},"o/bugFix":{"target":"C7","id":"o/bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"},"C6":{"parents":["C3"],"id":"C6"},"C5":{"parents":["C4"],"id":"C5"},"C7":{"parents":["C6"],"id":"C7"}},"HEAD":{"target":"bugFix","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C5","id":"main"},"bugFix":{"target":"C7","id":"bugFix"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2"],"id":"C4"},"C5":{"parents":["C4"],"id":"C5"},"C6":{"parents":["C3"],"id":"C6"},"C7":{"parents":["C6"],"id":"C7"}},"HEAD":{"target":"bugFix","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git fetch</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">just run git fetch!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Fetch arguments</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C6","id":"main","remoteTrackingBranchID":"o/main"},"foo":{"target":"C7","id":"foo","remoteTrackingBranchID":"o/foo"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"o/foo":{"target":"C1","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C5":{"parents":["C1"],"id":"C5"},"C6":{"parents":["C5"],"id":"C6"},"C7":{"parents":["C3","C6"],"id":"C7"}},"HEAD":{"target":"foo","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C4","id":"main","remoteTrackingBranchID":null},"foo":{"target":"C6","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C1"],"id":"C5"},"C6":{"parents":["C5"],"id":"C6"}},"HEAD":{"target":"foo","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git fetch origin c3:foo;git fetch origin c6:main;git checkout foo;git merge main</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Pay attention how the commit ids may have swapped! You can read slides again with "help level"</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Diverged History</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/main%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22main%22%5D%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git clone;git fakeTeamwork;git commit;git pull --rebase;git push</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Check out the ordering from the goal visualization</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Locked Main</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"feature":{"target":"C2","id":"feature","remoteTrackingBranchID":"o/feature"},"o/feature":{"target":"C2","id":"o/feature","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"feature","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null},"feature":{"target":"C2","id":"feature","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git branch -f main o/main; git checkout -b feature C2; git push origin feature</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Make the feature branch from the local main before resetting it back to be the same as origin's main</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Merging with remotes</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C11","id":"main","remoteTrackingBranchID":"o/main","localBranchesThatTrackThis":null},"o/main":{"target":"C11","id":"o/main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["main"]},"side1":{"target":"C2","id":"side1","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null},"side2":{"target":"C4","id":"side2","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null},"side3":{"target":"C7","id":"side3","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C3"],"id":"C4"},"C5":{"parents":["C1"],"id":"C5"},"C6":{"parents":["C5"],"id":"C6"},"C7":{"parents":["C6"],"id":"C7"},"C8":{"parents":["C1"],"id":"C8"},"C9":{"parents":["C2","C8"],"id":"C9"},"C10":{"parents":["C4","C9"],"id":"C10"},"C11":{"parents":["C10","C7"],"id":"C11"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C11","id":"main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C8":{"parents":["C1"],"id":"C8"},"C5":{"parents":["C1"],"id":"C5"},"C3":{"parents":["C1"],"id":"C3"},"C2":{"parents":["C1"],"id":"C2"},"C6":{"parents":["C5"],"id":"C6"},"C4":{"parents":["C3"],"id":"C4"},"C9":{"parents":["C2","C8"],"id":"C9"},"C7":{"parents":["C6"],"id":"C7"},"C10":{"parents":["C4","C9"],"id":"C10"},"C11":{"parents":["C10","C7"],"id":"C11"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout main;git pull;git merge side1;git merge side2;git merge side3;git push</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Pay attention to the goal tree!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git Pullin'</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C4","id":"main","remoteTrackingBranchID":"o/main","localBranchesThatTrackThis":null},"o/main":{"target":"C3","id":"o/main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["main"]}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C3","id":"main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git pull</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Just run git pull!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Pull arguments</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C6","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"o/bar":{"target":"C1","id":"o/bar","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null},"side":{"target":"C2","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C4":{"parents":["C1"],"id":"C4"},"C3":{"parents":["C1"],"id":"C3"},"C5":{"parents":["C3","C4"],"id":"C5"},"C2":{"parents":["C1"],"id":"C2"},"C6":{"parents":["C2","C5"],"id":"C6"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null},"bar":{"target":"C3","id":"bar","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"bar","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git pull origin c3:foo;git pull origin c2:side</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember that you can create new local branches with fetch/pull arguments</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git Pushin'</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C3","id":"main","remoteTrackingBranchID":"o/main","localBranchesThatTrackThis":null},"o/main":{"target":"C3","id":"o/main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":["main"]}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C3","id":"main","remoteTrackingBranchID":null,"localBranchesThatTrackThis":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git commit;git commit;git push</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember you have to clone before you can push!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git push arguments</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":"o/main"},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":"o/foo"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null},"o/foo":{"target":"C3","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"C0","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null},"foo":{"target":"C3","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git push origin main;git push origin foo</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">You can always look at the last slide of the dialog with "objective"</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Git push arguments -- Expanded!</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C6","id":"main","remoteTrackingBranchID":"o/main"},"foo":{"target":"C4","id":"foo","remoteTrackingBranchID":"o/foo"},"o/main":{"target":"C4","id":"o/main","remoteTrackingBranchID":null},"o/foo":{"target":"C5","id":"o/foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"},"C5":{"parents":["C2"],"id":"C5"},"C6":{"parents":["C5"],"id":"C6"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C4","id":"main","remoteTrackingBranchID":null},"foo":{"target":"C5","id":"foo","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C5":{"parents":["C2"],"id":"C5"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C2","C3"],"id":"C4"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git push origin main^:foo;git push origin foo:main</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember you can admit defeat and type in "show solution" :P</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Push Main!</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22o/main%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22o/main%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3A%5B%22main%22%5D%7D%2C%22side1%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22side1%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side2%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22side2%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%2C%22side3%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22side3%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C5%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C7%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C7%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C7%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%2C%22localBranchesThatTrackThis%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C8%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C8%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C8%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C6%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C6%27%22%7D%2C%22C7%27%22%3A%7B%22parents%22%3A%5B%22C6%27%22%5D%2C%22id%22%3A%22C7%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git fetch;git rebase o/main side1;git rebase side1 side2;git rebase side2 side3;git rebase side3 main;git push</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember you can always use the undo or reset commands</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Remote Branches</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C3","id":"main"},"o/main":{"target":"C1","id":"o/main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C3":{"parents":["C1"],"id":"C3"},"C4":{"parents":["C1"],"id":"C4"}},"HEAD":{"target":"C4","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git commit;git checkout o/main;git commit</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Pay attention to the ordering -- commit on main first!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Source of nothing</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"bar":{"target":"C1","id":"bar","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}}</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git push origin :foo;git fetch origin :bar</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">The branch command is disabled for this level so you'll have to use fetch!</p>
+      </div>
+    
+      <div class="level">
+        <h2 class="level-name">Remote Tracking</h2>
+        
+        <h3>Goal Tree:</h3>
+        <pre class="level-goal">%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%7D%2C%22o/main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D</pre>
+        
+        <h3>Solution:</h3>
+        <pre class="level-solution">git checkout -b side o/main;git commit;git pull --rebase;git push</pre>
+        
+        <h3>Hint:</h3>
+        <p class="level-hint">Remember there are two ways to set remote tracking!</p>
+      </div>
+    
+    </body>
+    </html>
+  
