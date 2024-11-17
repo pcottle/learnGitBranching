@@ -5,6 +5,7 @@ var {
 } = require('fs');
 var path = require('path');
 
+var { marked } = require('marked');
 var glob = require('glob');
 var _ = require('underscore');
 
@@ -136,6 +137,11 @@ var clean = function () {
     .pipe(gClean());
 };
 
+var convertMarkdownStringsToHTML = function(markdowns) {
+  return marked(markdowns.join('\n'));
+};
+
+
 var jshint = function() {
   return src([
     'gulpfile.js',
@@ -204,15 +210,17 @@ var generateLevelDocs = function(done) {
   log('Generating level documentation...');
   
   // Get all level files
-  const levelFiles = glob.sync('src/levels/**/*.js');
+  const allLevels= require('./src/levels/index');
+  const cssContent = readFileSync('./generatedDocs/github-markdown.css');
   
   let htmlContent = `
     <!DOCTYPE html>
     <html>
     <head>
       <title>Learn Git Branching - Level Documentation</title>
+      <style>${cssContent}</style>
       <style>
-        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 20px; }
+        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 40px; }
         .level { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
         .level-name { color: #333; }
         .level-goal { background: #f5f5f5; padding: 10px; border-radius: 4px; }
@@ -221,32 +229,42 @@ var generateLevelDocs = function(done) {
       </style>
     </head>
     <body>
-      <h1>Learn Git Branching - Level Documentation</h1>
+      <div class="markdown-body">
+        <h1>Learn Git Branching - All Levels Documentation</h1>
   `;
 
-  levelFiles.forEach(file => {
-    const content = require('./' + file.replace('.js', ''));
-    const level = content.level;
-    
-    if (!level) return; // Skip if not a valid level file
+  Object.keys(allLevels.sequenceInfo).forEach(sequenceKey => {
+    log('Processing sequence: ', sequenceKey);
 
+    const sequenceInfo = allLevels.sequenceInfo[sequenceKey];
     htmlContent += `
-      <div class="level">
-        <h2 class="level-name">${level.name?.en_US || 'Unnamed Level'}</h2>
-        
-        <h3>Goal Tree:</h3>
-        <pre class="level-goal">${level.goalTreeString || 'No goal tree specified'}</pre>
-        
-        <h3>Solution:</h3>
-        <pre class="level-solution">${level.solutionCommand || 'No solution specified'}</pre>
-        
-        <h3>Hint:</h3>
-        <p class="level-hint">${level.hint?.en_US || 'No hint available'}</p>
-      </div>
+      <h2>Level Sequence: ${sequenceInfo.displayName.en_US}</h2>
+      <h6>${sequenceInfo.about.en_US}</h6>
     `;
+
+    const levels = allLevels.levelSequences[sequenceKey];
+    for (const level of levels) {
+      htmlContent += `<h3>Level: ${level.name.en_US}</h3>`;
+
+      const startDialog = level.startDialog.en_US;
+      for (const dialog of startDialog.childViews) {
+        const childViewType = dialog.type;
+        if (childViewType === 'ModalAlert') {
+          htmlContent += convertMarkdownStringsToHTML(dialog.options.markdowns);
+        } else if (childViewType === 'GitDemonstrationView') {
+          htmlContent += convertMarkdownStringsToHTML(dialog.options.beforeMarkdowns);
+          htmlContent += `<pre class="level-solution">${dialog.options.command}</pre>`;
+          htmlContent += convertMarkdownStringsToHTML(dialog.options.afterMarkdowns);
+        } else {
+          throw new Error(`Unknown child view type: ${childViewType}`);
+        }
+      }
+    }
+
   });
 
   htmlContent += `
+    </div>
     </body>
     </html>
   `;
