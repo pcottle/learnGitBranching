@@ -7,10 +7,11 @@ var ActionTypes = AppConstants.ActionTypes;
 
 var LevelActions = {
 
-  setLevelSolved: function(levelID) {
+  setLevelSolved: function(levelID, best) { 
     AppDispatcher.handleViewAction({
       type: ActionTypes.SET_LEVEL_SOLVED,
-      levelID: levelID
+      levelID: levelID,
+      best: best
     });
   },
 

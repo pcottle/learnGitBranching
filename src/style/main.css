@@ -1010,6 +1010,11 @@ a.levelIcon.solved:active {
   background: #5edb15;
 }
 
+a.levelIcon.best {
+  border-color: gold;
+  background: gold;
+}
+
 a.levelIcon div.index {
   font-weight: 400;
   text-shadow: 1px 1px 2px #CCC, 0 2px 0 #C9C9C9;
