@@ -187,6 +187,9 @@ AppConstants.StoreSubscribePrototype,
 
   isLevelSolved: function(levelID) {
     var levelData = _solvedMap[levelID];
+    if (levelData === true) {
+      return true;
+    }
     return levelData ? levelData.solved === true : false;
   },
   

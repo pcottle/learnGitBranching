@@ -10,7 +10,6 @@ var MyError = Backbone.Model.extend({
 
   getMsg: function() {
     if (!this.get('msg')) {
-      debugger;
       console.warn('my error without message');
     }
     return this.get('msg');

@@ -59,4 +59,54 @@ $(document).ready(function() {
   window.debug_copyTree = function() {
     return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
   };
+
+  window.debug_downloadImageOfDemonstrationView = function() {
+    const svgElement = document.querySelectorAll('svg[style*="z-index: 300"]')[0];
+    const svgBlob = new Blob([svgElement.outerHTML], { type: 'image/svg+xml' });
+    // Create a URL object
+    const url = URL.createObjectURL(svgBlob);
+  
+    // Create an anchor element to download the image
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'image.svg';
+    a.click();
+  
+
+    // svgElement.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    // console.log('the SVG element', svgElement);
+    // const serializer = new XMLSerializer();
+    // const svgString = serializer.serializeToString(svgElement);
+    // console.log('the SVG string', svgString);
+    // const svgDataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svgString)}`;
+    // console.log('the SVG data', svgDataUrl);
+
+    // const canvas = document.createElement("canvas");
+    // const context = canvas.getContext("2d");
+
+    // // Set canvas size to match the SVG's dimensions
+    // canvas.width = svgElement.width.baseVal.value;
+    // canvas.height = svgElement.height.baseVal.value;
+
+    // // Create an image and load the SVG Data URL
+    // const image = new Image();
+    // image.onload = () => {
+    //   context.drawImage(image, 0, 0);
+      
+    //   setTimeout(() => {
+    //     // Export the canvas to an image
+    //     const pngDataUrl = canvas.toDataURL("image/png");
+    //     console.log('the PNG data', pngDataUrl); // Logs the base64 PNG image URL
+
+    //     // (Optional) Create a downloadable link
+    //     const downloadLink = document.createElement("a");
+    //     downloadLink.href = pngDataUrl;
+    //     downloadLink.download = "exported-image.png";
+    //     downloadLink.click();
+    //   }, 1000);
+    // };
+    // image.src = svgDataUrl;
+
+  };
+
 });
