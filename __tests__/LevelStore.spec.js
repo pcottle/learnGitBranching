@@ -23,12 +23,29 @@ describe('this store', function() {
 
     expect(LevelStore.isLevelSolved(firstLevel.id))
       .toEqual(false);
-    LevelActions.setLevelSolved(firstLevel.id);
+    LevelActions.setLevelSolved(firstLevel.id, false);
     expect(LevelStore.isLevelSolved(firstLevel.id))
       .toEqual(true);
     LevelActions.resetLevelsSolved();
     expect(LevelStore.isLevelSolved(firstLevel.id))
       .toEqual(false);
   });
+
+  it('can solve a level with best status and then reset', function() {
+    var sequenceMap = LevelStore.getSequenceToLevels();
+    var firstLevel = sequenceMap[
+      Object.keys(sequenceMap)[0]
+    ][0];
+  
+    expect(LevelStore.isLevelBest(firstLevel.id))
+      .toEqual(false);
+    LevelActions.setLevelSolved(firstLevel.id, true);
+    expect(LevelStore.isLevelBest(firstLevel.id))
+      .toEqual(true);
+    LevelActions.resetLevelsSolved();
+    expect(LevelStore.isLevelBest(firstLevel.id))
+      .toEqual(false);
+  });
+  
 
 });
