@@ -477,11 +477,15 @@ var Level = Sandbox.extend({
 
   levelSolved: function(defer) {
     this.solved = true;
+  
     if (!this.isShowingSolution) {
-      LevelActions.setLevelSolved(this.level.id);
+      var numCommands = this.gitCommandsIssued.length;
+      var best = this.getNumSolutionCommands();
+      var isBest = numCommands <= best;
+  
+      LevelActions.setLevelSolved(this.level.id, isBest);
       log.levelSolved(this.getEnglishName());
     }
-
     this.hideGoal();
 
     var nextLevel = LevelStore.getNextLevel(this.level.id);

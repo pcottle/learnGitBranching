@@ -402,12 +402,16 @@ var SeriesView = BaseView.extend({
   updateSolvedStatus: function() {
     // this is a bit hacky, it really should be some nice model
     // property changing but it's the 11th hour...
-    var toLoop = this.$('a.levelIcon').each(function(index, el) {
-      var id = $(el).attr('data-id');
-      $(el).toggleClass('solved', LevelStore.isLevelSolved(id));
+    this.$('a.levelIcon').each(function() {
+      var $el = $(this);
+      var id = $el.attr('data-id');
+      var isSolved = LevelStore.isLevelSolved(id);
+      var isBest = LevelStore.isLevelBest(id);
+      $el.toggleClass('solved', isSolved);
+      $el.toggleClass('best', isBest);
     });
   },
-
+    
   getEventID: function(ev) {
     var element = ev.target;
     return $(element).attr('data-id');

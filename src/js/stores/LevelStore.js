@@ -186,11 +186,20 @@ AppConstants.StoreSubscribePrototype,
   },
 
   isLevelSolved: function(levelID) {
-    if (!_levelMap[levelID]) {
-      throw new Error('that level doesn\'t exist!');
+    var levelData = _solvedMap[levelID];
+    if (levelData === true) {
+      return true;
     }
-    return !!_solvedMap[levelID];
+    return levelData ? levelData.solved === true : false;
   },
+  
+  
+  isLevelBest: function(levelID) {
+    var levelData = _solvedMap[levelID];
+    return levelData ? levelData.best === true : false;
+  },
+  
+    
 
   dispatchToken: AppDispatcher.register(function(payload) {
     var action = payload.action;
@@ -202,8 +211,8 @@ AppConstants.StoreSubscribePrototype,
         _syncToStorage();
         shouldInform = true;
         break;
-      case ActionTypes.SET_LEVEL_SOLVED:
-        _solvedMap[action.levelID] = true;
+      case ActionTypes.SET_LEVEL_SOLVED:       
+        _solvedMap[action.levelID] = { solved: true, best: action.best || false };        
         _syncToStorage();
         shouldInform = true;
         break;
