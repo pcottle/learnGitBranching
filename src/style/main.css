@@ -1011,8 +1011,22 @@ a.levelIcon.solved:active {
 }
 
 a.levelIcon.best {
-  border-color: gold;
-  background: gold;
+  background: -webkit-linear-gradient(top, #FFD700, #FFA500);
+  background: -moz-linear-gradient(top, #FFD700, #FFA500);
+  background: -o-linear-gradient(top, #FFD700, #FFA500);
+  background: -ms-linear-gradient(top, #FFD700, #FFA500);
+  background: linear-gradient(top, #FFD700, #FFA500);
+  border-top: 1px solid #FFE750;
+}
+
+a.levelIcon.best:hover {
+  border-top-color: #FFD700;
+  background: #FFD700;
+}
+
+a.levelIcon.best:active {
+  border-top-color: #FFA500;
+  background: #FFA500;
 }
 
 a.levelIcon div.index {
@@ -1023,21 +1037,22 @@ a.levelIcon div.index {
   -webkit-text-stroke: 1px #111;
 }
 
+/* Icon states */
 a.levelIcon div.index i {
   display: none;
-}
-
-a.levelIcon.solved div.index i {
-  display: block;
   color: white;
-  -webkit-text-stroke: 0;
-  text-shadow: none;
   font-size: 2em;
+  -webkit-text-stroke: 0;
 }
 
-a.levelIcon.solved div.index div.indexNum {
-  display: none;
-}
+/* Show appropriate icon based on state */
+a.levelIcon.solved .icon-ok-circle { display: block; }
+a.levelIcon.best .icon-ok-circle { display: none; }
+a.levelIcon.best .icon-star { display: block; }
+
+/* Hide number when icons are shown */
+a.levelIcon.solved div.index div.indexNum,
+a.levelIcon.best div.index div.indexNum { display: none; }
 
 /* MultiView Builder */
 .multiViewBuilder div.view {
