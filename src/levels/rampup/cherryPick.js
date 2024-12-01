@@ -24,7 +24,8 @@ exports.level = {
     "vi": "Giới thiệu về cherry-pick",
     "sl_SI": "Uvod v Cherry-pick",
     "it_IT": "Introduzione al cherry-pick",
-    "pl": "Wprowadzenie do cherry-pick"
+    "pl": "Wprowadzenie do cherry-pick",
+    "tr_TR": "Cherry-pick işlemine giriş"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -44,6 +45,7 @@ exports.level = {
     "sl_SI": "git cherry-pick nato pa imena commitov.",
     "it_IT": "git cherry-pick seguito dai nomi dei commit!",
     "pl": "git cherry-pick a po nim nazwy commitów!",
+    "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!"
   },
   "startDialog": {
     "en_US": {
@@ -1072,5 +1074,62 @@ exports.level = {
         },
       ],
     },
-  }
+  },
+  "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Çalışmayı Taşımak",
+              "",
+              "Şimdiye kadar git'in temellerini inceledik — commit yapma, branch oluşturma ve kaynak ağacında (source tree) gezinme. Bu temel kavramlar, git repolarının gücünün %90'ını kullanmak ve geliştiricilerin ana ihtiyaçlarını karşılamak için yeterlidir.",
+              "",
+              "Ancak geriye kalan %10, karmaşık iş akışlarında (veya zor bir duruma düştüğünüzde) oldukça faydalı olabilir. Şimdi ele alacağımız kavram \"çalışmayı taşımak\" — bir başka deyişle, geliştiricilerin değişikliklerini \"Bu çalışmayı burada, şunu ise orada istiyorum\" şeklinde kesin, etkili ve esnek bir şekilde ifade etmelerinin bir yoludur.",
+              "",
+              "Bu, başlangıçta karmaşık görünebilir, ancak aslında basit bir kavramdır."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Bu serideki ilk komut `git cherry-pick` olarak adlandırılır. Aşağıdaki şekilde kullanılır:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Bu, şu anki konumunuzun (`HEAD`) altına bir dizi commit kopyalamak istediğinizi belirten çok basit bir komuttur. Kişisel olarak `cherry-pick` komutunu çok severim çünkü içinde çok fazla gizem yoktur ve anlaşılması kolaydır.",
+              "",
+              "Hadi bir demo yapalım!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İşte `side` branch'inde bazı çalışmaların bulunduğu ve bunları `main` branch'ine kopyalamak istediğimiz bir repo. Bu işlem bir rebase ile yapılabilir (bunu zaten öğrendik), ancak `cherry-pick` komutunun nasıl çalıştığını görelim."
+            ],
+            "afterMarkdowns": [
+              "Ve işte bu kadar! `C2` ve `C4` commit'lerini istedik, ve git, bunları tam istediğimiz yere yerleştirdi. Bu kadar basit!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi tamamlamak için, gösterilen üç branch'ten bazı çalışmaları main branch'ine kopyalayın. Hangi commit'leri istediğimizi, hedef görsellemesini inceleyerek görebilirsiniz.",
+              ""
+            ]
+          }
+        }
+      ]
+    }
 };
