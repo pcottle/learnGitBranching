@@ -36,13 +36,15 @@ exports.level = {
     "sl_SI": "Žongliranje s Commiti",
     "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
-    "tr_TR": "Commit Hokkabazlığı",
+    "ta_IN": "Commitகளுடன் வித்தைகள்",
+    "tr_TR": "Commit'leri Şekillendirme"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
     "fr_FR": "La première commande est git rebase -i HEAD~2",
     "es_AR": "El primer comando es git rebase -i HEAD~2",
+    "es_MX": "El primer comando es git rebase -i HEAD~2",
     "es_ES": "El primer comando es git rebase -i HEAD~2",
     "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
     "gl": "O primeiro comando é git rebase -i HEAD~2",
@@ -56,6 +58,7 @@ exports.level = {
     "sl_SI": "Prvi ukaz je git rebase -i HEAD~2.",
     "it_IT": "Il primo comando è git rebase -i HEAD~2",
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
+    "ta_IN": "முதலில் கொடுக்கவேண்டிய கட்டளை git rebase -i HEAD~2",
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2"
   },
   "startDialog": {
@@ -675,6 +678,40 @@ exports.level = {
           },
         },
       ],
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit களை மடலாடுவது",
+              "",
+              "இது மிகவும் பொதுவாக நடந்துகொள்கிற ஒரு நிலை. உங்கள் செருக்குகள் (`newImage`) மற்றும் மற்றொரு செருக்கு தொகுதி (`caption`) தொடர்புடையவை, ஆகையால் அவை உங்கள் ரெப்போஸிடரியில் ஒரே காலாண்டில் (அதாவது ஒன்றுக்குப் பிறகு ஒன்று) இருப்பதால் மேலே சீராக stacked ஆக இருக்கின்றன.",
+              "",
+              "கஷ்டமான விஷயம் என்னவென்றால், சில சமயங்களில் நீங்கள் ஒரு பத்தினை சின்ன மாற்றம் செய்ய வேண்டியுள்ளது. இந்த நிலைமையில், வடிவமைப்பு அணியால் `newImage` இன் பரிமாணங்களை சிறிது மாற்ற வேண்டும் என்று கூறப்பட்டுள்ளது, ஆனால் அந்த commit எங்கள் வரலாற்றில் முன்பே இருக்கிறது!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இந்த சிரமத்தை நாம் பின்வரும் முறையில் களமிறக்குவோம்:",
+              "",
+              "* நாம் commit களை மறுசீரமைத்து மாற்ற வேண்டிய commit உடன் மேலே கொண்டு வருவோம் `git rebase -i`",
+              "* நாம் அந்த சிறிய மாற்றத்தைச் செய்ய `git commit --amend` பயன்படுத்துவோம்",
+              "* பின்னர் நாம் commit களை முதலில் இருந்தபடி மறுசீரமைக்க `git rebase -i` பயன்படுத்துவோம்",
+              "* இறுதியாக, நாம் `main` ஐ இந்த புதுப்பிக்கப்பட்ட பாகத்திற்கு நகர்த்துவோம் (உங்கள் தேர்ந்த முறையைப் பயன்படுத்தி)",
+              "",
+              "இந்த நிலைமையை அடைவதற்கான பல வழிகள் உள்ளன (நான் உங்களை cherry-pick ஐ பார்க்கின்றேன்), மேலும் நாம் அவற்றை பின் பார்க்கப்போகிறோம், ஆனால் தற்போது நாம் இந்த நுணுக்கத்தில் கவனம் செலுத்துவோம்.",
+              "இறுதியாக, இதன் நோக்கம் இந்த நிலையில் கவனிக்கப்பட வேண்டும் -- நாம் commit களை இரண்டு முறை நகர்த்துவதை காரணமாக அவை இரண்டு ஆகவே ஒரு அப்போஸ்ட்ராபி சேர்க்கப்படுகின்றன. நாம் மாற்றிய commit க்கு மேலும் ஒரு அப்போஸ்ட்ராபி சேர்க்கப்படுகிறது, இதனால் முடிவில் மரப்போக்கின் இறுதி வடிவத்தை பெறுகிறோம்.",
+              "",
+              "இதனுடன், நான் இப்போது நிலைகளைக் ஒப்பிட முடியும் கட்டமைப்பு மற்றும் சாத்தியமான அப்போஸ்ட்ராபி வேறுபாடுகளின் அடிப்படையில். உங்கள் மரத்தில் `main` கிளை ஒரே கட்டமைப்பையும் மற்றும் சம்பந்தப்பட்ட அப்போஸ்ட்ராபி வேறுபாடுகளையும் கொண்டிருப்பதாக இருந்தால், நான் முழு கிரெடிட் அளிக்கிறேன்."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

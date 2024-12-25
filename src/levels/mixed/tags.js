@@ -21,6 +21,7 @@ exports.level = {
     "sl_SI": "Git Tagi",
     "it_IT": "Git Tag",
     "pl":    "Tagi Gita",
+    "ta_IN": "Git டேக்கள்",
     "tr_TR": "Git Tagleri"
   },
   "hint": {
@@ -42,6 +43,7 @@ exports.level = {
     "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!",
     "it_IT": "Puoi fare direttamente checkout del commit o semplicemente del tag!",
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
+    "ta_IN": "நீங்கள் நேரடியாக commit ஐ அல்லது tag ஐ checkout செய்யலாம்!",
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
   },
   "startDialog": {
@@ -930,11 +932,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Git Tag",
               "",
               "Come hai già imparato nelle lezioni precedenti, i rami sono facili da spostare e puntano a commit differenti man mano che il lavoro avanza. I rami subiscono modifiche, spesso temporaneamente, ma sono sempre in continua evoluzione.",
@@ -945,9 +947,9 @@ exports.level = {
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               'Ci puoi scommettere! Git tag serve proprio a questo -- i tag contrassegnano in modo permanente dei commit "importanti" a cui puoi far riferimento come avviene con i rami.',
               "",
               'Ancora più importante il fatto che non si spostano anche se vengono eseguiti nuovi commit. Non puoi selezionare un tag e aggiungere del lavoro su quel tag -- i tag esistono come ancore nell\'albero dei commit, e si riferiscono a determinati punti.',
@@ -957,22 +959,22 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Creiamo un tag in `C1` che è la nostra versione 1 del prototipo.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Ecco! Abbastanza facile. Abbiamo creato il tag `v1` che si riferisce al solo commit `C1`. Se non specifichi il commit, git creera il tag sul commit puntato da `HEAD`.",
             ],
-            command: "git tag v1 C1",
-            beforeCommand: "git commit",
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "In questo livello riproduci gli stessi tag mostrati nell'obiettivo, e alla fine seleziona il tag `v1`. Presta attenzione a come vai nello stato di detached `HEAD` -- questo perché non puoi creare commit direttamente dal tag `v1.",
               "",
               "Nel livello successivo vedremo un utilizzo più interessante dell'uso dei tag.",
@@ -980,6 +982,56 @@ exports.level = {
           },
         },
       ],
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tagகள்",
+              "",
+              "முன்னிருப்புகளிலிருந்து நீங்கள் கற்றது போல், கிளைகள் எளிதாக நகர்த்தப்படக்கூடியவை மற்றும் வேலை முடிந்தபோது அவை பல்வேறு commit களை குறிப்பிடுகின்றன. கிளைகள் எளிதாக மாற்றப்படக்கூடியவை, பெரும்பாலும் தற்காலிகமாக இருக்கும், மற்றும் எப்போதும் மாறி கொண்டிருக்கும்.",
+              "",
+              "அப்படி இருந்தால், நீங்கள் உங்கள் திட்டத்தின் வரலாற்றில் *நிரந்தரமாக* புள்ளிகளை குறிக்க ஒரு வழி இருக்கிறதா என்று கேட்கலாம். முக்கிய வெளியீடுகள் மற்றும் பெரிய இணையதிகள் போன்றவற்றுக்கு, இந்த commit களை ஒரு கிளை விட நிரந்தரமான முறையில் குறிக்க எந்த வழி இருக்கின்றது?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "நீங்கள் கேட்கும் கேள்விக்கு பதில் இருக்கின்றது! Git tagகள் இந்த பயன்பாட்டை ஆதரிக்கின்றன -- அவை (சில அளவில்) குறிப்பிட்ட commit களை \"மைல்கல்\" ஆக நிரந்தரமாக குறிக்க உதவுகின்றன, பின்னர் நீங்கள் அவற்றை கிளையின் போல தொடர்பு கொள்ளலாம்.",
+              "",
+              "மேலும் முக்கியமாக, அவை புதிய commit களை உருவாக்கும்போது மாறாது. நீங்கள் ஒரு tag ஐ \"check out\" செய்து, அதன் மீது பணியாற்ற முடியாது -- tagகள் commit மரத்தில் குறிப்பிட்ட இடங்களை அடையாளப்படுத்தும் பிணைகளாக இருப்பவை."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "நாம் `C1` இல் ஒரு tag உருவாக்க முயற்சிக்கலாம், இது எங்கள் பதிப்பு 1 முன் வடிவம்."
+            ],
+            "afterMarkdowns": [
+              "இங்கே! மிகவும் எளிதாக உள்ளது. நாம் tag ஐ `v1` என்று பெயரிட்டோம் மற்றும் commit ஐ `C1` க்குத் தெளிவாகக் குறிப்பிட்டோம். commit ஐ விட்டுவிடினால், git அது எந்த `HEAD` இல் இருக்கிறதோ அதையே பயன்படுத்தும்."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இந்த நிலையில், குறிக்கவும் `v1` ஐ check out செய்யவும் குறித்த tag களை உருவாக்கவும். நீங்கள் எப்படி detached `HEAD` நிலைக்கு செல்லுவதை கவனிக்கவும் -- இது `v1` tag க்கு நேரடியாக commit செய்ய முடியாது என்பதினால்.",
+              "",
+              "அடுத்த நிலைல் நாம் tag களுக்கான ஒரு அதிக ஆர்வமான பயன்பாட்டைப் பார்ப்போம்."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

@@ -9,9 +9,9 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Rebasing over 9000 times",
-    "de_DE": "10000 Rebases unter dem `HEAD`",
+    "de_DE": "9000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
-    "es_MX": "Rebaseando más de 8000... veces",
+    "es_MX": "Rebaseando más de 9000... veces",
     "es_ES": "Rebaseando más de 9000 veces",
     "pt_BR": "Fazendo mais de 9000 rebases",
     "gl": "Facendo máis de 9000 rebases",
@@ -24,8 +24,8 @@ exports.level = {
     "uk": "Rebase over 9000 разів",
     "vi": "Rebase hơn 9000 lần",
     "sl_SI": "Več kot 9000 Rebaseov",
-    "it_IT": "Rebasing livello 8000",
-    "pl": "Rebase ponad 8000 razy",
+    "it_IT": "Rebasing livello 9000",
+    "pl": "Rebase ponad 9000 razy",
     "tr_TR": "9000 kereden fazla rebase işlemi yapmak"
   },
   "hint": {

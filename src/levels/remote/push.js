@@ -779,15 +779,15 @@ exports.level = {
             "markdowns": [
               "## Git Push",
               "",
-              "Ok, so I've fetched changes from remote and incorporated them into my work locally. That's great and all... but how do I share _my_ awesome work with everyone else?",
+              "Tamam, uzak depodan değişiklikleri çektim ve bunları yerel olarak işime dahil ettim. Bu harika, ama _benim_ harika işlerimi diğer herkesle nasıl paylaşırım?",
               "",
-              "Well, the way to upload shared work is the opposite of downloading shared work. And what's the opposite of `git pull`? `git push`!",
+              "Evet, paylaşılan işleri yüklemenin yolu, paylaşılan işleri indirme yolunun tersidir. Peki, `git pull`'ün tersi nedir? `git push`!",
               "",
-              "`git push` is responsible for uploading _your_ changes to a specified remote and updating that remote to incorporate your new commits. Once `git push` completes, all your friends can then download  your work from the remote.",
+              "`git push`, _sizin_ değişikliklerinizi belirtilen bir uzak depoya yüklemek ve o uzak depoyu yeni commitlerinizle güncellemekten sorumludur. `git push` tamamlandığında, tüm arkadaşlarınız uzak depodan işinizi indirebilir.",
               "",
-              "You can think of `git push` as a command to \"publish\" your work. It has a bunch of subtleties that we will get into shortly, but let's start with baby steps...",
+              "`git push`'u işinizi \"yayınlamak\" için bir komut olarak düşünebilirsiniz. Birkaç ince detaya sahip olacak, ama öncelikle adım adım başlayalım...",
               "",
-              "*note -- the behavior of `git push` with no arguments varies depending on one of git's settings called `push.default`. The default value for this setting depends on the version of git you're using, but we are going to use the `upstream` value in our lessons. This isn't a huge deal, but it's worth checking your settings before pushing in your own projects.*"
+              "*Not -- `git push`'un argüman olmadan davranışı, git'in `push.default` adında bir ayarına bağlı olarak değişir. Bu ayarın varsayılan değeri kullandığınız git sürümüne bağlıdır, ancak biz derslerimizde `upstream` değerini kullanacağız. Bu büyük bir mesele değil, ancak kendi projelerinizde push yapmadan önce ayarlarınızı kontrol etmekte fayda var.*"
             ]
           }
         },
@@ -795,10 +795,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Here we have some changes that the remote does not have. Let's upload them!"
+              "Burada uzakta olmayan bazı değişikliklerimiz var. Hadi bunları yükleyelim!"
             ],
             "afterMarkdowns": [
-              "There we go -- the remote received commit `C2`, the branch `main` on the remote was updated to point at `C2`, and our *own* reflection of the remote (`o/main`) was updated as well. Everything is in sync!"
+              "İşte böyle -- uzak depo `C2` commitini aldı, uzak depodaki `main` branch'i `C2`'yi işaret edecek şekilde güncellendi ve bizim *kendi* uzak depo yansımamız (`o/main`) da güncellendi. Her şey senkronize!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
@@ -808,7 +808,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+              "Bu bölümü bitirmek için, uzak depoya iki yeni commit paylaşmanız yeterli. Ancak dikkatli olun, çünkü bu dersler çok daha zorlaşacak!"
             ]
           }
         }

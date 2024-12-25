@@ -20,7 +20,8 @@ exports.level = {
     "vi": "Giả lập làm việc nhóm",
     "sl_SI": "Lažno Ekipno Delo",
     "pl": "Symulacja pracy zespołowej",
-    "it_IT": "Simulare il lavoro di squadra"
+    "it_IT": "Simulare il lavoro di squadra",
+    "tr_TR": "Takım Çalışması Simülasyonu"
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
@@ -40,7 +41,8 @@ exports.level = {
     "vi": "Nhớ rằng bạn có thể chỉ định số lượng commit để giả lập",
     "sl_SI": "Spomni se, da lahko določiš število lažnih commitov.",
     "pl": "Pamiętaj, że możesz określić liczbę symulowanych commitów",
-    "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare"
+    "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare",
+    "tr_TR": "Kaç commit oluşturulacağını belirtebileceğinizi unutmayın"
   },
   "startDialog": {
     "en_US": {
@@ -1012,6 +1014,60 @@ exports.level = {
               "I prossimi livelli saranno abbastanza tosti, quindi ti chiediamo un po' di più già da ora.",
               "",
               "Crea un repository remoto (con `git clone`), simula alcune modifiche su quel repository, effettua tu un commit, e poi recupera quelle modifiche. È come più lezioni in una!"
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## İş birliğini simüle etmek",
+              "",
+              "Şimdi zor olan kısım şu -- bu gelecek derslerin bazıları için, uzaktaki bir depoda yapılan değişiklikleri nasıl çekeceğinizi öğretmemiz gerekiyor.",
+              "",
+              "Bu, esasen uzaktaki deponun, iş arkadaşlarınızdan / arkadaşlarınızdan / iş birliği yaptığınız kişilerden biri tarafından, bazen belirli bir dalda ya da belli sayıda commit ile güncellendiğini \"taklit etmemiz\" gerektiği anlamına geliyor.",
+              "",
+              "Bunu yapabilmek için uygun bir şekilde adlandırılmış `git fakeTeamwork` komutunu tanıttık! Oldukça açıklayıcı bir komut, haydi bir demo görelim..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork` komutunun varsayılan davranışı, ana dalda bir commit oluşturup eklemektir."
+            ],
+            "afterMarkdowns": [
+              "İşte bu kadar -- uzaktaki depo yeni bir commit ile güncellendi ve biz henüz bu commit'i indirmedik çünkü `git fetch` komutunu çalıştırmadık."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Komuta bir dal adı veya commit sayısını ekleyerek bunları da belirtebilirsiniz."
+            ],
+            "afterMarkdowns": [
+              "Tek bir komutla, takım arkadaşınızın uzaktaki depodaki `foo` dalına üç commit gönderdiğini simüle ettik."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Gelecek seviyeler oldukça zorlayıcı olacak, bu yüzden bu seviyede sizden daha fazlasını istiyoruz.",
+              "",
+              "Bir uzaktan depo oluşturun (`git clone` ile), o uzaktan depoda bazı değişiklikleri taklit edin, kendi commit'inizi yapın ve ardından bu değişiklikleri indirin. Bu, birkaç dersin bir araya gelmiş hali gibi!"
             ]
           }
         }

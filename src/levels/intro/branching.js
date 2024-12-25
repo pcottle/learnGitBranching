@@ -1536,11 +1536,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Rami Git",
               "",
               "Anche i rami in Git sono incredibilmente leggeri. Sono semplicemente puntatori a uno specifico commit -- nulla di più. Questo è il motivo per cui gli appassionati di Git predicano:",
@@ -1556,37 +1556,37 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Vediamo nella pratica cosa sono i rami.",
               "",
               "Qui creeremo un nuovo ramo di nome `newImage`.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Ecco, questa è la divisione in rami! Il ramo `newImage` ora punta al commit `C1`.",
             ],
-            command: "git branch newImage",
-            beforeCommand: "",
+            "command": "git branch newImage",
+            "beforeCommand": "",
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Proviamo ad aggiungere un po' di lavoro su questo nuovo ramo. Premi il pulsante qua sotto.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Oh no! Il ramo `main` si è spostato ma il ramo `newImage` no! Questo perché non eravamo sul nuovo ramo, infatti l'asterisco (*) era su `main`.",
             ],
-            command: "git commit",
-            beforeCommand: "git branch newImage",
+            "command": "git commit",
+            "beforeCommand": "git branch newImage",
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Diciamo a Git che vogliamo selezionare il ramo con",
               "",
               "```",
@@ -1595,17 +1595,17 @@ exports.level = {
               "",
               "Questo ci metterà sul nuovo ramo prima di fare un nuovo commit.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Ecco qua! I cambiamenti sono stati memorizzati sul nuovo ramo.",
             ],
-            command: "git checkout newImage; git commit",
-            beforeCommand: "git branch newImage",
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "*Nota: In Git versione 2.23, è stato introdotto un nuovo comando, `git switch`, per sostituire `git checkout`, ",
               "che è sovraccaricato di funzionalità (fa un sacco di cose diverse). Queste lezioni usano comunque ",
               "`checkout` invece che `switch` perché molti non hanno ancora accesso a `switch`, ma quest'app supporta comunque il comando ",
@@ -1614,9 +1614,9 @@ exports.level = {
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Ok! Ora sei pronto a lavorare con i rami. Dopo che questa finestra si chiude,",
               "crea un nuovo ramo `bugFix` e passa su quel ramo.",
               "",
