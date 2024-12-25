@@ -20,11 +20,14 @@ exports.level = {
     'vi': "Tháo đầu cái nào",
     "sl_SI": "Ločevanje tvoje glave - HEAD-a",
     "it_IT": "Perdere la testa (HEAD)",
-    "pl": "Odczep sobie HEAD"
+    "pl": "Odczep sobie HEAD",
+    "tr_TR": "HEAD'i Ayır",
+    "ta_IN": "உங்கள் HEAD ஐப் பிரிகொள்ளுங்கள்"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
+    "es_MX": "¡Usa la etiqueta (hash) sobre el commit para ayudarte!",
     "es_ES": "¡Usa la etiqueta (hash) sobre el commit para ayudarte!",
     "pt_BR": "Use o identificador (hash) sobre o commit para te ajudar!",
     "gl": "¡Usa a etiqueta (hash) sobre o commit para axudarte!",
@@ -40,6 +43,8 @@ exports.level = {
     "sl_SI": "Uporabi oznako (hash) commita za pomoč!",
     "it_IT": "Usa l'etichetta (hash) sul commit per aiutarti!",
     "pl": "Użyj nazwy commita (hasza)!",
+    "ta_IN": "உங்களுக்கு உதவ commit இன் லேபிள் (hash) ஐப் பயன்படுத்துங்கள்!",
+    "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!"
   },
   "startDialog": {
     "en_US": {
@@ -1439,6 +1444,149 @@ exports.level = {
         },
       ],
     },
-
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git'te Hareket Etmek",
+              "",
+              "Git'in daha ileri düzey özelliklerine geçmeden önce, projenizi temsil eden commit ağacında farklı şekillerde nasıl hareket edebileceğinizi anlamak önemlidir.",
+              "",
+              "Bir kez hareket etmeye alıştığınızda, diğer git komutlarıyla olan gücünüz de artacaktır!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "İlk olarak \"HEAD\" konusunu ele alalım. HEAD, şu anda checkout yaptığınız commit'i ifade eden sembolik bir isimdir -- temelde üzerinde çalıştığınız commit'tir.",
+              "",
+              "HEAD her zaman, çalışma ağacında yansıyan en son commit'e işaret eder. Çoğu git komutu, çalışma ağacını değiştirdiğinde HEAD'i değiştirerek başlar.",
+              "",
+              "Normalde HEAD bir dal adına işaret eder (örneğin bugFix). Bir commit yaptığınızda, bugFix'in durumu değişir ve bu değişiklik HEAD üzerinden görünür."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bunu eylemde görelim. Burada HEAD'i bir commit öncesinde ve sonrasında göstereceğiz."
+            ],
+            "afterMarkdowns": [
+              "Görüyorsunuz! HEAD, `main` dalımızın altındaymış."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEAD'i Ayırma",
+              "",
+              "HEAD'i ayırmak, onu bir dal yerine bir commit'e bağlamak anlamına gelir. Bu önceki haliyle şöyle görünüyordu:",
+              "",
+              "HEAD -> main -> C1"
+            ],
+            "afterMarkdowns": [
+              "Ve şimdi şu şekilde:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü tamamlamak için, HEAD'i `bugFix` dalından ayıralım ve yerine commit'e bağlayalım.",
+              "",
+              "Bu commit'i hash'i ile belirtin. Her commit'in hash'i, commit'i temsil eden dairede gösterilir."
+            ]
+          }
+        }
+      ]
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git இல் இயக்கம்",
+              "",
+              "Git இன் மேலும் முன்னேற்றமான அம்சங்களுக்கு செல்லும் முன், உங்கள் திட்டத்தை பிரதிபலிக்கும் commit மரத்தில் எவ்வாறு இயக்கம் செய்ய வேண்டும் என்பதைக் புரிந்துகொள்வது முக்கியம்.",
+              "",
+              "ஒரு முறை நீங்கள் இயக்கத்திற்கு பழகிய பின்னர், மற்ற git கட்டளைகளின் மூலம் உங்கள் சக்தி பெருகும்!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "முதலில், \"HEAD\" பற்றிய பேச்சு வேண்டியது அவசியம். HEAD என்பது தற்போது `checkout` செய்யப்படும் commit இன் செம்மையான பெயராகும் -- அதாவது நீங்கள் எந்த commit இல் வேலை செய்கிறீர்கள் என்பதை குறிக்கின்றது.",
+              "",
+              "HEAD எப்போதும், வேலை செய்வதை பிரதிபலிக்கும் கடைசியாக commit செய்யப்பட்ட commit இற்கே இட்டுப்போகின்றது. பெரும்பாலான git கட்டளைகள், வேலை செய்யும் மரத்தை மாற்றும்போது HEAD ஐ மாற்றி தொடங்குகின்றன.",
+              "",
+              "பொதுவாக HEAD என்பது ஒரு கிளையின் பெயரைக் குறிக்கின்றது (உதாரணமாக bugFix). நீங்கள் commit செய்தால், அந்த கிளையின் நிலை மாற்றப்படுகிறது மற்றும் அந்த மாற்றம் HEAD மூலம் காட்டப்படுகின்றது."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இதை செயல்பாட்டில் பார்க்கலாம். இங்கே நாம் commit ஆக்கும் முன் மற்றும் பிறகு HEAD ஐ காட்டுவோம்."
+            ],
+            "afterMarkdowns": [
+              "பாருங்கள்! HEAD எப்போது `main` கிளையின் கீழ் மறைந்திருந்தது."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEAD ஐ தனித்துவமாக்குதல்",
+              "",
+              "HEAD ஐ தனித்துவமாக்குதல் என்பது அதை ஒரு commit க்கு கிளையைப் பதிலாக இணைக்கவையாகும். இது முன்னதாக எப்படி இருந்தது என்பதைப் பாருங்கள்:",
+              "",
+              "HEAD -> main -> C1"
+            ],
+            "afterMarkdowns": [
+              "இப்போது இது:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இந்த நிலையை முடிக்க, HEAD ஐ `bugFix` கிளையிலிருந்து தனித்துவமாக்கி commit க்கு இணைக்கவும்.",
+              "",
+              "இந்த commit ஐ அதன் hash மூலம் குறிப்பிடுங்கள். ஒவ்வொரு commit இன் hash அந்த commit ஐ பிரதிபலிக்கும் வட்டத்தில் காட்டப்படுகிறது."
+            ]
+          }
+        }
+      ]
+    }
   }
 };

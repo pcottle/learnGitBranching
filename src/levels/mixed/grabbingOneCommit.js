@@ -32,6 +32,7 @@ exports.level = {
     "sl_SI": "Izbiranje Samo Enega Commita",
     "it_IT": "Prendi solo 1 Commit",
     "pl": "Wzięcie tylko 1 commita",
+    "ta_IN": "ஒரே ஒரு commit மட்டும் எடுப்பது",
     "tr_TR": "Sadece 1 commit'i yakalamak"
   },
   "hint": {
@@ -39,6 +40,7 @@ exports.level = {
     "de_DE": "Vergiss nicht: Hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
+    "es_MX": "Recuerda, el rebase interactivo o el cherry-pick son tus aliados aquí",
     "es_ES": "Recuerda, el rebase interactivo y el cherry-pick son tus amigos",
     "pt_BR": "Lembre-se, o rebase interativo ou o cherry-pick são seus amigos aqui",
     "gl": "Recorda, o rebase interativo ou cherry-pick é un dos teus colegas aquí",
@@ -52,6 +54,7 @@ exports.level = {
     "sl_SI": "Pomni, interaktivni rebase ali cherry-pick sta tu tvoja prijatelja.",
     "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
+    "ta_IN": "மறவாதீர்கள், interactive rebase அல்லது cherry-pick இங்கே உங்கள் நண்பர்",
     "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız."
   },
   "startDialog": {
@@ -756,6 +759,45 @@ exports.level = {
           },
         },
       ],
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## உள்ளூரியாக அடுக்கப்பட்ட commits",
+              "",
+              "இங்கே அடிக்கடி நிகழும் ஒரு மேம்பாட்டு நிலைமை: நான் ஒரு பிழையை கண்டறிய முயற்சி செய்கிறேன், ஆனால் அது மிகவும் பிடிக்க முடியாதது. எனது விசாரணை பணிக்கு உதவ, நான் சில டிபக் கமாண்டுகளை மற்றும் சில பிரிண்ட் அறிக்கைகளை சேர்க்கிறேன்.",
+              "",
+              "இந்த அனைத்து டிபக்/பிரிண்ட் அறிக்கைகளும் தனிப்பட்ட commitகளில் உள்ளன. இறுதியாக, நான் பிழையை கண்டறிந்து சரிசெய்து மகிழ்ச்சியடைந்தேன்!",
+              "",
+              "ஒரே பிரச்சனை என்னவென்றால், நான் என் `bugFix` ஐ `main` கிளைக்கு திரும்பப் போட வேண்டும். நான் வெறும் fast-forward செய்வதாக இருந்தால், `main` கிளை அனைத்தும் எனது டிபக் அறிக்கைகளைப் பெறும், இது விரும்பத்தக்கதல்ல. மற்றொரு வழி இருக்க வேண்டும்..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "நாம் git ஐ ஒரு commit ஐ மட்டும் நகலெடுக்கச் சொல்ல வேண்டும். இது முந்தைய நிலைகளில் வேலைகளை நகர்த்துவதற்கு மாறுபட்டது - அதே கட்டளைகளை நாம் பயன்படுத்தலாம்:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "இந்த இலக்கை அடைய."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இது ஒரு பின்னேட்ட நிலை என்பதால், நீங்கள் எந்த கட்டளையை பயன்படுத்த விரும்புகிறீர்கள் என்பதை நீங்கள் தீர்மானிக்க முடியும், ஆனால் நிலையை முடிக்க, `bugFix` குறிப்பிடும் commit ஐ `main` பெறுவதில் உறுதி செய்யவும்."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

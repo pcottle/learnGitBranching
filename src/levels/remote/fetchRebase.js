@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Dị biệt lịch sử",
     "sl_SI": "Razdeljena Zgodovina",
     "pl": "Rozbieżna  historia",
-    "it_IT": "Storico divergente"
+    "it_IT": "Storico divergente",
+    "tr_TR": "Sapmış Tarihçe",
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Kiểm tra kỹ thứ tự trên mô hình mục tiêu",
     "sl_SI": "Preveri vrstni red iz ciljne vizualizacije.",
     "pl": "Przyjrzyj się kolejności na wizualizacji celu",
-    "it_IT": "Controlla l'ordinamento dalla schermata dell'obiettivo"
+    "it_IT": "Controlla l'ordinamento dalla schermata dell'obiettivo",
+    "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin",
   },
   "startDialog": {
     "en_US": {
@@ -2471,6 +2473,148 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Çatışan Çalışma",
+              "",
+              "Şu ana kadar başkalarından nasıl `pull` yaparak commit alacağımızı ve kendi değişikliklerimizi nasıl `push` yapacağımızı gördük. Oldukça basit görünüyor, o zaman insanlar neden bu kadar karışabiliyor?",
+              "",
+              "Zorluk, depo geçmişi *çatıştığında* başlar. Bunun ayrıntılarını tartışmadan önce, bir örneğe göz atalım..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pazartesi günü bir depo klonladığınızı ve yan bir özellik üzerinde çalışmaya başladığınızı hayal edin. Cuma günü özelliğinizi yayınlamaya hazır olduğunuzda, aman Tanrım! İş arkadaşlarınız hafta boyunca bir sürü kod yazmış ve özelliğiniz artık geçersiz ve güncel değil. Ayrıca bu commit'leri ortak uzak depoya da göndermişler, bu yüzden *sizin* çalışmanız artık eski bir proje sürümüne dayanıyor.",
+              "",
+              "Bu durumda, `git push` komutu belirsizdir. `git push` komutunu çalıştırırsanız, git uzak depoyu Pazartesi günkü haline mi döndürmeli? Kodunuzu yeni kodları silmeden mi eklemeli? Yoksa tamamen geçersiz olan değişikliklerinizi yok saymalı mı?",
+              "",
+              "Çünkü bu durumda çok fazla belirsizlik vardır (geçmiş çatıştığı için), git değişikliklerinizi `push` etmenize izin vermez. Gerçekten de, değişikliklerinizi paylaşmadan önce uzak deponun en son durumunu entegre etmenizi zorunlu kılar."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Çok konuştuk! Hadi bu durumu pratikte görelim."
+            ],
+            "afterMarkdowns": [
+              "Görüyorsunuz değil mi? Hiçbir şey olmadı çünkü komut başarısız oldu. `git push` komutu başarısız oldu çünkü en son commit'iniz `C3`, `C1`'den alınan uzak depoya dayalıydı. Ancak uzak depo `C2`'ye güncellenmişti, bu yüzden git `push` işleminizi reddetti."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu durumu nasıl çözebilirsiniz? Çok basit, tek yapmanız gereken çalışmanızı uzak dalın en son sürümüne dayandırmak.",
+              "",
+              "Bunu yapmanın birkaç yolu vardır, ancak en basit yöntem çalışmanızı rebase yaparak taşımaktır. Hadi bunu nasıl göründüğüne bakalım."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Şimdi eğer önce rebase yaparsak..."
+            ],
+            "afterMarkdowns": [
+              "Vay! Uzak deponun yerel temsiline `git fetch` ile güncelleme yaptık, çalışmamızı uzak depodaki yeni değişiklikleri yansıtacak şekilde rebase ettik ve ardından `git push` ile gönderdik."
+            ],
+            "command": "git fetch; git rebase o/main; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Uzak depo güncellendiyse, çalışmamı güncellemenin başka yolları var mı? Tabii ki! Aynı şeyi `merge` kullanarak da gözden geçirelim.",
+              "",
+              "`git merge` çalışmanızı taşımaz (sadece bir merge commit'i oluşturur), ancak git'e uzak deponun tüm değişikliklerini entegre ettiğinizi bildirmenin bir yoludur. Çünkü uzak dal artık kendi dalınızın *atası* haline gelir, yani commit'iniz uzak dalın tüm commit'lerini yansıtır.",
+              "",
+              "Bunu gösterelim..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Şimdi rebase yerine merge yapalım..."
+            ],
+            "afterMarkdowns": [
+              "Vay! Uzak deponun yerel temsiline `git fetch` ile güncelleme yaptık, yeni çalışmaları *merge* ederek çalışmamıza entegre ettik (yeni değişiklikleri yansıtmak için) ve ardından `git push` ile gönderdik."
+            ],
+            "command": "git fetch; git merge o/main; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Harika! Peki, bu işlemi bu kadar çok komut yazmadan yapmanın bir yolu var mı?",
+              "",
+              "Tabii ki -- zaten `git pull`'ün bir fetch ve merge kısaltması olduğunu biliyorsunuz. Ne kadar pratik, `git pull --rebase` ise fetch ve rebase için kısaltmadır!",
+              "",
+              "Hadi bu kısaltma komutlarını görelim."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İlk olarak `--rebase` ile..."
+            ],
+            "afterMarkdowns": [
+              "Tıpkı öncekiler gibi! Ama çok daha kısa."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Şimdi ise normal `pull` ile."
+            ],
+            "afterMarkdowns": [
+              "Yine, tıpkı öncekiler gibi!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu fetch, rebase/merge ve push iş akışı oldukça yaygındır. Gelecek derslerde bu iş akışlarının daha karmaşık versiyonlarını inceleyeceğiz, ancak şimdilik bunu deneyelim.",
+              "",
+              "Bu seviyeyi çözmek için şu adımları takip etmeniz gerekiyor:",
+              "",
+              "* Depoyu klonlayın",
+              "* Takım çalışması sahteleyin (1 commit)",
+              "* Kendi çalışmanızı commit edin (1 commit)",
+              "* Çalışmanızı *rebase* yaparak yayınlayın"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

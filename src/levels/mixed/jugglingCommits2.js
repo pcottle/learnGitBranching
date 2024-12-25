@@ -35,7 +35,8 @@ exports.level = {
     "sl_SI": "Žongliranje s Commiti #2",
     "it_IT": "Giocoliere di commit #2",
     "pl": "Żonglowanie commitami #2",
-    "tr_TR": "Commit Hokkabazlığı #2",
+    "ta_IN": "Commitகளுடன் வித்தைகள் #2",
+    "tr_TR": "Commit'leri Şekillendirme #2"
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
@@ -56,6 +57,7 @@ exports.level = {
     "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe.",
     "it_IT": "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
     "pl":    "Nie zapomnij sforwardować maina do najnowszych zmian!",
+    "ta_IN": "Main ஐ புதுப்பிக்கப்பட்ட மாற்றங்களுக்கு முன்னேற்றமிடுவதை மறக்க வேண்டாம்!",
     "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
   },
   "startDialog": {
@@ -785,11 +787,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Giocoliere di commit #2",
               "",
               "*Se non hai completato Giocoliere di commit #1 (il livello precedente), sei pregato di farlo prima di proseguire*",
@@ -801,23 +803,23 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Ricorda che git cherry-pick creerà un qualsiasi commit del repository su HEAD (a condizione che il commit non sia un antenato di HEAD).",
               "",
               "Qui un breve demo per rinfrescare la memoria:",
             ],
-            afterMarkdowns: ["Grande! Andiamo avanti."],
-            command: "git cherry-pick C2",
-            beforeCommand:
+            "afterMarkdowns": ["Grande! Andiamo avanti."],
+            "command": "git cherry-pick C2",
+            "beforeCommand":
               "git checkout -b bugFix; git commit; git checkout main; git commit",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "In questo livello, dobbiamo fare amend di `C2` una volta, evitando di usare `rebase -i`. Lascerò a te il compito di scoprire come farlo! :D",
               "",
               "Ricorda, il numero esatto di apostrofi sul commit non sono importanti, solo le differenze tra essi. Per esempio, considererò l'albero che corrisponde a quello della soluzione ma che ha un apostrofo extra dappertutto.",
@@ -825,6 +827,49 @@ exports.level = {
           },
         },
       ],
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit-ஐ யோசித்து நடத்தியல் #2",
+              "",
+              "*இறுதியில் Commit-ஐ யோசித்து நடத்தியல் #1 (முந்தைய நிலை) முடிக்கவில்லை என்றால், அதை முடித்துக்கொண்டு தொடரவும்*",
+              "",
+              "கடந்த நிலைகளில், commit-ஐ மறுசீரமைக்க `rebase -i` ஐ பயன்படுத்தினோம். நாம் மாற்ற விரும்பிய commit மேல் வந்தபோது, அதை எளிதாக --amend செய்து, விரும்பிய வரிசையில் மறுபடியும் சீரமைத்தோம்.",
+              "",
+              "இந்த நிலைத் திடீர் சிக்கல்களை உருவாக்கும் பல மறுசீரமைப்புகளை கொண்டுள்ளது. அதனால் `git cherry-pick` என்ற மற்றொரு முறையை பார்க்கலாம்."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "நீங்கள் நினைவில் வைக்க வேண்டும், `git cherry-pick` எந்த commit-ஐயும் HEAD இல் வைக்க முடியும் (அந்த commit HEAD இன் முன்னோடியல்லாமல் இருக்க வேண்டும்).",
+              "",
+              "இங்கே ஒரு சிறிய திரும்பப் பார்வை:"
+            ],
+            "afterMarkdowns": [
+              "சிறந்தது! 이제 계속 진행합시다."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இந்த நிலை-ல், நாம் `C2` ஐ ஒரே தடவையோ மாற்ற வேண்டும் ஆனால் `rebase -i` ஐ பயன்படுத்தாமல் அதை செய்ய வேண்டும். நான் உங்களுக்கு அதை கண்டுபிடிக்க விடுகிறேன்! :D",
+              "",
+              "நினைவில் வைக்கவும், commit-இல் உள்ள குறிப்பிட்ட எண்ணிக்கையான apostrophe-கள் (') முக்கியம் இல்லை, ஆனால் அந்த commit-இன் சமிக்ஞைகளில் உள்ள வித்தியாசங்கள் தான் முக்கியம். உதாரணமாக, நான் ஒரு மரத்தில், இலக்கு மரத்திற்கு பொருந்தும்போது, ஒரு கூடுதல் apostrophe உள்ளதையும் அளிப்பேன்."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

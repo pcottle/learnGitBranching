@@ -20,7 +20,8 @@ exports.level = {
     "vi": "Nhánh từ xa",
     "sl_SI": "Oddaljeni Branchi",
     "pl": "Zdalne gałęzie",
-    "it_IT": "Rami Remoti"
+    "it_IT": "Rami Remoti",
+    "tr_TR": "Uzak Dallar",
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -40,7 +41,8 @@ exports.level = {
     "vi": "Chú ý đến thứ tự -- commit trên nhánh main trước!",
     "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!",
     "pl": "Zwróć uwagę na kolejność -- najpierw zatwierdzaj na main",
-    "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!"
+    "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!",
+    "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!",
   },
   "startDialog": {
     "en_US": {
@@ -1146,6 +1148,69 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Uzak Dallanma",
+              "",
+              "`git clone` komutunun nasıl çalıştığını gördükten sonra, yapılan değişikliklere biraz daha yakından bakalım.",
+              "",
+              "İlk fark ettiğiniz şey, yerel deposunda `o/main` adında yeni bir dalın görünmesidir. Bu tür dallara _uzak_ dal denir; uzak dallar özel özelliklere sahiptir çünkü özel bir amaca hizmet ederler.",
+              "",
+              "Uzak dallar, uzak depoların _durumunu_ yansıtır (son kez bu uzak depolarla iletişim kurduğunuzdan itibaren). Bu dallar, yerel çalışmanızla kamuya açık çalışmanız arasındaki farkı anlamanıza yardımcı olur — başkalarıyla çalışmanızı paylaşmadan önce atılacak kritik bir adımdır.",
+              "",
+              "Uzak dalların özel bir özelliği vardır; onları kontrol ettiğinizde, `HEAD` moduna geçersiniz. Git bunu bilerek yapar çünkü bu dallarda doğrudan çalışamazsınız; başka bir yerde çalışıp ardından çalışmanızı uzak depo ile paylaşmalısınız (ve bundan sonra uzak dallarınız güncellenir).",
+              "",
+              "Açık olmak gerekirse: Uzak dallar yerel deponuzda bulunur, uzak depoda değil."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `o/` Nedir?",
+              "",
+              "Bu uzak dallarda önceden gelen `o/` ne için diye merak ediyor olabilirsiniz. Uzak dalların (zorunlu) bir adlandırma konvansiyonu vardır — şu formatta görüntülenirler:",
+              "",
+              "* `<remote adı>/<dal adı>`",
+              "",
+              "Dolayısıyla, `o/main` adındaki bir dala bakarsanız, dal adı `main` ve uzak adın adı `o`'dur.",
+              "",
+              "Çoğu geliştirici aslında ana uzaklarını `origin` olarak adlandırır, `o` değil. Bu o kadar yaygındır ki, git bir depoyu `git clone` komutuyla kopyaladığınızda, uzak deponuzu `origin` olarak ayarlar.",
+              "",
+              "Maalesef, `origin`'in tam adı UI'mızda yer almaz, bu yüzden `o` olarak kısaltıyoruz :( Gerçek git kullanırken, uzak deponuzun muhtemelen `origin` olarak adlandırıldığını unutmayın!",
+              "",
+              "Bunlar biraz yoğun bilgiler, şimdi tüm bunları pratikte görelim."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bir uzak dalı inceleyelim ve ne olduğunu görelim."
+            ],
+            "afterMarkdowns": [
+              "Gördüğünüz gibi, git bizi `detached HEAD` moduna aldı ve yeni bir commit eklediğimizde `o/main` güncellenmedi. Bunun nedeni, `o/main` dalının yalnızca uzak depo güncellendiğinde güncellenmesidir."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi bitirmek için, önce `main` dalından bir commit yapın ve sonra `o/main`'i kontrol ettikten sonra bir commit daha yapın. Bu, uzak dalların nasıl farklı davrandığını ve yalnızca uzak depo durumunu yansıtacak şekilde nasıl güncellendiklerini anlamanıza yardımcı olacaktır."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

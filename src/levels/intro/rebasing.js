@@ -20,6 +20,7 @@ exports.level = {
     'sl_SI': 'Uvod v Rebase',
     'it_IT': "Introduzione al rebase (ribasare)",
     "pl": "Wprowadzenie do Rebase",
+    "ta_IN": "Rebase அறிமுகம்",
     "tr_TR": "Rebase İşlemine Giriş"
   },
   "hint": {
@@ -41,6 +42,7 @@ exports.level = {
     'sl_SI': 'Prepričaj se, da si najprej commital bugFix.',
     'it_IT': "Assicurati di fare prima il commit da bugFix",
     "pl": "Upewnij się, że masz już commit z bugFix",
+    "ta_IN": "முதலில் bugFix இல் இருந்து commit செய்ய நீங்கள் உறுதி செய்யவும்",
     "tr_TR": "Önce bugFix'ten commit attığınıza emin olun"
   },
   "disabledMap": {
@@ -1256,6 +1258,73 @@ exports.level = {
           },
         },
       ],
+    },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "சிறப்பாக எங்காவது வேறுபட்ட பிரான்சுகளில் வேலைகளை ஒன்றாக சேர்க்கும் இரண்டாவது வழி *rebasing* ஆகும். Rebase என்பது ஒரு கமிட்களின் குழுவை, அவற்றை \"நகலெடுத்து\", பிறந்த இடத்தில் வைக்கின்றது.",
+              "",
+              "இது குழப்பமாக தோன்றினாலும், rebasing-ன் பயனான அம்சம் என்னவெனில் அது ஒரு நல்ல நேரியல் கமிட் வரிசையை உருவாக்க பயன்படும். ரெப்போசிடரியின் கமிட் பதிவு / வரலாறு மிகவும் சுத்தமாக இருக்கும், அதிகமாக rebasing மட்டும் அனுமதிக்கப்பட்டிருந்தால்.",
+              "",
+              "இதை செயல்படுதலாக பார்க்கலாம்..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இங்கே நமக்கு இரண்டு பிரான்சுகள் இருக்கின்றன; bugFix பிரான்சு தற்போது தேர்ந்தெடுக்கப்பட்டுள்ளது (சிறிய நட்சத்திரத்தை கவனியுங்கள்)",
+              "",
+              "நாம் எங்களின் வேலைகளை bugFix இல் இருந்து நேரடியாக main பிரான்சில் கொண்டு வர விரும்புகிறோம். அப்படி செய்வதால் இந்த இரண்டு பணிகள் தொடர் முறையில் உருவாக்கப்பட்டவை போல தோன்றும், உண்மையில் அவை ஒரே நேரத்தில் உருவாக்கப்பட்டன.",
+              "",
+              "இதை `git rebase` கமாண்டைப் பயன்படுத்தி செய்யலாம்."
+            ],
+            "afterMarkdowns": [
+              "அருமை! இப்போது bugFix பிரான்சிலிருந்து எங்கள் வேலை நேரடியாக main பிரான்சின் மேல் வந்துள்ளது மற்றும் நமக்கு ஒரு நல்ல நேரியல் கமிட் வரிசை உருவாகியுள்ளது.",
+              "",
+              "கமிட் C3 இன்னும் எங்காவது உள்ளது (அது மரத்தில் மங்கிய தோற்றத்தில் உள்ளது), மற்றும் C3' என்பது நாம் main இல் rebased செய்த \"நகல்\" ஆகும்.",
+              "",
+              "ஒரே பிரச்சினை என்னவென்றால் main இன்னும் புதுப்பிக்கப்படவில்லை, அதை இப்போது செய்யலாம்..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "இப்போது நாம் `main` பிரான்சில் செக் அவுட் செய்துள்ளோம். இனி `bugFix` இல் rebase செய்து பார்க்கலாம்..."
+            ],
+            "afterMarkdowns": [
+              "இங்கே! ஏனெனில் `main` என்பது `bugFix` இன் முன்னோடி ஆக இருந்தது, git எளிதாக `main` பிரான்சின் குறி வரலாற்றை முன்னேற்றியுள்ளது."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இந்த நிலையை முடிக்க, பின்வரும் செயலைப் படி செய்க:",
+              "",
+              "* `bugFix` என்ற புதிய பிரான்சை செக் அவுட் செய்யவும்",
+              "* ஒருமுறை commit செய்யவும்",
+              "* main இல் சென்று மீண்டும் commit செய்யவும்",
+              "* மீண்டும் `bugFix` இல் செக் அவுட் செய்து main இல் rebase செய்யவும்",
+              "",
+              "வாழ்த்துக்கள்!"
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

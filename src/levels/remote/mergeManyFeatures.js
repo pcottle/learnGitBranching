@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Hợp nhất nhánh từ xa",
     "sl_SI": "Merganje z oddaljenim repozitorijem",
     "pl": "Scalanie z remote",
-    "it_IT": "Fondere in remoto"
+    "it_IT": "Fondere in remoto",
+    "tr_TR": "Uzak Sunucularla Birleştirme",
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Hãy để ý đến cây mục tiêu!",
     "sl_SI": "Poglej si ciljno drevo!",
     "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!",
-    "it_IT": "Fai attenzione all'albero nell'obiettivo"
+    "it_IT": "Fai attenzione all'albero nell'obiettivo",
+    "tr_TR": "Hedef ağacına dikkat et!",
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -802,6 +804,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Per questo livello, prova a risolvere il livello precedente ma usando il *merge* invece che il *rebase*. L'albero apparirà più \"ingarbugliato\", ma dovrebbe riuscire a rendere bene l'idea."
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Neden merge yapmıyoruz?",
+              "",
+              "Yeni güncellemeleri uzak depoya gönderebilmek için tek yapmanız gereken, uzak depodaki en son değişiklikleri *dahil etmek*. Yani ya *rebase* yapabilir ya da uzak dalı (örneğin `o/main`) *merge* edebilirsiniz.",
+              "",
+              "O zaman her iki yöntemle de bunu yapabiliyorsanız, neden dersler şu ana kadar sadece rebase yapmaya odaklandı? Neden merge ile uzak depolarla çalışmaya hiç yer verilmedi?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Geliştirme topluluğunda, merge ve rebase arasındaki avantajlar ve dezavantajlar hakkında çok fazla tartışma bulunmaktadır. İşte rebase'in genel artıları / eksileri:",
+              "",
+              "Artılar:",
+              "",
+              "* Rebase, commit ağacınızı çok temiz gösterir çünkü her şey düz bir çizgide olur.",
+              "",
+              "Eksiler:",
+              "",
+              "* Rebase, commit ağacının (görünürdeki) geçmişini değiştirir.",
+              "",
+              "Örneğin, `C1` commit'i, `C3`'ün *öncesine* rebase edilebilir. Bu durumda `C1'`in çalışması aslında daha önce yapılmışken, sanki `C3`ten sonra yapılmış gibi görünür.",
+              "",
+              "Bazı geliştiriciler tarihi korumayı sever ve bu yüzden merge yapmayı tercih eder. Diğerleri (benim gibi) temiz bir commit ağacını tercih eder ve rebase yapmayı sever. Sonuçta bu tamamen tercihe bağlı :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyede, önceki seviyeyi *merge* kullanarak çözmeyi deneyelim. Biraz karışabilir ama durumu iyi şekilde gösterecektir."
             ]
           }
         }
