@@ -21,6 +21,8 @@ exports.level = {
     "sl_SI": "Relativne Reference (^)",
     "it_IT": "Riferimenti relativi (^)",
     "pl": "Referencje względne (^)",
+    "tr_TR": "İlgili Referanslar (^)",
+    "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -28,6 +30,7 @@ exports.level = {
     "ja": "相対リファレンス(^)を思い出して！",
     "de_DE": "Denk an den Dach-Operator (^)!",
     "es_AR": "¡No te olvides del operador ^!",
+    "es_MX": "¡No olvides el operador ^!",
     "es_ES": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
     "gl": "Non se esqueza do operador circunflexo (^)",
@@ -40,6 +43,8 @@ exports.level = {
     "sl_SI": "Spomni se na (^) operator!",
     "it_IT": "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
     "pl": "Pamiętaj o operatorze wstawienia (^)!",
+    "ta_IN": "உதவிக்குறிப்பை (^), மறக்காதீர்கள்!",
+    "tr_TR": "^ operatörünü hatırlayın!"
   },
   "startDialog": {
     "en_US": {
@@ -1318,11 +1323,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Riferimenti relativi",
               "",
               "Spostarsi in Git specificando l'hash dei commit può essere una scocciatura. Nella vita vera non avrai un bell'albero con tutti i commit sullo schermo, dovrai usare `git log` per vedere gli hash.",
@@ -1334,9 +1339,9 @@ exports.level = {
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Come detto prima, specificare un commit tramite l'hash non è assolutamente il modo migliore, ragion per cui Git ha i riferimenti relativi. Sono stupendi!",
               "",
               "Tramite i riferimenti relativi, puoi partire da un punto facile da ricordare (per esempio dal ramo `bugFix` o `HEAD`) e procedere da lì.",
@@ -1349,9 +1354,9 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Diamo un occhiata all'operatore (^) chiamato Caret o accento circonflesso. Ogni volta che lo aggiungi a un riferimento, stai dicendo a Git di cercare il genitore del commit specificato.",
               "",
               'Quindi, dire `main^` è equivalente a dire "il primo genitore di `main`".',
@@ -1360,31 +1365,31 @@ exports.level = {
               "",
               "Selezioniamo il commit sopra main.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Colpito! Fatto. Mille volte meglio che scrivere l'hash.",
             ],
-            command: "git checkout main^",
-            beforeCommand: "git commit",
+            "command": "git checkout main^",
+            "beforeCommand": "git commit",
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Puoi considerare `HEAD` come un riferimento relativo. Usiamolo un paio di volte per risalire l'albero dei commit.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Facile! Possiamo viaggiare in dietro nel tempo con `HEAD^`",
             ],
-            command:
+            "command":
               "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
-            beforeCommand: "git commit; git commit",
+            "beforeCommand": "git commit; git commit",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Per completare questo livello, seleziona il commit padre di `bugFix`. Questo provocherà una detached `HEAD`.",
               "",
               "Puoi usare l'hash se vuoi, ma prova a usare i riferimenti relativi!",
@@ -1393,6 +1398,80 @@ exports.level = {
         },
       ],
     },
-
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Göreceli Referanslar",
+              "",
+              "Git'te commit hash'lerini belirterek gezinmek biraz sıkıcı olabilir. Gerçek dünyada terminalin yanında güzel bir commit ağacı görselleştirmesi olmayacağı için hash'leri görmek için `git log` kullanmanız gerekecek.",
+              "",
+              "Ayrıca, hash'ler gerçek Git dünyasında genellikle çok daha uzun olur. Örneğin, önceki seviyeyi oluşturan commit'in hash'i `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Pek de kolay okunabilir değil...",
+              "",
+              "İyi tarafı, Git'in hash'lerle akıllı olmasıdır. Sadece commit'i benzersiz şekilde tanımlayabilen hash'in yeterince uzun kısmını belirtmeniz gerekir. Yani yukarıdaki uzun string yerine `fed2` yazabilirim."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dediğim gibi, commit'leri hash'leriyle belirtmek her zaman en pratik şey değildir, bu yüzden Git göreceli referansları sunar. Bunlar harikadır!",
+              "",
+              "Göreceli referanslarla, hatırlanması kolay bir yerden (mesela `bugFix` dalı ya da `HEAD`) başlayabilir ve buradan ilerleyebilirsiniz.",
+              "",
+              "Göreceli commit'ler güçlüdür, ancak burada iki basit örneğini sunacağız:",
+              "",
+              "* `^` ile bir commit yukarıya hareket etmek",
+              "* `~<num>` ile birden fazla commit yukarıya hareket etmek"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İlk olarak Caret (^) operatörüne bakalım. Her defasında bu operatörü bir referans adının sonuna eklediğinizde, Git'e belirtilen commit'in ebeveynini bulmasını söylüyorsunuz.",
+              "",
+              "`main^` demek, \"`main`'in ilk ebeveyni\" demektir.",
+              "",
+              "`main^^` ise `main`'in büyükbabasıdır (ikinci kuşak atasal commit).",
+              "",
+              "Hadi `main` üzerindeki bir commit'e bakalım."
+            ],
+            "afterMarkdowns": [
+              "Boom! İşte bu kadar. Commit hash'ini yazmaktan çok daha kolay."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`HEAD`'i de göreceli bir referans olarak kullanabilirsiniz. Hadi bunu birkaç kez kullanalım ve commit ağacında yukarıya doğru hareket edelim."
+            ],
+            "afterMarkdowns": [
+              "Kolay! `HEAD^` ile zaman içinde geri gidebiliriz."
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi tamamlamak için, `bugFix`'in ebeveyn commit'ine göz atın. Bu, `HEAD`'i ayıracaktır.",
+              "",
+              "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreceli referansları kullanmayı deneyin!"
+            ]
+          }
+        }
+      ]
+    }
   }
 };

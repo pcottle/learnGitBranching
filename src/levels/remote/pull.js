@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Git pull",
     "sl_SI": "Git Pull",
     "pl": "Git pull",
-    "it_IT": "Git Pull"
+    "it_IT": "Git Pull",
+    "tr_TR": "Git Pull",
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Đơn giản là gõ git pull!",
     "sl_SI": "Samo izvedi git pull!",
     "pl": "Po prostu uruchom git pull!",
-    "it_IT": "Semplicemente git pull!"
+    "it_IT": "Semplicemente git pull!",
+    "tr_TR": "Sadece git pull komutunu çalıştırın!",
   },
   "startDialog": {
     "en_US": {
@@ -1043,6 +1045,65 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "`git fetch` komutunu kullanarak uzak depodan veri aldığımızı gördük, şimdi bu değişiklikleri yansıtarak çalışmalarımızı güncelleyelim!",
+              "",
+              "Bunu yapmanın aslında birçok yolu var -- yeni commitler yerel olarak mevcut olduğunda, onları diğer dallarda olduğu gibi dahil edebilirsiniz. Bu, şu komutları çalıştırabileceğiniz anlamına gelir:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* vb.",
+              "",
+              "Aslında, *fetch* işlemini yapıp ardından *merge* işlemi gerçekleştirmek o kadar yaygın ki, git aslında ikisini bir arada yapan bir komut sunuyor! Bu komut `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fetch` ve `merge` işlemlerini sırasıyla nasıl çalıştırdığımıza bakalım."
+            ],
+            "afterMarkdowns": [
+              "Boom -- `git fetch` komutuyla `C3`'ü indirdik ve ardından `git merge o/main` komutuyla bu işi birleştirdik. Artık `main` dalımız, uzak depodan (bu durumda `origin` olarak adlandırıldı) gelen yeni çalışmaları yansıtıyor."
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git pull` kullanırsak ne olur?"
+            ],
+            "afterMarkdowns": [
+              "Aynı şey! Bu, `git pull`'ün aslında bir `git fetch` ve ardından yeni alınan dalın merge işlemiyle kısaltılmış bir versiyon olduğunu açıkça gösteriyor."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull` komutunun detaylarını daha sonra inceleyeceğiz (seçenekler ve argümanlar dahil), ancak şimdilik bunu seviyede deneyelim.",
+              "",
+              "Unutmayın -- aslında bu seviyeyi sadece `fetch` ve `merge` komutlarıyla çözebilirsiniz, ancak bu size ekstra bir komut maliyetine mal olur :P"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

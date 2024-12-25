@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Giới thiệu về clone",
     "sl_SI": "Uvod v Git Clone",
     "pl": "Wstęp do klonowania (clone)",
-    "it_IT": "Introduzione al clone"
+    "it_IT": "Introduzione al clone",
+    "tr_TR": "Clone Tanıtımı"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -39,7 +40,9 @@ exports.level = {
     "vi": "Đơn giản là git clone!",
     "sl_SI": "Preprosto samo git clone!",
     "pl": "Po prostu git clone!",
-    "it_IT": "Semplicemente git clone!"
+    "it_IT": "Semplicemente git clone!",
+    "tr_TR": "Sadece git clone yapın!"
+
   },
   "startDialog": {
     "en_US": {
@@ -1062,6 +1065,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Per completare questo livello, semplicemente esegui `git clone` nel tuo repository esistente. Il succo dell'apprendimento avverrà nelle prossime lezioni."
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Uzak Depoları",
+              "",
+              "Uzak depolar aslında o kadar karmaşık değildir. Günümüz bulut bilişim dünyasında, uzak depoların arkasında bir sürü sihir olduğunu düşünmek kolay olabilir, ancak aslında bunlar sadece başka bir bilgisayardaki depo kopyalarınızdır. Genellikle bu başka bilgisayarlarla internet üzerinden iletişim kurabilirsiniz, bu da size değişiklikleri karşılıklı olarak aktarmayı sağlar.",
+              "",
+              "Bununla birlikte, uzak depoların bir dizi harika özelliği vardır:",
+              "",
+              "- İlk ve en önemli olarak, uzak depolar mükemmel bir yedekleme işlevi görür! Yerel git depoları, dosyaları önceki bir duruma geri yükleyebilme yeteneğine sahiptir (bildiğiniz gibi), ancak tüm bu bilgiler yerel olarak depolanır. Git deponuzun kopyalarını diğer bilgisayarlarda bulundurmak, tüm yerel verilerinizi kaybetseniz bile kaldığınız yerden devam etmenizi sağlar.",
+              "",
+              "- Daha da önemlisi, uzak depolar kodlamayı sosyal hale getirir! Projenizin bir kopyası başka bir yerde barındırıldığında, arkadaşlarınız çok kolay bir şekilde projenize katkıda bulunabilir (ya da son değişikliklerinizi çekebilir).",
+              "",
+              "Uzak depolar etrafındaki etkinlikleri görselleştiren web siteleri kullanmak çok popüler hale geldi (örneğin [GitHub](https://github.com/)), ancak uzak depolar _her zaman_ bu araçların temel altyapısını oluşturur. Bu yüzden onları anlamak önemlidir!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Uzak Depoları Oluşturmak için Komutumuz",
+              "",
+              "Şu ana kadar, Learn Git Branching yerel depo çalışmalarının (dallama, birleştirme, yeniden tabanlama, vb.) temellerini öğretmeye odaklanmıştı. Ancak şimdi uzak depo çalışmalarını öğrenmek istediğimiz için, bu dersler için ortamı kuracak bir komuta ihtiyacımız var. `git clone` bu komut olacak.",
+              "",
+              "Teknik olarak, gerçek dünyada `git clone` komutu, uzak depoların (örneğin GitHub'dan) yerel kopyalarını oluşturmak için kullanacağınız komuttur. Ancak Learn Git Branching'de biz bu komutu biraz farklı kullanıyoruz -- `git clone`, aslında yerel deponuzu bir uzak depoya dönüştürür. Gerçek komutun anlamının tam tersini yapsa da, bu, klonlama ve uzak depo çalışmaları arasındaki bağlantıyı kurmaya yardımcı olur, bu yüzden şimdilik böyle kullanacağız.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hadi yavaşça başlayalım ve bir uzak deponun neye benzediğine bakalım (görselleştirmemizde).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "İşte bu! Şimdi projemizin bir uzak deposuna sahibiz. Görünüşü oldukça benzer, ancak ayırt edici bir fark yaratmak için bazı görsel değişiklikler yapıldı -- sonraki seviyelerde bu depolar arasında nasıl çalıştığımızı paylaşacağınızı göreceksiniz."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi bitirmek için mevcut deponuzu sadece `git clone` komutuyla klonlayın. Gerçek öğrenme sonraki derslerde olacak."
             ]
           }
         }

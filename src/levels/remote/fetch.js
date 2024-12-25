@@ -20,27 +20,31 @@ exports.level = {
     "vi": "Git Fetch",
     "sl_SI": "Git Fetch",
     "pl": "Git fetch",
-    "it_IT": "Git Fetch"
+    "it_IT": "Git Fetch",
+    "tr_TR": "Git Fetch",
+    "ta_IN": "Git Fetch"
   },
   "hint": {
-    "en_US": "just run git fetch!",
-    "fr_FR": "Exécuter juste git fetch",
-    "de_DE": "Einfach git fetch ausführen!",
-    "ja": "単にgit fetchを実行！",
-    "es_AR": "Simplemente ¡hacé git fetch!",
-    "es_MX": "Simplemente ¡escribe git fetch!",
-    "es_ES": "Simplemente ¡escribe git fetch!",
-    "pt_BR": "Simplesmente chame git fetch!",
-    "gl": "¡Sinxelamente fai git fetch!",
-    "zh_CN": "只需要运行 git fetch 命令!",
-    "zh_TW": "只要下 git fetch 指令",
-    "ru_RU": "Просто выполните git fetch!",
-    "uk": "Просто виконай git fetch!",
-    "ko": "그냥 git fetch를 하세요!",
-    "vi": "Gõ git fetch là được!",
-    "sl_SI": "Le izvedi git fetch!",
-    "pl": "Po prostu uruchom git fetch!",
-    "it_IT": "Semplicemente git fetch!"
+      "en_US": "just run git fetch!",
+      "fr_FR": "Exécuter juste git fetch",
+      "de_DE": "Einfach git fetch ausführen!",
+      "ja": "単にgit fetchを実行！",
+      "es_AR": "Simplemente ¡hacé git fetch!",
+      "es_MX": "Simplemente ¡escribe git fetch!",
+      "es_ES": "Simplemente ¡escribe git fetch!",
+      "pt_BR": "Simplesmente chame git fetch!",
+      "gl": "¡Sinxelamente fai git fetch!",
+      "zh_CN": "只需要运行 git fetch 命令!",
+      "zh_TW": "只要下 git fetch 指令",
+      "ru_RU": "Просто выполните git fetch!",
+      "uk": "Просто виконай git fetch!",
+      "ko": "그냥 git fetch를 하세요!",
+      "vi": "Gõ git fetch là được!",
+      "sl_SI": "Le izvedi git fetch!",
+      "pl": "Po prostu uruchom git fetch!",
+      "it_IT": "Semplicemente git fetch!",
+      "tr_TR": "Sadece git fetch komutunu çalıştırın!",
+      "ta_IN": "பொதுவாக git fetch நடத்துங்கள்!"
   },
   "startDialog": {
     "en_US": {
@@ -1357,5 +1361,149 @@ exports.level = {
         }
       ]
     },
+    "ta_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Git remote களைப் பயன்படுத்துவது உண்மையில் மற்ற repository களிலிருந்து மற்றும் அதற்கு தகவலை அனுப்புவது மற்றும் பெறுவதிலேயே முடிவடைகிறது. நாம் commit களை பரிமாற முடிந்தால், எதை வேண்டுமானாலும் பகிர முடியும் (git மூலம் கண்காணிக்கப்படும் எந்தவொரு புதுப்பிப்பையும் பகிர முடியும், அதாவது வேலை, புதிய கோப்புகள், புதிய கருத்துக்கள், காதல் கடிதங்கள், இதரவை).",
+              "",
+              "இந்த பாடத்தில், நாம் ஒரு remote repository இலிருந்து தரவை fetch செய்வது எப்படி என்பதைக் கற்றுக் கொள்ளப் போகிறோம் -- இதற்கான command ஆக `git fetch` ஆகும்.",
+              "",
+              "நாம் remote repository ஐ புதுப்பிப்பதைக் காணும்போது, நமது _remote_ branches அவற்றின் புதிய பிரதிபலன்களை சுட்டிக்காட்டும் வகையில் புதுப்பிக்கப்படும். இது முன்னர் கற்றுக்கொண்ட remote branches பற்றிய பாடத்துடன் தொடர்பு கொள்கிறது."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch` குறித்த விவரங்களில் நுழையவுமுன், அதை செயல்படுவதை காண்போம்! இங்கே உள்ள ஒரு remote repository இல் எங்கள் உள்ளூர்த் repository இல் இல்லாத இரண்டு commits உள்ளன."
+            ],
+            "afterMarkdowns": [
+              "சரி! Commit கள் `C2` மற்றும் `C3` நமது உள்ளூர்த் repository க்கு பதிவிறக்கம் செய்யப்பட்டது, மற்றும் நமது remote branch `o/main` இந்த புதுப்பிப்பை பிரதிபலிக்கவும் புதுப்பிக்கப்பட்டது."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch என்ன செய்கிறது",
+              "",
+              "`git fetch` இரண்டு முக்கியமான படிகளைச் செய்கிறது, மற்றும் அவை மட்டுமே. இது:",
+              "",
+              "* remote க்கு இருக்கும்போது, ஆனால் நமது உள்ளூர் repository இல் இல்லாத commit களை பதிவிறக்கம் செய்யும், மற்றும்...",
+              "* எங்கள் remote branches எங்கு இருக்கின்றன என்பதைக் கொண்டு புதுப்பிக்கின்றது (உதாரணமாக, `o/main`)",
+              "",
+              "`git fetch` என்றால், நமது _local_ பிரதிபலனின் status ஐ _actual_ remote repository உடன் ஒத்திசைவாக்குவது (தற்போது).",
+              "",
+              "நாம் முன் கற்ற remote branches என்பது remote repositories இல் உள்ள நிலையை பிரதிபலிக்கின்றது என்று கூறினோம் _நீங்கள் அந்த remote களுடன் கடைசியாக பேசினபோது_ என்ற நிலை. `git fetch` என்பது இந்த remote களுடன் நீங்கள் பேசும் வழியாகும்! இந்த தொடர்பு தெளிவாக இருக்கும் என்று நம்புகிறேன்.",
+              "",
+              "`git fetch` பெரும்பாலும் remote repository உடன் இணையதளம் மூலம் (உதாரணமாக `http://` அல்லது `git://` போன்ற protocol மூலம்) தொடர்பு கொள்ளும்."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch என்ன செய்யவில்லை",
+              "",
+              "`git fetch` என்றாலும், அது _உங்கள்_ உள்ளூர் நிலையை எதுவும் மாற்றாது. இது உங்கள் `main` branch ஐ புதுப்பிக்காது அல்லது உங்கள் கோப்பக அமைப்பின் (file system) தற்போதைய நிலையை மாற்றாது.",
+              "",
+              "இது முக்கியம் என்பதை புரிந்துகொள்வது ஏனெனில் பல டெவலப்பர்கள் `git fetch` ஐ இயக்கினால், அது அவர்களது உள்ளூர் பணியை remote இன் நிலையை பிரதிபலிக்கச் செய்யும் என்று நினைப்பார்கள். அது தேவையான அனைத்து தரவையும் பதிவிறக்கம் செய்யலாம், ஆனால் அது உண்மையில் உங்கள் உள்ளூர் கோப்புகளை மாற்றாது. நாம் பின்னர் கற்றுக் கொள்ளப்போகும் command கள் அந்த செயல்களைச் செய்யும் :D",
+              "",
+              "அதனால், ஒரு நாள் முடிவில், `git fetch` ஐ இயக்குவது என்பது ஒரு பதிவிறக்கம் செய்யும் படியாக எண்ணலாம்."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "இந்த level ஐ முடிக்க, எளிதாக `git fetch` செய்து அனைத்து commits களையும் பதிவிறக்கம் செய்யுங்கள்!"
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Git uzak depoları ile çalışmak aslında verileri başka depolara _göndermek_ ve _geri almak_ ile ilgilidir. Bir kez ki commit'leri birbirimize gönderebildiğimiz sürece, git tarafından izlenen her tür güncellemeyi (ve dolayısıyla işi, yeni dosyaları, yeni fikirleri, sevgi mektuplarını vb.) paylaşabiliriz.",
+              "",
+              "Bu derste, bir uzak depodan veri çekmeyi öğreneceğiz -- bu komut `git fetch` olarak adlandırılmıştır.",
+              "",
+              "Uzak depomuzun temsilini güncellediğimizde, _uzak_ dallarımızın da bu yeni temsili yansıtacak şekilde güncellendiğini fark edeceksiniz. Bu, önceki derste öğrendiğimiz uzak dallar ile ilgili konuyu pekiştiriyor."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch` komutunun detaylarına girmeden önce, onu bir eylemde görelim! İşte bizim yerel depomuzun henüz almadığı iki commit içeren bir uzak depo."
+            ],
+            "afterMarkdowns": [
+              "İşte oldu! `C2` ve `C3` commit'leri yerel depomuza indirildi ve uzak dalımız `o/main` bunu yansıtacak şekilde güncellendi."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch ne yapar",
+              "",
+              "`git fetch` iki ana adım ve sadece iki ana adım yapar. Şunları yapar:",
+              "",
+              "* Uzak deponun sahip olduğu ve yerel depomuzda olmayan commit'leri indirir ve...",
+              "* Uzak dallarımızın işaret ettiği yerleri günceller (örneğin `o/main`)",
+              "",
+              "`git fetch`, aslında uzak deponun _gerçek_ halini (şu anda) yerel temsilimize senkronize eder.",
+              "",
+              "Önceki derste hatırlayacağınız üzere, uzak dalların, bu uzak depolarla son konuşmanızdan bu yana uzak depoların durumunu yansıttığını söylemiştik. `git fetch` bu uzak depolarla konuşma şeklinizdir! Umarım uzak dallar ve `git fetch` arasındaki bağlantı şimdi daha net olmuştur.",
+              "",
+              "`git fetch` genellikle uzak depolarla İnternet üzerinden iletişim kurar (örneğin `http://` veya `git://` gibi bir protokol üzerinden)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch ne yapmaz",
+              "",
+              "`git fetch` ise yerel durumunuzu değiştirmez. `main` dalınızı güncellemez ya da dosya sisteminizde herhangi bir değişiklik yapmaz.",
+              "",
+              "Bunu anlamak önemlidir çünkü birçok geliştirici, `git fetch` komutunu çalıştırmanın yerel çalışmalarının uzak depo ile uyumlu hale geleceğini düşünür. Gerekli tüm verileri indiriyor olabilir, ancak bu _gerçekten_ yerel dosyalarınızda herhangi bir değişiklik yapmaz. Bunun için ilerleyen derslerde komutlar öğreneceğiz :D",
+              "",
+              "Sonuç olarak, `git fetch` komutunu çalıştırmayı bir indirme adımı olarak düşünebilirsiniz."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi tamamlamak için sadece `git fetch` komutunu çalıştırın ve tüm commit'leri indirin!"
+            ]
+          }
+        }
+      ]
+    }
   }
 };

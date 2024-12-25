@@ -20,7 +20,8 @@ exports.level = {
     "vi": "Tham số pull",
     "sl_SI": "Pull argumenti",
     "pl": "Argumenty pull",
-    "it_IT": "Parametri di git pull"
+    "it_IT": "Parametri di git pull",
+    "tr_TR": "Git pull komutunun parametreleri",
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -40,7 +41,8 @@ exports.level = {
     "vi": "Nhớ rằng, bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
     "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
     "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
-    "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri"
+    "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri",
+    "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin",
   },
   "startDialog": {
     "en_US": {
@@ -1379,6 +1381,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok per concludere, raggiungi lo stato mostrato nella finestra dell'obiettivo. Dovrai scaricare alcuni commit, creare alcuni rami, e fondere quei rami in altri rami, ma senza usare troppi comandi :P"
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull argümanları",
+              "",
+              "Artık `git fetch` ve `git push` için argümanlarla ilgili bilmeniz gereken hemen hemen *her şey* öğrendiniz, geriye neredeyse hiçbir şey kalmadı :)",
+              "",
+              "Çünkü git pull, nihayetinde *gerçekten* sadece bir fetch ve ardından alınan değişikliklerin birleştirilmesi için kullanılan kısa bir komuttur. Bunu, `git fetch` komutunu *aynı* argümanlarla çalıştırmak ve sonra bu commitlerin nereye yerleştiğine bakarak birleştirmek gibi düşünebilirsiniz.",
+              "",
+              "Bu, karmaşık argümanlar kullansanız bile geçerlidir. İşte bazı örnekler:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "İşte git'teki bazı eşdeğer komutlar:",
+              "",
+              "`git pull origin foo` şu komutla eşdeğerdir:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Ve...",
+              "",
+              "`git pull origin bar:bugFix` şu komutla eşdeğerdir:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "Görüyorsunuz değil mi? git pull aslında fetch + merge komutlarının kısaltmasıdır ve git pull yalnızca commitlerin nereye yerleştiğiyle ilgilenir (fetch sırasında bulduğu `destination` argümanı).",
+              "",
+              "Şimdi bir demo yapalım:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Eğer fetch edilecek yeri belirtirsek, her şey daha önce fetch ile olduğu gibi gerçekleşir, ancak yeni alınan değişiklikleri birleştiririz."
+            ],
+            "afterMarkdowns": [
+              "Görüyorsunuz! `main`'i belirterek `o/main` üzerindeki commitleri normal şekilde indirdik. Sonra `o/main`'i şu anda üzerinde çalıştığımız konumla birleştirdik, bu da *yerel main branşı* değil. Bu nedenle aslında git pull'ü farklı konumlardan (aynı argümanlarla) birden fazla kez çalıştırmak, birden fazla branşı güncellemek için mantıklı olabilir."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Peki ya kaynak ve hedef ile de çalışıyor mu? Kesinlikle! Bunu görelim:"
+            ],
+            "afterMarkdowns": [
+              "Vay, bu bir komutta tonlarca şey oldu. Yerel olarak `foo` adında yeni bir branch oluşturduk, uzak depodaki `main`'den commitleri bu `foo` branch'ine indirdik ve sonra bu branch'i şu anda üzerinde çalıştığımız `bar` branch'ine birleştirdik. Bu gerçekten 9000'in üzerinde!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tamam, bitirmek için hedef görselleştirmesinin durumuna ulaşın. Bazı commitleri indirmeniz, yeni branşlar oluşturmanız ve bu branşları diğer branşlara birleştirmeniz gerekecek, ancak bu çok fazla komut almaz :P"
             ]
           }
         }

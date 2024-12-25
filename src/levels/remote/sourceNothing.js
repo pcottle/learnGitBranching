@@ -25,7 +25,8 @@ exports.level = {
     "vi": "Không có nguồn",
     "sl_SI": "Izvor Ničesar",
     "pl": "Źródło nicości",
-    "it_IT": "Fonte del nulla"
+    "it_IT": "Fonte del nulla",
+    "tr_TR": "Hiçliğin kaynağı"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -44,7 +45,8 @@ exports.level = {
     "vi": "Lệnh branch đã bị vô hiệu hóa ở cấp độ này nên bạn sẽ phải dùng fetch!",
     "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!",
     "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!",
-    "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!"
+    "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!",
+    "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!",
   },
   "startDialog": {
     "en_US": {
@@ -951,6 +953,59 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<source>` Anomalleri",
+              "",
+              "Git, `<source>` parametresini iki tuhaf şekilde kullanır. Bu iki tuhaf kullanım, teknik olarak git push ve git fetch için \"hiçbir şey\"i geçerli bir `source` olarak belirleyebilmenizi sağlayan bir durumdan kaynaklanır. Hiçbir şey belirlemenin yolu, boş bir argüman kullanmaktır:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Hadi bunların ne yaptığını görelim..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "\"Hiçbir şeyi\" uzak bir dala push yapmak ne yapar? Onu siler!"
+            ],
+            "afterMarkdowns": [
+              "İşte, \"hiçbir şeyi\" uzak bir dala push yaparak `foo` dalını başarıyla sildik. Bu bir anlam taşıyor gibi... "
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Son olarak, \"hiçbir şey\"i bir yere fetch yapmak, aslında yeni bir dal oluşturur."
+            ],
+            "afterMarkdowns": [
+              "Çok garip / tuhaf, ama neyse. Git işte böyle!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu hızlı bir seviye -- sadece bir uzak dalı sil ve `git fetch` ile yeni bir dal oluşturmayı bitir!"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

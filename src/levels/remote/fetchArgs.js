@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Tham số fetch",
     "sl_SI": "Fetch argumenti",
     "pl": "Argumenty fetch",
-    "it_IT": "Parametri di git fetch"
+    "it_IT": "Parametri di git fetch",
+    "tr_TR": "Fetch argümanları"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Lưu ý id của các commit bị tráo đổi, bạn có thể dùng \"help level\" để đọc lại hộp thoại",
     "sl_SI": "Bodi pozoren kako so se commit id-ji morda zamenjali! Ponovno lahko prebereš navodila z \"help level\".",
     "pl": "Zauważ, że identyfikatory commitów mogły zostać zamienione! Slajdy możesz przeczytać jeszcze raz po wpisaniu: \"help level\"",
-    "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\""
+    "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\"",
+    "tr_TR": "Commit ID'lerinin nasıl değiştiğine dikkat edin! \"help level\" komutunu kullanarak slaytları tekrar okuyabilirsiniz."
   },
   "startDialog": {
     "en_US": {
@@ -2140,6 +2142,129 @@ exports.level = {
               "Abbiamo parlato abbastanza! Per finire questo livello, scarica solo i commit specificati nella finestra dell'obiettivo. Scatenati con quei comandi!",
               "",
               "Dovrai specificare la fonte e la destinazione per entrambi i comandi di fetch. Presta attenzione alla finestra obiettivo in quanto gli ID dei commit potrebbero essere scambiati!"
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch parametreleri",
+              "",
+              "Az önce git push parametreleri, bu havalı `<place>` parametresi ve hatta kolon referansları (`<source>:<destination>`) hakkında her şeyi öğrendik. Peki bu bilgileri `git fetch` için de kullanabilir miyiz?",
+              "",
+              "Tabii ki! `git fetch` için kullanılan parametreler aslında `git push` ile çok, çok benzer. Aynı türdeki kavramlar, ancak bu sefer ters yönde uygulanıyor (çünkü artık yükleme değil, indirme yapıyorsunuz).",
+              "",
+              "Hadi bu kavramları birer birer inceleyelim..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<place>` parametresi",
+              "",
+              "`git fetch` komutuyla bir yer belirttiğinizde, örneğin şu komutla:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git, uzak depodaki `foo` dalına gidip, yerel deponuzda bulunmayan tüm commit'leri alacak ve ardından bunları yerel `o/foo` dalına yerleştirecek.",
+              "",
+              "Bunu aksiyon içinde görmek için (sadece hatırlatma olarak) gözden geçirelim."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bir yer belirterek..."
+            ],
+            "afterMarkdowns": [
+              "`foo` dalındaki commit'leri indirdik ve `o/foo` dalına yerleştirdik."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Belki de merak ediyorsunuzdur -- neden git, bu commit'leri yerel `foo` dalıma değil de `o/foo` uzak dalına yerleştirdi? `<place>` parametresi hem yerel hem de uzak depoda bulunan bir yer değil mi?",
+              "",
+              "Git bu durumda özel bir istisna yapıyor çünkü `foo` dalında bozmak istemediğiniz işleriniz olabilir!! Bu, `git fetch` ile ilgili önceki derse bağlanıyor -- `git fetch`, yerel olmayan dalınızı güncellemez, yalnızca commit'leri indirir (bu commit'leri daha sonra inceleyip birleştirebilirsiniz).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"O zaman ne olur, eğer `<source>:<destination>` ile hem kaynağı hem de hedefi açıkça belirtirsem?\"",
+              "",
+              "Eğer commit'leri *doğrudan* yerel bir dala almak için çok hevesliyseniz, o zaman evet, bunu kolon referanslarıyla belirtebilirsiniz. Ancak commit'leri aktif bir dala alamazsınız, ancak git bununla buna izin verir.",
+              "",
+              "Buradaki tek dikkat edilmesi gereken şey şu -- `<source>`, artık bir *uzak* yerde ve `<destination>` ise bu commit'leri yerleştireceğiniz *yerel* bir yerdir. Bu, `git push` komutunun tam tersidir ve bu mantıklıdır çünkü veri yönü tersine transfer ediliyordur!",
+              "",
+              "Ancak şunu söylemek gerekir ki, geliştiriciler pratikte bunu nadiren yapar. Bunu, `fetch` ve `push` komutlarının ne kadar benzer olduğunu, sadece ters yönde çalıştıklarını kavramsallaştırmak amacıyla tanıtıyorum."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bunu aksiyon içinde görelim:"
+            ],
+            "afterMarkdowns": [
+              "Vay! Görüyorsunuz, git `C2`'yi bir yer olarak çözümlerken bu commit'leri `bar` dalına (yerel bir dal) indirdi."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ya hedef önceden var değilse? Hadi son slaydı `bar` olmadan görelim."
+            ],
+            "afterMarkdowns": [
+              "Görün! Tam olarak `git push` gibi. Git, hedefi yerel olarak oluşturdu ve fetch işlemi yaptı, tıpkı git'in uzak depoya push yaparken hedefi oluşturması gibi (eğer mevcut değilse)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Parametre yok?",
+              "",
+              "`git fetch` parametre almazsa, uzak depodaki tüm commit'leri tüm uzak dallara indirir..."
+            ],
+            "afterMarkdowns": [
+              "Oldukça basit ama sadece bir kez gözden geçirmeye değer."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tamam, yeterince konuştuk! Bu seviyeyi bitirmek için, hedef görselleştirmesinde belirtilen commit'leri fetch yapın. O komutlarla biraz yaratıcı olun!",
+              "",
+              "Her iki fetch komutu için de kaynak ve hedefi belirtmeniz gerekecek. Hedef görselleştirmesine dikkat edin, çünkü ID'ler yer değiştirebilir!"
             ]
           }
         }

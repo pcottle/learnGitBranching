@@ -18,7 +18,8 @@ exports.level = {
     "ja": "mainブランチをoriginのmainと同じ状態になるようにリセットする前に、ローカルのmainからfeatureブランチを作成します。",
     "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin",
     "vi": "Tạo những nhánh tính năng từ nhánh cục bộ trước khi trả chúng về lại giống như o/main",
-    "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto"
+    "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto",
+    "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun.",   
   },
   "name": {
     "en_US": "Locked Main",
@@ -36,7 +37,8 @@ exports.level = {
     "ja": "ロックされたmain",
     "pl": "Zablokowany main",
     "vi": "Nhánh chính bị khóa (Locked Main)",
-    "it_IT": "Main bloccato"
+    "it_IT": "Main bloccato",
+    "tr_TR": "Kilitli Main",    
   },
   "startDialog": {
     "en_US": {
@@ -691,6 +693,46 @@ exports.level = {
               "## La soluzione",
               "",
               "Crea un nuovo ramo chiamato feature e carica quest'ultimo sul repository remoto. Inoltre reimposta il tuo ramo main affinché sia al pari con il remoto altrimenti potresti andare in contro a dei problemi la prossima volta che proverai ad effettuare un pull e i commit di qualcun'altro andranno in conflitto con i tuoi."
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Uzak Sunucu Reddi!",
+              "",
+              "Büyük bir işbirliği ekibinde çalışıyorsanız, muhtemelen main branch'ı kilitlidir ve değişiklikleri bir Pull Request süreci ile birleştirmeniz gerekir. Eğer main'e doğrudan yerel olarak commit yapar ve push etmeye çalışırsanız, şu benzer bir mesajla karşılaşırsınız:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Bu branch'a push yapılmasına izin verilmiyor; bu branch'ı güncellemek için bir pull request kullanmalısınız.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Neden reddedildi?",
+              "",
+              "Uzak sunucu, main branch'ına doğrudan commit gönderilmesini, main üzerinde sadece pull request ile değişiklik yapılması gerektiği politikasından dolayı reddetti.",
+              "",
+              "Branch oluşturup, o branch'i push edip pull request yapmak amacıyla bu süreci takip etmeliydiniz ama unutup doğrudan main'e commit yaptınız. Şimdi sıkıştınız ve değişikliklerinizi push edemiyorsunuz."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Çözüm",
+              "",
+              "Başka bir branch oluşturun, ona feature adını verin ve bu branch'i uzak sunucuya push edin. Ayrıca main'i uzak sunucu ile senkronize etmek için sıfırlayın, aksi takdirde bir sonraki pull işleminizde başkalarının commit'leriyle çatışma yaşama riskiyle karşılaşabilirsiniz."
             ]
           }
         }

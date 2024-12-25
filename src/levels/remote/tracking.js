@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Theo dõi từ xa",
     "sl_SI": "Sledenje Oddaljenega Repota",
     "pl": "Śledzenie zdalnych repo",
-    "it_IT": "Tracciamento remoto"
+    "it_IT": "Tracciamento remoto",
+    "tr_TR": "Uzaktan İzleme",
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Hãy nhớ rằng, có 2 cách để thiết lập theo dõi từ xa!",
     "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota.",
     "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!",
-    "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!"
+    "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!",
+    "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!",
   },
   "startDialog": {
     "en_US": {
@@ -2167,6 +2169,122 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Uzak İzleme (Remote-Tracking) dalları",
+              "",
+              "Son birkaç derste gördüğünüz bazı \"büyülü\" şeylerden biri, git'in `main` dalının `o/main` ile ilişkili olduğunu bilmesiydi. Elbette bu dalların benzer isimlere sahip olması ve uzak `main` dalını yerel `main` dalıyla bağlamak mantıklı olabilir, ancak bu bağlantı iki senaryoda açıkça gösterilmektedir:",
+              "",
+              "* Bir pull işlemi sırasında, commit'ler `o/main`'e indirilir ve sonra `main` dalına *birleştirilir* (merge edilir). Birleştirilme hedefi, bu bağlantıdan türetilir.",
+              "* Bir push işlemi sırasında, `main` dalındaki çalışma uzak `main` dalına (yerel olarak `o/main` olarak temsil edilen) itilir. Push işleminin *hedefi* ise `main` ve `o/main` arasındaki bağlantıdan belirlenir."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Uzak izleme",
+              "",
+              "Kısa bir şekilde özetlemek gerekirse, `main` ve `o/main` arasındaki bu bağlantı, dalların \"uzak izleme\" özelliğiyle basitçe açıklanır. `main` dalı, `o/main`'i izlemek üzere ayarlanmıştır; bu, `main` dalı için dolaylı bir birleştirme hedefi ve dolaylı bir push hedefi olduğu anlamına gelir.",
+              "",
+              "Bu özelliğin, herhangi bir komut çalıştırmadan nasıl ayarlandığını merak ediyor olabilirsiniz. Aslında, bir depo klonladığınızda, bu özellik sizin için otomatik olarak ayarlanır.",
+              "",
+              "Bir klonlama işlemi sırasında, git uzak depodaki her dal için bir uzak dal (yani `o/main` gibi) oluşturur. Ardından, genellikle `main` olan aktif uzak dalı izleyen bir yerel dal oluşturur.",
+              "",
+              "Git clone işlemi tamamlandığında, yalnızca bir yerel dalınız olur (yani bunaltıcı olmazsınız), ancak uzak depodaki farklı dalları görebilirsiniz (çok meraklıysanız). Bu, her iki dünyanın en iyisi!",
+              "",
+              "Bu, aynı zamanda klonlama işlemi sırasında şu çıktıyı görmenizin nedenini de açıklar:",
+              "",
+              "    yerel dal \"main\" uzak dal \"o/main\" ile izlenmek üzere ayarlandı"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Bunu kendim belirleyebilir miyim?",
+              "",
+              "Evet, belirleyebilirsiniz! Herhangi bir dalı `o/main`'i izlemeye ayarlayabilirsiniz ve eğer bunu yaparsanız, o dalın, `main` ile aynı dolaylı push hedefi ve birleştirme hedefi olacaktır. Bu, `totallyNotMain` adında bir dalda `git push` komutunu çalıştırarak, çalışmanızı uzak `main` dalına itebileceğiniz anlamına gelir!",
+              "",
+              "Bu özelliği ayarlamanın iki yolu vardır. Birincisi, bir uzak dalı belirtilen ref olarak kullanarak yeni bir dal oluşturmak. Aşağıdaki komutu çalıştırarak:",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "`totallyNotMain` adında yeni bir dal oluşturur ve bu dalı `o/main`'i izlemeye ayarlar."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Yeterince konuştuk, şimdi bir gösterim izleyelim! Yeni bir dal olan `foo`'yu kontrol ederek, bunu uzak `main` dalını izlemeye ayarlayacağız."
+            ],
+            "afterMarkdowns": [
+              "Gördüğünüz gibi, `o/main`'in dolaylı birleştirme hedefini kullanarak `foo` dalını güncelledik. Dikkat edin, `main` güncellenmedi!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bu aynı şekilde git push için de geçerlidir."
+            ],
+            "afterMarkdowns": [
+              "Boom. Çalışmamızı `foo` adında bir dal olsa bile uzak `main` dalına ittik."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Yöntem #2",
+              "",
+              "Bir dalda uzak izlemeyi ayarlamanın bir diğer yolu da `git branch -u` seçeneğini kullanmaktır. Aşağıdaki komutu çalıştırarak:",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "`foo` dalını `o/main`'i izlemeye ayarlar. Eğer `foo` şu anda kontrol ediliyorsa, hatta bunu dışarıda bırakabilirsiniz:",
+              "",
+              "`git branch -u o/main`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Şimdi, uzak izlemeyi belirtmenin bu diğer yolunu hızlıca görelim..."
+            ],
+            "afterMarkdowns": [
+              "Öncekiyle aynı, sadece daha açık bir komut. Harika!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tamam! Bu seviyede, yerel olarak `main`'de olmasanız bile, uzak `main` dalına çalışmanızı itmeniz gerekiyor. Bunun yerine `side` adında bir dal oluşturmalısınız, bu hedef diyagramında gösterilecektir."
+            ]
+          }
+        }
+      ]
+    },
   }
 };

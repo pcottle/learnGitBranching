@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Tham số git push -- bản mở rộng!",
     "sl_SI": "Git push argumenti -- Razširjeni!",
     "pl": "Argumenty git push -- Głębiej!",
-    "it_IT": "Parametri di git push - Espansione!"
+    "it_IT": "Parametri di git push - Espansione!",
+    "tr_TR": "Git push argümanları -- Genişletilmiş!",
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Nhớ rằng, bạn có thể thừa nhận thất bại và gõ \"show solution\" :P",
     "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P",
     "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P",
-    "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P"
+    "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P",
+    "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P",
   },
   "startDialog": {
     "en_US": {
@@ -1234,6 +1236,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "Per questo livello, prova a raggiungere lo stato finale mostrato nella finestra obiettivo, e ricorda il formato:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` argümanı detayları",
+              "",
+              "Önceki dersten hatırlayacağınız gibi, `git push` komutunda `main`'i yer argümanı olarak belirttiğimizde, commitlerin nereden geleceğini (kaynak) ve nereye gideceğini (hedef) belirlemiştik.",
+              "",
+              "O zaman şöyle bir soru aklınıza gelebilir: Eğer kaynak ve hedef farklı olursa ne olur? Örneğin, yerel `foo` dalındaki commitleri uzaktaki `bar` dalına itmek isterseniz?",
+              "",
+              "Ne yazık ki, git'te bu imkansız... Şaka yapıyorum! Tabii ki mümkün :)... Git, oldukça fazla esneklik sunar (belki de fazla).",
+              "",
+              "Bir sonraki slaytta nasıl yapılacağını görelim..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Hem kaynak hem de hedefi belirtmek için, her ikisini iki nokta ile birleştirmeniz yeterlidir:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Bu, genellikle iki noktalı refspec olarak adlandırılır. Refspec, git'in anlayabileceği bir konum için kullanılan havalı bir terimdir (örneğin `foo` dalı ya da sadece `HEAD~1`).",
+              "",
+              "Her iki argümanı bağımsız olarak belirttiğinizde, uzaktaki komutlarla oldukça detaylı ve hassas işlemler yapabilirsiniz. Hadi bir demo görelim!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hatırlayın, `source` git'in anlayacağı herhangi bir konum olabilir:"
+            ],
+            "afterMarkdowns": [
+              "Vay canına! Oldukça karmaşık bir komut ama mantıklı -- git, `foo^`'u bir konuma çözümlüyor, uzak sunucuda henüz bulunmayan commitleri yüklüyor ve sonra hedefi güncelliyor."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Peki ya hedef dalı yoksa ne olur? Sorun değil! Sadece bir dal adı verin, git sizin için bu dalı uzak sunucuda oluşturacaktır."
+            ],
+            "afterMarkdowns": [
+              "Vay, bu oldukça havalı :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyede, görsellemede gösterilen hedef duruma ulaşmaya çalışın ve şu formatı hatırlayın:",
               "",
               "`<source>:<destination>`"
             ]

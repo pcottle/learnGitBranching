@@ -23,7 +23,8 @@ exports.level = {
     "vi": "Tham số git push",
     "sl_SI": "Git push argumenti",
     "pl": "Argumenty git push",
-    "it_IT": "Parametri di git push"
+    "it_IT": "Parametri di git push",
+    "tr_TR": "Git push argümanları",
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -42,7 +43,8 @@ exports.level = {
     "vi": "Bạn có thể sử dụng \"objective\" để đọc trang cuối của cửa sổ hộp thoại",
     "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\".",
     "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu",
-    "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\""
+    "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\"",
+    "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz",
   },
   "startDialog": {
     "en_US": {
@@ -1298,6 +1300,79 @@ exports.level = {
           }
         }
       ]
-    }
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push argümanları",
+              "",
+              "Harika! Şimdi uzaktan izleme dallarını bildiğine göre, git push, fetch ve pull komutlarının nasıl çalıştığının ardındaki bazı gizemleri keşfetmeye başlayabiliriz. Her seferinde bir komut ele alacağız, ancak bu komutlar arasındaki kavramlar oldukça benzer.",
+              "",
+              "Öncelikle `git push` komutuna bakalım. Uzaktan izleme dersinde öğrendiğin gibi, git, şu anda kontrol edilen dalın (takip ettiği uzak dal) özelliklerine bakarak, hangi uzak sunucuya ve hangi dalına push yapılacağını anlar. Bu, herhangi bir argüman belirtilmediğinde görülen davranıştır, ancak git push, şu şekilde argümanlar alabilir:",
+              "",
+              "`git push <remote> <place>`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "<place> parametresi nedir diyorsanız? Ayrıntılara yakında dalacağız, ancak önce bir örnek. Aşağıdaki komutu verelim:",
+              "",
+              "`git push origin main`",
+              "",
+              "Bu komutun İngilizcesi şu şekilde çevrilebilir:",
+              "",
+              "*\"main\" adlı dalı deposunda bul, tüm commit'leri al ve sonra \"origin\" adlı uzak depodaki \"main\" dalına git. O dalda eksik olan commit'leri oraya ekle ve işin bittiğinde bana haber ver.*",
+              "",
+              "Burada `main`'i \"place\" parametresi olarak belirtmemiz, git'e commit'lerin nereden geleceğini ve nereye gideceğini söyledik. Aslında bu, iki depo arasında senkronize edilecek \"yer\" veya \"konum\"dur.",
+              "",
+              "Unutmayın ki git'e her şeyi bildirdiğimiz için (her iki argümanı da belirterek), nerede olduğumuzu kontrol etmez!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Argümanları belirttiğimiz bir örneği görelim. Bu örnekte kontrol edilen konuma dikkat edin."
+            ],
+            "afterMarkdowns": [
+              "İşte böyle! `main` dalı, bu argümanları belirttiğimiz için uzak depoda güncellendi."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ya argümanları belirtmeseydik? Ne olurdu?"
+            ],
+            "afterMarkdowns": [
+              "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalında kontrol edilmiyor."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tamam, bu seviye için hem `foo` hem de `main` dallarını uzak depoda güncellememiz gerekiyor. Fark şu ki, bu seviyede `git checkout` devre dışı bırakıldı!",
+              "",
+              "*Not: Uzak depo dalları, UI'ımızda tam `origin/` etiketinin sığmadığı için `o/` önekleriyle etiketlendi. Endişelenmeyin... basitçe `origin`'i uzak depo adı olarak kullanın, her zamanki gibi.*"
+            ]
+          }
+        }
+      ]
+    },
   }
 };

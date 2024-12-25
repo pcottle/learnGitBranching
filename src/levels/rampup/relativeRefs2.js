@@ -8,6 +8,7 @@ exports.level = {
     "zh_CN": "这一关至少要用到一次直接引用 (即哈希值)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
     "es_AR": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
+    "es_MX": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "es_ES": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
     "gl": "Precisarás usar polo menos unha referencia directa (hash) para completar este nivel",
@@ -18,9 +19,10 @@ exports.level = {
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
     "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này",
     "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje.",
-    "it_IT":
-      "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
+    "it_IT":  "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednej bezpośredniej referencji (hasza).",
+    "ta_IN": "இந்த நிலவை முடிக்க குறைந்தது ஒரு நேரடி குறிப்பு (ஹாஷ்) பயன்படுத்த வேண்டும்",
+    "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -40,7 +42,9 @@ exports.level = {
     "vi": "Tham chiếu tương đối #2 (~)",
     "sl_SI": "Relativne Reference #2 (~)",
     "it_IT": "Riferimenti relativi #2 (~)",
-    "pl": "Referencje względne #2 (~)"
+    "pl": "Referencje względne #2 (~)",
+    "ta_IN": "இணைக்கப்பட்ட குறிப்பு #2 (~)",
+    "tr_TR": "Göreli Referanslar #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -1202,11 +1206,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               '### L\'operatore "~"',
               "",
               "Nel caso in cui voglia risalire di più livelli l'albero dei commit, è una seccatura aggiungere `^` per ogni salto, per questo Git ha l'operatore tilde(~).",
@@ -1217,20 +1221,20 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Specifichiamo il numero di commit con `~`.",
             ],
-            afterMarkdowns: ["Fatto! Breve ed efficace -- i riferimenti relativi sono stupendi."],
-            command: "git checkout HEAD~4",
-            beforeCommand: "git commit; git commit; git commit",
+            "afterMarkdowns": ["Fatto! Breve ed efficace -- i riferimenti relativi sono stupendi."],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "### Forzatura dei rami (branch forcing)",
               "",
               "Ormai sei un esperto di riferimenti relativi, quindi facciamone realmente *uso* per qualcosa.",
@@ -1244,21 +1248,21 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: ["Vediamolo in azione."],
-            afterMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": ["Vediamolo in azione."],
+            "afterMarkdowns": [
               "Ecco qua! I riferimenti relativi ci permettono facilmente di specificare `C1` e il branch forcing (`-f`) ci da modo di spostare rapidamente il ramo su quella posizione.",
             ],
-            command: "git branch -f main HEAD~3",
-            beforeCommand:
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand":
               "git commit; git commit; git commit; git checkout -b bugFix",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Ora che hai visto i riferimenti relativi e il branch forcing, usiamoli per completare il prossimo livello.",
               "",
               "Per completare questo livello, sposta `HEAD`, `main`, e `bugFix` alla loro destinazione finale mostrata nell'obiettivo.",
@@ -1267,6 +1271,75 @@ exports.level = {
         },
       ],
     },
-
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### \"~\" operatörü",
+              "",
+              "Diyelim ki commit ağacında çok fazla seviye yukarı gitmek istiyorsunuz. `^` operatörünü birkaç kez yazmak zahmetli olabilir, bu yüzden Git ayrıca tilde (~) operatörünü sunuyor.",
+              "",
+              "Tilde operatörü (isteğe bağlı olarak) gitmek istediğiniz ebeveyn sayısını belirten bir sayı alır. Hadi bunu görelim."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Şimdi `~` ile birden fazla commit geriye gidelim."
+            ],
+            "afterMarkdowns": [
+              "Boom! Ne kadar kısa ve öz -- göreli referanslar harika."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch zorlaması",
+              "",
+              "Artık göreli referanslar konusunda uzmansınız, o zaman bunları bir şeyler için *kullanalım*.",
+              "",
+              "Göreli referansları en sık kullandığım yollarından biri de branch'leri taşımak. `-f` seçeneği ile bir branch'i bir commit'e doğrudan yeniden atayabilirsiniz. Örneğin:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "Bu, main branch'ini HEAD'in üç ebeveyn gerisine zorla taşır.",
+              "",
+              "*Not: Gerçek bir git ortamında `git branch -f` komutu şu anki branch'iniz için geçerli değildir.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Önceki komutu uygulamalı olarak görelim."
+            ],
+            "afterMarkdowns": [
+              "İşte böyle! Göreli referanslar bize `C1`'e başvurmanın kısa bir yolunu sundu ve branch zorlaması (`-f`) ise branch'i hızlıca o konuma taşımanın yolunu verdi."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Artık göreli referanslar ve branch zorlamasını birleştirerek gördünüz, şimdi bunları bir sonraki seviyeyi çözmek için kullanalım.",
+              "",
+              "Bu seviyeyi tamamlamak için, `HEAD`, `main` ve `bugFix`'i belirtilen hedeflerine taşıyın."
+            ]
+          }
+        }
+      ]
+    }
   }
 };

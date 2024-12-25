@@ -22,6 +22,7 @@ exports.level = {
     "sl_SI": "Revertanje Sprememb v Gitu",
     "it_IT": "Annullare i cambiamenti in Git",
     "pl": "Odwracanie zmian w Gicie",
+    "tr_TR": "Değişiklikleri Git'te Geri Almak"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -42,6 +43,8 @@ exports.level = {
     "sl_SI": "Revert in reset sprejmeta različne argumente.",
     "it_IT": "Revert e reset hanno parametri diversi.",
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
+    "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma."
+
   },
   "startDialog": {
     "en_US": {
@@ -1109,11 +1112,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Annullare i cambiamenti in Git",
               "",
               "Esistono molti modi per annullare i cambiamenti in Git. Come la creazione di commit, anche l'annullamento in Git ha sia una componente di basso livello (tracciatura dei singoli file o blocchi) e uno di alto livello (come l'annullamento viene realmente eseguito). La nostra applicazione si concentrerà su quest'ultima.",
@@ -1124,45 +1127,45 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "## Git Reset",
               "",
               '`git reset` annulla le modifiche spostando il puntatore al ramo indietro nel tempo a un commit precedente. Puoi vederla come se stessi "riscrivendo la storia;" `git reset` torna al commit precedente come se il nuovo commit non fosse mai esistito.',
               "",
               "Vediamone una rappresentazione:",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Grande! Git ha spostato il puntatore del ramo main the main sul commit `C1`; ora il nostro repository locale è come se non avesse mai avuto un commit  `C2`.",
             ],
-            command: "git reset HEAD~1",
-            beforeCommand: "git commit",
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit",
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "## Git Revert",
               "",
               'Git reset funziona perfettamente in locale sul proprio computer, ma la funzione di  "riscrivere la storia" non va d\'accordo con i rami salvati in remoto utilizzati da altri colleghi.',
               "",
               "Per fare in modo di annullare e *condividere* con gli altri le modifiche annullate, dobbiamo usare `git revert`. Vediamolo in azione.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Strano, un nuovo commit è stato creato sotto il commit che volevamo annullare. Questo perché il nuovo commit `C2'` porta *cambiamenti* -- per l'esattezza i cambiamenti sono quelli che annullano il commit `C2`.",
               "",
               "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altri.",
             ],
-            command: "git revert HEAD",
-            beforeCommand: "git commit",
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Per completare questo livello, annulla i commit più recenti sia in `local` che in `pushed`. Alla fine annullerai due commit in totale (uno per ramo).",
               "",
               "Tieni presente che `pushed` è un ramo remoto e `local` è un ramo locale -- questo dovrebbe aiutarti a scegliere quale metodo usare.",
@@ -1171,6 +1174,68 @@ exports.level = {
         },
       ],
     },
-
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git'te Değişiklikleri Geri Alma",
+              "",
+              "Git'te değişiklikleri geri almanın birçok yolu vardır. Ve tıpkı commit yapmada olduğu gibi, değişiklikleri geri almak da hem düşük seviyeli bir bileşene (bireysel dosyaları veya parçaları sahneleme) hem de yüksek seviyeli bir bileşene (değişikliklerin nasıl geri alındığına) sahiptir. Uygulamamız, ikincisine odaklanacaktır.",
+              "",
+              "Git'te değişiklikleri geri almanın iki temel yolu vardır: birincisi `git reset` kullanmak, diğeri ise `git revert` kullanmaktır. Bunların her birine bir sonraki diyalogda göz atacağız.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset`, bir dal referansını geçmişteki eski bir commit'e geri hareket ettirerek değişiklikleri geri alır. Bu anlamda, onu \"tarihi yeniden yazmak\" olarak düşünebilirsiniz; `git reset`, bir dalı, sanki commit hiç yapılmamış gibi geriye doğru hareket ettirir.",
+              "",
+              "Bunu nasıl göründüğünü görelim:"
+            ],
+            "afterMarkdowns": [
+              "Güzel! Git, main dalını `C1`'e geri taşıdı; şimdi yerel depomuz, `C2`'nin hiç olmamış gibi bir durumda."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Resetleme, kendi makinenizdeki yerel dallar için mükemmel çalışırken, \"tarihi yeniden yazma\" yöntemi, başkalarının kullandığı uzak dallar için işe yaramaz.",
+              "",
+              "Değişiklikleri geri almak ve *geri alınan değişiklikleri başkalarıyla paylaşmak* için `git revert` kullanmamız gerekir. Bunu nasıl çalıştığını görelim."
+            ],
+            "afterMarkdowns": [
+              "Tuhaf, geri almak istediğimiz commit'in altına yeni bir commit geldi. Çünkü bu yeni commit `C2'`, *değişiklikler* getiriyor -- sadece, `C2`'nin commit'ini tam olarak geri alan değişiklikler getiriyor.",
+              "",
+              "Revertleme ile değişikliklerinizi başkalarına paylaşmak için push edebilirsiniz."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviyeyi tamamlamak için, hem `local` hem de `pushed` üzerindeki en son commit'i geri alın. Toplamda iki commit'i geri almış olacaksınız (birini her dal için).",
+              "",
+              "`pushed` uzak bir dal ve `local` yerel bir dal olduğuna dikkat edin -- bu, yöntemlerinizi seçmenize yardımcı olacaktır."
+            ]
+          }
+        }
+      ]
+    }
   }
 };

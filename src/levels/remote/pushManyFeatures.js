@@ -19,7 +19,8 @@ exports.level = {
     "vi": "Nhớ rằng bạn luôn luôn có thể hoàn tác hoặc soạn lại câu lệnh",
     "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
     "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
-    "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset"
+    "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset",
+    "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz.",
   },
   "name": {
     "en_US": "Push Main!",
@@ -38,7 +39,8 @@ exports.level = {
     "vi": "Push Main!",
     "sl_SI": "Push Main!",
     "pl": "Wypychanie dla wytrwałych!",
-    "it_IT": "Push main!"
+    "it_IT": "Push main!",
+    "tr_TR": "Main'i Push Et!",
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -938,6 +940,59 @@ exports.level = {
               "* Il remoto nel mentre è stato aggiornato, quindi dobbiamo prima incorporare quelle modifiche",
               "",
               "tosto :O! buona fortuna, completare questo livello è un gran passo."
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Özellik Dalı Birleştirme",
+              "",
+              "Artık fetch, pull ve push işlemleri konusunda rahat olduğunuza göre, bu becerileri yeni bir iş akışı ile test edelim.",
+              "",
+              "Büyük projelerde geliştiricilerin tüm çalışmalarını özellik dallarında (`main` dalından) yapmaları ve bu çalışmaları yalnızca hazır olduklarında entegre etmeleri yaygın bir durumdur. Bu, önceki derse benzer (yan dalların uzaktaki depoya gönderilmesi gibi), ancak burada bir adım daha ekliyoruz.",
+              "",
+              "Bazı geliştiriciler yalnızca `main` dalında olduklarında push ve pull işlemi yapar -- bu şekilde `main` her zaman uzaktaki `o/main` ile güncel olur.",
+              "",
+              "Bu iş akışında iki şeyi birleştiriyoruz:",
+              "",
+              "* Özellik dalı çalışmalarını `main` dalına entegre etmek ve",
+              "* Uzaktan push ve pull işlemi yapmak"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`main` dalını güncelleme ve çalışmayı push etme işlemini hızlıca gözden geçirelim."
+            ],
+            "afterMarkdowns": [
+              "Burada iki komut çalıştırdık ki bunlar:",
+              "",
+              "* Çalışmamızı uzak depodan gelen yeni commit'lere rebase etti, ve",
+              "* Çalışmamızı uzak depoya gönderdi"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu seviye oldukça zorlu -- çözmek için genel bir çizelge:",
+              "",
+              "* Üç özellik dalı var -- `side1`, `side2`, ve `side3`",
+              "* Bu özelliklerin her birini sırasıyla uzak depoya push etmemiz gerekiyor",
+              "* Uzak depo zaten güncellendi, bu yüzden bu çalışmaları da entegre etmemiz gerekecek",
+              "",
+              ":O yoğun! İyi şanslar, bu seviyeyi tamamlamak büyük bir adım."
             ]
           }
         }
