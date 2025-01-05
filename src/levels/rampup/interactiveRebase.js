@@ -71,7 +71,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "All interactive rebase means Git is using the `rebase` command with the `-i` option.",
+              "All interactive rebase means is that Git is using the `rebase` command with the `-i` option.",
               "",
               "If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what's what.",
               "",
