@@ -16,6 +16,8 @@ var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
 var instantCommands = [
+  // Add a third and fourth item in the tuple if you want this to show
+  // up in the `show commands` function
   [/^ls( |$)/, function() {
     throw new CommandResult({
       msg: intl.str('ls-command')
@@ -37,7 +39,7 @@ var instantCommands = [
         { locale: LocaleStore.getDefaultLocale() }
       )
     });
-  }],
+  }, 'locale', 'change locale from the command line, or reset with `locale reset`'],
   [/^show$/, function(bits) {
     var lines = [
       intl.str('show-command'),
@@ -50,7 +52,7 @@ var instantCommands = [
     throw new CommandResult({
       msg: lines.join('\n')
     });
-  }],
+  }, 'show', 'Run `show commands|solution|goal` to see the available commands or aspects of the current level'],
   [/^alias (\w+)="(.+)"$/, function(bits) {
     const alias = bits[1];
     const expansion = bits[2];
@@ -58,14 +60,14 @@ var instantCommands = [
     throw new CommandResult({
       msg: 'Set alias "'+alias+'" to "'+expansion+'"',
     });
-  }],
+  }, 'alias', 'Run `alias` to map a certain shortcut to an expansion'],
   [/^unalias (\w+)$/, function(bits) {
     const alias = bits[1];
     LevelStore.removeFromAliasMap(alias);
     throw new CommandResult({
       msg: 'Removed alias "'+alias+'"',
     });
-  }],
+  }, 'unalias', 'Opposite of `alias`'],
   [/^locale (\w+)$/, function(bits) {
     LocaleActions.changeLocale(bits[1]);
     throw new CommandResult({
@@ -83,13 +85,13 @@ var instantCommands = [
     throw new CommandResult({
       msg: intl.str('flip-tree-command')
     });
-  }],
+  }, 'flip', 'flip the direction of the tree (and commit arrows)'],
   [/^disableLevelInstructions$/, function() {
     GlobalStateActions.disableLevelInstructions();
     throw new CommandResult({
       msg: intl.todo('Level instructions disabled'),
     });
-  }],
+  }, 'disableLevelInstructions', 'Disable the level instructions'],
   [/^refresh$/, function() {
     var events = require('../app').getEvents();
 
@@ -112,9 +114,12 @@ var instantCommands = [
     throw new CommandResult({
       msg: msg
     });
-  }],
+  }, 'echo', 'echo out a string to the terminal output'],
   [/^show +commands$/, function(bits) {
-    var allCommands = getAllCommands();
+    var allCommands = Object.assign(
+      {},
+      getAllCommands()
+    );
     var allOptions = Commands.commands.getOptionMap();
     var commandToOptions = {};
 
@@ -128,6 +133,20 @@ var instantCommands = [
       });
     });
 
+    var selectedInstantCommands = {};
+    instantCommands.map(
+      tuple => {
+        var commandName = tuple[2];
+        if (!commandName) {
+          return;
+        }
+        commandToOptions[commandName] = [tuple[3]];
+        // add this as a key so we map over it
+        allCommands[commandName] = tuple[3];
+        // and save it in another map so we can add extra whitespace
+        selectedInstantCommands[commandName] = tuple[3];
+      },
+    );
 
     var lines = [
       intl.str('show-all-commands'),
@@ -135,9 +154,16 @@ var instantCommands = [
     ];
     Object.keys(allCommands)
       .forEach(function(command) {
+        if (selectedInstantCommands[command]) {
+          lines.push('<br/>');
+        }
         lines.push(command);
         if (commandToOptions[command]) {
           commandToOptions[command].forEach(option => lines.push('&nbsp;&nbsp;&nbsp;&nbsp;' + option));
+        }
+
+        if (selectedInstantCommands[command]) {
+          lines.push('<br/>');
         }
       });
 
