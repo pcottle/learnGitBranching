@@ -627,12 +627,11 @@ exports.level = {
           "options": {
             "beforeMarkdowns": [
               "Nous sommes désormais positionnés sur la branche `main`. Continuons en faisant le rebase sur `bugFix`…",
-              "Et voilà ! Puisque `main` était un ascendant de `bugFix`, Git a simplement déplacé la référence de la branche `main` en avant dans le temps."
             ],
             "afterMarkdowns": [
-              "Voilà vous avez vu comment cela fonctionne",
+              "Et voilà ! Puisque `main` était un ascendant de `bugFix`, Git a simplement déplacé la référence de la branche `main` en avant dans le temps.",
               "",
-              "Continuons et essayons ce niveau !"
+              "Maintenant que vous avez vu comment cela fonctionne, essayons ce niveau !",
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
