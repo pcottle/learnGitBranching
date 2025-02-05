@@ -582,25 +582,43 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Commandes Git',
+        '## Quelques commandes utiles `Learn Git Branching`',
         '',
-        'Il existe une large variété de commandes git disponibles dans le mode bac à sable. Sont incluses :',
+        'À tout moment, vous pouvez exécuter les commandes suivantes dans le terminal :',
         '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
+        ' * `help` -> Affiches les pages de tutoriel de l\'application',
+        ' * `help levels` -> Affiche les consignes du niveau actuel',
+        ' * `levels` -> Affiche la liste des niveaux',
+        ' * `reset` -> Réinitialise le niveau actuel',
+        ' * `show commands` -> Affiche toutes les commandes disponibles',
+        ' * `show goal` -> Affiche l\'objectif du niveau actuel',
+        ' * `show solution` -> Affiche la solution du niveau actuel'
       ]
     }
   }, {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Partager, c\'est se soucier !',
+        '## D\'autres commandes utiles `Git`',
+        '',
+        'Il existe une large variété de commandes git disponibles dans le mode bac à sable, notamment :',
+        '',
+        ' * `branch`',
+        ' * `checkout` (deprecated, utilisez `switch`)',
+        ' * `cherry-pick`',
+        ' * `commit`',
+        ' * `merge`',
+        ' * `rebase`',
+        ' * `reset`',
+        ' * `revert`',
+        ' * `switch`',
+      ]
+    }
+  }, {
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Partager, c\'est collaborer !',
         '',
         'Partagez des arbres avec vos amis via `export tree` et `import tree`',
         '',
