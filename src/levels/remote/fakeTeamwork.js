@@ -93,7 +93,7 @@ exports.level = {
             "markdowns": [
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
-              "Go ahead and make a remote (with `git clone`), fake some changes on that remote, commit yourself, and then pull down those changes. It's like a few lessons in one!"
+              "Go ahead and make a remote (with `git clone`), fake some changes on that remote, add a local commit, and then pull down the remote changes and merge them. It's like a few lessons in one!"
             ]
           }
         }
