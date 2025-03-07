@@ -25,61 +25,61 @@ class IntlHelperBarView extends React.Component{
 
   getItems() {
     return [{
-      text: 'Git Branching',
+      text: 'English',
       testID: 'english',
       onClick: function() {
         this.fireCommand('locale en_US; levels');
       }.bind(this)
     }, {
-      text: '日本語版リポジトリ',
+      text: '日本語',
       testID: 'japanese',
       onClick: function() {
         this.fireCommand('locale ja; levels');
       }.bind(this)
     }, {
-      text: 'Git 브랜치 배우기',
+      text: '한국어 배우기',
       testID: 'korean',
       onClick: function() {
         this.fireCommand('locale ko; levels');
       }.bind(this)
     }, {
-      text: '学习 Git 分支',
+      text: '学习分支',
       testID: 'simplifiedChinese',
       onClick: function() {
         this.fireCommand('locale zh_CN; levels');
       }.bind(this)
     }, {
-      text: '學習 Git 分支',
+      text: '學習分支',
       testID: 'traditionalChinese',
       onClick: function() {
         this.fireCommand('locale zh_TW; levels');
       }.bind(this)
     }, {
-      text: 'español',
+      text: 'Español',
       testID: 'spanish',
       onClick: function() {
         this.fireCommand('locale es_ES; levels');
       }.bind(this)
     }, {
-      text: 'argentino',
+      text: 'Español (Argentina)',
       testID: 'argentinian',
       onClick: function() {
         this.fireCommand('locale es_AR; levels');
       }.bind(this)
     }, {
-      text: 'mexicano',
+      text: 'Español (México)',
       testID: 'mexican',
       onClick: function() {
         this.fireCommand('locale es_MX; levels');
       }.bind(this)
     }, {
-      text: 'português',
+      text: 'Português',
       testID: 'portuguese',
       onClick: function() {
         this.fireCommand('locale pt_BR; levels');
       }.bind(this)
     }, {
-      text: 'français',
+      text: 'Français',
       testID: 'french',
       onClick: function() {
         this.fireCommand('locale fr_FR; levels');
@@ -121,7 +121,7 @@ class IntlHelperBarView extends React.Component{
         this.fireCommand('locale gl; levels');
       }.bind(this)
     }, {
-      text: 'Slovensko',
+      text: 'Slovenščina',
       testID: 'slovenian',
       onClick: function() {
         this.fireCommand('locale sl_SI; levels');
@@ -139,7 +139,7 @@ class IntlHelperBarView extends React.Component{
         this.fireCommand('locale ta_IN; levels');
       }.bind(this)
     }, {
-        text: "italiano",
+        text: "Italiano",
         testID: "italian",
         onClick: function () {
           this.fireCommand("locale it_IT; levels");
