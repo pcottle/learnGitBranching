@@ -1337,7 +1337,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)</p>
 <p>We would like to move our work from bugFix directly onto the work from main. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.</p>
 <p>Let&#39;s do that with the <code>git rebase</code> command.</p>
-<pre class="level-solution">git rebase main</pre><p>Awesome! Now the work from our bugFix branch is right on top of main and we have a nice linear sequence of commits.</p>
+<pre class="level-solution">git rebase main</pre><p>Awesome! Now the work from our bugFix branch is right beneath main and we have a nice linear sequence of commits.</p>
 <p>Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3&#39; is the &quot;copy&quot; that we rebased onto main.</p>
 <p>The only problem is that main hasn&#39;t been updated either, let&#39;s do that now...</p>
 <p>Now we are checked out on the <code>main</code> branch. Let&#39;s go ahead and rebase onto <code>bugFix</code>...</p>
