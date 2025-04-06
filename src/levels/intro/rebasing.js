@@ -76,7 +76,7 @@ exports.level = {
               "Let's do that with the `git rebase` command."
             ],
             "afterMarkdowns": [
-              "Awesome! Now the work from our bugFix branch is right beneath main and we have a nice linear sequence of commits.",
+              "Awesome! Now the work from our bugFix branch is stacked \"on top of main\", since it points to main. In our visualization though, its shown below main since our commit trees flow downwards.",
               "",
               "Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3' is the \"copy\" that we rebased onto main.",
               "",
