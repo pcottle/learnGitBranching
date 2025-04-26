@@ -2421,7 +2421,6 @@ GitEngine.prototype.rebaseFinish = function(
     // to update this bad boy after the animation
     originalCurrentLocationToUpdate = this.getOneBeforeCommit(currentLocation);
   }
-  debugger;
 
   var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet, options);
   if (!toRebase.length) {
@@ -2482,7 +2481,6 @@ GitEngine.prototype.rebaseFinish = function(
   // source to that commit
   chain = chain.then(function() {
     if (originalCurrentLocationToUpdate) {
-      console.log('in this branch');
       this.setTargetLocation(originalCurrentLocationToUpdate, base);
       this.checkout(originalCurrentLocationToUpdate);
     } else {
