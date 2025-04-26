@@ -2412,6 +2412,15 @@ GitEngine.prototype.rebaseFinish = function(
   var destinationBranch = this.resolveID(targetSource);
   var deferred = options.deferred || Q.defer();
   var chain = options.chain || deferred.promise;
+  var originalCurrentLocationToUpdate = null;
+  if (this.getType(currentLocation) == 'commit') {
+    // We will just be updating HEAD so no need to store
+    // anything
+  } else {
+    // This is the source branch we are coming off of, so we need
+    // to update this bad boy after the animation
+    originalCurrentLocationToUpdate = this.getOneBeforeCommit(currentLocation);
+  }
 
   var toRebase = this.filterRebaseCommits(toRebaseRough, stopSet, options);
   if (!toRebase.length) {
@@ -2425,6 +2434,13 @@ GitEngine.prototype.rebaseFinish = function(
     toRebase,
     destinationBranch
   );
+
+  chain = chain.then(function() {
+    // Animate our current location to the base to aid
+    // in visual learning
+    this.checkout(this.getCommitFromRef(targetSource));
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }.bind(this));
 
   // now pop all of these commits onto targetLocation
   var base = this.getCommitFromRef(targetSource);
@@ -2461,15 +2477,14 @@ GitEngine.prototype.rebaseFinish = function(
     });
   }, this);
 
+  // now base will be the last commit in the chain, so we need to set the
+  // source to that commit
   chain = chain.then(function() {
-    if (this.resolveID(currentLocation).get('type') == 'commit') {
-      // we referenced a commit like git rebase C2 C1, so we have
-      // to manually check out C1'
-      this.checkout(base);
+    if (originalCurrentLocationToUpdate) {
+      this.setTargetLocation(originalCurrentLocationToUpdate, base);
+      this.checkout(originalCurrentLocationToUpdate);
     } else {
-      // now we just need to update the rebased branch is
-      this.setTargetLocation(currentLocation, base);
-      this.checkout(currentLocation);
+      this.checkout(base);
     }
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }.bind(this));
@@ -2520,7 +2535,7 @@ GitEngine.prototype.merge = function(targetSource, options) {
   // since we specify parent 1 as the first parent, it is the "main" parent
   // and the node will be displayed below that branch / commit / whatever
   var commitParents = [parent1];
-  
+
   if (!options.squash) {
     // a squash commit doesn't include the reference to the second parent
     commitParents.push(parent2);
