@@ -2420,6 +2420,17 @@ GitEngine.prototype.rebaseFinish = function(
     });
   }
 
+  // Move HEAD to the commit we are rebasing onto
+  chain = chain.then(function() {
+    this.checkout(this.getCommitFromRef(targetSource));
+    return this.animationFactory.playRefreshAnimation(this.gitVisuals);
+  }.bind(this));
+
+  // add a small delay for clarity before the next animation
+  chain = chain.then(function() {
+    return this.animationFactory.getDelayedPromise(400);
+  }.bind(this));
+
   chain = this.animationFactory.highlightEachWithPromise(
     chain,
     toRebase,
