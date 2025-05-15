@@ -13,9 +13,9 @@ exports.dialog = {
     type: 'ModalAlert',
     options: {
       markdowns: [
-        '## Bist du sicher, dass du die Auflösung sehen willst?',
+        '## Bist du sicher, dass du die Lösung sehen willst?',
         '',
-        'Ich glaube an dich! Du schaffst das!'
+        'Ich glaube an dich! Du schaffst das schon!'
       ]
     }
   }],

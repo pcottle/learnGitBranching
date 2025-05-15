@@ -33,7 +33,7 @@ exports.dialog = {
         '  * Gib einen Hinweis mittels ```define hint``` an, wenn du willst',
         '  * Änder den Namen mittels ```define name```',
         '  * Wenn du magst, erstelle einen schönen Einführungsdialog mit ```edit dialog```',
-        '  * Gib das Kommando ```finish``` ein um deinen Level als JSON auszugeben'
+        '  * Gib das Kommando ```finish``` ein, um dein Level als JSON auszugeben'
       ]
     }
   }],

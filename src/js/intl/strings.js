@@ -76,7 +76,7 @@ exports.strings = {
   'finish-dialog-lose': {
     '__desc__': 'When the user entered more commands than our best, encourage them to do better',
     'en_US': 'See if you can whittle it down to {best} :D',
-    'de_DE': 'Schau mal ob du es in {best} Schritten hinbekommst :D',
+    'de_DE': 'Schau mal ob du es auch in {best} Schritten hinbekommst :D',
     'ja': '模範解答の回数={best}回でクリアする方法も考えてみましょう :D',
     'zh_CN': '试试看你能否在 {best} 步之内搞定 :D',
     'zh_TW': '試試看您是否能在 {best} 步内搞定 :D',
@@ -309,7 +309,7 @@ exports.strings = {
   'git-error-origin-fetch-uptodate': {
     '__desc__': 'One of the error messages for git',
     'en_US': 'Already up to date!',
-    'de_DE': 'Bereits aktuell!',
+    'de_DE': 'Bereits auf dem aktuellsten Stand!',
     'fr_FR': 'Déjà à jour',
     'es_AR': 'Estás en la versión más reciente',
     'es_MX': 'Actualizado en la versión más reciente.',
