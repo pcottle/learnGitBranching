@@ -335,7 +335,7 @@ exports.dialog = {
       markdowns: [
         '## Git-Kommandos',
         '',
-        'Dir steht eine große Zahl von Git-Befehlen im Sandkasten-Modus zur Verfügung. Unter anderem',
+        'Dir steht eine große Zahl von Git-Befehlen im Sandkasten-Modus zur Verfügung. Unter anderem:',
         '',
         ' * commit',
         ' * branch',
@@ -359,7 +359,7 @@ exports.dialog = {
         '',
         'Um alle Kommandos zu sehen, gib `show commands` ein. Darunter gibt\'s kleine Schätze wie `undo` und `reset`.',
         '',
-        'Für\'s Erste lass uns mit `levels` anfangen ...'
+        'Lass uns für\'s Erste mit `levels` anfangen ...'
       ]
     }
   }],

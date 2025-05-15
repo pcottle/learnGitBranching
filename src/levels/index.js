@@ -102,7 +102,7 @@ var sequenceInfo = exports.sequenceInfo = {
   rampup: {
     displayName: {
       'en_US': 'Ramping Up',
-      'de_DE': 'Aufstieg',
+      'de_DE': 'Eine Stufe höher',
       'ja'   : '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
       'es_AR': 'Acelerando',
@@ -149,7 +149,7 @@ var sequenceInfo = exports.sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
-      'de_DE': 'Push & Pull -- entfernte Repositorys',
+      'de_DE': 'Push & Pull -- Remote Repositories',
       'ja'   : 'Push及びPullコマンド -- Gitリモート',
       'fr_FR': 'Push & Pull -- Dépôts Git distants !',
       'es_AR': 'Push & Pull -- Git Remotes!',
@@ -197,7 +197,7 @@ var sequenceInfo = exports.sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
-      'de_DE': 'Bis zum origin und noch weiter',
+      'de_DE': 'Bis zum Origin und noch viel weiter -- Fortgeschrittene Remote Repositories',
       'ja'   : '"origin"とその先へ -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
       'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
@@ -289,7 +289,7 @@ var sequenceInfo = exports.sequenceInfo = {
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
-      'de_DE': 'Ein Kessel Buntes',
+      'de_DE': 'Eine bunte Mischung',
       'ja'   : '様々なtips',
       'fr_FR': 'Un assortiment',
       'es_AR': 'Bolsa de gatos',
@@ -311,7 +311,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
-      'de_DE': 'Eine bunte Mischung von Techniken, Tipps und Tricks',
+      'de_DE': 'Eine bunte Mischung an Techniken, Tipps und Tricks',
       'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
       'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
@@ -357,7 +357,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'For the truly brave!',
-      'de_DE': '... die nie ein Mensch zuvor gesehen hat.',
+      'de_DE': 'Nur für die Tapferen',
       'ja'   : '勇気ある人のみ！',
       'fr_FR': 'Pour les plus courageux !',
       'es_AR': '¡Para personas realmente valientes!',
