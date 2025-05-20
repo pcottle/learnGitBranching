@@ -81,8 +81,9 @@ var LevelBuilder = Level.extend({
   initGoalData: function() {
     // add some default behavior in the beginning if we are not editing
     if (!this.options.editLevel) {
-      this.level.goalTreeString = '{"branches":{"main":{"target":"C1","id":"main"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
-      this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
+      // Trivial tree: single C0 commit, HEAD=main
+      this.level.goalTreeString = '{"branches":{"main":{"target":"C0","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true}},"HEAD":{"target":"main","id":"HEAD"}}';
+      this.level.solutionCommand = '';
     }
     LevelBuilder.__super__.initGoalData.apply(this, arguments);
   },
@@ -292,12 +293,24 @@ var LevelBuilder = Level.extend({
       return;
     }
 
-    while (!this.level.name) {
-      this.defineName();
-    }
-
     var mainDeferred = Q.defer();
     var chain = mainDeferred.promise;
+
+    // If noPrompts is set, skip hint/startDialog prompts
+    if (this.options.noPrompts) {
+      if (this.level.hint === undefined) {
+        this.level.hint = {'en_US': ''};
+      }
+      if (this.startDialogObj === undefined) {
+        this.startDialogObj = null;
+      }
+      new MarkdownPresenter({
+        fillerText: JSON.stringify(this.getExportObj(), null, 2),
+        previewText: intl.str('share-json')
+      });
+      command.finishWith(deferred);
+      return;
+    }
 
     if (this.level.hint === undefined) {
       var askForHintDeferred = Q.defer();

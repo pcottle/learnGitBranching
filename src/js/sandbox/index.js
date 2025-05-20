@@ -208,10 +208,12 @@ var Sandbox = Backbone.View.extend({
 
     var regexResults = command.get('regexResults') || [];
     var toEdit = regexResults[1] || false;
+    const rawStr = command.attributes.rawStr;
     this.levelBuilder = new LevelBuilder({
       deferred: whenBuilderOpen,
       editLevel: toEdit,
-      skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
+      skipIntro: rawStr.indexOf('skipIntro') !== -1,
+      noPrompts: rawStr.indexOf('noPrompts') !== -1,
     });
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);
