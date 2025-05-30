@@ -517,7 +517,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Como eu disse, especificar commits pelo hash não é a sempre o mais conveniente, e é por isso que o Git suporta referências relativas. Elas são fantásticas!",
+              "Como eu disse, especificar commits pelo hash não é sempre o mais conveniente, e é por isso que o Git suporta referências relativas. Elas são fantásticas!",
               "",
               "Com referências relativas, você pode começar a partir de um ponto fácil de lembrar (como o ramo `bugFix` ou o `HEAD`) e referenciar a partir dali.",
               "",
