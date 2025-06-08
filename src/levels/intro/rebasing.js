@@ -14,6 +14,7 @@ exports.level = {
     "ko": "리베이스(rebase)의 기본",
     "zh_CN": "Git Rebase",
     "zh_TW": "介紹 rebase",
+    "ro": "Introducere în rebase",
     "ru_RU": "Введение в rebase",
     "uk": "Знайомство з rebase",
     "vi": "Giới thiệu về rebase",
@@ -36,6 +37,7 @@ exports.level = {
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "先在 bugFix 分支上进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
+    "ro": "Asigură-te că faci commit din bugFix mai întâi",
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
     "uk": "Впевнись, що зробив коміт в гілці bugFix",
     "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
@@ -855,6 +857,74 @@ exports.level = {
         }
       ]
     },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              'A doua modalitate de a combina munca între ramuri este *rebase*. Rebase practic ia un set de commit-uri, le "copiază" și le plasează în altă parte.',
+              "",
+              "Deși poate părea confuz, avantajul rebase este că poate fi folosit pentru a crea o secvență de commit-uri liniară și mai frumoasă. Istoria commit-urilor din repozitoriu va fi mult mai curată dacă se utilizează doar rebase.",
+              "",
+              "Hai să vedem cum funcționează...",
+            ],
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aici avem din nou două ramuri; observăm că ramura bugFix este selectată în prezent (vezi asteriscul)",
+              "",
+              "Am dori să mutăm munca noastră de pe bugFix direct peste munca de pe main. Astfel, ar părea că aceste două funcționalități au fost dezvoltate secvențial, când de fapt au fost dezvoltate în paralel.",
+              "",
+              "Vom face asta cu comanda `git rebase`.",
+            ],
+            "afterMarkdowns": [
+              'Minunat! Acum munca de pe ramura "bugFix" este chiar deasupra celei de pe "main" și avem o secvență liniară de commit-uri.',
+              "",
+              'Observați că commit-ul C3 încă există undeva (apare decolorat în arbore), iar C3\' este "copia" pe care am făcut-o prin rebase pe main.',
+              "",
+              "Singura problemă este că main nu a fost actualizat, să rezolvăm asta acum...",
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit",
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acum suntem pe ramura `main`. Să continuăm și să facem rebase pe `bugFix`...",
+            ],
+            "afterMarkdowns": [
+              "Iată! Deoarece `main` era un strămoș al `bugFix`, git a mutat pur și simplu referința ramurii `main` înainte în istorie.",
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand":
+              "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main",
+          },
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, faceți următoarele",
+              "",
+              "* Faceți checkout pe o nouă ramură numită `bugFix`",
+              "* Faceți un commit",
+              "* Întoarceți-vă la `main` și faceți un alt commit",
+              "* Faceți checkout pe `bugFix` din nou și faceți rebase pe `main`",
+              "",
+              "Mult succes!",
+            ],
+          },
+        },
+      ],
+    },
     "ru_RU": {
       "childViews": [
         {
@@ -1191,11 +1261,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Git Rebase",
               "",
               'Il secondo modo per unire il lavoro tra rami è il *rebasing* (ribasare). Quando si ribasa vengono presi una serie di commit, vengono "copiati", e incollati da qualche parte.',
@@ -1207,44 +1277,44 @@ exports.level = {
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Anche qui abbiamo ancora due rami; prestate attenzione al fatto che il ramo selezionato è bugFix (notare l'asterisco*)",
               "",
               "Ora vogliamo spostare il nostro lavoro dal ramo bugFix direttamente sul ramo main. In questo modo sembrerà che i due lavori sono stati sviluppati in sequenza, quando in realtà sono stati sviluppati in parallelo.",
               "",
               "Vediamo il comando `git rebase` all'opera.",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Fantastico! Ora il lavoro del ramo bugFix è sopra al main e abbiamo una sequenza lineare di commit.",
               "",
               'Nota che il commit C3 continua ad esistere (messo in trasparenza), e C3\' è la "copia" che abbiamo ribasato sul main.',
               "",
               "L'unico problema è che il main non è ancora stato aggiornato, facciamolo ora...",
             ],
-            command: "git rebase main",
-            beforeCommand: "git commit; git checkout -b bugFix C1; git commit",
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit",
           },
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "Ora il ramo selezionato è il main. Procediamo e facciamo rebase su `bugFix`...",
             ],
-            afterMarkdowns: [
+            "afterMarkdowns": [
               "Ecco qua! Visto che main era un antenato di `bugFix`, git sposta semplicemente il riferimento al ramo `main` in avanti.",
             ],
-            command: "git rebase bugFix",
-            beforeCommand:
+            "command": "git rebase bugFix",
+            "beforeCommand":
               "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main",
           },
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Per completare questo livello, esegui i seguenti passaggi",
               "",
               "* Crea un nuovo ramo di nome `bugFix`",
