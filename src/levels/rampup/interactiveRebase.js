@@ -17,6 +17,7 @@ exports.level = {
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spécifier la cible à rebaser",
     "zh_CN": "branch 或者是相对位置（HEAD~）都可以用來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
+    "ro":"Poți folosi fie ramuri, fie referințe relative (HEAD~) pentru a specifica ținta rebase-ului",
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
     "ja": "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
     "ko": "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
@@ -40,6 +41,7 @@ exports.level = {
     "fr_FR": "Introduction au rebase interactif",
     "zh_CN": "交互式 rebase",
     "zh_TW": "介紹互動式的 rebase",
+    "ro": "Introducere în rebase interactiv",
     "ru_RU": "Введение в интерактивный Rebase",
     "ko": "인터랙티브 리베이스 소개",
     "uk": "Знайомство з інтерактивним rebase",
@@ -765,6 +767,72 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルをクリアするにはインタラクティブrebaseを実行し、ゴールのビジュアライズに表示されている順番を実現しましょう。ミスがあれば`undo`や`reset`で修正できるのをお忘れなく。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase Interactiv",
+              "",
+              "Git cherry-pick este grozav atunci când știi ce commit-uri vrei (_și_ știi hash-urile lor) -- e greu să depășești simplitatea pe care o oferă.",       
+              "",
+              "Dar ce se întâmplă când nu știi ce commit-uri vrei? Din fericire, git te ajută și în această situație! Putem folosi rebase-ul interactiv pentru asta -- este cea mai bună modalitate de a revizui o serie de commit-uri cărora urmează să le faci rebase.",
+              "",
+              "Hai să ne uităm în detalii..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rebase-ul interactiv înseamnă pur și simplu că folosești comanda `rebase` cu opțiunea `-i`.",
+              "",
+              "Dacă incluzi această opțiune, git va deschide o interfață pentru a-ți arăta ce commit-uri sunt pe cale să fie copiate sub ținta rebase-ului. De asemenea, îți arată hash-urile și mesajele commit-urilor, ceea ce este grozav pentru a înțelege ce reprezintă fiecare.",
+              "",
+              "În git-ul \"adevărat\", interfața înseamnă deschiderea unui fișier într-un editor de text (de exemplu `vim`). Pentru scopurile noastre, am construit o mică fereastră de dialog care se comportă la fel."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Când dialogul de rebase interactiv se deschide, ai posibilitatea de a face 3 lucruri diferite:",
+              "",
+              "* Poți reordona commit-urile pur și simplu schimbând ordinea lor în interfață (în fereastra noastră, asta înseamnă să tragi și să lași cu mouse-ul).",
+              "* Poți alege să păstrezi toate commit-urile sau să omiți unele. Fiecare commit este setat să fie inclus prin butonul `pick` activ lângă el. Pentru a omite un commit, dezactivează butonul `pick`.",
+              "",
+              "* Merită de știut că în rebase-ul interactiv poți face multe alte lucruri, cum ar fi combinarea commit-urilor (squashing), modificarea mesajelor commit-urilor și chiar editarea lor. Pentru scopurile noastre, ne vom concentra doar pe aceste două operațiuni de mai sus.",
+              "",
+              "Perfect! Să vedem un exemplu."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Când apeși butonul, va apărea o fereastră de rebase interactiv. Reordonează unele commit-uri (sau simte-te liber să omiți unele) și vezi rezultatul!"
+            ],
+            "afterMarkdowns": [
+              "Boom! Git a copiat commit-urile exact așa cum le-ai specificat în interfață."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, fă un rebase interactiv și obține ordinea afișată în vizualizare. Amintește-ți că poți folosi întotdeauna `undo` sau `reset` pentru a corecta greșelile :D"
             ]
           }
         }

@@ -14,6 +14,7 @@ exports.level = {
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen",
     "ja": "HEADの分離",
+    "ro":"Detașează-ți capul",
     "ru_RU": "Теряем голову, или detached HEAD",
     "ko": "HEAD 분리하기",
     "uk": "Втрачаємо голову чи detached HEAD",
@@ -36,6 +37,7 @@ exports.level = {
     "fr_FR": "Utilisez le label (identifiant) du commit pour aider !",
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签（哈希值）来指定提交记录！",
+    "ro": "Folosește eticheta (hash) de pe commit pentru ajutor!",
     "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов.",
     "ko": "커밋에 있는 라벨(hash)을 활용하세요!",
     "uk": "Орієнтуйся по індентифікаторам (hash) комітів.",
@@ -896,6 +898,84 @@ exports.level = {
               "このレベルをクリアするには、HEADを`bugFix`から分離し、その代わりに特定のコミットに紐づけましょう。",
               "",
               "このコミットをハッシュで指定します。コミットのハッシュはそのコミットを表す丸に刻まれています。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Plimbându-te prin Git",
+              "",
+              "Înainte să trecem la unele dintre funcțiile mai avansate ale Git, este important să înțelegem diferitele moduri de a te deplasa prin arborele de commit-uri care reprezintă proiectul tău.",
+              "",
+              "Odată ce te simți confortabil să te miști prin acesta, puterile tale cu celelalte comenzi Git vor fi amplificate!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "În primul rând, trebuie să vorbim despre \"HEAD\". HEAD este un nume simbolic pentru commit-ul pe care teai mutat în prezent -- este, practic, commit-ul pe care lucrezi în acel moment.",
+              "",
+              "HEAD întotdeauna indică cel mai recent commit, reflectat în arborele de commit-uri. Majoritatea comenzilor Git care fac modificări în arborele de commit-uri vor începe prin a modifica HEAD.",
+              "",
+              "În mod normal, HEAD indică numele unei ramuri (de exemplu, bugFix). Când faci un commit, starea ramurii bugFix se modifică și această modificare este vizibilă prin HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să vedem asta în acțiune. Aici vom vedea HEAD înainte și după un commit."
+            ],
+            "afterMarkdowns": [
+              "Vezi! HEAD era ascuns sub ramura noastră `main` până acum."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Detașarea HEAD-ului",
+              "",
+              "Detașarea HEAD-ului înseamnă pur și simplu să îl atașezi la un commit în loc de o ramură. Așa arată înainte:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Iar acum arată așa:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, trebuie să detașăm HEAD de `bugFix` și să îl atașăm la commit în schimb.",
+              "",
+              "Specifică acest commit prin hash-ul său. Hash-ul fiecărui commit este afișat în cercul care reprezintă commit-ul."
             ]
           }
         }

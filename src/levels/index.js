@@ -114,7 +114,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'gl'   : 'Alixeirando',
       'zh_CN': '高级篇',
       'zh_TW': '進階篇',
-      'ro': "Mai departe",
+      'ro': "În continuare",
       'ru_RU': 'Едем дальше',
       'uk'   : 'Їдемо далі',
       'ko'   : '다음 단계로',
