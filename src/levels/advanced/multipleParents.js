@@ -14,6 +14,7 @@ exports.level = {
     "pt_BR": "Múltiplos pais",
     "gl": "Múltiples pais",
     "zh_TW": "多個 parent commit",
+    "ro": "Mai mulți părinți",
     "ru_RU": "Здоровая семья, или несколько родителей",
     "ko": "다수의 부모",
     'uk': 'Декілька батьків',
@@ -36,6 +37,7 @@ exports.level = {
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
     "gl": "Usa `git branch bugWork` sobre calquera commit para crear a referencia que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
+    "ro": "Folosește `git branch bugWork` cu un commit țintă pentru a crea referința lipsă.",
     "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
     "ko": "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
     'uk': 'Використай "git branch bugWork" на потрібному коміті щоб створити потрібне посилання',
@@ -912,6 +914,93 @@ exports.level = {
               "要完成這一關，在指定的目標位置上面建立一個新的 branch。",
               "",
               "很明顯可以直接使用 commit 的 hash 值（比如 `C6`），但我要求你使用剛剛講到的相對引用的符號！"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Specificarea părinților",
+              "",
+              "La fel ca și modificatorul `~`, modificatorul `^` acceptă un număr opțional după el.",
+              "",
+              "În loc să specifici câte generații înapoi să te duci (ceea ce face `~`), modificatorul de la `^` specifică care referință părinte să fie urmată de la un commit de tip merge. Amintește-ți că un commit de tip merge are mai mulți părinți, deci calea de urmat este ambiguă.",
+              "",
+              "Git va urma de obicei \"primul\" părinte al unui commit de tip merge, dar specificarea unui număr după `^` schimbă acest comportament implicit.",
+              "",
+              "Destul cu vorbăraia, să vedem operatorul în acțiune.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aici avem un commit de tip merge. Dacă facem checkout la `main^`, fără modificator, vom urma primul părinte de după commitul de tip merge. ",
+              "",
+              "(*În vizualizările noastre, primul părinte este cel situat direct deasupra commitului de tip merge.*)"
+            ],
+            "afterMarkdowns": [
+              "Ușor -- asta este ceea ce suntem obișnuiți să facem."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Acum să încercăm să specificăm al doilea părinte, în schimb..."
+            ],
+            "afterMarkdowns": [
+              "Vezi? Am urmat celălalt părinte în sus."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Modificatorii `^` și `~` pot face ca navigarea în jurul unui arbore de commituri să fie foarte puternică:"
+            ],
+            "afterMarkdowns": [
+              "Rapid ca fulgerul!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Și mai uimitor, aceste modificatoare pot fi legate împreună! Uite:"
+            ],
+            "afterMarkdowns": [
+              "Aceeași mișcare ca înainte, dar totul într-o singură comandă."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Pune în practică",
+              "",
+              "Pentru a finaliza acest nivel, creează un nou branch la destinația specificată.",
+              "",
+              "Este evident că ar fi mai ușor să specifici direct commitul (cu ceva de genul `C6`), dar te provoc să folosești modificatorii despre care am vorbit în schimb!"
             ]
           }
         }
