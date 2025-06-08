@@ -629,7 +629,37 @@ exports.dialog = {
         'Mais tout de suite commencez sur les `levels`…'
       ]
     }
-  }],
+  }],ro: [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Bine ați venit la Learn Git Branching",
+          "",
+          "Vrei să înveți Git? Atunci ai ajuns în locul potrivit! ",
+          '"Learn Git Branching" este cea mai vizuală și interactivă modalitate de a învăța Git ',
+          "pe web; vei fi provocat cu niveluri interesante, vei primi ",
+          "demonstrații pas cu pas ale funcțiilor puternice ale Git-ului și poate chiar te vei distra puțin pe parcurs.",
+          "",
+          "După acest dialog, vei vedea o varietate de niveluri pe care le avem de oferit. Dacă ești începător, ",
+          "poți începe cu primul nivel. Dacă deja cunoști câteva noțiuni de bază despre Git, ",
+          "încercă unele dintre nivelurile noastre mai provocatoare de la final.",
+          "",
+          "Poți vedea toate comenzile disponibile cu `show commands` în terminal.",
+          "",
+          "P.S. Vrei să ajungi direct în sandbox data viitoare?",
+          "Încearcă ",
+          "[acest link special](https://pcottle.github.io/learnGitBranching/?NODEMO)",
+          "",
+          "P.S.S. GitHub a început să numească ramura implicită `main` în loc de `master` ",
+          "pentru a migra de la terminologia învechită [(mai multe detalii disponibile aici)](https://github.com/github/renaming).",
+          "În conformitate cu acest demers la nivel de industrie, am actualizat și noi „Learn Git Branching” pentru ",
+          "a utiliza `main` în loc de `master` în lecțiile noastre. Această redenumire ar trebui să fie destul de consistentă deja, ",
+          "însă dacă observi vreo eroare, nu ezita să trimiți un PR (sau să deschizi o problemă).",
+        ],
+      },
+    },
+  ],
   'ru_RU': [{
     type: 'ModalAlert',
     options: {
