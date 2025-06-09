@@ -210,6 +210,25 @@ exports.dialog = {
       ]
     }
   }],
+  'ro': [{
+    type: "ModalAlert",
+    options: {
+      markdowns: [
+        "## Bun venit la constructorul de nivele!",
+        "",
+        "Iată pașii principali:",
+        "",
+        "  * Configurați mediul inițial cu comenzi git",
+        "  * Definiți arborele de start cu ```define start```",
+        "  * Introduceți seria de comenzi git care compun soluția (optimă)",
+        "  * Definiți arborele țintă cu ```define goal```. Definirea țintei definește și soluția",
+        "  * Opțional, definiți un indiciu cu ```define hint```",
+        "Modificați numele cu ```define name```",
+        "  * Opțional, puteți defini un dialog de start cu ```edit dialog```",
+        "Introduceți comanda ```finish``` pentru a obține nivelul dvs. în format JSON!",
+      ],
+    },
+  }],
   'ru_RU': [{
     type: 'ModalAlert',
     options: {

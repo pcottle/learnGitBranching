@@ -29,6 +29,7 @@ exports.level = {
     "ja": "コミットをやりくりする その2",
     "zh_CN": "提交的技巧 #2",
     "zh_TW": "commit 的戲法 #2",
+    "ro": "Jonglarea cu commit-uri #2",
     "ru_RU": "Жонглируем коммитами №2",
     "uk": "Жонглюємо комітами #2",
     "vi": "Tung hứng commit #2",
@@ -51,6 +52,7 @@ exports.level = {
     "ko":    "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 main 快进到最新的更新上！",
     "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
+    "ro":    "Nu uita să avansezi main la ultimele modificări!",
     "ru_RU": "Не забудь переместить main на последние изменения.",
     "uk":    "Не забудь перемістити main на останні зміни!",
     "vi":    "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
@@ -566,6 +568,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "그럼 이번 레벨에서는 아까와 마찬가지로 `C2` 커밋의 내용을 정정하되, `rebase -i`를 쓰지 말고 해보세요. ^.~"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Jonglarea cu commit-uri #2",
+              "",
+              "*Dacă nu ai terminat Jonglarea cu commit-uri #1 (nivelul anterior), te rog să o faci înainte de a continua*",
+              "",
+              "După cum ai văzut în ultimul nivel, am folosit `rebase -i` pentru a reordona commit-urile. Odată ce commit-ul pe care voiam să-l schimbam era în vârf, am putut să-l modificăm ușor cu --amend și apoi să-l reordonăm înapoi la ordinea noastră dorită.",
+              "",
+              "Singura problemă aici este că există o mulțime de reordonări, ceea ce poate introduce conflicte de rebase. Să ne uităm la o altă metodă folosind `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Amintește-ți că git cherry-pick va adăuga un commit din orice parte a arborelui la HEAD (atâta timp cât acel commit nu este un strămoș al HEAD).",
+              "",
+              "Iată o mică demonstrație pentru a-ți reaminti:"
+            ],
+            "afterMarkdowns": [
+              "Super! Să continuăm."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Deci, în acest nivel, trebuie să atingem același obiectiv de a modifica `C2`, dar să evităm utilizarea `rebase -i`. Îți las ție să descoperi cum! :D",
+              "",
+              "Ține minte, numărul exact de apostrofe (') din commit nu este important, ci doar diferențele relative. De exemplu, voi acorda puncte unui arbore care se potrivește cu arborele țintă, dar are un apostrof în plus peste tot."
             ]
           }
         }

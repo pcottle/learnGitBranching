@@ -14,6 +14,7 @@ exports.level = {
     "pt_BR": "Referências relativas (^)",
     "gl": "Referencias relativas (^)",
     "de_DE": "Relative Referenzen (^)",
+    "ro":"Referințe relative (^)",
     "ru_RU": "Относительные ссылки (^)",
     "ko": "상대 참조 (^) (Relative Refs)",
     "uk": "Відносні посилання",
@@ -36,6 +37,7 @@ exports.level = {
     "gl": "Non se esqueza do operador circunflexo (^)",
     "zh_CN": "记住操作符（^）！",
     "zh_TW": "不要忘記插入（^）符號！",
+    "ro": "Nu uita operatorul `^`",
     "ru_RU": "Не забудь оператор `^`",
     "ko": "(^)연산자를 기억하세요!",
     "uk": "Не забудь оператор `^`",
@@ -867,6 +869,81 @@ exports.level = {
               "このレベルをクリアするには、`bugFix`の親コミットをチェックアウトしてください。その操作により`HEAD`が分離されます。",
               "",
               "ハッシュを使用してもいいですが、その代わりに相対リファレンスを試してみましょう！"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referințe relative",
+              "",
+              "Navigarea în Git specificând hash-urile commit-urilor poate deveni puțin obositoare. În lumea reală nu vei avea o vizualizare a arborelui de commit-uri atât de frumoasă lângă terminalul tău, așa că va trebui să folosești `git log` pentru a vedea hash-urile.",
+              "",
+              "În plus, hash-urile sunt de obicei mult mai lungi în lumea reală a Git-ului. De exemplu, hash-ul commit-ului care a introdus nivelul anterior este `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Nu este tocmai ușor de pronunțat...",
+              "",
+              "Partea bună este că Git este destul de inteligent cu hash-urile. El necesită doar să specifici suficiente caractere din hash pentru a identifica în mod unic commit-ul. Astfel că pot tasta `fed2` în loc de șirul lung de mai sus."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Așa cum am spus, specificarea commit-urilor prin hash nu este cea mai convenabilă metodă, motiv pentru care Git are referințe relative. Acestea sunt grozave!",
+              "",
+              "Cu referințele relative, poți începe de undeva memorabil (cum ar fi ramura `bugFix` sau `HEAD`) și să lucrezi de acolo.",
+              "",
+              "Commit-urile relative sunt puternice, dar aici vom introduce doar două moduri simple de a le utiliza:",
+              "",
+              "* Deplasarea în sus cu un singur commit folosind `^`",
+              "* Deplasarea în sus de mai multe ori folosind `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să începem cu operatorul `^`. De fiecare dată când îl adaugi la un nume de referință, îi spui lui Git să găsească părintele commit-ului specificat.",
+              "",
+              "Deci, spunând `main^` este echivalent cu \"primul părinte al lui `main`\".",
+              "",
+              "`main^^` este bunicul (strămoșul de a doua generație) al lui `main`",
+              "",
+              "Dă să trecem pe commit-ul deasupra lui main."
+            ],
+            "afterMarkdowns": [
+              "Ura! Gata. Mult mai ușor decât să scrii hash-ul commit-ului."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "De asemenea, poți referi `HEAD` ca o referință relativă. Să folosim asta de câteva ori pentru a ne deplasa în sus în arborele de commit-uri."
+            ],
+            "afterMarkdowns": [
+              "Ușor! Putem călători înapoi în timp cu `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, treci la părintele commit-ului `bugFix`. Aceasta va detașa `HEAD`.",
+              "",
+              "Poți specifica hash-ul dacă vrei, dar încearcă să folosești mai întâi referințe relative!"
             ]
           }
         }

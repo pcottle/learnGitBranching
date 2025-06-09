@@ -14,6 +14,7 @@ exports.level = {
     "gl": "Precisarás usar polo menos unha referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
     "ja": "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
+    "ro":"Vei avea nevoie să folosești cel puțin o referință directă (hash) pentru a termina acest nivel",
     "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
     "ko": "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
@@ -36,6 +37,7 @@ exports.level = {
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2（~）",
     "zh_TW": "相對引用二（~）",
+    "ro": "Referințe relative #2 (~)",
     "ru_RU": 'Относительные ссылки №2',
     "ko": "상대 참조 #2 (~)",
     "uk": "Відносні посилання №2",
@@ -787,6 +789,77 @@ exports.level = {
               "相対リファレンスとブランチの強制関連付けを見ましたので、いまここでそれらの方法を使ってみましょう。",
               "",
               "このレベルをクリアするには`HEAD`、`main`、`bugFix`をゴールで指定されている目的位置まで移動してください。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Operatorul \"~\"",
+              "",
+              "Să presupunem că vrei să te muți cu multe niveluri în sus în arborele de commit-uri. Ar putea fi obositor să tastezi `^` de mai multe ori, pentru acest scenariu Git are operatorul tilde (~).",
+              "",
+              "",
+              "Operatorul tilde primește opțional un număr care specifică numărul de commit-uri părinte cu care vrei să te muți în sus. Să vedem cum funcționează."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să specificăm un număr de commit-uri înapoi cu `~`."
+            ],
+            "afterMarkdowns": [
+              "Boom! Atât de concis -- referințele relative sunt grozave."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forțarea ramurilor",
+              "",
+              "Acum că ești expert în referințele relative, hai să le *folosim* pentru ceva.",
+              "",
+              "Una dintre cele mai comune modalități în care se folosesc referințele relative este pentru a muta ramurile. Poți atribui direct o ramură la un commit folosind opțiunea `-f`. Ceva de genul:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "Aceasta va muta (forțat) ramura main cu trei commit-uri în spate față de HEAD.",
+              "",
+              "*Notă: Într-un mediu real de git, `git branch -f` nu este permis pentru branch-ul curent.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să vedem comanda anterioară în acțiune"
+            ],
+            "afterMarkdowns": [
+              "Grozav! Referințele relative ne-au oferit o modalitate concisă de a ne referi la `C1`, iar mutarea forțată (`-f`) ne-a oferit o modalitate rapidă de a muta o ramură la acea locație."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Acum că ai văzut referințele relative și mutarea forțată a ramurilor împreună, hai să le folosim pentru a rezolva următorul nivel.",
+              "",
+              "Pentru a completa acest nivel, mută `HEAD`, `main` și `bugFix` la destinațiile lor finale arătate în vizualizare."
             ]
           }
         }

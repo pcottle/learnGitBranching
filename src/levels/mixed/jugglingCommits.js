@@ -30,6 +30,7 @@ exports.level = {
     "ja": "コミットをやりくりする",
     "zh_CN": "提交的技巧 #1",
     "zh_TW": "commit 的戲法",
+    "ro": "Jonglarea cu commit-uri",
     "ru_RU": "Жонглируем коммитами",
     "uk": "Жонглюємо комітами",
     "vi": "Tung hứng commit",
@@ -52,6 +53,7 @@ exports.level = {
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
     "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
+    "ro": "Prima comandă este git rebase -i HEAD~2",
     "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
     "uk": "Перша команда має бути git rebase -i HEAD~2",
     "vi": "Lệnh đầu tiên là git rebase -i HEAD~2",
@@ -472,6 +474,40 @@ exports.level = {
             ]
           }
         },
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Jonglarea cu commit-uri",
+              "",
+              "Iată o altă situație care apare destul de frecvent. Ai unele modificări (`newImage`) și un alt set de modificări (`caption`) care sunt legate între ele, astfel încât sunt stivuite una peste alta în repozitoriul tău (adică una după alta).",
+              "",
+              "Partea complicată este că uneori trebuie să faci o mică modificare la un commit mai vechi. În acest caz, echipa de design vrea să schimbăm puțin dimensiunile lui `newImage`, chiar dacă acel commit este deja în istoria noastră!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vom depăși această dificultate făcând următoarele:",
+              "",
+              "* Vom reordona commit-urile astfel încât cel pe care vrem să-l modificăm să fie cel mai recent cu `git rebase -i`",
+              "* Vom folosi `git commit --amend` pentru a face mica modificare",
+              "* Apoi vom reordona commit-urile înapoi cum erau anterior cu `git rebase -i`",
+              "* În final, vom muta `main` în această parte actualizată a arborelui pentru a termina nivelul (folosind metoda pe care o preferi)",
+              "",
+              "Există multe moduri de a atinge acest obiectiv general (știu că te gândești la cherry-pick), și vom vedea mai multe dintre ele mai târziu, dar pentru moment să ne concentrăm pe această tehnică.",
+              "În cele din urmă, fii atent la starea finală aici -- deoarece mutăm commit-urile de două ori, ambele primesc o apostrofă în plus. Încă o apostrofă este adăugată pentru commit-ul pe care îl modificăm, ceea ce ne dă forma finală a arborelui ",
+              "",
+              "Asta fiind spus, pot compara nivelurile acum pe baza structurii și diferențelor relative de apostrofă. Atâta timp cât ramura `main` a arborelui tău are aceeași structură și diferențe relative de apostrofă, îți voi da puncte maxime."
+            ]
+          }
+        }
       ]
     },
     "ru_RU": {

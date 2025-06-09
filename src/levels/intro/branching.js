@@ -14,6 +14,7 @@ exports.level = {
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "Git Branch",
     "zh_TW": "建立 git branch",
+    "ro": "Ramuri în Git",
     "ru_RU": "Ветвление в Git",
     "uk": "Розгалуження в Git",
     "vi": "Rẽ nhánh với Git",
@@ -36,6 +37,7 @@ exports.level = {
     "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git checkout <分支名>' 来切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
+    "ro": 'Creează o ramură nouă cu "git branch [nume-ramură]" și treci la ea cu "git checkout [nume-ramură]"',
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
@@ -1011,6 +1013,100 @@ exports.level = {
           }
         }
       ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramuri Git",
+              "",
+              "Ramurile în Git sunt incredibil de ușoare. Ele sunt pur și simplu referințe către un anumit commit -- nimic mai mult. De aceea, mulți entuziaști Git repetă mantra:",
+              "",
+              "```",
+              "ramifică devreme, ramifică des",
+              "```",
+              "",
+              "Pentru că nu există costuri suplimentare de stocare / memorie asociată cu crearea de multe ramuri, este mai ușor să îți împarți munca într-un mod logic decât să ai ramuri mari și greoaie.",
+              "",
+              'Când vom începe să combinăm ramuri și commit-uri, vom vedea cum aceste două caracteristici se îmbină bine. Pentru moment, doar reține că o ramură spune în esență "Vreau să includ munca acestui commit și a tuturor commit-urilor sale părinte."',
+            ],
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să vedem cum arată ramurile în practică.",
+              "",
+              "Aici vom crea o ramură nouă numită `newImage`.",
+            ],
+            "afterMarkdowns": [
+              "Iată, asta e tot ce trebuie să faci pentru a crea o ramură! Ramura `newImage` acum se referă la commit-ul `C1`.",
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": "",
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să încercăm să facem câteva modificări în această nouă ramură. Apasă butonul de mai jos.",
+            ],
+            "afterMarkdowns": [
+              'Oh nu! Ramura `main` s-a mutat, dar ramura `newImage` nu! Aceasta s-a întâmplat pentru că nu eram "pe" noua ramură, motiv pentru care asteriscul (*) era pe `main`.',
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage",
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să-i spunem lui Git că vrem să facem checkout pe ramura cu",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "Aceasta ne va poziționa pe noua ramură înainte de a face commit cu modificările noastre.",
+            ],
+            "afterMarkdowns": [
+              "Incredibil! Modificările noastre au fost înregistrate pe noua ramură.",
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage",
+          },
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*Notă: În versiunea 2.23 a Git, a fost introdusă o nouă comandă numită `git switch`, care va înlocui în cele din urmă `git checkout`",
+              " deoarece acesta din urmă este oarecum suprasolicitată (face multe lucruri diferite în funcție de argumente). Lecțiile de aici vor folosi în continuare ",
+              "`checkout` în loc de `switch`, deoarece comanda `switch` este încă considerată experimentală și sintaxa sa se poate schimba în viitor.",
+              "Cu toate acestea, puteți încerca noua comandă `switch` în această aplicație, și de asemenea ",
+              '<a href="https://git-scm.com/docs/git-switch" target="_blank">poți afla mai multe aici</a>.* ',
+            ],
+          },
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok! Ești gata să lucrezi cu ramuri. Odată ce această fereastră se închide,",
+              "creează o nouă ramură numită `bugFix` și treci pe acea ramură.",
+              "",
+              "Apropo, iată o scurtătură: dacă vrei să creezi o nouă ramură",
+              " ȘI să treci pe ea în același timp, poți pur și simplu ",
+              "să scrii `git checkout -b [numele-ramurii]`.",
+            ],
+          },
+        },
+      ],
     },
     "ru_RU": {
       "childViews": [

@@ -22,6 +22,7 @@ exports.level = {
     "gl": "Git Describe",
     "zh_TW": "git describe",
     "zh_CN": "Git Describe",
+    "ro":"Git Describe",
     "ru_RU": "Git describe",
     "ko": "Git describe(묘사)",
     "uk": "Git Describe",
@@ -45,6 +46,7 @@ exports.level = {
     "gl": "Simplemente fai commit en bugFix cando estés listo para continuar.",
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你准备好时，在 bugFix 分支上面提交一次就可以了",
+    "ro": "Când ești gata să continui, fă un commit în bugFix",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko": "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk": "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
@@ -748,6 +750,69 @@ exports.level = {
               "`describe`によってGitの情報が簡潔に全て記述されます！このレベルでは、このコマンドの感触をつかむため幾つかの場所で`describe`をしてみてください。",
               "",
               "終わったら、最新のコミットに行き一度コミットを行えばこのレベルを終了することができます。この先では、いくつかの挑戦課題を用意しています :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Pentru că tag-urile servesc ca niște \"ancore\" excelente în cod, git are o comandă pentru a *descrie* unde te afli în raport cu cea mai apropiată \"ancoră\" (adică tag). Și acea comandă se numește `git describe`!",
+              "",
+              "Git describe te poate ajuta să-ți recapeți orientarea după ce ai făcut multe commit-uri înainte sau înapoi în istorie; acest lucru se poate întâmpla după ce ai terminat un git bisect (o căutare de depanare) sau când te așezi la calculatorul unui coleg care tocmai s-a întors din vacanță."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe are următoarea formă:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Unde `<ref>` este orice lucru pe care git îl poate rezolva într-un commit. Dacă nu specifici un ref, git folosește pur și simplu unde ești acum (`HEAD`).",
+              "",
+              "Rezultatul comenzii arată cam așa:",
+              "",
+              "`<tag>_<numCommits>_g<hash>`",
+              "",
+              "Unde `tag` este cel mai apropiat tag din istorie, `numCommits` este numărul de commit-uri până la acel tag, iar `<hash>` este hash-ul commit-ului pe care îl descrii.",
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să vedem un exemplu rapid. Pentru acest arbore de mai jos:"
+            ],
+            "afterMarkdowns": [
+              "Comanda `git describe main` ar afișa:",
+              "",
+              "`v1_2_gC2`",
+              "",
+              "În timp ce `git describe side` ar afișa:",
+              "",
+              "`v2_1_gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Cam asta este tot ce trebuie să știi despre git describe! Încearcă să descrii câteva locații din acest nivel pentru a te obișnui cu comanda.",
+              "",
+              "Când ești gata, fă un singur commit pentru a termina nivelul. Este un cadou gratis de la noi :P"
             ]
           }
         }

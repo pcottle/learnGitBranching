@@ -13,6 +13,7 @@ exports.level = {
     "gl": "Introducción a clone",
     "zh_CN": "Git Clone",
     "zh_TW": "介紹 clone",
+    "ro":"Introducere în clonare",
     "ru_RU": "Введение в клонирование",
     "ko": "Clone 소개",
     "uk": "Знайомство з clone",
@@ -34,6 +35,7 @@ exports.level = {
     "pt_BR": "Basta fazer um git clone!",
     "gl": "¡Chega con facer git clone!",
     "zh_TW": "只要 git clone 就好了",
+    "ro": "Doar git clone!",
     "ru_RU": "Простой git clone!",
     "ko": "그냥 git clone 하세요!",
     "uk": "Просто git clone!",
@@ -666,6 +668,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルをクリアするには、`git clone`で既存のリポジトリのクローンを作成します。次のレッスンでより詳細に見ていきます。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Repozitoriile remote nu sunt chiar atât de complicate. In lumea de astazi a cloud-ului, e ușor să crezi ca exista multă magie in spatele remote-urilor git, dar ele sunt de fapt doar copii ale repozitoriului tău pe un alt calculator. De obicei poți comunica cu acest alt calculator prin intermediul internetului, ceea ce iți permite să transferi commit-uri in ambele sensuri.",
+              "",
+              "Asta fiind spus, repo-urile remote au o serie de proprietăți interesante:",
+              "",
+              "- In primul rand, remote-urile sunt un backup excelent! Repositoriile git locale au capacitatea de a restaura fișiere la o stare anterioară (așa cum știi), dar toate informațiile sunt stocate local. Având copii ale repositoriului tău git pe alte calculatoare, poți pierde toate datele locale și totuși să continui de unde ai rămas.",
+              "",
+              "- Mai important, remote-urile fac ca programarea să fie socială! Acum că o copie a proiectului tău este găzduită în altă parte, prietenii tăi pot contribui cu ușurință la proiectul tău (sau pot obține ultimele tale modificări).",
+              "",
+              "A devenit foarte popular să folosești site-uri care vizualizează activitatea din jurul repo-urilor remote (cum ar fi [GitHub](https://github.com/)), dar repo-urile remote _întotdeauna_ servesc ca baza pentru aceste instrumente. Așa că este important să le înțelegi!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Comanda noastră pentru a crea remote-uri",
+              "",
+              "Până acum, Learn Git Branching s-a concentrat pe învățarea elementelor de bază ale lucrului cu repo-uri _locale_ (branching, merging, rebasing etc). Cu toate acestea, acum că vrem să învățăm despre lucrul cu repo-uri remote, avem nevoie de o comandă pentru a configura mediul pentru aceste lecții. Această comandă va fi `git clone`.",
+              "",
+              "Tehnic vorbind, `git clone` în lumea reală este comanda pe care o folosești pentru a crea copii _locale_ ale repo-urilor remote (de pe GitHub, de exemplu). Folosim această comandă puțin diferit în `Learn Git Branching` -- aici `git clone` va crea un repo remote din cel local. Sigur că este opusul tehnic al comenzii reale, dar ajută la construirea conexiunii între clonare și lucrul cu repo-uri remote, așa că hai să mergem în modul acesta în continuare.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să începem încet și să vedem cum arată un repo remote în vizualizarea noastră.",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Iată-l! Acum avem un repo remote al proiectului nostru. Arată foarte asemănător, cu câteva diferențe vizuale pentru a face distincția clară -- în nivelurile următoare vei vedea cum împărtășim munca între aceste repo-uri."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, pur și simplu execută `git clone` pe repo-ul tău existent. Învățarea adevărată va veni în lecțiile următoare."
             ]
           }
         }

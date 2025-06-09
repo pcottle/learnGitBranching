@@ -109,6 +109,18 @@ exports.dialog = {
       ]
     }
   }],
+  'ro': [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Ești sigur că vrei să vezi soluția?",
+          "",
+          "Am încredere în tine! Poți să o faci!",
+        ],
+      },
+    },
+  ],
   'ru_RU': [{
     type: 'ModalAlert',
     options: {

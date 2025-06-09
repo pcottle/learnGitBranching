@@ -14,6 +14,7 @@ exports.level = {
     "ja": "ブランチとマージ",
     "zh_CN": "Git Merge",
     "zh_TW": "git 中的 merge",
+    "ro": "Îmbinarea ramurilor în Git",
     "ru_RU": "Слияния веток в Git",
     "uk": "Злиття гілок в Git",
     "vi": "Gộp nhánh trong Git",
@@ -36,6 +37,7 @@ exports.level = {
     "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 main）",
     "zh_TW": "記住按指定的順序 commit（bugFix 比 main 優先）",
     "ko":    "말씀드린 순서대로 커밋해주세요 (bugFix에 먼저 커밋하고 main에 커밋)",
+    "ro": "Nu uita să faci commit în ordinea specificată (bugFix înainte de main)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом main)",
     "uk":    "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
     "vi":    "Nhớ là commit theo đúng thứ tự (bugFix trước main)",
@@ -876,6 +878,75 @@ exports.level = {
           }
         }
       ]
+    },
+     ro: {
+      childViews: [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramuri și combinarea lor",
+              "",
+              "Perfect! Deja știm cum să facem commit și să creăm ramuri. Acum trebuie să învățăm o modalitate de a combina munca din două ramuri diferite. Acest lucru ne va permite să ne ramificăm, să dezvoltăm o nouă funcționalitate și apoi să o combinăm înapoi.",
+              "",
+              'Primul mod de a combina munca pe care îl vom examina este `git merge`. Combinarea în Git creează un commit special care are doi părinți unici. Un commit cu doi părinți înseamnă, în esență, "Vreau să includ toată munca de la acest părinte și de la celălalt părinte, *și* setul tuturor părinților lor."',
+              "",
+              "Este mai ușor cu o vizualizare, să vedem în următoarea pagină.",
+            ],
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              'Aici avem două ramuri; fiecare are un commit care este unic. Acest lucru înseamnă că nici o ramură nu include setul complet de "muncă" pe care l-am făcut în repozitoriu. Să rezolvăm asta cu un merge.',
+              "",
+              "Vom `merge(combina)` ramura `bugFix` în `main`.",
+            ],
+            "afterMarkdowns": [
+              "Wow! Ai văzut asta? În primul rând, `main` acum indică către un commit care are doi părinți. Dacă urmezi săgețile în sus de la `main`, vei trece prin fiecare commit până la rădăcină. Asta înseamnă că `main` conține acum toată munca din repozitoriu.",
+              "",
+              "De asemenea, ai văzut cum s-au schimbat culorile commit-urilor? Pentru a ajuta la învățare, am inclus o legendă de culori. Fiecare ramură are o culoare unică. Fiecare commit devine culoarea rezultată din amestecarea culorilor tuturor ramurilor care îl conțin.",
+              "",
+              "Așa că aici vedem că culoarea ramurii `main` este amestecată în toate commit-urile, dar culoarea `bugFix` nu este. Să reparăm asta...",
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand":
+              "git checkout -b bugFix; git commit; git checkout main; git commit",
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": ["Hai să combinăm ramura `main` în `bugFix`:"],
+            "afterMarkdowns": [
+              "Deoarece `bugFix` era un strămoș al lui `main`, git nu a trebuit să facă nimic; pur și simplu a mutat `bugFix` la același commit la care era atașat `main`.",
+              "",
+              "Acum toate commit-urile au aceeași culoare, ceea ce înseamnă că fiecare ramură conține toată munca din repozitoriu! Yay!",
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand":
+              "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix",
+          },
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, efectuează următorii pași:",
+              "",
+              "* Creează o nouă ramură numită `bugFix`",
+              "* Mutăte pe ramura `bugFix` folosind `git checkout bugFix`",
+              "* Fă un commit",
+              "* Întoarce-te la `main` cu `git checkout`",
+              "* Fă un alt commit",
+              "* Combină ramura `bugFix` în `main` folosind `git merge`",
+              "",
+              "*Ține minte, poți oricând să reafișezi acest dialog tastând `objective`!*",
+            ],
+          },
+        },
+      ],
     },
     "ru_RU": {
       "childViews": [

@@ -14,6 +14,7 @@ exports.level = {
     "de_DE": "Optionen für Pull",
     "ja": "Pullの引数",
     "fr_FR": "Arguments de pull",
+    "ro": "Argumente pentru pull",
     "ru_RU": "Аргументы для pull",
     "ko": "pull 인자들",
     "uk": "Аргументи pull",
@@ -35,6 +36,7 @@ exports.level = {
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
     "ja": "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
+    "ro":"Amintește-ți că poți crea ramuri locale noi folosind argumentele la fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko": "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
     "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
@@ -863,6 +865,80 @@ exports.level = {
               "コミットをいくつかfetchして新しいブランチを作成し、それらのブランチを他のブランチにmergeする必要があります。",
               "",
               "しかし、それほど多くのコマンドは必要ありません！"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumente pentru git pull",
+              "",
+              "Acum că știi practic *tot* ce este de știut despre argumentele pentru `git fetch` și `git push`, nu mai rămâne aproape nimic de acoperit pentru git pull :)",
+              "",
+              "Asta pentru că, la sfârșitul zilei, git pull este *cu adevărat* doar o prescurtare pentru un fetch urmat de un merge al ceea ce tocmai a fost fetch-uit. Poți să-l consideri ca și cum ai rula git fetch cu aceleași argumente specificate și apoi să faci merge în locul unde au ajuns acele commit-uri.",
+              "",
+              "Aceasta se aplică chiar și atunci când folosești argumente foarte complicate. Să vedem câteva exemple:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Iată câteva comenzi echivalente în git:",
+              "",
+              "`git pull  origin foo` este echivalent cu:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Și...",
+              "",
+              "`git pull origin bar:bugFix` e echivalent:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "Vezi? git pull este cu adevărat doar o prescurtare pentru fetch + merge, iar tot ce îi pasă lui git pull este unde au ajuns commit-urile (argumentul `destinatie` pe care îl determină în timpul fetch-ului).",
+              "",
+              "Să vedem o demonstrație:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dacă specificăm locul de unde să facem fetch, totul se întâmplă ca înainte cu fetch, dar vom face merge cu ceea ce tocmai am fetch-uit."
+            ],
+            "afterMarkdowns": [
+              "Vezi! Specificând `main`, am descărcat commit-urile în `o/main` ca de obicei. Apoi am făcut merge de `o/main` în locul unde ne aflăm acum, *indiferent* de unde ne aflam."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Funcționează și dacă specificăm `<sursă>` și `<destinație>`? Sigur că da! Să vedem:"
+            ],
+            "afterMarkdowns": [
+              "Wow, o MULȚIME de lucruri într-o singură comandă. Am creat o nouă ramură locală numit `foo`, am descărcat commit-urile de pe `main` de la remote în această ramură `foo`, și apoi am făcut merge acestuia în ramura curentă `bar`."
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, pentru a termina, încearcă să atingi starea vizualizată în obiectiv. Vei avea nevoie să descarci câteva commit-uri, să creezi câteva ramuri noi și să faci merge unor ramuri în altele, dar nu ar trebui să fie prea multe comenzi :P"
             ]
           }
         }

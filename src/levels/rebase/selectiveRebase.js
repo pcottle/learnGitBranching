@@ -19,6 +19,7 @@ exports.level = {
     "ja": "ブランチスパゲッティ",
     "zh_CN": "纠缠不清的分支",
     "zh_TW": "branch 漿糊",
+    "ro": "Ramuri Spaghetti",
     "ru_RU": "Спутанные ветки",
     "uk": "Макарони з гілок",
     "vi": "Nhánh rối như canh hẹ",
@@ -40,6 +41,7 @@ exports.level = {
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
+    "ro": "Asigură-te că faci totul în ordinea corectă! Ramura `one` mai întâi, apoi `two`, și apoi `three`",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
     "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi": "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
@@ -284,6 +286,26 @@ exports.level = {
               "`one` 브랜치는 순서를 바꾸고 `C5`커밋을 삭제하고, `two`브랜치는 순서만 바꾸며, `three`브랜치는 하나의 커밋만 가져옵시다!",
               "",
               "자유롭게 이 문제를 풀어보시고 나서 `show solution`명령어로 모범 답안을 확인해보세요."
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramuri Spaghetti",
+              "",
+              "WOAHHHhhh! Avem un obiectiv destul de mare de atins în acest nivel.",
+              "",
+              "Aici avem `main` care este cu câteva commit-uri înaintea ramurilor `one`, `two` și `three`. Dintr-un motiv oarecare, trebuie să actualizăm aceste trei ramuri cu versiuni modificate ale ultimelor commit-uri de pe main.",
+              "",
+              "Ramura `one` are nevoie de o reordonare a acelor commit-uri și de excluderea/ștergerea lui `C5`. Ramura `two` are nevoie doar de o reordonare a commit-urilor, iar `three` are nevoie doar de un singur commit transferat!",
+              "",
+              "O să te lăsăm să descoperi cum să rezolvi asta -- asigură-te că verifici soluția noastră ulterior cu `show solution`. "
             ]
           }
         }

@@ -14,6 +14,7 @@ exports.level = {
     "gl": "Simulando o traballo no repositorio",
     "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作",
+    "ro": "Simularea colaborării în echipă",
     "ru_RU": "Коллективная работа",
     "uk": "Симуляція колективної роботи",
     "ko": "가짜 팀워크",
@@ -35,6 +36,7 @@ exports.level = {
     "gl": "Lembra que podes especifar cantos commits queres simular",
     "zh_CN": "记住你可以指定仿真提交的个数",
     "zh_TW": "你要記得指定要送多少個 commit 出去",
+    "ro": "Amintește-ți că poți specifica numărul de commit-uri simulate",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk": "пам’ятай що ти можеш вказати кількість фейкових комітів",
     "ko": "가장할 커밋의 갯수를 조절할 수 있습니다.",
@@ -580,6 +582,60 @@ exports.level = {
               "Die kommenden Level werden recht anspruchsvoll, daher verlangen wir auch in diesem Level schon etwas mehr.",
               "",
               "Leg los und erstelle ein Remote (mit `git clone`), simuliere ein paar Änderungen auf dem Server, committe lokal und dann zieh dir die Änderungen vom Server. Das ist wie mehrere Level in einem!"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simularea colaborării",
+              "",
+              "Aici este partea complicată -- pentru unele dintre lecțiile următoare, trebuie să învățăm cum să preluăm (tragem) modificările introduse în remote.",
+              "",
+              "Asta înseamnă că trebuie să \"pretindem\" că remote-ul a fost actualizat de unul dintre colegii / prietenii / colaboratorii tăi, uneori pe o anumită ramură sau cu un anumit număr de commit-uri.",
+              "",
+              "Pentru a face asta, am introdus comanda cu numele potrivit `git fakeTeamwork`! Este destul de explicită, să vedem o demonstrație..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Comportamentul implicit al comenzii `fakeTeamwork` este să adauge un commit pe ramura main."
+            ],
+            "afterMarkdowns": [
+              "Iată-ne -- remote-ul a fost actualizat cu un nou commit, iar noi nu am descărcat încă acel commit pentru că nu am rulat `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "De asemenea, poți specifica numărul de commit-uri sau ramura adăugându-le la comandă."
+            ],
+            "afterMarkdowns": [
+              "Cu o singură comandă am simulat că un coleg a partajat trei commit-uri pe ramura `foo` a remote-ului nostru."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Următoarele niveluri vor fi destul de dificile, așa că  cerem mai multe de la tine în acest nivel.",
+              "",
+              "Astfel, încearcă să creezi un remote (cu `git clone`), să simulezi câteva modificări pe acel remote, să faci un commit local și apoi să descarci modificările de la remote și să le îmbini local la tine. Este ca și cum ar fi câteva lecții într-una singură!"
             ]
           }
         }

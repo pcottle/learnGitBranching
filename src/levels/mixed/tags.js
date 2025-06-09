@@ -14,6 +14,7 @@ exports.level = {
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tag",
     "zh_TW": "git tag",
+    "ro": "Tag-uri Git",
     "ru_RU": "git tag",
     "ko":    "Git 태그",
     "uk":    "Git Tags",
@@ -36,6 +37,7 @@ exports.level = {
     "gl": "Podes saltar directamente ó commit, ¡ou a etiqueta, que é máis doado!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单地 checkout 到 tag 上",
+    "ro": "Poți face checkout direct pe commit sau pur și simplu checkout pe tag!",
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
     "ko": "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
     "uk": "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
@@ -614,6 +616,58 @@ exports.level = {
               "このレベルは、ゴールとして提示されている図のようにタグを作り、`v1`にチェックアウトすることで完了します。そうすると、あなたは`HEAD`分離状態になることに気づくでしょう -- これは、あなたが直接`v1`タグにコミットができないことを意味しています。",
               "",
               "次のレベルでは、タグのより興味深い使い方について学びます。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tag-uri Git",
+              "",
+              "Așa cum ai învățat din lecțiile anterioare, ramurile sunt ușor de mutat și de obicei fac referire la diferite commit-uri pe măsură ce munca este finalizată pe ele. Ramurile sunt ușor de modificat, adesea temporare și mereu în schimbare.",
+              "",
+              "În acest caz, s-ar putea să te întrebi dacă există o modalitate de a marca *permanent* anumite puncte din istoria proiectului tău. Pentru lucruri precum lansări majore și mari fuziuni, există vreo modalitate de a marca aceste commit-uri cu ceva mai permanent decât o ramură?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Sigur că există! Tag-urile Git sunt concepute exact pentru acest caz de utilizare -- ele marchează (într-o oarecare măsură) permanent anumite commit-uri ca fiind \"etape importante\" la care poți face referire ca la o ramură.",
+              "",
+              "Mai important, ele nu se mișcă atunci când sunt create noi commit-uri. Nu poți trece pe un tag și apoi adăuga munca nouă pe acel tag -- tag-urile există ca niște ancore în arborele de commit-uri care desemnează anumite puncte.",
+              "",
+              "Să vedem cum arată tag-urile în practică..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să încercăm să creăm un tag la `C1`, care este prototipul nostru pentru versiunea 1"
+            ],
+            "afterMarkdowns": [
+              "Destul de simplu! Am numit tag-ul `v1` și am referit explicit commit-ul `C1`. Dacă nu specifici commit-ul, git va folosi ceea ce este la `HEAD`."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru acest nivel, creează pur și simplu tag-urile din vizualizarea obiectivului și apoi treci la `v1`. Observă cum intri în starea de `HEAD` detașat -- asta se datorează faptului că nu poți face commit direct pe tag-ul `v1`.",
+              "",
+              "În nivelul următor vom examina un caz de utilizare mai interesant pentru tag-uri."
             ]
           }
         }
