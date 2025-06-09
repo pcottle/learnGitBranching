@@ -19,6 +19,7 @@ var langLocaleMap = {
   fr: 'fr_FR',
   de: 'de_DE',
   pt: 'pt_BR',
+  ro: 'ro',
   ru: 'ru_RU',
   uk: 'uk',
   vi: 'vi',

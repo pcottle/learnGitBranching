@@ -13,6 +13,7 @@ exports.level = {
     "de_DE": "Änderungen vom Remote zusammenführen",
     "ja": "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes",
+    "ro":"Fuzionare cu remote",
     "ru_RU": "Слияние с удалённым репозиторием",
     "ko": "원격 작업과 merge하기",
     "uk": "Мердж з віддаленим репозиторієм",
@@ -33,6 +34,7 @@ exports.level = {
     "de_DE": "Beachte den Ziel-Baum!",
     "ja": "ゴールツリーをよく見てください！",
     "fr_FR": "Respectez l'arbre représentant l'objectif !",
+    "ro": "Fii atent la arborele din vizualizare!",
     "ru_RU": "Внимательно посмотрите на цель уровня!",
     "ko": "goal을 잘 살펴보세요!",
     "uk": "Уважно подивись як має виглядати результат!",
@@ -489,6 +491,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルでは、前回のレベルを*マージ*を代わりに使って解いてみてください。ちょっと難しいかもしれませんが、このレッスンのポイントを把握するのに十分な知見を得られるはずです。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## De ce nu facem merge?",
+              "",
+              "Pentru a face push noilor actualizări către remote, tot ce trebuie să faci este să *încorporezi* ultimele modificări de pe remote. Asta înseamnă că poți face fie rebase *sau* merge pe ramura remote (de exemplu, `o/main`).",
+              "",
+              "Deci, dacă poți face oricare dintre metode, de ce lecțiile s-au concentrat până acum pe rebase? De ce nu există dragoste pentru `merge` atunci când lucrăm cu remote?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Există multe dezbateri în comunitatea dezvoltatorilor despre avantajele și dezavantajele între merge și rebase. Iată avantajele și dezavantajele generale ale rebase-ului:",
+              "",
+              "Avantaje:",
+              "",
+              "* Rebase-ul face ca arborele tău de commit-uri să arate foarte curat, deoarece totul este într-o linie dreaptă",
+              "",
+              "Dezavantaje:",
+              "",
+              "* Rebase-ul modifică istoricul arborelui de commit-uri.",
+              "",
+              "De exemplu, commit-ul `C1` poate fi mutat *după* `C3`. Apoi pare că munca pentru `C1'` a venit după `C3`, când de fapt a fost finalizată înainte.",
+              "",
+              "Unii dezvoltatori iubesc să păstreze istoria și, prin urmare, preferă să facă merge. Alții (ca mine) preferă să aibă un arbore de commit-uri curat și preferă rebase-ul. Totul se reduce la preferințe :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru acest nivel, să încercăm să rezolvăm nivelul anterior, dar cu *merge* în schimb. Poate fi puțin complicat, dar ilustrează bine punctul."
             ]
           }
         }

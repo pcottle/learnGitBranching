@@ -19,6 +19,7 @@ exports.level = {
     "de_DE": "Die Quelle des Nichts",
     "ja": "無のsource",
     "fr_FR": "Source de rien du tout",
+    "ro":"Sursă goală",
     "ru_RU": "Пустой источник",
     "ko": "Source가 없다",
     "uk": "Нема джерела",
@@ -39,6 +40,7 @@ exports.level = {
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
     "ja": "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
+    "ro": "Comanda branch este dezactivată pentru acest nivel, așa că va trebui să folosești fetch!",
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
     "ko": "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 돼요!",
     "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
@@ -578,6 +580,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルは難しくありません！リモートのブランチを削除して`git fetch`で新しいブランチを作成するだけで完了します。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ciudățenii ale `<sursă>`",
+              "",
+              "Git abuzează parametrul `<sursă>` în două moduri ciudate. Aceste abuzuri vin din faptul că poți specifica tehnic \"nimic\" ca o `sursă` validă atât pentru git push cât și pentru git fetch. Modul în care specifici nimic este printr-un argument gol:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Să vedem ce fac acestea..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ce face git push cu \"nimic\" către o ramură remote? O șterge!"
+            ],
+            "afterMarkdowns": [
+              "Aici, am șters cu succes ramura `foo` de pe remote prin împingerea conceptului de \"nimic\" către ea. Asta are oarecum sens..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "În cele din urmă, făcând fetch \"nimicului\" într-un loc local creează de fapt o ramură nouă."
+            ],
+            "afterMarkdowns": [
+              "Foarte ciudat / bizar, dar nu contează. Așa este git-ul!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aceasta este un nivel mic -- pur și simplu șterge o ramură remote și creează o nouă ramură locală folosind `git fetch` pentru a termina!"
             ]
           }
         }
