@@ -12,6 +12,7 @@ exports.level = {
     'ko': 'Git 커밋 소개',
     'zh_CN': 'Git Commit',
     'zh_TW': '介紹 git commit ',
+    'ro': "Introducere în Git Commit",
     'ru_RU': 'Знакомство с Git Commit ',
     'uk': 'Знайомство з комітами в Git',
     'vi': 'Giới thiệu về Git Commit',
@@ -37,6 +38,7 @@ exports.level = {
     "zh_TW": "輸入兩次 'git commit' 就可以完成！",
     "ja": "'git commit'コマンドを2回打てば完成!",
     "ko": "'git commit'이라고 두 번 치세요!",
+    "ro": "Scrie 'git commit' de două ori pentru a termina!",
     "ru_RU": "Попробуй дважды выполнить команду 'git commit' ;)",
     "uk": "Спробуй двічі виконати команду 'git commit' ;)",
     'vi': "Đơn giản là cứ gõ 'git commit' 2 lần",
@@ -563,6 +565,48 @@ exports.level = {
           }
         }
       ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "Un commit într-un repozitoriu Git înregistrează o captură (snapshot) a tuturor fișierelor (urmărite) din directorul tău. E ca un copy&paste uriaș, dar mult mai bun!",
+              "",
+              'Git vrea să păstreze commit-urile cât mai simplu posibil, astfel că nu copiază pur și simplu întregul director de fiecare dată când faci un commit. Poate (dacă este posibil) să comprime un commit ca un set de modificări, sau un "delta", de la o versiune a repozitoriului la următoarea.',
+              "",
+              "Git, de asemenea, păstrează un istoric al commit-urilor, care și când au fost făcute. De aceea majoritatea commit-urilor au commit-uri anterioare deasupra lor -- afișăm acest lucru cu săgeți în vizualizarea noastră. Păstrarea istoricului este utilă pentru toți cei care lucrează la proiect!",
+              "",
+              "Este mult de învățat, dar pentru moment poți să te gândești la commit-uri ca la capturi/versiuni  ale proiectului. Commit-urile sunt foarte ușoare și schimbarea între ele este extrem de rapidă!",
+            ],
+          },
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dați să vedem cum arată asta în practică. În dreapta avem o vizualizare a unui (mic) repozitoriu Git. La moment avem două commit-uri -- primul commit inițial, `C0`, și un commit după acesta, `C1`, care ar putea avea unele modificări semnificative.",
+              "",
+              "Dați click pe butonul de mai jos pentru a face un nou commit.",
+            ],
+            "afterMarkdowns": [
+              "Super! Tocmai am făcut modificări în repozitoriu și le-am salvat ca un commit. Commit-ul pe care tocmai l-am făcut are un părinte, `C1`, care face referire la rândul său la commit-ul în baza căruia a fost făcut.",
+            ],
+            "command": "git commit",
+            "beforeCommand": "",
+          },
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Acum, încearcă și tu! După ce această fereastră se va închide, fă două commit-uri pentru a termina nivelul.",
+            ],
+          },
+        },
+      ],
     },
     "ru_RU": {
       "childViews": [

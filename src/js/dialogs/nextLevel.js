@@ -122,6 +122,19 @@ exports.dialog = {
       ]
     }
   }],
+  'ro': [
+    {
+      type: "ModalAlert",
+      options: {
+        markdowns: [
+          "## Bravo!!!",
+          "",
+          "Ai rezolvat nivelul în *{numCommands}* comenzi; ",
+          "soluția noastră utilizează {best}.",
+        ],
+      },
+    },
+  ],
   'ru_RU': [{
     type: 'ModalAlert',
     options: {

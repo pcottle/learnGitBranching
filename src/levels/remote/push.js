@@ -16,6 +16,7 @@ exports.level = {
     "de_DE": "Git Push",
     "ja": "Git Push",
     "fr_FR": "Git push",
+    "ro": "Git Push",
     "ru_RU": "Git push",
     "uk": "Git push",
     "ko": "Git push",
@@ -35,6 +36,7 @@ exports.level = {
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
     "ja": "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
+    "ro":"Amintiți-vă că trebuie să clonați înainte de a putea face push!",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
     "uk": "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
     "ko": "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
@@ -420,6 +422,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Um diesen Level zu schaffen musst du einfach nur zwei neue Commits auf das Remote bringen. Aber stell dich schon mal darauf ein, dass die nächsten Level anspruchsvoller werden!"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Ok, deci am adus modificările de la remote și le-am integrat în munca mea locală. E grozav și așa... dar cum îmi pot împărtăși _eu_ munca mea minunată cu toată lumea?",
+              "",
+              "Bine, modul de a încărca partaja este opusul descărcării. Și care este opusul lui `git pull`? `git push`!",
+              "",
+              "`git push` este responsabil pentru încărcarea _modificărilor tale_ către un remote specificat și actualizarea acelui remote pentru a integra noile tale commit-uri. Odată ce `git push` se finalizează, toți prietenii tăi pot descărca munca ta de pe remote.",
+              "",
+              "Te poți gândi la `git push` ca la o comandă pentru a \"publica\" munca ta. Are câteva subtilități cu care vom lucra în curând, dar să începem cu pași mici...",
+              "",
+              "*notă -- comportamentul lui `git push` fără argumente variază în funcție de o setare git numită `push.default`. Valoarea implicită pentru această setare depinde de versiunea de git pe care o folosești, dar vom folosi valoarea `upstream` în lecțiile noastre. Nu este o problemă mare, dar merită să verifici setările înainte de a face push în proiectele tale.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aici avem câteva modificări pe care remote-ul nu le are. Să le încărcăm!"
+            ],
+            "afterMarkdowns": [
+              "Remote-ul a primit commit-ul `C2`, ramura `main` de pe remote a fost actualizată pentru a indica către `C2`, iar propria noastră reflecție a remote-ului (`o/main`) a fost de asemenea actualizată. Totul este sincronizat!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a termina acest nivel, pur și simplu împărtășește două noi commit-uri cu remote-ul. Pregătește-te, pentru că aceste lecții vor deveni mult mai dificile!"
             ]
           }
         }

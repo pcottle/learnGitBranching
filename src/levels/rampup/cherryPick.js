@@ -18,6 +18,7 @@ exports.level = {
     "gl": "Introuducción a cherry-pick",
     "zh_CN": "Git Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
+    "ro":"Introducere în cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
     "ko": "Cherry-pick 소개",
     "uk": "Знайомство з cherry-pick",
@@ -40,6 +41,7 @@ exports.level = {
     "gl": "git cherry-pick seguido das referencias a commits",
     "zh_CN": "git cherry-pick 后面要跟提交的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
+    "ro": "git cherry-pick urmat de numele commit-urilor",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
     "ko": "커밋의 이름들로 git cherry-pick 하세요!",
     "uk": "git cherry-pick базується на іменах комітів!",
@@ -671,6 +673,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルをクリアするには、３つのブランチからmainにコードをコピーしてください。どのコミットを取得するかについてはゴールのツリーをみてください。",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mutarea Modificărilor",
+              "",
+              "Până acum am acoperit conceptele de bază ale git -- commit-uri, ramuri și navigarea în arborele sursă. Aceste concepte sunt suficiente pentru a profita de 90% din puterea repozitoriilor git și pentru a acoperi nevoile principale ale dezvoltatorilor.",
+              "",
+              "Restul 10% pot fi foarte utile în fluxuri de lucru complexe (sau atunci când te-ai pus singur într-o situație dificilă). Următorul concept pe care îl vom aborda este \"mutarea modificărilor/comit-urilor\" -- în alte cuvinte, este o modalitate pentru dezvoltatori de a spune \"Vreau acest lucru aici și acel lucru acolo\" într-un mod precis, elocvent și flexibil.",
+              "",
+              "Aceasta poate părea complicat, însă este defapt un concept simplu."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Prima comandă din această serie este `git cherry-pick`. Se folosește în următorul mod:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Este o modalitate foarte directă de a spune că dorești să copiezi o serie de commit-uri sub locația ta curentă (`HEAD`). Personal, îmi place foarte mult `cherry-pick` deoarece nu are prea multă magie și este ușor de înțeles.",
+              "",
+              "Să vedem o demonstrație!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Iată un repozitoriu în care avem unele modificări în ramura `side` pe care dorim să le copiem în `main`. Acest lucru ar putea fi realizat printr-un rebase (pe care l-am învățat deja), dar să vedem cum se comportă cherry-pick."
+            ],
+            "afterMarkdowns": [
+              "Asta e tot! Am vrut commit-urile `C2` și `C4`, iar git le-a plasat imediat sub noi. Simplu, nu?"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, pur și simplu copiază modificările din cele trei ramuri în `main`. Poți vedea ce commit-uri dorim să copiem în vizualizarea obiectivului.",
               ""
             ]
           }

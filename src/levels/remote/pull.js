@@ -13,6 +13,7 @@ exports.level = {
     "de_DE": "Git Pull",
     "ja": "Git Pull",
     "fr_FR": "Git pull",
+    "ro": "Git pull",
     "ru_RU": "Git pull",
     "uk": "Git pull",
     "ko": "Git pull",
@@ -33,6 +34,7 @@ exports.level = {
     "de_DE": "Führe einfach git pull aus.",
     "ja": "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !",
+    "ro": "Pur și simplu rulează git pull!",
     "ru_RU": "Запустите комманду git pull !",
     "uk": "Просто виконай git pull !",
     "ko": "그냥 git pull을 하세요!",
@@ -569,6 +571,65 @@ exports.level = {
               "Die Feinheiten von `git pull` werden wir uns später ansehen, für's Erste lass es uns in diesem Level ausprobieren.",
               "",
               "Vergiss nicht -- du kannst diesen Level auch mit `fetch` und `merge` lösen, aber das kostet dich einen Befehl extra. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Acum că am văzut cum să preluăm datele de la un repozitoriu remote cu `git fetch`, hai să actualizăm munca noastră pentru a reflecta acele schimbări!",
+              "",
+              "Există, de fapt, multe moduri de a face asta -- odată ce ai noi commit-uri disponibile local, le poți integra ca și cum ar fi commit-uri normale pe alte ramuri. Asta înseamnă că poți executa comenzi precum:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* etc., etc.",
+              "",
+              "De fapt, fluxul de lucru de *preluare* a schimbărilor remote și apoi *combinarea* lor este atât de comun încât git oferă o comandă care face ambele lucruri deodată! Acea comandă este `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să vedem mai întâi un `fetch` și un `merge` executate secvențial."
+            ],
+            "afterMarkdowns": [
+              "Boom -- am descărcat `C3` cu un `fetch` și apoi am combinat acea muncă cu `git merge o/main`. Acum ramura noastră `main` reflectă noua muncă de la remote (în acest caz, numit `origin`)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ce s-ar întâmpla dacă am folosi `git pull` în schimb?"
+            ],
+            "afterMarkdowns": [
+              "Exact același lucru! Asta ar trebui să facă foarte clar faptul că `git pull` este practic o scurtătură pentru un `git fetch` urmat de un merge al oricărei ramuri care a fost tocmai preluată."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vom explora detaliile lui `git pull` mai târziu (inclusiv opțiuni și argumente), dar pentru acum hai să testăm comanda în acest nivel.",
+              "",
+              "Ține minte -- poți rezolva acest nivel folosind doar `fetch` și `merge`, dar asta te va costa o comandă suplimentară :P"
             ]
           }
         }

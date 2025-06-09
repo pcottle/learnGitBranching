@@ -13,6 +13,7 @@ exports.level = {
     "de_DE": "Remote Tracking",
     "ja": "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante",
+    "ro":"Urmărirea unui remote",
     "ru_RU": "Слежка за удалённым репозиторием",
     "ko": "원격 저장소 추적하기",
     "uk": "Слідкуємо за віддаленим репозиторієм",
@@ -33,6 +34,7 @@ exports.level = {
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
     "ja": "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
     "fr_FR": "Rappelez-vous qu'il existe deux façons de configurer le suivi de branche distante !",
+    "ro": "Amintește-ți că există două moduri de a urmări un remote!",
     "ru_RU": "Помни, есть два способа установить слежку за удалённым репозиторием!",
     "ko": "원격 추적하기를 설정하는데에는 두가지 방법이 있습니다!",
     "uk": "Пам'ятай, є два способи слідкувати за віддаленим репозиорієм!",
@@ -1101,6 +1103,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok. In diesem Level musst du Commits auf den `main` auf dem Server schieben, *ohne* den lokalen `main` ausgecheckt zu haben. Den Rest kannst du selbst herausfinden, schließlich ist das hier für Fortgeschrittene. :P"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ramuri de urmărire a Remote-urilor",
+              "",
+              "Un lucru care ar fi putut părea \"magic\" în lecțiile anterioare este că git știa că ramura `main` este legată de `o/main`. Sigur, aceste ramuri au nume asemănătoare și ar putea avea sens logic să conecteze ramura `main` de pe remote cu ramura locală `main`, dar această conexiune este demonstrată clar în două scenarii:",
+              "",
+              "* În timpul unei operațiuni de pull, commit-urile sunt descărcate în `o/main` și apoi *îmbinate* în ramura `main`. Ținta implicită a fuziunii este determinată de această conexiune.",
+              "* În timpul unei operațiuni de push, lucrul din ramura `main` este împins pe ramura `main` a remote-ului (care este apoi reprezentată local de `o/main`). Destinația *push-ului* este determinată de conexiunea dintre `main` și `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Urmărirea Remote-urilor",
+              "",
+              "Pe scurt, această conexiune între `main` și `o/main` este explicată simplu prin proprietatea de \"urmărire a remote-urilor\" a ramurilor. Ramura `main` este setată să urmărească `o/main` -- asta înseamnă că există o țintă implicită de fuziune și o destinație implicită de push pentru ramura `main`.",
+              "",
+              "Te-ai putea întreba cum a fost setată această proprietate pe ramura `main` când nu ai rulat niciun fel de comandă pentru a o specifica. Ei bine, când clonezi un repozitoriu cu git, această proprietate este setată automat pentru tine.",
+              "",
+              "În timpul unei clonări, git creează o ramură remote pentru fiecare ramură de pe remote (de exemplu, ramuri precum `o/main`). Apoi creează o ramură locală care urmărește ramura activă de pe remote, care este `main` în majoritatea cazurilor.",
+              "",
+              "După ce clonarea git este completă, ai doar o ramură locală (astfel încât să nu fii copleșit), dar poți vedea toate ramurile diferite de pe remote (dacă ești foarte curios). Este cea mai bună variantă din ambele lumi!",
+              "",
+              "Aceasta explică de asemenea de ce ai putea vedea următorul mesaj când clonezi:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Pot specifica acest lucru?",
+              "",
+              "Da, poți! Poți face ca orice ramură să urmărească `o/main`, iar dacă faci asta, acea ramură va avea aceeași destinație implicită de push și țintă de combinare a commi-turilor ca `main`. Asta înseamnă că poți rula `git push` pe o ramură numită `totallyNotMain` și să împingi munca ta pe ramura `main` de pe remote!",
+              "",
+              "Există două moduri de a seta această proprietate. Primul este să faci treci la o ramură nouă folosind o ramură remote ca referință specificată. Rulând",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "Creează o nouă ramură numită `totallyNotMain` și o setează să urmărească `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Destul cu atâta vorbă, să vedem o demonstrație! Vom face un checkout la o nouă ramură numită `foo` și o vom seta să urmărească `main` de pe remote."
+            ],
+            "afterMarkdowns": [
+              "După cum poți vedea, am folosit ținta implicită de fuziune `o/main` pentru a actualiza ramura `foo`. Observă că `main` nu este actualizată!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aceasta se aplică și pentru `git push`."
+            ],
+            "afterMarkdowns": [
+              "Bam. Am împins munca noastră pe `main` de pe remote chiar dacă ramura noastră se numea complet diferit."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Metoda #2",
+              "",
+              "O altă modalitate de a seta urmărirea remote-urilor pe o ramură este să folosești opțiunea `git branch -u`. Rulând",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "va seta ramura `foo` să urmărească `o/main`. Dacă ești deja pe ramura `foo`, poți chiar să o omiți:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hai să vedem rapid această altă modalitate de a specifica urmărirea remote-urilor..."
+            ],
+            "afterMarkdowns": [
+              "La fel ca înainte, doar că este o comandă mai explicită. Grozav!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bine! Pentru acest nivel, trebuie să faci push muncii tale pe ramura `main` de pe remote *fără* a fi pe ramura `main` local. Îți las să descoperi restul singur, deja ești la un nivel avansat :P"
             ]
           }
         }

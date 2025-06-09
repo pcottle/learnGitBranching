@@ -20,6 +20,7 @@ exports.level = {
     "ja": "9000回以上のrebase",
     "zh_CN": "多次 Rebase",
     "zh_TW": "N次Rebase",
+    "ro":"Rebase de peste 9000 ori",
     "ru_RU": "Rebase over 9000 раз",
     "uk": "Rebase over 9000 разів",
     "vi": "Rebase hơn 9000 lần",
@@ -41,6 +42,7 @@ exports.level = {
     "ko": "아마도 main을 마지막에 업데이트하는 것이 가장 효율적인 방법일 것입니다...",
     "zh_CN": "记住，最后更新 main 分支可能是最高效的方法……",
     "zh_TW": "要記住喔! 把 main branch 留到最後更新可能是最有效率的方法。",
+    "ro": "Amintește-ți, cea mai eficientă metodă ar putea fi să actualizezi main-ul doar la final...",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
     "uk": "Не забувай, що краще всього буде перемістити main в самому кінці... ",
     "vi": "Hãy nhớ rằng, cách tốt nhất có thể là cập nhật nhánh `main` sau cùng...",
@@ -262,6 +264,24 @@ exports.level = {
               "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
               "",
               "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebase mai multe ramuri",
+              "",
+              "Avem o grămadă de ramuri aici! Hai să facem rebase la tot ce s-a lucrat în aceste ramuri pe main.",
+              "",
+              "Dar șefii ne complică puțin viața -- vor ca toate commit-urile să fie în ordine secvențială. Asta înseamnă că arborele nostru final ar trebui să aibă `C7'` jos, `C6'` deasupra lui și așa mai departe, totul în ordine.",
+              "",
+              "Dacă te încurci pe parcurs, nu ezita să folosești `reset` pentru a începe de la capăt. Asigură-te că verifici soluția noastră și vezi dacă poți să o faci cu mai puține comenzi!"
             ]
           }
         }

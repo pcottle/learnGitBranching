@@ -14,6 +14,7 @@ exports.level = {
     "de_DE": "Branches auf entfernten Servern",
     "ja": "リモートのブランチ",
     "fr_FR": "Les branches distantes",
+    "ro": "Ramuri la distanță (Remote)",
     "ru_RU": "Удалённые ветки",
     "ko": "원격 브랜치(remote branch)",
     "uk": "Віддалені гілки",
@@ -35,6 +36,7 @@ exports.level = {
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem main!",
     "ja": "順番に注意 -- まずmainに対してcommitしましょう",
     "fr_FR": "Prêtez attention à l'ordre -- les commits sur main d'abord !",
+    "ro": "Atenție la ordinea commit-urilor -- primul pe main!",
     "ru_RU": "Уделяйте внимание очерёдности -- сперва commit на main",
     "ko": "순서에 주의하세요: main 브랜치 에서 먼저 커밋하세요!",
     "uk": "Звертайте увагу на послідовність -- спочатку коміт в мастер!",
@@ -715,6 +717,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "このレベルを終えるには、まずコミットを`main`に一回行い、その後`o/main`にチェックアウトしてからもう一度コミットをします。これは、リモートブランチがどれほど違った動きをするか、そしてリモートブランチがリモートの状態を反映する時しか更新されないことを理解するのに役立つでしょう。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ramuri Remote ",
+              "",
+              "Acum că ai văzut `git clone` în acțiune, să ne uităm mai atent la ceea ce s-a schimbat defapt.",
+              "",
+              "Primul lucru pe care l-ai observat este că a apărut o nouă ramură în repozitoriul nostru local numită `o/main`. Acest tip de ramură se numește ramură _remote_; ramurile remote au proprietăți speciale deoarece servesc un scop unic.",
+              "",
+              "Ramurile remote reflectă _starea_ repozitoriilor remote (de la ultima dată când ai vorbit cu aceste repozitorii remote). Ele te ajută să înțelegi diferența dintre munca ta locală și munca care este deja publicată - un pas critic de făcut înainte de a împărtăși munca ta cu alții.",
+              "",
+              "Ramurile remote au proprietatea specială că atunci când treci pe ele, ești pus în modul detached `HEAD` (HEAD detașat). Git face asta intenționat pentru că nu poți lucra direct pe aceste ramuri; trebuie să lucrezi în altă parte și apoi să împărtășești munca ta cu remote (după care ramurile tale remote vor fi actualizate).",
+              "",
+              "Pentru a fi clar: Ramurile remote sunt în repozitoriul tău _local_, nu în repozitoriul remote."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ce este `o/`?",
+              "",
+              "Te-ai putea întreba ce înseamnă `o/` la începutul ramurilor remote. Ei bine, ramurile remote au și ele o convenție de denumire obligatorie -- sunt afișate în următorul format:",
+              "",
+              "* `<nume remote>/<nume ramură>`",
+              "",
+              "Deci, dacă te uiți la o ramură numită `o/main`, numele ramurii este `main`, iar numele remote-ului este `o`.",
+              "",
+              "Majoritatea dezvoltatorilor își numesc remote-ul principal `origin`, nu `o`. Acest lucru este atât de comun încât Git configurează de fapt remote-ul să fie numit `origin` atunci când faci `git clone` al unui repozitoriu.",
+              "",
+              "Din păcate, numele complet `origin` nu se potrivește în UI-ul nostru, așa că folosim `o` ca prescurtare :( Doar amintește-ți că atunci când folosești Git în viața reală, remote-ul tău se va numi probabil `origin`!",
+              "",
+              "Este mult de procesat, așa că hai să vedem totul în acțiune."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hai să trecem pe o ramură remote și să vedem ce se întâmplă."
+            ],
+            "afterMarkdowns": [
+              "Așa cum poți vedea, Git ne-a pus în modul detached `HEAD` și nu a actualizat `o/main` când am adăugat un nou commit. Acest lucru se datorează faptului că `o/main` se va actualiza doar atunci când remote-ul se actualizează."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a termina acest nivel, fă un commit o dată pe `main` și apoi încă o dată după ce ai trecut pe `o/main`. Acest lucru te va ajuta să înțelegi cum se comportă diferit ramurile remote și că acestea se actualizează doar pentru a reflecta starea remote-ului."
             ]
           }
         }

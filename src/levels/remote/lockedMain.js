@@ -5,6 +5,7 @@ exports.level = {
   "hint": {
     "en_US": "Make the feature branch from the local main before resetting it back to be the same as origin's main",
     "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Main-Branch, bevor du den Main-Branch auf den origin/main zurücksetzt.",
+    "ro":"Creează o ramură feature din main-ul local înainte de a reseta main-ul pentru a fi la fel cu origin/main.",
     "ru_RU": "Создайте новую feature ветвь от main перед тем, как откатить изменения в main до состояния o/main.",
     "uk": "Створіть нову feature гілку від локального main перед тим, як відкотити зміни в main до стану o/main.",
     "zh_CN": "从本地的main创建一个feature分支, 然后重置main和origin main保持一致。",
@@ -24,6 +25,7 @@ exports.level = {
   "name": {
     "en_US": "Locked Main",
     "de_DE": "Gesperrter Main-Branch",
+    "ro": "Main Blocat",
     "ru_RU": "Заблокированная ветвь main",
     "uk": "Заблокована гілка main",
     "zh_CN": "锁定的Main(Locked Main)",
@@ -156,6 +158,46 @@ exports.level = {
               "## 解决办法",
               "",
               "新建一个分支feature, 推送到远程服务器. 然后reset你的main分支和远程服务器保持一致, 否则下次你pull并且他人的提交和你冲突的时候就会有问题."
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Respins!",
+              "",
+              "Dacă lucrezi într-o echipă mare, este probabil ca ramura `main` să fie blocată și să necesite un proces de Pull Request (Cerere pentru a partaja schimbări) pentru a îmbina modificările. Dacă faci commit direct pe `main` local și încerci să faci push, vei primi un mesaj similar cu acesta:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## De ce a fost respins?",
+              "",
+              "Ramura remote a respins push-ul commit-urilor direct pe `main` din cauza politicii de pe `main` care necesită utilizarea Pull Request-urilor.",
+              "",
+              "Tu ai intenționat să urmezi procesul de creare a unei ramuri, apoi să faci push acelei ramuri și să faci un Pull Request, dar ai uitat și ai făcut commit direct pe `main`. Acum ești blocat și nu poți face push cu modificările tale."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Soluția",
+              "",
+              "Creează o altă ramură numită `feature` și împinge-o către remote. De asemenea, resetează ramura ta `main` pentru a fi sincronizată cu remote, altfel s-ar putea să ai probleme data viitoare când faci pull și commit-ul altcuiva intră în conflict cu al tău.",
             ]
           }
         }

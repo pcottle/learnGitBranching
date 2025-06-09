@@ -26,6 +26,7 @@ exports.level = {
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
+    "ro":"Alegem doar un singur commit",
     "ru_RU": "Выберем один коммит.",
     "uk": "Вибираємо всього один коміт",
     "vi": "Chỉ lấy 1 commit",
@@ -48,6 +49,7 @@ exports.level = {
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
+    "ro": "Nu uita, rebase interactiv sau cherry-pick sunt prietenii tăi aici",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
     "vi": "Hãy nhớ 2 anh bạn tương tác rebase và cherry-pick",
@@ -523,6 +525,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "이번 레벨을 통과하기 위해 어떤 방법을 쓰시든 자유입니다만, `main`브랜치가 `bugFix` 브랜치의 커밋을 일부 가져오게 해주세요."
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit-uri salvate local",
+              "",
+              "Iată o situație de dezvoltare care apare frecvent: încerc să găsesc un bug, dar este destul de greu de găsit. Pentru a mă ajuta în munca mea de detectiv, adaug câteva comenzi de debug și câteva instrucțiuni de printare.",
+              "",
+              "Toate aceste comenzi de depanare și instrucțiuni de printare sunt în propriile lor commit-uri. În cele din urmă, găsesc bug-ul, îl repar și mă bucur!",
+              "",
+              "Singura problemă este că acum trebuie să aduc `bugFix` înapoi în ramura `main`. Dacă pur și simplu fac un fast-forward la `main`, atunci `main` va primi toate instrucțiunile mele de depanare, ceea ce nu este de dorit. La sigur trebuie să existe o altă modalitate..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Trebuie să spunem lui git să copie doar unul dintre commit-uri. Aceasta este exact ca nivelurile anterioare de mutare a muncii -- putem folosi aceleași comenzi:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Pentru a atinge acest obiectiv."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Acesta este un nivel mai avansat, așa că lăsăm la discreția ta decizia de a alege ce comandă vrei să folosești, dar pentru a finaliza nivelul, asigură-te că `main` primește commit-ul la care se referă `bugFix`."
             ]
           }
         }

@@ -13,6 +13,7 @@ exports.level = {
     "gl": "Parámetros de fetch",
     "de_DE": "Optionen für Fetch",
     "ja": "Fetchの引数",
+    "ro":"Argumente pentru fetch",
     "ru_RU": "Аргументы для fetch",
     "ko": "Fetch의 인자들",
     "uk": "Аргументи для fetch",
@@ -33,6 +34,7 @@ exports.level = {
     "gl": "Preste atención en como poderían invertirse os ids dos commits! Podes volver ler toda a lección usando \"help level\"",
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen",
     "ja": "コミットIDの入れ替わりに注意！スライドを復習するには`help level`を実行",
+    "ro": "Fii atent la modul în care ID-urile commit-urilor pot fi inversate! Poți citi din nou slide-urile cu comanda \"help level\"",
     "ru_RU": "Обратите внимание на то, как номера коммитов могут меняться! Вы можете прочесть слайды вновь, воспользовавшись командой \"help level\"",
     "ko": "커밋 ID가 바뀔수도있으니 주의하세요! \"help level\"을 입력하면 슬라이드들을 다시 읽어볼수 있습니다.",
     "uk": "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\"",
@@ -1281,6 +1283,129 @@ exports.level = {
               "コマンドを駆使してみましょう！",
               "",
               "両方の`fetch`コマンドにsourceとdestinationを指定する必要があります。IDが入れ替わる可能性があるのでゴールをよく確認してください。"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumentele git fetch",
+              "",
+              "Am învățat deja totul despre argumentele git push, acest parametru fain `<locatie>`, și chiar și refspec-urile cu două puncte (`<sursa>:<destinatie>`). Putem folosi toate aceste cunoștințe și pentru `git fetch`?",
+              "",
+              "Ai ghicit! Argumentele pentru `git fetch` sunt de fapt *foarte, foarte* asemănătoare cu cele pentru `git push`. Sunt aceleași concepte, doar că aplicate în direcția opusă (deoarece acum descarci commit-uri în loc să le încarci).",
+              "",
+              "Să luăm fiecare concept pe rând..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Parametrul `<locatie>`",
+              "",
+              "Dacă specifici o locatie la `git fetch`, cum ar fi în următoarea comandă:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git se va duce la ramura `foo` de pe remote, va aduce toate commit-urile care nu sunt prezente local și le va plasa pe ramura locală `o/foo`.",
+              "",
+              "Hai să vedem asta în acțiune."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Prin specificarea unei locații..."
+            ],
+            "afterMarkdowns": [
+              "Descărcăm doar commit-urile de pe `foo` și le plasăm pe `o/foo`."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Te întrebi poate -- de ce a pus git acele commit-uri pe ramura `o/foo` de pe remote în loc să le pună direct pe ramura locală `foo`? Nu cumva parametrul `<locatie>` este un loc care există atât local cât și pe remote?",
+              "",
+              "Ei bine, git face o excepție specială în acest caz pentru că s-ar putea să ai lucruri pe ramura `foo` care nu vrei să le strici! Asta se leagă de lecția anterioară despre `git fetch` -- nu actualizează ramurile tale locale care nu sunt legate de remote, ci doar descarcă commit-urile (astfel încât să le poți inspecta sau integra mai târziu).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "În acest caz, ce se întâmplă dacă specific locul sursă și destinație explicit cu `<sursa>:<destinatie>`?",
+              "",
+              "Dacă ești suficient de pasionat să aduci commit-uri *direct* pe o ramură locală, atunci poți specifica asta cu o refspec cu două puncte. Nu poți aduce commit-uri pe o ramură pe care deja te afli (checkout), dar în rest git îți va permite asta.",
+              "",
+              "Aici este singura problemă -- `<sursa>` este acum un loc pe *remote* și `<destinatie>` este un *loc local* unde să pui acele commit-uri. Este exact opusul la git push, și asta are sens deoarece transferăm date în direcția opusă!",
+              "",
+              "Acestea fiind spuse, dezvoltatorii rareori fac asta în practică. Îl introduc aici mai mult ca o modalitate de a conceptualiza cum `fetch` și `push` sunt foarte asemănătoare, doar că în direcții opuse.",
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hai să vedem această nebunie în acțiune:"
+            ],
+            "afterMarkdowns": [
+              "Wow! Vezi, git a rezolvat `C2` ca un loc pe remote și apoi a descărcat acele commit-uri în `bar` (care era o ramură locală)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ce se întâmplă dacă destinația nu există înainte să rulez comanda? Să vedem ultimul exemplu, dar de data aceasta fără ca `bar` să existe.",
+            ],
+            "afterMarkdowns": [
+              "Vezi? E EXACT ca la git push. Git a creat destinația local înainte de a face fetch, la fel cum git va crea destinația pe remote înainte de a face push (dacă nu există).",
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nici un argument?",
+              "",
+              "Dacă `git fetch` nu primește nici un argument, atunci pur și simplu descarcă toate commit-urile de pe remote pe toate ramurile remote..."
+            ],
+            "afterMarkdowns": [
+              "Foarte simplu, dar merită să fie văzut măcar o dată."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok, destul cu vorbitul! Pentru a termina acest nivel, adu doar commit-urile specificate în vizualizarea folosind `fetch`. Experimentează cu aceste comenzi!",
+              "",
+              "Pentru ambele comenzi `fetch`, va trebui să specifici sursa și destinația. Fii atent la vizualizare, deoarece ID-urile pot fi schimbate între ele!"
             ]
           }
         }

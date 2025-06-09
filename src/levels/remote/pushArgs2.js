@@ -13,6 +13,7 @@ exports.level = {
     "de_DE": "Optionen für Git Push -- noch mehr!",
     "ja": "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !",
+    "ro": "Argumente git push -- Continuarea!",
     "ru_RU": "Аргументы для push -- расширенная версия!",
     "ko": "git push 인자 -- 확장판!",
     "uk": "Розширені аргументи git push!",
@@ -33,6 +34,7 @@ exports.level = {
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
     "ja": "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
+    "ro": "Nu uita că îți poți admite înfrângerea și tasta \"show solution\" pentru a vedea soluția :P",
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
     "ko": "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
     "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
@@ -748,6 +750,76 @@ exports.level = {
               "このレベルでは、ゴールで示されている状態になるように挑戦してください。困ったときはこの書き方を思い出してくださいね。",
               "",
               "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalii a argumentului `<locatie>`",
+              "",
+              "Îți amintești din lecția anterioară că atunci când am specificat `main` ca argument pentru git push, am specificat atât *sursa* de unde vor veni commit-urile cât și *destinația* unde vor merge.",
+              "",
+              "Te-ai putea întreba -- dar ce se întâmplă dacă vrem ca sursa și destinația să fie diferite? Ce se întâmplă dacă vrei să împingi commit-uri din ramura locală `foo` în ramura `bar` de pe remote?",
+              "",
+              "Ei bine, din păcate asta este imposibil în git... glumesc! Sigur că este posibil :)... git are o flexibilitate extrem de mare (poate chiar prea mare).",
+              "",
+              "Vom vedea cum în următorul slide..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a specifica atât sursa cât și destinația pentru `<locatie>`, pur și simplu le unești folosind două puncte:",
+              "",
+              "`git push origin <sursa>:<destinatie>`",
+              "",
+              "Acest lucru este adesea denumit refspec cu două puncte. Refspec este doar un nume fain pentru o locație pe care git o poate înțelege (cum ar fi ramura `foo` sau chiar `HEAD~1`)",
+              "",
+              "Odată ce specifici atât sursa cât și destinația în mod independent, poți deveni foarte elegant și precis cu comenzile pentru remote. Hai să vedem o demonstrație!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Amintește-ți, `sursa` este orice locație pe care git o poate înțelege:"
+            ],
+            "afterMarkdowns": [
+              "Wow! Aceasta este o comandă destul de ciudată, dar are sens -- git a rezolvat `foo^` într-o locație, a încărcat toate commit-urile care nu erau deja prezente pe remote și apoi a actualizat destinația."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ce se întâmplă dacă destinația în care vrei să faci push nu există? Nicio problemă! Doar dă un nume de ramură și git va crea ramura pe remote pentru tine."
+            ],
+            "afterMarkdowns": [
+              "Super, asta e foarte fain :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru acest nivel, încearcă să ajungi la starea finală a obiectivului afișată în vizualizare și amintește-ți formatul:",
+              "",
+              "`<sursa>:<destinatie>`"
             ]
           }
         }

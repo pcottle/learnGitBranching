@@ -13,6 +13,7 @@ exports.level = {
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja": "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
+    "ro":"Amintește-ți că poți folosi oricând comenzile undo sau reset",
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
     "ko": "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
     "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
@@ -33,6 +34,7 @@ exports.level = {
     "de_DE": "Push Main!",
     "ja": "Push Main!",
     "fr_FR": "Maître du push !",
+    "ro": "Push Main!",
     "ru_RU": "Push Мастер!",
     "ko": "Push Main!",
     "uk": "Push Maйстер!",
@@ -516,6 +518,59 @@ exports.level = {
               "* 因为远程仓库已经被更新过了，所以我们还要把那些工作合并过来",
               "",
               ":O 紧张了？祝你好运！完成了本关, 你就向目标又迈近了一大步啦！"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Merge a ramurilor cu funcționalități",
+              "",
+              "Acum că ești confortabil cu fetch, pull și push, hai să punem la încercare aceste abilități cu un nou flux de lucru.",
+              "",
+              "Este obișnuit ca dezvoltatorii de pe proiecte mari să își facă toată munca pe ramuri cu funcționalități (de la `main`) și apoi să integreze acea muncă doar atunci când este gata. Acest lucru este similar cu lecția anterioară (unde ramurile secundare erau împinse către remote), dar aici introducem un pas în plus.",
+              "",
+              "Unii dezvoltatori fac push și pull doar când sunt pe ramura `main` -- astfel `main` rămâne mereu actualizat cu ceea ce este pe remote (`o/main`).",
+              "",
+              "Deci, pentru acest flux de lucru combinăm două lucruri:",
+              "",
+              "* integrarea muncii din ramurile cu funcționalități în `main`, și",
+              "* pull și push de la remote"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să ne reamintim rapid cum să actualizăm `main` și să partajăm munca făcută."
+            ],
+            "afterMarkdowns": [
+              "Am executat două comenzi aici:",
+              "",
+              "* rebase pentru a muta schimbările de la remote pe noi commit-uri, și",
+              "* push pentru a publica munca noastră pe remote"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Acest nivel este destul de complex -- iată o schiță generală pentru a-l rezolva:",
+              "",
+              "* Există trei ramuri cu funcționalități -- `side1`, `side2` și `side3`",
+              "* Vrem să partajăm fiecare dintre aceste funcționalități, în ordine, către remote",
+              "* La remote au fost făcute unele modificări, așa că va trebui să integrăm și acea muncă",
+              "",
+              ":O intens! Mult noroc, finalizarea acestui nivel reprezintă un pas important."
             ]
           }
         }

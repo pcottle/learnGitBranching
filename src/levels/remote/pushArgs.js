@@ -17,6 +17,7 @@ exports.level = {
     "de_DE": "Optionen für Git Push",
     "ja": "Git pushの引数",
     "fr_FR": "Arguments de git push",
+    "ro": "Argumente pentru git push",
     "ru_RU": "Аргументы git push",
     "ko": "git push의 인자들",
     "uk": "Аргументи git push",
@@ -37,6 +38,7 @@ exports.level = {
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
     "ja": "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
+    "ro": "Poți vedea întotdeauna ultimul slide tastând \"objective\".",
     "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
     "ko": "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
     "uk": "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
@@ -696,6 +698,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, in diesem Level lass uns sowohl `foo` als auch `main` auf dem Remote aktualisieren. Um's spannender zu machen ist `git checkout` in diesem Level deaktiviert."
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumentele comenzii Push",
+              "",
+              "Perfect! Acum că știi despre urmărirea ramurilor remote, putem începe să descoperim câteva dintre misterele din spatele comenzilor git push, fetch și pull. Vom aborda câte o comandă pe rând, dar conceptele dintre ele sunt foarte similare.",
+              "",
+              "În primul rând, vom analiza `git push`. Ai învățat în lecția despre urmărirea ramurilor remote că git determină remote-ul *și* ramura la care să facă push prin examinarea proprietăților ramurii curente (remote-ul pe care îl \"urmărește\"). Acesta este comportamentul implicit atunci când nu sunt specificate argumente, dar git push poate accepta opțional argumente sub formă de:",
+              "",
+              "`git push <remote> <locatie>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ce este un parametru `<locatie>`? Vom discuta mai detaliat în curând, dar mai întâi să vedem un exemplu. Executarea comenzii:",
+              "",
+              "`git push origin main`",
+              "",
+              "se traduce în română astfel:",
+              "",
+              "*Mergi la ramura numită \"main\" din repozitoriul meu, ia toate commit-urile, apoi mergi la ramura \"main\" de pe remote-ul numit \"origin\". Plasează acolo toate commit-urile care lipsesc și spune-mi când ai terminat.*",
+              "",
+              "Specificând `main` ca argument pentru \"locatie\", i-am spus lui git de unde vor veni commit-urile și unde vor merge. Este practic \"locația\" sau \"poziția\" care trebuie sincronizată între cele două repozitorii.",
+              "",
+              "Ține minte că, deoarece i-am spus lui git tot ce are nevoie să știe (specificând ambele argumente), el ignoră complet ramura pe care suntem la moment!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Să vedem un exemplu în care specificăm ambele argumente. Observă poziția unde ne aflăm în acest exemplu."
+            ],
+            "afterMarkdowns": [
+              "Așa! `main` a fost actualizat pe remote deoarece am specificat aceste argumente."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ce s-ar fi întâmplat dacă nu am fi specificat argumentele?"
+            ],
+            "afterMarkdowns": [
+              "Comanda eșuează (așa cum poți vedea), deoarece `HEAD` nu este pe o ramură care urmărește un remote."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "În regulă, pentru acest nivel să actualizăm atât `foo` cât și `main` pe remote. Provocarea este că `git checkout` este dezactivat pentru acest nivel!",
+              "",
+              "*Notă: Ramurile remote sunt etichetate cu prefixul `o/` deoarece eticheta completă `origin/` nu încape în UI-ul nostru. Nu-ți face griji în legătură cu asta... folosește pur și simplu `origin` ca numele remote-ului ca de obicei.*"
             ]
           }
         }

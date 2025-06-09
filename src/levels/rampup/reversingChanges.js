@@ -16,6 +16,7 @@ exports.level = {
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "撤销变更",
     "zh_TW": "在 git 中取消修改 ",
+    "ro":"Anularea modificărilor în Git",
     "ru_RU": "Отмена изменений в Git",
     "uk": "Відміна змін в Git",
     "vi": "Hoàn tác thay đổi trong Git",
@@ -37,6 +38,7 @@ exports.level = {
     "zh_TW": "注意 revert 和 reset 使用不同的參數。",
     "ko": "revert와 reset이 받는 인자가 다름을 기억하세요",
     "ja": "revertとresetとで引数が異なることに注意。",
+    "ro": "Observă că revert și reset primesc argumente diferite.",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
     "vi": "Lưu ý rằng hoàn tác (revert) và đặt lại (reset) có những đối số khác nhau.",
@@ -800,6 +802,69 @@ exports.level = {
               "이 레벨을 통과하려면, `local` 브랜치와 `pushed` 브랜치에 있는 최근 두 번의 커밋을 되돌려 보세요.",
               "",
               "`pushed`는 리모트 브랜치이고, `local`은 로컬 브랜치임을 신경쓰셔서 작업하세요 -- 어떤 방법을 선택하실지 떠오르시죠?"
+            ]
+          }
+        }
+      ]
+    },
+    "ro": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Anularea modificărilor în Git",
+              "",
+              "Există multe moduri de a anula modificările în Git. Și la fel ca la comitere, anularea modificărilor în Git are atât o componentă de nivel scăzut (staging-ul fișierelor sau al fragmentelor individuale) cât și o componentă de nivel înalt (modul în care modificările sunt efectiv anulate). Aplicația noastră se va concentra pe aceasta din urmă.",
+              "",
+              "Există două moduri principale de a anula modificările în Git -- unul este folosind `git reset` și celălalt este folosind `git revert`. Vom analiza fiecare dintre acestea în dialogul următor.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` anulează modificările mutând referința unei ramuri înapoi în timp la un commit mai vechi. În acest sens, poți să te gândești la el ca la o \"rescriere a istoriei\"; `git reset` va muta o ramură înapoi ca și cum commit-ul nu ar fi fost niciodată făcut.",
+              "",
+              "Să vedem cum arată asta:"
+            ],
+            "afterMarkdowns": [
+              "Frumos! Git a mutat pur și simplu referința ramurii main înapoi la `C1`; acum repozitoriul nostru local este într-o stare ca și cum `C2` nu ar fi existat niciodată."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Deși resetarea funcționează foarte bine pentru ramurile locale de pe propriul tău calculator, metoda de \"rescriere a istoriei\" nu funcționează pentru ramurile remote pe care le folosesc și alții.",
+              "",
+              "Pentru a anula modificările și a le *partaja* cu alții, trebuie să folosim `git revert`. Să vedem cum funcționează."
+            ],
+            "afterMarkdowns": [
+              "Ciudat, a apărut un nou commit sub commit-ul pe care voiam să-l anulăm. Asta pentru că noul commit `C2'` introduce *modificări* -- se întâmplă doar ca aceste modificări să fie exact cele care inversează modificările din commit-ul `C2`.",
+              "",
+              "Cu `revert`, poți să partajezi modificările tale pentru a le împărtăși cu ceilalți."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Pentru a finaliza acest nivel, anulează ultimul commit atât pe ramura `local` cât și pe ramura `pushed`. Vei anula în total două commit-uri (câte unul pentru fiecare ramură).",
+              "",
+              "Ține minte că `pushed` este o ramură remote și `local` este o ramură locală -- acest lucru ar trebui să te ajute să alegi metoda potrivită."
             ]
           }
         }
