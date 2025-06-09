@@ -163,7 +163,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'gl'   : 'Push & Pull -- Repositorios remotos no Git!',
       'zh_CN': 'Push & Pull —— Git 远程仓库！',
       'zh_TW': 'Push & Pull -- Git Remotes!',
-      'ro': "Push & Pull -- repozitorii Git de la distanță (Remotes)!",
+      'ro': "Push & Pull -- Git Remotes!",
       'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
       'uk'   : 'Push & Pull -- віддалені репозиторії в Git!',
       'ko'   : 'Push & Pull -- Git 원격 저장소!',

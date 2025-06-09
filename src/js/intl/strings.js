@@ -1059,7 +1059,7 @@ exports.strings = {
     'es_ES': 'Remota',
     'fr_FR': 'Remote',
     'gl'   : 'Remota',  
-    'ro': "Ramuri de la distanță",
+    'ro': "Ramuri Remote",
     'ru_RU': 'Удаленные репозитории',
     'uk'   : 'Віддалені репозиторії',
     'ko'   : '원격',
