@@ -1261,11 +1261,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      "childViews": [
+      childViews: [
         {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+          type: "ModalAlert",
+          options: {
+            markdowns: [
               "## Git Rebase",
               "",
               'Il secondo modo per unire il lavoro tra rami è il *rebasing* (ribasare). Quando si ribasa vengono presi una serie di commit, vengono "copiati", e incollati da qualche parte.',
@@ -1277,44 +1277,44 @@ exports.level = {
           },
         },
         {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
               "Anche qui abbiamo ancora due rami; prestate attenzione al fatto che il ramo selezionato è bugFix (notare l'asterisco*)",
               "",
               "Ora vogliamo spostare il nostro lavoro dal ramo bugFix direttamente sul ramo main. In questo modo sembrerà che i due lavori sono stati sviluppati in sequenza, quando in realtà sono stati sviluppati in parallelo.",
               "",
               "Vediamo il comando `git rebase` all'opera.",
             ],
-            "afterMarkdowns": [
+            afterMarkdowns: [
               "Fantastico! Ora il lavoro del ramo bugFix è sopra al main e abbiamo una sequenza lineare di commit.",
               "",
               'Nota che il commit C3 continua ad esistere (messo in trasparenza), e C3\' è la "copia" che abbiamo ribasato sul main.',
               "",
               "L'unico problema è che il main non è ancora stato aggiornato, facciamolo ora...",
             ],
-            "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit",
+            command: "git rebase main",
+            beforeCommand: "git commit; git checkout -b bugFix C1; git commit",
           },
         },
         {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
               "Ora il ramo selezionato è il main. Procediamo e facciamo rebase su `bugFix`...",
             ],
-            "afterMarkdowns": [
+            afterMarkdowns: [
               "Ecco qua! Visto che main era un antenato di `bugFix`, git sposta semplicemente il riferimento al ramo `main` in avanti.",
             ],
-            "command": "git rebase bugFix",
-            "beforeCommand":
+            command: "git rebase bugFix",
+            beforeCommand:
               "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main",
           },
         },
         {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+          type: "ModalAlert",
+          options: {
+            markdowns: [
               "Per completare questo livello, esegui i seguenti passaggi",
               "",
               "* Crea un nuovo ramo di nome `bugFix`",

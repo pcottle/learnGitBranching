@@ -1365,9 +1365,9 @@ exports.level = {
     "it_IT": {
       childViews: [
         {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+          type: "ModalAlert",
+          options: {
+            markdowns: [
               "## Rami e fusione",
               "",
               "Ottimo! Ora sappiamo come funzionano i commit e i rami. Adesso dobbiamo trovare il modo per unire il lavoro di due rami diversi. Questo ci permetterà di creare un nuovo ramo, aggiungere una nuova funzionalità, e poi riunire il tutto.",
@@ -1379,43 +1379,43 @@ exports.level = {
           },
         },
         {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
               'Qui abbiamo due rami; ognuno di essi ha un commit univoco. Ciò significa che nessuno dei rami contiene per intero il "lavoro" del repository. Sistemiamo le cose con una fusione.',
               "",
               "Ora facciamo `merge` del ramo `bugFix` nel `main`.",
             ],
-            "afterMarkdowns": [
+            afterMarkdowns: [
               "WOW! Visto? Prima di tutto, `main` ora punta a un commit con due genitori. Se ripercorri l'albero dei commit dal `main`, potrai attraversare tutti i commit fino alla radice (root). Questo significa che `main` ora contiene tutto il lavoro del repository.",
               "",
               "Hai visto come è cambiato il colore del commit? Per imparare più facilmente, ho aggiunto i colori. Ogni ramo ha un colore univoco. Ogni (merge) commit ha un colore che è la combinazione dei colori dei rami che lo compongono.",
               "",
               "Qui vediamo che il colore del ramo `main` è la combinazione di tutti i commit , ma il colore di `bugFix` è diverso. Sistemiamolo...",
             ],
-            "command": "git merge bugFix",
-            "beforeCommand":
+            command: "git merge bugFix",
+            beforeCommand:
               "git checkout -b bugFix; git commit; git checkout main; git commit",
           },
         },
         {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": ["Fondiamo `main` in `bugFix`:"],
-            "afterMarkdowns": [
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: ["Fondiamo `main` in `bugFix`:"],
+            afterMarkdowns: [
               "Visto che `bugFix` era un antenato di `main`, git non ha dovuto fare nulla di che; ha semplicemente spostato `bugFix` sullo stesso commit in cui era collegato `main`.",
               "",
               "Ora tutti i commit hanno lo stesso colore, il che significa che ogni ramo contiene tutto il lavoro del repository! WoWoWoW!",
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand":
+            command: "git checkout bugFix; git merge main",
+            beforeCommand:
               "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix",
           },
         },
         {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+          type: "ModalAlert",
+          options: {
+            markdowns: [
               "Per completare questo livello, esegui i seguenti passaggi:",
               "",
               "* Crea un nuovo ramo di nome `bugFix`",

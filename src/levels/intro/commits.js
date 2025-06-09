@@ -861,11 +861,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      "childViews": [
+      childViews: [
         {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+          type: "ModalAlert",
+          options: {
+            markdowns: [
               "## Git Commits",
               "Un commit in git memorizza un'instantanea di tutti i file (tracciati) della cartella di lavoro. È come un enorme copia-incolla, ma migliore!",
               "",
@@ -878,24 +878,24 @@ exports.level = {
           },
         },
         {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
+          type: "GitDemonstrationView",
+          options: {
+            beforeMarkdowns: [
               "Vediamolo in pratica. Sulla destra abbiamo l'immagine di un (piccolo) repository git. Ci sono due commit -- il primo commit, `C0`, e un altro dopo, `C1`, che potrebbe avere modifiche importanti.",
               "",
               "Premi il pulsante qua sotto per eseguire un nuovo commit.",
             ],
-            "afterMarkdowns": [
+            afterMarkdowns: [
               "Ecco qua! Fantastico. Abbiamo modificato il repository e salvato con un commit. Il commit che abbiamo creato ha un genitore, `C1`, che ci indica su chi è basato il nostro commit.",
             ],
-            "command": "git commit",
-            "beforeCommand": "",
+            command: "git commit",
+            beforeCommand: "",
           },
         },
         {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
+          type: "ModalAlert",
+          options: {
+            markdowns: [
               "Vai avanti e prova da solo! Dopo che questa finestra si chiude, crea due commit per completare il livello.",
             ],
           },
