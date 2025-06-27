@@ -367,7 +367,7 @@ exports.strings = {
     "vi": "Kho chứa từ xa có sự khác biệt với kho chứa cục bộ của bạn, nên không thể tự động (fast forward) cập nhật thay đổi của bạn (và vì thế hoạt động push của bạn bị từ chối). Vui lòng kéo về thay đổi từ kho chứa từ xa, kết nạp vào nhánh hiện tại, và thử lại lần nữa. Bạn có thể dùng lệnh `git pull` hoặc `git pull --rebase`",
     "sl_SI": "Oddaljen repozitorij se je ločil od tvojega lokalnega repozitorija, zato nalaganje sprememb ni možno z `fast forward` opcijo (zato je bil `push` zavrnjen). Prosim pull-aj dol nove spremembe iz oddaljenega repozitorija, jih vključi v svoj branch, nato pa poizkusi ponovno. To lahko narediš z `git pull` ali `git pull --rebase`",
     "pl": "Zdalne repozytorium różni się od lokalnego repozytorium, dlatego twoich zmian nie można przesłać za pomocą prostego szybkiego `fast forward` (i dlatego polecenie `push` zostało odrzucone). Najpierw zrób `pull` aby pobrać nowe zmiany do lokalnego repozytorium, zintegruj je z branch-em i spróbuj ponownie. Możesz to zrobić za pomocą `git pull` lub `git pull --rebase`",
-    "it_it": "Il repository remoto è diverso dal tuo repository locale, quindi il caricamento non è un semplice fast forward (e per questo il tuo push è fallito). Per favore esegui pull per scaricare i nuovi cambiamenti dal repository remoto, incorporarli in questo ramo, e provare ancora. Puoi effettuarlo tramite i comandi git pull o git pull --rebase",
+    "it_IT": "Il repository remoto è diverso dal tuo repository locale, quindi il caricamento non è un semplice fast forward (e per questo il tuo push è fallito). Per favore esegui pull per scaricare i nuovi cambiamenti dal repository remoto, incorporarli in questo ramo, e provare ancora. Puoi effettuarlo tramite i comandi git pull o git pull --rebase",
     "ta_IN": "தொலைநிலை களஞ்சியம் உங்கள் களஞ்சியத்திலிருந்து வேறுபட்டுள்ளது, எனவே உங்கள் மாற்றங்களை எளிமையான `fast forward` முறையில் பதிவேற்ற இயலாது (இதனால் உங்கள் `push` நிராகரிக்கப்பட்டது). தொலை களஞ்சியத்தில் புதிய மாற்றங்களை `pull` செய்து, அவற்றை இந்த கிளையில் இணைத்து, மீண்டும் முயற்சிக்கவும். நீங்கள் அவ்வாறு `git pull` அல்லது `git pull --rebase` கட்டளை கொண்டு செய்யலாம்",
     "tr_TR": "Uzak depo, yerel deponuzdan sapmış durumda, bu yüzden değişikliklerinizi basit bir fast forward ile yüklemek mümkün değil (bu nedenle push işleminiz reddedildi). Lütfen uzak depodaki yeni değişiklikleri çekin, bunları bu dalda birleştirin ve tekrar deneyin. Bunu git pull veya git pull --rebase komutlarıyla yapabilirsiniz."
   },
@@ -390,7 +390,7 @@ exports.strings = {
     "vi": "Bạn không thể thực thi lệnh đó lên nhánh từ xa",
     "sl_SI": "Tega ukaza ne moreš narediti na oddaljenem branchu",
     "pl": "Nie możesz wykonać tego polecenia w zdalnej gałęzi",
-    "it_it": "Non puoi eseguire questo comando su un ramo remoto",
+    "it_IT": "Non puoi eseguire questo comando su un ramo remoto",
     "ta_IN": "அந்த கட்டளையை நீங்கள் தொலைநிலை கிளையில் இயக்க முடியாது",
     "tr_TR": "Bu komutu uzak bir dalda çalıştırmak mümkün değil"
   },
@@ -551,7 +551,7 @@ exports.strings = {
     "vi": "Đang fast forward...",
     "sl_SI": "Fast forwardiranje",
     "pl": "Fast forward...",
-    "it_it": "Fast forwarding...",
+    "it_IT": "Fast forwarding...",
     "ta_IN": "Fast forward...",
     "tr_TR": "Hızlı ileri alınıyor..."
   },
@@ -1257,7 +1257,7 @@ exports.strings = {
     "pl": "Ustawiono język na {locale}",
     "it_IT": "Locale impostato a {locale}",
     "ta_IN": "பிரதேசம் {locale}ஆக மற்ற பட்டுள்ளது",
-    "etr_TR": "{locale} olarak dil ayarlandı"
+    "tr_TR": "{locale} olarak dil ayarlandı"
   },
   "locale-reset-command": {
     "__desc__": "when the locale is reset",
@@ -1441,7 +1441,7 @@ exports.strings = {
     "pl": "Wklej poniżej obiekt z kodem JSON!",
     "it_IT": "Incolla un blob JSON qui sotto!",
     "ta_IN": "ஒரு JSON blob-ஐ கீழே ஒட்டவும்",
-    "etr_TR": "Aşağıya bir JSON verisi yapıştırın!"
+    "tr_TR": "Aşağıya bir JSON verisi yapıştırın!"
   },
   "solved-map-reset": {
     "__desc__": "When you reset the solved map to clear your solved history, in case someone else wants to use your browser",
@@ -2041,7 +2041,7 @@ exports.strings = {
     "vi": "Không có hộp thoại giới thiệu cho cấp độ này!",
     "sl_SI": "Ni začetnega dialoga za prikaz te stopnje!",
     "pl": "Dla tego poziomu nie ma okna startowego do wyświetlenia!",
-    "it_it": "Non esiste una finestra di partenza per questo livello!",
+    "it_IT": "Non esiste una finestra di partenza per questo livello!",
     "ta_IN": "இந்த நிலை பற்றி விளக்கிகாட்ட தொடக்க உரையாடல் எதுவும் இல்லை",
     "tr_TR": "Bu seviye için gösterilecek bir başlangıç penceresi yok!"
   },
