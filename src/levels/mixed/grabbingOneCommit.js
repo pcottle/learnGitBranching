@@ -2,7 +2,9 @@ exports.level = {
   "compareOnlyMainHashAgnosticWithAsserts": true,
   "goalAsserts": {
     "main": [
-      null
+      function (data) {
+        return data.C4 > data.C1;
+      }
     ]
   },
   "disabledMap": {

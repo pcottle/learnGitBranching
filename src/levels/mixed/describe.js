@@ -5,7 +5,9 @@ exports.level = {
   "onlyEvaluateAsserts": true,
   "goalAsserts": {
     "bugfix": [
-      null
+      function (data) {
+        return data.__num_commits_upstream > 5;
+      },
     ]
   },
   "name": {

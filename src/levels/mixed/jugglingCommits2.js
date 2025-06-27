@@ -8,8 +8,12 @@ exports.level = {
   "compareOnlyMainHashAgnosticWithAsserts": true,
   "goalAsserts": {
     "main": [
-      null,
-      null
+      function (data) {
+        return data.C2 > data.C3;
+      },
+      function (data) {
+        return data.C2 > data.C1;
+      }
     ]
   },
   "name": {
