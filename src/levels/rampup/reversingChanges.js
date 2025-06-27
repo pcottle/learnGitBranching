@@ -16,7 +16,7 @@ exports.level = {
     "ko": "Git에서 작업 되돌리기",
     "zh_CN": "撤销变更",
     "zh_TW": "在 git 中取消修改 ",
-    "ro":"Anularea modificărilor în Git",
+    "ro": "Anularea modificărilor în Git",
     "ru_RU": "Отмена изменений в Git",
     "uk": "Відміна змін в Git",
     "vi": "Hoàn tác thay đổi trong Git",
@@ -46,7 +46,6 @@ exports.level = {
     "it_IT": "Revert e reset hanno parametri diversi.",
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
     "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma."
-
   },
   "startDialog": {
     "en_US": {
@@ -1173,7 +1172,7 @@ exports.level = {
             "command": "git revert HEAD",
             "beforeCommand": "git commit"
           }
-        },
+        }
       ]
     },
     "it_IT": {
@@ -1187,9 +1186,9 @@ exports.level = {
               "Esistono molti modi per annullare i cambiamenti in Git. Come la creazione di commit, anche l'annullamento in Git ha sia una componente di basso livello (tracciatura dei singoli file o blocchi) e uno di alto livello (come l'annullamento viene realmente eseguito). La nostra applicazione si concentrerà su quest'ultima.",
               "",
               "Ci sono due modi principali per annullare con Git -- uno è usare `git reset` e l'altro è `git revert`. Entreremo nel dettaglio per entrambi.",
-              "",
-            ],
-          },
+              ""
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1197,16 +1196,16 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              '`git reset` annulla le modifiche spostando il puntatore al ramo indietro nel tempo a un commit precedente. Puoi vederla come se stessi "riscrivendo la storia;" `git reset` torna al commit precedente come se il nuovo commit non fosse mai esistito.',
+              "`git reset` annulla le modifiche spostando il puntatore al ramo indietro nel tempo a un commit precedente. Puoi vederla come se stessi \"riscrivendo la storia;\" `git reset` torna al commit precedente come se il nuovo commit non fosse mai esistito.",
               "",
-              "Vediamone una rappresentazione:",
+              "Vediamone una rappresentazione:"
             ],
             "afterMarkdowns": [
-              "Grande! Git ha spostato il puntatore del ramo main the main sul commit `C1`; ora il nostro repository locale è come se non avesse mai avuto un commit  `C2`.",
+              "Grande! Git ha spostato il puntatore del ramo main the main sul commit `C1`; ora il nostro repository locale è come se non avesse mai avuto un commit  `C2`."
             ],
             "command": "git reset HEAD~1",
-            "beforeCommand": "git commit",
-          },
+            "beforeCommand": "git commit"
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1214,18 +1213,18 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              'Git reset funziona perfettamente in locale sul proprio computer, ma la funzione di  "riscrivere la storia" non va d\'accordo con i rami salvati in remoto utilizzati da altri colleghi.',
+              "Git reset funziona perfettamente in locale sul proprio computer, ma la funzione di  \"riscrivere la storia\" non va d'accordo con i rami salvati in remoto utilizzati da altri colleghi.",
               "",
-              "Per fare in modo di annullare e *condividere* con gli altri le modifiche annullate, dobbiamo usare `git revert`. Vediamolo in azione.",
+              "Per fare in modo di annullare e *condividere* con gli altri le modifiche annullate, dobbiamo usare `git revert`. Vediamolo in azione."
             ],
             "afterMarkdowns": [
               "Strano, un nuovo commit è stato creato sotto il commit che volevamo annullare. Questo perché il nuovo commit `C2'` porta *cambiamenti* -- per l'esattezza i cambiamenti sono quelli che annullano il commit `C2`.",
               "",
-              "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altri.",
+              "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altri."
             ],
             "command": "git revert HEAD",
-            "beforeCommand": "git commit",
-          },
+            "beforeCommand": "git commit"
+          }
         },
         {
           "type": "ModalAlert",
@@ -1233,11 +1232,11 @@ exports.level = {
             "markdowns": [
               "Per completare questo livello, annulla i commit più recenti sia in `local` che in `pushed`. Alla fine annullerai due commit in totale (uno per ramo).",
               "",
-              "Tieni presente che `pushed` è un ramo remoto e `local` è un ramo locale -- questo dovrebbe aiutarti a scegliere quale metodo usare.",
-            ],
-          },
-        },
-      ],
+              "Tieni presente che `pushed` è un ramo remoto e `local` è un ramo locale -- questo dovrebbe aiutarti a scegliere quale metodo usare."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

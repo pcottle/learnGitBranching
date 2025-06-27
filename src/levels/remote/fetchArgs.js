@@ -13,7 +13,7 @@ exports.level = {
     "gl": "Parámetros de fetch",
     "de_DE": "Optionen für Fetch",
     "ja": "Fetchの引数",
-    "ro":"Argumente pentru fetch",
+    "ro": "Argumente pentru fetch",
     "ru_RU": "Аргументы для fetch",
     "ko": "Fetch의 인자들",
     "uk": "Аргументи для fetch",
@@ -1354,7 +1354,7 @@ exports.level = {
               "",
               "Aici este singura problemă -- `<sursa>` este acum un loc pe *remote* și `<destinatie>` este un *loc local* unde să pui acele commit-uri. Este exact opusul la git push, și asta are sens deoarece transferăm date în direcția opusă!",
               "",
-              "Acestea fiind spuse, dezvoltatorii rareori fac asta în practică. Îl introduc aici mai mult ca o modalitate de a conceptualiza cum `fetch` și `push` sunt foarte asemănătoare, doar că în direcții opuse.",
+              "Acestea fiind spuse, dezvoltatorii rareori fac asta în practică. Îl introduc aici mai mult ca o modalitate de a conceptualiza cum `fetch` și `push` sunt foarte asemănătoare, doar că în direcții opuse."
             ]
           }
         },
@@ -1375,10 +1375,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ce se întâmplă dacă destinația nu există înainte să rulez comanda? Să vedem ultimul exemplu, dar de data aceasta fără ca `bar` să existe.",
+              "Ce se întâmplă dacă destinația nu există înainte să rulez comanda? Să vedem ultimul exemplu, dar de data aceasta fără ca `bar` să existe."
             ],
             "afterMarkdowns": [
-              "Vezi? E EXACT ca la git push. Git a creat destinația local înainte de a face fetch, la fel cum git va crea destinația pe remote înainte de a face push (dacă nu există).",
+              "Vezi? E EXACT ca la git push. Git a creat destinația local înainte de a face fetch, la fel cum git va crea destinația pe remote înainte de a face push (dacă nu există)."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
@@ -2394,6 +2394,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

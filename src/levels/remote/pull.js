@@ -21,7 +21,7 @@ exports.level = {
     "sl_SI": "Git Pull",
     "pl": "Git pull",
     "it_IT": "Git Pull",
-    "tr_TR": "Git Pull",
+    "tr_TR": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -42,7 +42,7 @@ exports.level = {
     "sl_SI": "Samo izvedi git pull!",
     "pl": "Po prostu uruchom git pull!",
     "it_IT": "Semplicemente git pull!",
-    "tr_TR": "Sadece git pull komutunu çalıştırın!",
+    "tr_TR": "Sadece git pull komutunu çalıştırın!"
   },
   "startDialog": {
     "en_US": {
@@ -1165,6 +1165,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

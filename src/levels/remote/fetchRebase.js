@@ -21,7 +21,7 @@ exports.level = {
     "sl_SI": "Razdeljena Zgodovina",
     "pl": "Rozbieżna  historia",
     "it_IT": "Storico divergente",
-    "tr_TR": "Sapmış Tarihçe",
+    "tr_TR": "Sapmış Tarihçe"
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -42,7 +42,7 @@ exports.level = {
     "sl_SI": "Preveri vrstni red iz ciljne vizualizacije.",
     "pl": "Przyjrzyj się kolejności na wizualizacji celu",
     "it_IT": "Controlla l'ordinamento dalla schermata dell'obiettivo",
-    "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin",
+    "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin"
   },
   "startDialog": {
     "en_US": {
@@ -2760,6 +2760,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

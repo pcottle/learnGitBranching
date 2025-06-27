@@ -25,7 +25,7 @@ exports.level = {
     "sl_SI": "Git push argumenti",
     "pl": "Argumenty git push",
     "it_IT": "Parametri di git push",
-    "tr_TR": "Git push argümanları",
+    "tr_TR": "Git push argümanları"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -46,7 +46,7 @@ exports.level = {
     "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\".",
     "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu",
     "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\"",
-    "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz",
+    "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz"
   },
   "startDialog": {
     "en_US": {
@@ -1449,6 +1449,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

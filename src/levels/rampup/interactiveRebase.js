@@ -17,7 +17,7 @@ exports.level = {
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spécifier la cible à rebaser",
     "zh_CN": "branch 或者是相对位置（HEAD~）都可以用來指定 rebase 的目标",
     "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
-    "ro":"Poți folosi fie ramuri, fie referințe relative (HEAD~) pentru a specifica ținta rebase-ului",
+    "ro": "Poți folosi fie ramuri, fie referințe relative (HEAD~) pentru a specifica ținta rebase-ului",
     "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
     "ja": "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
     "ko": "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
@@ -88,11 +88,9 @@ exports.level = {
               "When the interactive rebase dialog opens, you have the ability to do two things in our educational application:",
               "",
               "* You can reorder commits simply by changing their order in the UI (via dragging and dropping with the mouse).",
-              "* You can choose to keep all commits or drop specific ones. When the dialog opens, each commit is set to be included by the `pick` " +
-              "button next to it being active. To drop a commit, toggle off its `pick` button.",
+              "* You can choose to keep all commits or drop specific ones. When the dialog opens, each commit is set to be included by the `pick` button next to it being active. To drop a commit, toggle off its `pick` button.",
               "",
-              "*It is worth mentioning that in the real git interactive rebase you can do many more things like squashing (combining) commits, " +
-              "amending commit messages, and even editing the commits themselves. For our purposes though we will focus on these two operations above.*",
+              "*It is worth mentioning that in the real git interactive rebase you can do many more things like squashing (combining) commits, amending commit messages, and even editing the commits themselves. For our purposes though we will focus on these two operations above.*",
               "",
               "Great! Let's see an example."
             ]
@@ -780,7 +778,7 @@ exports.level = {
             "markdowns": [
               "## Git Rebase Interactiv",
               "",
-              "Git cherry-pick este grozav atunci când știi ce commit-uri vrei (_și_ știi hash-urile lor) -- e greu să depășești simplitatea pe care o oferă.",       
+              "Git cherry-pick este grozav atunci când știi ce commit-uri vrei (_și_ știi hash-urile lor) -- e greu să depășești simplitatea pe care o oferă.",
               "",
               "Dar ce se întâmplă când nu știi ce commit-uri vrei? Din fericire, git te ajută și în această situație! Putem folosi rebase-ul interactiv pentru asta -- este cea mai bună modalitate de a revizui o serie de commit-uri cărora urmează să le faci rebase.",
               "",
@@ -1070,8 +1068,7 @@ exports.level = {
               "* Bạn có thể sắp xếp lại commit một cách đơn giản thông qua UI (bằng cách kéo thả trên công cụ của chúng tôi).",
               "* Bạn có thể chọn hoặc loại bỏ một vài commit cụ thể. Điều này được thể hiện qua nút `pick` -- tắt nút `pick` nghĩa là bạn loại bỏ commit đó.",
               "",
-              "*Chú ý rằng, đối với rebase tương tác trong thực tế, bạn có thể làm nhiều thứ hơn như squash (kết hợp) commit, " +
-              "sửa đổi commit message, thậm chí là chỉnh sửa commit. Tuy nhiên, chúng ta chỉ cần tập trung vào hai thao tác trên.*",
+              "*Chú ý rằng, đối với rebase tương tác trong thực tế, bạn có thể làm nhiều thứ hơn như squash (kết hợp) commit, sửa đổi commit message, thậm chí là chỉnh sửa commit. Tuy nhiên, chúng ta chỉ cần tập trung vào hai thao tác trên.*",
               "",
               "Tuyệt! Cùng xem qua một ví dụ nào."
             ]
@@ -1243,9 +1240,9 @@ exports.level = {
               "",
               "Ma cosa accade se non sai quale commit ti serve? Per fortuna git ci viene in contro anche in questo caso! Possiamo usare il rebase interattivo -- è il miglior modo per rivedere la sequenza di commit di cui stai per fare il rebase.",
               "",
-              "Vediamolo nel dettaglio...",
-            ],
-          },
+              "Vediamolo nel dettaglio..."
+            ]
+          }
         },
         {
           "type": "ModalAlert",
@@ -1255,9 +1252,9 @@ exports.level = {
               "",
               "Se aggiungi quest'opzione, git aprirà un'interfaccia per mostrarti quali commit stanno per essere copiati sotto il commit su cui vuoi fare il rebase. Verrà anche mostrato l'hash e il messaggio del commit, il che è grandioso per darci l'idea di cosa è cosa",
               "",
-              'Nel git "vero", l\'interfaccia che si apre in realtà è un editor di testo come `vim`. Nel nostro caso, ho creato una piccola finestra che si comporta allo stesso modo.',
-            ],
-          },
+              "Nel git \"vero\", l'interfaccia che si apre in realtà è un editor di testo come `vim`. Nel nostro caso, ho creato una piccola finestra che si comporta allo stesso modo."
+            ]
+          }
         },
         {
           "type": "ModalAlert",
@@ -1266,38 +1263,36 @@ exports.level = {
               "Quando la finestra si apre, hai la possibilità di fare due cose:",
               "",
               "* Puoi riordinare i commit modificandone l'ordine (drag & drop con il mouse).",
-              "* Puoi decidere se conservare tutti i commit o rimuoverne qualcuno. Quando la finestra si apre, ogni commit è considerato preso dal pulsante `pick` " +
-              "attivo affianco a esso. Per scartare un commit, disattiva il suo pulsante `pick`.",
+              "* Puoi decidere se conservare tutti i commit o rimuoverne qualcuno. Quando la finestra si apre, ogni commit è considerato preso dal pulsante `pick` attivo affianco a esso. Per scartare un commit, disattiva il suo pulsante `pick`.",
               "",
-              "*Vale la pena ricordare che nel vero rebase interattivo puoi fare molte più cose come lo squashing (combinazione) di commit, " +
-              "la modifica del messaggio di commit (amending), e perfino la modifica dello stesso commit. Noi ci concentreremo sulle due funzioni descritte sopra.*",
+              "*Vale la pena ricordare che nel vero rebase interattivo puoi fare molte più cose come lo squashing (combinazione) di commit, la modifica del messaggio di commit (amending), e perfino la modifica dello stesso commit. Noi ci concentreremo sulle due funzioni descritte sopra.*",
               "",
-              "Bene! Vediamo un esempio.",
-            ],
-          },
+              "Bene! Vediamo un esempio."
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Quando premi il pulsante, apparirà la finestra del rebase interattivo. Riordina qualche commit (o sentiti libero di scartarne qualcuno) e vediamo il risultato!",
+              "Quando premi il pulsante, apparirà la finestra del rebase interattivo. Riordina qualche commit (o sentiti libero di scartarne qualcuno) e vediamo il risultato!"
             ],
             "afterMarkdowns": [
-              "Boom! Git ha fatto la copia nell'ordine esatto che hai specificato nell'interfaccia grafica.",
+              "Boom! Git ha fatto la copia nell'ordine esatto che hai specificato nell'interfaccia grafica."
             ],
             "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit",
-          },
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Per concludere questo livello, esegui un rebase interattivo e raggiungi l'obiettivo mostrato. Ricordati che puoi sempre fare `undo` o `reset` per correggere gli errori :D",
-            ],
-          },
-        },
-      ],
+              "Per concludere questo livello, esegui un rebase interattivo e raggiungi l'obiettivo mostrato. Ricordati che puoi sempre fare `undo` o `reset` per correggere gli errori :D"
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

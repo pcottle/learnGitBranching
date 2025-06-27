@@ -21,7 +21,7 @@ exports.level = {
     "sl_SI": "Git push argumenti -- Razširjeni!",
     "pl": "Argumenty git push -- Głębiej!",
     "it_IT": "Parametri di git push - Espansione!",
-    "tr_TR": "Git push argümanları -- Genişletilmiş!",
+    "tr_TR": "Git push argümanları -- Genişletilmiş!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -42,7 +42,7 @@ exports.level = {
     "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P",
     "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P",
     "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P",
-    "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P",
+    "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P"
   },
   "startDialog": {
     "en_US": {
@@ -1384,6 +1384,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };
