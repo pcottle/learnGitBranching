@@ -1,6 +1,6 @@
 exports.level = {
   "disabledMap": {
-    "git fakeTeamwork": true,
+    "git fakeTeamwork": true
   },
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\",\"localBranchesThatTrackThis\":null},\"o/main\":{\"target\":\"C3\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"main\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git commit;git commit;git push",
@@ -36,7 +36,7 @@ exports.level = {
     "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
     "ja": "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
-    "ro":"Amintiți-vă că trebuie să clonați înainte de a putea face push!",
+    "ro": "Amintiți-vă că trebuie să clonați înainte de a putea face push!",
     "ru_RU": "Помните, что прежде чем push-ить вам нужно склонировать репозиторий!",
     "uk": "Пам’ятай, що перед тим як щось push-нути потрібно склонувати репозиторій!",
     "ko": "push를 하기전에 clone을 먼저해야 된다는것을 기억하세요!",
@@ -858,6 +858,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

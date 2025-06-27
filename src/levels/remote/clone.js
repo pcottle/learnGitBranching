@@ -1,5 +1,5 @@
 exports.level = {
-  "goalTreeString": '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}}',
+  "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
@@ -13,7 +13,7 @@ exports.level = {
     "gl": "Introducción a clone",
     "zh_CN": "Git Clone",
     "zh_TW": "介紹 clone",
-    "ro":"Introducere în clonare",
+    "ro": "Introducere în clonare",
     "ru_RU": "Введение в клонирование",
     "ko": "Clone 소개",
     "uk": "Знайомство з clone",
@@ -44,7 +44,6 @@ exports.level = {
     "pl": "Po prostu git clone!",
     "it_IT": "Semplicemente git clone!",
     "tr_TR": "Sadece git clone yapın!"
-
   },
   "startDialog": {
     "en_US": {

@@ -20,7 +20,7 @@ exports.level = {
     "ja": "9000回以上のrebase",
     "zh_CN": "多次 Rebase",
     "zh_TW": "N次Rebase",
-    "ro":"Rebase de peste 9000 ori",
+    "ro": "Rebase de peste 9000 ori",
     "ru_RU": "Rebase over 9000 раз",
     "uk": "Rebase over 9000 разів",
     "vi": "Rebase hơn 9000 lần",
@@ -47,8 +47,7 @@ exports.level = {
     "uk": "Не забувай, що краще всього буде перемістити main в самому кінці... ",
     "vi": "Hãy nhớ rằng, cách tốt nhất có thể là cập nhật nhánh `main` sau cùng...",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
-    "it_IT":
-      "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
+    "it_IT": "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
     "pl": "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` dopiero na samym końcu...",
     "tr_TR": "Şunu hatırlamanı isterim ki: belki de en verimli yol işin sonunda maini güncellemektir."
   },
@@ -378,22 +377,22 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "### Fare rebase con più rami",
               "",
               "Hey, qui abbiamo un bel po' di rami! Facciamo un po' di rebase di questi rami nel main.",
               "",
               "I piani alti ci stanno rendendo la vita complicata -- vogliono i commit tutti in ordine progressivo. Questo significa che alla fine il nostro albero avrà `C7'` come ultimo commit, `C6'` sopra di esso, e così via, tutto in ordine.",
               "",
-              "Se ti smarrisci lungo la via, usa `reset` senza problemi per ripartire da capo. Assicurati di raggiungere l'obiettivo e cerca di farlo con il minor numero di comandi!",
-            ],
-          },
-        },
-      ],
+              "Se ti smarrisci lungo la via, usa `reset` senza problemi per ripartire da capo. Assicurati di raggiungere l'obiettivo e cerca di farlo con il minor numero di comandi!"
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [
@@ -412,6 +411,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

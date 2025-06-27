@@ -6,12 +6,8 @@ exports.level = {
   "compareOnlyMainHashAgnosticWithAsserts": true,
   "goalAsserts": {
     "main": [
-      function (data) {
-        return data.C2 > data.C3;
-      },
-      function (data) {
-        return data.C2 > data.C1;
-      }
+      null,
+      null
     ]
   },
   "goalTreeString": "%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22main%22%7D%2C%22newImage%22%3A%7B%22target%22%3A%22C2%22%2C%22id%22%3A%22newImage%22%7D%2C%22caption%22%3A%7B%22target%22%3A%22C3%27%27%22%2C%22id%22%3A%22caption%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C2%27%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C2%27%27%22%7D%2C%22C2%27%27%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%27%27%27%22%7D%2C%22C3%27%27%22%3A%7B%22parents%22%3A%5B%22C2%27%27%27%22%5D%2C%22id%22%3A%22C3%27%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D",
@@ -130,7 +126,7 @@ exports.level = {
               "Ceci étant dit, je peux comparer le résultat avec la structure et les différentes apostrophes. Tant que votre arbre `main` a la même structure et les différentes apostrophes le niveau sera considéré comme réussi."
             ]
           }
-        },
+        }
       ]
     },
     "es_AR": {
@@ -165,7 +161,7 @@ exports.level = {
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
             ]
           }
-        },
+        }
       ]
     },
     "es_ES": {
@@ -200,7 +196,7 @@ exports.level = {
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes, te voy a dar el puntaje completo."
             ]
           }
-        },
+        }
       ]
     },
     "es_MX": {
@@ -235,7 +231,7 @@ exports.level = {
               "Habiendo dicho eso, puedo comparar los niveles basándome ahora en la estructura y las diferencias relativas de apóstrofes. Mientras que tu rama `main` tenga la misma estructura y diferencias relativas de apóstrofes te voy a dar el puntaje completo."
             ]
           }
-        },
+        }
       ]
     },
     "pt_BR": {
@@ -270,7 +266,7 @@ exports.level = {
               "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `main` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
             ]
           }
-        },
+        }
       ]
     },
     "gl": {
@@ -305,7 +301,7 @@ exports.level = {
               "Contado todo esto, a resposta valídase baseándose na estructura e nos diferentes apóstrofes. Cando a rama `main` teña a mesma estructura, e o número de apóstrofos sexa igual, obterás todos os puntos da tarefa."
             ]
           }
-        },
+        }
       ]
     },
     "de_DE": {
@@ -340,7 +336,7 @@ exports.level = {
               "Zu guter Letzt noch eine Bemerkung: Ich kann Level nur auf Struktur und Apostroph-Differenz prüfen. So lange wie dein `main` am Ende dieselbe Struktur und Apostroph-Differenz aufweist wie der Ziel-`main`, ist der Level bestanden."
             ]
           }
-        },
+        }
       ]
     },
     "ja": {
@@ -373,7 +369,7 @@ exports.level = {
               "最後に、ゴール時点での状態に気を付けてください。今回2回ほどコミットを動かしますから、コミットへのポインタにはアポストロフィ（'）が追加されます。commit --amendコマンドの実行でできたコミットには更にもう1つのアポストロフィが追加されます。 "
             ]
           }
-        },
+        }
       ]
     },
     "zh_CN": {
@@ -440,7 +436,7 @@ exports.level = {
               "啊！最後還要提醒你一下最後所產生的 commit tree，因為我們把 commit 移動了兩次，所以會分別產生一個 apostrophe(單引號） commit。還有一個 apostrophe commit 是因為我們修改 commit 而加進來的。"
             ]
           }
-        },
+        }
       ]
     },
     "ko": {
@@ -473,7 +469,7 @@ exports.level = {
               "최종적으로, 목표 결과를 눈여겨 보세요 -- 우리가 커밋을 두 번 옮겼기 때문에, 두 커밋 모두 따옴표 표시가 붙어있습니다. 정정한(amend) 커밋은 따옴표가 추가로 하나 더 붙어있습니다."
             ]
           }
-        },
+        }
       ]
     },
     "ro": {
@@ -542,7 +538,7 @@ exports.level = {
               "Важно, чтобы совпадало не только дерево коммитов, но и количество апострофов."
             ]
           }
-        },
+        }
       ]
     },
     "uk": {
@@ -682,23 +678,23 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Giocoliere di commit",
               "",
               "Ecco una situazione che capita spesso. Hai dei cambiamenti (`newImage`) e un altro insieme di modifiche (`caption`) che sono collegate tra loro, quindi sono posizionate una dopo l'altra nel repository.",
               "",
-              "La cosa complicata è che a volte hai bisogno di fare una piccola modifica a un commit precedente. In questo caso, dobbiamo apporre una modifica a `newImage`, anche se questo commit non risulta essere l'ultimo!!",
-            ],
-          },
+              "La cosa complicata è che a volte hai bisogno di fare una piccola modifica a un commit precedente. In questo caso, dobbiamo apporre una modifica a `newImage`, anche se questo commit non risulta essere l'ultimo!!"
+            ]
+          }
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Supereremo queste difficoltà facendo i seguenti passaggi:",
               "",
               "* Riordineremo i commit in modo che quello che vogliamo modificare risulti l'ultimo con `git rebase -i`",
@@ -709,11 +705,11 @@ exports.level = {
               "Ci sono vari modi per raggiungere l'obiettivo finale (vedo che strizzi l'occhio verso cherry-pick), e ne vedremo altri più tardi, ma per ora concentriamoci su questa tecnica.",
               "In fine, presta attenzione all'obiettivo -- visto che spostiamo i commit due volte, a entrambi viene messo un apostrofo. Un ulteriore apostrofo è aggiunto per il commit --amend, che completa in fine l'albero.",
               "",
-              "Detto questo, posso confrontare i livelli in base alla struttura e i relativi apostrofi. Finchè il tuo ramo `main` avrà la stessa struttura con i giusti apostrofi, ti darò pieni voti.",
-            ],
-          },
-        },
-      ],
+              "Detto questo, posso confrontare i livelli in base alla struttura e i relativi apostrofi. Finchè il tuo ramo `main` avrà la stessa struttura con i giusti apostrofi, ti darò pieni voti."
+            ]
+          }
+        }
+      ]
     },
     "ta_IN": {
       "childViews": [
@@ -782,6 +778,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

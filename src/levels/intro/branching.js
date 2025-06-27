@@ -37,15 +37,15 @@ exports.level = {
     "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git checkout <分支名>' 来切换到分支",
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
-    "ro": 'Creează o ramură nouă cu "git branch [nume-ramură]" și treci la ea cu "git checkout [nume-ramură]"',
+    "ro": "Creează o ramură nouă cu \"git branch [nume-ramură]\" și treci la ea cu \"git checkout [nume-ramură]\"",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
     "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
-    "it_IT": 'Crea un nuovo ramo con "git branch <branch-name>" e selezionalo con "git checkout <branch-name>"',
+    "it_IT": "Crea un nuovo ramo con \"git branch <branch-name>\" e selezionalo con \"git checkout <branch-name>\"",
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக",
-    "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git checkout <branch-name>\" komutu ile bu branch'e geçin.",
+    "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git checkout <branch-name>\" komutu ile bu branch'e geçin."
   },
   "disabledMap": {
     "git revert": true
@@ -841,7 +841,7 @@ exports.level = {
             "markdowns": [
               "*注意：在 Git 2.23 版本中，引入了一个名为 `git switch` 的新命令，最终会取代 `git checkout`，因为 `checkout` 作为单个命令有点超载（它承载了很多独立的功能）。",
               "由于现在很多人还无法使用 `switch`，本次课程仍然使用 `checkout` 而不是 `switch`，",
-              "但是如果你想尝试一下新命令，我们的应用也是支持的！并且你可以从<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">这里</a>学到更多关于新命令的内容。*",
+              "但是如果你想尝试一下新命令，我们的应用也是支持的！并且你可以从<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">这里</a>学到更多关于新命令的内容。*"
             ]
           }
         },
@@ -1030,9 +1030,9 @@ exports.level = {
               "",
               "Pentru că nu există costuri suplimentare de stocare / memorie asociată cu crearea de multe ramuri, este mai ușor să îți împarți munca într-un mod logic decât să ai ramuri mari și greoaie.",
               "",
-              'Când vom începe să combinăm ramuri și commit-uri, vom vedea cum aceste două caracteristici se îmbină bine. Pentru moment, doar reține că o ramură spune în esență "Vreau să includ munca acestui commit și a tuturor commit-urilor sale părinte."',
-            ],
-          },
+              "Când vom începe să combinăm ramuri și commit-uri, vom vedea cum aceste două caracteristici se îmbină bine. Pentru moment, doar reține că o ramură spune în esență \"Vreau să includ munca acestui commit și a tuturor commit-urilor sale părinte.\""
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1040,27 +1040,27 @@ exports.level = {
             "beforeMarkdowns": [
               "Să vedem cum arată ramurile în practică.",
               "",
-              "Aici vom crea o ramură nouă numită `newImage`.",
+              "Aici vom crea o ramură nouă numită `newImage`."
             ],
             "afterMarkdowns": [
-              "Iată, asta e tot ce trebuie să faci pentru a crea o ramură! Ramura `newImage` acum se referă la commit-ul `C1`.",
+              "Iată, asta e tot ce trebuie să faci pentru a crea o ramură! Ramura `newImage` acum se referă la commit-ul `C1`."
             ],
             "command": "git branch newImage",
-            "beforeCommand": "",
-          },
+            "beforeCommand": ""
+          }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Să încercăm să facem câteva modificări în această nouă ramură. Apasă butonul de mai jos.",
+              "Să încercăm să facem câteva modificări în această nouă ramură. Apasă butonul de mai jos."
             ],
             "afterMarkdowns": [
-              'Oh nu! Ramura `main` s-a mutat, dar ramura `newImage` nu! Aceasta s-a întâmplat pentru că nu eram "pe" noua ramură, motiv pentru care asteriscul (*) era pe `main`.',
+              "Oh nu! Ramura `main` s-a mutat, dar ramura `newImage` nu! Aceasta s-a întâmplat pentru că nu eram \"pe\" noua ramură, motiv pentru care asteriscul (*) era pe `main`."
             ],
             "command": "git commit",
-            "beforeCommand": "git branch newImage",
-          },
+            "beforeCommand": "git branch newImage"
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1072,14 +1072,14 @@ exports.level = {
               "git checkout <name>",
               "```",
               "",
-              "Aceasta ne va poziționa pe noua ramură înainte de a face commit cu modificările noastre.",
+              "Aceasta ne va poziționa pe noua ramură înainte de a face commit cu modificările noastre."
             ],
             "afterMarkdowns": [
-              "Incredibil! Modificările noastre au fost înregistrate pe noua ramură.",
+              "Incredibil! Modificările noastre au fost înregistrate pe noua ramură."
             ],
             "command": "git checkout newImage; git commit",
-            "beforeCommand": "git branch newImage",
-          },
+            "beforeCommand": "git branch newImage"
+          }
         },
         {
           "type": "ModalAlert",
@@ -1089,9 +1089,9 @@ exports.level = {
               " deoarece acesta din urmă este oarecum suprasolicitată (face multe lucruri diferite în funcție de argumente). Lecțiile de aici vor folosi în continuare ",
               "`checkout` în loc de `switch`, deoarece comanda `switch` este încă considerată experimentală și sintaxa sa se poate schimba în viitor.",
               "Cu toate acestea, puteți încerca noua comandă `switch` în această aplicație, și de asemenea ",
-              '<a href="https://git-scm.com/docs/git-switch" target="_blank">poți afla mai multe aici</a>.* ',
-            ],
-          },
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">poți afla mai multe aici</a>.* "
+            ]
+          }
         },
         {
           "type": "ModalAlert",
@@ -1102,11 +1102,11 @@ exports.level = {
               "",
               "Apropo, iată o scurtătură: dacă vrei să creezi o nouă ramură",
               " ȘI să treci pe ea în același timp, poți pur și simplu ",
-              "să scrii `git checkout -b [numele-ramurii]`.",
-            ],
-          },
-        },
-      ],
+              "să scrii `git checkout -b [numele-ramurii]`."
+            ]
+          }
+        }
+      ]
     },
     "ru_RU": {
       "childViews": [
@@ -1183,7 +1183,7 @@ exports.level = {
               "создай ветку с именем bugFix и переключись на неё.",
               "",
               "Кстати вот тебе совет, ты можешь создать новую ветку и переключиться на неё",
-              "с помощью одной команды: ```git checkout -b [yourbranchname]```.",
+              "с помощью одной команды: ```git checkout -b [yourbranchname]```."
             ]
           }
         }
@@ -1231,7 +1231,7 @@ exports.level = {
               "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисни кнопку внизу."
             ],
             "afterMarkdowns": [
-              "От халепа! Гілка `main` просунулася вперед, але гілка `newImage` \u2014 ні! Це тому, що ми були не \"на новій гілці\". Через це зірочка (*) була поруч з  `main`."
+              "От халепа! Гілка `main` просунулася вперед, але гілка `newImage` — ні! Це тому, що ми були не \"на новій гілці\". Через це зірочка (*) була поруч з  `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -1647,9 +1647,9 @@ exports.level = {
               "",
               "Poiché non c'è un sovraccarico della memoria nel fare molti rami, è più semplice suddividere il lavoro piuttosto che avere rami enormi.",
               "",
-              'Quando inizieremo a mischiare rami e commit, vedremo come queste caratteristiche si combinano. Per ora, però, ricorda che un ramo essenzialmente dice "Voglio includere il lavoro di questo commit e tutti i commit del genitore".',
-            ],
-          },
+              "Quando inizieremo a mischiare rami e commit, vedremo come queste caratteristiche si combinano. Per ora, però, ricorda che un ramo essenzialmente dice \"Voglio includere il lavoro di questo commit e tutti i commit del genitore\"."
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1657,27 +1657,27 @@ exports.level = {
             "beforeMarkdowns": [
               "Vediamo nella pratica cosa sono i rami.",
               "",
-              "Qui creeremo un nuovo ramo di nome `newImage`.",
+              "Qui creeremo un nuovo ramo di nome `newImage`."
             ],
             "afterMarkdowns": [
-              "Ecco, questa è la divisione in rami! Il ramo `newImage` ora punta al commit `C1`.",
+              "Ecco, questa è la divisione in rami! Il ramo `newImage` ora punta al commit `C1`."
             ],
             "command": "git branch newImage",
-            "beforeCommand": "",
-          },
+            "beforeCommand": ""
+          }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Proviamo ad aggiungere un po' di lavoro su questo nuovo ramo. Premi il pulsante qua sotto.",
+              "Proviamo ad aggiungere un po' di lavoro su questo nuovo ramo. Premi il pulsante qua sotto."
             ],
             "afterMarkdowns": [
-              "Oh no! Il ramo `main` si è spostato ma il ramo `newImage` no! Questo perché non eravamo sul nuovo ramo, infatti l'asterisco (*) era su `main`.",
+              "Oh no! Il ramo `main` si è spostato ma il ramo `newImage` no! Questo perché non eravamo sul nuovo ramo, infatti l'asterisco (*) era su `main`."
             ],
             "command": "git commit",
-            "beforeCommand": "git branch newImage",
-          },
+            "beforeCommand": "git branch newImage"
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1689,14 +1689,14 @@ exports.level = {
               "git checkout <name>",
               "```",
               "",
-              "Questo ci metterà sul nuovo ramo prima di fare un nuovo commit.",
+              "Questo ci metterà sul nuovo ramo prima di fare un nuovo commit."
             ],
             "afterMarkdowns": [
-              "Ecco qua! I cambiamenti sono stati memorizzati sul nuovo ramo.",
+              "Ecco qua! I cambiamenti sono stati memorizzati sul nuovo ramo."
             ],
             "command": "git checkout newImage; git commit",
-            "beforeCommand": "git branch newImage",
-          },
+            "beforeCommand": "git branch newImage"
+          }
         },
         {
           "type": "ModalAlert",
@@ -1705,9 +1705,9 @@ exports.level = {
               "*Nota: In Git versione 2.23, è stato introdotto un nuovo comando, `git switch`, per sostituire `git checkout`, ",
               "che è sovraccaricato di funzionalità (fa un sacco di cose diverse). Queste lezioni usano comunque ",
               "`checkout` invece che `switch` perché molti non hanno ancora accesso a `switch`, ma quest'app supporta comunque il comando ",
-              'se sei curioso di provarlo! Potete <a href="https://git-scm.com/docs/git-switch" target="_blank">scoprire di più qui</a>.* ',
-            ],
-          },
+              "se sei curioso di provarlo! Potete <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">scoprire di più qui</a>.* "
+            ]
+          }
         },
         {
           "type": "ModalAlert",
@@ -1718,11 +1718,11 @@ exports.level = {
               "",
               "Comunque, c'è una scorciatoia: se vuoi creare un nuovo ",
               "ramo E selezionarlo in un solo passaggio, puoi semplicemente ",
-              "digitare `git checkout -b [yourbranchname]`.",
-            ],
-          },
-        },
-      ],
+              "digitare `git checkout -b [yourbranchname]`."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [
@@ -1817,6 +1817,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

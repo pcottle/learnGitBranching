@@ -22,7 +22,7 @@ exports.level = {
     "sl_SI": "Oddaljeni Branchi",
     "pl": "Zdalne gałęzie",
     "it_IT": "Rami Remoti",
-    "tr_TR": "Uzak Dallar",
+    "tr_TR": "Uzak Dallar"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -44,7 +44,7 @@ exports.level = {
     "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!",
     "pl": "Zwróć uwagę na kolejność -- najpierw zatwierdzaj na main",
     "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!",
-    "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!",
+    "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!"
   },
   "startDialog": {
     "en_US": {
@@ -1195,7 +1195,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Controlliamo un ramo remoto e vediamo cosa succede."              
+              "Controlliamo un ramo remoto e vediamo cosa succede."
             ],
             "afterMarkdowns": [
               "Come puoi vedere, git ci ha messo in modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
@@ -1276,6 +1276,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

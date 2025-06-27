@@ -14,13 +14,13 @@ exports.level = {
     "gl": "Precisarás usar polo menos unha referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
     "ja": "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
-    "ro":"Vei avea nevoie să folosești cel puțin o referință directă (hash) pentru a termina acest nivel",
+    "ro": "Vei avea nevoie să folosești cel puțin o referință directă (hash) pentru a termina acest nivel",
     "ru_RU": "Понадобится использовать как минимум одну прямую ссылку (хеш), чтобы пройти этот уровень",
     "ko": "이번 레벨을 완료하려면 최소 한번은 직접 참조(해시)를 사용해야 합니다.",
     "uk": "Тобі потрібно використати як мінімум одне пряме посилання (хеш) щоб пройти цей рівень",
     "vi": "Bạn sẽ cần dùng ít nhất một tham chiếu trực tiếp (mã băm) để hoàn thành cấp độ này",
     "sl_SI": "Moral boš uporabiti vsaj eno direktno referenco (hash) za dokončanje te stopnje.",
-    "it_IT":  "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
+    "it_IT": "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednej bezpośredniej referencji (hasza).",
     "ta_IN": "இந்த நிலவை முடிக்க குறைந்தது ஒரு நேரடி குறிப்பு (ஹாஷ்) பயன்படுத்த வேண்டும்",
     "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek"
@@ -38,7 +38,7 @@ exports.level = {
     "zh_CN": "相对引用2（~）",
     "zh_TW": "相對引用二（~）",
     "ro": "Referințe relative #2 (~)",
-    "ru_RU": 'Относительные ссылки №2',
+    "ru_RU": "Относительные ссылки №2",
     "ko": "상대 참조 #2 (~)",
     "uk": "Відносні посилання №2",
     "vi": "Tham chiếu tương đối #2 (~)",
@@ -985,7 +985,8 @@ exports.level = {
               "방금의 커맨드를 직접 확인해 봅시다."
             ],
             "afterMarkdowns": [
-              "됐네요! 우리는 상대 참조를 통해 `C1`을 간결한 방법으로 참조할 수 있었고 브랜치 강제(`-f`)를 통해 브랜치를 저 위치로 빠르게 옮길 수 있었습니다."],
+              "됐네요! 우리는 상대 참조를 통해 `C1`을 간결한 방법으로 참조할 수 있었고 브랜치 강제(`-f`)를 통해 브랜치를 저 위치로 빠르게 옮길 수 있었습니다."
+            ],
             "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
           }
@@ -1284,25 +1285,27 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              '### L\'operatore "~"',
+              "### L'operatore \"~\"",
               "",
               "Nel caso in cui voglia risalire di più livelli l'albero dei commit, è una seccatura aggiungere `^` per ogni salto, per questo Git ha l'operatore tilde(~).",
               "",
               "",
-              "A questo operatore si può (facoltativamente) aggiungere un numero che specifica di quanti livelli si vuole risalire l'albero dei commit. Vediamolo in azione.",
-            ],
-          },
+              "A questo operatore si può (facoltativamente) aggiungere un numero che specifica di quanti livelli si vuole risalire l'albero dei commit. Vediamolo in azione."
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Specifichiamo il numero di commit con `~`.",
+              "Specifichiamo il numero di commit con `~`."
             ],
-            "afterMarkdowns": ["Fatto! Breve ed efficace -- i riferimenti relativi sono stupendi."],
+            "afterMarkdowns": [
+              "Fatto! Breve ed efficace -- i riferimenti relativi sono stupendi."
+            ],
             "command": "git checkout HEAD~4",
-            "beforeCommand": "git commit; git commit; git commit",
-          },
+            "beforeCommand": "git commit; git commit; git commit"
+          }
         },
         {
           "type": "ModalAlert",
@@ -1316,21 +1319,22 @@ exports.level = {
               "",
               "`git branch -f main HEAD~3`",
               "",
-              "sposta (con la forza) il ramo main al terzo antenato di HEAD.",
-            ],
-          },
+              "sposta (con la forza) il ramo main al terzo antenato di HEAD."
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
-            "beforeMarkdowns": ["Vediamolo in azione."],
+            "beforeMarkdowns": [
+              "Vediamolo in azione."
+            ],
             "afterMarkdowns": [
-              "Ecco qua! I riferimenti relativi ci permettono facilmente di specificare `C1` e il branch forcing (`-f`) ci da modo di spostare rapidamente il ramo su quella posizione.",
+              "Ecco qua! I riferimenti relativi ci permettono facilmente di specificare `C1` e il branch forcing (`-f`) ci da modo di spostare rapidamente il ramo su quella posizione."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand":
-              "git commit; git commit; git commit; git checkout -b bugFix",
-          },
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
         },
         {
           "type": "ModalAlert",
@@ -1338,11 +1342,11 @@ exports.level = {
             "markdowns": [
               "Ora che hai visto i riferimenti relativi e il branch forcing, usiamoli per completare il prossimo livello.",
               "",
-              "Per completare questo livello, sposta `HEAD`, `main`, e `bugFix` alla loro destinazione finale mostrata nell'obiettivo.",
-            ],
-          },
-        },
-      ],
+              "Per completare questo livello, sposta `HEAD`, `main`, e `bugFix` alla loro destinazione finale mostrata nell'obiettivo."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [
