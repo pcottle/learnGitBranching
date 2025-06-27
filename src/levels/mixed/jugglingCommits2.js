@@ -46,21 +46,21 @@ exports.level = {
     "es_ES": "¡No te olvides de avanzar main a los cambios actualizados!",
     "es_MX": "¡No te olvides de avanzar main a los cambios actualizados!",
     "pt_BR": "Não se esqueça de avançar a referência do main para as mudanças efetuadas!",
-    "gl":    "¡Non te esquezas de avanzar main ós cambios actualizados!",
+    "gl": "¡Non te esquezas de avanzar main ós cambios actualizados!",
     "de_DE": "Vergiss nicht den main auf die aktuelle Version vorzuspulen",
-    "ja":    "mainのポインタを先に進めることを忘れずに！",
-    "ko":    "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
+    "ja": "mainのポインタを先に進めることを忘れずに！",
+    "ko": "main을 변경 완료한 커밋으로 이동(forward)시키는 것을 잊지 마세요!",
     "zh_CN": "别忘记了将 main 快进到最新的更新上！",
     "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
-    "ro":    "Nu uita să avansezi main la ultimele modificări!",
+    "ro": "Nu uita să avansezi main la ultimele modificări!",
     "ru_RU": "Не забудь переместить main на последние изменения.",
-    "uk":    "Не забудь перемістити main на останні зміни!",
-    "vi":    "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
+    "uk": "Не забудь перемістити main на останні зміни!",
+    "vi": "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
     "sl_SI": "Ne pozabi prestaviti main naprej na posodobljene spremembe.",
     "it_IT": "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
-    "pl":    "Nie zapomnij sforwardować maina do najnowszych zmian!",
+    "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
     "ta_IN": "Main ஐ புதுப்பிக்கப்பட்ட மாற்றங்களுக்கு முன்னேற்றமிடுவதை மறக்க வேண்டாம்!",
-    "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
+    "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!"
   },
   "startDialog": {
     "en_US": {
@@ -843,9 +843,9 @@ exports.level = {
               "",
               "Come hai visto nell'ultimo livello, abbiamo usato `rebase -i` per riordinare i commit. Una volta che il commit che volevamo modificare era in cima, abbiamo potuto facilmente fare --amend per poi ritornare nell'ordine di partenza.",
               "",
-              "L'unico problema qui è che ci sono tanti riordini da fare, che può portare a conflitti nel rebase. Vediamo di farlo attraverso il metodo `git cherry-pick`.",
-            ],
-          },
+              "L'unico problema qui è che ci sono tanti riordini da fare, che può portare a conflitti nel rebase. Vediamo di farlo attraverso il metodo `git cherry-pick`."
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -853,13 +853,14 @@ exports.level = {
             "beforeMarkdowns": [
               "Ricorda che git cherry-pick creerà un qualsiasi commit del repository su HEAD (a condizione che il commit non sia un antenato di HEAD).",
               "",
-              "Qui un breve demo per rinfrescare la memoria:",
+              "Qui un breve demo per rinfrescare la memoria:"
             ],
-            "afterMarkdowns": ["Grande! Andiamo avanti."],
+            "afterMarkdowns": [
+              "Grande! Andiamo avanti."
+            ],
             "command": "git cherry-pick C2",
-            "beforeCommand":
-              "git checkout -b bugFix; git commit; git checkout main; git commit",
-          },
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
         },
         {
           "type": "ModalAlert",
@@ -867,11 +868,11 @@ exports.level = {
             "markdowns": [
               "In questo livello, dobbiamo fare amend di `C2` una volta, evitando di usare `rebase -i`. Lascerò a te il compito di scoprire come farlo! :D",
               "",
-              "Ricorda, il numero esatto di apostrofi sul commit non sono importanti, solo le differenze tra essi. Per esempio, considererò l'albero che corrisponde a quello della soluzione ma che ha un apostrofo extra dappertutto.",
-            ],
-          },
-        },
-      ],
+              "Ricorda, il numero esatto di apostrofi sul commit non sono importanti, solo le differenze tra essi. Per esempio, considererò l'albero che corrisponde a quello della soluzione ma che ha un apostrofo extra dappertutto."
+            ]
+          }
+        }
+      ]
     },
     "ta_IN": {
       "childViews": [
@@ -958,6 +959,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

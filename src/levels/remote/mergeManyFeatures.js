@@ -13,7 +13,7 @@ exports.level = {
     "de_DE": "Änderungen vom Remote zusammenführen",
     "ja": "リモートとのmerge",
     "fr_FR": "Fusionner avec les branches distantes",
-    "ro":"Fuzionare cu remote",
+    "ro": "Fuzionare cu remote",
     "ru_RU": "Слияние с удалённым репозиторием",
     "ko": "원격 작업과 merge하기",
     "uk": "Мердж з віддаленим репозиторієм",
@@ -21,7 +21,7 @@ exports.level = {
     "sl_SI": "Merganje z oddaljenim repozitorijem",
     "pl": "Scalanie z remote",
     "it_IT": "Fondere in remoto",
-    "tr_TR": "Uzak Sunucularla Birleştirme",
+    "tr_TR": "Uzak Sunucularla Birleştirme"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -42,7 +42,7 @@ exports.level = {
     "sl_SI": "Poglej si ciljno drevo!",
     "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!",
     "it_IT": "Fai attenzione all'albero nell'obiettivo",
-    "tr_TR": "Hedef ağacına dikkat et!",
+    "tr_TR": "Hedef ağacına dikkat et!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -900,6 +900,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

@@ -14,7 +14,7 @@ exports.level = {
     "pt_BR": "Referências relativas (^)",
     "gl": "Referencias relativas (^)",
     "de_DE": "Relative Referenzen (^)",
-    "ro":"Referințe relative (^)",
+    "ro": "Referințe relative (^)",
     "ru_RU": "Относительные ссылки (^)",
     "ko": "상대 참조 (^) (Relative Refs)",
     "uk": "Відносні посилання",
@@ -1411,9 +1411,9 @@ exports.level = {
               "",
               "Inoltre, gli hash sono solitamente molto più lunghi. Per esempio, l'hash del commit nel livello precedente è `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Non così semplice da ricordare...",
               "",
-              "La nota positiva è che Git è furbo con gli hash. Richiede un numero di caratteri dell'hash tali da poter identificare in modo univoco il commit. Posso scrivere `fed2` invece dell'hash completo.",
-            ],
-          },
+              "La nota positiva è che Git è furbo con gli hash. Richiede un numero di caratteri dell'hash tali da poter identificare in modo univoco il commit. Posso scrivere `fed2` invece dell'hash completo."
+            ]
+          }
         },
         {
           "type": "ModalAlert",
@@ -1426,9 +1426,9 @@ exports.level = {
               "Questi riferimenti sono strumenti potenti, introduciamo i più semplici:",
               "",
               "* Risalire di un commit alla volta con `^`",
-              "* Risalire di tot commit alla volta con `~<num>`",
-            ],
-          },
+              "* Risalire di tot commit alla volta con `~<num>`"
+            ]
+          }
         },
         {
           "type": "GitDemonstrationView",
@@ -1436,32 +1436,31 @@ exports.level = {
             "beforeMarkdowns": [
               "Diamo un occhiata all'operatore (^) chiamato Caret o accento circonflesso. Ogni volta che lo aggiungi a un riferimento, stai dicendo a Git di cercare il genitore del commit specificato.",
               "",
-              'Quindi, dire `main^` è equivalente a dire "il primo genitore di `main`".',
+              "Quindi, dire `main^` è equivalente a dire \"il primo genitore di `main`\".",
               "",
               "`main^^` è il nonno (antenato di seconda generazione) di `main`",
               "",
-              "Selezioniamo il commit sopra main.",
+              "Selezioniamo il commit sopra main."
             ],
             "afterMarkdowns": [
-              "Colpito! Fatto. Mille volte meglio che scrivere l'hash.",
+              "Colpito! Fatto. Mille volte meglio che scrivere l'hash."
             ],
             "command": "git checkout main^",
-            "beforeCommand": "git commit",
-          },
+            "beforeCommand": "git commit"
+          }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Puoi considerare `HEAD` come un riferimento relativo. Usiamolo un paio di volte per risalire l'albero dei commit.",
+              "Puoi considerare `HEAD` come un riferimento relativo. Usiamolo un paio di volte per risalire l'albero dei commit."
             ],
             "afterMarkdowns": [
-              "Facile! Possiamo viaggiare in dietro nel tempo con `HEAD^`",
+              "Facile! Possiamo viaggiare in dietro nel tempo con `HEAD^`"
             ],
-            "command":
-              "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
-            "beforeCommand": "git commit; git commit",
-          },
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
         },
         {
           "type": "ModalAlert",
@@ -1469,11 +1468,11 @@ exports.level = {
             "markdowns": [
               "Per completare questo livello, seleziona il commit padre di `bugFix`. Questo provocherà una detached `HEAD`.",
               "",
-              "Puoi usare l'hash se vuoi, ma prova a usare i riferimenti relativi!",
-            ],
-          },
-        },
-      ],
+              "Puoi usare l'hash se vuoi, ma prova a usare i riferimenti relativi!"
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

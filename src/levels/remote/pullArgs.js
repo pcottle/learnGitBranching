@@ -22,7 +22,7 @@ exports.level = {
     "sl_SI": "Pull argumenti",
     "pl": "Argumenty pull",
     "it_IT": "Parametri di git pull",
-    "tr_TR": "Git pull komutunun parametreleri",
+    "tr_TR": "Git pull komutunun parametreleri"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -36,7 +36,7 @@ exports.level = {
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
     "ja": "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
     "fr_FR": "Vous pouvez aussi créer une nouvelle branche locale avec les arguments de fetch/pull",
-    "ro":"Amintește-ți că poți crea ramuri locale noi folosind argumentele la fetch/pull",
+    "ro": "Amintește-ți că poți crea ramuri locale noi folosind argumentele la fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko": "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
     "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
@@ -44,7 +44,7 @@ exports.level = {
     "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
     "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
     "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri",
-    "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin",
+    "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin"
   },
   "startDialog": {
     "en_US": {
@@ -1535,6 +1535,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

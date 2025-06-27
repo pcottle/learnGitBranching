@@ -13,7 +13,7 @@ exports.level = {
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja": "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
-    "ro":"Amintește-ți că poți folosi oricând comenzile undo sau reset",
+    "ro": "Amintește-ți că poți folosi oricând comenzile undo sau reset",
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
     "ko": "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
     "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
@@ -21,7 +21,7 @@ exports.level = {
     "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
     "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
     "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset",
-    "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz.",
+    "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz."
   },
   "name": {
     "en_US": "Push Main!",
@@ -42,7 +42,7 @@ exports.level = {
     "sl_SI": "Push Main!",
     "pl": "Wypychanie dla wytrwałych!",
     "it_IT": "Push main!",
-    "tr_TR": "Main'i Push Et!",
+    "tr_TR": "Main'i Push Et!"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -1052,6 +1052,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

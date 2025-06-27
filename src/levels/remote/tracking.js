@@ -13,7 +13,7 @@ exports.level = {
     "de_DE": "Remote Tracking",
     "ja": "リモートのトラッキング",
     "fr_FR": "Suivi de branche distante",
-    "ro":"Urmărirea unui remote",
+    "ro": "Urmărirea unui remote",
     "ru_RU": "Слежка за удалённым репозиторием",
     "ko": "원격 저장소 추적하기",
     "uk": "Слідкуємо за віддаленим репозиторієм",
@@ -21,7 +21,7 @@ exports.level = {
     "sl_SI": "Sledenje Oddaljenega Repota",
     "pl": "Śledzenie zdalnych repo",
     "it_IT": "Tracciamento remoto",
-    "tr_TR": "Uzaktan İzleme",
+    "tr_TR": "Uzaktan İzleme"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -42,7 +42,7 @@ exports.level = {
     "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota.",
     "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!",
     "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!",
-    "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!",
+    "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!"
   },
   "startDialog": {
     "en_US": {
@@ -2405,6 +2405,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

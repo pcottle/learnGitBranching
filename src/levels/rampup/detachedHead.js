@@ -14,11 +14,11 @@ exports.level = {
     "zh_TW": "分離 HEAD",
     "de_DE": "Den Kopf abtrennen",
     "ja": "HEADの分離",
-    "ro":"Detașează-ți capul",
+    "ro": "Detașează-ți capul",
     "ru_RU": "Теряем голову, или detached HEAD",
     "ko": "HEAD 분리하기",
     "uk": "Втрачаємо голову чи detached HEAD",
-    'vi': "Tháo đầu cái nào",
+    "vi": "Tháo đầu cái nào",
     "sl_SI": "Ločevanje tvoje glave - HEAD-a",
     "it_IT": "Perdere la testa (HEAD)",
     "pl": "Odczep sobie HEAD",
@@ -1067,7 +1067,7 @@ exports.level = {
             "markdowns": [
               "## Git에서 여기저기로 옮겨다니기",
               "",
-              "Git의 고급기능들에 대해 더 알아보기 전에, 여러분의 프로젝트를 표현하는 커밋 트리\(commit tree\)에서 이동 할 수 있는 여러가지 방법들을 아는것이 중요합니다.",
+              "Git의 고급기능들에 대해 더 알아보기 전에, 여러분의 프로젝트를 표현하는 커밋 트리(commit tree)에서 이동 할 수 있는 여러가지 방법들을 아는것이 중요합니다.",
               "",
               "여기저기 이동하는 것에 익숙해지면, 여러분이 다른 git 명령어들을 사용하는 능력도 아주 좋아질 것입니다!",
               "",
@@ -1450,11 +1450,11 @@ exports.level = {
       ]
     },
     "it_IT": {
-      childViews: [
+      "childViews": [
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## Spostarsi in Git",
               "",
               "Prima di imparare comandi avanzati in Git, è fondamentale conoscere i diversi modi per spostarsi nell'albero dei commit che costituiscono il tuo progetto.",
@@ -1464,65 +1464,68 @@ exports.level = {
               "",
               "",
               "",
-              "",
-            ],
-          },
+              ""
+            ]
+          }
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "## HEAD",
               "",
               "Prima di tutto dobbiamo parlare di \"HEAD\". HEAD (testa) è il nome simbolico dato al commit selezionato -- in pratica è il commit su cui stai lavorando.",
               "",
               "HEAD punta sempre al commit più recente. La maggior parte dei comandi git che apportano modifiche all'albero dei commit, vanno a cambiare per primo HEAD.",
               "",
-              "Di norma HEAD punta al nome di un ramo (per esempio bugFix). Quando esegui un commit, lo stato di bugFix viene modificato, e questo cambiamento è visibile attraverso HEAD.",
-            ],
-          },
+              "Di norma HEAD punta al nome di un ramo (per esempio bugFix). Quando esegui un commit, lo stato di bugFix viene modificato, e questo cambiamento è visibile attraverso HEAD."
+            ]
+          }
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
-              "Vediamolo in azione. Qui mostreremo HEAD prima e dopo un commit.",
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vediamolo in azione. Qui mostreremo HEAD prima e dopo un commit."
             ],
-            afterMarkdowns: [
-              "Visto! HEAD era nascosto sotto il ramo `main`.",
+            "afterMarkdowns": [
+              "Visto! HEAD era nascosto sotto il ramo `main`."
             ],
-            command:
-              "git checkout C1; git checkout main; git commit; git checkout C2",
-            beforeCommand: "",
-          },
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
         },
         {
-          type: "GitDemonstrationView",
-          options: {
-            beforeMarkdowns: [
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
               "### Detaching HEAD (testa distaccata)",
               "",
               "Detaching HEAD significa attaccare la testa a un commit invece che a un ramo. All'inizio la situazione è questa:",
               "",
               "HEAD -> main -> C1",
-              "",
+              ""
             ],
-            afterMarkdowns: ["E ora è", "", "HEAD -> C1"],
-            command: "git checkout C1",
-            beforeCommand: "",
-          },
+            "afterMarkdowns": [
+              "E ora è",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
         },
         {
-          type: "ModalAlert",
-          options: {
-            markdowns: [
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Per completare questo livello, stacchiamo HEAD da `bugFix` e attacchiamolo a un commit.",
               "",
-              "Per specificare un commit si usa l'hash. L'hash per ogni commit è presente sul cerchio che rappresenta il commit.",
-            ],
-          },
-        },
-      ],
+              "Per specificare un commit si usa l'hash. L'hash per ogni commit è presente sul cerchio che rappresenta il commit."
+            ]
+          }
+        }
+      ]
     },
     "tr_TR": {
       "childViews": [

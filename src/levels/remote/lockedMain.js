@@ -5,7 +5,7 @@ exports.level = {
   "hint": {
     "en_US": "Make the feature branch from the local main before resetting it back to be the same as origin's main",
     "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Main-Branch, bevor du den Main-Branch auf den origin/main zurücksetzt.",
-    "ro":"Creează o ramură feature din main-ul local înainte de a reseta main-ul pentru a fi la fel cu origin/main.",
+    "ro": "Creează o ramură feature din main-ul local înainte de a reseta main-ul pentru a fi la fel cu origin/main.",
     "ru_RU": "Создайте новую feature ветвь от main перед тем, как откатить изменения в main до состояния o/main.",
     "uk": "Створіть нову feature гілку від локального main перед тим, як відкотити зміни в main до стану o/main.",
     "zh_CN": "从本地的main创建一个feature分支, 然后重置main和origin main保持一致。",
@@ -20,7 +20,7 @@ exports.level = {
     "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin",
     "vi": "Tạo những nhánh tính năng từ nhánh cục bộ trước khi trả chúng về lại giống như o/main",
     "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto",
-    "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun.",   
+    "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun."
   },
   "name": {
     "en_US": "Locked Main",
@@ -40,7 +40,7 @@ exports.level = {
     "pl": "Zablokowany main",
     "vi": "Nhánh chính bị khóa (Locked Main)",
     "it_IT": "Main bloccato",
-    "tr_TR": "Kilitli Main",    
+    "tr_TR": "Kilitli Main"
   },
   "startDialog": {
     "en_US": {
@@ -197,7 +197,7 @@ exports.level = {
             "markdowns": [
               "## Soluția",
               "",
-              "Creează o altă ramură numită `feature` și împinge-o către remote. De asemenea, resetează ramura ta `main` pentru a fi sincronizată cu remote, altfel s-ar putea să ai probleme data viitoare când faci pull și commit-ul altcuiva intră în conflict cu al tău.",
+              "Creează o altă ramură numită `feature` și împinge-o către remote. De asemenea, resetează ramura ta `main` pentru a fi sincronizată cu remote, altfel s-ar putea să ai probleme data viitoare când faci pull și commit-ul altcuiva intră în conflict cu al tău."
             ]
           }
         }
@@ -286,7 +286,6 @@ exports.level = {
               "## Рішення:",
               "",
               "Створіть ще одну гілку з назвою `feature` і відправте зміни у віддалений репозиторій. Також не забудьте повернути вашу локальну гілку `main` в вихідне положення (щоб вона була синхронізована з віддаленою). Інакше у вас можуть виникнути складнощі при наступному виконанні запиту `git pull`, коли коміти інших розробників конфліктуватимуть з вашими."
-
             ]
           }
         }
@@ -317,7 +316,6 @@ exports.level = {
               "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `main` que requiere el uso de `Pull Requests`.",
               "",
               "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `main`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
-
             ]
           }
         },
@@ -478,7 +476,6 @@ exports.level = {
               "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `main` que requiere el uso de `Pull Requests`.",
               "",
               "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `main`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
-
             ]
           }
         },
@@ -615,7 +612,6 @@ exports.level = {
       ]
     },
     "pl": {
-
       "childViews": [
         {
           "type": "ModalAlert",
@@ -663,9 +659,7 @@ exports.level = {
             "markdowns": [
               "## Kết nối remote bị từ chối!",
               "",
-              "Nếu bạn làm việc trong một nhóm cộng tác lớn, có khả năng nhánh main bị khóa và yêu cầu một số quy" +
-              " trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh cục bộ và thử" +
-              " push, bạn sẽ được chào đón bằng một thông báo tương tự như sau:",
+              "Nếu bạn làm việc trong một nhóm cộng tác lớn, có khả năng nhánh main bị khóa và yêu cầu một số quy trình Pull Request để hợp nhất các thay đổi. Nếu bạn commit trực tiếp với nhánh cục bộ và thử push, bạn sẽ được chào đón bằng một thông báo tương tự như sau:",
               "",
               "```",
               " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
@@ -679,8 +673,7 @@ exports.level = {
             "markdowns": [
               "## Tại sao bị từ chối?",
               "",
-              "Remote từ chối push các commit trực tiếp đến main vì chính sách của main yêu cầu các pull" +
-              " request được sử dụng thay thế.",
+              "Remote từ chối push các commit trực tiếp đến main vì chính sách của main yêu cầu các pull request được sử dụng thay thế.",
               "",
               "Bạn định tạo một nhánh sau đó đẩy nhánh lên rồi thực hiện pull request theo đúng quy trình, tuy nhiên bạn lại lỡ tay commit trực tiếp vào nhánh main. Bây giờ bạn bị mắc kẹt và không thể đẩy các thay đổi của mình lên."
             ]
@@ -692,9 +685,7 @@ exports.level = {
             "markdowns": [
               "## Giải pháp",
               "",
-              "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main" +
-              " của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện" +
-              " pull và commit của người khác xung đột với của bạn."
+              "Tạo một nhánh khác được gọi là feature và push nhánh đó đến remote. Đồng thời đặt lại nhánh main của bạn để đồng bộ với remote, nếu không bạn có thể gặp sự cố vào lần tiếp theo khi bạn thực hiện pull và commit của người khác xung đột với của bạn."
             ]
           }
         }
@@ -779,6 +770,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };

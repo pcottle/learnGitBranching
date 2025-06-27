@@ -19,7 +19,7 @@ exports.level = {
     "de_DE": "Die Quelle des Nichts",
     "ja": "無のsource",
     "fr_FR": "Source de rien du tout",
-    "ro":"Sursă goală",
+    "ro": "Sursă goală",
     "ru_RU": "Пустой источник",
     "ko": "Source가 없다",
     "uk": "Нема джерела",
@@ -48,7 +48,7 @@ exports.level = {
     "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!",
     "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!",
     "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!",
-    "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!",
+    "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!"
   },
   "startDialog": {
     "en_US": {
@@ -1061,6 +1061,6 @@ exports.level = {
           }
         }
       ]
-    },
+    }
   }
 };
