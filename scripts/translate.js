@@ -80,10 +80,102 @@ async function translateDialog(dialog, locale) {
     return newDialog;
 }
 
-const locale = process.argv[2];
-if (!locale) {
-  console.error('Please provide a locale. Example: node scripts/translate.js fr_FR');
-  process.exit(1);
+// New function to list all locales
+function listLocales() {
+    const levelsDir = path.join(__dirname, '../src/levels');
+    const levelFiles = getAllLevelFiles(levelsDir);
+    const allLocales = new Set();
+
+    for (const file of levelFiles) {
+        const levelPath = file;
+        // Clear cache to get fresh data from file
+        delete require.cache[require.resolve(levelPath)];
+        const levelData = require(levelPath);
+
+        if (levelData && levelData.level) {
+            const level = levelData.level;
+            if (level.name) {
+                Object.keys(level.name).forEach(locale => allLocales.add(locale));
+            }
+            if (level.hint) {
+                Object.keys(level.hint).forEach(locale => allLocales.add(locale));
+            }
+            if (level.startDialog) {
+                Object.keys(level.startDialog).forEach(locale => allLocales.add(locale));
+            }
+        }
+    }
+
+    console.log('Known locales found in level definitions:');
+    allLocales.forEach(locale => console.log(`- ${locale}`));
 }
 
-processLevels(locale);
+// New function to check translation status
+function checkStatus(locale) {
+    const levelsDir = path.join(__dirname, '../src/levels');
+    const levelFiles = getAllLevelFiles(levelsDir);
+    let present = 0;
+    let missing = 0;
+    let total = 0;
+
+    console.log(`Checking translation status for locale: ${locale}`);
+
+    for (const file of levelFiles) {
+        const levelPath = file;
+        delete require.cache[require.resolve(levelPath)];
+        const levelData = require(levelPath);
+
+        if (levelData && levelData.level) {
+            const level = levelData.level;
+            const fields = ['name', 'hint', 'startDialog'];
+            fields.forEach(field => {
+                if (level[field] && level[field].en_US) {
+                    total++;
+                    if (level[field][locale]) {
+                        present++;
+                    } else {
+                        console.log(`  - Missing '${field}' in ${path.basename(file)}`);
+                        missing++;
+                    }
+                }
+            });
+        }
+    }
+
+    console.log(`
+--- Status for ${locale} ---`);
+    console.log(`Present translations: ${present}`);
+    console.log(`Missing translations: ${missing}`);
+    console.log(`Total translatable fields: ${total}`);
+    if (total > 0) {
+        const percentage = ((present / total) * 100).toFixed(2);
+        console.log(`Completion: ${percentage}%`);
+    }
+    console.log('--------------------');
+}
+
+
+const arg = process.argv[2];
+const nextArg = process.argv[3];
+
+if (!arg) {
+    console.error('Please provide a command.');
+    console.error('Usage:');
+    console.error('  node scripts/translate.js <locale>              - Translate missing strings for a locale.');
+    console.error('  node scripts/translate.js --list-locales        - List all known locales.');
+    console.error('  node scripts/translate.js --status <locale>     - Show translation status for a locale.');
+    process.exit(1);
+}
+
+if (arg === '--list-locales') {
+    listLocales();
+} else if (arg === '--status') {
+    if (!nextArg) {
+        console.error('Please provide a locale for status check. Example: node scripts/translate.js --status fr_FR');
+        process.exit(1);
+    }
+    checkStatus(nextArg);
+} else {
+    // Default to original behavior
+    processLevels(arg);
+}
