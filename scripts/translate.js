@@ -218,8 +218,7 @@ function checkStatus(locale) {
 
     const overallPercentage = totalTotal > 0 ? ((totalPresent / totalTotal) * 100).toFixed(2) : "0.00";
 
-    console.log(`
---- Status for ${locale} ---`);
+    console.log(`\n--- Status for ${locale} ---\n`);
     console.log(`Overall Completion: ${overallPercentage}% (${totalPresent}/${totalTotal})`);
     
     const levelPercentage = levelStatus.total > 0 ? ((levelStatus.present / levelStatus.total) * 100).toFixed(2) : "0.00";
@@ -240,6 +239,37 @@ function checkStatus(locale) {
     }
 }
 
+function normalize() {
+    console.log('Normalizing all level and string files...');
+
+    // Normalize levels
+    const levelsDir = path.join(__dirname, '../src/levels');
+    const levelFiles = getAllLevelFiles(levelsDir);
+    for (const file of levelFiles) {
+        const levelPath = file;
+        delete require.cache[require.resolve(levelPath)];
+        const levelData = require(levelPath);
+        if (levelData && levelData.level) {
+            const newContent = `exports.level = ${JSON.stringify(levelData.level, null, 2)};`;
+            fs.writeFileSync(levelPath, newContent, 'utf8');
+            console.log(`Normalized ${file}`);
+        }
+    }
+
+    // Normalize strings
+    const stringsPath = path.join(__dirname, '../src/js/intl/strings.js');
+    delete require.cache[require.resolve(stringsPath)];
+    const stringsData = require(stringsPath);
+    if (stringsData && stringsData.strings) {
+        const newContent = `exports.strings = ${JSON.stringify(stringsData.strings, null, 2)};`;
+        fs.writeFileSync(stringsPath, newContent, 'utf8');
+        console.log(`Normalized ${stringsPath}`);
+        console.log('NOTE: Comments and original formatting in strings.js have been removed by this process.');
+    }
+
+    console.log('\nNormalization complete.');
+}
+
 
 const arg = process.argv[2];
 const nextArg = process.argv[3];
@@ -252,6 +282,7 @@ async function main() {
         console.error('  node scripts/translate.js --status <locale>');
         console.error('  node scripts/translate.js --translate-levels <locale>');
         console.error('  node scripts/translate.js --translate-strings <locale>');
+        console.error('  node scripts/translate.js --normalize');
         console.error('  node scripts/translate.js <locale>              (Translates all missing strings for a locale)');
         process.exit(1);
     }
@@ -276,12 +307,13 @@ async function main() {
             process.exit(1);
         }
         await translateStrings(nextArg);
+    } else if (arg === '--normalize') {
+        normalize();
     } else {
         console.log(`Translating all missing strings for ${arg}...`);
         await translateLevels(arg);
         await translateStrings(arg);
-        console.log(`
-Finished translating all missing strings for ${arg}.`);
+        console.log(`\nFinished translating all missing strings for ${arg}.`);
         checkStatus(arg);
     }
 }
