@@ -1,4 +1,4 @@
-# LearnGitBranching
+# LearnGitBranching by Learners GITHUB INTRO
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?)](https://github.com/pcottle/learnGitBranching/pulls)
 
