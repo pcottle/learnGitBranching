@@ -1,7 +1,10 @@
 
 var log = function(category, action, label) {
-  window._gaq = window._gaq || [];
-  window._gaq.push(['_trackEvent', category, action, label]);
+  window.gtag = window.gtag || function() {};
+  window.gtag('event', action, {
+    'event_category': category,
+    'event_label': label
+  });
   //console.log('just logged ', [category, action, label].join('|'));
 };
 
