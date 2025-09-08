@@ -1125,7 +1125,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "咱们们用 merge 替换 rebase 来试一下……"
+              "咱们用 merge 替换 rebase 来试一下……"
             ],
             "afterMarkdowns": [
               "我们用 `git fetch` 更新了本地仓库中的远程分支，然后**合并**了新变更到我们的本地分支（为了包含远程仓库的变更），最后我们用 `git push` 把工作推送到远程仓库"
