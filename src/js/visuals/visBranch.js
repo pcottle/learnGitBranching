@@ -4,10 +4,78 @@ var GRAPHICS = require('../util/constants').GRAPHICS;
 var VisBase = require('../visuals/visBase').VisBase;
 var TreeCompare = require('../graph/treeCompare');
 
-var randomHueString = function() {
-  var hue = Math.random();
-  var str = 'hsb(' + String(hue) + ',0.6,1)';
-  return str;
+// Accessible, high-contrast color palette (WCAG AA compliant)
+// Colors chosen for maximum distinguishability and accessibility
+const BRANCH_COLOR_PALETTE = [
+  // Blue, Orange, Green, Red, Purple, Teal, Brown, Pink, Gray
+  '#0074D9', // Blue
+  '#FF851B', // Orange
+  '#2ECC40', // Green
+  '#FF4136', // Red
+  '#B10DC9', // Purple
+  '#39CCCC', // Teal
+  '#8B4513', // Brown
+  '#F012BE', // Pink
+  '#AAAAAA', // Gray
+  // Additional high-contrast, accessible colors
+  '#0055A4', // Deep Blue
+  '#FFD700', // Gold (Yellow, high contrast on dark)
+  '#228B22', // Forest Green
+  '#E67E22', // Carrot Orange
+  '#800000', // Maroon
+  '#00CED1', // Dark Turquoise
+  '#C71585', // Medium Violet Red
+  '#FF69B4', // Hot Pink
+  '#A9A9A9', // Dark Gray
+  '#000000', // Black
+  '#FFFFFF', // White (for dark backgrounds)
+  '#4B0082', // Indigo
+  '#FFDAB9', // Peach Puff
+  '#DC143C', // Crimson
+  '#20B2AA', // Light Sea Green
+  '#8A2BE2', // Blue Violet
+  '#D2691E', // Chocolate
+  '#556B2F', // Dark Olive Green
+  '#FF6347', // Tomato
+  '#4682B4', // Steel Blue
+  '#B22222', // Firebrick
+  '#00FF7F', // Spring Green
+  '#483D8B', // Dark Slate Blue
+];
+
+// Map common branch names to fixed colors
+const BRANCH_NAME_COLOR_MAP = {
+  main: '#0074D9',    // Blue
+  master: '#0074D9',  // Blue (legacy)
+  bugFix: '#FF4136',  // Red
+  develop: '#2ECC40', // Green
+  feature: '#FF851B', // Orange
+  release: '#B10DC9', // Purple
+  hotfix: '#39CCCC',  // Teal
+  HEAD: '#111111'     // Very dark for HEAD (not used here, but for clarity)
+};
+
+// Used to assign colors to branches not in the map
+let branchColorIndex = 0;
+const assignedBranchColors = {};
+
+function getBranchColor(branchName) {
+  if (BRANCH_NAME_COLOR_MAP[branchName]) {
+    return BRANCH_NAME_COLOR_MAP[branchName];
+  }
+  if (assignedBranchColors[branchName]) {
+    return assignedBranchColors[branchName];
+  }
+  // Cycle through palette for other branches
+  const color = BRANCH_COLOR_PALETTE[branchColorIndex % BRANCH_COLOR_PALETTE.length];
+  assignedBranchColors[branchName] = color;
+  branchColorIndex++;
+  return color;
+}
+
+// Deprecated: kept for API compatibility, but now takes branchName
+var randomHueString = function(branchName) {
+  return getBranchColor(branchName || '');
 };
 
 var VisBranch = VisBase.extend({
@@ -68,9 +136,9 @@ var VisBranch = VisBase.extend({
       this.refreshOffset();
 
       this.set('fill', GRAPHICS.headRectFill);
-    } else if (id !== 'main') {
-      // we need to set our color to something random
-      this.set('fill', randomHueString());
+    } else {
+      // Use accessible color palette for branches
+      this.set('fill', randomHueString(this.get('branch').get('id')));
     }
   },
 
