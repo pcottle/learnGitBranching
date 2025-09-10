@@ -1389,7 +1389,7 @@ exports.strings = {
     "ro": "NuTeStresaCuFișiereleÎnAcestDemo.txt",
     "ru_RU": "Мобильные не поддерживаются, зайди с компьютера!",
     "uk": "LGB не підтримує ввід тексту з мобільного, зайди з компьютера! Це цього варте!",
-    "ko": "LGB는 모바일에서 입력을 받을 수 없으니 데스크톱으로 접속하세요! 후회하지 앉을겁니다. :D",
+    "ko": "LGB는 모바일에서 입력을 받을 수 없으니 데스크톱으로 접속하세요! 후회하지 않을겁니다. :D",
     "vi": "Đáng tiếc là ứng dụng không thể nhận thông tin từ điện thoại hay máy tính bảng, hãy sử dụng máy tính cá nhân, đáng để bỏ công mà :D",
     "sl_SI": "LGB ne more sprejeti ukazov na mobilni napravi, obiščite nas na računalinku! Je vredno :D ",
     "pl": "Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D",
