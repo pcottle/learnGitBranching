@@ -45,14 +45,13 @@ const BRANCH_COLOR_PALETTE = [
 
 // Map common branch names to fixed colors
 const BRANCH_NAME_COLOR_MAP = {
-  main: '#0074D9',    // Blue
+  main: '#00FF7F', // Spring Green
   master: '#0074D9',  // Blue (legacy)
-  bugFix: '#FF4136',  // Red
+  bugFix: '#4682B4',  // Steel blue
   develop: '#2ECC40', // Green
-  feature: '#FF851B', // Orange
+  feature: '#F012BE', // Pink
   release: '#B10DC9', // Purple
   hotfix: '#39CCCC',  // Teal
-  HEAD: '#111111'     // Very dark for HEAD (not used here, but for clarity)
 };
 
 // Used to assign colors to branches not in the map
