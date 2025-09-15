@@ -16,7 +16,6 @@ const BRANCH_COLOR_PALETTE = [
   '#39CCCC', // Teal
   '#8B4513', // Brown
   '#F012BE', // Pink
-  '#AAAAAA', // Gray
   // Additional high-contrast, accessible colors
   '#0055A4', // Deep Blue
   '#FFD700', // Gold (Yellow, high contrast on dark)
