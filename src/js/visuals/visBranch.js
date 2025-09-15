@@ -26,15 +26,12 @@ const BRANCH_COLOR_PALETTE = [
   '#00CED1', // Dark Turquoise
   '#C71585', // Medium Violet Red
   '#FF69B4', // Hot Pink
-  '#A9A9A9', // Dark Gray
-  '#000000', // Black
   '#FFFFFF', // White (for dark backgrounds)
   '#4B0082', // Indigo
   '#FFDAB9', // Peach Puff
   '#DC143C', // Crimson
   '#20B2AA', // Light Sea Green
   '#8A2BE2', // Blue Violet
-  '#D2691E', // Chocolate
   '#556B2F', // Dark Olive Green
   '#FF6347', // Tomato
   '#4682B4', // Steel Blue
