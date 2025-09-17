@@ -205,7 +205,7 @@ exports.level = {
             "markdowns": [
               "### Puis-je configurer cette relation moi-même ?",
               "",
-              "Absolument ! Vous pouvez suivre `o/main` depuis n'importe quelle branche, et si vous le faîtes, cette branche va avoir la même destination de push et cible de merge que pour `main`. Cela signifie que vous pouvez exécuter `git push` sur une branche nommée `totallyNotMain` mais envoyer tout de même votre travail sur la branche `main` du dépôt distant !",
+              "Absolument ! Vous pouvez suivre `o/main` depuis n'importe quelle branche, et si vous le faites, cette branche va avoir la même destination de push et cible de merge que pour `main`. Cela signifie que vous pouvez exécuter `git push` sur une branche nommée `totallyNotMain` mais envoyer tout de même votre travail sur la branche `main` du dépôt distant !",
               "",
               "Il y a deux façons de configurer cette propriété. La première est de créer une nouvelle branche en la branchant immédiatement sur la branche distante, à l'aide de `git checkout -b` :",
               "",
