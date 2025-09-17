@@ -140,7 +140,7 @@ exports.level = {
               "",
               "Donc, si vous regardez une branche nommée `o/main`, le nom de la branche est `main` et le nom du dépôt distant est `o`.",
               "",
-              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que Git configure en fait votre dépôt local pour être nommé `origin` quand vous faîtes un `git clone` du dépôt.",
+              "La plupart des développeurs nomment leur principal dépôt distant `origin`, pas `o`. C'est si commun que Git configure en fait votre dépôt local pour être nommé `origin` quand vous faites un `git clone` du dépôt.",
               "",
               "Malheureusement le nom complet `origin` ne rentre pas dans notre interface graphique et nous utilisons donc `o` comme raccourci :( Rappelez-vous juste que quand vous utilisez le vrai Git, votre dépôt distant est probablement nommé `origin`!",
               "",
