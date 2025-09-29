@@ -6,23 +6,13 @@ on:
   pull_request:
     branches: [ main ]
   workflow_dispatch:
-    inputs:
-      name:
-        type: choice
-        required: true
-        description: environment for the container image
-        options:
-        - development
-        - staging
-        - production
-        default: development
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     env:
-      REPO_PREFIX: ghcr.io/${{ github.repository }}/${{ github.events.inputs.environment || 'development' }}/main
+      REPO_PREFIX: ghcr.io/${{ github.repository }}
 
     steps:
       - uses: actions/checkout@v4
