@@ -21,11 +21,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        component: [main]
     env:
-      REPO_PREFIX: ghcr.io/${{ github.repository }}/${{ github.events.inputs.environment || 'development' }}/${{ matrix.component }}
+      REPO_PREFIX: ghcr.io/${{ github.repository }}/${{ github.events.inputs.environment || 'development' }}/main
 
     steps:
       - uses: actions/checkout@v4
@@ -36,7 +33,7 @@ jobs:
       - name: build-docker-image
         run: |
           REPO_PREFIX_LOWER=$(echo "$REPO_PREFIX" | tr '[:upper:]' '[:lower:]')
-          docker build -t $REPO_PREFIX_LOWER:${{ github.sha }} -f ${{ matrix.component }}/Dockerfile .
+          docker build -t $REPO_PREFIX_LOWER:${{ github.sha }} -f Dockerfile .
           docker push $REPO_PREFIX_LOWER:${{ github.sha }}
           docker tag $REPO_PREFIX_LOWER:${{ github.sha }} $REPO_PREFIX_LOWER:latest
           docker push $REPO_PREFIX_LOWER:latest
