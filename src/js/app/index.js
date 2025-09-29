@@ -259,7 +259,7 @@ var initDemo = function(sandbox) {
         );
       }
     });
-  } else if (!params.hasOwnProperty('NODEMO')) {
+  } else if (params.hasOwnProperty('DEMO')) {
     commands = [
       "help;",
       "levels"
