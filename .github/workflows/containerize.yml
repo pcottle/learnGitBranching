@@ -7,16 +7,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  packages: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     env:
-      REPO_PREFIX: ghcr.io/${{ github.repository }}
+      REPO_PREFIX: ghcr.io/${{ github.repository }}/main
 
     steps:
       - uses: actions/checkout@v4
