@@ -147,7 +147,7 @@ exports.level = {
             "afterMarkdowns": [
               "Wow! Hast du das gesehen? Zunächst mal zeigt `main` jetzt auf einen Commit mit zwei Vorgängern. Wenn du den beiden Pfeilen immer weiter folgst, kommst du an jedem Commit im Repository vorbei. Das heißt `main` enthält jetzt alles, was es im Repository gibt.",
               "",
-              "Siehst du außerdem wie sich die Farben der Commits verändert haben? Um die Vorgänge zu verdeutlichen hab ich etwas Farbe ins Spiel gebracht. Jeder Branch hat seine eindeutige Farbe. Jeder Merge Commit bekommt als Farbe eine Mischung aus den Farben seiner Vorgänger.",
+              "Siehst du außerdem wie sich die Farben der Commits verändert haben? Um die Vorgänge zu verdeutlichen hab ich etwas Farbe ins Spiel gebracht. Jeder Branch hat seine eindeutige Farbe. Jeder Commit bekommt eine Farbe, die eine Mischung aus den Farben aller Branches ist, die diesen Commit enthalten.",
               "",
               "Wir sehen also, dass die Farbe des Branch `main` in alle Commits gemischt wurde, die von `bugFix` aber nicht. Ändern wir das ..."
             ],
