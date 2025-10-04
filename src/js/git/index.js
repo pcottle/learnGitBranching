@@ -2670,7 +2670,7 @@ GitEngine.prototype.describe = function(ref) {
 
   // then join
   throw new CommandResult({
-    msg: foundTag + '_' + numAway.length + '_g' + startCommit.get('id')
+    msg: foundTag + '-' + numAway.length + '-g' + startCommit.get('id')
   });
 };
 

@@ -83,7 +83,7 @@ exports.level = {
               "",
               "The output of the command looks like:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Where `tag` is the closest ancestor tag in history, `numCommits` is how many commits away that tag is, and `<hash>` is the hash of the commit being described."
             ]
@@ -98,11 +98,11 @@ exports.level = {
             "afterMarkdowns": [
               "The command `git describe main` would output:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Whereas `git describe side` would output:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -146,7 +146,7 @@ exports.level = {
               "",
               "Le résultat de la commande ressemble à :",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "où `tag` est le tag le plus proche dans l'historique, `numCommits` le nombre de commits avec le tag, et `<hash>` le hash/identifiant du commit décrit."
             ]
@@ -161,11 +161,11 @@ exports.level = {
             "afterMarkdowns": [
               "La commande`git describe main` donne le résultat :",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "alors que `git describe side` donne :",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -209,7 +209,7 @@ exports.level = {
               "",
               "指令的輸出就像這樣：",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "`<tag>` 表示的是離 `<ref>` 最近的 tag， `numCommits` 是表示這個 tag 離 `<ref>` 有多少個 commit， `<hash>` 表示的是你所給定的 `<ref>` 所表示的 commit 的前七個 id。"
             ]
@@ -224,11 +224,11 @@ exports.level = {
             "afterMarkdowns": [
               "`git describe main` 會輸出：",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "`git describe side` 會輸出：",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -272,7 +272,7 @@ exports.level = {
               "",
               "它输出的结果是这样的：",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "`tag` 表示的是离 `ref` 最近的标签， `numCommits` 是表示这个 `ref` 与 `tag` 相差有多少个提交记录， `hash` 表示的是你所给定的 `ref` 所表示的提交记录哈希值的前几位。",
               "",
@@ -289,11 +289,11 @@ exports.level = {
             "afterMarkdowns": [
               "`git describe main` 会输出：",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "`git describe side` 会输出：",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -337,7 +337,7 @@ exports.level = {
               "",
               "La salida de ese comando se ve así:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Donde `tag` es el tag más cercano en la historia, `numCommits` dice a cuántos commits de ese tag estás, y `<hash>` es el hash del commit que estás describiendo."
             ]
@@ -352,11 +352,11 @@ exports.level = {
             "afterMarkdowns": [
               "El comando `git describe main` mostraría:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Mientras que `git describe side` debería mostrar:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -400,7 +400,7 @@ exports.level = {
               "",
               "La salida de ese comando se ve así:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Donde `tag` es el tag más cercano en la historia, `numCommits` dice a cuántos commits de ese tag estás, y `<hash>` es el hash del commit que estás describiendo."
             ]
@@ -415,11 +415,11 @@ exports.level = {
             "afterMarkdowns": [
               "El comando `git describe main` mostraría:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Mientras que `git describe side` debería mostrar:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -463,7 +463,7 @@ exports.level = {
               "",
               "A saída do comando é mais ou menos assim:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Onde `tag` é a tag ancestral mais próxima no histórico, `numCommits` é o número de commits de distância da tag, e `<hash>` é o hash do commit sendo descrito."
             ]
@@ -478,11 +478,11 @@ exports.level = {
             "afterMarkdowns": [
               "O comando `git describe main` daria a saída:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Enquanto `git describe side` daria:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -526,7 +526,7 @@ exports.level = {
               "",
               "A resposta do comando é algo semellante a esto:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Onde `tag` é a tag anterior máis próxima na historia, `numCommits` é o número de commits de distancia ó tag, e `<hash>` é o hash do commit no que estamos."
             ]
@@ -541,11 +541,11 @@ exports.level = {
             "afterMarkdowns": [
               "O comando `git describe main` daría a saída:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Mentres que `git describe side` daría:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -589,7 +589,7 @@ exports.level = {
               "",
               "Die Befehlsausgabe sieht so aus:",
               "",
-              "`<Tag-Name>_<Anzahl Commits>_g<Hash>`",
+              "`<Tag-Name>-<Anzahl Commits>-g<Hash>`",
               "",
               "`<Tag-Name>` ist dabei der nächstliegende Tag in den Vorgänger-Commits, `<Anzahl Commits>` zeigt an, wie viele Commits dieses Tag entfernt ist und `<Hash>` ist das SHA des Commits, auf den HEAD zeigt.",
               "",
@@ -606,11 +606,11 @@ exports.level = {
             "afterMarkdowns": [
               "Der Befehl `git describe main` würde folgendes ausgeben:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Wohingegen `git describe side` dies ausgeben würde:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -654,7 +654,7 @@ exports.level = {
               "",
               "コマンドの結果は以下のようになります:",
               "",
-              "`<タグ>_<コミット数>_g<ハッシュ>`",
+              "`<タグ>-<コミット数>-g<ハッシュ>`",
               "",
               "`<タグ>`には履歴の一番最新のタグ名が、`<コミット数>`にはそのタグから幾つのコミットがあったか、`<ハッシュ>`はそのコミットのハッシュがそれぞれ入ります。"
             ]
@@ -669,11 +669,11 @@ exports.level = {
             "afterMarkdowns": [
               "コマンド`git describe main`の結果は以下のようになります:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "さらに`git describe side`の結果は以下のようになります:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -717,7 +717,7 @@ exports.level = {
               "",
               "Rezultatul comenzii arată cam așa:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Unde `tag` este cel mai apropiat tag din istorie, `numCommits` este numărul de commit-uri până la acel tag, iar `<hash>` este hash-ul commit-ului pe care îl descrii."
             ]
@@ -732,11 +732,11 @@ exports.level = {
             "afterMarkdowns": [
               "Comanda `git describe main` ar afișa:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "În timp ce `git describe side` ar afișa:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -780,7 +780,7 @@ exports.level = {
               "",
               "Вывод команды выглядит примерно так:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Где `tag` – это ближайший тег в истории изменений, `numCommits` – это на сколько далеко мы от этого тега, а `hash` – это хеш коммита, который описывается."
             ]
@@ -795,11 +795,11 @@ exports.level = {
             "afterMarkdowns": [
               "Команда `git describe main` выведет:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Тогда как `git describe side` выведет:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -843,7 +843,7 @@ exports.level = {
               "",
               "명령어의 출력은 다음과 같은 형태로 나타납니다:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "`tag`는 가장 가까운 부모 태그를 나타냅니다. `numCommits`은 그 태그가 몇 커밋 멀리있는지를 나타냅니다. `<hash>`는 묘사하고있는 커밋의 해시를 나타냅니다."
             ]
@@ -858,11 +858,11 @@ exports.level = {
             "afterMarkdowns": [
               "`git describe main` 명령은 다음을 출력합니다:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "`git describe side`는 다음을 출력합니다:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -906,7 +906,7 @@ exports.level = {
               "",
               "Вивід команди виглядає як:",
               "",
-              "`<таг>_<к-ть комітів>_g<хеш>`",
+              "`<таг>-<к-ть комітів>-g<хеш>`",
               "",
               "де `таг` -- це найближчий попередній таг з історії; `к-ть комітів` -- це наскільки далеко цей таг в історії, а `<хеш>` -- це хеш коміту, який описується."
             ]
@@ -921,11 +921,11 @@ exports.level = {
             "afterMarkdowns": [
               "Команда `git describe main` виведе:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "коли `git describe side` виведе:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -969,7 +969,7 @@ exports.level = {
               "",
               "Đầu ra của câu lệnh sẽ như sau:",
               "",
-              "`<thẻ>_<sốLượngCommit>_g<mãBăm>`",
+              "`<thẻ>-<sốLượngCommit>-g<mãBăm>`",
               "",
               "Trong đó `<thẻ>` là thẻ tổ tiên gần nhất, `<sốLượngCommit>` là số lượng commit tính từ tham chiếu đến thẻ, và `<mãBăm>` là mã băm của commit được mô tả."
             ]
@@ -984,11 +984,11 @@ exports.level = {
             "afterMarkdowns": [
               "Câu lệnh `git describe main` sẽ cho kết quả:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Trong khi `git describe side` sẽ cho kết quả:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -1032,7 +1032,7 @@ exports.level = {
               "",
               "Izpis ukaza je sledeč:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Kjer je `tag` najbližji prednik v zgodovini, `numCommits` je število commitov oddaljenosti tag-a in `<hash>` je hash commita, ki ga opisujemo."
             ]
@@ -1047,11 +1047,11 @@ exports.level = {
             "afterMarkdowns": [
               "Bi ukaz `git describe main` izpisal:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Ukaz `git describe side` pa bi vrnil:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -1095,7 +1095,7 @@ exports.level = {
               "",
               "Wynik polecenia wygląda następująco:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "`tag` jest znacznikiem najbliższego przodka w historii, `numCommits` jest liczbą commitów od tego znacznika, a `<hash>` jest haszem opisywanego commitu."
             ]
@@ -1110,11 +1110,11 @@ exports.level = {
             "afterMarkdowns": [
               "polecenie `git describe main` dałoby wynik:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "a `git describe side` dałoby wynik:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -1158,7 +1158,7 @@ exports.level = {
               "",
               "L'output del comando sarà:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Dove `tag` è il tag antenato più vicino, `numCommits` corrisponde al numero di commit tra ref e il tag, e `<hash>` è l'hash del commit che è descritto."
             ]
@@ -1173,11 +1173,11 @@ exports.level = {
             "afterMarkdowns": [
               "Il comando `git describe main` genera come output:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Mentre `git describe side` genererà:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -1221,7 +1221,7 @@ exports.level = {
               "",
               "இந்த கட்டளையின் வெளியீடு இப்படித் தெரியும்:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "`<tag>` என்பது commit வரலாற்றில் மிக அருகிலுள்ள முன்னோடி குறிச்சொல் (tag), `<numCommits>` அது எத்தனை commit களின் தூரத்தில் உள்ளதைக் குறிக்கிறது, மற்றும் `<hash>` விவரிக்கப்பட்ட commit இன் hash ஆகும்."
             ]
@@ -1236,11 +1236,11 @@ exports.level = {
             "afterMarkdowns": [
               "`git describe main` கட்டளை வெளியீடு இதுவாக இருக்கும்:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "இதேபோல், `git describe side` வெளியீடு இதுவாக இருக்கும்:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
@@ -1284,7 +1284,7 @@ exports.level = {
               "",
               "Komutun çıktısı şu şekilde görünür:",
               "",
-              "`<tag>_<numCommits>_g<hash>`",
+              "`<tag>-<numCommits>-g<hash>`",
               "",
               "Burada `tag`, geçmişteki en yakın ata etikettir, `numCommits`, bu etikete olan commit uzaklığıdır ve `<hash>` tanımlanan commit'in hash değeridir."
             ]
@@ -1299,11 +1299,11 @@ exports.level = {
             "afterMarkdowns": [
               "`git describe main` komutu şu çıktıyı verecektir:",
               "",
-              "`v1_2_gC2`",
+              "`v1-2-gC2`",
               "",
               "Öte yandan `git describe side` komutu şu çıktıyı verecektir:",
               "",
-              "`v2_1_gC4`"
+              "`v2-1-gC4`"
             ],
             "command": "git tag v2 C3",
             "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
