@@ -6,6 +6,7 @@
   "author": "Peter Cottle <petermcottle@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "preinstall": "node scripts/check-package-manager.js",
     "dev": "vite",
     "prepare": "gulp fastBuild",
     "test": "gulp test",
