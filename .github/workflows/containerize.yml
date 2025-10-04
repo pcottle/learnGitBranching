@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: login-ghcr
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: build-docker-image
         run: |
