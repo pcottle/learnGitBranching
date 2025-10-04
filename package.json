@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "vite",
     "prepare": "gulp fastBuild",
-    "test": "gulp test"
+    "test": "gulp test",
+    "test:coverage": "nyc gulp test"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,8 @@
     "prompt": "^1.2.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
-    "vite": "^4.5.14"
+    "vite": "^4.5.14",
+    "nyc": "^15.1.0"
   },
   "dependencies": {
     "backbone": "^1.4.0",

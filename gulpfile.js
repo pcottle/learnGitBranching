@@ -177,7 +177,7 @@ var style = function() {
 };
 
 var jasmine = function() {
-  return src('__tests__/*.spec.js')
+  return src('__tests__/**/*.spec.js')
     .pipe(gJasmine({
       config: {
         verbose: true,

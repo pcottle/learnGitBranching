@@ -52,3 +52,6 @@ VendorLib/clang/lib/arc
 VendorLib/clang/lib/c++
 
 .idea
+
+# NYC test coverage output
+.nyc_output/
