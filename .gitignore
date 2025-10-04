@@ -2,6 +2,7 @@
 npm-debug.log
 yarn-error.log
 pnpm-lock.yaml
+package-lock.json
 node_modules/
 
 # Build artifacts and asset stuff
@@ -55,3 +56,4 @@ VendorLib/clang/lib/c++
 
 # NYC test coverage output
 .nyc_output/
+
