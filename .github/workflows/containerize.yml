@@ -1,0 +1,29 @@
+name: containerize
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      REPO_PREFIX: ghcr.io/${{ github.repository }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: login-ghcr
+        run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: build-docker-image
+        run: |
+          REPO_PREFIX_LOWER=$(echo "$REPO_PREFIX" | tr '[:upper:]' '[:lower:]')
+          docker build -t $REPO_PREFIX_LOWER:${{ github.sha }} -f Dockerfile .
+          docker push $REPO_PREFIX_LOWER:${{ github.sha }}
+          docker tag $REPO_PREFIX_LOWER:${{ github.sha }} $REPO_PREFIX_LOWER:latest
+          docker push $REPO_PREFIX_LOWER:latest
