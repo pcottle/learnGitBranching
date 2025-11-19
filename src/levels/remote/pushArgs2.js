@@ -28,6 +28,7 @@ exports.level = {
     "zh_CN": "如果你认输的话，可以通过“show solution”查看解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
+    "es_MX": "Recuerda que puedes admitir tu derrota y escribir ",
     "es_ES": "Recuerda que puedes admitir tu derrota y escribir \"show solution\" para ver la solución :P",
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
     "gl": "Lembrate que podes admitir que fuches derrotado e escribir \"show solution\" para amosala solución :P",
@@ -255,7 +256,78 @@ exports.level = {
         }
       ]
     },
+    "es_MX": "Recuerda que puedes admitir tu derrota y escribir ",
     "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalles sobre el parámetro `<lugar>`",
+              "",
+              "Recuerda de la lección anterior que cuando especificamos `main` como el parámetro lugar de git push, especificamos tanto el *origen* del que sacar los commits como el *destino* al que enviarlos.",
+              "",
+              "Podrías estar preguntándote ¿Y si quisiéramos que el origen y el destino fuesen distintos? ¿Si quisieras hacer push de los commits de la rama local `foo` a la rama `bar` del remote?",
+              "",
+              "Bueno, lamentablemente eso no se puede hacer en git... ¡zasca! Claro que se puede :)... git es extremadamente flexible (casi casi que demasiado).",
+              "",
+              "Veamos cómo hacerlo a continuación..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para especificar tanto el origen como el destino de `<lugar>`, simplemente únelos usando el signo `dos puntos`:",
+              "",
+              "`git push origin <origen>:<destino>`",
+              "",
+              "A esto se le suele llamar refspec con dos puntos. Refspec es simplemente un nombre genial para una ubicación que git puede entender (como la rama `foo`, o incluso `HEAD~1`)",
+              "",
+              "Una vez que especificas tanto el origen como el destino independientemente, puedes ponerte bastante cómodo y preciso con los comandos remotos. ¡Veamos una demo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Recuerda: `origen` es cualquier ubicación que git pueda entender:"
+            ],
+            "afterMarkdowns": [
+              "¡Vaya! Ese commando es bastante rompedor, pero tiene sentido: git resolvió `foo^` a una ubicación, subió cualquier commit de ahí que aún no estuviera en el remoto, y luego actualizó el destino."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Y qué ocurre si el destino al que quieres hacer push no existe? ¡Sin problema! Simplemente dale un nombre a la rama y git se va a encargar de creártelo en el remoto."
+            ],
+            "afterMarkdowns": [
+              "Genial, simplemente fluye :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para este nivel, trata de llegar al objetivo final, y recuerda el formato:",
+              "",
+              "`<origen>:<destino>`"
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
       "childViews": [
         {
           "type": "ModalAlert",

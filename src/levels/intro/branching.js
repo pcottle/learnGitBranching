@@ -348,7 +348,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Digámosle a git que queremos checkoutear esa rama con",
+              "Digámosle a git que queremos hacer checkout de esa rama con",
               "",
               "```",
               "git checkout [name]",

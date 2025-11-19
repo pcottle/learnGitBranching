@@ -70,7 +70,7 @@ var LevelDropdownView = ContainedBase.extend({
       title: intl.str('select-a-level')
     });
 
-    // Lol WTF. For some reason we cant use this.render.bind(this) so
+    // Lol WTF. For some reason we can't use this.render.bind(this) so
     // instead setup a lame callback version. The CasperJS tests
     // fail otherwise.
     var that = this;
@@ -256,7 +256,7 @@ var LevelDropdownView = ContainedBase.extend({
 
   getSequenceIndex: function(name) {
     var index = this.getSequencesOnTab().indexOf(name);
-    if (index < 0) { throw new Error('didnt find'); }
+    if (index < 0) { throw new Error("didn't find"); }
     return index;
   },
 

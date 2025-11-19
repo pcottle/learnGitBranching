@@ -923,7 +923,7 @@ var commandConfig = {
   describe: {
     regex: /^git +describe($|\s)/,
     execute: function(engine, command) {
-      // first if there are no tags, we cant do anything so just throw
+      // first if there are no tags, we can't do anything so just throw
       if (engine.tagCollection.toArray().length === 0) {
         throw new GitError({
           msg: intl.todo(

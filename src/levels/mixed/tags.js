@@ -30,7 +30,7 @@ exports.level = {
     "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag !",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "ja": "コミットを直接チェックアウトできますが、簡単にタグでチェックアウトすることも可能!",
-    "es_AR": "Podés checkoutear directamente el commit, ¡o simplemente el tag!",
+    "es_AR": "Podés hacer checkout directamente del commit, ¡o simplemente del tag!",
     "es_ES": "Puedes hacer checkout directamente el commit, ¡o simplemente el tag!",
     "es_MX": "Puedes cambiar (checkout) directamente a la confirmación, ¡o simplemente cambiar (checkout) al tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
@@ -278,7 +278,7 @@ exports.level = {
             "markdowns": [
               "¡Seguro que hay! Los tags de git soportan exactamente este caso de uso -- marcan (bastante) permanentemente determinados commits como \"hitos\" que podés referenciar como a un branch.",
               "",
-              "Aún más importante, los tags no avanzan cuando se crean nuevos commits. No podés \"checkoutear\" un tag y completar el trabajo en ese tag - los tags son marcas fijas en el árbol de commits que designan ciertos puntos.",
+              "Aún más importante, los tags no avanzan cuando se crean nuevos commits. No podés \"hacer checkout\" a un tag y completar el trabajo en ese tag - los tags son marcas fijas en el árbol de commits que designan ciertos puntos.",
               "",
               "Veamos cómo se ven los tags en práctica..."
             ]
@@ -301,7 +301,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para este nivel, simplemente creá los tags en la visualización final y después checkouteá `v1`. Notá cómo entrás en el estado detached -- esto es porque no podés commitear directamente sobre el tag `v1`.",
+              "Para este nivel, simplemente creá los tags en la visualización final y después hacé checkout de `v1`. Notá cómo entrás en el estado detached -- esto es porque no podés commitear directamente sobre el tag `v1`.",
               "",
               "En el próximo nivel vamos a examinar un caso de uso más interesante para los tags."
             ]

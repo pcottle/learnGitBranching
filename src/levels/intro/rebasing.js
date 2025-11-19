@@ -308,10 +308,10 @@ exports.level = {
             "markdowns": [
               "Para completar este nivel, hacé lo siguiente:",
               "",
-              "* Checkouteá una nueva rama llamada `bugFix`",
+              "* Haz checkout de una nueva rama llamada `bugFix`",
               "* Commiteá una vez",
               "* Volvé a main y commiteå de nuevo",
-              "* Checkoutá bugFix otra vez y rebaseala sobre main",
+              "* Haz checkout de bugFix otra vez y rebaseala sobre main",
               "",
               "¡Éxitos!"
             ]

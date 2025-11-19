@@ -104,7 +104,7 @@ var MultiView = Backbone.View.extend({
   },
 
   navForward: function() {
-    // we need to prevent nav changes when a git demonstration view hasnt finished
+    // we need to prevent nav changes when a git demonstration view hasn't finished
     if (this.locked) { return; }
     if (this.currentIndex === this.childViews.length - 1) {
       this.hideViewIndex(this.currentIndex);

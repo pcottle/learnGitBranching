@@ -185,7 +185,7 @@ exports.level = {
               "",
               "Las ramas remotas reflejan el _estado_ de los repositorios remotos (cómo estaban la última vez que hablaste con ellos). Te ayudan a entender las diferencias entre tu trabajo local y el trabajo que ya está publicado - un paso crítico antes de compartir tu trabajo con el resto.",
               "",
-              "Las ramas remotas tienen la propiedad especial de que cuando las checkouteás, pasás al modo detached `HEAD`. Git lo hace a propósito porque no podés trabajar en esas ramas directamente: tenés que trabajar en algún otro lado y después compartir tu trabajo con el remoto (tras lo que tus ramas remotas se actualizarán)."
+              "Las ramas remotas tienen la propiedad especial de que cuando las seleccionas con `checkout`, pasas al modo detached `HEAD`. Git lo hace a propósito porque no podés trabajar en esas ramas directamente: tenés que trabajar en algún otro lado y después compartir tu trabajo con el remoto (tras lo que tus ramas remotas se actualizarán)."
             ]
           }
         },
@@ -213,7 +213,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Checkouteemos una rama remota a ver qué pasa."
+              "Vamos a hacer checkout de una rama remota para ver qué pasa."
             ],
             "afterMarkdowns": [
               "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/main` cuando creamos un nuevo commit. Esto es porque `o/main` sólo va a actualizarse cuando el remoto se actualice."
@@ -226,7 +226,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, commiteá una vez sobre `main` y una después de checkoutear `o/main`. Esto te va a ayudar a caer en cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+              "Para completar este nivel, commiteá una vez sobre `main` y otra después de hacer checkout de `o/main`. Esto te va a ayudar a entender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }
@@ -350,7 +350,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, haz commit una vez sobre `main` y otra vez después de checkoutear `o/main`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
+              "Para completar este nivel, haz commit una vez sobre `main` y otra vez después de hacer checkout de `o/main`. Esto te va a ayudar a aprender cómo las ramas remotas funcionan distinto, y que sólo se actualizan para reflejar el estado del remoto."
             ]
           }
         }

@@ -58,7 +58,7 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   .then(passBaton)
   .done();
 
-  // if we didnt receive a defer handler in the options, this just
+  // if we didn't receive a defer handler in the options, this just
   // resolves immediately
   this.beforeDeferHandler(beforeDefer, command);
 };
