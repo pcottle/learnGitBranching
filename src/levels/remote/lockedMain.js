@@ -10,6 +10,7 @@ exports.level = {
     "uk": "Створіть нову feature гілку від локального main перед тим, як відкотити зміни в main до стану o/main.",
     "zh_CN": "从本地的main创建一个feature分支, 然后重置main和origin main保持一致。",
     "zh_TW": "從本地的 main 分支建一個 feature 分支, 且記得要重置(同步sync)本地 main 分支和 origin/main, 讓他們保持一致。",
+    "es_MX": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "pt_BR": "Crie o ramo feature a partir do ramo main no local antes de reestabelecê-lo para que seja o mesmo que o ramo main de origem",
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
@@ -30,6 +31,7 @@ exports.level = {
     "uk": "Заблокована гілка main",
     "zh_CN": "锁定的Main(Locked Main)",
     "zh_TW": "被鎖定的 Main(Locked Main)",
+    "es_MX": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "es_ES": "Main bloqueado",
     "pt_BR": "Main bloqueado",
     "fr_FR": "Main verrouillé",
@@ -291,7 +293,48 @@ exports.level = {
         }
       ]
     },
+    "es_MX": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Rejected!",
+              "",
+              "Si trabajas en un equipo colaborativo, es probable que la rama `main` esté bloqueada y requiera algún proceso de `Pull Request` para poder `mergear` los cambios. Si haces `commit` directamente a `main` e intentas realizar `push`, recibirás un mensaje similar a este:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ¿Por qué fue rechazado?",
+              "",
+              "Se rechazó el `push` del `commit` a la rama `main` debido a la política en la rama `main` que requiere el uso de `Pull Requests`.",
+              "",
+              "Trataste de crear una rama y luego hacer `pushs` creando un `Pull Request`, pero te olvidaste e hiciste `commit` directamente a `main`. Ahora estás atascado y no puedes hacer `push` de tus cambios."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## La solución",
+              "",
+              "Crea otra rama llamada `feature` y haz `push` a remoto. También restablece su rama `main` nuevamente para que esté sincronizado con el repositorio remoto; de lo contrario, puedes tener problemas la próxima vez que realices un `pull` y el `commit` de otra persona entre en conflicto con el tuyo."
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
       "childViews": [
         {
           "type": "ModalAlert",

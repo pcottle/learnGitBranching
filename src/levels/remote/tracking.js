@@ -28,6 +28,7 @@ exports.level = {
     "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": "記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
+    "es_MX": "¡Recuerda que hay dos formas de trackear un remoto!",
     "es_ES": "¡Recuerda que hay dos formas de trackear un remoto!",
     "pt_BR": "Lembre-se que há duas formas de seguir um ramo remoto!",
     "gl": "¡Lembrate de que hai dúas formas de seguir unha rama remota!",
@@ -327,7 +328,7 @@ exports.level = {
               "",
               "¡Claro que sí! Podés hacer que cualquier rama que quieras trackee `o/main`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `main`. Eso significa que podés correr `git push` en una rama llamada `absolutamenteNoEsMain` y ¡que tu trabajo se pushee a la rama `main` del remoto!",
               "",
-              "Hay dos formas de establecer esta propiedad. La primera es checkoutear una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
+              "Hay dos formas de establecer esta propiedad. La primera es hacer checkout de una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
               "",
               "`git checkout -b absolutamenteNoEsMain o/main`",
               "",
@@ -339,7 +340,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Suficiente charla, ¡veamos una demo! Vamos a checkoutear una nueva rama llamada `foo` y hacer que trackee a `main` en el remoto."
+              "Suficiente charla, ¡veamos una demo! Vamos a hacer checkout de una nueva rama llamada `foo` y hacer que trackee a `main` en el remoto."
             ],
             "afterMarkdowns": [
               "Como podés ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Notá cómo `main` no fue actualizada!"
@@ -402,6 +403,126 @@ exports.level = {
       ]
     },
     "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Ramas que trackean remotos",
+              "",
+              "Una de las cosas que te pueden haber parecido \"mágicas\" de las últimas lecciones es que git sabía que la rama `main` estaba relacionada con `o/main`. Obviamente, estas ramas tienen nombres parecidos, y podría parecer lógico conectar la rama `main` del remoto con la rama `main` local, pero esta conexión es bien evidente en dos escenarios:",
+              "",
+              "* Durante una operación de pull, los commits se descargan a `o/main` y después se *mergean* a la rama `main`. El objetivo implícito del merge se determina con esta conexión.",
+              "* Durante un push, el trabajo de la rama `main` se sube a la rama `main` del remoto (que estaba representada localmente por `o/main`). El *destino* del push se determina con esta conexión entre `main` y `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Trackeando remotos",
+              "",
+              "Resumiendo, esta conexión entre `main` y `o/main` se explica simplemente por la propiedad de \"trackear (seguir) remotos\" de las ramas. La rama `main` está configurada para trackear `o/main` -- osea, que hay un objetivo implícito para el merge y un destino implícito para de la rama `main`.",
+              "",
+              "Podrías estar pensando cómo esa propiedad apareció en tu rama `main` si no ejecutaste ningún comando para especificarlo. Bueno, cuando clonas un repositorio con git, esta propiedad es asignada por ti automáticamente.",
+              "",
+              "Durante un clone, git crea una rama remota por cada rama en el remoto (por ejemplo, ramas como `o/main`). Pero después crea una rama local que trackea la rama activa del remote, que suele ser `main`.",
+              "",
+              "Una vez completado el git clone, sólo tienes una única rama local (para que no te asustes) pero puedes ver todas las ramas del remoto (si fueses curioso). ¡Es lo mejor de ambos mundos!",
+              "",
+              "Esto también explica por qué podrías ver un mensaje como este durante la clonación:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\"",
+              "",
+              "    rama local \"main\" establecida para trackear la rama remota \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ¿Puedo especificarlo yo?",
+              "",
+              "¡Claro que sí! Puedes hacer que cualquier rama que quieras trackee `o/main`, y si lo hicieras, esa rama va a tener el mismo destino implícito de push y objetivo implícito de merge que `main`. Eso significa que puedes ejecutar `git push` en una rama llamada `absolutamenteNoEsMain` y ¡que tu trabajo se pushee a la rama `main` del remoto!",
+              "",
+              "Hay dos formas de establecer esta propiedad. La primera es hacer checkout sobre una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
+              "",
+              "`git checkout -b absolutamenteNoEsMain o/main`",
+              "",
+              "Crea una nueva rama llamada `absolutamenteNoEsMain` y la hace trackear a `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Basta de charla, ¡veamos un ejemplo! Vamos a hacer checkout de una nueva rama llamada `foo` y hacer que trackee a `main` en el remoto."
+            ],
+            "afterMarkdowns": [
+              "Como puedes ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Observa cómo `main` no fue actualizada!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lo mismo aplica para git push."
+            ],
+            "afterMarkdowns": [
+              "Zas. Hacemos push de nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forma número 2",
+              "",
+              "Otra forma de especificar la rama a trackear es usar la opción `git branch -u`. Ejecutando",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "establecemos que la rama `foo` trackee a `o/main`. Si encima estás parado en `foo`, incluso puedes obviarlo:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos rápidamente esta otra forma de especificar la rama a trackear..."
+            ],
+            "afterMarkdowns": [
+              "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Muy útil!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "¡Perfecto! Para este nivel, haz push de tu trabajo a la rama `main` del remoto *sin* estar parado sobre `main` localmente. Te dejo que te des cuenta del resto solo, que para algo este es el curso avanzado :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
       "childViews": [
         {
           "type": "ModalAlert",

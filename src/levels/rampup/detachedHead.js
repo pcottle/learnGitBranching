@@ -5,8 +5,8 @@ exports.level = {
   "name": {
     "en_US": "Detach yo' HEAD",
     "es_MX": "Separa tu HEAD",
-    "es_AR": "Desatacheá tu HEAD",
-    "es_ES": "Desatachea tu HEAD",
+    "es_AR": "Desacopla tu HEAD",
+    "es_ES": "Desacopla tu HEAD",
     "pt_BR": "Solte a sua cabeça",
     "gl": "Abandona o teu HEAD",
     "fr_FR": "Détacher votre HEAD",
@@ -152,7 +152,7 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "Primero tenemos que hablar de \"HEAD\". HEAD es el nombre simbólico del commit actualmente checkouteado -- es, básicamente, el commit sobre el que estás trabajando.",
+              "Primero tenemos que hablar de \"HEAD\". HEAD es el nombre simbólico del commit actualmente seleccionado -- es, básicamente, el commit sobre el que estás trabajando.",
               "",
               "HEAD siempre apunta al commit más reciente, reflejado en el árbol de commits. La mayoría de los comandos de git que hacen cambios al árbol de commits empiezan modificando HEAD.",
               "",
@@ -177,9 +177,9 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "### Detacheando HEAD",
+              "### Desacoplando HEAD",
               "",
-              "Detachear (_des-adjuntar_) HEAD simplemente significa adjuntarla a un commit en lugar de a un branch. Así es como se ve de antemano:",
+              "Desacoplar (des-adjuntar) HEAD simplemente significa adjuntarla a un commit en lugar de a una rama. Así es como se ve antes:",
               "",
               "HEAD -> main -> C1",
               ""
@@ -197,7 +197,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, detacheemos HEAD de `bugFix` y atacheemosla al commit, en cambio.",
+              "Para completar este nivel, desacopla HEAD de `bugFix` y adjúntala al commit en su lugar.",
               "",
               "Especificá este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
             ]
@@ -275,7 +275,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, detaheemos HEAD de `bugFix` y atacheemosla al commit, en cambio.",
+              "Para completar este nivel, desacopla HEAD de `bugFix` y adjúntala al commit en su lugar.",
               "",
               "Especifica este commit por su hash. El hash de cada commit se muestra en el círculo que lo representa."
             ]
