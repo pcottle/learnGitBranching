@@ -74,7 +74,7 @@ class LevelDropdownView extends ContainedBase {
     // Bind events manually
     this.$el.on('click', 'div.levelDropdownTab', this.onTabClick.bind(this));
 
-    // Lol WTF. For some reason we cant use this.render.bind(this) so
+    // Lol WTF. For some reason we can't use this.render.bind(this) so
     // instead setup a lame callback version. The CasperJS tests
     // fail otherwise.
     var that = this;
@@ -260,7 +260,7 @@ class LevelDropdownView extends ContainedBase {
 
   getSequenceIndex(name) {
     var index = this.getSequencesOnTab().indexOf(name);
-    if (index < 0) { throw new Error('didnt find'); }
+    if (index < 0) { throw new Error("didn't find"); }
     return index;
   }
 

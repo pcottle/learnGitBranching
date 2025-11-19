@@ -133,7 +133,7 @@ GitVisuals.prototype.getScreenPadding = function() {
   return {
     widthPadding: GRAPHICS.nodeRadius * 1.5,
     topHeightPadding: GRAPHICS.nodeRadius * topFactor,
-    // we pad the bottom a lot more so the branches wont go off screen
+    // we pad the bottom a lot more so the branches won't go off screen
     bottomHeightPadding: GRAPHICS.nodeRadius * 5
   };
 };
