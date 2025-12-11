@@ -143,13 +143,13 @@ exports.level = {
             "markdowns": [
               "Voici quelques commandes équivalentes dans Git :",
               "",
-              "`git pull origin foo` est équivalent à :",
+              "`git pull  origin foo` est équivalent à :",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "Et :",
               "",
-              "`git pull origin bar:bugFix` est équivalent à :",
+              "`git pull  origin bar:bugFix` est équivalent à :",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
@@ -291,13 +291,13 @@ exports.level = {
             "markdowns": [
               "Estos son algunos comandos equivalentes de git:",
               "",
-              "`git pull origin foo` equivale a:",
+              "`git pull  origin foo` equivale a:",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "Y...",
               "",
-              "`git pull origin bar:bugFix` equivale a:",
+              "`git pull  origin bar:bugFix` equivale a:",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
@@ -591,7 +591,7 @@ exports.level = {
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
-              "而且...",
+              "而……",
               "",
               "`git pull  origin bar:bugFix` 相當於：",
               "",
@@ -661,17 +661,17 @@ exports.level = {
             "markdowns": [
               "以下命令在 Git 中是等效的:",
               "",
-              "`git pull origin foo` 相当于：",
+              "`git pull  origin foo` 相当于：",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
-              "还有...",
+              "而……",
               "",
-              "`git pull origin bar:bugFix` 相当于：",
+              "`git pull  origin bar:bugFix` 相当于：",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
-              "看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 唯一关注的是提交最终合并到哪里（也就是为 git fetch 所提供的 destination 参数）",
+              "看到了? git pull 实际上就是 fetch + merge 的缩写, git pull 唯一会自动帮人留意的，就是提交被下载到了哪里（也就是为 git fetch 提供的 destination 参数）",
               "",
               "一起来看个例子吧："
             ]
@@ -694,10 +694,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "pull 也可以用 source:destination 吗? 当然喽, 看看吧:"
+              "pull 也可以用 source:destination 吗? 当然，看看吧！"
             ],
             "afterMarkdowns": [
-              " 哇, 这个命令做的事情真多。它先在本地创建了一个叫 `foo` 的分支，从远程仓库中的 main 分支中下载提交记录，并合并到 `foo`，然后再 merge 到我们的当前所在的分支 `bar` 上。操作够多的吧？！"
+              " 哇，这个命令做的事情真多。它先在本地创建了一个叫 `foo` 的分支，从远程仓库中的 main 分支中下载提交记录，并合并到 `foo`，然后再 merge 到我们的当前所在的分支 `bar` 上。操作够多的吧？！"
             ],
             "command": "git pull origin main:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -707,7 +707,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好啦, 该结束了！请按照目标窗口中的状态进行操作。你需要下载一些提交，然后创建一些新分支，再合并这些分支到其它分支, 但这用不了几个命令 :P "
+              "好啦，该结束啦！请按照目标窗口中的状态进行操作。你需要下载一些提交，然后创建一些新分支，再合并这些分支到其它分支，但这用不了几个命令 :P "
             ]
           }
         }
@@ -735,13 +735,13 @@ exports.level = {
             "markdowns": [
               "Hier sind einige gleichwertige Befehle in Git:",
               "",
-              "`git pull origin foo` ist dasselbe wie:",
+              "`git pull  origin foo` ist dasselbe wie:",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "Und ...",
               "",
-              "`git pull origin bar:bugFix` ist dasselbe wie:",
+              "`git pull  origin bar:bugFix` ist dasselbe wie:",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
@@ -898,7 +898,7 @@ exports.level = {
               "",
               "Și...",
               "",
-              "`git pull origin bar:bugFix` e echivalent:",
+              "`git pull  origin bar:bugFix` e echivalent:",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
@@ -1114,13 +1114,13 @@ exports.level = {
             "markdowns": [
               "Ось декілька еквівалентних команд git:",
               "",
-              "`git pull origin foo` це те саме, що й:",
+              "`git pull  origin foo` це те саме, що й:",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "А...",
               "",
-              "`git pull origin bar:bugFix` -- це аналог:",
+              "`git pull  origin bar:bugFix` -- це аналог:",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
@@ -1484,13 +1484,13 @@ exports.level = {
             "markdowns": [
               "İşte git'teki bazı eşdeğer komutlar:",
               "",
-              "`git pull origin foo` şu komutla eşdeğerdir:",
+              "`git pull  origin foo` şu komutla eşdeğerdir:",
               "",
               "`git fetch origin foo; git merge o/foo`",
               "",
               "Ve...",
               "",
-              "`git pull origin bar:bugFix` şu komutla eşdeğerdir:",
+              "`git pull  origin bar:bugFix` şu komutla eşdeğerdir:",
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
