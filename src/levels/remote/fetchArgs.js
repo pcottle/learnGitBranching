@@ -983,7 +983,7 @@ exports.level = {
               "来看个疯狂的例子："
             ],
             "afterMarkdowns": [
-              "哇! 看见了吧, Git 将 `C2` 解析成一个 origin 仓库的位置，然后将那些提交记录下载到了本地的 `bar` 分支（一个本地分支）上。"
+              "哇，看见了吧！Git 将 `C2` 解析为了 origin 上的一个位置，然后将那些提交记录下载到了本地的 `bar` 分支（一个本地分支）上。"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -993,10 +993,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "如果执行命令前目标分支不存在会怎样呢？我们看一下上个对话框中没有 bar 分支的情况。"
+              "如果执行命令前目标分支不存在会怎样呢？我们再看一遍上个例子，但这次，bar 分支没有被预先创建。"
             ],
             "afterMarkdowns": [
-              "看见了吧，跟 git push 一样，Git 会在 fetch 前自己创建立本地分支, 就像是 Git 在 push 时，如果远程仓库中不存在目标分支，会自己在建立一样。"
+              "看见了吧，这跟 git push 一样。Git 会在 fetch 前自动创建本地分支，就像是 git push 时，如果远程仓库中不存在目标分支，git 也会自动在远程创建一样。"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
