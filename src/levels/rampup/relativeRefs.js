@@ -341,7 +341,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nivel, checkouteá el padre del commit de `bugFix`. Esto va a detachear a `HEAD`.",
+              "Para completar este nivel, haz checkout del padre del commit de `bugFix`. Esto va a desacoplar `HEAD`.",
               "",
               "Podés especificar el hash si querés, pero mejor ¡tratá de usar la referencia relativa!"
             ]
@@ -446,7 +446,7 @@ exports.level = {
             "markdowns": [
               "Como ya dije, especificar los commits por su hash no es la manera más conveniente y por eso Git tiene referencias relativas. ¡Son geniales!",
               "",
-              "Con las referencias relativas puedes arrancar de algún lugar memoralbe (como la rama `bugFix`, o `HEAD`) y trabajar desde ahí.",
+              "Con las referencias relativas puedes arrancar de algún lugar memorable (como la rama `bugFix`, o `HEAD`) y trabajar desde ahí.",
               "",
               "Los commits relativos son poderosos, pero ahora vamos a presentar sólo dos formas simples:",
               "",

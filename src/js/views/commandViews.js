@@ -29,7 +29,7 @@ const autoCompleteSuggestionOrder = [
 ];
 
 const allCommandsSorted = autoCompleteSuggestionOrder.concat(
-  // add the rest that arent in the list above
+  // add the rest that aren't in the list above
   allCommands.map(command => autoCompleteSuggestionOrder.indexOf(command) > 0 ? null : command)
   .filter(command => !!command)
 );
