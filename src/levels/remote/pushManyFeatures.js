@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\",\"localBranchesThatTrackThis\":null},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"main\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C8\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "hint": {
     "en_US": "Remember you can always use the undo or reset commands",
+    "fa": "به یاد داشته باشید که همیشه می‌توانید از دستورات undo یا reset استفاده کنید",
     "zh_CN": "你随时都可以使用 undo 或 reset 命令。",
     "zh_TW": "你隨時都可以使用 undo 或 reset 指令。",
     "es_AR": "Acordate que siempre podés usar los comandos reset y undo",
@@ -25,6 +26,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Push Main!",
+    "fa": "پوش کردن Main!",
     "zh_CN": "推送主分支",
     "zh_TW": "push main！",
     "es_AR": "¡Push Main!",
@@ -94,6 +96,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ادغام شاخه‌های ویژگی",
+              "",
+              "حالا که با fetch، pull و push راحت هستید، بیایید این مهارت‌ها را با یک جریان کاری جدید آزمایش کنیم.",
+              "",
+              "برای توسعه‌دهندگان در پروژه‌های بزرگ معمول است که تمام کارهای خود را روی شاخه‌های ویژگی (جدا شده از `main`) انجام دهند و سپس آن کار را فقط زمانی که آماده شد ادغام کنند. این شبیه به درس قبلی است (که در آن شاخه‌های جانبی به ریموت push می‌شدند)، اما در اینجا یک مرحله دیگر را معرفی می‌کنیم.",
+              "",
+              "برخی از توسعه‌دهندگان فقط زمانی که روی شاخه `main` هستند push و pull می‌کنند -- به این ترتیب `main` همیشه با آنچه در ریموت (`o/main`) است به‌روز می‌ماند.",
+              "",
+              "بنابراین برای این جریان کاری ما دو چیز را ترکیب می‌کنیم:",
+              "",
+              "* ادغام کار شاخه ویژگی در `main`، و",
+              "* push و pull کردن از ریموت"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید خیلی سریع مروری کنیم بر چگونگی به‌روزرسانی `main` و push کردن کار."
+            ],
+            "afterMarkdowns": [
+              "ما در اینجا دو دستور اجرا کردیم که:",
+              "",
+              "* کار ما را روی کامیت‌های جدید از ریموت rebase کردند، و",
+              "* کار ما را در ریموت منتشر کردند"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "این مرحله بسیار سنگین است -- در اینجا طرح کلی برای حل آن آمده است:",
+              "",
+              "* سه شاخه ویژگی وجود دارد -- `side1`، `side2` و `side3`",
+              "* ما می‌خواهیم هر یک از این ویژگی‌ها را، به ترتیب، به ریموت push کنیم",
+              "* ریموت از آن زمان به‌روز شده است، بنابراین ما باید آن کار را نیز ترکیب کنیم",
+              "",
+              ":O شدید! موفق باشید، تکمیل این مرحله یک گام بزرگ است."
             ]
           }
         }

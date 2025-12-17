@@ -5,6 +5,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
+    "fa": "بازگرداندن تغییرات در Git",
     "de_DE": "Änderungen in Git rückgängig machen",
     "ja": "変更を元に戻す",
     "fr_FR": "Annuler des changements avec Git",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
+    "fa": "توجه کنید که revert و reset آرگومان‌های متفاوتی می‌گیرند.",
     "de_DE": "Beachte, dass revert und reset unterschiedliche Argumente benötigen",
     "fr_FR": "Notez que `revert` et `reset` n'ont pas les mêmes arguments.",
     "es_AR": "Notá que revert y reset toman parámetros distintos",
@@ -106,6 +108,68 @@ exports.level = {
               "To complete this level, reverse the most recent commit on both `local` and `pushed`. You will revert two commits total (one per branch).",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## بازگرداندن تغییرات در Git",
+              "",
+              "راه‌های زیادی برای بازگرداندن تغییرات در Git وجود دارد. و درست مانند کامیت کردن، بازگرداندن تغییرات در Git هم دارای یک بخش سطح پایین (stage کردن فایل‌ها یا تکه‌های جداگانه) و هم یک بخش سطح بالا (چگونگی بازگرداندن واقعی تغییرات) است. برنامه ما بر روی دومی تمرکز خواهد کرد.",
+              "",
+              "دو راه اصلی برای خنثی کردن تغییرات در Git وجود دارد -- یکی استفاده از `git reset` و دیگری استفاده از `git revert` است. ما در کادر گفتگوی بعدی به هر یک از این‌ها نگاه خواهیم کرد."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## دستور Git Reset",
+              "",
+              "دستور `git reset` تغییرات را با حرکت دادن مرجع شاخه به عقب در زمان به یک کامیت قدیمی‌تر باز می‌گرداند. از این نظر می‌توانید آن را به عنوان \"بازنویسی تاریخچه\" در نظر بگیرید؛ `git reset` شاخه را به عقب می‌برد انگار که آن کامیت اصلا از اول انجام نشده است.",
+              "",
+              "بیایید ببینیم چه شکلی است:"
+            ],
+            "afterMarkdowns": [
+              "عالی! Git مرجع شاخه main را به `C1` برگرداند؛ حالا مخزن محلی ما در وضعیتی است که انگار `C2` هرگز اتفاق نیفتاده است."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## دستور Git Revert",
+              "",
+              "در حالی که reset برای شاخه‌های محلی روی ماشین خودتان عالی کار می‌کند، روش \"بازنویسی تاریخچه\" آن برای شاخه‌های راه دور (remote) که دیگران از آن استفاده می‌کنند، کار نمی‌کند.",
+              "",
+              "برای بازگرداندن تغییرات و *به اشتراک گذاری* آن تغییرات بازگردانده شده با دیگران، باید از `git revert` استفاده کنیم. بیایید آن را در عمل ببینیم."
+            ],
+            "afterMarkdowns": [
+              "عجیب است، یک کامیت جدید پایین کامیتی که می‌خواستیم برگردانیم قرار گرفت. دلیلش این است که این کامیت جدید `'C2` *تغییراتی* را معرفی می‌کند -- فقط اتفاقاً تغییراتی را معرفی می‌کند که دقیقاً کامیت `C2` را خنثی می‌کنند.",
+              "",
+              "با revert کردن، می‌توانید تغییرات خود را push کنید تا با دیگران به اشتراک بگذارید."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای تکمیل این مرحله، آخرین کامیت را در هر دو شاخه `local` و `pushed` بازگردانید. شما در مجموع دو کامیت را برمی‌گردانید (یکی برای هر شاخه).",
+              "",
+              "به یاد داشته باشید که `pushed` یک شاخه راه دور و `local` یک شاخه محلی است -- این باید به شما در انتخاب روش‌هایتان کمک کند."
             ]
           }
         }

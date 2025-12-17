@@ -9,6 +9,7 @@ exports.level = {
   "name": {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
+    "fa": "اسپاگتی شاخه‌ها (Branch Spaghetti)",
     "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
     "es_AR": "Ensalada de branches",
@@ -30,6 +31,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "fa": "مطمئن شوید که همه کارها را به ترتیب صحیح انجام می‌دهید! ابتدا شاخه one، سپس two، سپس three.",
     "fr_FR": "Faites attention à tout faire dans le bon ordre ! La première branche d'abord, puis la seconde, puis la troisième",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
@@ -66,6 +68,26 @@ exports.level = {
               "Branch `one` needs a re-ordering of those commits and an exclusion/drop of `C5`. Branch `two` just needs a pure reordering of the commits, and `three` only needs one commit transferred!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## اسپاگتی شاخه‌ها",
+              "",
+              "واااای خدای من! ما هدف بزرگی در این مرحله داریم.",
+              "",
+              "در اینجا ما `main` را داریم که چند کامیت جلوتر از شاخه‌های `one`، `two` و `three` است. به هر دلیلی، ما باید این سه شاخه دیگر را با نسخه‌های تغییر یافته‌ای از چند کامیت آخر روی main به‌روزرسانی کنیم.",
+              "",
+              "شاخه `one` نیاز به مرتب‌سازی مجدد آن کامیت‌ها و حذف/نادیده گرفتن `C5` دارد. شاخه `two` فقط به مرتب‌سازی مجدد کامیت‌ها نیاز دارد، و `three` فقط نیاز به انتقال یک کامیت دارد!",
+              "",
+              "ما به شما اجازه می‌دهیم بفهمید چگونه این یکی را حل کنید -- مطمئن شوید که بعد از آن راه حل ما را با `show solution` بررسی کنید."
             ]
           }
         }

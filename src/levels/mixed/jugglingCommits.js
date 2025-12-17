@@ -20,6 +20,7 @@ exports.level = {
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
+    "fa": "شعبده‌بازی با کامیت‌ها",
     "de_DE": "Jonglieren mit Commits",
     "fr_FR": "Jongler avec les commits",
     "es_AR": "Haciendo malabares con los commits",
@@ -42,6 +43,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
+    "fa": "اولین دستور git rebase -i HEAD~2 است",
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
     "fr_FR": "La première commande est git rebase -i HEAD~2",
     "es_AR": "El primer comando es git rebase -i HEAD~2",
@@ -93,6 +95,40 @@ exports.level = {
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
               "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `main` branch has the same structure and relative apostrophe differences, I'll give full credit."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## شعبده‌بازی با کامیت‌ها",
+              "",
+              "اینجا وضعیت دیگری است که کاملاً معمول اتفاق می‌افتد. شما تغییراتی (`newImage`) و یک مجموعه تغییرات دیگر (`caption`) دارید که مرتبط هستند، بنابراین آن‌ها در مخزن شما روی یکدیگر پشته شده‌اند (معروف به یکی پس از دیگری).",
+              "",
+              "نکته دشوار این است که گاهی اوقات شما نیاز دارید تغییر کوچکی در یک کامیت قبلی ایجاد کنید. در این مورد، طراحی می‌خواهد که ما ابعاد `newImage` را کمی تغییر دهیم، حتی با اینکه آن کامیت در تاریخچه ما خیلی عقب است!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ما با انجام کارهای زیر بر این مشکل غلبه خواهیم کرد:",
+              "",
+              "* ما با `git rebase -i` ترتیب کامیت‌ها را تغییر می‌دهیم تا کامیتی که می‌خواهیم تغییر دهیم در بالا باشد",
+              "* ما برای ایجاد تغییر جزئی از `git commit --amend` استفاده خواهیم کرد",
+              "* سپس با `git rebase -i` ترتیب کامیت‌ها را به حالت قبلی برمی‌گردانیم",
+              "* در نهایت، ما main را به این بخش به‌روزرسانی شده درخت منتقل می‌کنیم تا مرحله را به پایان برسانیم (از طریق روش انتخابی خودتان)",
+              "",
+              "راه‌های زیادی برای رسیدن به این هدف کلی وجود دارد (می‌بینم که به cherry-pick چشم دوخته‌اید)، و ما بعداً بیشتر آن‌ها را خواهیم دید، اما فعلاً بیایید روی این تکنیک تمرکز کنیم.",
+              "در نهایت، به وضعیت هدف در اینجا توجه کنید -- چون ما کامیت‌ها را دو بار جابجا می‌کنیم، به هر دوی آن‌ها یک آپاستروف اضافه می‌شود. یک آپاستروف دیگر هم برای کامیتی که اصلاح (amend) می‌کنیم اضافه می‌شود، که شکل نهایی درخت را به ما می‌دهد ",
+              "",
+              "با این گفته، من اکنون می‌توانم مراحل را بر اساس ساختار و تفاوت‌های نسبی آپاستروف مقایسه کنم. تا زمانی که شاخه `main` درخت شما ساختار و تفاوت‌های نسبی آپاستروف یکسانی داشته باشد، من امتیاز کامل را خواهم داد."
             ]
           }
         }

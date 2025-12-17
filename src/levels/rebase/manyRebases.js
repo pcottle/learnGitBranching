@@ -9,6 +9,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Rebasing over 9000 times",
+    "fa": "بیش از ۹۰۰۰ بار ری‌بیس (Rebase) کردن",
     "de_DE": "9000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
     "es_MX": "Rebaseando más de 9000... veces",
@@ -31,6 +32,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
+    "fa": "به یاد داشته باشید، کارآمدترین راه ممکن است این باشد که فقط در پایان کار main را به‌روزرسانی کنید...",
     "de_DE": "Nicht vergessen: Nur den main zu aktualisieren könnte die effizienteste Möglichkeit sein ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar main sólo al final...",
     "es_MX": "Recuerda, la manera más eficiente podría ser actualizar main hasta el final...",
@@ -65,6 +67,24 @@ exports.level = {
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ری‌بیس کردن چندین شاخه",
+              "",
+              "پسر، ما اینجا شاخه‌های زیادی داریم! بیایید تمام کارها را از این شاخه‌ها به main ری‌بیس کنیم.",
+              "",
+              "با این حال، مدیریت ارشد این کار را کمی پیچیده‌تر کرده است -- آن‌ها می‌خواهند همه کامیت‌ها به ترتیب متوالی باشند. بنابراین این بدان معناست که درخت نهایی ما باید `C7'` را در پایین، `C6'` را بالای آن و به همین ترتیب، همه را به ترتیب داشته باشد.",
+              "",
+              "اگر در طول مسیر دچار اشتباه شدید، با خیال راحت از `reset` برای شروع مجدد استفاده کنید. حتماً راه حل ما را بررسی کنید و ببینید آیا می‌توانید آن را با دستورات کمتری انجام دهید!"
             ]
           }
         }

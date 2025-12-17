@@ -7,6 +7,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Pushin'",
+    "fa": "گیت پوش (Git Push)",
     "zh_CN": "Git Push",
     "zh_TW": "git push",
     "es_AR": "git push",
@@ -28,6 +29,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
+    "fa": "به یاد داشته باشید که قبل از اینکه بتوانید push کنید، باید clone کنید!",
     "zh_CN": "推送之前需要先克隆",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
@@ -85,6 +87,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "خب، من تغییرات را از ریموت دریافت کرده‌ام (fetch) و آن‌ها را در کار محلی خود ادغام کرده‌ام. این عالی است و همه چیز... اما چگونه کار _فوق‌العاده_ خود را با دیگران به اشتراک بگذارم؟",
+              "",
+              "خب، راه آپلود کار اشتراکی برعکس دانلود کار اشتراکی است. و برعکس `git pull` چیست؟ `git push`!",
+              "",
+              "`git push` مسئول آپلود تغییرات _شما_ به یک ریموت مشخص و به‌روزرسانی آن ریموت برای شامل شدن کامیت‌های جدید شماست. پس از اتمام `git push`، همه دوستان شما می‌توانند کار شما را از ریموت دانلود کنند.",
+              "",
+              "می‌توانید `git push` را به عنوان دستوری برای \"انتشار\" کار خود در نظر بگیرید. این دستور ظرافت‌هایی دارد که به زودی وارد آن‌ها خواهیم شد، اما بیایید با قدم‌های کوچک شروع کنیم...",
+              "",
+              "*نکته -- رفتار `git push` بدون آرگومان بسته به یکی از تنظیمات گیت به نام `push.default` متفاوت است. مقدار پیش‌فرض برای این تنظیم به نسخه گیتی که استفاده می‌کنید بستگی دارد، اما ما در درس‌های خود از مقدار `upstream` استفاده خواهیم کرد. این مسئله بزرگی نیست، اما ارزشش را دارد که قبل از push کردن در پروژه‌های خود، تنظیمات خود را بررسی کنید.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "در اینجا ما تغییراتی داریم که ریموت ندارد. بیایید آن‌ها را آپلود کنیم!"
+            ],
+            "afterMarkdowns": [
+              "پدیدار شد -- ریموت کامیت `C2` را دریافت کرد، شاخه `main` در ریموت به‌روز شد تا به `C2` اشاره کند، و بازتاب *خودمان* از ریموت (`o/main`) نیز به‌روز شد. همه چیز هماهنگ است!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای پایان دادن به این مرحله، به سادگی دو کامیت جدید را با ریموت به اشتراک بگذارید. کمربندها را ببندید، زیرا این درس‌ها قرار است خیلی سخت‌تر شوند!"
             ]
           }
         }

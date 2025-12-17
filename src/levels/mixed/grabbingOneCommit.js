@@ -16,6 +16,7 @@ exports.level = {
   "name": {
     "ko": "딱 한 개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
+    "fa": "برداشتن تنها ۱ کامیت",
     "fr_FR": "Choisir seulement 1 commit",
     "de_DE": "Einen Commit pflücken",
     "es_AR": "Tomando un único commit",
@@ -38,6 +39,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+    "fa": "به یاد داشته باشید، interactive rebase یا cherry-pick در اینجا دوست شما هستند",
     "de_DE": "Vergiss nicht: Hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
     "es_AR": "Acordate, el rebase interactivo o cherry-pick son tus amigos acá",
@@ -94,6 +96,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `main` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## کامیت‌های پشته شده محلی",
+              "",
+              "در اینجا یک وضعیت توسعه وجود دارد که اغلب اتفاق می‌افتد: من سعی می‌کنم یک باگ را ردیابی کنم اما بسیار گریزان است. برای کمک به کار کارآگاهی خودم، چند دستور دیباگ و چند دستور چاپ (print) اضافه می‌کنم.",
+              "",
+              "همه این دستورات دیباگ / چاپ در کامیت‌های خودشان هستند. در نهایت من باگ را پیدا می‌کنم، آن را رفع می‌کنم و خوشحالی می‌کنم!",
+              "",
+              "تنها مشکل این است که من اکنون باید `bugFix` خود را به شاخه `main` برگردانم. اگر من به سادگی `main` را fast-forward کنم، آنگاه `main` تمام دستورات دیباگ من را دریافت خواهد کرد که نامطلوب است. باید راه دیگری وجود داشته باشد..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ما باید به git بگوییم که فقط یکی از کامیت‌ها را کپی کند. این دقیقاً مانند مراحل قبلی در مورد جابجایی کار است -- ما می‌توانیم از همان دستورات استفاده کنیم:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "برای رسیدن به این هدف."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "این یک مرحله جلوتر است، بنابراین ما تصمیم‌گیری در مورد اینکه از کدام دستور می‌خواهید استفاده کنید را به عهده شما می‌گذاریم، اما برای تکمیل مرحله، مطمئن شوید که `main` کامیتی را که `bugFix` به آن اشاره می‌کند، دریافت می‌کند."
             ]
           }
         }

@@ -28,6 +28,7 @@ var langLocaleMap = {
   it: 'it_IT',
   ta: 'ta_IN',
   tr: 'tr_TR',
+  fa: 'fa',
 };
 
 var headerLocaleMap = {

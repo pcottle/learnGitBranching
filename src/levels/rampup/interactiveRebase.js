@@ -8,6 +8,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C5\",\"id\":\"main\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
+    "fa": "می‌توانید از نام شاخه‌ها یا ارجاعات نسبی (HEAD~) برای تعیین هدف rebase استفاده کنید",
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_ES": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_MX": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
@@ -31,6 +32,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
+    "fa": "معرفی Interactive Rebase",
     "es_AR": "Introducción al rebase interactivo",
     "es_ES": "Introducción al rebase interactivo",
     "es_MX": "Introducción al rebase interactivo",
@@ -114,6 +116,72 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## دستور Git Interactive Rebase",
+              "",
+              "دستور git cherry-pick زمانی عالی است که می‌دانید کدام کامیت‌ها را می‌خواهید (_و_ هش‌های مربوط به آن‌ها را هم می‌دانید) -- سادگی آن بی‌نظیر است.",
+              "",
+              "اما در شرایطی که نمی‌دانید کدام کامیت‌ها را می‌خواهید چطور؟ خوشبختانه git اینجا هم به کمکتان می‌آید! ما می‌توانیم از interactive rebase (ریبیس تعاملی) برای این کار استفاده کنیم -- این بهترین راه برای بازبینی یک سری از کامیت‌هایی است که می‌خواهید rebase کنید.",
+              "",
+              "بیایید وارد جزئیات شویم..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "منظور از interactive rebase فقط این است که Git از دستور `rebase` با گزینه `-i` استفاده می‌کند.",
+              "",
+              "اگر این گزینه را اضافه کنید، git یک رابط کاربری باز می‌کند تا به شما نشان دهد کدام کامیت‌ها قرار است در زیر هدف rebase کپی شوند. همچنین هش‌ها و پیام‌های آن‌ها را نشان می‌دهد که برای فهمیدن اینکه هر کدام چیست عالی است.",
+              "",
+              "در git \"واقعی\"، پنجره رابط کاربری به معنای باز کردن یک فایل در یک ویرایشگر متن مانند `vim` است. برای مقاصد ما، من یک پنجره گفتگوی کوچک ساخته‌ام که به همان شکل عمل می‌کند."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "وقتی کادر گفتگوی interactive rebase باز می‌شود، شما در برنامه آموزشی ما امکان انجام دو کار را دارید:",
+              "",
+              "* می‌توانید ترتیب کامیت‌ها را به سادگی با تغییر ترتیب آنها در رابط کاربری (از طریق کشیدن و رها کردن با ماوس) تغییر دهید.",
+              "* می‌توانید انتخاب کنید که همه کامیت‌ها را نگه دارید یا برخی از آنها را حذف کنید. وقتی کادر گفتگو باز می‌شود، هر کامیت با فعال بودن دکمه `pick` در کنارش برای گنجانده شدن تنظیم شده است. برای حذف یک کامیت، دکمه `pick` آن را خاموش کنید.",
+              "",
+              "*شایان ذکر است که در interactive rebase واقعی git شما می‌توانید کارهای بسیار بیشتری مانند squash (ادغام) کامیت‌ها، اصلاح پیام‌های کامیت، و حتی ویرایش خود کامیت‌ها انجام دهید. با این حال، برای مقاصد ما روی این دو عملیات فوق تمرکز خواهیم کرد.*",
+              "",
+              "عالی! بیایید یک مثال ببینیم."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "وقتی دکمه را بزنید، یک پنجره interactive rebase ظاهر می‌شود. ترتیب برخی کامیت‌ها را تغییر دهید (یا آزادانه برخی را unpick کنید) و نتیجه را ببینید!"
+            ],
+            "afterMarkdowns": [
+              "بوم! Git کامیت‌ها را دقیقا به همان روشی که از طریق رابط کاربری مشخص کردید کپی کرد."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای پایان دادن به این مرحله، یک interactive rebase انجام دهید و به ترتیبی که در تصویرسازی هدف نشان داده شده برسید. به یاد داشته باشید که همیشه می‌توانید برای اصلاح اشتباهات از `undo` یا `reset` استفاده کنید :D"
             ]
           }
         }

@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git checkout bugFix;git rebase main",
   "name": {
     "en_US": "Rebase Introduction",
+    "fa": "معرفی Rebase",
     "de_DE": "Einführung in Rebase",
     "ja": "Rebaseの解説",
     "es_AR": "Introducción a rebase",
@@ -26,6 +27,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
+    "fa": "مطمئن شوید که ابتدا از bugFix کامیت می‌کنید",
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
     "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
@@ -113,6 +115,73 @@ exports.level = {
               "* Check out bugFix again and rebase onto main",
               "",
               "Good luck!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "دومین روش برای ترکیب کار بین شاخه‌ها *rebasing* است. Rebasing اساساً مجموعه‌ای از کامیت‌ها را می‌گیرد، آن‌ها را \"کپی\" می‌کند، و در جای دیگری قرار می‌دهد.",
+              "",
+              "اگرچه این گیج‌کننده به نظر می‌رسد، مزیت rebasing این است که می‌تواند برای ایجاد یک دنباله خطی و تمیز از کامیت‌ها استفاده شود. لاگ / تاریخچه کامیت مخزن بسیار تمیزتر خواهد بود اگر فقط rebasing مجاز باشد.",
+              "",
+              "بیایید آن را در عمل ببینیم..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "در اینجا دوباره دو شاخه داریم؛ توجه کنید که شاخه bugFix در حال حاضر انتخاب شده است (به علامت ستاره دقت کنید)",
+              "",
+              "ما می‌خواهیم کار خود را از bugFix مستقیماً به روی کار main منتقل کنیم. به این ترتیب به نظر می‌رسد که این دو ویژگی به صورت متوالی توسعه یافته‌اند، در حالی که در واقعیت به صورت موازی توسعه یافته‌اند.",
+              "",
+              "بیایید این کار را با دستور `git rebase` انجام دهیم."
+            ],
+            "afterMarkdowns": [
+              "عالی! حالا کار شاخه bugFix ما \"روی main\" قرار گرفته است، چون به main اشاره می‌کند. اگرچه در تصویرسازی ما، زیر main نشان داده می‌شود چون درخت‌های کامیت ما به سمت پایین حرکت می‌کنند.",
+              "",
+              "توجه کنید که کامیت C3 هنوز در جایی وجود دارد (در درخت ظاهری کمرنگ دارد)، و C3' آن \"کپی\" است که ما روی main ری‌بیس (rebase) کردیم.",
+              "",
+              "تنها مشکل این است که main هم به‌روزرسانی نشده است، بیایید حالا این کار را انجام دهیم..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "حالا ما وارد شاخه `main` شده‌ایم. بیایید ادامه دهیم و روی `bugFix` ری‌بیس کنیم..."
+            ],
+            "afterMarkdowns": [
+              "بفرما! از آنجا که `main` اجداد `bugFix` بود، git به سادگی مرجع شاخه `main` را در تاریخچه به جلو برد."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای تکمیل این مرحله، موارد زیر را انجام دهید",
+              "",
+              "* وارد یک شاخه جدید به نام `bugFix` شوید",
+              "* یک بار کامیت کنید",
+              "* به main بازگردید و دوباره کامیت کنید",
+              "* دوباره وارد bugFix شوید و روی main ری‌بیس کنید",
+              "",
+              "موفق باشید!"
             ]
           }
         }
