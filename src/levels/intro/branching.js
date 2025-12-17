@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
     "en_US": "Branching in Git",
+    "fa": "ایجاد شاخه (Branch) در Git",
     "de_DE": "Branches in Git",
     "ja": "Gitのブランチ",
     "ko": "Git에서 브랜치 쓰기",
@@ -26,6 +27,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
+    "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بسازید و با \"git checkout <branch-name>\" وارد آن شوید",
     "de_DE": "Lege mit \"git branch [Branch-Name]\" einen neuen Branch an und checke ihn mit \"git checkout [Branch-Name]\" aus",
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
@@ -140,6 +142,100 @@ exports.level = {
               "By the way, here's a shortcut: if you want to create a new ",
               "branch AND check it out at the same time, you can simply ",
               "type `git checkout -b [yourbranchname]`."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## شاخه‌های Git",
+              "",
+              "شاخه‌ها در Git نیز به‌طور باورنکردنی سبک هستند. آن‌ها صرفاً اشاره‌گرهایی به یک کامیت خاص هستند -- نه چیز دیگر. به همین دلیل است که بسیاری از علاقه‌مندان به Git این شعار را تکرار می‌کنند:",
+              "",
+              "```",
+              "زود شاخه بساز، و زیاد شاخه بساز",
+              "```",
+              "",
+              "از آنجا که ساخت شاخه‌های زیاد سربار ذخیره‌سازی / حافظه ندارد، تقسیم منطقی کارتان آسان‌تر از داشتن شاخه‌های بزرگ و سنگین است.",
+              "",
+              "وقتی شروع به ترکیب شاخه‌ها و کامیت‌ها کنیم، خواهیم دید که این دو ویژگی چگونه ترکیب می‌شوند. اما فعلاً فقط به یاد داشته باشید که یک شاخه اساساً می‌گوید \"من می‌خواهم کار این کامیت و تمام کامیت‌های والد آن را شامل شوم.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید ببینیم شاخه‌ها در عمل چگونه به نظر می‌رسند.",
+              "",
+              "در اینجا ما یک شاخه جدید به نام `newImage` خواهیم ساخت."
+            ],
+            "afterMarkdowns": [
+              "همین! تمام چیزی که برای شاخه‌سازی لازم بود همین بود! شاخه `newImage` اکنون به کامیت `C1` اشاره می‌کند."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید سعی کنیم مقداری کار روی این شاخه جدید انجام دهیم. دکمه زیر را فشار دهید."
+            ],
+            "afterMarkdowns": [
+              "ای وای! شاخه `main` حرکت کرد اما شاخه `newImage` نکرد! این به این دلیل است که ما \"روی\" شاخه جدید نبودیم، و به همین دلیل ستاره (*) روی `main` بود."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید به git بگوییم که می‌خواهیم با دستور زیر وارد شاخه شویم",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "این کار ما را قبل از کامیت تغییراتمان، روی شاخه جدید قرار می‌دهد."
+            ],
+            "afterMarkdowns": [
+              "بفرما! تغییرات ما روی شاخه جدید ثبت شد."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*نکته: در نسخه 2.23 گیت، دستور جدیدی به نام `git switch` معرفی شد تا در نهایت جایگزین `git checkout` شود، ",
+              "که تا حدی بیش از حد بارگذاری شده است (بسته به آرگومان‌ها کارهای مختلفی انجام می‌دهد). درس‌های اینجا همچنان از ",
+              "`checkout` به جای `switch` استفاده می‌کنند زیرا دستور `switch` هنوز آزمایشی در نظر گرفته می‌شود و سینتکس آن ممکن است در آینده تغییر کند. ",
+              "با این حال شما همچنان می‌توانید دستور جدید `switch` را در این برنامه امتحان کنید، و همچنین ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">اینجا بیشتر بدانید</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "بسیار خب! شما کاملاً آماده شاخه‌سازی هستید. وقتی این پنجره بسته شد،",
+              "یک شاخه جدید به نام `bugFix` بسازید و به آن شاخه بروید.",
+              "",
+              "راستی، این یک میانبر است: اگر می‌خواهید یک ",
+              "شاخه جدید بسازید و همزمان وارد آن شوید، می‌توانید به سادگی ",
+              "`git checkout -b [yourbranchname]` را تایپ کنید."
             ]
           }
         }

@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/bar\":{\"target\":\"C1\",\"id\":\"o/bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"bar\":{\"target\":\"C3\",\"id\":\"bar\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bar\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Pull arguments",
+    "fa": "آرگومان‌های Pull",
     "zh_CN": "Git pull 的参数",
     "zh_TW": "pull 的參數",
     "es_AR": "Parámetros de pull",
@@ -26,6 +27,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
+    "fa": "به یاد داشته باشید که می‌توانید با آرگومان‌های fetch/pull شاخه‌های محلی جدید ایجاد کنید",
     "zh_CN": "记住, 你可以通过 fetch/pull 创建本地分支",
     "zh_TW": "記住，你可以透過 fetch 以及 pull 來建立一個新的 local 的 branch",
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
@@ -116,6 +118,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok to finish up, attain the state of the goal visualization. You'll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn't take many commands :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## آرگومان‌های Git pull",
+              "",
+              "حالا که تقریباً *همه چیز* را در مورد آرگومان‌های `git fetch` و `git push` می‌دانید، تقریباً چیزی برای پوشش دادن در مورد git pull باقی نمانده است :)",
+              "",
+              "این به این دلیل است که git pull در نهایت *واقعاً* فقط خلاصه‌ای برای یک fetch است که به دنبال آن هر آنچه که fetch شده است ادغام می‌شود. می‌توانید تصور کنید که git fetch را با *همان* آرگومان‌های مشخص شده اجرا می‌کنید و سپس در جایی که آن کامیت‌ها قرار گرفته‌اند، ادغام می‌کنید.",
+              "",
+              "این حتی زمانی که از آرگومان‌های دیوانه‌وار پیچیده استفاده می‌کنید نیز صدق می‌کند. بیایید چند مثال ببینیم:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "در اینجا چند دستور معادل در گیت وجود دارد:",
+              "",
+              "`git pull  origin foo` برابر است با:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "و...",
+              "",
+              "`git pull  origin bar:bugFix` برابر است با:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "می‌بینید؟ git pull واقعاً فقط خلاصه‌ای برای fetch + merge است، و تنها چیزی که git pull به آن اهمیت می‌دهد این است که کامیت‌ها در کجا قرار گرفته‌اند (آرگومان `destination` که در طول fetch متوجه می‌شود).",
+              "",
+              "بیایید یک دمو ببینیم:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "اگر مکان fetch را مشخص کنیم، همه چیز همانند قبل با fetch اتفاق می‌افتد اما هر آنچه که fetch شده است را ادغام می‌کنیم."
+            ],
+            "afterMarkdowns": [
+              "می‌بینید! با مشخص کردن `main`، ما کامیت‌ها را طبق معمول در `o/main` دانلود کردیم. سپس `o/main` را در مکان فعلی چک‌اوت شده خود ادغام کردیم که شاخه محلی `main` *نیست*. به همین دلیل، واقعاً ممکن است منطقی باشد که git pull را چندین بار (با آرگومان‌های یکسان) از مکان‌های مختلف اجرا کنید تا شاخه‌های متعددی را به‌روزرسانی کنید."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "آیا با مبدا و مقصد هم کار می‌کند؟ شرط می‌بندید! بیایید آن را ببینیم:"
+            ],
+            "afterMarkdowns": [
+              "وای، این حجم زیادی کار در یک دستور است. ما یک شاخه جدید به صورت محلی به نام `foo` ایجاد کردیم، کامیت‌ها را از main ریموت در آن شاخه `foo` دانلود کردیم، و سپس آن شاخه را در شاخه فعلی چک‌اوت شده خود `bar` ادغام کردیم. قدرتش بالای ۹۰۰۰ است!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "خب برای اتمام، به وضعیت تجسم هدف برسید. شما باید چند کامیت دانلود کنید، چند شاخه جدید بسازید، و آن شاخه‌ها را در شاخه‌های دیگر ادغام کنید، اما نباید دستورات زیادی طول بکشد :P"
             ]
           }
         }

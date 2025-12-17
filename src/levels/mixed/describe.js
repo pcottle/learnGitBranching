@@ -12,6 +12,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Git Describe",
+    "fa": "توصیف گیت (Git Describe)",
     "fr_FR": "Git describe",
     "de_DE": "Git Describe",
     "ja": "Git Describe",
@@ -35,6 +36,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
+    "fa": "زمانی که آماده حرکت به جلو هستید، فقط یک بار در bugFix کامیت کنید",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes prêt",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",
     "ja": "次に進む準備が整ったなら、bugFixに対して一回commitしてください",
@@ -115,6 +117,69 @@ exports.level = {
               "That's pretty much all there is to git describe! Try describing a few of the locations in this level to get a feel for the command.",
               "",
               "Once you're ready, just go ahead and commit once to finish the level. We're giving you a freebie :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### توصیف گیت (Git Describe)",
+              "",
+              "از آنجایی که تگ‌ها به عنوان \"لنگر\"های بسیار خوبی در کدبیس عمل می‌کنند، گیت دستوری برای *توصیف* موقعیت شما نسبت به نزدیکترین \"لنگر\" (یا همان تگ) دارد. و نام آن دستور `git describe` است!",
+              "",
+              "دستور Git describe می‌تواند به شما کمک کند تا پس از جابجایی تعداد زیادی کامیت به عقب یا جلو در تاریخچه، موقعیت خود را پیدا کنید؛ این حالت ممکن است پس از تکمیل git bisect (یک جستجوی اشکال‌زدایی) یا هنگام نشستن پشت سیستم همکاری که تازه از تعطیلات برگشته، پیش بیاید."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "دستور Git describe به این شکل است:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "که در آن `<ref>` هر چیزی است که گیت می‌تواند آن را به یک کامیت تبدیل کند. اگر رفرنسی را مشخص نکنید، گیت فقط از جایی که در حال حاضر checkout کرده‌اید (`HEAD`) استفاده می‌کند.",
+              "",
+              "خروجی دستور به این صورت است:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "که در آن `tag` نزدیکترین تگ جد در تاریخچه است، `numCommits` تعداد کامیت‌های فاصله تا آن تگ است، و `<hash>` هش کامیتی است که توصیف می‌شود."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید به یک مثال سریع نگاه کنیم. برای درخت زیر:"
+            ],
+            "afterMarkdowns": [
+              "دستور `git describe main` خروجی زیر را خواهد داشت:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "در حالی که `git describe side` خروجی زیر را خواهد داشت:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "این تقریباً همه چیز درباره git describe است! سعی کنید چند مورد از مکان‌های این مرحله را توصیف کنید تا حس کار با دستور را به دست آورید.",
+              "",
+              "زمانی که آماده شدید، فقط یک بار کامیت کنید تا مرحله به پایان برسد. ما به شما یک ارفاق می‌کنیم :P"
             ]
           }
         }

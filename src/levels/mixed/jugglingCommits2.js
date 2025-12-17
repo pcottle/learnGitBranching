@@ -19,6 +19,7 @@ exports.level = {
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",
+    "fa": "شعبده‌بازی با کامیت‌ها شماره ۲",
     "fr_FR": "Jongler avec les commits #2",
     "es_AR": "Haciendo malabares con los commits #2",
     "es_ES": "Haciendo malabares con los commits #2",
@@ -41,6 +42,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
+    "fa": "فراموش نکنید که main را به تغییرات به‌روزرسانی شده جلو ببرید!",
     "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche main",
     "es_AR": "¡No te olvides de avanzar main a los cambios actualizados!",
     "es_ES": "¡No te olvides de avanzar main a los cambios actualizados!",
@@ -101,6 +103,49 @@ exports.level = {
               "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
               "",
               "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## شعبده‌بازی با کامیت‌ها شماره ۲",
+              "",
+              "*اگر شعبده‌بازی با کامیت‌ها شماره ۱ (مرحله قبلی) را کامل نکرده‌اید، لطفاً قبل از ادامه آن را انجام دهید*",
+              "",
+              "همانطور که در مرحله قبل دیدید، ما از `rebase -i` برای تغییر ترتیب کامیت‌ها استفاده کردیم. وقتی کامیتی که می‌خواستیم تغییر دهیم در بالا قرار گرفت، توانستیم به راحتی آن را amend-- کنیم و دوباره به ترتیب دلخواه خود برگردانیم.",
+              "",
+              "تنها مشکل اینجاست که تغییر ترتیب زیادی انجام می‌شود، که می‌تواند تداخل‌های rebase را ایجاد کند. بیایید با استفاده از `git cherry-pick` به روش دیگری نگاه کنیم."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "به یاد داشته باشید که git cherry-pick یک کامیت را از هر جای درخت بر روی HEAD قرار می‌دهد (تا زمانی که آن کامیت جد HEAD نباشد).",
+              "",
+              "اینجا یک دموی کوچک برای یادآوری است:"
+            ],
+            "afterMarkdowns": [
+              "عالی! بیایید ادامه دهیم."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "بنابراین در این مرحله، بیایید همان هدف اصلاح `C2` را یک بار دیگر انجام دهیم اما از `rebase -i` اجتناب کنیم. من تشخیص نحوه انجام آن را به شما واگذار می‌کنم! :D",
+              "",
+              "به یاد داشته باشید، تعداد دقیق آپاستروف‌ها (') روی کامیت مهم نیست، فقط تفاوت‌های نسبی مهم است. به عنوان مثال، من به درختی که با درخت هدف مطابقت داشته باشد اما در همه جا یک آپاستروف اضافی داشته باشد، امتیاز خواهم داد."
             ]
           }
         }

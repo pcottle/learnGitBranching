@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\",\"localBranchesThatTrackThis\":null},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"main\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Pullin'",
+    "fa": "گیت پول (Git Pull)",
     "zh_CN": "Git Pull",
     "zh_TW": "git pull",
     "es_AR": "git pull",
@@ -25,6 +26,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just run git pull!",
+    "fa": "فقط git pull را اجرا کنید!",
     "zh_CN": "运行 git pull 命令就可以了！",
     "zh_TW": "只要下 git pull 這個指令即可",
     "es_AR": "Simplemente ¡hacé git pull!",
@@ -99,6 +101,65 @@ exports.level = {
               "We will explore the details of `git pull` later (including options and arguments), but for now let's try it out in the level.",
               "",
               "Remember -- you can actually solve this level with just `fetch` and `merge`, but it will cost you an extra command :P"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "حالا که دیدیم چگونه با `git fetch` داده‌ها را از مخزن ریموت دریافت کنیم، بیایید کار خود را برای بازتاب آن تغییرات به‌روز کنیم!",
+              "",
+              "در واقع راه‌های زیادی برای انجام این کار وجود دارد -- زمانی که کامیت‌های جدید به صورت محلی در دسترس باشند، می‌توانید آن‌ها را طوری ادغام کنید که گویی کامیت‌های معمولی در شاخه‌های دیگر هستند. این بدان معناست که می‌توانید دستوراتی مانند زیر را اجرا کنید:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* و غیره.",
+              "",
+              "در واقع، جریان کاری *دریافت* (fetching) تغییرات ریموت و سپس *ادغام* (merging) آن‌ها آنقدر رایج است که گیت در واقع دستوری را ارائه می‌دهد که هر دو کار را همزمان انجام می‌دهد! آن دستور `git pull` است."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید ابتدا اجرای متوالی یک `fetch` و یک `merge` را ببینیم."
+            ],
+            "afterMarkdowns": [
+              "بوم -- ما `C3` را با یک `fetch` دانلود کردیم و سپس آن کار را با `git merge o/main` ادغام کردیم. اکنون شاخه `main` ما کار جدید را از ریموت (در این مورد، با نام `origin`) منعکس می‌کند."
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "اگر به جای آن از `git pull` استفاده می‌کردیم چه اتفاقی می‌افتاد؟"
+            ],
+            "afterMarkdowns": [
+              "همان اتفاق! این باید کاملاً روشن کند که `git pull` اساساً مخفف یک `git fetch` است که به دنبال آن ادغام هر شاخه‌ای که تازه دریافت شده است، انجام می‌شود."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ما جزئیات `git pull` را بعداً بررسی خواهیم کرد (شامل گزینه‌ها و آرگومان‌ها)، اما در حال حاضر بیایید آن را در این مرحله امتحان کنیم.",
+              "",
+              "به یاد داشته باشید -- شما در واقع می‌توانید این مرحله را فقط با `fetch` و `merge` حل کنید، اما این کار برای شما یک دستور اضافی هزینه خواهد داشت :P"
             ]
           }
         }

@@ -8,6 +8,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Git push arguments",
+    "fa": "آرگومان‌های Git push",
     "zh_CN": "Git push 的参数",
     "zh_TW": "git push 的參數",
     "es_AR": "Parámetros de git push",
@@ -29,6 +30,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
+    "fa": "همیشه می‌توانید اسلاید آخر دیالوگ را با \"objective\" مشاهده کنید",
     "zh_CN": "你可以利用“objective”来阅读对话窗口的最后一页",
     "zh_TW": "你可以利用 \"objective\" 來閱讀對話視窗的最後一頁",
     "es_AR": "Siempre podés ver el último mensaje tipeando \"objective\"",
@@ -119,6 +121,81 @@ exports.level = {
               "",
               "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
               "about this... simply use `origin` as the name of the remote like normal.*"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## آرگومان‌های Push",
+              "",
+              "عالی! حالا که در مورد شاخه‌های ردیابی ریموت می‌دانید، می‌توانیم شروع به کشف برخی از اسرار پشت نحوه کار git push، fetch و pull کنیم. ما هر بار به یک دستور می‌پردازیم اما مفاهیم بین آن‌ها بسیار مشابه است.",
+              "",
+              "ابتدا به `git push` نگاه خواهیم کرد. در درس ردیابی ریموت یاد گرفتید که گیت ریموت *و* شاخه‌ای که باید به آن push شود را با نگاه کردن به ویژگی‌های شاخه‌ای که در حال حاضر روی آن هستید (ریموت که آن را \"ردیابی\" می‌کند) تشخیص می‌دهد. این رفتار بدون مشخص کردن هیچ آرگومانی است، اما git push می‌تواند به صورت اختیاری آرگومان‌هایی به شکل زیر بگیرد:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "می‌پرسید پارامتر `<place>` چیست؟ به زودی وارد جزئیات خواهیم شد، اما اول یک مثال. صدور دستور:",
+              "",
+              "`git push origin main`",
+              "",
+              "به فارسی اینطور ترجمه می‌شود:",
+              "",
+              "*به شاخه‌ای به نام \"main\" در مخزن من برو، تمام کامیت‌ها را بگیر، و سپس به شاخه \"main\" در ریموتی به نام \"origin\" برو. هر کامیتی که در آن شاخه وجود ندارد را قرار بده و وقتی تمام شد به من بگو.*",
+              "",
+              "با مشخص کردن `main` به عنوان آرگومان \"place\"، ما به گیت گفتیم که کامیت‌ها از *کجا می‌آیند* و به *کجا می‌روند*. این اساساً \"مکان\" یا \"موقعیتی\" برای همگام‌سازی بین دو مخزن است.",
+              "",
+              "به یاد داشته باشید که چون همه آنچه را که گیت نیاز داشت بداند به او گفتیم (با مشخص کردن هر دو آرگومان)، کاملاً نادیده می‌گیرد که ما روی چه شاخه‌ای هستیم!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید مثالی از مشخص کردن آرگومان‌ها را ببینیم. به مکانی که در این مثال روی آن هستیم توجه کنید."
+            ],
+            "afterMarkdowns": [
+              "بفرمایید! `main` در ریموت به‌روز شد زیرا ما آن آرگومان‌ها را مشخص کردیم."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "اگر آرگومان‌ها را مشخص نکرده بودیم چه می‌شد؟ چه اتفاقی می‌افتاد؟"
+            ],
+            "afterMarkdowns": [
+              "دستور با شکست مواجه می‌شود (همانطور که می‌بینید)، زیرا `HEAD` روی یک شاخه ردیابی ریموت قرار ندارد."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "بسیار خب، برای این مرحله بیایید هم `foo` و هم `main` را در ریموت به‌روز کنیم. نکته انحرافی این است که `git checkout` برای این مرحله غیرفعال است!",
+              "",
+              "*نکته: شاخه‌های ریموت با پیشوند `o/` برچسب‌گذاری شده‌اند زیرا برچسب کامل `origin/` در رابط کاربری ما جا نمی‌شود. نگران ",
+              "این موضوع نباشید... به سادگی از `origin` به عنوان نام ریموت مانند همیشه استفاده کنید.*"
             ]
           }
         }

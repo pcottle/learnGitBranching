@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
+    "fa": "ادغام (Merge) در Git",
     "de_DE": "Mergen in Git",
     "es_AR": "Mergeando en Git",
     "es_MX": "Haciendo merge en Git",
@@ -26,6 +27,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
+    "fa": "به یاد داشته باشید که به ترتیب مشخص شده کامیت کنید (bugFix قبل از main)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
     "ja": "指示された順番でコミットすること（mainの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de main)",
@@ -115,6 +117,75 @@ exports.level = {
               "* Merge the branch `bugFix` into `main` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"objective\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## شاخه‌ها و ادغام (Merging)",
+              "",
+              "عالی! ما حالا می‌دانیم چگونه کامیت کنیم و شاخه بسازیم. حالا باید راهی برای ترکیب کار از دو شاخه مختلف با هم یاد بگیریم. این به ما اجازه می‌دهد که شاخه جدید بسازیم، یک قابلیت جدید توسعه دهیم، و سپس آن را دوباره ترکیب کنیم.",
+              "",
+              "اولین روش برای ترکیب کارها که بررسی خواهیم کرد `git merge` است. ادغام در Git یک کامیت خاص ایجاد می‌کند که دو والد منحصر به فرد دارد. یک کامیت با دو والد اساساً به این معنی است که \"من می‌خواهم تمام کارهای این والد در اینجا و این یکی در اینجا، *و* مجموعه تمام والدین آن‌ها را شامل شوم.\"",
+              "",
+              "با تصاویر آسان‌تر است، بیایید در نمای بعدی آن را بررسی کنیم."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "در اینجا ما دو شاخه داریم؛ هر کدام یک کامیت دارند که منحصر به فرد است. این یعنی هیچکدام از شاخه‌ها شامل کل مجموعه \"کار\" انجام شده در مخزن نیستند. بیایید آن را با ادغام (merge) حل کنیم.",
+              "",
+              "ما شاخه `bugFix` را در `main` ادغام (`merge`) خواهیم کرد."
+            ],
+            "afterMarkdowns": [
+              "اووه! دیدید؟ اول از همه، `main` حالا به کامیتی اشاره می‌کند که دو والد دارد. اگر فلش‌ها را از `main` به سمت بالای درخت کامیت دنبال کنید، به هر کامیت در مسیر ریشه برخورد خواهید کرد. این یعنی `main` حالا شامل تمام کارهای موجود در مخزن است.",
+              "",
+              "همچنین، دیدید چگونه رنگ‌های کامیت‌ها تغییر کرد؟ برای کمک به یادگیری، من مقداری هماهنگی رنگی اضافه کرده‌ام. هر شاخه یک رنگ منحصر به فرد دارد. هر کامیت به رنگی در می‌آید که ترکیبی از تمام شاخه‌هایی است که آن کامیت را شامل می‌شوند.",
+              "",
+              "پس در اینجا می‌بینیم که رنگ شاخه `main` در تمام کامیت‌ها ترکیب شده است، اما رنگ `bugFix` خیر. بیایید آن را درست کنیم..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید `main` را در `bugFix` ادغام کنیم:"
+            ],
+            "afterMarkdowns": [
+              "از آنجا که `bugFix` اجداد `main` بود، git مجبور نبود هیچ کاری انجام دهد؛ به سادگی فقط `bugFix` را به همان کامیتی که `main` به آن متصل بود منتقل کرد.",
+              "",
+              "حالا تمام کامیت‌ها هم‌رنگ هستند، که یعنی هر شاخه شامل تمام کارهای موجود در مخزن است! هورا!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای تکمیل این مرحله، گام‌های زیر را انجام دهید:",
+              "",
+              "* یک شاخه جدید به نام `bugFix` بسازید",
+              "* با `git checkout bugFix` وارد شاخه `bugFix` شوید",
+              "* یک بار کامیت کنید",
+              "* با `git checkout` به `main` بازگردید",
+              "* یک بار دیگر کامیت کنید",
+              "* شاخه `bugFix` را با `git merge` در `main` ادغام کنید",
+              "",
+              "*به یاد داشته باشید، همیشه می‌توانید این پنجره را با \"objective\" دوباره نمایش دهید!*"
             ]
           }
         }

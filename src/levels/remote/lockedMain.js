@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"tags\":{},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"tags\":{},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "hint": {
     "en_US": "Make the feature branch from the local main before resetting it back to be the same as origin's main",
+    "fa": "شاخه ویژگی را از main محلی بسازید قبل از اینکه آن را ریست کنید تا با main اوریجین (origin) یکسان شود",
     "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Main-Branch, bevor du den Main-Branch auf den origin/main zurücksetzt.",
     "ro": "Creează o ramură feature din main-ul local înainte de a reseta main-ul pentru a fi la fel cu origin/main.",
     "ru_RU": "Создайте новую feature ветвь от main перед тем, как откатить изменения в main до состояния o/main.",
@@ -24,6 +25,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Locked Main",
+    "fa": "Main قفل شده",
     "de_DE": "Gesperrter Main-Branch",
     "ro": "Main Blocat",
     "ru_RU": "Заблокированная ветвь main",
@@ -78,6 +80,46 @@ exports.level = {
               "## The solution",
               "",
               "Create another branch called feature and push that to the remote. Also reset your main back to be in sync with the remote otherwise you may have issues next time you do a pull and someone else's commit conflicts with yours."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ریموت رد شد!",
+              "",
+              "اگر در یک تیم بزرگ همکاری می‌کنید، احتمال دارد که main قفل باشد و برای ادغام تغییرات به فرآیند Pull Request نیاز داشته باشد. اگر مستقیماً روی main به صورت محلی کامیت کنید و سعی کنید push کنید، با پیامی مشابه این روبرو خواهید شد:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Push کردن به این شاخه مجاز نیست؛ شما باید برای به‌روزرسانی این شاخه از pull request استفاده کنید.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## چرا رد شد؟",
+              "",
+              "ریموت push کردن کامیت‌ها را مستقیماً به main رد کرد زیرا سیاست روی main ایجاب می‌کند که به جای آن از pull request استفاده شود.",
+              "",
+              "شما قصد داشتید فرآیند ایجاد یک شاخه، سپس push کردن آن شاخه و انجام pull request را دنبال کنید، اما فراموش کردید و مستقیماً روی main کامیت کردید. اکنون گیر کرده‌اید و نمی‌توانید تغییرات خود را push کنید."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## راه حل",
+              "",
+              "یک شاخه دیگر به نام feature ایجاد کنید و آن را به ریموت push کنید. همچنین main خود را ریست کنید تا با ریموت همگام شود، در غیر این صورت ممکن است دفعه بعد که pull می‌کنید و کامیت شخص دیگری با شما تداخل دارد، دچار مشکل شوید."
             ]
           }
         }

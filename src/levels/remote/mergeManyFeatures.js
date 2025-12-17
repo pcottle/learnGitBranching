@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\",\"localBranchesThatTrackThis\":null},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"main\"]},\"side1\":{\"target\":\"C2\",\"id\":\"side1\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side2\":{\"target\":\"C4\",\"id\":\"side2\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null},\"side3\":{\"target\":\"C7\",\"id\":\"side3\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"side3\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C8\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C8\":{\"parents\":[\"C1\"],\"id\":\"C8\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Merging with remotes",
+    "fa": "ادغام با ریموت‌ها",
     "zh_CN": "合并远程仓库",
     "zh_TW": "merge with remotes",
     "es_AR": "Mergeando con los remotos",
@@ -25,6 +26,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
+    "fa": "به درخت هدف توجه کنید!",
     "zh_CN": "注意目标树!",
     "zh_TW": "注意最後要完成的目標！",
     "es_AR": "¡Prestá atención al árbol final!",
@@ -86,6 +88,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, let's try to solve the previous level but with *merging* instead. It may get a bit hairy but it illustrates the point well."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## چرا ادغام نکنیم؟",
+              "",
+              "برای اینکه بتوانید به‌روزرسانی‌های جدید را به ریموت push کنید، تنها کاری که باید انجام دهید این است که آخرین تغییرات را از ریموت *ترکیب* کنید. این بدان معناست که می‌توانید در شاخه ریموت (مثلاً `o/main`) هم rebase کنید و *هم* ادغام (merge).",
+              "",
+              "پس اگر می‌توانید هر کدام از روش‌ها را انجام دهید، چرا درس‌ها تا به حال روی rebase متمرکز بوده‌اند؟ چرا هنگام کار با ریموت‌ها محبتی به `merge` وجود ندارد؟",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "بحث‌های زیادی در جامعه توسعه‌دهندگان درباره مزایا و معایب بین ادغام و rebase وجود دارد. در اینجا مزایا / معایب کلی rebase آورده شده است:",
+              "",
+              "مزایا:",
+              "",
+              "* Rebasing باعث می‌شود درخت کامیت شما بسیار تمیز به نظر برسد زیرا همه چیز در یک خط مستقیم است",
+              "",
+              "معایب:",
+              "",
+              "* Rebasing تاریخچه (ظاهری) درخت کامیت را تغییر می‌دهد.",
+              "",
+              "به عنوان مثال، کامیت `C1` می‌تواند *بعد از* `C3` rebase شود. سپس به نظر می‌رسد که کار برای `C1'` بعد از `C3` انجام شده است در حالی که در واقعیت قبلاً تکمیل شده بود.",
+              "",
+              "برخی از توسعه‌دهندگان دوست دارند تاریخچه را حفظ کنند و بنابراین ادغام را ترجیح می‌دهند. دیگران (مانند خود من) ترجیح می‌دهند درخت کامیت تمیزی داشته باشند و rebase را ترجیح می‌دهند. همه چیز به ترجیحات برمی‌گردد :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای این مرحله، بیایید سعی کنیم مرحله قبلی را حل کنیم اما این بار با *ادغام*. ممکن است کمی پیچیده شود اما نکته را به خوبی نشان می‌دهد."
             ]
           }
         }

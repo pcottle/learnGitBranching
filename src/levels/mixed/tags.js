@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C5\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"side\":{\"target\":\"C3\",\"id\":\"side\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\",\"C4\"],\"id\":\"C5\"}},\"tags\":{},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Git Tags",
+    "fa": "تگ‌های گیت",
     "de_DE": "Git Tags",
     "ja": "Gitのタグ",
     "es_AR": "Tags en git",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
+    "fa": "شما می‌توانید مستقیماً کامیت را checkout کنید یا به سادگی تگ را checkout کنید!",
     "fr_FR": "Vous pouvez faire le checkout sur le commit ou sur le tag !",
     "de_DE": "Du kannst den Checkout entweder direkt auf den Commit oder das Tag machen.",
     "ja": "コミットを直接チェックアウトできますが、簡単にタグでチェックアウトすることも可能!",
@@ -96,6 +98,58 @@ exports.level = {
               "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
               "",
               "In the next level we'll examine a more interesting use case for tags."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## تگ‌های گیت",
+              "",
+              "همانطور که از درس‌های قبلی یاد گرفتید، جابجایی شاخه‌ها آسان است و اغلب با تکمیل کار روی آنها، به کامیت‌های مختلف اشاره می‌کنند. شاخه‌ها به راحتی تغییر می‌کنند، اغلب موقتی هستند و همیشه در حال تغییرند.",
+              "",
+              "اگر اینطور است، ممکن است از خود بپرسید که آیا راهی برای علامت‌گذاری *دائمی* نقاط تاریخی در تاریخچه پروژه شما وجود دارد؟ برای چیزهایی مانند انتشارهای اصلی و ادغام‌های بزرگ، آیا راهی برای علامت‌گذاری این کامیت‌ها با چیزی دائمی‌تر از یک شاخه وجود دارد؟",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "حتماً وجود دارد! تگ‌های گیت دقیقاً از همین مورد استفاده پشتیبانی می‌کنند -- آن‌ها (تا حدودی) به طور دائمی کامیت‌های خاصی را به عنوان \"نقاط عطف\" علامت‌گذاری می‌کنند که می‌توانید مانند یک شاخه به آن‌ها ارجاع دهید.",
+              "",
+              "با این حال، مهم‌تر این است که با ایجاد کامیت‌های بیشتر، آن‌ها هرگز حرکت نمی‌کنند. شما نمی‌توانید یک تگ را \"check out\" کنید و سپس کار روی آن تگ را کامل کنید -- تگ‌ها به عنوان لنگر در درخت کامیت وجود دارند که نقاط خاصی را تعیین می‌کنند.",
+              "",
+              "بیایید ببینیم تگ‌ها در عمل چگونه به نظر می‌رسند."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید سعی کنیم یک تگ در `C1` که نمونه اولیه نسخه ۱ ما است، ایجاد کنیم."
+            ],
+            "afterMarkdowns": [
+              "دیدی! خیلی آسان بود. ما نام تگ را `v1` گذاشتیم و به صراحت به کامیت `C1` ارجاع دادیم. اگر کامیت را حذف کنید، گیت فقط از هر چیزی که `HEAD` در آن قرار دارد استفاده خواهد کرد."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای این مرحله فقط تگ‌ها را در تجسم هدف ایجاد کنید و سپس `v1` را check out کنید. توجه کنید که چگونه وارد وضعیت detached `HEAD` می‌شوید -- این به این دلیل است که نمی‌توانید مستقیماً روی تگ `v1` کامیت کنید.",
+              "",
+              "در مرحله بعد یک مورد استفاده جالب‌تر برای تگ‌ها را بررسی خواهیم کرد."
             ]
           }
         }
