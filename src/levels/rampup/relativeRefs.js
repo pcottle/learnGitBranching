@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Relative Refs (^)",
+    "fa": "ارجاعات نسبی (^)",
     "fr_FR": "Références relatives (^)",
     "ja": "相対リファレンス (^)",
     "zh_CN": "相对引用（^）",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
+    "fa": "عملگر Caret (^) را به خاطر بسپارید!",
     "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
     "ja": "相対リファレンス(^)を思い出して！",
     "de_DE": "Denk an den Dach-Operator (^)!",
@@ -119,6 +121,81 @@ exports.level = {
               "To complete this level, check out the parent commit of `bugFix`. This will detach `HEAD`.",
               "",
               "You can specify the hash if you want, but try using relative refs instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ارجاعات نسبی (Relative Refs)",
+              "",
+              "جابجایی در Git با مشخص کردن هش کامیت‌ها می‌تواند کمی خسته‌کننده باشد. در دنیای واقعی شما یک تصویرسازی زیبای درخت کامیت در کنار ترمینال خود نخواهید داشت، بنابراین مجبور خواهید بود از `git log` برای دیدن هش‌ها استفاده کنید.",
+              "",
+              "علاوه بر این، هش‌ها معمولاً در دنیای واقعی Git بسیار طولانی‌تر هستند. برای مثال، هش کامیتی که مرحله قبلی را معرفی کرد `fed2da64c0efc5293610bdd892f82a58e8cbc5d8` است. دقیقاً راحت به زبان نمی‌آید...",
+              "",
+              "نکته مثبت این است که Git در مورد هش‌ها هوشمند است. فقط از شما می‌خواهد که تعداد کافی از کاراکترهای هش را مشخص کنید تا زمانی که به طور منحصر به فرد کامیت را شناسایی کند. بنابراین من می‌توانم به جای رشته طولانی بالا، `fed2` را تایپ کنم."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "همانطور که گفتم، مشخص کردن کامیت‌ها با هش آن‌ها راحت‌ترین کار نیست، به همین دلیل است که Git ارجاعات نسبی دارد. آن‌ها عالی هستند!",
+              "",
+              "با ارجاعات نسبی، می‌توانید از جایی که به یاد ماندنی است (مثل شاخه `bugFix` یا `HEAD`) شروع کنید و از آنجا کار کنید.",
+              "",
+              "ارجاعات نسبی قدرتمند هستند، اما ما در اینجا دو مورد ساده را معرفی می‌کنیم:",
+              "",
+              "* جابجایی به سمت بالا، یک کامیت در هر بار با `^`",
+              "* جابجایی به سمت بالا به تعداد دفعات مشخص با `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید اول به عملگر Caret (^) نگاه کنیم. هر بار که آن را به نام یک ارجاع اضافه می‌کنید، به Git می‌گویید که والد کامیت مشخص شده را پیدا کند.",
+              "",
+              "بنابراین گفتن `main^` معادل \"اولین والد `main`\" است.",
+              "",
+              "`main^^` پدربزرگ (جد نسل دوم) `main` است.",
+              "",
+              "بیایید اینجا به کامیت بالای main برویم."
+            ],
+            "afterMarkdowns": [
+              "بوم! انجام شد. خیلی راحت‌تر از تایپ کردن هش کامیت بود."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "شما همچنین می‌توانید به `HEAD` به عنوان یک ارجاع نسبی اشاره کنید. بیایید چند بار از آن برای حرکت به سمت بالا در درخت کامیت استفاده کنیم."
+            ],
+            "afterMarkdowns": [
+              "آسان بود! ما می‌توانیم با `HEAD^` در زمان به عقب سفر کنیم."
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای تکمیل این مرحله، به کامیت والد `bugFix` بروید (check out کنید). این کار `HEAD` را جدا می‌کند.",
+              "",
+              "اگر بخواهید می‌توانید هش را مشخص کنید، اما سعی کنید به جای آن از ارجاعات نسبی استفاده کنید!"
             ]
           }
         }

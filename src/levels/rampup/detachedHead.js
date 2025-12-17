@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
+    "fa": "جدا کردن HEAD",
     "es_MX": "Separa tu HEAD",
     "es_AR": "Desatacheá tu HEAD",
     "es_ES": "Desatachea tu HEAD",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
+    "fa": "از برچسب (هش) روی کامیت برای کمک استفاده کنید!",
     "es_AR": "¡Usá la etiqueta (hash) sobre el commit para ayudarte!",
     "es_MX": "¡Usa la etiqueta (hash) sobre el commit para ayudarte!",
     "es_ES": "¡Usa la etiqueta (hash) sobre el commit para ayudarte!",
@@ -122,6 +124,84 @@ exports.level = {
               "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## جابجایی در Git",
+              "",
+              "قبل از اینکه به برخی از ویژگی‌های پیشرفته‌تر Git برسیم، مهم است که راه‌های مختلف جابجایی در درخت کامیت که پروژه شما را نشان می‌دهد، درک کنید.",
+              "",
+              "وقتی با جابجایی راحت شدید، قدرت شما در استفاده از سایر دستورات git افزایش می‌یابد!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "اول باید در مورد \"HEAD\" صحبت کنیم. HEAD یک نام نمادین برای کامیتی است که در حال حاضر check-out شده است -- در واقع کامیتی است که شما روی آن کار می‌کنید.",
+              "",
+              "HEAD همیشه به آخرین کامیتی که در درخت کاری منعکس شده است اشاره می‌کند. اکثر دستورات git که تغییری در درخت کاری ایجاد می‌کنند، با تغییر HEAD شروع می‌شوند.",
+              "",
+              "معمولاً HEAD به نام یک شاخه (مانند bugFix) اشاره می‌کند. وقتی کامیت می‌کنید، وضعیت bugFix تغییر می‌کند و این تغییر از طریق HEAD قابل مشاهده است."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید این را در عمل ببینیم. در اینجا موقعیت HEAD را قبل و بعد از یک کامیت نشان می‌دهیم."
+            ],
+            "afterMarkdowns": [
+              "دیدید! HEAD تمام مدت زیر شاخه `main` ما پنهان شده بود."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### جدا کردن HEAD (Detaching HEAD)",
+              "",
+              "جدا کردن HEAD فقط به این معنی است که آن را به جای یک شاخه، به یک کامیت متصل کنیم. وضعیت قبل از آن به این شکل است:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "و حالا اینطور است",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای تکمیل این مرحله، بیایید HEAD را از `bugFix` جدا کرده و به جای آن به کامیت متصل کنیم.",
+              "",
+              "این کامیت را با هش آن مشخص کنید. هش هر کامیت روی دایره‌ای که آن کامیت را نشان می‌دهد نمایش داده می‌شود."
             ]
           }
         }

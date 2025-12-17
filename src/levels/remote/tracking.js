@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Tracking",
+    "fa": "رهگیری ریموت",
     "zh_CN": "远程追踪",
     "zh_TW": "remote tracking",
     "es_AR": "Trackeando remotos",
@@ -25,6 +26,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
+    "fa": "به یاد داشته باشید که دو روش برای تنظیم رهگیری ریموت وجود دارد!",
     "zh_CN": "记住，有两种设置 remote tracking 的方法!",
     "zh_TW": "記住喔，有兩個方式可以去設定 remote tracking",
     "es_AR": "¡Acordate de que hay dos formas de trackear un remoto!",
@@ -158,6 +160,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! For this level let's push work onto the `main` branch on remote while *not* checked out on `main` locally. You should instead create a branch named `side` which the goal diagram will show."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### شاخه‌های رهگیری ریموت",
+              "",
+              "یک چیزی که ممکن است در مورد چند درس اخیر \"جادویی\" به نظر رسیده باشد این است که گیت می‌دانست شاخه `main` به `o/main` مربوط است. مطمئناً این شاخه‌ها نام‌های مشابهی دارند و ممکن است اتصال شاخه `main` در ریموت به شاخه `main` محلی منطقی باشد، اما این اتصال به وضوح در دو سناریو نشان داده می‌شود:",
+              "",
+              "* در طول عملیات pull، کامیت‌ها روی `o/main` دانلود می‌شوند و سپس در شاخه `main` *ادغام* می‌شوند. هدف ضمنی ادغام از این اتصال تعیین می‌شود.",
+              "* در طول عملیات push، کار از شاخه `main` روی شاخه `main` ریموت (که سپس توسط `o/main` به صورت محلی نمایش داده می‌شد) push شد. *مقصد* push از اتصال بین `main` و `o/main` تعیین می‌شود.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## رهگیری ریموت",
+              "",
+              "خلاصه کلام، این اتصال بین `main` و `o/main` به سادگی توسط ویژگی \"رهگیری ریموت\" شاخه‌ها توضیح داده می‌شود. شاخه `main` برای رهگیری `o/main` تنظیم شده است -- این بدان معناست که یک هدف ادغام ضمنی و مقصد push ضمنی برای شاخه `main` وجود دارد.",
+              "",
+              "ممکن است تعجب کنید که چگونه این ویژگی روی شاخه `main` تنظیم شده است زمانی که شما هیچ دستوری برای مشخص کردن آن اجرا نکردید. خوب، وقتی یک مخزن را با گیت clone می‌کنید، این ویژگی در واقع به صورت خودکار برای شما تنظیم می‌شود. ",
+              "",
+              "در طول clone، گیت یک شاخه ریموت برای هر شاخه در ریموت (معروف به شاخه‌هایی مانند `o/main`) ایجاد می‌کند. سپس یک شاخه محلی ایجاد می‌کند که شاخه فعال فعلی در ریموت را رهگیری می‌کند، که در اکثر موارد `main` است.",
+              "",
+              "پس از کامل شدن git clone، شما تنها یک شاخه محلی دارید (بنابراین گیج نمی‌شوید) اما می‌توانید تمام شاخه‌های مختلف در ریموت را ببینید (اگر خیلی کنجکاو باشید). این بهترین حالت ممکن است!",
+              "",
+              "این همچنین توضیح می‌دهد که چرا ممکن است خروجی دستور زیر را هنگام clone کردن ببینید:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### آیا می‌توانم خودم این را مشخص کنم؟",
+              "",
+              "بله می‌توانید! شما می‌توانید کاری کنید که هر شاخه دلخواهی `o/main` را رهگیری کند، و اگر این کار را انجام دهید، آن شاخه همان مقصد push ضمنی و هدف ادغام `main` را خواهد داشت. این بدان معناست که می‌توانید `git push` را روی شاخه‌ای به نام `totallyNotMain` اجرا کنید و کارتان را روی شاخه `main` در ریموت push کنید!",
+              "",
+              "دو راه برای تنظیم این ویژگی وجود دارد. اولین راه این است که یک شاخه جدید را با استفاده از یک شاخه ریموت به عنوان مرجع مشخص شده checkout کنید. اجرای",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "یک شاخه جدید به نام `totallyNotMain` ایجاد می‌کند و آن را برای رهگیری `o/main` تنظیم می‌کند."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "صحبت کافیست، بیایید یک دمو ببینیم! ما یک شاخه جدید به نام `foo` را checkout می‌کنیم و آن را برای رهگیری `main` در ریموت تنظیم می‌کنیم."
+            ],
+            "afterMarkdowns": [
+              "همانطور که می‌بینید، ما از هدف ادغام ضمنی `o/main` برای به‌روزرسانی شاخه `foo` استفاده کردیم. توجه کنید که چگونه main به‌روزرسانی نمی‌شود!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "این همچنین برای git push صدق می‌کند."
+            ],
+            "afterMarkdowns": [
+              "بوم. ما کارمان را به `main` در ریموت push کردیم با اینکه شاخه ما نام کاملاً متفاوتی داشت."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### روش شماره ۲",
+              "",
+              "روش دیگر برای تنظیم رهگیری ریموت روی یک شاخه، استفاده ساده از گزینه `git branch -u` است. اجرای",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "شاخه `foo` را برای رهگیری `o/main` تنظیم خواهد کرد. اگر `foo` در حال حاضر checkout شده باشد، حتی می‌توانید آن را حذف کنید:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید این روش دیگر مشخص کردن رهگیری ریموت را خیلی سریع ببینیم..."
+            ],
+            "afterMarkdowns": [
+              "مانند قبل، فقط یک دستور صریح‌تر. شیرین است!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "خیلی خوب! برای این مرحله بیایید کار را روی شاخه `main` در ریموت push کنیم در حالی که روی `main` محلی checkout *نکرده‌ایم*. شما باید در عوض شاخه‌ای به نام `side` بسازید که نمودار هدف نشان خواهد داد."
             ]
           }
         }

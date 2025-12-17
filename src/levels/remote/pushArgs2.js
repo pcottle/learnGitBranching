@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C6\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C4\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\",\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git push arguments -- Expanded!",
+    "fa": "آرگومان‌های Git push -- توسعه یافته!",
     "zh_CN": "Git push 参数 2",
     "zh_TW": "git push 的參數，延伸討論！",
     "es_AR": "¡Más! Parámetros de git push",
@@ -25,6 +26,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
+    "fa": "به یاد داشته باشید که می‌توانید شکست را بپذیرید و \"show solution\" را تایپ کنید :P",
     "zh_CN": "如果你认输的话，可以通过“show solution”查看解决方案 :P",
     "zh_TW": "如果你失敗了，可以利用 \"show solution\" 來找到解答:P",
     "es_AR": "Recordá que podés admitir tu derrota y tipear \"show solution\" para ver la solución :P",
@@ -108,6 +110,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## جزئیات آرگومان `<place>`",
+              "",
+              "از درس قبلی به یاد دارید که وقتی `main` را به عنوان آرگومان مکان برای git push مشخص کردیم، هم *مبدأ* جایی که کامیت‌ها از آن می‌آیند و هم *مقصد* جایی که کامیت‌ها می‌روند را مشخص کردیم.",
+              "",
+              "پس ممکن است تعجب کنید -- اگر بخواهیم مبدأ و مقصد متفاوت باشند چه؟ اگر بخواهید که کامیت‌ها را از شاخه محلی `foo` به شاخه `bar` در ریموت push کنید چه؟",
+              "",
+              "خوب متاسفانه این در گیت غیرممکن است... شوخی کردم! البته که ممکن است :)... گیت انعطاف‌پذیری بسیار بسیار زیادی دارد (تقریباً خیلی زیاد).",
+              "",
+              "در اسلاید بعدی ببینیم چطور..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای مشخص کردن هر دو مبدأ و مقصد `<place>`، به سادگی آن دو را با دو نقطه به هم وصل کنید:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "این معمولاً به عنوان refspec دو نقطه‌ای شناخته می‌شود. Refspec فقط یک نام فانتزی برای مکانی است که گیت می‌تواند تشخیص دهد (مانند شاخه `foo` یا حتی فقط `HEAD~1`).",
+              "",
+              "هنگامی که هر دو مبدأ و مقصد را جداگانه مشخص می‌کنید، می‌توانید با دستورات ریموت بسیار فانتزی و دقیق عمل کنید. بیایید یک دمو ببینیم!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "به یاد داشته باشید، `source` هر مکانی است که گیت آن را می‌فهمد:"
+            ],
+            "afterMarkdowns": [
+              "وای! این یک دستور بسیار عجیب است اما منطقی به نظر می‌رسد -- گیت `foo^` را به یک مکان تبدیل کرد، هر کامیتی که هنوز در ریموت موجود نبود را آپلود کرد، و سپس مقصد را به‌روزرسانی کرد."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "اگر مقصدی که می‌خواهید به آن push کنید وجود نداشته باشد چه؟ مشکلی نیست! فقط یک نام شاخه بدهید و گیت آن شاخه را در ریموت برای شما ایجاد خواهد کرد."
+            ],
+            "afterMarkdowns": [
+              "شیرین است، خیلی هوشمندانه است :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "برای این مرحله، سعی کنید به وضعیت هدف نهایی که در تجسم نشان داده شده است برسید، و فرمت زیر را به یاد داشته باشید:",
               "",
               "`<source>:<destination>`"
             ]

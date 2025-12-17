@@ -1,6 +1,7 @@
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
+    "fa": "معرفی به Commit در Git",
     "de_DE": "Einführung in Git Commits",
     "es_AR": "Introducción a los commits de Git",
     "es_MX": "Introducción a los commits de Git",
@@ -27,6 +28,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
+    "fa": "فقط دو بار 'git commit' را تایپ کنید تا تمام شود!",
     "de_DE": "Gib einfach zweimal 'git commit' ein um den Level abzuschließen",
     "es_AR": "¡Simplemente tipeá 'git commit' dos veces para terminar!",
     "es_MX": "¡Simplemente escribe 'git commit' dos veces para terminar!",
@@ -89,6 +91,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Go ahead and try it out on your own! After this window closes, make two commits to complete the level."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## کامیت‌های Git",
+              "یک کامیت در مخزن git یک تصویر لحظه‌ای (Snapshot) از تمام فایل‌های (ردیابی شده) در دایرکتوری شما را ثبت می‌کند. این مثل یک کپی و پیست بزرگ است، اما خیلی بهتر!",
+              "",
+              "با این حال، Git می‌خواهد کامیت‌ها را تا حد امکان سبک نگه دارد، بنابراین هر بار که کامیت می‌کنید، کورکورانه کل دایرکتوری را کپی نمی‌کند. می‌تواند (در صورت امکان) یک کامیت را به عنوان مجموعه‌ای از تغییرات، یا یک \"delta\"، از یک نسخه مخزن به نسخه دیگر فشرده کند.",
+              "",
+              "Git همچنین تاریخچه‌ای از اینکه چه کامیت‌هایی در چه زمانی انجام شده‌اند را نگه می‌دارد. به همین دلیل است که اکثر کامیت‌ها دارای کامیت‌های اجدادی در بالای خود هستند -- ما این را با فلش‌ها در تصویرسازی خود نشان می‌دهیم. حفظ تاریخچه برای همه کسانی که روی پروژه کار می‌کنند عالی است!",
+              "",
+              "اطلاعات زیادی برای یادگیری وجود دارد، اما در حال حاضر می‌توانید به کامیت‌ها به عنوان تصاویر لحظه‌ای از پروژه فکر کنید. کامیت‌ها بسیار سبک هستند و جابجایی بین آن‌ها بسیار سریع است!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید ببینیم این در عمل چگونه به نظر می‌رسد. در سمت راست ما تصویری از یک مخزن git (کوچک) داریم. در حال حاضر دو کامیت وجود دارد -- اولین کامیت اولیه، `C0`، و یک کامیت پس از آن `C1` که ممکن است تغییرات معناداری داشته باشد.",
+              "",
+              "دکمه زیر را بزنید تا یک کامیت جدید بسازید."
+            ],
+            "afterMarkdowns": [
+              "بفرما! عالیه. ما تغییراتی در مخزن ایجاد کردیم و آن‌ها را به عنوان یک کامیت ذخیره کردیم. کامیتی که به تازگی ساختیم یک والد دارد، `C1`، که ارجاع می‌دهد این کامیت بر اساس کدام کامیت ساخته شده است."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "حالا خودتان امتحان کنید! بعد از بسته شدن این پنجره، دو بار کامیت کنید تا مرحله تمام شود."
             ]
           }
         }

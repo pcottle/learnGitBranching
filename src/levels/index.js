@@ -56,6 +56,7 @@ var sequenceInfo = exports.sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
+      'fa': 'سری مقدماتی',
       'de_DE': 'Einführung',
       'ja'   : 'まずはここから',
       'fr_FR': 'Séquence d\'introduction',
@@ -79,6 +80,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
+      'fa': 'مقدمه‌ای با سرعت مناسب بر اکثر دستورات git',
       'de_DE': 'Eine gut abgestimmte Einführung in die wichtigsten Git-Befehle',
       'ja'   : 'gitの基本的なコマンド群をほどよいペースで学ぶ',
       'fr_FR': 'Une introduction en douceur à la majorité des commandes Git',
@@ -104,6 +106,7 @@ var sequenceInfo = exports.sequenceInfo = {
   rampup: {
     displayName: {
       'en_US': 'Ramping Up',
+      'fa': 'افزایش مهارت',
       'de_DE': 'Eine Stufe höher',
       'ja'   : '次のレベルに進もう',
       'fr_FR': 'Montée en puissance',
@@ -127,6 +130,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
+      'fa': 'وعده بعدی از جذابیت‌های ۱۰۰٪ گیت. امیدوارم گرسنه باشید',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja'   : '更にgitの素晴らしさを堪能しよう',
       'fr_FR': 'Le prochain excellent plat de pur Git. J\'espère que vous êtes affamés',
@@ -153,6 +157,7 @@ var sequenceInfo = exports.sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
+      'fa': 'Push و Pull -- ریموت‌های Git!',
       'de_DE': 'Push & Pull -- Remote Repositories',
       'ja'   : 'Push及びPullコマンド -- Gitリモート',
       'fr_FR': 'Push & Pull -- Dépôts Git distants !',
@@ -176,6 +181,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
+      'fa': 'وقت به اشتراک گذاشتن ۰ و ۱ هاست بچه‌ها؛ کدنویسی اجتماعی می‌شود',
       'fr_FR': 'Il est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
       'ja'   : '自分のコードをより広く公開しましょう',
       'de_DE': 'Zeit eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
@@ -203,6 +209,7 @@ var sequenceInfo = exports.sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
+      'fa': 'به سوی Origin و فراتر از آن -- ریموت‌های پیشرفته Git!',
       'de_DE': 'Bis zum Origin und noch viel weiter -- Fortgeschrittene Remote Repositories',
       'ja'   : '"origin"とその先へ -- Gitリモート上級編',
       'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
@@ -226,6 +233,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
+      'fa': 'و فکر می‌کردید که یک دیکتاتور خیرخواه بودن تفریح دارد...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
       'ja'   : '絶えず上級者の仕事は存在する。。。',
       'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
@@ -252,6 +260,7 @@ var sequenceInfo = exports.sequenceInfo = {
   move: {
     displayName: {
       'en_US': 'Moving Work Around',
+      'fa': 'جابجایی کارها',
       'de_DE': 'Code umherschieben',
       'fr_FR': 'Déplacer le travail',
       'es_AR': 'Moviendo el trabajo por ahí',
@@ -275,6 +284,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': '"Git" comfortable with modifying the source tree :P',
+      'fa': 'با تغییر درخت منبع راحت باشید :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
       'es_AR': 'Preparate para modificar el directorio fuente :P',
@@ -300,6 +310,7 @@ var sequenceInfo = exports.sequenceInfo = {
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
+      'fa': 'مجموعه‌ای درهم',
       'de_DE': 'Eine bunte Mischung',
       'ja'   : '様々なtips',
       'fr_FR': 'Un assortiment',
@@ -323,6 +334,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'fa': 'مجموعه‌ای درهم از تکنیک‌ها، ترفندها و نکات Git',
       'de_DE': 'Eine bunte Mischung an Techniken, Tipps und Tricks',
       'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
       'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
@@ -348,6 +360,7 @@ var sequenceInfo = exports.sequenceInfo = {
   advanced: {
     displayName: {
       'en_US': 'Advanced Topics',
+      'fa': 'مباحث پیشرفته',
       'de_DE': 'Themen für Fortgeschrittene',
       'ja'   : '上級トピック',
       'fr_FR': 'Sujets avancés',
@@ -371,6 +384,7 @@ var sequenceInfo = exports.sequenceInfo = {
     },
     about: {
       'en_US': 'For the truly brave!',
+      'fa': 'برای شجاعان واقعی!',
       'de_DE': 'Nur für die Tapferen',
       'ja'   : '勇気ある人のみ！',
       'fr_FR': 'Pour les plus courageux !',

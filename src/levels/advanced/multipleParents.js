@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C7\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
+    "fa": "چندین والد",
     "zh_CN": "两个 parent 节点",
     "fr_FR": "Parents multiples",
     "de_DE": "Mehrere Vorgänger",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
+    "fa": "از `git branch bugWork` با یک کامیت هدف استفاده کنید تا مرجع گم شده ایجاد شود.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
     "ja": "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
     "fr_FR": "Utilisez \"git branch bugWork\" avec un commit pour créer une référence manquante",
@@ -131,6 +133,92 @@ exports.level = {
               "To complete this level, create a new branch at the specified destination.",
               "",
               "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### مشخص کردن والدین",
+              "",
+              "مانند اصلاح‌گر `~`، اصلاح‌گر `^` نیز یک عدد اختیاری را بعد از خود می‌پذیرد.",
+              "",
+              "به جای مشخص کردن تعداد نسل‌هایی که باید به عقب برگردد (کاری که `~` انجام می‌دهد)، اصلاح‌گر روی `^` مشخص می‌کند که کدام مرجع والد را از یک کامیت ادغام دنبال کند. به یاد داشته باشید که کامیت‌های ادغام دارای چندین والد هستند، بنابراین مسیر انتخاب مبهم است.",
+              "",
+              "گیت معمولاً والد \"اول\" را از یک کامیت ادغام به سمت بالا دنبال می‌کند، اما مشخص کردن یک عدد با `^` این رفتار پیش‌فرض را تغییر می‌دهد.",
+              "",
+              "صحبت کافی است، بیایید آن را در عمل ببینیم."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "در اینجا ما یک کامیت ادغام داریم. اگر `main^` را بدون اصلاح‌گر checkout کنیم، اولین والد پس از کامیت ادغام را دنبال خواهیم کرد.",
+              "",
+              "(*در تصاویر ما، اولین والد مستقیماً بالای کامیت ادغام قرار دارد.*)"
+            ],
+            "afterMarkdowns": [
+              "آسان است -- این همان چیزی است که همه ما به آن عادت داریم."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "حالا بیایید سعی کنیم در عوض دومین والد را مشخص کنیم..."
+            ],
+            "afterMarkdowns": [
+              "دیدید؟ ما والد دیگر را به سمت بالا دنبال کردیم."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "اصلاح‌گرهای `^` و `~` می‌توانند حرکت در اطراف یک درخت کامیت را بسیار قدرتمند کنند:"
+            ],
+            "afterMarkdowns": [
+              "با سرعت رعد و برق!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "حتی دیوانه‌وارتر، این اصلاح‌گرها می‌توانند به هم متصل شوند! این را بررسی کنید:"
+            ],
+            "afterMarkdowns": [
+              "همان حرکت قبلی، اما همه در یک دستور."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### به کار بستن",
+              "",
+              "برای تکمیل این مرحله، یک شاخه جدید در مقصد مشخص شده ایجاد کنید.",
+              "",
+              "بدیهی است که مشخص کردن مستقیم کامیت (با چیزی مانند `C6`) آسان خواهد بود، اما من شما را به چالش می‌کشم تا به جای آن از اصلاح‌گرهایی که در مورد آنها صحبت کردیم استفاده کنید!"
             ]
           }
         }

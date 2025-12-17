@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Faking Teamwork",
+    "fa": "شبیه‌سازی کار تیمی (Faking Teamwork)",
     "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
     "ja": "擬似的なチーム作業",
@@ -26,6 +27,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
+    "fa": "به یاد داشته باشید که می‌توانید تعداد کامیت‌ها را برای شبیه‌سازی مشخص کنید",
     "fr_FR": "Rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wie viele Commits simuliert werden sollen.",
     "ja": "擬似的に作成するコミット数を指定できるのをお忘れなく",
@@ -96,6 +98,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and make a remote (with `git clone`), fake some changes on that remote, add a local commit, and then pull down the remote changes and merge them. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## شبیه‌سازی همکاری",
+              "",
+              "پس نکته دشوار اینجاست -- برای برخی از این درس‌های پیش رو، ما باید به شما آموزش دهیم که چگونه تغییراتی را که در ریموت معرفی شده‌اند، دریافت کنید.",
+              "",
+              "این بدان معناست که ما اساساً باید \"وانمود کنیم\" که ریموت توسط یکی از همکاران / دوستان / همکاران شما به‌روز شده است، گاهی اوقات در یک شاخه خاص یا تعداد مشخصی از کامیت‌ها.",
+              "",
+              "برای انجام این کار، ما دستوری با نام مناسب `git fakeTeamwork` را معرفی کردیم! این کاملاً گویا است، بیایید یک دمو ببینیم..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "رفتار پیش‌فرض `fakeTeamwork` این است که به سادگی یک کامیت روی main قرار دهد."
+            ],
+            "afterMarkdowns": [
+              "بفرمایید -- ریموت با یک کامیت جدید به‌روز شد، و ما هنوز آن کامیت را دانلود نکرده‌ایم زیرا `git fetch` را اجرا نکرده‌ایم."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "همچنین می‌توانید با افزودن تعداد کامیت‌ها یا شاخه به دستور، آن‌ها را مشخص کنید."
+            ],
+            "afterMarkdowns": [
+              "با یک دستور، ما شبیه‌سازی کردیم که یک هم‌تیمی سه کامیت را به شاخه `foo` در ریموت ما push کرده است."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "مراحل پیش رو قرار است بسیار دشوار باشند، بنابراین ما در این مرحله انتظارات بیشتری از شما داریم.",
+              "",
+              "پیش بروید و یک ریموت بسازید (با `git clone`)، برخی تغییرات را در آن ریموت شبیه‌سازی کنید، یک کامیت محلی اضافه کنید و سپس تغییرات ریموت را دریافت کرده و آن‌ها را ادغام کنید. این مانند چند درس در یک درس است!"
             ]
           }
         }

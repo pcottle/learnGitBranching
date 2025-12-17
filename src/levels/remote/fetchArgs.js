@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":\"o/foo\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C6\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C1\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"foo\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Fetch arguments",
+    "fa": "آرگومان‌های Fetch",
     "fr_FR": "Arguments de fetch",
     "zh_CN": "Git fetch 的参数",
     "zh_TW": "fetch 的參數",
@@ -25,6 +26,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
+    "fa": "دقت کنید که چگونه شناسه کامیت‌ها ممکن است جابجا شده باشند! می‌توانید اسلایدها را دوباره با \"help level\" بخوانید",
     "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez relire les slides avec \"help level\"",
     "zh_CN": "注意下提交对象的 id 是如何交换的! 你可以通过 `help level` 重新阅读本关卡的所有对话框!",
     "zh_TW": "注意 commit 的 id 是怎麼被交換的！你可以透過 `help level` 來閱讀對話視窗！",
@@ -163,6 +165,129 @@ exports.level = {
               "Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!",
               "",
               "You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## آرگومان‌های Git fetch",
+              "",
+              "پس ما همین الان همه چیز را درباره آرگومان‌های git push، این پارامتر جالب `<place>`، و حتی refspecهای دو نقطه‌ای (`<source>:<destination>`) یاد گرفتیم. آیا می‌توانیم از همه این دانش برای `git fetch` هم استفاده کنیم؟",
+              "",
+              "حتماً! آرگومان‌های `git fetch` در واقع *بسیار، بسیار* شبیه به `git push` هستند. این همان نوع مفاهیم است اما فقط در جهت مخالف اعمال می‌شود (زیرا اکنون شما به جای آپلود کردن، کامیت‌ها را دانلود می‌کنید).",
+              "",
+              "بیایید مفاهیم را یکی یکی مرور کنیم..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### پارامتر `<place>`",
+              "",
+              "اگر مکانی را با git fetch مشخص کنید مانند دستور زیر:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "گیت به شاخه `foo` در ریموت می‌رود، تمام کامیت‌هایی را که به صورت محلی موجود نیستند می‌گیرد، و سپس آن‌ها را روی شاخه `o/foo` به صورت محلی قرار می‌دهد.",
+              "",
+              "بیایید این را در عمل ببینیم (فقط به عنوان یادآوری)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "با مشخص کردن یک مکان..."
+            ],
+            "afterMarkdowns": [
+              "ما فقط کامیت‌ها را از `foo` دانلود می‌کنیم و آن‌ها را روی `o/foo` قرار می‌دهیم."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ممکن است تعجب کنید -- چرا گیت آن کامیت‌ها را روی شاخه ریموت `o/foo` قرار داد به جای اینکه فقط آن‌ها را روی شاخه محلی `foo` من قرار دهد؟ من فکر می‌کردم پارامتر `<place>` مکانی است که هم به صورت محلی و هم در ریموت وجود دارد؟",
+              "",
+              "خوب گیت در این مورد یک استثنای خاص قائل می‌شود زیرا ممکن است کاری روی شاخه `foo` داشته باشید که نخواهید خراب شود!! این به درس قبلی در مورد `git fetch` مربوط می‌شود -- این دستور شاخه‌های غیر-ریموت محلی شما را به‌روزرسانی نمی‌کند، فقط کامیت‌ها را دانلود می‌کند (تا بتوانید بعداً آن‌ها را بررسی / ادغام کنید).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"خوب در آن صورت، چه اتفاقی می‌افتد اگر من به صراحت هم مبدأ و هم مقصد را با `<source>:<destination>` تعریف کنم؟\"",
+              "",
+              "اگر به اندازه کافی مشتاق هستید که کامیت‌ها را *مستقیماً* روی یک شاخه محلی fetch کنید، بله می‌توانید آن را با یک refspec دو نقطه‌ای مشخص کنید. شما نمی‌توانید کامیت‌ها را روی شاخه‌ای که روی آن هستید (checked out) fetch کنید، اما در غیر این صورت گیت این اجازه را می‌دهد.",
+              "",
+              "اما یک نکته وجود دارد -- `<source>` اکنون مکانی در *ریموت* است و `<destination>` مکانی *محلی* برای قرار دادن آن کامیت‌ها است. این دقیقا برعکس git push است، و منطقی است زیرا ما داده‌ها را در جهت مخالف انتقال می‌دهیم!",
+              "",
+              "با این اوصاف، توسعه‌دهندگان به ندرت در عمل این کار را انجام می‌دهند. من این را عمدتاً به عنوان راهی برای درک اینکه چطور `fetch` و `push` بسیار شبیه هستند، فقط در جهت‌های مخالف، معرفی می‌کنم."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید این دیوانگی را در عمل ببینیم:"
+            ],
+            "afterMarkdowns": [
+              "وای! ببینید، گیت `C2` را به عنوان مکانی در origin حل کرد و سپس آن کامیت‌ها را به `bar` (که یک شاخه محلی بود) دانلود کرد."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "اگر مقصد قبل از اجرای دستور من وجود نداشته باشد چه؟ بیایید آخرین اسلاید را ببینیم اما بدون اینکه `bar` از قبل وجود داشته باشد."
+            ],
+            "afterMarkdowns": [
+              "ببینید، این دقیقاً مثل git push است. گیت مقصد را به صورت محلی قبل از fetching ساخت، درست همانطور که گیت مقصد را در ریموت قبل از pushing می‌سازد (اگر وجود نداشته باشد)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بدون آرگومان؟",
+              "",
+              "اگر `git fetch` هیچ آرگومانی دریافت نکند، فقط تمام کامیت‌ها را از ریموت روی تمام شاخه‌های ریموت دانلود می‌کند..."
+            ],
+            "afterMarkdowns": [
+              "خیلی ساده است، اما ارزش یک بار مرور کردن را دارد."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "خوب، صحبت کافیست! برای پایان دادن به این مرحله، فقط کامیت‌های مشخص شده در تجسم هدف را fetch کنید. با آن دستورات فانتزی کار کنید!",
+              "",
+              "شما باید مبدأ و مقصد را برای هر دو دستور fetch مشخص کنید. به تجسم هدف توجه کنید زیرا شناسه‌ها ممکن است جابجا شده باشند!"
             ]
           }
         }

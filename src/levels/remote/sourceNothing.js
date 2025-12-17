@@ -10,6 +10,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null},\"o/foo\":{\"target\":\"C1\",\"id\":\"o/foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null},\"foo\":{\"target\":\"C1\",\"id\":\"foo\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Source of nothing",
+    "fa": "منبع پوچ",
     "zh_CN": "没有 source 的 source",
     "zh_TW": "沒有 source",
     "es_AR": "Origen de nada",
@@ -31,6 +32,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
+    "fa": "دستور branch برای این مرحله غیرفعال است بنابراین باید از fetch استفاده کنید!",
     "zh_CN": "本关的 branch 命令被禁用了，你只能用 fetch！",
     "zh_TW": "在本關卡中，不允許使用 branch 指令，因此你只能使用 fetch！",
     "es_AR": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
@@ -99,6 +101,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a quick level -- just delete one remote branch and create a new branch with `git fetch` to finish!"
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### عجایب `<source>`",
+              "",
+              "گیت از پارامتر `<source>` به دو روش عجیب سوء استفاده می‌کند. این دو سوء استفاده از این واقعیت ناشی می‌شود که شما می‌توانید از نظر فنی \"هیچ چیز\" را به عنوان یک `source` معتبر هم برای git push و هم برای git fetch تعریف کنید. راه مشخص کردن هیچ چیز از طریق یک آرگومان خالی است:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "بیایید ببینیم این ها چه کار می کنند..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "push کردن \"هیچ چیز\" به یک شاخه ریموت چه کاری انجام می‌دهد؟ آن را حذف می‌کند!"
+            ],
+            "afterMarkdowns": [
+              "اینجا، ما با موفقیت شاخه `foo` را در ریموت با push کردن مفهوم \"هیچ چیز\" به آن حذف کردیم. این تا حدودی منطقی به نظر می‌رسد..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "نهایتاً، fetch کردن \"هیچ چیز\" به یک مکان محلی در واقع یک شاخه جدید می‌سازد."
+            ],
+            "afterMarkdowns": [
+              "بسیار عجیب / غریب، اما به هر حال. این گیت است دیگر!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "این یک مرحله سریع است -- فقط یک شاخه ریموت را حذف کنید و یک شاخه جدید با `git fetch` بسازید تا تمام شود!"
             ]
           }
         }

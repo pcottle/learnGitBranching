@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
+    "fa": "برای تکمیل این مرحله باید حداقل از یک ارجاع مستقیم (hash) استفاده کنید",
     "fr_FR": "Vous aurez besoin d'utiliser au moins une référence directe (hash) pour compléter ce niveau.",
     "zh_CN": "这一关至少要用到一次直接引用 (即哈希值)",
     "zh_TW": "這一關至少要用到一次直接參考（hash）",
@@ -27,6 +28,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
+    "fa": "ارجاعات نسبی شماره ۲ (~)",
     "de_DE": "Relative Referenzen #2 (~)",
     "ja": "相対リファレンス　その２ (~)",
     "es_AR": "Referencias relativas #2 (~)",
@@ -115,6 +117,77 @@ exports.level = {
               "Now that you have seen relative refs and branch forcing in combination, let's use them to solve the next level.",
               "",
               "To complete this level, move `HEAD`, `main`, and `bugFix` to their goal destinations shown."
+            ]
+          }
+        }
+      ]
+    },
+    "fa": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### عملگر \"~\"",
+              "",
+              "فرض کنید می‌خواهید تعداد زیادی سطح در درخت کامیت به بالا بروید. تایپ کردن چندباره `^` ممکن است خسته‌کننده باشد، بنابراین Git عملگر تیلدا (~) را نیز دارد.",
+              "",
+              "",
+              "عملگر تیلدا (اختیاراً) یک عدد را در ادامه می‌پذیرد که مشخص می‌کند چند والد می‌خواهید بالا بروید. بیایید آن را در عمل ببینیم."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید با `~` تعداد مشخصی کامیت به عقب برگردیم."
+            ],
+            "afterMarkdowns": [
+              "بوم! خیلی موجز -- ارجاعات نسبی عالی هستند."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### جابجایی اجباری شاخه (Branch forcing)",
+              "",
+              "شما الان متخصص ارجاعات نسبی هستید، پس بیایید واقعا از آن‌ها برای کاری *استفاده* کنیم.",
+              "",
+              "یکی از رایج‌ترین روش‌هایی که من از ارجاعات نسبی استفاده می‌کنم، برای جابجایی شاخه‌ها است. شما می‌توانید مستقیماً یک شاخه را با گزینه `-f` به یک کامیت اختصاص دهید. پس چیزی شبیه به:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "شاخه main را (به زور) به سه والد قبل از HEAD منتقل می‌کند.",
+              "",
+              "*نکته: در محیط واقعی git دستور `git branch -f` برای شاخه فعلی شما مجاز نیست.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "بیایید آن دستور قبلی را در عمل ببینیم."
+            ],
+            "afterMarkdowns": [
+              "بفرما! ارجاعات نسبی راهی موجز برای اشاره به `C1` به ما دادند و جابجایی اجباری شاخه (`-f`) راهی برای انتقال سریع یک شاخه به آن مکان به ما داد."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "حالا که ارجاعات نسبی و جابجایی اجباری شاخه را در ترکیب با هم دیدید، بیایید از آن‌ها برای حل مرحله بعدی استفاده کنیم.",
+              "",
+              "برای تکمیل این مرحله، `HEAD`، `main` و `bugFix` را به مقصدهای هدف نشان داده شده منتقل کنید."
             ]
           }
         }
