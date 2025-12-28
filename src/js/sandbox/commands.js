@@ -121,7 +121,9 @@ var instantCommands = [
       getAllCommands()
     );
     var allOptions = Commands.commands.getOptionMap();
+    var allDescriptions = Commands.commands.getDescriptionMap();
     var commandToOptions = {};
+    var commandToDescriptions = {};
 
     Object.keys(allOptions).forEach(function(vcs) {
       var vcsMap = allOptions[vcs];
@@ -129,6 +131,16 @@ var instantCommands = [
         var options = vcsMap[method];
         if (options) {
           commandToOptions[vcs + ' ' + method] = Object.keys(options).filter(option => option.length > 1);
+        }
+      });
+    });
+
+    Object.keys(allDescriptions).forEach(function(vcs) {
+      var vcsMap = allDescriptions[vcs];
+      Object.keys(vcsMap).forEach(function(method) {
+        var description = vcsMap[method];
+        if (description) {
+          commandToDescriptions[vcs + ' ' + method] = description;
         }
       });
     });
@@ -152,12 +164,32 @@ var instantCommands = [
       intl.str('show-all-commands'),
       '<br/>'
     ];
+    
+    // Commands that are learning tools with no official docs
+    var customCommands = ['fakeTeamwork', 'mergeMR'];
+    
     Object.keys(allCommands)
       .forEach(function(command) {
         if (selectedInstantCommands[command]) {
           lines.push('<br/>');
         }
-        lines.push(command);
+        
+        // Add command name with documentation link for git commands (skip custom commands)
+        var commandParts = command.split(' ');
+        if (commandParts[0] === 'git' && commandParts[1] && customCommands.indexOf(commandParts[1]) === -1) {
+          var gitCommand = commandParts[1];
+          var docUrl = 'https://git-scm.com/docs/git-' + gitCommand;
+          lines.push('<b>' + command + '</b> - <a href="' + docUrl + '" target="_blank" style="color: #87CEEB">📖 Docs</a>');
+        } else {
+          lines.push('<b>' + command + '</b>');
+        }
+        
+        // Add description if available
+        if (commandToDescriptions[command]) {
+          lines.push('&nbsp;&nbsp;&nbsp;&nbsp;<i>' + commandToDescriptions[command] + '</i>');
+        }
+        
+        // Add options
         if (commandToOptions[command]) {
           commandToOptions[command].forEach(option => lines.push('&nbsp;&nbsp;&nbsp;&nbsp;' + option));
         }
