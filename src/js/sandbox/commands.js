@@ -144,7 +144,6 @@ var instantCommands = [
         }
       });
     });
-
     var selectedInstantCommands = {};
     instantCommands.map(
       tuple => {
@@ -166,7 +165,6 @@ var instantCommands = [
     ];
     // Commands that are learning tools with no official docs
     var customCommands = ['fakeTeamwork', 'mergeMR'];
-    
     Object.keys(allCommands)
       .forEach(function(command) {
         if (selectedInstantCommands[command]) {

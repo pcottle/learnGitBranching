@@ -96,7 +96,6 @@ var commands = {
     });
     return map;
   },
-
   /**
    * which commands count for the git golf game
    */
