@@ -1082,7 +1082,6 @@ var instantCommands = [
 
     var commands = require('../commands').commands.getOptionMap()['git'];
     var descriptions = require('../commands').commands.getDescriptionMap()['git'];
-    
     // Commands that are learning tools with no official docs
     var customCommands = ['fakeTeamwork', 'mergeMR'];    
     // build up a nice display of what we support
