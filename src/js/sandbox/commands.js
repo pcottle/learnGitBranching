@@ -164,7 +164,6 @@ var instantCommands = [
       intl.str('show-all-commands'),
       '<br/>'
     ];
-    
     // Commands that are learning tools with no official docs
     var customCommands = ['fakeTeamwork', 'mergeMR'];
     
@@ -172,8 +171,7 @@ var instantCommands = [
       .forEach(function(command) {
         if (selectedInstantCommands[command]) {
           lines.push('<br/>');
-        }
-        
+        }        
         // Add command name with documentation link for git commands (skip custom commands)
         var commandParts = command.split(' ');
         if (commandParts[0] === 'git' && commandParts[1] && customCommands.indexOf(commandParts[1]) === -1) {
@@ -182,13 +180,11 @@ var instantCommands = [
           lines.push('<b>' + command + '</b> - <a href="' + docUrl + '" target="_blank" style="color: #87CEEB">📖 Docs</a>');
         } else {
           lines.push('<b>' + command + '</b>');
-        }
-        
+        }        
         // Add description if available
         if (commandToDescriptions[command]) {
           lines.push('&nbsp;&nbsp;&nbsp;&nbsp;<i>' + commandToDescriptions[command] + '</i>');
-        }
-        
+        }        
         // Add options
         if (commandToOptions[command]) {
           commandToOptions[command].forEach(option => lines.push('&nbsp;&nbsp;&nbsp;&nbsp;' + option));

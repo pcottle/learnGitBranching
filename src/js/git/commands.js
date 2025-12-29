@@ -1084,25 +1084,21 @@ var instantCommands = [
     var descriptions = require('../commands').commands.getDescriptionMap()['git'];
     
     // Commands that are learning tools with no official docs
-    var customCommands = ['fakeTeamwork', 'mergeMR'];
-    
+    var customCommands = ['fakeTeamwork', 'mergeMR'];    
     // build up a nice display of what we support
     Object.keys(commands).forEach(function(command) {
-      var commandOptions = commands[command];
-      
+      var commandOptions = commands[command];      
       // Add command name with documentation link (skip for custom commands)
       if (customCommands.indexOf(command) === -1) {
         var docUrl = 'https://git-scm.com/docs/git-' + command;
         lines.push('<b>git ' + command + '</b> - <a href="' + docUrl + '" target="_blank" style="color: #87CEEB">📖 Docs</a>');
       } else {
         lines.push('<b>git ' + command + '</b>');
-      }
-      
+      } 
       // Add description if available
       if (descriptions[command]) {
         lines.push('\t <i>' + descriptions[command] + '</i>');
       }
-      
       // Add options
       Object.keys(commandOptions).forEach(function(optionName) {
         lines.push('\t ' + optionName);
