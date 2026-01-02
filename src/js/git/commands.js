@@ -126,6 +126,7 @@ var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
+    description: 'Record changes to the repository',
     options: [
       '--amend',
       '-a',
@@ -190,6 +191,7 @@ var commandConfig = {
   cherrypick: {
     displayName: 'cherry-pick',
     regex: /^git +cherry-pick($|\s)/,
+    description: 'Apply changes from existing commits',
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
@@ -219,6 +221,7 @@ var commandConfig = {
   gc: {
     displayName: 'gc',
     regex: /^git +gc($|\s)/,
+    description: 'Cleanup unnecessary files and optimize the repository',
     execute: function(engine, command) {
       engine.pruneTree(false);
     }
@@ -226,6 +229,7 @@ var commandConfig = {
 
   pull: {
     regex: /^git +pull($|\s)/,
+    description: 'Fetch from and integrate with another repository or branch',
     options: [
       '--force',
       '--rebase'
@@ -362,6 +366,7 @@ var commandConfig = {
 
   clone: {
     regex: /^git +clone *?$/,
+    description: 'Clone a repository into a new directory',
     execute: function(engine, command) {
       command.acceptNoGeneralArgs();
       engine.makeOrigin(engine.printTree());
@@ -370,6 +375,7 @@ var commandConfig = {
 
   remote: {
     regex: /^git +remote($|\s)/,
+    description: 'Manage set of tracked repositories',
     options: [
       '-v'
     ],
@@ -389,6 +395,7 @@ var commandConfig = {
 
   fetch: {
     regex: /^git +fetch($|\s)/,
+    description: 'Download objects and refs from another repository',
     options: [
       '--force',
     ],
@@ -445,6 +452,7 @@ var commandConfig = {
   branch: {
     sc: /^(gb|git br)($|\s)/,
     regex: /^git +branch($|\s)/,
+    description: 'List, create, or delete branches',
     options: [
       '-d',
       '-D',
@@ -528,6 +536,7 @@ var commandConfig = {
     dontCountForGolf: true,
     sc: /^ga($|\s)/,
     regex: /^git +add($|\s)/,
+    description: 'Add file contents to the staging area',
     execute: function() {
       throw new CommandResult({
         msg: intl.str('git-error-staging')
@@ -537,6 +546,7 @@ var commandConfig = {
 
   reset: {
     regex: /^git +reset($|\s)/,
+    description: 'Reset current HEAD to a specified state',
     options: [
       '--hard',
       '--soft'
@@ -572,6 +582,7 @@ var commandConfig = {
 
   revert: {
     regex: /^git +revert($|\s)/,
+    description: 'Revert some existing commits',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
 
@@ -582,6 +593,7 @@ var commandConfig = {
 
   merge: {
     regex: /^git +merge($|\s)/,
+    description: 'Join two or more development histories together',
     options: [
       '--no-ff',
       '--squash'
@@ -658,6 +670,7 @@ var commandConfig = {
     dontCountForGolf: true,
     displayName: 'rev-list',
     regex: /^git +rev-list($|\s)/,
+    description: 'List commits reachable from specified commit(s)',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       command.validateArgBounds(generalArgs, 1);
@@ -669,6 +682,7 @@ var commandConfig = {
   log: {
     dontCountForGolf: true,
     regex: /^git +log($|\s)/,
+    description: 'Show commit logs',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
 
@@ -680,6 +694,7 @@ var commandConfig = {
   show: {
     dontCountForGolf: true,
     regex: /^git +show($|\s)/,
+    description: 'Show various types of objects',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       command.oneArgImpliedHead(generalArgs);
@@ -689,6 +704,7 @@ var commandConfig = {
 
   rebase: {
     sc: /^gr($|\s)/,
+    description: 'Reapply commits on top of another base tip',
     options: [
       '-i',
       '--solution-ordering',
@@ -748,6 +764,7 @@ var commandConfig = {
     dontCountForGolf: true,
     sc: /^(gst|gs|git st)($|\s)/,
     regex: /^git +status($|\s)/,
+    description: 'Show the working tree status',
     execute: function(engine) {
       // no parsing at all
       engine.status();
@@ -757,6 +774,7 @@ var commandConfig = {
   checkout: {
     sc: /^(go|git co)($|\s)/,
     regex: /^git +checkout($|\s)/,
+    description: 'Switch branches or restore working tree files',
     options: [
       '-b',
       '-B',
@@ -808,6 +826,7 @@ var commandConfig = {
 
   push: {
     regex: /^git +push($|\s)/,
+    description: 'Update remote refs along with associated objects',
     options: [
       '--force',
       '--delete',
@@ -922,6 +941,7 @@ var commandConfig = {
 
   describe: {
     regex: /^git +describe($|\s)/,
+    description: 'Give an object a human readable name',
     execute: function(engine, command) {
       // first if there are no tags, we cant do anything so just throw
       if (engine.tagCollection.toArray().length === 0) {
@@ -942,6 +962,7 @@ var commandConfig = {
 
   tag: {
     regex: /^git +tag($|\s)/,
+    description: 'Create, list, or delete tag references',
     options: [
       '-d'
     ],
@@ -991,6 +1012,7 @@ var commandConfig = {
   switch: {
     sc: /^(gsw|git sw)($|\s)/,
     regex: /^git +switch($|\s)/,
+    description: 'Switch branches',
     options: [
       '-c',
       '--create',
@@ -1059,10 +1081,24 @@ var instantCommands = [
     ];
 
     var commands = require('../commands').commands.getOptionMap()['git'];
+    var descriptions = require('../commands').commands.getDescriptionMap()['git'];
+    // Commands that are learning tools with no official docs
+    var customCommands = ['fakeTeamwork', 'mergeMR'];    
     // build up a nice display of what we support
     Object.keys(commands).forEach(function(command) {
-      var commandOptions = commands[command];
-      lines.push('git ' + command);
+      var commandOptions = commands[command];      
+      // Add command name with documentation link (skip for custom commands)
+      if (customCommands.indexOf(command) === -1) {
+        var docUrl = 'https://git-scm.com/docs/git-' + command;
+        lines.push('<b>git ' + command + '</b> - <a href="' + docUrl + '" target="_blank" style="color: #87CEEB">📖 Docs</a>');
+      } else {
+        lines.push('<b>git ' + command + '</b>');
+      } 
+      // Add description if available
+      if (descriptions[command]) {
+        lines.push('\t <i>' + descriptions[command] + '</i>');
+      }
+      // Add options
       Object.keys(commandOptions).forEach(function(optionName) {
         lines.push('\t ' + optionName);
       }, this);
