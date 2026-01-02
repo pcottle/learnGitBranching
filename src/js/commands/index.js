@@ -86,6 +86,16 @@ var commands = {
     return map;
   },
 
+  getDescriptionMap: function() {
+    var map = this.blankMap();
+    this.loop(function(config, name, vcs) {
+      var displayName = config.displayName || name;
+      if (config.description) {
+        map[vcs][displayName] = config.description;
+      }
+    });
+    return map;
+  },
   /**
    * which commands count for the git golf game
    */
