@@ -710,7 +710,11 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! Vocês estão todos prontos para ramificar. Assim que esta janela fechar,",
-              "crie um novo ramo chamado `bugFix` e mude para esse ramo."
+              "crie um novo ramo chamado `bugFix` e mude para esse ramo.",
+              "",
+              "Por falar nisso, aqui vai um atalho: se você quiser criar uma nova ",
+              "branch E fazer o checkout ao mesmo tempo, você pode simplesmente ",
+              "digitar `git checkout -b [nomedasuabranch]`."
             ]
           }
         }
