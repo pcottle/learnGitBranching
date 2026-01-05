@@ -697,8 +697,24 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
+              "*Nota: Na versão do Git 2.23, um novo comando chamado `git switch` foi introduzido para substituir futuramente o `git checkout`, ",
+              "que é um pouco sobrecarregado (ele faz várias coisas diferentes dependendo dos argumentos). As lições aqui continuarão usando",
+              "`checkout` ao invés de `switch` pois o comando `switch` ainda é considerado experimental e sua sintaxe pode mudar no futuro. ",
+              "No entanto, você ainda pode testar o novo comando `switch` nesta aplicação e também",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">saber mais aqui</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
               "Ok! Vocês estão todos prontos para ramificar. Assim que esta janela fechar,",
-              "crie um novo ramo chamado `bugFix` e mude para esse ramo."
+              "crie um novo ramo chamado `bugFix` e mude para esse ramo.",
+              "",
+              "Por falar nisso, aqui vai um atalho: se você quiser criar uma nova ",
+              "branch E fazer o checkout ao mesmo tempo, você pode simplesmente ",
+              "digitar `git checkout -b [nomedasuabranch]`."
             ]
           }
         }
