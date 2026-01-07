@@ -15,6 +15,7 @@ exports.level = {
     "ja": "Git Pull",
     "fr_FR": "Git pull",
     "ro": "Git pull",
+    "bg": "Git Pull",
     "ru_RU": "Git pull",
     "uk": "Git pull",
     "ko": "Git pull",
@@ -37,6 +38,7 @@ exports.level = {
     "ja": "単にgit pullを実行！",
     "fr_FR": "Utilisez facilement git pull !",
     "ro": "Pur și simplu rulează git pull!",
+    "bg": "Просто изпълни git pull!",
     "ru_RU": "Запустите комманду git pull !",
     "uk": "Просто виконай git pull !",
     "ko": "그냥 git pull을 하세요!",
@@ -696,6 +698,65 @@ exports.level = {
         }
       ]
     },
+    "bg": {
+    "childViews": [
+            {
+              "type": "ModalAlert",
+              "options": {
+                "markdowns": [
+                  "## Git Pull",
+                  "",
+                  "Сега, когато видяхме как да взимаме данни от отдалечено хранилище с `git fetch`, нека актуализираме нашата работа, за да отразява тези промени!",
+                  "",
+                  "Всъщност има много начини да се направи това — след като имате нови комити локално, можете да ги интегрирате, сякаш са обикновени комити от други клонове. Това означава, че можете да изпълните команди като:",
+                  "",
+                  "* `git cherry-pick o/main`",
+                  "* `git rebase o/main`",
+                  "* `git merge o/main`",
+                  "* и т.н.",
+                  "",
+                  "Всъщност, процесът на *fetch* на отдалечени промени и след това *merge* е толкова често срещан, че git предоставя команда, която прави и двете едновременно! Тази команда е `git pull`."
+                ]
+              }
+            },
+            {
+              "type": "GitDemonstrationView",
+              "options": {
+                "beforeMarkdowns": [
+                  "Нека първо видим `fetch` и `merge` изпълнени последователно."
+                ],
+                "afterMarkdowns": [
+                  "Бум — изтеглихме `C3` с `fetch` и след това го обединихме с `git merge o/main`. Сега нашият клон `main` отразява новата работа от отдалеченото хранилище (в този случай, наречено `origin`)."
+                ],
+                "command": "git fetch; git merge o/main",
+                "beforeCommand": "git clone; git commit; git fakeTeamwork"
+              }
+            },
+            {
+              "type": "GitDemonstrationView",
+              "options": {
+                "beforeMarkdowns": [
+                  "Какво би станало, ако използваме `git pull` вместо това?"
+                ],
+                "afterMarkdowns": [
+                  "Същото! Това ясно показва, че `git pull` е накратко `git fetch` последван от merge на новозтегления клон."
+                ],
+                "command": "git pull",
+                "beforeCommand": "git clone; git commit; git fakeTeamwork"
+              }
+            },
+            {
+              "type": "ModalAlert",
+              "options": {
+                "markdowns": [
+                  "Ще разгледаме детайлите на `git pull` по-късно (включително опции и аргументи), но за сега нека го изпробваме в този урок.",
+                  "",
+                  "Запомнете — можете да решите този урок само с `fetch` и `merge`, но това ще ви струва една допълнителна команда :P"
+                ]
+              }
+            }
+          ]
+        },
     "ru_RU": {
       "childViews": [
         {

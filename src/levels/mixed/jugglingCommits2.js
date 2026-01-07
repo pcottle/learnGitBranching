@@ -31,6 +31,7 @@ exports.level = {
     "zh_CN": "提交的技巧 #2",
     "zh_TW": "commit 的戲法 #2",
     "ro": "Jonglarea cu commit-uri #2",
+    "bg": "Жонглиране с комити #2",
     "ru_RU": "Жонглируем коммитами №2",
     "uk": "Жонглюємо комітами #2",
     "vi": "Tung hứng commit #2",
@@ -55,6 +56,7 @@ exports.level = {
     "zh_CN": "别忘记了将 main 快进到最新的更新上！",
     "zh_TW": "別忘記了將 main 推到最新的 commit 上面！",
     "ro": "Nu uita să avansezi main la ultimele modificări!",
+    "bg": "Не забравяйте да преместите main към обновените промени!",
     "ru_RU": "Не забудь переместить main на последние изменения.",
     "uk": "Не забудь перемістити main на останні зміни!",
     "vi": "Đừng quên đẩy nhánh main lên cập nhật mới nhất!",
@@ -656,6 +658,51 @@ exports.level = {
               "Deci, în acest nivel, trebuie să atingem același obiectiv de a modifica `C2`, dar să evităm utilizarea `rebase -i`. Îți las ție să descoperi cum! :D",
               "",
               "Ține minte, numărul exact de apostrofe (') din commit nu este important, ci doar diferențele relative. De exemplu, voi acorda puncte unui arbore care se potrivește cu arborele țintă, dar are un apostrof în plus peste tot."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Жонглиране с комити #2",
+              "",
+              "*Ако не сте завършили Жонглиране с комити #1 (предишното ниво), моля, направете го, преди да продължите*",
+              "",
+              "Както видяхте в последното ниво, използвахме `rebase -i`, за да пренаредим комитите. След като комитът, който искахме да променим, беше най-отгоре, можехме лесно да го променим с --amend и да го пренаредим обратно в предпочитания от нас ред.",
+              "",
+              "Единственият проблем тук е, че има много пренареждане, което може да доведе до конфликти при rebase. Нека разгледаме друг метод с `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Помнете, че git cherry-pick ще постави комит от всяко място в дървото върху HEAD (стига този комит да не е предшественик на HEAD).",
+              "",
+              "",
+              "",
+              "Ето малко демо за опресняване:"
+            ],
+            "afterMarkdowns": [
+              "Чудесно! Нека продължим."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "И така, в това ниво нека постигнем същата цел да променим `C2` веднъж, но избягвайки използването на `rebase -i`. Оставям на вас да разберете как! :D",
+              "",
+              "Помнете, точният брой на апострофите (') върху комита не е важен, само относителните разлики. Например, ще зачета дърво, което съвпада с целевото дърво, но има един допълнителен апостроф навсякъде."
             ]
           }
         }

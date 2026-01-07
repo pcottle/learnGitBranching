@@ -7,6 +7,7 @@ exports.level = {
     "fa": "شاخه ویژگی را از main محلی بسازید قبل از اینکه آن را ریست کنید تا با main اوریجین (origin) یکسان شود",
     "de_DE": "Erstelle einen Feature-Branch ausgehend vom lokalen Main-Branch, bevor du den Main-Branch auf den origin/main zurücksetzt.",
     "ro": "Creează o ramură feature din main-ul local înainte de a reseta main-ul pentru a fi la fel cu origin/main.",
+    "bg": "Създай feature бранча от локалния main, преди да върнеш main обратно да съвпада с origin/main",
     "ru_RU": "Создайте новую feature ветвь от main перед тем, как откатить изменения в main до состояния o/main.",
     "uk": "Створіть нову feature гілку від локального main перед тим, як відкотити зміни в main до стану o/main.",
     "zh_CN": "从本地的main创建一个feature分支, 然后重置main和origin main保持一致。",
@@ -29,6 +30,7 @@ exports.level = {
     "de_DE": "Gesperrter Main-Branch",
     "ro": "Main Blocat",
     "ru_RU": "Заблокированная ветвь main",
+    "bg": "Заключен main",
     "uk": "Заблокована гілка main",
     "zh_CN": "锁定的Main(Locked Main)",
     "zh_TW": "被鎖定的 Main(Locked Main)",
@@ -240,6 +242,48 @@ exports.level = {
               "## Soluția",
               "",
               "Creează o altă ramură numită `feature` și împinge-o către remote. De asemenea, resetează ramura ta `main` pentru a fi sincronizată cu remote, altfel s-ar putea să ai probleme data viitoare când faci pull și commit-ul altcuiva intră în conflict cu al tău."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote отхвърли push-а!",
+              "",
+              "Ако работиш в голям екип, много е вероятно бранчът `main` да е заключен и да изисква Pull Request процес за сливане на промени. Ако направиш комит директно в локалния `main` и опиташ да push-неш, ще получиш съобщение подобно на това:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Push-ове към този бранч не са позволени; трябва да използваш pull request, за да го обновиш.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Защо беше отхвърлено?",
+              "",
+              "Отдалеченото хранилище отхвърли push-а на комитите директно към `main`, защото има политика, която изисква всички промени да минават през Pull Request.",
+              "",
+              "Ти е трябвало да следваш процеса — да създадеш нов бранч, да push-неш него и след това да направиш Pull Request — но си забравил и си комитнал директно в `main`. В резултат на това си в задънена улица и не можеш да публикуваш промените си."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Решението",
+              "",
+              "Създай нов бранч с име `feature` и push-ни него към отдалеченото хранилище. След това върни локалния си `main`, така че да бъде синхронизиран с remote версията.",
+              "",
+              "Ако не направиш това, при следващ `git pull` е много вероятно да имаш проблеми или конфликти с комитите на други хора."
             ]
           }
         }

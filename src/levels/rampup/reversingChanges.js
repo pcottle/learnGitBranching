@@ -19,6 +19,7 @@ exports.level = {
     "zh_TW": "在 git 中取消修改 ",
     "ro": "Anularea modificărilor în Git",
     "ru_RU": "Отмена изменений в Git",
+    "bg": "Отмяна на промени в Git",
     "uk": "Відміна змін в Git",
     "vi": "Hoàn tác thay đổi trong Git",
     "sl_SI": "Revertanje Sprememb v Gitu",
@@ -42,6 +43,7 @@ exports.level = {
     "ja": "revertとresetとで引数が異なることに注意。",
     "ro": "Observă că revert și reset primesc argumente diferite.",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
+   "bg": "Забележи, че revert и reset приемат различни аргументи.",
     "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
     "vi": "Lưu ý rằng hoàn tác (revert) và đặt lại (reset) có những đối số khác nhau.",
     "sl_SI": "Revert in reset sprejmeta različne argumente.",
@@ -928,6 +930,69 @@ exports.level = {
               "Pentru a finaliza acest nivel, anulează ultimul commit atât pe ramura `local` cât și pe ramura `pushed`. Vei anula în total două commit-uri (câte unul pentru fiecare ramură).",
               "",
               "Ține minte că `pushed` este o ramură remote și `local` este o ramură locală -- acest lucru ar trebui să te ajute să alegi metoda potrivită."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Отмяна на промени в Git",
+              "",
+              "Има много начини да отменяш промени в Git. Подобно на комитването, отмяната на промени също има ниско ниво (stage-ване на отделни файлове или части от тях) и високо ниво (как реално се отменят промените). В това ниво ще се фокусираме върху второто.",
+              "",
+              "Има два основни начина за отмяна на промени в Git — чрез `git reset` и чрез `git revert`. В следващите примери ще разгледаме и двата.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` отменя промени, като премества референцията на клона назад във времето към по-стар комит. В този смисъл можеш да го разглеждаш като \"пренаписване на историята\" — `git reset` връща клона така, сякаш даденият комит никога не е съществувал.",
+              "",
+              "Нека видим как изглежда това:"
+            ],
+            "afterMarkdowns": [
+              "Чудесно! Git премести референцията на клона main обратно към `C1`; сега локалното ни хранилище е в състояние, сякаш `C2` никога не се е случвал."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Докато reset работи отлично за локални клонове на твоята машина, подходът с \"пренаписване на историята\" не е подходящ за отдалечени (remote) клонове, които се използват и от други хора.",
+              "",
+              "За да отменим промени и да *споделим* тази отмяна с останалите, трябва да използваме `git revert`. Нека го видим в действие."
+            ],
+            "afterMarkdowns": [
+              "Странно — появи се нов комит под този, който искахме да отменим. Това е така, защото новият комит `C2'` въвежда *промени*, които точно неутрализират промените от `C2`.",
+              "",
+              "При revert можеш спокойно да push-неш промените и да ги споделиш с други."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За да завършиш това ниво, отмени най-новия комит както на `local`, така и на `pushed`. Общо ще отмениш два комита (по един за всеки клон).",
+              "",
+              "Имай предвид, че `pushed` е отдалечен клон, а `local` е локален — това трябва да ти помогне да избереш правилния подход."
             ]
           }
         }

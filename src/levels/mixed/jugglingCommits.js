@@ -32,6 +32,7 @@ exports.level = {
     "zh_CN": "提交的技巧 #1",
     "zh_TW": "commit 的戲法",
     "ro": "Jonglarea cu commit-uri",
+    "bg": "Жонглиране с комити",
     "ru_RU": "Жонглируем коммитами",
     "uk": "Жонглюємо комітами",
     "vi": "Tung hứng commit",
@@ -56,6 +57,7 @@ exports.level = {
     "zh_CN": "第一个命令是 `git rebase -i HEAD~2`",
     "zh_TW": "第一個命令是 'git rebase -i HEAD~2'",
     "ro": "Prima comandă este git rebase -i HEAD~2",
+    "bg": "Първата команда е git rebase -i HEAD~2",
     "ru_RU": "Первой командой должна быть git rebase -i HEAD~2",
     "uk": "Перша команда має бути git rebase -i HEAD~2",
     "vi": "Lệnh đầu tiên là git rebase -i HEAD~2",
@@ -541,6 +543,43 @@ exports.level = {
               "În cele din urmă, fii atent la starea finală aici -- deoarece mutăm commit-urile de două ori, ambele primesc o apostrofă în plus. Încă o apostrofă este adăugată pentru commit-ul pe care îl modificăm, ceea ce ne dă forma finală a arborelui ",
               "",
               "Asta fiind spus, pot compara nivelurile acum pe baza structurii și diferențelor relative de apostrofă. Atâta timp cât ramura `main` a arborelui tău are aceeași structură și diferențe relative de apostrofă, îți voi da puncte maxime."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Жонглиране с комити",
+              "",
+              "Ето още една ситуация, която се случва доста често. Имате някои промени (`newImage`) и друг набор от промени (`caption`), които са свързани, така че са подредени една върху друга във вашето хранилище (т.е. една след друга).",
+              "",
+              "",
+              "",
+              "Сложното е, че понякога трябва да направите малка промяна в по-ранен комит. В този случай, дизайнерите искат да променим малко размерите на `newImage`, въпреки че този комит е доста назад в историята ни!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ще преодолеем тази трудност, като направим следното:",
+              "",
+              "* Ще пренаредим комитите, така че този, който искаме да променим, да е най-отгоре с `git rebase -i`",
+              "",
+              "* Ще използваме `git commit --amend`, за да направим леката корекция",
+              "* След това ще пренаредим комитите обратно, както бяха преди, с `git rebase -i`",
+              "* Накрая ще преместим main към тази актуализирана част на дървото, за да завършим нивото (чрез метод по ваш избор)",
+              "",
+              "Има много начини за постигане на тази цел (виждам, че заглеждате cherry-pick) и ще видим повече от тях по-късно, но засега нека се съсредоточим върху тази техника.",
+              "Накрая, обърнете внимание на целевото състояние тук -- тъй като местим комитите два пъти, и двата получават по един апостроф. Още един апостроф се добавя за комита, който променяме (amend), което ни дава окончателната форма на дървото.",
+              "",
+              "Казвайки това, вече мога да сравнявам нивата въз основа на структурата и относителните разлики в апострофите. Докато клонът `main` на вашето дърво има същата структура и относителни разлики в апострофите, ще зачета пълния резултат."
             ]
           }
         }

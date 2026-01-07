@@ -15,6 +15,7 @@ exports.level = {
     "ja": "Git pushの引数 -- 拡張編!",
     "fr_FR": "Arguments de git push -- toujours plus !",
     "ro": "Argumente git push -- Continuarea!",
+    "bg": "Git push аргументи -- Разширени!",
     "ru_RU": "Аргументы для push -- расширенная версия!",
     "ko": "git push 인자 -- 확장판!",
     "uk": "Розширені аргументи git push!",
@@ -37,6 +38,7 @@ exports.level = {
     "ja": "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
     "fr_FR": "N'oubliez pas que vous pouvez toujours déclarer forfait avec \"show solution\" :P",
     "ro": "Nu uita că îți poți admite înfrângerea și tasta \"show solution\" pentru a vedea soluția :P",
+    "bg": "Помни, че можеш да признаеш поражението си и да напишеш \"show solution\" :P",
     "ru_RU": "Помните, Вы всегда можете признать своё поражение, набрав команду \"show solution\" (показать решение) :P",
     "ko": "혹시 아세요? 패배를 인정하고 \"show solution\"을 입력할 수 있다는 걸요 :P",
     "uk": "Пам'ятай, ти завжди можеш визнати поразку і підглянути рішення командою \"show solution\" :P",
@@ -892,6 +894,76 @@ exports.level = {
               "Pentru acest nivel, încearcă să ajungi la starea finală a obiectivului afișată în vizualizare și amintește-ți formatul:",
               "",
               "`<sursa>:<destinatie>`"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Детаљи за аргумента `<place>`",
+              "",
+              "Спомни си от предишния урок, че когато посочихме `main` като аргумент за място (place) на git push, ние посочихме както *източника* (source), откъдето идват къмитите, така и *дестинацията* (destination), където отиват.",
+              "",
+              "Може би тогава се чудиш -- ами ако искаме източникът и дестинацията да са различни? Ами ако искаш да push-неш къмити от локалния клон `foo` към клон `bar` в отдалеченото хранилище?",
+              "",
+              "Е, за съжаление това е невъзможно в git... шегувам се! Разбира се, че е възможно :)... git има тонове гъвкавост (почти прекалено много).",
+              "",
+              "Нека видим как в следващия слайд..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За да посочиш едновременно източника и дестинацията на `<place>`, просто ги съедини с двоеточие:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Това често се нарича \"colon refspec\" (refspec с двоеточие). Refspec е просто префърцунено име за локация, която git може да разбере (като клона `foo` или дори просто `HEAD~1`).",
+              "",
+              "Щом веднъж започнеш да посочваш източника и дестинацията независимо, можеш да правиш доста елегантни и прецизни команди с отдалечените хранилища. Нека видим демонстрация!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Помни, `source` (източник) е всяка локация, която git може да разбере:"
+            ],
+            "afterMarkdowns": [
+              "Уха! Това е доста шантава команда, но има смисъл -- git разтълкува `foo^` като локация, качи всички къмити, които още не присъстваха в отдалеченото хранилище, и след това обнови дестинацията."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ами ако дестинацията, към която искаш да push-неш, не съществува? Няма проблем! Просто дай име на клон и git ще създаде клона в отдалеченото хранилище вместо теб."
+            ],
+            "afterMarkdowns": [
+              "Чудно, това е доста хитро :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За това ниво се опитай да постигнеш крайната цел, показана във визуализацията, и помни формата:",
+              "",
+              "`<source>:<destination>`"
             ]
           }
         }
