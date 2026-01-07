@@ -703,11 +703,11 @@ exports.dialog = {
         '',
         'Если ты не видел демонстрацию – посмотри её тут:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=&demo](https://pcottle.github.io/learnGitBranching/?locale=&demo)',
+        '[https://pcottle.github.io/learnGitBranching/?locale=ru_RU&demo](https://pcottle.github.io/learnGitBranching/?locale=ru_RU&demo)',
         '',
         'Достало это сообщение? Добавь `NODEMO` к адресу и навсегда забудь о нём, ниже ссылка для удобства:',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=&NODEMO](?locale=&NODEMO)'
+        '[https://pcottle.github.io/learnGitBranching/?locale=ru_RU&NODEMO](?locale=ru_RU&NODEMO)'
       ]
     }
   }, {
