@@ -15,6 +15,7 @@ exports.level = {
     "ja": "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous pouvez toujours utiliser les commandes undo et reset.",
     "ro": "Amintește-ți că poți folosi oricând comenzile undo sau reset",
+    "bg": "Помни, че винаги можеш да използваш командите undo или reset",
     "ru_RU": "Помни - ты всегда можешь отменить команды с помощью undo или reset",
     "ko": "명령어를 undo와 reset으로 되돌릴 수 있다는 것을 잊지마세요",
     "uk": "Пам'ятай, ти в будь-який момент можеш використовувати команди undo або reset",
@@ -37,6 +38,7 @@ exports.level = {
     "ja": "Push Main!",
     "fr_FR": "Maître du push !",
     "ro": "Push Main!",
+    "bg": "Push на Main!",
     "ru_RU": "Push Мастер!",
     "ko": "Push Main!",
     "uk": "Push Maйстер!",
@@ -626,6 +628,59 @@ exports.level = {
               "* La remote au fost făcute unele modificări, așa că va trebui să integrăm și acea muncă",
               "",
               ":O intens! Mult noroc, finalizarea acestui nivel reprezintă un pas important."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Сливане на feature клонове",
+              "",
+              "Сега, след като се чувстваш комфортно с fetch, pull и push, нека тестваме тези умения с нов работен процес (workflow).",
+              "",
+              "Често срещано е за разработчиците в големи проекти да вършат цялата си работа в клонове за функционалности (feature branches) (базирани на `main`) и да интегрират тази работа едва когато е готова. Това е подобно на предишния урок (където страничните клонове се push-ваха към отдалеченото хранилище), но тук въвеждаме още една стъпка.",
+              "",
+              "Някои разработчици правят push и pull само когато са на клона `main` -- по този начин `main` винаги остава актуализиран с това, което е в отдалеченото хранилище (`o/main`).",
+              "",
+              "Така че за този работен процес комбинираме две неща:",
+              "",
+              "* интегриране на работата от feature клона в `main`, и",
+              "* push-ване и pull-ване от отдалеченото хранилище"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека направим бърз преговор как да актуализираме `main` и да push-нем работата."
+            ],
+            "afterMarkdowns": [
+              "Тук изпълнихме две команди, които:",
+              "",
+              "* пребазираха (rebase) работата ни върху нови къмити от отдалеченото хранилище, и",
+              "* публикуваха работата ни в отдалеченото хранилище"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Това ниво е доста тежко -- ето общия план за решаване:",
+              "",
+              "* Има три feature клона -- `side1`, `side2` и `side3`",
+              "* Искаме да push-нем всяка от тези функционалности, по ред, към отдалеченото хранилище",
+              "* Отдалеченото хранилище е било актуализирано междувременно, така че ще трябва да включим и тази работа",
+              "",
+              ":O напрегнато! Успех, завършването на това ниво е голяма стъпка."
             ]
           }
         }

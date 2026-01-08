@@ -121,6 +121,16 @@ exports.dialog = {
       },
     },
   ],
+  'bg': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Сигурен ли си, че искаш да видиш решението?',
+        '',
+        'Вярвам в теб! Ти можеш!'
+      ]
+    }
+  }],
   'ru_RU': [{
     type: 'ModalAlert',
     options: {

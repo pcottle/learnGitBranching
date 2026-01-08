@@ -16,6 +16,7 @@ exports.level = {
     "gl": "Múltiples pais",
     "zh_TW": "多個 parent commit",
     "ro": "Mai mulți părinți",
+    "bg": "Множество родители",
     "ru_RU": "Здоровая семья, или несколько родителей",
     "ko": "다수의 부모",
     "uk": "Декілька батьків",
@@ -40,6 +41,7 @@ exports.level = {
     "gl": "Usa `git branch bugWork` sobre calquera commit para crear a referencia que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
     "ro": "Folosește `git branch bugWork` cu un commit țintă pentru a crea referința lipsă.",
+    "bg": "Използвай `git branch bugWork` с целеви commit, за да създадеш липсващата референция.",
     "ru_RU": "`git branch bugWork` на нужном коммите поможет создать нужную ссылку.",
     "ko": "`git branch bugWork`를 대상 커밋과 함께 사용해서 부족한 참조를 만드세요",
     "uk": "Використай \"git branch bugWork\" на потрібному коміті щоб створити потрібне посилання",
@@ -1089,6 +1091,92 @@ exports.level = {
               "Pentru a finaliza acest nivel, creează un nou branch la destinația specificată.",
               "",
               "Este evident că ar fi mai ușor să specifici direct commitul (cu ceva de genul `C6`), dar te provoc să folosești modificatorii despre care am vorbit în schimb!"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Задаване на родители",
+              "",
+              "Подобно на модификатора `~`, модификаторът `^` също приема незадължително число след себе си.",
+              "",
+              "Вместо да указва колко поколения назад да се върнем (както прави `~`), числото след `^` указва кой родител да бъде следван при merge commit. Не забравяй, че merge commit-ите имат повече от един родител, което прави пътя нееднозначен.",
+              "",
+              "По подразбиране Git следва \"първия\" родител на merge commit, но задаването на число след `^` променя това поведение.",
+              "",
+              "Достатъчно теория — нека го видим в действие."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тук имаме merge commit. Ако направим checkout на `main^` без число, ще последваме първия родител след merge commit-а.",
+              "",
+              "(*В нашите визуализации първият родител е разположен директно над merge commit-а.*)"
+            ],
+            "afterMarkdowns": [
+              "Лесно — това е поведението, с което сме свикнали."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Сега нека опитаме да укажем втория родител..."
+            ],
+            "afterMarkdowns": [
+              "Виждаш ли? Последвахме другия родител нагоре."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Модификаторите `^` и `~` правят навигацията в commit дървото изключително мощна:"
+            ],
+            "afterMarkdowns": [
+              "Светкавично бързо!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Още по-яко — тези модификатори могат да се комбинират! Виж това:"
+            ],
+            "afterMarkdowns": [
+              "Същото движение както преди, но с една-единствена команда."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Приложи наученото",
+              "",
+              "За да завършиш това ниво, създай нов branch на посочената дестинация.",
+              "",
+              "Разбира се, можеш директно да укажеш commit (например `C6`), но те предизвиквам да използваш модификаторите, които току-що разгледахме!"
             ]
           }
         }

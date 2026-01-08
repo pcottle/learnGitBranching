@@ -15,6 +15,7 @@ exports.level = {
     "de_DE": "Optionen für Fetch",
     "ja": "Fetchの引数",
     "ro": "Argumente pentru fetch",
+    "bg": "Аргументи на Git fetch",
     "ru_RU": "Аргументы для fetch",
     "ko": "Fetch의 인자들",
     "uk": "Аргументи для fetch",
@@ -37,6 +38,7 @@ exports.level = {
     "de_DE": "Beachte wie die Commit IDs getauscht wurden! Du kannst den Einführungsdialog mit \"help level\" erneut anzeigen",
     "ja": "コミットIDの入れ替わりに注意！スライドを復習するには`help level`を実行",
     "ro": "Fii atent la modul în care ID-urile commit-urilor pot fi inversate! Poți citi din nou slide-urile cu comanda \"help level\"",
+    "bg": "Обърни внимание как ID-тата на комитите може да са разменени! Можеш да прочетеш слайдовете отново с \"help level\"",
     "ru_RU": "Обратите внимание на то, как номера коммитов могут меняться! Вы можете прочесть слайды вновь, воспользовавшись командой \"help level\"",
     "ko": "커밋 ID가 바뀔수도있으니 주의하세요! \"help level\"을 입력하면 슬라이드들을 다시 읽어볼수 있습니다.",
     "uk": "Зверни увагу на те, що номери комітів можуть змінюватися! Слайди уроку можна переглянути ще раз командою \"help level\"",
@@ -1531,6 +1533,129 @@ exports.level = {
               "Ok, destul cu vorbitul! Pentru a termina acest nivel, adu doar commit-urile specificate în vizualizarea folosind `fetch`. Experimentează cu aceste comenzi!",
               "",
               "Pentru ambele comenzi `fetch`, va trebui să specifici sursa și destinația. Fii atent la vizualizare, deoarece ID-urile pot fi schimbate între ele!"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Аргументи на git fetch",
+              "",
+              "Току-що научихме всичко за аргументите на `git push`, за този готин параметър `<place>` и дори за colon refspec-ите (`<source>:<destination>`). Можем ли да използваме всички тези знания и при `git fetch`?",
+              "",
+              "Разбира се! Аргументите на `git fetch` са всъщност *много, много* подобни на тези на `git push`. Концепциите са същите, но приложени в обратна посока (тъй като сега изтегляш комити, вместо да ги качваш).",
+              "",
+              "Нека разгледаме концепциите една по една..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Параметърът `<place>`",
+              "",
+              "Ако посочиш място при `git fetch`, както в следната команда:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git ще отиде до бранча `foo` в отдалеченото хранилище, ще изтегли всички комити, които не съществуват локално, и ще ги постави върху локалния remote бранч `o/foo`.",
+              "",
+              "Нека видим това в действие (само като припомняне)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Като посочим място..."
+            ],
+            "afterMarkdowns": [
+              "Изтегляме само комитите от `foo` и ги поставяме върху `o/foo`."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Може би се чудиш — защо Git постави тези комити върху remote бранча `o/foo`, вместо директно върху локалния ми бранч `foo`? Нали параметърът `<place>` е място, което съществува и локално, и отдалечено?",
+              "",
+              "Git прави специално изключение тук, защото може да имаш работа в локалния бранч `foo`, която не искаш да объркаш!! Това е пряко свързано с предишния урок за `git fetch` — той не обновява локалните ти (не-remote) бранчове, а само изтегля комитите (за да можеш по-късно да ги разгледаш или merge-неш).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Добре, а какво става, ако изрично задам и източник, и дестинация с `<source>:<destination>`?\"",
+              "",
+              "Ако си достатъчно ентусиазиран да изтеглиш комити *директно* в локален бранч — да, можеш да го направиш чрез colon refspec. Не можеш да fetch-ваш комити към бранч, който е checkout-нат в момента, но във всички други случаи Git ще ти позволи това.",
+              "",
+              "Има обаче една уловка — `<source>` вече е място в *отдалеченото* хранилище, а `<destination>` е *локално* място, където ще бъдат поставени комитите. Това е точно обратното на `git push`, което е логично, защото прехвърляме данни в обратната посока!",
+              "",
+              "На практика разработчиците рядко използват това. Представям го основно като начин да се разбере колко сходни са `fetch` и `push`, просто работещи в противоположни посоки."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека видим тази лудост в действие:"
+            ],
+            "afterMarkdowns": [
+              "Уау! Виж — Git разпозна `C2` като място в origin и изтегли тези комити в `bar` (който е локален бранч)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "А какво ако дестинацията не съществува преди изпълнение на командата? Нека повторим примера, но без `bar` да съществува предварително."
+            ],
+            "afterMarkdowns": [
+              "Виждаш ли — точно като `git push`. Git създава дестинацията локално преди fetch-а, точно както създава дестинация в remote преди push (ако тя не съществува)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Без аргументи?",
+              "",
+              "Ако `git fetch` не получи никакви аргументи, той просто изтегля всички комити от отдалеченото хранилище към всички remote бранчове..."
+            ],
+            "afterMarkdowns": [
+              "Доста просто, но си заслужава да се види поне веднъж."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Добре, стига приказки! За да завършиш нивото, fetch-ни само комитите, показани в целевата визуализация. Разиграй се с командите!",
+              "",
+              "Ще трябва да зададеш източник и дестинация и за двете fetch команди. Обърни внимание на визуализацията — ID-тата може да са разменени!"
             ]
           }
         }

@@ -20,6 +20,7 @@ exports.level = {
     "zh_CN": "Git Cherry-pick",
     "zh_TW": "介紹 cherry-pick",
     "ro": "Introducere în cherry-pick",
+    "bg": "Въведение в cherry-pick",
     "ru_RU": "Введение в Cherry-pick",
     "ko": "Cherry-pick 소개",
     "uk": "Знайомство з cherry-pick",
@@ -44,6 +45,7 @@ exports.level = {
     "zh_CN": "git cherry-pick 后面要跟提交的名字",
     "zh_TW": "git cherry-pick 後面要接著 commit 的名稱",
     "ro": "git cherry-pick urmat de numele commit-urilor",
+   "bg": "git cherry-pick последван от имената на комитите!",
     "ru_RU": "git cherry-pick основывается на именах коммитов!",
     "ko": "커밋의 이름들로 git cherry-pick 하세요!",
     "uk": "git cherry-pick базується на іменах комітів!",
@@ -789,6 +791,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Pentru a finaliza acest nivel, pur și simplu copiază modificările din cele trei ramuri în `main`. Poți vedea ce commit-uri dorim să copiem în vizualizarea obiectivului.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Преместване на работа",
+              "",
+              "Досега разгледахме основите на git — комитване, разклоняване и навигация в дървото на сорс кода. Само тези концепции са достатъчни, за да използвате 90% от мощта на git хранилищата и да покриете основните нужди на разработчиците.",
+              "",
+              "Оставащите 10% обаче могат да бъдат много полезни при по-сложни работни процеси (или когато сте се поставили в трудна ситуация). Следващата концепция е „преместване на работа“ — с други думи, начин разработчиците да кажат „Искам тази работа тук, а онази — там“ по прецизен, ясен и гъвкав начин.",
+              "",
+              "Може да звучи сложно, но всъщност е проста концепция."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Първата команда в тази серия се нарича `git cherry-pick`. Тя има следната форма:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Това е много директен начин да кажете, че искате да копирате поредица от комити под текущата си позиция (`HEAD`). Лично аз харесвам `cherry-pick`, защото в него няма много „магия“ и е лесен за разбиране.",
+              "",
+              "Нека видим демонстрация!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тук имаме хранилище, в което има работа в клона `side`, която искаме да копираме в `main`. Това може да стане с rebase (който вече научихме), но нека видим как се справя cherry-pick."
+            ],
+            "afterMarkdowns": [
+              "Това е всичко! Искахме комитите `C2` и `C4`, а git ги постави точно под текущата ни позиция. Толкова е просто!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За да завършите това ниво, просто копирайте част от работата от трите показани клона в main. Можете да видите кои комити са нужни, като погледнете целевата визуализация.",
               ""
             ]
           }

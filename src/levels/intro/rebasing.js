@@ -16,6 +16,7 @@ exports.level = {
     "zh_CN": "Git Rebase",
     "zh_TW": "介紹 rebase",
     "ro": "Introducere în rebase",
+    "bg": "Въведение в rebase",
     "ru_RU": "Введение в rebase",
     "uk": "Знайомство з rebase",
     "vi": "Giới thiệu về rebase",
@@ -40,6 +41,7 @@ exports.level = {
     "zh_CN": "先在 bugFix 分支上进行提交",
     "zh_TW": "你要先在 bugFix branch 進行 commit",
     "ro": "Asigură-te că faci commit din bugFix mai întâi",
+    "bg": "Уверете се, че първо комитвате от bugFix",
     "ru_RU": "Убедись, что сделал коммит в ветке bugFix",
     "uk": "Впевнись, що зробив коміт в гілці bugFix",
     "vi": "Hãy chắc chắn rằng bạn commit từ bugFix trước",
@@ -988,6 +990,73 @@ exports.level = {
               "* Faceți checkout pe `bugFix` din nou și faceți rebase pe `main`",
               "",
               "Mult succes!"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Вторият начин за комбиниране на работа между клонове е *rebasing* (пребазиране). Rebase по същество взема набор от комити, \"копира\" ги и ги поставя някъде другаде.",
+              "",
+              "Въпреки че това звучи объркващо, предимството на rebase е, че може да се използва за създаване на приятна линейна последователност от комити. Историята на комитите в хранилището ще бъде много по-чиста, ако се разрешава само rebase.",
+              "",
+              "Нека го видим в действие..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Тук отново имаме два клона; обърнете внимание, че клонът bugFix е избран в момента (забележете звездичката)",
+              "",
+              "Бихме искали да преместим работата си от bugFix директно върху работата от main. По този начин ще изглежда, че тези две функционалности са разработени последователно, докато в действителност са разработени паралелно.",
+              "",
+              "Нека направим това с командата `git rebase`."
+            ],
+            "afterMarkdowns": [
+              "Страхотно! Сега работата от нашия клон bugFix е подредена \"върху main\", тъй като сочи към main. Въпреки че в нашата визуализация се показва под main, тъй като нашите дървета с комити текат надолу.",
+              "",
+              "Обърнете внимание, че комитът C3 все още съществува някъде (има избледнял вид в дървото), а C3' е \"копието\", което пребазирахме върху main.",
+              "",
+              "Единственият проблем е, че main също не е актуализиран, нека направим това сега..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Сега сме превключили (checked out) на клона `main`. Нека продължим и да пребазираме върху `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Ето! Тъй като `main` беше предшественик на `bugFix`, git просто премести референцията на клона `main` напред в историята."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За да завършите това ниво, направете следното",
+              "",
+              " * Превключете към нов клон, наречен `bugFix`",
+              " * Направете един комит",
+              " * Върнете се към main и направете комит отново",
+              " * Превключете към bugFix отново и пребазирайте върху main",
+              "",
+              "Успех!"
             ]
           }
         }

@@ -3,6 +3,7 @@ exports.strings = {
     "__desc__": "One of the lines in the next level dialog",
     "ja": "最後のレベルをクリアしました！すごい！！",
     "en_US": "Wow! You finished the last level, great!",
+    "bg": "Уха! Завърши последното ниво, чудесно!",
     "fa": "وای! مرحله آخر رو تموم کردی، عالیه!",
     "de_DE": "Wow! Du hast das letzte Level gelöst, super!",
     "zh_CN": "Wow！你通关了！",
@@ -27,6 +28,7 @@ exports.strings = {
   "finish-dialog-next": {
     "__desc__": "One of the lines in the next level dialog",
     "en_US": "Would you like to move on to *\"{nextLevel}\"*, the next level?",
+    "bg": "Искаш ли да преминеш към *\"{nextLevel}\"*, следващото ниво?",
     "fa": "آیا می‌خواهی به مرحله بعد، *\"{nextLevel}\"* بروی؟",
     "de_DE": "Möchtest du mit *\"{nextLevel}\"* weitermachen, dem nächsten Level?",
     "ja": "次の章 *\"{nextLevel}\"* へ進みますか？",
@@ -52,6 +54,7 @@ exports.strings = {
   "finish-dialog-win": {
     "__desc__": "One of the lines in the next level dialog",
     "en_US": "Awesome! You matched or exceeded our solution.",
+    "bg": "Страхотно! Ти постигна или дори надмина нашето решение.",
     "fa": "عالی! تو به خوبی یا حتی بهتر از راه‌حل ما عمل کردی.",
     "pt_BR": "Maravilha! Você fez uma solução tão boa quanto, ou melhor que a nossa.",
     "de_DE": "Wahnsinn! Du warst so gut wie unsere Lösung, oder sogar besser.",
@@ -77,6 +80,7 @@ exports.strings = {
   "finish-dialog-lose": {
     "__desc__": "When the user entered more commands than our best, encourage them to do better",
     "en_US": "See if you can whittle it down to {best} :D",
+    "bg": "Виж дали можеш да го съкратиш до {best} команди :D",
     "fa": "ببین می‌تونی به {best} برسونیش :D",
     "de_DE": "Schau mal ob du es auch in {best} Schritten hinbekommst :D",
     "ja": "模範解答の回数={best}回でクリアする方法も考えてみましょう :D",
@@ -102,6 +106,7 @@ exports.strings = {
   "hg-prune-tree": {
     "__desc__": "warning when pruning tree",
     "en_US": "Warning! Mercurial does aggressive garbage collection and thus needs to prune your tree",
+    "bg": "Внимание! Mercurial извършва агресивно почистване на паметта (garbage collection) и трябва да окастри (prune) дървото ти.",
     "fa": "هشدار! Mercurial جمع‌آوری زباله (GC) تهاجمي انجام می‌دهد و باید درخت شما را هرس کند",
     "zh_CN": "注意！ Mercurial 会进行主动垃圾回收，需要将你的提交树縮小。",
     "zh_TW": "注意！ Mercurial 會積極地做垃圾收集，而且會因此把你的 tree 給縮小。",
@@ -126,6 +131,7 @@ exports.strings = {
   "hg-a-option": {
     "__desc__": "warning for when using -A option",
     "en_US": "The -A option is not needed for this app, just commit away!",
+    "bg": "Опцията -A не е необходима за това приложение, просто комитвай!",
     "fa": "گزینه -A برای این برنامه نیاز نیست، فقط کامیت کن!",
     "zh_TW": "對於這個 app 來說，-A 選項並不是必須的，只需要 commit 就好！",
     "zh_CN": "对本 App 而言，-A 选项并非必须项，直接 commit 就好！",
@@ -150,6 +156,7 @@ exports.strings = {
   "hg-error-no-status": {
     "__desc__": "One of the errors for hg",
     "en_US": "There is no status command for this app, since there is no staging of files. Try hg summary instead",
+    "bg": "Няма команда status за това приложение, тъй като няма индексиране (staging) на файлове. Опитай hg summary вместо това",
     "fa": "دستور status برای این برنامه وجود ندارد، چون staging فایل‌ها وجود ندارد. به‌جای آن hg summary را امتحان کن",
     "zh_CN": "本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用 hg summary 代替哦",
     "zh_TW": "本 App 没有 status 命令哦，因为根本没有 stage 缓存文件。可以用 hg summary 代替哦",
@@ -174,6 +181,7 @@ exports.strings = {
   "hg-error-need-option": {
     "__desc__": "One of the errors for hg",
     "en_US": "I need the option {option} for that command!",
+    "bg": "Трябва ми опцията {option} за тази команда!",
     "fa": "من گزینه {option} را برای آن دستور نیاز دارم!",
     "zh_CN": "我需要该命令使用 {option} 选项呢。",
     "zh_TW": "我需要該命令使用 {option} 選項呢。",
@@ -198,6 +206,7 @@ exports.strings = {
   "hg-error-log-no-follow": {
     "__desc__": "hg log without -f (--follow)",
     "en_US": "hg log without -f is currently not supported, use -f",
+    "bg": "hg log без -f в момента не се поддържа, използвай -f",
     "fa": "دستور hg log بدون -f در حال حاضر پشتیبانی نمی‌شود، از -f استفاده کن",
     "zh_CN": "暂不支持没有-f 选项的 hg log 命令，请补充 -f 选项吧",
     "zh_TW": "暫不支持沒有-f 選項的 hg log 命令，請補充 -f 選項吧",
@@ -222,6 +231,7 @@ exports.strings = {
   "git-status-detached": {
     "__desc__": "One of the lines for git status output",
     "en_US": "Detached head!",
+    "bg": "Отделен HEAD (Detached head)!",
     "fa": "Detached HEAD!",
     "de_DE": "Detached head!",
     "zh_CN": "游离的 Head（Detached head）！",
@@ -246,6 +256,7 @@ exports.strings = {
   "git-status-onbranch": {
     "__desc__": "One of the lines for git status output",
     "en_US": "On branch {branch}",
+    "bg": "На клон {branch}",
     "fa": "روی شاخه {branch}",
     "de_DE": "Auf Branch {branch}",
     "zh_CN": "当前分支 {branch}",
@@ -270,6 +281,7 @@ exports.strings = {
   "git-status-readytocommit": {
     "__desc__": "One of the lines for git status output",
     "en_US": "Ready to commit! (as always in this demo)",
+    "bg": "Готов за комит! (както винаги в това демо)",
     "fa": "آماده کامیت! (مثل همیشه در این دمو)",
     "de_DE": "Fertig zum committen! (Wie immer in dieser Demo)",
     "zh_CN": "可以提交啦！（在这个程序中无须修改文件，一直可以提交）",
@@ -294,6 +306,7 @@ exports.strings = {
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
     "en_US": "Quick commit. Go Bears!",
+    "bg": "Бърз комит. Давай!",
     "fa": "یک کامیت سریع. برو که بریم!",
     "de_DE": "Schneller Commit. Eff-Zeh!",
     "zh_CN": "快速提交。Coding 4ever！",
@@ -318,6 +331,7 @@ exports.strings = {
   "git-error-origin-fetch-uptodate": {
     "__desc__": "One of the error messages for git",
     "en_US": "Already up to date!",
+    "bg": "Вече е актуализирано!",
     "fa": "هم‌اکنون به‌روز است!",
     "de_DE": "Bereits auf dem aktuellsten Stand!",
     "fr_FR": "Déjà à jour",
@@ -342,6 +356,7 @@ exports.strings = {
   "git-error-origin-fetch-no-ff": {
     "__desc__": "One of the error messages for git",
     "en_US": "Your origin branch is out of sync with the remote branch and fetch cannot be performed",
+    "bg": "Твоят origin клон не е синхронизиран с отдалечения клон и fetch не може да се изпълни",
     "fa": "شاخه origin شما با شاخه ریموت هماهنگ نیست و fetch انجام نمی‌شود",
     "zh_CN": "你的 origin 仓库中的分支与远程分支的不同步了，无法执行 fetch 命令",
     "zh_TW": "你的 origin 分支已經失去了與 remote 遠端分支的同步，所以無法執行 fetch 命令",
@@ -366,6 +381,7 @@ exports.strings = {
   "git-error-origin-push-no-ff": {
     "__desc__": "One of the error messages for git",
     "en_US": "The remote repository has diverged from your local repository, so uploading your changes is not a simple fast forward (and thus your push was rejected). Please pull down the new changes in the remote repository, incorporate them into this branch, and try again. You can do so with git pull or git pull --rebase",
+    "bg": "Отдалеченото хранилище се различава от твоето локално хранилище, така че качването на промените не е просто бързо превъртане напред (fast forward) (и затова твоят push беше отхвърлен). Моля, изтегли (pull) новите промени от отдалеченото хранилище, включи ги в този клон и опитай отново. Можеш да направиш това с git pull или git pull --rebase",
     "fa": "مخزن ریموت با مخزن محلی شما متفاوت شده است، بنابراین بارگذاری تغییرات شما یک fast forward ساده نیست (و بنابراین push شما رد شد). لطفاً تغییرات جدید مخزن ریموت را pull کنید، آن‌ها را در این شاخه ادغام کنید و دوباره تلاش کنید. می‌توانید این کار را با git pull یا git pull --rebase انجام دهید",
     "zh_CN": "远程仓库与你的本地仓库产生了分歧，故此上传操作无法通过 Fast-forward 实现（因此你的 push 被拒绝了）。请 pull 下来远程仓库里最新的更改，与这个分支合并之后再试一次。你可以通过 git pull 或 git pull --rebase 实现。",
     "zh_TW": "遠端倉庫與你的本地倉庫產生了分歧，故此上傳操作無法通過簡單地快進實現（因此你的 push 被拒絕了）。請 pull 下來遠端裡最新的更改，與本地合併之後再試一次。你可以通過 git pull 或 git pull --rebase 實現。",
@@ -390,6 +406,7 @@ exports.strings = {
   "git-error-remote-branch": {
     "__desc__": "One of the error messages for git",
     "en_US": "You cannot execute that command on a remote branch",
+    "bg": "Не можеш да изпълниш тази команда върху отдалечен (remote) клон",
     "fa": "شما نمی‌توانید آن دستور را روی یک شاخه ریموت اجرا کنید",
     "zh_CN": "你不能在远程分支上执行这个命令。",
     "zh_TW": "你不能在遠端分支上執行這個命令呀。",
@@ -414,6 +431,7 @@ exports.strings = {
   "git-error-origin-required": {
     "__desc__": "One of the error messages for git",
     "en_US": "An origin is required for that command",
+    "bg": "Изисква се origin за тази команда",
     "fa": "یک origin برای آن دستور مورد نیاز است",
     "zh_CN": "该命令需要一个 origin",
     "zh_TW": "該命令需要一個 origin",
@@ -438,6 +456,7 @@ exports.strings = {
   "git-error-origin-exists": {
     "__desc__": "One of the error messages for git",
     "en_US": "An origin already exists! You cannot make a new one",
+    "bg": "Вече съществува origin! Не можеш да създадеш нов",
     "fa": "یک origin هم‌اکنون وجود دارد! نمی‌توانید یکی جدید بسازید",
     "zh_CN": "origin 已存在。你不能重复创建",
     "zh_TW": "origin 遠端已存在。你不能重複創建",
@@ -462,6 +481,7 @@ exports.strings = {
   "git-error-branch": {
     "__desc__": "One of the error messages for git",
     "en_US": "You can't delete the main branch, the branch you are on, or things that aren't branches",
+    "bg": "Не можеш да изтриеш main клона, клона, на който си в момента, или неща, които не са клонове",
     "fa": "شما نمی‌توانید شاخه main، شاخه‌ای که در آن هستید، یا چیزهایی که شاخه نیستند را حذف کنید",
     "de_DE": "Du kannst nicht den Branch main, den Branch auf dem du gerade arbeitest oder Refs, die keine Branches sind, löschen",
     "zh_CN": "你不能删除主分支（main），或者你当前所在的分支，或者其它连分支也不是的东西。",
@@ -486,6 +506,7 @@ exports.strings = {
   "git-merge-msg": {
     "__desc__": "The commit message for a merge commit",
     "en_US": "Merge {target} into {current}",
+    "bg": "Сливане на {target} в {current}",
     "fa": "ادغام {target} در {current}",
     "de_DE": "Mergen von {target} in {current}",
     "zh_CN": "合并 {target} 到 {current}",
@@ -510,6 +531,7 @@ exports.strings = {
   "git-error-rebase-none": {
     "__desc__": "One of the error messages for git",
     "en_US": "No commits to rebase! Everything is a merge commit or changes already applied",
+    "bg": "Няма комити за пребазиране! Всичко е merge commit или промените вече са приложени",
     "fa": "کامیتی برای rebase وجود ندارد! همه چیز یک merge commit است یا تغییرات قبلاً اعمال شده‌اند",
     "de_DE": "Keine Commits für Rebase gefunden! Alle Commits sind Merge Commits oder beinhalten nur schon vorhandene Änderungen",
     "zh_CN": "没有可以 rebase 的提交记录！可能是合并提交，或者已经 rebase 过了。",
@@ -534,6 +556,7 @@ exports.strings = {
   "git-result-nothing": {
     "__desc__": "The message that explains the result of a git command",
     "en_US": "Nothing to do...",
+    "bg": "Няма какво да се направи...",
     "fa": "کاری برای انجام نیست...",
     "de_DE": "Nichts zu tun ...",
     "zh_CN": "什么也没发生...",
@@ -558,6 +581,7 @@ exports.strings = {
   "git-result-fastforward": {
     "__desc__": "The message that explains the result of a git command",
     "en_US": "Fast forwarding...",
+    "bg": "Бързо превъртане напред (Fast forwarding)...",
     "fa": "در حال Fast forwarding...",
     "de_DE": "Fast forward...",
     "zh_CN": "快速前进...",
@@ -582,6 +606,7 @@ exports.strings = {
   "git-result-uptodate": {
     "__desc__": "The message that explains the result of a git command",
     "en_US": "Branch already up-to-date",
+    "bg": "Клонът вече е актуализиран",
     "fa": "شاخه هم‌اکنون به‌روز است",
     "de_DE": "Branch ist bereits aktuell",
     "zh_CN": "分支已经是最新啦",
@@ -606,6 +631,7 @@ exports.strings = {
   "git-error-exist": {
     "__desc__": "One of the error messages for git",
     "en_US": "The ref {ref} does not exist or is unknown",
+    "bg": "Референцията {ref} не съществува или е неизвестна",
     "fa": "رفرنس {ref} وجود ندارد یا ناشناخته است",
     "de_DE": "Die Ref {ref} existiert nicht oder ist unbekannt",
     "zh_CN": "引用 {ref} 不存在。",
@@ -630,6 +656,7 @@ exports.strings = {
   "git-error-relative-ref": {
     "__desc__": "One of the error messages for git",
     "en_US": "Commit {commit} does not have a {match}",
+    "bg": "Комит {commit} няма {match}",
     "fa": "کامیت {commit} شامل {match} نیست",
     "de_DE": "Commit {commit} hat kein {match}",
     "zh_CN": "{commit} 提交并没有 {match}",
@@ -654,6 +681,7 @@ exports.strings = {
   "git-warning-detached": {
     "__desc__": "One of the warning messages for git",
     "en_US": "Warning!! Detached HEAD state",
+    "bg": "Внимание!! Състояние на отделен HEAD (Detached HEAD)",
     "fa": "هشدار!! وضعیت Detached HEAD",
     "de_DE": "Achtung! Detached HEAD Zustand",
     "zh_CN": "警告！现在是分离 HEAD 状态",
@@ -678,6 +706,7 @@ exports.strings = {
   "git-warning-add": {
     "__desc__": "One of the warning messages for git",
     "en_US": "No need to add files in this demo",
+    "bg": "Няма нужда от добавяне на файлове в това демо",
     "fa": "نیازی به add کردن فایل‌ها در این دمو نیست",
     "de_DE": "In dieser Demo müssen keine Dateien hinzugefügt werden",
     "zh_CN": "此程序中不需要添加文件",
@@ -702,6 +731,7 @@ exports.strings = {
   "git-error-options": {
     "__desc__": "One of the error messages for git",
     "en_US": "Those options you specified are incompatible or incorrect",
+    "bg": "Опциите, които посочи, са несъвместими или грешни",
     "fa": "گزینه‌هایی که مشخص کردید ناسازگار یا نادرست هستند",
     "de_DE": "Die angegebenen Optionen sind inkompatibel oder falsch",
     "zh_CN": "你所指定的参数不兼容或者不准确",
@@ -726,6 +756,7 @@ exports.strings = {
   "git-error-already-exists": {
     "__desc__": "One of the error messages for git",
     "en_US": "The commit {commit} already exists in your changes set, aborting!",
+    "bg": "Комитът {commit} вече съществува в твоите промени, прекратяване!",
     "fa": "کامیت {commit} قبلاً در مجموعه تغییرات شما وجود دارد، لغو عملیات!",
     "de_DE": "Der Commit {commit} existiert bereits, Abbruch!",
     "zh_CN": "{commit} 提交已经存在于你的改动集里，已忽略！",
@@ -750,6 +781,7 @@ exports.strings = {
   "git-error-reset-detached": {
     "__desc__": "One of the error messages for git",
     "en_US": "Can't reset in detached head! Use checkout if you want to move",
+    "bg": "Не може да се ресетва (reset) в detached head! Използвай checkout, ако искаш да се преместиш",
     "fa": "در حالت detached head نمی‌توان reset کرد! اگر می‌خواهید جابجا شوید از checkout استفاده کنید",
     "de_DE": "Kann im Detached Head Zustand kein reset ausführen! Bitte checkout zum Bewegen benutzen",
     "zh_CN": "不能在分离的 HEAD 里重置！用 checkout 吧",
@@ -774,6 +806,7 @@ exports.strings = {
   "git-warning-hard": {
     "__desc__": "One of the warning messages for git",
     "en_US": "The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit that option if you get tired of typing it out in our lessons. Just remember that the default behavior on actual Git is --mixed.",
+    "bg": "Поведението по подразбиране за reset в LearnGitBranching е --hard, така че можеш да пропуснеш тази опция, ако ти писне да я пишеш в уроците. Само помни, че в истинския Git по подразбиране е --mixed.",
     "fa": "رفتار پیش‌فرض برای reset در LearnGitBranching حالت --hard است، پس اگر خسته شدید می‌توانید آن را تایپ نکنید. فقط به یاد داشته باشید که رفتار پیش‌فرض در Git واقعی --mixed است.",
     "de_DE": "Das Standardverhalten in dieser Demo ist --hard, du kannst die Option auch weglassen!",
     "zh_CN": "在本程序中默认的行为是 --hard 硬重置，可以尽情省略掉那个选项以避免麻烦！但是要记录 Git 中默认的是 --mixed。",
@@ -798,6 +831,7 @@ exports.strings = {
   "git-error-staging": {
     "__desc__": "One of the error messages for git",
     "en_US": "There is no concept of adding / staging files, so that option or command is invalid!",
+    "bg": "Няма концепция за добавяне / индексиране (staging) на файлове, така че тази опция или команда е невалидна!",
     "fa": "مفهومی برای adding / staging فایل‌ها وجود ندارد، بنابراین آن گزینه یا دستور نامعتبر است!",
     "de_DE": "In dieser Demo gibt es kein Hinzufügen / Vormerken von Dateien, dieser Befehl ist daher ungültig!",
     "zh_CN": "没有添加、缓存文件的必要，所以该选项或者命令是不合法的。",
@@ -822,6 +856,7 @@ exports.strings = {
   "git-revert-msg": {
     "__desc__": "Message for reverting git command",
     "en_US": "Reverting {oldCommit}: {oldMsg}",
+    "bg": "Връщане на {oldCommit}: {oldMsg}",
     "fa": "بازگرداندن {oldCommit}: {oldMsg}",
     "de_DE": "Reverte {oldCommit}: {oldMsg}",
     "zh_CN": "撤销 {oldCommit}：{oldMsg}",
@@ -846,6 +881,7 @@ exports.strings = {
   "git-error-args-many": {
     "__desc__": "One of the error messages for git",
     "en_US": "I expect at most {upper} argument(s) for {what}",
+    "bg": "Очаквам най-много {upper} аргумент(а) за {what}",
     "fa": "من انتظار حداکثر {upper} پارامتر برای {what} دارم",
     "de_DE": "Ich benötige maximal {upper} Argument(e) für {what}",
     "zh_CN": "{what} 期望最多 {upper} 个参数",
@@ -870,6 +906,7 @@ exports.strings = {
   "git-error-args-few": {
     "__desc__": "One of the error messages for git",
     "en_US": "I expect at least {lower} argument(s) for {what}",
+    "bg": "Очаквам поне {lower} аргумент(а) за {what}",
     "fa": "من انتظار حداقل {lower} پارامتر برای {what} دارم",
     "de_DE": "Ich benötige mindestens {lower} Argument(e) für {what}",
     "zh_CN": "{what} 期望最少 {lower} 个参数",
@@ -894,6 +931,7 @@ exports.strings = {
   "git-error-no-general-args": {
     "__desc__": "One of the error messages for git",
     "en_US": "That command accepts no general arguments",
+    "bg": "Тази команда не приема общи аргументи",
     "fa": "آن دستور آرگومان عمومی نمی‌پذیرد",
     "de_DE": "Dieser Befehl akzeptiert keine allgemeinen Argumente",
     "zh_CN": "该命令不接收参数",
@@ -918,6 +956,7 @@ exports.strings = {
   "git-error-command-not-supported": {
     "__desc__": "Message that appears in git console when command was not recognized.",
     "en_US": "The command \"{command}\" isn't supported, sorry!",
+    "bg": "Командата \"{command}\" не се поддържа, съжалявам!",
     "fa": "دستور \"{command}\" پشتیبانی نمی‌شود، متاسفم!",
     "de_DE": "Entschuldigung, der Befehl \"{command}\" wird nicht unterstützt!",
     "zh_TW": "很抱歉，目前無法支援指令 \"{command}\"!",
@@ -938,6 +977,7 @@ exports.strings = {
   "copy-tree-string": {
     "__desc__": "The prompt to copy the tree when sharing",
     "en_US": "Copy the tree string below",
+    "bg": "Копирай низа на дървото по-долу",
     "fa": "رشته درخت زیر را کپی کنید",
     "de_DE": "Kopiere die folgende Baum-Zeichenkette",
     "zh_CN": "拷贝下面的树字符串",
@@ -962,6 +1002,7 @@ exports.strings = {
   "learn-git-branching": {
     "__desc__": "The title of the app, with spaces",
     "en_US": "Learn Git Branching",
+    "bg": "Learn Git Branching",
     "fa": "آموزش Git Branching",
     "de_DE": "Lerne Git Branching",
     "ja": "日本語版リポジトリ",
@@ -987,6 +1028,7 @@ exports.strings = {
   "select-a-level": {
     "__desc__": "The prompt to select a level on the drop down view",
     "en_US": "Select a level",
+    "bg": "Избери ниво",
     "fa": "یک مرحله انتخاب کنید",
     "de_DE": "Level auswählen",
     "zh_CN": "选择一关",
@@ -1011,6 +1053,7 @@ exports.strings = {
   "main-levels-tab": {
     "__desc__": "The name of main levels tab on the drop down view",
     "en_US": "Main",
+    "bg": "Основни",
     "fa": "اصلی",
     "de_DE": "Haupt",
     "zh_CN": "主要",
@@ -1032,6 +1075,7 @@ exports.strings = {
   "remote-levels-tab": {
     "__desc__": "The name of remote levels tab on the drop down view",
     "en_US": "Remote",
+    "bg": "Remote",
     "fa": "ریموت",
     "de_DE": "Remote",
     "zh_CN": "远程",
@@ -1053,6 +1097,7 @@ exports.strings = {
   "branch-name-short": {
     "__desc__": "When branch names get too long, we need to truncate them. This is the warning for that",
     "en_US": "Sorry, we need to keep branch names short for the visuals. Your branch name was truncated to 9 characters, resulting in \"{branch}\"",
+    "bg": "Съжаляваме, трябва да държим имената на клоновете кратки за визуализацията. Името на твоя клон беше съкратено до 9 знака, резултатът е \"{branch}\"",
     "fa": "ببخشید، ما باید نام‌های شاخه را برای نمایش کوتاه نگه داریم. نام شاخه شما به ۹ کاراکتر کوتاه شد: \"{branch}\"",
     "de_DE": "Tut mir leid, aber aus Gründen der Darstellung müssen wir die Branch-Namen kurz halten. Dein Branch-Name wurde auf 9 Zeichen gekürzt und heißt daher jetzt \"{branch}\"",
     "zh_CN": "抱歉，为了显示的需要，我们需要一个短些的分支名称。您使用的名称将被截断到9个字符，即 \"{branch}\"",
@@ -1077,6 +1122,7 @@ exports.strings = {
   "bad-branch-name": {
     "__desc__": "When the user enters a branch name thats not ok",
     "en_US": "That branch name \"{branch}\" is not allowed!",
+    "bg": "Това име на клон \"{branch}\" не е разрешено!",
     "fa": "نام شاخه \"{branch}\" مجاز نیست!",
     "de_DE": "Der Branch-Name \"{branch}\" ist nicht erlaubt!",
     "zh_CN": "不能给分支起这个名字 \"{branch}\"",
@@ -1101,6 +1147,7 @@ exports.strings = {
   "bad-tag-name": {
     "__desc__": "When the user enters a tag name thats not ok",
     "en_US": "That tag name \"{tag}\" is not allowed!",
+    "bg": "Това име на таг \"{tag}\" не е разрешено!",
     "fa": "نام تگ \"{tag}\" مجاز نیست!",
     "zh_CN": "该标签名 “{tag}” 不被接受。",
     "zh_TW": "該標籤名 “{tag}” 不被接受。",
@@ -1125,6 +1172,7 @@ exports.strings = {
   "option-not-supported": {
     "__desc__": "When the user specifies an option that is not supported by our demo",
     "en_US": "The option \"{option}\" is not supported!",
+    "bg": "Опцията \"{option}\" не се поддържа!",
     "fa": "گزینه \"{option}\" پشتیبانی نمی‌شود!",
     "de_DE": "Die Option \"{option}\" wird nicht unterstützt!",
     "zh_CN": "不支持选项 \"{option}\"",
@@ -1149,6 +1197,7 @@ exports.strings = {
   "git-usage-command": {
     "__desc__": "The line that shows how to format a git command",
     "en_US": "git <command> [<args>]",
+    "bg": "git <команда> [<аргументи>]",
     "fa": "git <command> [<args>]",
     "de_DE": "git <Befehl> [<Argumente>]",
     "zh_CN": "git <命令> [<参数>]",
@@ -1173,6 +1222,7 @@ exports.strings = {
   "git-supported-commands": {
     "__desc__": "In the git help command, the header above the supported commands",
     "en_US": "Supported commands:",
+    "bg": "Поддържани команди:",
     "fa": "دستورات پشتیبانی شده:",
     "de_DE": "Unterstützte Befehle:",
     "zh_CN": "支持的命令有:",
@@ -1197,6 +1247,7 @@ exports.strings = {
   "git-usage": {
     "__desc__": "In the dummy git output, the header before showing all the commands",
     "en_US": "Usage:",
+    "bg": "Употреба:",
     "fa": "نحوه استفاده:",
     "de_DE": "Benutzung:",
     "zh_CN": "使用:",
@@ -1221,6 +1272,7 @@ exports.strings = {
   "git-version": {
     "__desc__": "The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead",
     "en_US": "Git Version PCOTTLE.1.0",
+    "bg": "Git Версия PCOTTLE.1.0",
     "fa": "نسخه گیت PCOTTLE.1.0",
     "de_DE": "Git Version PCOTTLE.1.0.jbr",
     "zh_CN": "Git 版本 PCOTTLE.1.0",
@@ -1245,6 +1297,7 @@ exports.strings = {
   "flip-tree-command": {
     "__desc__": "when the tree is being flipped",
     "en_US": "Flipping tree...",
+    "bg": "Обръщане на дървото...",
     "fa": "معکوس کردن درخت...",
     "de_DE": "Kehre den Baum um...",
     "zh_CN": "翻转树中...",
@@ -1269,6 +1322,7 @@ exports.strings = {
   "refresh-tree-command": {
     "__desc__": "when the tree is visually refreshed",
     "en_US": "Refreshing tree...",
+    "bg": "Обновяване на дървото...",
     "fa": "به‌روزرسانی درخت...",
     "de_DE": "Aktualisiere Baum ...",
     "zh_CN": "正在刷新树结构...",
@@ -1293,6 +1347,7 @@ exports.strings = {
   "locale-command": {
     "__desc__": "when the locale is set to something",
     "en_US": "Locale set to {locale}",
+    "bg": "Езикът е зададен на {locale}",
     "fa": "زبان روی {locale} تنظیم شد",
     "de_DE": "Locale auf {locale} gesetzt",
     "zh_CN": "语言更改为 {locale}",
@@ -1317,6 +1372,7 @@ exports.strings = {
   "locale-reset-command": {
     "__desc__": "when the locale is reset",
     "en_US": "Locale reset to default, which is {locale}",
+    "bg": "Езикът е възстановен до подразбиране, което е {locale}",
     "fa": "زبان به پیش‌فرض ({locale}) بازگشت",
     "de_DE": "Locale auf Standard zurückgesetzt, also {locale}",
     "zh_CN": "语言重置为默认的 {locale}",
@@ -1341,6 +1397,7 @@ exports.strings = {
   "show-command": {
     "__desc__": "command output title from \"show\"",
     "en_US": "Please use one of the following commands for more info:",
+    "bg": "Моля, използвай една от следните команди за повече информация:",
     "fa": "لطفاً برای اطلاعات بیشتر از یکی از دستورات زیر استفاده کنید:",
     "zh_TW": "請使用下列其中一個指令取得更多資訊：",
     "zh_CN": "请使用以下命令以了解更多：",
@@ -1365,6 +1422,7 @@ exports.strings = {
   "show-all-commands": {
     "__desc__": "command output title from \"show commands\"",
     "en_US": "Here is a list of all the commmands available:",
+    "bg": "Ето списък на всички налични команди:",
     "fa": "این لیستی از تمام دستورات موجود است:",
     "zh_TW": "這份清單列出所有可用指令：",
     "zh_CN": "该列表列出了所有可用的指令：",
@@ -1389,6 +1447,7 @@ exports.strings = {
   "cd-command": {
     "__desc__": "dummy command output for the command in the key",
     "en_US": "Directory changed to \"/directories/dont/matter/in/this/demo\"",
+    "bg": "Директорията е променена на \"/directories/dont/matter/in/this/demo\"",
     "fa": "دایرکتوری تغییر کرد به \"/directories/dont/matter/in/this/demo\"",
     "de_DE": "Verzeichnis gewechselt zu \"/verzeichnisse/sind/in/dieser/demo/irrelevant\"",
     "zh_CN": "目录切换到 \"/directories/dont/matter/in/this/demo\"",
@@ -1413,6 +1472,7 @@ exports.strings = {
   "ls-command": {
     "__desc__": "Dummy command output for the command in the key",
     "en_US": "DontWorryAboutFilesInThisDemo.txt",
+    "bg": "DontWorryAboutFilesInThisDemo.txt",
     "fa": "خیالت‌راحت‌فایل‌ها‌در‌این‌دمو‌مهم‌نیستند.txt",
     "de_DE": "VergissDateienInDieserDemo.txt",
     "zh_CN": "在本程序中无须考虑文件问题.txt",
@@ -1437,6 +1497,7 @@ exports.strings = {
   "mobile-alert": {
     "__desc__": "When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them",
     "en_US": "LGB can't receive input on mobile, visit on desktop! it's worth it :D",
+    "bg": "LGB не може да приема входни данни на мобилни устройства, посетете ни от компютър! Заслужава си :D",
     "fa": "این برنامه روی موبایل ورودی دریافت نمی‌کند، با دسکتاپ امتحان کنید! ارزشش را دارد :D",
     "de_DE": "LGB ist nicht mit mobilen Endgeräten kompatibel, benutz es vom Desktop! Es lohnt sich :D",
     "zh_CN": "无法在移动设备/平板上调出键盘 :( 请试试桌面版 :D",
@@ -1461,6 +1522,7 @@ exports.strings = {
   "share-tree": {
     "__desc__": "When you export a tree, we want you to share the tree with friends",
     "en_US": "Share this tree with friends! They can load it with \"import tree\"",
+    "bg": "Сподели това дърво с приятели! Те могат да го заредят с \"import tree\"",
     "fa": "این درخت را با دوستان خود به اشتراک بگذارید! آن‌ها می‌توانند آن را با \"import tree\" بارگذاری کنند",
     "de_DE": "Teile diesen git-Baum mit Freunden! Sie können ihn mit \"import tree\" laden",
     "zh_CN": "与你的好友分享提交树！他们可以用 \"import tree\" 加载它",
@@ -1485,6 +1547,7 @@ exports.strings = {
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
     "en_US": "Paste a JSON blob below!",
+    "bg": "Постави JSON blob по-долу!",
     "fa": "یک JSON در زیر پیست کنید!",
     "de_DE": "Füg einen JSON-Blob unten ein!",
     "zh_CN": "在下边粘贴一个 JSON 串",
@@ -1509,6 +1572,7 @@ exports.strings = {
   "solved-map-reset": {
     "__desc__": "When you reset the solved map to clear your solved history, in case someone else wants to use your browser",
     "en_US": "Solved map was reset, you are starting from a clean slate!",
+    "bg": "Картата с решенията беше нулирана, започваш на чисто!",
     "fa": "نقشه حل‌شده‌ها بازنشانی شد، شما از اول شروع می‌کنید!",
     "de_DE": "Gelöste Karte wurde zurückgesetzt, du fängst mit einem leeren Blatt an!",
     "zh_CN": "解决列表已重置，您现在可以从头开始了",
@@ -1533,6 +1597,7 @@ exports.strings = {
   "level-cant-exit": {
     "__desc__": "When the user tries to exit a level when they are not in one",
     "en_US": "You are not in a level! You are in a sandbox, start a level with \"levels\"",
+    "bg": "Не си в ниво! Ти си в пясъчника (sandbox), започни ниво с \"levels\"",
     "fa": "شما در یک مرحله نیستید! شما در محیط Sandbox هستید، با \"levels\" یک مرحله را شروع کنید",
     "de_DE": "Du bist nicht in einem Level! Du bist im Sandkasten-Modus, starte ein Level mit \"levels\"",
     "zh_CN": "您没在关卡中而是在沙盒中，要开始关卡请输入 \"levels\"",
@@ -1557,6 +1622,7 @@ exports.strings = {
   "level-no-id": {
     "__desc__": "When you say an id but that level doesn't exist",
     "en_US": "A level for that id \"{id}\" was not found! Opening up a level selection view",
+    "bg": "Ниво с id \"{id}\" не беше намерено! Отваряне на изглед за избор на ниво",
     "fa": "مرحله‌ای با شناسه \"{id}\" پیدا نشد! باز کردن نمای انتخاب مرحله",
     "de_DE": "Konnte kein Level mit der ID \"{id}\" finden! Öffne den Level-Auswahldialog",
     "zh_CN": "没找到 id 为 \"{id}\" 的关卡！打开关卡选择框",
@@ -1581,6 +1647,7 @@ exports.strings = {
   "undo-stack-empty": {
     "__desc__": "The undo command can only undo back until the last time the level was reset or the beginning of the level",
     "en_US": "The undo stack is empty!",
+    "bg": "Стекът за отмяна е празен!",
     "fa": "پشته Undo خالی است!",
     "de_DE": "Die Undo-Liste ist leer!",
     "zh_CN": "还没有什么可以撤销",
@@ -1605,6 +1672,7 @@ exports.strings = {
   "already-solved": {
     "__desc__": "When you play in a level that is already solved",
     "en_US": "You have already solved this level, try other levels with \"levels\" or go back to sandbox with \"sandbox\"",
+    "bg": "Вече си решил това ниво, опитай други нива с \"levels\" или се върни в пясъчника с \"sandbox\"",
     "fa": "شما قبلاً این مرحله را حل کرده‌اید، با \"levels\" مراحل دیگر را امتحان کنید یا با \"sandbox\" به محیط Sandbox برگردید",
     "de_DE": "Du hast dieses Level bereits gelöst, probier ein anderes Level mit \"levels\" aus oder geh in den Sandkasten-Modus mit \"sandbox\"",
     "zh_CN": "你已经解决了本关，输入 \"levels\" 尝试其他关卡，或者输入 \"sandbox\" 回到沙盒中",
@@ -1629,6 +1697,7 @@ exports.strings = {
   "solved-level": {
     "__desc__": "When you solved a level",
     "en_US": "Solved!!!\n:D",
+    "bg": "Решено!!!\n:D",
     "fa": "حل شد!!!\n:D",
     "es_MX": "¡Resuelto!!!",
     "de_DE": "Gelöst!!!\n:D",
@@ -1652,6 +1721,7 @@ exports.strings = {
   "command-disabled": {
     "__desc__": "When you try a command that is disabled",
     "en_US": "That git command is disabled for this level!",
+    "bg": "Тази команда на git е забранена за това ниво!",
     "fa": "آن دستور گیت برای این مرحله غیرفعال است!",
     "de_DE": "Dieser git-Befehl ist für dieses Level deaktiviert!",
     "zh_CN": "本关不允许使用该命令！",
@@ -1676,6 +1746,7 @@ exports.strings = {
   "share-json": {
     "__desc__": "when you have made the level, prompt to share this",
     "en_US": "Here is the JSON for this level! Share it with someone or send it to me on GitHub",
+    "bg": "Ето го JSON-а за това ниво! Сподели го с някого или ми го изпрати в GitHub",
     "fa": "این JSON برای این مرحله است! آن را با کسی به اشتراک بگذارید یا در GitHub برای من بفرستید",
     "de_DE": "Hier ist das JSON für dieses Level! Teil es mit jemandem or schick es mir über GitHub",
     "zh_CN": "这是一个关卡定义 JSON ！您可以分享它或者发到我的 GitHub 上",
@@ -1700,6 +1771,7 @@ exports.strings = {
   "want-start-dialog": {
     "__desc__": "prompt to add a start dialog",
     "en_US": "You have not specified a start dialog, would you like to add one?",
+    "bg": "Не си посочил начален диалог, искаш ли да добавиш такъв?",
     "fa": "شما دیالوگ شروع مشخص نکرده‌اید، آیا می‌خواهید یکی اضافه کنید؟",
     "de_DE": "Du hast noch keinen Einführungs-Dialog geschrieben, willst du einen hinzufügen?",
     "zh_CN": "您还没有定义一开始的介绍，是否添加一个？",
@@ -1724,6 +1796,7 @@ exports.strings = {
   "want-hint": {
     "__desc__": "prompt to add a hint",
     "en_US": "You have not specified a hint, would you like to add one?",
+    "bg": "Не си посочил подсказка, искаш ли да добавиш такава?",
     "fa": "شما راهنمایی مشخص نکرده‌اید، آیا می‌خواهید یکی اضافه کنید؟",
     "de_DE": "Du hast noch keinen Hinweis geschrieben, magst du einen hinzufügen?",
     "zh_CN": "您还没有定义提示，是否添加一个？",
@@ -1748,6 +1821,7 @@ exports.strings = {
   "prompt-hint": {
     "__desc__": "prompt for hint",
     "en_US": "Enter the hint for this level, or leave this blank if you do not want to include one",
+    "bg": "Въведи подсказка за това ниво или остави празно, ако не искаш да включваш такава",
     "fa": "راهنمایی این مرحله را وارد کنید، یا اگر نمی‌خواهید خالی بگذارید",
     "de_DE": "Gib den Hinweis für dieses Level an, oder lass es leer wenn du keinen hinzufügen willst",
     "zh_CN": "请输入关卡提示，如果没有请留空",
@@ -1772,6 +1846,7 @@ exports.strings = {
   "prompt-name": {
     "__desc__": "prompt for level name",
     "en_US": "Enter the name for the level",
+    "bg": "Въведи името за нивото",
     "fa": "نام مرحله را وارد کنید",
     "de_DE": "Gib den Namen für dieses Level an",
     "zh_CN": "请输入关卡名称",
@@ -1796,6 +1871,7 @@ exports.strings = {
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
     "en_US": "Your solution is empty!! Something is amiss",
+    "bg": "Твоето решение е празно!! Нещо не е наред",
     "fa": "راه‌حل شما خالی است!! یه چیزی اشتباهه",
     "de_DE": "Deine Auflösung ist leer! Hier fehlt etwas",
     "zh_CN": "你的解法是空的!! 可能是程序出错了",
@@ -1820,6 +1896,7 @@ exports.strings = {
   "define-start-warning": {
     "__desc__": "When you define the start point again, it overwrites the solution and goal so we add a warning",
     "en_US": "Defining start point... solution and goal will be overwritten if they were defined earlier",
+    "bg": "Дефиниране на начална точка... решението и целта ще бъдат презаписани, ако са били дефинирани по-рано",
     "fa": "تعیین نقطه شروع... راه‌حل و هدف اگر قبلاً تعریف شده باشند بازنویسی خواهند شد",
     "de_DE": "Lege Startpunkt fest ... Auflösung und Ziel werden überschrieben, falls sie schon festgelegt waren",
     "zh_CN": "定义开始点... 解决方法和目标会被新的替代",
@@ -1844,6 +1921,7 @@ exports.strings = {
   "help-vague-level": {
     "__desc__": "When you are in a level and you say help, its vague and you need to specify",
     "en_US": "You are in a level, so multiple forms of help are available. Please select either \"help level\" to learn more about this lesson, \"help general\" for using Learn GitBranching, or \"objective\" to learn about how to solve the level.",
+    "bg": "Ти си в ниво, така че са налични различни форми на помощ. Моля, избери или \"help level\", за да научиш повече за този урок, \"help general\" за използване на Learn GitBranching, или \"objective\", за да научиш как да решиш нивото.",
     "fa": "شما در یک مرحله هستید، بنابراین انواع مختلفی از راهنمایی موجود است. لطفاً \"help level\" را برای یادگیری بیشتر در مورد این درس، \"help general\" برای استفاده از Learn GitBranching، یا \"objective\" را برای یادگیری نحوه حل مرحله انتخاب کنید.",
     "de_DE": "Du befindest dich in einem Level, daher gibt es verschiedene Hilfen. Gib \"help level\" ein um mehr über dieses Level zu erfahren, \"help general\" um zu sehen wie Learn Git Branching bedient wird, oder \"objective\" um das Ziel dieses Levels zu erfahren.",
     "zh_CN": "您正在关卡中，这里有多种形式的帮助，请选择 \"help level\" (关卡帮助)或 \"help general\" (一般帮助)",
@@ -1868,6 +1946,7 @@ exports.strings = {
   "help-vague-builder": {
     "__desc__": "When you are in a level builder, the help command is vague so you need to specify what you mean",
     "en_US": "You are in a level builder, so multiple forms of help are available. Please select either \"help general\" or \"help builder\"",
+    "bg": "Ти си в създателя на нива, така че са налични различни форми на помощ. Моля, избери или \"help general\", или \"help builder\"",
     "fa": "شما در سازنده مرحله هستید، بنابراین انواع مختلفی از راهنمایی موجود است. لطفاً \"help general\" یا \"help builder\" را انتخاب کنید",
     "de_DE": "Du befindest dich im Level-Editor, daher gibt es verschiedene Hilfen. Gib bitte \"help general\" oder \"help builder\" ein",
     "zh_CN": "您正在进行关卡构建中，这里有多种形式的帮助，请选择 \"help general\" (一般帮助)或 \"help builder\" (关卡构建帮助)",
@@ -1892,6 +1971,7 @@ exports.strings = {
   "show-goal-button": {
     "__desc__": "button label to show goal",
     "en_US": "Show Goal",
+    "bg": "Покажи цел",
     "fa": "نمایش هدف",
     "de_DE": "Ziel anzeigen",
     "zh_TW": "顯示目標",
@@ -1917,6 +1997,7 @@ exports.strings = {
   "hide-goal-button": {
     "__desc__": "button label to hide goal",
     "en_US": "Hide Goal",
+    "bg": "Скрий цел",
     "fa": "مخفی کردن هدف",
     "de_DE": "Ziel verstecken",
     "fr_FR": "Cacher la cible",
@@ -1942,6 +2023,7 @@ exports.strings = {
   "objective-button": {
     "__desc__": "button label to show objective",
     "en_US": "Instructions",
+    "bg": "Инструкции",
     "fa": "دستورالعمل‌ها",
     "de_DE": "Ziel",
     "zh_TW": "提示",
@@ -1965,6 +2047,7 @@ exports.strings = {
   "git-demonstration-title": {
     "__desc__": "title of git demonstration window",
     "en_US": "Git Demonstration",
+    "bg": "Git Демонстрация",
     "fa": "دموی Git",
     "de_DE": "Git Demonstration",
     "zh_TW": "Git示範",
@@ -1988,6 +2071,7 @@ exports.strings = {
   "goal-to-reach": {
     "__desc__": "title of window that shoes the goal tree to reach",
     "en_US": "Goal To Reach",
+    "bg": "Цел за достигане",
     "fa": "هدف برای رسیدن",
     "de_DE": "Zu erreichendes Ziel",
     "zh_CN": "目标",
@@ -2013,6 +2097,7 @@ exports.strings = {
   "goal-only-main": {
     "__desc__": "the helper message for the window that shows the goal tree when the goal will only be compared using the main branch",
     "en_US": "<span class=\"fwber\">Note:</span> Only the main branch will be checked in this level. The other branches are simply for reference (shown as dashed labels below). As always, you can hide this dialog with \"hide goal\"",
+    "bg": "<span class=\"fwber\">Бележка:</span> В това ниво ще се проверява само main клонът. Другите клонове са само за справка (показани като етикети с прекъсната линия по-долу). Както винаги, можеш да скриеш този диалог с \"hide goal\"",
     "fa": "<span class=\"fwber\">نکته:</span> در این مرحله فقط شاخه main بررسی می‌شود. شاخه‌های دیگر فقط برای ارجاع هستند (به صورت برچسب‌های خط‌چین در زیر نشان داده شده‌اند). مثل همیشه، می‌توانید این دیالوگ را با \"hide goal\" مخفی کنید",
     "fr_FR": "<span class=\"fwber\">Note:</span> Dans ce niveau on ne doit faire de git checkout que sur la branche main. Les autres branches représentées ici (entourées d'un cadre en tirets) doivent être utilisées uniquement comme références. Comme toujours, vous pouvez cacher cette fenêtre avec \"hide goal\"",
     "de_DE": "<span class=\"fwber\">Hinweis:</span> In diesem Level wird nur der Branch main geprüft. Die anderen Branches dienen nur als Vergleichsbasis (als gestrichelte Bezeichner dargestellt). Wie immer kannst du diese Meldung mit \"hide goal\" ausblenden",
@@ -2032,12 +2117,13 @@ exports.strings = {
     "sl_SI": "<span class=\"fwber\">Opomba:</span> Samo main branch bo preverjen v tej stopnji. Ostali branchi so zgolj za referenco (prikazani kot črtaste oznake spodaj). Kot ponavadi, lahko skriješ dialog z \"hide goal\"",
     "pl": "<span class=\"fwber\"> Uwaga:</span> Na tym poziomie będzie sprawdzana tylko poprawność gałęzi main. Pozostałe gałęzie są tylko odniesieniem (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno klikając \"Ukryj cel\".",
     "it_IT": "<span class=\"fwber\">Nota:</span> In questo livello sarà selezionato solo il ramo main. Gli altri rami ci sono solo come riferimento (mostrati come etichette tratteggiate). Come sempre, puoi nascondere questa finestra con \"hide goal\"",
-    "ta_IN": "<span class=\"fwber\">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், \"இலக்கை மறை\" மூலம் இந்த சாளரத்தை மறைக்கலாம்",
+    "ta_IN": "<span class=\"fwber\">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், \"இலக்கை மறை\" மூலம் இந்த சாளரத்தை மறைக்கலாம்",
     "tr_TR": "<span class=\"fwber\">Not:</span> Bu seviyede yalnızca ana dal kontrol edilecektir. Diğer dallar yalnızca referans amaçlıdır (aşağıda kesikli etiketler olarak gösterilmektedir). Her zamanki gibi, bu diyaloğu \"hedefi gizle\" ile gizleyebilirsiniz."
   },
   "hide-goal": {
     "__desc__": "the helper message for the window that shows the goal tree",
     "en_US": "You can hide this window with \"hide goal\"",
+    "bg": "Можеш да скриеш този прозорец с \"hide goal\"",
     "fa": "می‌توانید این پنجره را با \"hide goal\" مخفی کنید",
     "de_DE": "Du kannst diese Meldung mit \"hide goal\" ausblenden",
     "zh_CN": "你可以通过 \"hide goal\" 命令关闭这个窗口",
@@ -2063,6 +2149,7 @@ exports.strings = {
   "hide-start": {
     "__desc__": "The helper message for the window that shows the start tree for a level",
     "en_US": "You can hide this window with \"hide start\"",
+    "bg": "Можеш да скриеш този прозорец с \"hide start\"",
     "fa": "می‌توانید این پنجره را با \"hide start\" مخفی کنید",
     "de_DE": "Du kannst diese Meldung mit \"hide start\" ausblenden",
     "zh_CN": "你可以通过 \"hide start\" 命令关闭这个窗口",
@@ -2088,6 +2175,7 @@ exports.strings = {
   "level-builder": {
     "__desc__": "The name for the environment where you build levels",
     "en_US": "Seviye Yapıcı",
+    "bg": "Създател на нива",
     "fa": "سازنده مرحله",
     "de_DE": "Level-Editor",
     "zh_CN": "关卡生成器",
@@ -2112,6 +2200,7 @@ exports.strings = {
   "no-start-dialog": {
     "__desc__": "when the user tries to open a start dialog for a level that does not have one",
     "en_US": "There is no start dialog to show for this level!",
+    "bg": "Няма начален диалог за показване за това ниво!",
     "fa": "دیالوگ شروعی برای نمایش وجود ندارد!",
     "de_DE": "Es gibt keinen Einführungs-Dialog für dieses Level!",
     "zh_CN": "这个关卡没有介绍！",
@@ -2137,6 +2226,7 @@ exports.strings = {
   "no-hint": {
     "__desc__": "when no hint is available for a level",
     "en_US": "Hmm, there doesn't seem to be a hint for this level :-/",
+    "bg": "Хмм, изглежда няма подсказка за това ниво :-/",
     "fa": "هممم، به نظر می‌رسه راهنمایی‌ای برای این مرحله وجود نداره :-/",
     "de_DE": "Hm, es gibt anscheinend keinen Hinweis für dieses Level :-/",
     "zh_CN": "呃……，这关好像没有提示 :-/",
@@ -2162,6 +2252,7 @@ exports.strings = {
   "error-untranslated-key": {
     "__desc__": "This error happens when we are trying to translate a specific key and the locale version is mission",
     "en_US": "The translation for {key} does not exist yet :( Please hop on github and offer up a translation!",
+    "bg": "Преводът за {key} все още не съществува :( Моля, посетете GitHub и предложете превод!",
     "fa": "ترجمه برای {key} هنوز وجود ندارد :( لطفاً به GitHub سری بزنید و ترجمه‌ای ارائه دهید!",
     "de_DE": "Die Übersetzung für {key} existiert noch nicht :( Falls du eine hast, dann teile sie mir bitte auf GitHub mit!",
     "zh_CN": "还没翻译 {key} :( 请在 GitHub 上贡献您的翻译!",
@@ -2187,6 +2278,7 @@ exports.strings = {
   "error-untranslated": {
     "__desc__": "The general error when we encounter a dialog that is not translated",
     "en_US": "This dialog or text is not yet translated in your locale :( Hop on github to aid in translation!",
+    "bg": "Този диалог или текст все още не е преведен на вашия език :( Посетете GitHub, за да помогнете с превода!",
     "fa": "این دیالوگ یا متن هنوز در زبان شما ترجمه نشده است :( برای کمک به ترجمه به GitHub سری بزنید!",
     "de_DE": "Dieser Dialog oder Text ist noch nicht in deiner Sprache verfügbar. :( Schau auf GitHub vorbei um bei der Übersetzung zu helfen!",
     "zh_CN": "这段对话还没有被翻译成您的语言 :( 欢迎在 GitHub 上贡献您的翻译!",
@@ -2213,6 +2305,7 @@ exports.strings = {
     "__desc__": "Cancel button label after completing a level",
     "es_AR": "Cancelar",
     "en_US": "Cancel",
+    "bg": "Отказ",
     "fa": "لغو",
     "pt_BR": "Cancelar",
     "es_MX": "Cancelar",
@@ -2231,6 +2324,7 @@ exports.strings = {
     "__desc__": "Confirm button label after completing a level",
     "es_AR": "Confirmar",
     "en_US": "Confirm",
+    "bg": "Потвърди",
     "fa": "تایید",
     "pt_BR": "Confirmar",
     "es_MX": "Confirmar",
@@ -2249,6 +2343,7 @@ exports.strings = {
     "__desc__": "Label in the top of the left-side menu. Remember to leave some space on the sides",
     "es_AR": "Nivel",
     "en_US": " Level ",
+    "bg": " Ниво ",
     "fa": " مرحله ",
     "pt_BR": " Nível ",
     "es_MX": "Nivel",
@@ -2265,6 +2360,7 @@ exports.strings = {
     "__desc__": "Levels command label in the bottom command helper bar.",
     "es_AR": "Niveles",
     "en_US": "Levels",
+    "bg": "Нива",
     "fa": "مراحل",
     "pt_BR": "Níveis",
     "es_MX": "Niveles",
@@ -2281,6 +2377,7 @@ exports.strings = {
     "__desc__": "Solution command label in the bottom command helper bar.",
     "es_AR": "Solución",
     "en_US": "Solution",
+    "bg": "Решение",
     "fa": "راه‌حل",
     "es_MX": "Solución",
     "fr_FR": "Solution",
@@ -2297,6 +2394,7 @@ exports.strings = {
     "__desc__": "Reset command label in the bottom command helper bar.",
     "es_AR": "Reiniciar",
     "en_US": "Reset",
+    "bg": "Нулиране",
     "fa": "بازنشانی",
     "pt_BR": "Reiniciar",
     "es_MX": "Reiniciar",
@@ -2313,6 +2411,7 @@ exports.strings = {
     "__desc__": "Undo command label in the bottom command helper bar.",
     "es_AR": "Deshacer",
     "en_US": "Undo",
+    "bg": "Отмяна",
     "fa": "بازگردانی",
     "pt_BR": "Desfazer",
     "es_MX": "Deshacer",
@@ -2329,6 +2428,7 @@ exports.strings = {
     "__desc__": "Objective command label in the bottom command helper bar.",
     "es_AR": "Objetivo",
     "en_US": "Objective",
+    "bg": "Цел",
     "fa": "هدف",
     "es_MX": "Objetivo",
     "fr_FR": "Objectif",
@@ -2345,6 +2445,7 @@ exports.strings = {
     "__desc__": "Help command label in the bottom command helper bar.",
     "es_AR": "Ayuda",
     "en_US": "Help",
+    "bg": "Помощ",
     "fa": "راهنما",
     "pt_BR": "Ajuda",
     "es_MX": "Ayuda",
@@ -2361,6 +2462,7 @@ exports.strings = {
     "__desc__": "Message that appears in git console when command is not supported in the current environment.",
     "es_AR": "¡El comando es valido, pero no está soportado en este ambiente! intentá ingresar un nivel o un constructor de nivel para usar ese comando",
     "en_US": "That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command",
+    "bg": "Тази команда е валидна, но не се поддържа в текущата среда! Опитайте да влезете в ниво или редактор на нива, за да използвате тази команда",
     "fa": "آن دستور معتبر است، اما در محیط فعلی پشتیبانی نمی‌شود! برای استفاده از آن دستور سعی کنید وارد یک مرحله یا سازنده مرحله شوید",
     "pt_BR": "Este comando é válido, mas não suportado no ambiente atual! Tente entrar num nível ou construtor de nível para usar este comando",
     "es_MX": "¡El comando es válido, pero no es suportado en este ambiente! Intenta ingresar un nivel o un constructor de niveles para usar ese comando",
@@ -2378,6 +2480,7 @@ exports.strings = {
     "__desc__": "Title for the popup",
     "es_AR": "Rebase interactivo",
     "en_US": "Interactive Rebase",
+    "bg": "Интерактивно пребазиране",
     "fa": "Rebase تعاملی",
     "pt_BR": "Rebase interativo",
     "es_MX": "Rebase interactivo",
@@ -2391,4 +2494,4 @@ exports.strings = {
     "vi": "Rebase tương tác",
     "tr_TR": "Etkileşimli Yeniden Temellendirme"
   }
-};
+}

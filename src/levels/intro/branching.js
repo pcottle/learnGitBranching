@@ -16,6 +16,7 @@ exports.level = {
     "zh_CN": "Git Branch",
     "zh_TW": "建立 git branch",
     "ro": "Ramuri în Git",
+    "bg": "Разклоняване в Git",
     "ru_RU": "Ветвление в Git",
     "uk": "Розгалуження в Git",
     "vi": "Rẽ nhánh với Git",
@@ -40,6 +41,7 @@ exports.level = {
     "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
     "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
     "ro": "Creează o ramură nouă cu \"git branch [nume-ramură]\" și treci la ea cu \"git checkout [nume-ramură]\"",
+    "bg": "Създайте нов клон, използвайки \"git branch <име-на-клона>\" и преминете към него с \"git checkout <име-на-клона>\"",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
     "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
@@ -1215,6 +1217,100 @@ exports.level = {
               "Apropo, iată o scurtătură: dacă vrei să creezi o nouă ramură",
               " ȘI să treci pe ea în același timp, poți pur și simplu ",
               "să scrii `git checkout -b [numele-ramurii]`."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Клонове",
+              "",
+              "Клоновете (branches) в Git са невероятно леки. Те са просто указатели към конкретен комит -- нищо повече. Затова много Git ентусиасти повтарят мантрата:",
+              "",
+              "```",
+              "разклонявай рано и разклонявай често",
+              "```",
+              "",
+              "Тъй като няма разход на памет или място при създаването на много клонове, е по-лесно логически да разделяте работата си, отколкото да поддържате огромни, тежки клонове.",
+              "",
+              "Когато започнем да смесваме клонове и комити, ще видим как тези две функции се комбинират. Засега просто запомнете, че един клон по същество казва: \"Искам да включа работата от този комит и всички негови родители.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека видим как изглеждат клоновете на практика.",
+              "",
+              "Тук ще създадем нов клон с име `newImage`."
+            ],
+            "afterMarkdowns": [
+              "Ето, това е всичко за разклоняването! Клонът `newImage` сега сочи към комит `C1`."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека се опитаме да свършим малко работа в този нов клон. Натиснете бутона по-долу."
+            ],
+            "afterMarkdowns": [
+              "О, не! Клонът `main` се премести, но клонът `newImage` не! Това е, защото не бяхме \"върху\" новия клон, поради което звездичката (*) беше върху `main`."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека кажем на git, че искаме да преминем към (checkout) клона с:",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "Това ще ни прехвърли в новия клон, преди да направим комит на промените."
+            ],
+            "afterMarkdowns": [
+              "Готово! Промените ни бяха записани в новия клон."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*Бележка: Във версия 2.23 на Git беше въведена нова команда, наречена `git switch`, която евентуално да замени `git checkout`, ",
+              "тъй като последната е малко претоварена (върши много различни неща в зависимост от аргументите). Уроците тук все още ще използват ",
+              "`checkout` вместо `switch`, тъй като командата `switch` все още се счита за експериментална и синтаксисът може да се промени в бъдеще. ",
+              "Въпреки това все още можете да изпробвате новата команда `switch` в това приложение, както и да ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">научите повече тук</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Добре! Вече сте напълно готови за разклоняване. След като този прозорец се затвори,",
+              "направете нов клон с име `bugFix` и превключете към него.",
+              "",
+              "Между другото, ето един пряк път: ако искате да създадете нов ",
+              "клон И да превключите към него едновременно, можете просто ",
+              "да напишете `git checkout -b [име-на-вашия-клон]`."
             ]
           }
         }

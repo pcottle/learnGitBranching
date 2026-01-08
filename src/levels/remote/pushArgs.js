@@ -19,6 +19,7 @@ exports.level = {
     "ja": "Git pushの引数",
     "fr_FR": "Arguments de git push",
     "ro": "Argumente pentru git push",
+    "bg": "Git push аргументи",
     "ru_RU": "Аргументы git push",
     "ko": "git push의 인자들",
     "uk": "Аргументи git push",
@@ -41,6 +42,7 @@ exports.level = {
     "ja": "ダイアログの最後のスライドを参照するには\"objective\"を実行",
     "fr_FR": "Vous pouvez toujours regarder le dernier slide des dialogues en tapant \"objective\".",
     "ro": "Poți vedea întotdeauna ultimul slide tastând \"objective\".",
+    "bg": "Винаги можеш да погледнеш последния слайд от диалога с командата \"objective\"",
     "ru_RU": "Вы всегда можете ознакомиться с последним слайдом, воспользовавшись \"objective\".",
     "ko": "대화창의 마지막 슬라이드를 \"objective\"로 다시 볼 수 있습니다.",
     "uk": "Завжди можна подивитися останній слайд діалогу за допомогою \"objective\"",
@@ -849,6 +851,81 @@ exports.level = {
               "În regulă, pentru acest nivel să actualizăm atât `foo` cât și `main` pe remote. Provocarea este că `git checkout` este dezactivat pentru acest nivel!",
               "",
               "*Notă: Ramurile remote sunt etichetate cu prefixul `o/` deoarece eticheta completă `origin/` nu încape în UI-ul nostru. Nu-ți face griji în legătură cu asta... folosește pur și simplu `origin` ca numele remote-ului ca de obicei.*"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push аргументи",
+              "",
+              "Чудесно! Сега, когато знаеш за проследяващите (tracking) клонове, можем да започнем да разкриваме мистерията зад това как работят git push, fetch и pull. Ще разглеждаме по една команда наведнъж, но концепциите между тях са много сходни.",
+              "",
+              "Първо ще разгледаме `git push`. В урока за отдалечено проследяване научи, че git разбира кое е отдалеченото хранилище *и* към кой клон да push-не, като гледа свойствата на текущо изтегления (checked out) клон (отдалеченото хранилище, което той \"следи\"). Това е поведението без зададени аргументи, но git push може по желание да приема аргументи във формата:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Какъв е този параметър `<place>` (място)? Скоро ще навлезем в детайлите, но първо един пример. Изпълняването на командата:",
+              "",
+              "`git push origin main`",
+              "",
+              "се превежда така на български:",
+              "",
+              "*Отиди в клона с име \"main\" в моето хранилище, вземи всички къмити и след това отиди в клона \"main\" на отдалеченото хранилище с име \"origin\". Постави всички липсващи къмити в този клон и ми кажи, когато си готов.*",
+              "",
+              "Чрез посочването на `main` като аргумент за \"place\", ние казахме на git откъде *идват* къмитите и къде *ще отидат*. Това по същество е \"мястото\" или \"локацията\" за синхронизиране между двете хранилища.",
+              "",
+              "Имай предвид, че тъй като казахме на git всичко, което трябва да знае (чрез посочване на двата аргумента), той напълно игнорира къде се намираме в момента (checked out)!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека видим пример за посочване на аргументите. Обърни внимание къде се намираме (checked out) в този пример."
+            ],
+            "afterMarkdowns": [
+              "Ето така! `main` беше обновен на отдалеченото хранилище, тъй като посочихме тези аргументи."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ами ако не бяхме посочили аргументите? Какво щеше да се случи?"
+            ],
+            "afterMarkdowns": [
+              "Командата се проваля (както виждаш), тъй като `HEAD` не е върху клон, проследяващ отдалечено хранилище (remote-tracking branch)."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Добре, за това ниво нека обновим както `foo`, така и `main` на отдалеченото хранилище. Уловката е, че `git checkout` е забранен за това ниво!",
+              "",
+              "*Бележка: Отдалечените клонове са обозначени с префикс `o/`, защото пълният етикет `origin/` не се побира в нашия интерфейс. Не се тревожи ",
+              "за това... просто използвай `origin` като име на отдалеченото хранилище, както обикновено.*"
             ]
           }
         }

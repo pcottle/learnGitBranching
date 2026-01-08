@@ -21,6 +21,7 @@ exports.level = {
     "ja": "無のsource",
     "fr_FR": "Source de rien du tout",
     "ro": "Sursă goală",
+    "bg": "Източник на нищо",
     "ru_RU": "Пустой источник",
     "ko": "Source가 없다",
     "uk": "Нема джерела",
@@ -43,6 +44,7 @@ exports.level = {
     "ja": "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
     "fr_FR": "La commande branch est désactivée pour ce niveau, vous devrez donc utiliser fetch !",
     "ro": "Comanda branch este dezactivată pentru acest nivel, așa că va trebui să folosești fetch!",
+    "bg": "Командата branch е деактивирана за това ниво, така че ще трябва да използваш fetch!",
     "ru_RU": "Команда branch недоступна на этом упражнении, пользуйтесь командой fetch!",
     "ko": "branch 명령이 비활성화 되어있습니다. fetch를 사용해야 돼요!",
     "uk": "Команда branch недоступна на цьому уроці, користуйся командою fetch!",
@@ -688,6 +690,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Aceasta este un nivel mic -- pur și simplu șterge o ramură remote și creează o nouă ramură locală folosind `git fetch` pentru a termina!"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Странностите на `<source>`",
+              "",
+              "Git злоупотребява с параметъра `<source>` по два странни начина. Тези две злоупотреби идват от факта, че технически можеш да посочиш \"нищо\" (nothing) като валиден `source` както за git push, така и за git fetch. Начинът да посочиш нищо е чрез празен аргумент:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Нека видим какво правят те..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Какво прави push-ването на \"нищо\" към отдалечен клон? Изтрива го!"
+            ],
+            "afterMarkdowns": [
+              "Ето, успешно изтрихме клона `foo` в отдалеченото хранилище, като push-нахме концепцията за \"нищо\" към него. Това донякъде има смисъл..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "И накрая, fetch-ването на \"нищо\" към локално място всъщност създава нов клон."
+            ],
+            "afterMarkdowns": [
+              "Много странно / причудливо, но както и да е. Това е git за теб!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Това е бързо ниво -- просто изтрий един отдалечен клон и създай нов клон с `git fetch`, за да приключиш!"
             ]
           }
         }

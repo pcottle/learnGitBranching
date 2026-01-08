@@ -22,6 +22,7 @@ exports.level = {
     "zh_CN": "多次 Rebase",
     "zh_TW": "N次Rebase",
     "ro": "Rebase de peste 9000 ori",
+    "bg": "Rebase над 9000 пъти",
     "ru_RU": "Rebase over 9000 раз",
     "uk": "Rebase over 9000 разів",
     "vi": "Rebase hơn 9000 lần",
@@ -45,6 +46,7 @@ exports.level = {
     "zh_CN": "记住，最后更新 main 分支可能是最高效的方法……",
     "zh_TW": "要記住喔! 把 main branch 留到最後更新可能是最有效率的方法。",
     "ro": "Amintește-ți, cea mai eficientă metodă ar putea fi să actualizezi main-ul doar la final...",
+    "bg": "Помни — най-ефективният подход може да е да обновиш `main` чак накрая...",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
     "uk": "Не забувай, що краще всього буде перемістити main в самому кінці... ",
     "vi": "Hãy nhớ rằng, cách tốt nhất có thể là cập nhật nhánh `main` sau cùng...",
@@ -301,6 +303,24 @@ exports.level = {
               "Dar șefii ne complică puțin viața -- vor ca toate commit-urile să fie în ordine secvențială. Asta înseamnă că arborele nostru final ar trebui să aibă `C7'` jos, `C6'` deasupra lui și așa mai departe, totul în ordine.",
               "",
               "Dacă te încurci pe parcurs, nu ezita să folosești `reset` pentru a începe de la capăt. Asigură-te că verifici soluția noastră și vezi dacă poți să o faci cu mai puține comenzi!"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Rebase на множество клонове",
+              "",
+              "Уау, тук имаме доста клонове! Нека прехвърлим (rebase-нем) цялата работа от тези клонове върху `main`.",
+              "",
+              "Висшето ръководство обаче прави задачата малко по-сложна — искат всички комити да са в строг последователен ред. Това означава, че крайното дърво трябва да има `C7'` най-отдолу, `C6'` над него и така нататък, всичко подред.",
+              "",
+              "Ако объркаш нещо по пътя, спокойно можеш да използваш `reset`, за да започнеш отначало. Не забравяй да погледнеш нашето решение и да видиш дали можеш да се справиш с по-малко команди!"
             ]
           }
         }

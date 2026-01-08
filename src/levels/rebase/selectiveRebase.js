@@ -21,6 +21,7 @@ exports.level = {
     "zh_CN": "纠缠不清的分支",
     "zh_TW": "branch 漿糊",
     "ro": "Ramuri Spaghetti",
+    "bg": "Бранч спагети",
     "ru_RU": "Спутанные ветки",
     "uk": "Макарони з гілок",
     "vi": "Nhánh rối như canh hẹ",
@@ -44,6 +45,7 @@ exports.level = {
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
     "ro": "Asigură-te că faci totul în ordinea corectă! Ramura `one` mai întâi, apoi `two`, și apoi `three`",
+    "bg": "Внимавай да правиш всичко в правилния ред! Първо бранч `one`, после `two`, накрая `three`.",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
     "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi": "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
@@ -328,6 +330,26 @@ exports.level = {
               "Ramura `one` are nevoie de o reordonare a acelor commit-uri și de excluderea/ștergerea lui `C5`. Ramura `two` are nevoie doar de o reordonare a commit-urilor, iar `three` are nevoie doar de un singur commit transferat!",
               "",
               "O să te lăsăm să descoperi cum să rezolvi asta -- asigură-te că verifici soluția noastră ulterior cu `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Бранч спагети",
+              "",
+              "Уооу! Тук целта ни е доста амбициозна.",
+              "",
+              "Имаме `main`, който е с няколко комита напред спрямо бранчовете `one`, `two` и `three`. По някаква причина трябва да обновим тези три бранча с преработени версии на последните няколко комита от main.",
+              "",
+              "Бранч `one` се нуждае от пренареждане на комитите и изключване на `C5`. Бранч `two` има нужда само от пренареждане, а `three` — само от прехвърляне на един комит!",
+              "",
+              "Оставяме на теб да измислиш решението — не забравяй след това да го сравниш с нашето чрез `show solution`."
             ]
           }
         }

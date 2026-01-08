@@ -28,6 +28,7 @@ exports.level = {
     "zh_CN": "只取一个提交记录",
     "zh_TW": "只取一個 commit",
     "ro": "Alegem doar un singur commit",
+    "bg": "Избиране само на 1 комит",
     "ru_RU": "Выберем один коммит.",
     "uk": "Вибираємо всього один коміт",
     "vi": "Chỉ lấy 1 commit",
@@ -51,6 +52,7 @@ exports.level = {
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
     "zh_CN": "你有两个朋友，cherry-pick 和 rebase -i",
     "zh_TW": "記住，使用互動式的 rebase 或者 cherry-pick 會很有幫助",
+    "bg": "Помнете, интерактивният rebase или cherry-pick са вашите приятели тук",
     "ro": "Nu uita, rebase interactiv sau cherry-pick sunt prietenii tăi aici",
     "ru_RU": "Не забывай, что интерактивный rebase и cherry-pick – это твои друзья!",
     "uk": "Не забувай, що інтерактивний rebase та cherry-pick -- це твої друзі!",
@@ -604,6 +606,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Acesta este un nivel mai avansat, așa că lăsăm la discreția ta decizia de a alege ce comandă vrei să folosești, dar pentru a finaliza nivelul, asigură-te că `main` primește commit-ul la care se referă `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Локално натрупани комити",
+              "",
+              "Ето една ситуация при разработка, която се случва често: опитвам се да проследя бъг, но той е доста неуловим. За да подпомогна детективската си работа, вмъквам няколко команди за дебъгване и няколко print израза.",
+              "",
+              "",
+              "",
+              "Всички тези команди за дебъгване / принтиране са в собствени комити. Накрая откривам бъга, поправям го и ликувам!",
+              "",
+              "Единственият проблем е, че сега трябва да върна моя `bugFix` обратно в клона `main`. Ако просто превъртя напред (`fast-forward`) `main`, тогава `main` ще получи всичките ми команди за дебъгване, което е нежелателно. Трябва да има друг начин..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Трябва да кажем на git да копира само един от комитите. Това е точно както в по-ранните нива за преместване на работа -- можем да използваме същите команди:",
+              "",
+              "",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "За да постигнем тази цел."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Това е по-късно ниво, така че ще оставим на вас да решите коя команда искате да използвате, но за да завършите нивото, уверете се, че `main` получава комита, към който сочи `bugFix`."
             ]
           }
         }
