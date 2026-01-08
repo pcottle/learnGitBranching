@@ -24,6 +24,7 @@ exports.level = {
     "zh_TW": "git describe",
     "zh_CN": "Git Describe",
     "ro": "Git Describe",
+    "bg": "Git Describe",
     "ru_RU": "Git describe",
     "ko": "Git 설명",
     "uk": "Git Describe",
@@ -48,6 +49,7 @@ exports.level = {
     "zh_TW": "當你要移動的時候，只要在 bugFix 上面 commit 就好了",
     "zh_CN": "当你准备好时，在 bugFix 分支上面提交一次就可以了",
     "ro": "Când ești gata să continui, fă un commit în bugFix",
+    "bg": "Просто направете един комит в bugFix, когато сте готови да продължите",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko": "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
     "uk": "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
@@ -814,6 +816,69 @@ exports.level = {
               "Cam asta este tot ce trebuie să știi despre git describe! Încearcă să descrii câteva locații din acest nivel pentru a te obișnui cu comanda.",
               "",
               "Când ești gata, fă un singur commit pentru a termina nivelul. Este un cadou gratis de la noi :P"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Тъй като таговете служат като чудесни \"котви\" в кодовата база, git има команда, която *описва* (describe) къде се намирате спрямо най-близката \"котва\" (т.е. таг). И тази команда се нарича `git describe`!",
+              "",
+              "Git describe може да ви помогне да се ориентирате, след като сте се преместили много комити назад или напред в историята; това може да се случи, след като сте завършили git bisect (търсене за отстраняване на грешки) или когато седнете на компютъра на колега, който току-що се е върнал от ваканция."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe има следния формат:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Където `<ref>` е всичко, което git може да разпознае като комит. Ако не посочите референция (ref), git използва мястото, където се намирате в момента (`HEAD`).",
+              "",
+              "Изходът от командата изглежда така:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "Където `tag` е най-близкият таг-предшественик в историята, `numCommits` е броят на комитите разстояние от този таг, а `<hash>` е хешът на комита, който бива описван."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека разгледаме бърз пример. За това дърво по-долу:"
+            ],
+            "afterMarkdowns": [
+              "Командата `git describe main` ще изведе:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "Докато `git describe side` ще изведе:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Това е общо взето всичко за git describe! Опитайте се да опишете няколко от локациите в това ниво, за да усетите как работи командата.",
+              "",
+              "Щом сте готови, просто направете един комит, за да завършите нивото. Този път ви пускаме леко :P"
             ]
           }
         }

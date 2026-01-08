@@ -16,6 +16,7 @@ exports.level = {
     "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作",
     "ro": "Simularea colaborării în echipă",
+    "bg": "Симулиране на екипна работа",
     "ru_RU": "Коллективная работа",
     "uk": "Симуляція колективної роботи",
     "ko": "가짜 팀워크",
@@ -39,6 +40,7 @@ exports.level = {
     "zh_CN": "记住你可以指定仿真提交的个数",
     "zh_TW": "你要記得指定要送多少個 commit 出去",
     "ro": "Amintește-ți că poți specifica numărul de commit-uri simulate",
+    "bg": "Помни, че можеш да зададеш броя на комитите, които да бъдат симулирани",
     "ru_RU": "помните, Вы можете указать количество фейковых коммитов",
     "uk": "пам’ятай що ти можеш вказати кількість фейкових комітів",
     "ko": "가장할 커밋의 갯수를 조절할 수 있습니다.",
@@ -692,6 +694,60 @@ exports.level = {
               "Următoarele niveluri vor fi destul de dificile, așa că  cerem mai multe de la tine în acest nivel.",
               "",
               "Astfel, încearcă să creezi un remote (cu `git clone`), să simulezi câteva modificări pe acel remote, să faci un commit local și apoi să descarci modificările de la remote și să le îmbini local la tine. Este ca și cum ar fi câteva lecții într-una singură!"
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Симулиране на сътрудничество",
+              "",
+              "Тук има една тънкост — за някои от следващите уроци трябва да те научим как да изтегляш промени, които са били направени в отдалеченото хранилище.",
+              "",
+              "Това означава, че по същество трябва да „се престорим“, че отдалеченото хранилище е било обновено от твой колега / приятел / сътрудник — понякога в конкретен бранч или с определен брой комити.",
+              "",
+              "За да направим това, въведохме съвсем уместно наречената команда `git fakeTeamwork`! Името ѝ говори само за себе си — нека видим демонстрация..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Стандартното поведение на `fakeTeamwork` е просто да добави един комит към `main`."
+            ],
+            "afterMarkdowns": [
+              "Готово — отдалеченото хранилище беше обновено с нов комит, а ние все още не сме го изтеглили, защото не сме изпълнили `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Можеш също така да зададеш броя на комитите или бранча, като ги добавиш към командата."
+            ],
+            "afterMarkdowns": [
+              "С една единствена команда симулирахме как съотборник е качил три комита в бранча `foo` на отдалеченото хранилище."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Следващите нива ще бъдат доста трудни, затова на това ниво ще искаме малко повече от теб.",
+              "",
+              "Създай отдалечено хранилище (с `git clone`), симулирай няколко промени върху него, направи локален комит и след това изтегли отдалечените промени и ги слей. Все едно няколко урока в един!"
             ]
           }
         }

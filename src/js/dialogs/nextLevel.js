@@ -135,6 +135,17 @@ exports.dialog = {
       },
     },
   ],
+  'bg': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Страхотна работа!!!',
+        '',
+        'Ти реши нивото с *{numCommands}* команди; ',
+        'нашето решение използва {best}.'
+      ]
+    }
+  }],
   'ru_RU': [{
     type: 'ModalAlert',
     options: {

@@ -16,6 +16,7 @@ exports.level = {
     "de_DE": "Den Kopf abtrennen",
     "ja": "HEADの分離",
     "ro": "Detașează-ți capul",
+    "bg": "Откачи HEAD",
     "ru_RU": "Теряем голову, или detached HEAD",
     "ko": "HEAD 분리하기",
     "uk": "Втрачаємо голову чи detached HEAD",
@@ -40,6 +41,7 @@ exports.level = {
     "zh_TW": "使用 commit 上的標籤（hash）來幫助你！",
     "zh_CN": "使用提交记录上的标签（哈希值）来指定提交记录！",
     "ro": "Folosește eticheta (hash) de pe commit pentru ajutor!",
+    "bg": "Използвай етикета (hash) на комита, за да се ориентираш!",
     "ru_RU": "Ориентируйся по идентификаторам (hash) коммитов.",
     "ko": "커밋에 있는 라벨(hash)을 활용하세요!",
     "uk": "Орієнтуйся по індентифікаторам (hash) комітів.",
@@ -1056,6 +1058,84 @@ exports.level = {
               "Pentru a finaliza acest nivel, trebuie să detașăm HEAD de `bugFix` și să îl atașăm la commit în schimb.",
               "",
               "Specifică acest commit prin hash-ul său. Hash-ul fiecărui commit este afișat în cercul care reprezintă commit-ul."
+            ]
+          }
+        }
+      ]
+    },
+    "bg": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Придвижване в Git",
+              "",
+              "Преди да преминем към някои от по-напредналите възможности на Git, е важно да разберем различните начини за придвижване в дървото от комити, което представя твоя проект.",
+              "",
+              "След като се почувстваш уверен в придвижването, силата ти с останалите git команди ще се увеличи значително!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Първо трябва да поговорим за \"HEAD\". HEAD е символично име за текущо checkout-натия комит — по същество това е комитът, върху който работиш в момента.",
+              "",
+              "HEAD винаги сочи към най-новия комит, отразен в работното дърво. Повечето git команди, които правят промени в работното дърво, започват с промяна на HEAD.",
+              "",
+              "Обикновено HEAD сочи към име на клон (например bugFix). Когато направиш комит, състоянието на bugFix се променя и тази промяна е видима чрез HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека видим това в действие. Тук ще покажем къде се намира HEAD преди и след комит."
+            ],
+            "afterMarkdowns": [
+              "Виждаш ли? HEAD през цялото време е бил скрит под нашия клон `main`."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Откачане на HEAD",
+              "",
+              "Откачането на HEAD означава просто да го закачим към конкретен комит вместо към клон. Ето как изглежда състоянието преди това:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "А сега е така:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За да завършиш това ниво, откачи HEAD от `bugFix` и вместо това го закачи директно към комит.",
+              "",
+              "Посочи комита чрез неговия hash. Hash-ът на всеки комит е показан върху кръга, който го представя."
             ]
           }
         }
