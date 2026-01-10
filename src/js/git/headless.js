@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var Q = require('q');
 
 var GitEngine = require('../git').GitEngine;

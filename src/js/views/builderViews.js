@@ -7,13 +7,14 @@ var throttle = require('../util/throttle');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
-var TextGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'textGrabber box vertical',
-  template: _.template($('#text-grabber').html()),
-
-  initialize: function(options) {
+class TextGrabber extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'textGrabber box vertical';
+    super(options);
+
+    this.template = _.template($('#text-grabber').html());
     this.JSON = {
       helperText: options.helperText || 'Enter some text'
     };
@@ -29,27 +30,25 @@ var TextGrabber = ContainedBase.extend({
     if (!options.wait) {
       this.show();
     }
-  },
+  }
 
-  getText: function() {
+  getText() {
     return this.$('textarea').val();
-  },
+  }
 
-  setText: function(str) {
+  setText(str) {
     this.$('textarea').val(str);
   }
-});
+}
 
-var MarkdownGrabber = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownGrabber box horizontal',
-  template: _.template($('#markdown-grabber-view').html()),
-  events: {
-    'keyup textarea': 'keyup'
-  },
-
-  initialize: function(options) {
+class MarkdownGrabber extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'markdownGrabber box horizontal';
+    super(options);
+
+    this.template = _.template($('#markdown-grabber-view').html());
     this.deferred = options.deferred || Q.defer();
 
     if (options.fromObj) {
@@ -82,22 +81,25 @@ var MarkdownGrabber = ContainedBase.extend({
 
     this.updatePreview();
 
+    // Set up keyup event
+    this.$el.on('keyup', 'textarea', this.keyup.bind(this));
+
     if (!options.wait) {
       this.show();
     }
-  },
+  }
 
-  confirmed: function() {
+  confirmed() {
     this.die();
     this.deferred.resolve(this.getRawText());
-  },
+  }
 
-  cancelled: function() {
+  cancelled() {
     this.die();
     this.deferred.resolve();
-  },
+  }
 
-  keyup: function() {
+  keyup() {
     if (!this.throttledPreview) {
       this.throttledPreview = throttle(
         this.updatePreview.bind(this),
@@ -105,36 +107,37 @@ var MarkdownGrabber = ContainedBase.extend({
       );
     }
     this.throttledPreview();
-  },
+  }
 
-  getRawText: function() {
+  getRawText() {
     return this.$('textarea').val();
-  },
+  }
 
-  exportToArray: function() {
+  exportToArray() {
     return this.getRawText().split('\n');
-  },
+  }
 
-  getExportObj: function() {
+  getExportObj() {
     return {
       markdowns: this.exportToArray()
     };
-  },
+  }
 
-  updatePreview: function() {
+  updatePreview() {
     var raw = this.getRawText();
     var HTML = marked(raw);
     this.$('div.insidePreview').html(HTML);
   }
-});
+}
 
-var MarkdownPresenter = ContainedBase.extend({
-  tagName: 'div',
-  className: 'markdownPresenter box vertical',
-  template: _.template($('#markdown-presenter').html()),
-
-  initialize: function(options) {
+class MarkdownPresenter extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'markdownPresenter box vertical';
+    super(options);
+
+    this.template = _.template($('#markdown-presenter').html());
     this.deferred = options.deferred || Q.defer();
     this.JSON = {
       previewText: options.previewText || 'Here is something for you',
@@ -161,23 +164,21 @@ var MarkdownPresenter = ContainedBase.extend({
     }
 
     this.show();
-  },
+  }
 
-  grabText: function() {
+  grabText() {
     return this.$('textarea').val();
   }
-});
+}
 
-var DemonstrationBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'demonstrationBuilder box vertical',
-  template: _.template($('#demonstration-builder').html()),
-  events: {
-    'click .testButton': 'testView'
-  },
-
-  initialize: function(options) {
+class DemonstrationBuilder extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'demonstrationBuilder box vertical';
+    super(options);
+
+    this.template = _.template($('#demonstration-builder').html());
     this.deferred = options.deferred || Q.defer();
     if (options.fromObj) {
       var toEdit = options.fromObj.options;
@@ -235,9 +236,12 @@ var DemonstrationBuilder = ContainedBase.extend({
     .then(this.confirmed.bind(this))
     .fail(this.cancelled.bind(this))
     .done();
-  },
 
-  testView: function() {
+    // Set up click event for test button
+    this.$el.on('click', '.testButton', this.testView.bind(this));
+  }
+
+  testView() {
     var MultiView = require('../views/multiView').MultiView;
     new MultiView({
       childViews: [{
@@ -245,53 +249,45 @@ var DemonstrationBuilder = ContainedBase.extend({
         options: this.getExportObj()
       }]
     });
-  },
+  }
 
-  getExportObj: function() {
+  getExportObj() {
     return {
       beforeMarkdowns: this.beforeMarkdownView.exportToArray(),
       afterMarkdowns: this.afterMarkdownView.exportToArray(),
       command: this.commandView.getText(),
       beforeCommand: this.beforeCommandView.getText()
     };
-  },
+  }
 
-  confirmed: function() {
+  confirmed() {
     this.die();
     this.deferred.resolve(this.getExportObj());
-  },
+  }
 
-  cancelled: function() {
+  cancelled() {
     this.die();
     this.deferred.resolve();
-  },
+  }
 
-  getInsideElement: function() {
+  getInsideElement() {
     return this.$('.insideBuilder')[0];
   }
-});
+}
 
-var MultiViewBuilder = ContainedBase.extend({
-  tagName: 'div',
-  className: 'multiViewBuilder box vertical',
-  template: _.template($('#multi-view-builder').html()),
-  typeToConstructor: {
-    ModalAlert: MarkdownGrabber,
-    GitDemonstrationView: DemonstrationBuilder
-  },
-
-  events: {
-    'click .deleteButton': 'deleteOneView',
-    'click .testButton': 'testOneView',
-    'click .editButton': 'editOneView',
-    'click .testEntireView': 'testEntireView',
-    'click .addView': 'addView',
-    'click .saveView': 'saveView',
-    'click .cancelView': 'cancel'
-  },
-
-  initialize: function(options) {
+class MultiViewBuilder extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'multiViewBuilder box vertical';
+    super(options);
+
+    this.template = _.template($('#multi-view-builder').html());
+    this.typeToConstructor = {
+      ModalAlert: MarkdownGrabber,
+      GitDemonstrationView: DemonstrationBuilder
+    };
+
     this.deferred = options.deferred || Q.defer();
     this.multiViewJSON = options.multiViewJSON || {};
 
@@ -305,20 +301,29 @@ var MultiViewBuilder = ContainedBase.extend({
     });
     this.render();
 
-    this.show();
-  },
+    // Set up click events
+    this.$el.on('click', '.deleteButton', this.deleteOneView.bind(this));
+    this.$el.on('click', '.testButton', this.testOneView.bind(this));
+    this.$el.on('click', '.editButton', this.editOneView.bind(this));
+    this.$el.on('click', '.testEntireView', this.testEntireView.bind(this));
+    this.$el.on('click', '.addView', this.addView.bind(this));
+    this.$el.on('click', '.saveView', this.saveView.bind(this));
+    this.$el.on('click', '.cancelView', this.cancel.bind(this));
 
-  saveView: function() {
+    this.show();
+  }
+
+  saveView() {
     this.hide();
     this.deferred.resolve(this.multiViewJSON);
-  },
+  }
 
-  cancel: function() {
+  cancel() {
     this.hide();
     this.deferred.resolve();
-  },
+  }
 
-  addView: function(ev) {
+  addView(ev) {
     var el = ev.target;
     var type = $(el).attr('data-type');
 
@@ -339,9 +344,9 @@ var MultiViewBuilder = ContainedBase.extend({
       // they don't want to add the view apparently, so just return
     })
     .done();
-  },
+  }
 
-  testOneView: function(ev) {
+  testOneView(ev) {
     var el = ev.target;
     var index = $(el).attr('data-index');
     var toTest = this.getChildViews()[index];
@@ -349,16 +354,16 @@ var MultiViewBuilder = ContainedBase.extend({
     new MultiView({
       childViews: [toTest]
     });
-  },
+  }
 
-  testEntireView: function() {
+  testEntireView() {
     var MultiView = require('../views/multiView').MultiView;
     new MultiView({
       childViews: this.getChildViews()
     });
-  },
+  }
 
-  editOneView: function(ev) {
+  editOneView(ev) {
     var el = ev.target;
     var index = $(el).attr('data-index');
     var type = $(el).attr('data-type');
@@ -380,9 +385,9 @@ var MultiViewBuilder = ContainedBase.extend({
     }.bind(this))
     .fail(function() { })
     .done();
-  },
+  }
 
-  deleteOneView: function(ev) {
+  deleteOneView(ev) {
     var el = ev.target;
     var index = $(el).attr('data-index');
     var toSlice = this.getChildViews();
@@ -390,28 +395,28 @@ var MultiViewBuilder = ContainedBase.extend({
     var updated = toSlice.slice(0,index).concat(toSlice.slice(index + 1));
     this.setChildViews(updated);
     this.update();
-  },
+  }
 
-  addChildViewObj: function(newObj, index) {
+  addChildViewObj(newObj, index) {
     var childViews = this.getChildViews();
     childViews.push(newObj);
     this.setChildViews(childViews);
     this.update();
-  },
+  }
 
-  setChildViews: function(newArray) {
+  setChildViews(newArray) {
     this.multiViewJSON.childViews = newArray;
-  },
+  }
 
-  getChildViews: function() {
+  getChildViews() {
     return this.multiViewJSON.childViews || [];
-  },
+  }
 
-  update: function() {
+  update() {
     this.JSON.views = this.getChildViews();
     this.renderAgain();
   }
-});
+}
 
 exports.MarkdownGrabber = MarkdownGrabber;
 exports.DemonstrationBuilder = DemonstrationBuilder;

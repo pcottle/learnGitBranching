@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
@@ -10,38 +9,42 @@ var randomHueString = function() {
   return str;
 };
 
-var VisTag = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    isHead: false,
+class VisTag extends VisBase {
+  constructor(options) {
+    var defaults = {
+      pos: null,
+      text: null,
+      rect: null,
+      isHead: false,
 
-    fill: GRAPHICS.tagFill,
-    stroke: GRAPHICS.tagStroke,
-    'stroke-width': GRAPHICS.tagStrokeWidth,
+      fill: GRAPHICS.tagFill,
+      stroke: GRAPHICS.tagStroke,
+      'stroke-width': GRAPHICS.tagStrokeWidth,
 
-    offsetX: GRAPHICS.nodeRadius,
-    offsetY: GRAPHICS.nodeRadius,
+      offsetX: GRAPHICS.nodeRadius,
+      offsetY: GRAPHICS.nodeRadius,
 
-    vPad: 4,
-    hPad: 4,
+      vPad: 4,
+      hPad: 4,
 
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
+      animationSpeed: GRAPHICS.defaultAnimationTime,
+      animationEasing: GRAPHICS.defaultEasing
+    };
+    super(Object.assign({}, defaults, options));
+    this.initialize();
+  }
 
-  validateAtInit: function() {
+  validateAtInit() {
     if (!this.get('tag')) {
       throw new Error('need a Tag!');
     }
-  },
+  }
 
-  getID: function() {
+  getID() {
     return this.get('tag').get('id');
-  },
+  }
 
-  initialize: function() {
+  initialize() {
     this.validateAtInit();
 
     // shorthand notation for the main objects
@@ -52,41 +55,41 @@ var VisTag = VisBase.extend({
     }
 
     this.get('tag').set('visTag', this);
-  },
+  }
 
-  getCommitPosition: function() {
+  getCommitPosition() {
     var commit = this.gitEngine.getCommitFromRef(this.get('tag'));
     var visNode = commit.get('visNode');
 
     return visNode.getScreenCoords();
-  },
+  }
 
-  getDashArray: function() {
+  getDashArray() {
     if (!this.get('gitVisuals').getIsGoalVis()) {
       return '';
     }
     return (this.getIsLevelTagCompared()) ? '' : '--';
-  },
+  }
 
-  getIsGoalAndNotCompared: function() {
+  getIsGoalAndNotCompared() {
     if (!this.get('gitVisuals').getIsGoalVis()) {
       return false;
     }
 
     return !this.getIsLevelTagCompared();
-  },
+  }
 
   /**
    * returns true if we are a Tag that is not being
    * compared in the goal (used in a goal visualization context
    */
-  getIsLevelTagCompared: function() {
+  getIsLevelTagCompared() {
     // we are not main, so return true if its not just main being compared
     var levelBlob = this.get('gitVisuals').getLevelBlob();
     return !TreeCompare.onlyMainCompared(levelBlob);
-  },
+  }
 
-  getTagStackIndex: function() {
+  getTagStackIndex() {
     if (this.get('isHead')) {
       // head is never stacked with other Tags
       return 0;
@@ -100,31 +103,31 @@ var VisTag = VisBase.extend({
       }
     }, this);
     return index;
-  },
+  }
 
-  getTagStackLength: function() {
+  getTagStackLength() {
     if (this.get('isHead')) {
       // head is always by itself
       return 1;
     }
 
     return this.getTagStackArray().length;
-  },
+  }
 
-  isTagStackEmpty: function() {
+  isTagStackEmpty() {
     // useful function for head when computing flip logic
     var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
     return (arr) ?
       arr.length === 0 :
       true;
-  },
+  }
 
-  getCommitID: function() {
+  getCommitID() {
     var target = this.get('tag').get('target');
     return target.get('id');
-  },
+  }
 
-  getTagStackArray: function() {
+  getTagStackArray() {
     var arr = this.gitVisuals.tagStackMap[this.getCommitID()];
     if (arr === undefined) {
       // this only occurs when we are generating graphics inside of
@@ -133,9 +136,9 @@ var VisTag = VisBase.extend({
       return this.getTagStackArray();
     }
     return arr;
-  },
+  }
 
-  getTextPosition: function() {
+  getTextPosition() {
     var pos = this.getCommitPosition();
 
     // then order yourself accordingly. we use alphabetical sorting
@@ -146,9 +149,9 @@ var VisTag = VisBase.extend({
       x: pos.x + this.get('offsetX'),
       y: pos.y + myPos * GRAPHICS.multiTagY + this.get('offsetY')
     };
-  },
+  }
 
-  getRectPosition: function() {
+  getRectPosition() {
     var pos = this.getTextPosition();
 
     // first get text width and height
@@ -157,9 +160,9 @@ var VisTag = VisBase.extend({
       x: pos.x - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')
     };
-  },
+  }
 
-  getTextSize: function() {
+  getTextSize() {
     var getTextWidth = function(visTag) {
       var textNode = (visTag.get('text')) ? visTag.get('text').node : null;
       return (textNode === null) ? 0 : textNode.getBoundingClientRect().width;
@@ -184,9 +187,9 @@ var VisTag = VisBase.extend({
       w: maxWidth,
       h: textNode.getBoundingClientRect().height,
     });
-  },
+  }
 
-  getSingleRectSize: function() {
+  getSingleRectSize() {
     var textSize = this.getTextSize();
     var vPad = this.get('vPad');
     var hPad = this.get('hPad');
@@ -194,9 +197,9 @@ var VisTag = VisBase.extend({
       w: textSize.w + vPad * 2,
       h: textSize.h + hPad * 2
     };
-  },
+  }
 
-  getRectSize: function() {
+  getRectSize() {
     var textSize = this.getTextSize();
     // enforce padding
     var vPad = this.get('vPad');
@@ -208,45 +211,45 @@ var VisTag = VisBase.extend({
       w: textSize.w + vPad * 2,
       h: textSize.h * totalNum + hPad * 2
     };
-  },
+  }
 
-  getIsRemote: function() {
+  getIsRemote() {
     return this.get('tag').getIsRemote();
-  },
+  }
 
-  getName: function() {
+  getName() {
     var name = this.get('tag').getName();
     var isRemote = this.getIsRemote();
     var isHg = this.gitEngine.getIsHg();
 
     return name;
-  },
+  }
 
-  nonTextToFront: function() {
+  nonTextToFront() {
     this.get('rect').toFront();
-  },
+  }
 
-  textToFront: function() {
+  textToFront() {
     this.get('text').toFront();
-  },
+  }
 
-  textToFrontIfInStack: function() {
+  textToFrontIfInStack() {
     if (this.getTagStackIndex() !== 0) {
       this.get('text').toFront();
     }
-  },
+  }
 
-  remove: function() {
+  remove() {
     this.removeKeys(['text', 'rect']);
     // also need to remove from this.gitVisuals
     this.gitVisuals.removeVisTag(this);
-  },
+  }
 
-  handleModeChange: function() {
+  handleModeChange() {
 
-  },
+  }
 
-  genGraphics: function(paper) {
+  genGraphics(paper) {
     var textPos = this.getTextPosition();
     var name = this.getName();
 
@@ -277,9 +280,9 @@ var VisTag = VisBase.extend({
     this.attachClickHandlers();
     rect.toFront();
     text.toFront();
-  },
+  }
 
-  attachClickHandlers: function() {
+  attachClickHandlers() {
     if (this.get('gitVisuals').options.noClick) {
       return;
     }
@@ -291,13 +294,13 @@ var VisTag = VisBase.extend({
     objs.forEach(function(rObj) {
       rObj.click(this.onClick.bind(this));
     }, this);
-  },
+  }
 
-  shouldDisableClick: function() {
+  shouldDisableClick() {
     return this.get('isHead') && !this.gitEngine.getDetachedHead();
-  },
+  }
 
-  onClick: function() {
+  onClick() {
     if (this.shouldDisableClick()) {
       return;
     }
@@ -305,15 +308,15 @@ var VisTag = VisBase.extend({
     var commandStr = 'git checkout ' + this.get('tag').get('id');
     var Main = require('../app');
     Main.getEventBaton().trigger('commandSubmitted', commandStr);
-  },
+  }
 
-  updateName: function() {
+  updateName() {
     this.get('text').attr({
       text: this.getName()
     });
-  },
+  }
 
-  getNonTextOpacity: function() {
+  getNonTextOpacity() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
@@ -322,9 +325,9 @@ var VisTag = VisBase.extend({
     }
 
     return 1;
-  },
+  }
 
-  getTextOpacity: function() {
+  getTextOpacity() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
@@ -334,17 +337,17 @@ var VisTag = VisBase.extend({
     }
 
     return 1;
-  },
+  }
 
-  getStrokeWidth: function() {
+  getStrokeWidth() {
     if (this.getIsGoalAndNotCompared()) {
       return this.get('stroke-width') / 5.0;
     }
 
     return this.get('stroke-width');
-  },
+  }
 
-  getAttributes: function() {
+  getAttributes() {
     var textOpacity = this.getTextOpacity();
     this.updateName();
 
@@ -378,28 +381,61 @@ var VisTag = VisBase.extend({
         'stroke-width': this.getStrokeWidth()
       }
     };
-  },
+  }
 
-  animateUpdatedPos: function(speed, easing) {
+  animateUpdatedPos(speed, easing) {
     var attr = this.getAttributes();
     this.animateToAttr(attr, speed, easing);
-  },
+  }
 
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+  animateFromAttrToAttr(fromAttr, toAttr, speed, easing) {
     // an animation of 0 is essentially setting the attribute directly
     this.animateToAttr(fromAttr, 0);
     this.animateToAttr(toAttr, speed, easing);
-  },
+  }
 
-  setAttr: function(attr, instant, speed, easing) {
+  setAttr(attr, instant, speed, easing) {
     var keys = ['text', 'rect'];
     this.setAttrBase(keys, attr, instant, speed, easing);
   }
-});
+}
 
-var VisTagCollection = Backbone.Collection.extend({
-  model: VisTag
-});
+class VisTagCollection {
+  constructor() {
+    this._events = {};
+    this.models = [];
+    this.length = 0;
+  }
+  add(model) {
+    this.models.push(model);
+    this.length = this.models.length;
+  }
+  remove(model) {
+    var index = this.models.indexOf(model);
+    if (index > -1) {
+      this.models.splice(index, 1);
+      this.length = this.models.length;
+    }
+  }
+  reset() {
+    this.models = [];
+    this.length = 0;
+  }
+  each(callback, context) {
+    this.models.forEach(callback, context);
+  }
+  toArray() {
+    return this.models.slice();
+  }
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) this._events[eventName] = [];
+    this._events[eventName].push({ callback, context: context || this });
+  }
+  trigger(eventName, ...args) {
+    var listeners = this._events[eventName];
+    if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+  }
+}
 
 exports.VisTagCollection = VisTagCollection;
 exports.VisTag = VisTag;

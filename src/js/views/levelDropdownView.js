@@ -1,6 +1,5 @@
 var _ = require('underscore');
 var Q = require('q');
-var Backbone = require('backbone');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');
@@ -10,6 +9,7 @@ var log = require('../log');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Main = require('../app');
 var LevelStore = require('../stores/LevelStore');
+var { createEvents } = require('../util/eventEmitter');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
@@ -17,16 +17,18 @@ var BaseView = require('../views').BaseView;
 
 var LEVELS = require('../../levels');
 
-var LevelDropdownView = ContainedBase.extend({
-  tagName: 'div',
-  className: 'levelDropdownView box vertical',
-  template: _.template($('#level-dropdown-view').html()),
-  events: {
-    'click div.levelDropdownTab': 'onTabClick'
-  },
-
-  initialize: function(options) {
+class LevelDropdownView extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'levelDropdownView box vertical';
+    super(options);
+
+    this.template = _.template($('#level-dropdown-view').html());
+    this.events = {
+      'click div.levelDropdownTab': 'onTabClick'
+    };
+
     var queryParams = util.parseQueryString(
       window.location.href
     );
@@ -41,7 +43,7 @@ var LevelDropdownView = ContainedBase.extend({
       }]
     };
 
-    this.navEvents = Object.assign({}, Backbone.Events);
+    this.navEvents = createEvents();
     this.navEvents.on('clickedID', debounce(
       this.loadLevelID.bind(this),
       300,
@@ -70,6 +72,9 @@ var LevelDropdownView = ContainedBase.extend({
       title: intl.str('select-a-level')
     });
 
+    // Bind events manually
+    this.$el.on('click', 'div.levelDropdownTab', this.onTabClick.bind(this));
+
     // Lol WTF. For some reason we cant use this.render.bind(this) so
     // instead setup a lame callback version. The CasperJS tests
     // fail otherwise.
@@ -84,9 +89,9 @@ var LevelDropdownView = ContainedBase.extend({
     if (!options.wait) {
       this.show();
     }
-  },
+  }
 
-  render: function() {
+  render() {
     this.container.updateTitle(
       intl.str('select-a-level')
     );
@@ -94,11 +99,11 @@ var LevelDropdownView = ContainedBase.extend({
       intl.str('main-levels-tab'),
       intl.str('remote-levels-tab')
     ]);
-    LevelDropdownView.__super__.render.apply(this, arguments);
+    ContainedBase.prototype.render.call(this);
     this.buildSequences();
-  },
+  }
 
-  onTabClick: function(ev) {
+  onTabClick(ev) {
     var srcElement = ev.target || ev.srcElement;
     var id = $(srcElement).attr('data-id');
     if (id === this.JSON.selectedTab) {
@@ -106,9 +111,9 @@ var LevelDropdownView = ContainedBase.extend({
     }
     this.selectedTab = id;
     this.updateTabTo(id);
-  },
+  }
 
-  updateTabTo: function(id) {
+  updateTabTo(id) {
     this.JSON.selectedTab = id;
     this.render();
     if (this.selectedID) {
@@ -116,34 +121,34 @@ var LevelDropdownView = ContainedBase.extend({
       this.selectedIndex = 0;
       this.updateSelectedIcon();
     }
-  },
+  }
 
-  updateTabNames: function(names) {
+  updateTabNames(names) {
     for(var index = 0; index < names.length; ++index) {
       this.JSON.tabs[index].name = names[index];
     }
-  },
+  }
 
-  positive: function() {
+  positive() {
     if (!this.selectedID) {
       return;
     }
     this.loadLevelID(this.selectedID);
-  },
+  }
 
-  left: function() {
+  left() {
     if (this.turnOnKeyboardSelection()) {
       return;
     }
     this.leftOrRight(-1);
-  },
+  }
 
-  updateSelectedIcon: function() {
+  updateSelectedIcon() {
     this.selectedID = this.getSelectedID();
     this.selectIconByID(this.selectedID);
-  },
+  }
 
-  leftOrRight: function(delta) {
+  leftOrRight(delta) {
     this.deselectIconByID(this.selectedID);
     var index = this.selectedIndex + delta;
 
@@ -164,130 +169,130 @@ var LevelDropdownView = ContainedBase.extend({
       );
     }
     this.updateSelectedIcon();
-  },
+  }
 
-  right: function() {
+  right() {
     if (this.turnOnKeyboardSelection()) {
       return;
     }
     this.leftOrRight(1);
-  },
+  }
 
-  up: function() {
+  up() {
     if (this.turnOnKeyboardSelection()) {
       return;
     }
     this.selectedSequence = this.getPreviousSequence();
     this.downOrUp();
-  },
+  }
 
-  down: function() {
+  down() {
     if (this.turnOnKeyboardSelection()) {
       return;
     }
     this.selectedSequence = this.getNextSequence();
     this.downOrUp();
-  },
+  }
 
-  downOrUp: function() {
+  downOrUp() {
     this.selectedIndex = this.boundIndex(this.selectedIndex, this.getCurrentSequence());
     this.deselectIconByID(this.selectedID);
     this.updateSelectedIcon();
-  },
+  }
 
-  turnOnKeyboardSelection: function() {
+  turnOnKeyboardSelection() {
     if (!this.selectedID) {
       this.selectFirst();
       return true;
     }
     return false;
-  },
+  }
 
-  turnOffKeyboardSelection: function() {
+  turnOffKeyboardSelection() {
     if (!this.selectedID) { return; }
     this.deselectIconByID(this.selectedID);
     this.selectedID = undefined;
     this.selectedIndex = undefined;
     this.selectedSequence = undefined;
-  },
+  }
 
-  getTabIndex: function() {
+  getTabIndex() {
     var ids = this.JSON.tabs.map(function(tab) {
       return tab.id;
     });
     return ids.indexOf(this.JSON.selectedTab);
-  },
+  }
 
-  switchToTabIndex: function(index) {
+  switchToTabIndex(index) {
     var tabID = this.JSON.tabs[index].id;
     this.updateTabTo(tabID);
-  },
+  }
 
-  wrapIndex: function(index, arr) {
+  wrapIndex(index, arr) {
     index = (index >= arr.length) ? 0 : index;
     index = (index < 0) ? arr.length - 1 : index;
     return index;
-  },
+  }
 
-  boundIndex: function(index, arr) {
+  boundIndex(index, arr) {
     index = (index >= arr.length) ? arr.length - 1 : index;
     index = (index < 0) ? 0 : index;
     return index;
-  },
+  }
 
-  getSequencesOnTab: function() {
+  getSequencesOnTab() {
     return this.sequences.filter(function(sequenceName) {
       var tab = LEVELS.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);
-  },
+  }
 
-  getNextSequence: function() {
+  getNextSequence() {
     var current = this.getSequenceIndex(this.selectedSequence);
     var desired = this.wrapIndex(current + 1, this.getSequencesOnTab());
     return this.getSequencesOnTab()[desired];
-  },
+  }
 
-  getPreviousSequence: function() {
+  getPreviousSequence() {
     var current = this.getSequenceIndex(this.selectedSequence);
     var desired = this.wrapIndex(current - 1, this.getSequencesOnTab());
     return this.getSequencesOnTab()[desired];
-  },
+  }
 
-  getSequenceIndex: function(name) {
+  getSequenceIndex(name) {
     var index = this.getSequencesOnTab().indexOf(name);
     if (index < 0) { throw new Error('didnt find'); }
     return index;
-  },
+  }
 
-  getIndexForID: function(id) {
+  getIndexForID(id) {
     return LevelStore.getLevel(id).index;
-  },
+  }
 
-  selectFirst: function() {
+  selectFirst() {
     var firstID = this.sequenceToLevels[this.getSequencesOnTab()[0]][0].id;
     this.selectIconByID(firstID);
     this.selectedIndex = 0;
     this.selectedSequence = this.getSequencesOnTab()[0];
-  },
+  }
 
-  getCurrentSequence: function() {
+  getCurrentSequence() {
     return this.sequenceToLevels[this.selectedSequence];
-  },
+  }
 
-  getSelectedID: function() {
+  getSelectedID() {
     return this.sequenceToLevels[this.selectedSequence][this.selectedIndex].id;
-  },
+  }
 
-  selectIconByID: function(id) {
+  selectIconByID(id) {
     this.toggleIconSelect(id, true);
-  },
+  }
 
-  deselectIconByID: function(id) {
+  deselectIconByID(id) {
     this.toggleIconSelect(id, false);
-  },
+  }
 
-  toggleIconSelect: function(id, value) {
+  toggleIconSelect(id, value) {
     this.selectedID = id;
     var selector = '#levelIcon-' + id;
     $(selector).toggleClass('selected', value);
@@ -299,27 +304,27 @@ var LevelDropdownView = ContainedBase.extend({
       }
       view.updateAboutForLevelID(id);
     }, this);
-  },
+  }
 
-  negative: function() {
+  negative() {
     this.hide();
-  },
+  }
 
-  testOption: function(str) {
+  testOption(str) {
     return this.currentCommand && new RegExp('--' + str).test(this.currentCommand.get('rawStr'));
-  },
+  }
 
-  show: function(deferred, command) {
+  show(deferred, command) {
     this.currentCommand = command;
     // doing the update on show will allow us to fade which will be nice
     this.updateSolvedStatus();
 
     this.showDeferred = deferred;
     this.keyboardListener.listen();
-    LevelDropdownView.__super__.show.apply(this);
-  },
+    ContainedBase.prototype.show.call(this);
+  }
 
-  hide: function() {
+  hide() {
     if (this.showDeferred) {
       this.showDeferred.resolve();
     }
@@ -327,10 +332,10 @@ var LevelDropdownView = ContainedBase.extend({
     this.keyboardListener.mute();
     this.turnOffKeyboardSelection();
 
-    LevelDropdownView.__super__.hide.apply(this);
-  },
+    ContainedBase.prototype.hide.call(this);
+  }
 
-  loadLevelID: function(id) {
+  loadLevelID(id) {
     if (!this.testOption('noOutput')) {
       Main.getEventBaton().trigger(
         'commandSubmitted',
@@ -341,15 +346,15 @@ var LevelDropdownView = ContainedBase.extend({
       log.levelSelected(name);
     }
     this.hide();
-  },
+  }
 
-  updateSolvedStatus: function() {
+  updateSolvedStatus() {
     this.seriesViews.forEach(function(view) {
       view.updateSolvedStatus();
     }, this);
-  },
+  }
 
-  buildSequences: function() {
+  buildSequences() {
     this.seriesViews = [];
     this.getSequencesOnTab().forEach(function(sequenceName) {
       this.seriesViews.push(new SeriesView({
@@ -359,18 +364,21 @@ var LevelDropdownView = ContainedBase.extend({
       }));
     }, this);
   }
-});
+}
 
-var SeriesView = BaseView.extend({
-  tagName: 'div',
-  className: 'seriesView box flex1 vertical',
-  template: _.template($('#series-view').html()),
-  events: {
-    'click a.levelIcon': 'click',
-    'mouseenter a.levelIcon': 'enterIcon'
-  },
+class SeriesView extends BaseView {
+  constructor(options) {
+    options = options || {};
+    options.tagName = 'div';
+    options.className = 'seriesView box flex1 vertical';
+    super(options);
 
-  initialize: function(options) {
+    this.template = _.template($('#series-view').html());
+    this.events = {
+      'click a.levelIcon': 'click',
+      'mouseenter a.levelIcon': 'enterIcon'
+    };
+
     this.name = options.name || 'intro';
     this.navEvents = options.navEvents;
     this.info = LevelStore.getSequenceInfo(this.name);
@@ -396,10 +404,15 @@ var SeriesView = BaseView.extend({
     };
 
     this.render();
-    this.updateSolvedStatus();
-  },
 
-  updateSolvedStatus: function() {
+    // Bind events manually
+    this.$el.on('click', 'a.levelIcon', this.click.bind(this));
+    this.$el.on('mouseenter', 'a.levelIcon', this.enterIcon.bind(this));
+
+    this.updateSolvedStatus();
+  }
+
+  updateSolvedStatus() {
     // this is a bit hacky, it really should be some nice model
     // property changing but it's the 11th hour...
     this.$('a.levelIcon').each(function() {
@@ -410,42 +423,42 @@ var SeriesView = BaseView.extend({
       $el.toggleClass('solved', isSolved);
       $el.toggleClass('best', isBest);
     });
-  },
-    
-  getEventID: function(ev) {
+  }
+
+  getEventID(ev) {
     var element = ev.target;
     return $(element).attr('data-id');
-  },
+  }
 
-  setAbout: function(content) {
+  setAbout(content) {
     this.$('p.levelInfo').text(content);
-  },
+  }
 
-  enterIcon: function(ev) {
+  enterIcon(ev) {
     var id = this.getEventID(ev);
     this.updateAboutForLevelID(id);
-  },
+  }
 
-  updateAboutForLevelID: function(id) {
+  updateAboutForLevelID(id) {
     this.setAbout(this.formatLevelAbout(id));
-  },
+  }
 
-  formatLevelAbout: function(id) {
+  formatLevelAbout(id) {
     var level = LevelStore.getLevel(id);
     return this.getLevelNumberFromID(id) +
       ': ' +
       intl.getName(level);
-  },
+  }
 
-  getLevelNumberFromID: function(id) {
+  getLevelNumberFromID(id) {
     // hack -- parse out the level number from the ID
     return id.replace(/[^0-9]/g, '');
-  },
+  }
 
-  click: function(ev) {
+  click(ev) {
     var id = this.getEventID(ev);
     this.navEvents.trigger('clickedID', id);
   }
-});
+}
 
 exports.LevelDropdownView = LevelDropdownView;

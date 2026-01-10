@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var Q = require('q');
 
 var intl = require('../intl');
@@ -208,7 +207,7 @@ GitEngine.prototype.exportTree = function() {
 
   this.commitCollection.toJSON().forEach(function(commit) {
     // clear out the fields that reference objects and create circular structure
-    Commit.prototype.constants.circularFields.forEach(function(field) {
+    Commit.constants.circularFields.forEach(function(field) {
       delete commit[field];
     });
 
@@ -2896,8 +2895,49 @@ GitEngine.prototype.getDownstreamSet = function(ancestor) {
   return exploredSet;
 };
 
-var Ref = Backbone.Model.extend({
-  initialize: function() {
+class Ref {
+  constructor(options = {}) {
+    this._events = {};
+    this.attributes = Object.assign({}, options);
+
+    // Call initialize
+    this.initialize();
+  }
+
+  get(key) { return this.attributes[key]; }
+
+  set(key, value) {
+    if (typeof key === 'object') {
+      var oldTarget = this.attributes.target;
+      Object.assign(this.attributes, key);
+      // Check if target changed for HEAD tracking
+      if (key.target !== undefined && oldTarget !== key.target && this.get('id') === 'HEAD') {
+        this.targetChanged(this, key.target);
+      }
+    } else {
+      var oldVal = this.attributes[key];
+      this.attributes[key] = value;
+      // Check if target changed for HEAD tracking
+      if (key === 'target' && oldVal !== value && this.get('id') === 'HEAD') {
+        this.targetChanged(this, value);
+      }
+    }
+    return this;
+  }
+
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) this._events[eventName] = [];
+    this._events[eventName].push({ callback, context: context || this });
+  }
+
+  trigger(eventName, ...args) {
+    var listeners = this._events[eventName];
+    if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+  }
+
+  toJSON() { return Object.assign({}, this.attributes); }
+
+  initialize() {
     if (!this.get('target')) {
       throw new Error('must be initialized with target');
     }
@@ -2910,42 +2950,47 @@ var Ref = Backbone.Model.extend({
       this.set('lastLastTarget', null);
       this.set('lastTarget', this.get('target'));
       // have HEAD remember where it is for checkout -
-      this.on('change:target', this.targetChanged, this);
+      // Note: we handle this in set() method now
     }
-  },
+  }
 
-  getIsRemote: function() {
+  getIsRemote() {
     return false;
-  },
+  }
 
-  getName: function() {
+  getName() {
     return this.get('id');
-  },
+  }
 
-  targetChanged: function(model, targetValue, ev) {
+  targetChanged(model, targetValue, ev) {
     // push our little 3 stack back. we need to do this because
     // backbone doesn't give you what the value WAS, only what it was changed
     // TO
-    this.set('lastLastTarget', this.get('lastTarget'));
-    this.set('lastTarget', targetValue);
-  },
+    this.attributes.lastLastTarget = this.attributes.lastTarget;
+    this.attributes.lastTarget = targetValue;
+  }
 
-  toString: function() {
+  toString() {
     return 'a ' + this.get('type') + 'pointing to ' + String(this.get('target'));
   }
-});
+}
 
-var Branch = Ref.extend({
-  defaults: {
-    visBranch: null,
-    remoteTrackingBranchID: null,
-    remote: false
-  },
+class Branch extends Ref {
+  constructor(options = {}) {
+    // Apply defaults before calling super
+    var defaults = {
+      visBranch: null,
+      remoteTrackingBranchID: null,
+      remote: false
+    };
+    options = Object.assign({}, defaults, options);
+    super(options);
+  }
 
-  initialize: function() {
-    Ref.prototype.initialize.call(this);
+  initialize() {
+    super.initialize();
     this.set('type', 'branch');
-  },
+  }
 
   /**
    * Here is the deal -- there are essentially three types of branches
@@ -2956,53 +3001,90 @@ var Branch = Ref.extend({
    *
    * With that in mind, we change our branch model to support the following
    */
-  setRemoteTrackingBranchID: function(id) {
+  setRemoteTrackingBranchID(id) {
     this.set('remoteTrackingBranchID', id);
-  },
+  }
 
-  getRemoteTrackingBranchID: function() {
+  getRemoteTrackingBranchID() {
     return this.get('remoteTrackingBranchID');
-  },
+  }
 
-  getPrefixedID: function() {
+  getPrefixedID() {
     if (this.getIsRemote()) {
       throw new Error('im already remote');
     }
     return ORIGIN_PREFIX + this.get('id');
-  },
+  }
 
-  getBaseID: function() {
+  getBaseID() {
     if (!this.getIsRemote()) {
       throw new Error('im not remote so can\'t get base');
     }
     return this.get('id').replace(ORIGIN_PREFIX, '');
-  },
+  }
 
-  getIsRemote: function() {
+  getIsRemote() {
     if (typeof this.get('id') !== 'string') {
       debugger;
     }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
-});
+}
 
-var Commit = Backbone.Model.extend({
-  defaults: {
-    type: 'commit',
-    children: null,
-    parents: null,
-    author: 'Peter Cottle',
-    createTime: null,
-    commitMessage: null,
-    visNode: null,
-    gitVisuals: null
-  },
+class Commit {
+  constructor(options = {}) {
+    this._events = {};
+    // Apply defaults
+    var defaults = {
+      type: 'commit',
+      children: null,
+      parents: null,
+      author: 'Peter Cottle',
+      createTime: null,
+      commitMessage: null,
+      visNode: null,
+      gitVisuals: null
+    };
+    this.attributes = Object.assign({}, defaults, options);
 
-  constants: {
-    circularFields: ['gitVisuals', 'visNode', 'children']
-  },
+    // Call initialize
+    this.initialize(options);
+  }
 
-  getLogEntry: function() {
+  // Static constants for access via Commit.constants
+  static get constants() {
+    return {
+      circularFields: ['gitVisuals', 'visNode', 'children']
+    };
+  }
+
+  // Getter for id for backward compatibility (code that accesses commit.id directly)
+  get id() { return this.attributes.id; }
+
+  get(key) { return this.attributes[key]; }
+
+  set(key, value) {
+    if (typeof key === 'object') {
+      Object.assign(this.attributes, key);
+    } else {
+      this.attributes[key] = value;
+    }
+    return this;
+  }
+
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) this._events[eventName] = [];
+    this._events[eventName].push({ callback, context: context || this });
+  }
+
+  trigger(eventName, ...args) {
+    var listeners = this._events[eventName];
+    if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+  }
+
+  toJSON() { return Object.assign({}, this.attributes); }
+
+  getLogEntry() {
     return [
       'Author: ' + this.get('author'),
       'Date: ' + this.get('createTime'),
@@ -3011,9 +3093,9 @@ var Commit = Backbone.Model.extend({
       '',
       'Commit: ' + this.get('id')
     ].join('<br/>') + '\n';
-  },
+  }
 
-  getShowEntry: function() {
+  getShowEntry() {
     // same deal as above, show log entry and some fake changes
     return [
       this.getLogEntry().replace('\n', ''),
@@ -3024,9 +3106,9 @@ var Commit = Backbone.Model.extend({
       '- Stanfurd, 14-7',
       '+ Cal, 21-14'
     ].join('<br/>') + '\n';
-  },
+  }
 
-  validateAtInit: function() {
+  validateAtInit() {
     if (!this.get('id')) {
       throw new Error('Need ID!!');
     }
@@ -3046,32 +3128,32 @@ var Commit = Backbone.Model.extend({
         throw new Error('needs parents');
       }
     }
-  },
+  }
 
-  addNodeToVisuals: function() {
+  addNodeToVisuals() {
     var visNode = this.get('gitVisuals').addNode(this.get('id'), this);
     this.set('visNode', visNode);
-  },
+  }
 
-  addEdgeToVisuals: function(parent) {
+  addEdgeToVisuals(parent) {
     this.get('gitVisuals').addEdge(this.get('id'), parent.get('id'));
-  },
+  }
 
-  getParent: function(parentNum) {
+  getParent(parentNum) {
     if (this && this.attributes && this.attributes.parents) {
       return this.attributes.parents[parentNum];
     } else {
       return null;
     }
-  },
+  }
 
-  removeFromParents: function() {
+  removeFromParents() {
     this.get('parents').forEach(function (parent) {
       parent.removeChild(this);
     }, this);
-  },
+  }
 
-  checkForUpdatedParent: function(engine) {
+  checkForUpdatedParent(engine) {
     var parents = this.get('parents');
     if (parents.length > 1) {
       return;
@@ -3105,9 +3187,9 @@ var Commit = Backbone.Model.extend({
     }
 
     return true;
-  },
+  }
 
-  removeChild: function(childToRemove) {
+  removeChild(childToRemove) {
     var newChildren = [];
     this.get('children').forEach(function (child) {
       if (child !== childToRemove) {
@@ -3115,14 +3197,14 @@ var Commit = Backbone.Model.extend({
       }
     });
     this.set('children', newChildren);
-  },
+  }
 
-  isMainParent: function(parent) {
+  isMainParent(parent) {
     var index = this.get('parents').indexOf(parent);
     return index === 0;
-  },
+  }
 
-  initialize: function(options) {
+  initialize(options) {
     this.validateAtInit();
     this.addNodeToVisuals();
 
@@ -3131,18 +3213,23 @@ var Commit = Backbone.Model.extend({
       this.addEdgeToVisuals(parent);
     }, this);
   }
-});
+}
 
-var Tag = Ref.extend({
-  defaults: {
-    visTag: null
-  },
+class Tag extends Ref {
+  constructor(options = {}) {
+    // Apply defaults before calling super
+    var defaults = {
+      visTag: null
+    };
+    options = Object.assign({}, defaults, options);
+    super(options);
+  }
 
-  initialize: function() {
-    Ref.prototype.initialize.call(this);
+  initialize() {
+    super.initialize();
     this.set('type', 'tag');
   }
-});
+}
 
 function RevisionRange(engine, specifiers) {
   this.engine = engine;

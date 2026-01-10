@@ -1,45 +1,59 @@
-var Backbone = require('backbone');
+// Error models - converted from Backbone to plain classes
 
-var MyError = Backbone.Model.extend({
-  defaults: {
-    type: 'MyError'
-  },
-  toString: function() {
+class MyError {
+  constructor(options = {}) {
+    this.type = options.type || 'MyError';
+    this.msg = options.msg;
+  }
+
+  get(key) {
+    return this[key];
+  }
+
+  set(key, value) {
+    this[key] = value;
+  }
+
+  toString() {
     return this.get('type') + ': ' + this.get('msg');
-  },
+  }
 
-  getMsg: function() {
+  getMsg() {
     if (!this.get('msg')) {
       debugger;
       console.warn('my error without message');
     }
     return this.get('msg');
   }
-});
+}
 
-var CommandProcessError = exports.CommandProcessError = MyError.extend({
-  defaults: {
-    type: 'Command Process Error'
+class CommandProcessError extends MyError {
+  constructor(options = {}) {
+    super(options);
+    this.type = 'Command Process Error';
   }
-});
+}
 
-var CommandResult = exports.CommandResult = MyError.extend({
-  defaults: {
-    type: 'Command Result'
+class CommandResult extends MyError {
+  constructor(options = {}) {
+    super(options);
+    this.type = 'Command Result';
   }
-});
+}
 
-var Warning = exports.Warning = MyError.extend({
-  defaults: {
-    type: 'Warning'
+class Warning extends MyError {
+  constructor(options = {}) {
+    super(options);
+    this.type = 'Warning';
   }
-});
+}
 
-var GitError = exports.GitError = MyError.extend({
-  defaults: {
-    type: 'Git Error'
+class GitError extends MyError {
+  constructor(options = {}) {
+    super(options);
+    this.type = 'Git Error';
   }
-});
+}
 
 var filterError = function(err) {
   if (err instanceof CommandProcessError ||
@@ -53,4 +67,8 @@ var filterError = function(err) {
   }
 };
 
+exports.CommandProcessError = CommandProcessError;
+exports.CommandResult = CommandResult;
+exports.Warning = Warning;
+exports.GitError = GitError;
 exports.filterError = filterError;

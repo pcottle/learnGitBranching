@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
@@ -71,45 +70,49 @@ var randomHueString = function(branchName) {
   return getBranchColor(branchName || '');
 };
 
-var VisBranch = VisBase.extend({
-  defaults: {
-    pos: null,
-    text: null,
-    rect: null,
-    arrow: null,
-    isHead: false,
-    flip: 1,
+class VisBranch extends VisBase {
+  constructor(options) {
+    var defaults = {
+      pos: null,
+      text: null,
+      rect: null,
+      arrow: null,
+      isHead: false,
+      flip: 1,
 
-    fill: GRAPHICS.rectFill,
-    stroke: GRAPHICS.rectStroke,
-    'stroke-width': GRAPHICS.rectStrokeWidth,
+      fill: GRAPHICS.rectFill,
+      stroke: GRAPHICS.rectStroke,
+      'stroke-width': GRAPHICS.rectStrokeWidth,
 
-    offsetX: GRAPHICS.nodeRadius * 4.75,
-    offsetY: 0,
-    arrowHeight: 14,
-    arrowInnerSkew: 0,
-    arrowEdgeHeight: 6,
-    arrowLength: 14,
-    arrowOffsetFromCircleX: 10,
+      offsetX: GRAPHICS.nodeRadius * 4.75,
+      offsetY: 0,
+      arrowHeight: 14,
+      arrowInnerSkew: 0,
+      arrowEdgeHeight: 6,
+      arrowLength: 14,
+      arrowOffsetFromCircleX: 10,
 
-    vPad: 5,
-    hPad: 5,
+      vPad: 5,
+      hPad: 5,
 
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
+      animationSpeed: GRAPHICS.defaultAnimationTime,
+      animationEasing: GRAPHICS.defaultEasing
+    };
+    super(Object.assign({}, defaults, options));
+    this.initialize();
+  }
 
-  validateAtInit: function() {
+  validateAtInit() {
     if (!this.get('branch')) {
       throw new Error('need a branch!');
     }
-  },
+  }
 
-  getID: function() {
+  getID() {
     return this.get('branch').get('id');
-  },
+  }
 
-  initialize: function() {
+  initialize() {
     this.validateAtInit();
 
     // shorthand notation for the main objects
@@ -133,50 +136,50 @@ var VisBranch = VisBase.extend({
       // Use accessible color palette for branches
       this.set('fill', randomHueString(this.get('branch').get('id')));
     }
-  },
+  }
 
-  getCommitPosition: function() {
+  getCommitPosition() {
     var commit = this.gitEngine.getCommitFromRef(this.get('branch'));
     var visNode = commit.get('visNode');
 
     this.set('flip', this.getFlipValue(commit, visNode));
     this.refreshOffset();
     return visNode.getScreenCoords();
-  },
+  }
 
-  getDashArray: function() {
+  getDashArray() {
     if (!this.get('gitVisuals').getIsGoalVis()) {
       return '';
     }
     return (this.getIsLevelBranchCompared()) ? '' : '--';
-  },
+  }
 
-  getIsGoalAndNotCompared: function() {
+  getIsGoalAndNotCompared() {
     if (!this.get('gitVisuals').getIsGoalVis()) {
       return false;
     }
 
     return !this.getIsLevelBranchCompared();
-  },
+  }
 
   /**
    * returns true if we are a branch that is not being
    * compared in the goal (used in a goal visualization context
    */
-  getIsLevelBranchCompared: function() {
+  getIsLevelBranchCompared() {
     if (this.getIsMain()) {
       return true; // main always compared
     }
     // we are not main, so return true if its not just main being compared
     var levelBlob = this.get('gitVisuals').getLevelBlob();
     return !TreeCompare.onlyMainCompared(levelBlob);
-  },
+  }
 
-  getIsMain: function() {
+  getIsMain() {
     return this.get('branch').get('id') == 'main';
-  },
+  }
 
-  getFlipValue: function(commit, visNode) {
+  getFlipValue(commit, visNode) {
     var threshold = this.get('gitVisuals').getFlipPos();
     var overThreshold = (visNode.get('pos').x > threshold);
 
@@ -196,9 +199,9 @@ var VisBranch = VisBase.extend({
     } else {
       return (this.isBranchStackEmpty()) ? 1 : -1;
     }
-  },
+  }
 
-  refreshOffset: function() {
+  refreshOffset() {
     var baseOffsetX = GRAPHICS.nodeRadius * 4.75;
     var offsetY = 33;
     var deltaX = 10;
@@ -209,17 +212,17 @@ var VisBranch = VisBase.extend({
       this.set('offsetY', offsetY);
       this.set('offsetX', baseOffsetX - deltaX);
     }
-  },
+  }
 
-  getArrowTransform: function() {
+  getArrowTransform() {
     if (this.get('flip') === 1) {
       return 't-2,-20R-35';
     } else {
       return 't2,20R-35';
     }
-  },
+  }
 
-  getBranchStackIndex: function() {
+  getBranchStackIndex() {
     if (this.get('isHead')) {
       // head is never stacked with other branches
       return 0;
@@ -233,35 +236,35 @@ var VisBranch = VisBase.extend({
       }
     }, this);
     return index;
-  },
+  }
 
-  getBranchStackLength: function() {
+  getBranchStackLength() {
     if (this.get('isHead')) {
       // head is always by itself
       return 1;
     }
 
     return this.getBranchStackArray().length;
-  },
+  }
 
-  isBranchStackEmpty: function() {
+  isBranchStackEmpty() {
     // useful function for head when computing flip logic
     var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
     return (arr) ?
       arr.length === 0 :
       true;
-  },
+  }
 
-  getCommitID: function() {
+  getCommitID() {
     var target = this.get('branch').get('target');
     if (target.get('type') === 'branch') {
       // for HEAD
       target = target.get('target');
     }
     return target.get('id');
-  },
+  }
 
-  getBranchStackArray: function() {
+  getBranchStackArray() {
     var arr = this.gitVisuals.branchStackMap[this.getCommitID()];
     if (arr === undefined) {
       // this only occurs when we are generating graphics inside of
@@ -270,9 +273,9 @@ var VisBranch = VisBase.extend({
       return this.getBranchStackArray();
     }
     return arr;
-  },
+  }
 
-  getTextPosition: function() {
+  getTextPosition() {
     var pos = this.getCommitPosition();
 
     // then order yourself accordingly. we use alphabetical sorting
@@ -282,9 +285,9 @@ var VisBranch = VisBase.extend({
       x: pos.x + this.get('flip') * this.get('offsetX'),
       y: pos.y + myPos * GRAPHICS.multiBranchY + this.get('offsetY')
     };
-  },
+  }
 
-  getRectPosition: function() {
+  getRectPosition() {
     var pos = this.getTextPosition();
     var f = this.get('flip');
 
@@ -294,9 +297,9 @@ var VisBranch = VisBase.extend({
       x: pos.x - 0.5 * textSize.w - this.get('hPad'),
       y: pos.y - 0.5 * textSize.h - this.get('vPad')
     };
-  },
+  }
 
-  getArrowPath: function() {
+  getArrowPath() {
     // should make these util functions...
     var offset2d = function(pos, x, y) {
       return {
@@ -344,9 +347,9 @@ var VisBranch = VisBase.extend({
     }, this);
     pathStr += 'z';
     return pathStr;
-  },
+  }
 
-  getTextSize: function() {
+  getTextSize() {
     var getTextWidth = function(visBranch) {
       var textNode = (visBranch.get('text')) ? visBranch.get('text').node : null;
       return (textNode === null) ? 0 : textNode.getBoundingClientRect().width;
@@ -379,9 +382,9 @@ var VisBranch = VisBase.extend({
       w: maxWidth,
       h: textNode.getBoundingClientRect().height,
     });
-  },
+  }
 
-  getSingleRectSize: function() {
+  getSingleRectSize() {
     var textSize = this.getTextSize();
     var vPad = this.get('vPad');
     var hPad = this.get('hPad');
@@ -389,9 +392,9 @@ var VisBranch = VisBase.extend({
       w: textSize.w + vPad * 2,
       h: textSize.h + hPad * 2
     };
-  },
+  }
 
-  getRectSize: function() {
+  getRectSize() {
     var textSize = this.getTextSize();
     // enforce padding
     var vPad = this.get('vPad');
@@ -403,13 +406,13 @@ var VisBranch = VisBase.extend({
       w: textSize.w + vPad * 2,
       h: textSize.h * totalNum * 1.1 + hPad * 2
     };
-  },
+  }
 
-  getIsRemote: function() {
+  getIsRemote() {
     return this.get('branch').getIsRemote();
-  },
+  }
 
-  getName: function() {
+  getName() {
     var name = this.get('branch').getName();
     var selected = this.get('branch') === this.gitEngine.HEAD.get('target');
     var isRemote = this.getIsRemote();
@@ -421,24 +424,24 @@ var VisBranch = VisBase.extend({
 
     var after = (selected && !this.getIsInOrigin() && !isRemote) ? '*' : '';
     return name + after;
-  },
+  }
 
-  nonTextToFront: function() {
+  nonTextToFront() {
     this.get('arrow').toFront();
     this.get('rect').toFront();
-  },
+  }
 
-  textToFront: function() {
+  textToFront() {
     this.get('text').toFront();
-  },
+  }
 
-  textToFrontIfInStack: function() {
+  textToFrontIfInStack() {
     if (this.getBranchStackIndex() !== 0) {
       this.get('text').toFront();
     }
-  },
+  }
 
-  getFill: function() {
+  getFill() {
     // in the easy case, just return your own fill if you are:
     // - the HEAD ref
     // - by yourself (length of 1)
@@ -451,19 +454,19 @@ var VisBranch = VisBase.extend({
 
     // woof. now it's hard, we need to blend hues...
     return this.gitVisuals.blendHuesFromBranchStack(this.getBranchStackArray());
-  },
+  }
 
-  remove: function() {
+  remove() {
     this.removeKeys(['text', 'arrow', 'rect']);
     // also need to remove from this.gitVisuals
     this.gitVisuals.removeVisBranch(this);
-  },
+  }
 
-  handleModeChange: function() {
+  handleModeChange() {
 
-  },
+  }
 
-  genGraphics: function(paper) {
+  genGraphics(paper) {
     var textPos = this.getTextPosition();
     var name = this.getName();
 
@@ -499,9 +502,9 @@ var VisBranch = VisBase.extend({
     this.attachClickHandlers();
     rect.toFront();
     text.toFront();
-  },
+  }
 
-  attachClickHandlers: function() {
+  attachClickHandlers() {
     if (this.get('gitVisuals').options.noClick) {
       return;
     }
@@ -514,13 +517,13 @@ var VisBranch = VisBase.extend({
     objs.forEach(function(rObj) {
       rObj.click(this.onClick.bind(this));
     }, this);
-  },
+  }
 
-  shouldDisableClick: function() {
+  shouldDisableClick() {
     return this.get('isHead') && !this.gitEngine.getDetachedHead();
-  },
+  }
 
-  onClick: function() {
+  onClick() {
     if (this.shouldDisableClick()) {
       return;
     }
@@ -528,15 +531,15 @@ var VisBranch = VisBase.extend({
     var commandStr = 'git checkout ' + this.gitEngine.resolveNameNoPrefix(this.get('branch'))
     var Main = require('../app');
     Main.getEventBaton().trigger('commandSubmitted', commandStr);
-  },
+  }
 
-  updateName: function() {
+  updateName() {
     this.get('text').attr({
       text: this.getName()
     });
-  },
+  }
 
-  getNonTextOpacity: function() {
+  getNonTextOpacity() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
@@ -545,9 +548,9 @@ var VisBranch = VisBase.extend({
     }
 
     return 1;
-  },
+  }
 
-  getTextOpacity: function() {
+  getTextOpacity() {
     if (this.get('isHead')) {
       return this.gitEngine.getDetachedHead() ? 1 : 0;
     }
@@ -557,17 +560,17 @@ var VisBranch = VisBase.extend({
     }
 
     return 1;
-  },
+  }
 
-  getStrokeWidth: function() {
+  getStrokeWidth() {
     if (this.getIsGoalAndNotCompared()) {
       return this.get('stroke-width') / 5.0;
     }
 
     return this.get('stroke-width');
-  },
+  }
 
-  getAttributes: function() {
+  getAttributes() {
     var textOpacity = this.getTextOpacity();
     this.updateName();
 
@@ -611,28 +614,61 @@ var VisBranch = VisBase.extend({
         'stroke-width': this.getStrokeWidth()
       }
     };
-  },
+  }
 
-  animateUpdatedPos: function(speed, easing) {
+  animateUpdatedPos(speed, easing) {
     var attr = this.getAttributes();
     this.animateToAttr(attr, speed, easing);
-  },
+  }
 
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+  animateFromAttrToAttr(fromAttr, toAttr, speed, easing) {
     // an animation of 0 is essentially setting the attribute directly
     this.animateToAttr(fromAttr, 0);
     this.animateToAttr(toAttr, speed, easing);
-  },
+  }
 
-  setAttr: function(attr, instant, speed, easing) {
+  setAttr(attr, instant, speed, easing) {
     var keys = ['text', 'rect', 'arrow'];
     this.setAttrBase(keys, attr, instant, speed, easing);
   }
-});
+}
 
-var VisBranchCollection = Backbone.Collection.extend({
-  model: VisBranch
-});
+class VisBranchCollection {
+  constructor() {
+    this._events = {};
+    this.models = [];
+    this.length = 0;
+  }
+  add(model) {
+    this.models.push(model);
+    this.length = this.models.length;
+  }
+  remove(model) {
+    var index = this.models.indexOf(model);
+    if (index > -1) {
+      this.models.splice(index, 1);
+      this.length = this.models.length;
+    }
+  }
+  reset() {
+    this.models = [];
+    this.length = 0;
+  }
+  each(callback, context) {
+    this.models.forEach(callback, context);
+  }
+  toArray() {
+    return this.models.slice();
+  }
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) this._events[eventName] = [];
+    this._events[eventName].push({ callback, context: context || this });
+  }
+  trigger(eventName, ...args) {
+    var listeners = this._events[eventName];
+    if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+  }
+}
 
 exports.VisBranchCollection = VisBranchCollection;
 exports.VisBranch = VisBranch;
