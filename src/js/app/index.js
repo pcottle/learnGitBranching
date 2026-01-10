@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var jQuery = require('jquery');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');
@@ -12,8 +11,6 @@ var LocaleActions = require('../actions/LocaleActions');
 /**
  * Globals
  */
-
-Backbone.$ = jQuery;
 
 // Bypass jasmine
 if (util.isBrowser()) {
@@ -315,7 +312,6 @@ if (require('../util').isBrowser()) {
   * and simply pipes commands to the main events system
 **/
 function CommandUI() {
-  Backbone.$ = $; // lol WTF BACKBONE MANAGE YOUR DEPENDENCIES
   var Views = require('../views');
   var Collections = require('../models/collections');
   var CommandViews = require('../views/commandViews');

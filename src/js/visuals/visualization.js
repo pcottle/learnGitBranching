@@ -1,5 +1,3 @@
-var Backbone = require('backbone');
-
 var Collections = require('../models/collections');
 var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
@@ -8,12 +6,41 @@ var EventBaton = require('../util/eventBaton').EventBaton;
 
 var GitVisuals = require('../visuals').GitVisuals;
 
-var Visualization = Backbone.View.extend({
-  initialize: function(options) {
+// Simple event emitter for customEvents
+function createEventEmitter() {
+  var events = {};
+  return {
+    on: function(eventName, callback, context) {
+      if (!events[eventName]) events[eventName] = [];
+      events[eventName].push({ callback, context: context || this });
+    },
+    off: function(eventName, callback) {
+      if (!events[eventName]) return;
+      if (!callback) {
+        events[eventName] = [];
+      } else {
+        events[eventName] = events[eventName].filter(l => l.callback !== callback);
+      }
+    },
+    trigger: function(eventName, ...args) {
+      var listeners = events[eventName];
+      if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+    }
+  };
+}
+
+class Visualization {
+  constructor(options = {}) {
+    this._events = {};
+    this.attributes = {};
     options = options || {};
     this.options = options;
-    this.customEvents = Object.assign({}, Backbone.Events);
+    this.customEvents = createEventEmitter();
     this.containerElement = options.containerElement;
+
+    // Set up el and $el similar to Backbone.View
+    this.el = options.el || document.body;
+    this.$el = $(this.el);
 
     var _this = this;
     // we want to add our canvas somewhere
@@ -26,9 +53,32 @@ var Visualization = Backbone.View.extend({
         _this.paperInitialize(paper, options);
       });
     });
-  },
+  }
 
-  paperInitialize: function(paper, options) {
+  get(key) {
+    return this.attributes[key];
+  }
+
+  set(key, value) {
+    if (typeof key === 'object') {
+      Object.assign(this.attributes, key);
+    } else {
+      this.attributes[key] = value;
+    }
+    return this;
+  }
+
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) this._events[eventName] = [];
+    this._events[eventName].push({ callback, context: context || this });
+  }
+
+  trigger(eventName, ...args) {
+    var listeners = this._events[eventName];
+    if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+  }
+
+  paperInitialize(paper, options) {
     this.treeString = options.treeString;
     this.paper = paper;
 
@@ -92,13 +142,13 @@ var Visualization = Backbone.View.extend({
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
-  },
+  }
 
-  clearOrigin: function() {
+  clearOrigin() {
     delete this.originVis;
-  },
+  }
 
-  makeOrigin: function(options) {
+  makeOrigin(options) {
     // oh god, here we go. We basically do a bizarre form of composition here,
     // where this visualization actually contains another one of itself.
     this.originVis = new Visualization(Object.assign(
@@ -120,9 +170,9 @@ var Visualization = Backbone.View.extend({
 
     // return the newly created visualization which will soon have a git engine
     return this.originVis;
-  },
+  }
 
-  originToo: function(methodToCall, args) {
+  originToo(methodToCall, args) {
     if (!this.originVis) {
       return;
     }
@@ -138,25 +188,25 @@ var Visualization = Backbone.View.extend({
     // our origin vis does not (since we kill that on every reset).
     // in this case lets bind to the custom event on paper ready
     this.originVis.customEvents.on('paperReady', callMethod);
-  },
+  }
 
-  setTreeIndex: function(level) {
+  setTreeIndex(level) {
     $(this.paper.canvas).css('z-index', level);
     this.originToo('setTreeIndex', arguments);
-  },
+  }
 
-  setTreeOpacity: function(level) {
+  setTreeOpacity(level) {
     if (level === 0) {
       this.shown = false;
     }
 
     $(this.paper.canvas).css('opacity', level);
     this.originToo('setTreeOpacity', arguments);
-  },
+  }
 
-  getAnimationTime: function() { return 300; },
+  getAnimationTime() { return 300; }
 
-  fadeTreeIn: function() {
+  fadeTreeIn() {
     this.shown = true;
     if (!this.paper) {
       return;
@@ -164,40 +214,40 @@ var Visualization = Backbone.View.extend({
     $(this.paper.canvas).animate({opacity: 1}, this.getAnimationTime());
 
     this.originToo('fadeTreeIn', arguments);
-  },
+  }
 
-  fadeTreeOut: function() {
+  fadeTreeOut() {
     this.shown = false;
     if (this.paper && this.paper.canvas) {
       $(this.paper.canvas).animate({opacity: 0}, this.getAnimationTime());
     }
     this.originToo('fadeTreeOut', arguments);
-  },
+  }
 
-  hide: function() {
+  hide() {
     this.fadeTreeOut();
     // remove click handlers by toggling visibility
     setTimeout(function() {
       $(this.paper.canvas).css('visibility', 'hidden');
     }.bind(this), this.getAnimationTime());
     this.originToo('hide', arguments);
-  },
+  }
 
-  show: function() {
+  show() {
     $(this.paper.canvas).css('visibility', 'visible');
     setTimeout(this.fadeTreeIn.bind(this), 10);
     this.originToo('show', arguments);
     this.myResize();
-  },
+  }
 
-  showHarsh: function() {
+  showHarsh() {
     $(this.paper.canvas).css('visibility', 'visible');
     this.setTreeOpacity(1);
     this.originToo('showHarsh', arguments);
     this.myResize();
-  },
+  }
 
-  resetFromThisTreeNow: function(treeString) {
+  resetFromThisTreeNow(treeString) {
     this.treeString = treeString;
     // do the same but for origin tree string
     var oTree = this.getOriginInTreeString(treeString);
@@ -205,14 +255,14 @@ var Visualization = Backbone.View.extend({
       var oTreeString = this.gitEngine.printTree(oTree);
       this.originToo('resetFromThisTreeNow', [oTreeString]);
     }
-  },
+  }
 
-  getOriginInTreeString: function(treeString) {
+  getOriginInTreeString(treeString) {
     var tree = JSON.parse(unescape(treeString));
     return tree.originTree;
-  },
+  }
 
-  reset: function(tree) {
+  reset(tree) {
     var treeString = tree || this.treeString;
     this.setTreeOpacity(0);
     if (treeString) {
@@ -231,18 +281,18 @@ var Visualization = Backbone.View.extend({
         this.originToo('reset', arguments);
       }
     }
-  },
+  }
 
-  tearDown: function(options) {
+  tearDown(options) {
     options = options || {};
 
     this.gitEngine.tearDown();
     this.gitVisuals.tearDown();
     delete this.paper;
     this.originToo('tearDown', arguments);
-  },
+  }
 
-  die: function() {
+  die() {
     this.fadeTreeOut();
     setTimeout(function() {
       if (!this.shown) {
@@ -250,9 +300,9 @@ var Visualization = Backbone.View.extend({
       }
     }.bind(this), this.getAnimationTime());
     this.originToo('die', arguments);
-  },
+  }
 
-  myResize: function() {
+  myResize() {
     if (!this.paper) { return; }
 
     var el = this.el;
@@ -283,6 +333,6 @@ var Visualization = Backbone.View.extend({
     this.gitVisuals.canvasResize(width, height);
     this.originToo('myResize', arguments);
   }
-});
+}
 
 exports.Visualization = Visualization;

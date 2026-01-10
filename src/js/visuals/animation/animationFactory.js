@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var Q = require('q');
 
 var Animation = require('./index').Animation;

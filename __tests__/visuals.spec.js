@@ -1,6 +1,5 @@
 
 var VisBranch = require('../src/js/visuals/visBranch');
-var Backbone = require('backbone');
 
 describe('visBranch', function() {
   describe('getBranchColor', function() {

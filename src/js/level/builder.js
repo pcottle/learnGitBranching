@@ -1,4 +1,3 @@
-var Backbone = require('backbone');
 var Q = require('q');
 
 var util = require('../util');
@@ -39,8 +38,8 @@ var regexMap = {
 
 var parse = util.genParseCommand(regexMap, 'processLevelBuilderCommand');
 
-var LevelBuilder = Level.extend({
-  initialize: function(options) {
+class LevelBuilder extends Level {
+  initialize(options) {
     options = options || {};
     options.level = {};
     this.options = options;
@@ -60,7 +59,7 @@ var LevelBuilder = Level.extend({
       options.level = editLevelJSON;
     }
 
-    LevelBuilder.__super__.initialize.apply(this, [options]);
+    super.initialize(options);
     if (!options.editLevel) {
       this.startDialogObj = undefined;
       this.definedGoal = false;
@@ -73,24 +72,24 @@ var LevelBuilder = Level.extend({
     // include that functionality
     delete this.treeCompare;
     delete this.solved;
-  },
+  }
 
-  initName: function() {
-  },
+  initName() {
+  }
 
-  initGoalData: function() {
+  initGoalData(options) {
     // add some default behavior in the beginning if we are not editing
     if (!this.options.editLevel) {
       this.level.goalTreeString = '{"branches":{"main":{"target":"C1","id":"main"},"makeLevel":{"target":"C2","id":"makeLevel"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"makeLevel","id":"HEAD"}}';
       this.level.solutionCommand = 'git checkout -b makeLevel; git commit';
     }
-    LevelBuilder.__super__.initGoalData.apply(this, arguments);
-  },
+    super.initGoalData(options);
+  }
 
   /**
    * need custom handlers since we have two visualizations >___<
    */
-  minimizeGoal: function (position, size) {
+  minimizeGoal(position, size) {
     this.doBothVis('hide');
     this.goalWindowPos = position;
     this.goalWindowSize = size;
@@ -98,22 +97,22 @@ var LevelBuilder = Level.extend({
       $('#goalPlaceholder').hide();
       this.mainVis.myResize();
     }
-  },
+  }
 
-  doBothVis: function(method) {
+  doBothVis(method) {
     if (this.startVis) {
       this.startVis[method].call(this.startVis);
     }
     if (this.goalVis) {
       this.goalVis[method].call(this.goalVis);
     }
-  },
+  }
 
-  resizeGoal: function () {
+  resizeGoal() {
     this.doBothVis('myResize');
-  },
+  }
 
-  initStartVisualization: function() {
+  initStartVisualization() {
     this.startCanvasHolder = new CanvasTerminalHolder({
       parent: this,
       additionalClass: 'startTree',
@@ -129,16 +128,16 @@ var LevelBuilder = Level.extend({
       noClick: true
     });
     return this.startCanvasHolder;
-  },
+  }
 
-  startOffCommand: function() {
+  startOffCommand() {
     Main.getEventBaton().trigger(
       'commandSubmitted',
       'echo :D'
     );
-  },
+  }
 
-  objectiveDialog: function(command, deferred) {
+  objectiveDialog(command, deferred, levelObj) {
     var args = [
       command,
       deferred,
@@ -150,11 +149,11 @@ var LevelBuilder = Level.extend({
           }
         }
     ];
-    LevelBuilder.__super__.objectiveDialog.apply(this, args);
-  },
+    super.objectiveDialog.apply(this, args);
+  }
 
-  initParseWaterfall: function(options) {
-    LevelBuilder.__super__.initParseWaterfall.apply(this, [options]);
+  initParseWaterfall(options) {
+    super.initParseWaterfall(options);
 
     this.parseWaterfall.addFirst(
       'parseWaterfall',
@@ -164,17 +163,17 @@ var LevelBuilder = Level.extend({
       'instantWaterfall',
       this.getInstantCommands()
     );
-  },
+  }
 
-  buildLevel: function(command, deferred) {
+  buildLevel(command, deferred) {
     this.exitLevel();
 
     setTimeout(function() {
       Main.getSandbox().buildLevel(command, deferred);
     }, this.getAnimationTime() * 1.5);
-  },
+  }
 
-  getInstantCommands: function() {
+  getInstantCommands() {
     return [
       [/^help$|^\?$/, function() {
         throw new Errors.CommandResult({
@@ -182,40 +181,40 @@ var LevelBuilder = Level.extend({
         });
       }]
     ];
-  },
+  }
 
-  takeControl: function() {
+  takeControl() {
     Main.getEventBaton().stealBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
 
-    LevelBuilder.__super__.takeControl.apply(this);
-  },
+    super.takeControl();
+  }
 
-  releaseControl: function() {
+  releaseControl() {
     Main.getEventBaton().releaseBaton('processLevelBuilderCommand', this.processLevelBuilderCommand, this);
 
-    LevelBuilder.__super__.releaseControl.apply(this);
-  },
+    super.releaseControl();
+  }
 
-  showGoal: function() {
+  showGoal() {
     this.hideStart();
-    LevelBuilder.__super__.showGoal.apply(this, arguments);
-  },
+    super.showGoal.apply(this, arguments);
+  }
 
-  showStart: function(command, deferred) {
+  showStart(command, deferred) {
     this.hideGoal();
     this.showSideVis(command, deferred, this.startCanvasHolder, this.initStartVisualization);
-  },
+  }
 
-  resetSolution: function() {
+  resetSolution() {
     this.gitCommandsIssued = [];
     this.level.solutionCommand = undefined;
-  },
+  }
 
-  hideStart: function(command, deferred) {
+  hideStart(command, deferred) {
     this.hideSideVis(command, deferred, this.startCanvasHolder);
-  },
+  }
 
-  defineStart: function(command, deferred) {
+  defineStart(command, deferred) {
     this.hideStart();
 
     command.addWarning(intl.str('define-start-warning'));
@@ -225,9 +224,9 @@ var LevelBuilder = Level.extend({
     this.mainVis.resetFromThisTreeNow(this.level.startTree);
 
     this.showStart(command, deferred);
-  },
+  }
 
-  defineGoal: function(command, deferred) {
+  defineGoal(command, deferred) {
     this.hideGoal();
 
     if (!this.gitCommandsIssued.length) {
@@ -244,24 +243,24 @@ var LevelBuilder = Level.extend({
     this.initGoalVisualization();
 
     this.showGoal(command, deferred);
-  },
+  }
 
-  defineName: function(command, deferred) {
+  defineName(command, deferred) {
     this.level.name = {
       'en_US': prompt(intl.str('prompt-name'))
     };
 
     if (command) { command.finishWith(deferred); }
-  },
+  }
 
-  defineHint: function(command, deferred) {
+  defineHint(command, deferred) {
     this.level.hint = {
       'en_US': prompt(intl.str('prompt-hint'))
     };
     if (command) { command.finishWith(deferred); }
-  },
+  }
 
-  editDialog: function(command, deferred) {
+  editDialog(command, deferred) {
     var whenDoneEditing = Q.defer();
     this.currentBuilder = new MultiViewBuilder({
       multiViewJSON: this.startDialogObj,
@@ -281,9 +280,9 @@ var LevelBuilder = Level.extend({
         deferred.resolve();
       }
     });
-  },
+  }
 
-  finish: function(command, deferred) {
+  finish(command, deferred) {
     if (!this.options.editLevel && (!this.gitCommandsIssued.length || !this.definedGoal)) {
       command.set('error', new Errors.GitError({
         msg: intl.str('solution-empty')
@@ -358,9 +357,9 @@ var LevelBuilder = Level.extend({
     }.bind(this));
 
     mainDeferred.resolve();
-  },
+  }
 
-  getExportObj: function() {
+  getExportObj() {
     var compiledLevel = Object.assign(
       {},
       this.level
@@ -371,9 +370,9 @@ var LevelBuilder = Level.extend({
       compiledLevel.startDialog = {'en_US': this.startDialogObj};
     }
     return compiledLevel;
-  },
+  }
 
-  processLevelBuilderCommand: function(command, deferred) {
+  processLevelBuilderCommand(command, deferred) {
     var methodMap = {
       'define goal': this.defineGoal,
       'define start': this.defineStart,
@@ -383,28 +382,28 @@ var LevelBuilder = Level.extend({
       'define hint': this.defineHint,
       'define name': this.defineName,
       'edit dialog': this.editDialog,
-      'help builder': LevelBuilder.__super__.startDialog
+      'help builder': super.startDialog
     };
     if (!methodMap[command.get('method')]) {
       throw new Error('woah we don\'t support that method yet');
     }
 
     methodMap[command.get('method')].apply(this, arguments);
-  },
+  }
 
-  afterCommandDefer: function(defer, command) {
+  afterCommandDefer(defer, command) {
     // we don't need to compare against the goal anymore
     defer.resolve();
-  },
+  }
 
-  die: function() {
+  die() {
     this.hideStart();
-    LevelBuilder.__super__.die.apply(this, arguments);
+    super.die.apply(this, arguments);
 
     delete this.startVis;
     delete this.startCanvasHolder;
   }
-});
+}
 
 exports.LevelBuilder = LevelBuilder;
 exports.regexMap = regexMap;

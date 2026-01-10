@@ -35,17 +35,16 @@
     "html-minifier": "^4.0.0",
     "jasmine-spec-reporter": "^7.0.0",
     "jshint": "^2.13.4",
+    "nyc": "^15.1.0",
     "prompt": "^1.2.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
-    "vite": "^4.5.14",
-    "nyc": "^15.1.0"
+    "vite": "^4.5.14"
   },
   "dependencies": {
-    "backbone": "^1.4.0",
     "flux": "^4.0.3",
     "jquery": "^3.4.0",
-    "jquery-ui": "^1.13.2",
+    "jquery-ui": "1.13.2",
     "marked": "^4.0.12",
     "prop-types": "^15.8.1",
     "q": "^1.5.1",

@@ -1,7 +1,6 @@
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
 var Q = require('q');
-var Backbone = require('backbone');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
@@ -13,18 +12,20 @@ require('jquery-ui/ui/widget');
 require('jquery-ui/ui/scroll-parent');
 require('jquery-ui/ui/data');
 require('jquery-ui/ui/widgets/mouse');
-require('jquery-ui/ui/ie');
+// jquery-ui/ui/ie removed - IE support no longer needed
 require('jquery-ui/ui/widgets/sortable');
 require('jquery-ui/ui/plugin');
 require('jquery-ui/ui/safe-active-element');
 require('jquery-ui/ui/safe-blur');
 require('jquery-ui/ui/widgets/draggable');
 
-var InteractiveRebaseView = ContainedBase.extend({
-  tagName: 'div',
-  template: _.template($('#interactive-rebase-template').html()),
+class InteractiveRebaseView extends ContainedBase {
+  constructor(options) {
+    options = options || {};
+    options.tagName = 'div';
+    super(options);
 
-  initialize: function(options) {
+    this.template = _.template($('#interactive-rebase-template').html());
     this.deferred = options.deferred;
     this.rebaseMap = {};
     this.entryObjMap = {};
@@ -36,7 +37,6 @@ var InteractiveRebaseView = ContainedBase.extend({
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
 
-      // make basic models for each commit
       this.entryObjMap[id] = new RebaseEntry({
         id: id
       });
@@ -47,37 +47,30 @@ var InteractiveRebaseView = ContainedBase.extend({
       title: intl.str('interactive-rebase-title')
     });
     this.render();
-
-    // show the dialog holder
     this.show();
 
     if (options.aboveAll) {
-      // TODO fix this :(
       $('#canvasHolder').css('display', 'none');
     }
-  },
+  }
 
-  restoreVis: function() {
-    // restore the absolute position canvases
+  restoreVis() {
     $('#canvasHolder').css('display', 'inherit');
-  },
+  }
 
-  confirm: function() {
+  confirm() {
     this.die();
     if (this.options.aboveAll) {
       this.restoreVis();
     }
 
-    // get our ordering
     var uiOrder = [];
     this.$('ul.rebaseEntries li').each(function(i, obj) {
       uiOrder.push(obj.id);
     });
 
-    // now get the real array
     var toRebase = [];
     uiOrder.forEach(function(id) {
-      // the model pick check
       if (this.entryObjMap[id].get('pick')) {
         toRebase.unshift(this.rebaseMap[id]);
       }
@@ -85,11 +78,10 @@ var InteractiveRebaseView = ContainedBase.extend({
     toRebase.reverse();
 
     this.deferred.resolve(toRebase);
-    // garbage collection will get us
     this.$el.html('');
-  },
+  }
 
-  render: function() {
+  render() {
     var json = {
       num: Object.keys(this.rebaseMap).length,
       solutionOrder: this.options.initialCommitOrdering
@@ -99,7 +91,6 @@ var InteractiveRebaseView = ContainedBase.extend({
     this.$el.html(this.template(json));
     $(destination).append(this.el);
 
-    // also render each entry
     var listHolder = this.$('ul.rebaseEntries');
     this.rebaseEntries.each(function(entry) {
       new RebaseEntryView({
@@ -108,7 +99,6 @@ var InteractiveRebaseView = ContainedBase.extend({
       });
     }, this);
 
-    // then make it reorderable..
     listHolder.sortable({
       axis: 'y',
       placeholder: 'rebaseEntry transitionOpacity ui-state-highlight',
@@ -116,19 +106,17 @@ var InteractiveRebaseView = ContainedBase.extend({
     });
 
     this.makeButtons();
-  },
+  }
 
-  cancel: function() {
-    // empty array does nothing, just like in git
+  cancel() {
     this.hide();
     if (this.options.aboveAll) {
       this.restoreVis();
     }
     this.deferred.resolve([]);
-  },
+  }
 
-  makeButtons: function() {
-    // control for button
+  makeButtons() {
     var deferred = Q.defer();
     deferred.promise
     .then(function() {
@@ -139,54 +127,123 @@ var InteractiveRebaseView = ContainedBase.extend({
     }.bind(this))
     .done();
 
-    // finally get our buttons
     new ConfirmCancelView({
       destination: this.$('.confirmCancel'),
       deferred: deferred,
       disableCancelButton: !!this.options.aboveAll,
     });
   }
-});
+}
 
-var RebaseEntry = Backbone.Model.extend({
-  defaults: {
-    pick: true
-  },
+class RebaseEntry {
+  constructor(options = {}) {
+    this._events = {};
+    this.attributes = {
+      pick: true,
+      id: options.id
+    };
+  }
 
-  toggle: function() {
+  get(key) {
+    return this.attributes[key];
+  }
+
+  set(key, value) {
+    var oldValue = this.attributes[key];
+    this.attributes[key] = value;
+    if (oldValue !== value) {
+      this.trigger('change:' + key, this, value);
+      this.trigger('change', this);
+    }
+  }
+
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) {
+      this._events[eventName] = [];
+    }
+    this._events[eventName].push({ callback: callback, context: context || this });
+  }
+
+  trigger(eventName) {
+    var listeners = this._events[eventName];
+    if (!listeners) return;
+    var args = Array.prototype.slice.call(arguments, 1);
+    listeners.forEach(function(listener) {
+      listener.callback.apply(listener.context, args);
+    });
+  }
+
+  toggle() {
     this.set('pick', !this.get('pick'));
   }
-});
 
-var RebaseEntryCollection = Backbone.Collection.extend({
-  model: RebaseEntry
-});
+  toJSON() {
+    return Object.assign({}, this.attributes);
+  }
+}
 
-var RebaseEntryView = Backbone.View.extend({
-  tagName: 'li',
-  template: _.template($('#interactive-rebase-entry-template').html()),
+class RebaseEntryCollection {
+  constructor() {
+    this._events = {};
+    this.models = [];
+    this.length = 0;
+  }
 
-  toggle: function() {
-    this.model.toggle();
+  add(model) {
+    this.models.push(model);
+    this.length = this.models.length;
+    this.trigger('add', model, this);
+  }
 
-    // toggle a class also
-    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
-  },
+  each(callback, context) {
+    this.models.forEach(callback, context);
+  }
 
-  initialize: function(options) {
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) {
+      this._events[eventName] = [];
+    }
+    this._events[eventName].push({ callback: callback, context: context || this });
+  }
+
+  trigger(eventName) {
+    var listeners = this._events[eventName];
+    if (!listeners) return;
+    var args = Array.prototype.slice.call(arguments, 1);
+    listeners.forEach(function(listener) {
+      listener.callback.apply(listener.context, args);
+    });
+  }
+}
+
+class RebaseEntryView {
+  constructor(options) {
+    this.el = options.el;
+    this.$el = $(this.el);
+    this.model = options.model;
+    this.tagName = 'li';
+    this.template = _.template($('#interactive-rebase-entry-template').html());
+
     this.render();
-  },
+  }
 
-  render: function() {
+  $(selector) {
+    return this.$el.find(selector);
+  }
+
+  toggle() {
+    this.model.toggle();
+    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+  }
+
+  render() {
     this.$el.append(this.template(this.model.toJSON()));
-
-    // hacky :( who would have known jquery barfs on ids with %'s and quotes
     this.listEntry = this.$el.children(':last');
 
     this.listEntry.delegate('#toggleButton', 'click', function() {
       this.toggle();
     }.bind(this));
   }
-});
+}
 
 exports.InteractiveRebaseView = InteractiveRebaseView;

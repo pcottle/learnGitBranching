@@ -1,28 +1,79 @@
-var Backbone = require('backbone');
+// VisBase - converted from Backbone.Model to ES6 class
 
-var VisBase = Backbone.Model.extend({
-  removeKeys: function(keys) {
+class VisBase {
+  constructor(options = {}) {
+    this._events = {};
+    this.attributes = Object.assign({}, options);
+  }
+
+  get(key) {
+    return this.attributes[key];
+  }
+
+  set(key, value) {
+    if (typeof key === 'object') {
+      Object.keys(key).forEach(function(k) {
+        this.attributes[k] = key[k];
+      }, this);
+    } else {
+      this.attributes[key] = value;
+    }
+    return this;
+  }
+
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) {
+      this._events[eventName] = [];
+    }
+    this._events[eventName].push({ callback: callback, context: context || this });
+  }
+
+  off(eventName, callback) {
+    if (!this._events[eventName]) return;
+    if (!callback) {
+      delete this._events[eventName];
+    } else {
+      this._events[eventName] = this._events[eventName].filter(function(listener) {
+        return listener.callback !== callback;
+      });
+    }
+  }
+
+  trigger(eventName) {
+    var listeners = this._events[eventName];
+    if (!listeners) return;
+    var args = Array.prototype.slice.call(arguments, 1);
+    listeners.forEach(function(listener) {
+      listener.callback.apply(listener.context, args);
+    });
+  }
+
+  toJSON() {
+    return Object.assign({}, this.attributes);
+  }
+
+  removeKeys(keys) {
     keys.forEach(function(key) {
       if (this.get(key)) {
         this.get(key).remove();
       }
     }, this);
-  },
+  }
 
-  getNonAnimateKeys: function() {
+  getNonAnimateKeys() {
     return [
       'stroke-dasharray'
     ];
-  },
+  }
 
-  getIsInOrigin: function() {
+  getIsInOrigin() {
     if (!this.get('gitEngine')) {
       return false;
     }
     return this.get('gitEngine').isOrigin();
-  },
+  }
 
-  animateToAttr: function(attr, speed, easing) {
+  animateToAttr(attr, speed, easing) {
     if (speed === 0) {
       this.setAttr(attr, /* instant */ true);
       return;
@@ -31,9 +82,9 @@ var VisBase = Backbone.Model.extend({
     var s = speed !== undefined ? speed : this.get('animationSpeed');
     var e = easing || this.get('animationEasing');
     this.setAttr(attr, /* instance */ false, s, e);
-  },
+  }
 
-  setAttrBase: function(keys, attr, instant, speed, easing) {
+  setAttrBase(keys, attr, instant, speed, easing) {
     keys.forEach(function(key) {
       if (instant) {
         this.get(key).attr(attr[key]);
@@ -52,9 +103,9 @@ var VisBase = Backbone.Model.extend({
         $(this.get(key).node).css(attr.css);
       }
     }, this);
-  },
+  }
 
-  animateAttrKeys: function(keys, attrObj, speed, easing) {
+  animateAttrKeys(keys, attrObj, speed, easing) {
     // either we animate a specific subset of keys or all
     // possible things we could animate
     keys = Object.assign(
@@ -83,6 +134,6 @@ var VisBase = Backbone.Model.extend({
 
     this.animateToAttr(attr, speed, easing);
   }
-});
+}
 
 exports.VisBase = VisBase;

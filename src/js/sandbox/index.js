@@ -1,5 +1,5 @@
 var Q = require('q');
-var Backbone = require('backbone');
+var { createEvents } = require('../util/eventEmitter');
 
 var util = require('../util');
 var intl = require('../intl');
@@ -20,14 +20,29 @@ var ModalAlert = Views.ModalAlert;
 var BuilderViews = require('../views/builderViews');
 var MultiView = require('../views/multiView').MultiView;
 
-var Sandbox = Backbone.View.extend({
+// Sandbox class converted from Backbone.View to ES6 class
+class Sandbox {
   // tag name here is purely vestigial. I made this a view
   // simply to use inheritance and have a nice event system in place
-  tagName: 'div',
-  initialize: function(options) {
+  constructor(options) {
     options = options || {};
     this.options = options;
+    this.tagName = 'div';
 
+    // Set up events
+    var events = createEvents();
+    this._events = events._events;
+    this.on = events.on.bind(events);
+    this.off = events.off.bind(events);
+    this.trigger = events.trigger.bind(events);
+    this.once = events.once.bind(events);
+    this.listenTo = events.listenTo.bind(events);
+    this.stopListening = events.stopListening.bind(events);
+
+    this.initialize(options);
+  }
+
+  initialize(options) {
     this.initVisualization(options);
     this.initCommandCollection(options);
     this.initParseWaterfall(options);
@@ -37,42 +52,42 @@ var Sandbox = Backbone.View.extend({
     if (!options.wait) {
       this.takeControl();
     }
-  },
+  }
 
-  getDefaultVisEl: function() {
+  getDefaultVisEl() {
     return $('#mainVisSpace')[0];
-  },
+  }
 
-  getAnimationTime: function() { return 700 * 1.5; },
+  getAnimationTime() { return 700 * 1.5; }
 
-  initVisualization: function(options) {
+  initVisualization(options) {
     this.mainVis = new Visualization({
       el: options.el || this.getDefaultVisEl()
     });
-  },
+  }
 
-  initUndoStack: function(options) {
+  initUndoStack(options) {
     this.undoStack = [];
-  },
+  }
 
-  initCommandCollection: function(options) {
+  initCommandCollection(options) {
     // don't add it to just any collection -- adding to the
     // CommandUI collection will put in history
     this.commandCollection = Main.getCommandUI().commandCollection;
-  },
+  }
 
-  initParseWaterfall: function(options) {
+  initParseWaterfall(options) {
     this.parseWaterfall = new ParseWaterfall();
-  },
+  }
 
-  initGitShim: function(options) {
+  initGitShim(options) {
     this.gitShim = new GitShim({
       beforeCB: this.beforeCommandCB.bind(this),
       afterCB: this.afterCommandCB.bind(this)
     });
-  },
+  }
 
-  takeControl: function() {
+  takeControl() {
     // we will be handling commands that are submitted, mainly to add the sandbox
     // functionality (which is included by default in ParseWaterfall())
     Main.getEventBaton().stealBaton('commandSubmitted', this.commandSubmitted, this);
@@ -83,9 +98,9 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().stealBaton('levelExited', this.levelExited, this);
 
     this.insertGitShim();
-  },
+  }
 
-  releaseControl: function() {
+  releaseControl() {
     // we will be handling commands that are submitted, mainly to add the sandbox
     // functionality (which is included by default in ParseWaterfall())
     Main.getEventBaton().releaseBaton('commandSubmitted', this.commandSubmitted, this);
@@ -95,15 +110,15 @@ var Sandbox = Backbone.View.extend({
     Main.getEventBaton().releaseBaton('levelExited', this.levelExited, this);
 
     this.releaseGitShim();
-  },
+  }
 
-  releaseGitShim: function() {
+  releaseGitShim() {
     if (this.gitShim) {
       this.gitShim.removeShim();
     }
-  },
+  }
 
-  insertGitShim: function() {
+  insertGitShim() {
     // and our git shim goes in after the git engine is ready so it doesn't steal the baton
     // too early
     if (this.gitShim) {
@@ -111,17 +126,17 @@ var Sandbox = Backbone.View.extend({
           this.gitShim.insertShim();
       },this);
     }
-  },
+  }
 
-  beforeCommandCB: function(command) {
+  beforeCommandCB(command) {
     this._treeBeforeCommand = this.mainVis.gitEngine.printTree();
-  },
+  }
 
-  afterCommandCB: function(command) {
+  afterCommandCB(command) {
     this.pushUndo();
-  },
+  }
 
-  pushUndo: function() {
+  pushUndo() {
     let currentTree = this.mainVis.gitEngine.printTree();
     if(currentTree === this._treeBeforeCommand) {
       return;
@@ -129,9 +144,9 @@ var Sandbox = Backbone.View.extend({
 
     // go ahead and push the three onto the stack
     this.undoStack.push(this._treeBeforeCommand);
-  },
+  }
 
-  undo: function(command, deferred) {
+  undo(command, deferred) {
     var toRestore = this.undoStack.pop();
     if (!toRestore) {
       command.set('error', new Errors.GitError({
@@ -145,9 +160,9 @@ var Sandbox = Backbone.View.extend({
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.mainVis.getAnimationTime());
-  },
+  }
 
-  commandSubmitted: function(value) {
+  commandSubmitted(value) {
     // allow other things to see this command (aka command history on terminal)
     Main.getEvents().trigger('commandSubmittedPassive', value);
 
@@ -157,9 +172,9 @@ var Sandbox = Backbone.View.extend({
         parseWaterfall: this.parseWaterfall
       }));
     }, this);
-  },
+  }
 
-  startLevel: function(command, deferred) {
+  startLevel(command, deferred) {
     var regexResults = command.get('regexResults') || [];
     var desiredID = regexResults[1] || '';
     var levelJSON = LevelStore.getLevel(desiredID);
@@ -197,9 +212,9 @@ var Sandbox = Backbone.View.extend({
     whenLevelOpen.promise.then(function() {
       command.finishWith(deferred);
     });
-  },
+  }
 
-  buildLevel: function(command, deferred) {
+  buildLevel(command, deferred) {
     this.hide();
     this.clear();
 
@@ -216,25 +231,25 @@ var Sandbox = Backbone.View.extend({
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);
     });
-  },
+  }
 
-  exitLevel: function(command, deferred) {
+  exitLevel(command, deferred) {
     command.addWarning(
       intl.str('level-cant-exit')
     );
     command.set('status', 'error');
     deferred.resolve();
-  },
+  }
 
-  showLevels: function(command, deferred) {
+  showLevels(command, deferred) {
     var whenClosed = Q.defer();
     Main.getLevelDropdown().show(whenClosed, command);
     whenClosed.promise.done(function() {
       command.finishWith(deferred);
     });
-  },
+  }
 
-  sharePermalink: function(command, deferred) {
+  sharePermalink(command, deferred) {
     var treeJSON = JSON.stringify(this.mainVis.gitEngine.exportTree());
     var url =
       'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
@@ -242,9 +257,9 @@ var Sandbox = Backbone.View.extend({
       intl.todo('Here is a link to the current state of the tree: ') + '\n' + url
     );
     command.finishWith(deferred);
-  },
+  }
 
-  resetSolved: function(command, deferred) {
+  resetSolved(command, deferred) {
     if (command.get('regexResults').input !== 'reset solved --confirm') {
       command.set('error', new Errors.GitError({
         msg: 'Reset solved will mark each level as not yet solved; because ' +
@@ -259,9 +274,9 @@ var Sandbox = Backbone.View.extend({
       intl.str('solved-map-reset')
     );
     command.finishWith(deferred);
-  },
+  }
 
-  processSandboxCommand: function(command, deferred) {
+  processSandboxCommand(command, deferred) {
     // I'm tempted to do cancel case conversion, but there are
     // some exceptions to the rule
     var commandMap = {
@@ -290,21 +305,21 @@ var Sandbox = Backbone.View.extend({
     if (!method) { throw new Error('no method for that wut'); }
 
     method.apply(this, [command, deferred]);
-  },
+  }
 
-  hide: function() {
+  hide() {
     this.mainVis.hide();
-  },
+  }
 
-  levelExited: function() {
+  levelExited() {
     this.show();
-  },
+  }
 
-  show: function() {
+  show() {
     this.mainVis.show();
-  },
+  }
 
-  importLevelNow: function(command, deferred) {
+  importLevelNow(command, deferred) {
     var options = command.get('regexResults') || [];
     if (options.length < 2) {
       command.set('error', new Errors.GitError({
@@ -335,9 +350,9 @@ var Sandbox = Backbone.View.extend({
       throw e;
     }
     command.finishWith(deferred);
-  },
+  }
 
-  importTreeNow: function(command, deferred) {
+  importTreeNow(command, deferred) {
     var options = command.get('regexResults') || [];
     if (options.length < 2) {
       command.set('error', new Errors.GitError({
@@ -354,9 +369,9 @@ var Sandbox = Backbone.View.extend({
       }));
     }
     command.finishWith(deferred);
-  },
+  }
 
-  importTree: function(command, deferred) {
+  importTree(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
       previewText: intl.str('paste-json'),
       fillerText: ' '
@@ -387,9 +402,9 @@ var Sandbox = Backbone.View.extend({
     .done(function() {
       command.finishWith(deferred);
     });
-  },
+  }
 
-  importLevel: function(command, deferred) {
+  importLevel(command, deferred) {
     var jsonGrabber = new BuilderViews.MarkdownPresenter({
       previewText: intl.str('paste-json'),
       fillerText: ' '
@@ -433,9 +448,9 @@ var Sandbox = Backbone.View.extend({
       command.finishWith(deferred);
     })
     .done();
-  },
+  }
 
-  exportTree: function(command, deferred) {
+  exportTree(command, deferred) {
     var treeJSON = JSON.stringify(this.mainVis.gitEngine.exportTree(), null, 2);
 
     var showJSON = new MultiView({
@@ -453,37 +468,37 @@ var Sandbox = Backbone.View.extend({
       command.finishWith(deferred);
     })
     .done();
-  },
+  }
 
-  clear: function(command, deferred) {
+  clear(command, deferred) {
     Main.getEvents().trigger('clearOldCommands');
     if (command && deferred) {
       command.finishWith(deferred);
     }
-  },
+  }
 
-  mobileAlert: function(command, deferred) {
+  mobileAlert(command, deferred) {
     alert(intl.str('mobile-alert'));
     command.finishWith(deferred);
-  },
+  }
 
-  delay: function(command, deferred) {
+  delay(command, deferred) {
     var amount = parseInt(command.get('regexResults')[1], 10);
     setTimeout(function() {
       command.finishWith(deferred);
     }, amount);
-  },
+  }
 
-  reset: function(command, deferred) {
+  reset(command, deferred) {
     this.mainVis.reset();
     this.initUndoStack();
 
     setTimeout(function() {
       command.finishWith(deferred);
     }, this.mainVis.getAnimationTime());
-  },
+  }
 
-  helpDialog: function(command, deferred) {
+  helpDialog(command, deferred) {
     var helpDialog = new MultiView({
       childViews: intl.getDialog(require('../dialogs/sandbox'))
     });
@@ -493,6 +508,6 @@ var Sandbox = Backbone.View.extend({
     }.bind(this))
     .done();
   }
-});
+}
 
 exports.Sandbox = Sandbox;

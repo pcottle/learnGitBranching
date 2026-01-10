@@ -1,31 +1,34 @@
-var Backbone = require('backbone');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 
 var VisBase = require('../visuals/visBase').VisBase;
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
-var VisEdge = VisBase.extend({
-  defaults: {
-    tail: null,
-    head: null,
-    animationSpeed: GRAPHICS.defaultAnimationTime,
-    animationEasing: GRAPHICS.defaultEasing
-  },
+class VisEdge extends VisBase {
+  constructor(options) {
+    var defaults = {
+      tail: null,
+      head: null,
+      animationSpeed: GRAPHICS.defaultAnimationTime,
+      animationEasing: GRAPHICS.defaultEasing
+    };
+    super(Object.assign({}, defaults, options));
+    this.initialize();
+  }
 
-  validateAtInit: function() {
+  validateAtInit() {
     var required = ['tail', 'head'];
     required.forEach(function(key) {
       if (!this.get(key)) {
         throw new Error(key + ' is required!');
       }
     }, this);
-  },
+  }
 
-  getID: function() {
+  getID() {
     return this.get('tail').get('id') + '.' + this.get('head').get('id');
-  },
+  }
 
-  initialize: function() {
+  initialize() {
     this.validateAtInit();
 
     // shorthand for the main objects
@@ -33,20 +36,20 @@ var VisEdge = VisBase.extend({
     this.gitEngine = this.get('gitEngine');
 
     this.get('tail').get('outgoingEdges').push(this);
-  },
+  }
 
-  remove: function() {
+  remove() {
     this.removeKeys(['path']);
     this.gitVisuals.removeVisEdge(this);
-  },
+  }
 
-  genSmoothBezierPathString: function(tail, head) {
+  genSmoothBezierPathString(tail, head) {
     var tailPos = tail.getScreenCoords();
     var headPos = head.getScreenCoords();
     return this.genSmoothBezierPathStringFromCoords(tailPos, headPos);
-  },
+  }
 
-  genSmoothBezierPathStringFromCoords: function(tailPos, headPos) {
+  genSmoothBezierPathStringFromCoords(tailPos, headPos) {
     // we need to generate the path and control points for the bezier. format
     // is M(move abs) C (curve to) (control point 1) (control point 2) (final point)
     // the control points have to be __below__ to get the curve starting off straight.
@@ -97,23 +100,23 @@ var VisEdge = VisBase.extend({
     str += coords(tailPos);
 
     return str;
-  },
+  }
 
-  getBezierCurve: function() {
+  getBezierCurve() {
     return this.genSmoothBezierPathString(this.get('tail'), this.get('head'));
-  },
+  }
 
-  getStrokeColor: function() {
+  getStrokeColor() {
     return GRAPHICS.visBranchStrokeColorNone;
-  },
+  }
 
-  setOpacity: function(opacity) {
+  setOpacity(opacity) {
     opacity = (opacity === undefined) ? 1 : opacity;
 
     this.get('path').attr({opacity: opacity});
-  },
+  }
 
-  genGraphics: function(paper) {
+  genGraphics(paper) {
     var pathString = this.getBezierCurve();
 
     var path = paper.path(pathString).attr({
@@ -125,9 +128,9 @@ var VisEdge = VisBase.extend({
     });
     path.toBack();
     this.set('path', path);
-  },
+  }
 
-  getOpacity: function() {
+  getOpacity() {
     var stat = this.gitVisuals.getCommitUpstreamStatus(this.get('tail'));
     var map = {
       'branch': 1,
@@ -138,9 +141,9 @@ var VisEdge = VisBase.extend({
 
     if (map[stat] === undefined) { throw new Error('bad stat'); }
     return map[stat];
-  },
+  }
 
-  getAttributes: function() {
+  getAttributes() {
     var newPath = this.getBezierCurve();
     var opacity = this.getOpacity();
     return {
@@ -149,20 +152,20 @@ var VisEdge = VisBase.extend({
         opacity: opacity
       }
     };
-  },
+  }
 
-  animateUpdatedPath: function(speed, easing) {
+  animateUpdatedPath(speed, easing) {
     var attr = this.getAttributes();
     this.animateToAttr(attr, speed, easing);
-  },
+  }
 
-  animateFromAttrToAttr: function(fromAttr, toAttr, speed, easing) {
+  animateFromAttrToAttr(fromAttr, toAttr, speed, easing) {
     // an animation of 0 is essentially setting the attribute directly
     this.animateToAttr(fromAttr, 0);
     this.animateToAttr(toAttr, speed, easing);
-  },
+  }
 
-  animateToAttr: function(attr, speed, easing) {
+  animateToAttr(attr, speed, easing) {
     if (speed === 0) {
       this.get('path').attr(attr.path);
       return;
@@ -176,11 +179,44 @@ var VisEdge = VisBase.extend({
       easing || this.get('animationEasing')
     );
   }
-});
+}
 
-var VisEdgeCollection = Backbone.Collection.extend({
-  model: VisEdge
-});
+class VisEdgeCollection {
+  constructor() {
+    this._events = {};
+    this.models = [];
+    this.length = 0;
+  }
+  add(model) {
+    this.models.push(model);
+    this.length = this.models.length;
+  }
+  remove(model) {
+    var index = this.models.indexOf(model);
+    if (index > -1) {
+      this.models.splice(index, 1);
+      this.length = this.models.length;
+    }
+  }
+  reset() {
+    this.models = [];
+    this.length = 0;
+  }
+  each(callback, context) {
+    this.models.forEach(callback, context);
+  }
+  toArray() {
+    return this.models.slice();
+  }
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) this._events[eventName] = [];
+    this._events[eventName].push({ callback, context: context || this });
+  }
+  trigger(eventName, ...args) {
+    var listeners = this._events[eventName];
+    if (listeners) listeners.forEach(l => l.callback.apply(l.context, args));
+  }
+}
 
 exports.VisEdgeCollection = VisEdgeCollection;
 exports.VisEdge = VisEdge;
