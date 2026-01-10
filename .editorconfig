@@ -1,4 +1,5 @@
-root = true  # Top-most editorconfig file
+# Top-most editorconfig file
+root = true
 
 [*]
 indent_style = space
