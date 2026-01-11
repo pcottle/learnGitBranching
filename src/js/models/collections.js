@@ -1,7 +1,5 @@
 // Collections - converted from Backbone to plain ES6 classes
 
-var Q = require('q');
-
 var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
 var Tag = require('../git').Tag;
@@ -239,30 +237,31 @@ class CommandBuffer {
   processCommand(command) {
     command.set('status', 'processing');
 
-    var deferred = Q.defer();
-    deferred.promise.then(function() {
+    var promise = new Promise(function(resolve) {
+      var eventName = command.get('eventName');
+      if (!eventName) {
+        throw new Error('I need an event to trigger when this guy is parsed and ready');
+      }
+
+      var Main = require('../app');
+      var eventBaton = Main.getEventBaton();
+
+      var numListeners = eventBaton.getNumListeners(eventName);
+      if (!numListeners) {
+        var Errors = require('../util/errors');
+        command.set('error', new Errors.GitError({
+          msg: intl.str('error-command-currently-not-supported')
+        }));
+        resolve();
+        return;
+      }
+
+      Main.getEventBaton().trigger(eventName, command, { resolve: resolve });
+    });
+
+    promise.then(function() {
       this.setTimeout();
     }.bind(this));
-
-    var eventName = command.get('eventName');
-    if (!eventName) {
-      throw new Error('I need an event to trigger when this guy is parsed and ready');
-    }
-
-    var Main = require('../app');
-    var eventBaton = Main.getEventBaton();
-
-    var numListeners = eventBaton.getNumListeners(eventName);
-    if (!numListeners) {
-      var Errors = require('../util/errors');
-      command.set('error', new Errors.GitError({
-        msg: intl.str('error-command-currently-not-supported')
-      }));
-      deferred.resolve();
-      return;
-    }
-
-    Main.getEventBaton().trigger(eventName, command, deferred);
   }
 
   clear() {

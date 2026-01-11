@@ -1,6 +1,5 @@
 var base = require('./base');
 var intl = require('../src/js/intl');
-var Q = require('q');
 var expectTreeAsync = base.expectTreeAsync;
 var runCommand = base.runCommand;
 
@@ -472,7 +471,7 @@ describe('Git Remotes', function() {
     });
 
     it('requires exactly 2 parameters', function() {
-      return Q.all([
+      return Promise.all([
         runCommand('git clone; git mergeMR', function(commandMsg) {
           expect(commandMsg).toBe(
             intl.str('git-error-args-few', {

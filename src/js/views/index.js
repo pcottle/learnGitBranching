@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var Q = require('q');
 var { marked } = require('marked');
 
 var Main = require('../app');
@@ -149,7 +148,12 @@ class ConfirmCancelView extends ResolveRejectBase {
 
     this.template = _.template($('#confirm-cancel-template').html());
     this.destination = options.destination;
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || {};
+    this.promise = new Promise(function(resolve, reject) {
+      this.deferred.resolve = resolve;
+      this.deferred.reject = reject;
+    }.bind(this));
+
     this.JSON = {
       confirm: options.confirm || intl.str('confirm-button'),
       cancel: options.cancel || intl.str('cancel-button'),
@@ -159,6 +163,10 @@ class ConfirmCancelView extends ResolveRejectBase {
     this.render();
     this.$('.confirmButton').on('click', this.resolve.bind(this));
     this.$('.cancelButton').on('click', this.reject.bind(this));
+  }
+
+  getPromise() {
+    return this.promise;
   }
 }
 
@@ -383,24 +391,30 @@ class ConfirmCancelTerminal {
   constructor(options) {
     options = options || {};
 
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || {};
+    this.promise = new Promise(function(resolve, reject) {
+      this.deferred.resolve = resolve;
+      this.deferred.reject = reject;
+    }.bind(this));
+
     this.modalAlert = new ModalAlert(Object.assign(
       {},
       { markdown: '#you sure?' },
       options
     ));
 
-    var buttonDefer = Q.defer();
+    var buttonDefer = new Promise(function(resolve, reject) {
+      this.confirmCancel = new ConfirmCancelView({
+        deferred: { resolve: resolve, reject: reject },
+        destination: this.modalAlert.getDestination()
+      });
+    }.bind(this));
     this.buttonDefer = buttonDefer;
-    this.confirmCancel = new ConfirmCancelView({
-      deferred: buttonDefer,
-      destination: this.modalAlert.getDestination()
-    });
 
-    buttonDefer.promise
+    buttonDefer
     .then(this.deferred.resolve)
-    .fail(this.deferred.reject)
-    .done(function() {
+    .catch(this.deferred.reject)
+    .then(function() {
       this.close();
     }.bind(this));
 

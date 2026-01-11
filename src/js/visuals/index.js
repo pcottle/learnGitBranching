@@ -1,5 +1,3 @@
-var Q = require('q');
-
 var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var debounce = require('../util/debounce');
@@ -197,23 +195,21 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 };
 
 GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
-  var deferred = Q.defer();
+  return new Promise(function(resolve) {
+    var animate = function(visObj) {
+      visObj.animateAttrKeys(keys, attr, speed, easing);
+    };
 
-  var animate = function(visObj) {
-    visObj.animateAttrKeys(keys, attr, speed, easing);
-  };
+    this.visBranchCollection.each(animate);
+    this.visEdgeCollection.each(animate);
+    this.visTagCollection.each(animate);
+    Object.values(this.visNodeMap).forEach(animate);
 
-  this.visBranchCollection.each(animate);
-  this.visEdgeCollection.each(animate);
-  this.visTagCollection.each(animate);
-  Object.values(this.visNodeMap).forEach(animate);
-
-  var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
-  setTimeout(function() {
-    deferred.resolve();
-  }, time);
-
-  return deferred.promise;
+    var time = (speed !== undefined) ? speed : GRAPHICS.defaultAnimationTime;
+    setTimeout(function() {
+      resolve();
+    }, time);
+  }.bind(this));
 };
 
 GitVisuals.prototype.finishAnimation = function(speed) {
@@ -223,132 +219,128 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   }
 
   var _this = this;
-  var deferred = Q.defer();
-  var animationDone = Q.defer();
-  var defaultTime = GRAPHICS.defaultAnimationTime;
-  var nodeRadius = GRAPHICS.nodeRadius;
+  var animationDone = new Promise(function(resolve) {
+    var defaultTime = GRAPHICS.defaultAnimationTime;
+    var nodeRadius = GRAPHICS.nodeRadius;
 
-  var textString = intl.str('solved-level');
-  var text = null;
-  var makeText = function() {
-    text = this.paper.text(
-      this.paper.width / 2,
-      this.paper.height / 2,
-      textString
-    );
-    text.attr({
-      opacity: 0,
-      'font-weight': 500,
-      'font-size': '32pt',
-      'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace',
-      stroke: '#000',
-      'stroke-width': 2,
-      fill: '#000'
+    var textString = intl.str('solved-level');
+    var text = null;
+    var makeText = function() {
+      text = this.paper.text(
+        this.paper.width / 2,
+        this.paper.height / 2,
+        textString
+      );
+      text.attr({
+        opacity: 0,
+        'font-weight': 500,
+        'font-size': '32pt',
+        'font-family': 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace',
+        stroke: '#000',
+        'stroke-width': 2,
+        fill: '#000'
+      });
+      text.animate({ opacity: 1 }, defaultTime);
+    }.bind(this);
+
+    // this is a BIG ANIMATION but it ends up just being
+    // a sweet chain of promises but is pretty nice. this is
+    // after I discovered promises / deferred's. Unfortunately
+    // I wrote a lot of the git stuff before promises, so
+    // that's somewhat ugly
+
+    Promise.resolve()
+    // first fade out everything but circles
+    .then(function() {
+      return this.animateAllAttrKeys(
+        { exclude: ['circle'] },
+        { opacity: 0 },
+        defaultTime * 1.1 / speed
+      );
+    }.bind(this))
+    // then make circle radii bigger
+    .then(function() {
+      return this.animateAllAttrKeys(
+        { exclude: ['arrow', 'rect', 'path', 'text'] },
+        { r: nodeRadius * 2 },
+        defaultTime * 1.5 / speed
+      );
+    }.bind(this))
+    // then shrink em super fast
+    .then(function() {
+      return this.animateAllAttrKeys(
+        { exclude: ['arrow', 'rect', 'path', 'text'] },
+        { r: nodeRadius * 0.75 },
+        defaultTime * 0.5 / speed
+      );
+    }.bind(this))
+    // then explode them and display text
+    .then(function() {
+      makeText();
+      return this.explodeNodes(speed);
+    }.bind(this))
+    .then(function() {
+      return this.explodeNodes(speed);
+    }.bind(this))
+    // then fade circles (aka everything) in and back
+    .then(function() {
+      return this.animateAllAttrKeys(
+        { exclude: ['arrow', 'rect', 'path', 'text'] },
+        {},
+        defaultTime * 1.25
+      );
+    }.bind(this))
+    // then fade everything in and remove text
+    .then(function() {
+      text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
+        text.remove();
+      });
+      return this.animateAllAttrKeys(
+        {},
+        {}
+      );
+    }.bind(this))
+    .then(function() {
+      resolve();
+    })
+    .catch(function(reason) {
+      console.warn('animation error ' + reason);
     });
-    text.animate({ opacity: 1 }, defaultTime);
-  }.bind(this);
+  }.bind(this));
 
-  // this is a BIG ANIMATION but it ends up just being
-  // a sweet chain of promises but is pretty nice. this is
-  // after I discovered promises / deferred's. Unfortunately
-  // I wrote a lot of the git stuff before promises, so
-  // that's somewhat ugly
-
-  deferred.promise
-  // first fade out everything but circles
-  .then(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['circle'] },
-      { opacity: 0 },
-      defaultTime * 1.1 / speed
-    );
-  }.bind(this))
-  // then make circle radii bigger
-  .then(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['arrow', 'rect', 'path', 'text'] },
-      { r: nodeRadius * 2 },
-      defaultTime * 1.5 / speed
-    );
-  }.bind(this))
-  // then shrink em super fast
-  .then(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['arrow', 'rect', 'path', 'text'] },
-      { r: nodeRadius * 0.75 },
-      defaultTime * 0.5 / speed
-    );
-  }.bind(this))
-  // then explode them and display text
-  .then(function() {
-    makeText();
-    return this.explodeNodes(speed);
-  }.bind(this))
-  .then(function() {
-    return this.explodeNodes(speed);
-  }.bind(this))
-  // then fade circles (aka everything) in and back
-  .then(function() {
-    return this.animateAllAttrKeys(
-      { exclude: ['arrow', 'rect', 'path', 'text'] },
-      {},
-      defaultTime * 1.25
-    );
-  }.bind(this))
-  // then fade everything in and remove text
-  .then(function() {
-    text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
-      text.remove();
-    });
-    return this.animateAllAttrKeys(
-      {},
-      {}
-    );
-  }.bind(this))
-  .then(function() {
-    animationDone.resolve();
-  })
-  .fail(function(reason) {
-    console.warn('animation error ' + reason);
-  })
-  .done();
-
-  // start our animation chain right away
-  deferred.resolve();
-  return animationDone.promise;
+  return animationDone;
 };
 
 GitVisuals.prototype.explodeNodes = function(speed) {
-  var deferred = Q.defer();
-  var funcs = [];
-  Object.values(this.visNodeMap).forEach(function(visNode) {
-    funcs.push(visNode.getExplodeStepFunc(speed));
-  });
-
-  var interval = setInterval(function() {
-    // object creation here is a bit ugly inside a loop,
-    // but the alternative is to just OR against a bunch
-    // of booleans which means the other stepFuncs
-    // are called unnecessarily when they have almost
-    // zero speed. would be interesting to see performance differences
-    var keepGoing = [];
-    funcs.forEach(function(func) {
-      if (func()) {
-        keepGoing.push(func);
-      }
+  return new Promise(function(resolve) {
+    var funcs = [];
+    Object.values(this.visNodeMap).forEach(function(visNode) {
+      funcs.push(visNode.getExplodeStepFunc(speed));
     });
 
-    if (!keepGoing.length) {
-      clearInterval(interval);
-      // next step :D wow I love promises
-      deferred.resolve();
-      return;
-    }
+    var interval = setInterval(function() {
+      // object creation here is a bit ugly inside a loop,
+      // but the alternative is to just OR against a bunch
+      // of booleans which means the other stepFuncs
+      // are called unnecessarily when they have almost
+      // zero speed. would be interesting to see performance differences
+      var keepGoing = [];
+      funcs.forEach(function(func) {
+        if (func()) {
+          keepGoing.push(func);
+        }
+      });
 
-    funcs = keepGoing;
-  }, 1/40);
+      if (!keepGoing.length) {
+        clearInterval(interval);
+        // next step :D wow I love promises
+        resolve();
+        return;
+      }
 
-  return deferred.promise;
+      funcs = keepGoing;
+    }, 1/40);
+  }.bind(this));
 };
 
 GitVisuals.prototype.animateAllFromAttrToAttr = function(fromSnapshot, toSnapshot, idsToOmit) {

@@ -1,4 +1,3 @@
-var Q = require('q');
 var { createEvents } = require('../util/eventEmitter');
 
 var util = require('../util');
@@ -200,16 +199,17 @@ class Sandbox {
 
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
-    var whenLevelOpen = Q.defer();
-    var Level = require('../level').Level;
+    var whenLevelOpen = new Promise(function(resolve) {
+      var Level = require('../level').Level;
 
-    this.currentLevel = new Level({
-      level: levelJSON,
-      deferred: whenLevelOpen,
-      command: command
-    });
+      this.currentLevel = new Level({
+        level: levelJSON,
+        deferred: { resolve: resolve },
+        command: command
+      });
+    }.bind(this));
 
-    whenLevelOpen.promise.then(function() {
+    whenLevelOpen.then(function() {
       command.finishWith(deferred);
     });
   }
@@ -218,17 +218,18 @@ class Sandbox {
     this.hide();
     this.clear();
 
-    var whenBuilderOpen = Q.defer();
-    var LevelBuilder = require('../level/builder').LevelBuilder;
+    var whenBuilderOpen = new Promise(function(resolve) {
+      var LevelBuilder = require('../level/builder').LevelBuilder;
 
-    var regexResults = command.get('regexResults') || [];
-    var toEdit = regexResults[1] || false;
-    this.levelBuilder = new LevelBuilder({
-      deferred: whenBuilderOpen,
-      editLevel: toEdit,
-      skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
-    });
-    whenBuilderOpen.promise.then(function() {
+      var regexResults = command.get('regexResults') || [];
+      var toEdit = regexResults[1] || false;
+      this.levelBuilder = new LevelBuilder({
+        deferred: { resolve: resolve },
+        editLevel: toEdit,
+        skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
+      });
+    }.bind(this));
+    whenBuilderOpen.then(function() {
       command.finishWith(deferred);
     });
   }
@@ -242,9 +243,10 @@ class Sandbox {
   }
 
   showLevels(command, deferred) {
-    var whenClosed = Q.defer();
-    Main.getLevelDropdown().show(whenClosed, command);
-    whenClosed.promise.done(function() {
+    var whenClosed = new Promise(function(resolve) {
+      Main.getLevelDropdown().show({ resolve: resolve }, command);
+    });
+    whenClosed.then(function() {
       command.finishWith(deferred);
     });
   }
@@ -332,15 +334,16 @@ class Sandbox {
     var Level = require('../level').Level;
     try {
       var levelJSON = JSON.parse(unescape(string));
-      var whenLevelOpen = Q.defer();
-      this.currentLevel = new Level({
-        level: levelJSON,
-        deferred: whenLevelOpen,
-        command: command
-      });
+      var whenLevelOpen = new Promise(function(resolve) {
+        this.currentLevel = new Level({
+          level: levelJSON,
+          deferred: { resolve: resolve },
+          command: command
+        });
+      }.bind(this));
       this.hide();
 
-      whenLevelOpen.promise.then(function() {
+      whenLevelOpen.then(function() {
         command.finishWith(deferred);
       });
     } catch(e) {
@@ -376,7 +379,7 @@ class Sandbox {
       previewText: intl.str('paste-json'),
       fillerText: ' '
     });
-    jsonGrabber.deferred.promise
+    jsonGrabber.getPromise()
     .then(function(treeJSON) {
       try {
         this.mainVis.gitEngine.loadTree(JSON.parse(treeJSON));
@@ -398,8 +401,8 @@ class Sandbox {
         });
       }
     }.bind(this))
-    .fail(function() { })
-    .done(function() {
+    .catch(function() { })
+    .then(function() {
       command.finishWith(deferred);
     });
   }
@@ -410,20 +413,21 @@ class Sandbox {
       fillerText: ' '
     });
 
-    jsonGrabber.deferred.promise
+    jsonGrabber.getPromise()
     .then(function(inputText) {
       var Level = require('../level').Level;
       try {
         var levelJSON = JSON.parse(inputText);
-        var whenLevelOpen = Q.defer();
-        this.currentLevel = new Level({
-          level: levelJSON,
-          deferred: whenLevelOpen,
-          command: command
-        });
+        var whenLevelOpen = new Promise(function(resolve) {
+          this.currentLevel = new Level({
+            level: levelJSON,
+            deferred: { resolve: resolve },
+            command: command
+          });
+        }.bind(this));
         this.hide();
 
-        whenLevelOpen.promise.then(function() {
+        whenLevelOpen.then(function() {
           command.finishWith(deferred);
         });
       } catch(e) {
@@ -444,10 +448,9 @@ class Sandbox {
         command.finishWith(deferred);
       }
     }.bind(this))
-    .fail(function() {
+    .catch(function() {
       command.finishWith(deferred);
-    })
-    .done();
+    });
   }
 
   exportTree(command, deferred) {
@@ -505,8 +508,7 @@ class Sandbox {
     helpDialog.getPromise().then(function() {
       // the view has been closed, lets go ahead and resolve our command
       command.finishWith(deferred);
-    }.bind(this))
-    .done();
+    }.bind(this));
   }
 }
 

@@ -1,6 +1,5 @@
 var GitError = require('../util/errors').GitError;
 var _ = require('underscore');
-var Q = require('q');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
@@ -117,21 +116,21 @@ class InteractiveRebaseView extends ContainedBase {
   }
 
   makeButtons() {
-    var deferred = Q.defer();
-    deferred.promise
+    var promise = new Promise(function(resolve, reject) {
+      new ConfirmCancelView({
+        destination: this.$('.confirmCancel'),
+        deferred: { resolve: resolve, reject: reject },
+        disableCancelButton: !!this.options.aboveAll,
+      });
+    }.bind(this));
+
+    promise
     .then(function() {
       this.confirm();
     }.bind(this))
-    .fail(function() {
+    .catch(function() {
       this.cancel();
-    }.bind(this))
-    .done();
-
-    new ConfirmCancelView({
-      destination: this.$('.confirmCancel'),
-      deferred: deferred,
-      disableCancelButton: !!this.options.aboveAll,
-    });
+    }.bind(this));
   }
 }
 

@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var Q = require('q');
 var { marked } = require('marked');
 
 var util = require('../util');
@@ -110,9 +109,10 @@ class GitDemonstrationView extends ContainedBase {
       return;
     }
 
-    var whenHaveTree = Q.defer();
-    HeadlessGit.getTreeQuick(this.options.beforeCommand, whenHaveTree);
-    whenHaveTree.promise.then(function(tree) {
+    var whenHaveTree = new Promise(function(resolve) {
+      HeadlessGit.getTreeQuick(this.options.beforeCommand, { resolve: resolve });
+    }.bind(this));
+    whenHaveTree.then(function(tree) {
       this.mainVis.gitEngine.loadTree(tree);
       this.mainVis.gitVisuals.refreshTreeHarsh();
     }.bind(this));
@@ -160,9 +160,10 @@ class GitDemonstrationView extends ContainedBase {
   demonstrate() {
     this.$el.toggleClass('demonstrating', true);
 
-    var whenDone = Q.defer();
-    this.dispatchCommand(this.JSON.command, whenDone);
-    whenDone.promise.then(function() {
+    var whenDone = new Promise(function(resolve) {
+      this.dispatchCommand(this.JSON.command, { resolve: resolve });
+    }.bind(this));
+    whenDone.then(function() {
       this.$el.toggleClass('demonstrating', false);
       this.$el.toggleClass('demonstrated', true);
       this.releaseControl();
@@ -184,25 +185,22 @@ class GitDemonstrationView extends ContainedBase {
       }));
     }, this);
 
-    var chainDeferred = Q.defer();
-    var chainPromise = chainDeferred.promise;
+    var chainPromise = Promise.resolve();
 
     commands.forEach(function(command, index) {
       chainPromise = chainPromise.then(function() {
-        var myDefer = Q.defer();
-        this.mainVis.gitEngine.dispatch(command, myDefer);
-        return myDefer.promise;
+        return new Promise(function(resolve) {
+          this.mainVis.gitEngine.dispatch(command, { resolve: resolve });
+        }.bind(this));
       }.bind(this));
       chainPromise = chainPromise.then(function() {
-        return Q.delay(300);
+        return new Promise(function(resolve) { setTimeout(resolve, 300); });
       });
     }, this);
 
     chainPromise = chainPromise.then(function() {
       whenDone.resolve();
     });
-
-    chainDeferred.resolve();
   }
 
   tearDown() {

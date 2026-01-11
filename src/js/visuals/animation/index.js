@@ -1,4 +1,3 @@
-var Q = require('q');
 var GlobalStateActions = require('../../actions/GlobalStateActions');
 var GRAPHICS = require('../../util/constants').GRAPHICS;
 
@@ -93,12 +92,12 @@ class AnimationQueue {
     promise.then(function() {
       this.finish();
     }.bind(this));
-    promise.fail(function(e) {
+    promise.catch(function(e) {
       console.log('uncaught error', e);
       throw e;
     });
     this.set('promiseBased', true);
-    if (deferred) {
+    if (deferred && deferred.resolve) {
       deferred.resolve();
     }
   }
@@ -167,7 +166,9 @@ class PromiseAnimation {
     }
     this.set('closure', options.closure || options.animation);
     this.set('duration', options.duration || this.get('duration'));
-    this.set('deferred', options.deferred || Q.defer());
+    this.promise = new Promise(function(resolve) {
+      this.resolve = resolve;
+    }.bind(this));
   }
 
   get(key) {
@@ -194,7 +195,7 @@ class PromiseAnimation {
   }
 
   getPromise() {
-    return this.get('deferred').promise;
+    return this.promise;
   }
 
   play() {
@@ -202,12 +203,12 @@ class PromiseAnimation {
     // we want to resolve a deferred when the animation finishes
     this.get('closure')();
     setTimeout(function() {
-      this.get('deferred').resolve();
+      this.resolve();
     }.bind(this), this.get('duration'));
   }
 
   then(func) {
-    return this.get('deferred').promise.then(func);
+    return this.promise.then(func);
   }
 
   static fromAnimation(animation) {

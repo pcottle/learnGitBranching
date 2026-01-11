@@ -1,5 +1,3 @@
-var Q = require('q');
-
 var Animation = require('./index').Animation;
 var PromiseAnimation = require('./index').PromiseAnimation;
 var GRAPHICS = require('../../util/constants').GRAPHICS;
@@ -152,9 +150,9 @@ AnimationFactory.playHighlightPromiseAnimation = function(commit, destObj) {
 };
 
 AnimationFactory.getDelayedPromise = function(amount) {
-  var deferred = Q.defer();
-  setTimeout(deferred.resolve, amount || 1000);
-  return deferred.promise;
+  return new Promise(function(resolve) {
+    setTimeout(resolve, amount || 1000);
+  });
 };
 
 AnimationFactory.delay = function(animationQueue, time) {

@@ -1,5 +1,3 @@
-var Q = require('q');
-
 var util = require('../util');
 var Main = require('../app');
 var intl = require('../intl');
@@ -261,19 +259,21 @@ class LevelBuilder extends Level {
   }
 
   editDialog(command, deferred) {
-    var whenDoneEditing = Q.defer();
-    this.currentBuilder = new MultiViewBuilder({
-      multiViewJSON: this.startDialogObj,
-      deferred: whenDoneEditing
-    });
-    whenDoneEditing.promise
+    var whenDoneEditing = new Promise(function(resolve, reject) {
+      this.currentBuilder = new MultiViewBuilder({
+        multiViewJSON: this.startDialogObj,
+        deferred: { resolve: resolve, reject: reject }
+      });
+    }.bind(this));
+
+    whenDoneEditing
     .then(function(levelObj) {
       this.startDialogObj = levelObj;
     }.bind(this))
-    .fail(function() {
+    .catch(function() {
       // nothing to do, they don't want to edit it apparently
     })
-    .done(function() {
+    .then(function() {
       if (command) {
         command.finishWith(deferred);
       } else {
@@ -295,59 +295,55 @@ class LevelBuilder extends Level {
       this.defineName();
     }
 
-    var mainDeferred = Q.defer();
-    var chain = mainDeferred.promise;
+    var chain = Promise.resolve();
 
     if (this.level.hint === undefined) {
-      var askForHintDeferred = Q.defer();
       chain = chain.then(function() {
-        return askForHintDeferred.promise;
-      });
-
-      // ask for a hint if there is none
-      var askForHintView = new ConfirmCancelTerminal({
-        markdowns: [
-          intl.str('want-hint')
-        ]
-      });
-      askForHintView.getPromise()
-      .then(this.defineHint.bind(this))
-      .fail(function() {
-        this.level.hint = {'en_US': ''};
-      }.bind(this))
-      .done(function() {
-        askForHintDeferred.resolve();
-      });
+        return new Promise(function(resolve) {
+          // ask for a hint if there is none
+          var askForHintView = new ConfirmCancelTerminal({
+            markdowns: [
+              intl.str('want-hint')
+            ]
+          });
+          askForHintView.getPromise()
+          .then(this.defineHint.bind(this))
+          .catch(function() {
+            this.level.hint = {'en_US': ''};
+          }.bind(this))
+          .then(function() {
+            resolve();
+          });
+        }.bind(this));
+      }.bind(this));
     }
 
     if (this.startDialogObj === undefined) {
-      var askForStartDeferred = Q.defer();
       chain = chain.then(function() {
-        return askForStartDeferred.promise;
-      });
-
-      var askForStartView = new ConfirmCancelTerminal({
-        markdowns: [
-          intl.str('want-start-dialog')
-        ]
-      });
-      askForStartView.getPromise()
-      .then(function() {
-        // oh boy this is complex
-        var whenEditedDialog = Q.defer();
-        // the undefined here is the command that doesn't need resolving just yet...
-        this.editDialog(undefined, whenEditedDialog);
-        return whenEditedDialog.promise;
-      }.bind(this))
-      .fail(function() {
-        // if they don't want to edit the start dialog, do nothing
-      })
-      .done(function() {
-        askForStartDeferred.resolve();
-      });
+        return new Promise(function(resolve) {
+          var askForStartView = new ConfirmCancelTerminal({
+            markdowns: [
+              intl.str('want-start-dialog')
+            ]
+          });
+          askForStartView.getPromise()
+          .then(function() {
+            // oh boy this is complex
+            return new Promise(function(resolve, reject) {
+              this.editDialog(undefined, { resolve: resolve, reject: reject });
+            }.bind(this));
+          }.bind(this))
+          .catch(function() {
+            // if they don't want to edit the start dialog, do nothing
+          })
+          .then(function() {
+            resolve();
+          });
+        }.bind(this));
+      }.bind(this));
     }
 
-    chain = chain.done(function() {
+    chain = chain.then(function() {
       // ok great! lets just give them the goods
       new MarkdownPresenter({
         fillerText: JSON.stringify(this.getExportObj(), null, 2),
@@ -355,8 +351,6 @@ class LevelBuilder extends Level {
       });
       command.finishWith(deferred);
     }.bind(this));
-
-    mainDeferred.resolve();
   }
 
   getExportObj() {

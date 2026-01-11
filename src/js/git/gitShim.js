@@ -1,5 +1,3 @@
-var Q = require('q');
-
 var Main = require('../app');
 var MultiView = require('../views/multiView').MultiView;
 
@@ -14,8 +12,8 @@ function GitShim(options) {
   // these guys handle an optional async process before the git
   // command executes or afterwards. If there is none,
   // it just resolves the deferred immediately
-  var resolveImmediately = function(deferred) {
-    deferred.resolve();
+  var resolveImmediately = function(resolve) {
+    resolve();
   };
   this.beforeDeferHandler = options.beforeDeferHandler || resolveImmediately;
   this.afterDeferHandler = options.afterDeferHandler || resolveImmediately;
@@ -36,13 +34,11 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   // ok we make a NEW deferred that will, upon resolution,
   // call our afterGitCommandProcessed. This inserts the 'after' shim
   // functionality. we give this new deferred to the eventBaton handler
-  var newDeferred = Q.defer();
-  newDeferred.promise
-  .then(function() {
+  var newPromise = new Promise(function(resolve) {
     // give this method the original defer so it can resolve it
     this.afterGitCommandProcessed(command, deferred);
-  }.bind(this))
-  .done();
+    resolve();
+  }.bind(this));
 
   // now our shim owner might want to launch some kind of deferred beforehand, like
   // a modal or something. in order to do this, we need to defer the passing
@@ -50,17 +46,15 @@ GitShim.prototype.processGitCommand = function(command, deferred) {
   // give it to our shim owner.
   var passBaton = function() {
     // punt to the previous listener
-    this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newDeferred]);
+    this.eventBaton.passBatonBack('processGitCommand', this.processGitCommand, this, [command, newPromise]);
   }.bind(this);
 
-  var beforeDefer = Q.defer();
-  beforeDefer.promise
-  .then(passBaton)
-  .done();
+  var beforePromise = new Promise(function(resolve) {
+    this.beforeDeferHandler(resolve, command);
+  }.bind(this));
 
-  // if we didnt receive a defer handler in the options, this just
-  // resolves immediately
-  this.beforeDeferHandler(beforeDefer, command);
+  beforePromise
+  .then(passBaton);
 };
 
 GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
@@ -69,14 +63,14 @@ GitShim.prototype.afterGitCommandProcessed = function(command, deferred) {
   // again we can't just resolve this deferred right away... our shim owner might
   // want to insert some promise functionality before that happens. so again
   // we make a defer
-  var afterDefer = Q.defer();
-  afterDefer.promise
+  var afterPromise = new Promise(function(resolve) {
+    this.afterDeferHandler(resolve, command);
+  }.bind(this));
+
+  afterPromise
   .then(function() {
     deferred.resolve();
-  })
-  .done();
-
-  this.afterDeferHandler(afterDefer, command);
+  });
 };
 
 exports.GitShim = GitShim;

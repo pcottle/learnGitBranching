@@ -1,5 +1,3 @@
-var Q = require('q');
-
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
 var GitDemonstrationView = require('../views/gitDemonstrationView').GitDemonstrationView;
@@ -47,7 +45,11 @@ class MultiView {
         markdown: 'Im second'
       }
     }];
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || {};
+    this.promise = new Promise(function(resolve, reject) {
+      this.deferred.resolve = resolve;
+      this.deferred.reject = reject;
+    }.bind(this));
 
     this.childViews = [];
     this.currentIndex = 0;
@@ -88,7 +90,7 @@ class MultiView {
   }
 
   getPromise() {
-    return this.deferred.promise;
+    return this.promise;
   }
 
   getPosFunc() {
@@ -200,3 +202,4 @@ class MultiView {
 }
 
 exports.MultiView = MultiView;
+
