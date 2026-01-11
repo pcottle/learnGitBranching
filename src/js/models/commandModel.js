@@ -1,4 +1,4 @@
-var Backbone = require('backbone');
+// Command model - converted from Backbone to plain ES6 class
 
 var Errors = require('../util/errors');
 
@@ -11,25 +11,41 @@ var GitError = Errors.GitError;
 var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
-var Command = Backbone.Model.extend({
-  defaults: {
-    status: 'inqueue',
-    rawStr: null,
-    result: '',
-    createTime: null,
+// Static counter for generating unique cid
+var cidCounter = 0;
 
-    error: null,
-    warnings: null,
-    parseWaterfall: new ParseWaterfall(),
+class Command {
+  constructor(options = {}) {
+    // Generate unique client ID (like Backbone's cid)
+    this.cid = 'c' + cidCounter++;
 
-    generalArgs: null,
-    supportedMap: null,
-    options: null,
-    method: null
+    // Event listeners storage
+    this._events = {};
 
-  },
+    // Set defaults
+    this.attributes = {
+      status: 'inqueue',
+      rawStr: null,
+      result: '',
+      createTime: null,
+      error: null,
+      warnings: null,
+      parseWaterfall: new ParseWaterfall(),
+      generalArgs: null,
+      supportedMap: null,
+      options: null,
+      method: null
+    };
 
-  initialize: function() {
+    // Apply passed options
+    Object.keys(options).forEach(function(key) {
+      this.attributes[key] = options[key];
+    }, this);
+
+    this.initialize();
+  }
+
+  initialize() {
     this.initDefaults();
     this.validateAtInit();
 
@@ -40,41 +56,95 @@ var Command = Backbone.Model.extend({
     }
 
     this.parseOrCatch();
-  },
+  }
 
-  initDefaults: function() {
+  // Simple event emitter methods
+  on(eventName, callback, context) {
+    if (!this._events[eventName]) {
+      this._events[eventName] = [];
+    }
+    this._events[eventName].push({ callback: callback, context: context || this });
+  }
+
+  off(eventName, callback) {
+    if (!this._events[eventName]) return;
+    if (!callback) {
+      delete this._events[eventName];
+    } else {
+      this._events[eventName] = this._events[eventName].filter(function(listener) {
+        return listener.callback !== callback;
+      });
+    }
+  }
+
+  trigger(eventName) {
+    var listeners = this._events[eventName];
+    if (!listeners) return;
+    var args = Array.prototype.slice.call(arguments, 1);
+    listeners.forEach(function(listener) {
+      listener.callback.apply(listener.context, args);
+    });
+  }
+
+  get(key) {
+    return this.attributes[key];
+  }
+
+  set(key, value) {
+    var oldValue = this.attributes[key];
+    this.attributes[key] = value;
+    // Trigger change event if value changed
+    if (oldValue !== value) {
+      this.trigger('change:' + key, this, value);
+      this.trigger('change', this);
+    }
+  }
+
+  toJSON() {
+    return Object.assign({}, this.attributes);
+  }
+
+  destroy() {
+    // Remove from collection if it has one
+    if (this.collection) {
+      this.collection.remove(this);
+    }
+    this.trigger('destroy', this);
+  }
+
+  initDefaults() {
     // weird things happen with defaults if you don't
     // make new objects
     this.set('generalArgs', []);
     this.set('supportedMap', {});
     this.set('warnings', []);
-  },
+  }
 
-  replaceDotWithHead: function(string) {
+  replaceDotWithHead(string) {
     return string.replace(/\./g, 'HEAD');
-  },
+  }
 
   /**
    * Since mercurial always wants revisions with
    * -r, we want to just make these general
    * args for git
    */
-  appendOptionR: function() {
+  appendOptionR() {
     var rOptions = this.getOptionsMap()['-r'] || [];
     this.setGeneralArgs(
       this.getGeneralArgs().concat(rOptions)
     );
-  },
+  }
 
   // if order is important
-  prependOptionR: function() {
+  prependOptionR() {
     var rOptions = this.getOptionsMap()['-r'] || [];
     this.setGeneralArgs(
       rOptions.concat(this.getGeneralArgs())
     );
-  },
+  }
 
-  mapDotToHead: function() {
+  mapDotToHead() {
     var generalArgs = this.getGeneralArgs();
     var options = this.getOptionsMap();
 
@@ -90,78 +160,78 @@ var Command = Backbone.Model.extend({
     }, this);
     this.setGeneralArgs(generalArgs);
     this.setOptionsMap(newMap);
-  },
+  }
 
-  deleteOptions: function(options) {
+  deleteOptions(options) {
     var map = this.getOptionsMap();
     options.forEach(function(option) {
       delete map[option];
     }, this);
     this.setOptionsMap(map);
-  },
+  }
 
-  getGeneralArgs: function() {
+  getGeneralArgs() {
     return this.get('generalArgs');
-  },
+  }
 
-  setGeneralArgs: function(args) {
+  setGeneralArgs(args) {
     this.set('generalArgs', args);
-  },
+  }
 
-  setOptionsMap: function(map) {
+  setOptionsMap(map) {
     this.set('supportedMap', map);
-  },
+  }
 
-  getOptionsMap: function() {
+  getOptionsMap() {
     return this.get('supportedMap');
-  },
+  }
 
-  acceptNoGeneralArgs: function() {
+  acceptNoGeneralArgs() {
     if (this.getGeneralArgs().length) {
       throw new GitError({
         msg: intl.str('git-error-no-general-args')
       });
     }
-  },
+  }
 
-  argImpliedHead: function (args, lower, upper, option) {
+  argImpliedHead(args, lower, upper, option) {
     // our args we expect to be between {lower} and {upper}
     this.validateArgBounds(args, lower, upper, option);
     // and if it's one, add a HEAD to the back
     this.impliedHead(args, lower);
-  },
+  }
 
-  oneArgImpliedHead: function(args, option) {
+  oneArgImpliedHead(args, option) {
     this.argImpliedHead(args, 0, 1, option);
-  },
+  }
 
-  twoArgsImpliedHead: function(args, option) {
+  twoArgsImpliedHead(args, option) {
     this.argImpliedHead(args, 1, 2, option);
-  },
+  }
 
-  threeArgsImpliedHead: function(args, option) {
+  threeArgsImpliedHead(args, option) {
     this.argImpliedHead(args, 2, 3, option);
-  },
+  }
 
-  oneArgImpliedOrigin: function(args) {
+  oneArgImpliedOrigin(args) {
     this.validateArgBounds(args, 0, 1);
     if (!args.length) {
       args.unshift('origin');
     }
-  },
+  }
 
-  twoArgsForOrigin: function(args) {
+  twoArgsForOrigin(args) {
     this.validateArgBounds(args, 0, 2);
-  },
+  }
 
-  impliedHead: function(args, min) {
+  impliedHead(args, min) {
     if(args.length == min) {
       args.push('HEAD');
     }
-  },
+  }
 
   // this is a little utility class to help arg validation that happens over and over again
-  validateArgBounds: function(args, lower, upper, option) {
+  validateArgBounds(args, lower, upper, option) {
     var what = (option === undefined) ?
       'git ' + this.get('method') :
       this.get('method') + ' ' + option + ' ';
@@ -189,34 +259,34 @@ var Command = Backbone.Model.extend({
         )
       });
     }
-  },
+  }
 
-  validateAtInit: function() {
+  validateAtInit() {
     if (this.get('rawStr') === null) {
       throw new Error('Give me a string!');
     }
     if (!this.get('createTime')) {
       this.set('createTime', new Date().toString());
     }
-  },
+  }
 
-  setResult: function(msg) {
+  setResult(msg) {
     this.set('result', msg);
-  },
+  }
 
-  finishWith: function(deferred) {
+  finishWith(deferred) {
     this.set('status', 'finished');
     deferred.resolve();
-  },
+  }
 
-  addWarning: function(msg) {
+  addWarning(msg) {
     this.get('warnings').push(msg);
     // change numWarnings so the change event fires. This is bizarre -- Backbone can't
     // detect if an array changes, so adding an element does nothing
     this.set('numWarnings', this.get('numWarnings') ? this.get('numWarnings') + 1 : 1);
-  },
+  }
 
-  parseOrCatch: function() {
+  parseOrCatch() {
     this.expandShortcuts(this.get('rawStr'));
     try {
       this.processInstants();
@@ -241,9 +311,9 @@ var Command = Backbone.Model.extend({
           })
       })
     );
-  },
+  }
 
-  errorChanged: function() {
+  errorChanged() {
     var err = this.get('error');
     if (!err) { return; }
     if (err instanceof CommandProcessError ||
@@ -255,18 +325,18 @@ var Command = Backbone.Model.extend({
       this.set('status', 'warning');
     }
     this.formatError();
-  },
+  }
 
-  formatError: function() {
+  formatError() {
     this.set('result', this.get('error').getMsg());
-  },
+  }
 
-  expandShortcuts: function(str) {
+  expandShortcuts(str) {
     str = this.get('parseWaterfall').expandAllShortcuts(str);
     this.set('rawStr', str);
-  },
+  }
 
-  processInstants: function() {
+  processInstants() {
     var str = this.get('rawStr');
     // first if the string is empty, they just want a blank line
     if (!str.length) {
@@ -275,9 +345,9 @@ var Command = Backbone.Model.extend({
 
     // then instant commands that will throw
     this.get('parseWaterfall').processAllInstants(str);
-  },
+  }
 
-  parseAll: function() {
+  parseAll() {
     var rawInput = this.get('rawStr');
     const aliasMap = LevelStore.getAliasMap();
     for (var i = 0; i<Object.keys(aliasMap).length; i++) {
@@ -304,6 +374,6 @@ var Command = Backbone.Model.extend({
     }, this);
     return true;
   }
-});
+}
 
 exports.Command = Command;

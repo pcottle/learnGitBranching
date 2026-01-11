@@ -1,4 +1,5 @@
-var Backbone = require('backbone');
+// CommandPromptView - converted from Backbone.View to ES6 class
+
 const {getAllCommands} = require('../sandbox/commands');
 
 var Main = require('../app');
@@ -34,8 +35,21 @@ const allCommandsSorted = autoCompleteSuggestionOrder.concat(
   .filter(command => !!command)
 );
 
-var CommandPromptView = Backbone.View.extend({
-  initialize: function() {
+class CommandPromptView {
+  constructor(options) {
+    options = options || {};
+    this.el = options.el;
+    this.$el = $(this.el);
+
+    this.initialize();
+  }
+
+  // Scoped jQuery query
+  $(selector) {
+    return this.$el.find(selector);
+  }
+
+  initialize() {
     Main.getEvents().on('commandSubmittedPassive', this.addToCommandHistory, this);
 
     this.index = -1;
@@ -47,35 +61,34 @@ var CommandPromptView = Backbone.View.extend({
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
     this.updatePrompt(" ");
-  },
 
-  events: {
-    'blur #commandTextField': 'hideCursor',
-    'focus #commandTextField': 'showCursor'
-  },
+    // Setup DOM events
+    this.$('#commandTextField').on('blur', this.hideCursor.bind(this));
+    this.$('#commandTextField').on('focus', this.showCursor.bind(this));
+  }
 
-  blur: function() {
+  blur() {
     this.hideCursor();
-  },
+  }
 
-  focus: function() {
+  focus() {
     this.$('#commandTextField').focus();
     this.showCursor();
-  },
+  }
 
-  hideCursor: function() {
+  hideCursor() {
     this.toggleCursor(false);
-  },
+  }
 
-  showCursor: function() {
+  showCursor() {
     this.toggleCursor(true);
-  },
+  }
 
-  toggleCursor: function(state) {
+  toggleCursor(state) {
     $(this.commandParagraph).toggleClass('showCursor', state);
-  },
+  }
 
-  onKeyDown: function(e) {
+  onKeyDown(e) {
     var el = e.target;
 
     const shadowEl = document.querySelector('#shadow');
@@ -123,7 +136,7 @@ var CommandPromptView = Backbone.View.extend({
       // Find the last word boundary
       const lastSpaceIndex = textBeforeCursor.trimEnd().lastIndexOf(' ');
       if (lastSpaceIndex >= 0) {
-        el.value = el.value.substring(0, lastSpaceIndex + 1) + 
+        el.value = el.value.substring(0, lastSpaceIndex + 1) +
                   el.value.substring(cursorPos);
         el.selectionStart = el.selectionEnd = lastSpaceIndex + 1;
       } else {
@@ -133,9 +146,9 @@ var CommandPromptView = Backbone.View.extend({
       }
     }
     this.updatePrompt(el);
-  },
+  }
 
-  onKeyUp: function(e) {
+  onKeyUp(e) {
     this.onKeyDown(e);
 
     // we need to capture some of these events.
@@ -157,17 +170,17 @@ var CommandPromptView = Backbone.View.extend({
       keyToFuncMap[key]();
       this.onKeyDown(e);
     }
-  },
+  }
 
-  badHtmlEncode: function(text) {
+  badHtmlEncode(text) {
     return text.replace(/&/g,'&amp;')
       .replace(/</g,'&lt;')
       .replace(/</g,'&lt;')
       .replace(/ /g,'&nbsp;')
       .replace(/\n/g,'');
-  },
+  }
 
-  updatePrompt: function(el) {
+  updatePrompt(el) {
     el = el || {};  // firefox
     // i WEEEPPPPPPpppppppppppp that this reflow takes so long. it adds this
     // super annoying delay to every keystroke... I have tried everything
@@ -209,9 +222,9 @@ var CommandPromptView = Backbone.View.extend({
     this.commandParagraph.innerHTML = finalHTML;
     // and scroll down due to some weird bug
     Main.getEvents().trigger('commandScrollDown');
-  },
+  }
 
-  commandSelectChange: function(delta) {
+  commandSelectChange(delta) {
     this.index += delta;
 
     // if we are over / under, display blank line. yes this eliminates your
@@ -225,25 +238,25 @@ var CommandPromptView = Backbone.View.extend({
     // yay! we actually can display something
     var commandEntry = CommandLineStore.getCommandHistory()[this.index];
     this.setTextField(commandEntry);
-  },
+  }
 
-  setTextField: function(value) {
+  setTextField(value) {
     this.$('#commandTextField').val(value);
-  },
+  }
 
-  clear: function() {
+  clear() {
     this.setTextField('');
-  },
+  }
 
-  submit: function() {
+  submit() {
     var value = this.$('#commandTextField').val().replace('\n', '');
     this.clear();
 
     this.submitCommand(value);
     this.index = -1;
-  },
+  }
 
-  rollupCommands: function(numBack) {
+  rollupCommands(numBack) {
     var which = CommandLineStore.getCommandHistory().slice(1, Number(numBack) + 1);
     which.reverse();
 
@@ -253,9 +266,9 @@ var CommandPromptView = Backbone.View.extend({
     }, this);
 
     CommandLineActions.submitCommand(str);
-  },
+  }
 
-  addToCommandHistory: function(value) {
+  addToCommandHistory(value) {
     // we should add the command to our local storage history
     // if it's not a blank line and this is a new command...
     // or if we edited the command in place in history
@@ -269,11 +282,11 @@ var CommandPromptView = Backbone.View.extend({
 
     CommandLineActions.submitCommand(value);
     log.commandEntered(value);
-  },
+  }
 
-  submitCommand: function(value) {
+  submitCommand(value) {
     Main.getEventBaton().trigger('commandSubmitted', value);
   }
-});
+}
 
 exports.CommandPromptView = CommandPromptView;
