@@ -1,5 +1,3 @@
-var Backbone = require('backbone');
-
 var Main = require('../app');
 
 var mapKeycodeToKey = function(keycode) {

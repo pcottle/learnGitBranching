@@ -1,12 +1,12 @@
 var _ = require('underscore');
 var Q = require('q');
-var Backbone = require('backbone');
 var { marked } = require('marked');
 
 var util = require('../util');
 var intl = require('../intl');
 var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var Command = require('../models/commandModel').Command;
+var { createEvents } = require('../util/eventEmitter');
 
 var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
@@ -14,18 +14,19 @@ var ContainedBase = require('../views').ContainedBase;
 var Visualization = require('../visuals/visualization').Visualization;
 var HeadlessGit = require('../git/headless');
 
-var GitDemonstrationView = ContainedBase.extend({
-  tagName: 'div',
-  className: 'gitDemonstrationView box horizontal',
-  template: _.template($('#git-demonstration-view').html()),
-
-  events: {
-    'click div.command > p.uiButton:not([target="reset"])': 'positive',
-    'click div.command > p[target="reset"]': 'onResetButtonClick',
-  },
-
-  initialize: function(options) {
+class GitDemonstrationView extends ContainedBase {
+  constructor(options) {
     options = options || {};
+    options.tagName = 'div';
+    options.className = 'gitDemonstrationView box horizontal';
+    super(options);
+
+    this.template = _.template($('#git-demonstration-view').html());
+    this.events = {
+      'click div.command > p.uiButton:not([target="reset"])': 'positive',
+      'click div.command > p[target="reset"]': 'onResetButtonClick',
+    };
+
     this.options = options;
     this.JSON = Object.assign(
       {
@@ -57,7 +58,15 @@ var GitDemonstrationView = ContainedBase.extend({
     this.render();
     this.checkScroll();
 
-    this.navEvents = Object.assign({}, Backbone.Events);
+    // Initialize visualization BEFORE binding events that use mainVis
+    this.visFinished = false;
+    this.initVis();
+
+    // Bind events AFTER mainVis is created
+    this.$el.on('click', 'div.command > p.uiButton:not([target="reset"])', this.positive.bind(this));
+    this.$el.on('click', 'div.command > p[target="reset"]', this.onResetButtonClick.bind(this));
+
+    this.navEvents = createEvents();
     this.navEvents.on('positive', this.positive, this);
     this.navEvents.on('negative', this.negative, this);
     this.navEvents.on('exit', this.exit, this);
@@ -72,35 +81,31 @@ var GitDemonstrationView = ContainedBase.extend({
       wait: true
     });
 
-    this.visFinished = false;
-    this.initVis();
-
     if (!options.wait) {
       this.show();
     }
-  },
+  }
 
-  exit: function() {
+  exit() {
     alert('exittt');
-  },
+  }
 
-  receiveMetaNav: function(navView, metaContainerView) {
-    var _this = this;
+  receiveMetaNav(navView, metaContainerView) {
     navView.navEvents.on('positive', this.positive, this);
     navView.navEvents.on('exit', this.exit, this);
     this.metaContainerView = metaContainerView;
-  },
+  }
 
-  checkScroll: function() {
+  checkScroll() {
     var children = this.$('div.demonstrationText').children().toArray();
     var heights = children.map(function(child) { return child.clientHeight; });
     var totalHeight = heights.reduce(function(a, b) { return a + b; });
     if (totalHeight < this.$('div.demonstrationText').height()) {
       this.$('div.demonstrationText').addClass('noLongText');
     }
-  },
+  }
 
-  dispatchBeforeCommand: function() {
+  dispatchBeforeCommand() {
     if (!this.options.beforeCommand) {
       return;
     }
@@ -111,32 +116,32 @@ var GitDemonstrationView = ContainedBase.extend({
       this.mainVis.gitEngine.loadTree(tree);
       this.mainVis.gitVisuals.refreshTreeHarsh();
     }.bind(this));
-  },
+  }
 
-  takeControl: function() {
+  takeControl() {
     this.hasControl = true;
     this.keyboardListener.listen();
 
     if (this.metaContainerView) { this.metaContainerView.lock(); }
-  },
+  }
 
-  releaseControl: function() {
+  releaseControl() {
     if (!this.hasControl) { return; }
     this.hasControl = false;
     this.keyboardListener.mute();
 
     if (this.metaContainerView) { this.metaContainerView.unlock(); }
-  },
+  }
 
-  reset: function() {
+  reset() {
     this.mainVis.reset();
     this.dispatchBeforeCommand();
     this.demonstrated = false;
     this.$el.toggleClass('demonstrated', false);
     this.$el.toggleClass('demonstrating', false);
-  },
+  }
 
-  positive: function() {
+  positive() {
     if (this.demonstrated || !this.hasControl) {
       // don't do anything if we are demonstrating, and if
       // we receive a meta nav event and we aren't listening,
@@ -145,14 +150,14 @@ var GitDemonstrationView = ContainedBase.extend({
     }
     this.demonstrated = true;
     this.demonstrate();
-  },
+  }
 
-  onResetButtonClick: function() {
+  onResetButtonClick() {
     this.takeControl();
     this.reset();
-  },
+  }
 
-  demonstrate: function() {
+  demonstrate() {
     this.$el.toggleClass('demonstrating', true);
 
     var whenDone = Q.defer();
@@ -162,16 +167,16 @@ var GitDemonstrationView = ContainedBase.extend({
       this.$el.toggleClass('demonstrated', true);
       this.releaseControl();
     }.bind(this));
-  },
+  }
 
-  negative: function(e) {
+  negative(e) {
     if (this.$el.hasClass('demonstrating')) {
       return;
     }
     this.keyboardListener.passEventBack(e);
-  },
+  }
 
-  dispatchCommand: function(value, whenDone) {
+  dispatchCommand(value, whenDone) {
     var commands = [];
     util.splitTextCommand(value, function(commandStr) {
       commands.push(new Command({
@@ -198,14 +203,14 @@ var GitDemonstrationView = ContainedBase.extend({
     });
 
     chainDeferred.resolve();
-  },
+  }
 
-  tearDown: function() {
+  tearDown() {
     this.mainVis.tearDown();
-    GitDemonstrationView.__super__.tearDown.apply(this);
-  },
+    ContainedBase.prototype.tearDown.call(this);
+  }
 
-  hide: function() {
+  hide() {
     this.releaseControl();
     this.reset();
     if (this.visFinished) {
@@ -214,10 +219,10 @@ var GitDemonstrationView = ContainedBase.extend({
     }
 
     this.shown = false;
-    GitDemonstrationView.__super__.hide.apply(this);
-  },
+    ContainedBase.prototype.hide.call(this);
+  }
 
-  show: function() {
+  show() {
     this.takeControl();
     if (this.visFinished) {
       setTimeout(function() {
@@ -229,16 +234,16 @@ var GitDemonstrationView = ContainedBase.extend({
     }
 
     this.shown = true;
-    GitDemonstrationView.__super__.show.apply(this);
-  },
+    ContainedBase.prototype.show.call(this);
+  }
 
-  die: function() {
+  die() {
     if (!this.visFinished) { return; }
 
-    GitDemonstrationView.__super__.die.apply(this);
-  },
+    ContainedBase.prototype.die.call(this);
+  }
 
-  initVis: function() {
+  initVis() {
     this.mainVis = new Visualization({
       el: this.$('div.visHolder div.visHolderInside')[0],
       noKeyboardInput: true,
@@ -255,6 +260,6 @@ var GitDemonstrationView = ContainedBase.extend({
       }
     }.bind(this));
   }
-});
+}
 
 exports.GitDemonstrationView = GitDemonstrationView;
