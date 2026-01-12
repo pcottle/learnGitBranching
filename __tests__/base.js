@@ -1,5 +1,3 @@
-var Q = require('q');
-
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/graph/treeCompare.js');
 
@@ -61,14 +59,15 @@ var expectLevelSolved = function(levelBlob) {
 
 var runCommand = function(command, resultHandler) {
   var headless = new HeadlessGit();
-  var deferred = Q.defer();
   var msg = null;
 
-  return headless.sendCommand(command, deferred).then(function() {
-    return deferred.promise.then(function(commands) {
+  return new Promise(function(resolve) {
+    headless.sendCommand(command, { resolve: resolve });
+  }).then(function(commands) {
+    if (commands && commands.length) {
       msg = commands[commands.length - 1].get('error').get('msg');
-      resultHandler(msg);
-    });
+    }
+    resultHandler(msg);
   });
 };
 

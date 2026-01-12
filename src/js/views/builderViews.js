@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 var { marked } = require('marked');
 
 var Views = require('../views');
@@ -49,7 +49,7 @@ class MarkdownGrabber extends ContainedBase {
     super(options);
 
     this.template = _.template($('#markdown-grabber-view').html());
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
 
     if (options.fromObj) {
       options.fillerText = options.fromObj.options.markdowns.join('\n');
@@ -67,11 +67,10 @@ class MarkdownGrabber extends ContainedBase {
 
     if (!options.withoutButton) {
       // do button stuff
-      var buttonDefer = Q.defer();
+      var buttonDefer = createDeferred();
       buttonDefer.promise
       .then(this.confirmed.bind(this))
-      .fail(this.cancelled.bind(this))
-      .done();
+      .catch(this.cancelled.bind(this));
 
       var confirmCancel = new Views.ConfirmCancelView({
         deferred: buttonDefer,
@@ -138,7 +137,7 @@ class MarkdownPresenter extends ContainedBase {
     super(options);
 
     this.template = _.template($('#markdown-presenter').html());
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
     this.JSON = {
       previewText: options.previewText || 'Here is something for you',
       fillerText: options.fillerText || '# Yay'
@@ -157,10 +156,10 @@ class MarkdownPresenter extends ContainedBase {
       .then(function() {
         this.deferred.resolve(this.grabText());
       }.bind(this))
-      .fail(function() {
+      .catch(function() {
         this.deferred.reject();
       }.bind(this))
-      .done(this.die.bind(this));
+      .then(this.die.bind(this));
     }
 
     this.show();
@@ -179,7 +178,7 @@ class DemonstrationBuilder extends ContainedBase {
     super(options);
 
     this.template = _.template($('#demonstration-builder').html());
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
     if (options.fromObj) {
       var toEdit = options.fromObj.options;
       options = Object.assign(
@@ -226,7 +225,7 @@ class DemonstrationBuilder extends ContainedBase {
     });
 
     // build confirm button
-    var buttonDeferred = Q.defer();
+    var buttonDeferred = createDeferred();
     var confirmCancel = new Views.ConfirmCancelView({
       deferred: buttonDeferred,
       destination: this.getDestination()
@@ -234,8 +233,7 @@ class DemonstrationBuilder extends ContainedBase {
 
     buttonDeferred.promise
     .then(this.confirmed.bind(this))
-    .fail(this.cancelled.bind(this))
-    .done();
+    .catch(this.cancelled.bind(this));
 
     // Set up click event for test button
     this.$el.on('click', '.testButton', this.testView.bind(this));
@@ -288,7 +286,7 @@ class MultiViewBuilder extends ContainedBase {
       GitDemonstrationView: DemonstrationBuilder
     };
 
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
     this.multiViewJSON = options.multiViewJSON || {};
 
     this.JSON = {
@@ -327,7 +325,7 @@ class MultiViewBuilder extends ContainedBase {
     var el = ev.target;
     var type = $(el).attr('data-type');
 
-    var whenDone = Q.defer();
+    var whenDone = createDeferred();
     var Constructor = this.typeToConstructor[type];
     var builder = new Constructor({
       deferred: whenDone
@@ -340,10 +338,9 @@ class MultiViewBuilder extends ContainedBase {
       };
       this.addChildViewObj(newView);
     }.bind(this))
-    .fail(function() {
+    .catch(function() {
       // they don't want to add the view apparently, so just return
-    })
-    .done();
+    });
   }
 
   testOneView(ev) {
@@ -368,7 +365,7 @@ class MultiViewBuilder extends ContainedBase {
     var index = $(el).attr('data-index');
     var type = $(el).attr('data-type');
 
-    var whenDone = Q.defer();
+    var whenDone = createDeferred();
     var builder = new this.typeToConstructor[type]({
       deferred: whenDone,
       fromObj: this.getChildViews()[index]
@@ -383,8 +380,7 @@ class MultiViewBuilder extends ContainedBase {
       views[index] = newView;
       this.setChildViews(views);
     }.bind(this))
-    .fail(function() { })
-    .done();
+    .catch(function() { });
   }
 
   deleteOneView(ev) {

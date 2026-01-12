@@ -20,7 +20,6 @@ var toGlobalize = {
   AnimationFactory: require('../visuals/animation/animationFactory'),
   Main: require('../app'),
   HeadLess: require('../git/headless'),
-  Q: { Q: require('q') },
   RebaseView: require('../views/rebaseView'),
   Views: require('../views'),
   MultiView: require('../views/multiView'),

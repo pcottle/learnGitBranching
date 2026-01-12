@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 
 var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
@@ -197,7 +197,7 @@ GitVisuals.prototype.toScreenCoords = function(pos) {
 };
 
 GitVisuals.prototype.animateAllAttrKeys = function(keys, attr, speed, easing) {
-  var deferred = Q.defer();
+  var deferred = createDeferred();
 
   var animate = function(visObj) {
     visObj.animateAttrKeys(keys, attr, speed, easing);
@@ -223,8 +223,8 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   }
 
   var _this = this;
-  var deferred = Q.defer();
-  var animationDone = Q.defer();
+  var deferred = createDeferred();
+  var animationDone = createDeferred();
   var defaultTime = GRAPHICS.defaultAnimationTime;
   var nodeRadius = GRAPHICS.nodeRadius;
 
@@ -308,10 +308,10 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   .then(function() {
     animationDone.resolve();
   })
-  .fail(function(reason) {
+  .catch(function(reason) {
     console.warn('animation error ' + reason);
   })
-  .done();
+  .then();
 
   // start our animation chain right away
   deferred.resolve();
@@ -319,7 +319,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
 };
 
 GitVisuals.prototype.explodeNodes = function(speed) {
-  var deferred = Q.defer();
+  var deferred = createDeferred();
   var funcs = [];
   Object.values(this.visNodeMap).forEach(function(visNode) {
     funcs.push(visNode.getExplodeStepFunc(speed));

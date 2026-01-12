@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 
 var LeftRightView = require('../views').LeftRightView;
 var ModalAlert = require('../views').ModalAlert;
@@ -47,7 +47,7 @@ class MultiView {
         markdown: 'Im second'
       }
     }];
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
 
     this.childViews = [];
     this.currentIndex = 0;
