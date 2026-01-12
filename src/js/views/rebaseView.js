@@ -1,5 +1,5 @@
 var GitError = require('../util/errors').GitError;
-var _ = require('underscore');
+var _ = require('lodash-es');
 var createDeferred = require('../util/promise').createDeferred;
 
 var ModalTerminal = require('../views').ModalTerminal;

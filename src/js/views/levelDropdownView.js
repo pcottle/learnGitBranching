@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash-es');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');

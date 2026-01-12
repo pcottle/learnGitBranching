@@ -66,7 +66,7 @@ GitVisuals.prototype.deferFlush = function() {
 
 GitVisuals.prototype.resetAll = function() {
   // make sure to copy these collections because we remove
-  // items in place and underscore is too dumb to detect length change
+  // items in place and lodash is too dumb to detect length change
   var edges = this.visEdgeCollection.toArray();
   edges.forEach(function(visEdge) {
     visEdge.remove();

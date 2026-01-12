@@ -7,7 +7,7 @@ var path = require('path');
 
 var { marked } = require('marked');
 var glob = require('glob');
-var _ = require('underscore');
+var _ = require('lodash');
 
 var { src, dest, series, watch } = require('gulp');
 var log = require('fancy-log');
@@ -125,7 +125,11 @@ var getBundle = function() {
     entries: [...glob.sync('src/**/*.js'), ...glob.sync('src/**/*.jsx')],
     debug: true,
   })
-  .transform(babelify, { presets: ['@babel/preset-react'] })
+  .transform(babelify, {
+    presets: ['@babel/preset-env', '@babel/preset-react'],
+    global: true,
+    ignore: [/node_modules[\\/](?!lodash-es)/],
+  })
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(buffer())

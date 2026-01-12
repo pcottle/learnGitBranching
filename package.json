@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.28.5",
     "@babel/preset-react": "^7.16.7",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
@@ -35,6 +36,7 @@
     "html-minifier": "^4.0.0",
     "jasmine-spec-reporter": "^7.0.0",
     "jshint": "^2.13.4",
+    "lodash": "^4.17.21",
     "nyc": "^15.1.0",
     "prompt": "^1.2.2",
     "vinyl-buffer": "^1.0.1",
@@ -45,11 +47,11 @@
     "flux": "^4.0.3",
     "jquery": "^3.4.0",
     "jquery-ui": "1.13.2",
+    "lodash-es": "^4.17.22",
     "marked": "^4.0.12",
     "prop-types": "^15.8.1",
     "raphael": "^2.1.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "underscore": "^1.13.2"
+    "react-dom": "^17.0.2"
   }
 }
