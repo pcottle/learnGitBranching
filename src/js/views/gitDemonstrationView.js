@@ -1,5 +1,6 @@
 var _ = require('underscore');
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
+var delay = require('../util/promise').delay;
 var { marked } = require('marked');
 
 var util = require('../util');
@@ -110,7 +111,7 @@ class GitDemonstrationView extends ContainedBase {
       return;
     }
 
-    var whenHaveTree = Q.defer();
+    var whenHaveTree = createDeferred();
     HeadlessGit.getTreeQuick(this.options.beforeCommand, whenHaveTree);
     whenHaveTree.promise.then(function(tree) {
       this.mainVis.gitEngine.loadTree(tree);
@@ -160,7 +161,7 @@ class GitDemonstrationView extends ContainedBase {
   demonstrate() {
     this.$el.toggleClass('demonstrating', true);
 
-    var whenDone = Q.defer();
+    var whenDone = createDeferred();
     this.dispatchCommand(this.JSON.command, whenDone);
     whenDone.promise.then(function() {
       this.$el.toggleClass('demonstrating', false);
@@ -184,25 +185,22 @@ class GitDemonstrationView extends ContainedBase {
       }));
     }, this);
 
-    var chainDeferred = Q.defer();
-    var chainPromise = chainDeferred.promise;
+    var chainPromise = Promise.resolve();
 
     commands.forEach(function(command, index) {
       chainPromise = chainPromise.then(function() {
-        var myDefer = Q.defer();
-        this.mainVis.gitEngine.dispatch(command, myDefer);
-        return myDefer.promise;
+        return new Promise(function(resolve) {
+          this.mainVis.gitEngine.dispatch(command, { resolve: resolve });
+        }.bind(this));
       }.bind(this));
       chainPromise = chainPromise.then(function() {
-        return Q.delay(300);
+        return delay(300);
       });
     }, this);
 
     chainPromise = chainPromise.then(function() {
       whenDone.resolve();
     });
-
-    chainDeferred.resolve();
   }
 
   tearDown() {

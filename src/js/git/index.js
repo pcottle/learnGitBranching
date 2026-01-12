@@ -1,4 +1,3 @@
-var Q = require('q');
 
 var intl = require('../intl');
 
@@ -90,9 +89,7 @@ GitEngine.prototype.setMode = function(vcs) {
   // if we are switching to mercurial then we have some
   // garbage collection and other tidying up to do. this
   // may or may not require a refresh so lets check.
-  var deferred = Q.defer();
-  deferred.resolve();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
 
   // this stuff is tricky because we don't animate when
   // we didn't do anything, but we DO animate when
@@ -865,8 +862,7 @@ GitEngine.prototype.revert = function(whichCommits) {
     return this.getCommitFromRef(stringRef);
   }, this);
 
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
   var destBranch = this.resolveID('HEAD');
 
   chain = this.animationFactory.highlightEachWithPromise(
@@ -907,7 +903,7 @@ GitEngine.prototype.revert = function(whichCommits) {
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }.bind(this));
 
-  this.animationQueue.thenFinish(chain, deferred);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.reset = function(target) {
@@ -916,8 +912,7 @@ GitEngine.prototype.reset = function(target) {
 
 GitEngine.prototype.setupCherrypickChain = function(toCherrypick) {
   // error checks are all good, lets go!
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
   var destinationBranch = this.resolveID('HEAD');
 
   chain = this.animationFactory.highlightEachWithPromise(
@@ -940,7 +935,7 @@ GitEngine.prototype.setupCherrypickChain = function(toCherrypick) {
     });
   }, this);
 
-  this.animationQueue.thenFinish(chain, deferred);
+  this.animationQueue.thenFinish(chain);
 };
 
 /*************************************
@@ -1158,8 +1153,7 @@ GitEngine.prototype.push = function(options) {
     );
   }.bind(this);
 
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
 
   commitsToMake.forEach(function(commitJSON) {
     chain = chain.then(function() {
@@ -1194,7 +1188,7 @@ GitEngine.prototype.push = function(options) {
   }.bind(this));
 
   if (!options.dontResolvePromise) {
-    this.animationQueue.thenFinish(chain, deferred);
+    this.animationQueue.thenFinish(chain);
   }
 };
 
@@ -1350,8 +1344,7 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
     );
   }.bind(this);
 
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
   if (options.didMakeBranch) {
     chain = chain.then(function() {
       this.animationFactory.playRefreshAnimation(this.origin.gitVisuals);
@@ -1398,11 +1391,10 @@ GitEngine.prototype.fetchCore = function(sourceDestPairs, options) {
   }.bind(this));
 
   if (!options.dontResolvePromise) {
-    this.animationQueue.thenFinish(chain, deferred);
+    this.animationQueue.thenFinish(chain);
   }
   return {
-    chain: chain,
-    deferred: deferred
+    chain: chain
   };
 };
 
@@ -1439,7 +1431,6 @@ GitEngine.prototype.pullFinishWithRebase = function(
   remoteBranch
 ) {
   var chain = pendingFetch.chain;
-  var deferred = pendingFetch.deferred;
   chain = chain.then(function() {
     if (this.isUpstreamOf(remoteBranch, localBranch)) {
       this.command.set('error', new CommandResult({
@@ -1492,9 +1483,9 @@ GitEngine.prototype.pullFinishWithRebase = function(
       return this.animationFactory.playRefreshAnimation(this.gitVisuals);
     }
   }.bind(this));
-  chain = chain.fail(catchShortCircuit);
+  chain = chain.catch(catchShortCircuit);
 
-  this.animationQueue.thenFinish(chain, deferred);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.pullFinishWithMerge = function(
@@ -1503,7 +1494,6 @@ GitEngine.prototype.pullFinishWithMerge = function(
   remoteBranch
 ) {
   var chain = pendingFetch.chain;
-  var deferred = pendingFetch.deferred;
 
   chain = chain.then(function() {
     if (this.mergeCheck(remoteBranch, localBranch)) {
@@ -1553,9 +1543,9 @@ GitEngine.prototype.pullFinishWithMerge = function(
       this.gitVisuals
     );
   }.bind(this));
-  chain = chain.fail(catchShortCircuit);
+  chain = chain.catch(catchShortCircuit);
 
-  this.animationQueue.thenFinish(chain, deferred);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
@@ -1572,13 +1562,12 @@ GitEngine.prototype.fakeTeamwork = function(numToMake, branch) {
     );
   }.bind(this);
 
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
 
   for(var i = 0; i < numToMake; i++) {
     chain = chain.then(chainStep);
   }
-  this.animationQueue.thenFinish(chain, deferred);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.receiveTeamwork = function(id, branch, animationQueue) {
@@ -2085,10 +2074,8 @@ GitEngine.prototype.dateSortFunc = function(cA, cB) {
 };
 
 GitEngine.prototype.hgRebase = function(destination, base) {
-  var deferred = Q.defer();
   var chain = this.rebase(destination, base, {
-    dontResolvePromise: true,
-    deferred: deferred
+    dontResolvePromise: true
   });
 
   // was upstream or something
@@ -2150,7 +2137,7 @@ GitEngine.prototype.hgRebase = function(destination, base) {
     return this.pruneTreeAndPlay();
   }.bind(this));
 
-  this.animationQueue.thenFinish(chain, deferred);
+  this.animationQueue.thenFinish(chain);
 };
 
 GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
@@ -2305,26 +2292,6 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
   // and actually launch the dialog
   this.animationQueue.set('defer', true);
 
-  var deferred = Q.defer();
-  deferred.promise
-  .then(function(userSpecifiedRebase) {
-    // first, they might have dropped everything (annoying)
-    if (!userSpecifiedRebase.length) {
-      throw new CommandResult({
-        msg: intl.str('git-result-nothing')
-      });
-    }
-
-    // finish the rebase crap and animate!
-    this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
-  }.bind(this))
-  .fail(function(err) {
-    this.filterError(err);
-    this.command.set('error', err);
-    this.animationQueue.start();
-  }.bind(this))
-  .done();
-
   // If we have a solution provided, set up the GUI to display it by default
   var initialCommitOrdering;
   if (options.initialCommitOrdering && options.initialCommitOrdering.length > 0) {
@@ -2345,14 +2312,34 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     });
   }
 
-  var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
-  // interactive rebase view will reject or resolve our promise
-  new InteractiveRebaseView({
-    deferred: deferred,
-    toRebase: toRebase,
-    initialCommitOrdering: initialCommitOrdering,
-    aboveAll: options.aboveAll
-  });
+  var promise = new Promise(function(resolve, reject) {
+    var InteractiveRebaseView = require('../views/rebaseView').InteractiveRebaseView;
+    // interactive rebase view will reject or resolve our promise
+    new InteractiveRebaseView({
+      deferred: { resolve: resolve, reject: reject },
+      toRebase: toRebase,
+      initialCommitOrdering: initialCommitOrdering,
+      aboveAll: options.aboveAll
+    });
+  }.bind(this));
+
+  promise
+  .then(function(userSpecifiedRebase) {
+    // first, they might have dropped everything (annoying)
+    if (!userSpecifiedRebase.length) {
+      throw new CommandResult({
+        msg: intl.str('git-result-nothing')
+      });
+    }
+
+    // finish the rebase crap and animate!
+    this.rebaseFinish(userSpecifiedRebase, {}, targetSource, currentLocation);
+  }.bind(this))
+  .catch(function(err) {
+    this.filterError(err);
+    this.command.set('error', err);
+    this.animationQueue.start();
+  }.bind(this));
 };
 
 GitEngine.prototype.filterRebaseCommits = function(
@@ -2409,8 +2396,18 @@ GitEngine.prototype.rebaseFinish = function(
   options = options || {};
   // now we have the all the commits between currentLocation and the set of target to rebase.
   var destinationBranch = this.resolveID(targetSource);
-  var deferred = options.deferred || Q.defer();
-  var chain = options.chain || deferred.promise;
+  var deferred;
+  if (options.deferred) {
+    deferred = options.deferred;
+  }
+  var chain = options.chain || new Promise(function(resolve) {
+    if (!deferred) {
+      deferred = { resolve: resolve };
+    }
+    // if we are not given a chain, we need to resolve the deferred ourselves
+    // and start the chain. otherwise we assume the caller will do that
+    resolve();
+  });
   var originalCurrentLocationToUpdate = null;
   if (this.getType(currentLocation) == 'commit') {
     // We will just be updating HEAD so no need to store
@@ -2489,7 +2486,7 @@ GitEngine.prototype.rebaseFinish = function(
   }.bind(this));
 
   if (!options.dontResolvePromise) {
-    this.animationQueue.thenFinish(chain, deferred);
+    this.animationQueue.thenFinish(chain);
   }
   return chain;
 };

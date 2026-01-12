@@ -1,4 +1,4 @@
-var Q = require('q');
+var delay = require('../../util/promise').delay;
 
 var Animation = require('./index').Animation;
 var PromiseAnimation = require('./index').PromiseAnimation;
@@ -152,9 +152,7 @@ AnimationFactory.playHighlightPromiseAnimation = function(commit, destObj) {
 };
 
 AnimationFactory.getDelayedPromise = function(amount) {
-  var deferred = Q.defer();
-  setTimeout(deferred.resolve, amount || 1000);
-  return deferred.promise;
+  return delay(amount || 1000);
 };
 
 AnimationFactory.delay = function(animationQueue, time) {
@@ -166,4 +164,3 @@ AnimationFactory.delay = function(animationQueue, time) {
 };
 
 exports.AnimationFactory = AnimationFactory;
-

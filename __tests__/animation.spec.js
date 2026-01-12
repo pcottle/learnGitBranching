@@ -1,7 +1,7 @@
 var AnimationModule = require('../src/js/visuals/animation/index');
 var PromiseAnimation = AnimationModule.PromiseAnimation;
 var Animation = AnimationModule.Animation;
-var Q = require('q');
+var createDeferred = require('../src/js/util/promise').createDeferred;
 
 describe('Promise animation', function() {
   it('Will execute the closure', function() {
@@ -11,7 +11,7 @@ describe('Promise animation', function() {
     };
 
     var animation = new PromiseAnimation({
-      deferred: Q.defer(),
+      deferred: createDeferred(),
       closure: closure
     });
     animation.play();

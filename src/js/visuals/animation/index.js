@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../../util/promise').createDeferred;
 var GlobalStateActions = require('../../actions/GlobalStateActions');
 var GRAPHICS = require('../../util/constants').GRAPHICS;
 
@@ -93,7 +93,7 @@ class AnimationQueue {
     promise.then(function() {
       this.finish();
     }.bind(this));
-    promise.fail(function(e) {
+    promise.catch(function(e) {
       console.log('uncaught error', e);
       throw e;
     });
@@ -167,7 +167,7 @@ class PromiseAnimation {
     }
     this.set('closure', options.closure || options.animation);
     this.set('duration', options.duration || this.get('duration'));
-    this.set('deferred', options.deferred || Q.defer());
+    this.set('deferred', options.deferred || createDeferred());
   }
 
   get(key) {

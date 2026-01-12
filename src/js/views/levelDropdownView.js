@@ -1,5 +1,4 @@
 var _ = require('underscore');
-var Q = require('q');
 var LocaleStore = require('../stores/LocaleStore');
 
 var util = require('../util');

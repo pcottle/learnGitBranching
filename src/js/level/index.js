@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 var React = require('react');
 var ReactDOM = require('react-dom');
 
@@ -72,7 +72,7 @@ class Level extends Sandbox {
 
   handleOpen(deferred) {
     LevelActions.setIsSolvingLevel(true);
-    deferred = deferred || Q.defer();
+    deferred = deferred || createDeferred();
 
     // if there is a multiview in the beginning, open that
     // and let it resolve our deferred
@@ -294,7 +294,7 @@ class Level extends Sandbox {
     // we don't need to worry about the solved map regardless
     if(this.level.id && !LevelStore.isLevelSolved(this.level.id)){
       // allow them for force the solution
-      var confirmDefer = Q.defer();
+      var confirmDefer = createDeferred();
       var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
       var confirmView = new ConfirmCancelTerminal({
         markdowns: dialog.options.markdowns,
@@ -303,10 +303,10 @@ class Level extends Sandbox {
 
       confirmDefer.promise
       .then(issueFunc)
-      .fail(function() {
+      .catch(function() {
         command.setResult("");
       })
-      .done(function() {
+      .then(function() {
       // either way we animate, so both options can share this logic
       setTimeout(function() {
           command.finishWith(deferred);
@@ -533,9 +533,7 @@ class Level extends Sandbox {
 
     var finishAnimationChain = null;
     if (skipFinishAnimation) {
-      var deferred = Q.defer();
-      deferred.resolve();
-      finishAnimationChain = deferred.promise;
+      finishAnimationChain = Promise.resolve();
       Main.getEventBaton().trigger(
         'commandSubmitted',
         'echo "level solved! type in \'levels\' to access the next level"'
@@ -574,10 +572,10 @@ class Level extends Sandbox {
         );
       }
     })
-    .fail(function() {
+    .catch(function() {
       // nothing to do, we will just close
     })
-    .done(function() {
+    .then(function() {
       GlobalStateActions.changeIsAnimating(false);
       defer.resolve();
     });

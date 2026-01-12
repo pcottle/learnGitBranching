@@ -641,7 +641,6 @@ __metadata:
     nyc: "npm:^15.1.0"
     prompt: "npm:^1.2.2"
     prop-types: "npm:^15.8.1"
-    q: "npm:^1.5.1"
     raphael: "npm:^2.1.0"
     react: "npm:^17.0.2"
     react-dom: "npm:^17.0.2"
@@ -4803,13 +4802,6 @@ __metadata:
   version: 1.4.1
   resolution: "punycode@npm:1.4.1"
   checksum: 10c0/354b743320518aef36f77013be6e15da4db24c2b4f62c5f1eb0529a6ed02fbaf1cb52925785f6ab85a962f2b590d9cd5ad730b70da72b5f180e2556b8bd3ca08
-  languageName: node
-  linkType: hard
-
-"q@npm:^1.5.1":
-  version: 1.5.1
-  resolution: "q@npm:1.5.1"
-  checksum: 10c0/7855fbdba126cb7e92ef3a16b47ba998c0786ec7fface236e3eb0135b65df36429d91a86b1fff3ab0927b4ac4ee88a2c44527c7c3b8e2a37efbec9fe34803df4
   languageName: node
   linkType: hard
 
