@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 var { marked } = require('marked');
 
 var Main = require('../app');
@@ -149,7 +149,7 @@ class ConfirmCancelView extends ResolveRejectBase {
 
     this.template = _.template($('#confirm-cancel-template').html());
     this.destination = options.destination;
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
     this.JSON = {
       confirm: options.confirm || intl.str('confirm-button'),
       cancel: options.cancel || intl.str('cancel-button'),
@@ -383,14 +383,14 @@ class ConfirmCancelTerminal {
   constructor(options) {
     options = options || {};
 
-    this.deferred = options.deferred || Q.defer();
+    this.deferred = options.deferred || createDeferred();
     this.modalAlert = new ModalAlert(Object.assign(
       {},
       { markdown: '#you sure?' },
       options
     ));
 
-    var buttonDefer = Q.defer();
+    var buttonDefer = createDeferred();
     this.buttonDefer = buttonDefer;
     this.confirmCancel = new ConfirmCancelView({
       deferred: buttonDefer,
@@ -399,8 +399,8 @@ class ConfirmCancelTerminal {
 
     buttonDefer.promise
     .then(this.deferred.resolve)
-    .fail(this.deferred.reject)
-    .done(function() {
+    .catch(this.deferred.reject)
+    .then(function() {
       this.close();
     }.bind(this));
 

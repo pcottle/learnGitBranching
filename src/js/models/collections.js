@@ -1,6 +1,6 @@
 // Collections - converted from Backbone to plain ES6 classes
 
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 
 var Commit = require('../git').Commit;
 var Branch = require('../git').Branch;
@@ -239,7 +239,7 @@ class CommandBuffer {
   processCommand(command) {
     command.set('status', 'processing');
 
-    var deferred = Q.defer();
+    var deferred = createDeferred();
     deferred.promise.then(function() {
       this.setTimeout();
     }.bind(this));

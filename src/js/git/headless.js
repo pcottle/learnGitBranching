@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 
 var GitEngine = require('../git').GitEngine;
 var AnimationFactory = require('../visuals/animation/animationFactory').AnimationFactory;
@@ -18,10 +18,8 @@ var util = require('../util');
 function getMockFactory() {
   var mockFactory = {};
   var mockReturn = function() {
-    var d = Q.defer();
     // fall through!
-    d.resolve();
-    return d.promise;
+    return Promise.resolve();
   };
   for (var key in AnimationFactory) {
     mockFactory[key] = mockReturn;
@@ -95,17 +93,14 @@ HeadlessGit.prototype.init = function() {
 // horrible hack so we can just quickly get a tree string for async git
 // operations, aka for git demonstration views
 var getTreeQuick = function(commandStr, getTreePromise) {
-  var deferred = Q.defer();
   var headless = new HeadlessGit();
-  headless.sendCommand(commandStr, deferred);
-  deferred.promise.then(function() {
+  headless.sendCommand(commandStr).then(function() {
     getTreePromise.resolve(headless.gitEngine.exportTree());
   });
 };
 
 HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
-  var deferred = Q.defer();
-  var chain = deferred.promise;
+  var chain = Promise.resolve();
   var startTime = new Date().getTime();
 
   var commands = [];
@@ -116,7 +111,7 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
         rawStr: commandStr
       });
 
-      var thisDeferred = Q.defer();
+      var thisDeferred = createDeferred();
       this.gitEngine.dispatch(commandObj, thisDeferred);
       commands.push(commandObj);
       return thisDeferred.promise;
@@ -130,13 +125,12 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
     }
   });
 
-  chain.fail(function(err) {
+  chain.catch(function(err) {
     console.log('!!!!!!!! error !!!!!!!');
     console.log(err);
     console.log(err.stack);
     console.log('!!!!!!!!!!!!!!!!!!!!!!');
   });
-  deferred.resolve();
   return chain;
 };
 

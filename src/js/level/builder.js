@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 
 var util = require('../util');
 var Main = require('../app');
@@ -261,7 +261,7 @@ class LevelBuilder extends Level {
   }
 
   editDialog(command, deferred) {
-    var whenDoneEditing = Q.defer();
+    var whenDoneEditing = createDeferred();
     this.currentBuilder = new MultiViewBuilder({
       multiViewJSON: this.startDialogObj,
       deferred: whenDoneEditing
@@ -270,10 +270,10 @@ class LevelBuilder extends Level {
     .then(function(levelObj) {
       this.startDialogObj = levelObj;
     }.bind(this))
-    .fail(function() {
+    .catch(function() {
       // nothing to do, they don't want to edit it apparently
     })
-    .done(function() {
+    .then(function() {
       if (command) {
         command.finishWith(deferred);
       } else {
@@ -295,11 +295,10 @@ class LevelBuilder extends Level {
       this.defineName();
     }
 
-    var mainDeferred = Q.defer();
-    var chain = mainDeferred.promise;
+    var chain = Promise.resolve();
 
     if (this.level.hint === undefined) {
-      var askForHintDeferred = Q.defer();
+      var askForHintDeferred = createDeferred();
       chain = chain.then(function() {
         return askForHintDeferred.promise;
       });
@@ -312,16 +311,16 @@ class LevelBuilder extends Level {
       });
       askForHintView.getPromise()
       .then(this.defineHint.bind(this))
-      .fail(function() {
+      .catch(function() {
         this.level.hint = {'en_US': ''};
       }.bind(this))
-      .done(function() {
+      .then(function() {
         askForHintDeferred.resolve();
       });
     }
 
     if (this.startDialogObj === undefined) {
-      var askForStartDeferred = Q.defer();
+      var askForStartDeferred = createDeferred();
       chain = chain.then(function() {
         return askForStartDeferred.promise;
       });
@@ -334,20 +333,20 @@ class LevelBuilder extends Level {
       askForStartView.getPromise()
       .then(function() {
         // oh boy this is complex
-        var whenEditedDialog = Q.defer();
+        var whenEditedDialog = createDeferred();
         // the undefined here is the command that doesn't need resolving just yet...
         this.editDialog(undefined, whenEditedDialog);
         return whenEditedDialog.promise;
       }.bind(this))
-      .fail(function() {
+      .catch(function() {
         // if they don't want to edit the start dialog, do nothing
       })
-      .done(function() {
+      .then(function() {
         askForStartDeferred.resolve();
       });
     }
 
-    chain = chain.done(function() {
+    chain = chain.then(function() {
       // ok great! lets just give them the goods
       new MarkdownPresenter({
         fillerText: JSON.stringify(this.getExportObj(), null, 2),
@@ -355,8 +354,6 @@ class LevelBuilder extends Level {
       });
       command.finishWith(deferred);
     }.bind(this));
-
-    mainDeferred.resolve();
   }
 
   getExportObj() {

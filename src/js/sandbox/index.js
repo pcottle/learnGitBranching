@@ -1,4 +1,4 @@
-var Q = require('q');
+var createDeferred = require('../util/promise').createDeferred;
 var { createEvents } = require('../util/eventEmitter');
 
 var util = require('../util');
@@ -200,7 +200,7 @@ class Sandbox {
 
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
-    var whenLevelOpen = Q.defer();
+    var whenLevelOpen = createDeferred();
     var Level = require('../level').Level;
 
     this.currentLevel = new Level({
@@ -218,7 +218,7 @@ class Sandbox {
     this.hide();
     this.clear();
 
-    var whenBuilderOpen = Q.defer();
+    var whenBuilderOpen = createDeferred();
     var LevelBuilder = require('../level/builder').LevelBuilder;
 
     var regexResults = command.get('regexResults') || [];
@@ -242,9 +242,9 @@ class Sandbox {
   }
 
   showLevels(command, deferred) {
-    var whenClosed = Q.defer();
+    var whenClosed = createDeferred();
     Main.getLevelDropdown().show(whenClosed, command);
-    whenClosed.promise.done(function() {
+    whenClosed.promise.then(function() {
       command.finishWith(deferred);
     });
   }
@@ -332,7 +332,7 @@ class Sandbox {
     var Level = require('../level').Level;
     try {
       var levelJSON = JSON.parse(unescape(string));
-      var whenLevelOpen = Q.defer();
+      var whenLevelOpen = createDeferred();
       this.currentLevel = new Level({
         level: levelJSON,
         deferred: whenLevelOpen,
@@ -398,8 +398,8 @@ class Sandbox {
         });
       }
     }.bind(this))
-    .fail(function() { })
-    .done(function() {
+    .catch(function() { })
+    .then(function() {
       command.finishWith(deferred);
     });
   }
@@ -415,7 +415,7 @@ class Sandbox {
       var Level = require('../level').Level;
       try {
         var levelJSON = JSON.parse(inputText);
-        var whenLevelOpen = Q.defer();
+        var whenLevelOpen = createDeferred();
         this.currentLevel = new Level({
           level: levelJSON,
           deferred: whenLevelOpen,
@@ -444,10 +444,10 @@ class Sandbox {
         command.finishWith(deferred);
       }
     }.bind(this))
-    .fail(function() {
+    .catch(function() {
       command.finishWith(deferred);
     })
-    .done();
+    .then();
   }
 
   exportTree(command, deferred) {
@@ -466,8 +466,7 @@ class Sandbox {
     showJSON.getPromise()
     .then(function() {
       command.finishWith(deferred);
-    })
-    .done();
+    });
   }
 
   clear(command, deferred) {
@@ -505,8 +504,7 @@ class Sandbox {
     helpDialog.getPromise().then(function() {
       // the view has been closed, lets go ahead and resolve our command
       command.finishWith(deferred);
-    }.bind(this))
-    .done();
+    }.bind(this));
   }
 }
 
