@@ -701,6 +701,28 @@ GitVisuals.prototype.addTagFromEvent = function(tag, collection, index) {
   }
 };
 
+GitVisuals.prototype.removeBranch = function(branch, collection, index) {
+  var action = function() {
+    var branchToRemove;
+    this.visBranchCollection.each(function(visBranch) {
+      if (visBranch.get('branch') === branch) {
+        branchToRemove = visBranch;
+      }
+    }, this);
+    if (!branchToRemove) {
+      return;
+    }
+    branchToRemove.remove();
+    this.removeVisBranch(branchToRemove);
+  }.bind(this);
+
+  if (!this.gitEngine || !this.gitReady) {
+    this.defer(action);
+  } else {
+    action();
+  }
+};
+
 GitVisuals.prototype.removeTag = function(tag, collection, index) {
   var action = function() {
     var tagToRemove;
