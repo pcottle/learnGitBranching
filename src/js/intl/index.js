@@ -1,6 +1,6 @@
 var LocaleStore = require('../stores/LocaleStore');
 
-var _ = require('underscore');
+var _ = require('lodash-es');
 var strings = require('../intl/strings').strings;
 
 var getDefaultLocale = LocaleStore.getDefaultLocale;
@@ -11,7 +11,7 @@ var fallbackMap = {
   'es_MX': 'es_ES'
 };
 
-// lets change underscores template settings so it interpolates
+// lets change lodash template settings so it interpolates
 // things like "{branchName} does not exist".
 var templateSettings = Object.assign({}, _.templateSettings);
 templateSettings.interpolate = /\{(.+?)\}/g;

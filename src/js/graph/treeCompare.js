@@ -1,4 +1,4 @@
-var _ = require('underscore');
+var _ = require('lodash-es');
 
 // static class...
 var TreeCompare = {};
