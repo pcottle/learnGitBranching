@@ -305,7 +305,7 @@ exports.level = {
               "",
               "Por último, preste atenção no estado do \"objetivo\" aqui -- como nós movemos os commits duas vezes, ambos ficam com um apóstrofo. Um apóstrofo adicional é colocado no commit que sofreu o \"amend\", o que nos dá a forma final da árvore ",
               "",
-              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que o ramo `main` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
+              "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que a branch `main` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
             ]
           }
         }
