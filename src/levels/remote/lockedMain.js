@@ -13,7 +13,7 @@ exports.level = {
     "zh_CN": "从本地的main创建一个feature分支, 然后重置main和origin main保持一致。",
     "zh_TW": "從本地的 main 分支建一個 feature 分支, 且記得要重置(同步sync)本地 main 分支和 origin/main, 讓他們保持一致。",
     "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
-    "pt_BR": "Crie o ramo feature a partir do ramo main no local antes de reestabelecê-lo para que seja o mesmo que o ramo main de origem",
+    "pt_BR": "Crie a branch feature a partir da branch main no local antes de reestabelecê-lo para que seja o mesmo que a branch main de origem",
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
     "ko": "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/main과 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
@@ -439,7 +439,7 @@ exports.level = {
             "markdowns": [
               "## Por que foi rejeitado?",
               "",
-              "O repositório remoto rejeitou o push dos commits diretamente para o main por causa da política do main necessitando do uso dos pull requests.",
+              "O repositório remoto rejeitou o push dos commits diretamente para a main por causa da política da main necessitando do uso dos pull requests.",
               "",
               "Você pretendia seguir o processo de criação de uma ramificação, fazendo um push dessa ramificação e fazendo um pull request, mas você esqueceu e commitou diretamente para o main. Agora você está preso e não consegue publicar suas mudanças."
             ]
@@ -451,7 +451,7 @@ exports.level = {
             "markdowns": [
               "## A solução",
               "",
-              "Crie outro branch chamado feature e faça um push dele para o repositório remoto. Além disso, resete o main de volta a estar sincronizado com o repositório remoto para não ter problemas da próxima vez que fizer um pull e os commits de alguém mais conflitarem com o seu."
+              "Crie outra branch chamada feature e faça um push dela para o repositório remoto. Além disso, resete a main de volta a estar sincronizada com o repositório remoto para não ter problemas da próxima vez que fizer um pull e os commits de alguém conflitarem com o seu."
             ]
           }
         }
