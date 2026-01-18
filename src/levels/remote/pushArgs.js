@@ -427,9 +427,9 @@ exports.level = {
             "markdowns": [
               "## Parâmetros do push",
               "",
-              "Ótimo! Agora que você sabe sobre remote tracking de ramos, podemos começar a revelar um pouco do mistério por trás de como o push, o fetch e o pull funcionam. Vamos lidar com um comando por vez, mas os conceitos são bastante similares.",
+              "Ótimo! Agora que você sabe sobre remote tracking de branches, podemos começar a revelar um pouco do mistério por trás de como o push, o fetch e o pull funcionam. Vamos lidar com um comando por vez, mas os conceitos são bastante similares.",
               "",
-              "Primeiro, vamos abordar o `git push`. Você aprendeu na lição sobre remote tracking que o Git descobria o repositório remoto *e* o ramo correspondente onde fazer o push olhando nas propriedades do ramo que está atualmente em checkout (verificando o ramo remoto que ele \"segue\"). Este é o comportamento quando nenhum parâmetro é especificado, mas o git push pode opcionalmente receber parâmetros na seguinte forma:",
+              "Primeiro, vamos abordar o `git push`. Você aprendeu na lição sobre remote tracking que o Git descobria o repositório remoto *e* a branch correspondente onde fazer o push olhando nas propriedades da branch que está atualmente em checkout (verificando a branch remota que ele \"segue\"). Este é o comportamento quando nenhum parâmetro é especificado, mas o git push pode opcionalmente receber parâmetros na seguinte forma:",
               "",
               "`git push <repositório remoto> <lugar>`",
               "",
@@ -447,7 +447,7 @@ exports.level = {
               "",
               "pode ser traduzido para o seguinte em Português:",
               "",
-              "*Vá ao ramo chamado \"main\" no meu repositório local, pegue todos os commits, então vá ao ramo \"main\" no repositório remoto chamado \"origin\". Coloque quaisquer commits que estiverem faltando nesse ramo, e então me diga quando estiver pronto.*",
+              "*Vá à branch chamada \"main\" no meu repositório local, pegue todos os commits, então vá à branch \"main\" no repositório remoto chamado \"origin\". Coloque quaisquer commits que estiverem faltando nessa branch, e então me diga quando estiver pronto.*",
               "",
               "Especificando `main` como parâmetro \"lugar\", dizemos ao Git de onde os commits *vão vir* e para onde os commits *irão*. É essencialmente o \"lugar\" onde sincronizar entre os dois repositórios.",
               "",
@@ -475,7 +475,7 @@ exports.level = {
               "E se eu não especificasse parâmetros? O que aconteceria?"
             ],
             "afterMarkdowns": [
-              "O comando falha (como você pode ver), já que o `HEAD` não havia sofrido checkout para um ramo com propriedade de remote-tracking definida."
+              "O comando falha (como você pode ver), já que o `HEAD` não havia sofrido checkout para uma branch com propriedade de remote-tracking definida."
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"
@@ -485,7 +485,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, neste nível vamos atualizar tanto o `foo` como o `main` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
+              "Ok, neste nível vamos atualizar tanto a `foo` como a `main` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
             ]
           }
         }
