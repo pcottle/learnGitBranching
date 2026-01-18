@@ -407,7 +407,7 @@ exports.level = {
             "markdowns": [
               "## Detalhes sobre `<lugar>`",
               "",
-              "Lembra que na lição anterior especificamos `main` como o parâmetro lugar para o git push? Lá definimos tanto a *origem* de onde os commits viriam quanto o *destino* para onde os commits foram.",
+              "Lembra que na lição anterior especificamos `main` como o parâmetro place para o git push? Lá definimos tanto a *origem* de onde os commits viriam quanto o *destino* para onde os commits foram.",
               "",
               "Você pode estar se perguntando -- e se eu quisesse que a origem e o destino fossem diferentes? E se eu quisesse enviar commits do ramo local `foo` para o ramo remoto `bar`?",
               "",
