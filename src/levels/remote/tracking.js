@@ -649,9 +649,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Seguindo ramos remotos",
+              "### Seguindo branches remotos",
               "",
-              "Uma coisa que pode ter parecido \"mágica\" nas lições passadas é que o Git sabia que o ramo `main` estava relacionado com o `o/main`. Certamente esses ramos possuem nomes similares, e tem todo sentido lógico conectar o ramo `main` do lado remoto com o ramo `main` local, mas essa conexão é demonstrada claramente em dois cenários:",
+              "Uma coisa que pode ter parecido \"mágica\" nas lições passadas é que o Git sabia que a branch `main` estava relacionada com a `o/main`. Certamente essas branches possuem nomes similares, e tem todo sentido lógico conectar o ramo `main` do lado remoto com a branch `main` local, mas essa conexão é demonstrada claramente em dois cenários:",
               "",
               "* Durante uma operação de pull, os commits são baixados em `o/main` e então são *mergidos* no ramo `main`. O alvo do merge é determinado a partir dessa conexão.",
               "* Durante uma operação de push, o trabalho do ramo `main` local é enviado para o ramo `main` remoto (que é representado localmente por `o/main`). O *destino* do push é determinado da conexão entre `main` e `o/main`.",
@@ -665,13 +665,13 @@ exports.level = {
             "markdowns": [
               "## Remote tracking",
               "",
-              "Resumindo a história, essa conexão entre `main` e `o/main` é explicada pela propriedade de \"remote tracking\" dos ramos. O ramo `main` é configurado para seguir o ramo `o/main` -- isso significa que existe um alvo implícito de merge e um destino implícito de push para o ramo `main`.",
+              "Resumindo a história, essa conexão entre `main` e `o/main` é explicada pela propriedade de \"remote tracking\" das branches. A branch `main` é configurada para seguir a branch `o/main` -- isso significa que existe um alvo implícito de merge e um destino implícito de push para a branch `main`.",
               "",
-              "Você pode estar se perguntando como essa propriedade foi configurada no ramo `main` se você não executou nenhum comando ordenando que isso fosse feito. Bem, quando você clona um repositório com o Git, essa propriedade é configurada para você automaticamente. ",
+              "Você pode estar se perguntando como essa propriedade foi configurada na branch `main` se você não executou nenhum comando ordenando que isso fosse feito. Bem, quando você clona um repositório com o Git, essa propriedade é configurada para você automaticamente. ",
               "",
-              "Durante a clonagem, o Git cria um ramo remoto para cada ramo que existe no repositório remoto (ou seja, ramos como o `o/main`). Ele cria então um ramo local que segue o ramo atualmente ativo no repositório remoto, que geralmente é o `main`.",
+              "Durante a clonagem, o Git cria uma branch remota para cada branch que existe no repositório remoto (ou seja, branches como a `o/main`). Ele cria então uma branch local que segue a branch atualmente ativa no repositório remoto, que geralmente é a `main`.",
               "",
-              "Uma vez que a clonagem esteja completa, você terá apenas um único ramo local (para que você não seja sobrecarregado), mas você pode ver todos os ramos diferentes que existem no repositório remoto (caso você esteja curioso). É o melhor dos dois mundos!",
+              "Uma vez que a clonagem esteja completa, você terá apenas uma única branch local (para que você não seja sobrecarregado), mas você pode ver todos as branches diferentes que existem no repositório remoto (caso você esteja curioso). É o melhor dos dois mundos!",
               "",
               "Isso também explica porque você vê a seguinte mensagem quando clona um repositório:",
               "",
@@ -685,13 +685,13 @@ exports.level = {
             "markdowns": [
               "### Posso eu mesmo especificar isso?",
               "",
-              "Sim, você pode! Você pode fazer com que qualquer ramo arbitrário siga o `o/main`, e se você fizer isso, esse ramo terá o mesmo destino de push implícito que e o mesmo alvo de merge que o `main`. Isso significa que você pode executar `git push` em um ramo chamado `realmenteNaoSouOMain` e ainda assim ter seu trabalho enviado ao ramo `main` do repositório remoto!",
+              "Sim, você pode! Você pode fazer com que qualquer branch arbitrário siga a `o/main`, e se você fizer isso, essa branch terá o mesmo destino de push implícito que e o mesmo alvo de merge que a `main`. Isso significa que você pode executar `git push` em uma branch chamada `realmenteNaoSouOMain` e ainda assim ter seu trabalho enviado à branch `main` do repositório remoto!",
               "",
-              "Há duas formas de configurar essa propriedade. A primeira consiste em fazer checkout de um novo ramo usando o ramo remoto como especificação de referência. Executar",
+              "Há duas formas de configurar essa propriedade. A primeira consiste em fazer checkout de uma nova branch usando a branch remota como especificação de referência. Executar",
               "",
               "`git checkout -b realmenteNaoSouOMain o/main`",
               "",
-              "Cria um novo ramo chamado `realmenteNaoSouOMain` e o configura para seguir o `o/main`."
+              "Cria uma nova branch chamada `realmenteNaoSouOMain` e o configura para seguir a `o/main`."
             ]
           }
         },
@@ -699,10 +699,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Já foi conversa o suficiente, vamos ver uma demonstração! Vamos fazer checkout de um novo ramo chamado `foo` e configurá-lo para seguir o `main` do repositório remoto."
+              "Já foi conversa o suficiente, vamos ver uma demonstração! Vamos fazer checkout de uma nova branch chamada `foo` e configurá-la para seguir a `main` do repositório remoto."
             ],
             "afterMarkdowns": [
-              "Como você pode ver, usamos o alvo implícito de merge do `o/main` para atualizar o ramo `foo`. Veja como o main local não sofreu atualização!!"
+              "Como você pode ver, usamos o alvo implícito de merge da `o/main` para atualizar a branch `foo`. Veja como a main local não sofreu atualização!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
             "beforeCommand": "git clone; git fakeTeamwork"
@@ -715,7 +715,7 @@ exports.level = {
               "Isso também se aplica ao git push."
             ],
             "afterMarkdowns": [
-              "Boom. Nós enviamos nosso trabalho para o ramo remoto `main` ainda que nosso ramo local tivesse um nome completamente diferente."
+              "Boom. Nós enviamos nosso trabalho para a branch remota `main` ainda que nossa branch local tivesse um nome completamente diferente."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
             "beforeCommand": "git clone"
@@ -727,11 +727,11 @@ exports.level = {
             "markdowns": [
               "### Forma #2",
               "",
-              "Outra maneira de configurar remote tracking em um ramo é utilizando `git branch -u`. Executando",
+              "Outra maneira de configurar remote tracking em uma branch é utilizando `git branch -u`. Executando",
               "",
               "`git branch -u o/main foo`",
               "",
-              "configuraremos o ramo local `foo` para seguir o `o/main`. Se `foo` for o que estiver atualmente em checkout, você pode inclusive omiti-lo:",
+              "configuraremos a branch local `foo` para seguir o `o/main`. Se `foo` for o que estiver atualmente em checkout, você pode inclusive omiti-lo:",
               "",
               "`git branch -u o/main`",
               ""
@@ -755,7 +755,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! Para este nível, vamos fazer push no ramo remoto `main` *sem estar* em um checkout do `main` local. Vou deixar você descobrir o resto, já que isto é um curso avançado :P"
+              "Ok! Para este nível, vamos fazer push na branch remota `main` *sem estar* em um checkout da `main` local. Vou deixar você descobrir o resto, já que isto é um curso avançado :P"
             ]
           }
         }
