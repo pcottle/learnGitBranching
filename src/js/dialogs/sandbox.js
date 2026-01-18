@@ -20,7 +20,7 @@ exports.dialog = {
         '',
         'PS: Want to go straight to a sandbox next time?',
         'Try out ',
-        '[this special link](https://pcottle.github.io/learnGitBranching/?NODEMO)',
+        '[this special link](https://pcottle.github.io/learnGitBranching/?NODEMO).',
         '',
         'PPS: GitHub has started naming the default branch `main` instead of `master` ',
         'to migrate away from biased terminology [(more details available here)](https://github.com/github/renaming). ',
@@ -203,54 +203,26 @@ exports.dialog = {
     options: {
       markdowns: [
         '## Bem-vindo ao Learn Git Branching!',
+        'Interessado em aprender Git? Então você veio ao lugar certo! ',
+        '"Learn Git Branching" é a maneira mais visual e interativa de aprender Git',
+        'na internet; você será desafiado com níveis empolgantes, receberá demonstrações passo a passo',
+        'de recursos poderosos e talvez até se divirta um pouco ao longo do caminho.',
         '',
-        'Este aplicativo foi desenvolvido para ajudar os iniciantes a ',
-        'aprender os poderosos conceitos por trás do branching com ',
-        'o git. Esperamos que você goste deste aplicativo e talvez ',
-        'até aprenda alguma coisa!',
+        'Após esta esta mensagem, você verá a variedade de níveis que oferecemos. Se você é um',
+        'iniciante, basta começar pelo primeiro. Se você já conhece alguns conceitos básicos de Git, ',
+        'experimente alguns dos nossos níveis mais avançados.',
         '',
-        '# Demo!',
+        'Você pode ver todos os comandos disponíveis com `show commands` no terminal.',
         '',
-        'Se você ainda não viu o demo, veja aqui:',
+        'PS: Quer ir direto para um ambiente de testes na próxima vez?',
+        'Experimente ',
+        '[este link especial](https://pcottle.github.io/learnGitBranching/?NODEMO).',
         '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=pt_BR&demo](https://pcottle.github.io/learnGitBranching/?locale=pt_BR&demo)',
-        '',
-        'Farto desta mensagem? Acrescente `NODEMO` ao endereço para se livrar dela, como no link abaixo:',
-        '',
-        '[https://pcottle.github.io/learnGitBranching/?locale=pt_BR&NODEMO](https://pcottle.github.io/learnGitBranching/?locale=pt_BR&NODEMO)'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Comandos do git',
-        '',
-        'Você tem à sua disposição no sandbox uma variedade de comandos do git:',
-        '',
-        ' * commit',
-        ' * branch',
-        ' * checkout',
-        ' * cherry-pick',
-        ' * reset',
-        ' * revert',
-        ' * rebase',
-        ' * merge'
-      ]
-    }
-  }, {
-    type: 'ModalAlert',
-    options: {
-      markdowns: [
-        '## Compartilhar é se importar!',
-        '',
-        'Compartilhe árvores com seus amigos usando `export tree` e `import tree`',
-        '',
-        'Tem uma grande lição para compartilhar? Tente construir um nível com `build level` ou experimente o nível de um amigo com `import level`',
-        '',
-        'Para ver todos os comandos, use `show commands`. Há algumas jóias como `undo` e `reset`',
-        '',
-        'Por hora, vamos começar com o `levels`...'
+        'PPS: O GitHub começou a nomear a branch padrão como `main` em vez de `master` ',
+        'para migrar de uma terminologia enviesada [(mais detalhes disponíveis aqui)](https://github.com/github/renaming).',
+        'Seguindo essa tendência da indústria, também atualizamos o "Learn Git Branching", para ',
+        'usar `main` em vez de `master` em nossas lições. A mudança de nomes já deve estar bastante estável por', 
+        'enquanto, mas se você notar algum erro, fique à vontade para enviar um PR (ou abrir uma issue).'
       ]
     }
   }],
