@@ -407,7 +407,7 @@ exports.level = {
             "markdowns": [
               "## Movendo o trabalho por aí",
               "",
-              "Por enquanto nós abordamos o básico do Git -- commitar, criar ramos, e mover-se pela árvore. Apenas esses conceitos já são suficientes para utilizar 90% do poder dos repositórios Git, e cobrem as principais necessidades dos desenvolvedores.",
+              "Por enquanto nós abordamos o básico do Git -- commitar, criar branches, e mover-se pela árvore. Apenas esses conceitos já são suficientes para utilizar 90% do poder dos repositórios Git, e cobrem as principais necessidades dos desenvolvedores.",
               "",
               "Os 10% restantes, entretanto, podem ser extremamente úteis em fluxos de trabalho complexos (ou quando você estiver em uma enrascada). O próximo conceito que vamos abordar é \"movendo trabalho por aí\" -- em outras palavras, veremos as formas como o desenvolvedor pode dizer \"eu quero este trabalho aqui, e aquele ali\" de formas precisas, eloquentes e flexíveis.",
               "",
@@ -436,7 +436,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Aqui está um repositório onde temos algum trabalho no ramo `side` que desejamos copiar para o `main`. Isso poderia ser obtido por meio de um rebase (que já aprendemos), mas vamos ver como o cherry-pick se sai."
+              "Aqui está um repositório onde temos algum trabalho na branch `side` que desejamos copiar para a `main`. Isso poderia ser obtido por meio de um rebase (que já aprendemos), mas vamos ver como o cherry-pick se sai."
             ],
             "afterMarkdowns": [
               "É isso! Queríamos os commits `C2` e `C4` e o git os inseriu logo abaixo de nós. Simples assim!"
@@ -449,7 +449,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, simplesmente copie algum trabalho dos outros três ramos para o main. Você pode ver quais commits queremos copiar na visualização do objetivo.",
+              "Para completar este nível, simplesmente copie algum trabalho das outras três branches para a main. Você pode ver quais commits queremos copiar na visualização do objetivo.",
               ""
             ]
           }
