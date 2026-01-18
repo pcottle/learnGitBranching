@@ -34,7 +34,7 @@ exports.level = {
     "es_AR": "Acordate de que podés crear nuevas ramas locales usando los parámetros de fetch/pull",
     "es_MX": "Recuerda que puedes crear nuevas ramas locales usando los parámetros de fetch/pull",
     "es_ES": "Recuerda que puedes crear nuevas ramas locales usando los parámetros de fetch/pull",
-    "pt_BR": "Lembre-se que você pode criar novos ramos locais com parâmetros de fetch/pull",
+    "pt_BR": "Lembre-se que você pode criar novas branches locais com parâmetros de fetch/pull",
     "gl": "Lémbrate que podes crear novas ramas locais con parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
     "ja": "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
@@ -553,7 +553,7 @@ exports.level = {
               "Isso também funciona com origem e destino especificados? Sim, você acertou! Vejamos:"
             ],
             "afterMarkdowns": [
-              "Wow, isso é MUITA coisa em um comando só. Nós criamos um novo ramo local chamado `foo`, baixamos commits do main remoto nesse ramo `foo`, e então fizemos um merge dele com o ramo atualmente em checkout, `bar`."
+              "Wow, isso é MUITA coisa em um comando só. Nós criamos uma nova branch local chamada `foo`, baixamos commits da main remoto nesse branch `foo`, e então fizemos um merge dela com a branch atualmente em checkout, `bar`."
             ],
             "command": "git pull origin main:foo",
             "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
@@ -563,7 +563,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, para terminar, obtenha o estado da visualização do objetivo. Você vai precisar baixar alguns commits, criar novos ramos, e fazer merge de ramos em outros ramos, mas não deve precisar de muitos comandos para isso :P"
+              "Ok, para terminar, obtenha o estado da visualização do objetivo. Você vai precisar baixar alguns commits, criar novas branches, e fazer merge de branches em outras branches, mas não deve precisar de muitos comandos para isso :P"
             ]
           }
         }
