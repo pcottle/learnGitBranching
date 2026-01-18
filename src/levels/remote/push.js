@@ -289,7 +289,7 @@ exports.level = {
               "Aqui temos algumas mudanças que o repositório remoto não contém. Vamos subi-las!"
             ],
             "afterMarkdowns": [
-              "Aqui vamos nós -- o repositório remoto recebeu o commit `C2`, o ramo `main` no repositório remoto foi atualizado para apontar para `C2`, e a *nossa* reflexão do remoto (`o/main`) foi atualizada também. Está tudo sincronizado!"
+              "Aqui vamos nós -- o repositório remoto recebeu o commit `C2`, a branch `main` no repositório remoto foi atualizada para apontar para `C2`, e o *nosso* reflexo do remoto (`o/main`) foi atualizado também. Está tudo sincronizado!"
             ],
             "command": "git push",
             "beforeCommand": "git clone; git commit"
