@@ -10,7 +10,7 @@ exports.level = {
     "es_AR": "Ramas remotas",
     "es_MX": "Ramas remotas",
     "es_ES": "Ramas remotas",
-    "pt_BR": "Ramos remotos",
+    "pt_BR": "Branches remotas",
     "gl": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern",
     "ja": "リモートのブランチ",
@@ -429,15 +429,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Ramos Remotos no Git",
+              "## Branches Remotas no Git",
               "",
               "Agora que vimos o `git clone` em ação, vamos estudar aquilo que realmente mudou.",
               "",
-              "A primeira coisa que você pode ter percebido é que um novo ramo chamado `o/main` aparece no nosso repositório local. Esse tipo de ramo é chamado de ramo _remoto_; ramos remotos possuem propriedades especiais pois eles servem a um propósito único.",
+              "A primeira coisa que você pode ter percebido é que uma nova branch chamada `o/main` aparece no nosso repositório local. Esse tipo de branch é chamada de branch _remota_; branches remotas possuem propriedades especiais pois elas servem a um propósito único.",
               "",
-              "Ramos remotos refletem o _estado_ de repositórios remotos (desde a última vez na qual você falou com eles). Eles ajudam a entender as diferenças entre o trabalho local e o trabalho atualmente público -- um passo crítico a ser dado antes de compartilhar seu trabalho com os outros.",
+              "Branches remotas refletem o _estado_ de repositórios remotos (desde a última vez na qual você falou com eles). Elas ajudam a entender as diferenças entre o trabalho local e o trabalho atualmente público -- um passo crítico a ser dado antes de compartilhar seu trabalho com os outros.",
               "",
-              "Ramos remotos possuem a propriedade especial de, ao sofrerem um checkout, colocarem o repositório em modo \"Detached HEAD\". O Git faz isso de propósito, porque você não pode trabalhar nesses ramos diretamente; você é obrigado a trabalhar em outro lugar e só então compartilhar seu trabalho com o remoto (depois disso, os ramos remotos serão atualizados)."
+              "Branches remotas possuem a propriedade especial de, ao sofrerem um checkout, colocarem o repositório em modo \"Detached HEAD\". O Git faz isso de propósito, porque você não pode trabalhar nessas branches diretamente; você é obrigado a trabalhar em outro lugar e só então compartilhar seu trabalho com o remoto (depois disso, as branches remotas serão atualizadas)."
             ]
           }
         },
@@ -447,11 +447,11 @@ exports.level = {
             "markdowns": [
               "### O que é `o/`?",
               "",
-              "Você pode estar se perguntando o que o `o/` no início do nome dos ramos remotos significa. Bem, ramos remotos possuem uma convenção obrigatória de nomes -- eles são mostrados no seguinte formato:",
+              "Você pode estar se perguntando o que o `o/` no início do nome dos branches remotas significa. Bem, branches remotas possuem uma convenção obrigatória de nomes -- elas são mostrados no seguinte formato:",
               "",
-              "* `<nome do repositório remoto>/<nome do ramo>`",
+              "* `<nome do repositório remoto>/<nome da branch>`",
               "",
-              "Então, se o ramo remoto é chamado `o/main`, o nome do ramo é `main` e o nome do repositório remoto é `o`.",
+              "Então, se a branch remota é chamada `o/main`, o nome da branch é `main` e o nome do repositório remoto é `o`.",
               "",
               "A maioria dos desenvolvedores na verdade chama o repositório remoto principal de `origin`, e não de `o`. Isso é tão comum que o Git define por padrão o nome `origin` para o repositório remoto quando você usa o comando `git clone` para clonar um repositório.",
               "",
@@ -465,10 +465,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos fazer checkout de um ramo remoto e ver o que acontece."
+              "Vamos fazer checkout de uma branch remota e ver o que acontece."
             ],
             "afterMarkdowns": [
-              "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou o `o/main` quando adicionamos um novo commit. Isso é porque o `o/main` só será atualizado quando o repositório remoto for atualizado."
+              "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou a `o/main` quando adicionamos um novo commit. Isso é porque a `o/main` só será atualizada quando o repositório remoto for atualizado."
             ],
             "command": "git checkout o/main; git commit",
             "beforeCommand": "git clone"
@@ -478,7 +478,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, commite uma vez em `main`, e outra vez depois de fazer checkout em `o/main`. Isso vai ajudá-lo a sentir como os ramos remotos se comportam de forma diferente, e como eles apenas se atualizam para refletir o estado do repositório remoto."
+              "Para completar este nível, commite uma vez na `main`, e outra vez depois de fazer checkout na `o/main`. Isso vai ajudá-lo a sentir como as branches remotas se comportam de forma diferente, e como elas apenas se atualizam para refletir o estado do repositório remoto."
             ]
           }
         }
