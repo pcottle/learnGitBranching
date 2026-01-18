@@ -165,6 +165,13 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('can delete branches with colon refspec after fakeTeamwork', function() {
+    return expectTreeAsync(
+      'git commit; git branch foo; git clone; git fakeTeamwork; git push origin :foo',
+      '{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":"o/main"},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":null},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C3","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
   it('can delete branches with --delete flag', function() {
     expectTreeAsync(
       'git branch foo; git clone; git push origin --delete',
