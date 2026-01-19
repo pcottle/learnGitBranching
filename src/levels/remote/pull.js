@@ -354,7 +354,7 @@ exports.level = {
               "",
               "Agora que vimos como baixar dados de um repositório remoto com `git fetch`, vamos atualizar nosso trabalho para refletir essas mudanças!",
               "",
-              "Há, na verdade, muitas formas de fazê-lo -- uma vez que você tenha os novos commits disponíveis localmente, você pode incorporá-los como se eles fossem commits normais em outros ramos. Isso significa que você pode executar comandos como estes a seguir:",
+              "Há, na verdade, muitas formas de fazê-lo -- uma vez que você tenha os novos commits disponíveis localmente, você pode incorporá-los como se eles fossem commits normais em outras branches. Isso significa que você pode executar comandos como estes a seguir:",
               "",
               "* `git cherry-pick o/main`",
               "* `git rebase o/main`",
@@ -372,7 +372,7 @@ exports.level = {
               "Vamos primeiro ver um `fetch` e um `merge` executados sequencialmente."
             ],
             "afterMarkdowns": [
-              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/main`. Agora o nosso ramo `main` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
+              "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/main`. Agora a nossa branch `main` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
             ],
             "command": "git fetch; git merge o/main",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -385,7 +385,7 @@ exports.level = {
               "O que iria acontecer se, em vez disso, usássemos `git pull`?"
             ],
             "afterMarkdowns": [
-              "Exatamente o mesmo! Isso deve tornar bem claro que `git pull` é essencialmente um caminho mais curto para executar um `git fetch` seguido de um merge de seja já qual ramo tiver sido baixado."
+              "Exatamente o mesmo! Isso deve tornar bem claro que `git pull` é essencialmente um caminho mais curto para executar um `git fetch` seguido de um merge de seja lá qual branch tiver sido baixada."
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"

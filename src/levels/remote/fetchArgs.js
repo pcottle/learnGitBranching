@@ -690,7 +690,7 @@ exports.level = {
               "",
               "`git fetch origin foo`",
               "",
-              "O Git vai ao ramo remoto `foo` e pega todos os commits que não estão presentes localmente, jogando-os no ramo local `o/foo`.",
+              "O Git vai à branch remota `foo` e pega todos os commits que não estão presentes localmente, jogando-os na branch local `o/foo`.",
               "",
               "Vejamo-lo em ação (só para refrescar a memória)."
             ]
@@ -713,9 +713,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Você pode estar se perguntando -- por que o Git colocou os commits no ramo remoto `o/foo` em vez de simplesmente jogá-los no meu ramo local `foo`? Eu pensei que o parâmetro fosse um `<lugar>` que existisse tanto no repositório local como no remoto?",
+              "Você pode estar se perguntando -- por que o Git colocou os commits na branch remota `o/foo` em vez de simplesmente jogá-los na minha branch local `foo`? Eu pensei que o parâmetro fosse um `<lugar>` que existisse tanto no repositório local como no remoto?",
               "",
-              "Bem, o Git tem uma exceção especial neste caso, porque pode ser que exista trabalho seu no ramo local `foo` que você não queira bagunçar!! Esse fato é relacionado com o abordado na lição anterior sobre o `git fetch` -- ele não atualiza ramos locais não-remotos, ele apenas baixa os commits (de forma que você possa inspecioná-los e/ou realizar um merge posteriormente).",
+              "Bem, o Git tem uma exceção especial neste caso, porque pode ser que exista trabalho seu na branch local `foo` que você não queira bagunçar!! Esse fato é relacionado com o abordado na lição anterior sobre o `git fetch` -- ele não atualiza branches locais não-remotas, ele apenas baixa os commits (de forma que você possa inspecioná-los e/ou realizar um merge posteriormente).",
               ""
             ]
           }
@@ -726,7 +726,7 @@ exports.level = {
             "markdowns": [
               "\"Bem, neste caso, o que acontece se eu definir explicitamente tanto a origem como o destino, com `<origem>:<destino>`?\"",
               "",
-              "Se você estiver apaixonado o suficiente para baixar commits *diretamente* em um ramo local, então sim, você pode especificar esse comportamento com um colon refspec. Você só não pode baixar commits em um ramo que esteja atualmente em checkout, mas se não estiver, o Git permitirá o fetch.",
+              "Se você estiver apaixonado o suficiente para baixar commits *diretamente* em uma branch local, então sim, você pode especificar esse comportamento com um colon refspec. Você só não pode baixar commits em uma branch que esteja atualmente em checkout, mas se não estiver, o Git permitirá o fetch.",
               "",
               "Aqui está o único detalhe -- `<origem>` agora é uma referência *remota* e `<destino>` é uma referência *local* de onde colocar esses commits. É exatamente o oposto do git push, e realmente faz sentido, já que estamos transferindo os dados na direção oposta!",
               "",
@@ -741,7 +741,7 @@ exports.level = {
               "Vejamos essa loucura em ação:"
             ],
             "afterMarkdowns": [
-              "Wow! Viu, o Git entendeu o `C2` como um lugar de origin e baixou os commits para o ramo local `bar`."
+              "Wow! Viu, o Git entendeu o `C2` como um lugar de origin e baixou os commits para a branch local `bar`."
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
@@ -766,7 +766,7 @@ exports.level = {
             "beforeMarkdowns": [
               "Sem parâmetros?",
               "",
-              "Se o `git fetch` não receber argumentos, ele simplesmente baixa todos os commits do repositório remoto em todos os ramos remotos..."
+              "Se o `git fetch` não receber argumentos, ele simplesmente baixa todos os commits do repositório remoto em todos as branches remotas..."
             ],
             "afterMarkdowns": [
               "Bastante simples, mas importante de rever ao menos uma vez."

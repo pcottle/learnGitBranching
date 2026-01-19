@@ -15,7 +15,7 @@ exports.level = {
     "es_AR": "Ensalada de branches",
     "es_MX": "Espagueti de ramas",
     "es_ES": "Ensalada de ramas",
-    "pt_BR": "Espaguete de ramos",
+    "pt_BR": "Espaguete de branches",
     "gl": "Espaguete de ramas",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "纠缠不清的分支",
@@ -38,7 +38,7 @@ exports.level = {
     "es_AR": "¡Asegurate de hacer las cosas en el orden correcto! Brancheá `one` primero, después `two`, y después `three`.",
     "es_MX": "¡Asegúrate de hacer las cosas en el orden correcto! Primero la rama uno, después la dos, y después la tres.",
     "es_ES": "¡Asegúrate de hacer las cosas en el orden correcto! Crea primero la rama `one`, después `two`, y después `three`.",
-    "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie o ramo `one` primeiro, depois `two`, depois `three`.",
+    "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie a branch `one` primeiro, depois `two`, depois `three`.",
     "gl": "¡Afiánzate de facer as cousas no orde correcto! Crea ramas `one` de primeiras, e logo `two` e `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
@@ -181,13 +181,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Espaguete de ramos",
+              "## Espaguete de branches",
               "",
               "Uhuuuuu Nelly! Temos um belo de um objetivo para alcançar neste nível.",
               "",
-              "Temos aqui um `main` que está alguns commits atrás dos ramos `one`, `two` e `three`. Seja lá por qual razão, precisamos atualizar esses três outros ramos com versões modificadas dos últimos commits do main.",
+              "Temos aqui uma `main` que está alguns commits atrás das branches `one`, `two` e `three`. Seja lá por qual razão, precisamos atualizar essas três outras branches com versões modificadas dos últimos commits do main.",
               "",
-              "O ramo `one` precisa de uma reordenação e da exclusão do `C5`. O `two` precisa apenas de reordenação. O `three` precisa de um único commit!",
+              "A branch `one` precisa de uma reordenação e da exclusão do `C5`. A `two` precisa apenas de reordenação. A `three` precisa de um único commit!",
               "",
               "Vamos deixar você descobrir como resolver esta tarefa -- mas não deixe de ver a nossa solução depois com o comando `show solution`. "
             ]

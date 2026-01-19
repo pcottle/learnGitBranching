@@ -502,7 +502,7 @@ exports.level = {
               "",
               "Nesta lição vamos aprender como baixar dados _de_ um repositório remoto -- o comando para isso é convenientemente chamado de `git fetch`.",
               "",
-              "Você perceberá que conforme atualizarmos a representação do repositório remoto, nossos ramos _remotos_ atualizar-se-ão para refletir essa nova representação. Isso tem a ver com o que vimos na lição anterior sobre ramos remotos."
+              "Você perceberá que conforme atualizarmos a representação do repositório remoto, nossas branches _remotas_ irão se atualizar para refletir essa nova representação. Isso tem a ver com o que vimos na lição anterior sobre branches remotas."
             ]
           }
         },
@@ -513,7 +513,7 @@ exports.level = {
               "Antes de entrar nos detalhes do `git fetch`, vejamo-no em ação! Aqui temos um repositório remoto que contém dois commits que nosso repositório local não possui."
             ],
             "afterMarkdowns": [
-              "Lá vamos nós! Os commits `C2` e `C3` foram baixados para o nosso repositório local, e nosso ramo remoto `o/main` foi atualizado para refletir esse fato."
+              "Lá vamos nós! Os commits `C2` e `C3` foram baixados para o nosso repositório local, e nossa branch remota `o/main` foi atualizado para refletir esse fato."
             ],
             "command": "git fetch",
             "beforeCommand": "git clone; git fakeTeamwork 2"
@@ -528,11 +528,11 @@ exports.level = {
               "O `git fetch` realiza dois passos principais, e somente estes dois passos principais. Ele:",
               "",
               "* Baixa os commits que o repositório remoto possui mas que estão faltando no repositório local, e...",
-              "* Atualiza a referência para a qual os ramos remotos (por exemplo, `o/main`) estão apontando",
+              "* Atualiza a referência para a qual as braches remotas (por exemplo, `o/main`) estão apontando",
               "",
               "O `git fetch` essencialmente faz com que nossa representação _local_ do repositório remoto fique sincronizada com a forma com que o repositório remoto _de fato_ se parece (naquele momento).",
               "",
-              "Se você lembrar da lição anterior, nós dissemos que os ramos remotos refletem o estado dos repositórios remotos _desde a última vez_ na qual você falou com esses repositórios. O `git fetch` é a única forma de falar com esses repositórios remotos! Espero que a conexão entre os ramos remotos e o `git fetch` esteja clara agora.",
+              "Se você lembrar da lição anterior, nós dissemos que as braches remotos refletem o estado dos repositórios remotos _desde a última vez_ na qual você falou com esses repositórios. O `git fetch` é a única forma de falar com esses repositórios remotos! Espero que a conexão entre as braches remotas e o `git fetch` esteja clara agora.",
               "",
               "O `git fetch` geralmente conversa com o repositório remoto por meio da Internet (usando um protocolo como `http://` ou `git://`).",
               ""
@@ -545,7 +545,7 @@ exports.level = {
             "markdowns": [
               "### O que o fetch NÃO faz",
               "",
-              "O `git fetch`, no entanto, não muda nada do estado _local_ do repositório. Ele não atualiza o seu ramo `main` nem muda nada na forma como o seu sistema de arquivos está no momento.",
+              "O `git fetch`, no entanto, não muda nada do estado _local_ do repositório. Ele não atualiza a sua branch `main` nem muda nada na forma como o seu sistema de arquivos está no momento.",
               "",
               "É importante entender isso, pois muitos desenvolvedores pensam que executar `git fetch` fará com que o trabalho local reflita o estado do repositório remoto. Ele pode até baixar todos os dados necessários para fazê-lo, mas ele _não_ muda de fato nenhum dos arquivos locais. Vamos aprender comandos para fazê-lo nas lições a seguir :D",
               "",

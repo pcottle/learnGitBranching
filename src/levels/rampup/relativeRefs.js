@@ -600,7 +600,7 @@ exports.level = {
             "markdowns": [
               "Como eu disse, especificar commits pelo hash não é sempre o mais conveniente, e é por isso que o Git suporta referências relativas. Elas são fantásticas!",
               "",
-              "Com referências relativas, você pode começar a partir de um ponto fácil de lembrar (como o ramo `bugFix` ou o `HEAD`) e referenciar a partir dali.",
+              "Com referências relativas, você pode começar a partir de um ponto fácil de lembrar (como a branch `bugFix` ou o `HEAD`) e referenciar a partir dali.",
               "",
               "Commits relativos são poderosos, mas vamos introduzir apenas dois tipos simples aqui:",
               "",
@@ -615,11 +615,11 @@ exports.level = {
             "beforeMarkdowns": [
               "Vamos dar uma olhada no operador circunflexo (^) primeiro. Cada vez que você adicioná-lo a um nome de referência, você está dizendo ao Git para encontrar o pai do commit especificado.",
               "",
-              "Então, dizer `main^` é equivalente a \"o primeiro pai do `main`\".",
+              "Então, dizer `main^` é equivalente a \"o primeiro pai da `main`\".",
               "",
-              "`main^^` é o avô (ancestral de segunda geração) do `main`",
+              "`main^^` é o avó (ancestral de segunda geração) da `main`",
               "",
-              "Vamos fazer checkout do commit logo acima do main."
+              "Vamos fazer checkout do commit logo acima da main."
             ],
             "afterMarkdowns": [
               "Boom! Pronto. Muito mais fácil que digitar o hash do commit."
@@ -645,7 +645,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar esse nível, faça checkout do commit pai de `bugFix`. Isso soltará o `HEAD`.",
+              "Para completar esse nível, faça checkout do commit pai da `bugFix`. Isso soltará o `HEAD`.",
               "",
               "Você pode especificar o hash se quiser, mas tente usar referências relativas em vez disso!"
             ]

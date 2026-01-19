@@ -306,9 +306,9 @@ exports.level = {
               "",
               "Aqui está uma situação de acontece frequentemente com desenvolvedores: Estou tentando encontrar um bug, mas ele é escorregadio. Para auxiliar meu trabalho de detetive, eu coloco alguns comandos de debug e prints.",
               "",
-              "Todos esses comandos de debug e mensagens estão em seus próprios ramos. Finalmente eu encontro o bug, corrijo, e me regozijo!",
+              "Todos esses comandos de debug e mensagens estão em suas próprias branches. Finalmente eu encontro o bug, corrijo, e me alegro!",
               "",
-              "O único problema é que agora eu preciso devolver o meu `bugFix` ao ramo `main`. Se eu simplesmente der um fast-forward no `main`, então o `main` terminará contendo todos os comandos de debug, o que é indesejável. Deve existir alguma outra forma..."
+              "O único problema é que agora eu preciso devolver minha `bugFix` à branch `main`. Se eu simplesmente der um fast-forward na `main`, então a `main` terminará contendo todos os comandos de debug, o que é indesejável. Deve existir alguma outra forma..."
             ]
           }
         },
@@ -329,7 +329,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Este é um nível avançado, então vamos deixar para você a decisão de qual comando usar, mas para completar este nível, certifique-se de que o `main` receba o commit referenciado por `bugFix`."
+              "Este é um nível avançado, então vamos deixar para você a decisão de qual comando usar, mas para completar este nível, certifique-se de que a `main` receba o commit referenciado pela `bugFix`."
             ]
           }
         }

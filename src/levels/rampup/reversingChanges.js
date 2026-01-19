@@ -387,12 +387,12 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Reset",
               "",
-              "O comando `git reset` reverte mudanças movendo para trás no tempo (para um commit mais antigo) a referência do ramo. Desta forma, você pode pensar nessa operação como uma \"reescrita do histórico\"; o `git reset` vai mover o ramo para trás como se o commit nunca tivesse existido.",
+              "O comando `git reset` reverte mudanças movendo para trás no tempo (para um commit mais antigo) a referência da branch. Desta forma, você pode pensar nessa operação como uma \"reescrita do histórico\"; o `git reset` vai mover a branch para trás como se o commit nunca tivesse existido.",
               "",
               "Vejamos como funciona:"
             ],
             "afterMarkdowns": [
-              "Legal! O Git simplesmente moveu a referência do ramo main de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido."
+              "Legal! O Git simplesmente moveu a referência da branch main de volta para `C1`; agora o nosso repositório local está em um estado como se o `C2` nunca tivesse acontecido."
             ],
             "command": "git reset HEAD~1",
             "beforeCommand": "git commit"
@@ -404,7 +404,7 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "Embora o reset funcione muito bem em ramos locais no seu próprio computador, o método utilizado de \"reescrever o histórico\" não funciona com ramos remotos que outras pessoas estejam usando.",
+              "Embora o reset funcione muito bem em branches locais no seu próprio computador, o método utilizado de \"reescrever o histórico\" não funciona com branches remotas que outras pessoas estejam usando.",
               "",
               "Para reverter mudanças e conseguir *compartilhar* essas mudanças com os outros, precisamos usar o `git revert`. Vejamo-lo em ação"
             ],
@@ -423,7 +423,7 @@ exports.level = {
             "markdowns": [
               "Para completar este nível, reverta o commit mais recente tanto em `local` como em `pushed`.",
               "",
-              "Tenha em mente que `pushed` é um ramo remoto, e `local` é um ramo local -- isso deve ajudá-lo a escolher o método apropriado."
+              "Tenha em mente que `pushed` é uma branch remota, e `local` é uma branch local -- isso deve ajudá-lo a escolher o método apropriado."
             ]
           }
         }

@@ -472,7 +472,7 @@ exports.level = {
               "",
               "O HEAD sempre aponta para o commit mais recentemente copiado sobre a árvore de trabalho (arquivos do projeto). A maioria dos comandos do git que realizam mudanças sobre a árvore de trabalho começarão mudando o HEAD.",
               "",
-              "Normalmente o HEAD aponta para o nome de um ramo (por exemplo, bugFix). Quando você commita, o status do bugFix é alterado e essa mudança ocorre também sobre o HEAD."
+              "Normalmente o HEAD aponta para o nome de uma branch (por exemplo, bugFix). Quando você commita, o status da bugFix é alterado e essa mudança ocorre também sobre o HEAD."
             ]
           }
         },
@@ -483,7 +483,7 @@ exports.level = {
               "Vejamos isto em ação. Aqui vamos mostrar o HEAD antes e depois de um commit."
             ],
             "afterMarkdowns": [
-              "Veja! O HEAD estava se escondendo ao lado do nosso `main` esse tempo todo."
+              "Veja! O HEAD estava se escondendo ao lado da nossa `main` esse tempo todo."
             ],
             "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
@@ -495,7 +495,7 @@ exports.level = {
             "beforeMarkdowns": [
               "### Soltando a cabeça",
               "",
-              "Soltar o HEAD significa anexá-lo a um commit em vez de anexá-lo a um ramo. Antes do estado solto (\"detached\"), é assim como se parece:",
+              "Soltar o HEAD significa anexá-lo a um commit em vez de anexá-lo a uma branch. Antes do estado solto (\"detached\"), é assim como se parece:",
               "",
               "HEAD -> main -> C1",
               ""
@@ -513,7 +513,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, vamos soltar o HEAD do `bugFix` e em vez disso anexá-lo ao commit.",
+              "Para completar este nível, vamos soltar o HEAD da `bugFix` e em vez disso anexá-lo ao commit.",
               "",
               "Especifique o commit por meio do hash correspondente. O hash de cada commit é mostrado dentro do círculo que representa o commit (a letra C seguida de um número)."
             ]
