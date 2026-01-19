@@ -10,7 +10,7 @@ exports.level = {
     "es_AR": "Brancheando en Git",
     "es_MX": "Creando ramas en Git",
     "es_ES": "Creando ramas en Git",
-    "pt_BR": "Ramos no Git",
+    "pt_BR": "Branches no Git",
     "gl": "Ramas en Git",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "Git Branch",
@@ -34,7 +34,7 @@ exports.level = {
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
     "es_MX": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
     "es_ES": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
-    "pt_BR": "Crie um novo ramo com \"git branch [nome]\" e mude para ele com \"git checkout [nome]\"",
+    "pt_BR": "Crie uma nova branch com \"git branch [nome]\" e mude para ela com \"git checkout [nome]\"",
     "gl": "Crea unha nova rama con \"git branch [nome]\" e cambiate a ela facendo \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git checkout <分支名>' 来切换到分支",
@@ -634,17 +634,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Ramos no Git",
+              "## Branches no Git",
               "",
-              "Ramos no Git também são incrivelmente leves. Eles são simplesmente referências a um commit específico -- e nada mais. É por isso que muitos entusiastas do Git entoam o mantra:",
+              "Branches no Git também são incrivelmente leves. Elas são simplesmente referências a um commit específico -- e nada mais. É por isso que muitos entusiastas do Git entoam o mantra:",
               "",
               "```",
               "ramifique cedo, ramifique sempre",
               "```",
               "",
-              "Devido a não existir sobrecarga de armazenamento / memória associada à criação de ramos, é mais fácil dividir logicamente o seu trabalho do que ter ramos grandes e gordos.",
+              "Devido a não existir sobrecarga de armazenamento / memória associada à criação de branches, é mais fácil dividir logicamente o seu trabalho do que ter branches grandes e gordas.",
               "",
-              "Quando começarmos a misturar ramos e commits, vamos ver como esses dois recursos combinam bem. Por enquanto, só lembre que um ramo diz essencialmente \"Quero incluir o trabalho deste commit e de todos os seus ancestrais\"."
+              "Quando começarmos a misturar branches e commits, vamos ver como esses dois recursos combinam bem. Por enquanto, só lembre que uma branch diz essencialmente \"Quero incluir o trabalho deste commit e de todos os seus ancestrais\"."
             ]
           }
         },
@@ -652,12 +652,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vejamos como os ramos funcionam na prática.",
+              "Vejamos como as branches funcionam na prática.",
               "",
-              "Aqui vamos criar um novo ramo chamado `newImage`."
+              "Aqui vamos criar um nova branch chamada `newImage`."
             ],
             "afterMarkdowns": [
-              "Veja, é só isso que você tem que fazer para ramificar! O ramo `newImage` agora se refere ao commit `C1`."
+              "Veja, é só isso que você tem que fazer para ramificar! A branch `newImage` agora se refere ao commit `C1`."
             ],
             "command": "git branch newImage",
             "beforeCommand": ""
@@ -667,10 +667,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos tentar colocar algum trabalho neste novo ramo. Clique no botão abaixo."
+              "Vamos tentar colocar algum trabalho nesta nova branch. Clique no botão abaixo."
             ],
             "afterMarkdowns": [
-              "Ah não! O ramo `main` se moveu mas o `newImage` não! Isso é porque o novo ramo não era o \"ativo\", e é por isso que o asterisco (*) estava no `main`."
+              "Ah não! A branch `main` se moveu mas a `newImage` não! Isso é porque o nova branch não era a \"ativa\", e é por isso que o asterisco (*) estava na `main`."
             ],
             "command": "git commit",
             "beforeCommand": "git branch newImage"
@@ -680,16 +680,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos contar ao git que queremos fazer checkout no ramo com:",
+              "Vamos contar ao git que queremos fazer checkout na branch com:",
               "",
               "```",
               "git checkout [nome]",
               "```",
               "",
-              "Isso vai nos situar no ramo antes de commitarmos nossas mudanças."
+              "Isso vai nos situar na branch antes de commitarmos nossas mudanças."
             ],
             "afterMarkdowns": [
-              "Aqui vamos nós! Nossas mudanças foram gravadas no novo ramo."
+              "Aqui vamos nós! Nossas mudanças foram gravadas na nova branch."
             ],
             "command": "git checkout newImage; git commit",
             "beforeCommand": "git branch newImage"
@@ -712,7 +712,7 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! Vocês estão todos prontos para ramificar. Assim que esta janela fechar,",
-              "crie um novo ramo chamado `bugFix` e mude para esse ramo.",
+              "crie uma nova branch chamado `bugFix` e mude para essa branch.",
               "",
               "Por falar nisso, aqui vai um atalho: se você quiser criar uma nova ",
               "branch E fazer o checkout ao mesmo tempo, você pode simplesmente ",

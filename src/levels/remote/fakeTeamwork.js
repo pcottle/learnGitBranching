@@ -385,7 +385,7 @@ exports.level = {
               "",
               "Neste ponto, temos uma pequena dificuldade -- para algumas das lições a seguir, precisaremos ensinar como fazer pull de mudanças que foram introduzidas no repositório remoto.",
               "",
-              "Isso significa que precisaremos essencialmente \"fingir\" que o repositório remoto foi atualizado por algum de seus colegas / amigos / colaboradores, algumas vezes em um ramo específico ou com um certo número de commits.",
+              "Isso significa que precisaremos essencialmente \"fingir\" que o repositório remoto foi atualizado por algum de seus colegas / amigos / colaboradores, algumas vezes em uma branch específica ou com um certo número de commits.",
               "",
               "Para esta finalidade, criamos o comando fictício `git fakeTeamwork`! Ele é bastante auto-explicativo, vejamos uma demonstração..."
             ]
@@ -408,10 +408,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Você também pode especificar o número de commits ou o ramo, anexando-os ao comando."
+              "Você também pode especificar o número de commits ou a branch, anexando-os ao comando."
             ],
             "afterMarkdowns": [
-              "Com um único comando, nós simulamos um colega enviando 3 commits para o ramo `foo` do repositório remoto."
+              "Com um único comando, nós simulamos um colega enviando 3 commits para a branch `foo` do repositório remoto."
             ],
             "command": "git fakeTeamwork foo 3",
             "beforeCommand": "git branch foo; git clone"

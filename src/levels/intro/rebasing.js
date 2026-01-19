@@ -532,7 +532,7 @@ exports.level = {
             "markdowns": [
               "## Rebase no Git",
               "",
-              "A segunda forma de combinar trabalho entre ramos é o *rebase*. O rebase essencialmente pega um conjunto de commits, \"copia\" os mesmos, e os despeja em outro lugar.",
+              "A segunda forma de combinar trabalho entre branches é o *rebase*. O rebase essencialmente pega um conjunto de commits, \"copia\" os mesmos, e os despeja em outro lugar.",
               "",
               "Isso pode parecer confuso, mas a vantagem do rebase é que ele pode ser usado para construir uma sequência mais bonita e linear de commits. O registro de commits (história do repositório) ficará muito mais limpa se for utilizado apenas rebase em vez de merge.",
               "",
@@ -544,18 +544,18 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Aqui temos dois ramos novamente; note que o ramo bugFix está atualmente ativo (veja o asterisco)",
+              "Aqui temos duas branches novamente; note que a branch bugFix está atualmente ativa (veja o asterisco)",
               "",
-              "Queremos mover nosso trabalho do bugFix diretamente dentro do main. Desta forma, vai parecer que esses dois recursos foram desenvolvidos sequencialmente, quando na realidade foram feitos em paralelo.",
+              "Queremos mover nosso trabalho da bugFix diretamente dentro da main. Desta forma, vai parecer que esses dois recursos foram desenvolvidos sequencialmente, quando na realidade foram feitos em paralelo.",
               "",
               "Vamos fazê-lo com o comando `git rebase`."
             ],
             "afterMarkdowns": [
-              "Incrível! Agora o trabalho do nosso ramo bugFix está logo após o do main, e temos uma linda sequência linear de commits.",
+              "Incrível! Agora o trabalho da nossa branch bugFix está logo após o da main, e temos uma linda sequência linear de commits.",
               "",
-              "Perceba que o commit C3 ainda existe em algum lugar (ele está clareado na árvore), e que o C3' é a \"cópia\" que rebaseamos no main.",
+              "Perceba que o commit C3 ainda existe em algum lugar (ele está clareado na árvore), e que o C3' é a \"cópia\" que rebaseamos na main.",
               "",
-              "O único problema é que o main não foi atualizado também, vamos fazê-lo agora..."
+              "O único problema é que a main não foi atualizada também, vamos atualiza-la agora..."
             ],
             "command": "git rebase main",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
@@ -565,10 +565,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Agora o ramo `main` está ativo. Vamos em frente, fazer rebase no `bugFix`..."
+              "Agora a branch `main` está ativa. Vamos em frente, fazer rebase na `bugFix`..."
             ],
             "afterMarkdowns": [
-              "Aí está! Como o `main` era um ancestral do `bugFix`, o git simplesmente moveu a referência do ramo `main` para frente na história."
+              "Aí está! Como a `main` era um ancestral da `bugFix`, o git simplesmente moveu a referência da branch `main` para frente na história."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
@@ -580,10 +580,10 @@ exports.level = {
             "markdowns": [
               "Para completar este nível, faça o seguinte",
               "",
-              "* Faça checkout de um novo branch chamado `bugFix`",
+              "* Faça checkout de uma nova branch chamada `bugFix`",
               "* Faça um commit",
-              "* Volte ao main e faça um novo commit",
-              "* Faça checkout do bugFix novamente e faça rebase no main",
+              "* Volte à main e faça um novo commit",
+              "* Faça checkout da bugFix novamente e faça rebase na main",
               "",
               "Boa sorte!"
             ]

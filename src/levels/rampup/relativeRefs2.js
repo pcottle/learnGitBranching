@@ -434,15 +434,15 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Forçando os ramos",
+              "### Forçando os branches",
               "",
               "Agora que você é um especialista em referências relativas, vamos *usá-las* de fato para alguma coisa.",
               "",
-              "Uma das situações mais comuns na qual eu uso referências relativas é quando quero trocar ramos de lugar. Você pode redefinir diretamente o commit para o qual um ramo aponta com a opção `-f`. Desta forma, o seguinte comando:",
+              "Uma das situações mais comuns na qual eu uso referências relativas é quando quero trocar branches de lugar. Você pode redefinir diretamente o commit para o qual uma branch aponta com a opção `-f`. Desta forma, o seguinte comando:",
               "",
               "`git branch -f main HEAD~3`",
               "",
-              "Move (à força) o ramo main 3 ancestrais acima do HEAD."
+              "Move (à força) a branch main 3 ancestrais acima do HEAD."
             ]
           }
         },
@@ -453,7 +453,7 @@ exports.level = {
               "Vejamos o comando anterior em ação"
             ],
             "afterMarkdowns": [
-              "Aqui vamos nós! As referências relativas nos deram uma forma concisa de nos referirmos ao `C1`, e a movimentação de ramos (com `-f`) nos deu uma forma de apontar rapidamente um ramo para esse local."
+              "Aqui vamos nós! As referências relativas nos deram uma forma concisa de nos referirmos ao `C1`, e a movimentação de branches (com `-f`) nos deu uma forma de apontar rapidamente uma branch para esse local."
             ],
             "command": "git branch -f main HEAD~3",
             "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
@@ -463,9 +463,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Agora que você viu referências relativas e movimentação de ramos combinadas, vamos usá-las para resolver o próximo nível.",
+              "Agora que você viu referências relativas e movimentação de branches combinadas, vamos usá-las para resolver o próximo nível.",
               "",
-              "Para completar este nível, mova o `HEAD` e os ramos `main` e `bugFix` para os destinos mostrados no objetivo."
+              "Para completar este nível, mova o `HEAD` e as branches `main` e `bugFix` para os destinos mostrados no objetivo."
             ]
           }
         }

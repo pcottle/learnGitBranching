@@ -321,17 +321,17 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Merge de ramos de funcionalidades",
+              "## Merge de branches de feature",
               "",
               "Agora que você está confortável com fetch, pull e push, vamos colocar essas habilidades em teste com um novo fluxo de trabalho.",
               "",
-              "É comum para desenvolvedores de grande projetos fazer todo o trabalho em ramos de funcionalidades (fora do `main`) e então integrar esse trabalho uma única vez quando ele estiver pronto. Isso é similar à lição anterior (onde ramos laterais eram enviados ao repositório remoto), mas introduzimos mais um passo.",
+              "É comum para desenvolvedores de grande projetos, fazer todo o trabalho em branches de feature (fora da `main`) e então integrar esse trabalho uma única vez quando ele estiver pronto. Isso é similar à lição anterior (onde branches laterais eram enviadas ao repositório remoto), mas introduzimos mais um passo.",
               "",
-              "Alguns desenvolvedores só fazem push e pull quando no ramo `main` -- desta forma o `main` sempre se mantém atualizado com aquilo que está no ramo remoto (`o/main`).",
+              "Alguns desenvolvedores só fazem push e pull quando estão na branch `main` -- desta forma a `main` sempre se mantém atualizado com aquilo que está na branch remota (`o/main`).",
               "",
               "Então, para este fluxo de trabalho, combinaremos duas coisas:",
               "",
-              "* Integrar ramos de funcionalidade no `main`, e",
+              "* Integrar branches de feature na `main`, e",
               "* Realizar push e pull do repositório remoto"
             ]
           }
@@ -340,7 +340,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Vamos refrescar a memória sobre como atualizar o `main` e enviar trabalho."
+              "Vamos refrescar a memória sobre como atualizar a `main` e enviar trabalho."
             ],
             "afterMarkdowns": [
               "Nós executamos dois comandos aqui que:",
@@ -358,8 +358,8 @@ exports.level = {
             "markdowns": [
               "Esse nível é um pouco pesado -- aqui está a linha geral de como resolver:",
               "",
-              "* Há três ramos de funcionalidades -- `side1`, `side2` e `side3`",
-              "* Queremos enviar cada uma dessas funcionalidades, em ordem, para o repositório remoto",
+              "* Há três branches de features -- `side1`, `side2` e `side3`",
+              "* Queremos enviar cada uma dessas features, em ordem, para o repositório remoto",
               "* O repositório remoto foi atualizado desde então, então também precisaremos incorporar o trabalho realizado lá",
               "",
               ":O intenso! boa sorte, completar este nível é um grande passo."

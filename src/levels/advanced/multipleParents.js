@@ -827,7 +827,7 @@ exports.level = {
             "markdowns": [
               "### Coloque em prática",
               "",
-              "Para completar este nível, crie um novo ramo no destino especificado.",
+              "Para completar este nível, crie um nova branch no destino especificado.",
               "",
               "Obviamente seria mais fácil especificar o commit diretamente (com algo como `C6`), mas em vez disso eu desafio você a usar os modificadores sobre os quais falamos!"
             ]

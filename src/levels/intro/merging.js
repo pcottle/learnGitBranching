@@ -546,7 +546,7 @@ exports.level = {
             "markdowns": [
               "## Branches e Merge",
               "",
-              "Ótimo! Agora sabemos como commitar e criar ramos. Agora precisamos aprender uma forma de combinar o trabalho de dois ramos diferentes. Isso nos permitirá ramificar, desenvolver um novo recurso, e então combiná-lo de volta.",
+              "Ótimo! Agora sabemos como commitar e criar branches. Agora precisamos aprender uma forma de combinar o trabalho de duas branches diferentes. Isso nos permitirá ramificar, desenvolver um novo recurso, e então combiná-lo de volta.",
               "",
               "O primeiro método para combinar trabalho que vamos examinar é o `git merge`. O merge do Git cria um commit especial que possui dois pais únicos. Um commit com dois pais essencialmente significa \"Quero incluir todo o trabalho deste pai aqui com o daquele outro pai ali, *e* com o do conjunto de todos os seus ancestrais.\"",
               "",
@@ -558,16 +558,16 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Aqui nós temos dois ramos; cada um tem um commit que é único. Isso significa que nenhum ramo inclui o conjunto do \"trabalho\" que foi realizado no repositório. Vamos consertar isso com um merge.",
+              "Aqui nós temos duas branches; cada uma tem um commit que é único. Isso significa que nenhuma branch inclui o conjunto do \"trabalho\" que foi realizado no repositório. Vamos consertar isso com um merge.",
               "",
-              "Vamos juntar o ramo `bugFix` no `main`."
+              "Vamos juntar a branch `bugFix` na `main`."
             ],
             "afterMarkdowns": [
               "Uau! Viu isso? Antes de tudo, o `main` agora aponta para um commit que possui dois pais. Se você seguir as setas subindo a árvore de commits a partir do `main`, você será capaz de encontrar, ao longo do caminho até a raiz, qualquer um dos commits. Isso significa que o `main` contém todo o trabalho realizado no repositório até o momento.",
               "",
-              "Além disso, viu como as cores dos commits mudaram? Para ajudá-lo a aprender, eu incluí uma legenda. Cada ramo tem uma cor única. Cada commit tem a cor resultante da mistura das cores de todos os ramos que o contém.",
+              "Além disso, viu como as cores dos commits mudaram? Para ajudá-lo a aprender, eu incluí uma legenda. Cada branch tem uma cor única. Cada commit tem a cor resultante da mistura das cores de todas as branches que o contêm.",
               "",
-              "Aqui vemos que a cor do ramo `main` está misturada em todos os commits, mas a cor do `bugFix` não está. Vamos corrigir isso..."
+              "Aqui vemos que a cor da branch `main` está misturada em todos os commits, mas a cor da `bugFix` não está. Vamos corrigir isso..."
             ],
             "command": "git merge bugFix",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
@@ -582,7 +582,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como o `bugFix` é um ancestral do `main`, o git não teve trabalho nenhum; ele só precisou mover o `bugFix` para o mesmo commit do `main`.",
               "",
-              "Agora todos os commits possuem a mesma cor, o que significa que ambos os ramos contém todo o trabalho realizado no repositório! Eba!"
+              "Agora todos os commits possuem a mesma cor, o que significa que ambas as branches contêm todo o trabalho realizado no repositório! Eba!"
             ],
             "command": "git checkout bugFix; git merge main",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
@@ -594,12 +594,12 @@ exports.level = {
             "markdowns": [
               "Para completar este nível, faça o seguinte:",
               "",
-              "* Crie um novo ramo chamado `bugFix`",
-              "* Faça checkout no ramo `bugFix` com `git checkout bugFix`",
+              "* Crie uma nova branch chamada `bugFix`",
+              "* Faça checkout na branch `bugFix` com `git checkout bugFix`",
               "* Faça um commit",
-              "* Volte ao `main` com `git checkout`",
+              "* Volte à `main` com `git checkout`",
               "* Faça um novo commit",
-              "* Junte o ramo `bugFix` no `main` com `git merge`",
+              "* Junte a branch `bugFix` na `main` com `git merge`",
               "",
               "*Lembre-se, você pode sempre mostrar esta mensagem novamente com o comando \"objective\"!*"
             ]

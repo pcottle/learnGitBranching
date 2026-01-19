@@ -12,7 +12,7 @@ exports.level = {
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_ES": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_MX": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
-    "pt_BR": "Você pode usar ou ramos ou referências relativas (HEAD~) para especificar o alvo do rebase",
+    "pt_BR": "Você pode usar branches ou referências relativas (HEAD~) para especificar o alvo do rebase",
     "gl": "Podes usar ramas ou referencias relativas (HEAD~) para especificar o obxectivo do rebase",
     "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
     "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spécifier la cible à rebaser",

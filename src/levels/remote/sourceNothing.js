@@ -341,10 +341,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "O que fazer push de \"coisa nenhuma\" para um ramo remoto significa? Deletar o ramo!"
+              "O que fazer push de \"coisa nenhuma\" para uma branch remota significa? Deletar o branch!"
             ],
             "afterMarkdowns": [
-              "Aqui, excluímos com sucesso o ramo `foo` do repositório remoto por meio de um push de \"coisa nenhuma\" direcionado a ele. Até que faz sentido..."
+              "Aqui, excluímos com sucesso a branch `foo` do repositório remoto por meio de um push de \"coisa nenhuma\" direcionado a ela. Até que faz sentido..."
             ],
             "command": "git push origin :foo",
             "beforeCommand": "git clone; git push origin main:foo"
@@ -354,7 +354,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Finalmente, fazer um fetch de \"coisa nenhuma\" para uma referência local cria um novo ramo."
+              "Finalmente, fazer um fetch de \"coisa nenhuma\" para uma referência local cria um nova branch."
             ],
             "afterMarkdowns": [
               "Bastante estranho / bizarro, mas de qualquer forma. É assim que o Git é!"
@@ -367,7 +367,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Este é um nível rápido de resolver -- basta remover um ramo remoto com `git push` e criar um novo ramo local com `git fetch` para terminar!"
+              "Este é um nível rápido de resolver -- basta remover uma branch remota com `git push` e criar uma nova branch local com `git fetch` para terminar!"
             ]
           }
         }

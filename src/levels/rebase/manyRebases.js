@@ -38,7 +38,7 @@ exports.level = {
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar main sólo al final...",
     "es_MX": "Recuerda, la manera más eficiente podría ser actualizar main hasta el final...",
     "es_ES": "Recuerda, la manera más eficiente podría ser actualizar main sólo al final...",
-    "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar o main por último...",
+    "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar a main por último...",
     "gl": "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin...",
     "ja": "最も効率的なやり方はmainを最後に更新するだけかもしれない・・・",
@@ -152,9 +152,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### Fazendo rebase em múltiplos ramos",
+              "### Fazendo rebase em múltiplas branches",
               "",
-              "Cara, temos um monte de ramos aqui! Vamos fazer um rebase de todo o trabalho contido nesses ramos para o main.",
+              "Cara, temos um monte de branches aqui! Vamos fazer um rebase de todo o trabalho contido nessas branches para a main.",
               "",
               "No entanto, a cúpula da administração está tornando as coisas mais difíceis -- eles querem que os commits estejam todos em ordem sequencial. Isso significa que a nossa árvore final precisa ter o `C7'` por último, `C6'` acima disso, e assim por diante, tudo ordenado.",
               "",
