@@ -1399,7 +1399,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>One of the most common ways I use relative refs is to move branches around. You can directly reassign a branch to a commit with the <code>-f</code> option. So something like:</p>
 <p><code>git branch -f main HEAD~3</code></p>
 <p>moves (by force) the main branch to three parents behind HEAD.</p>
-<p><em>Note: In a real git environment <code>git branch -f command</code> is not allowed for your current branch.</em></p>
+<p><em>Note: In a real git environment <code>git branch -f</code> command is not allowed for your current branch.</em></p>
 <p>Let&#39;s see that previous command in action.</p>
 <pre class="level-solution">git branch -f main HEAD~3</pre><p>There we go! Relative refs gave us a concise way to refer to <code>C1</code> and branch forcing (<code>-f</code>) gave us a way to quickly move a branch to that location.</p>
 <p>Now that you have seen relative refs and branch forcing in combination, let&#39;s use them to solve the next level.</p>
