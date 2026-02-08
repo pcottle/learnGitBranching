@@ -27,6 +27,11 @@ class CommandHistoryView extends React.Component {
     Main.getEvents().on('clearOldCommands', () => this.clearOldCommands(), this);
   }
 
+  componentDidUpdate() {
+    // Ensure we stay pinned to the bottom after any render
+    this.scrollDown();
+  }
+
   componentWillUnmount() {
     for (var i = 0; i < _subscribeEvents.length; i++) {
       this.props.commandCollection.off(
@@ -60,24 +65,21 @@ class CommandHistoryView extends React.Component {
   }
 
   scrollDown() {
-    var cD = document.getElementById('commandDisplay');
-    var t = document.getElementById('terminal');
+    // Run after layout so measurements include freshly-rendered help text
+    window.requestAnimationFrame(() => {
+      var cD = document.getElementById('commandDisplay');
+      var t = document.getElementById('terminal');
+      if (!cD || !t) { return; }
 
-    // firefox hack
-    var shouldScroll = (cD.clientHeight > t.clientHeight) ||
-      (window.innerHeight < cD.clientHeight);
+      // scrollHeight catches the full rendered content
+      var shouldScroll = cD.scrollHeight > t.clientHeight;
 
-    // ugh sometimes i wish i had toggle class
-    var hasScroll = t.className.match(/scrolling/g);
-    if (shouldScroll && !hasScroll) {
-      t.className += ' scrolling';
-    } else if (!shouldScroll && hasScroll) {
-      t.className = t.className.replace(/shouldScroll/g, '');
-    }
+      t.classList.toggle('scrolling', shouldScroll);
 
-    if (shouldScroll) {
-      t.scrollTop = t.scrollHeight;
-    }
+      if (shouldScroll) {
+        t.scrollTop = t.scrollHeight;
+      }
+    });
   }
 
   clearOldCommands() {
