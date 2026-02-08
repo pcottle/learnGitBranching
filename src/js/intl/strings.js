@@ -2107,7 +2107,7 @@ exports.strings = {
     "pt_BR": "<span class=\"fwber\">Nota:</span> Apenas a branch main será verificada neste nível. As outras branches (dentro das caixas clareadas) são somente para referência. Como sempre, você pode ocultar esta janela com \"hide goal\"",
     "gl": "<span class=\"fwber\">Nota:</span> Só a rama main será verificada neste nivel. As outras ramas (dentro das caixas clareadas) son soamente de referencia. Coma sempre, podes ocultar está ventá con \"hide goal\"",
     "zh_CN": "<span class=\"fwber\">注意:</span>本关卡中，只检查 main 分支，其他分支只是用作 reference 存在（以虚线标签表示）。照常，你可以用 “hide goal” 来隐藏此窗口。",
-    "zh_TW": "在這個關卡中，只有 main branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 \"hide goal\" 來隱藏這個對話視窗",
+    "zh_TW": "<span class=\"fwber\">注意:</span>在這個關卡中，只有 main branch 會被檢查，別的 branch 只是用來做為 reference （下面用虛線符號表示）。一如往常，你可以利用 \"hide goal\" 來隱藏這個對話視窗",
     "ja": "<span class=\"fwber\">Note:</span> mainブランチだけをこのlevelではチェックします。その他のブランチ（以下では、破線で示されています）に関しては、参照のためにあります。また、いつでもこのウィンドウは\"hide goal\"と打つかクリックで閉じれます",
     "ro": "<span class=\"fwber\">Notă:</span> Doar ramura main va fi verificată în acest nivel. Celelalte ramuri sunt doar pentru referință (afișate ca etichete întrerupte mai jos). Ca de obicei, poți ascunde acest dialog cu \"hide goal\"",
     "ru_RU": "<span class=\"fwber\">Важно:</span> В этом уровне проверяется только ветка main. Остальные ветки просто для наглядности. Как обычно, можно скрыть это сообщение при помощи \"hide goal\"",
