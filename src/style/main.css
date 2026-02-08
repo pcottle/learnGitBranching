@@ -296,7 +296,7 @@ div.ui-draggable-dragging div.ui-draggable-handle {
 div.canvasTerminalHolder > div.terminal-window-holder > div.wrapper {
   height: 100%;
   box-shadow: 0 0 12px rgb(0,0,0);
-  cursor: pointer;
+  cursor: default;
   border-radius: 0 0 5px 5px;
 }
 
