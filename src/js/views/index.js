@@ -594,7 +594,8 @@ class CanvasTerminalHolder extends BaseView {
     });
 
     $(window).on('resize', debounce(this.recalcLayout.bind(this), 300));
-    this.$('div.wrapper').on('click', this.onClick.bind(this));
+    // Only close via the window's close control; clicks inside should not auto-hide
+    this.$('div.controls div.close').on('click', this.onClick.bind(this));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);
