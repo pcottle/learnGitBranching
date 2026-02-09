@@ -77,7 +77,8 @@ class GitDemonstrationView extends ContainedBase {
       aliasMap: {
         enter: 'positive',
         right: 'positive',
-        left: 'negative'
+        left: 'negative',
+        esc: 'exit'
       },
       wait: true
     });
@@ -88,7 +89,16 @@ class GitDemonstrationView extends ContainedBase {
   }
 
   exit() {
-    alert('exittt');
+    this.releaseControl();
+    this.reset();
+
+    if (this.metaContainerView && typeof this.metaContainerView.finish === 'function') {
+      this.metaContainerView.finish();
+      return;
+    }
+
+    // Fallback: close just this view if no parent container is present
+    this.die();
   }
 
   receiveMetaNav(navView, metaContainerView) {
@@ -204,7 +214,9 @@ class GitDemonstrationView extends ContainedBase {
   }
 
   tearDown() {
-    this.mainVis.tearDown();
+    if (this.mainVis) {
+      this.mainVis.tearDown();
+    }
     ContainedBase.prototype.tearDown.call(this);
   }
 
@@ -236,8 +248,6 @@ class GitDemonstrationView extends ContainedBase {
   }
 
   die() {
-    if (!this.visFinished) { return; }
-
     ContainedBase.prototype.die.call(this);
   }
 
