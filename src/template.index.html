@@ -473,6 +473,20 @@
   <div id="helperBarMount">
   </div>
 
+  <div id="biteReadUpsell" class="biteReadUpsell" role="complementary" aria-label="BiteRead promotion">
+    <button id="biteReadUpsellDismiss" class="biteReadUpsellDismiss noStyle" aria-label="Dismiss BiteRead message">
+      &times;
+    </button>
+    <div class="biteReadUpsellContent">
+      <p>
+        Learn more about Software Engineering at my new site project, BiteRead.
+      </p>
+      <div class="biteReadAdImageSlot" aria-label="Advertisement image slot">
+        Advertisement image
+      </div>
+    </div>
+  </div>
+
 <a target="_blank" rel="noreferrer noopener" href="https://github.com/pcottle/learnGitBranching" class="github-corner" aria-label="View source on GitHub">
   <svg viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0; height: 7vmin;" aria-hidden="true">
     <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -493,6 +507,21 @@
     gtag('js', new Date());
 
     gtag('config', 'G-SF8FGS1DYX');
+  </script>
+
+  <script>
+    (function () {
+      var dismissButton = document.getElementById('biteReadUpsellDismiss');
+      var upsellCard = document.getElementById('biteReadUpsell');
+
+      if (!dismissButton || !upsellCard) {
+        return;
+      }
+
+      dismissButton.addEventListener('click', function () {
+        upsellCard.style.display = 'none';
+      });
+    }());
   </script>
 </body>
 </html>

@@ -1376,3 +1376,69 @@ div.gitDemonstrationView {
   left: 21px;
   opacity: 0.4;
 }
+
+.biteReadUpsell {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+  background: rgba(18, 24, 31, 0.95);
+  border: 1px solid #2e3a46;
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  padding: 14px 16px 16px;
+}
+
+.biteReadUpsellDismiss {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  color: #dce7f0;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.biteReadUpsellContent {
+  margin-right: 28px;
+}
+
+.biteReadUpsellContent p {
+  margin: 0 0 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #f2f5f8;
+}
+
+.biteReadAdImageSlot {
+  min-height: 92px;
+  border: 1px dashed #607080;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #bec9d3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 600px) {
+  .biteReadUpsell {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 12px 14px 14px;
+  }
+
+  .biteReadUpsellContent p {
+    font-size: 13px;
+  }
+}
