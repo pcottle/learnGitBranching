@@ -1377,68 +1377,85 @@ div.gitDemonstrationView {
   opacity: 0.4;
 }
 
+.biteReadImage {
+  position: fixed;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 29;
+}
+
+.biteReadImage img {
+  max-width: 325px;
+  max-height: 190px;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid #3a4a5a;
+  border-bottom: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
 .biteReadUpsell {
   position: fixed;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 30;
-  max-width: 520px;
-  margin-left: auto;
-  margin-right: auto;
-  background: rgba(18, 24, 31, 0.95);
-  border: 1px solid #2e3a46;
-  border-radius: 10px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
-  padding: 14px 16px 16px;
+  background: rgba(18, 24, 31, 0.97);
+  border-top: 1px solid #2e3a46;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  padding: 12px 20px;
+  text-align: center;
 }
 
 .biteReadUpsellDismiss {
   position: absolute;
-  right: 10px;
-  top: 8px;
-  color: #dce7f0;
-  font-size: 24px;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8a9aa8;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.biteReadUpsellDismiss:hover {
+  color: #dce7f0;
 }
 
 .biteReadUpsellContent {
-  margin-right: 28px;
+  display: inline-block;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
 .biteReadUpsellContent p {
-  margin: 0 0 12px;
+  margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.5;
   color: #f2f5f8;
-}
-
-.biteReadAdImageSlot {
-  min-height: 92px;
-  border: 1px dashed #607080;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #bec9d3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
 }
 
 @media (max-width: 600px) {
   .biteReadUpsell {
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    padding: 12px 14px 14px;
+    padding: 10px 16px;
+  }
+
+  .biteReadUpsellContent {
+    padding: 0 32px;
   }
 
   .biteReadUpsellContent p {
     font-size: 13px;
+  }
+
+  .biteReadUpsellDismiss {
+    right: 12px;
+    font-size: 18px;
   }
 }

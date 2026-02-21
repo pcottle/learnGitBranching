@@ -473,17 +473,17 @@
   <div id="helperBarMount">
   </div>
 
+  <a id="biteReadImageLink" class="biteReadImage" href="https://biteread.ai/collection/learn-git-branching" target="_blank" rel="noopener noreferrer">
+    <img id="biteReadImage" src="assets/biteRead.png" alt="BiteRead" />
+  </a>
   <div id="biteReadUpsell" class="biteReadUpsell" role="complementary" aria-label="BiteRead promotion">
     <button id="biteReadUpsellDismiss" class="biteReadUpsellDismiss noStyle" aria-label="Dismiss BiteRead message">
       &times;
     </button>
     <div class="biteReadUpsellContent">
       <p>
-        Learn more about Software Engineering at my new site project, BiteRead.
+        Learn more about Software Engineering at my new project, <a href="https://biteread.ai/collection/learn-git-branching" target="_blank" rel="noopener noreferrer" style="color: #6eb5ff; text-decoration: none;">BiteRead</a>!
       </p>
-      <div class="biteReadAdImageSlot" aria-label="Advertisement image slot">
-        Advertisement image
-      </div>
     </div>
   </div>
 
@@ -511,15 +511,56 @@
 
   <script>
     (function () {
+      var STORAGE_KEY = 'biteReadUpsellDismissedAt';
+      var DAYS_UNTIL_RESHOW = 7;
       var dismissButton = document.getElementById('biteReadUpsellDismiss');
       var upsellCard = document.getElementById('biteReadUpsell');
+      var upsellImage = document.getElementById('biteReadImageLink');
+
+      function hideUpsell() {
+        if (upsellCard) upsellCard.style.display = 'none';
+        if (upsellImage) upsellImage.style.display = 'none';
+      }
+
+      function showUpsell() {
+        if (upsellCard) upsellCard.style.display = '';
+        if (upsellImage) upsellImage.style.display = '';
+      }
+
+      // Global function to reset the upsell state
+      window.resetBiteReadUpsell = function () {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {}
+        showUpsell();
+        console.log('BiteRead upsell reset.');
+      };
 
       if (!dismissButton || !upsellCard) {
         return;
       }
 
+      // Check if dismissed within the last 7 days
+      try {
+        var dismissedAt = localStorage.getItem(STORAGE_KEY);
+        if (dismissedAt) {
+          var daysSinceDismissal = (Date.now() - parseInt(dismissedAt, 10)) / (1000 * 60 * 60 * 24);
+          if (daysSinceDismissal < DAYS_UNTIL_RESHOW) {
+            hideUpsell();
+            return;
+          }
+        }
+      } catch (e) {
+        // localStorage not available, continue showing
+      }
+
       dismissButton.addEventListener('click', function () {
-        upsellCard.style.display = 'none';
+        hideUpsell();
+        try {
+          localStorage.setItem(STORAGE_KEY, Date.now().toString());
+        } catch (e) {
+          // localStorage not available, dismiss for session only
+        }
       });
     }());
   </script>
