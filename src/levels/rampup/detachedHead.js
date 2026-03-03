@@ -763,7 +763,7 @@ exports.level = {
             "markdowns": [
               "## 在提交树上移动",
               "",
-              "在接触 Git 更高级功能之前，我们有必要先学习在你项目的提交树上前后移动的几种方法。",
+              "在接触 Git 更高级的一些功能之前，我们有必要先学习在你项目的提交树上前后移动的几种方法。",
               "",
               "一旦熟悉了如何在 Git 提交树上移动，你驾驭其它命令的能力也将水涨船高！",
               ""
@@ -776,11 +776,11 @@ exports.level = {
             "markdowns": [
               "## HEAD",
               "",
-              "我们首先看一下 “HEAD”。 HEAD 是一个对当前所在分支的符号引用 —— 也就是指向你正在其基础上进行工作的提交记录。",
+              "我们首先看一下 “HEAD”。 HEAD 是当前所在提交记录的符号名称 —— 它本质上标识着你正在其上工作的那个提交。",
               "",
               "HEAD 总是指向当前分支上最近一次提交记录。大多数修改提交树的 Git 命令都是从改变 HEAD 的指向开始的。",
               "",
-              "HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。"
+              "HEAD 通常情况下是指向分支名的（如 bugFix）。在你提交时，bugFix 的状态会被改变，且这一变化通过 HEAD 可见。"
             ]
           }
         },
@@ -791,10 +791,10 @@ exports.level = {
               "下面咱们通过实际操作看一下。我们将会观察提交前后 HEAD 的位置。"
             ],
             "afterMarkdowns": [
-              "看到了吗？ HEAD 指向了 `main`，随着提交向前移动。",
+              "看！HEAD 其实一直藏在我们的 `main` 分支下面。",
               "",
               "（译者注：实际这些命令并不是真的在查看 HEAD 指向，看下一屏就了解了。如果想看 HEAD 指向，可以通过 `cat .git/HEAD` 查看，",
-              "如果 HEAD 指向的是一个引用，还可以用 `git symbolic-ref HEAD` 查看它的指向。但是该程序不支持这两个命令）"
+              "如果 HEAD 指向的是一个符号引用（即分支名而非提交的哈希值），还可以用 `git symbolic-ref HEAD` 查看它的指向。但是该程序不支持这两个命令）"
             ],
             "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
@@ -804,13 +804,11 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "### 分离的 HEAD",
+              "### 分离 HEAD",
               "",
-              "分离的 HEAD 就是让其指向了某个具体的提交记录而不是分支名。在命令执行之前的状态如下所示： ",
+              "分离 HEAD 就是让其指向一个具体的提交，而不是某个分支。分离之前的状态如下所示： ",
               "",
               "HEAD -> main -> C1",
-              "",
-              "HEAD 指向 main， main 指向 C1"
             ],
             "afterMarkdowns": [
               "现在变成了",
@@ -825,9 +823,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "想完成此关，从 `bugFix` 分支中分离出 HEAD 并让其指向一个提交记录。",
+              "想完成此关，让我们把 HEAD 从 `bugFix` 上分离，然后将其挂载到这个提交上。",
               "",
-              "通过哈希值指定提交记录。每个提交记录的哈希值显示在代表提交记录的圆圈中。"
+              "通过这个提交的哈希值来指定它。每个提交的哈希值都显示在代表该提交的圆圈中。"
             ]
           }
         }
