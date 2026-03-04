@@ -644,7 +644,7 @@ __metadata:
     raphael: ^2.1.0
     react: ^17.0.2
     react-dom: ^17.0.2
-    underscore: ^1.13.2
+    underscore: ^1.13.8
     vinyl-buffer: ^1.0.1
     vinyl-source-stream: ^2.0.0
     vite: ^4.5.14
@@ -5864,10 +5864,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"underscore@npm:^1.13.2":
-  version: 1.13.2
-  resolution: "underscore@npm:1.13.2"
-  checksum: cfdbdfceaa927452244ea22027093bd5a7c4daa90c5bcc88ffcd1312424091bc1f0238d2c5dbd6693c4d255481d4c07a33ab70dd02c7eb65b9ae0ae7c2dfcfe8
+"underscore@npm:^1.13.8":
+  version: 1.13.8
+  resolution: "underscore@npm:1.13.8"
+  checksum: 8/52a165aa5e468cf64eb5117b9eb484d56c2102343eb67452ddb6edefa0ff2356afa0e41e30589d4f47005d473739fcb9cfcb6df3c0bca5c4ac19539b035a8ec2
   languageName: node
   linkType: hard
 
