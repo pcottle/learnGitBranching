@@ -1399,8 +1399,8 @@ div.gitDemonstrationView {
 
 .biteReadUpsell {
   position: fixed;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
   bottom: 0;
   z-index: 30;
   background: rgba(18, 24, 31, 0.97);
@@ -1408,6 +1408,7 @@ div.gitDemonstrationView {
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
   padding: 12px 20px;
   text-align: center;
+  max-width: 70%;
 }
 
 .biteReadUpsellDismiss {
