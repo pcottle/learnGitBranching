@@ -462,8 +462,10 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
       best: options.best
     });
 
-    if (options.numCommands <= options.best) {
+    if (options.numCommands == options.best) {
       markdown = markdown + '\n\n' + intl.str('finish-dialog-win');
+    } else if (options.numCommands < options.best) {
+      markdown = markdown + '\n\n' + intl.str('finish-dialog-win-exceeded');
     } else {
       markdown = markdown + '\n\n' + intl.str('finish-dialog-lose', {best: options.best});
     }
