@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Git push argumenti -- Razširjeni!",
     "pl": "Argumenty git push -- Głębiej!",
     "it_IT": "Parametri di git push - Espansione!",
-    "tr_TR": "Git push argümanları -- Genişletilmiş!"
+    "tr_TR": "Git push argümanları -- Genişletilmiş!",
+    "hu_HU": "Git push argumentumok -- Bővítve!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Vedno se lahko predaš in napišeš \"show solution\". :P",
     "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P",
     "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P",
-    "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P"
+    "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P",
+    "hu_HU": "Ne feledd, mindig elismerheted a vereséged, és beírhatod: \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -1522,6 +1524,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu seviyede, görsellemede gösterilen hedef duruma ulaşmaya çalışın ve şu formatı hatırlayın:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A `<place>` argumentum részletei",
+              "",
+              "Az előző leckéből emlékszel, hogy amikor a `main`-t adtuk meg place argumentumként a git push-hoz, egyszerre adtuk meg a commitok *forrását* és *célját*.",
+              "",
+              "Felmerülhet a kérdés: mi van, ha a forrás és a cél különböző? Mi van, ha a helyi `foo` ágból szeretnél commitokat pusholni a távoli `bar` ágra?",
+              "",
+              "Nos, ez sajnos lehetetlen a gitben... csak vicceltem! Természetesen lehetséges :)... a gitben rengeteg rugalmasság van (majdnem túl sok).",
+              "",
+              "A következő dián megnézzük, hogyan..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ahhoz, hogy egyszerre adj meg forrást és célt a `<place>`-ben, egyszerűen kösd össze a kettőt kettősponttal:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Ezt általában kettőspont-refspecnek nevezik. A refspec csak egy divatos neve annak a helynek, amelyet a git meg tud határozni (például a `foo` ág, vagy akár csak a `HEAD~1`).",
+              "",
+              "Ha a forrást és a célt egymástól függetlenül adod meg, meglehetősen precíz és kifinomult távoli parancsokat adhatsz ki. Nézzünk egy demót!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ne feledd, a `source` bármilyen hely lehet, amelyet a git megért:"
+            ],
+            "afterMarkdowns": [
+              "Hűha! Ez egy elég meglepő parancs, de logikus -- a git feloldotta a `foo^`-t egy helyre, feltöltötte azokat a commitokat, amelyek még nem voltak jelen a távoliban, majd frissítette a célt."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mi van, ha a push célja még nem létezik? Semmi gond! Csak adj meg egy ágnevet, és a git létrehozza az ágat a távoliban."
+            ],
+            "afterMarkdowns": [
+              "Klassz, ez elég ügyes :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ehhez a szinthez próbálj meg eljutni a vizualizációban mutatott végállapothoz, és ne felejtsd el a formátumot:",
               "",
               "`<source>:<destination>`"
             ]

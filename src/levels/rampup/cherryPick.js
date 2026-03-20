@@ -29,7 +29,8 @@ exports.level = {
     "it_IT": "Introduzione al cherry-pick",
     "pl": "Wprowadzenie do cherry-pick",
     "ta_IN": "Cherry-pick அறிமுகம்",
-    "tr_TR": "Cherry-pick işlemine giriş"
+    "tr_TR": "Cherry-pick işlemine giriş",
+    "hu_HU": "Cherry-pick bevezetés"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -54,7 +55,8 @@ exports.level = {
     "it_IT": "git cherry-pick seguito dai nomi dei commit!",
     "pl": "git cherry-pick a po nim nazwy commitów!",
     "ta_IN": "git cherry-pick க்கு பிறகு commit பெயர்களை பின்தொடரவும்!",
-    "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!"
+    "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!",
+    "hu_HU": "A git cherry-pick után add meg a commit neveket!"
   },
   "startDialog": {
     "en_US": {
@@ -1359,6 +1361,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu seviyeyi tamamlamak için, gösterilen üç branch'ten bazı çalışmaları main branch'ine kopyalayın. Hangi commit'leri istediğimizi, hedef görsellemesini inceleyerek görebilirsiniz.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Munka mozgatása",
+              "",
+              "Eddig a git alapjait fedtük le -- commitolás, branchelés, és mozgás a forrás fában. Ezek a fogalmak elegendők a git tárolók erejének 90%-ának kihasználásához és a fejlesztők fő igényeinek kielégítéséhez.",
+              "",
+              "A fennmaradó 10% azonban nagyon hasznos lehet összetett munkafolyamatoknál (vagy amikor szorult helyzetbe kerülsz). A következő fogalom, amelyet bemutatunk, a \"munka mozgatása\" -- más szóval, ez egy módja annak, hogy a fejlesztők pontosan, ékesszólóan és rugalmasan mondhassák: \"Ezt a munkát ide, azt a munkát oda szeretném\".",
+              "",
+              "Ez talán soknak tűnik, de egyszerű fogalom."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "A sorozat első parancsa a `git cherry-pick`. A következő formában használjuk:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Ez egy nagyon egyszerű módja annak, hogy jelezd: egy sor commitot szeretnél másolni az aktuális helyzetedtől (`HEAD`) lefelé. Személyesen szeretem a `cherry-pick`-et, mert kevés varázslat van benne, és könnyen megérthető.",
+              "",
+              "Nézzük meg egy bemutatón!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Van egy tároló, ahol a `side` branchben van néhány munka, amelyet a `main`-be akarunk másolni. Ez elvégezhető rebase-zel (amelyet már megtanultunk), de nézzük meg, hogyan teljesít a cherry-pick."
+            ],
+            "afterMarkdowns": [
+              "Ennyi! A `C2` és `C4` commitokat akartuk, és a git pontosan alánk tette őket. Ilyen egyszerű!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint teljesítéséhez egyszerűen másold át a három branchből a munkát a main-be. Megláthatod, melyik commitokat szeretnénk, ha megnézed a cél vizualizációt.",
               ""
             ]
           }

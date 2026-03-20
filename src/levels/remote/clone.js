@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Uvod v Git Clone",
     "pl": "Wstęp do klonowania (clone)",
     "it_IT": "Introduzione al clone",
-    "tr_TR": "Clone Tanıtımı"
+    "tr_TR": "Clone Tanıtımı",
+    "hu_HU": "Clone bevezetés"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -47,7 +48,8 @@ exports.level = {
     "sl_SI": "Preprosto samo git clone!",
     "pl": "Po prostu git clone!",
     "it_IT": "Semplicemente git clone!",
-    "tr_TR": "Sadece git clone yapın!"
+    "tr_TR": "Sadece git clone yapın!",
+    "hu_HU": "Csak git clone!"
   },
   "startDialog": {
     "en_US": {
@@ -1297,6 +1299,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu seviyeyi bitirmek için mevcut deponuzu sadece `git clone` komutuyla klonlayın. Gerçek öğrenme sonraki derslerde olacak."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "A távoli repók valójában nem olyan bonyolultak. A mai felhőalapú számítástechnika világában könnyű azt hinni, hogy a git remotes mögött sok varázslat rejlik, de valójában csak a repód másolatai egy másik számítógépen. Általában az interneten keresztül kommunikálhatsz ezzel a másik számítógéppel, ami lehetővé teszi, hogy commitokat küldj és fogadj.",
+              "",
+              "Ezzel együtt a távoli repóknak számos nagyszerű tulajdonsága van:",
+              "",
+              "- Mindenekelőtt a remote-ok kiváló biztonsági mentésként szolgálnak! A helyi git repóknak lehetőségük van visszaállítani a fájlokat egy korábbi állapotba (mint tudod), de az összes információ helyileg van tárolva. Azzal, hogy a git repód másolatait más számítógépeken tárolod, elveszítheted az összes helyi adatot, és mégis ott folytathatod, ahol abbahagytad.",
+              "",
+              "- Ami még fontosabb, a remote-ok szociálissá teszik a kódolást! Most, hogy a projekted egy másolata máshol van tárolva, a barátaid nagyon könnyen hozzájárulhatnak a projektedhez (vagy letölthetik a legújabb változtatásaidat).",
+              "",
+              "Nagyon népszerűvé vált a távoli repók körüli tevékenységet vizualizáló webhelyek használata (mint a [GitHub](https://github.com/)), de a távoli repók _mindig_ az alapját képezik ezeknek az eszközöknek. Ezért fontos megérteni őket!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A parancsunk remote-ok létrehozásához",
+              "",
+              "Eddig a Learn Git Branching a _helyi_ repó munkájának alapjaira összpontosított (elágazás, merge, rebase, stb.). Most azonban, hogy a távoli repókkal való munkát szeretnénk megtanulni, szükségünk van egy parancsra ezeknek a leckéknek a környezetének beállításához. A `git clone` lesz ez a parancs.",
+              "",
+              "Technikailag, a való életben a `git clone` az a parancs, amelyet a távoli repók _helyi_ másolatainak létrehozásához fogsz használni (például a GitHub-ról). Ebben a Learn Git Branching-ben azonban kicsit másképp használjuk ezt a parancsot -- a `git clone` valójában egy távoli repót hoz létre a helyi repódból. Igen, ez technikailag az igazi parancs ellentétes értelmű, de segít felépíteni a kapcsolatot a klónozás és a távoli repómunka között, szóval egyelőre menjünk ezzel.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kezdjük lassan, és nézzük meg, hogyan néz ki egy távoli repó (a vizualizációnkban).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Tessék! Most már van egy távoli repónk a projektünkből. Meglehetősen hasonlóan néz ki, kivéve néhány vizuális változást a különbség egyértelművé tételéhez -- a következő szinteken látni fogod, hogyan osztjuk meg a munkát ezek között a repók között."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint befejezéséhez egyszerűen clone-ozd a meglévő repódat a `git clone` paranccsal. A valódi tanulás a következő leckékben lesz."
             ]
           }
         }

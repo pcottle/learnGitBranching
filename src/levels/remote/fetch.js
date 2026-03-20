@@ -25,7 +25,8 @@ exports.level = {
     "pl": "Git fetch",
     "it_IT": "Git Fetch",
     "tr_TR": "Git Fetch",
-    "ta_IN": "Git Fetch"
+    "ta_IN": "Git Fetch",
+    "hu_HU": "Git fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Po prostu uruchom git fetch!",
     "it_IT": "Semplicemente git fetch!",
     "tr_TR": "Sadece git fetch komutunu çalıştırın!",
-    "ta_IN": "பொதுவாக git fetch நடத்துங்கள்!"
+    "ta_IN": "பொதுவாக git fetch நடத்துங்கள்!",
+    "hu_HU": "Csak futtasd a git fetch-et!"
   },
   "startDialog": {
     "en_US": {
@@ -1724,6 +1726,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu seviyeyi tamamlamak için sadece `git fetch` komutunu çalıştırın ve tüm commit'leri indirin!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "A git remote-okkal való munka valójában csak adatok _küldéséről_ és _fogadásáról_ szól más repókba és onnan. Amíg el tudjuk küldeni és fogadni a commitokat, bármilyen típusú frissítést megoszthatunk, amelyet a git nyomon követ (és így megoszthatjuk a munkát, új fájlokat, új ötleteket, szerelmes leveleket stb.).",
+              "",
+              "Ebben a leckében megtanuljuk, hogyan lehet adatokat letölteni _egy_ távoli repóból -- ennek a parancsnak a neve kényelmesen `git fetch`.",
+              "",
+              "Észreveszed majd, hogy ahogy frissítjük a távoli repó megjelenítésünket, a _távoli_ ágaink frissülnek, hogy tükrözzék az új megjelenítést. Ez kapcsolódik az előző leckéhez a távoli ágakról."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mielőtt belemélyednénk a `git fetch` részleteibe, nézzük meg a gyakorlatban! Van egy távoli repónk, amely két olyan commitot tartalmaz, amelyek nincsenek meg a helyi repónkban."
+            ],
+            "afterMarkdowns": [
+              "Megvan! A `C2` és `C3` commitokat letöltöttük a helyi repónkba, és a `o/main` távoli águnk frissült, hogy tükrözze ezt."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Mit csinál a fetch",
+              "",
+              "A `git fetch` két fő lépést hajt végre, és csak ezt a két lépést. Ezek:",
+              "",
+              "* letölti azokat a commitokat, amelyek a remote-on megvannak, de hiányoznak a helyi repónkból, és...",
+              "* frissíti, hova mutatnak a távoli ágaink (például az `o/main`)",
+              "",
+              "A `git fetch` lényegében szinkronizálja a távoli repó _helyi_ megjelenítésünket azzal, ahogyan a _tényleges_ távoli repó most néz ki.",
+              "",
+              "Ha emlékszel az előző leckéből, azt mondtuk, hogy a távoli ágak tükrözik a távoli repók állapotát _azóta_, hogy utoljára kommunikáltál ezekkel a remote-okkal. A `git fetch` az a módja, ahogyan kommunikálsz ezekkel a remote-okkal! Remélhetőleg most már nyilvánvaló a kapcsolat a távoli ágak és a `git fetch` között.",
+              "",
+              "A `git fetch` általában az interneten keresztül kommunikál a távoli repóval (olyan protokollokon keresztül, mint a `http://` vagy a `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Mit nem csinál a fetch",
+              "",
+              "A `git fetch` azonban nem változtat semmin a _helyi_ állapotodon. Nem frissíti a `main` ágadat, és nem változtat semmin azon, hogyan néz ki a fájlrendszered most.",
+              "",
+              "Ezt fontos megérteni, mert sok fejlesztő azt gondolja, hogy a `git fetch` futtatása a helyi munkájukat tükrözni fogja a remote állapotát. Lehet, hogy letölti az ehhez szükséges összes adatot, de _valójában_ nem változtat a helyi fájljaidon. A következő leckékben megtanulunk parancsokat, amelyek pontosan ezt teszik :D",
+              "",
+              "Szóval a nap végén úgy gondolhatsz a `git fetch` futtatásra, mint egy letöltési lépésre."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint befejezéséhez egyszerűen futtasd a `git fetch` parancsot, és töltsd le az összes commitot!"
             ]
           }
         }

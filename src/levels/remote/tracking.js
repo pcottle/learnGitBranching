@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Sledenje Oddaljenega Repota",
     "pl": "Śledzenie zdalnych repo",
     "it_IT": "Tracciamento remoto",
-    "tr_TR": "Uzaktan İzleme"
+    "tr_TR": "Uzaktan İzleme",
+    "hu_HU": "Távoli követés"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Spomni se, da obstajata dva načina za sledenje oddaljenega repota.",
     "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!",
     "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!",
-    "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!"
+    "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!",
+    "hu_HU": "Ne feledd, a távoli követés beállításának két módja van!"
   },
   "startDialog": {
     "en_US": {
@@ -2523,6 +2525,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Tamam! Bu seviyede, yerel olarak `main`'de olmasanız bile, uzak `main` dalına çalışmanızı itmeniz gerekiyor. Bunun yerine `side` adında bir dal oluşturmalısınız, bu hedef diyagramında gösterilecektir."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Távoli követési ágak",
+              "",
+              "Az utóbbi néhány leckében talán \"varázslatosnak\" tűnt, hogy a git tudta, a `main` ág kapcsolódik az `o/main`-hez. Persze ezeknek az ágaknak hasonló a nevük, és logikusnak tűnik összekapcsolni a `main` ágat a távoliban a helyi `main` ággal, de ezt a kapcsolatot két forgatókönyvben lehet jól megfigyyelni:",
+              "",
+              "* Pull művelet során a commitok az `o/main`-re töltődnek le, majd *merge*-elnek a `main` ágba. A merge implicit célja ebből a kapcsolatból fakad.",
+              "* Push művelet során a `main` ágból való munkát pusholták a távoli `main` ágra (amelyet aztán helyi szinten az `o/main` reprezentált). A push *célja* a `main` és az `o/main` közötti kapcsolatból fakad.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Távoli követés",
+              "",
+              "Röviden összefoglalva, a `main` és az `o/main` közötti kapcsolatot egyszerűen az ágak \"távoli követési\" tulajdonsága magyarázza. A `main` ág az `o/main` követésére van beállítva -- ez azt jelenti, hogy a `main` ágnak van egy implicit merge célja és egy implicit push célja.",
+              "",
+              "Felmerülhet a kérdés, hogyan lett ez a tulajdonság beállítva a `main` ágon, ha nem futtattál semmilyen parancsot a megadásához. Nos, amikor a gittel klónozol egy repót, ezt a tulajdonságot automatikusan beállítja neked.",
+              "",
+              "A klónozás során a git létrehoz egy távoli ágat a távoliban lévő minden ághoz (vagyis olyan ágakat, mint az `o/main`). Majd létrehoz egy helyi ágat, amely a távoliban lévő aktuálisan aktív ágat követi, ami a legtöbb esetben a `main`.",
+              "",
+              "Amint a git clone befejeződik, csak egy helyi ágad van (hogy ne legyen túl sok), de láthatod az összes különböző ágat a távoliban (ha nagyon kíváncsi vagy). Ez a legjobb a két világból!",
+              "",
+              "Ez azt is megmagyarázza, miért láthatod a következő kimenetet klónozáskor:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Megadhatom magam?",
+              "",
+              "Igen! Bármelyik tetszőleges ágat beállíthatod az `o/main` követésére, és ha így teszel, annak az ágnak ugyanolyan implicit push célja és merge célja lesz, mint a `main`-nek. Ez azt jelenti, hogy futtathatsz `git push`-t egy `totallyNotMain` nevű ágon, és a munkád a távoli `main` ágra fog pusholódni!",
+              "",
+              "Kétféleképpen lehet beállítani ezt a tulajdonságot. Az első az, hogy egy új ágat checkoutolsz, megadva egy távoli ágat a ref-ként. A következő futtatása",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "létrehoz egy `totallyNotMain` nevű új ágat, és beállítja az `o/main` követésére."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Elég a beszédből, nézzünk egy demót! Checkoutolunk egy `foo` nevű új ágat, és beállítjuk a távoli `main` követésére."
+            ],
+            "afterMarkdowns": [
+              "Ahogy látod, az `o/main` implicit merge célját használtuk a `foo` ág frissítéséhez. Figyeld meg, hogy a main nem frissül!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ez a git push-ra is vonatkozik."
+            ],
+            "afterMarkdowns": [
+              "Bumm. A munkánkat a távoli `main`-re pusholtuk, annak ellenére, hogy az águnk neve egészen más volt."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### 2. módszer",
+              "",
+              "Egy másik módja a távoli követés beállításának egy ágon az `git branch -u` opció egyszerű használata. A következő futtatása",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "beállítja a `foo` ágat az `o/main` követésére. Ha a `foo` éppen checkoutolva van, akkor el is hagyhatod:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lássuk gyorsan a távoli követés megadásának ezt a másik módját..."
+            ],
+            "afterMarkdowns": [
+              "Ugyanaz, mint korábban, csak egy explicit parancs. Klassz!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rendben! Ehhez a szinthez pusholjuk a munkát a távoli `main` ágra, miközben *nem* a helyi `main`-en vagyunk checkoutolva. Ehelyett hozz létre egy `side` nevű ágat, amelyet a céldiagram mutat."
             ]
           }
         }

@@ -40,7 +40,8 @@ exports.level = {
     "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
     "ta_IN": "Commitகளுடன் வித்தைகள்",
-    "tr_TR": "Commit'leri Şekillendirme"
+    "tr_TR": "Commit'leri Şekillendirme",
+    "hu_HU": "Commitok átrendezése"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -65,7 +66,8 @@ exports.level = {
     "it_IT": "Il primo comando è git rebase -i HEAD~2",
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
     "ta_IN": "முதலில் கொடுக்கவேண்டிய கட்டளை git rebase -i HEAD~2",
-    "tr_TR": "İlk komutunuz git rebase -i HEAD~2"
+    "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
+    "hu_HU": "Az első parancs: git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -853,6 +855,40 @@ exports.level = {
               "Son olarak, buradaki hedef duruma dikkat edin - commit'leri iki kez taşıdığımızdan, her ikisi de bir tırnak işareti alıyor. Değiştirdiğimiz commit için bir tırnak işareti daha eklenir, bu da bize ağacın son halini verir. ",
               "",
               "Şunu da belirtmek isteriz ki, artık seviyeleri yapı ve göreceli tırnak işareti farklılıklarına göre karşılaştırabiliyoruz. Ağacınızın `main` branch'i aynı yapıya ve göreceli tırnak işareti farklılıklarına sahip olduğu sürece tam puan alacaksınız."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commitok átrendezése",
+              "",
+              "Íme egy másik, elég gyakran előforduló helyzet. Van néhány módosításod (`newImage`) és egy másik módosításkészleted (`caption`), amelyek összefüggenek, ezért a repository-ban egymásra halmozva vannak (vagyis egyik a másik után).",
+              "",
+              "A trükkös dolog az, hogy néha kis módosítást kell végrehajtani egy korábbi commiton. Ebben az esetben a tervező azt szeretné, hogy kissé megváltoztassuk a `newImage` méreteit, annak ellenére, hogy az a commit nagyon régen van a történelemben!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ezt a nehézséget a következőképpen fogjuk leküzdeni:",
+              "",
+              "* A `git rebase -i` segítségével átrendezzük a commitokat, hogy amelyiket módosítani szeretnénk, az kerüljön felülre",
+              "* A `git commit --amend` segítségével elvégezzük a kis módosítást",
+              "* Majd a `git rebase -i` segítségével visszarendezzük a commitokat az előző sorrendbe",
+              "* Végül a main-t áthelyezzük a fa ezen frissített részére a szint befejezéséhez (a saját választásod módszerével)",
+              "",
+              "Sok módja van ennek az összesített célnak (látom, hogy a cherry-picket nézegetted), és később többet is megvizsgálunk, de egyelőre fókuszáljunk erre a technikára.",
+              "Végül figyelj a célállapotra itt -- mivel a commitokat kétszer mozgatjuk, mindkettőhöz hozzáadódik egy aposztróf. Az általunk módosított commithoz egy további aposztróf adódik, ami megadja a fa végleges formáját.",
+              "",
+              "Azzal együtt, most már tudom összehasonlítani a szinteket szerkezet és relatív aposztróf-különbségek alapján. Amíg a fád `main` ága azonos szerkezettel és relatív aposztróf-különbségekkel rendelkezik, teljes pontot adok."
             ]
           }
         }

@@ -24,7 +24,8 @@ exports.level = {
     "sl_SI": "Oddaljeni Branchi",
     "pl": "Zdalne gałęzie",
     "it_IT": "Rami Remoti",
-    "tr_TR": "Uzak Dallar"
+    "tr_TR": "Uzak Dallar",
+    "hu_HU": "Távoli ágak"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -48,7 +49,8 @@ exports.level = {
     "sl_SI": "Bodi pozoren na vrsti red -- commitaj najprej na main!",
     "pl": "Zwróć uwagę na kolejność -- najpierw zatwierdzaj na main",
     "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!",
-    "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!"
+    "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!",
+    "hu_HU": "Figyelj a sorrendere -- először a main-en commitolj!"
   },
   "startDialog": {
     "en_US": {
@@ -1402,6 +1404,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu seviyeyi bitirmek için, önce `main` dalından bir commit yapın ve sonra `o/main`'i kontrol ettikten sonra bir commit daha yapın. Bu, uzak dalların nasıl farklı davrandığını ve yalnızca uzak depo durumunu yansıtacak şekilde nasıl güncellendiklerini anlamanıza yardımcı olacaktır."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote ágak",
+              "",
+              "Most, hogy láttad a `git clone` működését, nézzük meg, mi is változott valójában.",
+              "",
+              "Az első dolog, amit talán észrevettél, az az, hogy egy új ág jelent meg a helyi repódban, amelynek neve `o/main`. Ezt a típusú ágat _távoli_ ágnak nevezzük; a távoli ágaknak különleges tulajdonságaik vannak, mert egyedi célt szolgálnak.",
+              "",
+              "A távoli ágak tükrözik a távoli repók _állapotát_ (azóta, hogy utoljára kommunikáltál ezekkel a távoli repókkal). Segítenek megérteni a különbséget a helyi munkád és a nyilvános munka között -- ez egy kritikus lépés, amelyet meg kell tenni, mielőtt megosztanád a munkádat másokkal.",
+              "",
+              "A távoli ágaknak az a különleges tulajdonságuk, hogy amikor checkout-olsz rájuk, lecsatolt `HEAD` módba kerülsz. A git ezt szándékosan teszi, mert nem tudsz közvetlenül ezeken az ágakon dolgozni; máshol kell dolgoznod, majd megosztani a munkádat a remote-tal (amitől a távoli ágaid frissülni fognak).",
+              "",
+              "Hogy egyértelműsítsük: A távoli ágak a _helyi_ repódban vannak, nem a távoli repóban."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Mi az `o/`?",
+              "",
+              "Talán kíváncsiskodol, mire való az `o/` előtag ezeken a távoli ágakon. Nos, a távoli ágaknak is van egy (kötelező) elnevezési konvenciójuk -- a következő formátumban jelennek meg:",
+              "",
+              "* `<remote neve>/<ág neve>`",
+              "",
+              "Tehát ha megnézed az `o/main` nevű ágat, az ág neve `main`, a remote neve pedig `o`.",
+              "",
+              "A legtöbb fejlesztő valójában `origin`-nek nevezi a fő remote-ját, nem `o`-nak. Ez annyira elterjedt, hogy a git valójában automatikusan `origin`-nek nevezi a remote-ot, amikor `git clone`-ozol egy repót.",
+              "",
+              "Sajnos az `origin` teljes neve nem fér el a felhasználói felületünkön, ezért az `o`-t használjuk rövidítésként :( Csak emlékezz arra, hogy amikor valódi git-et használsz, a remote-od valószínűleg `origin` nevű lesz!",
+              "",
+              "Ez sok mindent kell megemészteni, szóval nézzük meg mindezt a gyakorlatban."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Checkout-oljunk egy távoli ágat, és nézzük meg, mi történik."
+            ],
+            "afterMarkdowns": [
+              "Ahogy látod, a git lecsatolt `HEAD` módba tett minket, majd nem frissítette az `o/main`-t, amikor új commitot adtunk hozzá. Ez azért van, mert az `o/main` csak akkor frissül, amikor a remote frissül."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint befejezéséhez commitolj egyszer a `main`-ről, majd egyszer az `o/main` checkout-olása után. Ez segít megérteni, hogyan viselkednek másképp a távoli ágak, és hogy csak a remote állapotának tükrözésére frissülnek."
             ]
           }
         }

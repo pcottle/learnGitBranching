@@ -36,7 +36,8 @@ exports.level = {
     "it_IT": "Prendi solo 1 Commit",
     "pl": "Wzięcie tylko 1 commita",
     "ta_IN": "ஒரே ஒரு commit மட்டும் எடுப்பது",
-    "tr_TR": "Sadece 1 commit'i yakalamak"
+    "tr_TR": "Sadece 1 commit'i yakalamak",
+    "hu_HU": "Csak 1 commit átvétele"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -61,7 +62,8 @@ exports.level = {
     "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
     "ta_IN": "மறவாதீர்கள், interactive rebase அல்லது cherry-pick இங்கே உங்கள் நண்பர்",
-    "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız."
+    "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız.",
+    "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben"
   },
   "startDialog": {
     "en_US": {
@@ -959,6 +961,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu biraz daha ileri bir seviye olduğundan hangi komutu kullanmak istediğiniz size kalmış, ancak `main` branch'inin `bugFix` tarafından atılan ve `main`'e atıfta bulunan commit'i alması gerektiğini unutmayın."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Helyi commitok halmaza",
+              "",
+              "Íme egy fejlesztési helyzet, ami elég gyakran előfordul: nyomon követek egy hibát, de az igen nehezen megfogható. Detektív munkám segítéséhez beillesztek néhány debug parancsot és néhány print utasítást.",
+              "",
+              "Ezek a debug/print utasítások mind külön commitokban vannak. Végül megtalálom a hibát, kijavítom, és örülök!",
+              "",
+              "Az egyetlen probléma az, hogy most a `bugFix`-et vissza kell juttatnom a `main` ágba. Ha egyszerűen fast-forward-olom a `main`-t, akkor a `main` megkapja az összes debug utasítást is, ami nem kívánatos. Kell lennie más megoldásnak is..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Azt kell mondanunk a gitnek, hogy csak az egyik commitot másolja át. Ez ugyanolyan, mint a korábbi szinteken a munka mozgatása -- ugyanazokat a parancsokat használhatjuk:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "A cél elérése érdekében."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ez egy haladóbb szint, ezért rád bízzuk, hogy melyik parancsot szeretnéd használni, de a szint teljesítéséhez gondoskodj arról, hogy a `main` megkapja azt a commitot, amelyre a `bugFix` mutat."
             ]
           }
         }

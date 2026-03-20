@@ -29,7 +29,8 @@ exports.level = {
     "it_IT": "Puoi usare sia i rami che i riferimenti relativi (HEAD~) per specificare l'obiettivo del rebase",
     "pl": "Możesz użyć gałęzi lub referencji względnych (HEAD~), aby określić cel rebase'a",
     "ta_IN": "நீங்கள் rebase இலக்கை குறிப்பதற்கு கிளைகள் அல்லது பொருந்திய ரெஃபரன்ஸ்கள் (HEAD~) பயன்படுத்த முடியும்",
-    "tr_TR": "Rebase hedefini belirtmek için ya dalları ya da göreli referansları (HEAD~) kullanabilirsiniz"
+    "tr_TR": "Rebase hedefini belirtmek için ya dalları ya da göreli referansları (HEAD~) kullanabilirsiniz",
+    "hu_HU": "A rebase célját megadhatod branchekkel vagy relatív hivatkozásokkal (HEAD~)"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -54,7 +55,8 @@ exports.level = {
     "it_IT": "Introduzione al rebase interattivo",
     "pl": "Wprowadzenie do interaktywnego rebase'a",
     "ta_IN": "இன்டராக்டிவ் ரீபெஸ் அறிமுகம்",
-    "tr_TR": "Etkileşimli Rebase'e Giriş"
+    "tr_TR": "Etkileşimli Rebase'e Giriş",
+    "hu_HU": "Interaktív rebase bevezetés"
   },
   "startDialog": {
     "en_US": {
@@ -1558,6 +1560,72 @@ exports.level = {
           "options": {
             "markdowns": [
               "இந்த நிலையை முடிக்க, ஒரு இன்டராக்டிவ் ரீபெஸ் செய்யவும் மற்றும் இலக்கக் காட்சி காட்டிய வரிசையை அடையவும். தவறுகளை சரிசெய்ய `undo` அல்லது `reset` எப்போது வேண்டுமானாலும் பயன்படுத்தலாம் :D"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interaktív Rebase",
+              "",
+              "A Git cherry-pick remek, ha tudod, melyik commitokat szeretnéd (_és_ ismered a megfelelő hash-eiket) -- nehéz legyőzni az egyszerűségét.",
+              "",
+              "De mi a helyzet, ha nem tudod, melyik commitokat szeretnéd? Szerencsére a git erre is megoldást kínál! Használhatjuk az interaktív rebase-t -- ez a legjobb módja egy sor commit áttekintésének, mielőtt rebaselnéd őket.",
+              "",
+              "Merüljünk el a részletekben..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Az interaktív rebase azt jelenti, hogy a Git a `rebase` parancsot a `-i` opcióval használja.",
+              "",
+              "Ha hozzáadod ezt az opciót, a git megnyit egy felhasználói felületet, amely megmutatja, mely commitok kerülnek majd a rebase célpontja alá másolásra. Az commit hash-eket és üzeneteket is megmutatja, ami nagyszerű az eligazodáshoz.",
+              "",
+              "A \"valódi\" gitben a felhasználói felület egy szövegszerkesztőben (pl. `vim`) megnyitott fájlt jelent. A mi céljainkra egy kis párbeszédablakot készítettem, amely ugyanúgy működik."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Amikor megnyílik az interaktív rebase párbeszédablak, két dolgot tehetsz az oktatási alkalmazásban:",
+              "",
+              "* Átrendezhetid a commitokat egyszerűen azáltal, hogy megváltoztatod a sorrendjüket a felhasználói felületen (fogd és vidd az egérrel).",
+              "* Dönthetesz, hogy megtartod az összes commitot, vagy kihagysz bizonyosakat. A párbeszédablak megnyitásakor minden commit mellett aktív a `pick` gomb. Egy commit kihagyásához kapcsold ki a `pick` gombját.",
+              "",
+              "*Érdemes megjegyezni, hogy a valódi git interaktív rebase-ben sokkal több mindent megtehetsz, például összevonhatod (squash) a commitokat, módosíthatod a commit üzeneteket, sőt szerkesztheted magukat a commitokat. A mi céljainkra azonban a fenti két műveletre összpontosítunk.*",
+              "",
+              "Remek! Nézzünk meg egy példát."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ha megnyomod a gombot, megjelenik egy interaktív rebase ablak. Rendezd át a commitokat (vagy hagyd ki néhányat), és nézd meg az eredményt!"
+            ],
+            "afterMarkdowns": [
+              "Bumm! A Git pontosan úgy másolta le a commitokat, ahogyan a felhasználói felületen megadtad."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint befejezéséhez végezz el egy interaktív rebase-t, és érd el a cél vizualizációban látható sorrendet. Ne feledd, hogy mindig használhatod az `undo` vagy `reset` parancsot a hibák javítására :D"
             ]
           }
         }

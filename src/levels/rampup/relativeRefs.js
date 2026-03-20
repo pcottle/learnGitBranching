@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Riferimenti relativi (^)",
     "pl": "Referencje względne (^)",
     "tr_TR": "İlgili Referanslar (^)",
-    "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)"
+    "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)",
+    "hu_HU": "Relatív hivatkozások (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -50,7 +51,8 @@ exports.level = {
     "it_IT": "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
     "pl": "Pamiętaj o operatorze wstawienia (^)!",
     "ta_IN": "உதவிக்குறிப்பை (^), மறக்காதீர்கள்!",
-    "tr_TR": "^ operatörünü hatırlayın!"
+    "tr_TR": "^ operatörünü hatırlayın!",
+    "hu_HU": "Ne feledd a kalap (^) operátort!"
   },
   "startDialog": {
     "en_US": {
@@ -1698,6 +1700,81 @@ exports.level = {
               "Bu seviyeyi tamamlamak için, `bugFix`'in ebeveyn commit'ine göz atın. Bu, `HEAD`'i ayıracaktır.",
               "",
               "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreceli referansları kullanmayı deneyin!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relatív hivatkozások",
+              "",
+              "A Gitben commit hash-ek megadásával mozogni kissé fárasztó lehet. A valódi életben nem lesz egy szép commit fa vizualizáció a terminálod mellett, így a `git log` parancsot kell majd használnod a hash-ek megtekintéséhez.",
+              "",
+              "Ráadásul a hash-ek a valódi Git-világban általában jóval hosszabbak. Például az előző szintet bevezető commit hash-e `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Ez aztán nem csúszik le könnyen...",
+              "",
+              "A jó hír az, hogy a Git okosan kezeli a hash-eket. Csak annyi karaktert kell megadnod a hash-ből, ami egyértelműen azonosítja a commitot. Tehát `fed2`-t is írhatok a fenti hosszú karakterlánc helyett."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ahogy mondtam, a commitok hash-ekkel való megadása nem mindig a legkényelmesebb, ezért léteznek a relatív hivatkozások a Gitben. Ezek csodálatosak!",
+              "",
+              "A relatív hivatkozásokkal egy könnyen megjegyezhető helyről (például a `bugFix` branch vagy a `HEAD`) indulhatsz, és onnan navigálhatsz.",
+              "",
+              "A relatív commitok erősek, de itt két egyszerűt mutatunk be:",
+              "",
+              "* Egy committal felfelé mozgás a `^` operátorral",
+              "* Több committal felfelé mozgás a `~<szám>` operátorral"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Először nézzük meg a kalap (^) operátort. Minden alkalommal, amikor ezt hozzáfűzöd egy hivatkozásnévhez, a Gitnek azt mondod, hogy keresse meg a megadott commit szülőjét.",
+              "",
+              "Tehát a `main^` egyenértékű a \"`main` első szülőjével\".",
+              "",
+              "`main^^` a `main` nagyapja (másodgenerációs őse)",
+              "",
+              "Nézzük meg a main feletti commitot itt."
+            ],
+            "afterMarkdowns": [
+              "Bumm! Megvan. Sokkal könnyebb, mint a commit hash-t begépelni."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A `HEAD`-et is használhatod relatív hivatkozásként. Használjuk ezt néhányszor, hogy feljebb mozogjunk a commit fában."
+            ],
+            "afterMarkdowns": [
+              "Könnyű! A `HEAD^`-vel visszautazhatunk az időben."
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint teljesítéséhez válts a `bugFix` szülő commitjára. Ez leválasztja a `HEAD`-et.",
+              "",
+              "Ha akarod, megadhatod a hash-t, de próbálj inkább relatív hivatkozásokat használni!"
             ]
           }
         }

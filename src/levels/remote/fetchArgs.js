@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Fetch argumenti",
     "pl": "Argumenty fetch",
     "it_IT": "Parametri di git fetch",
-    "tr_TR": "Fetch argümanları"
+    "tr_TR": "Fetch argümanları",
+    "hu_HU": "Fetch argumentumok"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Bodi pozoren kako so se commit id-ji morda zamenjali! Ponovno lahko prebereš navodila z \"help level\".",
     "pl": "Zauważ, że identyfikatory commitów mogły zostać zamienione! Slajdy możesz przeczytać jeszcze raz po wpisaniu: \"help level\"",
     "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\"",
-    "tr_TR": "Commit ID'lerinin nasıl değiştiğine dikkat edin! \"help level\" komutunu kullanarak slaytları tekrar okuyabilirsiniz."
+    "tr_TR": "Commit ID'lerinin nasıl değiştiğine dikkat edin! \"help level\" komutunu kullanarak slaytları tekrar okuyabilirsiniz.",
+    "hu_HU": "Figyelj, hogyan cserélhetek helyet a commit azonosítók! A diákat újra elolvashatod a \"help level\" paranccsal"
   },
   "startDialog": {
     "en_US": {
@@ -2640,6 +2642,129 @@ exports.level = {
               "Tamam, yeterince konuştuk! Bu seviyeyi bitirmek için, hedef görselleştirmesinde belirtilen commit'leri fetch yapın. O komutlarla biraz yaratıcı olun!",
               "",
               "Her iki fetch komutu için de kaynak ve hedefi belirtmeniz gerekecek. Hedef görselleştirmesine dikkat edin, çünkü ID'ler yer değiştirebilir!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch argumentumok",
+              "",
+              "Szóval az imént megtanultuk az összes git push argumentumot, ezt a klassz `<place>` paramétert, és még a kettőspont-refspecet is (`<source>:<destination>`). Vajon mindez alkalmazható a `git fetch`-re is?",
+              "",
+              "Bizony! A `git fetch` argumentumai valójában *nagyon, nagyon* hasonlóak a `git push` argumentumaihoz. Ugyanolyan típusú fogalmak, csak éppen az ellentétes irányban alkalmazzuk (mivel most commitokat töltesz le, nem töltesz fel).",
+              "",
+              "Nézzük meg a fogalmakat egyesével..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### A `<place>` paraméter",
+              "",
+              "Ha megadsz egy helyet a git fetch-nek, ahogy az alábbi parancsban:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "A git elmegy a `foo` ágra a távoliban, összeszedi az összes olyan commitot, amely még nincs meg helyi, majd lerakja őket az `o/foo` helyi ágra.",
+              "",
+              "Lássuk ezt a gyakorlatban (csak egy gyors ismétlés)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Egy hely megadásával..."
+            ],
+            "afterMarkdowns": [
+              "Csak a `foo`-ból töltjük le a commitokat, és az `o/foo`-ra rakjuk őket."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Felmerülhet a kérdés: miért az `o/foo` távoli ágra rakta a git a commitokat ahelyett, hogy a helyi `foo` ágamra rakta volna? Azt hittem, a `<place>` paraméter egy olyan hely, amely mind helyi, mind a távoliban létezik?",
+              "",
+              "A git egy speciális kivételt tesz ebben az esetben, mert lehet, hogy van munkád a `foo` ágon, amelyet nem szeretnél elrontani!! Ez az előző `git fetch`-ről szóló leckéhez kapcsolódik -- nem frissíti a helyi nem-távoli ágakat, csak letölti a commitokat (hogy később megvizsgálhasd / merge-elheted).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Na és akkor mi történik, ha kifejezetten megadom a forrást és a célt is a `<source>:<destination>`-nal?\"",
+              "",
+              "Ha elég elszánt vagy ahhoz, hogy a commitokat *közvetlenül* egy helyi ágra fetcheld, igen, megadhatod azt egy kettőspont-refspeccel. Nem fetchelhetsz commitokat olyan ágra, amely éppen checkoutolva van, de egyébként a git engedi.",
+              "",
+              "Van azonban egy fogás -- a `<source>` most egy hely a *távoliban*, a `<destination>` pedig egy *helyi* hely, ahova a commitok kerülnek. Ez pontosan az ellentéte a git push-nak, ami logikus, mivel az adatokat ellentétes irányban visszük!",
+              "",
+              "Mindazonáltal a fejlesztők ritkán teszik ezt meg a gyakorlatban. Főleg azért mutatom be, hogy segítsen megérteni, hogyan hasonlítanak egymásra a `fetch` és a `push`, csak ellentétes irányban."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lássuk ezt az őrültséget a gyakorlatban:"
+            ],
+            "afterMarkdowns": [
+              "Wow! Látod, a git feloldotta a `C2`-t a origin egy helyeként, majd letöltötte azokat a commitokat a `bar`-ba (amely egy helyi ág volt)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mi van, ha a cél nem létezik, mielőtt futtatom a parancsot? Nézzük meg az előző diát, de a `bar` nélkül, amely előzetesen létezett."
+            ],
+            "afterMarkdowns": [
+              "Látod, ez PONT olyan, mint a git push. A git létrehozta a célt helyi szinten a fetchelés előtt, ahogy a git is létrehozza a célt a távoliban a push előtt (ha az nem létezik)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nincsenek argumentumok?",
+              "",
+              "Ha a `git fetch` nem kap argumentumokat, egyszerűen letölti az összes commitot a távoliból az összes távoli ágra..."
+            ],
+            "afterMarkdowns": [
+              "Elég egyszerű, de érdemes egyszer átmenni rajta."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rendben, elég volt a beszédből! Ennek a szintnek a befejezéséhez csak a célvizualizációban meghatározott commitokat fetcheld le. Légy kreatív azokkal a parancsokkal!",
+              "",
+              "Mindkét fetch parancshoz meg kell adnod a forrást és a célt. Figyelj a célvizualizációra, mert az azonosítók fel lehetnek cserélve!"
             ]
           }
         }
