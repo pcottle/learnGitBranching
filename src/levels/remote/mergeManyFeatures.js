@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Merganje z oddaljenim repozitorijem",
     "pl": "Scalanie z remote",
     "it_IT": "Fondere in remoto",
-    "tr_TR": "Uzak Sunucularla Birleştirme"
+    "tr_TR": "Uzak Sunucularla Birleştirme",
+    "hu_HU": "Merge a távolival"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Poglej si ciljno drevo!",
     "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!",
     "it_IT": "Fai attenzione all'albero nell'obiettivo",
-    "tr_TR": "Hedef ağacına dikkat et!"
+    "tr_TR": "Hedef ağacına dikkat et!",
+    "hu_HU": "Figyelj a célgráfra!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -988,6 +990,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu seviyede, önceki seviyeyi *merge* kullanarak çözmeyi deneyelim. Biraz karışabilir ama durumu iyi şekilde gösterecektir."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Miért ne merge?",
+              "",
+              "Ahhoz, hogy új frissítéseket pusholjál a távoliba, csak annyit kell tenned, hogy *beépíted* a távoliból érkező legújabb változtatásokat. Ez azt jelenti, hogy vagy rebase-elheted, *vagy* merge-elheted a távoli ágat (pl. `o/main`).",
+              "",
+              "Ha mindkét módszert alkalmazhatod, miért fókuszáltak eddig a leckék a rebase-re? Miért nem szeretik a `merge`-t a távoliakkal való munkában?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A fejlesztői közösségben rengeteg vita folyik a merge és a rebase közötti kompromisszumokról. Íme a rebase általános előnyei/hátrányai:",
+              "",
+              "Előnyök:",
+              "",
+              "* A rebase nagyon tisztán tartja a commit gráfodat, mivel minden egy egyenes vonalban van",
+              "",
+              "Hátrányok:",
+              "",
+              "* A rebase módosítja a commit gráf (látszólagos) történetét.",
+              "",
+              "Például a `C1` commit rebase-elhető a `C3` *után*. Ekkor úgy tűnik, hogy a `C1'` munkája a `C3` után készült el, holott a valóságban korábban fejeződött be.",
+              "",
+              "Néhány fejlesztő szereti megőrizni a történetet, ezért a merge-t részesíti előnyben. Mások (mint én) a tiszta commit gráfot preferálják, ezért a rebase-t választják. Ez mind preferencia kérdése :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ehhez a szinthez próbáljuk meg megoldani az előző szintet, de *merge*-dzsel. Kicsit bonyolult lehet, de jól szemlélteti a lényeget."
             ]
           }
         }

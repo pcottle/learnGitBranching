@@ -39,7 +39,8 @@ exports.level = {
     "it_IT": "Giocoliere di commit #2",
     "pl": "Żonglowanie commitami #2",
     "ta_IN": "Commitகளுடன் வித்தைகள் #2",
-    "tr_TR": "Commit'leri Şekillendirme #2"
+    "tr_TR": "Commit'leri Şekillendirme #2",
+    "hu_HU": "Commitok átrendezése #2"
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
@@ -64,7 +65,8 @@ exports.level = {
     "it_IT": "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
     "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
     "ta_IN": "Main ஐ புதுப்பிக்கப்பட்ட மாற்றங்களுக்கு முன்னேற்றமிடுவதை மறக்க வேண்டாம்!",
-    "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!"
+    "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
+    "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!"
   },
   "startDialog": {
     "en_US": {
@@ -1047,6 +1049,49 @@ exports.level = {
               "Bu seviyede, `C2` commit'ini düzeltmek için `rebase -i` kullanmadan aynı sonuca ulaşmaya çalışın. Nasıl ulaşabileceğimizi size bırakıyorum! :D",
               "",
               "Unutmayın, commit'lerdeki tırnakların (') tam olarak eşleşmesi önemli değil, yalnızca göreceli farklar önemlidir. Örneğin, hedef ağaçla eşleşen ancak her yerde ekstra bir tırnak bulunan bir ağaçtan da puan alınabilir."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commitok átrendezése #2",
+              "",
+              "*Ha még nem teljesítetted a Commitok átrendezése #1 szintet (az előző szintet), kérlek tedd meg, mielőtt folytatod*",
+              "",
+              "Ahogy az előző szinten láttad, a `rebase -i` segítségével átrendeztük a commitokat. Amint a módosítani kívánt commit kerül a tetejére, könnyen elvégezhettük a --amend módosítást, és visszarendeztük a kívánt sorrendbe.",
+              "",
+              "Az egyetlen probléma az, hogy sok átrendezés történik, ami rebase-konfliktusokat hozhat létre. Nézzünk meg egy másik módszert a `git cherry-pick` segítségével."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ne feledd, a `git cherry-pick` lehelyez egy commitot a fa bármely pontjáról a HEAD-re (feltéve, hogy az a commit nem ős-e a HEAD-nek).",
+              "",
+              "Íme egy kis felelevenítő demo:"
+            ],
+            "afterMarkdowns": [
+              "Remek! Haladjunk tovább."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tehát ezen a szinten érjük el ugyanazt a célt -- módosítsuk a `C2`-t --, de kerüljük el a `rebase -i` használatát. Rád bízom, hogy kitaláld! :D",
+              "",
+              "Ne feledd, a commitokon lévő aposztrófok (') pontos száma nem fontos, csak a relatív különbségek számítanak. Például, teljes pontot adok egy olyan fára, amely megfelel a célnak, de mindenhol egy extra aposztróffal rendelkezik."
             ]
           }
         }

@@ -26,7 +26,8 @@ exports.level = {
     "sl_SI": "Git Push",
     "pl": "Git push",
     "it_IT": "Git Push",
-    "tr_TR": "Git Push"
+    "tr_TR": "Git Push",
+    "hu_HU": "Git push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -48,7 +49,8 @@ exports.level = {
     "sl_SI": "Najprej moraš klonirati, preden lahko pushaš!",
     "pl": "Najpierw sklonuj, potem pushuj!",
     "it_IT": "Ricorda di clonare il repository prima di usare push!",
-    "tr_TR": "Unutmayın push işlemini yapmadan önce clone işlemini yapmanız gerekiyor!"
+    "tr_TR": "Unutmayın push işlemini yapmadan önce clone işlemini yapmanız gerekiyor!",
+    "hu_HU": "Ne felejtsd el, clone-ozni kell, mielőtt push-olhatsz!"
   },
   "startDialog": {
     "en_US": {
@@ -944,6 +946,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu bölümü bitirmek için, uzak depoya iki yeni commit paylaşmanız yeterli. Ancak dikkatli olun, çünkü bu dersler çok daha zorlaşacak!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Rendben, letöltöttem a változtatásokat a remote-ról, és beépítettem azokat a helyi munkámba. Ez mind szép és jó... de hogyan osztom meg a _saját_ remek munkámat mindenkivel?",
+              "",
+              "Nos, a megosztott munka feltöltésének módja az ellenkezője a megosztott munka letöltésének. És mi az ellentéte a `git pull`-nak? A `git push`!",
+              "",
+              "`git push` felelős a _te_ változtatásaid feltöltéséért egy megadott remote-ra, és frissíti azt a remote-ot, hogy beépítse az új commitjaidat. Miután a `git push` befejeződik, az összes barátod letöltheti a munkádat a remote-ról.",
+              "",
+              "A `git push`-t úgy is elképzelheted, mint egy parancsot a munkád \"közzétételére\". Van néhány részlet, amelyet hamarosan részletezünk, de kezdjük az alapoktól...",
+              "",
+              "*megjegyzés -- a `git push` argumentumok nélküli viselkedése a git `push.default` nevű beállításától függ. Ennek a beállításnak az alapértelmezett értéke a git verzióidtól függ, de mi az `upstream` értéket fogjuk használni a leckéinkben. Ez nem nagy ügy, de érdemes ellenőrizni a beállításaidat, mielőtt push-olnál a saját projektjeidben.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Van néhány változtatásunk, amelyek nincsenek meg a remote-on. Töltsük fel azokat!"
+            ],
+            "afterMarkdowns": [
+              "Megvan -- a remote megkapta a `C2` commitot, a remote-on lévő `main` ág frissült, hogy a `C2`-re mutasson, és a *saját* remote tükrünk (`o/main`) is frissült. Minden szinkronban van!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint befejezéséhez egyszerűen ossz meg két új commitot a remote-tal. De tartsd magad, mert ezek a leckék hamarosan sokkal nehezebbek lesznek!"
             ]
           }
         }

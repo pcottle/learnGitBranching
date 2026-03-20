@@ -24,7 +24,8 @@ exports.level = {
     "sl_SI": "Pull argumenti",
     "pl": "Argumenty pull",
     "it_IT": "Parametri di git pull",
-    "tr_TR": "Git pull komutunun parametreleri"
+    "tr_TR": "Git pull komutunun parametreleri",
+    "hu_HU": "Pull argumentumok"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -48,7 +49,8 @@ exports.level = {
     "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
     "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
     "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri",
-    "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin"
+    "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin",
+    "hu_HU": "Ne feledd, a fetch/pull argumentumaival új helyi ágakat hozhatsz létre"
   },
   "startDialog": {
     "en_US": {
@@ -1609,6 +1611,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Tamam, bitirmek için hedef görselleştirmesinin durumuna ulaşın. Bazı commitleri indirmeniz, yeni branşlar oluşturmanız ve bu branşları diğer branşlara birleştirmeniz gerekecek, ancak bu çok fazla komut almaz :P"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull argumentumok",
+              "",
+              "Most, hogy már majdnem *mindent* tudsz a `git fetch` és a `git push` argumentumairól, a git pull-ról szinte már nincs is mit mondani :)",
+              "",
+              "Azért, mert a git pull a végén *valójában* csak egy rövidítés egy fetch-re, amelyet a fetchelt dolgok merge-elése követ. Gondolj úgy rá, mint a git fetch futtatásának *ugyanolyan* argumentumokkal, majd az ezután következő merge-re, ahol ezek a commitok landoltak.",
+              "",
+              "Ez még akkor is igaz, ha őrülten bonyolult argumentumokat használsz. Nézzünk néhány példát:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Íme néhány egyenértékű parancs a gitben:",
+              "",
+              "`git pull  origin foo` egyenértékű ezzel:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "És...",
+              "",
+              "`git pull  origin bar:bugFix` egyenértékű ezzel:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "Látod? A git pull valójában csak rövidítés a fetch + merge-re, és a git pull csak azzal törődik, hova kerülnek a commitok (a `destination` argumentum, amelyet a fetch során határoz meg).",
+              "",
+              "Lássunk egy demót:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ha megadjuk a fetchelendő helyet, minden úgy történik, mint korábban a fetch esetén, de merge-eljük is azt, amit éppen fetcheltünk."
+            ],
+            "afterMarkdowns": [
+              "Látod! A `main` megadásával letöltöttük a commitokat az `o/main`-re, ahogy szokásos. Majd merge-eltük az `o/main`-t az aktuálisan checkoutolt helyünkre, amely *nem* a helyi `main` ág. Ezért valójában érdemes lehet többször is futtatni a git pull-t (ugyanazokkal az argumentumokkal) különböző helyekről, hogy több ágat frissítsünk."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Működik forrással és céllal is? Természetesen! Lássuk:"
+            ],
+            "afterMarkdowns": [
+              "Wow, ez rengeteg dolog egy parancsban. Létrehoztunk egy új helyi `foo` nevű ágat, letöltöttük a commitokat a távoli main-ről arra a `foo` ágra, majd merge-eltük azt az ágat az aktuálisan checkoutolt `bar` águnkba. Ez több mint 9000!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rendben, a befejezéshez érd el a célvizualizáció állapotát. Néhány commitot le kell töltened, új ágakat kell létrehoznod, és azokat az ágakat be kell merge-elned más ágakba, de nem kell sok parancs hozzá :P"
             ]
           }
         }

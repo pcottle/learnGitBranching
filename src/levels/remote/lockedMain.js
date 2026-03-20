@@ -22,7 +22,8 @@ exports.level = {
     "pl": "Stwórz boczną gałąź tematyczną (feature) z lokalnego main, a późnej zsynchronizuj ją z main na origin",
     "vi": "Tạo những nhánh tính năng từ nhánh cục bộ trước khi trả chúng về lại giống như o/main",
     "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto",
-    "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun."
+    "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun.",
+    "hu_HU": "Hozd létre a feature ágat a helyi main-ből, mielőtt visszaállítod azt az origin/main-nel azonos állapotba"
   },
   "name": {
     "en_US": "Locked Main",
@@ -44,7 +45,8 @@ exports.level = {
     "pl": "Zablokowany main",
     "vi": "Nhánh chính bị khóa (Locked Main)",
     "it_IT": "Main bloccato",
-    "tr_TR": "Kilitli Main"
+    "tr_TR": "Kilitli Main",
+    "hu_HU": "Zárolt main"
   },
   "startDialog": {
     "en_US": {
@@ -852,6 +854,46 @@ exports.level = {
               "## Çözüm",
               "",
               "Başka bir branch oluşturun, ona feature adını verin ve bu branch'i uzak sunucuya push edin. Ayrıca main'i uzak sunucu ile senkronize etmek için sıfırlayın, aksi takdirde bir sonraki pull işleminizde başkalarının commit'leriyle çatışma yaşama riskiyle karşılaşabilirsiniz."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A távoli elutasított!",
+              "",
+              "Ha egy nagy, együttműködő csapatban dolgozol, valószínűleg a main zárolt, és a változtatások merge-eléséhez valamiféle Pull Request folyamatra van szükség. Ha közvetlenül a main-re commitolsz helyi szinten, és megpróbálod pusholni, egy ehhez hasonló üzenettel találkozol:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Miért lett elutasítva?",
+              "",
+              "A távoli elutasította a commitok közvetlen pusholását a main-re a main-re vonatkozó szabályzat miatt, amely szerint pull request-et kell használni.",
+              "",
+              "Az volt a terved, hogy létrehozol egy ágat, majd pusholod azt az ágat, és pull request-et nyitsz, de elfelejtettél, és közvetlenül a main-re commitoltál. Most elakadtál, és nem tudod pusholni a változtatásaidat."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A megoldás",
+              "",
+              "Hozz létre egy másik feature nevű ágat, és pushold azt a távoliba. Állítsd vissza a main-edet is, hogy szinkronban legyen a távolival, különben problémák adódhatnak a következő pull alkalmával, ha valaki más commitja ütközik a tiéddel."
             ]
           }
         }

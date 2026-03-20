@@ -33,7 +33,8 @@ exports.level = {
     "it_IT": "Git Describe",
     "pl": "Git describe",
     "tr_TR": "git describe",
-    "ta_IN": "Git விவரம்"
+    "ta_IN": "Git விவரம்",
+    "hu_HU": "Git describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -58,7 +59,8 @@ exports.level = {
     "it_IT": "Fai un commit da bugFix per procedere",
     "pl": "Scommituj raz na bugFix, żeby przejść dalej",
     "ta_IN": "நீங்கள் தொடர தயாராக இருக்கும்போது bugFix இல் ஒருமுறை commit செய்யவும்.",
-    "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir."
+    "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir.",
+    "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon"
   },
   "startDialog": {
     "en_US": {
@@ -1446,6 +1448,69 @@ exports.level = {
               "Git describe hakkında bilmeniz gerekenler bu kadar! Komuta alışmak için bu seviyedeki birkaç yeri tanımlamayı deneyin.",
               "",
               "Hazır olduğunuzda, bir kez commit yaparak seviyesi tamamlayabilirsiniz. Küçük bir jest bizden size :P"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git describe",
+              "",
+              "Mivel a tagek kiváló \"horgonyként\" szolgálnak a kódbázisban, a git rendelkezik egy paranccsal, amely *leírja*, hogy hol tartasz a legközelebbi \"horgonyhoz\" (vagyis taghez) képest. Ez a parancs neve: `git describe`!",
+              "",
+              "A `git describe` segítséget nyújt a tájékozódásban, ha sok committal visszafele vagy előre haladtál a történelemben; ez például egy `git bisect` (hibakereső keresés) befejezése után, vagy amikor egy szabadságról épp visszatért kolléga gépénél ülsz le, fordulhat elő."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A git describe így néz ki:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "A `<ref>` bármi lehet, amit a git fel tud oldani egy commitra. Ha nem adsz meg ref-et, a git az aktuális checkout helyzetét (`HEAD`) használja.",
+              "",
+              "A parancs kimenete így néz ki:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "Ahol a `tag` a legközelebbi ős-tag a történelemben, a `numCommits` az a távolság (commitban mérve) a tagtől, és a `<hash>` a leírt commit hash-e."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nézzünk egy gyors példát. Az alábbi fa esetén:"
+            ],
+            "afterMarkdowns": [
+              "A `git describe main` parancs kimenete:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "Míg a `git describe side` kimenete:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ennyi az egész a git describe-ról! Próbáld ki a parancsot a szint néhány pontján, hogy megszokd a használatát.",
+              "",
+              "Ha készen állsz, csak commitolj egyszer a szint befejezéséhez. Ingyen adjuk :P"
             ]
           }
         }

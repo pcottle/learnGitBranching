@@ -29,7 +29,8 @@ exports.level = {
     "sl_SI": "Izvor Ničesar",
     "pl": "Źródło nicości",
     "it_IT": "Fonte del nulla",
-    "tr_TR": "Hiçliğin kaynağı"
+    "tr_TR": "Hiçliğin kaynağı",
+    "hu_HU": "Semmi forrása"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -52,7 +53,8 @@ exports.level = {
     "sl_SI": "Ukaz za branchanje je v tej stopnji onemogočen, zato boš moral uporabiti fetch!",
     "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!",
     "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!",
-    "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!"
+    "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!",
+    "hu_HU": "A branch parancs le van tiltva ennél a szintnél, tehát a fetch-et kell használnod!"
   },
   "startDialog": {
     "en_US": {
@@ -1167,6 +1169,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu hızlı bir seviye -- sadece bir uzak dalı sil ve `git fetch` ile yeni bir dal oluşturmayı bitir!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### A `<source>` különlegességei",
+              "",
+              "A git a `<source>` paramétert kétféle furcsa módon \"abúzolja\". Ez a két eset abból adódik, hogy technikailag megadhatsz \"semmit\" érvényes `source`-ként mind a git push, mind a git fetch esetén. A semmit egy üres argumentummal adod meg:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Nézzük meg, mit csinálnak..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mit csinál a \"semmi\" pusholása egy távoli ágra? Törli azt!"
+            ],
+            "afterMarkdowns": [
+              "Nos, sikeresen töröltük a `foo` ágat a távoliban azzal, hogy \"semmit\" pusholtunk rá. Ez valamelyest logikus..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Végül a \"semmi\" fetchelése egy helyi helyre valójában egy új ágat hoz létre."
+            ],
+            "afterMarkdowns": [
+              "Nagyon furcsa/különös, de mindegy. Ez a git!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ez egy gyors szint -- csak törölj egy távoli ágat, és hozz létre egy új ágat a `git fetch`-csel a befejezéshez!"
             ]
           }
         }

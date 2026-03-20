@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Merge w Gicie",
     "it_IT": "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்",
-    "tr_TR": "Git'te Merge işlemleri"
+    "tr_TR": "Git'te Merge işlemleri",
+    "hu_HU": "Merge Gitben"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
     "it_IT": "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க",
-    "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)"
+    "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)",
+    "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)"
   },
   "disabledMap": {
     "git revert": true
@@ -1637,6 +1639,75 @@ exports.level = {
               "* Ardından `git merge` komutu ile `bugFix`'i `main`'e merge edin",
               "",
               "*Unutmayın, \"objective\" komutunu kullanılarak bu iletişim penceresini her zaman yeniden görüntüleyebilirsiniz!*"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branchek és Merge",
+              "",
+              "Nagyszerű! Most már tudjuk, hogyan kell commitolni és brancheket létrehozni. Most meg kell tanulnunk, hogyan kombinálhatjuk két különböző branch munkáját. Ez lehetővé teszi, hogy elágazjunk, fejlesszünk egy új funkciót, majd visszaillesszük azt.",
+              "",
+              "Az első módszer a munkák kombinálására, amit megvizsgálunk, a `git merge`. A merge Gitben egy speciális commitot hoz létre, amelynek két egyedi szülője van. Egy két szülővel rendelkező commit lényegében azt jelenti: \"Szeretném belefoglalni ennek a szülőnek és ennek a szülőnek az összes munkáját, *és* az összes szülőjük halmazát.\"",
+              "",
+              "Vizuálisan könnyebb megérteni, nézzük meg a következő nézetben."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Van két branchünk; mindkettőnek van egy egyedi commitja. Ez azt jelenti, hogy egyik branch sem tartalmazza a tárolóban elvégzett teljes \"munka\" halmazát. Javítsuk ezt mergeléssel.",
+              "",
+              "Mergeeljük a `bugFix` branchet a `main`-be."
+            ],
+            "afterMarkdowns": [
+              "Hoppá! Látod? Először is, a `main` most egy két szülővel rendelkező commitra mutat. Ha követed a nyilakat a commit fán felfelé a `main`-től, minden commitra rábuksz a gyökérig vezető úton. Ez azt jelenti, hogy a `main` most tartalmazza a tároló összes munkáját.",
+              "",
+              "Nézd meg, hogyan változtak a commitok színei? A tanulás segítésére némi színkoordinációt is beépítettem. Minden branchnek egyedi színe van. Minden commit azt a színt veszi fel, ami az összes, azt a commitot tartalmazó branch keveréke.",
+              "",
+              "Tehát itt látjuk, hogy a `main` branch színe beolvad az összes commitba, de a `bugFix` színe nem. Javítsuk ezt..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mergeeljük a `main`-t a `bugFix`-be:"
+            ],
+            "afterMarkdowns": [
+              "Mivel a `bugFix` a `main` őse volt, a Gitnek nem kellett extra munkát végeznie; egyszerűen áthelyezte a `bugFix`-et ugyanarra a commitra, amelyre a `main` mutatott.",
+              "",
+              "Most már minden commit ugyanolyan színű, ami azt jelenti, hogy minden branch tartalmazza a tároló összes munkáját! Hurrá!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint teljesítéséhez tedd a következőket:",
+              "",
+              "* Hozz létre egy `bugFix` nevű új branchet",
+              "* Válts a `bugFix` branchre a `git checkout bugFix` paranccsal",
+              "* Commitolj egyszer",
+              "* Menj vissza a `main`-re a `git checkout` paranccsal",
+              "* Commitolj még egyszer",
+              "* Mergeld a `bugFix` branchet a `main`-be a `git merge` paranccsal",
+              "",
+              "*Ne feledd, az \"objective\" paranccsal bármikor újra megjelenítheted ezt a párbeszédablakot!*"
             ]
           }
         }

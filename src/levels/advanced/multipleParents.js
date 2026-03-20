@@ -25,7 +25,8 @@ exports.level = {
     "ta_IN": "ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்",
     "it_IT": "Genitori multipli",
     "pl": "Wielu rodziców",
-    "tr_TR": "Birden fazla ebeveyn"
+    "tr_TR": "Birden fazla ebeveyn",
+    "hu_HU": "Több szülő"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -50,7 +51,8 @@ exports.level = {
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
     "it_IT": "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
-    "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın."
+    "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın.",
+    "hu_HU": "Használd a `git branch bugWork` parancsot egy célcommittal a hiányzó referencia létrehozásához."
   },
   "startDialog": {
     "en_US": {
@@ -2047,6 +2049,93 @@ exports.level = {
               "Bu seviyeyi tamamlamak için, belirtilen hedefte yeni bir branch oluşturun.",
               "",
               "Tabii ki, commit'i doğrudan belirtmek (örneğin `C6` gibi) kolay olacaktır, ancak bunun yerine konuştuğumuz modifikatörleri kullanmanızı tavsiye ediyorum!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Szülők megadása",
+              "",
+              "A `~` módosítóhoz hasonlóan a `^` módosító is elfogad egy opcionális számot utána.",
+              "",
+              "Ahelyett, hogy a visszalépések generációinak számát adnád meg (amit a `~` tesz), a `^` módosítójának száma meghatározza, hogy melyik szülőreferenciát kövessük egy merge committól. Emlékezz, hogy a merge commitoknak több szülőjük van, ezért a választandó útvonal nem egyértelmű.",
+              "",
+              "A git általában az \"első\" szülőt követi felfelé egy merge committól, de a `^` mellé írt szám megváltoztatja ezt az alapértelmezett viselkedést.",
+              "",
+              "Elég volt a beszédből, nézzük meg a gyakorlatban.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Van itt egy merge commit. Ha a `main^`-t módosító nélkül checkoutoljuk, az első szülőt követjük a merge commit után.",
+              "",
+              "(*A vizualizációban az első szülő közvetlenül a merge commit fölött helyezkedik el.*)"
+            ],
+            "afterMarkdowns": [
+              "Egyszerű -- ez az, amihez mindannyian szokva vagyunk."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Most próbáljuk meg a második szülőt megadni..."
+            ],
+            "afterMarkdowns": [
+              "Látod? A másik szülőt követtük felfelé."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A `^` és `~` módosítók nagyon hatékonnyá tehetik a commit-fán való mozgást:"
+            ],
+            "afterMarkdowns": [
+              "Villámgyorsan!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Még ennél is őrültebb: ezek a módosítók láncolhatók! Nézd csak:"
+            ],
+            "afterMarkdowns": [
+              "Ugyanaz a mozgás mint előbb, de egyetlen parancsban."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Gyakorold a tudást",
+              "",
+              "A szint teljesítéséhez hozz létre egy új ágat a meghatározott célhelyen.",
+              "",
+              "Nyilvánvalóan egyszerű lenne a commitot közvetlenül megadni (például `C6`-tal), de arra kérlek, hogy helyette a tárgyalt módosítókat használd!"
             ]
           }
         }

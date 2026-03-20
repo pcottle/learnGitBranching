@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Perdere la testa (HEAD)",
     "pl": "Odczep sobie HEAD",
     "tr_TR": "HEAD'i Ayır",
-    "ta_IN": "உங்கள் HEAD ஐப் பிரிகொள்ளுங்கள்"
+    "ta_IN": "உங்கள் HEAD ஐப் பிரிகொள்ளுங்கள்",
+    "hu_HU": "Fejlécz le! (Detach HEAD)"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -50,7 +51,8 @@ exports.level = {
     "it_IT": "Usa l'etichetta (hash) sul commit per aiutarti!",
     "pl": "Użyj nazwy commita (hasza)!",
     "ta_IN": "உங்களுக்கு உதவ commit இன் லேபிள் (hash) ஐப் பயன்படுத்துங்கள்!",
-    "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!"
+    "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!",
+    "hu_HU": "Használd a commit azonosítóját (hash)!"
   },
   "startDialog": {
     "en_US": {
@@ -1824,6 +1826,84 @@ exports.level = {
               "இந்த நிலையை முடிக்க, HEAD ஐ `bugFix` கிளையிலிருந்து தனித்துவமாக்கி commit க்கு இணைக்கவும்.",
               "",
               "இந்த commit ஐ அதன் hash மூலம் குறிப்பிடுங்கள். ஒவ்வொரு commit இன் hash அந்த commit ஐ பிரதிபலிக்கும் வட்டத்தில் காட்டப்படுகிறது."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Mozgás a Gitben",
+              "",
+              "Mielőtt rátérnénk a Git néhány fejlettebb funkciójára, fontos megérteni a különböző módokat, amelyekkel mozogni lehet a commit fában, amely a projektedet reprezentálja.",
+              "",
+              "Ha egyszer kényelmesen mozogsz, más git parancsok erejét is meg tudod sokszorozni!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Először a \"HEAD\"-ről kell beszélnünk. A HEAD a jelenleg kivett commit szimbolikus neve -- lényegében ez jelzi, melyik commitra dolgozol.",
+              "",
+              "A HEAD mindig a legutóbbi commitra mutat, amely tükröződik a munkafában. A legtöbb git parancs, amely változtatásokat végez a munkafában, a HEAD megváltoztatásával kezdi.",
+              "",
+              "Normál esetben a HEAD egy branch nevére mutat (például bugFix). Amikor commitolsz, a bugFix állapota megváltozik, és ez a változás látható a HEAD-en keresztül."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nézzük ezt működés közben. Megmutatjuk a HEAD-et commit előtt és után."
+            ],
+            "afterMarkdowns": [
+              "Látod! A HEAD végig a `main` branch alatt rejtőzött."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### A HEAD leválasztása",
+              "",
+              "A HEAD leválasztása azt jelenti, hogy egy commithoz csatoljuk branch helyett. Így néz ki előtte:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "És most így:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint teljesítéséhez válasszuk le a HEAD-et a `bugFix`-ről, és csatoljuk inkább a commithoz.",
+              "",
+              "Adja meg ezt a commitot a hash-e alapján. Az egyes commitok hash-e megjelenik a commitot jelképező körön."
             ]
           }
         }
