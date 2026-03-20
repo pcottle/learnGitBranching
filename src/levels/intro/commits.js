@@ -22,7 +22,8 @@ exports.level = {
     "pl": "Wprowadzenie do commitów Gita",
     "it_IT": "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்",
-    "tr_TR": "Git Commit'e Giriş"
+    "tr_TR": "Git Commit'e Giriş",
+    "hu_HU": "Bevezetés a Git commitokba"
   },
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!",
     "it_IT": "Digita 'git commit' due volte per finire!",
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!",
-    "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir."
+    "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir.",
+    "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!"
   },
   "disabledMap": {
     "git revert": true
@@ -1028,6 +1030,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Şimdi sıra sende! Bu pencere kapanır kapanmaz, seviyeyi tamamlamak için iki commit yap."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commitok",
+              "Egy commit a git tárolóban pillanatképet készít a könyvtáradban lévő összes (követett) fájlról. Olyan, mint egy hatalmas másolás és beillesztés, de még annál is jobb!",
+              "",
+              "A Git azonban igyekszik a commitokat a lehető legkönnyebbé tenni, így nem másolja le vakon az egész könyvtárat minden egyes commitolásnál. Képes (ha lehetséges) egy commitot változtatások halmazaként, azaz \"delta\"-ként tömöríteni a tároló egyik verziójától a következőig.",
+              "",
+              "A Git ezen kívül nyilvántartja, hogy mely commitokat mikor készítették. Ezért van a legtöbb commitnak felette egy szülő commitja -- ezt nyilakkal jelöljük a vizualizációban. Az előzmények megőrzése nagyszerű minden projektben dolgozó számára!",
+              "",
+              "Sok mindent kell feldolgozni, de egyelőre gondolj a commitokra a projekt pillanatképeiként. A commitok nagyon könnyűek, és köztük váltani villámgyors!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nézzük meg, hogyan néz ki ez a gyakorlatban. Jobb oldalt egy (kis) git tároló vizualizációja látható. Jelenleg két commit van -- az első kezdeti commit, `C0`, és egy utána következő commit `C1`, amely valamilyen értelmes változtatásokat tartalmazhat.",
+              "",
+              "Kattints az alábbi gombra egy új commit létrehozásához."
+            ],
+            "afterMarkdowns": [
+              "Megvan! Remek. Épp most változtattunk a tárolón, és elmentettük commitként. Az imént létrehozott commitnak van egy szülője, `C1`, amely jelzi, hogy melyik commitra épül."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Próbáld ki magad! Miután ez az ablak bezárul, csinálj két commitot a szint teljesítéséhez."
             ]
           }
         }

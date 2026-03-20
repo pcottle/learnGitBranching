@@ -24,7 +24,8 @@ exports.level = {
     "it_IT": "Introduzione al rebase (ribasare)",
     "pl": "Wprowadzenie do Rebase",
     "ta_IN": "Rebase அறிமுகம்",
-    "tr_TR": "Rebase İşlemine Giriş"
+    "tr_TR": "Rebase İşlemine Giriş",
+    "hu_HU": "Rebase bevezetés"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -49,7 +50,8 @@ exports.level = {
     "it_IT": "Assicurati di fare prima il commit da bugFix",
     "pl": "Upewnij się, że masz już commit z bugFix",
     "ta_IN": "முதலில் bugFix இல் இருந்து commit செய்ய நீங்கள் உறுதி செய்யவும்",
-    "tr_TR": "Önce bugFix'ten commit attığınıza emin olun"
+    "tr_TR": "Önce bugFix'ten commit attığınıza emin olun",
+    "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz"
   },
   "disabledMap": {
     "git revert": true
@@ -1593,6 +1595,73 @@ exports.level = {
               "* bugFix'e geri dönün ve main'e rebase atın",
               "",
               "Bol Şans!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "A branchek közötti munka kombinálásának második módja a *rebase*. A rebase lényegében fogja a commitok egy halmazát, \"lemásolja\" azokat, és máshová helyezi őket.",
+              "",
+              "Bár ez bonyolultnak hangzik, a rebase előnye, hogy szép lineáris commitsorozatot lehet vele létrehozni. A tároló commit-naplója/előzményei sokkal tisztábbak lesznek, ha csak rebase-t használunk.",
+              "",
+              "Nézzük meg működés közben..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Megint két branchünk van; vedd észre, hogy a bugFix branch van kiválasztva (csillaggal jelölve).",
+              "",
+              "Szeretnénk a bugFix-ből a munkánkat közvetlenül a main munkájára helyezni. Így úgy nézne ki, mintha ezt a két funkciót egymás után fejlesztettük volna, holott valójában párhuzamosan fejlesztettük.",
+              "",
+              "Tegyük ezt meg a `git rebase` paranccsal."
+            ],
+            "afterMarkdowns": [
+              "Nagyszerű! Most a bugFix branchünk munkája \"a main tetején\" van, mivel a mainre mutat. A vizualizációban azonban a main alatt jelenik meg, mivel a commit fák lefelé áramlanak.",
+              "",
+              "Vedd észre, hogy a C3 commit még mindig létezik valahol (halvány megjelenéssel a fában), és a C3' az a \"másolat\", amelyet a mainre rebaseltünk.",
+              "",
+              "Az egyetlen probléma, hogy a main sem frissült, csináljuk meg most..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Most a `main` branchen vagyunk. Menjünk előre és rebaseljük a `bugFix`-re..."
+            ],
+            "afterMarkdowns": [
+              "Megvan! Mivel a `main` a `bugFix` őse volt, a git egyszerűen előrébb mozgatta a `main` branch referenciáját az előzményekben."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint teljesítéséhez tedd a következőket:",
+              "",
+              "* Válts egy `bugFix` nevű új branchre",
+              "* Commitolj egyszer",
+              "* Menj vissza a mainre és commitolj újra",
+              "* Válts vissza a bugFix-re és rebaseld a mainre",
+              "",
+              "Sok szerencsét!"
             ]
           }
         }

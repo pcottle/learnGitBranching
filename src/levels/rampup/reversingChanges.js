@@ -25,7 +25,8 @@ exports.level = {
     "sl_SI": "Revertanje Sprememb v Gitu",
     "it_IT": "Annullare i cambiamenti in Git",
     "pl": "Odwracanie zmian w Gicie",
-    "tr_TR": "Değişiklikleri Git'te Geri Almak"
+    "tr_TR": "Değişiklikleri Git'te Geri Almak",
+    "hu_HU": "Változtatások visszavonása Gitben"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -49,7 +50,8 @@ exports.level = {
     "sl_SI": "Revert in reset sprejmeta različne argumente.",
     "it_IT": "Revert e reset hanno parametri diversi.",
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
-    "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma."
+    "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma.",
+    "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad."
   },
   "startDialog": {
     "en_US": {
@@ -1425,6 +1427,69 @@ exports.level = {
               "Bu seviyeyi tamamlamak için, hem `local` hem de `pushed` üzerindeki en son commit'i geri alın. Toplamda iki commit'i geri almış olacaksınız (birini her dal için).",
               "",
               "`pushed` uzak bir dal ve `local` yerel bir dal olduğuna dikkat edin -- bu, yöntemlerinizi seçmenize yardımcı olacaktır."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Változtatások visszavonása Gitben",
+              "",
+              "Sok módja van a változtatások visszavonásának a Gitben. És akárcsak a commitolásnál, a változtatások visszavonásának is van alacsony szintű (egyes fájlok vagy részek stageolása) és magas szintű (hogyan vonódnak vissza a változtatások) komponense. Az alkalmazásunk az utóbbira összpontosít.",
+              "",
+              "Két fő módja van a változtatások visszavonásának a Gitben -- az egyik a `git reset` használata, a másik a `git revert` használata. Mindkettőt megnézzük a következő párbeszédben.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "A `git reset` visszavonja a változtatásokat úgy, hogy visszaviszi a branch referenciát az időben egy régebbi commitra. Ebben az értelemben \"az előzmények átírásának\" tekintheted; a `git reset` visszaviszi a branchet, mintha a commit sohasem történt volna meg.",
+              "",
+              "Nézzük meg, hogyan néz ez ki:"
+            ],
+            "afterMarkdowns": [
+              "Szép! A Git visszavitte a main branch referenciát a `C1`-re; most a helyi tárolónk olyan állapotban van, mintha a `C2` sosem történt volna meg."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Bár a reset remekül működik a helyi gépeden lévő helyi branchek esetén, az \"előzmények átírása\" módszer nem működik más személyek által használt távoli branchek esetén.",
+              "",
+              "A változtatások visszavonásához és a visszavont változtatások *megosztásához* másokkal, a `git revert` parancsot kell használnunk. Nézzük meg működés közben."
+            ],
+            "afterMarkdowns": [
+              "Furcsa, egy új commit jelent meg a visszavonni kívánt commit alatt. Ez azért van, mert ez az új commit `C2'` *változtatásokat* vezet be -- csakhogy ezek a változtatások pontosan visszavonják a `C2` commitot.",
+              "",
+              "A revert segítségével megoszthatod a változtatásokat másokkal."
+            ],
+            "command": "git revert HEAD",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A szint teljesítéséhez vonja vissza a legutóbbi commitot mind a `local`, mind a `pushed` brancheken. Összesen két commitot fogsz visszavonni (branchenként egyet).",
+              "",
+              "Tartsd észben, hogy a `pushed` egy távoli branch, a `local` pedig egy helyi branch -- ez segíteni fog a módszerek megválasztásában."
             ]
           }
         }

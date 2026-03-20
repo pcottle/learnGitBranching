@@ -907,4 +907,33 @@ exports.dialog = {
       ]
     }
   }],
+  'hu_HU': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Üdvözlünk a Learn Git Branching oldalon!',
+        '',
+        'Szeretnél megtanulni Git-et használni? Jó helyen jársz! ',
+        'A "Learn Git Branching" a legvizuálisabb és leginteraktívabb módja a Git tanulásának ',
+        'a weben; izgalmas szinteken keresztül méretteted meg magad, lépésről lépésre ',
+        'megismered a hatékony funkciókat, és közben talán még szórakozol is egy kicsit.',
+        '',
+        'Ez a párbeszédablak után láthatod a rendelkezésre álló szinteket. Ha kezdő vagy, ',
+        'egyszerűen kezdd az elsővel. Ha már ismered a Git alapjait, ',
+        'próbáld ki a nehezebb, haladó szinteket.',
+        '',
+        'A terminálban a `show commands` paranccsal láthatod az összes elérhető parancsot.',
+        '',
+        'Tipp: Legközelebb rögtön a homokozóba szeretnél ugrani? ',
+        'Próbáld ki ezt a speciális linket: ',
+        '[speciális link](https://pcottle.github.io/learnGitBranching/?NODEMO)',
+        '',
+        'Megjegyzés: A GitHub az elfogult szóhasználattól való eltávolodás érdekében az alapértelmezett ág nevét ',
+        '`master`-ről `main`-re változtatta [(részletek itt)](https://github.com/github/renaming). ',
+        'Ezzel az iparági változással összhangban a "Learn Git Branching" is ',
+        'frissítette a leckéit: `master` helyett `main` szerepel. Ez a névváltoztatás ',
+        'már nagyrészt következetesen érvényesül, de ha hibát találsz, nyugodtan küldj PR-t (vagy nyiss egy issue-t).'
+      ]
+    }
+  }],
 };

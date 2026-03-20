@@ -24,7 +24,8 @@ exports.level = {
     "sl_SI": "Lažno Ekipno Delo",
     "pl": "Symulacja pracy zespołowej",
     "it_IT": "Simulare il lavoro di squadra",
-    "tr_TR": "Takım Çalışması Simülasyonu"
+    "tr_TR": "Takım Çalışması Simülasyonu",
+    "hu_HU": "Csapatmunka szimulálása"
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
@@ -48,7 +49,8 @@ exports.level = {
     "sl_SI": "Spomni se, da lahko določiš število lažnih commitov.",
     "pl": "Pamiętaj, że możesz określić liczbę symulowanych commitów",
     "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare",
-    "tr_TR": "Kaç commit oluşturulacağını belirtebileceğinizi unutmayın"
+    "tr_TR": "Kaç commit oluşturulacağını belirtebileceğinizi unutmayın",
+    "hu_HU": "Emlékezz, megadhatod a szimulált commitok számát"
   },
   "startDialog": {
     "en_US": {
@@ -1236,6 +1238,60 @@ exports.level = {
               "Gelecek seviyeler oldukça zorlayıcı olacak, bu yüzden bu seviyede sizden daha fazlasını istiyoruz.",
               "",
               "Bir uzaktan depo oluşturun (`git clone` ile), o uzaktan depoda bazı değişiklikleri taklit edin, kendi commit'inizi yapın ve ardından bu değişiklikleri indirin. Bu, birkaç dersin bir araya gelmiş hali gibi!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Együttműködés szimulálása",
+              "",
+              "Szóval itt van a trükkös dolog -- a közelgő leckék némelyikéhez meg kell tanítanunk, hogyan töltsd le a remote-on bevezetett változtatásokat.",
+              "",
+              "Ez azt jelenti, hogy lényegében \"úgy kell tennünk\", mintha a remote-ot frissítette volna az egyik munkatársad / barátod / együttműködőd, néha egy adott ágon vagy bizonyos számú committal.",
+              "",
+              "Ennek érdekében bevezettük az találóan elnevezett `git fakeTeamwork` parancsot! Ez elég önmagyarázó, nézzünk meg egy bemutatót..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A `fakeTeamwork` alapértelmezett viselkedése az, hogy egyszerűen lerak egy commitot a main-re."
+            ],
+            "afterMarkdowns": [
+              "Megvan -- a remote egy új committal frissült, és mi még nem töltöttük le azt a commitot, mert nem futtattuk a `git fetch`-et."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A commitok számát vagy az ágat is megadhatod a parancs utáni paraméterekkel."
+            ],
+            "afterMarkdowns": [
+              "Egy paranccsal szimulálunk egy csapattag által a `foo` ágra a remote-unkon push-olt három commitot."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A közelgő szintek elég nehezek lesznek, szóval többet kérünk tőled ennél a szintnél.",
+              "",
+              "Hozz létre egy remote-ot (`git clone`-nal), szimulálj néhány változtatást azon a remote-on, adj hozzá egy helyi commitot, majd töltsd le a remote változtatásait és merge-eld azokat. Ez olyan, mint néhány lecke egyben!"
             ]
           }
         }

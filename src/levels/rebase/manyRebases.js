@@ -29,7 +29,8 @@ exports.level = {
     "sl_SI": "Več kot 9000 Rebaseov",
     "it_IT": "Rebasing livello 9000",
     "pl": "Rebase ponad 9000 razy",
-    "tr_TR": "9000 kereden fazla rebase işlemi yapmak"
+    "tr_TR": "9000 kereden fazla rebase işlemi yapmak",
+    "hu_HU": "Sok rebase"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -53,7 +54,8 @@ exports.level = {
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
     "it_IT": "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
     "pl": "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` dopiero na samym końcu...",
-    "tr_TR": "Şunu hatırlamanı isterim ki: belki de en verimli yol işin sonunda maini güncellemektir."
+    "tr_TR": "Şunu hatırlamanı isterim ki: belki de en verimli yol işin sonunda maini güncellemektir.",
+    "hu_HU": "Ne feledd, a leghatékonyabb módszer talán az, ha a main-t csak a végén frissíted..."
   },
   "startDialog": {
     "en_US": {
@@ -447,6 +449,24 @@ exports.level = {
               "Yukarıya doğru yönetmek biraz zor gibi görünse de -- tüm commitlerin sıralı olmasını istiyorlar. Yani bu, ağacımızın son halinin en altta `C7`, onun üstünde `C6`, vs. sırayla olması gerektiği anlamına geliyor.",
               "",
               "Kafan karışırsa 'reset' tuşuna basarak yeniden başlamaktan çekinme. Çözümümüze göz attığından ve bu bölümü daha az komutla bitirip bitiremeyeceğini gördüğünden emin ol!"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Több ág rebase-elése",
+              "",
+              "Hú, sok águnk van itt! Rebase-eljük az összes munkát ezekről az ágakról a main-re.",
+              "",
+              "A felsőbb vezetés azonban egy kicsit nehezebbé teszi ezt -- azt szeretnék, hogy az összes commit sorban legyen egymás után. Ez azt jelenti, hogy a végső fánkon a `C7'`-nek legyen legalul, a `C6'` fölötte, és így tovább, sorban.",
+              "",
+              "Ha elrontod útközben, nyugodtan használd a `reset`-et az újrakezdéshez. Feltétlenül nézd meg a megoldásunkat, és nézd meg, hogy kevesebb paranccsal is megoldható-e!"
             ]
           }
         }

@@ -28,7 +28,8 @@ exports.level = {
     "sl_SI": "Špageti iz Branchev",
     "it_IT": "Rami spaghettificati",
     "pl": "Spaghetti gałęzi",
-    "tr_TR": "Branch Spagettisi"
+    "tr_TR": "Branch Spagettisi",
+    "hu_HU": "Ág-spagetti"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -52,7 +53,8 @@ exports.level = {
     "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
     "it_IT": "Assicurati di fare tutto nel giusto ordine! Prima il primo ramo, poi il secondo, poi il terzo",
     "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
-    "tr_TR": "Her şeyi doğru sırada yaptığından emin ol! Önce ilk branch (one), ardından ikinci branch (two), ardından üçüncü branch (three)"
+    "tr_TR": "Her şeyi doğru sırada yaptığından emin ol! Önce ilk branch (one), ardından ikinci branch (two), ardından üçüncü branch (three)",
+    "hu_HU": "Ügyelj arra, hogy mindent a megfelelő sorrendben végezz el! Először a `one` ág, majd a `two`, aztán a `three`"
   },
   "startDialog": {
     "en_US": {
@@ -490,6 +492,26 @@ exports.level = {
               "`one` branchi bu commitlerin yeniden düzenlenmesine ve an `C5`'in hariç tutulması/bırakılmasına ihtiyaç duyuyor. `two` branchi sadece commitlerin yeniden sıralanmasına ihtiyaç duyuyuor, ve `three` için sadece bir commit transferi gerekiyor!",
               "",
               "Bunu nasıl çözeceğinizi size anlatacağız -- daha sonrasında bizim çözümümüzü `show solution` ile kontrol etmeyi unutmayın."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ág-spagetti",
+              "",
+              "Hűha! Elég nagy célt kell elérnünk ebben a szintben.",
+              "",
+              "Van itt a `main` águnk, amely néhány committal megelőzi az `one`, `two` és `three` ágakat. Valamilyen okból frissítenünk kell ezt a három ágat a main utolsó néhány commitjának módosított verzióival.",
+              "",
+              "Az `one` ágnak át kell rendeznie ezeket a commitokat, és ki kell hagynia a `C5`-öt. A `two` ágnak csak át kell rendeznie a commitokat, a `three` ágnak pedig csak egy commitot kell átvennie!",
+              "",
+              "Rád bízzuk, hogy rájöjj, hogyan oldod meg -- ezután mindenképpen nézd meg a megoldásunkat a `show solution` paranccsal."
             ]
           }
         }

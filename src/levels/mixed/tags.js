@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Git Tag",
     "pl": "Tagi Gita",
     "ta_IN": "Git டேக்கள்",
-    "tr_TR": "Git Tagleri"
+    "tr_TR": "Git Tagleri",
+    "hu_HU": "Git tagek"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -50,7 +51,8 @@ exports.level = {
     "it_IT": "Puoi fare direttamente checkout del commit o semplicemente del tag!",
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
     "ta_IN": "நீங்கள் நேரடியாக commit ஐ அல்லது tag ஐ checkout செய்யலாம்!",
-    "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!"
+    "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
+    "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!"
   },
   "startDialog": {
     "en_US": {
@@ -1246,6 +1248,58 @@ exports.level = {
               "Bu seviye için sadece hedef görselleştirmede tag'leri oluşturun ve ardından `v1`i kontrol edin. Dikkatinizi çekecektir ki bağımsız (detached) `HEAD` durumuna giriyorsunuz - bu, `v1` etiketi üzerine doğrudan commit yapamayacağınız içindir.",
               "",
               "Sonraki seviyede, etiketlerin daha ilginç bir kullanım durumunu inceleyeceğiz."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git tagek",
+              "",
+              "Ahogy a korábbi leckékből megtanultad, az ágak könnyen mozgathatók, és ahogy a munka halad rajtuk, gyakran különböző commitokra mutatnak. Az ágak könnyen megváltoztathatók, sokszor ideiglenesek, és mindig változnak.",
+              "",
+              "Ha ez így van, talán azon tűnődsz, hogy van-e lehetőség *tartósan* megjelölni a projekt történelmének egyes pontjait. Például nagy kiadásoknál és fontosabb merge-eknél -- van-e mód arra, hogy ezeket a commitokat valamivel tartósabban jelöljük meg, mint egy ággal?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Természetesen van! A git tagek pontosan ezt a felhasználási esetet támogatják -- (bizonyos értelemben) tartósan megjelölnek egyes commitokat \"mérföldkőként\", amelyekre aztán ágként hivatkozhatsz.",
+              "",
+              "Ami ennél is fontosabb: a tagek soha nem mozdulnak el, amikor új commitok kerülnek a fára. Nem \"checkoutolhatsz\" egy taget, majd nem folytathatod a munkát azon a tagen -- a tagek a commit-fa horgonyaiként léteznek, amelyek egyes pontokat jelölnek.",
+              "",
+              "Nézzük meg, hogyan néznek ki a tagek a gyakorlatban."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Próbáljunk meg egy taget létrehozni a `C1`-en, amely az 1-es verzió prototípusa."
+            ],
+            "afterMarkdowns": [
+              "Megvan! Elég egyszerű. A taget `v1`-nek neveztük el, és kifejezetten hivatkoztunk a `C1` commitra. Ha kihagyod a commitot, a git az aktuális `HEAD` helyzetét használja."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ehhez a szinthez csak hozd létre a tageket a célvizualizációban, majd checkoutold a `v1`-et. Figyelj, hogyan kerülsz leválasztott (`detached`) `HEAD` állapotba -- ez azért van, mert nem commitolhatsz közvetlenül a `v1` tagre.",
+              "",
+              "A következő szinten egy érdekesebb felhasználási esetet vizsgálunk meg a tagek esetén."
             ]
           }
         }

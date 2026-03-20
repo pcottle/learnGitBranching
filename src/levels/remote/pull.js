@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Git Pull",
     "pl": "Git pull",
     "it_IT": "Git Pull",
-    "tr_TR": "Git Pull"
+    "tr_TR": "Git Pull",
+    "hu_HU": "Git pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Samo izvedi git pull!",
     "pl": "Po prostu uruchom git pull!",
     "it_IT": "Semplicemente git pull!",
-    "tr_TR": "Sadece git pull komutunu çalıştırın!"
+    "tr_TR": "Sadece git pull komutunu çalıştırın!",
+    "hu_HU": "Csak futtasd a git pull-t!"
   },
   "startDialog": {
     "en_US": {
@@ -1283,6 +1285,65 @@ exports.level = {
               "`git pull` komutunun detaylarını daha sonra inceleyeceğiz (seçenekler ve argümanlar dahil), ancak şimdilik bunu seviyede deneyelim.",
               "",
               "Unutmayın -- aslında bu seviyeyi sadece `fetch` ve `merge` komutlarıyla çözebilirsiniz, ancak bu size ekstra bir komut maliyetine mal olur :P"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Most, hogy láttuk, hogyan lehet adatokat letölteni egy távoli repóból a `git fetch`-csel, frissítsük a munkánkat, hogy tükrözze ezeket a változtatásokat!",
+              "",
+              "Valójában sokféleképpen lehet ezt megtenni -- ha már helyben elérhetők az új commitok, beépítheted azokat, mintha csak normál commitok lennének más ágakon. Ez azt jelenti, hogy futtathatod az ilyen parancsokat:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* stb., stb.",
+              "",
+              "Valójában a távoli változtatások *letöltésének* és majd *merge-lésének* munkafolyamata annyira elterjedt, hogy a git valójában biztosít egy parancsot, amely mindkettőt egyszerre végzi! Ez a parancs a `git pull`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Először nézzük meg egy egymás után végrehajtott `fetch` és `merge` kombinációját."
+            ],
+            "afterMarkdowns": [
+              "Boom -- letöltöttük a `C3`-t `fetch`-csel, majd beolvasztottuk azt a munkát a `git merge o/main`-nel. Most a `main` águnk tükrözi a remote új munkáját (ebben az esetben `origin` nevű)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mi történne, ha `git pull`-t használnánk helyette?"
+            ],
+            "afterMarkdowns": [
+              "Ugyanaz! Ez nagyon egyértelművé teszi, hogy a `git pull` lényegében a `git fetch` és az utána következő ág merge-lésének rövidítése."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "A `git pull` részleteit később fogjuk megvizsgálni (beleértve az opciókat és argumentumokat), de egyelőre próbáljuk ki a szinten.",
+              "",
+              "Emlékezz -- valójában megoldhatod ezt a szintet csak `fetch` és `merge`-gel is, de ez egy extra parancsba kerül :P"
             ]
           }
         }

@@ -27,7 +27,8 @@ exports.level = {
     "sl_SI": "Git push argumenti",
     "pl": "Argumenty git push",
     "it_IT": "Parametri di git push",
-    "tr_TR": "Git push argümanları"
+    "tr_TR": "Git push argümanları",
+    "hu_HU": "Git push argumentumok"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -50,7 +51,8 @@ exports.level = {
     "sl_SI": "Vedno lahko pogledaš zadnji dialog z \"objective\".",
     "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu",
     "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\"",
-    "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz"
+    "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz",
+    "hu_HU": "Mindig megnézheted a párbeszéd utolsó diáját az \"objective\" paranccsal"
   },
   "startDialog": {
     "en_US": {
@@ -1599,6 +1601,80 @@ exports.level = {
               "Tamam, bu seviye için hem `foo` hem de `main` dallarını uzak depoda güncellememiz gerekiyor. Fark şu ki, bu seviyede `git checkout` devre dışı bırakıldı!",
               "",
               "*Not: Uzak depo dalları, UI'ımızda tam `origin/` etiketinin sığmadığı için `o/` önekleriyle etiketlendi. Endişelenmeyin... basitçe `origin`'i uzak depo adı olarak kullanın, her zamanki gibi.*"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push argumentumok",
+              "",
+              "Remek! Most, hogy már tudod, mik azok a távoli követési ágak, elkezdhetjük feltárni a git push, fetch és pull működése mögötti titkokat. Egyszerre egy parancsot vizsgálunk meg, de a fogalmak nagyon hasonlók.",
+              "",
+              "Először a `git push`-t nézzük meg. A távoli követésről szóló leckén megtanultad, hogy a git a távolt *és* a push célágát az aktuálisan checkoutolt ág tulajdonságaiból határozza meg (a távoli, amelyet \"követ\"). Ez az argumentumok nélküli viselkedés, de a git push opcionálisan argumentumokat is fogad ilyen formában:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Mi az a `<place>` paraméter? Hamarosan részletezzük, de először egy példa. Ha kiadjuk a következő parancsot:",
+              "",
+              "`git push origin main`",
+              "",
+              "ez magyarul annyit jelent:",
+              "",
+              "*Menj a \"main\" nevű ágra a saját repómban, szedd össze az összes commitot, majd menj a \"main\" ágra az \"origin\" nevű távolin. Tedd fel azokat a commitokat, amelyek még nincsenek ott, aztán szólj, ha végzel.*",
+              "",
+              "Azzal, hogy a `main`-t adtuk meg \"place\" argumentumként, megmondtuk a gitnek, *honnan* jönnek a commitok és *hova* mennek. Ez lényegében a két repó közötti szinkronizálás helye.",
+              "",
+              "Ne feledd, hogy mivel megmondtunk a gitnek mindent, amit tudni kell (mindkét argumentumot megadtuk), teljesen figyelmen kívül hagyja, hogy hol vagyunk checkoutolva!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nézzünk egy példát az argumentumok megadására. Figyeld meg, hol vagyunk checkoutolva ebben a példában."
+            ],
+            "afterMarkdowns": [
+              "Megvan! A `main` frissült a távoliban, mert megadtuk azokat az argumentumokat."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mi történt volna, ha nem adtuk volna meg az argumentumokat?"
+            ],
+            "afterMarkdowns": [
+              "A parancs sikertelen (ahogy látható), mert a `HEAD` nincs egy távoli követési ágon checkoutolva."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rendben, ehhez a szinthez frissítsük mind a `foo`, mind a `main` ágat a távoliban. A csavar az, hogy ennél a szintnél a `git checkout` le van tiltva!",
+              "",
+              "*Megjegyzés: A távoli ágak `o/` előtaggal vannak jelölve, mert a teljes `origin/` jelölés nem fér el az UI-ban. Ne aggódj emiatt... egyszerűen használd az `origin`-t a távoli neveként, mint általában.*"
             ]
           }
         }

@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Razdeljena Zgodovina",
     "pl": "Rozbieżna  historia",
     "it_IT": "Storico divergente",
-    "tr_TR": "Sapmış Tarihçe"
+    "tr_TR": "Sapmış Tarihçe",
+    "hu_HU": "Szétágazó előzmények"
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Preveri vrstni red iz ciljne vizualizacije.",
     "pl": "Przyjrzyj się kolejności na wizualizacji celu",
     "it_IT": "Controlla l'ordinamento dalla schermata dell'obiettivo",
-    "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin"
+    "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin",
+    "hu_HU": "Nézd meg a sorrendet a cél vizualizációban"
   },
   "startDialog": {
     "en_US": {
@@ -3052,6 +3054,149 @@ exports.level = {
               "* Takım çalışması sahteleyin (1 commit)",
               "* Kendi çalışmanızı commit edin (1 commit)",
               "* Çalışmanızı *rebase* yaparak yayınlayın"
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Szétágazó munka",
+              "",
+              "Eddig láttuk, hogyan lehet `pull`-olni mások commitjait, és hogyan lehet `push`-olni a saját változtatásainkat. Elég egyszerűnek tűnik, szóval hogyan tudnak az emberek annyira összezavarodni?",
+              "",
+              "A nehézség akkor jelenik meg, amikor a repó előzményei *szétágaznak*. Mielőtt megvitatnánk ennek részleteit, nézzünk meg egy példát...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Képzeld el, hogy hétfőn clone-ozol egy repót, és elkezdesz dolgozni egy mellékfunkción. Péntekre készen állsz közzétenni a funkciót -- de ó nem! A munkatársaid a héten rengeteg kódot írtak, ami elavulttá (és feleslegessé) tette a funkciódat. Ezeket a commitokat is közzétették a megosztott távoli repóban, így most a *te* munkád egy *régi* verzióján alapul, amely már nem releváns.",
+              "",
+              "Ebben az esetben a `git push` parancs kétértelmű. Ha futtatod a `git push`-t, vissza kell-e változtatnia a git a távoli repót arra, ami hétfőn volt? Meg kell próbálnia hozzáadni a kódodat az új kód eltávolítása nélkül? Vagy teljesen figyelmen kívül kell hagynia a változtatásaidat, mivel teljesen elavultak?",
+              "",
+              "Mivel ebben a helyzetben (ahol az előzmények szétágaztak) annyi a kétértelműség, a git nem engedi, hogy `push`-oljad a változtatásaidat. Valójában arra kényszerít, hogy beépítsd a remote legújabb állapotát, mielőtt megoszthatnád a munkádat."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Elég sok beszéd! Nézzük meg ezt a helyzetet a gyakorlatban."
+            ],
+            "afterMarkdowns": [
+              "Látod? Semmi sem történt, mert a parancs sikertelen. A `git push` azért sikertelen, mert a legutóbbi `C3` commitod a remote `C1`-én alapul. Azóta a remote `C2`-re frissült, így a git elutasítja a push-odat."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Hogyan oldod meg ezt a helyzetet? Egyszerű, csak a munkádat a távoli ág legújabb verziójára kell alapoznod.",
+              "",
+              "Ennek több módja is van, de a legleleményesebb az, ha a munkádat rebase-szel mozgatod. Nézzük meg, hogyan néz ez ki."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Most ha rebase-szel push-olunk..."
+            ],
+            "afterMarkdowns": [
+              "Boom! Frissítettük a remote helyi megjelenítését a `git fetch`-csel, rebase-szel áthelyeztük a munkánkat, hogy tükrözze a remote új változtatásait, majd push-oltuk azokat a `git push`-sal."
+            ],
+            "command": "git fetch; git rebase o/main; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vannak más módok is a munkám frissítésére, amikor a távoli repó frissült? Természetesen! Nézzük meg ugyanezt, de `merge`-szel.",
+              "",
+              "Bár a `git merge` nem mozgatja a munkádat (helyette csak egy merge commitot hoz létre), ez egy módja annak, hogy jelezd a git-nek, hogy beépítetted a remote összes változtatását. Ennek az az oka, hogy a távoli ág most már az *ősöd* a saját ágadnak, ami azt jelenti, hogy a commitod tükrözi a távoli ág összes commitját.",
+              "",
+              "Nézzük meg ezt bemutatva..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Most ha merge-szel rebase helyett..."
+            ],
+            "afterMarkdowns": [
+              "Boom! Frissítettük a remote helyi megjelenítését a `git fetch`-csel, *merge*-ltük az új munkát a saját munkánkba (hogy tükrözze a remote új változtatásait), majd push-oltuk azokat a `git push`-sal."
+            ],
+            "command": "git fetch; git merge o/main; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Remek! Van-e mód arra, hogy ezt anélkül csináljuk, hogy annyi parancsot gépeljünk?",
+              "",
+              "Természetesen -- már tudod, hogy a `git pull` csak a fetch és a merge rövidítése. Elég kényelmesen, a `git pull --rebase` a fetch és a rebase rövidítése!",
+              "",
+              "Nézzük meg ezeket a rövidített parancsokat működés közben."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Először `--rebase`-szel..."
+            ],
+            "afterMarkdowns": [
+              "Ugyanaz, mint előtte! Csak sokkal rövidebb."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Most normál `pull`-lal."
+            ],
+            "afterMarkdowns": [
+              "Megint pontosan ugyanaz, mint előtte!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ez a fetch, rebase/merge és push munkafolyamat meglehetősen elterjedt. A jövőbeli leckékben ezeknek a munkafolyamatoknak bonyolultabb verzióit fogjuk megvizsgálni, de egyelőre próbáljuk ki ezt.",
+              "",
+              "A szint megoldásához tedd a következőket:",
+              "",
+              "* Clone-ozd a repódat",
+              "* Szimulálj csapatmunkát (1 commit)",
+              "* Commitolj valami saját munkát (1 commit)",
+              "* Tedd közzé a munkádat *rebase*-sel"
             ]
           }
         }

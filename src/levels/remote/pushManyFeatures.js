@@ -23,7 +23,8 @@ exports.level = {
     "sl_SI": "Vedno lahko razveljaviš ukaz ali ponastaviš stopnjo.",
     "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
     "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset",
-    "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz."
+    "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz.",
+    "hu_HU": "Ne feledd, mindig használhatod az undo vagy a reset parancsokat"
   },
   "name": {
     "en_US": "Push Main!",
@@ -46,7 +47,8 @@ exports.level = {
     "sl_SI": "Push Main!",
     "pl": "Wypychanie dla wytrwałych!",
     "it_IT": "Push main!",
-    "tr_TR": "Main'i Push Et!"
+    "tr_TR": "Main'i Push Et!",
+    "hu_HU": "Sok feature pusholása"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -1158,6 +1160,59 @@ exports.level = {
               "* Uzak depo zaten güncellendi, bu yüzden bu çalışmaları da entegre etmemiz gerekecek",
               "",
               ":O yoğun! İyi şanslar, bu seviyeyi tamamlamak büyük bir adım."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Feature ágak merge-elése",
+              "",
+              "Most, hogy már magabiztosan kezeled a fetch-et, pull-t és push-t, próbáljuk ki ezeket a készségeket egy új munkafolyamattal.",
+              "",
+              "Nagy projektekben dolgozó fejlesztőknél általános, hogy az összes munkát feature ágakon végzik (a `main`-ről kiindulva), és csak akkor integrálják azt, ha készen áll. Ez hasonló az előző leckéhez (ahol a mellékágakat pusholták a távoliba), de itt bevezettünk még egy lépést.",
+              "",
+              "Egyes fejlesztők csak akkor pusholnak és pullolnak, ha a `main` ágon vannak -- így a `main` mindig naprakész marad a távoliban lévőkhöz képest (`o/main`).",
+              "",
+              "Ehhez a munkafolyamathoz tehát két dolgot kombinálunk:",
+              "",
+              "* a feature ág munkájának beépítése a `main`-be, és",
+              "* push és pull a távoliból"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gyorsan nézzük át, hogyan frissítjük a `main`-t és pusholunk."
+            ],
+            "afterMarkdowns": [
+              "Két parancsot hajtottunk végre, amelyek:",
+              "",
+              "* rebase-elték a munkánkat a távoliból érkező új commitokra, és",
+              "* publikálták a munkánkat a távoliban"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ez egy elég komoly szint -- itt az általános megoldási vázlat:",
+              "",
+              "* Három feature ág van -- `side1`, `side2` és `side3`",
+              "* Ezeket a feature-öket sorban szeretnénk a távoliba pusholni",
+              "* A távoli azóta frissült, ezért azt a munkát is be kell építenünk",
+              "",
+              ":O intenzív! sok sikert, ennek a szintnek a teljesítése nagy lépés."
             ]
           }
         }

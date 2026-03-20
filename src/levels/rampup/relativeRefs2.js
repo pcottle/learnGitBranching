@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednej bezpośredniej referencji (hasza).",
     "ta_IN": "இந்த நிலவை முடிக்க குறைந்தது ஒரு நேரடி குறிப்பு (ஹாஷ்) பயன்படுத்த வேண்டும்",
-    "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek"
+    "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek",
+    "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -50,7 +51,8 @@ exports.level = {
     "it_IT": "Riferimenti relativi #2 (~)",
     "pl": "Referencje względne #2 (~)",
     "ta_IN": "இணைக்கப்பட்ட குறிப்பு #2 (~)",
-    "tr_TR": "Göreli Referanslar #2 (~)"
+    "tr_TR": "Göreli Referanslar #2 (~)",
+    "hu_HU": "Relatív hivatkozások #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -1561,6 +1563,77 @@ exports.level = {
               "Artık göreli referanslar ve branch zorlamasını birleştirerek gördünüz, şimdi bunları bir sonraki seviyeyi çözmek için kullanalım.",
               "",
               "Bu seviyeyi tamamlamak için, `HEAD`, `main` ve `bugFix`'i belirtilen hedeflerine taşıyın."
+            ]
+          }
+        }
+      ]
+    },
+    "hu_HU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### A \"~\" operátor",
+              "",
+              "Tegyük fel, hogy sok szinttel feljebb akarsz menni a commit fában. Több `^` begépelése fárasztó lehet, ezért a Git tartalmazza a tilde (~) operátort is.",
+              "",
+              "",
+              "A tilde operátor (opcionálisan) egy számot fogad, amely megadja, hány szülővel szeretnél feljebb menni. Nézzük meg működés közben."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Adjunk meg egy számot `~`-vel, hogy több committal visszamenjünk."
+            ],
+            "afterMarkdowns": [
+              "Bumm! Milyen tömör -- a relatív hivatkozások nagyszerűek."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch kényszerítés",
+              "",
+              "Most már szakértő vagy a relatív hivatkozásokban, úgyhogy *használjuk* is őket valamire.",
+              "",
+              "Az egyik leggyakoribb módja, ahogy a relatív hivatkozásokat használom, a branchek mozgatása. A `-f` opcióval közvetlenül hozzárendelhetsz egy branchet egy commithoz. Például:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "Ez (erővel) a main branchet három szülővel a HEAD mögé helyezi.",
+              "",
+              "*Megjegyzés: Valódi git környezetben a `git branch -f` parancs nem engedélyezett az aktuális brancheden.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nézzük meg az előző parancsot működés közben."
+            ],
+            "afterMarkdowns": [
+              "Na igen! A relatív hivatkozások tömör módot adtak a `C1`-re való hivatkozáshoz, és a branch kényszerítés (`-f`) lehetővé tette, hogy gyorsan oda mozgassuk a branchet."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Most, hogy láttad a relatív hivatkozásokat és a branch kényszerítést kombinálva, használjuk ezeket a következő szint megoldásához.",
+              "",
+              "A szint teljesítéséhez mozgasd a `HEAD`-et, a `main`-t és a `bugFix`-et a megjelölt célállomásokra."
             ]
           }
         }
