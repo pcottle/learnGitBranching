@@ -943,7 +943,7 @@ var commandConfig = {
     regex: /^git +describe($|\s)/,
     description: 'Give an object a human readable name',
     execute: function(engine, command) {
-      // first if there are no tags, we cant do anything so just throw
+      // first if there are no tags, we can't do anything so just throw
       if (engine.tagCollection.toArray().length === 0) {
         throw new GitError({
           msg: intl.todo(
