@@ -39,7 +39,7 @@
     "prompt": "^1.2.2",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
-    "vite": "^4.5.14"
+    "vite": "^6.4.2"
   },
   "dependencies": {
     "flux": "^4.0.3",
