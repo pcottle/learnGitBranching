@@ -456,6 +456,7 @@ var commandConfig = {
     options: [
       '-d',
       '-D',
+      '-m',
       '-f',
       '--force',
       '-a',
@@ -510,6 +511,18 @@ var commandConfig = {
 
         // we want to force a branch somewhere
         engine.forceBranch(args[0], args[1]);
+        return;
+      }
+
+      if (commandOptions['-m']) {
+        args = commandOptions['-m'].concat(generalArgs);
+        command.validateArgBounds(args, 1, 2, '-m');
+
+        if (args.length === 1) {
+          args.unshift(engine.getOneBeforeCommit('HEAD').get('id'));
+        }
+
+        engine.renameBranch(args[0], args[1]);
         return;
       }
 
