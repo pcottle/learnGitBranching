@@ -2670,6 +2670,58 @@ GitEngine.prototype.describe = function(ref) {
   });
 };
 
+GitEngine.prototype.renameBranch = function(oldName, newName, force) {
+  var target = this.resolveID(oldName);
+
+  if (!target || target.get('type') !== 'branch') {
+    throw new GitError({
+      msg: intl.todo('fatal: not a branch: ' + oldName)
+    });
+  }
+
+  if (target.getIsRemote()) {
+    throw new GitError({
+      msg: intl.str('git-error-remote-branch')
+    });
+  }
+
+  newName = this.validateBranchName(newName);
+
+  if (this.doesRefExist(newName)) {
+    if (!force) {
+      throw new GitError({
+        msg: intl.todo("fatal: A branch named '" + newName + "' already exists.")
+      });
+    }
+    var existing = this.resolveID(newName);
+    if (existing.get('type') !== 'branch') {
+      throw new GitError({
+        msg: intl.str('git-error-options')
+      });
+    }
+    if (this.HEAD.get('target') === existing) {
+      throw new GitError({
+        msg: intl.str('git-error-branch')
+      });
+    }
+    this.deleteBranch(existing);
+  }
+
+  var oldBranch = target;
+  var commitTarget = oldBranch.get('target');
+  var newBranch = this.makeBranch(newName, commitTarget);
+
+  if (oldBranch.get('remoteTrackingBranchID')) {
+    newBranch.set('remoteTrackingBranchID', oldBranch.get('remoteTrackingBranchID'));
+  }
+
+  if (this.HEAD.get('target') === oldBranch) {
+    this.HEAD.set('target', newBranch);
+  }
+
+  this.deleteBranch(oldBranch);
+};
+
 GitEngine.prototype.validateAndDeleteBranch = function(name) {
   // trying to delete, lets check our refs
   var target = this.resolveID(name);

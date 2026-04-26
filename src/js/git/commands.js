@@ -461,7 +461,10 @@ var commandConfig = {
       '-a',
       '-r',
       '-u',
-      '--contains'
+      '--contains',
+      '-m',
+      '-M',
+      '--move'
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
@@ -500,6 +503,33 @@ var commandConfig = {
         args = commandOptions['--contains'];
         command.validateArgBounds(args, 1, 1, '--contains');
         engine.printBranchesWithout(args[0]);
+        return;
+      }
+
+      if (commandOptions['-m'] || commandOptions['-M'] || commandOptions['--move']) {
+        var moveArgs = commandOptions['-m'] || commandOptions['-M'] || commandOptions['--move'];
+        var force = !!commandOptions['-M'];
+        args = moveArgs.concat(generalArgs);
+        command.validateArgBounds(args, 1, 2, '-m');
+
+        var oldName, newName;
+        if (args.length === 1) {
+          // git branch -m <newname>: rename current branch
+          var headTarget = engine.HEAD.get('target');
+          if (headTarget.get('type') !== 'branch') {
+            throw new GitError({
+              msg: intl.todo('fatal: HEAD does not point to a branch')
+            });
+          }
+          oldName = headTarget.get('id');
+          newName = args[0];
+        } else {
+          // git branch -m <oldname> <newname>
+          oldName = args[0];
+          newName = args[1];
+        }
+
+        engine.renameBranch(oldName, newName, force);
         return;
       }
 

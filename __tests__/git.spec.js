@@ -39,6 +39,27 @@ describe('Git', function() {
     );
   });
 
+  it('handles branch -m rename of another branch', function() {
+    return expectTreeAsync(
+      'git branch banana C0; git branch -m banana apple',
+      '{"branches":{"main":{"target":"C1","id":"main"},"apple":{"target":"C0","id":"apple"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
+  it('handles branch -m rename of current branch', function() {
+    return expectTreeAsync(
+      'git checkout -b feature; git commit; git branch -m newname',
+      '{"branches":{"main":{"target":"C1","id":"main"},"newname":{"target":"C2","id":"newname"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"newname","id":"HEAD"}}'
+    );
+  });
+
+  it('handles branch -M force rename overwriting existing branch', function() {
+    return expectTreeAsync(
+      'git branch foo C0; git branch bar C1; git branch -M foo bar',
+      '{"branches":{"main":{"target":"C1","id":"main"},"bar":{"target":"C0","id":"bar"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
   it('does add', function() {
     return expectTreeAsync(
       'git add; git commit',
