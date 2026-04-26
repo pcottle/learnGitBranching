@@ -221,6 +221,27 @@ describe('Git', function() {
     );
   });
 
+  it('Renames current branch with git branch -m <newname>', function() {
+    return expectTreeAsync(
+      'git checkout -b side; git branch -m topic',
+      '{"branches":{"main":{"target":"C1","id":"main"},"topic":{"target":"C1","id":"topic"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"topic","id":"HEAD"}}'
+    );
+  });
+
+  it('Renames a specified branch with git branch -m <oldname> <newname>', function() {
+    return expectTreeAsync(
+      'git branch side C0; git branch -m side topic',
+      '{"branches":{"main":{"target":"C1","id":"main"},"topic":{"target":"C0","id":"topic"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
+  it('Does not rename branch when the destination already exists', function() {
+    return expectTreeAsync(
+      'git branch side; git branch -m side main',
+      '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
   it('Amends commits', function() {
     return expectTreeAsync(
       'git commit --amend',

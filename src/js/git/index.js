@@ -2610,6 +2610,31 @@ GitEngine.prototype.branch = function(name, ref) {
   }
 };
 
+GitEngine.prototype.renameBranch = function(oldName, newName) {
+  oldName = this.crappyUnescape(oldName);
+  newName = this.validateBranchName(newName);
+
+  var branch = this.resolveID(oldName);
+  if (branch.get('type') !== 'branch' || branch.getIsRemote()) {
+    throw new GitError({
+      msg: intl.str('git-error-branch')
+    });
+  }
+
+  if (this.doesRefExist(newName)) {
+    throw new GitError({
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: newName }
+      )
+    });
+  }
+
+  delete this.refs[oldName];
+  branch.set('id', newName);
+  this.refs[newName] = branch;
+};
+
 GitEngine.prototype.isRemoteBranchRef = function(ref) {
   var resolved = this.resolveID(ref);
   if (resolved.get('type') !== 'branch') {
