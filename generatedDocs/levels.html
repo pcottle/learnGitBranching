@@ -1270,7 +1270,7 @@
     <body>
       <div class="markdown-body">
         <h1>Learn Git Branching - All Levels Documentation</h1>
-  
+
       <h2>Level Sequence: Introduction Sequence</h2>
       <h6>A nicely paced introduction to the majority of git commands</h6>
     <h3>Level: Introduction to Git Commits</h3><h2 id="git-commits">Git Commits</h2>
@@ -1298,15 +1298,15 @@
 </code></pre>
 <p>This will put us on the new branch before committing our changes.</p>
 <pre class="level-solution">git checkout newImage; git commit</pre><p>There we go! Our changes were recorded on the new branch.</p>
-<p><em>Note: In Git version 2.23, a new command called <code>git switch</code> was introduced to eventually replace <code>git checkout</code>, 
-which is somewhat overloaded (it does a bunch of different things depending on the arguments). The lessons here will still use 
-<code>checkout</code> instead of <code>switch</code> because the <code>switch</code> command is still considered experimental and the syntax may change in the future. 
-However you can still try out the new <code>switch</code> command in this application, and also 
+<p><em>Note: In Git version 2.23, a new command called <code>git switch</code> was introduced to eventually replace <code>git checkout</code>,
+which is somewhat overloaded (it does a bunch of different things depending on the arguments). The lessons here will still use
+<code>checkout</code> instead of <code>switch</code> because the <code>switch</code> command is still considered experimental and the syntax may change in the future.
+However you can still try out the new <code>switch</code> command in this application, and also
 <a href="https://git-scm.com/docs/git-switch" target="_blank">learn more here</a>.</em> </p>
 <p>Ok! You are all ready to get branching. Once this window closes,
 make a new branch named <code>bugFix</code> and switch to that branch.</p>
-<p>By the way, here&#39;s a shortcut: if you want to create a new 
-branch AND check it out at the same time, you can simply 
+<p>By the way, here&#39;s a shortcut: if you want to create a new
+branch AND check it out at the same time, you can simply
 type <code>git checkout -b [yourbranchname]</code>.</p>
 <h3>Level: Merging in Git</h3><h2 id="branches-and-merging">Branches and Merging</h2>
 <p>Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.</p>
@@ -1337,7 +1337,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)</p>
 <p>We would like to move our work from bugFix directly onto the work from main. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.</p>
 <p>Let&#39;s do that with the <code>git rebase</code> command.</p>
-<pre class="level-solution">git rebase main</pre><p>Awesome! Now the work from our bugFix branch is stacked "on top of main", since it points to main. In our visualization though, its shown below main since our commit trees flow downwards.</p>
+<pre class="level-solution">git rebase main</pre><p>Awesome! Now the work from our bugFix branch is stacked "on top of main", since it points to main. In our visualization though, it's shown below main since our commit trees flow downwards.</p>
 <p>Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3&#39; is the &quot;copy&quot; that we rebased onto main.</p>
 <p>The only problem is that main hasn&#39;t been updated either, let&#39;s do that now...</p>
 <p>Now we are checked out on the <code>main</code> branch. Let&#39;s go ahead and rebase onto <code>bugFix</code>...</p>
@@ -1637,7 +1637,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>What if we hadn&#39;t specified the arguments? What would happen?</p>
 <pre class="level-solution">git checkout C0; git push</pre><p>The command fails (as you can see), since <code>HEAD</code> is not checked out on a remote-tracking branch.</p>
 <p>Ok, for this level let&#39;s update both <code>foo</code> and <code>main</code> on the remote. The twist is that <code>git checkout</code> is disabled for this level!</p>
-<p><em>Note: The remote branches are labeled with <code>o/</code> prefixes because the full <code>origin/</code> label does not fit in our UI. Don&#39;t worry 
+<p><em>Note: The remote branches are labeled with <code>o/</code> prefixes because the full <code>origin/</code> label does not fit in our UI. Don&#39;t worry
 about this... simply use <code>origin</code> as the name of the remote like normal.</em></p>
 <h3>Level: Git push arguments -- Expanded!</h3><h2 id="place-argument-details"><code>&lt;place&gt;</code> argument details</h2>
 <p>Remember from the previous lesson that when we specified <code>main</code> as the place argument for git push, we specified both the <em>source</em> of where the commits would come from and the <em>destination</em> of where the commits would go.</p>
@@ -1838,4 +1838,3 @@ Lastly, pay attention to the goal state here -- since we move the commits twice,
     </div>
     </body>
     </html>
-  
