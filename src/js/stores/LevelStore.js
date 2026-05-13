@@ -56,6 +56,54 @@ function _syncToStorage() {
   }
 }
 
+function _cloneSolvedMap() {
+  return JSON.parse(JSON.stringify(_solvedMap));
+}
+
+function _normalizeImportedSolvedMap(progress) {
+  if (!progress || typeof progress !== 'object' || Array.isArray(progress)) {
+    throw new Error('level progress must be a JSON object');
+  }
+
+  var normalized = {};
+  Object.keys(progress).forEach(function(levelID) {
+    var levelData = progress[levelID];
+
+    // Backwards compatibility with the old storage format.
+    if (levelData === true) {
+      normalized[levelID] = true;
+      return;
+    }
+
+    if (!levelData || typeof levelData !== 'object' || Array.isArray(levelData)) {
+      throw new Error('invalid progress data for level: ' + levelID);
+    }
+
+    normalized[levelID] = {
+      solved: levelData.solved === true,
+      best: levelData.best === true
+    };
+  });
+
+  return normalized;
+}
+
+function exportLevelProgress() {
+  return JSON.stringify(_cloneSolvedMap());
+}
+
+function importLevelProgress(progress) {
+  if (typeof progress === 'string') {
+    progress = JSON.parse(progress);
+  }
+
+  _solvedMap = _normalizeImportedSolvedMap(progress);
+  _syncToStorage();
+  LevelStore.emit(AppConstants.CHANGE_EVENT);
+
+  return _cloneSolvedMap();
+}
+
 function getAliasMap() {
   try {
     return JSON.parse(localStorage.getItem(ALIAS_STORAGE_KEY) || '{}') || {};
@@ -129,6 +177,9 @@ var LevelStore = Object.assign(
 EventEmitter.prototype,
 AppConstants.StoreSubscribePrototype,
 {
+  exportLevelProgress: exportLevelProgress,
+  importLevelProgress: importLevelProgress,
+
   getAliasMap: getAliasMap,
   addToAliasMap: addToAliasMap,
   removeFromAliasMap: removeFromAliasMap,
