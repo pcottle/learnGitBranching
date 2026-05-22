@@ -97,7 +97,7 @@ Here is the high-level process of the build:
   are hashed (to bust caches) and tests are run
 * That's it!
 
-Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
+Thus, if you build the app locally, all you have to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
 
 ### Docker
 
