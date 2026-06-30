@@ -17,7 +17,7 @@
     "url": "https://github.com/pcottle/learnGitBranching"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.29.6",
     "@babel/preset-react": "^7.16.7",
     "babelify": "^10.0.0",
     "browserify": "^17.0.0",
