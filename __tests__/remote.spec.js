@@ -258,6 +258,13 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('sets up remote tracking with "git switch -t -c" just like "git checkout -b"', function() {
+    return expectTreeAsync(
+      'git clone; git switch -t -c foo o/main; git commit; go main; git push origin foo',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null},"foo":{"target":"C2","id":"foo","remoteTrackingBranchID":"o/main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
   it('will push to a new remote branch if tracking was previously set up but remote branch was merged on origin', function() {
     return expectTreeAsync(
       `git clone;
