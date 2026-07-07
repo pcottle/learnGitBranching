@@ -1048,11 +1048,25 @@ var commandConfig = {
       '--create',
       '-C',
       '--force-create',
+      '-t',
+      '--track',
       '-'
     ],
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       var commandOptions = command.getOptionsMap();
+
+      // "-t" / "--track" asks the new branch to track its start-point. It takes
+      // no value of its own, but the option parser is greedy: if the flag sits
+      // right before the start-point ref (e.g. "git switch -c side -t o/main")
+      // that ref gets attached to it, so hand any such value back to the
+      // general args before we read them. The actual tracking is then set up by
+      // engine.branch() below, which links to a remote start-point automatically
+      // (the same path "git checkout -b <branch> <remote>" already uses).
+      let trackOption = commandOptions['-t'] ? commandOptions['-t'] : commandOptions['--track'];
+      if (trackOption && trackOption.length) {
+        generalArgs = generalArgs.concat(trackOption);
+      }
 
       let createOption = commandOptions['-c'] ? commandOptions['-c'] : commandOptions['--create'];
       if (createOption) {
