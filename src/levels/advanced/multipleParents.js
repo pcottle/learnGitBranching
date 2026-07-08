@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C7\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C2\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C4\",\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Multiple parents",
+    "ar": "آباء متعددون",
     "fa": "چندین والد",
     "zh_CN": "两个 parent 节点",
     "fr_FR": "Parents multiples",
@@ -30,6 +31,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
+    "ar": "استخدم `git branch bugWork` مع عملية حفظ مستهدفة لإنشاء المرجع المفقود.",
     "fa": "از `git branch bugWork` با یک کامیت هدف استفاده کنید تا مرجع گم شده ایجاد شود.",
     "de_DE": "Nutze `git branch bugWork` mit einem Ziel-Commit um die fehlende Referenz zu erstellen.",
     "ja": "`git branch bugWork`を対象のコミットと組み合わせて使い、欠如しているリファレンスを作成しましょう",
@@ -137,6 +139,93 @@ exports.level = {
               "To complete this level, create a new branch at the specified destination.",
               "",
               "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### تحديد الآباء",
+              "",
+              "مثل المُعدِّل `~`، يقبل المُعدِّل `^` أيضاً رقماً اختيارياً بعده.",
+              "",
+              "بدلاً من تحديد عدد الأجيال للرجوع إليها (كما يفعل `~`)، يُحدِّد المُعدِّل `^` أيَّ مرجع أب يتبعه من عملية دمج. تذكّر أن عمليات الدمج لها آباء متعددون، لذا فإن المسار الذي يجب اختياره يكون غامضاً.",
+              "",
+              "يتبع Git عادةً الأب \"الأول\" من عملية الدمج إلى الأعلى، لكن تحديد رقم مع `^` يغيّر هذا السلوك الافتراضي.",
+              "",
+              "كلامٌ كافٍ، لنرَ ذلك على أرض الواقع.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لدينا هنا عملية دمج. إذا قمنا بـcheckout للـ`main^` بدون المُعدِّل، فسنتبع الأب الأول بعد عملية الدمج. ",
+              "",
+              "(*في مخططاتنا التوضيحية، يكون الأب الأول موضوعاً مباشرةً فوق عملية الدمج.*)"
+            ],
+            "afterMarkdowns": [
+              "سهل -- هذا ما اعتدنا عليه جميعاً."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لنحاول الآن تحديد الأب الثاني بدلاً من ذلك..."
+            ],
+            "afterMarkdowns": [
+              "أترى؟ تتبعنا الأب الآخر إلى الأعلى."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "يمكن للمُعدِّلَين `^` و`~` أن يجعلا التنقل في شجرة عمليات الحفظ فعّالاً للغاية:"
+            ],
+            "afterMarkdowns": [
+              "بسرعة البرق!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "والأكثر إثارةً من ذلك، يمكن ربط هذه المُعدِّلات معاً! انظر إلى هذا:"
+            ],
+            "afterMarkdowns": [
+              "نفس الحركة كما قبل، لكن في أمر واحد."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### طبّق ما تعلّمته",
+              "",
+              "لإتمام هذا المستوى، أنشئ فرعاً جديداً عند الوجهة المحددة.",
+              "",
+              "من الواضح أنه سيكون سهلاً تحديد عملية الحفظ مباشرةً (بشيء مثل `C6`)، لكنني أتحداك بدلاً من ذلك باستخدام المُعدِّلات التي تحدثنا عنها!"
             ]
           }
         }

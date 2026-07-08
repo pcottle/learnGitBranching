@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git branch bugFix;git checkout bugFix",
   "name": {
     "en_US": "Branching in Git",
+    "ar": "التفرع في Git",
     "fa": "ایجاد شاخه (Branch) در Git",
     "de_DE": "Branches in Git",
     "ja": "Gitのブランチ",
@@ -29,6 +30,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
+    "ar": "أنشئ فرعاً جديداً بـ \"git branch <branch-name>\" وانتقل إليه بـ \"git checkout <branch-name>\"",
     "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بسازید و با \"git checkout <branch-name>\" وارد آن شوید",
     "de_DE": "Lege mit \"git branch [Branch-Name]\" einen neuen Branch an und checke ihn mit \"git checkout [Branch-Name]\" aus",
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
@@ -146,6 +148,100 @@ exports.level = {
               "By the way, here's a shortcut: if you want to create a new ",
               "branch AND check it out at the same time, you can simply ",
               "type `git checkout -b [yourbranchname]`."
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## فروع Git",
+              "",
+              "الفروع في Git خفيفة الوزن بشكل لافت أيضاً. إنها مجرد مؤشرات تشير إلى كومِت محددة — لا أكثر. لهذا السبب يردد كثير من عشاق Git الحكمة التالية:",
+              "",
+              "```",
+              "branch early, and branch often",
+              "```",
+              "",
+              "بما أن إنشاء فروع كثيرة لا يستهلك مساحة تخزين أو ذاكرة، فإن تقسيم عملك منطقياً إلى فروع أسهل من الاحتفاظ بفروع ضخمة.",
+              "",
+              "حين نبدأ بمزج الفروع والكومِتات، سنرى كيف تتآزر هاتان الميزتان. في الوقت الحالي، تذكر فقط أن الفرع يعني في جوهره: \"أريد تضمين عمل هذه الكومِت وجميع الكومِتات السلفية لها.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لنرَ كيف تبدو الفروع عملياً.",
+              "",
+              "سننشئ هنا فرعاً جديداً باسم `newImage`."
+            ],
+            "afterMarkdowns": [
+              "ها هو! هذا كل ما في الأمر للتفرع! الفرع `newImage` يشير الآن إلى الكومِت `C1`."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لنحاول إضافة عمل إلى هذا الفرع الجديد. اضغط الزر أدناه."
+            ],
+            "afterMarkdowns": [
+              "يا إلهي! الفرع `main` تقدّم لكن `newImage` لم يتحرك! ذلك لأننا لم نكن \"على\" الفرع الجديد، ولهذا كانت النجمة (*) على `main`."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لنخبر git أننا نريد الانتقال إلى الفرع باستخدام",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "سيضعنا هذا على الفرع الجديد قبل تسجيل تغييراتنا."
+            ],
+            "afterMarkdowns": [
+              "ها هو! تم تسجيل تغييراتنا على الفرع الجديد."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*ملاحظة: في الإصدار 2.23 من Git، أُضيف أمر جديد باسم `git switch` ليحل تدريجياً محل `git checkout`، ",
+              "الذي يقوم بعمليات متعددة مختلفة بحسب الوسيطات. ستستمر الدروس هنا في استخدام ",
+              "`checkout` بدلاً من `switch` لأن أمر `switch` لا يزال تجريبياً وقد تتغير صياغته مستقبلاً. ",
+              "مع ذلك يمكنك تجربة الأمر الجديد `switch` في هذا التطبيق، ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">وتعلم المزيد هنا</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "حسناً! أنت مستعد للتفرع. بعد إغلاق هذه النافذة،",
+              "أنشئ فرعاً جديداً باسم `bugFix` وانتقل إليه.",
+              "",
+              "بالمناسبة، هناك اختصار مفيد: إذا أردت إنشاء فرع جديد",
+              "والانتقال إليه في آنٍ واحد، اكتب ببساطة",
+              "`git checkout -b [yourbranchname]`."
             ]
           }
         }

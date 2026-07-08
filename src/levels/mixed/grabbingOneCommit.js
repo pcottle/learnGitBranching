@@ -16,6 +16,7 @@ exports.level = {
   "name": {
     "ko": "딱 한 개의 커밋만 가져오기",
     "en_US": "Grabbing Just 1 Commit",
+    "ar": "أخذ التزام واحد فقط",
     "fa": "برداشتن تنها ۱ کامیت",
     "fr_FR": "Choisir seulement 1 commit",
     "de_DE": "Einen Commit pflücken",
@@ -41,6 +42,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
+    "ar": "تذكّر، rebase التفاعلي أو cherry-pick هو صديقك هنا",
     "fa": "به یاد داشته باشید، interactive rebase یا cherry-pick در اینجا دوست شما هستند",
     "de_DE": "Vergiss nicht: Hier kommst du mit interaktivem Rebase oder Cherry-Picking weiter",
     "fr_FR": "Souvenez-vous, les rebases interactifs ou cherry-pick sont vos amis ici.",
@@ -100,6 +102,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `main` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## التزامات متراكمة محليًا",
+              "",
+              "إليك موقفًا شائعًا في التطوير: أحاول تتبع خطأ برمجي صعب الإيجاد. لمساعدتي في عملي البحثي، أضفت بعض أوامر التصحيح وبعض عبارات الطباعة.",
+              "",
+              "جميع هذه أوامر التصحيح والطباعة موجودة في التزاماتها الخاصة. أخيرًا أجد الخطأ وأصلحه وأبتهج!",
+              "",
+              "المشكلة الوحيدة هي أنني أحتاج الآن إلى إعادة `bugFix` إلى فرع `main`. إذا قمت بتقديم `main` سريعًا، ستنتقل إليه جميع أوامر التصحيح وهو أمر غير مرغوب فيه. لا بد أن هناك طريقة أخرى..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "نحتاج إلى إخبار git بنسخ التزام واحد فقط. هذا مشابه للمستويات السابقة في نقل العمل — يمكننا استخدام نفس الأوامر:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "لتحقيق هذا الهدف."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "هذا مستوى متقدم لذا سنترك لك قرار اختيار الأمر المناسب، لكن لإكمال المستوى تأكد من أن `main` يحصل على الالتزام الذي يشير إليه `bugFix`."
             ]
           }
         }

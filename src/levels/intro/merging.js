@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
+    "ar": "الدمج في Git",
     "fa": "ادغام (Merge) در Git",
     "de_DE": "Mergen in Git",
     "es_AR": "Mergeando en Git",
@@ -29,6 +30,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
+    "ar": "تذكر أن تنجز الكومِتات بالترتيب المحدد (bugFix قبل main)",
     "fa": "به یاد داشته باشید که به ترتیب مشخص شده کامیت کنید (bugFix قبل از main)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
     "ja": "指示された順番でコミットすること（mainの前にbugFixで）",
@@ -121,6 +123,75 @@ exports.level = {
               "* Merge the branch `bugFix` into `main` with `git merge`",
               "",
               "*Remember, you can always re-display this dialog with \"objective\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## الفروع والدمج",
+              "",
+              "رائع! أصبحنا نعرف كيف نُنجز كومِتات وننشئ فروعاً. نحتاج الآن إلى تعلّم طريقة لدمج عمل فرعَين مختلفَين معاً. سيتيح لنا ذلك التفرع وتطوير ميزة جديدة ثم دمجها مجدداً.",
+              "",
+              "الأسلوب الأول لدمج العمل الذي سندرسه هو `git merge`. يُنشئ الدمج في Git كومِتاً خاصاً يملك أبوَين مميزَين. وجود أبوَين يعني في جوهره: \"أريد تضمين كل عمل هذا الأب وذاك الأب، *و* مجموع كل أسلافهما.\"",
+              "",
+              "التصوير البياني يوضّح الأمر أكثر، لننظر في العرض التالي."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لدينا هنا فرعان؛ كل منهما يملك كومِتاً فريدة. هذا يعني أن لا فرع يضم مجموع العمل الكامل في المستودع. لنعالج ذلك بالدمج.",
+              "",
+              "سندمج الفرع `bugFix` في `main`."
+            ],
+            "afterMarkdowns": [
+              "واو! هل رأيت ذلك؟ أولاً، يشير `main` الآن إلى كومِت لها أبوان. إذا تتبّعت الأسهم صعوداً من `main` في شجرة الكومِتات، ستمرّ على كل كومِت في المسير حتى الجذر. هذا يعني أن `main` يضم الآن كل العمل في المستودع.",
+              "",
+              "لاحظ أيضاً كيف تغيّرت ألوان الكومِتات؟ لمساعدتك على التعلم، أضفت تنسيقاً بالألوان. لكل فرع لون مميز، ويأخذ كل كومِت لوناً يمثّل مزيج ألوان جميع الفروع التي تضمّه.",
+              "",
+              "نرى هنا أن لون فرع `main` امتزج في جميع الكومِتات، لكن لون `bugFix` لم يمتزج بعد. لنعالج ذلك..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لندمج `main` في `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "بما أن `bugFix` كان سلفاً لـ `main`، لم يحتج git إلى فعل أي شيء؛ بل نقل `bugFix` ببساطة إلى نفس الكومِت التي كان `main` مرتبطاً بها.",
+              "",
+              "الآن جميع الكومِتات بنفس اللون، مما يعني أن كل فرع يضم كل العمل في المستودع! رائع!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "لإتمام هذا المستوى، نفّذ الخطوات التالية:",
+              "",
+              "* أنشئ فرعاً جديداً باسم `bugFix`",
+              "* انتقل إلى فرع `bugFix` باستخدام `git checkout bugFix`",
+              "* أنجز كومِتاً واحدة",
+              "* ارجع إلى `main` باستخدام `git checkout`",
+              "* أنجز كومِتاً أخرى",
+              "* ادمج الفرع `bugFix` في `main` باستخدام `git merge`",
+              "",
+              "*تذكر، يمكنك دائماً إعادة عرض هذا الحوار بكتابة \"objective\"!*"
             ]
           }
         }
