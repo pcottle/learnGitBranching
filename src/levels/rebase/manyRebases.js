@@ -9,6 +9,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"side\":{\"target\":\"C6\",\"id\":\"side\"},\"another\":{\"target\":\"C7\",\"id\":\"another\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C0\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C5\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Rebasing over 9000 times",
+    "ar": "إعادة التأسيس أكثر من 9000 مرة",
     "fa": "بیش از ۹۰۰۰ بار ری‌بیس (Rebase) کردن",
     "de_DE": "9000 Rebases unter dem `HEAD`",
     "es_AR": "Rebaseando más de 9000 veces",
@@ -34,6 +35,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
+    "ar": "تذكّر، أكثر الطرق كفاءةً قد تكون تحديث الفرع main في النهاية فقط...",
     "fa": "به یاد داشته باشید، کارآمدترین راه ممکن است این باشد که فقط در پایان کار main را به‌روزرسانی کنید...",
     "de_DE": "Nicht vergessen: Nur den main zu aktualisieren könnte die effizienteste Möglichkeit sein ...",
     "es_AR": "Acordate, la manera más eficiente podría ser actualizar main sólo al final...",
@@ -71,6 +73,24 @@ exports.level = {
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### إعادة تأسيس فروع متعددة",
+              "",
+              "يا إلهي، لدينا الكثير من الفروع هنا! دعنا نُعيد تأسيس كل العمل من هذه الفروع إلى الفرع main.",
+              "",
+              "غير أن الإدارة العليا تجعل الأمر أصعب قليلاً -- فهي تريد أن تكون جميع عمليات الحفظ مرتبةً بشكل تسلسلي. هذا يعني أن شجرتنا النهائية يجب أن تحتوي على `C7'` في الأسفل، وفوقه `C6'`، وهكذا، كل شيء بالترتيب.",
+              "",
+              "إذا ارتكبت خطأً في الطريق، فلا تتردد في استخدام `reset` للبدء من جديد. تأكد من مراجعة الحل المقترح ومعرفة ما إذا كان بإمكانك تنفيذه بعدد أقل من الأوامر!"
             ]
           }
         }

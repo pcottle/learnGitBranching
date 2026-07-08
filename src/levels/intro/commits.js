@@ -1,6 +1,7 @@
 exports.level = {
   "name": {
     "en_US": "Introduction to Git Commits",
+    "ar": "مقدمة إلى كومِتات Git",
     "fa": "معرفی به Commit در Git",
     "de_DE": "Einführung in Git Commits",
     "es_AR": "Introducción a los commits de Git",
@@ -30,6 +31,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
+    "ar": "فقط اكتب 'git commit' مرتين لإنهاء المستوى!",
     "fa": "فقط دو بار 'git commit' را تایپ کنید تا تمام شود!",
     "de_DE": "Gib einfach zweimal 'git commit' ein um den Level abzuschließen",
     "es_AR": "¡Simplemente tipeá 'git commit' dos veces para terminar!",
@@ -95,6 +97,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Go ahead and try it out on your own! After this window closes, make two commits to complete the level."
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## كومِتات Git",
+              "الكومِت في مستودع Git يسجّل لقطةً من جميع الملفات (المُتتبَّعة) في مجلدك. إنه أشبه بعملية نسخ ولصق ضخمة، لكنه أفضل من ذلك بكثير!",
+              "",
+              "يحرص Git على أن تكون الكومِتات خفيفة الوزن قدر الإمكان، لذا فهو لا ينسخ المجلد بأكمله في كل مرة تقوم بالكومِت. يمكنه (حين يكون ذلك ممكناً) ضغط الكومِت على شكل مجموعة من التغييرات أو \"دلتا\" بين نسخة من المستودع والتالية.",
+              "",
+              "يحتفظ Git أيضاً بسجلٍ تاريخي يوضح أي الكومِتات أُنجزت ومتى. لهذا السبب تملك معظم الكومِتات كومِتات سلفية فوقها — نعبّر عن ذلك بالأسهم في التصوير البياني. الاحتفاظ بالتاريخ مفيد لجميع المساهمين في المشروع!",
+              "",
+              "ثمة الكثير لاستيعابه، لكن في الوقت الحالي يكفي أن تتصوّر الكومِتات على أنها لقطات من المشروع. الكومِتات خفيفة الوزن جداً والتنقل بينها سريع للغاية!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "لنرَ كيف يبدو ذلك عملياً. على اليمين يوجد تصوير بياني لمستودع Git صغير. يوجد حالياً كومِتان — الكومِت الأولي `C0`، وكومِت لاحقة `C1` قد تتضمن بعض التغييرات المهمة.",
+              "",
+              "اضغط الزر أدناه لإنشاء كومِت جديدة."
+            ],
+            "afterMarkdowns": [
+              "ها هي! رائع. لقد أجرينا تغييرات على المستودع وحفظناها في كومِت. الكومِت التي أنشأناها للتو لها أب هو `C1`، يشير إلى الكومِت التي استُند إليها."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "جرّب بنفسك الآن! بعد إغلاق هذه النافذة، أنجز كومِتَين لإتمام المستوى."
             ]
           }
         }
