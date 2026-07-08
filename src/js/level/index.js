@@ -264,20 +264,53 @@ class Level extends Sandbox {
   }
 
   showSolution(command, deferred) {
-    // Rather than running the solution, write it into the command box so the
-    // student can read (and edit) it, then run it themselves when ready.
-    var solution = this.level.solutionCommand;
-    if (!solution) {
-      command.setResult(intl.str('no-solution-defined'));
+    var toIssue = this.level.solutionCommand;
+    var issueFunc = function() {
+      this.isShowingSolution = true;
+      this.wasResetAfterSolved = true;
+      Main.getEventBaton().trigger(
+        'commandSubmitted',
+        toIssue
+      );
+      log.showLevelSolution(this.getEnglishName());
+    }.bind(this);
+
+    var commandStr = command.get('rawStr');
+    if (!this.testOptionOnString(commandStr, 'noReset')) {
+      toIssue = 'reset --forSolution; ' + toIssue;
+    }
+    if (this.testOptionOnString(commandStr, 'force')) {
+      issueFunc();
       command.finishWith(deferred);
       return;
     }
 
-    // trim stray leading/trailing semicolons for a clean, runnable command
-    solution = solution.replace(/^;|;$/g, '');
-    Main.getEvents().trigger('commandBox_setText', solution);
-    log.showLevelSolution(this.getEnglishName());
-    command.finishWith(deferred);
+    // if the level doesn't have an ID, its a GIST import and
+    // we don't need to worry about the solved map regardless
+    if(this.level.id && !LevelStore.isLevelSolved(this.level.id)){
+      // allow them for force the solution
+      var confirmDefer = createDeferred();
+      var dialog = intl.getDialog(require('../dialogs/confirmShowSolution'))[0];
+      var confirmView = new ConfirmCancelTerminal({
+        markdowns: dialog.options.markdowns,
+        deferred: confirmDefer
+      });
+
+      confirmDefer.promise
+      .then(issueFunc)
+      .catch(function() {
+        command.setResult("");
+      })
+      .then(function() {
+      // either way we animate, so both options can share this logic
+      setTimeout(function() {
+          command.finishWith(deferred);
+        }, confirmView.getAnimationTime());
+      });
+    } else {
+      issueFunc();
+      command.finishWith(deferred);
+    }
   }
 
   toggleObjective() {
