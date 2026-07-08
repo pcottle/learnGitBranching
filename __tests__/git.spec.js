@@ -200,6 +200,13 @@ describe('Git', function() {
     );
   });
 
+  it('reuses freed commit indices after gc (#1233)', function() {
+    return expectTreeAsync(
+      'git reset C0; git gc; git commit',
+      '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
   it('Branches', function() {
     return expectTreeAsync(
       'git branch side C0',

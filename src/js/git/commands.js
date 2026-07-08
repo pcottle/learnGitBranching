@@ -1113,7 +1113,9 @@ var commandConfig = {
 };
 
 var instantCommands = [
-  [/^(git help($|\s)|git$)/, function() {
+  // "git help {command}" is handled over in the sandbox commands, so only
+  // grab the bare forms here
+  [/^git +help *$|^git *$/, function() {
     var lines = [
       intl.str('git-version'),
       '<br/>',

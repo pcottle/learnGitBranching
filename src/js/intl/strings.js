@@ -1970,6 +1970,10 @@ exports.strings = {
     "tr_TR": "Seviye için adı girin",
     "hu_HU": "Add meg a szint nevét"
   },
+  "no-solution-defined": {
+    "__desc__": "Shown when the user runs `show solution` but the current level has no solution defined to place in the command box",
+    "en_US": "This level doesn't have a solution to show!"
+  },
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
     "en_US": "Your solution is empty!! Something is amiss",

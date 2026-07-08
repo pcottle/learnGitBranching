@@ -7,6 +7,8 @@ var util = require('../util');
 var intl = require('../intl');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
+// used by the beforeunload handler below to warn about a level in progress
+var GlobalStateStore = require('../stores/GlobalStateStore');
 
 /**
  * Globals
