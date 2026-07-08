@@ -48,12 +48,32 @@ function GitEngine(options) {
 
 GitEngine.prototype.initUniqueID = function() {
   // backbone or something uses _ .uniqueId, so we make our own here
-  this.uniqueId = (function() {
-    var n = 0;
-    return function(prepend) {
-      return prepend ? prepend + n++ : n++;
-    };
-  })();
+  var n = 0;
+  this.uniqueId = function(prepend) {
+    return prepend ? prepend + n++ : n++;
+  };
+  // let callers rewind the counter -- e.g. after gc prunes commits, so the
+  // next commit reuses the freed-up index instead of leaking a stale one
+  // (see issue #1233)
+  this.setUniqueIDCounter = function(newValue) {
+    n = newValue;
+  };
+};
+
+// Rewind the commit-index counter to just past the highest-numbered commit
+// still in the tree. Called after pruning so that, for example, resetting and
+// garbage-collecting a `C0 <- C1(main)` tree lets the next commit be C1 again
+// rather than C2 (issue #1233).
+GitEngine.prototype.recalcUniqueIDCounter = function() {
+  var maxIndex = -1;
+  this.commitCollection.each(function(commit) {
+    // strip any rebase/amend apostrophes; we only care about the numeric slot
+    var match = /^C(\d+)/.exec(commit.get('id'));
+    if (match) {
+      maxIndex = Math.max(maxIndex, parseInt(match[1], 10));
+    }
+  });
+  this.setUniqueIDCounter(maxIndex + 1);
 };
 
 GitEngine.prototype.handleModeChange = function(vcs, callback) {
@@ -1886,6 +1906,10 @@ GitEngine.prototype.pruneTree = function(doPrintWarning = true) {
       visNode.removeAll();
     }
   }, this);
+
+  // now that some commits are gone, rewind the index counter so freed-up
+  // commit numbers get reused on the next commit (issue #1233)
+  this.recalcUniqueIDCounter();
 
   return true;
 };
