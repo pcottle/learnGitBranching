@@ -26,14 +26,9 @@ var LevelToolbarView = require('../react_views/LevelToolbarView.jsx');
 
 var TreeCompare = require('../graph/treeCompare');
 
-var regexMap = {
-  'help level': /^help level$/,
-  'start dialog': /^start dialog$/,
-  'show goal': /^(show goal|goal|help goal)$/,
-  'hide goal': /^hide goal$/,
-  'show solution': /^show solution($|\s)/,
-  'objective': /^(objective|assignment)$/
-};
+// regex map lives in its own JSX-free module so it can be required by the parse
+// waterfall / tests without loading the level's React views
+var regexMap = require('./levelRegexMap').regexMap;
 
 var parse = util.genParseCommand(regexMap, 'processLevelCommand');
 

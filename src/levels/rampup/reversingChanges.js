@@ -5,6 +5,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"},\"pushed\":{\"target\":\"C2\",\"id\":\"pushed\"},\"local\":{\"target\":\"C3\",\"id\":\"local\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"local\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Reversing Changes in Git",
+    "ar": "التراجع عن التغييرات في Git",
     "fa": "بازگرداندن تغییرات در Git",
     "de_DE": "Änderungen in Git rückgängig machen",
     "ja": "変更を元に戻す",
@@ -101,8 +102,8 @@ exports.level = {
               "",
               "With reverting, you can push out your changes to share with others."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -163,8 +164,8 @@ exports.level = {
               "",
               "با revert کردن، می‌توانید تغییرات خود را push کنید تا با دیگران به اشتراک بگذارید."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -226,8 +227,8 @@ exports.level = {
               "",
               "Cuando usás revert, podés pushear ese cambio para compartirlo con otros."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -289,8 +290,8 @@ exports.level = {
               "",
               "Cuando utilices revert, puedes hacer push sobre ese cambio para compartirlo con otros."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -352,8 +353,8 @@ exports.level = {
               "",
               "Cuando utilices revert, puedes hacer push sobre ese cambio para compartirlo con otros."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -415,8 +416,8 @@ exports.level = {
               "",
               "Com o `revert`, você pode fazer `push` das suas mudanças para compartilhá-las com os outros."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -478,8 +479,8 @@ exports.level = {
               "",
               "Con `revert`, ti podes facer `push` dos teus cambios para compartilos cos outros."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -541,8 +542,8 @@ exports.level = {
               "",
               "Durch Reverten kannst du das Zurücknehmen von Änderungen mit anderen teilen."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -604,8 +605,8 @@ exports.level = {
               "",
               "こんな風にして、巻き戻した内容を他人と共有するためにはrevertを使います。"
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -667,8 +668,8 @@ exports.level = {
               "",
               "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -727,13 +728,13 @@ exports.level = {
               "",
               "为了撤销更改并**分享**给别人，我们需要使用 `git revert`。来看演示："
             ],
-            "command": "git revert HEAD",
+            "command": "git revert HEAD^",
             "afterMarkdowns": [
               "奇怪！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录 `C2'` 引入了**更改** —— 这些更改能够刚好撤销 `C2` 提交的变更。",
               "",
               "通过 revert，你可以推送你的更改并与他人分享。"
             ],
-            "beforeCommand": "git commit"
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -790,13 +791,13 @@ exports.level = {
               "",
               "為了取消修改並且把這個狀態*分享*給別人，我們需要使用 `git revert`。舉個例子"
             ],
-            "command": "git revert HEAD",
+            "command": "git revert HEAD^",
             "afterMarkdowns": [
               "很奇怪吧！在我們要取消的 commit 後面居然多了一個新的 commit！這是因為新的 commit `C2'` 引入了*修改*——用來表示我們取消 `C2` 這個 commit 的修改。",
               "",
               "多虧了 revert，現在可以把你的修改分享給別人啦。"
             ],
-            "beforeCommand": "git commit"
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -858,8 +859,8 @@ exports.level = {
               "",
               "리버트를 하면 다른 사람들에게도 변경 내역을 밀어(push) 보낼 수 있습니다."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -921,8 +922,8 @@ exports.level = {
               "",
               "Cu `revert`, poți să partajezi modificările tale pentru a le împărtăși cu ceilalți."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -984,8 +985,8 @@ exports.level = {
               "",
               "При revert можеш спокойно да push-неш промените и да ги споделиш с други."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1047,8 +1048,8 @@ exports.level = {
               "",
               "После `revert` можно сделать `push` и поделиться изменениями с остальными."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1111,8 +1112,8 @@ exports.level = {
               "",
               "Після revert, ти зможеш зробити push щоб поділитися гілкою з іншими."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1174,8 +1175,8 @@ exports.level = {
               "",
               "Dùng revert thì bạn có thể đẩy thay đổi mình lên và chia sẻ với người khác."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1237,8 +1238,8 @@ exports.level = {
               "",
               "Z revertanjem lahko pushas in deliš svoje spremembe tudi z drugimi."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1300,8 +1301,8 @@ exports.level = {
               "",
               "Dzięki `git revert` możesz wypchnąć swoje zmiany, by podzielić się nimi z innymi."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         }
       ]
@@ -1353,8 +1354,8 @@ exports.level = {
               "",
               "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altri."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1416,8 +1417,8 @@ exports.level = {
               "",
               "Revertleme ile değişikliklerinizi başkalarına paylaşmak için push edebilirsiniz."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
@@ -1479,8 +1480,8 @@ exports.level = {
               "",
               "A revert segítségével megoszthatod a változtatásokat másokkal."
             ],
-            "command": "git revert HEAD",
-            "beforeCommand": "git commit"
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {

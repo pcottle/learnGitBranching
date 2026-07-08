@@ -12,6 +12,7 @@ exports.level = {
   },
   "name": {
     "en_US": "Git Describe",
+    "ar": "وصف Git",
     "fa": "توصیف گیت (Git Describe)",
     "fr_FR": "Git describe",
     "de_DE": "Git Describe",
@@ -38,6 +39,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
+    "ar": "فقط أجرِ التزامًا واحدًا على bugFix عندما تكون مستعدًا للمضي قدمًا",
     "fa": "زمانی که آماده حرکت به جلو هستید، فقط یک بار در bugFix کامیت کنید",
     "fr_FR": "Faites un commit sur bugFix quand vous êtes prêt",
     "de_DE": "Committe nur einmal auf bugFix, wenn du soweit bist",

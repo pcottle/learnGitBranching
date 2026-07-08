@@ -57,6 +57,7 @@ class CommandPromptView {
     this.focus();
 
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
+    Main.getEvents().on('commandBox_setText', (value) => this.setInputText(value));
 
     Main.getEventBaton().stealBaton('keydown', this.onKeyDown, this);
     Main.getEventBaton().stealBaton('keyup', this.onKeyUp, this);
@@ -242,6 +243,19 @@ class CommandPromptView {
 
   setTextField(value) {
     this.$('#commandTextField').val(value);
+  }
+
+  // Drop some text into the command box and focus it, without submitting --
+  // used by the level `show solution` command (see level/index.js)
+  setInputText(value) {
+    this.setTextField(value);
+    var el = this.$('#commandTextField')[0];
+    if (el) {
+      el.focus();
+      el.selectionStart = el.selectionEnd = value.length;
+      this.updatePrompt(el);
+    }
+    this.showCursor();
   }
 
   clear() {

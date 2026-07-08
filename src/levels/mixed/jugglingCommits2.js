@@ -19,6 +19,7 @@ exports.level = {
   "name": {
     "ko": "커밋 갖고 놀기 #2",
     "en_US": "Juggling Commits #2",
+    "ar": "التلاعب بالالتزامات #2",
     "fa": "شعبده‌بازی با کامیت‌ها شماره ۲",
     "fr_FR": "Jongler avec les commits #2",
     "es_AR": "Haciendo malabares con los commits #2",
@@ -44,6 +45,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
+    "ar": "لا تنسَ تقديم main إلى التغييرات المحدَّثة!",
     "fa": "فراموش نکنید که main را به تغییرات به‌روزرسانی شده جلو ببرید!",
     "fr_FR": "N'oubliez pas d'appliquer les changements depuis la branche main",
     "es_AR": "¡No te olvides de avanzar main a los cambios actualizados!",

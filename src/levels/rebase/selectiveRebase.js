@@ -9,6 +9,7 @@ exports.level = {
   "name": {
     "ko": "브랜치 스파게티",
     "en_US": "Branch Spaghetti",
+    "ar": "تشابك الفروع",
     "fa": "اسپاگتی شاخه‌ها (Branch Spaghetti)",
     "fr_FR": "Branche spaghetti",
     "de_DE": "Branch-Spaghetti",
@@ -33,6 +34,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
+    "ar": "تأكد من إتمام كل شيء بالترتيب الصحيح! الفرع one أولاً، ثم two، ثم three",
     "fa": "مطمئن شوید که همه کارها را به ترتیب صحیح انجام می‌دهید! ابتدا شاخه one، سپس two، سپس three.",
     "fr_FR": "Faites attention à tout faire dans le bon ordre ! La première branche d'abord, puis la seconde, puis la troisième",
     "de_DE": "Stelle sicher, dass du alles in der richtigen Reihenfolge machst! Branche erst one, dann two, dann three.",
@@ -72,6 +74,26 @@ exports.level = {
               "Branch `one` needs a re-ordering of those commits and an exclusion/drop of `C5`. Branch `two` just needs a pure reordering of the commits, and `three` only needs one commit transferred!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## تشابك الفروع",
+              "",
+              "واو! هذا المستوى يحمل تحدياً حقيقياً.",
+              "",
+              "لدينا هنا الفرع `main` الذي يتقدم ببضع عمليات حفظ على الفروع `one` و`two` و`three`. لأي سبب كان، نحتاج إلى تحديث هذه الفروع الثلاثة بنسخ معدّلة من آخر بضع عمليات حفظ في main.",
+              "",
+              "يحتاج الفرع `one` إلى إعادة ترتيب عمليات الحفظ واستثناء/حذف `C5`. أما الفرع `two` فيحتاج فقط إلى إعادة الترتيب، والفرع `three` يحتاج إلى نقل عملية حفظ واحدة فقط!",
+              "",
+              "سنتركك تكتشف كيفية حل هذه المهمة -- تأكد من مراجعة الحل لاحقاً بالأمر `show solution`. "
             ]
           }
         }

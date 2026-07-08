@@ -3,6 +3,7 @@ exports.level = {
   "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git checkout bugFix;git rebase main",
   "name": {
     "en_US": "Rebase Introduction",
+    "ar": "مقدمة إلى Rebase",
     "fa": "معرفی Rebase",
     "de_DE": "Einführung in Rebase",
     "ja": "Rebaseの解説",
@@ -29,6 +30,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
+    "ar": "تأكد من إنجاز الكومِت من bugFix أولاً",
     "fa": "مطمئن شوید که ابتدا از bugFix کامیت می‌کنید",
     "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
     "ja": "初めにbugFixを指した状態でコミットする",

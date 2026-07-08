@@ -20,6 +20,7 @@ exports.level = {
   "name": {
     "ko": "커밋들 갖고 놀기",
     "en_US": "Juggling Commits",
+    "ar": "التلاعب بالالتزامات",
     "fa": "شعبده‌بازی با کامیت‌ها",
     "de_DE": "Jonglieren mit Commits",
     "fr_FR": "Jongler avec les commits",
@@ -45,6 +46,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
+    "ar": "أول أمر هو git rebase -i HEAD~2",
     "fa": "اولین دستور git rebase -i HEAD~2 است",
     "de_DE": "Der erste Befehl ist git rebase -i HEAD~2",
     "fr_FR": "La première commande est git rebase -i HEAD~2",
@@ -99,6 +101,40 @@ exports.level = {
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
               "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `main` branch has the same structure and relative apostrophe differences, I'll give full credit."
+            ]
+          }
+        }
+      ]
+    },
+    "ar": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## التلاعب بالالتزامات",
+              "",
+              "إليك موقف آخر شائع الحدوث. لديك بعض التغييرات (`newImage`) ومجموعة أخرى من التغييرات (`caption`) مرتبطة بها، لذا فهي مكدّسة فوق بعضها في مستودعك (أي واحدة تلو الأخرى).",
+              "",
+              "الأمر الصعب هو أنك أحيانًا تحتاج إلى إجراء تعديل طفيف على التزام سابق. في هذه الحالة، يريد فريق التصميم تعديل أبعاد `newImage` قليلًا، رغم أن هذا الالتزام بعيد في سجل التاريخ!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "سنتغلب على هذه الصعوبة بالخطوات التالية:",
+              "",
+              "* سنعيد ترتيب الالتزامات بحيث يكون الذي نريد تعديله في المقدمة باستخدام `git rebase -i`",
+              "* سنستخدم `git commit --amend` لإجراء التعديل الطفيف",
+              "* ثم سنعيد ترتيب الالتزامات إلى ما كانت عليه باستخدام `git rebase -i`",
+              "* أخيرًا، سننقل main إلى هذا الجزء المحدَّث من الشجرة لإنهاء المستوى (باستخدام الطريقة التي تختارها)",
+              "",
+              "هناك طرق كثيرة لتحقيق هذا الهدف (أرى أنك تتطلع إلى cherry-pick)، وسنرى المزيد منها لاحقًا، لكن الآن لنركز على هذا الأسلوب.",
+              "أخيرًا، انتبه إلى الحالة الهدف هنا — بما أننا ننقل الالتزامات مرتين، يُضاف رمز اقتباس (') لكل منهما. ويُضاف رمز اقتباس إضافي للالتزام الذي نعدّله، مما يمنحنا الشكل النهائي للشجرة.",
+              "",
+              "مع ذلك، يمكنني الآن مقارنة المستويات بناءً على البنية والفوارق النسبية بين رموز الاقتباس. طالما أن فرع `main` في شجرتك يملك نفس البنية ونفس الفوارق النسبية، سأمنحك الدرجة الكاملة."
             ]
           }
         }

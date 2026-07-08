@@ -31,6 +31,7 @@ var langLocaleMap = {
   tr: 'tr_TR',
   fa: 'fa',
   hu: 'hu_HU',
+  ar: 'ar',
 };
 
 var headerLocaleMap = {
