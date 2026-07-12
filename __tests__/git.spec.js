@@ -403,6 +403,13 @@ describe('Git', function() {
     );
   });
 
+  it('allows single-character branch names', function() {
+    return expectTreeAsync(
+      'git branch b; git checkout -b x',
+      '{"branches":{"main":{"target":"C1","id":"main"},"b":{"target":"C1","id":"b"},"x":{"target":"C1","id":"x"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"x","id":"HEAD"}}'
+    );
+  });
+
   describe('RevList', function() {
 
     it('requires at least 1 argument', function() {
