@@ -648,7 +648,7 @@ GitEngine.prototype.validateBranchName = function(name) {
   // And then just make sure it starts with alpha-numeric,
   // can contain a slash or dash, and then ends with alpha
   if (
-    !/^(\w+[.\/\-]?)+\w+$/.test(name) ||
+    !/^\w([.\/\-]?\w+)*$/.test(name) ||
     name.search('o/') === 0
   ) {
     throw new GitError({
