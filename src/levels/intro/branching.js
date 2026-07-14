@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git branch bugFix;git checkout bugFix",
+  "solutionCommand": "git switch -c bugFix",
   "name": {
     "en_US": "Branching in Git",
     "ar": "التفرع في Git",
@@ -29,7 +29,7 @@ exports.level = {
     "hu_HU": "Elágazás Gitben"
   },
   "hint": {
-    "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
+    "en_US": "Make a new branch and switch to it in one step with \"git switch -c <branch-name>\" (the classic way is \"git branch <branch-name>\" then \"git checkout <branch-name>\").",
     "ar": "أنشئ فرعاً جديداً بـ \"git branch <branch-name>\" وانتقل إليه بـ \"git checkout <branch-name>\"",
     "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بسازید و با \"git checkout <branch-name>\" وارد آن شوید",
     "de_DE": "Lege mit \"git branch [Branch-Name]\" einen neuen Branch an und checke ihn mit \"git checkout [Branch-Name]\" aus",
@@ -111,10 +111,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Let's tell git we want to checkout the branch with",
+              "Let's tell git we want to switch to the branch with",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "This will put us on the new branch before committing our changes."
@@ -122,7 +122,7 @@ exports.level = {
             "afterMarkdowns": [
               "There we go! Our changes were recorded on the new branch."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -130,11 +130,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "*Note: In Git version 2.23, a new command called `git switch` was introduced to eventually replace `git checkout`, ",
-              "which is somewhat overloaded (it does a bunch of different things depending on the arguments). The lessons here will still use ",
-              "`checkout` instead of `switch` because the `switch` command is still considered experimental and the syntax may change in the future. ",
-              "However you can still try out the new `switch` command in this application, and also ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">learn more here</a>.* "
+              "*Note: Since Git version 2.23 you can use `git switch` instead of `git checkout` to move between branches. ",
+              "`git checkout` is a bit overloaded (it does a bunch of different things depending on the arguments), so `switch` was created to do just one job well. ",
+              "We'll prefer `git switch` from here on, but don't be surprised to see `git checkout` all over the internet and older tutorials, because it still works exactly the same for switching branches. ",
+              "You can <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">learn more here</a>.* "
             ]
           }
         },
@@ -143,11 +142,11 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! You are all ready to get branching. Once this window closes,",
-              "make a new branch named `bugFix` and switch to that branch.",
+              "make a new branch named `bugFix` and switch to it.",
               "",
-              "By the way, here's a shortcut: if you want to create a new ",
-              "branch AND check it out at the same time, you can simply ",
-              "type `git checkout -b [yourbranchname]`."
+              "Here's the handy shortcut: `git switch -c [yourbranchname]` creates a new ",
+              "branch AND switches to it in one step. (The classic spelling ",
+              "`git checkout -b [yourbranchname]` does the exact same thing.)"
             ]
           }
         }

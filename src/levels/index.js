@@ -7,6 +7,11 @@ exports.levelSequences = {
     require('./intro/merging').level,
     require('./intro/rebasing').level
   ],
+  workingDir: [
+    require('./workingDir/staging').level,
+    require('./workingDir/restore').level,
+    require('./workingDir/stash').level
+  ],
   rampup: [
     require('./rampup/detachedHead').level,
     require('./rampup/relativeRefs').level,
@@ -23,6 +28,10 @@ exports.levelSequences = {
     require('./mixed/jugglingCommits2').level,
     require('./mixed/tags').level,
     require('./mixed/describe').level
+  ],
+  conflicts: [
+    require('./conflicts/mergeConflict').level,
+    require('./conflicts/rebaseConflict').level
   ],
   advanced: [
     require('./rebase/manyRebases').level,
@@ -48,6 +57,10 @@ exports.levelSequences = {
     require('./remote/fetchArgs').level,
     require('./remote/sourceNothing').level,
     require('./remote/pullArgs').level
+  ],
+  collaboration: [
+    require('./collaboration/prStrategies').level,
+    require('./collaboration/syncFork').level
   ]
 };
 
@@ -103,6 +116,14 @@ var sequenceInfo = exports.sequenceInfo = {
       'it_IT': "Un'introduzione graduale ai principali comandi Git",
       'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்',
       'tr_TR': 'Git komutlarının çoğunun yüksek tempolu bir tanıtımı'
+    }
+  },
+  workingDir: {
+    displayName: {
+      'en_US': 'The Working Directory'
+    },
+    about: {
+      'en_US': 'Where your edits live before they become history -- stage, unstage, and stash without fear'
     }
   },
   rampup: {
@@ -264,6 +285,15 @@ var sequenceInfo = exports.sequenceInfo = {
       'tr_TR': 'Ve hayırsever bir diktatör olmanın eğlenceli olacağını düşündün...'
     }
   },
+  collaboration: {
+    tab: 'remote',
+    displayName: {
+      'en_US': 'Collaboration & Pull Requests'
+    },
+    about: {
+      'en_US': 'Ship your work the way real teams do -- syncing up and merging pull requests'
+    }
+  },
   move: {
     displayName: {
       'en_US': 'Moving Work Around',
@@ -366,6 +396,14 @@ var sequenceInfo = exports.sequenceInfo = {
       'it_IT': "Comandi Git assortiti, trucchi e consigli",
       'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை',
       'tr_TR': 'Git teknikleri, taktikleri ve püf noktalarından oluşan karma bir bölüm'
+    }
+  },
+  conflicts: {
+    displayName: {
+      'en_US': 'Untangling Conflicts'
+    },
+    about: {
+      'en_US': 'Two edits enter, one commit leaves. A bit trickier -- take your time, and remember you can always undo'
     }
   },
   advanced: {
