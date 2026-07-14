@@ -416,7 +416,7 @@ class Level extends Sandbox {
     // so we can tell if the command counted or not... kinda :P
     // We have to save the state in this method since the git
     // engine will change by the time afterCommandCB runs
-    this._treeBeforeCommand = this.mainVis.gitEngine.printTree();
+    this._treeBeforeCommand = this.mainVis.gitEngine.exportTreeString();
   }
 
   afterCommandCB(command) {
