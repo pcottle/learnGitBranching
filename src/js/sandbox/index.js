@@ -129,7 +129,7 @@ class Sandbox {
   }
 
   beforeCommandCB(command) {
-    this._treeBeforeCommand = this.mainVis.gitEngine.printTree();
+    this._treeBeforeCommand = this.mainVis.gitEngine.exportTreeString();
   }
 
   afterCommandCB(command) {
@@ -137,7 +137,7 @@ class Sandbox {
   }
 
   pushUndo() {
-    let currentTree = this.mainVis.gitEngine.printTree();
+    let currentTree = this.mainVis.gitEngine.exportTreeString();
     if(currentTree === this._treeBeforeCommand) {
       return;
     }

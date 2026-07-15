@@ -267,6 +267,22 @@ GitEngine.prototype.printTree = function(tree) {
   return str;
 };
 
+GitEngine.prototype.exportTreeString = function() {
+  // Faithful serialization used for undo/reset snapshots. Unlike printTree(),
+  // this does NOT run the tree through TreeCompare.reduceTreeFields, which
+  // sorts each commit's parents alphabetically. That sort is desirable for
+  // order-independent goal comparison, but it corrupts saved state: a merge
+  // commit's parents would come back flipped, mirroring the tree and making
+  // HEAD^ resolve to the wrong parent after an undo (see issues #613, #1298).
+  var str = JSON.stringify(this.exportTree());
+  if (/'/.test(str)) {
+    // escape apostrophes (rebased commit ids like C2') so the string
+    // round-trips cleanly through loadTreeFromString
+    str = escape(str);
+  }
+  return str;
+};
+
 GitEngine.prototype.printAndCopyTree = function() {
   window.prompt(
     intl.str('Copy the tree string below'),
@@ -2632,6 +2648,31 @@ GitEngine.prototype.branch = function(name, ref) {
   if (this.isRemoteBranchRef(ref)) {
     this.setLocalToTrackRemote(newBranch, ref);
   }
+};
+
+GitEngine.prototype.renameBranch = function(oldName, newName) {
+  oldName = this.crappyUnescape(oldName);
+  newName = this.validateBranchName(newName);
+
+  var branch = this.resolveID(oldName);
+  if (branch.get('type') !== 'branch' || branch.getIsRemote()) {
+    throw new GitError({
+      msg: intl.str('git-error-branch')
+    });
+  }
+
+  if (this.doesRefExist(newName)) {
+    throw new GitError({
+      msg: intl.str(
+        'bad-branch-name',
+        { branch: newName }
+      )
+    });
+  }
+
+  delete this.refs[oldName];
+  branch.set('id', newName);
+  this.refs[newName] = branch;
 };
 
 GitEngine.prototype.isRemoteBranchRef = function(ref) {

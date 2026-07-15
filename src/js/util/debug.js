@@ -58,4 +58,10 @@ $(document).ready(function() {
   window.debug_copyTree = function() {
     return toGlobalize.Main.getSandbox().mainVis.gitEngine.printAndCopyTree();
   };
+  window.exportLevelProgress = function() {
+    return toGlobalize.LevelStore.exportLevelProgress();
+  };
+  window.importLevelProgress = function(progress) {
+    return toGlobalize.LevelStore.importLevelProgress(progress);
+  };
 });
