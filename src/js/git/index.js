@@ -267,6 +267,22 @@ GitEngine.prototype.printTree = function(tree) {
   return str;
 };
 
+GitEngine.prototype.exportTreeString = function() {
+  // Faithful serialization used for undo/reset snapshots. Unlike printTree(),
+  // this does NOT run the tree through TreeCompare.reduceTreeFields, which
+  // sorts each commit's parents alphabetically. That sort is desirable for
+  // order-independent goal comparison, but it corrupts saved state: a merge
+  // commit's parents would come back flipped, mirroring the tree and making
+  // HEAD^ resolve to the wrong parent after an undo (see issues #613, #1298).
+  var str = JSON.stringify(this.exportTree());
+  if (/'/.test(str)) {
+    // escape apostrophes (rebased commit ids like C2') so the string
+    // round-trips cleanly through loadTreeFromString
+    str = escape(str);
+  }
+  return str;
+};
+
 GitEngine.prototype.printAndCopyTree = function() {
   window.prompt(
     intl.str('Copy the tree string below'),

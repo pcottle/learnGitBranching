@@ -44,7 +44,7 @@ exports.level = {
     "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie a branch `one` primeiro, depois `two`, depois `three`.",
     "gl": "¡Afiánzate de facer as cousas no orde correcto! Crea ramas `one` de primeiras, e logo `two` e `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
-    "ko": "이 문제를 해결하는 방법은 여러가지가 있습니다! 체리픽(cherry-pick)이 가장 쉽지만 오래걸리는 방법이고, 리베이스(rebase -i)가 빠른 방법입니다",
+    "ko": "올바른 순서로 진행하세요! 브랜치 `one`이 처음, 그 다음 `two`, 마지막으로 `three`입니다",
     "zh_CN": "确保你是按照正确的顺序来操作！先操作分支 `one`, 然后 `two`, 最后才是 `three`",
     "zh_TW": "確認你是按照正確的順序來操作！先操作 branch  `one`, 然後 `two`, 最後才是 `three`",
     "ro": "Asigură-te că faci totul în ordinea corectă! Ramura `one` mai întâi, apoi `two`, și apoi `three`",
