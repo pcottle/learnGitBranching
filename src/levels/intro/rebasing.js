@@ -26,7 +26,8 @@ exports.level = {
     "pl": "Wprowadzenie do Rebase",
     "ta_IN": "Rebase அறிமுகம்",
     "tr_TR": "Rebase İşlemine Giriş",
-    "hu_HU": "Rebase bevezetés"
+    "hu_HU": "Rebase bevezetés",
+    "az": "Rebase-ə giriş"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -53,7 +54,8 @@ exports.level = {
     "pl": "Upewnij się, że masz już commit z bugFix",
     "ta_IN": "முதலில் bugFix இல் இருந்து commit செய்ய நீங்கள் உறுதி செய்யவும்",
     "tr_TR": "Önce bugFix'ten commit attığınıza emin olun",
-    "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz"
+    "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz",
+    "az": "Əvvəlcə bugFix-dən commit etdiyinə əmin ol"
   },
   "disabledMap": {
     "git revert": true
@@ -1664,6 +1666,73 @@ exports.level = {
               "* Válts vissza a bugFix-re és rebaseld a mainre",
               "",
               "Sok szerencsét!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Branch-lar arasında işi birləşdirməyin ikinci yolu *rebase*-dir. Rebase mahiyyətcə bir sıra commit-i götürür, onları \"kopyalayır\" və başqa bir yerə qoyur.",
+              "",
+              "Bu çaşdırıcı səslənsə də, rebase-in üstünlüyü ondadır ki, onunla commit-lərin səliqəli, xətti bir ardıcıllığını qurmaq olar. Yalnız rebase-ə icazə verilsə, repozitoriyanın commit jurnalı / tarixçəsi xeyli təmiz olar.",
+              "",
+              "Gəl onu iş başında görək..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Yenə iki branch-ımız var; diqqət et ki, hazırda bugFix branch-ı seçilib (ulduza fikir ver).",
+              "",
+              "Biz işimizi bugFix-dən birbaşa main-dəki işin üzərinə köçürmək istəyirik. Bu halda, əslində paralel hazırlansalar da, bu iki funksiya ardıcıl hazırlanmış kimi görünəcək.",
+              "",
+              "Gəl bunu `git rebase` əmri ilə edək."
+            ],
+            "afterMarkdowns": [
+              "Əla! İndi bugFix branch-ımızdakı iş \"main-in üstünə\" yığılıb, çünki o, main-ə işarə edir. Vizuallaşdırmamızda isə commit ağaclarımız aşağıya doğru axdığı üçün o, main-in altında göstərilir.",
+              "",
+              "Diqqət et ki, C3 commit-i hələ də harasa mövcuddur (ağacda solğun görünür), C3' isə bizim main-in üzərinə rebase etdiyimiz \"kopyadır\".",
+              "",
+              "Yeganə problem odur ki, main də yenilənməyib, gəl indi bunu edək..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İndi `main` branch-ının üstündəyik. Gəl `bugFix`-in üzərinə rebase edək..."
+            ],
+            "afterMarkdowns": [
+              "Budur! `main` `bugFix`-in əcdadı olduğu üçün git sadəcə `main` branch istinadını tarixçədə irəli apardı."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü tamamlamaq üçün aşağıdakıları et:",
+              "",
+              "* `bugFix` adlı yeni bir branch-a keç",
+              "* Bir dəfə commit et",
+              "* main-ə qayıt və bir daha commit et",
+              "* Yenidən bugFix-ə keç və main-in üzərinə rebase et",
+              "",
+              "Uğurlar!"
             ]
           }
         }
