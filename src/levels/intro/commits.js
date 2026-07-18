@@ -24,7 +24,8 @@ exports.level = {
     "it_IT": "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்",
     "tr_TR": "Git Commit'e Giriş",
-    "hu_HU": "Bevezetés a Git commitokba"
+    "hu_HU": "Bevezetés a Git commitokba",
+    "az": "Git Commit-lərinə giriş"
   },
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -54,7 +55,8 @@ exports.level = {
     "it_IT": "Digita 'git commit' due volte per finire!",
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!",
     "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir.",
-    "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!"
+    "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!",
+    "az": "Bölümü bitirmək üçün sadəcə iki dəfə 'git commit' yaz!"
   },
   "disabledMap": {
     "git revert": true
@@ -1116,6 +1118,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Próbáld ki magad! Miután ez az ablak bezárul, csinálj két commitot a szint teljesítéséhez."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commit-ləri",
+              "Git repozitoriyasında commit sənin qovluğundakı bütün (izlənən) faylların anlıq görüntüsünü qeyd edir. Bu, nəhəng bir kopyala-yapışdır kimidir, amma daha da yaxşısı!",
+              "",
+              "Ancaq Git commit-ləri mümkün qədər yüngül saxlamaq istəyir, ona görə də hər commit etdikdə bütün qovluğu kor-koranə kopyalamır. Mümkün olduqda o, commit-i dəyişikliklər dəsti — yəni repozitoriyanın bir versiyasından digərinə keçən \"delta\" — kimi sıxa bilir.",
+              "",
+              "Git həmçinin hansı commit-lərin nə vaxt edildiyinin tarixçəsini saxlayır. Məhz buna görə əksər commit-lərin üstündə əcdad commit-lər olur — biz bunu vizuallaşdırmada oxlarla göstəririk. Tarixçəni saxlamaq layihə üzərində işləyən hər kəs üçün əladır!",
+              "",
+              "Mənimsəniləsi çox şey var, amma hələlik commit-ləri layihənin anlıq görüntüləri kimi düşünə bilərsən. Commit-lər çox yüngüldür və onlar arasında keçid inanılmaz sürətlidir!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl bunun praktikada necə göründüyünə baxaq. Sağ tərəfdə (kiçik) bir git repozitoriyasının vizuallaşdırması var. Hazırda iki commit var — ilk başlanğıc commit-i `C0` və ondan sonra gələn, bəlkə də bəzi mənalı dəyişikliklər daşıyan `C1` commit-i.",
+              "",
+              "Yeni commit yaratmaq üçün aşağıdakı düyməyə bas."
+            ],
+            "afterMarkdowns": [
+              "Budur! Əla. Biz indicə repozitoriyada dəyişikliklər etdik və onları commit kimi saxladıq. İndicə etdiyimiz commit-in `C1` adlı valideyni var — bu, həmin commit-in hansı commit əsasında qurulduğunu göstərir."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "İndi özün yoxla! Bu pəncərə bağlandıqdan sonra bölümü tamamlamaq üçün iki commit et."
             ]
           }
         }

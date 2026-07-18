@@ -24,7 +24,8 @@ exports.strings = {
     "it_IT": "Wow! Hai concluso l'ultimo livello, grandioso!",
     "ta_IN": "ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!",
     "tr_TR": "Wow! son seviyeyi tamamladın, tebrikler!",
-    "hu_HU": "Hűha! Befejezted az utolsó szintet, remek!"
+    "hu_HU": "Hűha! Befejezted az utolsó szintet, remek!",
+    "az": "Vay! Sonuncu bölümü bitirdin, əla!"
   },
   "finish-dialog-next": {
     "__desc__": "One of the lines in the next level dialog",
@@ -51,7 +52,8 @@ exports.strings = {
     "it_IT": "Ti andrebbe di passare al prossimo livello, *\"{nextLevel}\"*?",
     "ta_IN": "அடுத்த நிலை * \"{nextLevel}\" * க்கு செல்ல விரும்புகிறீர்களா?",
     "tr_TR": "Bir sonraki seviye olan *\"{nextLevel}\"* seviyesine geçmek ister misin?",
-    "hu_HU": "Szeretnél továbblépni a következő szintre: *\"{nextLevel}\"*?"
+    "hu_HU": "Szeretnél továbblépni a következő szintre: *\"{nextLevel}\"*?",
+    "az": "Növbəti bölümə — *\"{nextLevel}\"* — keçmək istəyirsən?"
   },
   "finish-dialog-win": {
     "__desc__": "One of the lines in the next level dialog when user entered same command as our best",
@@ -78,7 +80,8 @@ exports.strings = {
     "it_IT": "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     "ta_IN": "அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.",
     "tr_TR": "Mükemmel! ideal çözümle aynı veya daha iyi bir çözüm yaptınız.",
-    "hu_HU": "Fantasztikus! A megoldásod megegyezik a miénkkel."
+    "hu_HU": "Fantasztikus! A megoldásod megegyezik a miénkkel.",
+    "az": "Əla! Bizim həlli təkrarladın."
   },
    "finish-dialog-win-exceeded": {
     "__desc__": "One of the lines in the next level dialog when user entered less command than our best",
@@ -105,7 +108,8 @@ exports.strings = {
     "it_IT": "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     "ta_IN": "அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.",
     "tr_TR": "Mükemmel! ideal çözümle aynı veya daha iyi bir çözüm yaptınız.",
-    "hu_HU": "Fantasztikus! Túlszárnyaltad a megoldásunkat."
+    "hu_HU": "Fantasztikus! Túlszárnyaltad a megoldásunkat.",
+    "az": "Əla! Bizim həlli qabaqladın."
   },
   "finish-dialog-lose": {
     "__desc__": "When the user entered more commands than our best, encourage them to do better",
@@ -132,7 +136,8 @@ exports.strings = {
     "it_IT": "Prova a migliorarti facendolo solo con {best} comandi :D",
     "ta_IN": "நீங்கள் அதை குறைக்க முடியுமா என்று பாருங்கள் {best} :D",
     "tr_TR": "Bakalım bunu {best} adıma indirgeyebilir misin? :D",
-    "hu_HU": "Nézd meg, le tudod-e csökkenteni {best} lépésre :D"
+    "hu_HU": "Nézd meg, le tudod-e csökkenteni {best} lépésre :D",
+    "az": "Gör onu {best} əmrə qədər azalda bilərsənmi :D"
   },
   "hg-prune-tree": {
     "__desc__": "warning when pruning tree",
@@ -314,7 +319,8 @@ exports.strings = {
     "it_IT": "Sul ramo {branch}",
     "ta_IN": "{branch} கிளையில்",
     "tr_TR": "{branch} branch'indesiniz",
-    "hu_HU": "A(z) {branch} ágon"
+    "hu_HU": "A(z) {branch} ágon",
+    "az": "{branch} branch-ındasan"
   },
   "git-status-readytocommit": {
     "__desc__": "One of the lines for git status output",
@@ -340,7 +346,8 @@ exports.strings = {
     "it_IT": "Pronto al commit! (come sempre in questa demo)",
     "ta_IN": "`commit` செய்ய தயார்! (இந்த செயல் விளக்கத்தில் எப்போதும் செய்வதை போல)",
     "tr_TR": "Commit etmeye hazır! (bu demoda her zaman olduğu gibi)",
-    "hu_HU": "Készen áll a commit-ra! (mint mindig ebben a demóban)"
+    "hu_HU": "Készen áll a commit-ra! (mint mindig ebben a demóban)",
+    "az": "Commit etməyə hazır! (bu nümayişdə həmişə olduğu kimi)"
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -574,7 +581,8 @@ exports.strings = {
     "it_IT": "Fuso {target} in {current}",
     "ta_IN": "{target}ஐ {current} கிளையுடன் இணை",
     "tr_TR": "{target}i {current}e birleştir",
-    "hu_HU": "{target} merge-elése {current} ágba"
+    "hu_HU": "{target} merge-elése {current} ágba",
+    "az": "{target} {current}-ə birləşdirilir"
   },
   "git-error-rebase-none": {
     "__desc__": "One of the error messages for git",
@@ -652,7 +660,8 @@ exports.strings = {
     "it_IT": "Fast forwarding...",
     "ta_IN": "Fast forward...",
     "tr_TR": "Hızlı ileri alınıyor...",
-    "hu_HU": "Fast forwarding..."
+    "hu_HU": "Fast forwarding...",
+    "az": "Sürətli irəliləmə (fast-forward)..."
   },
   "git-result-uptodate": {
     "__desc__": "The message that explains the result of a git command",
@@ -678,7 +687,8 @@ exports.strings = {
     "it_IT": "Il ramo è già aggiornato",
     "ta_IN": "இந்த கிளை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...",
     "tr_TR": "Dal zaten güncel",
-    "hu_HU": "Az ág már naprakész"
+    "hu_HU": "Az ág már naprakész",
+    "az": "Branch onsuz da günceldir"
   },
   "git-error-exist": {
     "__desc__": "One of the error messages for git",
@@ -1117,7 +1127,8 @@ exports.strings = {
     "it_IT": "Scegli un livello",
     "ta_IN": "ஒரு நிலையை தேர்வு செய்யுங்கள்",
     "tr_TR": "Bir level (Seviye) seç",
-    "hu_HU": "Válassz egy szintet"
+    "hu_HU": "Válassz egy szintet",
+    "az": "Bölüm seç"
   },
   "main-levels-tab": {
     "__desc__": "The name of main levels tab on the drop down view",
@@ -1787,7 +1798,8 @@ exports.strings = {
     "it_IT": "Hai già risolto questo livello, prova altri livelli con \"levels\" o torna alla sandbox con \"sandbox\"",
     "ta_IN": "நீங்கள் ஏற்கனவே இந்த நிலையை தீர்த்துள்ளீர்கள், \"நிலைகள்\" மூலம் பிற நிலைகளை முயற்சிக்கவும் அல்லது \"sandbox\" உடன் sandbox-க்குச் செல்லவும்",
     "tr_TR": "Bu seviyeyi zaten çözdünüz, \"levels\" komutuyla diğer seviyeleri deneyin veya \"sandbox\" komutuyla tekrar sandbox'a dönün.",
-    "hu_HU": "Ezt a szintet már megoldottad, próbálj más szinteket a \"levels\" paranccsal vagy térj vissza a homokozóba a \"sandbox\" paranccsal"
+    "hu_HU": "Ezt a szintet már megoldottad, próbálj más szinteket a \"levels\" paranccsal vagy térj vissza a homokozóba a \"sandbox\" paranccsal",
+    "az": "Bu bölümü artıq həll etmisən, \"levels\" ilə digər bölümləri yoxla və ya \"sandbox\" ilə sandbox-a qayıt"
   },
   "solved-level": {
     "__desc__": "When you solved a level",
@@ -1812,7 +1824,8 @@ exports.strings = {
     "it_IT": "Risolto!!!\n:D",
     "ta_IN": "தீர்க்கப்பட்டது!!!\n:D",
     "tr_TR": "Tebrikler!!!\n:D",
-    "hu_HU": "Megoldva!!!\n:D"
+    "hu_HU": "Megoldva!!!\n:D",
+    "az": "Həll edildi!!!\n:D"
   },
   "command-disabled": {
     "__desc__": "When you try a command that is disabled",
@@ -1890,7 +1903,8 @@ exports.strings = {
     "it_IT": "Non hai specificato una finestra di partenza, ne vuoi aggiungere una?",
     "ta_IN": "தொடக்க உரை எதுவும் நீங்கள் குறிப்பிடவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?",
     "tr_TR": "Başlangıç diyaloğunu belirtmediniz, bir tane eklemek ister misiniz?",
-    "hu_HU": "Nem adtál meg indítási párbeszédet, szeretnél egyet hozzáadni?"
+    "hu_HU": "Nem adtál meg indítási párbeszédet, szeretnél egyet hozzáadni?",
+    "az": "Başlanğıc dialoqu təyin etməmisən, birini əlavə etmək istəyirsən?"
   },
   "want-hint": {
     "__desc__": "prompt to add a hint",
@@ -1916,7 +1930,8 @@ exports.strings = {
     "it_IT": "Non hai specificato un suggerimento, ne vuoi aggiungere uno?",
     "ta_IN": "நீங்கள் குறிப்பெதுவும் தரவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?",
     "tr_TR": "Bir ipucu belirtmediniz, bir tane eklemek ister misiniz?",
-    "hu_HU": "Nem adtál meg tippet, szeretnél egyet hozzáadni?"
+    "hu_HU": "Nem adtál meg tippet, szeretnél egyet hozzáadni?",
+    "az": "İpucu təyin etməmisən, birini əlavə etmək istəyirsən?"
   },
   "prompt-hint": {
     "__desc__": "prompt for hint",
@@ -2103,7 +2118,8 @@ exports.strings = {
     "it_IT": "Mostra obiettivo",
     "ta_IN": "இலக்கைக் காட்டு",
     "tr_TR": "Hedefi Göster",
-    "hu_HU": "Cél megjelenítése"
+    "hu_HU": "Cél megjelenítése",
+    "az": "Hədəfi Göstər"
   },
   "hide-goal-button": {
     "__desc__": "button label to hide goal",
@@ -2130,7 +2146,8 @@ exports.strings = {
     "it_IT": "Nascondi obiettivo",
     "ta_IN": "இலக்கை மறை",
     "tr_TR": "Hedefi Gizle",
-    "hu_HU": "Cél elrejtése"
+    "hu_HU": "Cél elrejtése",
+    "az": "Hədəfi Gizlə"
   },
   "objective-button": {
     "__desc__": "button label to show objective",
@@ -2155,7 +2172,8 @@ exports.strings = {
     "pt_BR": "Instruções",
     "ta_IN": "வழிமுறைகள்",
     "tr_TR": "Talimatlar",
-    "hu_HU": "Utasítások"
+    "hu_HU": "Utasítások",
+    "az": "Təlimatlar"
   },
   "git-demonstration-title": {
     "__desc__": "title of git demonstration window",
@@ -2180,7 +2198,8 @@ exports.strings = {
     "it_IT": "Dimostrazione Git",
     "ta_IN": "கிட் செயல் விளக்கம்",
     "tr_TR": "Git Gösterimi",
-    "hu_HU": "Git bemutató"
+    "hu_HU": "Git bemutató",
+    "az": "Git Nümayişi"
   },
   "goal-to-reach": {
     "__desc__": "title of window that shoes the goal tree to reach",
@@ -2207,7 +2226,8 @@ exports.strings = {
     "it_IT": "Obiettivo da raggiungere",
     "ta_IN": "அடைய வேண்டிய இலக்கு",
     "tr_TR": "Ulaşılması Gereken Hedef",
-    "hu_HU": "Elérendő cél"
+    "hu_HU": "Elérendő cél",
+    "az": "Çatılası Hədəf"
   },
   "goal-only-main": {
     "__desc__": "the helper message for the window that shows the goal tree when the goal will only be compared using the main branch",
@@ -2234,7 +2254,8 @@ exports.strings = {
     "it_IT": "<span class=\"fwber\">Nota:</span> In questo livello sarà selezionato solo il ramo main. Gli altri rami ci sono solo come riferimento (mostrati come etichette tratteggiate). Come sempre, puoi nascondere questa finestra con \"hide goal\"",
     "ta_IN": "<span class=\"fwber\">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், \"இலக்கை மறை\" மூலம் இந்த சாளரத்தை மறைக்கலாம்",
     "tr_TR": "<span class=\"fwber\">Not:</span> Bu seviyede yalnızca ana dal kontrol edilecektir. Diğer dallar yalnızca referans amaçlıdır (aşağıda kesikli etiketler olarak gösterilmektedir). Her zamanki gibi, bu diyaloğu \"hedefi gizle\" ile gizleyebilirsiniz.",
-    "hu_HU": "<span class=\"fwber\">Megjegyzés:</span> Ebben a szintben csak a main ág lesz ellenőrizve. A többi ág csak tájékoztatásul van (szaggatott vonallal jelölve alább). Mint mindig, elrejtheted ezt az ablakot a \"hide goal\" paranccsal"
+    "hu_HU": "<span class=\"fwber\">Megjegyzés:</span> Ebben a szintben csak a main ág lesz ellenőrizve. A többi ág csak tájékoztatásul van (szaggatott vonallal jelölve alább). Mint mindig, elrejtheted ezt az ablakot a \"hide goal\" paranccsal",
+    "az": "<span class=\"fwber\">Qeyd:</span> Bu bölümdə yalnız main branch-ı yoxlanılacaq. Digər branch-lar sadəcə istinad üçündür (aşağıda kəsik-kəsik etiketlərlə göstərilib). Həmişəki kimi, bu dialoqu \"hide goal\" ilə gizlədə bilərsən."
   },
   "hide-goal": {
     "__desc__": "the helper message for the window that shows the goal tree",
@@ -2261,7 +2282,8 @@ exports.strings = {
     "it_IT": "Puoi nascondere questa finestra con \"hide goal\"",
     "ta_IN": "இந்த சாளரத்தை \"இலக்கை மறை\" மூலம் மறைக்கலாம்",
     "tr_TR": "Bu pencereyi \"hedefi gizle\" ile gizleyebilirsiniz",
-    "hu_HU": "Elrejtheted ezt az ablakot a \"hide goal\" paranccsal"
+    "hu_HU": "Elrejtheted ezt az ablakot a \"hide goal\" paranccsal",
+    "az": "Bu pəncərəni \"hide goal\" ilə gizlədə bilərsən"
   },
   "hide-start": {
     "__desc__": "The helper message for the window that shows the start tree for a level",
@@ -2288,7 +2310,8 @@ exports.strings = {
     "it_IT": "Puoi nascondere questa finestra con \"hide start\"",
     "ta_IN": "இந்த சாளரத்தை \"தொடக்கத்தை மறை\" மூலம் மறைக்கலாம்",
     "tr_TR": "Bu pencereyi \"başlangıcı gizle\" ile gizleyebilirsiniz.",
-    "hu_HU": "Elrejtheted ezt az ablakot a \"hide start\" paranccsal"
+    "hu_HU": "Elrejtheted ezt az ablakot a \"hide start\" paranccsal",
+    "az": "Bu pəncərəni \"hide start\" ilə gizlədə bilərsən"
   },
   "level-builder": {
     "__desc__": "The name for the environment where you build levels",
@@ -2341,7 +2364,8 @@ exports.strings = {
     "it_IT": "Non esiste una finestra di partenza per questo livello!",
     "ta_IN": "இந்த நிலை பற்றி விளக்கிகாட்ட தொடக்க உரையாடல் எதுவும் இல்லை",
     "tr_TR": "Bu seviye için gösterilecek bir başlangıç penceresi yok!",
-    "hu_HU": "Nincs megjelenítendő indítási párbeszéd ehhez a szinthez!"
+    "hu_HU": "Nincs megjelenítendő indítási párbeszéd ehhez a szinthez!",
+    "az": "Bu bölüm üçün göstəriləcək başlanğıc dialoqu yoxdur!"
   },
   "no-hint": {
     "__desc__": "when no hint is available for a level",
@@ -2368,7 +2392,8 @@ exports.strings = {
     "it_IT": "Mmh, sembra non ci sia un suggerimento per questo livello :-/",
     "ta_IN": "ஹ்ம், இந்த நிலைக்கு ஒரு குறிப்பு எதுவும் இருப்பதாகத் தெரியவில்லை :-/",
     "tr_TR": "Hmm, bu seviye için bir ipucu görünmüyor :-/",
-    "hu_HU": "Hmm, úgy tűnik nincs tipp ehhez a szinthez :-/"
+    "hu_HU": "Hmm, úgy tűnik nincs tipp ehhez a szinthez :-/",
+    "az": "Hmm, bu bölüm üçün ipucu yoxdur deyəsən :-/"
   },
   "error-untranslated-key": {
     "__desc__": "This error happens when we are trying to translate a specific key and the locale version is mission",
@@ -2443,7 +2468,8 @@ exports.strings = {
     "ta_IN": "இரத்துசெய்",
     "vi": "Hủy",
     "tr_TR": "İptal",
-    "hu_HU": "Mégse"
+    "hu_HU": "Mégse",
+    "az": "Ləğv et"
   },
   "confirm-button": {
     "__desc__": "Confirm button label after completing a level",
@@ -2464,7 +2490,8 @@ exports.strings = {
     "ta_IN": "உறுதிப்படுத்தவும்",
     "vi": "Đồng ý",
     "tr_TR": "Tamam",
-    "hu_HU": "Megerősít"
+    "hu_HU": "Megerősít",
+    "az": "Təsdiqlə"
   },
   "level-label": {
     "__desc__": "Label in the top of the left-side menu. Remember to leave some space on the sides",
@@ -2483,7 +2510,8 @@ exports.strings = {
     "it_IT": " Livello ",
     "pl": " Poziom ",
     "tr_TR": " Seviye ",
-    "hu_HU": " Szint "
+    "hu_HU": " Szint ",
+    "az": " Bölüm "
   },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
@@ -2502,7 +2530,8 @@ exports.strings = {
     "it_IT": "Livelli",
     "pl": "Poziomy",
     "tr_TR": "Seviyeler",
-    "hu_HU": "Szintek"
+    "hu_HU": "Szintek",
+    "az": "Bölümlər"
   },
   "command-helper-bar-solution": {
     "__desc__": "Solution command label in the bottom command helper bar.",
@@ -2521,7 +2550,8 @@ exports.strings = {
     "pt_BR": "Solução",
     "pl": "Rozwiązanie",
     "tr_TR": "Çözüm",
-    "hu_HU": "Megoldás"
+    "hu_HU": "Megoldás",
+    "az": "Həll"
   },
   "command-helper-bar-reset": {
     "__desc__": "Reset command label in the bottom command helper bar.",
@@ -2539,7 +2569,8 @@ exports.strings = {
     "zh_CN": "重置",
     "pl": "Wyczyść",
     "tr_TR": "Sıfırla",
-    "hu_HU": "Visszaállítás"
+    "hu_HU": "Visszaállítás",
+    "az": "Sıfırla"
   },
   "command-helper-bar-undo": {
     "__desc__": "Undo command label in the bottom command helper bar.",
@@ -2558,7 +2589,8 @@ exports.strings = {
     "it_IT": "Annulla",
     "pl": "Cofnij",
     "tr_TR": "Geri al",
-    "hu_HU": "Visszavonás"
+    "hu_HU": "Visszavonás",
+    "az": "Geri al"
   },
   "command-helper-bar-objective": {
     "__desc__": "Objective command label in the bottom command helper bar.",
@@ -2577,7 +2609,8 @@ exports.strings = {
     "pt_BR": "Objetivo",
     "pl": "Cel",
     "tr_TR": "Hedef",
-    "hu_HU": "Cél"
+    "hu_HU": "Cél",
+    "az": "Hədəf"
   },
   "command-helper-bar-help": {
     "__desc__": "Help command label in the bottom command helper bar.",
@@ -2596,7 +2629,8 @@ exports.strings = {
     "it_IT": "Aiuto",
     "pl": "Pomoc",
     "tr_TR": "Yardım",
-    "hu_HU": "Segítség"
+    "hu_HU": "Segítség",
+    "az": "Kömək"
   },
   "error-command-currently-not-supported": {
     "__desc__": "Message that appears in git console when command is not supported in the current environment.",

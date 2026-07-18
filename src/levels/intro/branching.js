@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Creare rami in Git",
     "ta_IN": "கிட் கிளை நிருவாகம்",
     "tr_TR": "Git'te Branch işlemleri",
-    "hu_HU": "Elágazás Gitben"
+    "hu_HU": "Elágazás Gitben",
+    "az": "Git-də Branch-lar"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
@@ -53,7 +54,8 @@ exports.level = {
     "it_IT": "Crea un nuovo ramo con \"git branch <branch-name>\" e selezionalo con \"git checkout <branch-name>\"",
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக",
     "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git checkout <branch-name>\" komutu ile bu branch'e geçin.",
-    "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git checkout <branch-name>\" paranccsal"
+    "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git checkout <branch-name>\" paranccsal",
+    "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git checkout <branch-adı>\" ilə ona keç"
   },
   "disabledMap": {
     "git revert": true
@@ -2213,6 +2215,100 @@ exports.level = {
               "Egyébként van egy gyorsbillentyű: ha egyszerre akarsz egy új ",
               "branchet létrehozni ÉS ráváltani, egyszerűen",
               "írd be: `git checkout -b [branchneved]`."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branch-ları",
+              "",
+              "Git-də branch-lar da inanılmaz dərəcədə yüngüldür. Onlar sadəcə müəyyən bir commit-ə işarə edən göstəricilərdir — başqa heç nə. Məhz buna görə bir çox Git həvəskarı bu şüarı təkrarlayır:",
+              "",
+              "```",
+              "erkən branch yarat, tez-tez branch yarat",
+              "```",
+              "",
+              "Çoxlu branch yaratmağın yaddaş baxımından heç bir əlavə yükü olmadığı üçün, işini bir neçə nəhəng branch-da saxlamaqdansa məntiqi hissələrə bölmək daha asandır.",
+              "",
+              "Branch-ları və commit-ləri qarışdırmağa başlayanda bu iki xüsusiyyətin necə birləşdiyini görəcəyik. Hələlik isə sadəcə onu yadda saxla ki, branch mahiyyətcə \"bu commit-in və onun bütün valideyn commit-lərinin işini daxil etmək istəyirəm\" deməkdir."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl branch-ların praktikada necə göründüyünə baxaq.",
+              "",
+              "Burada `newImage` adlı yeni bir branch yaradacağıq."
+            ],
+            "afterMarkdowns": [
+              "Budur, branch yaratmaqda bütün məsələ bundan ibarətdir! `newImage` branch-ı indi `C1` commit-inə işarə edir."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl bu yeni branch-da bir az iş görməyə çalışaq. Aşağıdakı düyməyə bas."
+            ],
+            "afterMarkdowns": [
+              "Vay! `main` branch-ı hərəkət etdi, amma `newImage` branch-ı yerində qaldı! Bunun səbəbi odur ki, biz yeni branch-ın \"üstündə\" deyildik — məhz buna görə ulduz (*) `main`-in yanında idi."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl git-ə branch-a keçmək istədiyimizi deyək:",
+              "",
+              "```",
+              "git checkout <ad>",
+              "```",
+              "",
+              "Bu, dəyişikliklərimizi commit etməzdən əvvəl bizi yeni branch-ın üstünə keçirəcək."
+            ],
+            "afterMarkdowns": [
+              "Budur! Dəyişikliklərimiz yeni branch-da qeydə alındı."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*Qeyd: Git 2.23 versiyasında `git checkout`-u tədricən əvəz etmək üçün `git switch` adlı yeni bir əmr təqdim edildi; ",
+              "`checkout` bir qədər həddindən artıq yüklənmişdir (arqumentlərdən asılı olaraq bir sıra fərqli işlər görür). Buradakı dərslər hələ də ",
+              "`switch` əvəzinə `checkout` işlədəcək, çünki `switch` əmri hələ də təcrübi sayılır və sintaksisi gələcəkdə dəyişə bilər. ",
+              "Bununla belə, bu tətbiqdə yeni `switch` əmrini yoxlaya, həmçinin ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">buradan daha çox öyrənə</a> bilərsən.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Hazırsan! Artıq branch yaratmağa tam hazırsan. Bu pəncərə bağlandıqdan sonra ",
+              "`bugFix` adlı yeni bir branch yarat və həmin branch-a keç.",
+              "",
+              "Yeri gəlmişkən, bir qısayol: eyni anda həm yeni branch ",
+              "yaradıb HƏM DƏ ona keçmək istəyirsənsə, sadəcə ",
+              "`git checkout -b [branch-adın]` yaza bilərsən."
             ]
           }
         }
