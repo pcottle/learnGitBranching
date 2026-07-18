@@ -147,7 +147,10 @@ var commandConfig = {
 
       var msg = null;
       var args = null;
-      if (commandOptions['-a'] || commandOptions['--all']) {
+      var stageAll = !!(commandOptions['-a'] || commandOptions['--all'] ||
+        commandOptions['-am']);
+      if (stageAll && !engine.changesModelEngaged) {
+        // classic levels have no real staging, so -a is a no-op worth flagging
         command.addWarning(intl.str('git-warning-add'));
       }
 
@@ -169,7 +172,8 @@ var commandConfig = {
       }
 
       var newCommit = engine.commit({
-        isAmend: !!commandOptions['--amend']
+        isAmend: !!commandOptions['--amend'],
+        all: stageAll
       });
       if (msg) {
         msg = msg
@@ -580,9 +584,74 @@ var commandConfig = {
     sc: /^ga($|\s)/,
     regex: /^git +add($|\s)/,
     description: 'Add file contents to the staging area',
-    execute: function() {
-      throw new CommandResult({
-        msg: intl.str('git-error-staging')
+    options: [
+      '-A',
+      '-u'
+    ],
+    execute: function(engine, command) {
+      if (!engine.changesModelEngaged) {
+        // classic graph-only levels have no working directory to stage
+        throw new CommandResult({
+          msg: intl.str('git-error-staging')
+        });
+      }
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      // '.', -A and -u all mean "stage everything"
+      var stageAll = !!commandOptions['-A'] || !!commandOptions['-u'] ||
+        generalArgs.indexOf('.') !== -1;
+      engine.addFiles(stageAll ? null : generalArgs);
+    }
+  },
+
+  restore: {
+    dontCountForGolf: true,
+    regex: /^git +restore($|\s)/,
+    description: 'Restore working tree files',
+    options: [
+      '--staged',
+      '-S'
+    ],
+    execute: function(engine, command) {
+      if (!engine.changesModelEngaged) {
+        // no working directory in the classic levels, so nothing to restore
+        throw new CommandResult({
+          msg: intl.str('git-error-staging')
+        });
+      }
+      var commandOptions = command.getOptionsMap();
+      var generalArgs = command.getGeneralArgs();
+      var staged = !!commandOptions['--staged'] || !!commandOptions['-S'];
+      // options absorb the filename that follows them (e.g.
+      // "git restore --staged config.env"), so fold those back in
+      var paths = generalArgs
+        .concat(commandOptions['--staged'] || [])
+        .concat(commandOptions['-S'] || []);
+      engine.restoreFiles(paths, { staged: staged });
+    }
+  },
+
+  stash: {
+    dontCountForGolf: true,
+    regex: /^git +stash($|\s)/,
+    description: 'Stash the changes in a dirty working directory away',
+    execute: function(engine, command) {
+      var sub = command.getGeneralArgs()[0];
+      if (!sub || sub === 'push' || sub === 'save') {
+        engine.stashPush();
+        return;
+      }
+      if (sub === 'pop') {
+        engine.stashPop();
+        return;
+      }
+      if (sub === 'list') {
+        engine.stashList();
+        return;
+      }
+      // apply / drop / clear / show are not modeled yet
+      throw new GitError({
+        msg: intl.str('git-error-command-not-supported')
       });
     }
   },
@@ -639,10 +708,29 @@ var commandConfig = {
     description: 'Join two or more development histories together',
     options: [
       '--no-ff',
-      '--squash'
+      '--squash',
+      '--continue',
+      '--abort'
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
+
+      // resolving (or bailing out of) a conflicted merge takes no branch arg
+      if (commandOptions['--abort']) {
+        engine.abortMerge();
+        engine.animationFactory.refreshTree(
+          engine.animationQueue, engine.gitVisuals
+        );
+        return;
+      }
+      if (commandOptions['--continue']) {
+        var continuedCommit = engine.continueMerge();
+        engine.animationFactory.genCommitBirthAnimation(
+          engine.animationQueue, continuedCommit, engine.gitVisuals
+        );
+        return;
+      }
+
       var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []).concat(commandOptions['--squash'] || []);
       command.validateArgBounds(generalArgs, 1, 1);
 
@@ -755,12 +843,27 @@ var commandConfig = {
       '--aboveAll',
       '-p',
       '--preserve-merges',
-      '--onto'
+      '--onto',
+      '--continue',
+      '--abort'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
+
+      // resolving (or bailing out of) a conflicted rebase takes no arguments
+      if (commandOptions['--abort']) {
+        engine.abortRebase();
+        engine.animationFactory.refreshTree(
+          engine.animationQueue, engine.gitVisuals
+        );
+        return;
+      }
+      if (commandOptions['--continue']) {
+        engine.continueRebase();
+        return;
+      }
 
       if (commandOptions['-i']) {
         var args = commandOptions['-i'].concat(generalArgs);

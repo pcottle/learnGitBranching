@@ -30,6 +30,19 @@ function GitEngine(options) {
   this.mode = 'git';
   this.localRepo = null;
 
+  // Simulated working-directory / staging model. The site is a commit-graph
+  // simulator with no real files, so we model "changes" as a tiny map of
+  // { path: status } that a level seeds in its startTree. Everything here is
+  // inert unless a level engages it (see changesModelEngaged), so the classic
+  // graph-only levels behave exactly as before. See getStatusMsg / addFiles /
+  // commit for how these are used.
+  this.changesModelEngaged = false;
+  this.workingChanges = {};   // { path: 'modified' | 'staged' | 'unmerged' }
+  this.stashStack = [];       // saved snapshots of workingChanges (git stash)
+  this.mergeInProgress = null; // set while a conflicted merge is unresolved
+  this.rebaseInProgress = null; // set while a conflicted rebase is unresolved
+  this.conflictMerges = {};   // author-declared { sourceRef: [file, ...] }
+
   this.branchCollection = options.branches;
   this.tagCollection = options.tags;
   this.commitCollection = options.collection;
@@ -252,6 +265,28 @@ GitEngine.prototype.exportTree = function() {
     totalExport.originTree = this.origin.exportTree();
   }
 
+  // Only emit the simulated changes model when a level actually uses it.
+  // Omitting these keys when idle keeps the exported tree byte-identical to
+  // before for every existing level and test.
+  if (this.changesModelEngaged) {
+    totalExport.changesModelEngaged = true;
+  }
+  if (Object.keys(this.workingChanges).length) {
+    totalExport.workingChanges = this.workingChanges;
+  }
+  if (this.stashStack.length) {
+    totalExport.stashStack = this.stashStack;
+  }
+  if (this.mergeInProgress) {
+    totalExport.mergeInProgress = this.mergeInProgress;
+  }
+  if (this.rebaseInProgress) {
+    totalExport.rebaseInProgress = this.rebaseInProgress;
+  }
+  if (Object.keys(this.conflictMerges).length) {
+    totalExport.conflictMerges = this.conflictMerges;
+  }
+
   return totalExport;
 };
 
@@ -336,6 +371,22 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     throw new Error('Need root commit of C0 for calculations');
   }
   this.refs = createdSoFar;
+
+  // restore the simulated changes model. A level engages the model simply by
+  // declaring workingChanges / conflictMerges in its startTree; once engaged
+  // the exported flag keeps it on for the rest of the level (even after the
+  // working directory becomes clean).
+  this.workingChanges = tree.workingChanges || {};
+  this.stashStack = tree.stashStack || [];
+  this.mergeInProgress = tree.mergeInProgress || null;
+  this.rebaseInProgress = tree.rebaseInProgress || null;
+  this.conflictMerges = tree.conflictMerges || {};
+  this.changesModelEngaged = !!tree.changesModelEngaged ||
+    Object.keys(this.workingChanges).length > 0 ||
+    Object.keys(this.conflictMerges).length > 0 ||
+    this.stashStack.length > 0 ||
+    !!this.mergeInProgress ||
+    !!this.rebaseInProgress;
 
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
@@ -639,6 +690,14 @@ GitEngine.prototype.removeAll = function() {
   this.refs = {};
   this.HEAD = null;
   this.rootCommit = null;
+
+  // reset the simulated changes model (see constructor)
+  this.changesModelEngaged = false;
+  this.workingChanges = {};
+  this.stashStack = [];
+  this.mergeInProgress = null;
+  this.rebaseInProgress = null;
+  this.conflictMerges = {};
 
   if (this.origin) {
     // we will restart all this jazz during init from tree
@@ -1627,6 +1686,33 @@ GitEngine.prototype.cherrypick = function(commit) {
 
 GitEngine.prototype.commit = function(options) {
   options = options || {};
+
+  // Finishing a conflicted merge: `git add` the resolved files, then
+  // `git commit` seals the two-parent merge commit.
+  if (this.changesModelEngaged && this.mergeInProgress) {
+    if (this.getUnmergedChanges().length) {
+      throw new CommandResult({
+        msg: intl.str('git-merge-unmerged-paths')
+      });
+    }
+    return this.finishConflictedMerge();
+  }
+
+  // Simulated staging gate: only active when a level engages the changes
+  // model, and never during a conflicted merge (that is finished separately).
+  // This is what makes `git add` a required step in the staging levels.
+  if (this.changesModelEngaged && !this.mergeInProgress) {
+    if (options.all) {
+      // git commit -a / --all: stage everything modified first
+      this.addFiles(null);
+    }
+    if (!this.hasStagedChanges()) {
+      throw new CommandResult({
+        msg: intl.str('git-status-nothing-staged')
+      });
+    }
+  }
+
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = null;
 
@@ -1642,6 +1728,11 @@ GitEngine.prototype.commit = function(options) {
   }
 
   this.setTargetLocation(this.HEAD, newCommit);
+
+  // the changes we just committed are now history
+  if (this.changesModelEngaged) {
+    this.clearStagedChanges();
+  }
   return newCommit;
 };
 
@@ -2204,6 +2295,15 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
     return;
   }
 
+  // A level author can flag this rebase to conflict. We gate the whole rebase
+  // behind the conflict: on `git rebase <target>` we pause and report the
+  // conflict, then `git rebase --continue` (after `git add`) actually replays
+  // the work. This keeps the real workflow without touching the replay engine.
+  options = options || {};
+  if (!options.skipConflictCheck && this.doesRebaseConflict(targetSource)) {
+    this.startConflictedRebase(targetSource, currentLocation, options);
+  }
+
   // now the part of actually rebasing.
   // We need to get the downstream set of targetSource first.
   // then we BFS from currentLocation, using the downstream set as our stopping point.
@@ -2212,6 +2312,73 @@ GitEngine.prototype.rebase = function(targetSource, currentLocation, options) {
   var stopSet = Graph.getUpstreamSet(this, targetSource);
   var toRebaseRough = this.getUpstreamDiffFromSet(stopSet, currentLocation);
   return this.rebaseFinish(toRebaseRough, stopSet, targetSource, currentLocation, options);
+};
+
+// --- simulated rebase conflicts (see the merge-conflict block above) -------
+GitEngine.prototype.doesRebaseConflict = function(targetSource) {
+  if (this.rebaseInProgress) {
+    return false;
+  }
+  return !!(this.conflictMerges && this.conflictMerges[targetSource]);
+};
+
+GitEngine.prototype.startConflictedRebase = function(targetSource, currentLocation, options) {
+  var files = this.conflictMerges[targetSource];
+  if (!files || !files.length) {
+    files = ['file.txt'];
+  }
+  this.changesModelEngaged = true;
+  this.rebaseInProgress = {
+    targetSource: targetSource,
+    currentLocation: currentLocation,
+    options: options || {},
+    files: files.slice()
+  };
+  files.forEach(function(path) {
+    this.workingChanges[path] = 'unmerged';
+  }, this);
+
+  var lines = ['First, rewinding head to replay your work on top of it...'];
+  files.forEach(function(path) {
+    lines.push('Auto-merging ' + path);
+    lines.push(intl.str('git-merge-conflict-file', { file: path }));
+  }, this);
+  lines.push(intl.str('git-rebase-conflict'));
+  throw new CommandResult({
+    msg: lines.join('\n')
+  });
+};
+
+GitEngine.prototype.continueRebase = function() {
+  if (!this.rebaseInProgress) {
+    throw new GitError({
+      msg: intl.str('git-rebase-nomerge')
+    });
+  }
+  if (this.getUnmergedChanges().length) {
+    throw new CommandResult({
+      msg: intl.str('git-merge-unmerged-paths')
+    });
+  }
+  var info = this.rebaseInProgress;
+  this.rebaseInProgress = null;
+  this.clearStagedChanges();
+
+  // now actually replay the work, skipping the (already-resolved) conflict gate
+  var replayOptions = Object.assign({}, info.options, { skipConflictCheck: true });
+  return this.rebase(info.targetSource, info.currentLocation, replayOptions);
+};
+
+GitEngine.prototype.abortRebase = function() {
+  if (!this.rebaseInProgress) {
+    throw new GitError({
+      msg: intl.str('git-rebase-nomerge')
+    });
+  }
+  (this.rebaseInProgress.files || []).forEach(function(path) {
+    delete this.workingChanges[path];
+  }, this);
+  this.rebaseInProgress = null;
 };
 
 GitEngine.prototype.rebaseOnto = function(targetSource, oldSource, unit, options) {
@@ -2556,6 +2723,14 @@ GitEngine.prototype.merge = function(targetSource, options) {
     return;
   }
 
+  // A level author can flag this merge to conflict (via conflictMerges in the
+  // startTree). We only reach here after the up-to-date and fast-forward
+  // short-circuits, so a real fast-forward never fakes a conflict.
+  if (this.doesMergeConflict(targetSource)) {
+    // this throws the authentic conflict output and leaves HEAD where it is
+    this.startConflictedMerge(targetSource, options);
+  }
+
   // now the part of making a merge commit
   var parent1 = this.getCommitFromRef(currentLocation);
   var parent2 = this.getCommitFromRef(targetSource);
@@ -2587,6 +2762,99 @@ GitEngine.prototype.merge = function(targetSource, options) {
 
   this.setTargetLocation(currentLocation, mergeCommit);
   return mergeCommit;
+};
+
+// --- simulated merge conflicts --------------------------------------------
+// The site has no file contents, so we don't do real content merges. Instead a
+// level author declares which merges conflict (conflictMerges in the startTree);
+// the engine then reproduces the real workflow: enter a conflicted state, report
+// it via git status, and finish with `git add` + `git commit` or
+// `git merge --continue` (or bail with `git merge --abort`).
+GitEngine.prototype.doesMergeConflict = function(targetSource) {
+  if (this.mergeInProgress) {
+    return false;
+  }
+  return !!(this.conflictMerges && this.conflictMerges[targetSource]);
+};
+
+GitEngine.prototype.startConflictedMerge = function(targetSource, options) {
+  var files = this.conflictMerges[targetSource];
+  if (!files || !files.length) {
+    files = ['file.txt'];
+  }
+  this.changesModelEngaged = true;
+  this.mergeInProgress = {
+    current: this.getCommitFromRef('HEAD').get('id'),
+    target: this.getCommitFromRef(targetSource).get('id'),
+    currentName: this.resolveName('HEAD'),
+    targetName: this.resolveName(targetSource),
+    squash: !!options.squash,
+    noFF: !!options.noFF,
+    files: files.slice()
+  };
+  files.forEach(function(path) {
+    this.workingChanges[path] = 'unmerged';
+  }, this);
+
+  var lines = [];
+  files.forEach(function(path) {
+    lines.push('Auto-merging ' + path);
+    lines.push(intl.str('git-merge-conflict-file', { file: path }));
+  }, this);
+  lines.push(intl.str('git-merge-conflict'));
+  throw new CommandResult({
+    msg: lines.join('\n')
+  });
+};
+
+// build the actual merge commit once conflicts are resolved and staged
+GitEngine.prototype.finishConflictedMerge = function() {
+  var merge = this.mergeInProgress;
+  var parent1 = this.getCommitFromRef(merge.current);
+  var parent2 = this.getCommitFromRef(merge.target);
+  var msg = intl.str('git-merge-msg', {
+    target: merge.targetName,
+    current: merge.currentName
+  });
+
+  // a squash merge records only the first parent (same as a normal merge)
+  var commitParents = merge.squash ? [parent1] : [parent1, parent2];
+  var mergeCommit = this.makeCommit(commitParents, null, {
+    commitMessage: msg
+  });
+  this.setTargetLocation('HEAD', mergeCommit);
+
+  this.mergeInProgress = null;
+  this.clearStagedChanges();
+  return mergeCommit;
+};
+
+GitEngine.prototype.continueMerge = function() {
+  if (!this.mergeInProgress) {
+    throw new GitError({
+      msg: intl.str('git-merge-continue-nomerge')
+    });
+  }
+  if (this.getUnmergedChanges().length) {
+    // you must `git add` the resolved files first
+    throw new CommandResult({
+      msg: intl.str('git-merge-unmerged-paths')
+    });
+  }
+  return this.finishConflictedMerge();
+};
+
+GitEngine.prototype.abortMerge = function() {
+  if (!this.mergeInProgress) {
+    throw new GitError({
+      msg: intl.str('git-merge-abort-nomerge')
+    });
+  }
+  // rewind: drop the conflicted files and forget the merge. HEAD never moved.
+  (this.mergeInProgress.files || []).forEach(function(path) {
+    delete this.workingChanges[path];
+  }, this);
+  this.mergeInProgress = null;
 };
 
 GitEngine.prototype.checkout = function(idOrTarget) {
@@ -2901,8 +3169,203 @@ GitEngine.prototype.show = function(ref) {
   });
 };
 
+// --- simulated working-directory / staging helpers ------------------------
+// These operate on this.workingChanges (a { path: status } map). They are only
+// exercised while a level has the changes model engaged.
+GitEngine.prototype.getChangesWithStatus = function(status) {
+  return Object.keys(this.workingChanges).filter(function(path) {
+    return this.workingChanges[path] === status;
+  }, this);
+};
+
+GitEngine.prototype.getUnstagedChanges = function() {
+  return this.getChangesWithStatus('modified');
+};
+
+GitEngine.prototype.getStagedChanges = function() {
+  return this.getChangesWithStatus('staged');
+};
+
+GitEngine.prototype.getUnmergedChanges = function() {
+  return this.getChangesWithStatus('unmerged');
+};
+
+GitEngine.prototype.hasStagedChanges = function() {
+  return this.getStagedChanges().length > 0;
+};
+
+// stage the given paths, or (when paths is empty) everything modified/unmerged
+GitEngine.prototype.addFiles = function(paths) {
+  var toStage;
+  if (!paths || !paths.length) {
+    toStage = this.getUnstagedChanges().concat(this.getUnmergedChanges());
+  } else {
+    toStage = paths;
+  }
+  toStage.forEach(function(path) {
+    // only stage things git actually knows about
+    if (this.workingChanges[path] !== undefined) {
+      this.workingChanges[path] = 'staged';
+    }
+  }, this);
+};
+
+// git restore: undo working-dir / staging changes without touching history
+GitEngine.prototype.restoreFiles = function(paths, options) {
+  options = options || {};
+  var targets = (paths && paths.length) ? paths : Object.keys(this.workingChanges);
+  targets.forEach(function(path) {
+    if (this.workingChanges[path] === undefined) {
+      return;
+    }
+    if (options.staged) {
+      // move staged changes back to the working directory
+      if (this.workingChanges[path] === 'staged') {
+        this.workingChanges[path] = 'modified';
+      }
+    } else {
+      // discard the working-directory change entirely
+      if (this.workingChanges[path] === 'modified') {
+        delete this.workingChanges[path];
+      }
+    }
+  }, this);
+};
+
+// drop the staged entries after they have been committed
+GitEngine.prototype.clearStagedChanges = function() {
+  Object.keys(this.workingChanges).forEach(function(path) {
+    if (this.workingChanges[path] === 'staged') {
+      delete this.workingChanges[path];
+    }
+  }, this);
+};
+
+// --- git stash: shelve working changes on a stack -------------------------
+GitEngine.prototype.stashPush = function() {
+  var changed = Object.keys(this.workingChanges);
+  if (!changed.length) {
+    throw new CommandResult({
+      msg: intl.str('git-stash-nochanges')
+    });
+  }
+  // snapshot the working directory and clear it
+  var snapshot = {};
+  changed.forEach(function(path) {
+    snapshot[path] = this.workingChanges[path];
+  }, this);
+  this.stashStack.unshift({
+    branch: this.resolveNameNoPrefix('HEAD'),
+    changes: snapshot
+  });
+  this.workingChanges = {};
+  throw new CommandResult({
+    msg: intl.str('git-stash-saved', {
+      branch: this.resolveNameNoPrefix('HEAD')
+    })
+  });
+};
+
+GitEngine.prototype.stashPop = function() {
+  if (!this.stashStack.length) {
+    throw new CommandResult({
+      msg: intl.str('git-stash-empty')
+    });
+  }
+  var entry = this.stashStack.shift();
+  // re-apply the shelved changes onto the current working directory
+  Object.keys(entry.changes).forEach(function(path) {
+    this.workingChanges[path] = entry.changes[path];
+  }, this);
+  // pop shows the resulting working-tree status, just like real git
+  throw new CommandResult({
+    msg: this.getStatusMsg()
+  });
+};
+
+GitEngine.prototype.stashList = function() {
+  if (!this.stashStack.length) {
+    throw new CommandResult({
+      msg: intl.str('git-stash-empty')
+    });
+  }
+  var lines = this.stashStack.map(function(entry, index) {
+    return 'stash@{' + index + '}: WIP on ' + entry.branch;
+  });
+  throw new CommandResult({
+    msg: lines.join('\n')
+  });
+};
+
+// build an authentic-looking `git status` for the modern (engaged) levels
+GitEngine.prototype.getStatusMsg = function() {
+  var lines = [];
+  if (this.getDetachedHead()) {
+    lines.push(intl.str('git-status-detached'));
+  } else {
+    lines.push(intl.str('git-status-onbranch', {
+      branch: this.resolveNameNoPrefix('HEAD')
+    }));
+  }
+
+  var unmerged = this.getUnmergedChanges();
+  var staged = this.getStagedChanges();
+  var unstaged = this.getUnstagedChanges();
+  // real git indents its "(use ...)" hint lines a couple spaces; use &nbsp;
+  // so the indentation survives HTML rendering (regular spaces collapse)
+  var HINT = '&nbsp;&nbsp;';
+
+  if (this.mergeInProgress || this.rebaseInProgress) {
+    var verb = this.rebaseInProgress ? 'rebase' : 'merge';
+    lines.push(intl.str('git-status-unmerged-header'));
+    lines.push(HINT + '(fix conflicts and run "git ' + verb + ' --continue")');
+    lines.push(HINT + '(use "git ' + verb + ' --abort" to abort the ' + verb + ')');
+  }
+  if (unmerged.length) {
+    lines.push('');
+    lines.push(intl.str('git-status-unmerged-hint'));
+    lines.push(HINT + '(use "git add <file>..." to mark resolution)');
+    unmerged.forEach(function(path) {
+      lines.push(TAB + 'both modified:   ' + path);
+    });
+  }
+  if (staged.length) {
+    lines.push('');
+    lines.push(intl.str('git-status-staged-header'));
+    lines.push(HINT + '(use "git restore --staged <file>..." to unstage)');
+    staged.forEach(function(path) {
+      lines.push(TAB + 'modified:   ' + path);
+    });
+  }
+  if (unstaged.length) {
+    lines.push('');
+    lines.push(intl.str('git-status-unstaged-header'));
+    lines.push(HINT + '(use "git add <file>..." to update what will be committed)');
+    lines.push(HINT + '(use "git restore <file>..." to discard changes in the working directory)');
+    unstaged.forEach(function(path) {
+      lines.push(TAB + 'modified:   ' + path);
+    });
+  }
+
+  if (!unmerged.length && !staged.length && !unstaged.length) {
+    lines.push(intl.str('git-status-clean'));
+  } else if (!staged.length && !unmerged.length) {
+    // only unstaged changes -- git prints this reminder at the end
+    lines.push('');
+    lines.push('no changes added to commit (use "git add" and/or "git commit -a")');
+  }
+
+  return lines.join('\n') + '\n';
+};
+
 GitEngine.prototype.status = function() {
-  // UGLY todo
+  if (this.changesModelEngaged) {
+    throw new CommandResult({
+      msg: this.getStatusMsg()
+    });
+  }
+
+  // classic graph-only levels: keep the original playful output untouched
   var lines = [];
   if (this.getDetachedHead()) {
     lines.push(intl.str('git-status-detached'));

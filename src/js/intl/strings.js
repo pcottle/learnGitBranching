@@ -349,6 +349,70 @@ exports.strings = {
     "hu_HU": "Készen áll a commit-ra! (mint mindig ebben a demóban)",
     "az": "Commit etməyə hazır! (bu nümayişdə həmişə olduğu kimi)"
   },
+  "git-status-staged-header": {
+    "__desc__": "git status header for changes that are staged (ready to commit)",
+    "en_US": "Changes to be committed:"
+  },
+  "git-status-unstaged-header": {
+    "__desc__": "git status header for modified files that are not yet staged",
+    "en_US": "Changes not staged for commit:"
+  },
+  "git-status-unmerged-header": {
+    "__desc__": "git status line shown while a merge with conflicts is in progress",
+    "en_US": "You have unmerged paths."
+  },
+  "git-status-unmerged-hint": {
+    "__desc__": "git status header listing files that conflicted during a merge",
+    "en_US": "Unmerged paths:"
+  },
+  "git-status-clean": {
+    "__desc__": "git status line when there is nothing to commit",
+    "en_US": "nothing to commit, working tree clean"
+  },
+  "git-status-nothing-staged": {
+    "__desc__": "shown when git commit is run but nothing has been staged yet",
+    "en_US": "no changes added to commit (stage them first with \"git add <file>\")"
+  },
+  "git-stash-saved": {
+    "__desc__": "shown after git stash shelves the working directory changes",
+    "en_US": "Saved working directory and index state WIP on {branch}"
+  },
+  "git-stash-nochanges": {
+    "__desc__": "shown when git stash is run but there is nothing to stash",
+    "en_US": "No local changes to save"
+  },
+  "git-stash-empty": {
+    "__desc__": "shown when git stash pop/list is run but the stash is empty",
+    "en_US": "No stash entries found."
+  },
+  "git-merge-conflict-file": {
+    "__desc__": "one CONFLICT line of a failed merge, per conflicting file",
+    "en_US": "CONFLICT (content): Merge conflict in {file}"
+  },
+  "git-merge-conflict": {
+    "__desc__": "the summary line shown when a merge stops with conflicts",
+    "en_US": "Automatic merge failed; fix conflicts and then commit the result."
+  },
+  "git-merge-unmerged-paths": {
+    "__desc__": "shown when committing/continuing a merge with conflicts still unresolved",
+    "en_US": "error: you have unresolved conflicts. Mark them resolved with \"git add <file>\" first."
+  },
+  "git-merge-continue-nomerge": {
+    "__desc__": "shown when git merge --continue is run with no merge in progress",
+    "en_US": "fatal: There is no merge in progress (MERGE_HEAD missing)."
+  },
+  "git-merge-abort-nomerge": {
+    "__desc__": "shown when git merge --abort is run with no merge in progress",
+    "en_US": "fatal: There is no merge to abort (MERGE_HEAD missing)."
+  },
+  "git-rebase-conflict": {
+    "__desc__": "summary line shown when a rebase stops with conflicts",
+    "en_US": "error: could not apply your changes. Resolve the conflicts, then run \"git rebase --continue\"."
+  },
+  "git-rebase-nomerge": {
+    "__desc__": "shown when git rebase --continue / --abort is run with no rebase in progress",
+    "en_US": "fatal: No rebase in progress?"
+  },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
     "en_US": "Quick commit. Go Bears!",
