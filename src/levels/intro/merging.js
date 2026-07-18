@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்",
     "tr_TR": "Git'te Merge işlemleri",
-    "hu_HU": "Merge Gitben"
+    "hu_HU": "Merge Gitben",
+    "az": "Git-də Merge (birləşdirmə)"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
@@ -53,7 +54,8 @@ exports.level = {
     "it_IT": "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க",
     "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)",
-    "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)"
+    "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)",
+    "az": "Göstərilən ardıcıllıqla commit etməyi unutma (əvvəl bugFix, sonra main)"
   },
   "disabledMap": {
     "git revert": true
@@ -1779,6 +1781,75 @@ exports.level = {
               "* Mergeld a `bugFix` branchet a `main`-be a `git merge` paranccsal",
               "",
               "*Ne feledd, az \"objective\" paranccsal bármikor újra megjelenítheted ezt a párbeszédablakot!*"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch-lar və Merge",
+              "",
+              "Əla! İndi commit etməyi və branch yaratmağı bilirik. İndi isə iki fərqli branch-dakı işi bir yerə birləşdirməyin nə isə bir yolunu öyrənməliyik. Bu, bizə ayrılıb yeni bir funksiya hazırlamağa, sonra da onu geri birləşdirməyə imkan verəcək.",
+              "",
+              "İşi birləşdirmək üçün nəzərdən keçirəcəyimiz ilk üsul `git merge`-dir. Git-də merge iki fərqli valideyni olan xüsusi bir commit yaradır. İki valideynli commit mahiyyətcə \"bu tərəfdəki valideynin və o biri tərəfdəki valideynin bütün işini, *həmçinin* onların bütün valideynlərini daxil etmək istəyirəm\" deməkdir.",
+              "",
+              "Vizuallarla daha asandır, gəl növbəti səhifədə baxaq."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Burada iki branch-ımız var; hər birinin bir unikal commit-i var. Bu o deməkdir ki, heç bir branch repozitoriyada gördüyümüz \"işin\" hamısını əhatə etmir. Gəl bunu merge ilə düzəldək.",
+              "",
+              "`bugFix` branch-ını `main`-ə `merge` edəcəyik."
+            ],
+            "afterMarkdowns": [
+              "Vay! Bunu gördün? Hər şeydən əvvəl, `main` indi iki valideyni olan bir commit-ə işarə edir. `main`-dən commit ağacı boyunca oxları izləsən, kökə qədər yoldakı hər commit-ə çatarsan. Bu o deməkdir ki, `main` artıq repozitoriyadakı bütün işi ehtiva edir.",
+              "",
+              "Həmçinin, commit-lərin rənglərinin necə dəyişdiyini gördün? Öyrənməyə kömək üçün bir az rəng uyğunlaşdırması əlavə etmişəm. Hər branch-ın unikal rəngi var. Hər commit onu ehtiva edən bütün branch-ların qarışıq rənginə boyanır.",
+              "",
+              "Beləliklə, burada görürük ki, `main` branch-ının rəngi bütün commit-lərə qarışıb, amma `bugFix`-in rəngi qarışmayıb. Gəl bunu düzəldək..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl `main`-i `bugFix`-ə merge edək:"
+            ],
+            "afterMarkdowns": [
+              "`bugFix` `main`-in əcdadı olduğu üçün git-in heç bir iş görməsinə ehtiyac qalmadı; o, sadəcə `bugFix`-i `main`-in bağlı olduğu commit-ə köçürdü.",
+              "",
+              "İndi bütün commit-lər eyni rəngdədir, bu da o deməkdir ki, hər branch repozitoriyadakı bütün işi ehtiva edir! Yaşasın!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü tamamlamaq üçün aşağıdakı addımları yerinə yetir:",
+              "",
+              "* `bugFix` adlı yeni bir branch yarat",
+              "* `git checkout bugFix` ilə `bugFix` branch-ına keç",
+              "* Bir dəfə commit et",
+              "* `git checkout` ilə `main`-ə qayıt",
+              "* Bir dəfə də commit et",
+              "* `git merge` ilə `bugFix` branch-ını `main`-ə merge et",
+              "",
+              "*Unutma, bu dialoqu istənilən vaxt \"objective\" əmri ilə yenidən göstərə bilərsən!*"
             ]
           }
         }
