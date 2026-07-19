@@ -399,7 +399,8 @@ exports.strings = {
     "it_IT": "E' gia la versione più recente!",
     "ta_IN": "ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது!",
     "tr_TR": "Zaten güncel!",
-    "hu_HU": "Már naprakész!"
+    "hu_HU": "Már naprakész!",
+    "az": "Onsuz da ən son vəziyyətdədir!"
   },
   "git-error-origin-fetch-no-ff": {
     "__desc__": "One of the error messages for git",
@@ -425,7 +426,8 @@ exports.strings = {
     "it_IT": "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non può essere eseguito",
     "ta_IN": "உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது",
     "tr_TR": "Origin Branch'iniz, Remote branch ile uyumsuzdur ve `fetch` işlemi gerçekleştirilemez.",
-    "hu_HU": "Az origin ágad nincs szinkronban a távoli ággal, ezért a fetch nem hajtható végre"
+    "hu_HU": "Az origin ágad nincs szinkronban a távoli ággal, ezért a fetch nem hajtható végre",
+    "az": "origin branch-ın remote branch ilə sinxron deyil və fetch yerinə yetirilə bilmir"
   },
   "git-error-origin-push-no-ff": {
     "__desc__": "One of the error messages for git",
@@ -451,7 +453,8 @@ exports.strings = {
     "it_IT": "Il repository remoto è diverso dal tuo repository locale, quindi il caricamento non è un semplice fast forward (e per questo il tuo push è fallito). Per favore esegui pull per scaricare i nuovi cambiamenti dal repository remoto, incorporarli in questo ramo, e provare ancora. Puoi effettuarlo tramite i comandi git pull o git pull --rebase",
     "ta_IN": "தொலைநிலை களஞ்சியம் உங்கள் களஞ்சியத்திலிருந்து வேறுபட்டுள்ளது, எனவே உங்கள் மாற்றங்களை எளிமையான `fast forward` முறையில் பதிவேற்ற இயலாது (இதனால் உங்கள் `push` நிராகரிக்கப்பட்டது). தொலை களஞ்சியத்தில் புதிய மாற்றங்களை `pull` செய்து, அவற்றை இந்த கிளையில் இணைத்து, மீண்டும் முயற்சிக்கவும். நீங்கள் அவ்வாறு `git pull` அல்லது `git pull --rebase` கட்டளை கொண்டு செய்யலாம்",
     "tr_TR": "Uzak depo, yerel deponuzdan sapmış durumda, bu yüzden değişikliklerinizi basit bir fast forward ile yüklemek mümkün değil (bu nedenle push işleminiz reddedildi). Lütfen uzak depodaki yeni değişiklikleri çekin, bunları bu dalda birleştirin ve tekrar deneyin. Bunu git pull veya git pull --rebase komutlarıyla yapabilirsiniz.",
-    "hu_HU": "A távoli tárhely eltért a helyi tárhelytől, ezért a változtatások feltöltése nem egyszerű fast forward (és ezért a push-od vissza lett utasítva). Kérlek pull-old le az új változtatásokat a távoli tárhelyből, építsd be őket ebbe az ágba, és próbáld újra. Ezt megteheted a git pull vagy git pull --rebase paranccsal"
+    "hu_HU": "A távoli tárhely eltért a helyi tárhelytől, ezért a változtatások feltöltése nem egyszerű fast forward (és ezért a push-od vissza lett utasítva). Kérlek pull-old le az új változtatásokat a távoli tárhelyből, építsd be őket ebbe az ágba, és próbáld újra. Ezt megteheted a git pull vagy git pull --rebase paranccsal",
+    "az": "remote repozitoriya sənin lokal repozitoriyandan ayrılıb, ona görə də dəyişikliklərini yükləmək sadə sürətli irəliləmə (fast-forward) deyil (və beləliklə push-un rədd edildi). Zəhmət olmasa remote repozitoriyadakı yeni dəyişiklikləri çəkib endir, onları bu branch-a daxil et və yenidən cəhd et. Bunu git pull və ya git pull --rebase ilə edə bilərsən"
   },
   "git-error-remote-branch": {
     "__desc__": "One of the error messages for git",
@@ -477,7 +480,8 @@ exports.strings = {
     "it_IT": "Non puoi eseguire questo comando su un ramo remoto",
     "ta_IN": "அந்த கட்டளையை நீங்கள் தொலைநிலை கிளையில் இயக்க முடியாது",
     "tr_TR": "Bu komutu uzak bir dalda çalıştırmak mümkün değil",
-    "hu_HU": "Ezt a parancsot nem hajthatod végre egy távoli ágon"
+    "hu_HU": "Ezt a parancsot nem hajthatod végre egy távoli ágon",
+    "az": "Həmin əmri remote branch-da yerinə yetirə bilməzsən"
   },
   "git-error-origin-required": {
     "__desc__": "One of the error messages for git",
@@ -503,7 +507,8 @@ exports.strings = {
     "it_IT": "E' necessario definire origin per questo comando",
     "ta_IN": "அந்த கட்டளைக்கு ஒரு துவக்க மூலம் தேவை",
     "tr_TR": "Bu komut için bir origin gereklidir",
-    "hu_HU": "Ehhez a parancshoz szükséges egy origin"
+    "hu_HU": "Ehhez a parancshoz szükséges egy origin",
+    "az": "Həmin əmr üçün origin tələb olunur"
   },
   "git-error-origin-exists": {
     "__desc__": "One of the error messages for git",
@@ -529,7 +534,8 @@ exports.strings = {
     "it_IT": "Origin già esistente! Non puoi crearne uno nuovo",
     "ta_IN": "துவக்க மூலம் ஒன்று ஏற்கனவே உள்ளது! நீங்கள் மீன்டும் ஒன்றை உருவாக்க முடியாது",
     "tr_TR": "Bir origin zaten mevcut! Yeni bir tane oluşturamazsınız",
-    "hu_HU": "Már létezik egy origin! Nem hozhatsz létre újat"
+    "hu_HU": "Már létezik egy origin! Nem hozhatsz létre újat",
+    "az": "origin onsuz da mövcuddur! Yenisini yarada bilməzsən"
   },
   "git-error-branch": {
     "__desc__": "One of the error messages for git",
@@ -688,7 +694,7 @@ exports.strings = {
     "ta_IN": "இந்த கிளை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...",
     "tr_TR": "Dal zaten güncel",
     "hu_HU": "Az ág már naprakész",
-    "az": "Branch onsuz da günceldir"
+    "az": "Branch onsuz da ən son vəziyyətdədir"
   },
   "git-error-exist": {
     "__desc__": "One of the error messages for git",

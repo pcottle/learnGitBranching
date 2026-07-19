@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Rozbieżna  historia",
     "it_IT": "Storico divergente",
     "tr_TR": "Sapmış Tarihçe",
-    "hu_HU": "Szétágazó előzmények"
+    "hu_HU": "Szétágazó előzmények",
+    "az": "Ayrılmış Tarixçə"
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Przyjrzyj się kolejności na wizualizacji celu",
     "it_IT": "Controlla l'ordinamento dalla schermata dell'obiettivo",
     "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin",
-    "hu_HU": "Nézd meg a sorrendet a cél vizualizációban"
+    "hu_HU": "Nézd meg a sorrendet a cél vizualizációban",
+    "az": "Hədəf vizuallaşdırmasındakı ardıcıllığa bax"
   },
   "startDialog": {
     "en_US": {
@@ -3342,6 +3344,148 @@ exports.level = {
               "* Szimulálj csapatmunkát (1 commit)",
               "* Commitolj valami saját munkát (1 commit)",
               "* Tedd közzé a munkádat *rebase*-sel"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ayrılmış İş",
+              "",
+              "İndiyə qədər başqalarından commit-ləri necə `pull` edib endirməyi və öz dəyişikliklərimizi necə `push` edib yükləməyi gördük. Kifayət qədər sadə görünür, bəs insanlar necə bu qədər çaşa bilər?",
+              "",
+              "Çətinlik repozitoriyanın tarixçəsi *ayrılanda* yaranır. Bunun təfərrüatlarını müzakirə etməzdən əvvəl, gəl bir nümunəyə baxaq..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Təsəvvür et ki, bazar ertəsi bir repozitoriyanı clone edirsən və yan bir funksiya üzərində əl-qol açmağa başlayırsan. Cümə gününə qədər funksiyanı dərc etməyə hazırsan -- amma vay! İş yoldaşların həftə ərzində bir topa kod yazıb ki, bu da sənin funksiyanı köhnəlmiş (və yararsız) edib. Onlar həm də bu commit-ləri paylaşılan remote repozitoriyaya dərc ediblər, ona görə də indi *sənin* işin layihənin artıq aktual olmayan *köhnə* versiyasına əsaslanır.",
+              "",
+              "Bu halda `git push` əmri qeyri-müəyyəndir. `git push` işlətsən, git remote repozitoriyanı bazar ertəsi olduğu vəziyyətə geri qaytarmalıdır? Yeni kodu silmədən sənin kodunu əlavə etməyə çalışmalıdır? Yoxsa sənin dəyişikliklərini tamamilə köhnəldiyi üçün büsbütün nəzərə almamalıdır?",
+              "",
+              "Bu vəziyyətdə (tarixçənin ayrıldığı yerdə) çoxlu qeyri-müəyyənlik olduğu üçün, git sənə dəyişikliklərini `push` etməyə icazə vermir. O, əslində işini paylaşa bilməzdən əvvəl səni remote-un ən son vəziyyətini daxil etməyə məcbur edir."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nə qədər danışıq! Gəl bu vəziyyəti iş başında görək."
+            ],
+            "afterMarkdowns": [
+              "Gördün? Heç nə baş vermədi, çünki əmr uğursuz olur. `git push` uğursuz olur, çünki sənin ən son commit-in `C3` remote-un `C1`-dəki vəziyyətinə əsaslanır. Amma remote o vaxtdan `C2`-yə yenilənib, ona görə də git sənin push-unu rədd edir."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu vəziyyəti necə həll edirsən? Asandır, etməli olduğun tək şey işini remote branch-ının ən son versiyasına əsaslandırmaqdır.",
+              "",
+              "Bunun bir neçə yolu var, amma ən sadəsi işini rebase vasitəsilə köçürməkdir. Gəl davam edək və bunun necə göründüyünə baxaq."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bu dəfə push etməzdən əvvəl rebase etsək..."
+            ],
+            "afterMarkdowns": [
+              "Bum! Remote-un lokal təsvirini `git fetch` ilə yenilədik, remote-dakı yeni dəyişiklikləri əks etdirmək üçün işimizi rebase etdik və sonra onları `git push` ilə push etdik."
+            ],
+            "command": "git fetch; git rebase o/main; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Remote repozitoriya yeniləndikdə işimi yeniləməyin başqa yolları var? Əlbəttə! Gəl eyni şeyə, ancaq bunun əvəzinə `merge` ilə baxaq.",
+              "",
+              "`git merge` işini köçürməsə də (bunun əvəzinə sadəcə bir merge commit-i yaradır), o, git-ə remote-dan bütün dəyişiklikləri daxil etdiyini bildirməyin bir yoludur. Bunun səbəbi odur ki, remote branch indi sənin öz branch-ının *əcdadı*dır, yəni sənin commit-in remote branch-ındakı bütün commit-ləri əks etdirir.",
+              "",
+              "Gəl bunun nümayişinə baxaq..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İndi rebase etmək əvəzinə merge etsək..."
+            ],
+            "afterMarkdowns": [
+              "Bum! Remote-un lokal təsvirini `git fetch` ilə yenilədik, yeni işi öz işimizə *merge etdik* (remote-dakı yeni dəyişiklikləri əks etdirmək üçün) və sonra onları `git push` ilə push etdik."
+            ],
+            "command": "git fetch; git merge o/main; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Möhtəşəm! Bunu bu qədər çox əmr yazmadan edə biləcəyim hər hansı yol var?",
+              "",
+              "Əlbəttə -- artıq bilirsən ki, `git pull` sadəcə fetch və merge üçün qısa yoldur. Yaxşı xəbər budur ki, `git pull --rebase` isə fetch və rebase üçün qısa yoldur!",
+              "",
+              "Gəl bu qısa yol əmrlərini iş başında görək."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Əvvəlcə `--rebase` ilə..."
+            ],
+            "afterMarkdowns": [
+              "Əvvəlki ilə eyni! Sadəcə xeyli qısa."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İndi isə adi `pull` ilə."
+            ],
+            "afterMarkdowns": [
+              "Yenə də, əvvəlki ilə tam eyni!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "fetch, rebase/merge və push etmə iş axını olduqca geniş yayılıb. Gələcək dərslərdə bu iş axınlarının daha mürəkkəb versiyalarını araşdıracağıq, amma hələlik gəl bunu sınayaq.",
+              "",
+              "Bu bölümü həll etmək üçün aşağıdakı addımları at:",
+              "",
+              "* Repozitoriyanı clone et",
+              "* Bir az komanda işini təqlid et (1 commit)",
+              "* Özün bir az iş commit et (1 commit)",
+              "* İşini *rebase* vasitəsilə dərc et"
             ]
           }
         }

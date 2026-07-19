@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Git Fetch",
     "tr_TR": "Git Fetch",
     "ta_IN": "Git Fetch",
-    "hu_HU": "Git fetch"
+    "hu_HU": "Git fetch",
+    "az": "Git Fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Semplicemente git fetch!",
     "tr_TR": "Sadece git fetch komutunu çalıştırın!",
     "ta_IN": "பொதுவாக git fetch நடத்துங்கள்!",
-    "hu_HU": "Csak futtasd a git fetch-et!"
+    "hu_HU": "Csak futtasd a git fetch-et!",
+    "az": "Sadəcə git fetch et!"
   },
   "startDialog": {
     "en_US": {
@@ -1799,6 +1801,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "A szint befejezéséhez egyszerűen futtasd a `git fetch` parancsot, és töltsd le az összes commitot!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Git remote-ları ilə işləmək əslində sadəcə məlumatları digər repozitoriyalara _ötürmək_ və _onlardan almaq_ deməkdir. Commit-ləri qarşılıqlı göndərə bildiyimiz müddətcə, git-in izlədiyi istənilən növ yeniləməni paylaşa bilərik (deməli, işi, yeni faylları, yeni ideyaları, sevgi məktublarını və s. də paylaşa bilərik).",
+              "",
+              "Bu dərsdə remote repozitoriyadan məlumatı necə fetch etməyi öyrənəcəyik -- bu iş üçün əmr də elə münasib şəkildə `git fetch` adlanır.",
+              "",
+              "Görəcəksən ki, remote repozitoriyanın təsvirini yenilədikcə, bizim _remote_ branch-larımız da həmin yeni təsviri əks etdirmək üçün yenilənir. Bu, remote branch-lar haqqındakı əvvəlki dərslə bağlıdır."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch`-in təfərrüatlarına keçməzdən əvvəl, gəl onu iş başında görək! Burada lokal repozitoriyamızda olmayan iki commit saxlayan bir remote repozitoriya var."
+            ],
+            "afterMarkdowns": [
+              "Budur! `C2` və `C3` commit-ləri lokal repozitoriyamıza endirildi və remote branch-ımız `o/main` buna uyğun yeniləndi."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch nə edir",
+              "",
+              "`git fetch` iki əsas addım, yalnız iki əsas addım yerinə yetirir. O:",
+              "",
+              "* remote-da olan, amma lokal repozitoriyamızda olmayan commit-ləri endirir və...",
+              "* remote branch-larımızın hara işarə etdiyini yeniləyir (məsələn, `o/main`)",
+              "",
+              "`git fetch` mahiyyətcə remote repozitoriyanın _lokal_ təsvirini _əsl_ remote repozitoriyanın (hazırkı) görünüşü ilə sinxronlaşdırır.",
+              "",
+              "Əvvəlki dərsdən yadına gəlirsə, demişdik ki, remote branch-lar həmin remote-larla sonuncu dəfə danışdığın _vaxtdan bəri_ remote repozitoriyaların vəziyyətini əks etdirir. `git fetch` məhz bu remote-larla danışmaq üsuludur! Ümid edirəm, remote branch-larla `git fetch` arasındakı əlaqə indi aydındır.",
+              "",
+              "`git fetch` adətən remote repozitoriya ilə İnternet vasitəsilə danışır (`http://` və ya `git://` kimi bir protokol üzərindən).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch nə etmir",
+              "",
+              "Ancaq `git fetch` sənin lokal vəziyyətində heç nəyi dəyişmir. O, `main` branch-ını yeniləmir və fayl sisteminin hazırkı görünüşündə heç nə dəyişmir.",
+              "",
+              "Bunu anlamaq vacibdir, çünki bir çox proqramçı düşünür ki, `git fetch` işlətmək onların lokal işini remote-un vəziyyətinə uyğunlaşdıracaq. O, bunu etmək üçün lazım olan bütün məlumatı endirə bilər, amma əslində sənin lokal fayllarının heç birini dəyişmir. Sonrakı dərslərdə məhz bunu edən əmrləri öyrənəcəyik :D",
+              "",
+              "Beləliklə, son nəticədə `git fetch` işlətməyi bir endirmə addımı kimi düşünə bilərsən."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bölümü bitirmək üçün sadəcə `git fetch` et və bütün commit-ləri endir!"
             ]
           }
         }
