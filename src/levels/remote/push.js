@@ -27,7 +27,8 @@ exports.level = {
     "pl": "Git push",
     "it_IT": "Git Push",
     "tr_TR": "Git Push",
-    "hu_HU": "Git push"
+    "hu_HU": "Git push",
+    "az": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -51,7 +52,8 @@ exports.level = {
     "pl": "Najpierw sklonuj, potem pushuj!",
     "it_IT": "Ricorda di clonare il repository prima di usare push!",
     "tr_TR": "Unutmayın push işlemini yapmadan önce clone işlemini yapmanız gerekiyor!",
-    "hu_HU": "Ne felejtsd el, clone-ozni kell, mielőtt push-olhatsz!"
+    "hu_HU": "Ne felejtsd el, clone-ozni kell, mielőtt push-olhatsz!",
+    "az": "Unutma, push edə bilmək üçün əvvəlcə clone etməlisən!"
   },
   "startDialog": {
     "en_US": {
@@ -1032,6 +1034,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "A szint befejezéséhez egyszerűen ossz meg két új commitot a remote-tal. De tartsd magad, mert ezek a leckék hamarosan sokkal nehezebbek lesznek!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Yaxşı, deməli, remote-dan dəyişiklikləri fetch etdim və onları lokal olaraq öz işimə daxil etdim. Bu, əla-filan... amma _öz_ möhtəşəm işimi başqaları ilə necə paylaşım?",
+              "",
+              "Bir sözlə, paylaşılan işi yükləmək paylaşılan işi endirməyin əksidir. Bəs `git pull`-un əksi nədir? `git push`!",
+              "",
+              "`git push` _sənin_ dəyişikliklərini göstərilən bir remote-a yükləməyə və həmin remote-u yeni commit-lərinlə yeniləməyə cavabdehdir. `git push` tamamlandıqdan sonra, bütün dostların sənin işini remote-dan endirə bilər.",
+              "",
+              "`git push`-u işini \"dərc etmək\" (publish) üçün bir əmr kimi düşünə bilərsən. Onun tezliklə keçəcəyimiz bir sıra incəlikləri var, amma gəl kiçik addımlarla başlayaq...",
+              "",
+              "*qeyd -- arqumentsiz `git push`-un davranışı git-in `push.default` adlanan parametrlərindən birindən asılı olaraq dəyişir. Bu parametrin standart dəyəri işlətdiyin git versiyasından asılıdır, amma biz dərslərimizdə `upstream` dəyərini işlədəcəyik. Bu, o qədər də böyük məsələ deyil, amma öz layihələrində push etməzdən əvvəl parametrlərini yoxlamağa dəyər.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Burada remote-da olmayan bəzi dəyişikliklərimiz var. Gəl onları yükləyək!"
+            ],
+            "afterMarkdowns": [
+              "Budur -- remote `C2` commit-ini aldı, remote-dakı `main` branch-ı `C2`-yə işarə etmək üçün yeniləndi və remote-un bizdəki *öz* təsviri (`o/main`) da yeniləndi. Hər şey sinxrondadır!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü bitirmək üçün sadəcə iki yeni commit-i remote ilə paylaş. Amma özünü hazırla, çünki bu dərslər bir az sonra xeyli çətinləşəcək!"
             ]
           }
         }

@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Argumenty git push -- Głębiej!",
     "it_IT": "Parametri di git push - Espansione!",
     "tr_TR": "Git push argümanları -- Genişletilmiş!",
-    "hu_HU": "Git push argumentumok -- Bővítve!"
+    "hu_HU": "Git push argumentumok -- Bővítve!",
+    "az": "Git push arqumentləri -- Genişləndirilmiş!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Pamiętaj, że możesz się poddać i zobaczyć gotowe rozwiązanie, wpisując \"show solution\" :P",
     "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P",
     "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P",
-    "hu_HU": "Ne feledd, mindig elismerheted a vereséged, és beírhatod: \"show solution\" :P"
+    "hu_HU": "Ne feledd, mindig elismerheted a vereséged, és beírhatod: \"show solution\" :P",
+    "az": "Unutma, məğlubiyyəti qəbul edib \\\"show solution\\\" yaza bilərsən :P"
   },
   "startDialog": {
     "en_US": {
@@ -1668,6 +1670,76 @@ exports.level = {
               "Ehhez a szinthez próbálj meg eljutni a vizualizációban mutatott végállapothoz, és ne felejtsd el a formátumot:",
               "",
               "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<yer>` arqumentinin təfərrüatları",
+              "",
+              "Əvvəlki dərsdən yadına sal: git push üçün `main`-i yer arqumenti kimi göstərəndə, biz həm commit-lərin gələcəyi *mənbəni*, həm də commit-lərin gedəcəyi *təyinatı* göstərdik.",
+              "",
+              "Onda düşünə bilərsən -- bəs mənbə ilə təyinatın fərqli olmasını istəsək? Lokal `foo` branch-ındakı commit-ləri remote-dakı `bar` branch-ına push etmək istəsən?",
+              "",
+              "Təəssüf ki, bu, git-də mümkün deyil... zarafat edirəm! Əlbəttə ki mümkündür :)... git-in olduqca çox çevikliyi var (az qala həddindən artıq).",
+              "",
+              "Gəl növbəti slaydda necə olduğuna baxaq..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<yer>`-in həm mənbəsini, həm də təyinatını göstərmək üçün sadəcə ikisini iki nöqtə ilə birləşdir:",
+              "",
+              "`git push origin <mənbə>:<təyinat>`",
+              "",
+              "Buna adətən iki nöqtəli refspec deyilir. Refspec sadəcə git-in müəyyən edə biləcəyi bir məkanın (məsələn, `foo` branch-ının və ya hətta sadəcə `HEAD~1`-in) qəşəng adıdır.",
+              "",
+              "Mənbə ilə təyinatı ayrı-ayrı göstərməyə başlayanda, remote əmrləri ilə olduqca ustalıqla və dəqiq işləyə bilərsən. Gəl bir nümayişə baxaq!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Unutma, `mənbə` git-in anlayacağı istənilən məkandır:"
+            ],
+            "afterMarkdowns": [
+              "Vay! Bu, olduqca başgicəlləndirici bir əmrdir, amma məntiqlidir -- git `foo^`-u bir məkana çevirdi, remote-da hələ olmayan commit-ləri yüklədi və sonra təyinatı yenilədi."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git clone; git commit; git commit; git checkout -b foo; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bəs push etmək istədiyin təyinat mövcud deyilsə? Problem yoxdur! Sadəcə bir branch adı ver və git remote-da həmin branch-ı sənin üçün yaradacaq."
+            ],
+            "afterMarkdowns": [
+              "Əla, bu, olduqca rahatdır :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git clone; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümdə vizuallaşdırmada göstərilən son hədəf vəziyyətinə çatmağa çalış və bu formatı unutma:",
+              "",
+              "`<mənbə>:<təyinat>`"
             ]
           }
         }

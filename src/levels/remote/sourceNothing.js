@@ -30,7 +30,8 @@ exports.level = {
     "pl": "Źródło nicości",
     "it_IT": "Fonte del nulla",
     "tr_TR": "Hiçliğin kaynağı",
-    "hu_HU": "Semmi forrása"
+    "hu_HU": "Semmi forrása",
+    "az": "Heçliyin mənbəsi"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -55,7 +56,8 @@ exports.level = {
     "pl": "Polecenie branch jest zablokowane na tym poziomie, musisz skorzystać z fetch!",
     "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!",
     "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!",
-    "hu_HU": "A branch parancs le van tiltva ennél a szintnél, tehát a fetch-et kell használnod!"
+    "hu_HU": "A branch parancs le van tiltva ennél a szintnél, tehát a fetch-et kell használnod!",
+    "az": "Bu bölüm üçün branch əmri deaktiv edilib, ona görə də fetch işlətməli olacaqsan!"
   },
   "startDialog": {
     "en_US": {
@@ -1277,6 +1279,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ez egy gyors szint -- csak törölj egy távoli ágat, és hozz létre egy új ágat a `git fetch`-csel a befejezéshez!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<mənbə>`-nin qəribəlikləri",
+              "",
+              "Git `<mənbə>` parametrindən iki qəribə üsulla sui-istifadə edir. Bu iki sui-istifadə ondan qaynaqlanır ki, sən texniki olaraq həm git push, həm də git fetch üçün etibarlı `mənbə` kimi \"heçlik\" göstərə bilərsən. Heçliyi boş bir arqumentlə göstərirsən:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Gəl bunların nə etdiyinə baxaq..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remote branch-a \"heçlik\" push etmək nə edir? Onu silir!"
+            ],
+            "afterMarkdowns": [
+              "Budur, ona \"heçlik\" anlayışını push etməklə remote-dakı `foo` branch-ını uğurla sildik. Bu, bir növ məntiqlidir..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git clone; git fakeTeamwork foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Nəhayət, lokal olaraq bir yerə \"heçlik\" fetch etmək əslində yeni bir branch yaradır."
+            ],
+            "afterMarkdowns": [
+              "Çox qəribə / əcaib, amma nə olacaq ki. Bax, git belə şeydir!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu, qısa bir bölümdür -- bitirmək üçün sadəcə bir remote branch-ı sil və `git fetch` ilə yeni bir branch yarat!"
             ]
           }
         }

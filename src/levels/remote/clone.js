@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Wstęp do klonowania (clone)",
     "it_IT": "Introduzione al clone",
     "tr_TR": "Clone Tanıtımı",
-    "hu_HU": "Clone bevezetés"
+    "hu_HU": "Clone bevezetés",
+    "az": "Clone-a giriş"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Po prostu git clone!",
     "it_IT": "Semplicemente git clone!",
     "tr_TR": "Sadece git clone yapın!",
-    "hu_HU": "Csak git clone!"
+    "hu_HU": "Csak git clone!",
+    "az": "Sadəcə git clone et!"
   },
   "startDialog": {
     "en_US": {
@@ -1356,6 +1358,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "A szint befejezéséhez egyszerűen clone-ozd a meglévő repódat a `git clone` paranccsal. A valódi tanulás a következő leckékben lesz."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote-ları",
+              "",
+              "Remote repozitoriyalar əslində o qədər də mürəkkəb deyil. Bulud hesablamalarının hökm sürdüyü bugünkü dünyada git remote-larının arxasında çoxlu sehr olduğunu düşünmək asandır, amma əslində onlar sadəcə repozitoriyanın başqa bir kompüterdəki nüsxələridir. Adətən bu kompüterlə İnternet vasitəsilə əlaqə saxlaya bilirsən ki, bu da commit-ləri qarşılıqlı şəkildə ötürməyə imkan verir.",
+              "",
+              "Bununla belə, remote repozitoriyaların bir sıra əla xüsusiyyəti var:",
+              "",
+              "- Hər şeydən əvvəl, remote-lar əla ehtiyat nüsxə rolunu oynayır! Lokal git repozitoriyaları faylları əvvəlki vəziyyətə qaytara bilir (bildiyin kimi), amma bütün bu məlumat lokal olaraq saxlanılır. Git repozitoriyanın nüsxələrini başqa kompüterlərdə saxlamaqla, bütün lokal məlumatlarını itirsən belə, qaldığın yerdən davam edə bilərsən.",
+              "",
+              "- Daha da vacibi, remote-lar kod yazmağı sosial edir! İndi ki layihənin bir nüsxəsi başqa yerdə saxlanılır, dostların layihənə çox rahat töhfə verə (və ya sənin son dəyişikliklərini çəkə) bilər.",
+              "",
+              "Remote repozitoriyalar ətrafındakı fəaliyyəti vizuallaşdıran veb saytlardan (məsələn, [GitHub](https://github.com/)) istifadə etmək çox populyarlaşıb, amma remote repozitoriyalar _həmişə_ bu alətlərin təməl dayağı olaraq qalır. Ona görə də onları anlamaq vacibdir!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote yaratmaq üçün əmrimiz",
+              "",
+              "İndiyə qədər Learn Git Branching əsasən _lokal_ repozitoriya işinin əsaslarını (branch yaratmaq, merge, rebase və s.) öyrətməyə yönəlmişdi. Ancaq indi remote repozitoriya işini öyrənmək istədiyimiz üçün, həmin dərslər üçün mühiti quracaq bir əmrə ehtiyacımız var. Həmin əmr `git clone` olacaq.",
+              "",
+              "Texniki olaraq, real dünyada `git clone` remote repozitoriyaların (məsələn, github-dan) _lokal_ nüsxələrini yaratmaq üçün işlədəcəyin əmrdir. Ancaq biz Learn Git Branching-də bu əmri bir az fərqli işlədirik -- `git clone` əslində sənin lokal repozitoriyandan bir remote repozitoriya düzəldir. Düzdür, bu, texniki olaraq real əmrin əks mənasını daşıyır, amma clone etmək ilə remote repozitoriya işi arasında əlaqə qurmağa kömək edir, ona görə də hələlik belə davam edək.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl yavaş başlayaq və sadəcə bir remote repozitoriyanın necə göründüyünə baxaq (bizim vizuallaşdırmada).",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Budur! İndi layihəmizin bir remote repozitoriyası var. Görünüşü olduqca oxşardır, sadəcə fərqi aydın göstərmək üçün bəzi vizual dəyişikliklər var -- sonrakı bölümlərdə bu repozitoriyalar arasında işi necə paylaşdığımızı görəcəksən."
+            ],
+            "command": "git clone",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü bitirmək üçün sadəcə mövcud repozitoriyanı `git clone` et. Əsl öyrənmə növbəti dərslərdə olacaq."
             ]
           }
         }
