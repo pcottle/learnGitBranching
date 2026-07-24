@@ -25,7 +25,8 @@ exports.level = {
     "pl": "Argumenty pull",
     "it_IT": "Parametri di git pull",
     "tr_TR": "Git pull komutunun parametreleri",
-    "hu_HU": "Pull argumentumok"
+    "hu_HU": "Pull argumentumok",
+    "az": "Pull arqumentləri"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
     "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri",
     "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin",
-    "hu_HU": "Ne feledd, a fetch/pull argumentumaival új helyi ágakat hozhatsz létre"
+    "hu_HU": "Ne feledd, a fetch/pull argumentumaival új helyi ágakat hozhatsz létre",
+    "az": "Unutma, fetch/pull arqumentləri ilə yeni lokal branch-lar yarada bilərsən"
   },
   "startDialog": {
     "en_US": {
@@ -1685,6 +1687,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Rendben, a befejezéshez érd el a célvizualizáció állapotát. Néhány commitot le kell töltened, új ágakat kell létrehoznod, és azokat az ágakat be kell merge-elned más ágakba, de nem kell sok parancs hozzá :P"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull arqumentləri",
+              "",
+              "İndi ki `git fetch` və `git push` arqumentləri haqqında bilinməli demək olar ki *hər şeyi* bilirsən, git pull üçün öyrəniləsi az qala heç nə qalmayıb :)",
+              "",
+              "Bunun səbəbi odur ki, git pull son nəticədə *əslində* sadəcə fetch etmək, ardınca da indicə fetch edileni merge etmək üçün qısa yoldur. Onu, *eyni* arqumentlərlə git fetch işlətmək və sonra həmin commit-lərin *düşdüyü yerdə* merge etmək kimi düşünə bilərsən.",
+              "",
+              "Bu, dəlicəsinə mürəkkəb arqumentlər işlədəndə də keçərlidir. Gəl bir neçə nümunəyə baxaq:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Budur git-də bəzi ekvivalent əmrlər:",
+              "",
+              "`git pull origin foo` bununla eynidir:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Və...",
+              "",
+              "`git pull origin bar:bugFix` bununla eynidir:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "Gördün? git pull əslində sadəcə fetch + merge üçün qısa yoldur və git pull-un yeganə əhəmiyyət verdiyi şey commit-lərin harada düşməsidir (fetch zamanı müəyyən etdiyi `təyinat` arqumenti).",
+              "",
+              "Gəl bir nümayişə baxaq:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "fetch ediləcək yeri göstərsək, hər şey fetch-də olduğu kimi baş verir, amma indicə fetch edilən şeyi merge edirik."
+            ],
+            "afterMarkdowns": [
+              "Gördün! `main` göstərməklə commit-ləri həmişəki kimi `o/main`-ə endirdik. Sonra `o/main`-i hazırda checkout etdiyimiz yerə merge etdik ki, bu da lokal `main` branch-ı *deyil*. Məhz buna görə çoxlu branch-ı yeniləmək üçün git pull-u fərqli yerlərdən (eyni arqumentlərlə) bir neçə dəfə işlətmək əslində məntiqli ola bilər."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git clone; git fakeTeamwork; git checkout -b foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mənbə və təyinatla da işləyir? Əlbəttə! Gəl buna baxaq:"
+            ],
+            "afterMarkdowns": [
+              "Vay, bu, bir əmrdə ÇOX iş deməkdir. Lokal olaraq `foo` adlı yeni bir branch yaratdıq, remote-un main-indən commit-ləri həmin `foo` branch-ına endirdik, sonra həmin branch-ı hazırda checkout etdiyimiz `bar` branch-ına merge etdik. 9000-i keçir!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git clone; git fakeTeamwork; git checkout -b bar"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Yaxşı, bitirmək üçün hədəf vizuallaşdırmasının vəziyyətinə çat. Bir neçə commit endirməli, bir neçə yeni branch yaratmalı və həmin branch-ları başqa branch-lara merge etməli olacaqsan, amma bu, çox əmr tələb etməməlidir :P"
             ]
           }
         }

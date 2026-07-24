@@ -28,7 +28,8 @@ exports.level = {
     "pl": "Argumenty git push",
     "it_IT": "Parametri di git push",
     "tr_TR": "Git push argümanları",
-    "hu_HU": "Git push argumentumok"
+    "hu_HU": "Git push argumentumok",
+    "az": "Git push arqumentləri"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -53,7 +54,8 @@ exports.level = {
     "pl": "Możesz wpisać \"objective\", żeby zobaczyć ostatni slajd z każdego poziomu",
     "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\"",
     "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz",
-    "hu_HU": "Mindig megnézheted a párbeszéd utolsó diáját az \"objective\" paranccsal"
+    "hu_HU": "Mindig megnézheted a párbeszéd utolsó diáját az \"objective\" paranccsal",
+    "az": "Dialoqun son slaydına həmişə \\\"objective\\\" ilə baxa bilərsən"
   },
   "startDialog": {
     "en_US": {
@@ -1749,6 +1751,78 @@ exports.level = {
               "Rendben, ehhez a szinthez frissítsük mind a `foo`, mind a `main` ágat a távoliban. A csavar az, hogy ennél a szintnél a `git checkout` le van tiltva!",
               "",
               "*Megjegyzés: A távoli ágak `o/` előtaggal vannak jelölve, mert a teljes `origin/` jelölés nem fér el az UI-ban. Ne aggódj emiatt... egyszerűen használd az `origin`-t a távoli neveként, mint általában.*"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push arqumentləri",
+              "",
+              "Əla! İndi ki remote izləmə branch-larını bilirsən, git push, fetch və pull-un necə işlədiyinin arxasındakı bəzi sirləri açmağa başlaya bilərik. Əmrləri bir-bir nəzərdən keçirəcəyik, amma aralarındakı anlayışlar çox oxşardır.",
+              "",
+              "Əvvəlcə `git push`-a baxacağıq. Remote izləmə dərsində öyrəndin ki, git hazırda checkout edilmiş branch-ın xüsusiyyətlərinə (onun \"izlədiyi\" remote-a) baxaraq push ediləcək remote-u *və* branch-ı müəyyən edirdi. Bu, heç bir arqument göstərilmədikdə olan davranışdır, amma git push istəyə bağlı olaraq bu formada arqumentlər qəbul edə bilər:",
+              "",
+              "`git push <remote> <yer>`"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<yer>` parametri nədir deyirsən? Təfərrüatlara tezliklə dərindən baxacağıq, amma əvvəlcə bir nümunə. Bu əmri vermək:",
+              "",
+              "`git push origin main`",
+              "",
+              "adi dildə belə ifadə olunur:",
+              "",
+              "*Mənim repozitoriyamdakı \"main\" adlı branch-a get, bütün commit-ləri götür, sonra \"origin\" adlı remote-dakı \"main\" branch-ına get. Həmin branch-da çatışmayan commit-ləri yerləşdir və bitirəndə mənə de.*",
+              "",
+              "`main`-i \"yer\" arqumenti kimi göstərməklə, git-ə commit-lərin *haradan gələcəyini* və *hara gedəcəyini* dedik. Bu, mahiyyətcə iki repozitoriya arasında sinxronlaşdırılacaq \"yer\" və ya \"məkan\"dır.",
+              "",
+              "Yadda saxla ki, git-ə bilməli olduğu hər şeyi dediyimiz üçün (hər iki arqumenti göstərməklə), o, harada checkout etdiyimizi tamamilə nəzərə almır!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl arqumentlərin göstərilməsinə dair bir nümunəyə baxaq. Bu nümunədə harada checkout etdiyimizə diqqət et."
+            ],
+            "afterMarkdowns": [
+              "Budur! Həmin arqumentləri göstərdiyimiz üçün remote-dakı `main` yeniləndi."
+            ],
+            "command": "git push origin main",
+            "beforeCommand": "git clone; git commit; git checkout C0"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bəs arqumentləri göstərməsəydik? Nə baş verərdi?"
+            ],
+            "afterMarkdowns": [
+              "Əmr uğursuz olur (gördüyün kimi), çünki `HEAD` remote izləmə branch-ında checkout edilməyib."
+            ],
+            "command": "git push",
+            "beforeCommand": "git clone; git commit; git checkout C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Yaxşı, bu bölümdə gəl remote-dakı həm `foo`-nu, həm də `main`-i yeniləyək. İş orasındadır ki, bu bölüm üçün `git checkout` deaktiv edilib!",
+              "",
+              "*Qeyd: Remote branch-lar `o/` prefiksləri ilə işarələnib, çünki tam `origin/` etiketi bizim interfeysə sığmır. Bu barədə narahat olma... sadəcə həmişəki kimi remote-un adı olaraq `origin` işlət.*"
             ]
           }
         }

@@ -25,7 +25,8 @@ exports.level = {
     "pl": "Pamiętaj, że zawsze możesz skorzystać z poleceń undo i reset",
     "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset",
     "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz.",
-    "hu_HU": "Ne feledd, mindig használhatod az undo vagy a reset parancsokat"
+    "hu_HU": "Ne feledd, mindig használhatod az undo vagy a reset parancsokat",
+    "az": "Main-i Push et!"
   },
   "name": {
     "en_US": "Push Main!",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Wypychanie dla wytrwałych!",
     "it_IT": "Push main!",
     "tr_TR": "Main'i Push Et!",
-    "hu_HU": "Sok feature pusholása"
+    "hu_HU": "Sok feature pusholása",
+    "az": "Unutma, həmişə undo və ya reset əmrlərini işlədə bilərsən"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -1269,6 +1271,59 @@ exports.level = {
               "* A távoli azóta frissült, ezért azt a munkát is be kell építenünk",
               "",
               ":O intenzív! sok sikert, ennek a szintnek a teljesítése nagy lépés."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## feature branch-larını merge etmək",
+              "",
+              "İndi ki fetch, pull və push etməkdə özünü rahat hiss edirsən, gəl bu bacarıqları yeni bir iş axını ilə sınaqdan keçirək.",
+              "",
+              "Böyük layihələrdə proqramçıların bütün işlərini feature branch-larında (`main`-dən ayrılan) görməsi və həmin işi yalnız hazır olduqda inteqrasiya etməsi adi haldır. Bu, əvvəlki dərsə (yan branch-ların remote-a push edildiyi) bənzəyir, amma burada daha bir addım əlavə edirik.",
+              "",
+              "Bəzi proqramçılar yalnız `main` branch-ında olarkən push və pull edir -- beləliklə `main` həmişə remote-dakı (`o/main`) ilə yenilənmiş qalır.",
+              "",
+              "Beləliklə, bu iş axını üçün iki şeyi birləşdiririk:",
+              "",
+              "* feature branch işini `main`-ə inteqrasiya etmək və",
+              "* remote-dan push və pull etmək"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl `main`-i necə yeniləyib işi push etməyin tez bir təkrarına baxaq."
+            ],
+            "afterMarkdowns": [
+              "Burada iki əmr işlətdik ki, onlar:",
+              "",
+              "* işimizi remote-dan gələn yeni commit-lərin üzərinə rebase etdi və",
+              "* işimizi remote-a dərc etdi"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölüm kifayət qədər ağırdır -- həll etmək üçün ümumi plan budur:",
+              "",
+              "* Üç feature branch var -- `side1`, `side2` və `side3`",
+              "* Bu funksiyaların hər birini ardıcıllıqla remote-a push etmək istəyirik",
+              "* Remote o vaxtdan yenilənib, ona görə də həmin işi də daxil etməli olacağıq",
+              "",
+              ":O gərgindir! uğurlar, bu bölümü tamamlamaq böyük bir addımdır."
             ]
           }
         }

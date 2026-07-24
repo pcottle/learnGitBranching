@@ -25,7 +25,8 @@ exports.level = {
     "pl": "Zdalne gałęzie",
     "it_IT": "Rami Remoti",
     "tr_TR": "Uzak Dallar",
-    "hu_HU": "Távoli ágak"
+    "hu_HU": "Távoli ágak",
+    "az": "Remote Branch-lar"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Zwróć uwagę na kolejność -- najpierw zatwierdzaj na main",
     "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!",
     "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!",
-    "hu_HU": "Figyelj a sorrendere -- először a main-en commitolj!"
+    "hu_HU": "Figyelj a sorrendere -- először a main-en commitolj!",
+    "az": "Ardıcıllığa diqqət et -- əvvəlcə main-də commit et!"
   },
   "startDialog": {
     "en_US": {
@@ -1467,6 +1469,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "A szint befejezéséhez commitolj egyszer a `main`-ről, majd egyszer az `o/main` checkout-olása után. Ez segít megérteni, hogyan viselkednek másképp a távoli ágak, és hogy csak a remote állapotának tükrözésére frissülnek."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote Branch-ları",
+              "",
+              "İndi ki `git clone`-u iş başında gördün, gəl əslində nəyin dəyişdiyinə dərindən baxaq.",
+              "",
+              "Bəlkə də ilk diqqət etdiyin şey lokal repozitoriyamızda `o/main` adlı yeni bir branch-ın peyda olmasıdır. Bu tip branch _remote_ branch adlanır; remote branch-ların özünəməxsus xüsusiyyətləri var, çünki onlar unikal bir məqsədə xidmət edir.",
+              "",
+              "Remote branch-lar remote repozitoriyaların _vəziyyətini_ əks etdirir (həmin remote repozitoriyalarla sonuncu dəfə danışdığın vaxtdan bəri). Onlar sənin lokal işinlə ictimai olan iş arasındakı fərqi anlamağa kömək edir -- işini başqaları ilə paylaşmazdan əvvəl atılası vacib bir addım.",
+              "",
+              "Remote branch-ların belə bir özünəməxsus xüsusiyyəti var: onları checkout etdikdə, detached `HEAD` rejiminə keçirilirsən. Git bunu qəsdən edir, çünki bu branch-lar üzərində birbaşa işləyə bilməzsən; başqa yerdə işləməli və sonra işini remote ilə paylaşmalısan (bundan sonra remote branch-ların yenilənəcək).",
+              "",
+              "Aydın olsun deyə: Remote branch-lar sənin _lokal_ repozitoriyandadır, remote repozitoriyada deyil."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `o/` nədir?",
+              "",
+              "Bəlkə də bu remote branch-lardakı öndəki `o/`-un nəyə lazım olduğunu düşünürsən. Yaxşı, remote branch-ların həm də (məcburi) adlandırma qaydası var -- onlar bu formatda göstərilir:",
+              "",
+              "* `<remote adı>/<branch adı>`",
+              "",
+              "Deməli, `o/main` adlı branch-a baxsan, branch adı `main`, remote-un adı isə `o`-dur.",
+              "",
+              "Əslində əksər proqramçılar əsas remote-larını `o` yox, `origin` adlandırır. Bu o qədər geniş yayılıb ki, repozitoriyanı `git clone` etdikdə git sənin remote-unu avtomatik `origin` adlandırır.",
+              "",
+              "Təəssüf ki, `origin`-in tam adı bizim interfeysə sığmır, ona görə də qısa olaraq `o` işlədirik :( Sadəcə yadda saxla: əsl git işlədəndə remote-un çox güman ki `origin` adlanacaq!",
+              "",
+              "Bu, mənimsəniləsi çox şeydir, ona görə də gəl bütün bunları iş başında görək."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl bir remote branch-ı checkout edək və nə baş verdiyinə baxaq."
+            ],
+            "afterMarkdowns": [
+              "Gördüyün kimi, git bizi detached `HEAD` rejiminə keçirdi və yeni commit əlavə etdikdə `o/main`-i yeniləmədi. Bunun səbəbi odur ki, `o/main` yalnız remote yeniləndikdə yenilənəcək."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü bitirmək üçün bir dəfə `main`-dən commit et, bir dəfə də `o/main`-i checkout etdikdən sonra commit et. Bu, remote branch-ların necə fərqli davrandığını və yalnız remote-un vəziyyətini əks etdirmək üçün yeniləndiyini yaxşı başa düşməyə kömək edəcək."
             ]
           }
         }

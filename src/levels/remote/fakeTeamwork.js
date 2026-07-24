@@ -25,7 +25,8 @@ exports.level = {
     "pl": "Symulacja pracy zespołowej",
     "it_IT": "Simulare il lavoro di squadra",
     "tr_TR": "Takım Çalışması Simülasyonu",
-    "hu_HU": "Csapatmunka szimulálása"
+    "hu_HU": "Csapatmunka szimulálása",
+    "az": "Komanda İşini Təqlid Etmək"
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Pamiętaj, że możesz określić liczbę symulowanych commitów",
     "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare",
     "tr_TR": "Kaç commit oluşturulacağını belirtebileceğinizi unutmayın",
-    "hu_HU": "Emlékezz, megadhatod a szimulált commitok számát"
+    "hu_HU": "Emlékezz, megadhatod a szimulált commitok számát",
+    "az": "Unutma, təqlid ediləcək commit-lərin sayını göstərə bilərsən"
   },
   "startDialog": {
     "en_US": {
@@ -1292,6 +1294,60 @@ exports.level = {
               "A közelgő szintek elég nehezek lesznek, szóval többet kérünk tőled ennél a szintnél.",
               "",
               "Hozz létre egy remote-ot (`git clone`-nal), szimulálj néhány változtatást azon a remote-on, adj hozzá egy helyi commitot, majd töltsd le a remote változtatásait és merge-eld azokat. Ez olyan, mint néhány lecke egyben!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Əməkdaşlığı simulyasiya etmək",
+              "",
+              "Məsələ burasındadır ki -- qarşıdakı bəzi dərslər üçün remote-da edilən dəyişiklikləri necə çəkib endirməyi sənə öyrətməliyik.",
+              "",
+              "Bu o deməkdir ki, biz mahiyyətcə remote-un sənin iş yoldaşlarından / dostlarından / əməkdaşlarından biri tərəfindən — bəzən müəyyən bir branch-da və ya müəyyən sayda commit-lə — yeniləndiyini \"uydurmalıyıq\".",
+              "",
+              "Bunun üçün adına tam uyğun gələn `git fakeTeamwork` əmrini təqdim etdik! O, adından da göründüyü kimi olduqca aydındır, gəl bir nümayişə baxaq..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork`-in standart davranışı sadəcə main-də bir commit yerləşdirməkdir."
+            ],
+            "afterMarkdowns": [
+              "Budur -- remote yeni bir commit-lə yeniləndi, biz isə hələ `git fetch` işlətmədiyimiz üçün həmin commit-i endirməmişik."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Əmrin sonuna əlavə edərək commit-lərin sayını və ya branch-ı da göstərə bilərsən."
+            ],
+            "afterMarkdowns": [
+              "Bir əmrlə komanda yoldaşının remote-umuzdakı `foo` branch-ına üç commit push etməsini simulyasiya etdik."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Qarşıdakı bölümlər kifayət qədər çətin olacaq, ona görə də bu bölümdə səndən daha çox şey istəyirik.",
+              "",
+              "Davam et: bir remote yarat (`git clone` ilə), həmin remote-da bəzi dəyişiklikləri təqlid et, bir lokal commit əlavə et, sonra remote dəyişikliklərini çəkib endir və onları merge et. Bu, bir neçə dərs bir arada kimidir!"
             ]
           }
         }

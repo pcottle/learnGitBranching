@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Śledzenie zdalnych repo",
     "it_IT": "Tracciamento remoto",
     "tr_TR": "Uzaktan İzleme",
-    "hu_HU": "Távoli követés"
+    "hu_HU": "Távoli követés",
+    "az": "Remote İzləmə"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Pamiętaj, zdalne repo można śledzić na dwa sposoby!",
     "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!",
     "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!",
-    "hu_HU": "Ne feledd, a távoli követés beállításának két módja van!"
+    "hu_HU": "Ne feledd, a távoli követés beállításának két módja van!",
+    "az": "Unutma, remote izləməni qurmağın iki yolu var!"
   },
   "startDialog": {
     "en_US": {
@@ -2764,6 +2766,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Rendben! Ehhez a szinthez pusholjuk a munkát a távoli `main` ágra, miközben *nem* a helyi `main`-en vagyunk checkoutolva. Ehelyett hozz létre egy `side` nevű ágat, amelyet a céldiagram mutat."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Remote-izləmə branch-ları",
+              "",
+              "Son bir neçə dərsdə \"sehrli\" görünə biləcək məqamlardan biri odur ki, git `main` branch-ının `o/main` ilə əlaqəli olduğunu bilirdi. Düzdür, bu branch-ların adları oxşardır və remote-dakı `main` branch-ını lokal `main` branch-ına bağlamaq məntiqli görünə bilər, amma bu əlaqə iki ssenaridə aydın şəkildə özünü göstərir:",
+              "",
+              "* pull əməliyyatı zamanı commit-lər `o/main`-ə endirilir və sonra `main` branch-ına *merge edilir*. Merge-in nəzərdə tutulan hədəfi məhz bu əlaqədən müəyyən edilir.",
+              "* push əməliyyatı zamanı `main` branch-ındakı iş remote-un `main` branch-ına push edildi (o da lokal olaraq `o/main` kimi təmsil olunurdu). Push-un *təyinat yeri* `main` ilə `o/main` arasındakı əlaqədən müəyyən edilir.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote izləmə",
+              "",
+              "Qısası, `main` və `o/main` arasındakı bu əlaqə sadəcə branch-ların \"remote izləmə\" xüsusiyyəti ilə izah olunur. `main` branch-ı `o/main`-i izləməyə qurulub -- bu o deməkdir ki, `main` branch-ı üçün nəzərdə tutulan bir merge hədəfi və nəzərdə tutulan bir push təyinat yeri var.",
+              "",
+              "Bəlkə də bu xüsusiyyətin `main` branch-ında necə təyin olunduğunu düşünürsən, axı onu göstərmək üçün heç bir əmr işlətmədin. Yaxşı, repozitoriyanı git ilə clone etdikdə, bu xüsusiyyət əslində sənin üçün avtomatik təyin olunur. ",
+              "",
+              "clone zamanı git remote-dakı hər branch üçün bir remote branch yaradır (yəni `o/main` kimi branch-lar). Sonra remote-da hazırda aktiv olan branch-ı izləyən bir lokal branch yaradır ki, bu da əksər hallarda `main` olur.",
+              "",
+              "git clone tamamlandıqdan sonra yalnız bir lokal branch-ın olur (ki başın qarışmasın), amma remote-dakı bütün fərqli branch-ları görə bilirsən (əgər çox maraqlanırsansa). İkisi də bir yerdə!",
+              "",
+              "Bu həm də clone edərkən niyə aşağıdakı əmr çıxışını görə biləcəyini izah edir:",
+              "",
+              "    lokal branch \"main\" remote branch \"o/main\"-i izləməyə quruldu"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Bunu özüm təyin edə bilərəmmi?",
+              "",
+              "Bəli, edə bilərsən! İstənilən branch-ı `o/main`-i izləməyə qura bilərsən və bunu etsən, həmin branch-ın da `main` ilə eyni nəzərdə tutulan push təyinat yeri və merge hədəfi olacaq. Bu o deməkdir ki, `totallyNotMain` adlı bir branch-da `git push` işlədib işini remote-dakı `main` branch-ına push edə bilərsən!",
+              "",
+              "Bu xüsusiyyəti təyin etməyin iki yolu var. Birincisi, remote branch-ı göstərilən ref kimi işlədərək yeni bir branch-ı checkout etməkdir. Bunu işlətmək:",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "`totallyNotMain` adlı yeni bir branch yaradır və onu `o/main`-i izləməyə qurur."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Danışıq bəsdir, gəl bir nümayişə baxaq! `foo` adlı yeni bir branch-ı checkout edəcəyik və onu remote-dakı `main`-i izləməyə quracağıq."
+            ],
+            "afterMarkdowns": [
+              "Gördüyün kimi, `foo` branch-ını yeniləmək üçün `o/main`-in nəzərdə tutulan merge hədəfindən istifadə etdik. Diqqət et ki, main yenilənmir!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bu, git push üçün də keçərlidir."
+            ],
+            "afterMarkdowns": [
+              "Bum. Branch-ımızın adı tamam başqa bir şey olsa da, işimizi remote-dakı `main`-ə push etdik."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Yol №2",
+              "",
+              "Bir branch-da remote izləməni təyin etməyin başqa bir yolu sadəcə `git branch -u` seçimini işlətməkdir. Bunu işlətmək:",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "`foo` branch-ını `o/main`-i izləməyə quracaq. Əgər `foo` hazırda checkout edilibsə, onu heç yazmaya da bilərsən:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl remote izləməni göstərməyin bu digər yoluna tezcə baxaq..."
+            ],
+            "afterMarkdowns": [
+              "Əvvəlki ilə eyni, sadəcə daha konkret bir əmr. Əla!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git clone; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Yaxşı! Bu bölümdə gəl lokal olaraq `main`-də *olmadan* işi remote-dakı `main` branch-ına push edək. Bunun əvəzinə, hədəf diaqramında göstərilən `side` adlı bir branch yaratmalısan."
             ]
           }
         }

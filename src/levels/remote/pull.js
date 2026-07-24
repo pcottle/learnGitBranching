@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Git pull",
     "it_IT": "Git Pull",
     "tr_TR": "Git Pull",
-    "hu_HU": "Git pull"
+    "hu_HU": "Git pull",
+    "az": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Po prostu uruchom git pull!",
     "it_IT": "Semplicemente git pull!",
     "tr_TR": "Sadece git pull komutunu çalıştırın!",
-    "hu_HU": "Csak futtasd a git pull-t!"
+    "hu_HU": "Csak futtasd a git pull-t!",
+    "az": "Sadəcə git pull et!"
   },
   "startDialog": {
     "en_US": {
@@ -1405,6 +1407,65 @@ exports.level = {
               "A `git pull` részleteit később fogjuk megvizsgálni (beleértve az opciókat és argumentumokat), de egyelőre próbáljuk ki a szinten.",
               "",
               "Emlékezz -- valójában megoldhatod ezt a szintet csak `fetch` és `merge`-gel is, de ez egy extra parancsba kerül :P"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "İndi ki `git fetch` ilə remote repozitoriyadan məlumatı necə fetch etməyi gördük, gəl həmin dəyişiklikləri əks etdirmək üçün işimizi yeniləyək!",
+              "",
+              "Bunu etməyin əslində bir çox yolu var -- yeni commit-lər lokal olaraq mövcud olan kimi, onları sanki başqa branch-lardakı adi commit-lərmiş kimi daxil edə bilərsən. Bu o deməkdir ki, aşağıdakı kimi əmrləri işlədə bilərsən:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* və s., və s.",
+              "",
+              "Əslində, remote dəyişikliklərini *fetch edib* sonra onları *merge etmək* iş axını o qədər geniş yayılıb ki, git hər ikisini eyni anda edən bir əmr təqdim edir! Həmin əmr `git pull`-dur."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl əvvəlcə ardıcıl işlədilən bir `fetch` və bir `merge`-ə baxaq."
+            ],
+            "afterMarkdowns": [
+              "Bum -- `fetch` ilə `C3`-ü endirdik və sonra həmin işi `git merge o/main` ilə merge etdik. İndi `main` branch-ımız remote-dan (bu halda `origin` adlanan) gələn yeni işi əks etdirir."
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bunun əvəzinə `git pull` işlətsəydik nə olardı?"
+            ],
+            "afterMarkdowns": [
+              "Eyni şey! Bu, aydın şəkildə göstərməlidir ki, `git pull` mahiyyətcə `git fetch`, ardınca da indicə fetch edilmiş branch-ı merge etməyin qısa yoludur."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull`-un təfərrüatlarını (o cümlədən seçimləri və arqumentləri) sonra araşdıracağıq, amma hələlik gəl onu bölümdə sınayaq.",
+              "",
+              "Unutma -- bu bölümü əslində təkcə `fetch` və `merge` ilə həll edə bilərsən, amma bu, sənə bir əlavə əmrə başa gələcək :P"
             ]
           }
         }
