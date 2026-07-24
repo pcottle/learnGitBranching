@@ -24,7 +24,8 @@ exports.level = {
     "vi": "Tạo những nhánh tính năng từ nhánh cục bộ trước khi trả chúng về lại giống như o/main",
     "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto",
     "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun.",
-    "hu_HU": "Hozd létre a feature ágat a helyi main-ből, mielőtt visszaállítod azt az origin/main-nel azonos állapotba"
+    "hu_HU": "Hozd létre a feature ágat a helyi main-ből, mielőtt visszaállítod azt az origin/main-nel azonos állapotba",
+    "az": "Kilidli Main"
   },
   "name": {
     "en_US": "Locked Main",
@@ -48,7 +49,8 @@ exports.level = {
     "vi": "Nhánh chính bị khóa (Locked Main)",
     "it_IT": "Main bloccato",
     "tr_TR": "Kilitli Main",
-    "hu_HU": "Zárolt main"
+    "hu_HU": "Zárolt main",
+    "az": "Lokal main-i origin-in main-i ilə eyni olması üçün geri sıfırlamazdan əvvəl feature branch-ını ondan yarat"
   },
   "startDialog": {
     "en_US": {
@@ -937,6 +939,42 @@ exports.level = {
               "## A megoldás",
               "",
               "Hozz létre egy másik feature nevű ágat, és pushold azt a távoliba. Állítsd vissza a main-edet is, hogy szinkronban legyen a távolival, különben problémák adódhatnak a következő pull alkalmával, ha valaki más commitja ütközik a tiéddel."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Rədd Etdi!",
+              "",
+              "Böyük bir komandada işləyirsənsə, çox güman ki main kilidlidir və dəyişiklikləri merge etmək üçün hansısa Pull Request prosesini tələb edir. Lokal olaraq birbaşa main-ə commit edib push etməyə çalışsan, buna bənzər bir mesajla qarşılaşacaqsan:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Niyə rədd edildi?",
+              "",
+              "Remote birbaşa main-ə commit-lərin push edilməsini rədd etdi, çünki main-dəki siyasət bunun əvəzinə pull request-lərin işlədilməsini tələb edir.",
+              "",
+              "Sən branch yaradıb həmin branch-ı push edərək pull request açmaqla prosesə əməl etmək istəyirdin, amma unutdun və birbaşa main-ə commit etdin. İndi çıxılmaz vəziyyətdəsən və dəyişikliklərini push edə bilmirsən."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Həll",
+              "",
+              "feature adlı başqa bir branch yarat və onu remote-a push et. Həmçinin main-ini remote ilə sinxron olması üçün geri sıfırla, əks halda növbəti dəfə pull etdikdə başqasının commit-i səninkiylə konflikt yarada bilər."
             ]
           }
         }

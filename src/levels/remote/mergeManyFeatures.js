@@ -24,7 +24,8 @@ exports.level = {
     "pl": "Scalanie z remote",
     "it_IT": "Fondere in remoto",
     "tr_TR": "Uzak Sunucularla Birleştirme",
-    "hu_HU": "Merge a távolival"
+    "hu_HU": "Merge a távolival",
+    "az": "Remote-larla merge etmək"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -49,7 +50,8 @@ exports.level = {
     "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!",
     "it_IT": "Fai attenzione all'albero nell'obiettivo",
     "tr_TR": "Hedef ağacına dikkat et!",
-    "hu_HU": "Figyelj a célgráfra!"
+    "hu_HU": "Figyelj a célgráfra!",
+    "az": "Hədəf ağacına diqqət et!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -1082,6 +1084,50 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ehhez a szinthez próbáljuk meg megoldani az előző szintet, de *merge*-dzsel. Kicsit bonyolult lehet, de jól szemlélteti a lényeget."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Niyə merge yox?",
+              "",
+              "Remote-a yeni yeniləmələri push etmək üçün etməli olduğun tək şey remote-dan ən son dəyişiklikləri *daxil etmək*dir. Bu o deməkdir ki, remote branch-ı (məsələn, `o/main`) ya rebase, ya da merge edə bilərsən.",
+              "",
+              "Bəs hər iki üsulu edə bilirsənsə, dərslər indiyə qədər niyə əsasən rebase-ə yönəlib? Remote-larla işləyəndə `merge` niyə sevilmir?"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Proqramçı icmasında merge ilə rebase arasındakı güzəştlər barədə çoxlu mübahisə var. Rebase-in ümumi üstünlükləri / çatışmazlıqları budur:",
+              "",
+              "Üstünlüklər:",
+              "",
+              "* Rebase commit ağacını çox təmiz göstərir, çünki hər şey düz bir xətdə olur",
+              "",
+              "Çatışmazlıqlar:",
+              "",
+              "* Rebase commit ağacının (görünən) tarixçəsini dəyişir.",
+              "",
+              "Məsələn, `C1` commit-i `C3`-ün *o tərəfinə* rebase edilə bilər. Onda elə görünür ki, `C1'` üçün iş `C3`-dən sonra gəlib, halbuki əslində ondan əvvəl tamamlanıb.",
+              "",
+              "Bəzi proqramçılar tarixçəni qorumağı sevir və buna görə də merge-ə üstünlük verir. Digərləri (mənim kimi) təmiz commit ağacına sahib olmağı sevir və rebase-ə üstünlük verir. Hər şey zövqdən asılıdır :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Gəl əvvəlki bölümü bu dəfə *merge* ilə həll etməyə çalışaq. Bir az qarışıq ola bilər, amma məsələni yaxşı əyani göstərir."
             ]
           }
         }

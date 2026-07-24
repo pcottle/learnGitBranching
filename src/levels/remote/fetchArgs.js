@@ -25,7 +25,8 @@ exports.level = {
     "pl": "Argumenty fetch",
     "it_IT": "Parametri di git fetch",
     "tr_TR": "Fetch argümanları",
-    "hu_HU": "Fetch argumentumok"
+    "hu_HU": "Fetch argumentumok",
+    "az": "Fetch arqumentləri"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -50,7 +51,8 @@ exports.level = {
     "pl": "Zauważ, że identyfikatory commitów mogły zostać zamienione! Slajdy możesz przeczytać jeszcze raz po wpisaniu: \"help level\"",
     "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\"",
     "tr_TR": "Commit ID'lerinin nasıl değiştiğine dikkat edin! \"help level\" komutunu kullanarak slaytları tekrar okuyabilirsiniz.",
-    "hu_HU": "Figyelj, hogyan cserélhetek helyet a commit azonosítók! A diákat újra elolvashatod a \"help level\" paranccsal"
+    "hu_HU": "Figyelj, hogyan cserélhetek helyet a commit azonosítók! A diákat újra elolvashatod a \"help level\" paranccsal",
+    "az": "Commit id-lərinin yerlərini necə dəyişə biləcəyinə diqqət et! Slaydları \\\"help level\\\" ilə yenidən oxuya bilərsən"
   },
   "startDialog": {
     "en_US": {
@@ -2890,6 +2892,128 @@ exports.level = {
               "Rendben, elég volt a beszédből! Ennek a szintnek a befejezéséhez csak a célvizualizációban meghatározott commitokat fetcheld le. Légy kreatív azokkal a parancsokkal!",
               "",
               "Mindkét fetch parancshoz meg kell adnod a forrást és a célt. Figyelj a célvizualizációra, mert az azonosítók fel lehetnek cserélve!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git fetch arqumentləri",
+              "",
+              "Deməli, indicə git push arqumentləri, bu gözəl `<yer>` parametri və hətta iki nöqtəli refspec-lər (`<mənbə>:<təyinat>`) haqqında hər şeyi öyrəndik. Bütün bu bilikləri `git fetch` üçün də işlədə bilərikmi?",
+              "",
+              "Əlbəttə! `git fetch`-in arqumentləri əslində `git push`-unkilərə *çox, çox* oxşardır. Eyni növ anlayışlardır, sadəcə əks istiqamətdə tətbiq olunur (çünki indi commit-ləri yükləmək əvəzinə endirirsən).",
+              "",
+              "Gəl anlayışları bir-bir nəzərdən keçirək..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<yer>` parametri",
+              "",
+              "git fetch ilə aşağıdakı əmrdəki kimi bir yer göstərsən:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git remote-dakı `foo` branch-ına gedəcək, lokal olaraq mövcud olmayan bütün commit-ləri götürəcək və sonra onları lokal `o/foo` branch-ına yerləşdirəcək.",
+              "",
+              "Gəl bunu iş başında görək (sadəcə təkrar olaraq)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bir yer göstərməklə..."
+            ],
+            "afterMarkdowns": [
+              "Yalnız `foo`-dan commit-ləri endirir və onları `o/foo`-ya yerləşdiririk."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git clone; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Düşünə bilərsən -- git niyə həmin commit-ləri sadəcə mənim lokal `foo` branch-ıma yox, `o/foo` remote branch-ına yerləşdirdi? Mən elə bilirdim ki, `<yer>` parametri həm lokal, həm də remote-da mövcud olan bir yerdir?",
+              "",
+              "Bax, git bu halda xüsusi bir istisna edir, çünki `foo` branch-ında korlamaq istəmədiyin iş ola bilər!! Bu, `git fetch` haqqındakı əvvəlki dərslə bağlıdır -- o, sənin lokal remote-olmayan branch-larını yeniləmir, yalnız commit-ləri endirir (ki sonra onları nəzərdən keçirə / merge edə biləsən)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Yaxşı, onda `<mənbə>:<təyinat>` ilə həm mənbəni, həm də təyinatı açıq şəkildə təyin etsəm nə baş verir?\"",
+              "",
+              "Commit-ləri *birbaşa* lokal branch-a fetch etmək üçün kifayət qədər həvəslisənsə, bəli, bunu iki nöqtəli refspec ilə göstərə bilərsən. Checkout edilmiş branch-a commit fetch edə bilməzsən, amma başqa hallarda git buna icazə verəcək.",
+              "",
+              "Amma diqqət etməli olduğun yeganə məqam budur -- `<mənbə>` indi *remote*-dakı bir yerdir, `<təyinat>` isə həmin commit-ləri qoymaq üçün *lokal* bir yerdir. Bu, git push-un tam əksidir və bu məntiqlidir, çünki məlumatı əks istiqamətdə ötürürük!",
+              "",
+              "Bununla belə, proqramçılar praktikada bunu nadir hallarda edir. Mən bunu əsasən `fetch` ilə `push`-un nə qədər oxşar, sadəcə əks istiqamətdə olduğunu göstərmək üçün təqdim edirəm."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl bu dəliliyi iş başında görək:"
+            ],
+            "afterMarkdowns": [
+              "Vay! Bax, git `C2`-ni origin-dəki bir yer kimi müəyyən etdi və sonra həmin commit-ləri `bar`-a (ki bu, lokal branch idi) endirdi."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git clone; git fakeTeamwork; git branch bar"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bəs əmri işlətməzdən əvvəl təyinat mövcud deyilsə? Gəl son slayda baxaq, amma `bar` əvvəlcədən mövcud olmadan."
+            ],
+            "afterMarkdowns": [
+              "Bax, bu, TAM git push kimidir. Git fetch etməzdən əvvəl təyinatı lokal olaraq yaratdı, necə ki git push etməzdən əvvəl təyinatı remote-da yaradır (əgər mövcud deyilsə)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git clone; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Arqument yoxdur?",
+              "",
+              "`git fetch` heç bir arqument almasa, sadəcə remote-dan bütün commit-ləri bütün remote branch-larına endirir..."
+            ],
+            "afterMarkdowns": [
+              "Kifayət qədər sadədir, amma bir dəfə nəzərdən keçirməyə dəyər."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git clone; git fakeTeamwork foo 2; git fakeTeamwork main 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Yaxşı, danışıq bəsdir! Bu bölümü bitirmək üçün hədəf vizuallaşdırmasında göstərilən commit-ləri fetch et. Həmin əmrlərlə bir az ustalıq göstər!",
+              "",
+              "Hər iki fetch əmri üçün mənbə və təyinatı göstərməli olacaqsan. Hədəf vizuallaşdırmasına diqqət et, çünki ID-lər yerlərini dəyişə bilər!"
             ]
           }
         }
