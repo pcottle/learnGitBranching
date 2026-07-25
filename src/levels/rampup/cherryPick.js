@@ -10,7 +10,7 @@ exports.level = {
     "fr_FR": "Introduction à cherry-pick",
     "en_US": "Cherry-pick Intro",
     "fa": "معرفی Cherry-pick",
-    "de_DE": "Einführung Cherry-Picking",
+    "de_DE": "Einführung in Cherry-pick",
     "ja": "cherry-pick入門",
     "es_AR": "Introducción a cherry-pick",
     "es_ES": "Introducción a cherry-pick",
@@ -636,7 +636,7 @@ exports.level = {
             "markdowns": [
               "## Inhalte verschieben",
               "",
-              "Bis jetzt haben wir uns die Grundlagen von Git angeschaut -- comitten, verzweigen und sich im Commit-Baum bewegen. Nur damit lässt sich schon 90% der Macht von Git-Repositorys nutzen und die meisten Anforderungen von Entwicklern erfüllen.",
+              "Bis jetzt haben wir uns die Grundlagen von Git angeschaut -- committen, verzweigen und sich im Commit-Baum bewegen. Nur damit lässt sich schon 90% der Macht von Git-Repositorys nutzen und die meisten Anforderungen von Entwicklern erfüllen.",
               "",
               "Die übrigen 10% jedoch können in komplexeren Abläufen sehr hilfreich sein (oder wenn man sich in eine schwierige Lage manövriert hat). Das nächste was wir uns anschauen, ist, Inhalte durch den Commit-Baum zu schieben. Es gibt dem Entwickler die Möglichkeit in präziser, eloquenter Manier zu sagen \"Ich will diese Inhalte hier und diese dort haben\".",
               "",
@@ -678,7 +678,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu schaffen, musst du einfach nur einige Commits aus den drei gezeigten Branches in den `main` kopieren. Der Zielbaum zeigt dir, welche.",
+              "Um dieses Level zu schaffen, musst du einfach nur einige Commits aus den drei gezeigten Branches in den `main` kopieren. Der Zielbaum zeigt dir, welche.",
               ""
             ]
           }

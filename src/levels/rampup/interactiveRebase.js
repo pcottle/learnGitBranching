@@ -8,7 +8,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C5\",\"id\":\"main\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
-    "fa": "می‌توانید از نام شاخه‌ها یا ارجاعات نسبی (HEAD~) برای تعیین هدف rebase استفاده کنید",
+    "fa": "می‌تونی از شاخه‌ها یا ارجاعات نسبی (HEAD~) برای تعیین هدف rebase استفاده کنی",
     "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_ES": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
     "es_MX": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
@@ -40,7 +40,7 @@ exports.level = {
     "es_MX": "Introducción al rebase interactivo",
     "pt_BR": "Introdução ao rebase interativo",
     "gl": "Introducción ó rebase interativo",
-    "de_DE": "Einführung Interaktives Rebase",
+    "de_DE": "Einführung in Interaktives Rebase",
     "ja": "インタラクティブrebase入門",
     "fr_FR": "Introduction au rebase interactif",
     "zh_CN": "交互式 rebase",
@@ -157,7 +157,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "وقتی کادر گفتگوی interactive rebase باز می‌شود، شما در برنامه آموزشی ما امکان انجام دو کار را دارید:",
+              "وقتی کادر گفتگوی interactive rebase باز می‌شود، می‌تونی دوتا کار انجام بدی:",
               "",
               "* می‌توانید ترتیب کامیت‌ها را به سادگی با تغییر ترتیب آنها در رابط کاربری (از طریق کشیدن و رها کردن با ماوس) تغییر دهید.",
               "* می‌توانید انتخاب کنید که همه کامیت‌ها را نگه دارید یا برخی از آنها را حذف کنید. وقتی کادر گفتگو باز می‌شود، هر کامیت با فعال بودن دکمه `pick` در کنارش برای گنجانده شدن تنظیم شده است. برای حذف یک کامیت، دکمه `pick` آن را خاموش کنید.",
@@ -185,7 +185,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "برای پایان دادن به این مرحله، یک interactive rebase انجام دهید و به ترتیبی که در تصویرسازی هدف نشان داده شده برسید. به یاد داشته باشید که همیشه می‌توانید برای اصلاح اشتباهات از `undo` یا `reset` استفاده کنید :D"
+              "برای پایان دادن به این مرحله، یک interactive rebase انجام بده و به ترتیبی که در تصویرسازی هدف نشان داده شده برس. یادت باشه که همیشه می‌تونی برای اصلاح اشتباهات از `undo` یا `reset` استفاده کنی :D"
             ]
           }
         }
