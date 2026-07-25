@@ -38,7 +38,8 @@ exports.level = {
     "pl": "Wzięcie tylko 1 commita",
     "ta_IN": "ஒரே ஒரு commit மட்டும் எடுப்பது",
     "tr_TR": "Sadece 1 commit'i yakalamak",
-    "hu_HU": "Csak 1 commit átvétele"
+    "hu_HU": "Csak 1 commit átvétele",
+    "az": "Cəmi 1 commit-i götürmək"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -65,7 +66,8 @@ exports.level = {
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
     "ta_IN": "மறவாதீர்கள், interactive rebase அல்லது cherry-pick இங்கே உங்கள் நண்பர்",
     "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız.",
-    "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben"
+    "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben",
+    "az": "Yadında saxla, interactive rebase və ya cherry-pick burada sənin dostundur"
   },
   "startDialog": {
     "en_US": {
@@ -1041,6 +1043,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ez egy haladóbb szint, ezért rád bízzuk, hogy melyik parancsot szeretnéd használni, de a szint teljesítéséhez gondoskodj arról, hogy a `main` megkapja azt a commitot, amelyre a `bugFix` mutat."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Lokal olaraq üst-üstə yığılmış commit-lər",
+              "",
+              "Tez-tez rast gəlinən development vəziyyəti: bir bug-ı izləməyə çalışıram, amma o kifayət qədər çətin tapılandır. Detektiv işimə kömək etmək üçün bir neçə debug əmri və bir neçə print ifadəsi əlavə edirəm.",
+              "",
+              "Bütün bu debugging / print ifadələri öz commit-lərindədir. Nəhayət bug-ı tapıram, düzəldirəm və sevinirəm!",
+              "",
+              "Yeganə problem odur ki, indi `bugFix`-i `main` branch-ına qaytarmalıyam. Əgər sadəcə `main`-i fast-forward etsəm, onda `main` bütün debug ifadələrimi alacaq ki, bu da arzuolunmazdır. Mütləq başqa bir yol olmalıdır..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git-ə deməliyik ki, commit-lərdən yalnız birini kopyalasın. Bu, işi daşımaqla bağlı əvvəlki bölümlərlə eynidir -- eyni əmrlərdən istifadə edə bilərik:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Bu məqsədə çatmaq üçün."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu, sonrakı bölümlərdən biridir, ona görə də hansı əmrdən istifadə etmək istədiyini sənə buraxırıq, amma bölümü bitirmək üçün `main`-in `bugFix`-in işarə etdiyi commit-i aldığından əmin ol."
             ]
           }
         }

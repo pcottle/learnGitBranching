@@ -31,7 +31,8 @@ exports.level = {
     "it_IT": "Rebasing livello 9000",
     "pl": "Rebase ponad 9000 razy",
     "tr_TR": "9000 kereden fazla rebase işlemi yapmak",
-    "hu_HU": "Sok rebase"
+    "hu_HU": "Sok rebase",
+    "az": "9000-dən çox dəfə rebase etmək"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -57,7 +58,8 @@ exports.level = {
     "it_IT": "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
     "pl": "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` dopiero na samym końcu...",
     "tr_TR": "Şunu hatırlamanı isterim ki: belki de en verimli yol işin sonunda maini güncellemektir.",
-    "hu_HU": "Ne feledd, a leghatékonyabb módszer talán az, ha a main-t csak a végén frissíted..."
+    "hu_HU": "Ne feledd, a leghatékonyabb módszer talán az, ha a main-t csak a végén frissíted...",
+    "az": "Yadında saxla, ən səmərəli yol bəlkə də main-i yalnız sonda yeniləməkdir..."
   },
   "startDialog": {
     "en_US": {
@@ -487,6 +489,24 @@ exports.level = {
               "A felsőbb vezetés azonban egy kicsit nehezebbé teszi ezt -- azt szeretnék, hogy az összes commit sorban legyen egymás után. Ez azt jelenti, hogy a végső fánkon a `C7'`-nek legyen legalul, a `C6'` fölötte, és így tovább, sorban.",
               "",
               "Ha elrontod útközben, nyugodtan használd a `reset`-et az újrakezdéshez. Feltétlenül nézd meg a megoldásunkat, és nézd meg, hogy kevesebb paranccsal is megoldható-e!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Bir neçə Branch-ı Rebase Etmək",
+              "",
+              "Burda çoxlu branch var! Gəl bu branch-lardakı bütün işi main-ə rebase edək.",
+              "",
+              "Ancaq yuxarı rəhbərlik işi bir az çətinləşdirir -- onlar bütün commit-lərin ardıcıl sırada olmasını istəyir. Bu o deməkdir ki, son ağacımızda `C7'` ən aşağıda, onun üstündə `C6'` və s. sırayla olmalıdır.",
+              "",
+              "Yol boyu səhv etsən, yenidən başlamaq üçün `reset`-dən istifadə et. Həllimizi mütləq yoxla və gör daha az əmrlə edə bilərsənmi!"
             ]
           }
         }
