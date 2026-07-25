@@ -2519,6 +2519,14 @@ exports.strings = {
     "hu_HU": " Szint ",
     "az": " Bölüm "
   },
+  "close-window": {
+    "__desc__": "Tooltip for the red control that closes a window.",
+    "en_US": "Close window"
+  },
+  "helper-bar-back": {
+    "__desc__": "Back label in the bottom helper bar sub-menus.",
+    "en_US": "Back"
+  },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
     "es_AR": "Niveles",
