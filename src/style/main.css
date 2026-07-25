@@ -488,6 +488,28 @@ div.controls div.box.flex1 div.close {
   background-color: #fb625f;
 }
 
+div.controls div.box.flex1 div.close[data-tooltip]:hover:after {
+  background: #222;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  content: attr(data-tooltip);
+  display: block;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+  height: auto;
+  left: -4px;
+  line-height: 1.2;
+  padding: 5px 7px;
+  pointer-events: none;
+  position: absolute;
+  text-indent: 0;
+  top: 18px;
+  white-space: nowrap;
+  z-index: 100;
+}
+
 div.controls div.box.flex1 div.minimize {
   background-color: #f9c57a;
 }

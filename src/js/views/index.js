@@ -313,7 +313,8 @@ class ModalTerminal extends ContainedBase {
     this.navEvents = options.events || createEvents();
     this.container = new ModalView();
     this.JSON = {
-      title: options.title
+      title: options.title,
+      closeWindowText: intl.str('close-window')
     };
 
     this.render();
@@ -580,7 +581,8 @@ class CanvasTerminalHolder extends BaseView {
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('hide-goal')
+      text: options.text || intl.str('hide-goal'),
+      closeWindowText: intl.str('close-window')
     };
 
     this.render();
