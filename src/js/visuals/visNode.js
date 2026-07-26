@@ -110,12 +110,13 @@ class VisNode extends VisBase {
   }
 
   toFront() {
+    this.get('circle').toFront();
+    this.get('text').toFront();
+    // chips last so a label mid-flight never hides behind its own circle
     this.get('fileChips').forEach(function(chip) {
       chip.rect.toFront();
       chip.text.toFront();
     });
-    this.get('circle').toFront();
-    this.get('text').toFront();
   }
 
   getOpacity() {
@@ -469,6 +470,7 @@ class VisNode extends VisBase {
   }
 
   genChangedFileGraphics(paper, hidden) {
+    var clickable = !this.get('gitVisuals').options.noClick;
     var commandStr = 'git show ' + this.get('commit').get('id');
     var Main = require('../app');
     var chips = this.getChangedFileLayout().map(function(layout) {
@@ -497,19 +499,22 @@ class VisNode extends VisBase {
 
       [rect, text].forEach(function(rObj) {
         $(rObj.node).attr('title', layout.path);
-        $(rObj.node).css('cursor', 'pointer');
-        rObj.click(function() {
-          Main.getEventBaton().trigger('commandSubmitted', commandStr);
-        });
+        if (clickable) {
+          $(rObj.node).css('cursor', 'pointer');
+          rObj.click(function() {
+            Main.getEventBaton().trigger('commandSubmitted', commandStr);
+          });
+        }
       });
       return { path: layout.path, rect: rect, text: text };
     }, this);
     this.set('fileChips', chips);
   }
 
-  animateChangedFilePositions(speed, easing) {
+  animateChangedFilePositions(speed, easing, extraAttr) {
     speed = speed !== undefined ? speed : this.get('animationSpeed');
     easing = easing || this.get('animationEasing');
+    extraAttr = extraAttr || {};
     var chipsByPath = {};
     this.get('fileChips').forEach(function(chip) {
       chipsByPath[chip.path] = chip;
@@ -519,24 +524,35 @@ class VisNode extends VisBase {
       if (!chip) {
         return;
       }
-      chip.rect.stop().animate({
+      chip.rect.stop().animate(Object.assign({
         x: layout.x,
         y: layout.y,
         width: layout.width,
         height: layout.height
-      }, speed, easing);
-      chip.text.stop().animate({
+      }, extraAttr), speed, easing);
+      chip.text.stop().animate(Object.assign({
         x: layout.x + layout.width / 2,
         y: layout.y + layout.height / 2
-      }, speed, easing);
+      }, extraAttr), speed, easing);
     });
   }
 
-  showChangedFiles() {
+  animateChangedFileOpacity(opacity, speed) {
     this.get('fileChips').forEach(function(chip) {
-      chip.rect.animate({ opacity: this.getOpacity() }, 150);
-      chip.text.animate({ opacity: this.getOpacity() }, 150);
-    }, this);
+      chip.rect.stop().animate({ opacity: opacity }, speed);
+      chip.text.stop().animate({ opacity: opacity }, speed);
+    });
+  }
+
+  showChangedFiles(speed) {
+    // move and reveal in ONE tween -- a separate opacity animation would
+    // stop() an in-flight position animation and strand the chips wherever
+    // the canvas last laid them out
+    this.animateChangedFilePositions(
+      speed !== undefined ? speed : 150,
+      undefined,
+      { opacity: this.getOpacity() }
+    );
   }
 
   genGraphics(paper, options) {

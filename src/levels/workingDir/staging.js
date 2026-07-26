@@ -18,11 +18,15 @@ exports.level = {
             "markdowns": [
               "## The Staging Area",
               "",
-              "Before a change becomes a commit, it makes a pit stop. Git has three zones: your **working directory** (where you edit), the **staging area** (a loading dock for the next commit), and the **repository** (your permanent history).",
+              "So far in this learning experience, we have glossed over the idea of what exactly is involved in actually *making* a commit. You might know that they represent changes to a set of files, but there's actually a bit of process in choosing *which* file changes become *which* commits.",
+              "",
+              "Git doesn't want to just automatically include all changed files in all commits -- that would be bad! It could include a change you don't want to make permanent, or even something secret like an API key that could leak into GitHub as part of your commit history.",
+              "",
+              "Thus before a change to a file becomes part of a commit, it has to be specifically selected. Git has three zones for this: your **working directory** (where you edit), the **staging area** (a loading dock for what is in the next commit), and the **repository** (your permanent history).",
               "",
               "You pick *exactly* what rides along in each commit with `git add`. That's how commits stay tidy, and you're never forced to commit everything at once.",
               "",
-              "*(Our simulator keeps this simple: it tracks which files changed, not their contents.)*"
+              "*(For these levels, we will now show which files are part of what commits.)*"
             ]
           }
         },
@@ -34,7 +38,11 @@ exports.level = {
               "",
               "```",
               "Changes not staged for commit:",
+              "```",
+              "```",
               "  modified:   app.js",
+              "```",
+              "```",
               "  modified:   styles.css",
               "```",
               "",

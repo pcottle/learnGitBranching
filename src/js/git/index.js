@@ -945,9 +945,13 @@ GitEngine.prototype.revert = function(whichCommits) {
       oldCommit: this.resolveName(oldCommit),
       oldMsg: oldCommit.get('commitMessage')
     });
-    var newCommit = this.makeCommit([base], newId, {
-      commitMessage: commitMessage
-    });
+    var newCommit = this.makeCommit(
+      [base],
+      newId,
+      Object.assign({
+        commitMessage: commitMessage
+      }, this.copiedChangedFiles(oldCommit))
+    );
     base = newCommit;
 
     return this.animationFactory.playCommitBirthPromiseAnimation(
@@ -1644,12 +1648,25 @@ GitEngine.prototype.receiveTeamwork = function(id, branch, animationQueue) {
   return newCommit;
 };
 
+// Commits made by replaying an existing commit (cherry-pick, rebase, revert)
+// touch the same files as the original, so the new copy keeps its
+// changedFiles label. Commits without the metadata stay untouched.
+GitEngine.prototype.copiedChangedFiles = function(commit) {
+  var changedFiles = commit.get('changedFiles');
+  return changedFiles ? { changedFiles: changedFiles } : {};
+};
+
 GitEngine.prototype.cherrypick = function(commit) {
   // alter the ID slightly
   var id = this.rebaseAltID(commit.get('id'));
 
-  // now commit with that id onto HEAD
-  var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
+  // now commit with that id onto HEAD. The copy carries the same file
+  // changes as the original, so keep the label for the goal check
+  var newCommit = this.makeCommit(
+    [this.getCommitFromRef('HEAD')],
+    id,
+    this.copiedChangedFiles(commit)
+  );
   this.setTargetLocation(this.HEAD, newCommit);
 
   return newCommit;
@@ -2550,7 +2567,9 @@ GitEngine.prototype.rebaseFinish = function(
         [base];
     }
 
-    var newCommit = this.makeCommit(parents, newId);
+    var newCommit = this.makeCommit(
+      parents, newId, this.copiedChangedFiles(oldCommit)
+    );
     base = newCommit;
     hasStartedChain = true;
 

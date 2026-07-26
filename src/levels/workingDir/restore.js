@@ -37,14 +37,20 @@ exports.level = {
               "",
               "```",
               "Changes to be committed:",
+              "```",
+              "```",
               "  modified:   app.js",
+              "```",
+              "```",
               "  modified:   secret.env",
+              "```",
               "",
+              "```",
               "Changes not staged for commit:",
               "  modified:   experiment.js",
               "```",
               "",
-              "You want to commit `app.js`, but `secret.env` got staged by accident, and that half-baked `experiment.js` should just disappear."
+              "You want to commit `app.js`, but `secret.env` got staged early by accident (it should be a commit on top), so lets save that for later. Also the `experiment.js` changes did not work so lets throw that out entirely."
             ]
           }
         },

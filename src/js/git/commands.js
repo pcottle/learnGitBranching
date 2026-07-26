@@ -188,7 +188,7 @@ var commandConfig = {
       // The same serialized metadata drives the commit labels and goal check.
       var committedFiles = newCommit.get('changedFiles') || [];
       if (committedFiles.length) {
-        engine.gitVisuals.beginSlurp(committedFiles);
+        engine.gitVisuals.beginSlurp(committedFiles, newCommit);
       }
 
       var promise = engine.animationFactory.playCommitBirthPromiseAnimation(

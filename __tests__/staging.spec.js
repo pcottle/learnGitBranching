@@ -170,3 +170,37 @@ describe('Staging command count', function() {
     expect(counted.restore.test('git restore experiment.js')).toBe(true);
   });
 });
+
+describe('Copied commits keep changedFiles', function() {
+  it('cherry-pick carries the file label onto the copy', function() {
+    var headless = loadStaging();
+    return headless.sendCommand(
+      'git add app.js;git commit;git checkout -b other C0;git cherry-pick C2'
+    ).then(function() {
+      var commits = headless.gitEngine.exportTree().commits;
+      expect(commits["C2'"].changedFiles).toEqual(['app.js']);
+    });
+  });
+
+  it('rebase carries the file label onto each replayed commit', function() {
+    var headless = loadStaging();
+    return headless.sendCommand(
+      'git add app.js;git commit;' +
+      'git checkout -b other C0;git add styles.css;git commit;' +
+      'git checkout main;git rebase other'
+    ).then(function() {
+      var commits = headless.gitEngine.exportTree().commits;
+      expect(commits["C2'"].changedFiles).toEqual(['app.js']);
+    });
+  });
+
+  it('revert carries the file label onto the inverse commit', function() {
+    var headless = loadStaging();
+    return headless.sendCommand(
+      'git add app.js;git commit;git revert C2'
+    ).then(function() {
+      var commits = headless.gitEngine.exportTree().commits;
+      expect(commits["C2'"].changedFiles).toEqual(['app.js']);
+    });
+  });
+});
