@@ -444,13 +444,6 @@ GitVisuals.prototype.animateAll = function(speed) {
   this.visStagingArea.refresh(speed);
 };
 
-// Repaint just the staging panel. Needed because commands that finish by
-// throwing a CommandResult (git stash, entering a merge conflict) short
-// circuit the animation queue and never refresh the tree.
-GitVisuals.prototype.refreshStagingArea = function() {
-  this.visStagingArea.refresh();
-};
-
 // Keep the chips a commit just swallowed on screen, so the next refresh
 // doesn't blink them out before they can fly into the new commit.
 GitVisuals.prototype.beginSlurp = function(paths) {
@@ -459,7 +452,11 @@ GitVisuals.prototype.beginSlurp = function(paths) {
 
 // Gather the held chips into the newborn commit circle.
 GitVisuals.prototype.slurpChangesIntoCommit = function(commit) {
-  return this.visStagingArea.slurpIntoCommit(commit.get('visNode'));
+  var visNode = commit.get('visNode');
+  return Promise.resolve(this.visStagingArea.slurpIntoCommit(visNode))
+    .then(function() {
+      visNode.showChangedFiles();
+    });
 };
 
 GitVisuals.prototype.fullCalc = function() {
@@ -886,7 +883,7 @@ GitVisuals.prototype.addNode = function(id, commit) {
   this.visNodeMap[id] = visNode;
 
   if (this.gitReady) {
-    visNode.genGraphics(this.paper);
+    visNode.genGraphics(this.paper, { hideChangedFiles: true });
   }
   return visNode;
 };

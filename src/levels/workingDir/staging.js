@@ -1,5 +1,6 @@
 exports.level = {
-  "goalTreeString": '{"branches":{"main":{"target":"C3","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"},"C3":{"parents":["C2"],"id":"C3"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}',
+  "goalTreeString": '{"branches":{"main":{"target":"C3","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2","changedFiles":["app.js"]},"C3":{"parents":["C2"],"id":"C3","changedFiles":["styles.css"]}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}',
+  "compareWorkingChanges": true,
   "solutionCommand": "git add app.js;git commit;git add styles.css;git commit",
   "startTree": '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"workingChanges":{"app.js":"modified","styles.css":"modified"}}',
   "name": {
@@ -52,7 +53,7 @@ exports.level = {
               "* `git add app.js`, then `git commit`",
               "* `git add styles.css`, then `git commit`",
               "",
-              "Two clean commits and the level is yours."
+              "The filenames beside each goal commit show exactly where each change belongs. Two clean commits and the level is yours."
             ]
           }
         }

@@ -184,8 +184,9 @@ var commandConfig = {
         newCommit.set('commitMessage', msg);
       }
 
-      // hold on to the chips this commit swallowed before anything repaints
-      var committedFiles = engine.lastCommittedFiles;
+      // Hold on to the chips this commit swallowed before anything repaints.
+      // The same serialized metadata drives the commit labels and goal check.
+      var committedFiles = newCommit.get('changedFiles') || [];
       if (committedFiles.length) {
         engine.gitVisuals.beginSlurp(committedFiles);
       }
@@ -595,7 +596,6 @@ var commandConfig = {
   },
 
   add: {
-    dontCountForGolf: true,
     sc: /^ga($|\s)/,
     regex: /^git +add($|\s)/,
     description: 'Add file contents to the staging area',
@@ -620,7 +620,6 @@ var commandConfig = {
   },
 
   restore: {
-    dontCountForGolf: true,
     regex: /^git +restore($|\s)/,
     description: 'Restore working tree files',
     options: [
@@ -643,31 +642,6 @@ var commandConfig = {
         .concat(commandOptions['--staged'] || [])
         .concat(commandOptions['-S'] || []);
       engine.restoreFiles(paths, { staged: staged });
-    }
-  },
-
-  stash: {
-    dontCountForGolf: true,
-    regex: /^git +stash($|\s)/,
-    description: 'Stash the changes in a dirty working directory away',
-    execute: function(engine, command) {
-      var sub = command.getGeneralArgs()[0];
-      if (!sub || sub === 'push' || sub === 'save') {
-        engine.stashPush();
-        return;
-      }
-      if (sub === 'pop') {
-        engine.stashPop();
-        return;
-      }
-      if (sub === 'list') {
-        engine.stashList();
-        return;
-      }
-      // apply / drop / clear / show are not modeled yet
-      throw new GitError({
-        msg: intl.str('git-error-command-not-supported')
-      });
     }
   },
 
@@ -723,28 +697,10 @@ var commandConfig = {
     description: 'Join two or more development histories together',
     options: [
       '--no-ff',
-      '--squash',
-      '--continue',
-      '--abort'
+      '--squash'
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
-
-      // resolving (or bailing out of) a conflicted merge takes no branch arg
-      if (commandOptions['--abort']) {
-        engine.abortMerge();
-        engine.animationFactory.refreshTree(
-          engine.animationQueue, engine.gitVisuals
-        );
-        return;
-      }
-      if (commandOptions['--continue']) {
-        var continuedCommit = engine.continueMerge();
-        engine.animationFactory.genCommitBirthAnimation(
-          engine.animationQueue, continuedCommit, engine.gitVisuals
-        );
-        return;
-      }
 
       var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []).concat(commandOptions['--squash'] || []);
       command.validateArgBounds(generalArgs, 1, 1);
@@ -858,27 +814,12 @@ var commandConfig = {
       '--aboveAll',
       '-p',
       '--preserve-merges',
-      '--onto',
-      '--continue',
-      '--abort'
+      '--onto'
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
-
-      // resolving (or bailing out of) a conflicted rebase takes no arguments
-      if (commandOptions['--abort']) {
-        engine.abortRebase();
-        engine.animationFactory.refreshTree(
-          engine.animationQueue, engine.gitVisuals
-        );
-        return;
-      }
-      if (commandOptions['--continue']) {
-        engine.continueRebase();
-        return;
-      }
 
       if (commandOptions['-i']) {
         var args = commandOptions['-i'].concat(generalArgs);

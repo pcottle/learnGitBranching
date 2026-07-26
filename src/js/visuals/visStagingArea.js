@@ -21,8 +21,7 @@ var EMPTY_ROW_HEIGHT = 20;
 
 var ZONE_TITLES = {
   working: 'Working Directory',
-  staging: 'Staging Area',
-  stash: 'Stash'
+  staging: 'Staging Area'
 };
 
 function sortedPaths(paths) {
@@ -41,16 +40,12 @@ function getPanelModel(gitEngine) {
     return { engaged: false, zones: [] };
   }
 
-  // unmerged files live in the working directory too -- they are exactly the
-  // things you still have to fix up and `git add` before the merge can finish
-  var workingChips = makeChips(gitEngine.getUnstagedChanges(), 'modified')
-    .concat(makeChips(gitEngine.getUnmergedChanges(), 'unmerged'));
-  workingChips.sort(function(a, b) {
-    return a.path < b.path ? -1 : (a.path > b.path ? 1 : 0);
-  });
-
   var zones = [
-    { key: 'working', title: ZONE_TITLES.working, chips: workingChips },
+    {
+      key: 'working',
+      title: ZONE_TITLES.working,
+      chips: makeChips(gitEngine.getUnstagedChanges(), 'modified')
+    },
     {
       key: 'staging',
       title: ZONE_TITLES.staging,
@@ -58,28 +53,12 @@ function getPanelModel(gitEngine) {
     }
   ];
 
-  // only show the stash once something is in it, otherwise stashed files would
-  // look like they simply vanished
-  var stashChips = [];
-  (gitEngine.stashStack || []).forEach(function(entry, index) {
-    sortedPaths(Object.keys(entry.changes)).forEach(function(path) {
-      stashChips.push({ path: path, status: 'stashed', stashIndex: index });
-    });
-  });
-  if (stashChips.length) {
-    zones.push({ key: 'stash', title: ZONE_TITLES.stash, chips: stashChips });
-  }
-
   return { engaged: true, zones: zones };
 }
 
 // a chip keyed purely by path animates from the working zone into the staging
-// zone when you `git add` it. Stash chips are keyed separately because the same
-// path can legitimately appear in more than one stash entry.
+// zone when you `git add` it.
 function chipKey(zone, chip) {
-  if (zone.key === 'stash') {
-    return 'stash:' + chip.stashIndex + ':' + chip.path;
-  }
   return chip.path;
 }
 
@@ -169,15 +148,10 @@ function getPanelLayout(model, paperWidth, paperHeight) {
   return { panel: panel, titles: titles, chips: chips, empties: empties };
 }
 
-// Chip colors. Staged is green and unmerged is red to match what a real
-// terminal shows in `git status`; modified is orange so the three states stay
-// tellable apart at a glance. Saturated fill + white stroke + black text is
-// the same recipe the branch and tag labels already use.
+// Chip colors match the staged and modified groups in `git status`.
 var STATUS_FILL = {
   modified: '#FF851B',
-  staged: '#2ECC40',
-  unmerged: '#FF4136',
-  stashed: GRAPHICS.tagFill
+  staged: '#2ECC40'
 };
 
 var FONT_FAMILY = 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace';

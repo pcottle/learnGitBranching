@@ -1,5 +1,7 @@
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var VisStagingArea = require('../src/js/visuals/visStagingArea');
+var getChangedFileChipLayout =
+  require('../src/js/visuals/visNode').getChangedFileChipLayout;
 
 var STAGING_START = '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"workingChanges":{"app.js":"modified","styles.css":"modified"}}';
 
@@ -52,18 +54,6 @@ describe('getPanelModel', function() {
     expect(chipPaths(zoneByKey(model, 'staging'))).toEqual(['app.js']);
   });
 
-  it('shows unmerged files in the working directory zone', function() {
-    var gitEngine = loadEngaged();
-    gitEngine.workingChanges['conflicted.js'] = 'unmerged';
-
-    var zone = zoneByKey(VisStagingArea.getPanelModel(gitEngine), 'working');
-
-    expect(chipPaths(zone)).toContain('conflicted.js');
-    expect(zone.chips.filter(function(chip) {
-      return chip.path === 'conflicted.js';
-    })[0].status).toBe('unmerged');
-  });
-
   it('sorts chips by path so the layout is stable across refreshes', function() {
     var gitEngine = loadEngaged();
     gitEngine.workingChanges = { 'zebra.js': 'modified', 'alpha.js': 'modified' };
@@ -73,72 +63,92 @@ describe('getPanelModel', function() {
     expect(chipPaths(zone)).toEqual(['alpha.js', 'zebra.js']);
   });
 
-  it('omits the stash zone while the stash is empty', function() {
-    var model = VisStagingArea.getPanelModel(loadEngaged());
-
-    expect(zoneByKey(model, 'stash')).toBeUndefined();
-  });
-
-  it('shows a stash zone so stashed files do not vanish into nowhere', function() {
-    var gitEngine = loadEngaged();
-    try {
-      gitEngine.stashPush();
-    } catch (e) {
-      // stashPush always throws a CommandResult to print its message
-    }
-
-    var model = VisStagingArea.getPanelModel(gitEngine);
-
-    expect(chipPaths(zoneByKey(model, 'stash'))).toEqual(['app.js', 'styles.css']);
-    expect(zoneByKey(model, 'working').chips).toEqual([]);
-  });
 });
 
-describe('lastCommittedFiles (drives the slurp-into-commit animation)', function() {
+describe('commit changedFiles', function() {
   function loadHeadless() {
     var headless = new HeadlessGit();
     headless.gitEngine.loadTreeFromString(STAGING_START);
     return headless;
   }
 
-  it('starts empty', function() {
-    expect(new HeadlessGit().gitEngine.lastCommittedFiles).toEqual([]);
-  });
-
-  it('records the staged files a commit swallowed', function() {
+  it('records the staged files on the commit itself', function() {
     var headless = loadHeadless();
     return headless.sendCommand('git add app.js;git commit').then(function() {
-      expect(headless.gitEngine.lastCommittedFiles).toEqual(['app.js']);
+      expect(headless.gitEngine.exportTree().commits.C2.changedFiles)
+        .toEqual(['app.js']);
     });
   });
 
   it('records files that commit -a staged on the fly', function() {
     var headless = loadHeadless();
     return headless.sendCommand('git commit -a').then(function() {
-      expect(headless.gitEngine.lastCommittedFiles.sort()).toEqual(['app.js', 'styles.css']);
+      expect(headless.gitEngine.exportTree().commits.C2.changedFiles)
+        .toEqual(['app.js', 'styles.css']);
     });
   });
 
-  it('resets between commits rather than accumulating', function() {
+  it('keeps each commit file bundle independent', function() {
     var headless = loadHeadless();
     return headless.sendCommand('git add app.js;git commit;git add styles.css;git commit').then(function() {
-      expect(headless.gitEngine.lastCommittedFiles).toEqual(['styles.css']);
+      var commits = headless.gitEngine.exportTree().commits;
+      expect(commits.C2.changedFiles).toEqual(['app.js']);
+      expect(commits.C3.changedFiles).toEqual(['styles.css']);
     });
   });
 
-  it('stays empty on a classic disengaged commit', function() {
+  it('omits the metadata on a classic disengaged commit', function() {
     var headless = new HeadlessGit();
     return headless.sendCommand('git commit').then(function() {
-      expect(headless.gitEngine.lastCommittedFiles).toEqual([]);
+      expect(headless.gitEngine.exportTree().commits.C2.changedFiles)
+        .toBeUndefined();
     });
   });
 
-  it('is never serialized into the tree', function() {
+  it('survives an export and reload round trip', function() {
     var headless = loadHeadless();
     return headless.sendCommand('git add app.js;git commit').then(function() {
-      expect(headless.gitEngine.exportTree().hasOwnProperty('lastCommittedFiles')).toBe(false);
-      expect(headless.gitEngine.printTree()).not.toContain('lastCommittedFiles');
+      var reloaded = new HeadlessGit();
+      reloaded.gitEngine.loadTreeFromString(
+        headless.gitEngine.exportTreeString()
+      );
+      expect(reloaded.gitEngine.exportTree().commits.C2.changedFiles)
+        .toEqual(['app.js']);
     });
+  });
+
+  it('is reported by git show instead of the classic fake diff', function() {
+    var headless = loadHeadless();
+    return headless.sendCommand('git add app.js;git commit').then(function() {
+      var output = headless.gitEngine.refs.C2.getShowEntry();
+      expect(output).toContain('Files changed:');
+      expect(output).toContain('app.js');
+      expect(output).not.toContain('bigGameResults.html');
+    });
+  });
+});
+
+describe('getChangedFileChipLayout', function() {
+  it('sorts files and places visible chips to the left of a commit', function() {
+    var layout = getChangedFileChipLayout(
+      ['styles.css', 'app.js'],
+      { x: 300, y: 200 },
+      17
+    );
+
+    expect(layout.map(function(chip) { return chip.path; }))
+      .toEqual(['app.js', 'styles.css']);
+    layout.forEach(function(chip) {
+      expect(chip.x + chip.width).toBeLessThan(300 - 17);
+    });
+  });
+
+  it('truncates long labels while retaining the full path', function() {
+    var path = 'src/components/reallyLongFilename.js';
+    var chip = getChangedFileChipLayout([path], { x: 300, y: 200 }, 17)[0];
+
+    expect(chip.path).toBe(path);
+    expect(chip.label.length).toBeLessThan(path.length);
   });
 });
 
