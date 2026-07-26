@@ -27,7 +27,8 @@ exports.level = {
     "it_IT": "Annullare i cambiamenti in Git",
     "pl": "Odwracanie zmian w Gicie",
     "tr_TR": "Değişiklikleri Git'te Geri Almak",
-    "hu_HU": "Változtatások visszavonása Gitben"
+    "hu_HU": "Változtatások visszavonása Gitben",
+    "az": "Git-də Dəyişikliklərin Geri Qaytarılması"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Revert e reset hanno parametri diversi.",
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
     "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma.",
-    "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad."
+    "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad.",
+    "az": "Qeyd et ki, revert və reset fərqli parametrlər qəbul edir."
   },
   "startDialog": {
     "en_US": {
@@ -1491,6 +1493,69 @@ exports.level = {
               "A szint teljesítéséhez vonja vissza a legutóbbi commitot mind a `local`, mind a `pushed` brancheken. Összesen két commitot fogsz visszavonni (branchenként egyet).",
               "",
               "Tartsd észben, hogy a `pushed` egy távoli branch, a `local` pedig egy helyi branch -- ez segíteni fog a módszerek megválasztásában."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git-də Dəyişikliklərin Geri Qaytarılması",
+              "",
+              "Git-də dəyişiklikləri geri qaytarmağın bir çox yolu var. Məhz commit etmək kimi, Git-də dəyişikliklərin geri qaytarılmasının da aşağı səviyyəli tərəfi (ayrı-ayrı faylların və ya hissələrin stage edilməsi) və yuxarı səviyyəli tərəfi (dəyişikliklərin faktiki olaraq necə geri qaytarıldığı) var. Tətbiqimiz sonuncuya fokuslanacaq.",
+              "",
+              "Git-də dəyişiklikləri ləğv etməyin iki əsas yolu var -- biri `git reset`, digəri isə `git revert`-dən istifadə etməkdir. Növbəti dialoqda hər ikisinə baxacağıq",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` branch istinadını zamanda geriyə, daha köhnə bir commit-ə köçürməklə dəyişiklikləri geri qaytarır. Bu mənada onu \"tarixi yenidən yazmaq\" kimi düşünə bilərsən; `git reset` branch-ı elə geri aparacaq ki, sanki həmin commit heç vaxt edilməyib.",
+              "",
+              "Gəl görək bu necə görünür:"
+            ],
+            "afterMarkdowns": [
+              "Əla! Git `main` branch istinadını geri, `C1`-ə köçürdü; indi lokal repozitoriyamız sanki `C2` heç vaxt baş verməyib kimi bir vəziyyətdədir."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Reset öz komputerindəki lokal branch-lar üçün əla işləsə də, onun \"tarixi yenidən yazmaq\" metodu başqalarının istifadə etdiyi remote branch-lar üçün işləmir.",
+              "",
+              "Dəyişiklikləri geri qaytarmaq və bu geri qaytarılmış dəyişiklikləri başqaları ilə *paylaşmaq* üçün `git revert`-dən istifadə etməliyik. Gəl bunu əməldə görək."
+            ],
+            "afterMarkdowns": [
+              "Qəribədir, geri qaytarmaq istədiyimiz commit-in altında yeni bir commit peyda oldu. Bunun səbəbi odur ki, bu yeni `C2'` commit-i *dəyişikliklər* təqdim edir -- sadəcə bu dəyişikliklər məhz `C2` commit-ini dəqiq geri qaytaran dəyişikliklərdir.",
+              "",
+              "Revert etməklə, dəyişikliklərini başqaları ilə paylaşmaq üçün push edə bilərsən."
+            ],
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü tamamlamaq üçün, həm `local`, həm də `pushed` üzərindəki ən son commit-i geri qaytar. Ümumilikdə iki commit-i revert edəcəksən (hər branch üçün bir dənə).",
+              "",
+              "Yadında saxla ki, `pushed` remote branch, `local` isə lokal branch-dır -- bu, hansı metodları seçəcəyini müəyyən etməyə kömək edəcək."
             ]
           }
         }

@@ -41,7 +41,8 @@ exports.level = {
     "pl": "Żonglowanie commitami #2",
     "ta_IN": "Commitகளுடன் வித்தைகள் #2",
     "tr_TR": "Commit'leri Şekillendirme #2",
-    "hu_HU": "Commitok átrendezése #2"
+    "hu_HU": "Commitok átrendezése #2",
+    "az": "Commit Hoqqabazlığı #2"
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
@@ -68,7 +69,8 @@ exports.level = {
     "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
     "ta_IN": "Main ஐ புதுப்பிக்கப்பட்ட மாற்றங்களுக்கு முன்னேற்றமிடுவதை மறக்க வேண்டாம்!",
     "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
-    "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!"
+    "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!",
+    "az": "main-i yenilənmiş dəyişikliklərə irəli aparmağı unutma!"
   },
   "startDialog": {
     "en_US": {
@@ -1094,6 +1096,49 @@ exports.level = {
               "Tehát ezen a szinten érjük el ugyanazt a célt -- módosítsuk a `C2`-t --, de kerüljük el a `rebase -i` használatát. Rád bízom, hogy kitaláld! :D",
               "",
               "Ne feledd, a commitokon lévő aposztrófok (') pontos száma nem fontos, csak a relatív különbségek számítanak. Például, teljes pontot adok egy olyan fára, amely megfelel a célnak, de mindenhol egy extra aposztróffal rendelkezik."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit Hoqqabazlığı #2",
+              "",
+              "*Əgər Commit Hoqqabazlığı #1-i (əvvəlki bölümü) bitirməmisənsə, davam etməzdən əvvəl xahiş edirəm onu bitir*",
+              "",
+              "Əvvəlki bölümdə gördüyün kimi, commit-ləri yenidən sıralamaq üçün `rebase -i`-dan istifadə etdik. Dəyişdirmək istədiyimiz commit yuxarıya çıxan kimi, onu asanlıqla --amend edə və istədiyimiz sıraya geri qaytara bildik.",
+              "",
+              "Buradakı yeganə problem odur ki, çoxlu yenidən sıralama gedir, bu da rebase konfliktlərinə səbəb ola bilər. Gəl `git cherry-pick` ilə başqa bir metoda baxaq."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Yadında saxla ki, git cherry-pick ağacın istənilən yerindən bir commit-i götürüb HEAD-in üzərinə qoyacaq (bir şərtlə ki, həmin commit HEAD-in əcdadı olmasın).",
+              "",
+              "Budur kiçik bir xatırlatma demo:"
+            ],
+            "afterMarkdowns": [
+              "Əla! Davam edək."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Beləliklə, bu bölümdə eyni məqsədə çatmağa çalışaq — `C2`-ni bir dəfə amend et — amma `rebase -i`-dan istifadə etməkdən çəkin. Bunu necə edəcəyini sənə buraxıram! :D",
+              "",
+              "Yadında saxla, commit üzərindəki apostrofların (') dəqiq sayı vacib deyil, yalnız nisbi fərqlər önəmlidir. Məsələn, hədəf ağacla üst-üstə düşən, amma hər yerdə bir artıq apostrofu olan ağacı da düzgün sayacağam."
             ]
           }
         }

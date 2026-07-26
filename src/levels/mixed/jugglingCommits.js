@@ -42,7 +42,8 @@ exports.level = {
     "pl": "Żonglowanie commitami",
     "ta_IN": "Commitகளுடன் வித்தைகள்",
     "tr_TR": "Commit'leri Şekillendirme",
-    "hu_HU": "Commitok átrendezése"
+    "hu_HU": "Commitok átrendezése",
+    "az": "Commit-lərin Hoqqabazlığı"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -69,7 +70,8 @@ exports.level = {
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
     "ta_IN": "முதலில் கொடுக்கவேண்டிய கட்டளை git rebase -i HEAD~2",
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
-    "hu_HU": "Az első parancs: git rebase -i HEAD~2"
+    "hu_HU": "Az első parancs: git rebase -i HEAD~2",
+    "az": "İlk əmr git rebase -i HEAD~2 olmalıdır"
   },
   "startDialog": {
     "en_US": {
@@ -925,6 +927,40 @@ exports.level = {
               "Végül figyelj a célállapotra itt -- mivel a commitokat kétszer mozgatjuk, mindkettőhöz hozzáadódik egy aposztróf. Az általunk módosított commithoz egy további aposztróf adódik, ami megadja a fa végleges formáját.",
               "",
               "Azzal együtt, most már tudom összehasonlítani a szinteket szerkezet és relatív aposztróf-különbségek alapján. Amíg a fád `main` ága azonos szerkezettel és relatív aposztróf-különbségekkel rendelkezik, teljes pontot adok."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit-lərin Hoqqabazlığı",
+              "",
+              "Budur, kifayət qədər tez-tez baş verən başqa bir vəziyyət. Bir-biri ilə əlaqəli olan bəzi dəyişikliklərin (`newImage`) və başqa bir dəyişiklik dəstinin (`caption`) var, ona görə də onlar repozitoriyanda üst-üstə yığılıb (yəni bir-birinin ardınca gəlir).",
+              "",
+              "Çətin məqam odur ki, bəzən daha əvvəlki bir commit-də kiçik bir dəyişiklik etməyə ehtiyacın olur. Bu halda, dizayn komandası bizdən `newImage`-in ölçülərini bir az dəyişməyimizi istəyir, hətta həmin commit tarixçəmizdə çox geridə olsa belə!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu çətinliyi aşağıdakıları edərək aradan qaldıracağıq:",
+              "",
+              "* `git rebase -i` ilə commit-ləri elə yenidən sıralayacağıq ki, dəyişmək istədiyimiz commit üstdə olsun",
+              "* Kiçik dəyişikliyi etmək üçün `git commit --amend` işlədəcəyik",
+              "* Sonra `git rebase -i` ilə commit-ləri əvvəlki sırasına qaytaracağıq",
+              "* Nəhayət, bölümü bitirmək üçün main-i ağacın bu yenilənmiş hissəsinə köçürəcəyik (özün seçdiyin üsulla)",
+              "",
+              "Bu ümumi məqsədə çatmağın bir çox yolu var (görürəm, cherry-pick-ə göz qoyursan), və sonra onlardan bir neçəsini də görəcəyik, amma hələlik bu texnikaya fokuslanaq.",
+              "Sonda, buradakı hədəf vəziyyətə diqqət et -- commit-ləri iki dəfə köçürdüyümüz üçün, hər ikisinə bir apostrof əlavə olunur. Amend etdiyimiz commit üçün isə daha bir apostrof əlavə olunur ki, bu da bizə ağacın son formasını verir ",
+              "",
+              "Bunu deməklə, indi bölümləri struktur və nisbi apostrof fərqlərinə əsasən müqayisə edə bilərəm. Ağacındakı `main` branch-ı eyni struktura və nisbi apostrof fərqlərinə malik olduğu müddətcə, sənə tam bal verəcəyəm."
             ]
           }
         }

@@ -30,7 +30,8 @@ exports.level = {
     "pl": "Wprowadzenie do cherry-pick",
     "ta_IN": "Cherry-pick அறிமுகம்",
     "tr_TR": "Cherry-pick işlemine giriş",
-    "hu_HU": "Cherry-pick bevezetés"
+    "hu_HU": "Cherry-pick bevezetés",
+    "az": "Cherry-pick-ə Giriş"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -56,7 +57,8 @@ exports.level = {
     "pl": "git cherry-pick a po nim nazwy commitów!",
     "ta_IN": "git cherry-pick க்கு பிறகு commit பெயர்களை பின்தொடரவும்!",
     "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!",
-    "hu_HU": "A git cherry-pick után add meg a commit neveket!"
+    "hu_HU": "A git cherry-pick után add meg a commit neveket!",
+    "az": "git cherry-pick-dən sonra commit adlarını yaz!"
   },
   "startDialog": {
     "en_US": {
@@ -1418,6 +1420,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "A szint teljesítéséhez egyszerűen másold át a három branchből a munkát a main-be. Megláthatod, melyik commitokat szeretnénk, ha megnézed a cél vizualizációt.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## İşi Daşımaq",
+              "",
+              "İndiyə qədər git-in əsaslarını öyrəndik -- commit etmək, branch yaratmaq və source tree daxilində hərəkət etmək. Bu anlayışlar git repozitoriyalarının gücünün 90%-indən istifadə etmək və proqramçıların əsas ehtiyaclarını ödəmək üçün kifayətdir.",
+              "",
+              "Ancaq qalan 10%, mürəkkəb iş axınları zamanı (və ya özünü çətin vəziyyətə saldığın zaman) olduqca faydalı ola bilər. Növbəti öyrənəcəyimiz anlayış \"işi daşımaq\"dır -- başqa sözlə, bu, proqramçıların \"bu işi burada, o işi isə orada istəyirəm\" deməsinin dəqiq, aydın və çevik bir yoludur.",
+              "",
+              "Bu, çox kimi görünə bilər, amma sadə bir anlayışdır."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Bu seriyadakı ilk əmr `git cherry-pick` adlanır. Aşağıdakı formada istifadə olunur:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Bu, hazırkı mövqeyinin (`HEAD`) altına bir sıra commit-i kopyalamaq istədiyini bildirmək üçün çox sadə bir yoldur. Şəxsən mən `cherry-pick`-i çox sevirəm, çünki içində çox az sehr var və başa düşülməsi asandır.",
+              "",
+              "Gəl bir demo görək!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Budur, `side` branch-ında `main`-ə kopyalamaq istədiyimiz bəzi işlərin olduğu bir repozitoriya. Bu, artıq öyrəndiyimiz rebase vasitəsilə də edilə bilərdi, amma gəl cherry-pick-in necə işlədiyinə baxaq."
+            ],
+            "afterMarkdowns": [
+              "Hamısı bu qədər! Biz `C2` və `C4` commit-lərini istəyirdik və git onları düz altımıza qoydu. Bu qədər sadədir!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü bitirmək üçün sadəcə göstərilən üç branch-dan bəzi işləri main-ə kopyala. Hansı commit-ləri istədiyimizi hədəf vizuallaşdırmasına baxaraq görə bilərsən.",
               ""
             ]
           }

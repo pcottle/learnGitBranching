@@ -27,7 +27,8 @@ exports.level = {
     "pl": "Tagi Gita",
     "ta_IN": "Git டேக்கள்",
     "tr_TR": "Git Tagleri",
-    "hu_HU": "Git tagek"
+    "hu_HU": "Git tagek",
+    "az": "Git Tag-lər"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -54,7 +55,8 @@ exports.level = {
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
     "ta_IN": "நீங்கள் நேரடியாக commit ஐ அல்லது tag ஐ checkout செய்யலாம்!",
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
-    "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!"
+    "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!",
+    "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!"
   },
   "startDialog": {
     "en_US": {
@@ -1302,6 +1304,58 @@ exports.level = {
               "Ehhez a szinthez csak hozd létre a tageket a célvizualizációban, majd checkoutold a `v1`-et. Figyelj, hogyan kerülsz leválasztott (`detached`) `HEAD` állapotba -- ez azért van, mert nem commitolhatsz közvetlenül a `v1` tagre.",
               "",
               "A következő szinten egy érdekesebb felhasználási esetet vizsgálunk meg a tagek esetén."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tag-lər",
+              "",
+              "Əvvəlki bölümlərdən öyrəndiyin kimi, branch-ları asanlıqla yerini dəyişmək olar və onların üzərində iş tamamlandıqca tez-tez fərqli commit-lərə işarə edirlər. Branch-lar asanlıqla dəyişir, çox vaxt müvəqqəti olur və həmişə dəyişkəndir.",
+              "",
+              "Belədirsə, bəlkə də düşünürsən ki, layihənin tarixindəki nöqtələri *daimi* olaraq qeyd etməyin bir yolu varmı. Böyük buraxılışlar (release) və böyük merge-lər kimi şeylər üçün, bu commit-ləri branch-dan daha daimi bir şeylə qeyd etməyin yolu varmı?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Əlbəttə var! Git tag-lər məhz bu məqsəd üçündür -- onlar müəyyən commit-ləri (bir qədər) daimi olaraq \"mərhələ\" (milestone) kimi qeyd edir və sonra branch kimi onlara istinad edə bilərsən.",
+              "",
+              "Daha vacibi isə, yeni commit-lər yaradıldıqca onlar heç vaxt yerini dəyişmir. Bir tag-ı \"checkout\" edib sonra o tag üzərində işi tamamlaya bilmirsən -- tag-lar commit ağacında müəyyən yerləri göstərən lövbərlər kimi mövcuddur.",
+              "",
+              "Gəl görək tag-lar əməli olaraq necə görünür."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl `C1`-də bir tag yaratmağa cəhd edək -- bu bizim 1-ci versiya prototipimizdir."
+            ],
+            "afterMarkdowns": [
+              "Budur! Kifayət qədər asan. Tag-a `v1` adı verdik və birbaşa `C1` commit-inə istinad etdik. Əgər commit-i qeyd etməsən, git sadəcə `HEAD`-in olduğu yeri istifadə edəcək."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölüm üçün sadəcə hədəf vizuallaşdırmasındakı tag-ları yarat və sonra `v1`-i checkout et. Necə detached `HEAD` vəziyyətinə keçdiyinə diqqət et -- bunun səbəbi `v1` tag-ının üzərinə birbaşa commit edə bilməməyindir.",
+              "",
+              "Növbəti bölümdə tag-lar üçün daha maraqlı bir istifadə halını araşdıracağıq."
             ]
           }
         }

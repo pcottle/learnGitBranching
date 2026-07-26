@@ -26,7 +26,8 @@ exports.level = {
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednej bezpośredniej referencji (hasza).",
     "ta_IN": "இந்த நிலவை முடிக்க குறைந்தது ஒரு நேரடி குறிப்பு (ஹாஷ்) பயன்படுத்த வேண்டும்",
     "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek",
-    "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod"
+    "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod",
+    "az": "Bu bölümü bitirmək üçün ən azı bir birbaşa istinaddan (hash) istifadə etməlisən"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -52,7 +53,8 @@ exports.level = {
     "pl": "Referencje względne #2 (~)",
     "ta_IN": "இணைக்கப்பட்ட குறிப்பு #2 (~)",
     "tr_TR": "Göreli Referanslar #2 (~)",
-    "hu_HU": "Relatív hivatkozások #2 (~)"
+    "hu_HU": "Relatív hivatkozások #2 (~)",
+    "az": "Nisbi Ref-lər #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -1634,6 +1636,77 @@ exports.level = {
               "Most, hogy láttad a relatív hivatkozásokat és a branch kényszerítést kombinálva, használjuk ezeket a következő szint megoldásához.",
               "",
               "A szint teljesítéséhez mozgasd a `HEAD`-et, a `main`-t és a `bugFix`-et a megjelölt célállomásokra."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### \"~\" operatoru",
+              "",
+              "Tutaq ki, commit ağacında çoxlu səviyyə yuxarı qalxmaq istəyirsən. `^` işarəsini bir neçə dəfə yazmaq yorucu ola bilər, ona görə Git-də tilde (~) operatoru da var.",
+              "",
+              "",
+              "Tilde operatorunun sonuna (istəsən) neçə valideynə qədər yuxarı qalxmaq istədiyini göstərən bir ədəd əlavə edə bilərsən. Gəl, bunu əməldə görək."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl, `~` ilə neçə commit geriyə qayıtmaq istədiyimizi göstərək."
+            ],
+            "afterMarkdowns": [
+              "Vay! Necə də yığcam -- nisbi ref-lər əladır."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch məcburiyyəti",
+              "",
+              "İndi sən nisbi ref-lər üzrə ekspertsən, ona görə gəl onlardan həqiqətən nə isə üçün *istifadə edək*.",
+              "",
+              "Mənim nisbi ref-lərdən istifadə etdiyim ən çox yayılmış yollardan biri branch-ları yerdəyişdirməkdir. Sən `-f` seçimi ilə bir branch-ı birbaşa başqa commit-ə yenidən təyin edə bilərsən. Məsələn, belə bir şey:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "main branch-ını (məcburi şəkildə) HEAD-dən üç valideyn geriyə köçürür.",
+              "",
+              "*Qeyd: Həqiqi git mühitində `git branch -f` əmrinə sənin cari branch-ın üçün icazə verilmir.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl, əvvəlki əmri əməldə görək."
+            ],
+            "afterMarkdowns": [
+              "Budur! Nisbi ref-lər bizə `C1`-ə istinad etmək üçün yığcam bir yol verdi, branch məcburiyyəti (`-f`) isə bizə bir branch-ı tez bir şəkildə həmin yerə köçürmək imkanı verdi."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "İndi ki, nisbi ref-ləri və branch məcburiyyətini birlikdə gördün, gəl onlardan növbəti bölümü həll etmək üçün istifadə edək.",
+              "",
+              "Bu bölümü bitirmək üçün `HEAD`, `main` və `bugFix`-i göstərilən hədəf mövqelərinə köçür."
             ]
           }
         }
