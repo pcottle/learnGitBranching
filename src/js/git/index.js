@@ -42,6 +42,9 @@ function GitEngine(options) {
   this.mergeInProgress = null; // set while a conflicted merge is unresolved
   this.rebaseInProgress = null; // set while a conflicted rebase is unresolved
   this.conflictMerges = {};   // author-declared { sourceRef: [file, ...] }
+  // Transient (never serialized): the files the most recent commit swallowed,
+  // so the visuals can animate exactly those chips into the new commit circle.
+  this.lastCommittedFiles = [];
 
   this.branchCollection = options.branches;
   this.tagCollection = options.tags;
@@ -698,6 +701,7 @@ GitEngine.prototype.removeAll = function() {
   this.mergeInProgress = null;
   this.rebaseInProgress = null;
   this.conflictMerges = {};
+  this.lastCommittedFiles = [];
 
   if (this.origin) {
     // we will restart all this jazz during init from tree
@@ -1729,8 +1733,10 @@ GitEngine.prototype.commit = function(options) {
 
   this.setTargetLocation(this.HEAD, newCommit);
 
-  // the changes we just committed are now history
+  // the changes we just committed are now history. Remember which files went
+  // in first -- the visuals fly exactly those chips into the new commit.
   if (this.changesModelEngaged) {
+    this.lastCommittedFiles = this.getStagedChanges();
     this.clearStagedChanges();
   }
   return newCommit;
@@ -3118,6 +3124,9 @@ GitEngine.prototype.dispatchProcess = function(command, deferred) {
     this.filterError(err);
     // short circuit animation by just setting error and returning
     command.set('error', err);
+    // commands that finish by throwing (git stash, hitting a merge conflict)
+    // still changed the working directory, so the panel needs to catch up
+    this.gitVisuals.refreshStagingArea();
     deferred.resolve();
     return;
   }

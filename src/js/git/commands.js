@@ -184,10 +184,25 @@ var commandConfig = {
         newCommit.set('commitMessage', msg);
       }
 
+      // hold on to the chips this commit swallowed before anything repaints
+      var committedFiles = engine.lastCommittedFiles;
+      if (committedFiles.length) {
+        engine.gitVisuals.beginSlurp(committedFiles);
+      }
+
       var promise = engine.animationFactory.playCommitBirthPromiseAnimation(
         newCommit,
         engine.gitVisuals
       );
+
+      if (committedFiles.length) {
+        // the staged files gather into the circle while it is being born,
+        // which is the whole point: a commit is just a bundle of changes
+        promise = Promise.all([
+          promise,
+          Promise.resolve(engine.gitVisuals.slurpChangesIntoCommit(newCommit))
+        ]);
+      }
       engine.animationQueue.thenFinish(promise);
     }
   },
