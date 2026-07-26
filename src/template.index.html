@@ -331,22 +331,22 @@
   <script type="text/html" id="left-right-template">
     <% if (!showLeft && lastNav ) { %>
       <div class="box right">
-        <button class="noStyle"><i aria-hidden="true" class="icon-ok exit"></i><span class="visuallyHidden">OK</span></button>
+        <button class="noStyle"><i aria-hidden="true" class="icon-ok exit"></i><span class="visuallyHidden hoverLabel">OK</span></button>
       </div>
     <% } else { %>
       <% if (showLeft) { %>
         <div class="box left">
-          <button class="noStyle"><i aria-hidden="true" class="icon-circle-arrow-left"></i><span class="visuallyHidden">Previous</span></button>
+          <button class="noStyle"><i aria-hidden="true" class="icon-circle-arrow-left"></i><span class="visuallyHidden hoverLabel">Back</span></button>
       <% } else { %>
         <div class="box exit">
-          <button class="noStyle"><i aria-hidden="true" class="icon-signout"></i><span class="visuallyHidden">Close</span></button>
+          <button class="noStyle"><i aria-hidden="true" class="icon-signout"></i><span class="visuallyHidden hoverLabel">Close</span></button>
       <% } %>
       </div>
       <div class="box right">
         <% if (!lastNav) { %>
-          <button class="noStyle"><i aria-hidden="true" class="icon-circle-arrow-right"></i><span class="visuallyHidden">Next</span></button>
+          <button class="noStyle"><i aria-hidden="true" class="icon-circle-arrow-right"></i><span class="visuallyHidden hoverLabel">Next</span></button>
         <% } else { %>
-          <button class="noStyle"><i aria-hidden="true"  class="icon-ok"></i><span class="visuallyHidden">OK</span></button>
+          <button class="noStyle"><i aria-hidden="true"  class="icon-ok"></i><span class="visuallyHidden hoverLabel">OK</span></button>
         <% } %>
       </div>
     <% } %>
