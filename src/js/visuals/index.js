@@ -12,6 +12,7 @@ var VisTag = require('../visuals/visTag').VisTag;
 var VisTagCollection = require('../visuals/visTag').VisTagCollection;
 var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
+var VisStagingArea = require('../visuals/visStagingArea').VisStagingArea;
 
 function GitVisuals(options) {
   options = options || {};
@@ -25,6 +26,9 @@ function GitVisuals(options) {
   this.visEdgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
   this.visTagCollection = new VisTagCollection();
+  // draws itself only while a level engages the changes model, so classic
+  // levels are completely unaffected
+  this.visStagingArea = new VisStagingArea({ gitVisuals: this });
   this.commitMap = {};
 
   this.rootCommit = null;
@@ -97,6 +101,9 @@ GitVisuals.prototype.resetAll = function() {
 
 GitVisuals.prototype.tearDown = function() {
   this.resetAll();
+  // note: deliberately not removed in resetAll, since that runs on every tree
+  // reload and the panel needs to outlive those
+  this.visStagingArea.remove();
   this.paper.remove();
   // Unregister the refresh tree listener so we don't accumulate
   // these over time. However we aren't calling tearDown in
@@ -434,6 +441,25 @@ GitVisuals.prototype.animateAll = function(speed) {
   this.animateEdges(speed);
   this.animateNodePositions(speed);
   this.animateRefs(speed);
+  this.visStagingArea.refresh(speed);
+};
+
+// Repaint just the staging panel. Needed because commands that finish by
+// throwing a CommandResult (git stash, entering a merge conflict) short
+// circuit the animation queue and never refresh the tree.
+GitVisuals.prototype.refreshStagingArea = function() {
+  this.visStagingArea.refresh();
+};
+
+// Keep the chips a commit just swallowed on screen, so the next refresh
+// doesn't blink them out before they can fly into the new commit.
+GitVisuals.prototype.beginSlurp = function(paths) {
+  this.visStagingArea.beginSlurp(paths);
+};
+
+// Gather the held chips into the newborn commit circle.
+GitVisuals.prototype.slurpChangesIntoCommit = function(commit) {
+  return this.visStagingArea.slurpIntoCommit(commit.get('visNode'));
 };
 
 GitVisuals.prototype.fullCalc = function() {
@@ -891,6 +917,8 @@ GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
   this.visTagsFront();
+  // the panel is docked over the canvas, so it always sits on top
+  this.visStagingArea.toFront();
 };
 
 GitVisuals.prototype.visNodesFront = function() {
@@ -948,6 +976,8 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
   this.visTagCollection.each(function(visTag) {
     visTag.genGraphics(this.paper);
   }, this);
+
+  this.visStagingArea.genGraphics(this.paper);
 
   this.zIndexReflow();
 };
