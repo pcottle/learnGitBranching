@@ -355,6 +355,22 @@ exports.strings = {
     "hu_HU": "Készen áll a commit-ra! (mint mindig ebben a demóban)",
     "az": "Commit etməyə hazır! (bu nümayişdə həmişə olduğu kimi)"
   },
+  "git-status-staged-header": {
+    "__desc__": "git status header for changes that are staged (ready to commit)",
+    "en_US": "Changes to be committed:"
+  },
+  "git-status-unstaged-header": {
+    "__desc__": "git status header for modified files that are not yet staged",
+    "en_US": "Changes not staged for commit:"
+  },
+  "git-status-clean": {
+    "__desc__": "git status line when there is nothing to commit",
+    "en_US": "nothing to commit, working tree clean"
+  },
+  "git-status-nothing-staged": {
+    "__desc__": "shown when git commit is run but nothing has been staged yet",
+    "en_US": "no changes added to commit (stage them first with \"git add <file>\")"
+  },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
     "en_US": "Quick commit. Go Bears!",

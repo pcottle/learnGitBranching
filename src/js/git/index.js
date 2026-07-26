@@ -30,6 +30,15 @@ function GitEngine(options) {
   this.mode = 'git';
   this.localRepo = null;
 
+  // Simulated working-directory / staging model. The site is a commit-graph
+  // simulator with no real files, so we model "changes" as a tiny map of
+  // { path: status } that a level seeds in its startTree. Everything here is
+  // inert unless a level engages it (see changesModelEngaged), so the classic
+  // graph-only levels behave exactly as before. See getStatusMsg / addFiles /
+  // commit for how these are used.
+  this.changesModelEngaged = false;
+  this.workingChanges = {};   // { path: 'modified' | 'staged' }
+
   this.branchCollection = options.branches;
   this.tagCollection = options.tags;
   this.commitCollection = options.collection;
@@ -252,6 +261,15 @@ GitEngine.prototype.exportTree = function() {
     totalExport.originTree = this.origin.exportTree();
   }
 
+  // Only emit the simulated changes model when a level actually uses it.
+  // Omitting these keys when idle keeps the exported tree byte-identical to
+  // before for every existing level and test.
+  if (this.changesModelEngaged) {
+    totalExport.changesModelEngaged = true;
+  }
+  if (Object.keys(this.workingChanges).length) {
+    totalExport.workingChanges = this.workingChanges;
+  }
   return totalExport;
 };
 
@@ -336,6 +354,14 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
     throw new Error('Need root commit of C0 for calculations');
   }
   this.refs = createdSoFar;
+
+  // restore the simulated changes model. A level engages the model simply by
+  // declaring workingChanges in its startTree; once engaged
+  // the exported flag keeps it on for the rest of the level (even after the
+  // working directory becomes clean).
+  this.workingChanges = tree.workingChanges || {};
+  this.changesModelEngaged = !!tree.changesModelEngaged ||
+    Object.keys(this.workingChanges).length > 0;
 
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
@@ -640,6 +666,10 @@ GitEngine.prototype.removeAll = function() {
   this.HEAD = null;
   this.rootCommit = null;
 
+  // reset the simulated changes model (see constructor)
+  this.changesModelEngaged = false;
+  this.workingChanges = {};
+
   if (this.origin) {
     // we will restart all this jazz during init from tree
     this.origin.gitVisuals.getVisualization().tearDown();
@@ -915,9 +945,13 @@ GitEngine.prototype.revert = function(whichCommits) {
       oldCommit: this.resolveName(oldCommit),
       oldMsg: oldCommit.get('commitMessage')
     });
-    var newCommit = this.makeCommit([base], newId, {
-      commitMessage: commitMessage
-    });
+    var newCommit = this.makeCommit(
+      [base],
+      newId,
+      Object.assign({
+        commitMessage: commitMessage
+      }, this.copiedChangedFiles(oldCommit))
+    );
     base = newCommit;
 
     return this.animationFactory.playCommitBirthPromiseAnimation(
@@ -1614,12 +1648,25 @@ GitEngine.prototype.receiveTeamwork = function(id, branch, animationQueue) {
   return newCommit;
 };
 
+// Commits made by replaying an existing commit (cherry-pick, rebase, revert)
+// touch the same files as the original, so the new copy keeps its
+// changedFiles label. Commits without the metadata stay untouched.
+GitEngine.prototype.copiedChangedFiles = function(commit) {
+  var changedFiles = commit.get('changedFiles');
+  return changedFiles ? { changedFiles: changedFiles } : {};
+};
+
 GitEngine.prototype.cherrypick = function(commit) {
   // alter the ID slightly
   var id = this.rebaseAltID(commit.get('id'));
 
-  // now commit with that id onto HEAD
-  var newCommit = this.makeCommit([this.getCommitFromRef('HEAD')], id);
+  // now commit with that id onto HEAD. The copy carries the same file
+  // changes as the original, so keep the label for the goal check
+  var newCommit = this.makeCommit(
+    [this.getCommitFromRef('HEAD')],
+    id,
+    this.copiedChangedFiles(commit)
+  );
   this.setTargetLocation(this.HEAD, newCommit);
 
   return newCommit;
@@ -1627,6 +1674,23 @@ GitEngine.prototype.cherrypick = function(commit) {
 
 GitEngine.prototype.commit = function(options) {
   options = options || {};
+
+  // Simulated staging gate: only active when a level engages the changes
+  // model. This is what makes `git add` a required step in the staging levels.
+  var changedFiles = null;
+  if (this.changesModelEngaged) {
+    if (options.all) {
+      // git commit -a / --all: stage everything modified first
+      this.addFiles(null);
+    }
+    if (!this.hasStagedChanges()) {
+      throw new CommandResult({
+        msg: intl.str('git-status-nothing-staged')
+      });
+    }
+    changedFiles = this.getStagedChanges().sort();
+  }
+
   var targetCommit = this.getCommitFromRef(this.HEAD);
   var id = null;
 
@@ -1636,12 +1700,19 @@ GitEngine.prototype.commit = function(options) {
     id = this.rebaseAltID(this.getCommitFromRef('HEAD').get('id'));
   }
 
-  var newCommit = this.makeCommit([targetCommit], id);
+  var commitOptions = changedFiles ? { changedFiles: changedFiles } : {};
+  var newCommit = this.makeCommit([targetCommit], id, commitOptions);
   if (this.getDetachedHead() && this.mode === 'git') {
     this.command.addWarning(intl.str('git-warning-detached'));
   }
 
   this.setTargetLocation(this.HEAD, newCommit);
+
+  // The changes are now history; the commit retains their filenames while the
+  // working tree drops the staged entries.
+  if (this.changesModelEngaged) {
+    this.clearStagedChanges();
+  }
   return newCommit;
 };
 
@@ -2496,7 +2567,9 @@ GitEngine.prototype.rebaseFinish = function(
         [base];
     }
 
-    var newCommit = this.makeCommit(parents, newId);
+    var newCommit = this.makeCommit(
+      parents, newId, this.copiedChangedFiles(oldCommit)
+    );
     base = newCommit;
     hasStartedChain = true;
 
@@ -2901,8 +2974,128 @@ GitEngine.prototype.show = function(ref) {
   });
 };
 
+// --- simulated working-directory / staging helpers ------------------------
+// These operate on this.workingChanges (a { path: status } map). They are only
+// exercised while a level has the changes model engaged.
+GitEngine.prototype.getChangesWithStatus = function(status) {
+  return Object.keys(this.workingChanges).filter(function(path) {
+    return this.workingChanges[path] === status;
+  }, this);
+};
+
+GitEngine.prototype.getUnstagedChanges = function() {
+  return this.getChangesWithStatus('modified');
+};
+
+GitEngine.prototype.getStagedChanges = function() {
+  return this.getChangesWithStatus('staged');
+};
+
+GitEngine.prototype.hasStagedChanges = function() {
+  return this.getStagedChanges().length > 0;
+};
+
+// stage the given paths, or (when paths is empty) everything modified
+GitEngine.prototype.addFiles = function(paths) {
+  var toStage;
+  if (!paths || !paths.length) {
+    toStage = this.getUnstagedChanges();
+  } else {
+    toStage = paths;
+  }
+  toStage.forEach(function(path) {
+    // only stage things git actually knows about
+    if (this.workingChanges[path] !== undefined) {
+      this.workingChanges[path] = 'staged';
+    }
+  }, this);
+};
+
+// git restore: undo working-dir / staging changes without touching history
+GitEngine.prototype.restoreFiles = function(paths, options) {
+  options = options || {};
+  var targets = (paths && paths.length) ? paths : Object.keys(this.workingChanges);
+  targets.forEach(function(path) {
+    if (this.workingChanges[path] === undefined) {
+      return;
+    }
+    if (options.staged) {
+      // move staged changes back to the working directory
+      if (this.workingChanges[path] === 'staged') {
+        this.workingChanges[path] = 'modified';
+      }
+    } else {
+      // discard the working-directory change entirely
+      if (this.workingChanges[path] === 'modified') {
+        delete this.workingChanges[path];
+      }
+    }
+  }, this);
+};
+
+// drop the staged entries after they have been committed
+GitEngine.prototype.clearStagedChanges = function() {
+  Object.keys(this.workingChanges).forEach(function(path) {
+    if (this.workingChanges[path] === 'staged') {
+      delete this.workingChanges[path];
+    }
+  }, this);
+};
+
+// build an authentic-looking `git status` for the modern (engaged) levels
+GitEngine.prototype.getStatusMsg = function() {
+  var lines = [];
+  if (this.getDetachedHead()) {
+    lines.push(intl.str('git-status-detached'));
+  } else {
+    lines.push(intl.str('git-status-onbranch', {
+      branch: this.resolveNameNoPrefix('HEAD')
+    }));
+  }
+
+  var staged = this.getStagedChanges();
+  var unstaged = this.getUnstagedChanges();
+  // real git indents its "(use ...)" hint lines a couple spaces; use &nbsp;
+  // so the indentation survives HTML rendering (regular spaces collapse)
+  var HINT = '&nbsp;&nbsp;';
+
+  if (staged.length) {
+    lines.push('');
+    lines.push(intl.str('git-status-staged-header'));
+    lines.push(HINT + '(use "git restore --staged <file>..." to unstage)');
+    staged.forEach(function(path) {
+      lines.push(TAB + 'modified:   ' + path);
+    });
+  }
+  if (unstaged.length) {
+    lines.push('');
+    lines.push(intl.str('git-status-unstaged-header'));
+    lines.push(HINT + '(use "git add <file>..." to update what will be committed)');
+    lines.push(HINT + '(use "git restore <file>..." to discard changes in the working directory)');
+    unstaged.forEach(function(path) {
+      lines.push(TAB + 'modified:   ' + path);
+    });
+  }
+
+  if (!staged.length && !unstaged.length) {
+    lines.push(intl.str('git-status-clean'));
+  } else if (!staged.length) {
+    // only unstaged changes -- git prints this reminder at the end
+    lines.push('');
+    lines.push('no changes added to commit (use "git add" and/or "git commit -a")');
+  }
+
+  return lines.join('\n') + '\n';
+};
+
 GitEngine.prototype.status = function() {
-  // UGLY todo
+  if (this.changesModelEngaged) {
+    throw new CommandResult({
+      msg: this.getStatusMsg()
+    });
+  }
+
+  // classic graph-only levels: keep the original playful output untouched
   var lines = [];
   if (this.getDetachedHead()) {
     lines.push(intl.str('git-status-detached'));
@@ -3210,7 +3403,18 @@ class Commit {
   }
 
   getShowEntry() {
-    // same deal as above, show log entry and some fake changes
+    var changedFiles = this.get('changedFiles');
+    if (changedFiles && changedFiles.length) {
+      return [
+        this.getLogEntry().replace('\n', ''),
+        'Files changed:',
+        changedFiles.map(function(path) {
+          return '&nbsp;&nbsp;' + path;
+        }).join('<br/>')
+      ].join('<br/>') + '\n';
+    }
+
+    // Classic graph-only commits retain the original illustrative fake diff.
     return [
       this.getLogEntry().replace('\n', ''),
       'diff --git a/bigGameResults.html b/bigGameResults.html',

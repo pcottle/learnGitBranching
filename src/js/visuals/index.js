@@ -12,6 +12,7 @@ var VisTag = require('../visuals/visTag').VisTag;
 var VisTagCollection = require('../visuals/visTag').VisTagCollection;
 var VisEdge = require('../visuals/visEdge').VisEdge;
 var VisEdgeCollection = require('../visuals/visEdge').VisEdgeCollection;
+var VisStagingArea = require('../visuals/visStagingArea').VisStagingArea;
 
 function GitVisuals(options) {
   options = options || {};
@@ -25,6 +26,9 @@ function GitVisuals(options) {
   this.visEdgeCollection = new VisEdgeCollection();
   this.visBranchCollection = new VisBranchCollection();
   this.visTagCollection = new VisTagCollection();
+  // draws itself only while a level engages the changes model, so classic
+  // levels are completely unaffected
+  this.visStagingArea = new VisStagingArea({ gitVisuals: this });
   this.commitMap = {};
 
   this.rootCommit = null;
@@ -97,6 +101,9 @@ GitVisuals.prototype.resetAll = function() {
 
 GitVisuals.prototype.tearDown = function() {
   this.resetAll();
+  // note: deliberately not removed in resetAll, since that runs on every tree
+  // reload and the panel needs to outlive those
+  this.visStagingArea.remove();
   this.paper.remove();
   // Unregister the refresh tree listener so we don't accumulate
   // these over time. However we aren't calling tearDown in
@@ -257,6 +264,7 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   deferred.promise
   // first fade out everything but circles
   .then(function() {
+    this.fadeChangedFiles(0, defaultTime * 1.1 / speed);
     return this.animateAllAttrKeys(
       { exclude: ['circle'] },
       { opacity: 0 },
@@ -299,6 +307,15 @@ GitVisuals.prototype.finishAnimation = function(speed) {
   .then(function() {
     text.animate({ opacity: 0 }, defaultTime, undefined, undefined, function() {
       text.remove();
+    });
+    // the canvas may have re-laid out mid-celebration (goal window closing),
+    // and animateAllAttrKeys only moves the core shapes -- so walk the file
+    // labels back to their commits while fading them in (one combined
+    // animation; a separate fade would stop() the position tween)
+    Object.values(this.visNodeMap).forEach(function(visNode) {
+      visNode.animateChangedFilePositions(
+        defaultTime, undefined, { opacity: visNode.getOpacity() }
+      );
     });
     return this.animateAllAttrKeys(
       {},
@@ -434,6 +451,49 @@ GitVisuals.prototype.animateAll = function(speed) {
   this.animateEdges(speed);
   this.animateNodePositions(speed);
   this.animateRefs(speed);
+  this.visStagingArea.refresh(speed);
+  this.revealChangedFiles(speed);
+};
+
+// Keep the chips a commit just swallowed on screen, so the next refresh
+// doesn't blink them out before they can fly into the new commit.
+GitVisuals.prototype.beginSlurp = function(paths, commit) {
+  this.visStagingArea.beginSlurp(paths);
+  // the newborn commit's own labels stay hidden until the slurp lands
+  var visNode = commit && commit.get('visNode');
+  if (visNode) {
+    visNode.set('awaitingSlurp', true);
+  }
+};
+
+// Gather the held chips into the newborn commit circle.
+GitVisuals.prototype.slurpChangesIntoCommit = function(commit) {
+  var visNode = commit.get('visNode');
+  return Promise.resolve(this.visStagingArea.slurpIntoCommit(visNode))
+    .then(function() {
+      visNode.set('awaitingSlurp', false);
+      visNode.showChangedFiles();
+    });
+};
+
+// Nodes born while the canvas is live start with their file labels hidden
+// (see addNode), so every refresh or reload reveals any that are not still
+// waiting on a slurp animation -- undo/reset reloads, goal trees, and
+// rebase / cherry-pick copies all land here.
+// Fade every commit's file labels together -- used by the level-solved
+// celebration so the chips dip out with the rest of the tree.
+GitVisuals.prototype.fadeChangedFiles = function(opacity, speed) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
+    visNode.animateChangedFileOpacity(opacity, speed);
+  });
+};
+
+GitVisuals.prototype.revealChangedFiles = function(speed) {
+  Object.values(this.visNodeMap).forEach(function(visNode) {
+    if (!visNode.get('awaitingSlurp')) {
+      visNode.showChangedFiles(speed);
+    }
+  });
 };
 
 GitVisuals.prototype.fullCalc = function() {
@@ -860,7 +920,7 @@ GitVisuals.prototype.addNode = function(id, commit) {
   this.visNodeMap[id] = visNode;
 
   if (this.gitReady) {
-    visNode.genGraphics(this.paper);
+    visNode.genGraphics(this.paper, { hideChangedFiles: true });
   }
   return visNode;
 };
@@ -891,6 +951,8 @@ GitVisuals.prototype.zIndexReflow = function() {
   this.visNodesFront();
   this.visBranchesFront();
   this.visTagsFront();
+  // the panel is docked over the canvas, so it always sits on top
+  this.visStagingArea.toFront();
 };
 
 GitVisuals.prototype.visNodesFront = function() {
@@ -927,6 +989,7 @@ GitVisuals.prototype.drawTreeFromReload = function() {
   this.deferFlush();
 
   this.calcTreeCoords();
+  this.revealChangedFiles();
 };
 
 GitVisuals.prototype.drawTreeFirstTime = function() {
@@ -948,6 +1011,8 @@ GitVisuals.prototype.drawTreeFirstTime = function() {
   this.visTagCollection.each(function(visTag) {
     visTag.genGraphics(this.paper);
   }, this);
+
+  this.visStagingArea.genGraphics(this.paper);
 
   this.zIndexReflow();
 };

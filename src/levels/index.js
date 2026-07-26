@@ -15,7 +15,9 @@ exports.levelSequences = {
   ],
   move: [
     require('./rampup/cherryPick').level,
-    require('./rampup/interactiveRebase').level
+    require('./rampup/interactiveRebase').level,
+    require('./workingDir/staging').level,
+    require('./workingDir/restore').level
   ],
   mixed: [
     require('./mixed/grabbingOneCommit').level,
@@ -266,7 +268,7 @@ var sequenceInfo = exports.sequenceInfo = {
   },
   move: {
     displayName: {
-      'en_US': 'Moving Work Around',
+      'en_US': 'Moving and Staging Work',
       'fa': 'جابجایی کارها',
       'de_DE': 'Code umherschieben',
       'fr_FR': 'Déplacer le travail',
@@ -291,7 +293,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'tr_TR': 'İşi yürüt'
     },
     about: {
-      'en_US': '"Git" comfortable with modifying the source tree :P',
+      'en_US': 'Move commits around and choose exactly which file changes belong together',
       'fa': 'با تغییر درخت منبع راحت باشید :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
