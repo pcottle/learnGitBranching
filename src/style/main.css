@@ -1245,10 +1245,57 @@ div.gitDemonstrationView {
   margin: 0 60px;
 }
 
-.leftRightView div.exit {
+/* flip only the icon (not the whole button) so the
+   hover label text does not render mirrored */
+.leftRightView div.exit i {
+  display: inline-block;
   -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
   -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
   -ms-transform: matrix(-1, 0, 0, 1, 0, 0);
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.leftRightView button {
+  position: relative;
+}
+
+/* the label doubles as the screen-reader text; it stays
+   positioned out of flow at all times and only fades in,
+   so revealing it never shifts the surrounding layout */
+.leftRightView span.hoverLabel {
+  clip: auto;
+  clip-path: none;
+  overflow: visible;
+  width: auto;
+  height: auto;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  /* same look as the window-close data-tooltip */
+  background: #222;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #fff;
+  text-shadow: none;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in;
+  -moz-transition: opacity 0.2s ease-in;
+  transition: opacity 0.2s ease-in;
+}
+
+.leftRightView button:hover span.hoverLabel,
+.leftRightView button:focus-visible span.hoverLabel {
+  opacity: 1;
 }
 
 .leftRightView div.exit,
