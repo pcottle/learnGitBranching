@@ -357,19 +357,23 @@ exports.strings = {
   },
   "git-status-staged-header": {
     "__desc__": "git status header for changes that are staged (ready to commit)",
-    "en_US": "Changes to be committed:"
+    "en_US": "Changes to be committed:",
+    "pt_BR": "Mudanças a serem commitadas:"
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
-    "en_US": "Changes not staged for commit:"
+    "en_US": "Changes not staged for commit:",
+    "pt_BR": "Mudanças não adicionadas ao staging:"
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
-    "en_US": "nothing to commit, working tree clean"
+    "en_US": "nothing to commit, working tree clean",
+    "pt_BR": "nada para commitar, diretório de trabalho limpo"
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
-    "en_US": "no changes added to commit (stage them first with \"git add <file>\")"
+    "en_US": "no changes added to commit (stage them first with \"git add <file>\")",
+    "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")"
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",

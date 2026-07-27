@@ -6,12 +6,14 @@ exports.level = {
   "name": {
     "en_US": "The Staging Area",
     "zh_CN": "暂存区 Staging Area",
-    "zh_TW": "暫存區 Staging Area"
+    "zh_TW": "暫存區 Staging Area",
+    "pt_BR": "A área de staging"
   },
   "hint": {
     "en_US": "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
     "zh_CN": "使用 `git add <file>` 暂存一个文件，再用 `git commit` 将其保存为快照。每个文件各执行一次，共执行两次。",
-    "zh_TW": "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。"
+    "zh_TW": "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。",
+    "pt_BR": "Adicione um arquivo ao staging com `git add <arquivo>` e depois tire uma fotografia (snapshot) dele com `git commit`. Faça isso duas vezes, uma para cada arquivo."
   },
   "startDialog": {
     "en_US": {
@@ -180,6 +182,63 @@ exports.level = {
               "* 執行 `git add styles.css`，然後執行 `git commit`",
               "",
               "目標 commit 旁的檔案名稱清楚地標出了每項變更應該放在哪裡。完成兩個乾淨的 commit，就能通過本關。"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A área de staging",
+              "",
+              "Até agora nesta jornada de aprendizado, passamos por cima da ideia do que exatamente está envolvido em de fato *fazer* um commit. Você já deve saber que eles representam mudanças em um conjunto de arquivos, mas na verdade existe todo um processo para escolher *quais* mudanças de arquivos viram *quais* commits.",
+              "",
+              "O Git não quer simplesmente incluir de forma automática todos os arquivos modificados em todos os commits -- isso seria péssimo! Ele poderia incluir uma mudança que você não quer tornar permanente, ou até algo secreto como uma chave de API, que acabaria vazando no GitHub como parte do seu histórico de commits.",
+              "",
+              "Por isso, antes que a mudança em um arquivo faça parte de um commit, ela precisa ser selecionada especificamente. O Git tem três zonas para isso: o seu **diretório de trabalho** (onde você edita), a **área de staging** (uma área de embarque para o que vai no próximo commit) e o **repositório** (o seu histórico permanente).",
+              "",
+              "Você escolhe *exatamente* o que embarca em cada commit usando o `git add`. É assim que os commits se mantêm organizados, e você nunca é obrigado a commitar tudo de uma vez.",
+              "",
+              "*(A partir destes níveis, vamos mostrar quais arquivos fazem parte de quais commits.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rode `git status` a qualquer momento para ver como as coisas estão. Agora ele mostra dois arquivos que você editou, mas ainda não adicionou ao staging:",
+              "",
+              "```",
+              "Mudanças não adicionadas ao staging:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Adicione um único arquivo ao staging com `git add app.js`, ou pegue tudo de uma vez com `git add .`. Assim que um arquivo está no staging, o `git commit` o sela em uma fotografia (snapshot).",
+              "",
+              "Tem arquivos que você nunca quer commitar, como segredos, logs ou lixo de build? Liste-os em um arquivo `.gitignore` e o Git vai deixá-los quietinhos de lado."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Sua vez! Adicione ao staging e commite o seu trabalho **um arquivo por vez**, para que cada commit fique focado:",
+              "",
+              "* `git add app.js` e depois `git commit`",
+              "* `git add styles.css` e depois `git commit`",
+              "",
+              "Os nomes dos arquivos ao lado de cada commit do objetivo mostram exatamente onde cada mudança deve ficar. Dois commits limpos e o nível é seu."
             ]
           }
         }
