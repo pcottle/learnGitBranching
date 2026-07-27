@@ -4,10 +4,12 @@ exports.level = {
   "solutionCommand": "git restore --staged secret.env;git restore experiment.js;git commit",
   "startTree": '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"workingChanges":{"app.js":"staged","secret.env":"staged","experiment.js":"modified"}}',
   "name": {
-    "en_US": "Undoing with git restore"
+    "en_US": "Undoing with git restore",
+    "pt_BR": "Desfazendo com git restore"
   },
   "hint": {
-    "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`."
+    "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
+    "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`."
   },
   "startDialog": {
     "en_US": {
@@ -65,6 +67,66 @@ exports.level = {
               "* Commit what's left: `git commit`",
               "",
               "That lands one clean commit, with only the work you meant to keep."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Desfazendo com `git restore`",
+              "",
+              "Todo mundo faz uma pequena bagunça de vez em quando. Você adiciona ao staging um arquivo sem querer, ou começa um experimento que prefere jogar fora. O `git restore` é o botão de desfazer moderno, feito sob medida para o seu diretório de trabalho e para a área de staging.",
+              "",
+              "Ele vem em dois sabores:",
+              "",
+              "* `git restore --staged <arquivo>`: **tira do staging** um arquivo (move ele de volta para fora da área de staging, mantendo as suas edições)",
+              "* `git restore <arquivo>`: **descarta** completamente as suas edições em um arquivo (cuidado, isso joga as mudanças fora!)",
+              "",
+              "*(Esses comandos substituem os truques mais antigos `git reset HEAD <arquivo>` e `git checkout -- <arquivo>`. Mesma ideia, com nomes muito mais claros.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Esta é a bagunça que está na sua mesa agora:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Você quer commitar o `app.js`, mas o `secret.env` foi parar no staging cedo demais por acidente (ele deveria ser um commit em cima desse), então vamos guardá-lo para depois. Além disso, as mudanças do `experiment.js` não funcionaram, então vamos jogá-las fora por completo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Arrume a bagunça e depois commite:",
+              "",
+              "* Tire o segredo do staging: `git restore --staged secret.env`",
+              "* Descarte o experimento: `git restore experiment.js`",
+              "* Commite o que sobrou: `git commit`",
+              "",
+              "Isso resulta em um único commit limpo, apenas com o trabalho que você queria manter."
             ]
           }
         }
