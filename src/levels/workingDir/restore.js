@@ -11,7 +11,7 @@ exports.level = {
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
     "zh_CN": "使用 `git restore --staged secret.env` 取消暂存，使用 `git restore experiment.js` 丢弃实验性修改，然后执行 `git commit`。",
-    "zh_TW": "使用 `git restore --staged secret.env` 取消預存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。"
+    "zh_TW": "使用 `git restore --staged secret.env` 取消暫存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。"
   },
   "startDialog": {
     "en_US": {
@@ -142,11 +142,11 @@ exports.level = {
             "markdowns": [
               "## 使用 `git restore` 復原變更",
               "",
-              "每個人偶爾都會把工作目錄弄亂一點：可能預存了不該預存的檔案，也可能開始了一項後來想要捨棄的實驗。`git restore` 是專門為工作目錄和預存區設計的現代復原工具。",
+              "每個人偶爾都會把工作目錄弄亂一點：可能暫存了不該暫存的檔案，也可能開始了一項後來想要捨棄的實驗。`git restore` 是專門為工作目錄和暫存區設計的現代復原工具。",
               "",
               "它有兩種用法：",
               "",
-              "* `git restore --staged <file>`：**取消預存**檔案（將檔案移出預存區，但保留你的變更）",
+              "* `git restore --staged <file>`：**取消暫存**檔案（將檔案移出暫存區，但保留你的變更）",
               "* `git restore <file>`：徹底**捨棄**檔案變更（請小心，這會刪除這些變更！）",
               "",
               "*(它們取代了舊式的 `git reset HEAD <file>` 和 `git checkout -- <file>` 用法。作用相同，但名稱清楚得多。)*"
@@ -174,7 +174,7 @@ exports.level = {
               "  modified:   experiment.js",
               "```",
               "",
-              "你只想提交 `app.js`，但 `secret.env` 不小心提前進入了預存區（它應該留到下一個 commit），所以先把它留到之後。另外，`experiment.js` 中的變更沒有成功，因此把它們全部捨棄。"
+              "你只想提交 `app.js`，但 `secret.env` 不小心提前進入了暫存區（它應該留到下一個 commit），所以先把它留到之後。另外，`experiment.js` 中的變更沒有成功，因此把它們全部捨棄。"
             ]
           }
         },
@@ -184,7 +184,7 @@ exports.level = {
             "markdowns": [
               "整理好工作目錄，然後提交：",
               "",
-              "* 取消預存敏感檔案：`git restore --staged secret.env`",
+              "* 取消暫存敏感檔案：`git restore --staged secret.env`",
               "* 捨棄實驗性變更：`git restore experiment.js`",
               "* 提交剩餘內容：`git commit`",
               "",
