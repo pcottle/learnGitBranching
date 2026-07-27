@@ -96,7 +96,7 @@ exports.level = {
               "Rode `git status` a qualquer momento para ver como as coisas estão. Agora ele mostra dois arquivos que você editou, mas ainda não adicionou ao staging:",
               "",
               "```",
-              "Changes not staged for commit:",
+              "Mudanças não adicionadas ao staging:",
               "```",
               "```",
               "  modified:   app.js",
