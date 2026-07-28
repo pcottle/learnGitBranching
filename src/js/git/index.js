@@ -3606,13 +3606,53 @@ RevisionRange.prototype.processSpecifiers = function(specifiers) {
     self.addIncluded(Graph.getUpstreamSet(self.engine, inclusion));
   });
 
-  var includedKeys = Array.from(Object.keys(self.includedRefs));
+  this.revisions = this.computeTopologicalOrder();
+};
 
-  self.revisions = includedKeys.map(function(revision) {
-    return self.engine.resolveStringRef(revision);
+RevisionRange.prototype.computeTopologicalOrder = function() {
+  // Walk down from the tips so children always appear before their
+  // parents. Sorting by commit ID instead would interleave rebased
+  // commits (C2') with the originals (C2, C3) they sit on top of.
+  var self = this;
+  var childCounts = {};
+  var commitsByID = {};
+
+  Object.keys(this.includedRefs).forEach(function(id) {
+    var commit = self.engine.resolveStringRef(id);
+    commitsByID[id] = commit;
+    childCounts[id] = childCounts[id] || 0;
+    (commit.get('parents') || []).forEach(function(parent) {
+      var parentID = parent.get('id');
+      if (self.includedRefs.hasOwnProperty(parentID)) {
+        childCounts[parentID] = (childCounts[parentID] || 0) + 1;
+      }
+    });
   });
-  self.revisions.sort(self.engine.dateSortFunc);
-  self.revisions.reverse();
+
+  var frontier = Object.keys(childCounts).filter(function(id) {
+    return childCounts[id] === 0;
+  }).map(function(id) {
+    return commitsByID[id];
+  });
+
+  var revisions = [];
+  while (frontier.length) {
+    // take the "newest" available commit so ties stay deterministic
+    frontier.sort(this.engine.dateSortFunc);
+    var commit = frontier.pop();
+    revisions.push(commit);
+    (commit.get('parents') || []).forEach(function(parent) {
+      var parentID = parent.get('id');
+      if (!childCounts.hasOwnProperty(parentID)) {
+        return;
+      }
+      childCounts[parentID]--;
+      if (childCounts[parentID] === 0) {
+        frontier.push(commitsByID[parentID]);
+      }
+    });
+  }
+  return revisions;
 };
 
 RevisionRange.prototype.isExcluded = function(revision) {

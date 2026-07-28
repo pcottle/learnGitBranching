@@ -537,6 +537,20 @@ describe('Git', function() {
       });
     });
 
+    it('topological order after a rebase', function() {
+      // Reproduces issue #1392 -- rebased commits C2' and C3' must show
+      // up above the commits they were replayed onto, even though their
+      // IDs "sort" lower than C4 / C5
+      var REBASE_SETUP = 'git co -b bugFix; gc; gc; git co main; gc; gc; ' +
+        'git co bugFix; git rebase main; ';
+      return runCommand(REBASE_SETUP + 'git log', function(commandMsg) {
+        var order = commandMsg.match(/Commit: [^<\n]+/g).map(function(line) {
+          return line.replace('Commit: ', '');
+        });
+        expect(order).toEqual(["C3'", "C2'", 'C5', 'C4', 'C1', 'C0']);
+      });
+    });
+
     it('multiple excluded revisions', function() {
       return runCommand(SETUP + 'git log all ^right ^left', function(commandMsg) {
         expect(commandMsg).not.toContain('Commit: C0\n');
