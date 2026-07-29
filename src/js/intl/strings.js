@@ -358,26 +358,26 @@ exports.strings = {
   "git-status-staged-header": {
     "__desc__": "git status header for changes that are staged (ready to commit)",
     "en_US": "Changes to be committed:",
-    "pt_BR": "Mudanças a serem commitadas:"
+    "pt_BR": "Mudanças a serem commitadas:",
     "de_DE": "Änderungen, die committed werden:",
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
     "en_US": "Changes not staged for commit:",
-    "pt_BR": "Mudanças não adicionadas ao staging:"
+    "pt_BR": "Mudanças não adicionadas ao staging:",
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
     "en_US": "nothing to commit, working tree clean",
-    "pt_BR": "nada para commitar, diretório de trabalho limpo"
+    "pt_BR": "nada para commitar, diretório de trabalho limpo",
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
     "en_US": "no changes added to commit (stage them first with \"git add <file>\")",
-    "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")"
-    "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\ zum Staging-Bereich hinzu).",
+    "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
+    "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -2069,7 +2069,7 @@ exports.strings = {
   "no-solution-defined": {
     "__desc__": "Shown when the user runs `show solution` but the current level has no solution defined to place in the command box",
     "en_US": "This level doesn't have a solution to show!",
-    "az": "Bu bölümün göstəriləcək həlli yoxdur!"
+    "az": "Bu bölümün göstəriləcək həlli yoxdur!",
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
   },
   "solution-empty": {
@@ -2606,13 +2606,13 @@ exports.strings = {
   "close-window": {
     "__desc__": "Tooltip for the red control that closes a window.",
     "en_US": "Close window",
-    "az": "Pəncərəni bağla"
+    "az": "Pəncərəni bağla",
     "de_DE": "Fenster schließen",
   },
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
     "en_US": "Back",
-    "az": "Geri"
+    "az": "Geri",
     "de_DE": "Zurück",
   },
   "command-helper-bar-levels": {
