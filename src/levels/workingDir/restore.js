@@ -7,13 +7,15 @@ exports.level = {
     "en_US": "Undoing with git restore",
     "zh_CN": "使用 git restore 撤销修改",
     "zh_TW": "使用 git restore 復原變更",
-    "pt_BR": "Desfazendo com git restore"
+    "pt_BR": "Desfazendo com git restore",
+    "ru_RU": "Отмена изменений с помощью git restore"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
     "zh_CN": "使用 `git restore --staged secret.env` 取消暂存，使用 `git restore experiment.js` 丢弃实验性修改，然后执行 `git commit`。",
     "zh_TW": "使用 `git restore --staged secret.env` 取消暫存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。",
-    "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`."
+    "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`.",
+    "ru_RU": "Уберите из подготовленной области с помощью `git restore --staged secret.env`, отбросьте эксперимент командой `git restore experiment.js`, а затем выполните `git commit`."
   },
   "startDialog": {
     "en_US": {
@@ -251,6 +253,66 @@ exports.level = {
               "* Commite o que sobrou: `git commit`",
               "",
               "Isso resulta em um único commit limpo, apenas com o trabalho que você queria manter."
+            ]
+          }
+        }
+      ]
+    },
+    "ru_RU": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Отмена изменений с помощью `git restore`",
+              "",
+              "Каждый иногда немного напортачит. Вы случайно подготовили файл, который не хотели, или начали эксперимент, который лучше выбросить. `git restore` — это современная, специально созданная кнопка «отменить» для вашей рабочей директории и области подготовленных файлов.",
+              "",
+              "Она бывает в двух вариантах:",
+              "",
+              "* `git restore --staged <файл>`: **убрать** файл из области подготовленных файлов (вернуть его обратно, сохранив все правки)",
+              "* `git restore <файл>`: полностью **отменить** все изменения в файле (осторожно, это безвозвратно удаляет правки!)",
+              "",
+              "*(Эти команды заменяют старые приёмы `git reset HEAD <файл>` и `git checkout -- <файл>`. Смысл тот же, но имена гораздо понятнее.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Вот какой беспорядок сейчас у вас на столе:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Вы хотите закоммитить `app.js`, но `secret.env` случайно попал в подготовленную область раньше времени (он должен быть отдельным коммитом сверху), так что давайте отложим его на потом. Также изменения в `experiment.js` не сработали, так что давайте выбросим их совсем."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Приведите всё в порядок, затем закоммитьте:",
+              "",
+              "* Уберите секретный файл из подготовленной области: `git restore --staged secret.env`",
+              "* Отбросьте изменения в эксперименте: `git restore experiment.js`",
+              "* Закоммитьте то, что осталось: `git commit`",
+              "",
+              "В результате получится один аккуратный коммит, содержащий только ту работу, которую вы действительно хотели сохранить."
             ]
           }
         }
