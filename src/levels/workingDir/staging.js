@@ -8,14 +8,16 @@ exports.level = {
     "zh_CN": "暂存区 Staging Area",
     "zh_TW": "暫存區 Staging Area",
     "pt_BR": "A área de staging",
-    "ru_RU": "Область подготовленных файлов (Индекс)"
+    "ru_RU": "Область подготовленных файлов (Индекс)",
+    "tr_TR": "Staging Area (Hazırlık Alanı)"
   },
   "hint": {
     "en_US": "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
     "zh_CN": "使用 `git add <file>` 暂存一个文件，再用 `git commit` 将其保存为快照。每个文件各执行一次，共执行两次。",
     "zh_TW": "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。",
     "pt_BR": "Adicione um arquivo ao staging com `git add <arquivo>` e depois tire uma fotografia (snapshot) dele com `git commit`. Faça isso duas vezes, uma para cada arquivo.",
-    "ru_RU": "Подготовьте файл с помощью 'git add <файл>', затем зафиксируйте его с помощью 'git commit'. Сделайте это дважды — по одному разу для каждого файла."
+    "ru_RU": "Подготовьте файл с помощью 'git add <файл>', затем зафиксируйте его с помощью 'git commit'. Сделайте это дважды — по одному разу для каждого файла.",
+    "tr_TR": "Bir dosyayı `git add <file>` ile stage'leyin, sonra `git commit` ile anlık fotoğrafını çekin. Bunu her dosya için birer kez olmak üzere iki defa yapın."
   },
   "startDialog": {
     "en_US": {
@@ -298,6 +300,63 @@ exports.level = {
               "* `git add styles.css`, затем `git commit`",
               "",
               "Имена файлов рядом с каждым целевым коммитом показывают, куда именно относится каждое изменение. Два аккуратных коммита — и уровень ваш."
+            ]
+          }
+        }
+      ]
+    },
+    "tr_TR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Staging Area (Hazırlık Alanı)",
+              "",
+              "Bu öğrenme sürecinde şimdiye kadar, bir commit *yapmanın* aslında neleri kapsadığı konusunun üzerinden hızlıca geçtik. Commit'lerin bir dosya kümesindeki değişiklikleri temsil ettiğini biliyor olabilirsiniz; ama aslında *hangi* dosya değişikliklerinin *hangi* commit'e gireceğini seçmek başlı başına bir süreçtir.",
+              "",
+              "Git, değişen bütün dosyaları otomatik olarak her commit'e dahil etmek istemez -- bu kötü olurdu! Kalıcı hale getirmek istemediğiniz bir değişikliği, hatta commit geçmişinizin bir parçası olarak GitHub'a sızabilecek bir API anahtarı gibi gizli bir şeyi içine alabilirdi.",
+              "",
+              "Bu yüzden bir dosyadaki değişiklik bir commit'in parçası olmadan önce, özellikle seçilmesi gerekir. Git'in bunun için üç bölgesi vardır: **working directory** (çalışma dizini, düzenleme yaptığınız yer), **staging area** (bir sonraki commit'e neyin gireceğini bekleten yükleme rampası) ve **repository** (kalıcı geçmişiniz).",
+              "",
+              "Her commit'e neyin dahil olacağını `git add` ile *tam olarak* siz seçersiniz. Commit'ler işte böyle derli toplu kalır ve hiçbir zaman her şeyi tek seferde commit'lemek zorunda kalmazsınız.",
+              "",
+              "*(Bu bölümlerden itibaren, hangi dosyaların hangi commit'lerin parçası olduğunu göstereceğiz.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Durumun ne olduğunu görmek için istediğiniz zaman `git status` çalıştırabilirsiniz. Şu anda, düzenlediğiniz ama henüz stage'lemediğiniz iki dosyayı gösteriyor:",
+              "",
+              "```",
+              "Commit için stage'lenmemiş değişiklikler:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Tek bir dosyayı `git add app.js` ile stage'leyin, ya da hepsini birden `git add .` ile alın. Bir dosya stage'lendikten sonra, `git commit` onu bir anlık fotoğrafın içine mühürler.",
+              "",
+              "Gizli bilgiler, log'lar veya build çöpleri gibi asla commit'lemek istemediğiniz dosyalar mı var? Onları bir `.gitignore` dosyasına yazın, git de sessizce onlara dokunmasın."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Sıra sizde! Her commit odaklı kalsın diye, çalışmanızı **her seferinde tek dosya** olacak şekilde stage'leyip commit'leyin:",
+              "",
+              "* `git add app.js`, sonra `git commit`",
+              "* `git add styles.css`, sonra `git commit`",
+              "",
+              "Hedefteki her commit'in yanındaki dosya adları, her değişikliğin tam olarak nereye ait olduğunu gösteriyor. İki temiz commit ve bölüm sizindir."
             ]
           }
         }

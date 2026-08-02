@@ -360,24 +360,28 @@ exports.strings = {
     "en_US": "Changes to be committed:",
     "pt_BR": "Mudanças a serem commitadas:",
     "de_DE": "Änderungen, die committed werden:",
+    "tr_TR": "Commit edilecek değişiklikler:",
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
     "en_US": "Changes not staged for commit:",
     "pt_BR": "Mudanças não adicionadas ao staging:",
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
+    "tr_TR": "Commit için stage'lenmemiş değişiklikler:",
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
     "en_US": "nothing to commit, working tree clean",
     "pt_BR": "nada para commitar, diretório de trabalho limpo",
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
+    "tr_TR": "commit edilecek bir şey yok, çalışma ağacı temiz",
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
     "en_US": "no changes added to commit (stage them first with \"git add <file>\")",
     "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
     "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
+    "tr_TR": "commit'e eklenmiş değişiklik yok (önce \"git add <file>\" ile stage'leyin)",
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -2071,6 +2075,7 @@ exports.strings = {
     "en_US": "This level doesn't have a solution to show!",
     "az": "Bu bölümün göstəriləcək həlli yoxdur!",
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
+    "tr_TR": "Bu seviyenin gösterilecek bir çözümü yok!",
   },
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
@@ -2425,7 +2430,8 @@ exports.strings = {
     "it_IT": "Generatore di livelli",
     "ta_IN": "நிலை கட்டமைப்பான்",
     "hu_HU": "Szintépítő",
-    "az": "Bölüm Konstruktoru"
+    "az": "Bölüm Konstruktoru",
+    "tr_TR": "Seviye Oluşturucu"
   },
   "no-start-dialog": {
     "__desc__": "when the user tries to open a start dialog for a level that does not have one",
@@ -2608,12 +2614,14 @@ exports.strings = {
     "en_US": "Close window",
     "az": "Pəncərəni bağla",
     "de_DE": "Fenster schließen",
+    "tr_TR": "Pencereyi kapat",
   },
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
     "en_US": "Back",
     "az": "Geri",
     "de_DE": "Zurück",
+    "tr_TR": "Geri",
   },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
