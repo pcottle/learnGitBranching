@@ -1358,11 +1358,11 @@ exports.level = {
               "",
               "`git clone` komutunun nasıl çalıştığını gördükten sonra, yapılan değişikliklere biraz daha yakından bakalım.",
               "",
-              "İlk fark ettiğiniz şey, yerel deposunda `o/main` adında yeni bir dalın görünmesidir. Bu tür dallara _uzak_ dal denir; uzak dallar özel özelliklere sahiptir çünkü özel bir amaca hizmet ederler.",
+              "İlk fark edeceğiniz şey, yerel deponuzda `o/main` adında yeni bir dalın belirmesidir. Bu tür dallara _uzak_ dal denir; uzak dallar özel özelliklere sahiptir çünkü özel bir amaca hizmet ederler.",
               "",
               "Uzak dallar, uzak depoların _durumunu_ yansıtır (son kez bu uzak depolarla iletişim kurduğunuzdan itibaren). Bu dallar, yerel çalışmanızla kamuya açık çalışmanız arasındaki farkı anlamanıza yardımcı olur — başkalarıyla çalışmanızı paylaşmadan önce atılacak kritik bir adımdır.",
               "",
-              "Uzak dalların özel bir özelliği vardır; onları kontrol ettiğinizde, `HEAD` moduna geçersiniz. Git bunu bilerek yapar çünkü bu dallarda doğrudan çalışamazsınız; başka bir yerde çalışıp ardından çalışmanızı uzak depo ile paylaşmalısınız (ve bundan sonra uzak dallarınız güncellenir).",
+              "Uzak dalların özel bir özelliği vardır; onlara checkout yaptığınızda, ayrık (detached) `HEAD` moduna geçersiniz. Git bunu bilerek yapar çünkü bu dallarda doğrudan çalışamazsınız; başka bir yerde çalışıp ardından çalışmanızı uzak depo ile paylaşmalısınız (ve bundan sonra uzak dallarınız güncellenir).",
               "",
               "Açık olmak gerekirse: Uzak dallar yerel deponuzda bulunur, uzak depoda değil."
             ]
@@ -1405,7 +1405,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu seviyeyi bitirmek için, önce `main` dalından bir commit yapın ve sonra `o/main`'i kontrol ettikten sonra bir commit daha yapın. Bu, uzak dalların nasıl farklı davrandığını ve yalnızca uzak depo durumunu yansıtacak şekilde nasıl güncellendiklerini anlamanıza yardımcı olacaktır."
+              "Bu seviyeyi bitirmek için, önce `main` dalından bir commit yapın ve sonra `o/main`'e checkout yapıp bir commit daha yapın. Bu, uzak dalların nasıl farklı davrandığını ve yalnızca uzak depo durumunu yansıtacak şekilde nasıl güncellendiklerini anlamanıza yardımcı olacaktır."
             ]
           }
         }

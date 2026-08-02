@@ -2657,7 +2657,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git fetch parametreleri",
+              "## Git fetch argümanları",
               "",
               "Az önce git push parametreleri, bu havalı `<place>` parametresi ve hatta kolon referansları (`<source>:<destination>`) hakkında her şeyi öğrendik. Peki bu bilgileri `git fetch` için de kullanabilir miyiz?",
               "",
@@ -2713,7 +2713,7 @@ exports.level = {
             "markdowns": [
               "\"O zaman ne olur, eğer `<source>:<destination>` ile hem kaynağı hem de hedefi açıkça belirtirsem?\"",
               "",
-              "Eğer commit'leri *doğrudan* yerel bir dala almak için çok hevesliyseniz, o zaman evet, bunu kolon referanslarıyla belirtebilirsiniz. Ancak commit'leri aktif bir dala alamazsınız, ancak git bununla buna izin verir.",
+              "Eğer commit'leri *doğrudan* yerel bir dala almak için çok hevesliyseniz, evet, bunu kolon referansıyla belirtebilirsiniz. Şu kadarı var ki checkout yapılmış bir dala fetch yapamazsınız; bunun dışında git buna izin verir.",
               "",
               "Buradaki tek dikkat edilmesi gereken şey şu -- `<source>`, artık bir *uzak* yerde ve `<destination>` ise bu commit'leri yerleştireceğiniz *yerel* bir yerdir. Bu, `git push` komutunun tam tersidir ve bu mantıklıdır çünkü veri yönü tersine transfer ediliyordur!",
               "",
@@ -2738,7 +2738,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ya hedef önceden var değilse? Hadi son slaydı `bar` olmadan görelim."
+              "Ya komutu çalıştırmadan önce hedef yoksa? Hadi son slaydı `bar` olmadan görelim."
             ],
             "afterMarkdowns": [
               "Görün! Tam olarak `git push` gibi. Git, hedefi yerel olarak oluşturdu ve fetch işlemi yaptı, tıpkı git'in uzak depoya push yaparken hedefi oluşturması gibi (eğer mevcut değilse)."

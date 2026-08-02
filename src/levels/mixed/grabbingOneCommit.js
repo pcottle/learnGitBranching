@@ -982,7 +982,7 @@ exports.level = {
               "",
               "Bu hata ayıklama veya yazdırma ifadeleri, her biri kendi commit'lerine sahiptir. Sonunda hatayı bulurum, düzeltirim ve sevinirim!",
               "",
-              "Tek sorun şu ki şimdi `bugFix` branch'imi `main` branch'imden almalıyım. Eğer sadece `main` branch'ini süratle ileri alırsam, `main` branch'i tüm hata ayıklama ifadelerimi alır ki bu istenmeyen bir durumdur. Bunun için başka bir yol bulunmalıdır..."
+              "Tek sorun şu ki şimdi `bugFix` branch'imdeki çalışmayı `main` branch'ine geri almam gerekiyor. Eğer sadece `main` branch'ini fast-forward yaparsam, `main` branch'i tüm hata ayıklama ifadelerimi de alır ki bu istenmeyen bir durumdur. Bunun için başka bir yol bulunmalıdır..."
             ]
           }
         },
@@ -1003,7 +1003,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu biraz daha ileri bir seviye olduğundan hangi komutu kullanmak istediğiniz size kalmış, ancak `main` branch'inin `bugFix` tarafından atılan ve `main`'e atıfta bulunan commit'i alması gerektiğini unutmayın."
+              "Bu biraz daha ileri bir seviye olduğundan hangi komutu kullanmak istediğiniz size kalmış, ancak seviyeyi tamamlamak için `main`'in, `bugFix`'in işaret ettiği commit'i alması gerektiğinden emin olun."
             ]
           }
         }

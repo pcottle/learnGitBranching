@@ -1619,7 +1619,7 @@ exports.level = {
               "",
               "Harika! Şimdi uzaktan izleme dallarını bildiğine göre, git push, fetch ve pull komutlarının nasıl çalıştığının ardındaki bazı gizemleri keşfetmeye başlayabiliriz. Her seferinde bir komut ele alacağız, ancak bu komutlar arasındaki kavramlar oldukça benzer.",
               "",
-              "Öncelikle `git push` komutuna bakalım. Uzaktan izleme dersinde öğrendiğin gibi, git, şu anda kontrol edilen dalın (takip ettiği uzak dal) özelliklerine bakarak, hangi uzak sunucuya ve hangi dalına push yapılacağını anlar. Bu, herhangi bir argüman belirtilmediğinde görülen davranıştır, ancak git push, şu şekilde argümanlar alabilir:",
+              "Öncelikle `git push` komutuna bakalım. Uzaktan izleme dersinde öğrendiğiniz gibi git, şu anda checkout yapılmış dalın (izlediği uzak dalın) özelliklerine bakarak hangi uzak depoya *ve* hangi dala push yapılacağını anlar. Bu, herhangi bir argüman belirtilmediğinde görülen davranıştır, ancak `git push` şu şekilde argümanlar alabilir:",
               "",
               "`git push <remote> <place>`",
               ""
@@ -1640,7 +1640,7 @@ exports.level = {
               "",
               "Burada `main`'i \"place\" parametresi olarak belirtmemiz, git'e commit'lerin nereden geleceğini ve nereye gideceğini söyledik. Aslında bu, iki depo arasında senkronize edilecek \"yer\" veya \"konum\"dur.",
               "",
-              "Unutmayın ki git'e her şeyi bildirdiğimiz için (her iki argümanı da belirterek), nerede olduğumuzu kontrol etmez!"
+              "Unutmayın ki git'e her şeyi bildirdiğimiz için (her iki argümanı da belirterek), nerede checkout yapmış olduğumuzu tamamen yok sayar!"
             ]
           }
         },
@@ -1648,7 +1648,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Argümanları belirttiğimiz bir örneği görelim. Bu örnekte kontrol edilen konuma dikkat edin."
+              "Argümanları belirttiğimiz bir örneği görelim. Bu örnekte checkout yapmış olduğumuz konuma dikkat edin."
             ],
             "afterMarkdowns": [
               "İşte böyle! `main` dalı, bu argümanları belirttiğimiz için uzak depoda güncellendi."
@@ -1664,7 +1664,7 @@ exports.level = {
               "Ya argümanları belirtmeseydik? Ne olurdu?"
             ],
             "afterMarkdowns": [
-              "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalında kontrol edilmiyor."
+              "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalına checkout yapılmış durumda değil."
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"

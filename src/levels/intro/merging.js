@@ -1658,7 +1658,7 @@ exports.level = {
               "",
               "Harika! Nasıl commit yapılacağını ve branch oluşturulacağını öğrendik. Şimdi iki farklı branch'in çalışmasını birleştirmenin (merge) bir yolunu öğrenmemiz gerekiyor. Bu, yeni bir özellik geliştirmek için bir branch'i alacak ve sonra onu geri birleştirebilmemizi sağlayacak.",
               "",
-              "Birleştirme işlemini inceleyeceğimiz ilk yöntem `git merge`'dir. Git'te birleştirme işlemi, iki benzersiz üst öğesi olan özel bir commit oluşturur. İki ata'sı olan bir commit, temelde \"Bu kaynak kodun bu noktadaki tüm çalışmasını ve diğer noktadaki kaynak kodun tüm çalışmasını *ve* tüm bu kaynak kodlarının üstündeki kaynak kodlarını dahil etmek istiyorum.\" anlamına gelir.",
+              "Birleştirme işlemini inceleyeceğimiz ilk yöntem `git merge`'dir. Git'te merge işlemi, iki benzersiz ataya sahip özel bir commit oluşturur. İki atası olan bir commit, temelde \"Buradaki atanın tüm çalışmasını ve şuradaki atanın tüm çalışmasını *ve* bunların bütün atalarının kümesini dahil etmek istiyorum.\" anlamına gelir.",
               "",
               "Bu işlem görsellerle daha kolay anlaşılır, bir sonraki görünümde görelim."
             ]
@@ -1675,7 +1675,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vay canına! Görüyor musunuz? İlk olarak, `main` artık iki ata'sı (Parent) olan bir commit'e işaret ediyor. `main` üzerinden commit ağacındaki okları takip ederseniz, köke giden yol boyunca her commit'e ulaşırsınız. Bu, `main`'in artık repo'nun tamamındaki tüm çalışmayı içerdiği anlamına gelir.",
               "",
-              "Ayrıca, commit'lerim renklerinin nasıl değiştiğini gördünüz mü? Öğrenmenize yardımcı olmak için bazı renk koordinasyonları ekledik. Her branch'in kendine özgü bir rengi vardır. Her commit, kendisini içeren tüm branch'lerin karışık bir kombinasyonu olan bir renge dönüşür.",
+              "Ayrıca, commit'lerin renklerinin nasıl değiştiğini gördünüz mü? Öğrenmenize yardımcı olmak için bazı renk koordinasyonları ekledik. Her branch'in kendine özgü bir rengi vardır. Her commit, kendisini içeren tüm branch'lerin karışık bir kombinasyonu olan bir renge dönüşür.",
               "",
               "Yani burada `main` branch'inin renginin tüm commit'lere karıştığını, ancak `bugFix` renginin karışmadığını görüyoruz. Şimdi bunu düzeltelim..."
             ],
@@ -1702,7 +1702,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu level'i tamamlamak için aşağıdaki adımları yapmanız gerekiyor:",
+              "Bu seviyeyi tamamlamak için aşağıdaki adımları yapmanız gerekiyor:",
               "",
               "* `bugFix` adında yeni bir branch oluşturun",
               "* `git checkout bugFix` komutu ile `bugFix` branch'ine geçin ",

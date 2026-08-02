@@ -24,7 +24,7 @@ exports.level = {
     "sl_SI": "Pull argumenti",
     "pl": "Argumenty pull",
     "it_IT": "Parametri di git pull",
-    "tr_TR": "Git pull komutunun parametreleri",
+    "tr_TR": "Git pull argümanları",
     "hu_HU": "Pull argumentumok",
     "az": "Pull arqumentləri"
   },
@@ -1552,7 +1552,7 @@ exports.level = {
             "markdowns": [
               "## Git pull argümanları",
               "",
-              "Artık `git fetch` ve `git push` için argümanlarla ilgili bilmeniz gereken hemen hemen *her şey* öğrendiniz, geriye neredeyse hiçbir şey kalmadı :)",
+              "Artık `git fetch` ve `git push` argümanları hakkında bilinmesi gereken hemen hemen *her şeyi* öğrendiniz; `git pull` için anlatılacak neredeyse hiçbir şey kalmadı :)",
               "",
               "Çünkü git pull, nihayetinde *gerçekten* sadece bir fetch ve ardından alınan değişikliklerin birleştirilmesi için kullanılan kısa bir komuttur. Bunu, `git fetch` komutunu *aynı* argümanlarla çalıştırmak ve sonra bu commitlerin nereye yerleştiğine bakarak birleştirmek gibi düşünebilirsiniz.",
               "",
@@ -1589,7 +1589,7 @@ exports.level = {
               "Eğer fetch edilecek yeri belirtirsek, her şey daha önce fetch ile olduğu gibi gerçekleşir, ancak yeni alınan değişiklikleri birleştiririz."
             ],
             "afterMarkdowns": [
-              "Görüyorsunuz! `main`'i belirterek `o/main` üzerindeki commitleri normal şekilde indirdik. Sonra `o/main`'i şu anda üzerinde çalıştığımız konumla birleştirdik, bu da *yerel main branşı* değil. Bu nedenle aslında git pull'ü farklı konumlardan (aynı argümanlarla) birden fazla kez çalıştırmak, birden fazla branşı güncellemek için mantıklı olabilir."
+              "Görüyorsunuz! `main`'i belirterek commit'leri normal şekilde `o/main` üzerine indirdik. Sonra `o/main`'i şu anda checkout yaptığımız konuma merge ettik; bu konum yerel `main` dalı *değil*. Bu nedenle birden fazla dalı güncellemek için `git pull`'ü farklı konumlardan (aynı argümanlarla) birden fazla kez çalıştırmak aslında mantıklı olabilir."
             ],
             "command": "git pull origin main",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -1612,7 +1612,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tamam, bitirmek için hedef görselleştirmesinin durumuna ulaşın. Bazı commitleri indirmeniz, yeni branşlar oluşturmanız ve bu branşları diğer branşlara birleştirmeniz gerekecek, ancak bu çok fazla komut almaz :P"
+              "Tamam, bitirmek için hedef görselleştirmesindeki duruma ulaşın. Bazı commit'leri indirmeniz, yeni branch'ler oluşturmanız ve bu branch'leri diğer branch'lere merge etmeniz gerekecek, ama çok fazla komut gerektirmemeli :P"
             ]
           }
         }

@@ -2043,12 +2043,12 @@ exports.level = {
               "Git'teki branch'ler (dallar), son derece hafif ve sadece belirli bir commit'e işaret eden işaretçilerdir - fazlası değil. -- İşte bu nedenle birçok Git tutkunu şunu söyler:",
               "",
               "```",
-              "erken branch'le, sık sık branchle",
+              "erken branch'le, sık sık branch'le",
               "```",
               "",
               "Git'te birçok branch oluşturmanın depolama/bellek açısından herhangi bir fazlalığı yoktur, bu nedenle işinizi mantıklı bir şekilde bölmek daha kolay ve akıllıca olacaktır.",
               "",
-              "Branch'leri ve commit'leri birleştirmeye başladığımızda, bu iki özelliğin nasıl bir araya geldiğini göreceğiz. Şimdilik sadece unutmayın ki bir branch, temelde \"Bu commit'te yaptığım çalımanının ve diğer tüm üst düzey commit'leri dahil etmek istiyorum.\" der."
+              "Branch'leri ve commit'leri birleştirmeye başladığımızda, bu iki özelliğin nasıl bir araya geldiğini göreceğiz. Şimdilik sadece unutmayın ki bir branch, temelde \"Bu commit'in ve onun bütün ata commit'lerinin çalışmasını dahil etmek istiyorum.\" der."
             ]
           }
         },

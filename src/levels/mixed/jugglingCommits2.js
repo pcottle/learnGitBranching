@@ -40,7 +40,7 @@ exports.level = {
     "it_IT": "Giocoliere di commit #2",
     "pl": "Żonglowanie commitami #2",
     "ta_IN": "Commitகளுடன் வித்தைகள் #2",
-    "tr_TR": "Commit'leri Şekillendirme #2",
+    "tr_TR": "Commit Hokkabazlığı #2",
     "hu_HU": "Commitok átrendezése #2",
     "az": "Commit Hoqqabazlığı #2"
   },
@@ -1023,11 +1023,11 @@ exports.level = {
             "markdowns": [
               "## Commit Hokkabazlığı #2",
               "",
-              "*Eğer Commit Hokkabazlığı #1'i (bir önceki level) bitirmediyseniz, devam etmeden önce lütfen önce o bölümü bitirin*",
+              "*Eğer Commit Hokkabazlığı #1'i (bir önceki seviye) bitirmediyseniz, devam etmeden önce lütfen onu bitirin*",
               "",
-              "Bir önceki seviyeden hatırlayacağınız gibi, `rebase -i` kullanarak commit'leri yeniden sıralayabiliyorduk. Değiştirmek istediğimiz commit en üstte olduğunda, onu kolayca düzeltebilir `--amend` ve tercih ettiğimiz sıraya yeniden düzenleyebilirdik.",
+              "Bir önceki seviyede gördüğünüz gibi, commit'leri yeniden sıralamak için `rebase -i` kullandık. Değiştirmek istediğimiz commit en üste geldiğinde, onu kolayca `--amend` ile düzeltip tercih ettiğimiz sıraya geri döndürebiliyorduk.",
               "",
-              "Tek sorun şu ki, birçok yeniden sıralama yapıldığında, bu yeniden sıralama çatışmalarını ortaya çıkarabilir. Başka bir yöntemi, git cherry-pick ile inceleyelim."
+              "Tek sorun şu ki burada çok fazla yeniden sıralama var ve bu da rebase çakışmalarına yol açabilir. Hadi `git cherry-pick` ile başka bir yönteme bakalım."
             ]
           }
         },
@@ -1035,7 +1035,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Unutmayın ki git cherry-pick, HEAD'in herhangi bir yerinde (bu commit, HEAD'in atası değilse) bulunan bir commit'i HEAD üzerine bırakacaktır.",
+              "Unutmayın ki `git cherry-pick`, ağacın herhangi bir yerindeki bir commit'i (bu commit `HEAD`'in atası olmadığı sürece) `HEAD` üzerine bırakır.",
               "",
               "İşte küçük bir hatırlatma demosu:"
             ],
@@ -1052,7 +1052,7 @@ exports.level = {
             "markdowns": [
               "Bu seviyede, `C2` commit'ini düzeltmek için `rebase -i` kullanmadan aynı sonuca ulaşmaya çalışın. Nasıl ulaşabileceğimizi size bırakıyorum! :D",
               "",
-              "Unutmayın, commit'lerdeki tırnakların (') tam olarak eşleşmesi önemli değil, yalnızca göreceli farklar önemlidir. Örneğin, hedef ağaçla eşleşen ancak her yerde ekstra bir tırnak bulunan bir ağaçtan da puan alınabilir."
+              "Unutmayın, commit'lerdeki kesme işaretlerinin (') tam sayısı önemli değil, yalnızca göreli farklar önemlidir. Örneğin, hedef ağaçla eşleşen ama her yerinde bir fazla kesme işareti bulunan bir ağaca da puan veririm."
             ]
           }
         }

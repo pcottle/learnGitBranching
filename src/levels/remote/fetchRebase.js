@@ -23,7 +23,7 @@ exports.level = {
     "sl_SI": "Razdeljena Zgodovina",
     "pl": "Rozbieżna  historia",
     "it_IT": "Storico divergente",
-    "tr_TR": "Sapmış Tarihçe",
+    "tr_TR": "Ayrışan Geçmiş",
     "hu_HU": "Szétágazó előzmények",
     "az": "Ayrılmış Tarixçə"
   },
@@ -3070,11 +3070,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Çatışan Çalışma",
+              "## Ayrışan Çalışma",
               "",
               "Şu ana kadar başkalarından nasıl `pull` yaparak commit alacağımızı ve kendi değişikliklerimizi nasıl `push` yapacağımızı gördük. Oldukça basit görünüyor, o zaman insanlar neden bu kadar karışabiliyor?",
               "",
-              "Zorluk, depo geçmişi *çatıştığında* başlar. Bunun ayrıntılarını tartışmadan önce, bir örneğe göz atalım..."
+              "Zorluk, depo geçmişi *ayrıştığında* başlar. Bunun ayrıntılarını tartışmadan önce, bir örneğe göz atalım..."
             ]
           }
         },
@@ -3086,7 +3086,7 @@ exports.level = {
               "",
               "Bu durumda, `git push` komutu belirsizdir. `git push` komutunu çalıştırırsanız, git uzak depoyu Pazartesi günkü haline mi döndürmeli? Kodunuzu yeni kodları silmeden mi eklemeli? Yoksa tamamen geçersiz olan değişikliklerinizi yok saymalı mı?",
               "",
-              "Çünkü bu durumda çok fazla belirsizlik vardır (geçmiş çatıştığı için), git değişikliklerinizi `push` etmenize izin vermez. Gerçekten de, değişikliklerinizi paylaşmadan önce uzak deponun en son durumunu entegre etmenizi zorunlu kılar."
+              "Bu durumda çok fazla belirsizlik olduğu için (geçmiş ayrıştığı için), git değişikliklerinizi `push` etmenize izin vermez. Gerçekten de, değişikliklerinizi paylaşmadan önce uzak deponun en son durumunu entegre etmenizi zorunlu kılar."
             ]
           }
         },
@@ -3198,7 +3198,7 @@ exports.level = {
               "Bu seviyeyi çözmek için şu adımları takip etmeniz gerekiyor:",
               "",
               "* Depoyu klonlayın",
-              "* Takım çalışması sahteleyin (1 commit)",
+              "* Takım çalışmasını taklit edin (1 commit)",
               "* Kendi çalışmanızı commit edin (1 commit)",
               "* Çalışmanızı *rebase* yaparak yayınlayın"
             ]

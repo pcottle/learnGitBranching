@@ -2068,7 +2068,7 @@ exports.level = {
               "",
               "`~` modifikatörü gibi, `^` modifikatörü de ardından isteğe bağlı bir sayı alabilir.",
               "",
-              "`~`'in geri gitmek için nesil sayısını belirtmesinin aksine, `^` modifikatörü birleştirilmiş bir commit'ten hangi ebeveyn referansını takip edeceğinizi belirtir. Unutmayın ki birleştirilmiş commit'ler birden fazla ebeveyne sahip olduğundan, hangi yolu seçileceği belirsizdir.",
+              "`~`'in geri gitmek için nesil sayısını belirtmesinin aksine, `^` modifikatörü bir merge commit'inden hangi ebeveyn referansını takip edeceğinizi belirtir. Unutmayın ki merge commit'leri birden fazla ebeveyne sahip olduğundan, hangi yolun seçileceği belirsizdir.",
               "",
               "Git genellikle birleştirilmiş commit'ten \"ilk\" ebeveyni yukarı doğru takip eder, ancak `^` ile bir sayı belirtmek, bu varsayılan davranışı değiştirir.",
               "",

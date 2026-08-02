@@ -33,7 +33,7 @@ exports.level = {
     "sl_SI": "Git Describe",
     "it_IT": "Git Describe",
     "pl": "Git describe",
-    "tr_TR": "git describe",
+    "tr_TR": "Git Describe",
     "ta_IN": "Git விவரம்",
     "hu_HU": "Git describe",
     "az": "Git Describe"
@@ -1479,7 +1479,7 @@ exports.level = {
               "",
               "`git describe <ref>`",
               "",
-              "`<ref>` git'in bir commit'e çözümleyebileceği herhangi bir şeydir. Eğer bir ref belirtmezseniz, git şu an nereye checkout yapmışsanız (genellikle `HEAD`) onu kullanır.",
+              "`<ref>` git'in bir commit'e çözümleyebileceği herhangi bir şeydir. Eğer bir ref belirtmezseniz, git şu anda checkout yapmış olduğunuz yeri (`HEAD`) kullanır.",
               "",
               "Komutun çıktısı şu şekilde görünür:",
               "",
@@ -1514,7 +1514,7 @@ exports.level = {
             "markdowns": [
               "Git describe hakkında bilmeniz gerekenler bu kadar! Komuta alışmak için bu seviyedeki birkaç yeri tanımlamayı deneyin.",
               "",
-              "Hazır olduğunuzda, bir kez commit yaparak seviyesi tamamlayabilirsiniz. Küçük bir jest bizden size :P"
+              "Hazır olduğunuzda, bir kez commit yaparak seviyeyi tamamlayabilirsiniz. Küçük bir jest bizden size :P"
             ]
           }
         }

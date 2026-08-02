@@ -990,7 +990,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu bölümü bitirmek için, uzak depoya iki yeni commit paylaşmanız yeterli. Ancak dikkatli olun, çünkü bu dersler çok daha zorlaşacak!"
+              "Bu seviyeyi bitirmek için, uzak depoya iki yeni commit paylaşmanız yeterli. Ancak dikkatli olun, çünkü bu dersler çok daha zorlaşacak!"
             ]
           }
         }

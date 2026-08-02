@@ -24,7 +24,7 @@ exports.level = {
     "sl_SI": "Relativne Reference (^)",
     "it_IT": "Riferimenti relativi (^)",
     "pl": "Referencje względne (^)",
-    "tr_TR": "İlgili Referanslar (^)",
+    "tr_TR": "Göreli Referanslar (^)",
     "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)",
     "hu_HU": "Relatív hivatkozások (^)",
     "az": "Nisbi Ref-lər (^)"
@@ -1638,7 +1638,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Göreceli Referanslar",
+              "## Göreli Referanslar",
               "",
               "Git'te commit hash'lerini belirterek gezinmek biraz sıkıcı olabilir. Gerçek dünyada terminalin yanında güzel bir commit ağacı görselleştirmesi olmayacağı için hash'leri görmek için `git log` kullanmanız gerekecek.",
               "",
@@ -1652,11 +1652,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dediğim gibi, commit'leri hash'leriyle belirtmek her zaman en pratik şey değildir, bu yüzden Git göreceli referansları sunar. Bunlar harikadır!",
+              "Dediğim gibi, commit'leri hash'leriyle belirtmek her zaman en pratik şey değildir, bu yüzden Git göreli referansları sunar. Bunlar harikadır!",
               "",
-              "Göreceli referanslarla, hatırlanması kolay bir yerden (mesela `bugFix` dalı ya da `HEAD`) başlayabilir ve buradan ilerleyebilirsiniz.",
+              "Göreli referanslarla, hatırlanması kolay bir yerden (mesela `bugFix` dalı ya da `HEAD`) başlayabilir ve buradan ilerleyebilirsiniz.",
               "",
-              "Göreceli commit'ler güçlüdür, ancak burada iki basit örneğini sunacağız:",
+              "Göreli commit'ler güçlüdür, ancak burada iki basit örneğini sunacağız:",
               "",
               "* `^` ile bir commit yukarıya hareket etmek",
               "* `~<num>` ile birden fazla commit yukarıya hareket etmek"
@@ -1686,7 +1686,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`HEAD`'i de göreceli bir referans olarak kullanabilirsiniz. Hadi bunu birkaç kez kullanalım ve commit ağacında yukarıya doğru hareket edelim."
+              "`HEAD`'i de göreli bir referans olarak kullanabilirsiniz. Hadi bunu birkaç kez kullanalım ve commit ağacında yukarıya doğru hareket edelim."
             ],
             "afterMarkdowns": [
               "Kolay! `HEAD^` ile zaman içinde geri gidebiliriz."
@@ -1701,7 +1701,7 @@ exports.level = {
             "markdowns": [
               "Bu seviyeyi tamamlamak için, `bugFix`'in ebeveyn commit'ine göz atın. Bu, `HEAD`'i ayıracaktır.",
               "",
-              "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreceli referansları kullanmayı deneyin!"
+              "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreli referansları kullanmayı deneyin!"
             ]
           }
         }

@@ -26,7 +26,7 @@ exports.level = {
     "it_IT": "Git Tag",
     "pl": "Tagi Gita",
     "ta_IN": "Git டேக்கள்",
-    "tr_TR": "Git Tagleri",
+    "tr_TR": "Git Tag'leri",
     "hu_HU": "Git tagek",
     "az": "Git Tag-lər"
   },
@@ -1213,7 +1213,7 @@ exports.level = {
             "markdowns": [
               "## Git Tag'leri",
               "",
-              "Önceki derslerden öğrendiğiniz gibi, branch'ler kolayca taşınabilir ve üzerlerinde çalışma tamamlandıkça farklı commitlere işaret ederler. Branch'ler kolayca değiştirilebilir, genellikle geçici ve her zaman değişkendirler.",
+              "Önceki derslerden öğrendiğiniz gibi, branch'ler kolayca taşınabilir ve üzerlerinde çalışma tamamlandıkça farklı commit'lere işaret ederler. Branch'ler kolayca değiştirilebilir, genellikle geçici ve her zaman değişkendirler.",
               "",
               "Eğer durum buysa, projenizin tarihindeki belirli noktaları *kalıcı* olarak işaretlemenin bir yolunun olup olmadığını merak ediyor olabilirsiniz. Büyük sürümler ve büyük merge'ler gibi durumlar için, bu commit'leri bir branch'ten daha kalıcı bir şeyle işaretlemenin bir yolu var mı?",
               ""

@@ -79,7 +79,7 @@ exports.strings = {
     "pl": "Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.",
     "it_IT": "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     "ta_IN": "அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.",
-    "tr_TR": "Mükemmel! ideal çözümle aynı veya daha iyi bir çözüm yaptınız.",
+    "tr_TR": "Mükemmel! Bizim çözümümüzle aynı sonuca ulaştınız.",
     "hu_HU": "Fantasztikus! A megoldásod megegyezik a miénkkel.",
     "az": "Əla! Bizim həlli təkrarladın."
   },
@@ -107,7 +107,7 @@ exports.strings = {
     "pl": "Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.",
     "it_IT": "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     "ta_IN": "அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.",
-    "tr_TR": "Mükemmel! ideal çözümle aynı veya daha iyi bir çözüm yaptınız.",
+    "tr_TR": "Mükemmel! Bizim çözümümüzü geçtiniz.",
     "hu_HU": "Fantasztikus! Túlszárnyaltad a megoldásunkat.",
     "az": "Əla! Bizim həlli qabaqladın."
   },
@@ -216,7 +216,7 @@ exports.strings = {
     "pl": "W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`",
     "it_IT": "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
     "ta_IN": "கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்",
-    "tr_TR": "Bu uygulama için bir status komutu yok çünkü dosyalar stage edilemiyor. Bunun yerine hg summit komutunu deneyin.",
+    "tr_TR": "Bu uygulama için bir status komutu yok çünkü dosyalar stage edilemiyor. Bunun yerine hg summary komutunu deneyin.",
     "hu_HU": "Nincs status parancs ehhez az alkalmazáshoz, mivel nincs fájlok állomásoztatása. Próbáld helyette az hg summary parancsot",
     "az": "Bu tətbiqdə status əmri yoxdur, çünki faylların staging-i yoxdur. Onun əvəzinə hg summary sına"
   },
@@ -243,7 +243,7 @@ exports.strings = {
     "pl": "Potrzebuję opcji {option} dla tego polecenia!",
     "it_IT": "Ho bisogno di {option} per quel comando!",
     "ta_IN": "எனக்கு அந்த கட்டளைக்கு மாற்று {option} தேவை",
-    "tr_TR": "Bu komut için {seçenek} seçeneğine ihtiyacım var!",
+    "tr_TR": "Bu komut için {option} seçeneğine ihtiyacım var!",
     "hu_HU": "Szükségem van a {option} opcióra ahhoz a parancshoz!",
     "az": "Bu əmr üçün mənə {option} seçimi lazımdır!"
   },
@@ -297,7 +297,7 @@ exports.strings = {
     "pl": "Odłączono HEAD!",
     "it_IT": "Testa distaccata (Detached head)!",
     "ta_IN": "பிரிக்கப்பட்ட தலை!",
-    "tr_TR": "Detached head!(Bağımsız başlık!)",
+    "tr_TR": "Detached HEAD! (Bağımsız HEAD!)",
     "hu_HU": "Leválasztott HEAD (Detached head)!",
     "az": "Ayrılmış HEAD (Detached head)!"
   },
@@ -594,7 +594,7 @@ exports.strings = {
     "pl": "Nie możesz usunąć gałezi main, gałęzi na której aktualnie pracujesz, ani która nie jest gałezią",
     "it_IT": "Non puoi eliminare il ramo main, il ramo in cui sei, o cose che non sono rami",
     "ta_IN": "பிரதான கிளை, தற்ப்போது நடப்பில் உள்ள கிளை மற்றும் கிளை அல்லாத வற்றை அழிக்க இயலாது",
-    "tr_TR": "Şu anda üzerinde çalıştığın branch olan main i veya branch olmayan Refs leri silemezsin",
+    "tr_TR": "main branch'ini, üzerinde bulunduğunuz branch'i veya branch olmayan şeyleri silemezsiniz",
     "hu_HU": "Nem törölheted a main ágat, azt az ágat amelyen éppen vagy, vagy olyan dolgokat amelyek nem ágak",
     "az": "main branch-ını, üzərində olduğun branch-ı və ya branch olmayan şeyləri silə bilmərsən"
   },
@@ -621,7 +621,7 @@ exports.strings = {
     "pl": "Łączenie {target} z {current}",
     "it_IT": "Fuso {target} in {current}",
     "ta_IN": "{target}ஐ {current} கிளையுடன் இணை",
-    "tr_TR": "{target}i {current}e birleştir",
+    "tr_TR": "{target} dalını {current} dalına merge et",
     "hu_HU": "{target} merge-elése {current} ágba",
     "az": "{target} {current}-ə birləşdirilir"
   },
@@ -648,7 +648,7 @@ exports.strings = {
     "pl": "Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane",
     "it_IT": "Non ci sono commit da ribasare! Sono tutti commit di merge o i cambiamenti sono già stati applicati",
     "ta_IN": "`rebase` செய்ய எந்த கமிட்டும் இல்லை, அனைத்தும் இணைப்பு கமிட்கள் அல்லது முன்பே இணைக்கப்பட்டவை",
-    "tr_TR": "Rebase edilecek commit yok! Her şey birleştirme commit i ya da zaten uygulanmış değişiklikler",
+    "tr_TR": "Rebase edilecek commit yok! Her şey ya merge commit'i ya da zaten uygulanmış değişiklikler",
     "hu_HU": "Nincs commit a rebase-hez! Minden merge commit vagy a változtatások már alkalmazva lettek",
     "az": "Rebase ediləcək commit yoxdur! Hər şey merge commit-dir və ya dəyişikliklər artıq tətbiq olunub"
   },
@@ -756,7 +756,7 @@ exports.strings = {
     "pl": "Odnośnik {ref} nie istnieje lub jest nieznany",
     "it_IT": "Il riferimento (ref) {ref} non esiste o è sconosciuto",
     "ta_IN": "{ref} இல்லை அல்லது தெரியவில்லை",
-    "tr_TR": "{ref} referansı mevcut değil veya bilinmiyo",
+    "tr_TR": "{ref} referansı mevcut değil veya bilinmiyor",
     "hu_HU": "A(z) {ref} referencia nem létezik vagy ismeretlen",
     "az": "{ref} ref-i mövcud deyil və ya naməlumdur"
   },
@@ -783,7 +783,7 @@ exports.strings = {
     "pl": "Commit {commit} nie ma {match}",
     "it_IT": "Il commit {commit} non ha un {match}",
     "ta_IN": "{commit}க்கு {match} எதுவும் இல்லை",
-    "tr_TR": "{commit} commit inin {match} bulunmamaktadı",
+    "tr_TR": "{commit} commit'inin {match} referansı bulunmamaktadır",
     "hu_HU": "A(z) {commit} commit-nak nincs {match} szülője",
     "az": "{commit} commit-inin {match} yoxdur"
   },
@@ -945,7 +945,7 @@ exports.strings = {
     "pl": "Domyślnym zachowaniem dla polecenia `reset` w LearnGitBranching jest parametr --hard, więc możesz pominąć tę opcję, Pamiętaj tylko, że domyślne zachowanie rzeczywistego GIT-a jest parametr --mixed.",
     "it_IT": "Il comportamento base per i resets su LearnGitBranching è --hard, per cui puoi tranquillamente omettere quella opzione se ti sei stancato di scriverla. Ricorda però che in Git, l'opzione di default è --mixed.",
     "ta_IN": "The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit that option if you get tired of typing it out in our lessons. Just remember that the default behavior on actual Git is --mixed.",
-    "tr_TR": "LearnGitBranching deki sıfırlama işlemlerinin varsayılan davranışı --hard tır, bu yüzden derslerimizde yazarken bundan sıkılırsanız bu seçeneği atlayabilirsiniz. Ancak gerçek Git teki varsayılan davranışın --mixed olduğunu unutmayın.",
+    "tr_TR": "LearnGitBranching'deki sıfırlama işlemlerinin varsayılan davranışı --hard'dır, bu yüzden derslerimizde yazarken bundan sıkılırsanız bu seçeneği atlayabilirsiniz. Ancak gerçek Git'teki varsayılan davranışın --mixed olduğunu unutmayın.",
     "hu_HU": "A LearnGitBranching alapértelmezett viselkedése reset esetén a --hard, tehát bátran kihagyhatod azt az opciót ha meguntad begépelni a leckéinkben. Csak emlékezz arra, hogy az eredeti Git alapértelmezése --mixed.",
     "az": "LearnGitBranching-də reset-in standart davranışı --hard-dır, ona görə dərslərimizdə bunu yazmaqdan yorulsan bu seçimi buraxa bilərsən. Sadəcə yadında saxla ki, əsl Git-də standart davranış --mixed-dir."
   },
@@ -972,7 +972,7 @@ exports.strings = {
     "pl": "Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.",
     "it_IT": "Non esiste il concetto di aggiungere / indicizzare i file, quindi quell'opzione o comando non è valido!",
     "ta_IN": "கோப்புகளைச் சேர்ப்பது / நிலைநிறுத்துவது என்ற கருத்து ஒன்றும் இல்லை, எனவே அந்த மற்றி அல்லது கட்டளை தவறானது",
-    "tr_TR": "Dosya ekleme / sahneleme kavramı yok, bu nedenle bu seçenek veya komut geçersiz!",
+    "tr_TR": "Dosya ekleme / stage'leme kavramı yok, bu nedenle bu seçenek veya komut geçersiz!",
     "hu_HU": "Nincs fájlok hozzáadása/állomásoztatása fogalom, tehát ez az opció vagy parancs érvénytelen!",
     "az": "Fayl əlavə etmək / staging anlayışı yoxdur, ona görə bu seçim və ya əmr etibarsızdır!"
   },
@@ -1284,7 +1284,7 @@ exports.strings = {
     "pl": "Ta nazwa gałęzi \"{branch}\" jest niedozwolona!",
     "it_IT": "Il nome \"{branch}\" per i rami non è consentito!",
     "ta_IN": "\"{branch}\" ஐ கிளையின் பெயராக ஏற்க்க இயலாது!",
-    "tr_TR": "Bu dal ismi \"{branch}\" izin verilmez!",
+    "tr_TR": "\"{branch}\" dal ismine izin verilmiyor!",
     "hu_HU": "Ez az ágnév \"{branch}\" nem megengedett!",
     "az": "\"{branch}\" branch adına icazə verilmir!"
   },
@@ -1311,7 +1311,7 @@ exports.strings = {
     "pl": "Ta nazwa tagu \"{tag}\" jest niedozwolona!",
     "it_IT": "Il nome \"{tag}\" per i tag non è consentito!",
     "ta_IN": "\"{tag}\" ஐ குறிச்சொல் பெயராக ஏற்க்க இயலாது!",
-    "tr_TR": "Bu etiket ismi \"{tag}\" izin verilmez!",
+    "tr_TR": "\"{tag}\" tag ismine izin verilmiyor!",
     "hu_HU": "Ez a tagnév \"{tag}\" nem megengedett!",
     "az": "\"{tag}\" tag adına icazə verilmir!"
   },
@@ -2759,7 +2759,7 @@ exports.strings = {
     "it_IT": "Il comando è valido, ma non supportato in questo ambiente! Prova a entrare in un livello o nel generatore di livelli per usare quel comando",
     "pl": "To polecenie jest poprawne, ale nie jest obsługiwane w obecnym środowisku! Spróbuj wybrać poziom lub włączyć konstruktor poziomów, aby użyć tej komendy",
     "vi": "Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh",
-    "tr_TR": "Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir, bu komutu kullanmak için bir seviye (level) ya da seviye oluşturucu ekleyin (level builder).",
+    "tr_TR": "Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir. Bu komutu kullanmak için bir seviyeye (level) ya da seviye oluşturucuya (level builder) girin.",
     "hu_HU": "Ez a parancs érvényes, de nem támogatott a jelenlegi környezetben! Próbálj belépni egy szintbe vagy szintépítőbe hogy használd ezt a parancsot",
     "az": "Bu əmr etibarlıdır, lakin cari mühitdə dəstəklənmir! Bu əmri istifadə etmək üçün bir bölümə və ya bölüm konstruktoruna daxil olmağı sına"
   },
@@ -2780,7 +2780,7 @@ exports.strings = {
     "it_IT": "Rebase interattivo",
     "pl": "Interaktywny Rebase",
     "vi": "Rebase tương tác",
-    "tr_TR": "Etkileşimli Yeniden Temellendirme",
+    "tr_TR": "Etkileşimli Rebase",
     "hu_HU": "Interaktív rebase",
     "az": "İnteraktiv Rebase"
   }
