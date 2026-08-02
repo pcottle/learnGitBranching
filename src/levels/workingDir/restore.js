@@ -330,7 +330,7 @@ exports.level = {
               "",
               "Herkes ara sıra ortalığı biraz dağıtır. İstemediğiniz bir dosyayı stage'lersiniz ya da sonradan çöpe atmak isteyeceğiniz bir denemeye girişirsiniz. `git restore`, working directory ve staging area için özel olarak tasarlanmış modern geri alma düğmesidir.",
               "",
-              "İki farklı tadı vardır:",
+              "İki çeşidi vardır:",
               "",
               "* `git restore --staged <file>`: bir dosyayı **stage'den çıkarır** (düzenlemelerinizi koruyarak staging area'nın dışına geri taşır)",
               "* `git restore <file>`: bir dosyadaki düzenlemelerinizi tamamen **atar** (dikkat, bu değişiklikleri çöpe atar!)",
@@ -343,7 +343,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Şu anda masanızdaki dağınıklık şöyle:",
+              "İşte şu anda masanızdaki dağınıklık:",
               "",
               "```",
               "Commit edilecek değişiklikler:",
@@ -360,7 +360,7 @@ exports.level = {
               "  modified:   experiment.js",
               "```",
               "",
-              "`app.js` dosyasını commit'lemek istiyorsunuz, ama `secret.env` yanlışlıkla erkenden stage'lenmiş (onun üstte ayrı bir commit olması gerekiyor), o yüzden onu sonraya saklayalım. Ayrıca `experiment.js` değişiklikleri işe yaramadı, öyleyse onları tamamen çöpe atalım."
+              "`app.js` dosyasını commit'lemek istiyorsunuz, ama `secret.env` kazara erkenden stage'lendi (onun üstte gelen bir commit olması gerekiyor), o yüzden onu sonraya saklayalım. Ayrıca `experiment.js` değişiklikleri işe yaramadı, o yüzden onları tamamen çöpe atalım."
             ]
           }
         },
@@ -368,7 +368,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ortalığı toplayın, sonra commit'leyin:",
+              "Ortalığı toparlayın, sonra commit'leyin:",
               "",
               "* Gizli dosyayı stage'den çıkarın: `git restore --staged secret.env`",
               "* Denemeyi atın: `git restore experiment.js`",

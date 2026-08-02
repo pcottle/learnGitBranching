@@ -321,7 +321,7 @@ exports.level = {
               "",
               "Her commit'e neyin dahil olacağını `git add` ile *tam olarak* siz seçersiniz. Commit'ler işte böyle derli toplu kalır ve hiçbir zaman her şeyi tek seferde commit'lemek zorunda kalmazsınız.",
               "",
-              "*(Bu bölümlerden itibaren, hangi dosyaların hangi commit'lerin parçası olduğunu göstereceğiz.)*"
+              "*(Bu seviyelerden itibaren, hangi dosyaların hangi commit'lerin parçası olduğunu göstereceğiz.)*"
             ]
           }
         },
@@ -351,12 +351,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Sıra sizde! Her commit odaklı kalsın diye, çalışmanızı **her seferinde tek dosya** olacak şekilde stage'leyip commit'leyin:",
+              "Sıra sizde! Çalışmanızı **her seferinde tek dosya** olacak şekilde stage'leyip commit'leyin; böylece her commit tek bir işe odaklanmış olur:",
               "",
               "* `git add app.js`, sonra `git commit`",
               "* `git add styles.css`, sonra `git commit`",
               "",
-              "Hedefteki her commit'in yanındaki dosya adları, her değişikliğin tam olarak nereye ait olduğunu gösteriyor. İki temiz commit ve bölüm sizindir."
+              "Hedefteki her commit'in yanındaki dosya adları, her değişikliğin tam olarak nereye ait olduğunu gösteriyor. İki temiz commit ve seviye sizin olur."
             ]
           }
         }
