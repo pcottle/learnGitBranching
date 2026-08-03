@@ -837,6 +837,10 @@ exports.strings = {
     "hu_HU": "Ebben a demóban nincs szükség fájlok hozzáadására",
     "az": "Bu demoda fayl əlavə etməyə ehtiyac yoxdur"
   },
+  "git-error-switch-detach": {
+    "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
+    "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD."
+  },
   "git-error-options": {
     "__desc__": "One of the error messages for git",
     "en_US": "Those options you specified are incompatible or incorrect",

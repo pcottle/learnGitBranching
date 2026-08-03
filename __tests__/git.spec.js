@@ -82,11 +82,27 @@ describe('Git', function() {
   });
 
   describe('Switches', function() {
-    it("to a commit", function () {
+    it("to a commit with -d option", function () {
       return expectTreeAsync(
-        'git switch C0',
+        'git switch -d C0',
         '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
       );
+    });
+
+    it("to a commit with --detach option", function () {
+      return expectTreeAsync(
+        'git switch --detach C0',
+        '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
+      );
+    });
+
+    it("refuses to detach onto a commit without -d / --detach", function () {
+      return runCommand('git switch C0', function(commandMsg) {
+        expect(commandMsg).toEqual(intl.str(
+          'git-error-switch-detach',
+          { ref: 'C0' }
+        ));
+      });
     });
 
     it("to a branch", function () {
