@@ -1669,7 +1669,7 @@ exports.level = {
             "markdowns": [
               "## Git Fetch",
               "",
-              "Git uzak depoları ile çalışmak aslında verileri başka depolara _göndermek_ ve _geri almak_ ile ilgilidir. Bir kez ki commit'leri birbirimize gönderebildiğimiz sürece, git tarafından izlenen her tür güncellemeyi (ve dolayısıyla işi, yeni dosyaları, yeni fikirleri, sevgi mektuplarını vb.) paylaşabiliriz.",
+              "Git uzak depoları ile çalışmak aslında verileri başka depolara _göndermek_ ve onlardan _almak_ demektir. Commit'leri ileri geri gönderebildiğimiz sürece, git tarafından izlenen her tür güncellemeyi (ve dolayısıyla işi, yeni dosyaları, yeni fikirleri, sevgi mektuplarını vb.) paylaşabiliriz.",
               "",
               "Bu derste, bir uzak depodan veri çekmeyi öğreneceğiz -- bu komut `git fetch` olarak adlandırılmıştır.",
               "",

@@ -290,7 +290,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pl'   : 'Przenoszenie pracy',
       'it_IT': "Spostare il lavoro in giro",
       'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது',
-      'tr_TR': 'İşi yürüt'
+      'tr_TR': 'Çalışmayı Taşımak ve Stage\'lemek'
     },
     about: {
       'en_US': 'Move commits around and choose exactly which file changes belong together',
@@ -315,7 +315,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pl'   : 'Git dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
       'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
       'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
-      'tr_TR': '"Git" kaynak ağacını (source tree) değiştirirken rahat olun :P '
+      'tr_TR': 'Commit\'leri taşıyın ve hangi dosya değişikliklerinin birlikte gideceğine tam olarak siz karar verin'
     }
   },
   mixed: {

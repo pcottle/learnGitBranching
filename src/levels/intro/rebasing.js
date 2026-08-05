@@ -1564,9 +1564,9 @@ exports.level = {
               "Hadi bunu `git rebase` komutuyla yapalım."
             ],
             "afterMarkdowns": [
-              "Harika! Şimdi bugFix branch'indeki çalışmamız doğrudan main'in üstünde ve güzel bir doğrusal commit dizimiz var.",
+              "Harika! Artık bugFix branch'imizdeki çalışma, main'i işaret ettiği için \"main'in üstüne\" yığılmış durumda. Görselleştirmemizde ise commit ağaçlarımız aşağı doğru aktığı için main'in altında gösteriliyor.",
               "",
-              "C3 commit'inin hala bir yerde bulunduğunu (ağaçta soluk bir görünümde olduğunu) ve C3'ün main üzerine yeniden temellendiği (rebase) ve bir \"kopya\" olduğunu unutmayın.",
+              "C3 commit'inin hâlâ bir yerlerde durduğuna (ağaçta soluk görünüyor) ve C3' commit'inin ise main üzerine rebase ettiğimiz \"kopya\" olduğuna dikkat edin.",
               "",
               "Tek sorun, main'in henüz güncellenmemiş olması, hadi şimdi bunu yapalım..."
             ],
@@ -1581,7 +1581,7 @@ exports.level = {
               "Şu anda `main` branch'inde bulunuyoruz. Şimdi `bugFix` branch'ini yeniden temel alalım..."
             ],
             "afterMarkdowns": [
-              "İşte! main, bugFix'in atsı olduğu için, git sadece main dalının referansını tarihte ileri taşıdı."
+              "İşte! `main`, `bugFix`'in atası olduğu için, git sadece `main` dalının referansını geçmişte ileri taşıdı."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"

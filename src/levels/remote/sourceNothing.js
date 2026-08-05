@@ -1184,7 +1184,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### `<source>` Anomalleri",
+              "### `<source>` Tuhaflıkları",
               "",
               "Git, `<source>` parametresini iki tuhaf şekilde kullanır. Bu iki tuhaf kullanım, teknik olarak git push ve git fetch için \"hiçbir şey\"i geçerli bir `source` olarak belirleyebilmenizi sağlayan bir durumdan kaynaklanır. Hiçbir şey belirlemenin yolu, boş bir argüman kullanmaktır:",
               "",

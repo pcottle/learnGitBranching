@@ -510,13 +510,13 @@ exports.level = {
             "markdowns": [
               "### Birden fazla branch'ı rebase etmek",
               "",
-              "Dostum, burada bir sürü branch'imiz var! Hadi tüm işlemleri bu branchlerden maine yeniden aktaralım (rebase).",
+              "Dostum, burada bir sürü branch'imiz var! Hadi bu branch'lerdeki tüm çalışmayı `main`'e rebase edelim.",
               "",
-              "Yukarıya doğru yönetmek biraz zor gibi görünse de -- tüm commitlerin sıralı olmasını istiyorlar. Yani bu, ağacımızın son halinin en altta `C7`, onun üstünde `C6`, vs. sırayla olması gerektiği anlamına geliyor.",
+              "Ancak üst yönetim işi biraz zorlaştırıyor -- tüm commit'lerin sıralı olmasını istiyorlar. Yani bu, ağacımızın son halinin en altta `C7'`, onun üstünde `C6'`, vs. sırayla olması gerektiği anlamına geliyor.",
               "",
               "Faydalı bir ipucu: `git rebase` ikinci bir argüman alabilir. `git rebase main bugFix`, tek adımda `bugFix` branch'ine geçer ve onu `main` üzerine rebase eder -- yani `git checkout bugFix; git rebase main` komutlarının kısayoludur.",
               "",
-              "Kafan karışırsa 'reset' tuşuna basarak yeniden başlamaktan çekinme. Çözümümüze göz attığından ve bu bölümü daha az komutla bitirip bitiremeyeceğini gördüğünden emin ol!"
+              "Yolda bir şeyleri karıştırırsanız, yeniden başlamak için `reset` kullanmaktan çekinmeyin. Çözümümüze göz atmayı ve bu seviyeyi daha az komutla bitirip bitiremeyeceğinizi denemeyi unutmayın!"
             ]
           }
         }

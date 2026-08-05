@@ -41,7 +41,7 @@ exports.level = {
     "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
     "ta_IN": "Commitகளுடன் வித்தைகள்",
-    "tr_TR": "Commit'leri Şekillendirme",
+    "tr_TR": "Commit Hokkabazlığı",
     "hu_HU": "Commitok átrendezése",
     "az": "Commit-lərin Hoqqabazlığı"
   },
@@ -886,13 +886,13 @@ exports.level = {
               "",
               "* `git rebase -i` komutu ile değiştirmek istediğimiz commit'i en üste getireceğiz.",
               "* Küçük değişikliği yapmak için `git commit --amend` komutunu kullanacağız.",
-              "* Ardından, `git rebase -i` komutu ile komitleri önceki sıralarına geri döndüreceğiz.",
+              "* Ardından, `git rebase -i` komutu ile commit'leri önceki sıralarına geri döndüreceğiz.",
               "* Son olarak, main branch'ini ağacın bu güncellenmiş kısmına taşıyarak seviyeyi bitireceğiz (tabi sizin seçtiğiniz yöntemle).",
               "",
               "Bunu başarmak için birçok yol vardır (cherry-pick komutuna göz diktiğinizi görüyorum) ve ileride daha fazlasını göreceğiz, ancak şimdilik bu tekniğe odaklanalım.",
-              "Son olarak, buradaki hedef duruma dikkat edin - commit'leri iki kez taşıdığımızdan, her ikisi de bir tırnak işareti alıyor. Değiştirdiğimiz commit için bir tırnak işareti daha eklenir, bu da bize ağacın son halini verir. ",
+              "Son olarak, buradaki hedef duruma dikkat edin - commit'leri iki kez taşıdığımızdan, her ikisi de bir kesme işareti alıyor. Değiştirdiğimiz commit için bir kesme işareti daha eklenir, bu da bize ağacın son halini verir. ",
               "",
-              "Şunu da belirtmek isteriz ki, artık seviyeleri yapı ve göreceli tırnak işareti farklılıklarına göre karşılaştırabiliyoruz. Ağacınızın `main` branch'i aynı yapıya ve göreceli tırnak işareti farklılıklarına sahip olduğu sürece tam puan alacaksınız."
+              "Şunu da belirtmek isteriz ki, artık seviyeleri yapıya ve göreli kesme işareti farklılıklarına göre karşılaştırabiliyoruz. Ağacınızın `main` branch'i aynı yapıya ve aynı göreli kesme işareti farklılıklarına sahip olduğu sürece tam puan alacaksınız."
             ]
           }
         }

@@ -1028,7 +1028,7 @@ exports.level = {
               "",
               "* Rebase, commit ağacının (görünürdeki) geçmişini değiştirir.",
               "",
-              "Örneğin, `C1` commit'i, `C3`'ün *öncesine* rebase edilebilir. Bu durumda `C1'`in çalışması aslında daha önce yapılmışken, sanki `C3`ten sonra yapılmış gibi görünür.",
+              "Örneğin, `C1` commit'i `C3`'ün *ötesine* rebase edilebilir. Bu durumda `C1'`in çalışması aslında daha önce tamamlanmışken, sanki `C3`'ten sonra yapılmış gibi görünür.",
               "",
               "Bazı geliştiriciler tarihi korumayı sever ve bu yüzden merge yapmayı tercih eder. Diğerleri (benim gibi) temiz bir commit ağacını tercih eder ve rebase yapmayı sever. Sonuçta bu tamamen tercihe bağlı :D"
             ]

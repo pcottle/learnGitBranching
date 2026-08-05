@@ -2592,7 +2592,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Yeterince konuştuk, şimdi bir gösterim izleyelim! Yeni bir dal olan `foo`'yu kontrol ederek, bunu uzak `main` dalını izlemeye ayarlayacağız."
+              "Yeterince konuştuk, şimdi bir gösterim izleyelim! `foo` adında yeni bir dala checkout yapıp, bunu uzak depodaki `main` dalını izlemeye ayarlayacağız."
             ],
             "afterMarkdowns": [
               "Gördüğünüz gibi, `o/main`'in dolaylı birleştirme hedefini kullanarak `foo` dalını güncelledik. Dikkat edin, `main` güncellenmedi!"
@@ -2608,7 +2608,7 @@ exports.level = {
               "Bu aynı şekilde git push için de geçerlidir."
             ],
             "afterMarkdowns": [
-              "Boom. Çalışmamızı `foo` adında bir dal olsa bile uzak `main` dalına ittik."
+              "Boom. Dalımızın adı tamamen farklı olmasına rağmen çalışmamızı uzak depodaki `main` dalına push ettik."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
             "beforeCommand": "git clone"
@@ -2624,7 +2624,7 @@ exports.level = {
               "",
               "`git branch -u o/main foo`",
               "",
-              "`foo` dalını `o/main`'i izlemeye ayarlar. Eğer `foo` şu anda kontrol ediliyorsa, hatta bunu dışarıda bırakabilirsiniz:",
+              "`foo` dalını `o/main`'i izlemeye ayarlar. Eğer `foo` şu anda checkout yapılmışsa, bunu hiç yazmayabilirsiniz bile:",
               "",
               "`git branch -u o/main`"
             ]
