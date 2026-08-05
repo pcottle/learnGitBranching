@@ -310,6 +310,7 @@ var watching = function() {
 module.exports = {
   default: build,
   lint,
+  lintStrings,
   fastBuild,
   watching,
   build,
