@@ -1122,6 +1122,8 @@ var commandConfig = {
       '--force-create',
       '-t',
       '--track',
+      '-d',
+      '--detach',
       '-'
     ],
     execute: function(engine, command) {
@@ -1177,9 +1179,31 @@ var commandConfig = {
         return;
       }
 
+      let detachOption = commandOptions['-d'] ? commandOptions['-d'] : commandOptions['--detach'];
+      if (detachOption) {
+        // "-d" / "--detach" explicitly asks to check out a commit-ish and leave
+        // HEAD detached there. Like "-t" above, a ref sitting right after the
+        // flag gets attached to it by the greedy option parser, so fold it back
+        // into the general args before we read it.
+        let args = detachOption.concat(generalArgs);
+        command.validateArgBounds(args, 1, 1, '-d');
+        engine.checkout(engine.crappyUnescape(args[0]));
+        return;
+      }
+
       command.validateArgBounds(generalArgs, 1, 1);
 
-      engine.checkout(engine.crappyUnescape(generalArgs[0]));
+      // Unlike "git checkout", "git switch" will not silently leave you on a
+      // detached HEAD. If the target isn't a branch (i.e. it's a commit or a
+      // tag), refuse and point the user at "--detach", matching real git.
+      var target = engine.crappyUnescape(generalArgs[0]);
+      if (engine.getType(target) !== 'branch') {
+        throw new GitError({
+          msg: intl.str('git-error-switch-detach', { ref: generalArgs[0] })
+        });
+      }
+
+      engine.checkout(target);
     }
   }
 };
