@@ -1239,7 +1239,7 @@ exports.level = {
             "markdowns": [
               "Gelecek seviyeler oldukça zorlayıcı olacak, bu yüzden bu seviyede sizden daha fazlasını istiyoruz.",
               "",
-              "Bir uzaktan depo oluşturun (`git clone` ile), o uzaktan depoda bazı değişiklikleri taklit edin, kendi commit'inizi yapın ve ardından bu değişiklikleri indirin. Bu, birkaç dersin bir araya gelmiş hali gibi!"
+              "Bir uzak depo oluşturun (`git clone` ile), o uzak depoda bazı değişiklikleri taklit edin, kendi commit'inizi yapın ve ardından uzak depodaki değişiklikleri indirip merge edin. Bu, birkaç dersin bir araya gelmiş hali gibi!"
             ]
           }
         }

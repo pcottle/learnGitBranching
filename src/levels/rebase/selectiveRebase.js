@@ -509,13 +509,13 @@ exports.level = {
             "markdowns": [
               "## Branch Spagettisi",
               "",
-              "Vay canına! Bu bölümde ulaşmamız gereken hedef oldukça büyük.",
+              "Vay canına! Bu seviyede ulaşmamız gereken hedef oldukça büyük.",
               "",
               "Burada `main`, `one` `two` ve `three` dallarından birkaç commit önde. Herhangi bir nedenden ötürü, bu diğer üç dalı main'deki son birkaç commit'in değiştirilmiş versiyonlarıyla güncellememiz gerekiyor.",
               "",
-              "`one` branchi bu commitlerin yeniden düzenlenmesine ve an `C5`'in hariç tutulması/bırakılmasına ihtiyaç duyuyor. `two` branchi sadece commitlerin yeniden sıralanmasına ihtiyaç duyuyuor, ve `three` için sadece bir commit transferi gerekiyor!",
+              "`one` branch'i bu commit'lerin yeniden sıralanmasına ve `C5`'in hariç tutulmasına/atılmasına ihtiyaç duyuyor. `two` branch'i sadece commit'lerin yeniden sıralanmasına ihtiyaç duyuyor ve `three` için sadece bir commit transferi gerekiyor!",
               "",
-              "Bunu nasıl çözeceğinizi size anlatacağız -- daha sonrasında bizim çözümümüzü `show solution` ile kontrol etmeyi unutmayın."
+              "Bunu nasıl çözeceğinizi bulmayı size bırakıyoruz -- daha sonrasında bizim çözümümüze `show solution` ile göz atmayı unutmayın."
             ]
           }
         }

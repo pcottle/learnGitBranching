@@ -1290,7 +1290,7 @@ exports.level = {
               ""
             ],
             "afterMarkdowns": [
-              "İşte bu! Şimdi projemizin bir uzak deposuna sahibiz. Görünüşü oldukça benzer, ancak ayırt edici bir fark yaratmak için bazı görsel değişiklikler yapıldı -- sonraki seviyelerde bu depolar arasında nasıl çalıştığımızı paylaşacağınızı göreceksiniz."
+              "İşte bu! Şimdi projemizin bir uzak deposuna sahibiz. Görünüşü oldukça benzer, ancak ayırt edici bir fark yaratmak için bazı görsel değişiklikler yapıldı -- sonraki seviyelerde bu depolar arasında çalışmayı nasıl paylaştığımızı göreceksiniz."
             ],
             "command": "git clone",
             "beforeCommand": ""

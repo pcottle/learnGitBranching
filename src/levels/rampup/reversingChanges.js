@@ -1380,7 +1380,7 @@ exports.level = {
             "markdowns": [
               "## Git'te Değişiklikleri Geri Alma",
               "",
-              "Git'te değişiklikleri geri almanın birçok yolu vardır. Ve tıpkı commit yapmada olduğu gibi, değişiklikleri geri almak da hem düşük seviyeli bir bileşene (bireysel dosyaları veya parçaları sahneleme) hem de yüksek seviyeli bir bileşene (değişikliklerin nasıl geri alındığına) sahiptir. Uygulamamız, ikincisine odaklanacaktır.",
+              "Git'te değişiklikleri geri almanın birçok yolu vardır. Ve tıpkı commit yapmada olduğu gibi, değişiklikleri geri almak da hem düşük seviyeli bir bileşene (tek tek dosyaları veya parçaları stage'leme) hem de yüksek seviyeli bir bileşene (değişikliklerin nasıl geri alındığı) sahiptir. Uygulamamız, ikincisine odaklanacaktır.",
               "",
               "Git'te değişiklikleri geri almanın iki temel yolu vardır: birincisi `git reset` kullanmak, diğeri ise `git revert` kullanmaktır. Bunların her birine bir sonraki diyalogda göz atacağız.",
               ""
@@ -1395,7 +1395,7 @@ exports.level = {
               "",
               "`git reset`, bir dal referansını geçmişteki eski bir commit'e geri hareket ettirerek değişiklikleri geri alır. Bu anlamda, onu \"tarihi yeniden yazmak\" olarak düşünebilirsiniz; `git reset`, bir dalı, sanki commit hiç yapılmamış gibi geriye doğru hareket ettirir.",
               "",
-              "Bunu nasıl göründüğünü görelim:"
+              "Bunun nasıl göründüğüne bakalım:"
             ],
             "afterMarkdowns": [
               "Güzel! Git, main dalını `C1`'e geri taşıdı; şimdi yerel depomuz, `C2`'nin hiç olmamış gibi bir durumda."
@@ -1412,12 +1412,12 @@ exports.level = {
               "",
               "Resetleme, kendi makinenizdeki yerel dallar için mükemmel çalışırken, \"tarihi yeniden yazma\" yöntemi, başkalarının kullandığı uzak dallar için işe yaramaz.",
               "",
-              "Değişiklikleri geri almak ve *geri alınan değişiklikleri başkalarıyla paylaşmak* için `git revert` kullanmamız gerekir. Bunu nasıl çalıştığını görelim."
+              "Değişiklikleri geri almak ve *geri alınan değişiklikleri başkalarıyla paylaşmak* için `git revert` kullanmamız gerekir. Bunun nasıl çalıştığına bakalım."
             ],
             "afterMarkdowns": [
               "Tuhaf, geri almak istediğimiz commit'in altına yeni bir commit geldi. Çünkü bu yeni commit `C2'`, *değişiklikler* getiriyor -- sadece, `C2`'nin commit'ini tam olarak geri alan değişiklikler getiriyor.",
               "",
-              "Revertleme ile değişikliklerinizi başkalarına paylaşmak için push edebilirsiniz."
+              "Revert ile değişikliklerinizi başkalarıyla paylaşmak üzere push edebilirsiniz."
             ],
             "command": "git revert HEAD^",
             "beforeCommand": "git commit; git commit"

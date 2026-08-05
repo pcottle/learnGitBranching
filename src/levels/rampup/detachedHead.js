@@ -1754,7 +1754,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu bölümü tamamlamak için, HEAD'i `bugFix` dalından ayıralım ve yerine commit'e bağlayalım.",
+              "Bu seviyeyi tamamlamak için, HEAD'i `bugFix` dalından ayıralım ve yerine commit'e bağlayalım.",
               "",
               "Bu commit'i hash'i ile belirtin. Her commit'in hash'i, commit'i temsil eden dairede gösterilir."
             ]

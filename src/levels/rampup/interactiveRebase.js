@@ -1472,7 +1472,7 @@ exports.level = {
               "* Commit'leri, UI'de sıralarını değiştirerek (fareyle sürükleyip bırakarak) yeniden sıralayabilirsiniz.",
               "* Tüm commit'leri tutabilir veya belirli olanları silebilirsiniz. İletişim kutusu açıldığında, her commit, yanındaki `pick` düğmesinin aktif olmasıyla dahil edilmek üzere ayarlanır. Bir commit'i silmek için, `pick` düğmesini kapatın.",
               "",
-              "*Gerçek git'te etkileşimli rebase ile daha birçok şey yapılabilir, örneğin commit'leri birleştirme (squash), commit mesajlarını değiştirme ve hatta commit'leri düzenleme. Ancak bizim amacımız için yalnızca yukarıdaki iki işlemi odaklanacağız.*",
+              "*Gerçek git'te etkileşimli rebase ile daha birçok şey yapılabilir, örneğin commit'leri birleştirme (squash), commit mesajlarını değiştirme ve hatta commit'leri düzenleme. Ancak bizim amacımız için yalnızca yukarıdaki iki işleme odaklanacağız.*",
               "",
               "Harika! Hadi bir örneğe bakalım."
             ]
@@ -1495,7 +1495,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu bölümü bitirmek için etkileşimli rebase yapın ve hedef görselleştirmesinde gösterilen sıralamayı elde edin. Unutmayın, her zaman `undo` veya `reset` komutlarını kullanarak hataları düzeltebilirsiniz :D"
+              "Bu seviyeyi bitirmek için etkileşimli rebase yapın ve hedef görselleştirmesinde gösterilen sıralamayı elde edin. Unutmayın, her zaman `undo` veya `reset` komutlarını kullanarak hataları düzeltebilirsiniz :D"
             ]
           }
         }

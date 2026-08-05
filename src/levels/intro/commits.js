@@ -1050,7 +1050,7 @@ exports.level = {
               "",
               "Git, commit'leri hafif tutmak ister, bu yüzden her seferinde sırf her şeyi körü körüne kopyalamaz. Mümkün olduğunda, bir commit'i değişikliklerin seti olarak sıkıştırabilir veya bir sürümün bir sonraki sürüme olan farkını, yani bir \"delta\"yı yakalayabilir.",
               "",
-              "Git aynı zamanda hangi commit'lerin ne zaman yapıldığını da kayıt altında tutar. İşte bu yüzden çoğu commit, üstünde atası olan başka commit'lerle gelir - bu görselde oklarla belirtilir. Tarih tutmak, projede çalışan herkes için harika bir şeydir!",
+              "Git aynı zamanda hangi commit'lerin ne zaman yapıldığını da kayıt altında tutar. İşte bu yüzden çoğu commit, üstünde atası olan başka commit'lerle gelir - bu görselde oklarla belirtilir. Geçmişi saklamak, projede çalışan herkes için harika bir şeydir!",
               "",
               "İlk bakışta karmaşık gelebilir, ama şimdilik commit'leri projenizin anlık fotoğrafları gibi düşünün. Commit'ler hafiftir ve aralarında çok hızlı geçiş yapılabilir!"
             ]
