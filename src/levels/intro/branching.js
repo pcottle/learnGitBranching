@@ -47,7 +47,7 @@ exports.level = {
     "ro": "Creează o ramură nouă cu \"git branch [nume-ramură]\" și treci la ea cu \"git checkout [nume-ramură]\"",
     "bg": "Създайте нов клон, използвайки \"git branch <име-на-клона>\" и преминете към него с \"git checkout <име-на-клона>\"",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
-    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
+    "uk": "Створіть нову гілку за допомогою \"git branch [ім’я]\" й перейдіть на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
     "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
@@ -1536,7 +1536,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисни кнопку внизу."
+              "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисніть кнопку внизу."
             ],
             "afterMarkdowns": [
               "От халепа! Гілка `main` просунулася вперед, але гілка `newImage` — ні! Це тому, що ми були не \"на новій гілці\". Через це зірочка (*) була поруч з  `main`."
@@ -1568,8 +1568,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Тепер ти готовий до створення гілок. Як тільки це вікно пропаде, ",
-              "зроби нову гілку з назвою `bugFix` та перейди на неї."
+              "Тепер Ви готовий до створення гілок. Як тільки це вікно пропаде, ",
+              "зробіть нову гілку з назвою `bugFix` та перейдіть на неї."
             ]
           }
         }
