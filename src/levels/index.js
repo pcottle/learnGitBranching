@@ -256,7 +256,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ro': "Iar tu credeai că a fi un dictator binevoitor ar fi distractiv...",
       'bg': "И си мислеше, че да си благосклонен диктатор ще е забавно...",
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
-      'uk'   : 'А ти думав, що бути всесильним диктатором весело...',
+      'uk'   : 'А Ви думали, що бути всесильним диктатором весело...',
       'ko'   : '상급자는 편할줄 알았겠지만...',
       'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui...',
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',

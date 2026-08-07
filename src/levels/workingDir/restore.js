@@ -9,7 +9,8 @@ exports.level = {
     "zh_TW": "使用 git restore 復原變更",
     "pt_BR": "Desfazendo com git restore",
     "ru_RU": "Отмена изменений с помощью git restore",
-    "tr_TR": "git restore ile Geri Alma"
+    "tr_TR": "git restore ile Geri Alma",
+    "uk": "Скасування змін за допомогою git restore"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -17,7 +18,8 @@ exports.level = {
     "zh_TW": "使用 `git restore --staged secret.env` 取消暫存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。",
     "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`.",
     "ru_RU": "Уберите из подготовленной области с помощью `git restore --staged secret.env`, отбросьте эксперимент командой `git restore experiment.js`, а затем выполните `git commit`.",
-    "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın."
+    "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın.",
+    "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`."
   },
   "startDialog": {
     "en_US": {
@@ -375,6 +377,66 @@ exports.level = {
               "* Kalanı commit'leyin: `git commit`",
               "",
               "Bu, yalnızca saklamak istediğiniz çalışmayı içeren tertemiz tek bir commit bırakır."
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Скасування змін за допомогою `git restore`",
+              "",
+              "Кожен іноді створює невеликий безлад. Ви можете випадково підготувати не той файл або розпочати експеримент, який захочете відкинути. `git restore` — це сучасна, спеціально створена кнопка скасування для вашого робочого каталогу та області підготовлених файлів (індексу).",
+              "",
+              "Вона має два основних застосування:",
+              "",
+              "* `git restore --staged <файл>`: **прибрати з індексу** файл (перемістити його назад з області підготовлених файлів, зберігши ваші зміни)",
+              "* `git restore <файл>`: повністю **відкинути** ваші зміни у файлі (будьте обережні, це видаляє зміни безповоротно!)",
+              "",
+              "*(Ці команди замінюють старі прийоми `git reset HEAD <файл>` та `git checkout -- <файл>`. Суть та сама, але назви значно зрозуміліші.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ось який безлад зараз на вашому робочому столі:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Ви хочете закомітити `app.js`, але `secret.env` випадково потрапив до підготовлених файлів зарано (він має бути окремим комітом зверху), тому давайте збережемо його на потім. Також зміни в `experiment.js` не спрацювали, тож давайте повністю відкинемо їх."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Наведіть лад, а потім зробіть коміт:",
+              "",
+              "* Приберіть секретний файл з індексу: `git restore --staged secret.env`",
+              "* Відкиньте експеримент: `git restore experiment.js`",
+              "* Закомітьте те, що залишилося: `git commit`",
+              "",
+              "Це створить один чистий коміт, що містить лише ту роботу, яку ви дійсно хотіли зберегти."
             ]
           }
         }

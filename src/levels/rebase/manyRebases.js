@@ -52,7 +52,7 @@ exports.level = {
     "ro": "Amintește-ți, cea mai eficientă metodă ar putea fi să actualizezi main-ul doar la final...",
     "bg": "Помни — най-ефективният подход може да е да обновиш `main` чак накрая...",
     "ru_RU": "Не забудь, что лучше всего сдвинуть мастер в самом конце...",
-    "uk": "Не забувай, що краще всього буде перемістити main в самому кінці... ",
+    "uk": "Пам’ятайте, що краще всього буде перемістити main в самому кінці... ",
     "vi": "Hãy nhớ rằng, cách tốt nhất có thể là cập nhật nhánh `main` sau cùng...",
     "sl_SI": "Pomni, morda je najbolj učinkovit način posodabljanje masterja samo na koncu ...",
     "it_IT": "Ricorda, il modo migliore potrebbe essere di aggiornare il main alla fine...",
@@ -416,7 +416,7 @@ exports.level = {
               "",
               "Корисна порада: `git rebase` може приймати другий аргумент. `git rebase main bugFix` переключається на `bugFix` та робить rebase на `main` за один крок -- це скорочення для `git checkout bugFix; git rebase main`.",
               "",
-              "Якщо ти щось зробиш не так, сміливо використовуй `reset` щоб почати спочатку. Подивись на наш розв’язок і подумай, чи ти можеш обійтись меншою кількістю команд!"
+              "Якщо Ви щось зробите не так, сміливо використовуйте `reset` щоб почати спочатку. Подивіться на наш розв’язок і подумайте, чи Ви можете обійтись меншою кількістю команд!"
             ]
           }
         }

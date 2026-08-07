@@ -9,7 +9,8 @@ exports.level = {
     "zh_TW": "暫存區 Staging Area",
     "pt_BR": "A área de staging",
     "ru_RU": "Область подготовленных файлов (Индекс)",
-    "tr_TR": "Staging Area (Hazırlık Alanı)"
+    "tr_TR": "Staging Area (Hazırlık Alanı)",
+    "uk": "Область підготовлених файлів (Staging Area)"
   },
   "hint": {
     "en_US": "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
@@ -17,7 +18,8 @@ exports.level = {
     "zh_TW": "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。",
     "pt_BR": "Adicione um arquivo ao staging com `git add <arquivo>` e depois tire uma fotografia (snapshot) dele com `git commit`. Faça isso duas vezes, uma para cada arquivo.",
     "ru_RU": "Подготовьте файл с помощью 'git add <файл>', затем зафиксируйте его с помощью 'git commit'. Сделайте это дважды — по одному разу для каждого файла.",
-    "tr_TR": "Bir dosyayı `git add <file>` ile stage'leyin, sonra `git commit` ile anlık fotoğrafını çekin. Bunu her dosya için birer kez olmak üzere iki defa yapın."
+    "tr_TR": "Bir dosyayı `git add <file>` ile stage'leyin, sonra `git commit` ile anlık fotoğrafını çekin. Bunu her dosya için birer kez olmak üzere iki defa yapın.",
+    "uk": "Підготуйте файл за допомогою `git add <файл>`, потім збережіть його знімок командою `git commit`. Зробіть це двічі — по одному разу для кожного файлу."
   },
   "startDialog": {
     "en_US": {
@@ -357,6 +359,63 @@ exports.level = {
               "* `git add styles.css`, sonra `git commit`",
               "",
               "Hedefteki her commit'in yanındaki dosya adları, her değişikliğin tam olarak nereye ait olduğunu gösteriyor. İki temiz commit ve seviye sizin olur."
+            ]
+          }
+        }
+      ]
+    },
+    "uk": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Область підготовлених файлів (Staging Area)",
+              "",
+              "Досі під час навчання ми лише поверхово торкалися того, що саме відбувається при *створенні* коміту. Ви можете знати, що вони показують зміни в наборі файлів, але насправді існує певний процес вибору того, зміни *яких* файлів потраплять у *який* коміт.",
+              "",
+              "Git не прагне просто автоматично включати всі змінені файли до кожного коміту — це було б погано! Це могло б включити зміну, яку ви не хочете робити постійною, або навіть щось секретне, наприклад API-ключ, який міг би потрапити на GitHub у складі вашої історії комітів.",
+              "",
+              "Тому, перш ніж зміна у файлі стане частиною коміту, її потрібно чітко вибрати. Для цього Git має три зони: ваш **робочий каталог** (де ви редагуєте), **область підготовлених файлів (staging area)** (майданчик для завантаження того, що потрапить у наступний коміт) та **репозиторій** (ваша постійна історія).",
+              "",
+              "Ви вибираєте *саме те*, що потрапляє в кожен коміт, за допомогою `git add`. Завдяки цьому коміти залишаються охайними, і вас ніколи не змушують комітити все одразу.",
+              "",
+              "*(Для цих рівнів ми тепер показуватимемо, які файли входять до яких комітів.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Виконайте `git status` у будь-який час, щоб побачити поточний стан. Зараз він показує два файли, які ви відредагували, але ще не підготували:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Підготуйте один файл за допомогою `git add app.js` або додайте все одразу через `git add .`. Як тільки файл підготовлено, `git commit` зберігає його у вигляді знімка.",
+              "",
+              "Маєте файли, які ніколи не хочете комітити, наприклад секрети, логи чи сміття збірки? Перелічіть їх у файлі `.gitignore`, і Git спокійно дасть їм спокій."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ваша черга! Підготуйте та закомітьте вашу роботу **по одному файлу за раз**, щоб кожен коміт залишався сфокусованим:",
+              "",
+              "* `git add app.js`, потім `git commit`",
+              "* `git add styles.css`, потім `git commit`",
+              "",
+              "Назви файлів поруч із кожним цільовим комітом чітко показують, куди саме належить кожна зміна. Два чистих коміти — і рівень ваш."
             ]
           }
         }

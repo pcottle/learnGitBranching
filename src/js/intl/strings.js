@@ -16,7 +16,7 @@ exports.strings = {
     "fr_FR": "Félicitations, vous avez réussi le dernier niveau !",
     "ro": "Wow! Ai terminat ultimul nivel, grozav!",
     "ru_RU": "Вау! Вы прошли последний уровень, отлично!",
-    "uk": "Вау! Ти пройшов останній рівень, круто!",
+    "uk": "Вау! Ви пройшли останній рівень, круто!",
     "ko": "와! 마지막 레벨까지 마쳤습니다. 멋지네요!",
     "vi": "Wao! Bạn đã phá đảo, quá tuyệt!",
     "sl_SI": "Wow! Končal si zadnjo stopnjo, fantastično!",
@@ -44,7 +44,7 @@ exports.strings = {
     "fr_FR": "Voulez-vous passer à *\"{nextLevel}\"*, le prochain niveau ?",
     "ro": "Dorești să treci la  următorul nivel: *\"{nextLevel}\"*?",
     "ru_RU": "Хотите перейти на следующий уровень: *\"{nextLevel}\"*?",
-    "uk": "Хочеш перейти на наступний рівень -- *\"{nextLevel}\"*?",
+    "uk": "Хочете перейти на наступний рівень -- *\"{nextLevel}\"*?",
     "ko": "다음 레벨로 넘어갈까요? *\"{nextLevel}\"*",
     "vi": "Bạn có muốn chuyển sang cấp độ tiếp: *\"{nextLevel}\"* không?",
     "sl_SI": "Bi rad nadaljeval na *\"{nextLevel}\"*, naslednjo stopnjo?",
@@ -72,7 +72,7 @@ exports.strings = {
     "fr_FR": "Fabuleux ! Votre solution a égalé ou surpassé notre solution.",
     "ro": "Minunat! Soluția ta este la fel de bună sau mai bună decât a noastră.",
     "ru_RU": "Отлично! Ваше решение соответствует или превосходит наше.",
-    "uk": "Чудово! Твій розв’язок на рівні або кращий від нашого.",
+    "uk": "Чудово! Ваш розв’язок на рівні або кращий від нашого.",
     "ko": "굉장해요! 해답과 일치하거나 더 나은 해답입니다.",
     "vi": "Tuyệt vời! Đáp án của bạn đạt chuẩn thậm chí có thể tốt hơn.",
     "sl_SI": "Bravo! Izenačil ali celo presegel si našo rešitev.",
@@ -100,7 +100,7 @@ exports.strings = {
     "fr_FR": "Fabuleux ! Votre solution a égalé ou surpassé notre solution.",
     "ro": "Minunat! Soluția ta este la fel de bună sau mai bună decât a noastră.",
     "ru_RU": "Отлично! Ваше решение соответствует или превосходит наше.",
-    "uk": "Чудово! Твій розв’язок на рівні або кращий від нашого.",
+    "uk": "Чудово! Ваш розв’язок на рівні або кращий від нашого.",
     "ko": "굉장해요! 해답과 일치하거나 더 나은 해답입니다.",
     "vi": "Tuyệt vời! Đáp án của bạn đạt chuẩn thậm chí có thể tốt hơn.",
     "sl_SI": "Bravo! Izenačil ali celo presegel si našo rešitev.",
@@ -128,7 +128,7 @@ exports.strings = {
     "fr_FR": "Voyons si vous pouvez descendre à {best} :D",
     "ro": "Vezi dacă poți reduce la {best} :D",
     "ru_RU": "Попробуйте, может вы сможете уложиться в {best} : D",
-    "uk": "Спробуй, можливо ти зможеш вкластися в {best} кроків :D",
+    "uk": "Спробуйте, можливо Ви зможете вкластися в {best} кроків :D",
     "ko": "{best}회로 줄일 수 있을까요? :D",
     "vi": "Thử xem bạn có thể giảm xuống {best} không? :D",
     "sl_SI": "Misliš da lahko spraviš rešitev na {best}? :D",
@@ -155,7 +155,7 @@ exports.strings = {
     "de_DE": "Achtung! Mercurial macht aggressive Garbage Collection und muss daher deinen Baum reduzieren",
     "ro": "Atenție! Mercurial face colectare de gunoi agresivă și trebuie să-ți taie arborele",
     "ru_RU": "Внимание! Mercurial использует агрессивный сборщик мусора и обрезает ваше дерево",
-    "uk": "Увага! Mercurial агресивно збирає сміття й може обрізати твоє дерево ",
+    "uk": "Увага! Mercurial агресивно збирає сміття й може обрізати Ваше дерево ",
     "ko": "주의! Mercurial은 공격적으로 가비지 컬렉션을 수행하므로 가지치기를 할 필요가 있습니다.",
     "vi": "Cảnh báo! Mercurial cần thực hiện thu gom rác và thu nhỏ cây lịch sử của bạn",
     "sl_SI": "Opozorilo! Mercurial ima agresivno politiko garbage collectiona in bo obrezal vaše drevo",
@@ -209,7 +209,7 @@ exports.strings = {
     "de_DE": "Es gibt keinen Befehl status in dieser Anwendung, da es kein Staging von Dateien gibt. Probier stattdessen hg summary",
     "ro": "Nu există comanda status pentru această aplicație, deoarece nu există staging de fișiere. Încearcă hg summary în schimb",
     "ru_RU": "Команда status не поддерживается в этом приложении, так как здесь нет файлов. Попробуйте выполнить hg summary",
-    "uk": "Команда status не підтримується в цьому застосунку, так як немає стейджингу(staging) файлів. Натомість спробуй hg summary ",
+    "uk": "Команда status не підтримується в цьому застосунку, оскільки немає стейджингу(staging) файлів. Натомість спробуйте hg summary ",
     "ko": "파일들의 스테이징이 없으므로 이 앱을 위한 상태 명령어는 없습니다. 대신 hg summary를 시도해보세요.",
     "vi": "Ứng dụng này không hỗ trợ lệnh `status` vì không có tệp nhớ đệm, thay vì đó hãy dùng lệnh `hg summary`",
     "sl_SI": "Za to aplikacijo ni na voljo `status` ukaza, ker tu ni `stage-anja` datotek. Poizkusiš lahko `hg summary`",
@@ -263,7 +263,7 @@ exports.strings = {
     "de_DE": "hg log ohne -f wird aktuell nicht unterstützt, benutze bitte -f",
     "ro": "Comanda hg log fără -f nu este suportată, folosește -f",
     "ru_RU": "hg log без опции -f в настоящий момент не поддерживается, используйте -f",
-    "uk": "hg log без опції -f в данний момент не підтримується, використовуй -f",
+    "uk": "hg log без опції -f наразі не підтримується, використовуйте -f",
     "ko": "-f가 없는 hg log는 현재 지원되지 않습니다. -f를 사용하세요.",
     "vi": "Hiện tại thì `hg log` mà không có tùy chọn -f chưa được hỗ trợ, hãy viết thêm -f",
     "sl_SI": "hg log brez -f trenutno ni podprt, uporabi -f",
@@ -361,6 +361,7 @@ exports.strings = {
     "pt_BR": "Mudanças a serem commitadas:",
     "de_DE": "Änderungen, die committed werden:",
     "tr_TR": "Commit edilecek değişiklikler:",
+    "uk": "Зміни, підготовлені до коміту:"
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
@@ -368,6 +369,7 @@ exports.strings = {
     "pt_BR": "Mudanças não adicionadas ao staging:",
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
     "tr_TR": "Commit için stage'lenmemiş değişiklikler:",
+    "uk": "Зміни, не підготовлені до коміту:"
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
@@ -375,6 +377,7 @@ exports.strings = {
     "pt_BR": "nada para commitar, diretório de trabalho limpo",
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
     "tr_TR": "commit edilecek bir şey yok, çalışma ağacı temiz",
+    "uk": "нічого комітити, робоче дерево чисте"
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
@@ -382,6 +385,7 @@ exports.strings = {
     "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
     "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
     "tr_TR": "commit'e eklenmiş değişiklik yok (önce \"git add <file>\" ile stage'leyin)",
+    "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")"
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -452,7 +456,7 @@ exports.strings = {
     "fr_FR": "Votre branche origin n'est plus synchronisée avec la branche distante et fetch ne peut pas être appliqué. Essayez avec l'option --force",
     "ro": "Ramura origin nu este sincronizată cu ramura de la distanță, deci fetch nu poate fi efectuat",
     "ru_RU": "Ваша origin ветка не синхронизирована с удаленной веткой, невозможно выполнить fetch",
-    "uk": "Твоя гілка origin не синхронізована з віддаленою гілкою, неможливо виконати fetch",
+    "uk": "Ваша гілка origin не синхронізована з віддаленою гілкою, неможливо виконати fetch",
     "ko": "origin 브랜치가 원격 브랜치와 동기화되지 않아서 fetch를 실행할 수 없습니다.",
     "vi": "Nhánh của bạn không đồng bộ với nhánh từ xa nên lệnh fetch không thực thi được",
     "sl_SI": "Tvoj origin branch ni sinhroniziran z oddaljenim branchem, zato se fetch se ne more izvesti",
@@ -479,7 +483,7 @@ exports.strings = {
     "fr_FR": "Le dépôt distant a divergé de votre référentiel local, donc l'envoi de vos modifications n'est pas en simple avance rapide (et donc votre envoi a été rejeté). Veuillez récupérer les nouveaux changements depuis le dépôt distant, les intégrer dans cette branche, et essayez à nouveau. Vous pouvez le faire avec git pull ou git pull --rebase",
     "ro": "Repozitoriul de la distanță a deviat de repozitoriul tău local, deci încărcarea modificărilor nu este un simplu fast forward (și astfel push-ul tău a fost respins). Te rog să tragi noile modificări din repozitoriul de la distanță, să le integrezi în această ramură și să încerci din nou. Poți face asta cu git pull sau git pull --rebase",
     "ru_RU": "Удаленный репозиторий разошелся с вашим локальным репозиторием, поэтому выгрузка ваших изменений не может быть в режиме fast forward (и следовательно ваш push будет отклонён). Пожалуйста, удалите изменения в удаленном репозитории которые, объедините их в эту ветку и попробуйте еще раз. Вы можете сделать это с помощью git pull или git pull --rebase",
-    "uk": "Віддалений репозиторій розбігся з твоїм локальним репозиторієм, тому відвантаження твоїх змін не є простим fast forward (і тому твій push був відхилений). Будь-ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуй ще. Ти можеш зробити це за допомогою git pull чи git pull --rebase",
+    "uk": "Віддалений репозиторій розбігся з Вашим локальним репозиторієм, тому відвантаження Ваших змін не є простим fast forward (і тому Ваш push був відхилений). Будь ласка, витягни зміни з віддаленого репозиторію, включи їх в цю гілку, й спробуйте ще. Ви можете зробити це за допомогою git pull чи git pull --rebase",
     "ko": "원격 리포지토리가 로컬 리포지토리에서 분기되었으므로 변경 사항이 fast foward 방식으로 업로드되지 않고 푸시가 거부됩니다. 원격 리포지토리의 새 변경 내용을 끌어서 이 브랜치에 통합한 후 다시 시도하세요. git pull 또는 git pull --rebase를 사용해도 됩니다.",
     "vi": "Kho chứa từ xa có sự khác biệt với kho chứa cục bộ của bạn, nên không thể tự động (fast forward) cập nhật thay đổi của bạn (và vì thế hoạt động push của bạn bị từ chối). Vui lòng kéo về thay đổi từ kho chứa từ xa, kết nạp vào nhánh hiện tại, và thử lại lần nữa. Bạn có thể dùng lệnh `git pull` hoặc `git pull --rebase`",
     "sl_SI": "Oddaljen repozitorij se je ločil od tvojega lokalnega repozitorija, zato nalaganje sprememb ni možno z `fast forward` opcijo (zato je bil `push` zavrnjen). Prosim pull-aj dol nove spremembe iz oddaljenega repozitorija, jih vključi v svoj branch, nato pa poizkusi ponovno. To lahko narediš z `git pull` ali `git pull --rebase`",
@@ -506,7 +510,7 @@ exports.strings = {
     "fr_FR": "Vous ne pouvez exécuter cette commande sur une branche distante",
     "ro": "Nu poți executa acest comandă pe o ramură la distanță",
     "ru_RU": "Вы не можете выполнить эту команду на удаленной ветке",
-    "uk": "Ти не можеш виконати цю команду на віддаленій гілці",
+    "uk": "Ви не можете виконати цю команду на віддаленій гілці",
     "ko": "원격 브랜치에서 해당 명령어를 실행시킬 수 없습니다.",
     "vi": "Bạn không thể thực thi lệnh đó lên nhánh từ xa",
     "sl_SI": "Tega ukaza ne moreš narediti na oddaljenem branchu",
@@ -587,7 +591,7 @@ exports.strings = {
     "fr_FR": "Vous ne pouvez pas supprimer la branche main, la branche sur laquelle vous êtes, ou ce qui n'est pas une branche",
     "ro": "Nu poți șterge ramura main, ramura pe care te afli, sau lucruri care nu sunt ramuri",
     "ru_RU": "Невозможно удалить ветку main, ветку на которой вы сейчас и то что не является веткой",
-    "uk": "Неможливо видалити гілку main, гілку на якій ти зараз знаходишся чи штуки які не є гілкою",
+    "uk": "Неможливо видалити гілку main, гілку на якій Ви зараз знаходитеся чи штуки які не є гілкою",
     "ko": "main 브랜치, 현재 위치한 브랜치, 브랜치가 아닌 항목은 삭제할 수 없습니다.",
     "vi": "Bạn không thể xóa nhánh main, nhánh mà bạn đang tham chiếu tới, hoặc những gì không phải nhánh",
     "sl_SI": "Ne moreš izbrisati main brancha, brancha na katerem si trenutno ali stvari, ki niso branchi",
@@ -843,7 +847,8 @@ exports.strings = {
   },
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
-    "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD."
+    "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
+    "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD."
   },
   "git-error-options": {
     "__desc__": "One of the error messages for git",
@@ -861,7 +866,7 @@ exports.strings = {
     "fr_FR": "Les options que vous avez spécifiées sont incompatibles ou incorrectes",
     "ro": "Opțiunile specificate sunt incompatibile sau incorecte",
     "ru_RU": "Неправильные опции",
-    "uk": "Опції, які ти ввів, або некорректні або не підтримуються",
+    "uk": "Опції, які Ви ввели, або некоректні або не підтримуються",
     "ko": "지정한 옵션이 호환되지 않거나 올바르지 않습니다.",
     "vi": "Các tham số bạn chỉ định không tương thích hoặc không chính xác",
     "sl_SI": "Opcije, ki si jih podal, so nezdružljive ali napačne",
@@ -888,7 +893,7 @@ exports.strings = {
     "fr_FR": "Le commit {commit} existe déjà dans votre ensemble de modifications, opération avortée !",
     "ro": "Commit-ul {commit} există deja în setul tău de modificări, se anulează!",
     "ru_RU": "Коммит {commit} существует, отменяю!",
-    "uk": "Коміт {commit} вже існує в твоєму change set, відміна!",
+    "uk": "Коміт {commit} вже існує в Вашому change set, скасовано!",
     "ko": "커밋 {commit}이 이미 변경 내역에 존재합니다. 중단!",
     "vi": "Commit {commit} đã tồn tại trong những thay đổi của bạn, đang hủy!",
     "sl_SI": "Commit {commit} že obstaja v tvoji množici sprememb, prekinjam!",
@@ -915,7 +920,7 @@ exports.strings = {
     "fr_FR": "On ne peut pas effectuer un reset quand HEAD est détaché. Utilisez checkout pour déplacer",
     "ro": "Nu se poate face reset în starea HEAD detașat! Folosește checkout dacă vrei să te muți",
     "ru_RU": "Это невозможно в режиме detached HEAD! Используйте checkout!",
-    "uk": "Неможливо зробити reset в стані detached head! Використовуй checkout якщо хочеш змінити розташування",
+    "uk": "Неможливо зробити reset в стані detached head! Використовуйте checkout якщо хочете змінити розташування",
     "ko": "분리된 HEAD에서 reset할 수 없습니다. 만약 이동시키기를 원한다면 checkout을 사용하세요.",
     "vi": "Trong trạng thái tách rời `HEAD` thì không thể `reset`. Dùng `checkout` nếu bạn muốn di chuyển",
     "sl_SI": "Ni možno resetat, zaradi detached HEADa",
@@ -942,7 +947,7 @@ exports.strings = {
     "fr_FR": "Le comportement par défaut est un --hard reset, soyez libre d'omettre cette option !",
     "ro": "Comportamentul implicit aici este un reset --hard, așa că te poți simți liber să omiți această opțiune! De menționat că în GitHub, comportamentul implicit este --mixed.",
     "ru_RU": "По умолчанию будет выполнен --hard reset, эту опцию можно опускать!",
-    "uk": "На LearnGitBranching reset по замовчуванню використовує --hard, тому цю опцію можна пропустити, якщо ти втомився її набирати щоразу. Тільки запам’ятай, що по замовчуванню звичайний git reset використовує --mixed",
+    "uk": "На LearnGitBranching reset за замовчуванням використовує --hard, тому цю опцію можна пропустити, якщо Ви втомилися її набирати щоразу. Тільки запам’ятай, що за замовчуванням звичайний git reset використовує --mixed",
     "ko": "LearnGitBranching에서 reset의 기본 설정은 --hard이므로, 이 옵션을 입력하는 것이 번거롭게 느껴진다면 생략해도 됩니다. 다만 실제 Git의 기본 설정 옵션은 --mixed라는것만 기억하세요.",
     "vi": "Trạng thái mặc định cho lệnh `reset` của \"Học nhánh Git\" là `--hard`. Nên khi làm bài nếu bạn thấy gõ tham số này hơi tốn công thì cứ bỏ qua. Nhưng mà hãy nhớ rằng thực tế thì `--mixed` mới là trạng thái mặc định của `reset`.",
     "sl_SI": "Privzeto delovanje za reset na LearnGitBranching je --hard, zato lahko to izpustiš. Na pravem gitu je --mixed.",
@@ -1109,7 +1114,8 @@ exports.strings = {
     "ta_IN": "\"{command}\" என்ற கட்டளை ஆதரிக்கப்படவில்லை, வருந்துகிறோம்!",
     "tr_TR": "\"{command}\" komutu desteklenmiyor, üzgünüm!",
     "hu_HU": "A(z) \"{command}\" parancs nem támogatott, sajnálom!",
-    "az": "\"{command}\" əmri dəstəklənmir, üzr istəyirəm!"
+    "az": "\"{command}\" əmri dəstəklənmir, üzr istəyirəm!",
+    "uk": "Команда \"{command}\" не підтримується, вибачте!"
   },
   "copy-tree-string": {
     "__desc__": "The prompt to copy the tree when sharing",
@@ -1127,7 +1133,7 @@ exports.strings = {
     "fr_FR": "Copiez la chaîne d'arbre ci-dessous",
     "ro": "Copiază șirul arborelui mai jos",
     "ru_RU": "Скопируй текст ниже",
-    "uk": "Скопіюй рядок дерева нижче",
+    "uk": "Скопіюйте рядок дерева нижче",
     "ko": "다음 트리 문자열을 복사하세요.",
     "vi": "Sao chép chuỗi cây bên dưới",
     "sl_SI": "Skopiraj besedilo drevesa spodaj",
@@ -1254,7 +1260,7 @@ exports.strings = {
     "fr_FR": "Désolé, nous devons garder les noms de branches courts pour la visualisation. Votre nom de branche a été tronqué à 9 caractères, devenant \"{branch}\"",
     "ro": "Ne pare rău, trebuie să păstrăm numele ramurilor scurte pentru vizualizare. Numele ramurii tale a fost trunchiat la 9 caractere, rezultând \"{branch}\"",
     "ru_RU": "Для наглядности нам нужно сохранять имена веток короткими. Твоё название сокращено до 9 символов и теперь это \"{branch}\"",
-    "uk": "Вибач, нам потрібно щоб ім’я гілок було як можна коротше для наглядності. Твоє ім’я гілки було скорочене до 9 літер й тепер це \"{branch}\"",
+    "uk": "Вибач, нам потрібно щоб ім’я гілок було як можна коротше для наглядності. Ваше ім’я гілки було скорочене до 9 літер й тепер це \"{branch}\"",
     "ko": "죄송하지만, 가독성을 위해 짧은 브랜치명이 필요합니다. 브랜치명이 최대 9자리로 잘려 \"{branch}\"로 변경되었습니다.",
     "vi": "Xin lỗi, chúng tôi cần giữ tên nhánh ngắn để tiện minh họa. Tên nhánh của bạn đã bị cắt xuống 9 ký tự là \"{branch}\"",
     "sl_SI": "Oprosti, imena branchev moramo obdržati kratka zaradi vizualizacije. Tvoje ime brancha je bilo skrajšano na 9 črk, kar predstavlja \"{branch}\"",
@@ -1578,7 +1584,7 @@ exports.strings = {
     "fr_FR": "Merci d'utiliser une des commandes suivantes pour obtenir plus d'informations",
     "ro": "Pentru mai multe informații, folosește una dintre următoarele comenzi:",
     "ru_RU": "Для получения большей информации используй следующие команды:",
-    "uk": "Щоб отримати більше інформації використовуй наступні команди:",
+    "uk": "Щоб отримати більше інформації використовуйте наступні команди:",
     "ko": "더 많은 정보를 위해 다음 명령어들중 하나를 사용하세요:",
     "vi": "Vui lòng dùng một trong các lệnh sau để có thêm thông tin:",
     "sl_SI": "Prosim uporabi enega od naslednjih ukazov",
@@ -1794,7 +1800,7 @@ exports.strings = {
     "fr_FR": "Vous n'êtes pas dans un niveau ! Vous êtes dans le mode bac à sable, commencez un niveau avec \"levels\"",
     "ro": "Nu ești într-un nivel! Ești în sandbox, începe un nivel cu \"levels\"",
     "ru_RU": "Ты не проходишь уровень! Ты в песочнице! Чтобы начать уровень, используй команду \"levels\"!",
-    "uk": "Ти не в рівні! Ти в пісочниці! Почни рівень з \"levels\"",
+    "uk": "Ви не в рівні! Ви в пісочниці! Почни рівень з \"levels\"",
     "ko": "현재 샌드박스에 있습니다! \"levels\"를 사용하여 레벨을 시작하세요.",
     "vi": "Bạn hiện không ở cấp độ nào cả! Bạn đang ở trong hộp cát (sandbox), hãy bắt đầu một cấp độ với \"levels\"",
     "sl_SI": "Nisi v stopnji! Si v peskovniku, začni stopnjo z \"levels\"",
@@ -1875,7 +1881,7 @@ exports.strings = {
     "fr_FR": "Vous avez déjà résolu ce niveau, essayez d'autres niveaux avec \"levels\" ou revenez au bac à sable avec \"sandbox\"",
     "ro": "Ai rezolvat deja acest nivel, încearcă alte nivele cu \"levels\" sau întoarce-te la sandbox cu \"sandbox\"",
     "ru_RU": "Ты уже прошел этот уровень, попробуй пройти другие при помощи команды \"levels\" или иди в песочницу \"sandbox\"",
-    "uk": "Ти вже пройшов цей рівень, спробуй інші рівні з \"levels\" чи повернись в пісочницю з \"sandbox\"",
+    "uk": "Ви вже пройшли цей рівень, спробуйте інші рівні з \"levels\" чи поверніться в пісочницю з \"sandbox\"",
     "ko": "당신은 이미 이 레벨을 해결했습니다. \"levels\"를 사용하여 다른 레벨에 도전하거나 \"sandbox\"를 사용하여 샌드박스로 돌아가세요.",
     "vi": "Bạn đã vượt qua cấp độ này. Thử cấp độ khác với \"levels\" hoặc dùng \"sandbox\" để trở lại hộp cát",
     "sl_SI": "To stopnjo si že rešil, poizkusi druge stopnje z \"levels\" ali pojdi nazaj v peskovnik s \"sandbox\"",
@@ -1982,7 +1988,7 @@ exports.strings = {
     "fr_FR": "Vous n'avez pas spécifié de dialogue de départ, voulez-vous en ajouter un ?",
     "ro": "Nu ai specificat un dialog de început, vrei să adaugi unul?",
     "ru_RU": "Не указано стартово сообщение! Точно продолжаем?",
-    "uk": "Не вказано стартовий діалог, хочеш додати стартовий діалог?",
+    "uk": "Не вказано стартовий діалог, хочете додати стартовий діалог?",
     "ko": "시작 대화창을 지정하지 않았습니다. 추가 하시겠습니까?",
     "vi": "Không có cửa sổ hộp thoại được chỉ định, thêm một cái chứ?",
     "sl_SI": "Nisi določil začetnega dialoga, bi ga rad dodal?",
@@ -2009,7 +2015,7 @@ exports.strings = {
     "fr_FR": "Vous n'avez pas spécifié d'indice, voulez-vous en ajouter un ?",
     "ro": "Nu ai specificat niciun indiciu, vrei să adaugi unul?",
     "ru_RU": "Не указана подсказка для уровня! Пренебречь? Вальсируем?",
-    "uk": "Не вказана підказка, хочеш додати підказку?",
+    "uk": "Не вказана підказка, хочете додати підказку?",
     "ko": "힌트를 지정하지 않았습니다. 추가 하시겠습니까?",
     "vi": "Bạn chưa chỉ định một gợi ý, thêm một cái chứ?",
     "sl_SI": "Nisi določil namiga, bi ga rad dodal?",
@@ -2036,7 +2042,7 @@ exports.strings = {
     "fr_FR": "Entrez l'indice pour ce niveau, ou laissez-le vide pour ne pas l'inclure",
     "ro": "Adaugă un indiciu pentru acest nivel dacă dorești",
     "ru_RU": "Введи подсказку для уровня, если хочешь.",
-    "uk": "Додай підказку для рівня, якщо хочеш",
+    "uk": "Додайте підказку для рівня, якщо хочете",
     "ko": "이 레벨을 위한 힌트를 입력합니다(힌트를 입력하지 않으려면 비워둡니다).",
     "vi": "Thêm một gợi ý cho cấp độ này, hoặc cứ để trống nếu bạn không muốn thêm",
     "sl_SI": "Vnesi namig za to stopnjo ali pusti to prazno, če ga nočeš dodati",
@@ -2063,7 +2069,7 @@ exports.strings = {
     "fr_FR": "Entrez le nom pour ce niveau",
     "ro": "Introdu numele pentru acest nivel",
     "ru_RU": "Введи название уровня",
-    "uk": "Введи назву рівня",
+    "uk": "Введіть назву рівня",
     "ko": "레벨의 이름을 입력하세요.",
     "vi": "Nhập tên cho cấp độ này",
     "sl_SI": "Vnesi ime za stopnjo",
@@ -2080,6 +2086,7 @@ exports.strings = {
     "az": "Bu bölümün göstəriləcək həlli yoxdur!",
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
     "tr_TR": "Bu seviyenin gösterilecek bir çözümü yok!",
+    "uk": "Для цього рівня немає розв’язку для показу!"
   },
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
@@ -2510,7 +2517,7 @@ exports.strings = {
     "ja": "{key}の翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m",
     "ro": "Traducerea pentru {key} nu există încă :( Te rog să vii pe GitHub și să oferi o traducere!",
     "ru_RU": "Перевода для {key} не создано :( Пожалуйста, предложи перевод на GitHub",
-    "uk": "Немає перекладу для {key} :( Будь-ласка, запропонуй переклад на GitHub",
+    "uk": "Немає перекладу для {key} :( Будь ласка, запропонуй переклад на GitHub",
     "ko": "{key}를 위한 번역은 아직 존재하지 않습니다 :( github로 오셔서 번역을 제공해주세요!",
     "vi": "Bản dịch cho {key} không có rồi :( Nếu có thể thì hãy lên dự án của chúng tôi ở GitHub để cung cấp bản dịch!",
     "sl_SI": "Prevod za {key} še ne obstaja :( Skoči na github in dodaj prevod!",
@@ -2538,7 +2545,7 @@ exports.strings = {
     "ja": "このダイアログ、またはテキストの翻訳がまだ存在しません :( GitHubでの、翻訳の協力をお願いします m(_)m",
     "ro": "Această fereastră sau text nu este încă tradus în limba ta :( Te rog să vii pe GitHub și să oferi o traducere!",
     "ru_RU": "Для этого сообщения нет перевода :( Пожалуйста, предложи перевод на GitHub",
-    "uk": "Для цього повідомлення ще немає перекладу :( Будь-ласка, запропонуй переклад на GitHub",
+    "uk": "Для цього повідомлення ще немає перекладу :( Будь ласка, запропонуй переклад на GitHub",
     "ko": "이 대화창이나 텍스트는 아직 번역되지 않았습니다. :( 번역을 지원하려면 github로 와주세요!",
     "vi": "Hộp thoại hoặc văn bản này chưa được dịch ra ngôn ngữ của bạn rồi :( Hãy lên GitHub để cung cấp bản dịch!",
     "sl_SI": "Ta dialog ali tekst še ni preveden za tvoj jezik :( Skoči na github in dodaj prevod!",
@@ -2569,7 +2576,8 @@ exports.strings = {
     "vi": "Hủy",
     "tr_TR": "İptal",
     "hu_HU": "Mégse",
-    "az": "Ləğv et"
+    "az": "Ləğv et",
+    "uk": "Скасувати"
   },
   "confirm-button": {
     "__desc__": "Confirm button label after completing a level",
@@ -2591,7 +2599,8 @@ exports.strings = {
     "vi": "Đồng ý",
     "tr_TR": "Tamam",
     "hu_HU": "Megerősít",
-    "az": "Təsdiqlə"
+    "az": "Təsdiqlə",
+    "uk": "Підтвердити"
   },
   "level-label": {
     "__desc__": "Label in the top of the left-side menu. Remember to leave some space on the sides",
@@ -2611,7 +2620,8 @@ exports.strings = {
     "pl": " Poziom ",
     "tr_TR": " Seviye ",
     "hu_HU": " Szint ",
-    "az": " Bölüm "
+    "az": " Bölüm ",
+    "uk": " Рівень "
   },
   "close-window": {
     "__desc__": "Tooltip for the red control that closes a window.",
@@ -2619,6 +2629,7 @@ exports.strings = {
     "az": "Pəncərəni bağla",
     "de_DE": "Fenster schließen",
     "tr_TR": "Pencereyi kapat",
+    "uk": "Закрити вікно"
   },
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
@@ -2626,6 +2637,7 @@ exports.strings = {
     "az": "Geri",
     "de_DE": "Zurück",
     "tr_TR": "Geri",
+    "uk": "Назад"
   },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
@@ -2645,7 +2657,8 @@ exports.strings = {
     "pl": "Poziomy",
     "tr_TR": "Seviyeler",
     "hu_HU": "Szintek",
-    "az": "Bölümlər"
+    "az": "Bölümlər",
+    "uk": "Рівні"
   },
   "command-helper-bar-solution": {
     "__desc__": "Solution command label in the bottom command helper bar.",
@@ -2665,7 +2678,8 @@ exports.strings = {
     "pl": "Rozwiązanie",
     "tr_TR": "Çözüm",
     "hu_HU": "Megoldás",
-    "az": "Həll"
+    "az": "Həll",
+    "uk": "Рішення"
   },
   "command-helper-bar-reset": {
     "__desc__": "Reset command label in the bottom command helper bar.",
@@ -2684,7 +2698,8 @@ exports.strings = {
     "pl": "Wyczyść",
     "tr_TR": "Sıfırla",
     "hu_HU": "Visszaállítás",
-    "az": "Sıfırla"
+    "az": "Sıfırla",
+    "uk": "Скинути"
   },
   "command-helper-bar-undo": {
     "__desc__": "Undo command label in the bottom command helper bar.",
@@ -2704,7 +2719,8 @@ exports.strings = {
     "pl": "Cofnij",
     "tr_TR": "Geri al",
     "hu_HU": "Visszavonás",
-    "az": "Geri al"
+    "az": "Geri al",
+    "uk": "Скасувати"
   },
   "command-helper-bar-objective": {
     "__desc__": "Objective command label in the bottom command helper bar.",
@@ -2724,7 +2740,8 @@ exports.strings = {
     "pl": "Cel",
     "tr_TR": "Hedef",
     "hu_HU": "Cél",
-    "az": "Hədəf"
+    "az": "Hədəf",
+    "uk": "Завдання"
   },
   "command-helper-bar-help": {
     "__desc__": "Help command label in the bottom command helper bar.",
@@ -2744,7 +2761,8 @@ exports.strings = {
     "pl": "Pomoc",
     "tr_TR": "Yardım",
     "hu_HU": "Segítség",
-    "az": "Kömək"
+    "az": "Kömək",
+    "uk": "Допомога"
   },
   "error-command-currently-not-supported": {
     "__desc__": "Message that appears in git console when command is not supported in the current environment.",
@@ -2765,7 +2783,8 @@ exports.strings = {
     "vi": "Lệnh đó hợp lệ, nhưng không được hỗ trợ ở môi trường hiện tại! Hãy thử vào một cấp độ hoặc trình tạo cấp độ để sử dụng lệnh",
     "tr_TR": "Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir. Bu komutu kullanmak için bir seviyeye (level) ya da seviye oluşturucuya (level builder) girin.",
     "hu_HU": "Ez a parancs érvényes, de nem támogatott a jelenlegi környezetben! Próbálj belépni egy szintbe vagy szintépítőbe hogy használd ezt a parancsot",
-    "az": "Bu əmr etibarlıdır, lakin cari mühitdə dəstəklənmir! Bu əmri istifadə etmək üçün bir bölümə və ya bölüm konstruktoruna daxil olmağı sına"
+    "az": "Bu əmr etibarlıdır, lakin cari mühitdə dəstəklənmir! Bu əmri istifadə etmək üçün bir bölümə və ya bölüm konstruktoruna daxil olmağı sına",
+    "uk": "Ця команда дійсна, але не підтримується в цьому середовищі! Спробуйте увійти в рівень або редактор рівнів, щоб використати її"
   },
   "interactive-rebase-title": {
     "__desc__": "Title for the popup",
@@ -2786,6 +2805,7 @@ exports.strings = {
     "vi": "Rebase tương tác",
     "tr_TR": "Etkileşimli Rebase",
     "hu_HU": "Interaktív rebase",
-    "az": "İnteraktiv Rebase"
+    "az": "İnteraktiv Rebase",
+    "uk": "Інтерактивний Rebase"
   }
 }
