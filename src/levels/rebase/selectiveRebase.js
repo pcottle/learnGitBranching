@@ -51,7 +51,7 @@ exports.level = {
     "ro": "Asigură-te că faci totul în ordinea corectă! Ramura `one` mai întâi, apoi `two`, și apoi `three`",
     "bg": "Внимавай да правиш всичко в правилния ред! Първо бранч `one`, после `two`, накрая `three`.",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
-    "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
+    "uk": "Переконайтеся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi": "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
     "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
     "it_IT": "Assicurati di fare tutto nel giusto ordine! Prima il primo ramo, poi il secondo, poi il terzo",
@@ -415,7 +415,7 @@ exports.level = {
               "",
               "Гілку `one` потрібно впорядкувати і видалити `C5`. Гілку `two` також потрібно впорядкувати, а в гілку `three` потрібно додати ще один коміт!",
               "",
-              "Ми повністю покладаємось на тебе -- порівняй свій розв’зок з нашим, який можна подивитись командою `show solution`. "
+              "Ми повністю покладаємось на Вас -- порівняй свій розв’зок з нашим, який можна подивитись командою `show solution`. "
             ]
           }
         }
