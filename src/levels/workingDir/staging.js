@@ -9,10 +9,14 @@ exports.level = {
     "zh_TW": "暫存區 Staging Area",
     "pt_BR": "A área de staging",
     "ru_RU": "Область подготовленных файлов (Индекс)",
-    "tr_TR": "Staging Area (Hazırlık Alanı)",
+    "tr_TR": "Staging Area (Hazırlık Alanı)", "es_AR": "Brancheando en Git",
+    "es_MX": "Area de Staging (preparando)",
+    "es_ES": "Area de Staging (preparando)",
     "uk": "Область підготовлених файлів (Staging Area)"
   },
   "hint": {
+    "es_MX": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
+    "es_ES": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     "en_US": "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
     "zh_CN": "使用 `git add <file>` 暂存一个文件，再用 `git commit` 将其保存为快照。每个文件各执行一次，共执行两次。",
     "zh_TW": "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。",
