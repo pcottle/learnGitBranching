@@ -550,7 +550,8 @@ class Level extends Sandbox {
         var nextDialog = new NextLevelConfirm({
           nextLevel: nextLevel,
           numCommands: numCommands,
-          best: best
+          best: best,
+          levelName: this.getEnglishName()
         });
 
         return nextDialog.getPromise();
