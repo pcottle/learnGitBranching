@@ -10,6 +10,7 @@ exports.level = {
     "pt_BR": "Desfazendo com git restore",
     "ru_RU": "Отмена изменений с помощью git restore",
     "tr_TR": "git restore ile Geri Alma",
+    "vi": "Hoàn tác bằng git restore",
     "uk": "Скасування змін за допомогою git restore"
   },
   "hint": {
@@ -19,6 +20,7 @@ exports.level = {
     "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`.",
     "ru_RU": "Уберите из подготовленной области с помощью `git restore --staged secret.env`, отбросьте эксперимент командой `git restore experiment.js`, а затем выполните `git commit`.",
     "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın.",
+    "vi": "Loại bỏ khỏi staging với `git restore --staged secret.env`, vứt bỏ thử nghiệm với `git restore experiment.js`, sau đó `git commit`.",
     "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`."
   },
   "startDialog": {
@@ -77,6 +79,66 @@ exports.level = {
               "* Commit what's left: `git commit`",
               "",
               "That lands one clean commit, with only the work you meant to keep."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Hoàn tác với `git restore`",
+              "",
+              "Ai cũng có lúc tạo ra vài mớ hỗn độn. Bạn đưa nhầm một tệp vào staging hoặc bắt đầu một thử nghiệm mà bạn muốn vứt bỏ. `git restore` là nút hoàn tác hiện đại, được thiết kế chuyên dụng cho thư mục làm việc và khu vực staging của bạn.",
+              "",
+              "Nó có hai biến thể chính:",
+              "",
+              "* `git restore --staged <file>`: **đưa tệp ra khỏi staging** (chuyển nó ra khỏi khu vực staging, nhưng vẫn giữ nguyên các chỉnh sửa của bạn)",
+              "* `git restore <file>`: **hủy bỏ hoàn toàn** các chỉnh sửa của bạn đối với một tệp (cẩn thận, thao tác này sẽ xóa sạch các thay đổi!)",
+              "",
+              "*(Các lệnh này thay thế cho các mẹo cũ `git reset HEAD <file>` và `git checkout -- <file>`. Cùng một ý tưởng nhưng tên gọi rõ ràng hơn nhiều.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Đây là mớ hỗn độn trên bàn làm việc của bạn lúc này:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Bạn muốn commit `app.js`, nhưng `secret.env` bị đưa vào staging sớm do sơ ý (nó nên là một commit phía trên), vì vậy hãy để dành nó cho sau. Ngoài ra, các thay đổi trong `experiment.js` không hoạt động nên hãy vứt bỏ hoàn toàn nó đi."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dọn dẹp lại, sau đó commit:",
+              "",
+              "* Đưa tệp bí mật ra khỏi staging: `git restore --staged secret.env`",
+              "* Hủy bỏ bản thử nghiệm: `git restore experiment.js`",
+              "* Commit phần còn lại: `git commit`",
+              "",
+              "Thao tác đó tạo ra một commit sạch sẽ, chỉ chứa công việc mà bạn thực sự muốn giữ lại."
             ]
           }
         }
