@@ -361,6 +361,7 @@ exports.strings = {
     "pt_BR": "Mudanças a serem commitadas:",
     "de_DE": "Änderungen, die committed werden:",
     "tr_TR": "Commit edilecek değişiklikler:",
+    "vi": "Tiêu đề git status cho các thay đổi đã được staged (sẵn sàng commit)",
     "uk": "Зміни, підготовлені до коміту:"
   },
   "git-status-unstaged-header": {
@@ -369,6 +370,7 @@ exports.strings = {
     "pt_BR": "Mudanças não adicionadas ao staging:",
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
     "tr_TR": "Commit için stage'lenmemiş değişiklikler:",
+    "vi": "Tiêu đề của git status dành cho các tệp đã sửa đổi nhưng chưa được đưa vào staging area",
     "uk": "Зміни, не підготовлені до коміту:"
   },
   "git-status-clean": {
@@ -377,6 +379,7 @@ exports.strings = {
     "pt_BR": "nada para commitar, diretório de trabalho limpo",
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
     "tr_TR": "commit edilecek bir şey yok, çalışma ağacı temiz",
+    "vi" : "Không có gì để commit, thư mục làm việc sạch sẽ",
     "uk": "нічого комітити, робоче дерево чисте"
   },
   "git-status-nothing-staged": {
@@ -385,6 +388,7 @@ exports.strings = {
     "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
     "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
     "tr_TR": "commit'e eklenmiş değişiklik yok (önce \"git add <file>\" ile stage'leyin)",
+    "vi" : "Không có thay đổi nào được thêm vào để commit (hãy đưa chúng vào staging area trước bằng lệnh \"git add <file>\")",
     "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")"
   },
   "git-dummy-msg": {
@@ -848,6 +852,7 @@ exports.strings = {
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
+    "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
     "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD."
   },
   "git-error-options": {
@@ -2086,6 +2091,7 @@ exports.strings = {
     "az": "Bu bölümün göstəriləcək həlli yoxdur!",
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
     "tr_TR": "Bu seviyenin gösterilecek bir çözümü yok!",
+    "vi": "Cấp độ này không có lời giải để hiển thị!",
     "uk": "Для цього рівня немає розв’язку для показу!"
   },
   "solution-empty": {
@@ -2621,6 +2627,7 @@ exports.strings = {
     "tr_TR": " Seviye ",
     "hu_HU": " Szint ",
     "az": " Bölüm ",
+    "vi": "Level",
     "uk": " Рівень "
   },
   "close-window": {
@@ -2629,6 +2636,7 @@ exports.strings = {
     "az": "Pəncərəni bağla",
     "de_DE": "Fenster schließen",
     "tr_TR": "Pencereyi kapat",
+    "vi": "Đóng cửa xổ",
     "uk": "Закрити вікно"
   },
   "helper-bar-back": {
@@ -2637,6 +2645,7 @@ exports.strings = {
     "az": "Geri",
     "de_DE": "Zurück",
     "tr_TR": "Geri",
+    "vi": "Quay lại",
     "uk": "Назад"
   },
   "command-helper-bar-levels": {
@@ -2658,6 +2667,7 @@ exports.strings = {
     "tr_TR": "Seviyeler",
     "hu_HU": "Szintek",
     "az": "Bölümlər",
+    "vi": "Levels",
     "uk": "Рівні"
   },
   "command-helper-bar-solution": {
@@ -2679,6 +2689,7 @@ exports.strings = {
     "tr_TR": "Çözüm",
     "hu_HU": "Megoldás",
     "az": "Həll",
+    "vi": "Đáp Án",
     "uk": "Рішення"
   },
   "command-helper-bar-reset": {
@@ -2698,6 +2709,7 @@ exports.strings = {
     "pl": "Wyczyść",
     "tr_TR": "Sıfırla",
     "hu_HU": "Visszaállítás",
+    "vi": "Reset",
     "az": "Sıfırla",
     "uk": "Скинути"
   },
@@ -2720,6 +2732,7 @@ exports.strings = {
     "tr_TR": "Geri al",
     "hu_HU": "Visszavonás",
     "az": "Geri al",
+    "vi": "Undo",
     "uk": "Скасувати"
   },
   "command-helper-bar-objective": {
@@ -2741,6 +2754,7 @@ exports.strings = {
     "tr_TR": "Hedef",
     "hu_HU": "Cél",
     "az": "Hədəf",
+    "vi": "Yêu Cầu",
     "uk": "Завдання"
   },
   "command-helper-bar-help": {
@@ -2762,6 +2776,7 @@ exports.strings = {
     "tr_TR": "Yardım",
     "hu_HU": "Segítség",
     "az": "Kömək",
+    "vi": "Help",
     "uk": "Допомога"
   },
   "error-command-currently-not-supported": {

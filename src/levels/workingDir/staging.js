@@ -13,6 +13,7 @@ exports.level = {
     "es_AR": "Area de Staging (preparando)",
     "es_MX": "Area de Staging (preparando)",
     "es_ES": "Area de Staging (preparando)",
+    "vi": "Staging Area",
     "uk": "Область підготовлених файлів (Staging Area)"
   },
   "hint": {
@@ -25,6 +26,7 @@ exports.level = {
     "pt_BR": "Adicione um arquivo ao staging com `git add <arquivo>` e depois tire uma fotografia (snapshot) dele com `git commit`. Faça isso duas vezes, uma para cada arquivo.",
     "ru_RU": "Подготовьте файл с помощью 'git add <файл>', затем зафиксируйте его с помощью 'git commit'. Сделайте это дважды — по одному разу для каждого файла.",
     "tr_TR": "Bir dosyayı `git add <file>` ile stage'leyin, sonra `git commit` ile anlık fotoğrafını çekin. Bunu her dosya için birer kez olmak üzere iki defa yapın.",
+    "vi": "Đưa một tệp vào staging area bằng lệnh git add <file>, sau đó lưu lại (snapshot) bằng lệnh git commit. Hãy làm điều đó hai lần, mỗi lần cho một tệp.",
     "uk": "Підготуйте файл за допомогою `git add <файл>`, потім збережіть його знімок командою `git commit`. Зробіть це двічі — по одному разу для кожного файлу."
   },
   "startDialog": {
@@ -251,6 +253,63 @@ exports.level = {
               "* `git add styles.css` e depois `git commit`",
               "",
               "Os nomes dos arquivos ao lado de cada commit do objetivo mostram exatamente onde cada mudança deve ficar. Dois commits limpos e o nível é seu."
+            ]
+          }
+        }
+      ]
+    },
+    "vi": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Staging Area",
+              "",
+              "Cho đến thời điểm này trong quá trình học, chúng ta đã lướt qua khái niệm về những gì thực sự liên quan đến việc *tạo* một commit. Bạn có thể biết rằng chúng đại diện cho các thay đổi đối với một tập hợp tệp, nhưng thực tế có một quy trình nhỏ trong việc lựa chọn thay đổi của tệp *nào* sẽ trở thành commit *nào*.",
+              "",
+              "Git không muốn tự động bao gồm tất cả các tệp đã thay đổi trong mọi commit -- điều đó sẽ không tốt chút nào! Nó có thể bao gồm một thay đổi mà bạn không muốn lưu vĩnh viễn, hoặc thậm chí là thứ gì đó bí mật như khóa API có thể bị rò rỉ lên GitHub như một phần trong lịch sử commit của bạn.",
+              "",
+              "Do đó, trước khi một thay đổi đối với tệp trở thành một phần của commit, nó phải được chọn lọc cụ thể. Git có ba vùng cho việc này: **thư mục làm việc** (working directory - nơi bạn chỉnh sửa), **khu vực staging** (staging area - bến tập kết cho những gì sẽ có trong commit tiếp theo), và **kho chứa** (repository - lịch sử vĩnh viễn của bạn).",
+              "",
+              "Bạn chọn *chính xác* những gì đi kèm trong mỗi commit bằng lệnh `git add`. Đó là cách các commit luôn gọn gàng và bạn không bao giờ bị bắt buộc phải commit mọi thứ cùng một lúc.",
+              "",
+              "*(Đối với các màn chơi này, từ giờ chúng tôi sẽ hiển thị tệp nào thuộc về commit nào.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Chạy lệnh `git status` bất cứ lúc nào để xem tình trạng hiện tại. Ngay lúc này, nó hiển thị hai tệp bạn đã chỉnh sửa nhưng chưa đưa vào staging:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Đưa một tệp duy nhất vào staging bằng lệnh `git add app.js`, hoặc lấy tất cả cùng lúc bằng lệnh `git add .`. Khi một tệp đã được đưa vào staging, lệnh `git commit` sẽ đóng gói nó thành một bản chụp (snapshot).",
+              "",
+              "Bạn có các tệp không bao giờ muốn commit, như thông tin mật, tệp nhật ký (logs), hoặc rác bản dựng (build junk)? Hãy liệt kê chúng vào tệp `.gitignore` và git sẽ lặng lẽ bỏ qua chúng."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Đến lượt bạn! Đưa vào staging và commit công việc của bạn **từng tệp một**, để mỗi commit luôn tập trung:",
+              "",
+              "* `git add app.js`, sau đó `git commit`",
+              "* `git add styles.css`, sau đó `git commit`",
+              "",
+              "Tên tệp bên cạnh mỗi mục tiêu commit cho biết chính xác mỗi thay đổi thuộc về đâu. Hai commit sạch sẽ và màn chơi này là của bạn."
             ]
           }
         }
