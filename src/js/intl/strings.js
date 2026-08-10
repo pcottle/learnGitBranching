@@ -1735,6 +1735,22 @@ exports.strings = {
     "hu_HU": "Oszd meg ezt a fát barátaiddal! Betölthetik az \"import tree\" paranccsal",
     "az": "Bu ağacı dostlarınla paylaş! Onlar onu \"import tree\" ilə yükləyə bilərlər"
   },
+  "share-progress": {
+    "__desc__": "Button label prompting user to share their level completion on social media",
+    "en_US": "Share your progress!"
+  },
+  "share-progress-twitter": {
+    "__desc__": "Button label to share level completion on Twitter / X",
+    "en_US": "Share on X (Twitter)"
+  },
+  "share-progress-linkedin": {
+    "__desc__": "Button label to share level completion on LinkedIn",
+    "en_US": "Share on LinkedIn"
+  },
+  "share-progress-facebook": {
+    "__desc__": "Button label to share level completion on Facebook",
+    "en_US": "Share on Facebook"
+  },
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
     "en_US": "Paste a JSON blob below!",

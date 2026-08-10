@@ -9,6 +9,7 @@ var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var debounce = require('../util/debounce');
 var throttle = require('../util/throttle');
 var { createEvents } = require('../util/eventEmitter');
+var sharing = require('../util/sharing');
 
 // Base View class - replacement for Backbone.View
 class BaseView {
@@ -472,7 +473,7 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
     }
 
     markdown = markdown + '\n\n';
-    var extraHTML;
+    var extraHTML = '';
     if (options.nextLevel) {
       markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
@@ -480,6 +481,26 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
         ' (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ' +
         '</p>';
     }
+
+    var currentLevelName = options.levelName || '';
+    var twitterUrl = sharing.getTwitterUrl(currentLevelName);
+    var linkedinUrl = sharing.getLinkedInUrl(currentLevelName);
+    var facebookUrl = sharing.getFacebookUrl(currentLevelName);
+
+    extraHTML += '<div class="share-progress-section">' +
+      '<p class="share-progress-label">' + intl.str('share-progress') + '</p>' +
+      '<div class="share-progress-buttons">' +
+      '<button class="share-btn share-btn-twitter" data-share-url="' + twitterUrl + '">' +
+        intl.str('share-progress-twitter') +
+      '</button>' +
+      '<button class="share-btn share-btn-linkedin" data-share-url="' + linkedinUrl + '">' +
+        intl.str('share-progress-linkedin') +
+      '</button>' +
+      '<button class="share-btn share-btn-facebook" data-share-url="' + facebookUrl + '">' +
+        intl.str('share-progress-facebook') +
+      '</button>' +
+      '</div>' +
+      '</div>';
 
     options = Object.assign(
       {},
@@ -491,6 +512,18 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
     );
 
     super(options);
+
+    // Wire up share button clicks via event delegation on the modal container
+    var modalEl = this.modalAlert && this.modalAlert.$el;
+    if (modalEl) {
+      modalEl.on('click', '[data-share-url]', function(e) {
+        e.preventDefault();
+        var url = $(e.currentTarget).attr('data-share-url');
+        if (url) {
+          sharing.openShareWindow(url);
+        }
+      });
+    }
   }
 }
 

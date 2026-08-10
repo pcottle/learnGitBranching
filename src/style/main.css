@@ -1535,3 +1535,51 @@ div.gitDemonstrationView {
     font-size: 18px;
   }
 }
+
+/* Share progress buttons on level completion dialog */
+.share-progress-section {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.share-progress-label {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.share-progress-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.share-btn {
+  display: inline-block;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.share-btn:hover {
+  opacity: 0.85;
+}
+
+.share-btn-twitter {
+  background-color: #000;
+}
+
+.share-btn-linkedin {
+  background-color: #0077b5;
+}
+
+.share-btn-facebook {
+  background-color: #1877f2;
+}
