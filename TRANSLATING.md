@@ -162,6 +162,8 @@ Fill in all the empty `"xx_XX": ""` fields, then manually apply the translations
    yarn gulp fastBuild
    ```
 
+    **Why this matters:** the app loads a pre-bundled JS file (build/bundle-*.js) referenced from index.html — it does not read src/ files directly. Every time you edit a translation file, you must re-run yarn gulp fastBuild before the change shows up, otherwise you'll see stale (untranslated) content even though your source edits are correct.
+
 2. Start the dev server:
    ```bash
    yarn dev
