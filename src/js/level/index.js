@@ -543,12 +543,14 @@ class Level extends Sandbox {
       }
     }
 
+    var solvedLevel = this.level;
     if (!skipFinishDialog) {
       finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
         // while giving them their results...
         var nextDialog = new NextLevelConfirm({
           nextLevel: nextLevel,
+          level: solvedLevel,
           numCommands: numCommands,
           best: best
         });

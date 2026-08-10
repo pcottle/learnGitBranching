@@ -472,7 +472,7 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
     }
 
     markdown = markdown + '\n\n';
-    var extraHTML;
+    var extraHTML = '';
     if (options.nextLevel) {
       markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
@@ -480,6 +480,16 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
         ' (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ' +
         '</p>';
     }
+
+    // give the user a way to brag about their progress on social media
+    extraHTML += '<div class="shareProgressWrapper">' +
+      '<a class="uiButton uiButtonWhite shareProgressButton">' +
+      intl.str('share-progress-button') +
+      '</a>' +
+      '<div class="shareProgressPanel"></div>' +
+      '</div>';
+
+    var solvedLevelName = (options.level) ? intl.getName(options.level) : '';
 
     options = Object.assign(
       {},
@@ -491,6 +501,37 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
     );
 
     super(options);
+
+    this._solvedLevelName = solvedLevelName;
+    this._wireShareButton();
+  }
+
+  _wireShareButton() {
+    var self = this;
+    var $button = this.modalAlert.$('.shareProgressButton');
+    var $panel = this.modalAlert.$('.shareProgressPanel');
+    if (!$button.length) {
+      return;
+    }
+
+    $button.on('click', function() {
+      // lazily build the share panel the first time it is opened, then
+      // just toggle it afterwards
+      if (!self._shareView) {
+        var ShareView = require('./shareView').ShareView;
+        self._shareView = new ShareView({
+          destination: $panel,
+          levelName: self._solvedLevelName
+        });
+        $panel.addClass('open');
+        $button.addClass('active');
+        return;
+      }
+
+      var willOpen = !$panel.hasClass('open');
+      $panel.toggleClass('open', willOpen);
+      $button.toggleClass('active', willOpen);
+    });
   }
 }
 

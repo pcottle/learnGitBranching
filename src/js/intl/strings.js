@@ -27,6 +27,42 @@ exports.strings = {
     "hu_HU": "Hűha! Befejezted az utolsó szintet, remek!",
     "az": "Vay! Sonuncu bölümü bitirdin, əla!"
   },
+  "share-progress-button": {
+    "__desc__": "Button in the finish dialog that opens the social sharing panel",
+    "en_US": "📢 Share your progress"
+  },
+  "share-progress-hint": {
+    "__desc__": "Instructions above the social sharing buttons",
+    "en_US": "Copy the image below, then pick a network to open its composer and paste the image into your post."
+  },
+  "share-progress-copy": {
+    "__desc__": "Button that copies the generated share image to the clipboard",
+    "en_US": "Copy image"
+  },
+  "share-progress-copied": {
+    "__desc__": "Confirmation shown after the share image is copied to the clipboard",
+    "en_US": "Copied! ✓"
+  },
+  "share-progress-copy-unsupported": {
+    "__desc__": "Shown when the browser cannot copy images so the image is downloaded instead",
+    "en_US": "Downloaded image"
+  },
+  "share-progress-download": {
+    "__desc__": "Button that downloads the generated share image",
+    "en_US": "Download image"
+  },
+  "share-progress-text": {
+    "__desc__": "The pre-filled text used when sharing progress on social media",
+    "en_US": "I just completed \"{levelName}\" on Learn Git Branching! 🌳 ({solved}/{total} levels done) Learn git branching interactively:"
+  },
+  "share-progress-card-complete": {
+    "__desc__": "Eyebrow text on the generated share image",
+    "en_US": "Level complete!"
+  },
+  "share-progress-card-levels": {
+    "__desc__": "Progress summary drawn onto the generated share image",
+    "en_US": "{solved} of {total} levels solved · {percent}% complete"
+  },
   "finish-dialog-next": {
     "__desc__": "One of the lines in the next level dialog",
     "en_US": "Would you like to move on to *\"{nextLevel}\"*, the next level?",

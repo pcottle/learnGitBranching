@@ -1442,7 +1442,92 @@ div.gitDemonstrationView {
   background: #9bcbeb;
 }
 
+.shareProgressWrapper {
+  margin-top: 15px;
+  text-align: center;
+}
 
+.shareProgressButton {
+  display: inline-block;
+}
+
+.shareProgressPanel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+}
+
+.shareProgressPanel.open {
+  max-height: 900px;
+  opacity: 1;
+  margin-top: 15px;
+}
+
+.shareViewInner {
+  text-align: center;
+}
+
+.shareCardCanvas {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 2px 8px;
+}
+
+.shareHint {
+  margin: 12px auto;
+  max-width: 460px;
+  font-size: 13px;
+  color: #cfe3f5;
+  line-height: 1.4;
+}
+
+.shareImageActions {
+  margin: 10px 0;
+}
+
+.shareImageActions .uiButton {
+  margin: 0 5px;
+  display: inline-block;
+}
+
+.shareNetworks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.shareNetworkButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 1px 0;
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.shareNetworkButton:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+.shareNetworkButton:active {
+  transform: translateY(0);
+}
+
+.shareNetworkButton svg {
+  display: block;
+}
 
 #shadow{
   position: absolute;
