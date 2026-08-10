@@ -68,6 +68,7 @@ const levelDirs = [
   'src/levels/rebase',
   'src/levels/remote',
   'src/levels/remoteAdvanced',
+  'src/levels/workingDir',
 ];
 
 let totalLevels = 0;
