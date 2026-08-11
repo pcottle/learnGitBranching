@@ -1538,48 +1538,64 @@ div.gitDemonstrationView {
 
 /* Share progress buttons on level completion dialog */
 .share-progress-section {
-  margin-top: 14px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   text-align: center;
 }
 
 .share-progress-label {
-  font-size: 13px;
-  color: #888;
-  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  margin-bottom: 10px;
 }
 
 .share-progress-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
 }
 
 .share-btn {
-  display: inline-block;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 4px;
-  font-size: 13px;
-  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+  font-size: 12px;
+  color: #b8b8b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
   cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.share-btn-icon {
+  display: block;
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+
+.share-btn-twitter:hover {
   color: #fff;
-  text-decoration: none;
-  transition: opacity 0.15s ease;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.share-btn:hover {
-  opacity: 0.85;
+.share-btn-linkedin:hover {
+  color: #4db3e6;
+  border-color: #4db3e6;
+  background: rgba(0, 119, 181, 0.15);
 }
 
-.share-btn-twitter {
-  background-color: #000;
-}
-
-.share-btn-linkedin {
-  background-color: #0077b5;
-}
-
-.share-btn-facebook {
-  background-color: #1877f2;
+.share-btn-facebook:hover {
+  color: #6ea9f7;
+  border-color: #6ea9f7;
+  background: rgba(24, 119, 242, 0.15);
 }

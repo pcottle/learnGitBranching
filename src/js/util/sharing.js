@@ -31,24 +31,30 @@ function getTwitterUrl(levelName) {
 
 /**
  * Returns the LinkedIn share URL for a given level.
+ * The share-offsite endpoint only reads the url param and ignores any
+ * text, so we deeplink into the feed composer which supports prefilled text.
  * @param {string} levelName
  * @returns {string}
  */
 function getLinkedInUrl(levelName) {
   var text = buildShareText(levelName);
-  return 'https://www.linkedin.com/sharing/share-offsite/?url=' +
-    encodeURIComponent(SITE_URL) +
-    '&summary=' + encodeURIComponent(text);
+  return 'https://www.linkedin.com/feed/?shareActive=true&text=' +
+    encodeURIComponent(text);
 }
 
 /**
  * Returns the Facebook share URL for a given level.
+ * Facebook policy prohibits prefilling the composer text itself; the quote
+ * param is the only sanctioned way to attach a message (shown as a quote
+ * block on the post) and even that is honored inconsistently.
  * @param {string} levelName
  * @returns {string}
  */
-function getFacebookUrl(/* levelName */) {
+function getFacebookUrl(levelName) {
+  var text = buildShareText(levelName);
   return 'https://www.facebook.com/sharer/sharer.php?u=' +
-    encodeURIComponent(SITE_URL);
+    encodeURIComponent(SITE_URL) +
+    '&quote=' + encodeURIComponent(text);
 }
 
 /**

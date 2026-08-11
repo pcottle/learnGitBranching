@@ -1741,15 +1741,15 @@ exports.strings = {
   },
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
-    "en_US": "Share on X (Twitter)"
+    "en_US": "X (Twitter)"
   },
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
-    "en_US": "Share on LinkedIn"
+    "en_US": "LinkedIn"
   },
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
-    "en_US": "Share on Facebook"
+    "en_US": "Facebook"
   },
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
