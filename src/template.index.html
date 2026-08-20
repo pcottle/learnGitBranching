@@ -518,7 +518,7 @@
     (function () {
       var STORAGE_KEY = 'upsellDismissedAt';
       var LEGACY_STORAGE_KEY = 'biteReadUpsellDismissedAt';
-      var DAYS_UNTIL_RESHOW = 7;
+      var DAYS_UNTIL_RESHOW = 14;
 
       var UPSELLS = {
         biteRead: {
@@ -546,16 +546,26 @@
       ];
       var VISIT_KEY = 'upsellVisitCount';
 
+      // Show sparingly: 20% of first visits, 75% of visits after that.
+      var SHOW_PROBABILITY_FIRST_VISIT = 0.2;
+      var SHOW_PROBABILITY_RETURN_VISIT = 0.75;
+
+      // 1-based visit number, counted once per page load even when the
+      // upsell ends up hidden (null when localStorage is unavailable).
+      var visitNumber = null;
+      try {
+        var visitCount = parseInt(localStorage.getItem(VISIT_KEY), 10);
+        if (isNaN(visitCount) || visitCount < 0) visitCount = 0;
+        visitNumber = visitCount + 1;
+        localStorage.setItem(VISIT_KEY, visitNumber.toString());
+      } catch (e) {}
+
       function pickUpsell() {
-        try {
-          var visit = parseInt(localStorage.getItem(VISIT_KEY), 10);
-          if (isNaN(visit) || visit < 0) visit = 0;
-          localStorage.setItem(VISIT_KEY, (visit + 1).toString());
-          return UPSELLS[ROTATION[visit % ROTATION.length]];
-        } catch (e) {
-          // localStorage not available — weighted random instead
-          return Math.random() < 0.7 ? UPSELLS.waitingFor : UPSELLS.biteRead;
+        if (visitNumber !== null) {
+          return UPSELLS[ROTATION[(visitNumber - 1) % ROTATION.length]];
         }
+        // localStorage not available — weighted random instead
+        return Math.random() < 0.7 ? UPSELLS.waitingFor : UPSELLS.biteRead;
       }
 
       var dismissButton = document.getElementById('upsellDismiss');
@@ -597,7 +607,7 @@
         return;
       }
 
-      // Check if dismissed within the last 7 days (either key, so
+      // Check if dismissed within the reshow window (either key, so
       // dismissals from before the rename are still honored)
       try {
         var dismissedAt = localStorage.getItem(STORAGE_KEY) ||
@@ -612,7 +622,11 @@
         // localStorage not available, continue showing
       }
 
-      showUpsell();
+      var showProbability = (visitNumber !== null && visitNumber <= 1) ?
+        SHOW_PROBABILITY_FIRST_VISIT : SHOW_PROBABILITY_RETURN_VISIT;
+      if (Math.random() < showProbability) {
+        showUpsell();
+      }
 
       dismissButton.addEventListener('click', function () {
         hideUpsell();
