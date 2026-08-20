@@ -114,6 +114,9 @@ var buildIndex = function(done) {
   if (process.env.CI) {
     writeFileSync('build/index.html', outputIndex);
     copyRecursiveSync('assets', 'build/assets');
+    // keep the level docs reachable at /generatedDocs/levels.html, as they
+    // were when the whole repo was served from the gh-pages branch
+    copyRecursiveSync('generatedDocs', 'build/generatedDocs');
   } else {
     writeFileSync('index.html', outputIndex);
   }
