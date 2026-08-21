@@ -188,8 +188,13 @@ CommandOptionParser.prototype.explodeAndSet = function() {
     var part = this.rawOptions[i];
 
     if (part.slice(0,1) == '-') {
+      // handle --option=value syntax by splitting on the first '='
+      var eqIndex = part.indexOf('=');
+      var optionName = eqIndex !== -1 ? part.slice(0, eqIndex) : part;
+      var embeddedValue = eqIndex !== -1 ? part.slice(eqIndex + 1) : null;
+
       // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
+      if (this.supportedMap[optionName] === undefined) {
         return new CommandProcessError({
           msg: intl.str(
             'option-not-supported',
@@ -198,15 +203,20 @@ CommandOptionParser.prototype.explodeAndSet = function() {
         });
       }
 
-      var next = this.rawOptions[i + 1];
       var optionArgs = [];
-      if (next && next.slice(0,1) !== '-') {
-        // only store the next argument as this
-        // option value if its not another option
-        i++;
-        optionArgs = [next];
+      if (embeddedValue !== null) {
+        // value was embedded with '=' (e.g. --set-upstream-to=o/main)
+        optionArgs = [embeddedValue];
+      } else {
+        var next = this.rawOptions[i + 1];
+        if (next && next.slice(0,1) !== '-') {
+          // only store the next argument as this
+          // option value if its not another option
+          i++;
+          optionArgs = [next];
+        }
       }
-      this.supportedMap[part] = optionArgs;
+      this.supportedMap[optionName] = optionArgs;
     } else {
       // must be a general arg
       this.generalArgs.push(part);

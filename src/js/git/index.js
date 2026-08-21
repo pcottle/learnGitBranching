@@ -1257,6 +1257,16 @@ GitEngine.prototype.push = function(options) {
     return this.animationFactory.playRefreshAnimation(this.gitVisuals);
   }.bind(this));
 
+  // if -u / --set-upstream was specified, set the local branch to track
+  // the remote tracking branch
+  if (options.setUpstream && options.sourceObj &&
+      options.sourceObj.get('type') === 'branch') {
+    chain = chain.then(function() {
+      var remoteTrackingBranch = this.resolveID(ORIGIN_PREFIX + options.destination);
+      this.setLocalToTrackRemote(options.sourceObj, remoteTrackingBranch);
+    }.bind(this));
+  }
+
   if (!options.dontResolvePromise) {
     this.animationQueue.thenFinish(chain);
   }
