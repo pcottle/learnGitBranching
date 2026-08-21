@@ -5,6 +5,7 @@ exports.level = {
   "startTree": '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"workingChanges":{"app.js":"modified","styles.css":"modified"}}',
   "name": {
     "en_US": "The Staging Area",
+    "de_DE": "Die Staging Area",
     "zh_CN": "暂存区 Staging Area",
     "zh_TW": "暫存區 Staging Area",
     "pt_BR": "A área de staging",
@@ -21,6 +22,7 @@ exports.level = {
     "es_MX": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     "es_ES": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     "en_US": "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
+    "de_DE": "Füge eine Datei mit `git add <Dateiname>` zur Staging Area hinzu. Dann sichere sie mit `git commit`. Mach das zwei mal.",
     "zh_CN": "使用 `git add <file>` 暂存一个文件，再用 `git commit` 将其保存为快照。每个文件各执行一次，共执行两次。",
     "zh_TW": "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。",
     "pt_BR": "Adicione um arquivo ao staging com `git add <arquivo>` e depois tire uma fotografia (snapshot) dele com `git commit`. Faça isso duas vezes, uma para cada arquivo.",
@@ -82,6 +84,63 @@ exports.level = {
               "* `git add styles.css`, then `git commit`",
               "",
               "The filenames beside each goal commit show exactly where each change belongs. Two clean commits and the level is yours."
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Die Staging Area",
+              "",
+              "Bis hierher hat sich alles darum gedreht wie man einen Commit *macht*. Du weißt mittlerweile, dass Commits Dateiänderungen repräsentieren. Aber es gibt tatsächlich ein gewisses Procedere, das befolgt wird um zu entscheiden welche Änderungen zu welchem Commit gehören sollen.",
+              "",
+              "Git möchte nicht einfach alle geänderten Dateien allen Commits zuordnen -- das wäre schlecht! Da könnten ja Änderungen dabei sein, die du gar nicht permanent haben willst oder sogar etwas das nicht auf GitHub veröffentlicht werden soll -- wie ein API-Key.",
+              "",
+              "Deswegen muss eine Änderung von dir ausgewählt werden bevor sie Teil eines Commits wird. Git hat dafür drei Zonen: deinen **Arbeitsbereich** (wo du Änderungen machst), die **Staging Area** (eine Übergabestelle für alles, was im nächsten Commit sein soll), und das **Repository** (Aufbewahrungsort aller permanenten Commits).",
+              "",
+              "Du bestimmst *genau* was sich in jedem Commit befindet, indem du `git add` verwendest. So bleiben deine Commits sauber und fokusiert, und du musst nie alles auf einmal committen.",
+              "",
+              "*(Für diese Level zeigen wir dir jetzt welche Dateien zu welchen Commits gehören sollen.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Mit `git status` kannst du dir jederzeit einen Überblick verschaffen. Jetzt gerade zeigt es dir zwei von dir geänderte Dateien, die aber noch nicht gestaged sind:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Füge eine einzelne Datei zur Staging Area hinzu indem du `git add app.js` ausführst, oder alles auf einmal mit `git add .`. Sobald eine Datei gestaged ist, kannst du sie mit `git commit` in einem Snapshot sichern.",
+              "",
+              "Du hast Dateien die du nie committen willst, wie geheime Keys, logs oder Buildprozess-Überbleibsel? Erzeuge eine `.gitignore`-Datei und liste die Dateien dort auf. Git beachtet diese dann nicht mehr.",
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Du bist dran! Stage und committe deine Änderungen **eine Datei nach der anderen**, sodass jeder Commit fokusiert und präzise bleibt:",
+              "",
+              "* `git add app.js`, dann `git commit`",
+              "* `git add styles.css`, dann `git commit`",
+              "",
+              "Die Dateinamen neben jedem Ziel-Commit zeigen genau wozu welche Änderung gehört. Zwei saubere Commits und das Level gehört dir."
             ]
           }
         }
