@@ -389,7 +389,13 @@ var commandConfig = {
     description: 'Clone a repository into a new directory',
     execute: function(engine, command) {
       command.acceptNoGeneralArgs();
-      engine.makeOrigin(engine.printTree());
+      if (engine.clonePending) {
+        // opt-in path: remote -> local, matching real Git (see GitEngine#cloneFromOrigin)
+        engine.cloneFromOrigin();
+      } else {
+        // legacy LGB path: local -> remote
+        engine.makeOrigin(engine.printTree());
+      }
     }
   },
 

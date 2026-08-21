@@ -137,8 +137,13 @@ class Visualization {
 
     this.shown = false;
     this.setTreeOpacity(0);
-    // reflow needed
-    process.nextTick(this.fadeTreeIn.bind(this));
+    // reflow needed. Opt-in clone levels start with clonePending set on the
+    // local engine and keep the local repo hidden until `git clone` reveals
+    // it (see GitEngine#cloneFromOrigin); the origin visualization fades
+    // itself in independently via its own paperInitialize, unaffected.
+    if (!this.gitEngine.clonePending) {
+      process.nextTick(this.fadeTreeIn.bind(this));
+    }
 
     this.customEvents.trigger('gitEngineReady');
     this.customEvents.trigger('paperReady');
@@ -270,7 +275,12 @@ class Visualization {
     } else {
       this.gitEngine.defaultInit();
     }
-    this.fadeTreeIn();
+    // level reset / undo can restore a clonePending snapshot (e.g. resetting
+    // back to before `git clone` ran); keep the local repo hidden in that
+    // case, same as the initial load in paperInitialize()
+    if (!this.gitEngine.clonePending) {
+      this.fadeTreeIn();
+    }
 
     if (this.originVis) {
       if (treeString) {

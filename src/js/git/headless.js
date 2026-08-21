@@ -56,7 +56,14 @@ function getMockVisualization() {
         },
         gitEngine: headless.gitEngine
       };
-    }
+    },
+    // no-ops so headless engines can exercise the opt-in clone flow
+    // (GitEngine#cloneFromOrigin reveals the local vis after cloning) and
+    // full tree reloads that tear down an existing origin
+    fadeTreeIn: function() {},
+    setTreeOpacity: function() {},
+    tearDown: function() {},
+    clearOrigin: function() {}
   };
 }
 
