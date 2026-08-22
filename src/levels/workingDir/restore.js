@@ -5,6 +5,7 @@ exports.level = {
   "startTree": '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"workingChanges":{"app.js":"staged","secret.env":"staged","experiment.js":"modified"}}',
   "name": {
     "en_US": "Undoing with git restore",
+    "de_DE": "Rückgängig machen mit git restore",
     "zh_CN": "使用 git restore 撤销修改",
     "zh_TW": "使用 git restore 復原變更",
     "pt_BR": "Desfazendo com git restore",
@@ -15,6 +16,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
+    "de_DE": "Entferne `secret.env` aus der Staging Area mit `git restore --staged secret.env`, verwerfe die Änderungen an experiment mit `git restore experiment.js`, dann mach einen Commit mit `git commit`.",
     "zh_CN": "使用 `git restore --staged secret.env` 取消暂存，使用 `git restore experiment.js` 丢弃实验性修改，然后执行 `git commit`。",
     "zh_TW": "使用 `git restore --staged secret.env` 取消暫存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。",
     "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`.",
@@ -79,6 +81,66 @@ exports.level = {
               "* Commit what's left: `git commit`",
               "",
               "That lands one clean commit, with only the work you meant to keep."
+            ]
+          }
+        }
+      ]
+    },
+    "de_DE": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rückgängig machen mit `git restore`",
+              "",
+              "Jeder ist mal unachtsam und verursacht etwas Chaos. Man fügt versehentlich eine Datei zur Staging Area hinzu oder macht ein kleines Experiment, das man lieber wieder verwirft. `git restore` ist der moderne, genau dafür gemachte Weg solche Sachen rückgängig zu machen. Er ist nutzbar im Arbeitsbereich und in der Staging Area.",
+              "",
+              "Du kannst es auf zwei Arten nutzen:",
+              "",
+              "* `git restore --staged <Datei>`: **entferne** eine Datei aus der Staging Area, wobei die Änderung an der Datei aber erhalten bleibt.",
+              "* `git restore <Datei>`: **verwerfe** deine Änderungen komplett (sei vorsichtig, alle deine Änderungen sind dann wirklich weg!)",
+              "",
+              "*(Diese zwei Befehle ersetzen die älteren `git reset HEAD <Datei>` und `git checkout -- <Datei>` Tricks. Gleiche Funktion, aber klarere Namen.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Wir haben hier so ein kleines Durcheinander:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Du möchtest `app.js` committen, aber hast `secret.env` auch versehentlich in die Staging Area geschoben (es müsste eigentlich zum Commit davor gehören), aber lass uns das später machen. Außerdem hast du ein kleines Experiment in `experiment.js` probiert. Aber das hat nicht so geklappt, wie du es dir vorgestellt hast, also lass uns das komplett verwerfen."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kümmere dich um das kleine Chaos, dann committe:",
+              "",
+              "* Entferne das secret aus der Staging Area: `git restore --staged secret.env`",
+              "* Verwerfe das kleine Experiment: `git restore experiment.js`",
+              "* Committe den Rest: `git commit`",
+              "",
+              "Das resultiert in einem sauberen Commit, der nur das enthält, was du wirklich drin haben wolltest."
             ]
           }
         }

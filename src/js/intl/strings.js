@@ -852,6 +852,7 @@ exports.strings = {
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
+    "de_DE": "fatal: Zum Wechseln wird ein Branch benötigt. '{ref}' ist kein Branch -- benutze 'git switch --detach {ref}' (oder '-d'), wenn du ihn auschecken und den HEAD abkoppeln willst.",
     "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
     "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD."
   },
@@ -1737,19 +1738,23 @@ exports.strings = {
   },
   "share-progress": {
     "__desc__": "Button label prompting user to share their level completion on social media",
-    "en_US": "Share your progress!"
+    "en_US": "Share your progress!",
+    "de_DE": "Teile deinen Fortschritt!"
   },
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
-    "en_US": "X (Twitter)"
+    "en_US": "X (Twitter)",
+    "de_DE": "X (Twitter)"
   },
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
-    "en_US": "LinkedIn"
+    "en_US": "LinkedIn",
+    "de_DE": "LinkedIn"
   },
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
-    "en_US": "Facebook"
+    "en_US": "Facebook",
+    "de_DE": "Facebook"
   },
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
