@@ -30,6 +30,13 @@ function GitEngine(options) {
   this.mode = 'git';
   this.localRepo = null;
 
+  // Opt-in clone semantics: when a level's startTree sets clonePending, the
+  // top-level tree is just an internal placeholder and originTree already
+  // represents the "remote" the learner is meant to clone. `git clone` then
+  // copies origin -> local (real Git direction) instead of the legacy
+  // local -> origin makeOrigin() call. See cloneFromOrigin().
+  this.clonePending = false;
+
   // Simulated working-directory / staging model. The site is a commit-graph
   // simulator with no real files, so we model "changes" as a tiny map of
   // { path: status } that a level seeds in its startTree. Everything here is
@@ -261,6 +268,13 @@ GitEngine.prototype.exportTree = function() {
     totalExport.originTree = this.origin.exportTree();
   }
 
+  // Only emit clonePending while it's actually pending, so exported/undo
+  // snapshots taken after `git clone` runs stay byte-identical to before
+  // this feature existed.
+  if (this.clonePending) {
+    totalExport.clonePending = true;
+  }
+
   // Only emit the simulated changes model when a level actually uses it.
   // Omitting these keys when idle keeps the exported tree byte-identical to
   // before for every existing level and test.
@@ -308,14 +322,16 @@ GitEngine.prototype.printAndCopyTree = function() {
   );
 };
 
-GitEngine.prototype.loadTree = function(tree) {
+GitEngine.prototype.loadTree = function(tree, options) {
+  options = options || {};
+
   // deep copy in case we use it a bunch. lol awesome copy method
   tree = JSON.parse(JSON.stringify(tree));
 
   // first clear everything
-  this.removeAll();
+  this.removeAll(options);
 
-  this.instantiateFromTree(tree);
+  this.instantiateFromTree(tree, options);
 
   this.reloadGraphics();
   this.initUniqueID();
@@ -325,7 +341,9 @@ GitEngine.prototype.loadTreeFromString = function(treeString) {
   this.loadTree(JSON.parse(unescape(this.crappyUnescape(treeString))));
 };
 
-GitEngine.prototype.instantiateFromTree = function(tree) {
+GitEngine.prototype.instantiateFromTree = function(tree, options) {
+  options = options || {};
+
   // now we do the loading part
   var createdSoFar = {};
 
@@ -363,6 +381,10 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
   this.changesModelEngaged = !!tree.changesModelEngaged ||
     Object.keys(this.workingChanges).length > 0;
 
+  // Opt-in clone semantics (see constructor comment). A level flips this on
+  // via its startTree; cloneFromOrigin() clears it once `git clone` runs.
+  this.clonePending = !!tree.clonePending;
+
   this.gitVisuals.gitReady = false;
   this.branchCollection.each(function(branch) {
         this.gitVisuals.addBranch(branch);
@@ -371,7 +393,7 @@ GitEngine.prototype.instantiateFromTree = function(tree) {
         this.gitVisuals.addTag(tag);
       }, this);
 
-  if (tree.originTree) {
+  if (tree.originTree && !options.preserveOrigin) {
     var treeString = JSON.stringify(tree.originTree);
     // if we don't have an animation queue (like when loading
     // right away), just go ahead and make an empty one
@@ -407,35 +429,93 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   originVis.customEvents.on('gitEngineReady', function() {
     this.origin = originVis.gitEngine;
     originVis.gitEngine.assignLocalRepo(this);
+
+    // make an origin branch for each branch mentioned in the tree if its
+    // not made already... This has to run AFTER this.origin is assigned
+    // above: findCommonAncestorWithRemote() below walks this.origin.refs,
+    // and for a tree whose commits aren't already in our own refs (e.g. an
+    // opt-in clonePending placeholder, which starts with no matching local
+    // history) that walk is required, not just a same-ID short-circuit. In
+    // the real (non-headless) visualization this callback fires on a later
+    // tick than makeOrigin() itself, so running this loop outside the
+    // callback used to read this.origin before it was ever set.
+    var originTree = JSON.parse(unescape(treeString));
+    Object.keys(originTree.branches).forEach(function(branchName) {
+      var branchJSON = originTree.branches[branchName];
+      if (this.refs[ORIGIN_PREFIX + branchName]) {
+        // we already have this branch
+        return;
+      }
+
+      var originTarget = this.findCommonAncestorWithRemote(
+        branchJSON.target
+      );
+
+      // now we have something in common, lets make the tracking branch
+      var remoteBranch = this.makeBranch(
+        ORIGIN_PREFIX + branchName,
+        this.getCommitFromRef(originTarget)
+      );
+
+      // not every origin branch has a same-named local branch -- e.g. an
+      // opt-in clonePending placeholder only has a stub for the default
+      // branch, since cloneFromOrigin() sets up real tracking branches later
+      if (this.refs[branchJSON.id]) {
+        this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
+      }
+    }, this);
+
     this.syncRemoteBranchFills();
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
     this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
   }, this);
+};
 
-  var originTree = JSON.parse(unescape(treeString));
-  // make an origin branch for each branch mentioned in the tree if its
-  // not made already...
+// Opt-in clone: remote -> local, matching real Git direction. Used instead
+// of makeOrigin() when the level's tree set clonePending (see constructor
+// comment). The origin GitEngine already exists (built from originTree when
+// the level's startTree was loaded) and is left completely untouched here;
+// we only rebuild the local side from a snapshot of it.
+GitEngine.prototype.cloneFromOrigin = function() {
+  if (!this.hasOrigin()) {
+    throw new GitError({
+      msg: intl.todo('Nothing to clone from!')
+    });
+  }
+
+  var originTree = this.origin.exportTree();
+  var defaultBranchID = originTree.HEAD.target;
+
+  var localTree = {
+    branches: {},
+    commits: originTree.commits,
+    tags: originTree.tags || {},
+    HEAD: { id: 'HEAD', target: defaultBranchID }
+  };
+
+  // every remote branch gets a remote-tracking o/<branch>, but only the
+  // remote's checked-out default branch gets a real local branch
   Object.keys(originTree.branches).forEach(function(branchName) {
-    var branchJSON = originTree.branches[branchName];
-    if (this.refs[ORIGIN_PREFIX + branchName]) {
-      // we already have this branch
-      return;
-    }
-
-    var originTarget = this.findCommonAncestorWithRemote(
-      branchJSON.target
-    );
-
-    // now we have something in common, lets make the tracking branch
-    var remoteBranch = this.makeBranch(
-      ORIGIN_PREFIX + branchName,
-      this.getCommitFromRef(originTarget)
-    );
-
-    this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
+    localTree.branches[ORIGIN_PREFIX + branchName] = {
+      id: ORIGIN_PREFIX + branchName,
+      target: originTree.branches[branchName].target
+    };
   }, this);
+
+  localTree.branches[defaultBranchID] = {
+    id: defaultBranchID,
+    target: originTree.branches[defaultBranchID].target,
+    remoteTrackingBranchID: ORIGIN_PREFIX + defaultBranchID
+  };
+
+  // rebuild the local side only -- origin (and its visualization) survive
+  this.loadTree(localTree, { preserveOrigin: true });
+
+  this.clonePending = false;
+  // the local repo was hidden while clonePending was true; reveal it now
+  this.gitVisuals.getVisualization().fadeTreeIn();
 };
 
 GitEngine.prototype.makeRemoteBranchIfNeeded = function(branchName) {
@@ -658,7 +738,9 @@ GitEngine.prototype.reloadGraphics = function() {
   this.gitVisuals.refreshTreeHarsh();
 };
 
-GitEngine.prototype.removeAll = function() {
+GitEngine.prototype.removeAll = function(options) {
+  options = options || {};
+
   this.branchCollection.reset();
   this.tagCollection.reset();
   this.commitCollection.reset();
@@ -670,7 +752,7 @@ GitEngine.prototype.removeAll = function() {
   this.changesModelEngaged = false;
   this.workingChanges = {};
 
-  if (this.origin) {
+  if (this.origin && !options.preserveOrigin) {
     // we will restart all this jazz during init from tree
     this.origin.gitVisuals.getVisualization().tearDown();
     delete this.origin;

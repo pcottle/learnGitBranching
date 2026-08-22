@@ -1,5 +1,27 @@
+// The pre-existing remote for this lesson: a two-commit history on main,
+// with the local repo just a hidden clonePending placeholder until the
+// learner runs `git clone`. Shared between the level's own startTree and
+// the "git clone" GitDemonstrationView's beforeTree below, so the demo
+// shows the exact same remote -> local clone the learner is about to do,
+// instead of drifting from the level's actual starting state.
+var CLONE_START_TREE = {
+  "branches": {"main": {"target": "C0", "id": "main"}},
+  "commits": {"C0": {"parents": [], "id": "C0", "rootCommit": true}},
+  "HEAD": {"target": "main", "id": "HEAD"},
+  "originTree": {
+    "branches": {"main": {"target": "C1", "id": "main"}},
+    "commits": {
+      "C0": {"parents": [], "id": "C0", "rootCommit": true},
+      "C1": {"parents": ["C0"], "id": "C1"}
+    },
+    "HEAD": {"target": "main", "id": "HEAD"}
+  },
+  "clonePending": true
+};
+
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
+  "startTree": JSON.stringify(CLONE_START_TREE),
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
@@ -78,11 +100,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Our Command to create remotes",
+              "## Our Command to start working with remotes",
               "",
               "Up until this point, Learn Git Branching has focused on teaching the basics of _local_ repository work (branching, merging, rebasing, etc). However now that we want to learn about remote repository work, we need a command to set up the environment for those lessons. `git clone` will be that command.",
               "",
-              "Technically, `git clone` in the real world is the command you'll use to create _local_ copies of remote repositories (from github for example). We use this command a bit differently in Learn Git Branching though -- `git clone` actually makes a remote repository out of your local one. Sure it's technically the opposite meaning of the real command, but it helps build the connection between cloning and remote repository work, so let's just run with it for now.",
+              "Just like the real `git clone`, we've set up a remote repository for this lesson, and running `git clone` will pull it down into your local repository. From here on, `o/main` in your local repo refers to where the remote's `main` branch was at the time you cloned it.",
               ""
             ]
           }
@@ -91,21 +113,21 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Lets start slow and just look at what a remote repository looks like (in our visualization).",
+              "Lets start slow and just look at what a remote repository looks like (in our visualization) before we clone it.",
               ""
             ],
             "afterMarkdowns": [
-              "There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent -- in later levels you'll get to see how we share work across these repositories."
+              "There it is! Now you have your own local copy of the project, cloned from the remote. It looks pretty similar except for some visual changes to make the distinction apparent -- in later levels you'll get to see how we share work across these repositories."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, simply `git clone` your existing repository. The real learning will come in following lessons."
+              "To finish this level, simply `git clone` the remote repository we've set up for you. The real learning will come in following lessons."
             ]
           }
         }
@@ -154,7 +176,7 @@ exports.level = {
               "ایناهاش! حالا ما یک مخزن ریموت از پروژه خود داریم. به نظر می‌رسد بسیار شبیه به مخزن محلی است، به جز برخی تغییرات بصری تا تمایز آن آشکار شود -- در مراحل بعدی خواهید دید که چگونه کار را بین این مخازن به اشتراک می‌گذاریم."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -211,7 +233,7 @@ exports.level = {
               "Nous y sommes ! Maintenant nous avons un dépôt distant de notre projet. Cela ressemble fortement à ce que nous avons d'habitude, en dehors de quelques changements pour rendre compte des différences -- dans les niveaux suivants vous allez voir comment partager le travail entre ces dépôts."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -268,7 +290,7 @@ exports.level = {
               "¡Ahí está! Ahora tenemos un repositorio remoto de nuestro proyecto. Parece bastante similar, salvando algunos cambios visuales para hacer evidente la distinción -- en niveles posteriores vas a ver cómo compartir trabajo entre estos repositorios."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -325,7 +347,7 @@ exports.level = {
               "¡Ahí está! Ahora tenemos un repositorio remoto de nuestro proyecto. Se ve bastante similar, excepto por algunos cambios visuales para hacer evidente la distinción -- en niveles posteriores vas a ver cómo compartir trabajo entre estos repositorios."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -382,7 +404,7 @@ exports.level = {
               "¡Ahí está! Ahora tenemos un repositorio remoto de nuestro proyecto. Parece bastante similar, salvando algunos cambios visuales para hacer evidente la distinción -- en niveles posteriores vas a ver cómo compartir trabajo entre estos repositorios."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -439,7 +461,7 @@ exports.level = {
               "Aqui está ele! Agora temos um repositório remoto do nosso projeto. Ele é muito parecido exceto por algumas mudanças visuais para tornar a distinção factível -- nas tarefas a seguir veremos como compartilhar trabalho entre esses repositórios."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -496,7 +518,7 @@ exports.level = {
               "¡Aquí o tes! Agora temos un respositorio remoto do noso proxecto. El é moi parecido exceto por algúns cambios visuais para ter a unha distinción visible -- nas tarefas a seguir veremos como compartir o traballo entre eses repositorios."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -553,7 +575,7 @@ exports.level = {
               "就是那樣！現在我們有了一個放置了我們 project 的 remote repository。除了一些視覺上的改變之外，它們看起來很像，在之後的關卡中你就會看到我們如何分享我們的工作到這些 repository 上面。"
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -609,7 +631,7 @@ exports.level = {
               "就是它了! 现在我们有了一个自己项目的远程仓库。除了远程仓库使用虚线之外, 它们几乎没有什么差别 —— 在后面的关卡中, 你将会学习怎样在本地仓库和远程仓库间分享工作成果。"
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -666,7 +688,7 @@ exports.level = {
               "Da ist es! Jetzt haben wir ein entferntes Repository unseres Projektes. Es sieht so aus wie das lokale, nur mit ein paar Änderungen in der Darstellung -- in späteren Leveln wirst du sehen, wie man Änderungen zwischen den Repositorys austauschen kann."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -723,7 +745,7 @@ exports.level = {
               "できました! プロジェクトのリモートリポジトリが保存されました。結構似ているのですが、その違いを明らかにするために少しだけビジュアルを工夫しました -- これからのレベルではこれらのリポジトリの間で作業をどう共有するか見ていきます。"
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -780,7 +802,7 @@ exports.level = {
               "Iată-l! Acum avem un repo remote al proiectului nostru. Arată foarte asemănător, cu câteva diferențe vizuale pentru a face distincția clară -- în nivelurile următoare vei vedea cum împărtășim munca între aceste repo-uri."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -837,7 +859,7 @@ exports.level = {
               "Ето го! Вече имаме отдалечено хранилище на проекта си. Изглежда почти същото, с някои визуални разлики, които да подчертаят разграничението — в следващите нива ще видиш как споделяме работа между тези хранилища."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -894,7 +916,7 @@ exports.level = {
               "Вот так! Теперь у нас есть удалённый репозиторий нашего проекта. Выглядит всё довольно одинаковым за исключением некоторых визуальных различий - в последующих уровнях вы увидите, как мы разделяем работу по этим репозиториям."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -951,7 +973,7 @@ exports.level = {
               "자! 이제 우리 프로젝트의 원격 저장소를 가지게 되었습니다. 구분을 하기위해 조금 모양이 다른것 말고는 둘이 똑같게 생긴걸 알 수 있습니다 -- 뒤의 레벨에서는 우리가 이 저장소들 사이에서 어떻게 작업을 공유하는지 알아보겠습니다."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1008,7 +1030,7 @@ exports.level = {
               "Ось і все! Тепер ми маємо віддалений репозиторій нашого проекту. Він виглядає досить схоже, хіба що деякі візуальні елементи інші, щоб краще показати різницю -- в наступних рівнях Ви навчитеся ділитися роботою між цими репозиторіями."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1065,7 +1087,7 @@ exports.level = {
               "Nó đây rồi! Giờ ta đã có kho lưu trữ dự án từ xa. Nhìn nó cũng khá tương tự chỉ là được minh họa khác biệt một chút -- đến các cấp độ sau ta sẽ tìm hiểu thêm về cách thức trao đổi nội dung giữa các kho chứa này."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1122,7 +1144,7 @@ exports.level = {
               "Evo ga! Sedaj imamo oddaljen repozitorij našega projekta. Izgleda precej podoben razen nekaj vizualnih sprememb, da se opazi razlika -- v kasnejših stopnjah boš spoznal, kako si delimo delo preko teh repozitorijev."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1179,7 +1201,7 @@ exports.level = {
               "No i jest! Teraz mamy zdalne repozytorium naszego projektu. Wygląda dość podobnie, z wyjątkiem pewnych wizualnych zmian pomagających odróżnić je od lokalnego  -- na kolejnych poziomach zobaczysz, jak udostępniamy pracę w tych repozytoriach."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1236,7 +1258,7 @@ exports.level = {
               "Eccolo! Ora abbiamo un repository remoto del nostro progetto. Appare molto simile eccetto per qualche modifica nella visualizzazione per far notare la distinzione -- nei successivi livelli vedrai come condividere il lavoro tra questi repository."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1293,7 +1315,7 @@ exports.level = {
               "İşte bu! Şimdi projemizin bir uzak deposuna sahibiz. Görünüşü oldukça benzer, ancak ayırt edici bir fark yaratmak için bazı görsel değişiklikler yapıldı -- sonraki seviyelerde bu depolar arasında çalışmayı nasıl paylaştığımızı göreceksiniz."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1350,7 +1372,7 @@ exports.level = {
               "Tessék! Most már van egy távoli repónk a projektünkből. Meglehetősen hasonlóan néz ki, kivéve néhány vizuális változást a különbség egyértelművé tételéhez -- a következő szinteken látni fogod, hogyan osztjuk meg a munkát ezek között a repók között."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
@@ -1407,7 +1429,7 @@ exports.level = {
               "Budur! İndi layihəmizin bir remote repozitoriyası var. Görünüşü olduqca oxşardır, sadəcə fərqi aydın göstərmək üçün bəzi vizual dəyişikliklər var -- sonrakı bölümlərdə bu repozitoriyalar arasında işi necə paylaşdığımızı görəcəksən."
             ],
             "command": "git clone",
-            "beforeCommand": ""
+            "beforeTree": CLONE_START_TREE
           }
         },
         {
