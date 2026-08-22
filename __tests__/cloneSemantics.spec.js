@@ -99,6 +99,41 @@ describe('Opt-in clone semantics', function() {
     });
   });
 
+  it('does not crash when the origin becomes ready asynchronously, as it does in the real (non-headless) visualization', function(done) {
+    // headless.js's mock fires 'gitEngineReady' synchronously, which masks a
+    // real bug: in the actual browser, Visualization defers paperInitialize
+    // (and therefore 'gitEngineReady') to the next tick via process.nextTick,
+    // so GitEngine#makeOrigin's origin-branch-creation loop must not run
+    // until that callback fires, or `this.origin` is still null when it
+    // walks `this.origin.refs` for a branch whose commit isn't in our own
+    // refs yet (e.g. a fresh clonePending load with a multi-branch remote).
+    var headless = new HeadlessGit();
+    var mockVis = headless.gitEngine.gitVisuals.getVisualization();
+    var realMakeOrigin = mockVis.makeOrigin.bind(mockVis);
+    mockVis.makeOrigin = function(options) {
+      var result = realMakeOrigin(options);
+      var realOn = result.customEvents.on.bind(result.customEvents);
+      result.customEvents.on = function(key, cb, context) {
+        setTimeout(function() {
+          realOn(key, cb, context);
+        }, 0);
+      };
+      return result;
+    };
+
+    // this must not throw synchronously (it used to, before this.origin was
+    // guaranteed to be set before the branch-creation loop ran)
+    headless.gitEngine.loadTreeFromString(MULTI_BRANCH_START);
+
+    setTimeout(function() {
+      expect(headless.gitEngine.hasOrigin()).toBe(true);
+      expect(headless.gitEngine.doesRefExist('o/main')).toBe(true);
+      expect(headless.gitEngine.doesRefExist('o/feature')).toBe(true);
+      expect(headless.gitEngine.doesRefExist('o/dev')).toBe(true);
+      done();
+    }, 10);
+  });
+
   it('supports resetting back to a clonePending snapshot and re-cloning', function() {
     var headless = new HeadlessGit();
     headless.gitEngine.loadTreeFromString(SINGLE_BRANCH_START);

@@ -429,39 +429,47 @@ GitEngine.prototype.makeOrigin = function(treeString) {
   originVis.customEvents.on('gitEngineReady', function() {
     this.origin = originVis.gitEngine;
     originVis.gitEngine.assignLocalRepo(this);
+
+    // make an origin branch for each branch mentioned in the tree if its
+    // not made already... This has to run AFTER this.origin is assigned
+    // above: findCommonAncestorWithRemote() below walks this.origin.refs,
+    // and for a tree whose commits aren't already in our own refs (e.g. an
+    // opt-in clonePending placeholder, which starts with no matching local
+    // history) that walk is required, not just a same-ID short-circuit. In
+    // the real (non-headless) visualization this callback fires on a later
+    // tick than makeOrigin() itself, so running this loop outside the
+    // callback used to read this.origin before it was ever set.
+    var originTree = JSON.parse(unescape(treeString));
+    Object.keys(originTree.branches).forEach(function(branchName) {
+      var branchJSON = originTree.branches[branchName];
+      if (this.refs[ORIGIN_PREFIX + branchName]) {
+        // we already have this branch
+        return;
+      }
+
+      var originTarget = this.findCommonAncestorWithRemote(
+        branchJSON.target
+      );
+
+      // now we have something in common, lets make the tracking branch
+      var remoteBranch = this.makeBranch(
+        ORIGIN_PREFIX + branchName,
+        this.getCommitFromRef(originTarget)
+      );
+
+      // not every origin branch has a same-named local branch -- e.g. an
+      // opt-in clonePending placeholder only has a stub for the default
+      // branch, since cloneFromOrigin() sets up real tracking branches later
+      if (this.refs[branchJSON.id]) {
+        this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
+      }
+    }, this);
+
     this.syncRemoteBranchFills();
     // and then here is the crazy part -- we need the ORIGIN to refresh
     // itself in a separate animation. @_____@
     this.origin.externalRefresh();
     this.animationFactory.playRefreshAnimationAndFinish(this.gitVisuals, this.animationQueue);
-  }, this);
-
-  var originTree = JSON.parse(unescape(treeString));
-  // make an origin branch for each branch mentioned in the tree if its
-  // not made already...
-  Object.keys(originTree.branches).forEach(function(branchName) {
-    var branchJSON = originTree.branches[branchName];
-    if (this.refs[ORIGIN_PREFIX + branchName]) {
-      // we already have this branch
-      return;
-    }
-
-    var originTarget = this.findCommonAncestorWithRemote(
-      branchJSON.target
-    );
-
-    // now we have something in common, lets make the tracking branch
-    var remoteBranch = this.makeBranch(
-      ORIGIN_PREFIX + branchName,
-      this.getCommitFromRef(originTarget)
-    );
-
-    // not every origin branch has a same-named local branch -- e.g. an
-    // opt-in clonePending placeholder only has a stub for the default
-    // branch, since cloneFromOrigin() sets up real tracking branches later
-    if (this.refs[branchJSON.id]) {
-      this.setLocalToTrackRemote(this.refs[branchJSON.id], remoteBranch);
-    }
   }, this);
 };
 
