@@ -247,7 +247,12 @@ class Visualization {
 
   showHarsh() {
     $(this.paper.canvas).css('visibility', 'visible');
-    this.setTreeOpacity(1);
+    // keep a clonePending local repo hidden even when a container (e.g.
+    // GitDemonstrationView) forces itself fully visible; cloneFromOrigin()
+    // reveals it once `git clone` actually runs
+    if (!this.gitEngine.clonePending) {
+      this.setTreeOpacity(1);
+    }
     this.originToo('showHarsh', arguments);
     this.myResize();
   }
