@@ -410,8 +410,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "*Hinweis: In Git-Version 2.23 wurde ein neuer Befehl namens `git switch` eingeführt, der `git checkout` irgendwann ersetzen soll, da `checkout` etwas überladen ist (er macht verschiedene Dinge abhängig von den Argumenten). Die Lektionen hier verwenden weiterhin `checkout` statt `switch`, da `switch` noch als experimentell gilt und sich die Syntax ändern kann. ",
-              "Du kannst den neuen `switch` Befehl aber trotzdem in dieser App ausprobieren und auch ",
+              "*Hinweis: In Git-Version 2.23 wurde der neue Befehl `git switch` eingeführt. Er konzentriert sich auf das Wechseln von Branches, während `git checkout` je nach Argument verschiedene Aufgaben übernimmt. Die Lektionen hier verwenden weiterhin `checkout`, damit die verwendeten Befehle durchgehend einheitlich bleiben. ",
+              "Du kannst `git switch` aber trotzdem in dieser App ausprobieren und auch ",
               "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">hier mehr erfahren</a>.* "
             ]
           }
