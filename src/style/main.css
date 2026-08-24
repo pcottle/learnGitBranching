@@ -58,6 +58,50 @@ div.modalTerminal p {
   margin: 1.5em 0;
 }
 
+/* Keep translated prose in its natural reading order for RTL locales. */
+html[dir='rtl'] .modalTerminal .inside,
+html[dir='rtl'] .demonstrationText .beforeText,
+html[dir='rtl'] .demonstrationText .afterText,
+html[dir='rtl'] .levelDropdownView .displayName,
+html[dir='rtl'] .levelDropdownView .about,
+html[dir='rtl'] .levelDropdownView .levelInfo,
+html[dir='rtl'] div.commandLineResult,
+html[dir='rtl'] div.commandLineWarnings,
+html[dir='rtl'] .intl-aware {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Keep the structural shell, graph, and command-entry layout left-to-right. */
+html[dir='rtl'] #interfaceWrapper,
+html[dir='rtl'] #canvasHolder,
+html[dir='rtl'] .canvasTerminalHolder .terminal-window-holder,
+html[dir='rtl'] .gitDemonstrationView .visHolder,
+html[dir='rtl'] #commandLineBar,
+html[dir='rtl'] #commandLineHistory,
+html[dir='rtl'] #prompt {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Git commands and Markdown code spans must retain their natural LTR order
+ * when they appear inside RTL instructional text. */
+html[dir='rtl'] code,
+html[dir='rtl'] pre,
+html[dir='rtl'] #commandTextField,
+html[dir='rtl'] #prompt p.command,
+html[dir='rtl'] p.commandLine,
+html[dir='rtl'] div.commandLineResult code,
+html[dir='rtl'] div.commandLineWarnings code,
+html[dir='rtl'] .canvasTerminalHolder .terminal-text,
+html[dir='rtl'] .canvasTerminalHolder .terminal-text p,
+html[dir='rtl'] #prompt span.promptSign,
+html[dir='rtl'] #prompt span.cursor {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+}
+
 .textAlignCenter {
   text-align: center;
 }

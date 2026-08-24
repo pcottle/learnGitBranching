@@ -37,6 +37,7 @@ var commandUI;
 var sandbox;
 var eventBaton;
 var levelDropdown;
+var RTL_LOCALES = ['ar', 'fa'];
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -62,6 +63,7 @@ var init = function() {
   });
 
   LocaleStore.subscribe(intlRefresh);
+  intlRefresh();
   events.on('vcsModeChange', vcsModeRefresh);
 
   initRootEvents(eventBaton);
@@ -115,14 +117,22 @@ var insertAlternateLinks = function(pageId) {
 
 var intlRefresh = function() {
   if (!window.$) { return; }
-  var countryCode = LocaleStore.getLocale().split("_")[0];
-  $("html").attr('lang', countryCode);
+  var locale = LocaleStore.getLocale();
+  var countryCode = locale.split("_")[0];
+  document.documentElement.setAttribute('lang', countryCode);
+  document.documentElement.setAttribute('dir', exports.getLocaleDirection(locale));
   $("meta[http-equiv='content-language']").attr("content", countryCode);
   $('span.intl-aware').each(function(i, el) {
     var intl = require('../intl');
     var key = $(el).attr('data-intl');
     $(el).text(intl.str(key));
   });
+};
+
+exports.getLocaleDirection = function(locale) {
+  if (typeof locale !== 'string') { return 'ltr'; }
+  var language = locale.split(/[-_]/)[0].toLowerCase();
+  return RTL_LOCALES.indexOf(language) !== -1 ? 'rtl' : 'ltr';
 };
 
 var initRootEvents = function(eventBaton) {
