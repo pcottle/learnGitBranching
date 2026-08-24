@@ -149,7 +149,8 @@ var jshint = function() {
     'src/'
   ])
   .pipe(gJshint())
-  .pipe(gJshint.reporter('default'));
+  .pipe(gJshint.reporter('default'))
+  .pipe(gJshint.reporter('fail'));
 };
 
 var ifyBuild = function() {
@@ -188,7 +189,11 @@ var jasmine = function() {
 };
 
 var gitAdd = function(done) {
-  execSync('git add build/');
+  // Docker builds intentionally omit .git from their context. Generated
+  // artifacts are ignored, so staging them is only useful in a checkout.
+  if (existsSync('.git')) {
+    execSync('git add build/');
+  }
   done();
 };
 

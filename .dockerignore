@@ -1,0 +1,12 @@
+.git
+.github
+.mimocode
+node_modules
+build
+index.html
+.nyc_output
+coverage
+screens
+learnGitBranching_*
+npm-debug.log
+yarn-error.log

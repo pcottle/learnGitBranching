@@ -3,6 +3,10 @@
   "version": "0.8.0",
   "description": "An interactive git visualization to challenge and educate!",
   "homepage": "https://learngitbranching.js.org",
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=14.20.0 <15.0.0"
+  },
   "author": "Peter Cottle <petermcottle@gmail.com>",
   "license": "MIT",
   "scripts": {
