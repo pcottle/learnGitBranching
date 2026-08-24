@@ -43,7 +43,7 @@ exports.level = {
     "ro": "Pur și simplu rulează git pull!",
     "bg": "Просто изпълни git pull!",
     "ru_RU": "Запустите комманду git pull !",
-    "uk": "Просто виконай git pull !",
+    "uk": "Просто виконайте git pull !",
     "ko": "그냥 git pull을 하세요!",
     "vi": "Đơn giản là gõ git pull!",
     "sl_SI": "Samo izvedi git pull!",
@@ -71,7 +71,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually provides a command that does both at once! That command is `git pull`."
+              "In fact, the workflow of *fetching* remote changes and then *merging* them is so common that git actually provides a command that does both at once! That command is `git pull`.",
+              "",
+              "*Note:* Git 2.27 introduced a warning when no pull strategy was configured. Since Git 2.34, a bare `git pull` stops on diverged branches in that situation and asks you to choose how to reconcile them. Use `git pull --no-rebase` to merge, or `git pull --rebase` to rebase. In this simulator, `git pull` defaults to the merge behavior."
             ]
           }
         },
@@ -95,7 +97,7 @@ exports.level = {
               "What would happen if we used `git pull` instead?"
             ],
             "afterMarkdowns": [
-              "The same thing! That should make it very clear that `git pull` is essentially shorthand for a `git fetch` followed by a merge of whatever branch was just fetched."
+              "The same thing! That should make it very clear that this simulator treats `git pull` as shorthand for `git fetch` followed by a merge of the branch that was just fetched. In real Git, that merge behavior corresponds to `git pull --no-rebase` when branches have diverged."
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -130,7 +132,9 @@ exports.level = {
               "* `git merge o/main`",
               "* و غیره.",
               "",
-              "در واقع، جریان کاری *دریافت* (fetching) تغییرات ریموت و سپس *ادغام* (merging) آن‌ها آنقدر رایج است که گیت در واقع دستوری را ارائه می‌دهد که هر دو کار را همزمان انجام می‌دهد! آن دستور `git pull` است."
+              "در واقع، جریان کاری *دریافت* (fetching) تغییرات ریموت و سپس *ادغام* (merging) آن‌ها آنقدر رایج است که گیت در واقع دستوری را ارائه می‌دهد که هر دو کار را همزمان انجام می‌دهد! آن دستور `git pull` است.",
+              "",
+              "*توجه:* در گیت 2.34 و نسخه‌های جدیدتر، اگر شاخه‌های محلی و ریموت شما واگرا شده باشند و هیچ راهبردی برای pull پیکربندی نشده باشد، `git pull` ساده متوقف می‌شود و از شما می‌خواهد نحوه همگام‌سازی را مشخص کنید. برای ادغام از `git pull --no-rebase` و برای rebase از `git pull --rebase` استفاده کنید. در این شبیه‌ساز، `git pull` به طور پیش‌فرض رفتار ادغام را دارد."
             ]
           }
         },
@@ -154,7 +158,7 @@ exports.level = {
               "اگر به جای آن از `git pull` استفاده می‌کردیم چه اتفاقی می‌افتاد؟"
             ],
             "afterMarkdowns": [
-              "همان اتفاق! این باید کاملاً روشن کند که `git pull` اساساً مخفف یک `git fetch` است که به دنبال آن ادغام هر شاخه‌ای که تازه دریافت شده است، انجام می‌شود."
+              "همان اتفاق! این باید کاملاً روشن کند که `git pull` اساساً مخفف یک `git fetch` است که به دنبال آن ادغام هر شاخه‌ای که تازه دریافت شده است، انجام می‌شود. (در گیت واقعی 2.34+، این معادل `git pull --no-rebase` است زمانی که شاخه‌ها واگرا شده‌اند.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -189,7 +193,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que Git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`."
+              "En fait, le principe de *rapatrier* (fetch) les branches distantes puis les *fusionner* (merge) est si commun que Git a en réalité une commande pour faire les deux à la fois ! Cette commande est `git pull`.",
+              "",
+              "*Remarque :* Avec Git 2.34 ou une version ultérieure, si vos branches locale et distante ont divergé et qu’aucune stratégie de pull n’est configurée, un simple `git pull` s’arrête et vous demande comment les réconcilier. Utilisez `git pull --no-rebase` pour une fusion, ou `git pull --rebase` pour un rebase. Dans ce simulateur, `git pull` utilise le comportement de fusion par défaut."
             ]
           }
         },
@@ -213,7 +219,7 @@ exports.level = {
               "Que se passerait-il si nous utilisions plutôt `git pull` ?"
             ],
             "afterMarkdowns": [
-              "La même chose ! Cela devrait maintenant être clair que `git pull` est surtout un raccourci pour `git fetch` suivi d'un merge de toutes les branches qui viennent d'avoir un fetch."
+              "La même chose ! Cela devrait maintenant être clair que `git pull` est surtout un raccourci pour `git fetch` suivi d'un merge de toutes les branches qui viennent d'avoir un fetch. (Dans le vrai git 2.34+, c'est équivalent à `git pull --no-rebase` quand les branches ont divergé.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -248,7 +254,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!"
+              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!",
+              "",
+              "*Nota:* En Git 2.34 o posterior, si tus ramas local y remota divergieron y no configuraste una estrategia de pull, un `git pull` a secas se detiene y te pide que elijas cómo reconciliarlas. Usá `git pull --no-rebase` para hacer un merge, o `git pull --rebase` para un rebase. En este simulador, `git pull` usa el comportamiento de merge por defecto."
             ]
           }
         },
@@ -272,7 +280,7 @@ exports.level = {
               "¿Qué pasaría si usáramos `git pull` en cambio?"
             ],
             "afterMarkdowns": [
-              "¡Lo mismo! Eso debería dejar bien en claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que sea que hayamos bajado."
+              "¡Lo mismo! Eso debería dejar bien en claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que sea que hayamos bajado. (En el git real 2.34+, esto equivale a `git pull --no-rebase` cuando las ramas han divergido.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -285,66 +293,6 @@ exports.level = {
               "Exploraremos los detalles de `git pull` después (incluyendo sus opciones y parámetros), pero por ahora probémoslo en este nivel.",
               "",
               "Acordate: podés resolver este comando simplemente con `fetch` y `merge`, pero eso te costaría un comando extra :P"
-            ]
-          }
-        }
-      ]
-    },
-    "es_MX": "Simplemente ¡ejecuta git pull!",
-    "es_ES": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git Pull",
-              "",
-              "Ahora que vimos cómo traer datos de un repositorio remoto con `git fetch`, ¡actualicemos nuestro trabajo local para reflejar esos cambios!",
-              "",
-              "Realmente hay varias formas de hacer esto: una vez que tienes los commits disponibles localmente, puedes integrarlos como si fueran commits comunes de otras ramas. Esto significa que podrías ejecutar comandos como:",
-              "",
-              "* `git cherry-pick o/main`",
-              "* `git rebase o/main`",
-              "* `git merge o/main`",
-              "* etc., etc.",
-              "",
-              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
-            ],
-            "afterMarkdowns": [
-              "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
-            ],
-            "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "¿Qué pasaría si en cambio utilizásemos `git pull`?"
-            ],
-            "afterMarkdowns": [
-              "¡Lo mismo! Eso debería dejar bien claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que hayamos descargado."
-            ],
-            "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Exploraremos los detalles de `git pull` después (incluyendo sus opciones y parámetros), pero por ahora probémoslo en este nivel.",
-              "",
-              "Recuerda: puedes ejecutar este comando simplemente con `fetch` y `merge`, pero eso te costaría un comando extra :P"
             ]
           }
         }
@@ -367,7 +315,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!"
+              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!",
+              "",
+              "*Nota:* En Git 2.34 o posterior, si tus ramas local y remota han divergido y no has configurado una estrategia de pull, un `git pull` a secas se detiene y te pide que elijas cómo reconciliarlas. Usa `git pull --no-rebase` para hacer un merge, o `git pull --rebase` para un rebase. En este simulador, `git pull` usa el comportamiento de merge por defecto."
             ]
           }
         },
@@ -391,7 +341,68 @@ exports.level = {
               "¿Qué pasaría si en cambio utilizásemos `git pull`?"
             ],
             "afterMarkdowns": [
-              "¡Lo mismo! Eso debería dejar bien claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que hayamos descargado."
+              "¡Lo mismo! Eso debería dejar muy claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que acabamos de descargar. (En el git real 2.34+, esto equivale a `git pull --no-rebase` cuando las ramas han divergido.)"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Exploraremos los detalles de `git pull` después (incluyendo sus opciones y parámetros), pero por ahora probémoslo en este nivel.",
+              "",
+              "Recuerda: puedes ejecutar este comando simplemente con `fetch` y `merge`, pero eso te costaría un comando extra :P"
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Ahora que vimos cómo traer datos de un repositorio remoto con `git fetch`, ¡actualicemos nuestro trabajo local para reflejar esos cambios!",
+              "",
+              "Realmente hay varias formas de hacer esto: una vez que tienes los commits disponibles localmente, puedes integrarlos como si fueran commits comunes de otras ramas. Esto significa que podrías ejecutar comandos como:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* etc., etc.",
+              "",
+              "De hecho, el flujo de trabajo de *fetchear* cambios remotos y después *mergearlos* es tan común que git incluye un comando que hace ambas cosas de una: ¡`git pull`!",
+              "",
+              "*Nota:* En Git 2.34 o posterior, si tus ramas local y remota han divergido y no has configurado una estrategia de pull, un `git pull` a secas se detiene y te pide que elijas cómo reconciliarlas. Usa `git pull --no-rebase` para hacer un merge, o `git pull --rebase` para un rebase. En este simulador, `git pull` usa el comportamiento de merge por defecto."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos primero un `fetch` y un `merge` ejecutados secuencialmente."
+            ],
+            "afterMarkdowns": [
+              "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "¿Qué pasaría si en cambio utilizásemos `git pull`?"
+            ],
+            "afterMarkdowns": [
+              "¡Lo mismo! Eso debería dejar muy claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido de un merge con la rama que acabamos de descargar. (En el git real 2.34+, esto equivale a `git pull --no-rebase` cuando las ramas han divergido.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -426,7 +437,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "O fluxo de trabalho de executar *fetch* para baixar as mudanças remotas e depois fazer um *merge* delas é tão comum que o Git na verdade fornece um comando que faz ambas as coisas de uma vez só! Esse comando é o `git pull`."
+              "O fluxo de trabalho de executar *fetch* para baixar as mudanças remotas e depois fazer um *merge* delas é tão comum que o Git na verdade fornece um comando que faz ambas as coisas de uma vez só! Esse comando é o `git pull`.",
+              "",
+              "*Nota:* No Git 2.34 ou posterior, se as branches local e remota divergirem e nenhuma estratégia de pull estiver configurada, um `git pull` simples será interrompido e pedirá que você escolha como reconciliá-las. Use `git pull --no-rebase` para um merge, ou `git pull --rebase` para um rebase. Neste simulador, `git pull` usa o comportamento de merge por padrão."
             ]
           }
         },
@@ -450,7 +463,7 @@ exports.level = {
               "O que iria acontecer se, em vez disso, usássemos `git pull`?"
             ],
             "afterMarkdowns": [
-              "Exatamente o mesmo! Isso deve tornar bem claro que `git pull` é essencialmente um caminho mais curto para executar um `git fetch` seguido de um merge de seja lá qual branch tiver sido baixada."
+              "A mesma coisa! Isso deixa bem claro que `git pull` é essencialmente um atalho para `git fetch` seguido de um merge da branch que acabou de ser baixada. (No git real 2.34+, isso equivale a `git pull --no-rebase` quando as branches divergiram.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -485,7 +498,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "De feito, o fluxo de traballo de *fetchear* os cambios remotos e depois *mesturalos* é tan común que git inclúe un comando que fai as dúas operacións nunha sola: ¡`giti pull`!"
+              "De feito, o fluxo de traballo de *fetchear* os cambios remotos e depois *mesturalos* é tan común que git inclúe un comando que fai as dúas operacións nunha sola: ¡`giti pull`!",
+              "",
+              "*Nota:* En Git 2.34 ou posterior, se as ramas local e remota diverxeron e non hai ningunha estratexia de pull configurada, un `git pull` simple deterase e pedirache que escollas como reconcilialas. Usa `git pull --no-rebase` para un merge, ou `git pull --rebase` para un rebase. Neste simulador, `git pull` usa o comportamento de merge por defecto."
             ]
           }
         },
@@ -509,7 +524,7 @@ exports.level = {
               "¿Qué pasaría se usáramos `git pull` en cambio?"
             ],
             "afterMarkdowns": [
-              "¡O mesmo! Eso debía deixar ben claro que `git pull` é básicamente un atallo para facer `git fetch` seguido pola mestura ca rama que houbésemos descargado."
+              "O mesmo! Iso debería deixar moi claro que `git pull` é basicamente un atallo para `git fetch` seguido dun merge da rama que acabamos de descargar. (No git real 2.34+, isto equivale a `git pull --no-rebase` cando as ramas diverxeron.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -544,7 +559,9 @@ exports.level = {
               "* `git merge o/main`",
               "* 等等‧‧‧",
               "",
-              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！這個命令叫作 `git pull`。"
+              "事實上，一次*下載 (fetch)* remote 的更新並且*合併（merge）* 這些更新在 git 裡面是很常見的事情！這個命令叫作 `git pull`。",
+              "",
+              "*注意：* 在 Git 2.34 或更新版本中，若本地與遠端分支已產生分歧，且尚未設定 pull 策略，單純的 `git pull` 會停止並要求你選擇如何整合。使用 `git pull --no-rebase` 進行合併，或使用 `git pull --rebase` 進行 rebase。在本模擬器中，`git pull` 預設使用合併行為。"
             ]
           }
         },
@@ -568,7 +585,7 @@ exports.level = {
               "如果用 `git pull` 會發生什麼事情？"
             ],
             "afterMarkdowns": [
-              "一樣！很明顯地，`git pull` 其實就是 git fetch 跟 git merge 的循序執行的結果，而且 merge 的 branch 就是 fetch 所更新的 branch。"
+              "一樣！這應該非常清楚地說明了 `git pull` 本質上是 `git fetch` 和合併剛剛取得的分支的簡寫。（在真實的 git 2.34+ 中，當分支產生分歧時，這等同於 `git pull --no-rebase`。）"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -603,7 +620,9 @@ exports.level = {
               "* `git merge o/main`",
               "* 等等",
               "",
-              "实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 `git pull`。"
+              "实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 `git pull`。",
+              "",
+              "*注意：* 在 Git 2.34 或更高版本中，如果本地和远程分支已经分叉，并且没有配置 pull 策略，单纯的 `git pull` 会停止并要求你选择如何整合。使用 `git pull --no-rebase` 进行合并，或使用 `git pull --rebase` 进行变基。在本模拟器中，`git pull` 默认使用合并行为。"
             ]
           }
         },
@@ -627,7 +646,7 @@ exports.level = {
               "如果使用 `git pull` 呢?"
             ],
             "afterMarkdowns": [
-              "同样的结果！这清楚地说明了 `git pull` 就是 git fetch 和 git merge <just-fetched-branch> 的缩写！"
+              "一样！这应该非常清楚地说明了 `git pull` 本质上是 `git fetch` 后跟一次合并的简写。（在真实的 git 2.34+ 中，当分支产生分歧时，这等同于 `git pull --no-rebase`。）"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -662,7 +681,9 @@ exports.level = {
               "* `git merge o/main`",
               "* usw. usf. ausführen.",
               "",
-              "Änderungen vom Server zu holen und dann in die eigene Arbeit zu mergen wird so häufig benötigt, dass Git einen Befehl kennt, der beides auf einmal erledigt! Das ist `git pull`."
+              "Änderungen vom Server zu holen und dann in die eigene Arbeit zu mergen wird so häufig benötigt, dass Git einen Befehl kennt, der beides auf einmal erledigt! Das ist `git pull`.",
+              "",
+              "*Hinweis:* Ab Git 2.34 wird ein einfaches `git pull` bei divergierten Branches abgebrochen, wenn keine Pull-Strategie konfiguriert ist, und fordert dich auf, eine Vorgehensweise zu wählen. Verwende `git pull --no-rebase` für einen Merge oder `git pull --rebase` für ein Rebase. In diesem Simulator verhält sich `git pull` standardmäßig wie ein Merge."
             ]
           }
         },
@@ -686,7 +707,7 @@ exports.level = {
               "Was passiert wohl, wenn wir stattdessen `git pull` benutzen?"
             ],
             "afterMarkdowns": [
-              "Dasselbe in Pink. Das sollte recht deutlich machen, dass `git pull` nur eine Abkürzung für `git fetch` gefolgt von einem Merge des gerade aktualisierten Branches ist."
+              "Das Gleiche! Das zeigt deutlich, dass `git pull` im Wesentlichen eine Abkürzung für `git fetch` gefolgt von einem Merge des gerade geholten Branches ist. (Im echten git 2.34+ entspricht das `git pull --no-rebase`, wenn die Branches divergiert haben.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -721,7 +742,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "De fapt, fluxul de lucru de *preluare* a schimbărilor remote și apoi *combinarea* lor este atât de comun încât git oferă o comandă care face ambele lucruri deodată! Acea comandă este `git pull`."
+              "De fapt, fluxul de lucru de *preluare* a schimbărilor remote și apoi *combinarea* lor este atât de comun încât git oferă o comandă care face ambele lucruri deodată! Acea comandă este `git pull`.",
+              "",
+              "*Notă:* În Git 2.34 sau o versiune ulterioară, dacă ramurile locală și remote au divergut și nu este configurată nicio strategie de pull, un `git pull` simplu se oprește și îți cere să alegi cum să le reconciliezi. Folosește `git pull --no-rebase` pentru un merge sau `git pull --rebase` pentru un rebase. În acest simulator, `git pull` folosește implicit comportamentul de merge."
             ]
           }
         },
@@ -745,7 +768,7 @@ exports.level = {
               "Ce s-ar întâmpla dacă am folosi `git pull` în schimb?"
             ],
             "afterMarkdowns": [
-              "Exact același lucru! Asta ar trebui să facă foarte clar faptul că `git pull` este practic o scurtătură pentru un `git fetch` urmat de un merge al oricărei ramuri care a fost tocmai preluată."
+              "Același lucru! Asta ar trebui să clarifice că `git pull` este practic un scurtcut pentru `git fetch` urmat de un merge al ramurii care tocmai a fost adusă. (În git real 2.34+, aceasta este echivalentă cu `git pull --no-rebase` când ramurile au divergut.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -764,64 +787,66 @@ exports.level = {
       ]
     },
     "bg": {
-    "childViews": [
-            {
-              "type": "ModalAlert",
-              "options": {
-                "markdowns": [
-                  "## Git Pull",
-                  "",
-                  "Сега, когато видяхме как да взимаме данни от отдалечено хранилище с `git fetch`, нека актуализираме нашата работа, за да отразява тези промени!",
-                  "",
-                  "Всъщност има много начини да се направи това — след като имате нови комити локално, можете да ги интегрирате, сякаш са обикновени комити от други клонове. Това означава, че можете да изпълните команди като:",
-                  "",
-                  "* `git cherry-pick o/main`",
-                  "* `git rebase o/main`",
-                  "* `git merge o/main`",
-                  "* и т.н.",
-                  "",
-                  "Всъщност, процесът на *fetch* на отдалечени промени и след това *merge* е толкова често срещан, че git предоставя команда, която прави и двете едновременно! Тази команда е `git pull`."
-                ]
-              }
-            },
-            {
-              "type": "GitDemonstrationView",
-              "options": {
-                "beforeMarkdowns": [
-                  "Нека първо видим `fetch` и `merge` изпълнени последователно."
-                ],
-                "afterMarkdowns": [
-                  "Бум — изтеглихме `C3` с `fetch` и след това го обединихме с `git merge o/main`. Сега нашият клон `main` отразява новата работа от отдалеченото хранилище (в този случай, наречено `origin`)."
-                ],
-                "command": "git fetch; git merge o/main",
-                "beforeCommand": "git clone; git commit; git fakeTeamwork"
-              }
-            },
-            {
-              "type": "GitDemonstrationView",
-              "options": {
-                "beforeMarkdowns": [
-                  "Какво би станало, ако използваме `git pull` вместо това?"
-                ],
-                "afterMarkdowns": [
-                  "Същото! Това ясно показва, че `git pull` е накратко `git fetch` последван от merge на новозтегления клон."
-                ],
-                "command": "git pull",
-                "beforeCommand": "git clone; git commit; git fakeTeamwork"
-              }
-            },
-            {
-              "type": "ModalAlert",
-              "options": {
-                "markdowns": [
-                  "Ще разгледаме детайлите на `git pull` по-късно (включително опции и аргументи), но за сега нека го изпробваме в този урок.",
-                  "",
-                  "Запомнете — можете да решите този урок само с `fetch` и `merge`, но това ще ви струва една допълнителна команда :P"
-                ]
-              }
-            }
-          ]
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Сега, когато видяхме как да взимаме данни от отдалечено хранилище с `git fetch`, нека актуализираме нашата работа, за да отразява тези промени!",
+              "",
+              "Всъщност има много начини да се направи това — след като имате нови комити локално, можете да ги интегрирате, сякаш са обикновени комити от други клонове. Това означава, че можете да изпълните команди като:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* и т.н.",
+              "",
+              "Всъщност, процесът на *fetch* на отдалечени промени и след това *merge* е толкова често срещан, че git предоставя команда, която прави и двете едновременно! Тази команда е `git pull`.",
+              "",
+              "*Забележка:* В Git 2.34 или по-нова версия, ако локалният и отдалеченият клон са се разминали и няма конфигурирана pull стратегия, обикновен `git pull` спира и те подканва да избереш как да ги съгласуваш. Използвай `git pull --no-rebase` за сливане или `git pull --rebase` за rebase. В този симулатор `git pull` използва сливане по подразбиране."
+            ]
+          }
         },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека първо видим `fetch` и `merge` изпълнени последователно."
+            ],
+            "afterMarkdowns": [
+              "Бум — изтеглихме `C3` с `fetch` и след това го обединихме с `git merge o/main`. Сега нашият клон `main` отразява новата работа от отдалеченото хранилище (в този случай, наречено `origin`)."
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Какво би станало, ако използваме `git pull` вместо това?"
+            ],
+            "afterMarkdowns": [
+              "Същото нещо! Това трябва да изясни, че `git pull` е по същество съкращение за `git fetch`, последвано от сливане на клона, който току-що е бил взет. (В реалния git 2.34+, това е еквивалентно на `git pull --no-rebase`, когато клоновете са се разминали.)"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ще разгледаме детайлите на `git pull` по-късно (включително опции и аргументи), но за сега нека го изпробваме в този урок.",
+              "",
+              "Запомнете — можете да решите този урок само с `fetch` и `merge`, но това ще ви струва една допълнителна команда :P"
+            ]
+          }
+        }
+      ]
+    },
     "ru_RU": {
       "childViews": [
         {
@@ -839,7 +864,9 @@ exports.level = {
               "* `git merge o/main`",
               "* и т.д.",
               "",
-              "Процедура *скачивания (fetching)*  изменений с удалённой ветки и *объединения (merging)* настолько частая и распространённая, что git предоставляет вместо двух команд - одну! Эта команда  - `git pull`."
+              "Процедура *скачивания (fetching)*  изменений с удалённой ветки и *объединения (merging)* настолько частая и распространённая, что git предоставляет вместо двух команд - одну! Эта команда  - `git pull`.",
+              "",
+              "*Примечание:* В Git 2.34 и новее, если локальная и удалённая ветки разошлись и стратегия pull не настроена, простой `git pull` остановится и попросит выбрать способ согласования. Используйте `git pull --no-rebase` для слияния или `git pull --rebase` для перебазирования. В этом симуляторе `git pull` по умолчанию использует слияние."
             ]
           }
         },
@@ -863,7 +890,7 @@ exports.level = {
               "Что же произойдёт, если вместо этих команд мы воспользуемся `git pull`?"
             ],
             "afterMarkdowns": [
-              "Абсолютно то же самое! Нужно чётко понимать, что `git pull` существенно уменьшает вашу рутинную работу, если бы вы использовали `git fetch` и последующее слияние (merging) скачанной ветки."
+              "То же самое! Это должно чётко показать, что `git pull` — это, по существу, сокращение для `git fetch`, за которым следует слияние только что полученной ветки. (В реальном git 2.34+ это эквивалентно `git pull --no-rebase`, когда ветки расходятся.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -898,7 +925,9 @@ exports.level = {
               "* `git merge o/main`",
               "* その他",
               "",
-              "実は、リモートの変更を取ってきてマージするという作業の流れはとてもよく行われるので、gitは実際にはその二つを同時に行うコマンドを提供しているのです！それは、`git pull`というコマンドです。"
+              "実は、リモートの変更を取ってきてマージするという作業の流れはとてもよく行われるので、gitは実際にはその二つを同時に行うコマンドを提供しているのです！それは、`git pull`というコマンドです。",
+              "",
+              "*注意：* Git 2.34 以降では、ローカルとリモートのブランチが分岐し、pull 戦略が設定されていない場合、単純な `git pull` は停止して統合方法の選択を求めます。マージするには `git pull --no-rebase`、リベースするには `git pull --rebase` を使用してください。このシミュレーターでは、`git pull` はデフォルトでマージの動作を使用します。"
             ]
           }
         },
@@ -922,7 +951,7 @@ exports.level = {
               "では、`git pull`では何が起こるのでしょうか？"
             ],
             "afterMarkdowns": [
-              "同じことが起こります！明確に`git pull`は`git fetch`して取ってきたブランチの内容をマージするという流れの短縮系であることが確認できます。"
+              "同じ結果です！これにより、`git pull` は基本的に `git fetch` の後にフェッチされたブランチのマージを行うショートカットであることが明確になるはずです。（本物の git 2.34+ では、ブランチが分岐している場合、これは `git pull --no-rebase` に相当します。）"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -948,16 +977,18 @@ exports.level = {
             "markdowns": [
               "## Git Pull",
               "",
-              "Тепер, коли ми знаємо як витягувати дані з віддаленого репозиторію за допомогою `git fetch`, спробуймо оновити нашу робочу копію відповідно до цих данних!",
+              "Тепер, коли ми знаємо як витягувати дані з віддаленого репозиторію за допомогою `git fetch`, спробуймо оновити нашу робочу копію відповідно до цих даних!",
               "",
-              "Насправді, є кілька шляхів як цього досягнути -- щойно нові коміти з’явилися локально, ти можеш додавати їх в бранчі так само, як звичайні коміти. Це означає що ти можеш виконувати команди:",
+              "Насправді, є кілька шляхів як цього досягнути -- щойно нові коміти з’явилися локально, Ви можете додавати їх в гілки так само, як звичайні коміти. Це означає що Ви можете виконувати команди:",
               "",
               "* `git cherry-pick o/main`",
               "* `git rebase o/main`",
               "* `git merge o/main`",
               "* тощо.",
               "",
-              "Насправді, процес *витягування* віддалених змін й подальший *мерджинг* їх є настільки популярним, що гіт пропонує спеціальну команду, що виконує ці дві дії за один раз! Ця команда називається `git pull`."
+              "Насправді, процес *витягування* віддалених змін й подальший *мерджинг* їх є настільки популярним, що гіт пропонує спеціальну команду, що виконує ці дві дії за один раз! Ця команда називається `git pull`.",
+              "",
+              "*Примітка:* У Git 2.34 і новіших версіях, якщо локальна та віддалена гілки розійшлися й стратегію pull не налаштовано, простий `git pull` зупиниться та попросить вибрати спосіб узгодження. Використовуйте `git pull --no-rebase` для злиття або `git pull --rebase` для перебазування. У цьому симуляторі `git pull` за замовчуванням використовує злиття."
             ]
           }
         },
@@ -981,7 +1012,7 @@ exports.level = {
               "Що трапиться, якщо натомість використати `git pull`?"
             ],
             "afterMarkdowns": [
-              "Те саме! Тепер очевидно що `git pull` -- це просто швидкий спосіб зробити `git fetch`, а потім змерджити завантажену гілку."
+              "Те саме! Це повинно чітко показати, що `git pull` — це, по суті, скорочення для `git fetch`, за яким слідує злиття щойно отриманої гілки. (У реальному git 2.34+ це еквівалентно `git pull --no-rebase`, коли гілки розходяться.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -993,7 +1024,7 @@ exports.level = {
             "markdowns": [
               "Ми розглянемо `git pull` більш детально пізніше (включаючи різні опції та аргументи), наразі просто спробуймо цю команду.",
               "",
-              "Не забувай -- щоб пройти цей рівень, достатньо використати `fetch`, а потім `merge`, але це буде тобі коштувати одну зайву команду :P"
+              "Пам’ятайте -- щоб пройти цей рівень, достатньо використати `fetch`, а потім `merge`, але це буде Вам коштувати одну зайву команду :P"
             ]
           }
         }
@@ -1016,7 +1047,9 @@ exports.level = {
               "* `git merge o/main`",
               "* 기타 등등",
               "",
-              "사실 원격 저장소의 변경을 *fetch*하고 그이후에 *merge*하는 작업의 과정이 워낙 자주있는 일이라서 git은 이 두가지를 한번에 하는 명령을 제공합니다! 이 명령어는 `git pull` 입니다."
+              "사실 원격 저장소의 변경을 *fetch*하고 그이후에 *merge*하는 작업의 과정이 워낙 자주있는 일이라서 git은 이 두가지를 한번에 하는 명령을 제공합니다! 이 명령어는 `git pull` 입니다.",
+              "",
+              "*참고:* Git 2.34 이상에서는 로컬 브랜치와 리모트 브랜치가 분기되고 pull 전략이 설정되어 있지 않으면, 단순한 `git pull`이 중단되고 통합 방법을 선택하라는 안내가 표시됩니다. 머지하려면 `git pull --no-rebase`를, 리베이스하려면 `git pull --rebase`를 사용하세요. 이 시뮬레이터에서 `git pull`은 기본적으로 머지 동작을 사용합니다."
             ]
           }
         },
@@ -1040,7 +1073,7 @@ exports.level = {
               "대신에 `git pull`을 사용하면 어떻게 될까요?"
             ],
             "afterMarkdowns": [
-              "똑같은 일이 일이납니다! 이렇게 `git pull`은 본질적으로 `git fetch`후에 내려받은 브랜치를 병합하는 과정의 단축입니다. 확실하게 느껴지죠?."
+              "같은 결과입니다! 이를 통해 `git pull`이 기본적으로 `git fetch` 후 방금 가져온 브랜치를 머지하는 것의 약어임을 명확히 알 수 있습니다. (실제 git 2.34+에서 브랜치가 분기되었을 때, 이는 `git pull --no-rebase`에 해당합니다.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1075,7 +1108,9 @@ exports.level = {
               "* `git merge o/main`",
               "* vân vân và mây mây",
               "",
-              "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi Git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`."
+              "Thực tế thì, quá trình *nạp* commit từ kho chứa từ xa và *hợp nhất* chúng phổ biết đến nỗi Git cung cấp một câu lệnh để làm cả 2 điều này một lúc! Đó là `git pull`.",
+              "",
+              "*Lưu ý:* Trong Git 2.34 trở lên, nếu nhánh cục bộ và nhánh từ xa đã phân kỳ và chưa cấu hình chiến lược pull, một lệnh `git pull` đơn giản sẽ dừng lại và yêu cầu bạn chọn cách hợp nhất. Dùng `git pull --no-rebase` để merge hoặc `git pull --rebase` để rebase. Trong trình mô phỏng này, `git pull` mặc định sử dụng hành vi merge."
             ]
           }
         },
@@ -1099,7 +1134,7 @@ exports.level = {
               "Nếu thay vì dó ta dùng `git pull` thì điều gì xảy ra?"
             ],
             "afterMarkdowns": [
-              "Cũng như nhau! Điều đó có nghĩa là `git pull` về cơ bản là cách làm tắt cho việc thực hiện tuần tự `git fetch` sau đó là hợp nhất các nhánh từ xa được nạp."
+              "Cũng vậy! Điều đó cho thấy rõ ràng rằng `git pull` về cơ bản là tắt gọn của `git fetch` theo sau là merge bất kỳ nhánh nào vừa được tải về. (Trong git thực 2.34+, điều này tương đương với `git pull --no-rebase` khi các nhánh đã phân kỳ.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1134,7 +1169,9 @@ exports.level = {
               "* `git merge o/main`",
               "* itd., itd.",
               "",
-              "Pravzaprav je *fetchanje* oddaljenih sprememb in kasneje *merganje* le-teh tako pogosto, da ima git dejansko ukaz, ki naredi oboje! Ukaz je `git pull`."
+              "Pravzaprav je *fetchanje* oddaljenih sprememb in kasneje *merganje* le-teh tako pogosto, da ima git dejansko ukaz, ki naredi oboje! Ukaz je `git pull`.",
+              "",
+              "*Opomba:* V Git 2.34 ali novejšem se preprost `git pull` ustavi, če sta se lokalna in oddaljena veja razšli in strategija pull ni nastavljena, ter zahteva izbiro načina usklajevanja. Uporabi `git pull --no-rebase` za merge ali `git pull --rebase` za rebase. V tem simulatorju `git pull` privzeto uporablja vedenje merge."
             ]
           }
         },
@@ -1158,7 +1195,7 @@ exports.level = {
               "Kaj bi se zgodilo, če bi namesto tega uporabili `git pull`?"
             ],
             "afterMarkdowns": [
-              "Ista stvar! To bi moralo pokazati, da je `git pull` v bistvu bližnjica za `git fetch`, ki mu sledi merge brancha, ki smo ga ravno fetchali."
+              "Ista stvar! To bi moralo jasno pokazati, da je `git pull` v bistvu bližnjica za `git fetch`, ki mu sledi merge veje, ki je bila pravkar prenesena. (V resničnem git 2.34+ je to enakovredno `git pull --no-rebase`, ko sta se veji razšli.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1193,7 +1230,9 @@ exports.level = {
               "* `git merge o/main`",
               "* itd., itd.",
               "",
-              "W rzeczywistości kolejność działań polegająca na *pobieraniu* zdalnych zmian (fetch), a następnie *łączeniu* ich (merge), jest tak powszechna, że sam Git zapewnia polecenie, które robi obie te rzeczy naraz! Jest to `git pull`."
+              "W rzeczywistości kolejność działań polegająca na *pobieraniu* zdalnych zmian (fetch), a następnie *łączeniu* ich (merge), jest tak powszechna, że sam Git zapewnia polecenie, które robi obie te rzeczy naraz! Jest to `git pull`.",
+              "",
+              "*Uwaga:* W Git 2.34 lub nowszym, jeśli lokalna i zdalna gałąź się rozeszły i nie skonfigurowano strategii pull, prosty `git pull` zatrzyma się i poprosi o wybór sposobu uzgodnienia. Użyj `git pull --no-rebase` do scalenia lub `git pull --rebase` do rebase. W tym symulatorze `git pull` domyślnie używa scalenia."
             ]
           }
         },
@@ -1217,7 +1256,7 @@ exports.level = {
               "Co by się stało, gdybyśmy zamiast tego użyli `git pull`?"
             ],
             "afterMarkdowns": [
-              "Dokładnie to samo! Chyba bardzo wyraźnie widać, że `git pull` to w zasadzie dwa w jednym: `git fetch`, po którym następuje scalenie przed chwilą pobranej gałęzi."
+              "To samo! To powinno jasno wskazywać, że `git pull` jest zasadniczo skrótem dla `git fetch` po którym następuje merge właśnie pobranej gałęzi. (W prawdziwym git 2.34+ jest to równoważne `git pull --no-rebase`, gdy gałęzie się rozeszły.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1252,7 +1291,9 @@ exports.level = {
               "* `git merge o/main`",
               "* etc., etc.",
               "",
-              "Infatti, il metodo del *recuperare* cambiamenti remoti e poi *fonderli* nel nostro repository è talmente comune che git fornisce un comando che compie entrambi i passi in uno! Quel comando è `git pull`."
+              "Infatti, il metodo del *recuperare* cambiamenti remoti e poi *fonderli* nel nostro repository è talmente comune che git fornisce un comando che compie entrambi i passi in uno! Quel comando è `git pull`.",
+              "",
+              "*Nota:* In Git 2.34 o versioni successive, se il ramo locale e quello remoto sono divergenti e non è configurata una strategia di pull, un semplice `git pull` si interrompe e chiede come riconciliarli. Usa `git pull --no-rebase` per un merge o `git pull --rebase` per un rebase. In questo simulatore, `git pull` usa il comportamento di merge come predefinito."
             ]
           }
         },
@@ -1276,7 +1317,7 @@ exports.level = {
               "Cosa succederebbe se invece usassimo `git pull`?"
             ],
             "afterMarkdowns": [
-              "La stessa cosa! Ciò dovrebbe chiarire che `git pull` è essenzialmente una scorciatoia allo scrivere `git fetch` seguito dalla fusione del ramo appena recuperato."
+              "Lo stesso! Questo dovrebbe rendere chiaro che `git pull` è essenzialmente un'abbreviazione per `git fetch` seguito da un merge del branch appena scaricato. (Nel vero git 2.34+, questo equivale a `git pull --no-rebase` quando i branch hanno divergito.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1311,7 +1352,9 @@ exports.level = {
               "* `git merge o/main`",
               "* vb.",
               "",
-              "Aslında, *fetch* işlemini yapıp ardından *merge* işlemi gerçekleştirmek o kadar yaygın ki, git aslında ikisini bir arada yapan bir komut sunuyor! Bu komut `git pull`."
+              "Aslında, *fetch* işlemini yapıp ardından *merge* işlemi gerçekleştirmek o kadar yaygın ki, git aslında ikisini bir arada yapan bir komut sunuyor! Bu komut `git pull`.",
+              "",
+              "*Not:* Git 2.34 ve sonraki sürümlerde, yerel ve uzak dallar ayrışmışsa ve bir pull stratejisi yapılandırılmamışsa, sade bir `git pull` durur ve bunların nasıl uzlaştırılacağını seçmenizi ister. Merge için `git pull --no-rebase`, rebase için `git pull --rebase` kullanın. Bu simülatörde `git pull` varsayılan olarak merge davranışını kullanır."
             ]
           }
         },
@@ -1335,7 +1378,7 @@ exports.level = {
               "`git pull` kullanırsak ne olur?"
             ],
             "afterMarkdowns": [
-              "Aynı şey! Bu, `git pull`'ün aslında bir `git fetch` ve ardından yeni alınan dalın merge işlemiyle kısaltılmış bir versiyon olduğunu açıkça gösteriyor."
+              "Aynı şey! Bu, `git pull`'ın esasen `git fetch`'in ardından az önce getirilen dalın merge edilmesinin kısaltması olduğunu açıkça ortaya koymalıdır. (Gerçek git 2.34+'da, dallar birbirinden ayrıldığında bu `git pull --no-rebase`'e eşdeğerdir.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1370,7 +1413,9 @@ exports.level = {
               "* `git merge o/main`",
               "* stb., stb.",
               "",
-              "Valójában a távoli változtatások *letöltésének* és majd *merge-lésének* munkafolyamata annyira elterjedt, hogy a git valójában biztosít egy parancsot, amely mindkettőt egyszerre végzi! Ez a parancs a `git pull`."
+              "Valójában a távoli változtatások *letöltésének* és majd *merge-lésének* munkafolyamata annyira elterjedt, hogy a git valójában biztosít egy parancsot, amely mindkettőt egyszerre végzi! Ez a parancs a `git pull`.",
+              "",
+              "*Megjegyzés:* Git 2.34 vagy újabb verzióban, ha a helyi és a távoli ág eltért, és nincs pull-stratégia beállítva, az egyszerű `git pull` leáll, és kéri az összehangolás módjának kiválasztását. Merge-hez használja a `git pull --no-rebase`, rebase-hez pedig a `git pull --rebase` parancsot. Ebben a szimulátorban a `git pull` alapértelmezés szerint merge-et használ."
             ]
           }
         },
@@ -1394,7 +1439,7 @@ exports.level = {
               "Mi történne, ha `git pull`-t használnánk helyette?"
             ],
             "afterMarkdowns": [
-              "Ugyanaz! Ez nagyon egyértelművé teszi, hogy a `git pull` lényegében a `git fetch` és az utána következő ág merge-lésének rövidítése."
+              "Ugyanaz! Ebből egyértelműen látható, hogy a `git pull` lényegében a `git fetch`, majd az imént lekért ág merge-ének rövidítése. (A valódi git 2.34+-ban, amikor az ágak eltértek egymástól, ez egyenértékű a `git pull --no-rebase`-szel.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"
@@ -1429,7 +1474,9 @@ exports.level = {
               "* `git merge o/main`",
               "* və s., və s.",
               "",
-              "Əslində, remote dəyişikliklərini *fetch edib* sonra onları *merge etmək* iş axını o qədər geniş yayılıb ki, git hər ikisini eyni anda edən bir əmr təqdim edir! Həmin əmr `git pull`-dur."
+              "Əslində, remote dəyişikliklərini *fetch edib* sonra onları *merge etmək* iş axını o qədər geniş yayılıb ki, git hər ikisini eyni anda edən bir əmr təqdim edir! Həmin əmr `git pull`-dur.",
+              "",
+              "*Qeyd:* Git 2.34 və sonrakı versiyalarda, yerli və uzaq budaqlar ayrılıbsa və pull strategiyası konfiqurasiya edilməyibsə, sadə `git pull` dayanır və onları necə uyğunlaşdırmağı seçməyinizi istəyir. Birləşdirmək üçün `git pull --no-rebase`, rebase üçün `git pull --rebase` istifadə edin. Bu simulyatorda `git pull` standart olaraq birləşmə davranışından istifadə edir."
             ]
           }
         },
@@ -1453,7 +1500,7 @@ exports.level = {
               "Bunun əvəzinə `git pull` işlətsəydik nə olardı?"
             ],
             "afterMarkdowns": [
-              "Eyni şey! Bu, aydın şəkildə göstərməlidir ki, `git pull` mahiyyətcə `git fetch`, ardınca da indicə fetch edilmiş branch-ı merge etməyin qısa yoludur."
+              "Eyni şey! Bu, `git pull`-ın mahiyyət etibarilə `git fetch`-dən sonra yeni götürülmüş filialın birləşdirilməsinin qısaltması olduğunu aydın göstərməlidir. (Həqiqi git 2.34+-da, filiallar ayrıldıqda bu `git pull --no-rebase` ilə ekvivalentdir.)"
             ],
             "command": "git pull",
             "beforeCommand": "git clone; git commit; git fakeTeamwork"

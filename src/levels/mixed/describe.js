@@ -33,9 +33,10 @@ exports.level = {
     "sl_SI": "Git Describe",
     "it_IT": "Git Describe",
     "pl": "Git describe",
-    "tr_TR": "git describe",
+    "tr_TR": "Git Describe",
     "ta_IN": "Git விவரம்",
-    "hu_HU": "Git describe"
+    "hu_HU": "Git describe",
+    "az": "Git Describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -55,14 +56,15 @@ exports.level = {
     "bg": "Просто направете един комит в bugFix, когато сте готови да продължите",
     "ru_RU": "Когда закончишь, просто сделай commit",
     "ko": "다음으로 넘어가고 싶으면 bugFix를 한번 커밋하면 됩니다.",
-    "uk": "Просто зроби один коміт в bugFix коли ти будеш готовий іти далі",
+    "uk": "Просто зробіть один коміт в bugFix коли Ви будете готові іти далі",
     "vi": "Đơn giản là hãy commit một lẩn ở bugFix là xong rồi",
     "sl_SI": "Commitaj enkrat na bugFix, ko boš pripravljen za nadaljevanje.",
     "it_IT": "Fai un commit da bugFix per procedere",
     "pl": "Scommituj raz na bugFix, żeby przejść dalej",
     "ta_IN": "நீங்கள் தொடர தயாராக இருக்கும்போது bugFix இல் ஒருமுறை commit செய்யவும்.",
     "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir.",
-    "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon"
+    "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon",
+    "az": "Davam etməyə hazır olduğunda, sadəcə bugFix üzərində bir dəfə commit et"
   },
   "startDialog": {
     "en_US": {
@@ -1085,9 +1087,9 @@ exports.level = {
             "markdowns": [
               "### Git Describe",
               "",
-              "Через те, що таги є такими чудовими \"орієнтирами\" по коду, git також має команду *описати* (describe) де ти є відносно найближчого \"орієнтира\" (тобто тага). І ця команда називається `git describe`!",
+              "Через те, що таги є такими чудовими \"орієнтирами\" по коду, git також має команду *описати* (describe) де Ви є відносно найближчого \"орієнтира\" (тобто тага). І ця команда називається `git describe`!",
               "",
-              "Git describe допоможе тобі знайти себе після того як ти перестрибнеш на кілька комітів по історії вперед чи назад; це може статися після того як ти закінчив git bisect (пошук-дебаггер) чи коли тебе попросили підійти до колеги, котрий щойно прийшов з відпустки."
+              "Git describe допоможе Вам знайти себе після того як Ви перестрибнете на кілька комітів по історії вперед чи назад; це може статися після того як Ви закінчили git bisect (пошук-дебаггер) чи коли Вас попросили підійти до колеги, котрий щойно прийшов з відпустки."
             ]
           }
         },
@@ -1099,7 +1101,7 @@ exports.level = {
               "",
               "`git describe <посилання>`",
               "",
-              "Де `<посилання>` -- це будь-що, що вказує на конкретний коміт. Якщо ти не вкажеш посилання, git використає поточну локацію (`HEAD`).",
+              "Де `<посилання>` -- це будь-що, що вказує на конкретний коміт. Якщо Ви не вкажеш посилання, git використає поточну локацію (`HEAD`).",
               "",
               "Вивід команди виглядає як:",
               "",
@@ -1132,9 +1134,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ось і все що ти маєш знати про git describe. Спробуй виконати describe для різних місць в дереві комітів щоб набити руку.",
+              "Ось і все що Ви маєте знати про git describe. Спробуйте виконати describe для різних місць в дереві комітів щоб набити руку.",
               "",
-              "Як будеш готовий, просто закоміть щось щоб закінчити цей рівень. Трохи шари :P"
+              "Як будете готові, просто закоміть щось щоб закінчити цей рівень. Трохи шари :P"
             ]
           }
         }
@@ -1477,7 +1479,7 @@ exports.level = {
               "",
               "`git describe <ref>`",
               "",
-              "`<ref>` git'in bir commit'e çözümleyebileceği herhangi bir şeydir. Eğer bir ref belirtmezseniz, git şu an nereye checkout yapmışsanız (genellikle `HEAD`) onu kullanır.",
+              "`<ref>` git'in bir commit'e çözümleyebileceği herhangi bir şeydir. Eğer bir ref belirtmezseniz, git şu anda checkout yapmış olduğunuz yeri (`HEAD`) kullanır.",
               "",
               "Komutun çıktısı şu şekilde görünür:",
               "",
@@ -1512,7 +1514,7 @@ exports.level = {
             "markdowns": [
               "Git describe hakkında bilmeniz gerekenler bu kadar! Komuta alışmak için bu seviyedeki birkaç yeri tanımlamayı deneyin.",
               "",
-              "Hazır olduğunuzda, bir kez commit yaparak seviyesi tamamlayabilirsiniz. Küçük bir jest bizden size :P"
+              "Hazır olduğunuzda, bir kez commit yaparak seviyeyi tamamlayabilirsiniz. Küçük bir jest bizden size :P"
             ]
           }
         }
@@ -1576,6 +1578,69 @@ exports.level = {
               "Ennyi az egész a git describe-ról! Próbáld ki a parancsot a szint néhány pontján, hogy megszokd a használatát.",
               "",
               "Ha készen állsz, csak commitolj egyszer a szint befejezéséhez. Ingyen adjuk :P"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Tag-lər kod bazasında çox yaxşı \"lövbər\" rolunu oynadığı üçün, git-in ən yaxın \"lövbərə\" (yəni tag-a) nisbətən harada olduğunu *təsvir edən* bir komandası var. Və bu komanda `git describe` adlanır!",
+              "",
+              "Git describe, tarixçədə çoxlu commit irəli və ya geri hərəkət etdikdən sonra özünü oriyentasiya etməyə kömək edir; bu, bir git bisect (debaq axtarışı) başa çatdıqdan sonra və ya təzəcə məzuniyyətdən qayıdan həmkarının kompüterinin arxasında oturanda baş verə bilər."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe aşağıdakı formadadır:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Burada `<ref>` git-in commit-ə çevirə biləcəyi istənilən şeydir. Əgər ref göstərməsən, git sadəcə hazırda checkout etdiyin yeri (`HEAD`) istifadə edir.",
+              "",
+              "Komandanın nəticəsi belə görünür:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "Burada `tag` tarixçədəki ən yaxın əcdad tag-dır, `numCommits` həmin tag-dan neçə commit uzaqda olduğunu göstərir, `<hash>` isə təsvir olunan commit-in hash-idir."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl tez bir nümunəyə baxaq. Aşağıdakı ağac üçün:"
+            ],
+            "afterMarkdowns": [
+              "`git describe main` komandası bunu çıxaracaq:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "`git describe side` isə bunu çıxaracaq:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe haqqında bilməli olduğun demək olar ki, hər şey budur! Bu bölümdəki bir neçə yerini təsvir etməyə çalış ki, komandanı hiss edəsən.",
+              "",
+              "Hazır olanda isə, bölümü bitirmək üçün sadəcə bir dəfə commit et. Bunu sənə hədiyyə edirik :P"
             ]
           }
         }

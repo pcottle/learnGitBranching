@@ -1,6 +1,40 @@
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var VisBase = require('../visuals/visBase').VisBase;
 
+var FILE_CHIP_HEIGHT = 18;
+var FILE_CHIP_GAP = 4;
+var FILE_CHIP_NODE_GAP = 8;
+var FILE_CHIP_CHAR_WIDTH = 7;
+var FILE_CHIP_PAD = 7;
+var MAX_FILE_CHARS = 18;
+var FILE_FONT = 'Menlo, Monaco, Consolas, \'Droid Sans Mono\', monospace';
+
+function truncateFile(path) {
+  if (path.length <= MAX_FILE_CHARS) {
+    return path;
+  }
+  return '\u2026' + path.slice(-(MAX_FILE_CHARS - 1));
+}
+
+function getChangedFileChipLayout(paths, nodePos, nodeRadius) {
+  var sorted = (paths || []).slice().sort();
+  var totalHeight = sorted.length * FILE_CHIP_HEIGHT +
+    Math.max(0, sorted.length - 1) * FILE_CHIP_GAP;
+  return sorted.map(function(path, index) {
+    var label = truncateFile(path);
+    var width = label.length * FILE_CHIP_CHAR_WIDTH + FILE_CHIP_PAD * 2;
+    return {
+      path: path,
+      label: label,
+      x: nodePos.x - nodeRadius - FILE_CHIP_NODE_GAP - width,
+      y: nodePos.y - totalHeight / 2 +
+        index * (FILE_CHIP_HEIGHT + FILE_CHIP_GAP),
+      width: width,
+      height: FILE_CHIP_HEIGHT
+    };
+  });
+}
+
 class VisNode extends VisBase {
   constructor(options) {
     var defaults = {
@@ -13,6 +47,7 @@ class VisNode extends VisBase {
       pos: null,
       radius: null,
       commit: null,
+      fileChips: [],
       animationSpeed: GRAPHICS.defaultAnimationTime,
       animationEasing: GRAPHICS.defaultEasing,
       fill: GRAPHICS.defaultNodeFill,
@@ -77,6 +112,11 @@ class VisNode extends VisBase {
   toFront() {
     this.get('circle').toFront();
     this.get('text').toFront();
+    // chips last so a label mid-flight never hides behind its own circle
+    this.get('fileChips').forEach(function(chip) {
+      chip.rect.toFront();
+      chip.text.toFront();
+    });
   }
 
   getOpacity() {
@@ -130,6 +170,7 @@ class VisNode extends VisBase {
     attributes.circle = destAttributes.circle;
     attributes.text = destAttributes.text;
     this.animateToAttr(attributes, speed, easing);
+    this.animateChangedFilePositions(speed, easing);
   }
 
   highlightTo(visObj, speed, easing) {
@@ -149,6 +190,7 @@ class VisNode extends VisBase {
   animateUpdatedPosition(speed, easing) {
     var attr = this.getAttributes();
     this.animateToAttr(attr, speed, easing);
+    this.animateChangedFilePositions(speed, easing);
   }
 
   animateFromAttrToAttr(fromAttr, toAttr, speed, easing) {
@@ -161,6 +203,7 @@ class VisNode extends VisBase {
       return;
     }
     this.animateToAttr(snapShot[this.getID()], speed, easing);
+    this.animateChangedFilePositions(speed, easing);
   }
 
   setAttr(attr, instant, speed, easing) {
@@ -325,9 +368,18 @@ class VisNode extends VisBase {
         opacity: opacity
       });
     }, this);
+    this.get('fileChips').forEach(function(chip) {
+      chip.rect.attr({ opacity: opacity });
+      chip.text.attr({ opacity: opacity });
+    });
   }
 
   remove() {
+    this.get('fileChips').forEach(function(chip) {
+      chip.rect.remove();
+      chip.text.remove();
+    });
+    this.set('fileChips', []);
     this.removeKeys(['circle'], ['text']);
     var text = this.get('text');
     if (text) {
@@ -409,8 +461,103 @@ class VisNode extends VisBase {
     return paper.text(textPos.x, textPos.y, String(this.get('id')));
   }
 
-  genGraphics() {
-    var paper = this.gitVisuals.paper;
+  getChangedFileLayout() {
+    return getChangedFileChipLayout(
+      this.get('commit').get('changedFiles'),
+      this.getScreenCoords(),
+      this.getRadius()
+    );
+  }
+
+  genChangedFileGraphics(paper, hidden) {
+    var clickable = !this.get('gitVisuals').options.noClick;
+    var commandStr = 'git show ' + this.get('commit').get('id');
+    var Main = require('../app');
+    var chips = this.getChangedFileLayout().map(function(layout) {
+      var rect = paper.rect(
+        layout.x,
+        layout.y,
+        layout.width,
+        layout.height,
+        5
+      ).attr({
+        fill: '#2ECC40',
+        stroke: '#FFFFFF',
+        'stroke-width': 1.5,
+        opacity: hidden ? 0 : this.getOpacity()
+      });
+      var text = paper.text(
+        layout.x + layout.width / 2,
+        layout.y + layout.height / 2,
+        layout.label
+      ).attr({
+        'font-size': 10,
+        'font-family': FILE_FONT,
+        fill: '#111111',
+        opacity: hidden ? 0 : this.getOpacity()
+      });
+
+      [rect, text].forEach(function(rObj) {
+        $(rObj.node).attr('title', layout.path);
+        if (clickable) {
+          $(rObj.node).css('cursor', 'pointer');
+          rObj.click(function() {
+            Main.getEventBaton().trigger('commandSubmitted', commandStr);
+          });
+        }
+      });
+      return { path: layout.path, rect: rect, text: text };
+    }, this);
+    this.set('fileChips', chips);
+  }
+
+  animateChangedFilePositions(speed, easing, extraAttr) {
+    speed = speed !== undefined ? speed : this.get('animationSpeed');
+    easing = easing || this.get('animationEasing');
+    extraAttr = extraAttr || {};
+    var chipsByPath = {};
+    this.get('fileChips').forEach(function(chip) {
+      chipsByPath[chip.path] = chip;
+    });
+    this.getChangedFileLayout().forEach(function(layout) {
+      var chip = chipsByPath[layout.path];
+      if (!chip) {
+        return;
+      }
+      chip.rect.stop().animate(Object.assign({
+        x: layout.x,
+        y: layout.y,
+        width: layout.width,
+        height: layout.height
+      }, extraAttr), speed, easing);
+      chip.text.stop().animate(Object.assign({
+        x: layout.x + layout.width / 2,
+        y: layout.y + layout.height / 2
+      }, extraAttr), speed, easing);
+    });
+  }
+
+  animateChangedFileOpacity(opacity, speed) {
+    this.get('fileChips').forEach(function(chip) {
+      chip.rect.stop().animate({ opacity: opacity }, speed);
+      chip.text.stop().animate({ opacity: opacity }, speed);
+    });
+  }
+
+  showChangedFiles(speed) {
+    // move and reveal in ONE tween -- a separate opacity animation would
+    // stop() an in-flight position animation and strand the chips wherever
+    // the canvas last laid them out
+    this.animateChangedFilePositions(
+      speed !== undefined ? speed : 150,
+      undefined,
+      { opacity: this.getOpacity() }
+    );
+  }
+
+  genGraphics(paper, options) {
+    options = options || {};
+    paper = paper || this.gitVisuals.paper;
     var circle = this.makeCircle(paper);
     var text = this.makeText(paper);
 
@@ -423,9 +570,11 @@ class VisNode extends VisBase {
 
     this.set('circle', circle);
     this.set('text', text);
+    this.genChangedFileGraphics(paper, !!options.hideChangedFiles);
 
     this.attachClickHandlers();
   }
 }
 
 exports.VisNode = VisNode;
+exports.getChangedFileChipLayout = getChangedFileChipLayout;

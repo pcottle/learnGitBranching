@@ -59,16 +59,10 @@ for (const key of allStringKeys) {
 
 // ── 2. Check level files ─────────────────────────────────────────────────────
 
-const levelDirs = [
-  'src/levels/intro',
-  'src/levels/rampup',
-  'src/levels/move',
-  'src/levels/mixed',
-  'src/levels/advanced',
-  'src/levels/rebase',
-  'src/levels/remote',
-  'src/levels/remoteAdvanced',
-];
+const levelsRoot = path.join(ROOT, 'src/levels');
+const levelDirs = fs.readdirSync(levelsRoot, { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .map(entry => path.join('src/levels', entry.name));
 
 let totalLevels = 0;
 let translatedLevels = 0;

@@ -5,12 +5,13 @@
   "homepage": "https://learngitbranching.js.org",
   "packageManager": "yarn@1.22.22",
   "engines": {
-    "node": ">=14.20.0 <15.0.0"
+    "node": ">=14.20.0"
   },
   "author": "Peter Cottle <petermcottle@gmail.com>",
   "license": "MIT",
   "scripts": {
     "preinstall": "node scripts/check-package-manager.js",
+    "build": "gulp build",
     "dev": "vite",
     "prepare": "gulp fastBuild",
     "test": "gulp test",

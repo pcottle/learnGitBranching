@@ -5,6 +5,7 @@ var Main = require('../app');
 var React = require('react');
 
 var log = require('../log');
+var intl = require('../intl');
 
 class IntlHelperBarView extends React.Component{
 
@@ -182,6 +183,7 @@ class IntlHelperBarView extends React.Component{
       }.bind(this)
     }, {
       icon: 'fa-solid fa-right-from-bracket',
+      text: intl.str('helper-bar-back'),
       onClick: function() {
         this.props.onExit();
       }.bind(this)

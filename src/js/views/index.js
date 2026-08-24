@@ -9,6 +9,7 @@ var KeyboardListener = require('../util/keyboard').KeyboardListener;
 var debounce = require('../util/debounce');
 var throttle = require('../util/throttle');
 var { createEvents } = require('../util/eventEmitter');
+var sharing = require('../util/sharing');
 
 // Base View class - replacement for Backbone.View
 class BaseView {
@@ -313,7 +314,8 @@ class ModalTerminal extends ContainedBase {
     this.navEvents = options.events || createEvents();
     this.container = new ModalView();
     this.JSON = {
-      title: options.title
+      title: options.title,
+      closeWindowText: intl.str('close-window')
     };
 
     this.render();
@@ -471,7 +473,7 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
     }
 
     markdown = markdown + '\n\n';
-    var extraHTML;
+    var extraHTML = '';
     if (options.nextLevel) {
       markdown = markdown + intl.str('finish-dialog-next', {nextLevel: nextLevelName});
     } else {
@@ -479,6 +481,60 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
         ' (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ (ﾉ^_^)ﾉ' +
         '</p>';
     }
+
+    var currentLevelName = options.levelName || '';
+    var escapeAttr = function(url) {
+      return url.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    };
+    var shareIcons = {
+      twitter: '<svg class="share-btn-icon" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817' +
+        'L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833' +
+        'L7.084 4.126H5.117z"/></svg>',
+      linkedin: '<svg class="share-btn-icon" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0' +
+        '-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 ' +
+        '3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063' +
+        '-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 ' +
+        '0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0' +
+        'H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 ' +
+        '24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>',
+      facebook: '<svg class="share-btn-icon" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 ' +
+        '10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 ' +
+        '4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925' +
+        '-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 ' +
+        '24 12.073z"/></svg>'
+    };
+    var shareButton = function(key, url, label) {
+      return '<button class="share-btn share-btn-' + key + '"' +
+        ' data-share-url="' + escapeAttr(url) + '"' +
+        ' aria-label="' + escapeAttr(label) + '">' +
+        shareIcons[key] +
+        '<span>' + label + '</span>' +
+      '</button>';
+    };
+
+    extraHTML += '<div class="share-progress-section">' +
+      '<p class="share-progress-label">' + intl.str('share-progress') + '</p>' +
+      '<div class="share-progress-buttons">' +
+      shareButton(
+        'twitter',
+        sharing.getTwitterUrl(currentLevelName),
+        intl.str('share-progress-twitter')
+      ) +
+      shareButton(
+        'linkedin',
+        sharing.getLinkedInUrl(currentLevelName),
+        intl.str('share-progress-linkedin')
+      ) +
+      shareButton(
+        'facebook',
+        sharing.getFacebookUrl(currentLevelName),
+        intl.str('share-progress-facebook')
+      ) +
+      '</div>' +
+      '</div>';
 
     options = Object.assign(
       {},
@@ -490,6 +546,18 @@ class NextLevelConfirm extends ConfirmCancelTerminal {
     );
 
     super(options);
+
+    // Wire up share button clicks via event delegation on the modal container
+    var modalEl = this.modalAlert && this.modalAlert.$el;
+    if (modalEl) {
+      modalEl.on('click', '[data-share-url]', function(e) {
+        e.preventDefault();
+        var url = $(e.currentTarget).attr('data-share-url');
+        if (url) {
+          sharing.openShareWindow(url);
+        }
+      });
+    }
   }
 }
 
@@ -580,7 +648,8 @@ class CanvasTerminalHolder extends BaseView {
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
-      text: options.text || intl.str('hide-goal')
+      text: options.text || intl.str('hide-goal'),
+      closeWindowText: intl.str('close-window')
     };
 
     this.render();

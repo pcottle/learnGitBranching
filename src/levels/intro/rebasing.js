@@ -1143,7 +1143,7 @@ exports.level = {
             "markdowns": [
               "## Git Rebase",
               "",
-              "Інший спосіб комбінування змін з різних бранчів називається *rebase*. Rebase по суті бере кілька комітів , \"копіює\" їх, й кладе їх в інше місце.",
+              "Інший спосіб комбінування змін з різних гілок називається *rebase*. Rebase по суті бере кілька комітів , \"копіює\" їх, й кладе їх в інше місце.",
               "",
               "Це може звучати трохи незрозуміло, але основна перевага rebase в тому, що його використовують щоб створити зручну лінійну послідовність комітів. Коміт лог та історія будуть виглядати набагато чистіша, якщо користуватися лише rebase (а не merge)",
               "",
@@ -1155,7 +1155,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ми знову маємо дві гілки; зауваж, що наразі вибрана гілка bugFix (вважай зірочку)",
+              "Ми знову маємо дві гілки; зауважте, що наразі вибрана гілка bugFix (вважай зірочку)",
               "",
               "Ми хочемо перемістити наші зміни з гілки bugFix прямо до змін з гілки main. Тоді це буде виглядати наче ці зміни були додані одна за одною, хоча насправді вони були додані одночасно.",
               "",
@@ -1189,11 +1189,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти цей рівень, зроби наступне:",
+              "Щоб пройти цей рівень, зробіть наступне:",
               "",
-              "* Зачекауть (checkout) новий бранч з назвою `bugFix`",
-              "* Зроби один коміт",
-              "* Повернись на main й зроби ще один коміт",
+              "* Виберіть (checkout) нову гілку з назвою `bugFix`",
+              "* Зробіть один коміт",
+              "* Поверніться на main й зробіть ще один коміт",
               "* Зачекауть bugFix знову й заребейсь його на main",
               "",
               "Нехай щастить!"
@@ -1564,9 +1564,9 @@ exports.level = {
               "Hadi bunu `git rebase` komutuyla yapalım."
             ],
             "afterMarkdowns": [
-              "Harika! Şimdi bugFix branch'indeki çalışmamız doğrudan main'in üstünde ve güzel bir doğrusal commit dizimiz var.",
+              "Harika! Artık bugFix branch'imizdeki çalışma, main'i işaret ettiği için \"main'in üstüne\" yığılmış durumda. Görselleştirmemizde ise commit ağaçlarımız aşağı doğru aktığı için main'in altında gösteriliyor.",
               "",
-              "C3 commit'inin hala bir yerde bulunduğunu (ağaçta soluk bir görünümde olduğunu) ve C3'ün main üzerine yeniden temellendiği (rebase) ve bir \"kopya\" olduğunu unutmayın.",
+              "C3 commit'inin hâlâ bir yerlerde durduğuna (ağaçta soluk görünüyor) ve C3' commit'inin ise main üzerine rebase ettiğimiz \"kopya\" olduğuna dikkat edin.",
               "",
               "Tek sorun, main'in henüz güncellenmemiş olması, hadi şimdi bunu yapalım..."
             ],
@@ -1581,7 +1581,7 @@ exports.level = {
               "Şu anda `main` branch'inde bulunuyoruz. Şimdi `bugFix` branch'ini yeniden temel alalım..."
             ],
             "afterMarkdowns": [
-              "İşte! main, bugFix'in atsı olduğu için, git sadece main dalının referansını tarihte ileri taşıdı."
+              "İşte! `main`, `bugFix`'in atası olduğu için, git sadece `main` dalının referansını geçmişte ileri taşıdı."
             ],
             "command": "git rebase bugFix",
             "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"

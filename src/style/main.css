@@ -488,6 +488,28 @@ div.controls div.box.flex1 div.close {
   background-color: #fb625f;
 }
 
+div.controls div.box.flex1 div.close[data-tooltip]:hover:after {
+  background: #222;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  content: attr(data-tooltip);
+  display: block;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+  height: auto;
+  left: -4px;
+  line-height: 1.2;
+  padding: 5px 7px;
+  pointer-events: none;
+  position: absolute;
+  text-indent: 0;
+  top: 18px;
+  white-space: nowrap;
+  z-index: 100;
+}
+
 div.controls div.box.flex1 div.minimize {
   background-color: #f9c57a;
 }
@@ -1149,6 +1171,11 @@ div.gitDemonstrationView {
   overflow-y: hidden;
 }
 
+.gitDemonstrationView > div.visHolder > div.visHolderInside {
+  position: relative;
+  overflow: hidden;
+}
+
 .markdownGrabber div.markdownGrabberPreview,
 .gitDemonstrationView > div.visHolder {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
@@ -1218,10 +1245,57 @@ div.gitDemonstrationView {
   margin: 0 60px;
 }
 
-.leftRightView div.exit {
+/* flip only the icon (not the whole button) so the
+   hover label text does not render mirrored */
+.leftRightView div.exit i {
+  display: inline-block;
   -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
   -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
   -ms-transform: matrix(-1, 0, 0, 1, 0, 0);
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.leftRightView button {
+  position: relative;
+}
+
+/* the label doubles as the screen-reader text; it stays
+   positioned out of flow at all times and only fades in,
+   so revealing it never shifts the surrounding layout */
+.leftRightView span.hoverLabel {
+  clip: auto;
+  clip-path: none;
+  overflow: visible;
+  width: auto;
+  height: auto;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+  margin-bottom: 6px;
+  /* same look as the window-close data-tooltip */
+  background: #222;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #fff;
+  text-shadow: none;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.2s ease-in;
+  -moz-transition: opacity 0.2s ease-in;
+  transition: opacity 0.2s ease-in;
+}
+
+.leftRightView button:hover span.hoverLabel,
+.leftRightView button:focus-visible span.hoverLabel {
+  opacity: 1;
 }
 
 .leftRightView div.exit,
@@ -1377,7 +1451,7 @@ div.gitDemonstrationView {
   opacity: 0.4;
 }
 
-.biteReadImage {
+.upsellImage {
   position: fixed;
   bottom: 45px;
   left: 50%;
@@ -1385,7 +1459,7 @@ div.gitDemonstrationView {
   z-index: 29;
 }
 
-.biteReadImage img {
+.upsellImage img {
   max-width: 325px;
   max-height: 190px;
   width: auto;
@@ -1397,7 +1471,7 @@ div.gitDemonstrationView {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-.biteReadUpsell {
+.upsell {
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
@@ -1405,13 +1479,14 @@ div.gitDemonstrationView {
   z-index: 30;
   background: rgba(18, 24, 31, 0.97);
   border-top: 1px solid #2e3a46;
+  border-radius: 10px 10px 0 0;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
   padding: 12px 20px;
   text-align: center;
   max-width: 70%;
 }
 
-.biteReadUpsellDismiss {
+.upsellDismiss {
   position: absolute;
   right: 16px;
   top: 50%;
@@ -1423,18 +1498,18 @@ div.gitDemonstrationView {
   transition: color 0.15s ease;
 }
 
-.biteReadUpsellDismiss:hover {
+.upsellDismiss:hover {
   color: #dce7f0;
 }
 
-.biteReadUpsellContent {
+.upsellContent {
   display: inline-block;
   max-width: 600px;
   margin: 0 auto;
   padding: 0 40px;
 }
 
-.biteReadUpsellContent p {
+.upsellContent p {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
@@ -1443,20 +1518,84 @@ div.gitDemonstrationView {
 }
 
 @media (max-width: 600px) {
-  .biteReadUpsell {
+  .upsell {
     padding: 10px 16px;
   }
 
-  .biteReadUpsellContent {
+  .upsellContent {
     padding: 0 32px;
   }
 
-  .biteReadUpsellContent p {
+  .upsellContent p {
     font-size: 13px;
   }
 
-  .biteReadUpsellDismiss {
+  .upsellDismiss {
     right: 12px;
     font-size: 18px;
   }
+}
+
+/* Share progress buttons on level completion dialog */
+.share-progress-section {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.share-progress-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8a8a8a;
+  margin-bottom: 10px;
+}
+
+.share-progress-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 16px;
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+  font-size: 12px;
+  color: #b8b8b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.share-btn-icon {
+  display: block;
+  width: 13px;
+  height: 13px;
+  fill: currentColor;
+}
+
+.share-btn-twitter:hover {
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.share-btn-linkedin:hover {
+  color: #4db3e6;
+  border-color: #4db3e6;
+  background: rgba(0, 119, 181, 0.15);
+}
+
+.share-btn-facebook:hover {
+  color: #6ea9f7;
+  border-color: #6ea9f7;
+  background: rgba(24, 119, 242, 0.15);
 }

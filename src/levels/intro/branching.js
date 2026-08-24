@@ -47,7 +47,7 @@ exports.level = {
     "ro": "Creează o ramură nouă cu \"git branch [nume-ramură]\" și treci la ea cu \"git checkout [nume-ramură]\"",
     "bg": "Създайте нов клон, използвайки \"git branch <име-на-клона>\" и преминете към него с \"git checkout <име-на-клона>\"",
     "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
-    "uk": "Створи нову гілку за допомогою \"git branch [ім’я]\" й перейди на неї за допомогою \"git checkout [ім’я]\"",
+    "uk": "Створіть нову гілку за допомогою \"git branch [ім’я]\" й перейдіть на неї за допомогою \"git checkout [ім’я]\"",
     "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
     "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
     "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
@@ -412,7 +412,7 @@ exports.level = {
             "markdowns": [
               "*Hinweis: In Git-Version 2.23 wurde der neue Befehl `git switch` eingeführt. Er konzentriert sich auf das Wechseln von Branches, während `git checkout` je nach Argument verschiedene Aufgaben übernimmt. Die Lektionen hier verwenden weiterhin `checkout`, damit die verwendeten Befehle durchgehend einheitlich bleiben. ",
               "Du kannst `git switch` aber trotzdem in dieser App ausprobieren und auch ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">hier mehr erfahren</a>.* "
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\" rel=\"noopener noreferrer\">hier mehr erfahren</a>.* "
             ]
           }
         },
@@ -420,9 +420,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Cool! Jetzt bist du soweit, selbst Branches anzulegen. Wenn dieses Fenster geschlossen wurde, leg einen neuen Branch namens `bugFix` an und schalte auf diesen um.",
+              "Cool! Jetzt bist du so weit, selbst Branches anzulegen. Wenn dieses Fenster geschlossen wurde, leg einen neuen Branch namens `bugFix` an und schalte auf diesen um.",
               "",
-              "Übrigens, hier ein Tipp: Wenn du einen neuen Branch erstellen UND direkt auf diesen wechseln willst, kannst du einfach `git checkout -b [deinbranchname]` eingeben."
+              "Übrigens, hier ein Tipp: Wenn du einen neuen Branch erstellen UND direkt auf diesen wechseln willst, kannst du einfach `git checkout -b <deinbranchname>` eingeben."
             ]
           }
         }
@@ -1548,7 +1548,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисни кнопку внизу."
+              "Давайте спробуємо додати якусь інформацію до цієї нової гілки. Натисніть кнопку внизу."
             ],
             "afterMarkdowns": [
               "От халепа! Гілка `main` просунулася вперед, але гілка `newImage` — ні! Це тому, що ми були не \"на новій гілці\". Через це зірочка (*) була поруч з  `main`."
@@ -1580,8 +1580,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Тепер ти готовий до створення гілок. Як тільки це вікно пропаде, ",
-              "зроби нову гілку з назвою `bugFix` та перейди на неї."
+              "Тепер Ви готовий до створення гілок. Як тільки це вікно пропаде, ",
+              "зробіть нову гілку з назвою `bugFix` та перейдіть на неї."
             ]
           }
         }
@@ -2055,12 +2055,12 @@ exports.level = {
               "Git'teki branch'ler (dallar), son derece hafif ve sadece belirli bir commit'e işaret eden işaretçilerdir - fazlası değil. -- İşte bu nedenle birçok Git tutkunu şunu söyler:",
               "",
               "```",
-              "erken branch'le, sık sık branchle",
+              "erken branch'le, sık sık branch'le",
               "```",
               "",
               "Git'te birçok branch oluşturmanın depolama/bellek açısından herhangi bir fazlalığı yoktur, bu nedenle işinizi mantıklı bir şekilde bölmek daha kolay ve akıllıca olacaktır.",
               "",
-              "Branch'leri ve commit'leri birleştirmeye başladığımızda, bu iki özelliğin nasıl bir araya geldiğini göreceğiz. Şimdilik sadece unutmayın ki bir branch, temelde \"Bu commit'te yaptığım çalımanının ve diğer tüm üst düzey commit'leri dahil etmek istiyorum.\" der."
+              "Branch'leri ve commit'leri birleştirmeye başladığımızda, bu iki özelliğin nasıl bir araya geldiğini göreceğiz. Şimdilik sadece unutmayın ki bir branch, temelde \"Bu commit'in ve onun bütün ata commit'lerinin çalışmasını dahil etmek istiyorum.\" der."
             ]
           }
         },

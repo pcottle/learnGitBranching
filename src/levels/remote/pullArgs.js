@@ -24,7 +24,7 @@ exports.level = {
     "sl_SI": "Pull argumenti",
     "pl": "Argumenty pull",
     "it_IT": "Parametri di git pull",
-    "tr_TR": "Git pull komutunun parametreleri",
+    "tr_TR": "Git pull argümanları",
     "hu_HU": "Pull argumentumok",
     "az": "Pull arqumentləri"
   },
@@ -45,7 +45,7 @@ exports.level = {
     "bg": "Запомнете, че можете да създавате нови локални клонове с аргументи за fetch/pull",
     "ru_RU": "Напоминаю, что новые ветки можно создавать и с помощью команд fetch/pull",
     "ko": "fetch/pull 과 인자들로 새 로컬 브랜치를 생성할수 있다는것을 기억하세요.",
-    "uk": "Пам'ятай, що ти можеш створювати нові гілки, використовуючи fetch/pull з аргументами",
+    "uk": "Пам'ятайте, що Ви можете створювати нові гілки, використовуючи fetch/pull з аргументами",
     "vi": "Nhớ rằng, bạn có thể tạo nhánh cục bộ mới với tham số của fetch/pull",
     "sl_SI": "Zapomni si, da lahko ustvariš nove lokalne branche s fetch/pull argumenti.",
     "pl": "Pamiętaj, że za pomocą argumentów fetch/pull możesz tworzyć nowe lokalne gałęzie",
@@ -1182,7 +1182,7 @@ exports.level = {
             "markdowns": [
               "## Аргументи git pull",
               "",
-              "Зараз, коли ти знаєш майже *все*, що можна знати про аргументи для `git fetch` і `git push`, дійсно майже нема чого розповідати про git pull :)",
+              "Зараз, коли Ви знаєте майже *все*, що можна знати про аргументи для `git fetch` і `git push`, дійсно майже нема чого розповідати про git pull :)",
               "",
               "Це тому, що git pull, зрештою, *просто* зручне об'єднання fetch і merge. Його можна собі уявляти як git fetch і git merge виконані з *однаковими* аргументами.",
               "",
@@ -1206,7 +1206,7 @@ exports.level = {
               "",
               "`git fetch origin bar:bugFix; git merge bugFix`",
               "",
-              "Бачиш? git pull -- це просто зручне скорочення для fetch + merge. А все, про що дбає git pull -- це те, куди в результаті підуть коміти (а про це йому говорить аргумент `destination`).",
+              "Бачите? git pull -- це просто зручне скорочення для fetch + merge. А все, про що дбає git pull -- це те, куди в результаті підуть коміти (а про це йому говорить аргумент `destination`).",
               "",
               "Розгляньмо демонстрацію:"
             ]
@@ -1219,7 +1219,7 @@ exports.level = {
               "Якщо ми вказуємо місце призначення для fetch, fetch виконується як звичайно, але мердж відбудеться з тим, що ми щойно стягнули"
             ],
             "afterMarkdowns": [
-              "От бачиш, вказавши `main`, ми звантажили коміти в `o/main`, як завжди. Потім змерджили `o/main` в поточну гілку."
+              "От бачите, вказавши `main`, ми звантажили коміти в `o/main`, як завжди. Потім змерджили `o/main` в поточну гілку."
             ],
             "command": "git pull origin main",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -1242,7 +1242,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Добре, для завершення спробуй досягти стану репозиторію, показаного на візуалізації. Треба буде звантажити відсутні коміти, створити нові гілки і змерджити їх в інші гілки, але не надто великою кількістю команд! :P"
+              "Добре, для завершення спробуйте досягти стану репозиторію, показаного на візуалізації. Треба буде завантажити відсутні коміти, створити нові гілки і змерджити їх в інші гілки, але не надто великою кількістю команд! :P"
             ]
           }
         }
@@ -1552,7 +1552,7 @@ exports.level = {
             "markdowns": [
               "## Git pull argümanları",
               "",
-              "Artık `git fetch` ve `git push` için argümanlarla ilgili bilmeniz gereken hemen hemen *her şey* öğrendiniz, geriye neredeyse hiçbir şey kalmadı :)",
+              "Artık `git fetch` ve `git push` argümanları hakkında bilinmesi gereken hemen hemen *her şeyi* öğrendiniz; `git pull` için anlatılacak neredeyse hiçbir şey kalmadı :)",
               "",
               "Çünkü git pull, nihayetinde *gerçekten* sadece bir fetch ve ardından alınan değişikliklerin birleştirilmesi için kullanılan kısa bir komuttur. Bunu, `git fetch` komutunu *aynı* argümanlarla çalıştırmak ve sonra bu commitlerin nereye yerleştiğine bakarak birleştirmek gibi düşünebilirsiniz.",
               "",
@@ -1589,7 +1589,7 @@ exports.level = {
               "Eğer fetch edilecek yeri belirtirsek, her şey daha önce fetch ile olduğu gibi gerçekleşir, ancak yeni alınan değişiklikleri birleştiririz."
             ],
             "afterMarkdowns": [
-              "Görüyorsunuz! `main`'i belirterek `o/main` üzerindeki commitleri normal şekilde indirdik. Sonra `o/main`'i şu anda üzerinde çalıştığımız konumla birleştirdik, bu da *yerel main branşı* değil. Bu nedenle aslında git pull'ü farklı konumlardan (aynı argümanlarla) birden fazla kez çalıştırmak, birden fazla branşı güncellemek için mantıklı olabilir."
+              "Görüyorsunuz! `main`'i belirterek commit'leri normal şekilde `o/main` üzerine indirdik. Sonra `o/main`'i şu anda checkout yaptığımız konuma merge ettik; bu konum yerel `main` dalı *değil*. Bu nedenle birden fazla dalı güncellemek için `git pull`'ü farklı konumlardan (aynı argümanlarla) birden fazla kez çalıştırmak aslında mantıklı olabilir."
             ],
             "command": "git pull origin main",
             "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
@@ -1612,7 +1612,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tamam, bitirmek için hedef görselleştirmesinin durumuna ulaşın. Bazı commitleri indirmeniz, yeni branşlar oluşturmanız ve bu branşları diğer branşlara birleştirmeniz gerekecek, ancak bu çok fazla komut almaz :P"
+              "Tamam, bitirmek için hedef görselleştirmesindeki duruma ulaşın. Bazı commit'leri indirmeniz, yeni branch'ler oluşturmanız ve bu branch'leri diğer branch'lere merge etmeniz gerekecek, ama çok fazla komut gerektirmemeli :P"
             ]
           }
         }

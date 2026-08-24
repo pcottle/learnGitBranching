@@ -15,7 +15,9 @@ exports.levelSequences = {
   ],
   move: [
     require('./rampup/cherryPick').level,
-    require('./rampup/interactiveRebase').level
+    require('./rampup/interactiveRebase').level,
+    require('./workingDir/staging').level,
+    require('./workingDir/restore').level
   ],
   mixed: [
     require('./mixed/grabbingOneCommit').level,
@@ -254,7 +256,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'ro': "Iar tu credeai că a fi un dictator binevoitor ar fi distractiv...",
       'bg': "И си мислеше, че да си благосклонен диктатор ще е забавно...",
       'ru_RU': 'Весело было быть всесильным мудрым правителем...',
-      'uk'   : 'А ти думав, що бути всесильним диктатором весело...',
+      'uk'   : 'А Ви думали, що бути всесильним диктатором весело...',
       'ko'   : '상급자는 편할줄 알았겠지만...',
       'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui...',
       'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
@@ -266,7 +268,7 @@ var sequenceInfo = exports.sequenceInfo = {
   },
   move: {
     displayName: {
-      'en_US': 'Moving Work Around',
+      'en_US': 'Moving and Staging Work',
       'fa': 'جابجایی کارها',
       'de_DE': 'Code umherschieben',
       'fr_FR': 'Déplacer le travail',
@@ -288,10 +290,10 @@ var sequenceInfo = exports.sequenceInfo = {
       'pl'   : 'Przenoszenie pracy',
       'it_IT': "Spostare il lavoro in giro",
       'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது',
-      'tr_TR': 'İşi yürüt'
+      'tr_TR': 'Çalışmayı Taşımak ve Stage\'lemek'
     },
     about: {
-      'en_US': '"Git" comfortable with modifying the source tree :P',
+      'en_US': 'Move commits around and choose exactly which file changes belong together',
       'fa': 'با تغییر درخت منبع راحت باشید :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Soyez à l\'aise pour modifier l\'arbre Git',
@@ -313,7 +315,7 @@ var sequenceInfo = exports.sequenceInfo = {
       'pl'   : 'Git dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
       'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
       'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
-      'tr_TR': '"Git" kaynak ağacını (source tree) değiştirirken rahat olun :P '
+      'tr_TR': 'Commit\'leri taşıyın ve hangi dosya değişikliklerinin birlikte gideceğine tam olarak siz karar verin'
     }
   },
   mixed: {

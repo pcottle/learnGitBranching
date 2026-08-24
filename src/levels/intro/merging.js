@@ -47,7 +47,7 @@ exports.level = {
     "ro": "Nu uita să faci commit în ordinea specificată (bugFix înainte de main)",
     "bg": "Не забравяйте да комитвате в посочения ред (bugFix преди main)",
     "ru_RU": "Не забудь делать коммиты в правильном порядке (сначала bugFix, потом main)",
-    "uk": "Не забудь робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
+    "uk": "Не забудьте робити коміти в правильному порядку (спочатку bugFix, а вже потім main)",
     "vi": "Nhớ là commit theo đúng thứ tự (bugFix trước main)",
     "sl_SI": "Zapomni si, da je potrebno commitati v pravilnem vrstnem redu (bugfix pred main)",
     "pl": "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
@@ -1254,14 +1254,14 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Тут ми маємо дві гілки; кожна з них містить унікальний коміт. Це означає що жодна з них не містить повного набору \"робочої інфи\" в цьому репозиторії. Давайте зіллємо всю інфу докупи за допомогою merge.",
+              "Тут ми маємо дві гілки; кожна з них містить унікальний коміт. Це означає що жодна з них не містить повного набору \"робочої інфи\" в цьому репозиторії. Давайте зіллємо всю інформацію докупи за допомогою merge.",
               "",
               "Ми `змержимо` гілку `bugFix` в `main`."
             ],
             "afterMarkdowns": [
-              "Нічого собі! Ви це бачили? По-перше, `main` тепер вказує на коміт з двома батьками. Якщо ти піднімешся вверх з цього коміту по дереву, починаючи з `main`, на шляху ти зустрінеш кожен коміт аж до кореневого. Це означає що гілка `main` тепер містить всю інфу в цьому репозиторії.",
+              "Нічого собі! Ви це бачили? По-перше, `main` тепер вказує на коміт з двома батьками. Якщо Ви підніметеся вгору з цього коміту по дереву, починаючи з `main`, на шляху Ви зустрінете кожен коміт аж до кореневого. Це означає що гілка `main` тепер містить всю інформацію в цьому репозиторії.",
               "",
-              "А ти помітив як змінилися кольори комітів? Для кращого розуміння процесу я додав певну кольорову диференціацію. Кожен бранч виділено окремим кольором. Колір кожного коміту це суміш кольорів всіх гілок що місять цей коміт.",
+              "А Ви помітили як змінилися кольори комітів? Для кращого розуміння процесу я додав певну кольорову диференціацію. Кожну гілку виділено окремим кольором. Колір кожного коміту це суміш кольорів всіх гілок що місять цей коміт.",
               "",
               "Тож ми бачимо що колір гілки `main` містять всі коміти, але не колір `bugFix`. Давайте виправимо це..."
             ],
@@ -1273,12 +1273,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Давай змержимо `main` в `bugFix`:"
+              "Подивімося на злиття `main` в `bugFix`:"
             ],
             "afterMarkdowns": [
-              "Так як `bugFix` є нащадком `main`, git'у не потрібно нічого робити; він просто пересунув `bugFix` на тей самий коміт, на якому знаходиться `main`.",
+              "Так як `bugFix` є нащадком `main`, git'у не потрібно нічого робити; він просто пересунув `bugFix` на той самий коміт, на якому знаходиться `main`.",
               "",
-              "Тепер всі коміти одного кольору, що означає що кожен бранч включає в собі всю корисну інфу яка є в цьому репозиторії! Ура!"
+              "Тепер всі коміти одного кольору, що означає що кожна гілка включає в собі всю корисну інформацію яка є в цьому репозиторії! Ура!"
             ],
             "command": "git checkout bugFix; git merge main",
             "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
@@ -1288,16 +1288,16 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти цей рівень виконай наступні кроки:",
+              "Щоб пройти цей рівень виконайте наступні кроки:",
               "",
-              "* Зроби нову гілку (branch) з назвою `bugFix`",
-              "* Перейди на гілку `bugFix` за допомогою `git checkout bugFix`",
-              "* Зроби один коміт",
-              "* Повернись до `main` за допомогою `git checkout`",
-              "* Зроби ще один коміт",
-              "* Змерджи (злий) гілку `bugFix` в `main` за допомогою `git merge`",
+              "* Зробіть нову гілку (branch) з назвою `bugFix`",
+              "* Перейдіть на гілку `bugFix` за допомогою `git checkout bugFix`",
+              "* Зробіть один коміт",
+              "* Поверніться до `main` за допомогою `git checkout`",
+              "* Зробіть ще один коміт",
+              "* Об’єднайте (злийте) гілку `bugFix` в `main` за допомогою `git merge`",
               "",
-              "*Не забувай, ти можеш завжди повернутися до цього діалогу за допомогою \"objective\"!*"
+              "*Пам’ятайте, Ви можете завжди повернутися до цього діалогу за допомогою \"objective\"!*"
             ]
           }
         }
@@ -1658,7 +1658,7 @@ exports.level = {
               "",
               "Harika! Nasıl commit yapılacağını ve branch oluşturulacağını öğrendik. Şimdi iki farklı branch'in çalışmasını birleştirmenin (merge) bir yolunu öğrenmemiz gerekiyor. Bu, yeni bir özellik geliştirmek için bir branch'i alacak ve sonra onu geri birleştirebilmemizi sağlayacak.",
               "",
-              "Birleştirme işlemini inceleyeceğimiz ilk yöntem `git merge`'dir. Git'te birleştirme işlemi, iki benzersiz üst öğesi olan özel bir commit oluşturur. İki ata'sı olan bir commit, temelde \"Bu kaynak kodun bu noktadaki tüm çalışmasını ve diğer noktadaki kaynak kodun tüm çalışmasını *ve* tüm bu kaynak kodlarının üstündeki kaynak kodlarını dahil etmek istiyorum.\" anlamına gelir.",
+              "Birleştirme işlemini inceleyeceğimiz ilk yöntem `git merge`'dir. Git'te merge işlemi, iki benzersiz ataya sahip özel bir commit oluşturur. İki atası olan bir commit, temelde \"Buradaki atanın tüm çalışmasını ve şuradaki atanın tüm çalışmasını *ve* bunların bütün atalarının kümesini dahil etmek istiyorum.\" anlamına gelir.",
               "",
               "Bu işlem görsellerle daha kolay anlaşılır, bir sonraki görünümde görelim."
             ]
@@ -1675,7 +1675,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vay canına! Görüyor musunuz? İlk olarak, `main` artık iki ata'sı (Parent) olan bir commit'e işaret ediyor. `main` üzerinden commit ağacındaki okları takip ederseniz, köke giden yol boyunca her commit'e ulaşırsınız. Bu, `main`'in artık repo'nun tamamındaki tüm çalışmayı içerdiği anlamına gelir.",
               "",
-              "Ayrıca, commit'lerim renklerinin nasıl değiştiğini gördünüz mü? Öğrenmenize yardımcı olmak için bazı renk koordinasyonları ekledik. Her branch'in kendine özgü bir rengi vardır. Her commit, kendisini içeren tüm branch'lerin karışık bir kombinasyonu olan bir renge dönüşür.",
+              "Ayrıca, commit'lerin renklerinin nasıl değiştiğini gördünüz mü? Öğrenmenize yardımcı olmak için bazı renk koordinasyonları ekledik. Her branch'in kendine özgü bir rengi vardır. Her commit, kendisini içeren tüm branch'lerin karışık bir kombinasyonu olan bir renge dönüşür.",
               "",
               "Yani burada `main` branch'inin renginin tüm commit'lere karıştığını, ancak `bugFix` renginin karışmadığını görüyoruz. Şimdi bunu düzeltelim..."
             ],
@@ -1702,7 +1702,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu level'i tamamlamak için aşağıdaki adımları yapmanız gerekiyor:",
+              "Bu seviyeyi tamamlamak için aşağıdaki adımları yapmanız gerekiyor:",
               "",
               "* `bugFix` adında yeni bir branch oluşturun",
               "* `git checkout bugFix` komutu ile `bugFix` branch'ine geçin ",

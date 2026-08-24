@@ -27,7 +27,8 @@ exports.level = {
     "it_IT": "Annullare i cambiamenti in Git",
     "pl": "Odwracanie zmian w Gicie",
     "tr_TR": "Değişiklikleri Git'te Geri Almak",
-    "hu_HU": "Változtatások visszavonása Gitben"
+    "hu_HU": "Változtatások visszavonása Gitben",
+    "az": "Git-də Dəyişikliklərin Geri Qaytarılması"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -46,13 +47,14 @@ exports.level = {
     "ro": "Observă că revert și reset primesc argumente diferite.",
     "ru_RU": "Обрати внимание, что revert и reset принимают разные параметры.",
    "bg": "Забележи, че revert и reset приемат различни аргументи.",
-    "uk": "Зверни увагу на те що revert та reset приймають різні параметри",
+    "uk": "Зверніть увагу на те що revert та reset приймають різні параметри",
     "vi": "Lưu ý rằng hoàn tác (revert) và đặt lại (reset) có những đối số khác nhau.",
     "sl_SI": "Revert in reset sprejmeta različne argumente.",
     "it_IT": "Revert e reset hanno parametri diversi.",
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
     "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma.",
-    "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad."
+    "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad.",
+    "az": "Qeyd et ki, revert və reset fərqli parametrlər qəbul edir."
   },
   "startDialog": {
     "en_US": {
@@ -1103,14 +1105,14 @@ exports.level = {
             "beforeMarkdowns": [
               "## Git Revert",
               "",
-              "Команда reset чудово працює для локальних бранчів на власному комп’ютері, але так як вона спричиняє \"переписування історії\", її не можна використовувати в ситуації коли кілька користувачів працюють з цим бранчем",
+              "Команда reset чудово працює для локальних гілок на власному комп’ютері, але оскільки вона спричиняє \"переписування історії\", її не можна використовувати в ситуації коли кілька користувачів працюють з цим бранчем",
               "",
-              "Для того щоб відкотити зміни й потім *поділитися* цими відкоченими змінами з друзями, потрібно використовувати `git revert`. Давай подивимось на прикладі"
+              "Для того щоб відкотити зміни й потім *поділитися* цими відкоченими змінами з друзями, потрібно використовувати `git revert`. Подивімось на прикладі"
             ],
             "afterMarkdowns": [
               "Дивно, був створений новий коміт, нижче того коміту який ми хотіли відкотити. Це сталося тому що новий коміт `C2'` містить *зміни*  які повністю протилежні змінам `C2`.",
               "",
-              "Після revert, ти зможеш зробити push щоб поділитися гілкою з іншими."
+              "Після revert, Ви зможете зробити push щоб поділитися гілкою з іншими."
             ],
             "command": "git revert HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -1122,7 +1124,7 @@ exports.level = {
             "markdowns": [
               "Щоб пройти цей рівень відміни два останні коміти на гілках `local` та `pushed`.",
               "",
-              "Зауваж, що `pushed` це віддалена гілка, а `local` це локальна гілка -- це має допомогти з вибором методу."
+              "Зауважте, що `pushed` це віддалена гілка, а `local` це локальна гілка -- це має допомогти з вибором методу."
             ]
           }
         }
@@ -1378,7 +1380,7 @@ exports.level = {
             "markdowns": [
               "## Git'te Değişiklikleri Geri Alma",
               "",
-              "Git'te değişiklikleri geri almanın birçok yolu vardır. Ve tıpkı commit yapmada olduğu gibi, değişiklikleri geri almak da hem düşük seviyeli bir bileşene (bireysel dosyaları veya parçaları sahneleme) hem de yüksek seviyeli bir bileşene (değişikliklerin nasıl geri alındığına) sahiptir. Uygulamamız, ikincisine odaklanacaktır.",
+              "Git'te değişiklikleri geri almanın birçok yolu vardır. Ve tıpkı commit yapmada olduğu gibi, değişiklikleri geri almak da hem düşük seviyeli bir bileşene (tek tek dosyaları veya parçaları stage'leme) hem de yüksek seviyeli bir bileşene (değişikliklerin nasıl geri alındığı) sahiptir. Uygulamamız, ikincisine odaklanacaktır.",
               "",
               "Git'te değişiklikleri geri almanın iki temel yolu vardır: birincisi `git reset` kullanmak, diğeri ise `git revert` kullanmaktır. Bunların her birine bir sonraki diyalogda göz atacağız.",
               ""
@@ -1393,7 +1395,7 @@ exports.level = {
               "",
               "`git reset`, bir dal referansını geçmişteki eski bir commit'e geri hareket ettirerek değişiklikleri geri alır. Bu anlamda, onu \"tarihi yeniden yazmak\" olarak düşünebilirsiniz; `git reset`, bir dalı, sanki commit hiç yapılmamış gibi geriye doğru hareket ettirir.",
               "",
-              "Bunu nasıl göründüğünü görelim:"
+              "Bunun nasıl göründüğüne bakalım:"
             ],
             "afterMarkdowns": [
               "Güzel! Git, main dalını `C1`'e geri taşıdı; şimdi yerel depomuz, `C2`'nin hiç olmamış gibi bir durumda."
@@ -1410,12 +1412,12 @@ exports.level = {
               "",
               "Resetleme, kendi makinenizdeki yerel dallar için mükemmel çalışırken, \"tarihi yeniden yazma\" yöntemi, başkalarının kullandığı uzak dallar için işe yaramaz.",
               "",
-              "Değişiklikleri geri almak ve *geri alınan değişiklikleri başkalarıyla paylaşmak* için `git revert` kullanmamız gerekir. Bunu nasıl çalıştığını görelim."
+              "Değişiklikleri geri almak ve *geri alınan değişiklikleri başkalarıyla paylaşmak* için `git revert` kullanmamız gerekir. Bunun nasıl çalıştığına bakalım."
             ],
             "afterMarkdowns": [
               "Tuhaf, geri almak istediğimiz commit'in altına yeni bir commit geldi. Çünkü bu yeni commit `C2'`, *değişiklikler* getiriyor -- sadece, `C2`'nin commit'ini tam olarak geri alan değişiklikler getiriyor.",
               "",
-              "Revertleme ile değişikliklerinizi başkalarına paylaşmak için push edebilirsiniz."
+              "Revert ile değişikliklerinizi başkalarıyla paylaşmak üzere push edebilirsiniz."
             ],
             "command": "git revert HEAD^",
             "beforeCommand": "git commit; git commit"
@@ -1491,6 +1493,69 @@ exports.level = {
               "A szint teljesítéséhez vonja vissza a legutóbbi commitot mind a `local`, mind a `pushed` brancheken. Összesen két commitot fogsz visszavonni (branchenként egyet).",
               "",
               "Tartsd észben, hogy a `pushed` egy távoli branch, a `local` pedig egy helyi branch -- ez segíteni fog a módszerek megválasztásában."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git-də Dəyişikliklərin Geri Qaytarılması",
+              "",
+              "Git-də dəyişiklikləri geri qaytarmağın bir çox yolu var. Məhz commit etmək kimi, Git-də dəyişikliklərin geri qaytarılmasının da aşağı səviyyəli tərəfi (ayrı-ayrı faylların və ya hissələrin stage edilməsi) və yuxarı səviyyəli tərəfi (dəyişikliklərin faktiki olaraq necə geri qaytarıldığı) var. Tətbiqimiz sonuncuya fokuslanacaq.",
+              "",
+              "Git-də dəyişiklikləri ləğv etməyin iki əsas yolu var -- biri `git reset`, digəri isə `git revert`-dən istifadə etməkdir. Növbəti dialoqda hər ikisinə baxacağıq",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` branch istinadını zamanda geriyə, daha köhnə bir commit-ə köçürməklə dəyişiklikləri geri qaytarır. Bu mənada onu \"tarixi yenidən yazmaq\" kimi düşünə bilərsən; `git reset` branch-ı elə geri aparacaq ki, sanki həmin commit heç vaxt edilməyib.",
+              "",
+              "Gəl görək bu necə görünür:"
+            ],
+            "afterMarkdowns": [
+              "Əla! Git `main` branch istinadını geri, `C1`-ə köçürdü; indi lokal repozitoriyamız sanki `C2` heç vaxt baş verməyib kimi bir vəziyyətdədir."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Reset öz komputerindəki lokal branch-lar üçün əla işləsə də, onun \"tarixi yenidən yazmaq\" metodu başqalarının istifadə etdiyi remote branch-lar üçün işləmir.",
+              "",
+              "Dəyişiklikləri geri qaytarmaq və bu geri qaytarılmış dəyişiklikləri başqaları ilə *paylaşmaq* üçün `git revert`-dən istifadə etməliyik. Gəl bunu əməldə görək."
+            ],
+            "afterMarkdowns": [
+              "Qəribədir, geri qaytarmaq istədiyimiz commit-in altında yeni bir commit peyda oldu. Bunun səbəbi odur ki, bu yeni `C2'` commit-i *dəyişikliklər* təqdim edir -- sadəcə bu dəyişikliklər məhz `C2` commit-ini dəqiq geri qaytaran dəyişikliklərdir.",
+              "",
+              "Revert etməklə, dəyişikliklərini başqaları ilə paylaşmaq üçün push edə bilərsən."
+            ],
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü tamamlamaq üçün, həm `local`, həm də `pushed` üzərindəki ən son commit-i geri qaytar. Ümumilikdə iki commit-i revert edəcəksən (hər branch üçün bir dənə).",
+              "",
+              "Yadında saxla ki, `pushed` remote branch, `local` isə lokal branch-dır -- bu, hansı metodları seçəcəyini müəyyən etməyə kömək edəcək."
             ]
           }
         }

@@ -82,11 +82,27 @@ describe('Git', function() {
   });
 
   describe('Switches', function() {
-    it("to a commit", function () {
+    it("to a commit with -d option", function () {
       return expectTreeAsync(
-        'git switch C0',
+        'git switch -d C0',
         '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
       );
+    });
+
+    it("to a commit with --detach option", function () {
+      return expectTreeAsync(
+        'git switch --detach C0',
+        '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C0","id":"HEAD"}}'
+      );
+    });
+
+    it("refuses to detach onto a commit without -d / --detach", function () {
+      return runCommand('git switch C0', function(commandMsg) {
+        expect(commandMsg).toEqual(intl.str(
+          'git-error-switch-detach',
+          { ref: 'C0' }
+        ));
+      });
     });
 
     it("to a branch", function () {
@@ -534,6 +550,20 @@ describe('Git', function() {
         expect(commandMsg).toContain('Commit: C4\n');
         expect(commandMsg).toContain('Commit: C5\n');
         expect(commandMsg).not.toContain('Commit: C6\n');
+      });
+    });
+
+    it('topological order after a rebase', function() {
+      // Reproduces issue #1392 -- rebased commits C2' and C3' must show
+      // up above the commits they were replayed onto, even though their
+      // IDs "sort" lower than C4 / C5
+      var REBASE_SETUP = 'git co -b bugFix; gc; gc; git co main; gc; gc; ' +
+        'git co bugFix; git rebase main; ';
+      return runCommand(REBASE_SETUP + 'git log', function(commandMsg) {
+        var order = commandMsg.match(/Commit: [^<\n]+/g).map(function(line) {
+          return line.replace('Commit: ', '');
+        });
+        expect(order).toEqual(["C3'", "C2'", 'C5', 'C4', 'C1', 'C0']);
       });
     });
 

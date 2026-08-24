@@ -1242,9 +1242,9 @@ exports.level = {
             "markdowns": [
               "## Аргумeнти git push",
               "",
-              "Чудово! А зараз, коли ти знаєш все про відслідковування віддалених гілок, ми можемо розглянути \"магію\", що відбувається при git push, fetch, і pull. Ми розглянемо лише окремі команди для розуміння загального принципу.",
+              "Чудово! А зараз, коли Ви знаєте все про відстеження віддалених гілок, ми можемо розглянути \"магію\", що відбувається при git push, fetch, і pull. Ми розглянемо лише окремі команди для розуміння загального принципу.",
               "",
-              "Спочатку розгляньмо `git push`. З уроку про відслідковування віддалених гілок ми знаємо, що git визначає куди і в *яку* гілку робити push, дивлячись на локальну поточну гілку (і віддалену, за якою вона \"слідкує\"). Це поведінка `push` без аргументів, але git push може приймати необов'язкові аргументи в форматі:",
+              "Спочатку розгляньмо `git push`. З уроку про відстеження віддалених гілок ми знаємо, що git визначає куди і в *яку* гілку робити push, дивлячись на локальну поточну гілку (і віддалену, за якою вона \"стежить\"). Це поведінка `push` без аргументів, але git push може приймати необов'язкові аргументи в форматі:",
               "",
               "`git push <remote> <place>`",
               "",
@@ -1262,9 +1262,9 @@ exports.level = {
               "",
               "буквально перекладається як:",
               "",
-              "*Піди в гілку, що називається \"main\" в моєму репозиторії, візьми всі коміти, піди у віддалений \"main\", що називається \"origin\". Додай ті коміти, яких немає в цій гілці і надрукуй, що саме ти зробив.*",
+              "*Піди в гілку, що називається \"main\" в моєму репозиторії, візьми всі коміти, піди у віддалений \"main\", що називається \"origin\". Додайте ті коміти, яких немає в цій гілці і надрукуйте, що саме Ви зробили.*",
               "",
-              "Вказуючи `main` в якості аргумента \"place\", ми сказали git-у, *звідки* взяти коміти і *куди* їх додати. (\"Place\") - фактично точка синхронізації двох репозиторіїв.",
+              "Вказуючи `main` як аргумент \"place\", ми сказали git-у, *звідки* взяти коміти і *куди* їх додати. (\"Place\") - фактично точка синхронізації двох репозиторіїв.",
               "",
               "Пам'ятайте, що оскільки ми надали git-у всю необхідну інформацію (вказавши обидва аргументи), не має значення яка гілка є зараз поточною!"
             ]
@@ -1302,8 +1302,8 @@ exports.level = {
             "markdowns": [
               "Гаразд, на цьому рівні оновімо віддалені гілки `foo` і `main`. Для ускладнення ми заборонимо використовувати `git checkout`!",
               "",
-              "*Пам'ятай, віддалені гілки позначені префіксом `o/`, оскільки повний префікс `origin/` не влазить в наш UI. Але не хвилюйся ",
-              "про це... ти можеш використовувати `origin` посилаючись на віддалений репозиторій.*"
+              "*Пам'ятайте, віддалені гілки позначені префіксом `o/`, оскільки повний префікс `origin/` не влазить в наш UI. Але не хвилюйтеся ",
+              "про це... Ви можете використовувати `origin` посилаючись на віддалений репозиторій.*"
             ]
           }
         }
@@ -1619,7 +1619,7 @@ exports.level = {
               "",
               "Harika! Şimdi uzaktan izleme dallarını bildiğine göre, git push, fetch ve pull komutlarının nasıl çalıştığının ardındaki bazı gizemleri keşfetmeye başlayabiliriz. Her seferinde bir komut ele alacağız, ancak bu komutlar arasındaki kavramlar oldukça benzer.",
               "",
-              "Öncelikle `git push` komutuna bakalım. Uzaktan izleme dersinde öğrendiğin gibi, git, şu anda kontrol edilen dalın (takip ettiği uzak dal) özelliklerine bakarak, hangi uzak sunucuya ve hangi dalına push yapılacağını anlar. Bu, herhangi bir argüman belirtilmediğinde görülen davranıştır, ancak git push, şu şekilde argümanlar alabilir:",
+              "Öncelikle `git push` komutuna bakalım. Uzaktan izleme dersinde öğrendiğiniz gibi git, şu anda checkout yapılmış dalın (izlediği uzak dalın) özelliklerine bakarak hangi uzak depoya *ve* hangi dala push yapılacağını anlar. Bu, herhangi bir argüman belirtilmediğinde görülen davranıştır, ancak `git push` şu şekilde argümanlar alabilir:",
               "",
               "`git push <remote> <place>`",
               ""
@@ -1640,7 +1640,7 @@ exports.level = {
               "",
               "Burada `main`'i \"place\" parametresi olarak belirtmemiz, git'e commit'lerin nereden geleceğini ve nereye gideceğini söyledik. Aslında bu, iki depo arasında senkronize edilecek \"yer\" veya \"konum\"dur.",
               "",
-              "Unutmayın ki git'e her şeyi bildirdiğimiz için (her iki argümanı da belirterek), nerede olduğumuzu kontrol etmez!"
+              "Unutmayın ki git'e her şeyi bildirdiğimiz için (her iki argümanı da belirterek), nerede checkout yapmış olduğumuzu tamamen yok sayar!"
             ]
           }
         },
@@ -1648,7 +1648,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Argümanları belirttiğimiz bir örneği görelim. Bu örnekte kontrol edilen konuma dikkat edin."
+              "Argümanları belirttiğimiz bir örneği görelim. Bu örnekte checkout yapmış olduğumuz konuma dikkat edin."
             ],
             "afterMarkdowns": [
               "İşte böyle! `main` dalı, bu argümanları belirttiğimiz için uzak depoda güncellendi."
@@ -1664,7 +1664,7 @@ exports.level = {
               "Ya argümanları belirtmeseydik? Ne olurdu?"
             ],
             "afterMarkdowns": [
-              "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalında kontrol edilmiyor."
+              "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalına checkout yapılmış durumda değil."
             ],
             "command": "git checkout C0; git push",
             "beforeCommand": "git clone; git commit"

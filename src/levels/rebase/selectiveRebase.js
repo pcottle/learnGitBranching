@@ -30,7 +30,8 @@ exports.level = {
     "it_IT": "Rami spaghettificati",
     "pl": "Spaghetti gałęzi",
     "tr_TR": "Branch Spagettisi",
-    "hu_HU": "Ág-spagetti"
+    "hu_HU": "Ág-spagetti",
+    "az": "Branch Spagetti"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -50,13 +51,14 @@ exports.level = {
     "ro": "Asigură-te că faci totul în ordinea corectă! Ramura `one` mai întâi, apoi `two`, și apoi `three`",
     "bg": "Внимавай да правиш всичко в правилния ред! Първо бранч `one`, после `two`, накрая `three`.",
     "ru_RU": "Убедись, что у нас всё по порядку! Сначала ветка `one`, потом `two` и только потом `three`",
-    "uk": "Переконайся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
+    "uk": "Переконайтеся, що все йде за порядком! Спершу гілка `one`, потім `two`, і тільки потім `three`",
     "vi": "Hãy chắc chắn rằng bạn làm đúng thứ tự! Nhánh `one` trước, rồi `two`, rồi mới đến `three`",
     "sl_SI": "Glej da boš vse opravil v pravilnem vrstnem redu! Najprej branch ena, nato pa dva in tri.",
     "it_IT": "Assicurati di fare tutto nel giusto ordine! Prima il primo ramo, poi il secondo, poi il terzo",
     "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
     "tr_TR": "Her şeyi doğru sırada yaptığından emin ol! Önce ilk branch (one), ardından ikinci branch (two), ardından üçüncü branch (three)",
-    "hu_HU": "Ügyelj arra, hogy mindent a megfelelő sorrendben végezz el! Először a `one` ág, majd a `two`, aztán a `three`"
+    "hu_HU": "Ügyelj arra, hogy mindent a megfelelő sorrendben végezz el! Először a `one` ág, majd a `two`, aztán a `three`",
+    "az": "Hər şeyi düzgün ardıcıllıqla etdiyinə əmin ol! Əvvəl `one` branch, sonra `two`, sonra `three`"
   },
   "startDialog": {
     "en_US": {
@@ -413,7 +415,7 @@ exports.level = {
               "",
               "Гілку `one` потрібно впорядкувати і видалити `C5`. Гілку `two` також потрібно впорядкувати, а в гілку `three` потрібно додати ще один коміт!",
               "",
-              "Ми повністю покладаємось на тебе -- порівняй свій розв’зок з нашим, який можна подивитись командою `show solution`. "
+              "Ми повністю покладаємось на Вас -- порівняй свій розв’зок з нашим, який можна подивитись командою `show solution`. "
             ]
           }
         }
@@ -507,13 +509,13 @@ exports.level = {
             "markdowns": [
               "## Branch Spagettisi",
               "",
-              "Vay canına! Bu bölümde ulaşmamız gereken hedef oldukça büyük.",
+              "Vay canına! Bu seviyede ulaşmamız gereken hedef oldukça büyük.",
               "",
               "Burada `main`, `one` `two` ve `three` dallarından birkaç commit önde. Herhangi bir nedenden ötürü, bu diğer üç dalı main'deki son birkaç commit'in değiştirilmiş versiyonlarıyla güncellememiz gerekiyor.",
               "",
-              "`one` branchi bu commitlerin yeniden düzenlenmesine ve an `C5`'in hariç tutulması/bırakılmasına ihtiyaç duyuyor. `two` branchi sadece commitlerin yeniden sıralanmasına ihtiyaç duyuyuor, ve `three` için sadece bir commit transferi gerekiyor!",
+              "`one` branch'i bu commit'lerin yeniden sıralanmasına ve `C5`'in hariç tutulmasına/atılmasına ihtiyaç duyuyor. `two` branch'i sadece commit'lerin yeniden sıralanmasına ihtiyaç duyuyor ve `three` için sadece bir commit transferi gerekiyor!",
               "",
-              "Bunu nasıl çözeceğinizi size anlatacağız -- daha sonrasında bizim çözümümüzü `show solution` ile kontrol etmeyi unutmayın."
+              "Bunu nasıl çözeceğinizi bulmayı size bırakıyoruz -- daha sonrasında bizim çözümümüze `show solution` ile göz atmayı unutmayın."
             ]
           }
         }
@@ -534,6 +536,26 @@ exports.level = {
               "Az `one` ágnak át kell rendeznie ezeket a commitokat, és ki kell hagynia a `C5`-öt. A `two` ágnak csak át kell rendeznie a commitokat, a `three` ágnak pedig csak egy commitot kell átvennie!",
               "",
               "Rád bízzuk, hogy rájöjj, hogyan oldod meg -- ezután mindenképpen nézd meg a megoldásunkat a `show solution` paranccsal."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch Spagetti",
+              "",
+              "Vaaay! Bu bölümdə çatmalı olduğumuz kifayət qədər böyük bir hədəf var.",
+              "",
+              "Burda `main` var ki, `one`, `two` və `three` branch-larından bir neçə commit qabaqdadır. Nə səbəbdənsə, bu üç branch-ı main-dəki son bir neçə commit-in dəyişdirilmiş versiyaları ilə yeniləməliyik.",
+              "",
+              "`one` branch-ı həmin commit-lərin yenidən sıralanmasını və `C5`-in çıxarılmasını/atılmasını tələb edir. `two` branch-ı sadəcə commit-lərin sadə sıralanmasını tələb edir, `three` isə yalnız bir commit-in ötürülməsini tələb edir!",
+              "",
+              "Bunu necə həll edəcəyini özün tapacaqsan -- sonra mütləq `show solution` ilə həllimizi yoxla."
             ]
           }
         }

@@ -27,7 +27,8 @@ exports.level = {
     "pl": "Odczep sobie HEAD",
     "tr_TR": "HEAD'i Ayır",
     "ta_IN": "உங்கள் HEAD ஐப் பிரிகொள்ளுங்கள்",
-    "hu_HU": "Fejlécz le! (Detach HEAD)"
+    "hu_HU": "Fejlécz le! (Detach HEAD)",
+    "az": "HEAD'ini Ayır"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -53,7 +54,8 @@ exports.level = {
     "pl": "Użyj nazwy commita (hasza)!",
     "ta_IN": "உங்களுக்கு உதவ commit இன் லேபிள் (hash) ஐப் பயன்படுத்துங்கள்!",
     "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!",
-    "hu_HU": "Használd a commit azonosítóját (hash)!"
+    "hu_HU": "Használd a commit azonosítóját (hash)!",
+    "az": "Kömək üçün commit üzərindəki etiketdən (hash) istifadə et!"
   },
   "startDialog": {
     "en_US": {
@@ -1306,9 +1308,9 @@ exports.level = {
             "markdowns": [
               "## Прогулянка по Git",
               "",
-              "Перед тим як ми перейдемо до складніших можливостей гіта, важливо розуміти різні способи переміщення по дереву комітів твого проекту.",
+              "Перед тим як ми перейдемо до складніших можливостей гіта, важливо розуміти різні способи переміщення по дереву комітів Вашого проекту.",
               "",
-              "Дуже важливо щоб тобі було комфортно переміщатись по репозиторію, так як цей навик тобі знадобиться для використання в більшості команд git!",
+              "Дуже важливо щоб Вам було комфортно переміщатись по репозиторію, оскільки цей навик Вам знадобиться для використання в більшості команд git!",
               "",
               "",
               "",
@@ -1323,11 +1325,11 @@ exports.level = {
             "markdowns": [
               "## HEAD (голова)",
               "",
-              "Спочатку розберемось з \"HEAD\". HEAD це символьне ім’я поточного вибраного коміта -- по суті це той коміт з яким ти зараз працюєш.",
+              "Спочатку розберемось з \"HEAD\". HEAD це символьне ім’я поточного вибраного коміта -- по суті це той коміт з яким Ви зараз працюєте.",
               "",
               "HEAD завжди вказує на найновіший коміт з робочого дерева. Більшість команд що змінюють локальне дерево комітів, також модифікують HEAD.",
               "",
-              "Зазвичай HEAD вказує на ім’я бранча (наприклад bugFix). Коли ти комітиш, змінюється статус гілки bugFix й це можна побачити подивившись на  HEAD."
+              "Зазвичай HEAD вказує на ім’я гілки (наприклад bugFix). Коли Ви комітите, змінюється статус гілки bugFix й це можна побачити подивившись на  HEAD."
             ]
           }
         },
@@ -1338,7 +1340,7 @@ exports.level = {
               "Розберемось з цим на практиці. Зараз ми перевіримо HEAD до та після коміту."
             ],
             "afterMarkdowns": [
-              "Ти диви! HEAD весь цей час ховався за гілкою `main`."
+              "Ви диви! HEAD весь цей час ховався за гілкою `main`."
             ],
             "command": "git checkout C1; git checkout main; git commit; git checkout C2",
             "beforeCommand": ""
@@ -1370,7 +1372,7 @@ exports.level = {
             "markdowns": [
               "Щоб пройти цей рівень, давайте відокремимо голову від гілки `bugFix` й натомість спрямуємо її на якийсь коміт.",
               "",
-              "Вкажи цей коміт за його hash (хеш, ідентифікатором). Хеш кожного коміту відображений в кружечку що символізує коміт."
+              "Вкажіть цей коміт за його hash (хеш, ідентифікатором). Хеш кожного коміту відображений в кружечку що символізує коміт."
             ]
           }
         }
@@ -1752,7 +1754,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu bölümü tamamlamak için, HEAD'i `bugFix` dalından ayıralım ve yerine commit'e bağlayalım.",
+              "Bu seviyeyi tamamlamak için, HEAD'i `bugFix` dalından ayıralım ve yerine commit'e bağlayalım.",
               "",
               "Bu commit'i hash'i ile belirtin. Her commit'in hash'i, commit'i temsil eden dairede gösterilir."
             ]
@@ -1905,6 +1907,84 @@ exports.level = {
               "A szint teljesítéséhez válasszuk le a HEAD-et a `bugFix`-ről, és csatoljuk inkább a commithoz.",
               "",
               "Adja meg ezt a commitot a hash-e alapján. Az egyes commitok hash-e megjelenik a commitot jelképező körön."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git-də Hərəkət Etmək",
+              "",
+              "Git-in daha qabaqcıl xüsusiyyətlərinə keçməzdən əvvəl, layihəni təmsil edən commit ağacında hərəkət etməyin müxtəlif yollarını başa düşmək vacibdir.",
+              "",
+              "Hərəkət etməyə vərdiş etdikdən sonra, digər git əmrlərindəki gücün artacaq!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Əvvəlcə \"HEAD\" haqqında danışmalıyıq. HEAD hazırda checkout edilmiş commit-in simvolik adıdır -- əslində üzərində işlədiyin commit budur.",
+              "",
+              "HEAD həmişə iş ağacında əks olunan ən son commit-ə işarə edir. İş ağacında dəyişiklik edən git əmrlərinin əksəriyyəti HEAD-i dəyişməklə başlayır.",
+              "",
+              "Adətən HEAD bir branch adına (məsələn, bugFix) işarə edir. Commit etdikdə, bugFix-in vəziyyəti dəyişir və bu dəyişiklik HEAD vasitəsilə görünür."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bunu əməldə görək. Burada commit-dən əvvəl və sonra HEAD-i aşkar edəcəyik."
+            ],
+            "afterMarkdowns": [
+              "Bax! HEAD bütün bu müddət `main` branch-ımızın altında gizlənirmiş."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEAD-i Ayırmaq",
+              "",
+              "HEAD-i ayırmaq sadəcə onu branch əvəzinə commit-ə bağlamaq deməkdir. Bundan əvvəl belə görünür:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "İndi isə belədir",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü bitirmək üçün gəl HEAD-i `bugFix`-dən ayıraq və onun əvəzinə commit-ə bağlayaq.",
+              "",
+              "Bu commit-i hash-i ilə göstər. Hər commit-in hash-i onu təmsil edən dairənin üzərində göstərilir."
             ]
           }
         }

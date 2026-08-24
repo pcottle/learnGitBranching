@@ -27,7 +27,8 @@ exports.level = {
     "it_IT": "Genitori multipli",
     "pl": "Wielu rodziców",
     "tr_TR": "Birden fazla ebeveyn",
-    "hu_HU": "Több szülő"
+    "hu_HU": "Több szülő",
+    "az": "Bir neçə valideyn"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -54,7 +55,8 @@ exports.level = {
     "it_IT": "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
     "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın.",
-    "hu_HU": "Használd a `git branch bugWork` parancsot egy célcommittal a hiányzó referencia létrehozásához."
+    "hu_HU": "Használd a `git branch bugWork` parancsot egy célcommittal a hiányzó referencia létrehozásához.",
+    "az": "Əskik referansı yaratmaq üçün hədəf commit ilə `git branch bugWork` istifadə et."
   },
   "startDialog": {
     "en_US": {
@@ -1544,7 +1546,7 @@ exports.level = {
               "",
               "Так само як і модифікатор `~`, модифікатор `^` також приймає необов’язкове число після нього.",
               "",
-              "Замість того, щоб вказувати кількість генерацій щоб переміститись назад  (те що робить `~`), число після `^` вказує на яке батьківське посилання мерджу потрібно перейти. Зауважте що так як мерджевий коміт має декілька батьків, використання '^' без числа є неоднозначним.",
+              "Замість того, щоб вказувати кількість генерацій щоб переміститись назад  (те що робить `~`), число після `^` вказує на яке батьківське посилання мерджу потрібно перейти. Зауважте що оскільки мерджевий коміт має декілька батьків, використання '^' без числа є неоднозначним.",
               "",
               "Git зазвичай перейде на \"першого\" з батьків вверх з мерджевого коміту, але вказання числа після  `^` змінює цю поведінку. ",
               "",
@@ -1575,7 +1577,7 @@ exports.level = {
               "Тепер спробуймо натомість вказати другого батька..."
             ],
             "afterMarkdowns": [
-              "Бачиш? Ми перейшли до другого батька вверх."
+              "Бачите? Ми перейшли до другого батька вверх."
             ],
             "command": "git checkout main^2",
             "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
@@ -1613,9 +1615,9 @@ exports.level = {
             "markdowns": [
               "### Практика",
               "",
-              "Щоб завершити цей рівень, створи нову гілку на вказаному місці.",
+              "Щоб завершити цей рівень, створіть нову гілку на вказаному місці.",
               "",
-              "Очевидно, що в данному випадку досить легко вказати коміт напряму (щось на зразок checkout `C6`), але для закріплення матеріалу використай модифікатори, про які ми щойно говорили!"
+              "Очевидно, що в даному випадку досить легко вказати коміт напряму (щось на зразок checkout `C6`), але для закріплення матеріалу використай модифікатори, про які ми щойно говорили!"
             ]
           }
         }
@@ -2066,7 +2068,7 @@ exports.level = {
               "",
               "`~` modifikatörü gibi, `^` modifikatörü de ardından isteğe bağlı bir sayı alabilir.",
               "",
-              "`~`'in geri gitmek için nesil sayısını belirtmesinin aksine, `^` modifikatörü birleştirilmiş bir commit'ten hangi ebeveyn referansını takip edeceğinizi belirtir. Unutmayın ki birleştirilmiş commit'ler birden fazla ebeveyne sahip olduğundan, hangi yolu seçileceği belirsizdir.",
+              "`~`'in geri gitmek için nesil sayısını belirtmesinin aksine, `^` modifikatörü bir merge commit'inden hangi ebeveyn referansını takip edeceğinizi belirtir. Unutmayın ki merge commit'leri birden fazla ebeveyne sahip olduğundan, hangi yolun seçileceği belirsizdir.",
               "",
               "Git genellikle birleştirilmiş commit'ten \"ilk\" ebeveyni yukarı doğru takip eder, ancak `^` ile bir sayı belirtmek, bu varsayılan davranışı değiştirir.",
               "",
@@ -2225,6 +2227,93 @@ exports.level = {
               "A szint teljesítéséhez hozz létre egy új ágat a meghatározott célhelyen.",
               "",
               "Nyilvánvalóan egyszerű lenne a commitot közvetlenül megadni (például `C6`-tal), de arra kérlek, hogy helyette a tárgyalt módosítókat használd!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Valideynləri müəyyən etmək",
+              "",
+              "`~` modifikatoru kimi, `^` modifikatoru da özündən sonra istəyə bağlı bir rəqəm qəbul edir.",
+              "",
+              "Neçə nəsil geriyə getmək lazım olduğunu göstərmək əvəzinə (`~`-in etdiyi budur), `^`-dan sonrakı rəqəm merge commit-dən hansı valideyn referansının izlənəcəyini müəyyən edir. Yadda saxla ki, merge commit-lərin bir neçə valideyni olur, ona görə hansı yolun seçiləcəyi qeyri-müəyyəndir.",
+              "",
+              "Git adətən merge commit-dən yuxarı doğru \"birinci\" valideyni izləyir, lakin `^` ilə rəqəm göstərmək bu defolt davranışı dəyişir.",
+              "",
+              "Kifayət qədər danışdıq, gəl bunu əməldə görək.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Burada bir merge commit-imiz var. Əgər `main^`-i modifikatorsuz checkout etsək, merge commit-dən sonra birinci valideyni izləyəcəyik. ",
+              "",
+              "(*Bizim vizuallaşdırmalarımızda birinci valideyn merge commit-in düz üstündə yerləşir.*)"
+            ],
+            "afterMarkdowns": [
+              "Asandır -- hamımızın öyrəşdiyi budur."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "İndi isə əvəzində ikinci valideyni göstərməyə cəhd edək..."
+            ],
+            "afterMarkdowns": [
+              "Gördün? Biz digər valideyni yuxarı izlədik."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^` və `~` modifikatorları commit ağacında hərəkət etməyi çox güclü edə bilər:"
+            ],
+            "afterMarkdowns": [
+              "İldırım sürətilə!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Daha da dəlisi, bu modifikatorlar bir-birinə zəncirlənə bilər! Buna bax:"
+            ],
+            "afterMarkdowns": [
+              "Əvvəlki ilə eyni hərəkət, amma hamısı bir əmrdə."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Bunu təcrübədə tətbiq et",
+              "",
+              "Bu bölümü bitirmək üçün göstərilən yerdə yeni bir branch yarat.",
+              "",
+              "Əlbəttə, commit-i birbaşa göstərmək asan olardı (`C6` kimi bir şeylə), amma sənə bunun əvəzinə danışdığımız modifikatorları istifadə etməyi məsləhət görürəm!"
             ]
           }
         }

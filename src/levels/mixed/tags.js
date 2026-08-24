@@ -26,8 +26,9 @@ exports.level = {
     "it_IT": "Git Tag",
     "pl": "Tagi Gita",
     "ta_IN": "Git டேக்கள்",
-    "tr_TR": "Git Tagleri",
-    "hu_HU": "Git tagek"
+    "tr_TR": "Git Tag'leri",
+    "hu_HU": "Git tagek",
+    "az": "Git Tag-lər"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -47,14 +48,15 @@ exports.level = {
     "bg": "Можете или директно да превключите към (checkout) комита, или просто към тага!",
     "ru_RU": "Можно сделать checkout напрямую на коммит или же на тег",
     "ko": "커밋을 직접 또는 태그를 이용해서 체크아웃할수 있습니다!",
-    "uk": "ти можеш або зробити checkout коміта напряму чи просто зачекаутити таг!",
+    "uk": "Ви можете або зробити checkout коміта напряму чи просто зачекаутити таг!",
     "vi": "Bạn có thể chuyển trực tiếp sang commit hoặc đơn giản là chuyển sang tag!",
     "sl_SI": "Checkoutaš lahko neposredno commit ali pa preprosto njegov tag!",
     "it_IT": "Puoi fare direttamente checkout del commit o semplicemente del tag!",
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
     "ta_IN": "நீங்கள் நேரடியாக commit ஐ அல்லது tag ஐ checkout செய்யலாம்!",
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
-    "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!"
+    "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!",
+    "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!"
   },
   "startDialog": {
     "en_US": {
@@ -901,9 +903,9 @@ exports.level = {
             "markdowns": [
               "## Таги в Git",
               "",
-              "Як ти вже знаєш з попередніх уроків, гілки досить просто переносити в інші місця, і вони постійно вказують на різні коміти в процесі того? як ті в них додаються. Гілки легко модифікувати, часто тимчасово, й вони постійно змінюються.",
+              "Як Ви вже знаєте з попередніх уроків, гілки досить просто переносити в інші місця, і вони постійно вказують на різні коміти в процесі того? як ті в них додаються. Гілки легко модифікувати, часто тимчасово, й вони постійно змінюються.",
               "",
-              "В такому разі, де взяти *постійне* посилання на момент в історії твого проекту? Для таких речей як релізи чи великі мерджі потрібно щось більш стале ніж гілка.",
+              "В такому разі, де взяти *постійне* посилання на момент в історії Вашого проекту? Для таких речей як релізи чи великі мерджі потрібно щось більш стале ніж гілка.",
               ""
             ]
           }
@@ -912,9 +914,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Є один спосіб! Таги в гіт якраз для цього й були створені -- вони (більш-менш) постійно вказують на певні коміти, й відмічають певні \"віхи\" в житті проекту, на які ти можеш потім посилатись так само як на гілки.",
+              "Є один спосіб! Таги в гіт якраз для цього й були створені -- вони (більш-менш) постійно вказують на певні коміти, й відмічають певні \"віхи\" в житті проекту, на які Ви можете потім посилатись так само як на гілки.",
               "",
-              "Але, що важливіше, вони ніколи не переміщуються під час створення нових комітів. Ти не зможеш  \"зачекаутити\" таг а потім закомітити якісь зміни в цей таг -- таги просто відмічають корисні чи символічні місця в дереві комітів.",
+              "Але, що важливіше, вони ніколи не переміщуються під час створення нових комітів. Ви не зможете  \"зачекаутити\" таг а потім закомітити якісь зміни в цей таг -- таги просто відмічають корисні чи символічні місця в дереві комітів.",
               "",
               "Розгляньмо це на практиці"
             ]
@@ -927,7 +929,7 @@ exports.level = {
               "Спробуймо зробити новий таг на  `C1`, що є прототипом нашої першої версії (вигаданого проекту)"
             ],
             "afterMarkdowns": [
-              "Ось і маєш! Все досить просто. Ми назвали наш таг `v1` і він явно посилається на `C1`. Якщо пропустити коміт, git просто відмітить те, на чому знаходиться `HEAD` в данний момент"
+              "Ось і маєте! Все досить просто. Ми назвали наш таг `v1` і він явно посилається на `C1`. Якщо пропустити коміт, git просто відмітить те, на чому знаходиться `HEAD` наразі"
             ],
             "command": "git tag v1 C1",
             "beforeCommand": "git commit"
@@ -937,7 +939,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Для того щоб пройти цей рівень, достатньо створити кілька тагів, як показано на візуалізації цілей, і потім зачекаутити `v1`. Зауваж, що ти потрапиш в стан `detached HEAD` -- це тому що ти не можеш напряму комітити в таг `v1`.",
+              "Для того щоб пройти цей рівень, достатньо створити кілька тагів, як показано на візуалізації цілей, і потім зачекаутити `v1`. Зауважте, що Ви потрапите в стан `detached HEAD` -- це тому що Ви не можете напряму комітити в таг `v1`.",
               "",
               "В наступному рівні ми розглянемо більш цікавий приклад роботи з тагами."
             ]
@@ -1211,9 +1213,9 @@ exports.level = {
             "markdowns": [
               "## Git Tag'leri",
               "",
-              "Önceki derslerden öğrendiğiniz gibi, branch'ler kolayca taşınabilir ve üzerlerinde çalışma tamamlandıkça farklı commitlere işaret ederler. Branch'ler kolayca değiştirilebilir, genellikle geçici ve her zaman değişkendirler.",
+              "Önceki derslerden öğrendiğiniz gibi, branch'ler kolayca taşınabilir ve üzerlerinde çalışma tamamlandıkça farklı commit'lere işaret ederler. Branch'ler kolayca değiştirilebilir, genellikle geçici ve her zaman değişkendirler.",
               "",
-              "Eğer durum buysa, projenizin tarihindeki belirli noktaları *kalıcı* olarak işaretlemenin bir yolunun olup olmadığını merak ediyor olabilirsiniz. Büyük sürümler ve önemli birleştirmeler gibi durumlar için, bunları bir branch üzerine tag'lemek yerine daha kalıcı bir şekilde nasıl tag'leyeceğinizi düşünüyor olabilirsiniz.",
+              "Eğer durum buysa, projenizin tarihindeki belirli noktaları *kalıcı* olarak işaretlemenin bir yolunun olup olmadığını merak ediyor olabilirsiniz. Büyük sürümler ve büyük merge'ler gibi durumlar için, bu commit'leri bir branch'ten daha kalıcı bir şeyle işaretlemenin bir yolu var mı?",
               ""
             ]
           }
@@ -1222,7 +1224,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Direkt olarak işaretlemek mümkün! Git tag'leri tam da bu kullanım durumunu destekler - belirli commit'leri \"milestone\" olarak (bir dereceye kadar) kalıcı olarak işaretler ve sonra bir branch gibi başvurabileceğiniz şekilde kullanabilirsiniz.",
+              "Elbette var! Git tag'leri tam da bu kullanım durumunu destekler - belirli commit'leri \"milestone\" olarak (bir dereceye kadar) kalıcı olarak işaretler ve sonra bir branch gibi başvurabileceğiniz şekilde kullanabilirsiniz.",
               "",
               "Daha da önemlisi, daha fazla commit oluşturulduğunda asla hareket etmezler. Bir etiketi \"checkout\" edemez ve sonra o etiket üzerinde çalışmayı tamamlayamazsınız - tagler, belirli noktaları belirleyen commit ağacındaki referans noktaları olarak varlıklarını sürdürürler.",
               "",
@@ -1302,6 +1304,58 @@ exports.level = {
               "Ehhez a szinthez csak hozd létre a tageket a célvizualizációban, majd checkoutold a `v1`-et. Figyelj, hogyan kerülsz leválasztott (`detached`) `HEAD` állapotba -- ez azért van, mert nem commitolhatsz közvetlenül a `v1` tagre.",
               "",
               "A következő szinten egy érdekesebb felhasználási esetet vizsgálunk meg a tagek esetén."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tag-lər",
+              "",
+              "Əvvəlki bölümlərdən öyrəndiyin kimi, branch-ları asanlıqla yerini dəyişmək olar və onların üzərində iş tamamlandıqca tez-tez fərqli commit-lərə işarə edirlər. Branch-lar asanlıqla dəyişir, çox vaxt müvəqqəti olur və həmişə dəyişkəndir.",
+              "",
+              "Belədirsə, bəlkə də düşünürsən ki, layihənin tarixindəki nöqtələri *daimi* olaraq qeyd etməyin bir yolu varmı. Böyük buraxılışlar (release) və böyük merge-lər kimi şeylər üçün, bu commit-ləri branch-dan daha daimi bir şeylə qeyd etməyin yolu varmı?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Əlbəttə var! Git tag-lər məhz bu məqsəd üçündür -- onlar müəyyən commit-ləri (bir qədər) daimi olaraq \"mərhələ\" (milestone) kimi qeyd edir və sonra branch kimi onlara istinad edə bilərsən.",
+              "",
+              "Daha vacibi isə, yeni commit-lər yaradıldıqca onlar heç vaxt yerini dəyişmir. Bir tag-ı \"checkout\" edib sonra o tag üzərində işi tamamlaya bilmirsən -- tag-lar commit ağacında müəyyən yerləri göstərən lövbərlər kimi mövcuddur.",
+              "",
+              "Gəl görək tag-lar əməli olaraq necə görünür."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl `C1`-də bir tag yaratmağa cəhd edək -- bu bizim 1-ci versiya prototipimizdir."
+            ],
+            "afterMarkdowns": [
+              "Budur! Kifayət qədər asan. Tag-a `v1` adı verdik və birbaşa `C1` commit-inə istinad etdik. Əgər commit-i qeyd etməsən, git sadəcə `HEAD`-in olduğu yeri istifadə edəcək."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölüm üçün sadəcə hədəf vizuallaşdırmasındakı tag-ları yarat və sonra `v1`-i checkout et. Necə detached `HEAD` vəziyyətinə keçdiyinə diqqət et -- bunun səbəbi `v1` tag-ının üzərinə birbaşa commit edə bilməməyindir.",
+              "",
+              "Növbəti bölümdə tag-lar üçün daha maraqlı bir istifadə halını araşdıracağıq."
             ]
           }
         }

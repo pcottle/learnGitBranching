@@ -495,6 +495,7 @@ class Level extends Sandbox {
     var nextLevel = LevelStore.getNextLevel(this.level.id);
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
+    var levelName = this.getEnglishName();
 
     var skipFinishDialog = this.testOption('noFinishDialog') ||
       this.wasResetAfterSolved;
@@ -550,7 +551,8 @@ class Level extends Sandbox {
         var nextDialog = new NextLevelConfirm({
           nextLevel: nextLevel,
           numCommands: numCommands,
-          best: best
+          best: best,
+          levelName: levelName
         });
 
         return nextDialog.getPromise();

@@ -114,6 +114,9 @@ var buildIndex = function(done) {
   if (process.env.CI) {
     writeFileSync('build/index.html', outputIndex);
     copyRecursiveSync('assets', 'build/assets');
+    // keep the level docs reachable at /generatedDocs/levels.html, as they
+    // were when the whole repo was served from the gh-pages branch
+    copyRecursiveSync('generatedDocs', 'build/generatedDocs');
   } else {
     writeFileSync('index.html', outputIndex);
   }
@@ -186,29 +189,6 @@ var jasmine = function() {
       },
       reporter: new SpecReporter(),
   }));
-};
-
-var gitAdd = function(done) {
-  // Docker builds intentionally omit .git from their context. Generated
-  // artifacts are ignored, so staging them is only useful in a checkout.
-  if (existsSync('.git')) {
-    execSync('git add build/');
-  }
-  done();
-};
-
-var gitDeployMergeMain = function(done) {
-  execSync('git checkout gh-pages && git merge main -m "merge main"');
-  done();
-};
-
-var gitDeployPushOrigin = function(done) {
-  execSync('git commit -am "rebuild for prod"; ' +
-    'git push origin gh-pages --force && ' +
-    'git branch -f trunk gh-pages && ' +
-    'git checkout main'
-  );
-  done();
 };
 
 var generateLevelDocs = function(done) {
@@ -285,19 +265,15 @@ var fastBuild = series(clean, ifyBuild, style, buildIndex, jshint);
 var build = series(
   clean,
   miniBuild, style, buildIndex,
-  gitAdd, jasmine, jshint,
+  jasmine, jshint,
   lintStrings, compliment
 );
 
-var deploy = series(
-  clean,
-  jasmine,
-  jshint,
-  gitDeployMergeMain,
-  build,
-  gitDeployPushOrigin,
-  compliment
-);
+var deploy = function(done) {
+  done(new Error(
+    'Deployment is handled by GitHub Actions. Push main or run the Pages workflow manually.'
+  ));
+};
 
 var lint = series(jshint, compliment);
 
@@ -315,6 +291,7 @@ var watching = function() {
 module.exports = {
   default: build,
   lint,
+  lintStrings,
   fastBuild,
   watching,
   build,

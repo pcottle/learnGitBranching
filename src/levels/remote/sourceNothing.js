@@ -921,7 +921,7 @@ exports.level = {
             "markdowns": [
               "### Неочевидні способи використання `<source>`",
               "",
-              "Git має два хитрі способи використання `<source>`. Обидва випливають з факту, що формально (і цілком легально) ти можеш не вказувати джерело (`source`) як для git push так і для git fetch. Ось, як саме ти можеш це зробити:",
+              "Git має два хитрі способи використання `<source>`. Обидва випливають з факту, що формально (і цілком легально) Ви можете не вказувати джерело (`source`) як для git push так і для git fetch. Ось, як саме Ви можете це зробити:",
               "",
               "* `git push origin :side`",
               "* `git fetch origin :bugFix`",
@@ -947,7 +947,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "І останнє, звантаження \"нічого\" в локальний репозиторій створює нову гілку"
+              "І останнє, завантаження \"нічого\" в локальний репозиторій створює нову гілку"
             ],
             "afterMarkdowns": [
               "Дуже дивно, але такий він, git!"
@@ -960,7 +960,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Це швидкий рівень -- просто видали одну віддалену гілку і створи нову локальну гілку, використовуючи `git fetch`!"
+              "Це швидкий рівень -- просто видаліть одну віддалену гілку і створіть нову локальну гілку, використовуючи `git fetch`!"
             ]
           }
         }
@@ -1184,7 +1184,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "### `<source>` Anomalleri",
+              "### `<source>` Tuhaflıkları",
               "",
               "Git, `<source>` parametresini iki tuhaf şekilde kullanır. Bu iki tuhaf kullanım, teknik olarak git push ve git fetch için \"hiçbir şey\"i geçerli bir `source` olarak belirleyebilmenizi sağlayan bir durumdan kaynaklanır. Hiçbir şey belirlemenin yolu, boş bir argüman kullanmaktır:",
               "",

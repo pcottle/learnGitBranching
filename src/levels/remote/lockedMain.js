@@ -872,10 +872,10 @@ exports.level = {
             "markdowns": [
               "## Uzak Sunucu Reddi!",
               "",
-              "Büyük bir işbirliği ekibinde çalışıyorsanız, muhtemelen main branch'ı kilitlidir ve değişiklikleri bir Pull Request süreci ile birleştirmeniz gerekir. Eğer main'e doğrudan yerel olarak commit yapar ve push etmeye çalışırsanız, şu benzer bir mesajla karşılaşırsınız:",
+              "Büyük ve kalabalık bir ekipte çalışıyorsanız, muhtemelen main branch'i kilitlidir ve değişiklikleri bir Pull Request süreci ile birleştirmeniz gerekir. Eğer main'e doğrudan yerel olarak commit yapar ve push etmeye çalışırsanız, şuna benzer bir mesajla karşılaşırsınız:",
               "",
               "```",
-              " ! [remote rejected] main -> main (TF402455: Bu branch'a push yapılmasına izin verilmiyor; bu branch'ı güncellemek için bir pull request kullanmalısınız.)",
+              " ! [remote rejected] main -> main (TF402455: Bu branch'e push yapılmasına izin verilmiyor; bu branch'i güncellemek için bir pull request kullanmalısınız.)",
               "```"
             ]
           }
@@ -886,7 +886,7 @@ exports.level = {
             "markdowns": [
               "## Neden reddedildi?",
               "",
-              "Uzak sunucu, main branch'ına doğrudan commit gönderilmesini, main üzerinde sadece pull request ile değişiklik yapılması gerektiği politikasından dolayı reddetti.",
+              "Uzak sunucu, main branch'ine doğrudan commit gönderilmesini, main üzerinde yalnızca pull request ile değişiklik yapılması gerektiği politikası nedeniyle reddetti.",
               "",
               "Branch oluşturup, o branch'i push edip pull request yapmak amacıyla bu süreci takip etmeliydiniz ama unutup doğrudan main'e commit yaptınız. Şimdi sıkıştınız ve değişikliklerinizi push edemiyorsunuz."
             ]

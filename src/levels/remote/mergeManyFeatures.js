@@ -44,7 +44,7 @@ exports.level = {
     "bg": "Обърнете внимание на целевото дърво!",
     "ru_RU": "Внимательно посмотрите на цель уровня!",
     "ko": "goal을 잘 살펴보세요!",
-    "uk": "Уважно подивись як має виглядати результат!",
+    "uk": "Уважно подивіться як має виглядати результат!",
     "vi": "Hãy để ý đến cây mục tiêu!",
     "sl_SI": "Poglej si ciljno drevo!",
     "pl": "Zwróć uwagę, jak wygląda docelowe drzewo!",
@@ -782,7 +782,7 @@ exports.level = {
             "markdowns": [
               "## Чому б не змерджити?",
               "",
-              "Для того, щоб віддалений сервер прийняв твої зміни, треба *об'єднати* їх з останніми змінами на сервері. Це означає ребейс *або* мердж з віддаленою гілкою (напр. `o/main`).",
+              "Для того, щоб віддалений сервер прийняв Ваші зміни, треба *об'єднати* їх з останніми змінами на сервері. Це означає ребейс *або* мердж з віддаленою гілкою (напр. `o/main`).",
               "",
               "Хмм, якщо можна використати один із цих методів, для чого нам додаткові уроки про ребейс? Чому ніхто не любить `merge`, працюючи з віддаленим сервером?",
               ""
@@ -1028,7 +1028,7 @@ exports.level = {
               "",
               "* Rebase, commit ağacının (görünürdeki) geçmişini değiştirir.",
               "",
-              "Örneğin, `C1` commit'i, `C3`'ün *öncesine* rebase edilebilir. Bu durumda `C1'`in çalışması aslında daha önce yapılmışken, sanki `C3`ten sonra yapılmış gibi görünür.",
+              "Örneğin, `C1` commit'i `C3`'ün *ötesine* rebase edilebilir. Bu durumda `C1'`in çalışması aslında daha önce tamamlanmışken, sanki `C3`'ten sonra yapılmış gibi görünür.",
               "",
               "Bazı geliştiriciler tarihi korumayı sever ve bu yüzden merge yapmayı tercih eder. Diğerleri (benim gibi) temiz bir commit ağacını tercih eder ve rebase yapmayı sever. Sonuçta bu tamamen tercihe bağlı :D"
             ]

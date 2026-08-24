@@ -41,8 +41,9 @@ exports.level = {
     "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
     "ta_IN": "Commitகளுடன் வித்தைகள்",
-    "tr_TR": "Commit'leri Şekillendirme",
-    "hu_HU": "Commitok átrendezése"
+    "tr_TR": "Commit Hokkabazlığı",
+    "hu_HU": "Commitok átrendezése",
+    "az": "Commit-lərin Hoqqabazlığı"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -69,7 +70,8 @@ exports.level = {
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
     "ta_IN": "முதலில் கொடுக்கவேண்டிய கட்டளை git rebase -i HEAD~2",
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
-    "hu_HU": "Az első parancs: git rebase -i HEAD~2"
+    "hu_HU": "Az első parancs: git rebase -i HEAD~2",
+    "az": "İlk əmr git rebase -i HEAD~2 olmalıdır"
   },
   "startDialog": {
     "en_US": {
@@ -666,7 +668,7 @@ exports.level = {
             "markdowns": [
               "## Жонглюємо комітами",
               "",
-              "Ось інша ситуація, що доволі часто трапляється. В тебе є якісь зміни (`newImage`) та ще якийсь набір комітів (`caption`), які зв’язані між собою, тому вони знаходяться один над одним в твоєму репозиторії (або один за одним).",
+              "Ось інша ситуація, що доволі часто трапляється. В Вас є якісь зміни (`newImage`) та ще якийсь набір комітів (`caption`), які зв’язані між собою, тому вони знаходяться один над одним в Вашому репозиторії (або один за одним).",
               "",
               "Штука в тому що іноді потрібно зробити невелику модифікацію до попереднього коміту. В цьому випадку, дизайнери хочуть щоб ми трохи змінили розміри `newImage`, не зважаючи на те, що цей коміт знаходиться досить глибоко в історії!!"
             ]
@@ -681,12 +683,12 @@ exports.level = {
               "* Ми відсортуємо коміти таким чином, щоб той, який ми хочемо змінити, був останнім за допомогою `git rebase -i`",
               "* Ми виконаємо `git commit --amend` щоб внести невелику правку до останнього коміту",
               "* Тоді ми відсортуємо коміти в попередньому порядку, за допомогою `git rebase -i`",
-              "* І на останок, ми пересунемо main на змінену частину дерева щоб закінчити цей рівень(ти можеш вибрати метод)",
+              "* І на останок, ми пересунемо main на змінену частину дерева щоб закінчити цей рівень(Ви можете вибрати метод)",
               "",
-              "Насправді є кілька способів як виконати поставлену задачу (Я бачу, ти поглядаєш на cherry-pick), і ми розберемося з ними всіма трохи пізніше, але зараз скористаймося саме цим методом.",
-              "Зверни увагу на фінальний стан в цьому рівні -- позаяк ми перемістили коміти двічі, кожен з них отримає по апострофу. Ще один апостроф додасться коли ми виконаємо commit --amend.",
+              "Насправді є кілька способів як виконати поставлену задачу (Я бачу, Ви поглядаєте на cherry-pick), і ми розберемося з ними всіма трохи пізніше, але зараз скористаймося саме цим методом.",
+              "Зверніть увагу на фінальний стан в цьому рівні -- позаяк ми перемістили коміти двічі, кожен з них отримає по апострофу. Ще один апостроф додасться коли ми виконаємо commit --amend.",
               "",
-              "Враховуючи сказане вище, я буду порівнювати дерево як за назвою коміта, так і за кількістю апострофів. Щойно дерево цілей та main співпадуть, ти пройдеш цей рівень."
+              "Враховуючи сказане вище, я буду порівнювати дерево як за назвою коміта, так і за кількістю апострофів. Щойно дерево цілей та main співпадуть, Ви пройдеш цей рівень."
             ]
           }
         }
@@ -884,13 +886,13 @@ exports.level = {
               "",
               "* `git rebase -i` komutu ile değiştirmek istediğimiz commit'i en üste getireceğiz.",
               "* Küçük değişikliği yapmak için `git commit --amend` komutunu kullanacağız.",
-              "* Ardından, `git rebase -i` komutu ile komitleri önceki sıralarına geri döndüreceğiz.",
+              "* Ardından, `git rebase -i` komutu ile commit'leri önceki sıralarına geri döndüreceğiz.",
               "* Son olarak, main branch'ini ağacın bu güncellenmiş kısmına taşıyarak seviyeyi bitireceğiz (tabi sizin seçtiğiniz yöntemle).",
               "",
               "Bunu başarmak için birçok yol vardır (cherry-pick komutuna göz diktiğinizi görüyorum) ve ileride daha fazlasını göreceğiz, ancak şimdilik bu tekniğe odaklanalım.",
-              "Son olarak, buradaki hedef duruma dikkat edin - commit'leri iki kez taşıdığımızdan, her ikisi de bir tırnak işareti alıyor. Değiştirdiğimiz commit için bir tırnak işareti daha eklenir, bu da bize ağacın son halini verir. ",
+              "Son olarak, buradaki hedef duruma dikkat edin - commit'leri iki kez taşıdığımızdan, her ikisi de bir kesme işareti alıyor. Değiştirdiğimiz commit için bir kesme işareti daha eklenir, bu da bize ağacın son halini verir. ",
               "",
-              "Şunu da belirtmek isteriz ki, artık seviyeleri yapı ve göreceli tırnak işareti farklılıklarına göre karşılaştırabiliyoruz. Ağacınızın `main` branch'i aynı yapıya ve göreceli tırnak işareti farklılıklarına sahip olduğu sürece tam puan alacaksınız."
+              "Şunu da belirtmek isteriz ki, artık seviyeleri yapıya ve göreli kesme işareti farklılıklarına göre karşılaştırabiliyoruz. Ağacınızın `main` branch'i aynı yapıya ve aynı göreli kesme işareti farklılıklarına sahip olduğu sürece tam puan alacaksınız."
             ]
           }
         }
@@ -925,6 +927,40 @@ exports.level = {
               "Végül figyelj a célállapotra itt -- mivel a commitokat kétszer mozgatjuk, mindkettőhöz hozzáadódik egy aposztróf. Az általunk módosított commithoz egy további aposztróf adódik, ami megadja a fa végleges formáját.",
               "",
               "Azzal együtt, most már tudom összehasonlítani a szinteket szerkezet és relatív aposztróf-különbségek alapján. Amíg a fád `main` ága azonos szerkezettel és relatív aposztróf-különbségekkel rendelkezik, teljes pontot adok."
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit-lərin Hoqqabazlığı",
+              "",
+              "Budur, kifayət qədər tez-tez baş verən başqa bir vəziyyət. Bir-biri ilə əlaqəli olan bəzi dəyişikliklərin (`newImage`) və başqa bir dəyişiklik dəstinin (`caption`) var, ona görə də onlar repozitoriyanda üst-üstə yığılıb (yəni bir-birinin ardınca gəlir).",
+              "",
+              "Çətin məqam odur ki, bəzən daha əvvəlki bir commit-də kiçik bir dəyişiklik etməyə ehtiyacın olur. Bu halda, dizayn komandası bizdən `newImage`-in ölçülərini bir az dəyişməyimizi istəyir, hətta həmin commit tarixçəmizdə çox geridə olsa belə!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu çətinliyi aşağıdakıları edərək aradan qaldıracağıq:",
+              "",
+              "* `git rebase -i` ilə commit-ləri elə yenidən sıralayacağıq ki, dəyişmək istədiyimiz commit üstdə olsun",
+              "* Kiçik dəyişikliyi etmək üçün `git commit --amend` işlədəcəyik",
+              "* Sonra `git rebase -i` ilə commit-ləri əvvəlki sırasına qaytaracağıq",
+              "* Nəhayət, bölümü bitirmək üçün main-i ağacın bu yenilənmiş hissəsinə köçürəcəyik (özün seçdiyin üsulla)",
+              "",
+              "Bu ümumi məqsədə çatmağın bir çox yolu var (görürəm, cherry-pick-ə göz qoyursan), və sonra onlardan bir neçəsini də görəcəyik, amma hələlik bu texnikaya fokuslanaq.",
+              "Sonda, buradakı hədəf vəziyyətə diqqət et -- commit-ləri iki dəfə köçürdüyümüz üçün, hər ikisinə bir apostrof əlavə olunur. Amend etdiyimiz commit üçün isə daha bir apostrof əlavə olunur ki, bu da bizə ağacın son formasını verir ",
+              "",
+              "Bunu deməklə, indi bölümləri struktur və nisbi apostrof fərqlərinə əsasən müqayisə edə bilərəm. Ağacındakı `main` branch-ı eyni struktura və nisbi apostrof fərqlərinə malik olduğu müddətcə, sənə tam bal verəcəyəm."
             ]
           }
         }

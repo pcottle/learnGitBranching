@@ -32,6 +32,8 @@ TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
   }
   var shallowResult = this.dispatchShallow(
     levelBlob, goalTree, treeToCompare
+  ) && this.compareWorkingChangesFromLevel(
+    levelBlob, goalTree, treeToCompare
   );
   if (!shallowResult || !goalTree.originTree) {
     // we only have one level (or failed on shallow), punt
@@ -43,6 +45,18 @@ TreeCompare.dispatch = function(levelBlob, goalTreeString, treeToCompare) {
   // compare origin trees
   return shallowResult && this.dispatchShallow(
     originBlob, goalTree.originTree, treeToCompare.originTree
+  ) && this.compareWorkingChangesFromLevel(
+    originBlob, goalTree.originTree, treeToCompare.originTree
+  );
+};
+
+TreeCompare.compareWorkingChangesFromLevel = function(levelBlob, goalTree, treeToCompare) {
+  if (!levelBlob.compareWorkingChanges) {
+    return true;
+  }
+  return _.isEqual(
+    treeToCompare.workingChanges || {},
+    goalTree.workingChanges || {}
   );
 };
 
@@ -383,7 +397,8 @@ TreeCompare.reduceTreeFields = function(trees) {
   var commitSaveFields = [
     'parents',
     'id',
-    'rootCommit'
+    'rootCommit',
+    'changedFiles'
   ];
   var branchSaveFields = [
     'target',
@@ -395,7 +410,7 @@ TreeCompare.reduceTreeFields = function(trees) {
     'id'
   ];
 
-  var commitSortFields = ['children', 'parents'];
+  var commitSortFields = ['children', 'parents', 'changedFiles'];
   // for backwards compatibility, fill in some fields if missing
   var defaults = {
     remoteTrackingBranchID: null

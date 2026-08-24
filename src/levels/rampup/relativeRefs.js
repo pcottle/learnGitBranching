@@ -24,9 +24,10 @@ exports.level = {
     "sl_SI": "Relativne Reference (^)",
     "it_IT": "Riferimenti relativi (^)",
     "pl": "Referencje względne (^)",
-    "tr_TR": "İlgili Referanslar (^)",
+    "tr_TR": "Göreli Referanslar (^)",
     "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)",
-    "hu_HU": "Relatív hivatkozások (^)"
+    "hu_HU": "Relatív hivatkozások (^)",
+    "az": "Nisbi Ref-lər (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -45,14 +46,15 @@ exports.level = {
     "bg": "Не забравяй оператора Caret (^)",
     "ru_RU": "Не забудь оператор `^`",
     "ko": "(^)연산자를 기억하세요!",
-    "uk": "Не забудь оператор `^`",
+    "uk": "Не забудьте оператор `^`",
     "vi": "Đừng quên dấu mũ (^)!",
     "sl_SI": "Spomni se na (^) operator!",
     "it_IT": "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
     "pl": "Pamiętaj o operatorze wstawienia (^)!",
     "ta_IN": "உதவிக்குறிப்பை (^), மறக்காதீர்கள்!",
     "tr_TR": "^ operatörünü hatırlayın!",
-    "hu_HU": "Ne feledd a kalap (^) operátort!"
+    "hu_HU": "Ne feledd a kalap (^) operátort!",
+    "az": "Caret (^) operatorunu yadında saxla!"
   },
   "startDialog": {
     "en_US": {
@@ -1263,7 +1265,7 @@ exports.level = {
             "markdowns": [
               "## Відносні посилання",
               "",
-              "Пересуватися по гіту використовуючи хеш комітів може бути трохи напряжно. В справжньому гіті в тебе не буде візуалізації дерева комітів в терміналі, тому доведеться використовувати `git log` щоб подивится хеші комітів.",
+              "Пересуватися по гіту використовуючи хеш комітів може бути трохи напряжно. В справжньому гіті в Вас не буде візуалізації дерева комітів в терміналі, тому доведеться використовувати `git log` щоб подивится хеші комітів.",
               "",
               "Більше того, хеші як правило набагато довші в справжньому гіті. Типовий хеш виглядає як `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Без мнемонік не обійтися)...",
               "",
@@ -1277,7 +1279,7 @@ exports.level = {
             "markdowns": [
               "Як було сказано, вказувати коміти за хешем не найзручніша річ, через це git підтримує відносні посилання. Вони реально круті!",
               "",
-              "З відносними посиланнями ти можеш почати з якогось зручного місця  (наприклад гілки `bugFix` чи посилання `HEAD`) й вказати потрібний коміт відносно цього посилання",
+              "З відносними посиланнями Ви можете почати з якогось зручного місця  (наприклад гілки `bugFix` чи посилання `HEAD`) й вказати потрібний коміт відносно цього посилання",
               "",
               "Відносні коміти є дуже потужним інструментом, але ми почнемо з двох простих прикладів:",
               "",
@@ -1309,7 +1311,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ти також можеш використовувати `HEAD` з відносними посиланнями. Давай використаємо це щоб трошки піднятися по дереву."
+              "Ви також можете використовувати `HEAD` з відносними посиланнями. Використаємо це щоб трошки піднятися по дереву."
             ],
             "afterMarkdowns": [
               "Просто! Ми можемо переміщуватись назад в часі з `HEAD^`"
@@ -1322,9 +1324,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти цей рівень перемістись на першого предка гілки `bugFix`. Ти опинишся в стані `detach HEAD`.",
+              "Щоб пройти цей рівень перемістись на першого предка гілки `bugFix`. Ви опинитеся в стані `detach HEAD`.",
               "",
-              "Ти, звичайно, можеш вказати хеш, але натомість спробуй користуватися відносними посиланнями!"
+              "Ви, звичайно, можете вказати хеш, але натомість спробуйте користуватися відносними посиланнями!"
             ]
           }
         }
@@ -1636,7 +1638,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Göreceli Referanslar",
+              "## Göreli Referanslar",
               "",
               "Git'te commit hash'lerini belirterek gezinmek biraz sıkıcı olabilir. Gerçek dünyada terminalin yanında güzel bir commit ağacı görselleştirmesi olmayacağı için hash'leri görmek için `git log` kullanmanız gerekecek.",
               "",
@@ -1650,11 +1652,11 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Dediğim gibi, commit'leri hash'leriyle belirtmek her zaman en pratik şey değildir, bu yüzden Git göreceli referansları sunar. Bunlar harikadır!",
+              "Dediğim gibi, commit'leri hash'leriyle belirtmek her zaman en pratik şey değildir, bu yüzden Git göreli referansları sunar. Bunlar harikadır!",
               "",
-              "Göreceli referanslarla, hatırlanması kolay bir yerden (mesela `bugFix` dalı ya da `HEAD`) başlayabilir ve buradan ilerleyebilirsiniz.",
+              "Göreli referanslarla, hatırlanması kolay bir yerden (mesela `bugFix` dalı ya da `HEAD`) başlayabilir ve buradan ilerleyebilirsiniz.",
               "",
-              "Göreceli commit'ler güçlüdür, ancak burada iki basit örneğini sunacağız:",
+              "Göreli commit'ler güçlüdür, ancak burada iki basit örneğini sunacağız:",
               "",
               "* `^` ile bir commit yukarıya hareket etmek",
               "* `~<num>` ile birden fazla commit yukarıya hareket etmek"
@@ -1684,7 +1686,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "`HEAD`'i de göreceli bir referans olarak kullanabilirsiniz. Hadi bunu birkaç kez kullanalım ve commit ağacında yukarıya doğru hareket edelim."
+              "`HEAD`'i de göreli bir referans olarak kullanabilirsiniz. Hadi bunu birkaç kez kullanalım ve commit ağacında yukarıya doğru hareket edelim."
             ],
             "afterMarkdowns": [
               "Kolay! `HEAD^` ile zaman içinde geri gidebiliriz."
@@ -1699,7 +1701,7 @@ exports.level = {
             "markdowns": [
               "Bu seviyeyi tamamlamak için, `bugFix`'in ebeveyn commit'ine göz atın. Bu, `HEAD`'i ayıracaktır.",
               "",
-              "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreceli referansları kullanmayı deneyin!"
+              "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreli referansları kullanmayı deneyin!"
             ]
           }
         }
@@ -1775,6 +1777,81 @@ exports.level = {
               "A szint teljesítéséhez válts a `bugFix` szülő commitjára. Ez leválasztja a `HEAD`-et.",
               "",
               "Ha akarod, megadhatod a hash-t, de próbálj inkább relatív hivatkozásokat használni!"
+            ]
+          }
+        }
+      ]
+    },
+    "az": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Nisbi Ref-lər",
+              "",
+              "Git-də commit hash-lərini göstərməklə hərəkət etmək bir az yorucu ola bilər. Real dünyada terminalının yanında belə gözəl bir commit ağacı vizuallaşdırması olmayacaq, ona görə hash-ləri görmək üçün `git log`-dan istifadə etməli olacaqsan.",
+              "",
+              "Üstəlik, real Git dünyasında hash-lər adətən xeyli daha uzun olur. Məsələn, əvvəlki bölümü təqdim edən commit-in hash-i `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`-dir. Deyəndə dil süründürmür...",
+              "",
+              "Yaxşı tərəfi odur ki, Git hash-lər barədə ağıllıdır. O, yalnız commit-i unikal şəkildə identifikasiya edən qədər simvol yazmağını tələb edir. Beləliklə, yuxarıdakı uzun sətir əvəzinə sadəcə `fed2` yaza bilərəm."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Dediyim kimi, commit-ləri hash-lə göstərmək heç də ən rahat üsul deyil, elə buna görə də Git-də nisbi ref-lər var. Onlar möhtəşəmdir!",
+              "",
+              "Nisbi ref-lərlə yadda qalan bir yerdən (məsələn, `bugFix` branch-ı və ya `HEAD`) başlaya və oradan davam edə bilərsən.",
+              "",
+              "Nisbi commit-lər güclüdür, amma biz burada iki sadə üsulu təqdim edəcəyik:",
+              "",
+              "* `^` ilə hər dəfə bir commit yuxarı hərəkət etmək",
+              "* `~<say>` ilə bir neçə dəfə yuxarı hərəkət etmək"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Gəl əvvəlcə Caret (^) operatoruna baxaq. Onu bir ref adının sonuna hər əlavə etdiyində, Git-ə göstərilən commit-in valideynini tapmasını deyirsən.",
+              "",
+              "Beləliklə, `main^` demək \"`main`-in birinci valideyni\" deməkdir.",
+              "",
+              "`main^^` isə `main`-in babası (ikinci nəsil əcdadı)dır",
+              "",
+              "Gəl burada main-in üstündəki commit-i checkout edək."
+            ],
+            "afterMarkdowns": [
+              "Bumm! Oldu. Commit hash-ini yazmaqdan qat-qat asandır."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`HEAD`-i də nisbi ref kimi istifadə edə bilərsən. Gəl commit ağacında yuxarı hərəkət etmək üçün onu bir neçə dəfə işlədək."
+            ],
+            "afterMarkdowns": [
+              "Asandır! `HEAD^` ilə zamanda geriyə səyahət edə bilərik"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bu bölümü bitirmək üçün `bugFix`-in valideyn commit-ini checkout et. Bu, `HEAD`-i ayıracaq (detached HEAD).",
+              "",
+              "İstəsən hash-i göstərə bilərsən, amma bunun əvəzinə nisbi ref-lərdən istifadə etməyə çalış!"
             ]
           }
         }
