@@ -152,7 +152,8 @@ var jshint = function() {
     'src/'
   ])
   .pipe(gJshint())
-  .pipe(gJshint.reporter('default'));
+  .pipe(gJshint.reporter('default'))
+  .pipe(gJshint.reporter('fail'));
 };
 
 var ifyBuild = function() {

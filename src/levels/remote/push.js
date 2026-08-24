@@ -32,14 +32,14 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
-    "fa": "به یاد داشته باشید که قبل از اینکه بتوانید push کنید، باید clone کنید!",
+    "fa": "یادت باشه قبل از push کردن باید clone کنی!",
     "zh_CN": "推送之前需要先克隆",
     "zh_TW": "push 之前你需要先 clone",
     "es_AR": "¡Acordate que tenés que clonar antes de pushear!",
     "es_MX": "¡Recuerda que tienes que clonar antes de hacer push!",
     "es_ES": "¡Recuerda que tienes que clonar antes de hacer push!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
-    "de_DE": "Denk dran, dass du einen Clone brauchst bevor du Pushen kannst!",
+    "de_DE": "Denk dran, dass du einen Clone brauchst, bevor du pushen kannst!",
     "ja": "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
     "ro": "Amintiți-vă că trebuie să clonați înainte de a putea face push!",
@@ -136,7 +136,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "برای پایان دادن به این مرحله، به سادگی دو کامیت جدید را با ریموت به اشتراک بگذارید. کمربندها را ببندید، زیرا این درس‌ها قرار است خیلی سخت‌تر شوند!"
+              "برای پایان دادن به این مرحله، به سادگی دو کامیت جدید رو با ریموت به اشتراک بذار. کمربندها رو ببند، چون این درس‌ها قراره خیلی سخت‌تر شن!"
             ]
           }
         }
@@ -494,7 +494,9 @@ exports.level = {
               "",
               "`git push` ist dafür verantwortlich _deine_ Änderungen zu einem bestimmten entfernten Server hochzuladen und dort zu integrieren. Sobald das `git push` durch ist, können alle deine Freunde diese Änderungen zu sich herunterladen.",
               "",
-              "Du kannst dir `git push` als einen Befehl zum \"Veröffentlichen\" deiner Arbeit vorstellen. Es gibt da noch ein paar Feinheiten, aber lass uns mal mit kleinen Schritten anfangen."
+              "Du kannst dir `git push` als einen Befehl zum \"Veröffentlichen\" deiner Arbeit vorstellen. Es gibt da noch ein paar Feinheiten, aber lass uns mal mit kleinen Schritten anfangen.",
+              "",
+              "*Hinweis -- das Verhalten von `git push` ohne Argumente hängt von einer Git-Einstellung namens `push.default` ab. Der Standardwert dieser Einstellung hängt von deiner Git-Version ab, aber wir verwenden in unseren Lektionen den Wert `upstream`. Das ist kein großes Thema, aber es lohnt sich, vor dem Push in deinen eigenen Projekten deine Einstellungen zu überprüfen.*"
             ]
           }
         },
@@ -515,7 +517,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu schaffen musst du einfach nur zwei neue Commits auf das Remote bringen. Aber stell dich schon mal darauf ein, dass die nächsten Level anspruchsvoller werden!"
+              "Um dieses Level zu schaffen musst du einfach nur zwei neue Commits auf das Remote bringen. Aber stell dich schon mal darauf ein, dass die nächsten Level anspruchsvoller werden!"
             ]
           }
         }
