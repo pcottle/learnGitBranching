@@ -362,7 +362,8 @@ exports.strings = {
     "de_DE": "Änderungen, die committed werden:",
     "tr_TR": "Commit edilecek değişiklikler:",
     "vi": "Tiêu đề git status cho các thay đổi đã được staged (sẵn sàng commit)",
-    "uk": "Зміни, підготовлені до коміту:"
+    "uk": "Зміни, підготовлені до коміту:",
+    "es_AR": "Cambios a ser commiteados:"
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
@@ -371,7 +372,8 @@ exports.strings = {
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
     "tr_TR": "Commit için stage'lenmemiş değişiklikler:",
     "vi": "Tiêu đề của git status dành cho các tệp đã sửa đổi nhưng chưa được đưa vào staging area",
-    "uk": "Зміни, не підготовлені до коміту:"
+    "uk": "Зміни, не підготовлені до коміту:",
+    "es_AR": "Cambios no preparados(staged) para commitear:"
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
@@ -380,7 +382,8 @@ exports.strings = {
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
     "tr_TR": "commit edilecek bir şey yok, çalışma ağacı temiz",
     "vi" : "Không có gì để commit, thư mục làm việc sạch sẽ",
-    "uk": "нічого комітити, робоче дерево чисте"
+    "uk": "нічого комітити, робоче дерево чисте",
+    "es_AR": "nada para commitear, árbol de trabajo limpio"
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
@@ -389,7 +392,8 @@ exports.strings = {
     "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
     "tr_TR": "commit'e eklenmiş değişiklik yok (önce \"git add <file>\" ile stage'leyin)",
     "vi" : "Không có thay đổi nào được thêm vào để commit (hãy đưa chúng vào staging area trước bằng lệnh \"git add <file>\")",
-    "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")"
+    "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")",
+    "es_AR": "ningún cambio agregado para commitear (preparalos primero con \"git add <file>\")"
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -854,7 +858,8 @@ exports.strings = {
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
     "de_DE": "fatal: Zum Wechseln wird ein Branch benötigt. '{ref}' ist kein Branch -- benutze 'git switch --detach {ref}' (oder '-d'), wenn du ihn auschecken und den HEAD abkoppeln willst.",
     "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
-    "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD."
+    "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD.",
+    "es_AR": "fatal: se requiere una branch para switchear. '{ref}' no es una branch -- usá 'git switch --detach {ref}' (o '-d') si querés separar(detach) el HEAD."
   },
   "git-error-options": {
     "__desc__": "One of the error messages for git",
@@ -1213,6 +1218,7 @@ exports.strings = {
     "zh_CN": "主要",
     "zh_TW": "主要",
     "es_ES": "Principal",
+    "es_AR": "Principal",
     "fr_FR": "Principal",
     "gl": "Principal",
     "ro": "Principal",
@@ -1236,6 +1242,7 @@ exports.strings = {
     "zh_CN": "远程",
     "zh_TW": "遠端",
     "es_ES": "Remota",
+    "es_AR": "Remoto",
     "fr_FR": "Remote",
     "gl": "Remota",
     "ro": "Ramuri Remote",
@@ -1739,22 +1746,26 @@ exports.strings = {
   "share-progress": {
     "__desc__": "Button label prompting user to share their level completion on social media",
     "en_US": "Share your progress!",
-    "de_DE": "Teile deinen Fortschritt!"
+    "de_DE": "Teile deinen Fortschritt!",
+    "es_AR": "Compartí tu progreso!"
   },
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
     "en_US": "X (Twitter)",
-    "de_DE": "X (Twitter)"
+    "de_DE": "X (Twitter)",
+    "es_AR": "X (Twitter)"
   },
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
     "en_US": "LinkedIn",
-    "de_DE": "LinkedIn"
+    "de_DE": "LinkedIn",
+    "es_AR": "LinkedIn"
   },
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
     "en_US": "Facebook",
-    "de_DE": "Facebook"
+    "de_DE": "Facebook",
+    "es_AR": "Facebook",
   },
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
@@ -1928,6 +1939,7 @@ exports.strings = {
     "zh_CN": "恭喜过关!!!",
     "zh_TW": "恭喜，本關解決了!!!",
     "es_ES": "¡Resuelto!!!\n:D",
+    "es_AR": "Bien ahí!!!\n:D",
     "fr_FR": "Résolu !!!\n:D",
     "gl": "¡Resolto!!!",
     "ro": "Rezolvat!!!\n:D",
@@ -2113,7 +2125,8 @@ exports.strings = {
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
     "tr_TR": "Bu seviyenin gösterilecek bir çözümü yok!",
     "vi": "Cấp độ này không có lời giải để hiển thị!",
-    "uk": "Для цього рівня немає розв’язку для показу!"
+    "uk": "Для цього рівня немає розв’язку для показу!",
+    "es_AR": "Este nivel no tiene una solución para mostrar!"
   },
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
@@ -2288,6 +2301,7 @@ exports.strings = {
     "zh_TW": "提示",
     "zh_CN": "提示",
     "es_ES": "Objetivo",
+    "es_AR": "Objetivo",
     "es_MX": "Objetivo",
     "fr_FR": "Instructions",
     "gl": "Obxectivo",
@@ -2314,6 +2328,7 @@ exports.strings = {
     "zh_TW": "Git示範",
     "zh_CN": "Git示范",
     "es_ES": "Demostración de Git",
+    "es_AR": "Demostración de Git",
     "es_MX": "Demostración de Git",
     "fr_FR": "Démonstration de Git",
     "gl": "Demostración de Git",
@@ -2658,7 +2673,8 @@ exports.strings = {
     "de_DE": "Fenster schließen",
     "tr_TR": "Pencereyi kapat",
     "vi": "Đóng cửa xổ",
-    "uk": "Закрити вікно"
+    "uk": "Закрити вікно",
+    "es_AR": "Cerrar ventana"
   },
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
@@ -2667,7 +2683,8 @@ exports.strings = {
     "de_DE": "Zurück",
     "tr_TR": "Geri",
     "vi": "Quay lại",
-    "uk": "Назад"
+    "uk": "Назад",
+    "es_AR": "Volver"
   },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
