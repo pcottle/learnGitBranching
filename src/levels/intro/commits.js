@@ -33,7 +33,7 @@ exports.level = {
   "hint": {
     "en_US": "Just type in 'git commit' twice to finish!",
     "ar": "فقط اكتب 'git commit' مرتين لإنهاء المستوى!",
-    "fa": "فقط دو بار 'git commit' را تایپ کنید تا تمام شود!",
+    "fa": "فقط دو بار 'git commit' را تایپ کن تا تمام شود!",
     "de_DE": "Gib einfach zweimal 'git commit' ein um den Level abzuschließen",
     "es_AR": "¡Simplemente tipeá 'git commit' dos veces para terminar!",
     "es_MX": "¡Simplemente escribe 'git commit' dos veces para terminar!",
@@ -182,7 +182,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "حالا خودتان امتحان کنید! بعد از بسته شدن این پنجره، دو بار کامیت کنید تا مرحله تمام شود."
+              "حالا خودت امتحان کن! بعد از بسته شدن این پنجره، دو بار کامیت کن تا مرحله تمام شود."
             ]
           }
         }

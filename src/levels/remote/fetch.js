@@ -31,7 +31,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "just run git fetch!",
-    "fa": "فقط git fetch را اجرا کنید!",
+    "fa": "فقط git fetch رو اجرا کن!",
     "fr_FR": "Exécuter juste git fetch",
     "de_DE": "Einfach git fetch ausführen!",
     "ja": "単にgit fetchを実行！",
@@ -853,7 +853,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level zu schaffen musst du einfach nur `git fetch` ausführen, um alle Commits herunterzuladen!"
+              "Um dieses Level zu schaffen musst du einfach nur `git fetch` ausführen, um alle Commits herunterzuladen!"
             ]
           }
         }

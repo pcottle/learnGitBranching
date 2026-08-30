@@ -32,7 +32,7 @@ exports.level = {
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
     "ar": "تذكر أن تنجز الكومِتات بالترتيب المحدد (bugFix قبل main)",
-    "fa": "به یاد داشته باشید که به ترتیب مشخص شده کامیت کنید (bugFix قبل از main)",
+    "fa": "به یاد داشته باش که به ترتیب مشخص شده کامیت کنی (bugFix قبل از main)",
     "de_DE": "Denk dran in der angegebenen Reihenfolge zu committen (erst bugFix, dann main)",
     "ja": "指示された順番でコミットすること（mainの前にbugFixで）",
     "es_AR": "Acordate de commitear en el orden especificado (bugFix antes de main)",
@@ -253,16 +253,16 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "برای تکمیل این مرحله، گام‌های زیر را انجام دهید:",
+              "برای تکمیل این مرحله، گام‌های زیر رو انجام بده:",
               "",
-              "* یک شاخه جدید به نام `bugFix` بسازید",
-              "* با `git checkout bugFix` وارد شاخه `bugFix` شوید",
-              "* یک بار کامیت کنید",
-              "* با `git checkout` به `main` بازگردید",
-              "* یک بار دیگر کامیت کنید",
-              "* شاخه `bugFix` را با `git merge` در `main` ادغام کنید",
+              "* یک شاخه جدید به نام `bugFix` بساز",
+              "* با `git checkout bugFix` وارد شاخه `bugFix` شو",
+              "* یک بار کامیت کن",
+              "* با `git checkout` به `main` برگرد",
+              "* یک بار دیگه کامیت کن",
+              "* شاخه `bugFix` رو با `git merge` در `main` ادغام کن",
               "",
-              "*به یاد داشته باشید، همیشه می‌توانید این پنجره را با \"objective\" دوباره نمایش دهید!*"
+              "*به یاد داشته باش، همیشه می‌تونی این پنجره رو با \"objective\" دوباره نمایش بدی!*"
             ]
           }
         }

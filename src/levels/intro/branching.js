@@ -32,7 +32,7 @@ exports.level = {
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
     "ar": "أنشئ فرعاً جديداً بـ \"git branch <branch-name>\" وانتقل إليه بـ \"git checkout <branch-name>\"",
-    "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بسازید و با \"git checkout <branch-name>\" وارد آن شوید",
+    "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بساز و با \"git checkout <branch-name>\" واردش شو",
     "de_DE": "Lege mit \"git branch [Branch-Name]\" einen neuen Branch an und checke ihn mit \"git checkout [Branch-Name]\" aus",
     "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
     "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
@@ -332,8 +332,8 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "بسیار خب! شما کاملاً آماده شاخه‌سازی هستید. وقتی این پنجره بسته شد،",
-              "یک شاخه جدید به نام `bugFix` بسازید و به آن شاخه بروید.",
+              "بسیار خب! تو کاملاً آماده‌ای شاخه بسازی. وقتی این پنجره بسته شد،",
+              "یک شاخه جدید به نام `bugFix` بساز و به اون شاخه برو.",
               "",
               "راستی، این یک میانبر است: اگر می‌خواهید یک ",
               "شاخه جدید بسازید و همزمان وارد آن شوید، می‌توانید به سادگی ",
@@ -365,12 +365,12 @@ exports.level = {
             "beforeMarkdowns": [
               "Schauen wir mal, wie Branches in der Praxis aussehen.",
               "",
-              "Wir legen einen neuen Branch an und nennen ihn `issue`:"
+              "Wir legen einen neuen Branch an und nennen ihn `newImage`:"
             ],
             "afterMarkdowns": [
-              "Und das war's auch schon, mehr ist es nicht. Der Branch `issue` zeigt nun auf den Commit `C1`."
+              "Und das war's auch schon, mehr ist es nicht. Der Branch `newImage` zeigt nun auf den Commit `C1`."
             ],
-            "command": "git branch issue",
+            "command": "git branch newImage",
             "beforeCommand": ""
           }
         },
@@ -381,10 +381,10 @@ exports.level = {
               "Lass uns mal ein wenig auf dem neuen Branch arbeiten. Machen wir einen Commit:"
             ],
             "afterMarkdowns": [
-              "Oi! Der Branch `main` hat sich verändert, aber der Branch `issue` nicht. Das liegt daran, dass wir nicht \"auf\" dem neuen Branch waren, weshalb das Sternchen `*` auch hinter `main` steht."
+              "Oi! Der Branch `main` hat sich verändert, aber der Branch `newImage` nicht. Das liegt daran, dass wir nicht \"auf\" dem neuen Branch waren, weshalb das Sternchen `*` auch hinter `main` steht."
             ],
             "command": "git commit",
-            "beforeCommand": "git branch issue"
+            "beforeCommand": "git branch newImage"
           }
         },
         {
@@ -402,15 +402,27 @@ exports.level = {
             "afterMarkdowns": [
               "Und fertig! Unsere Änderungen wurden im neuen Branch gespeichert."
             ],
-            "command": "git checkout issue; git commit",
-            "beforeCommand": "git branch issue"
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Cool! Jetzt bist du soweit, selbst Branches anzulegen. Wenn dieses Fenster geschlossen wurde, leg einen neuen Branch namens `bugFix` an und schalte auf diesen um."
+              "*Hinweis: In Git-Version 2.23 wurde der neue Befehl `git switch` eingeführt. Er konzentriert sich auf das Wechseln von Branches, während `git checkout` je nach Argument verschiedene Aufgaben übernimmt. Die Lektionen hier verwenden weiterhin `checkout`, damit die verwendeten Befehle durchgehend einheitlich bleiben. ",
+              "Du kannst `git switch` aber trotzdem in dieser App ausprobieren und auch ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\" rel=\"noopener noreferrer\">hier mehr erfahren</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Cool! Jetzt bist du so weit, selbst Branches anzulegen. Wenn dieses Fenster geschlossen wurde, leg einen neuen Branch namens `bugFix` an und schalte auf diesen um.",
+              "",
+              "Übrigens, hier ein Tipp: Wenn du einen neuen Branch erstellen UND direkt auf diesen wechseln willst, kannst du einfach `git checkout -b <deinbranchname>` eingeben."
             ]
           }
         }

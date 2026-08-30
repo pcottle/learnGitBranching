@@ -11,14 +11,14 @@ exports.level = {
     "pt_BR": "A área de staging",
     "ru_RU": "Область подготовленных файлов (Индекс)",
     "tr_TR": "Staging Area (Hazırlık Alanı)", 
-    "es_AR": "Area de Staging (preparando)",
+    "es_AR": "Área de Staging",
     "es_MX": "Area de Staging (preparando)",
     "es_ES": "Area de Staging (preparando)",
     "vi": "Staging Area",
     "uk": "Область підготовлених файлів (Staging Area)"
   },
   "hint": {
-    "es_AR": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
+    "es_AR": "Prepará (Stage) un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hacelo dos veces, una vez por cada archivo.",
     "es_MX": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     "es_ES": "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     "en_US": "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
@@ -540,6 +540,63 @@ exports.level = {
               "* `git add styles.css`, потім `git commit`",
               "",
               "Назви файлів поруч із кожним цільовим комітом чітко показують, куди саме належить кожна зміна. Два чистих коміти — і рівень ваш."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Área de Staging",
+              "",
+              "Hasta el momento en esta experiencia de aprendizaje, no nos pusimos a pensar en que es exactamente y que implica *hacer* un commit. Quizás sabés que estos representan cambios a un conjunto de archivos, sin embargo hay una maña a la hora de elegir *cuáles* archivos modificados se convierten en *cuáles* commits.",
+              "",
+              "Git no quiere que automáticamente se incluyan todos los archivos modificados en todos los commits -- sería horrendo eso! Podría llegar a incluir un cambio que vos no querés de forma permanente, o quizás incluir alguna cosa secreta como una API key la cuál se puede filtrar en GitHub como parte del historial de commits.",
+              "",
+              "Por eso, antes de que algún cambio en un archivo se vuela parte de un commit, este tiene que ser seleccionado minuciosamente. Git tiene tres zonas para esto: el **área de trabajo** (donde editás), el **área de staging** (un contenedor con lo que va a ir en el siguiente commit), y el **repositorio** (tu historial permanente).",
+              "",
+              "Vos seleccionás *exactamente* que es lo que va a ir en cada commit con `git add`. De esa forma los commits se quedan ordenados, y no estás forzado a commitear todo de una.",
+              "",
+              "*(Para estos niveles, vamos a mostrar cuáles archivos son parte de cuáles commits.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ejecuta `git status` en cualquier momento para ver que onda con los cambios. Ahora mismo muestra dos archivos que editaste pero que no preparaste/enviaste al área de staging:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Prepará un solo archivo con `git add app.js`, o agarrá todo de una con `git add .`. Una vez que los archivos estén preparados, `git commit` los empaqueta en una snapshot.",
+              "",
+              "Tenés archivos que nunca vas querer commitear, como secretos, logs, o cosas de builds? Listalas en un archivo `.gitignore` y git directamente las va a ignorar."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tu turno! Prepará y commiteá tu trabajo **un archivo a la vez**, así cada commit se mantiene simple:",
+              "",
+              "* `git add app.js`, luego `git commit`",
+              "* `git add styles.css`, luego `git commit`",
+              "",
+              "Lo nombres de archivo al lado de cada commit objetivo, muestran exactamente dónde pertenece cada cambio. Dos commits limpios y el nivel es tuyo."
             ]
           }
         }

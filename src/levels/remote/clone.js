@@ -27,7 +27,7 @@ exports.level = {
     "en_US": "Clone Intro",
     "fa": "مقدمه Clone",
     "fr_FR": "Introduction à clone",
-    "de_DE": "Clone Einführung",
+    "de_DE": "Einführung in Clone",
     "ja": "Clone入門",
     "es_AR": "Introducción a clone",
     "es_MX": "Introducción a clone",
@@ -51,7 +51,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just git clone!",
-    "fa": "فقط git clone کنید!",
+    "fa": "فقط git clone کن!",
     "fr_FR": "Simplement git clone !",
     "de_DE": "Einfach git clone ausführen!",
     "ja": "単にgit clone!",
@@ -695,7 +695,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um diesen Level abzuschließen, führ einfach `git clone` auf dem entfernten Repository aus, das wir für dich vorbereitet haben. Alles weitere kommt in den nächsten Leveln."
+              "Um dieses Level abzuschließen, führ einfach `git clone` auf dem entfernten Repository aus, das wir für dich vorbereitet haben. Alles weitere kommt in den nächsten Leveln."
             ]
           }
         }

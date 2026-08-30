@@ -32,8 +32,8 @@ exports.level = {
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
     "ar": "تأكد من إنجاز الكومِت من bugFix أولاً",
-    "fa": "مطمئن شوید که ابتدا از bugFix کامیت می‌کنید",
-    "de_DE": "Geh vor dem committen sicher, dass du auf bugFix arbeitest",
+    "fa": "مطمئن شو که اول از bugFix کامیت کنی",
+    "de_DE": "Stell sicher, dass du zuerst auf bugFix committest",
     "ja": "初めにbugFixを指した状態でコミットする",
     "fr_FR": "Assurez-vous de bien faire votre commit sur bugFix en premier",
     "es_AR": "Asegurate de commitear desde bugFix primero",
@@ -182,7 +182,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "برای تکمیل این مرحله، موارد زیر را انجام دهید",
+              "برای تکمیل این مرحله، موارد زیر رو انجام بده",
               "",
               "* وارد یک شاخه جدید به نام `bugFix` شوید",
               "* یک بار کامیت کنید",
