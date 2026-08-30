@@ -97,7 +97,7 @@ exports.level = {
               "We download only the commits from `foo` and place them on `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -135,7 +135,7 @@ exports.level = {
               "Wow! See, git resolved `C2` as a place on the origin and then downloaded those commits to `bar` (which was a local branch)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -148,7 +148,7 @@ exports.level = {
               "See, it's JUST like git push. Git made the destination locally before fetching, just like git will make the destination on remote before pushing (if it doesn't exist)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -163,7 +163,7 @@ exports.level = {
               "Pretty simple, but worth going over just once."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -220,7 +220,7 @@ exports.level = {
               "ما فقط کامیت‌ها را از `foo` دانلود می‌کنیم و آن‌ها را روی `o/foo` قرار می‌دهیم."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -258,7 +258,7 @@ exports.level = {
               "وای! ببینید، گیت `C2` را به عنوان مکانی در origin حل کرد و سپس آن کامیت‌ها را به `bar` (که یک شاخه محلی بود) دانلود کرد."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -271,7 +271,7 @@ exports.level = {
               "ببینید، این دقیقاً مثل git push است. گیت مقصد را به صورت محلی قبل از fetching ساخت، درست همانطور که گیت مقصد را در ریموت قبل از pushing می‌سازد (اگر وجود نداشته باشد)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -286,7 +286,7 @@ exports.level = {
               "خیلی ساده است، اما ارزش یک بار مرور کردن را دارد."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -343,7 +343,7 @@ exports.level = {
               "Nous téléchargeons uniquement les commits de `foo` et les plaçons dans `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -381,7 +381,7 @@ exports.level = {
               "Wow ! Vous voyez, Git a résolu `C2` comme un emplacement sur origin et a ensuite téléchargé les commits dans `bar` (qui était une branche locale)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -394,7 +394,7 @@ exports.level = {
               "Vous voyez, c'est COMME un git push. Git a créé la destination localement avant le fetch, exactement comme il fait avec push en créant au préalable la destination sur le dépôt distant (si elle n'existe pas)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -409,7 +409,7 @@ exports.level = {
               "Assez simple, mais ce n'était pas inutile de le voir en action."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -466,7 +466,7 @@ exports.level = {
               "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -504,7 +504,7 @@ exports.level = {
               "¡Wow! Mirá: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -517,7 +517,7 @@ exports.level = {
               "Mirá: es IGUAL que git push. Git creó el destino localmente antes de hacer el fetch, tal como git creará el destino en el remoto antes de pushear (si no existiera)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -532,7 +532,7 @@ exports.level = {
               "Bastante simple, pero vale la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -589,7 +589,7 @@ exports.level = {
               "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -627,7 +627,7 @@ exports.level = {
               "¡Caramba! Mira: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -640,7 +640,7 @@ exports.level = {
               "Mira: es IGUAL que git push. Git creó el destino localmente antes de hacer el fetch, tal como git creará el destino en el remoto antes de hacer push (si no existiera)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -655,7 +655,7 @@ exports.level = {
               "Bastante simple, pero merece la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -712,7 +712,7 @@ exports.level = {
               "Sólo bajamos los commits de `foo` y los ubicamos en `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -750,7 +750,7 @@ exports.level = {
               "¡Caramba! Mira: git resolvió `C2` como un lugar en el origin y bajó esos commits a `bar` (que era una rama local)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -763,7 +763,7 @@ exports.level = {
               "Mira: es IGUAL que git push. Git creó el destino localmente antes de hacer el fetch, tal como git creará el destino en el remoto antes de hacer push (si no existiera)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -778,7 +778,7 @@ exports.level = {
               "Bastante simple, pero merece la pena verlo al menos una vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -835,7 +835,7 @@ exports.level = {
               "Baixamos só os commits de `foo` e colocamos em `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -873,7 +873,7 @@ exports.level = {
               "Wow! Viu, o Git entendeu o `C2` como um lugar de origin e baixou os commits para a branch local `bar`."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -886,7 +886,7 @@ exports.level = {
               "Viu? Funciona EXATAMENTE como o git push. O Git criou o destino localmente antes do fetch, da mesma forma como o Git cria o destino (se ele não existir) no repositório remoto durante um push."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -901,7 +901,7 @@ exports.level = {
               "Bastante simples, mas importante de rever ao menos uma vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -958,7 +958,7 @@ exports.level = {
               "Sólo baixamos os commits de `foo` e os poñemos en `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -996,7 +996,7 @@ exports.level = {
               "¡Wow! Mira: git resolveu `C2` como un lugar no que a orixe descargou eses commits a `bar` (que era unha rama local)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1009,7 +1009,7 @@ exports.level = {
               "Mira: é IGUAL que git push. Git creou o destino localmente antes de facer o fetch, tal e como git creará o destino no remoto antes de empurrar (se non existiran)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1024,7 +1024,7 @@ exports.level = {
               "Moi sinxelo, pero vale a pena velo ó menos unha vez."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1081,7 +1081,7 @@ exports.level = {
               "我們只下載了 `foo` 上的 commit，並且把它們放到 `o/foo`。"
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1119,7 +1119,7 @@ exports.level = {
               "哇！看到了吧，git 把  `C2` 解讀成一個在 origin 上的位置，而且把該位置上面的 commit 下載到 `bar`（這是一個 local branch）上面。"
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1132,7 +1132,7 @@ exports.level = {
               "看到了吧，這就像是 `git push`，在 fetch 之前，git 會自己建立 destination，就好像是在 push 之前， git 會建立 remote 上的 destination 一樣（如果它不存在的話）。"
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1147,7 +1147,7 @@ exports.level = {
               "超簡單，但是所有的更新只做一次，很值得。"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1204,7 +1204,7 @@ exports.level = {
               "我们只下载了远程仓库中 `foo` 分支中的最新提交记录，并更新了 o/foo"
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1242,7 +1242,7 @@ exports.level = {
               "哇，看见了吧！Git 将 `C2` 解析为了 origin 上的一个位置，然后将那些提交记录下载到了本地的 `bar` 分支（一个本地分支）上。"
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1255,7 +1255,7 @@ exports.level = {
               "看见了吧，这跟 git push 一样。Git 会在 fetch 前自动创建本地分支，就像是 git push 时，如果远程仓库中不存在目标分支，git 也会自动在远程创建一样。"
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1270,7 +1270,7 @@ exports.level = {
               "相当简单，但是仅需更新一次，值得你去做！"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1327,7 +1327,7 @@ exports.level = {
               "... laden wir die fehlenden Commits von `foo` und packen sie auf `o/foo` drauf."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1365,7 +1365,7 @@ exports.level = {
               "Wow! Siehst du, Git löst `C2` als Ort auf dem Server `origin` auf und lädt dessen Commits herunter in `bar` hinein."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1378,7 +1378,7 @@ exports.level = {
               "Siehst du, es ist *genau* wie `git push`. Git erstellt das Ziel lokal bevor es den `fetch` ausführt, genauso wie Git erst das Ziel auf dem Remote erstellt, bevor es pusht (falls das Ziel nicht existiert)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1393,7 +1393,7 @@ exports.level = {
               "Ziemlich einfach, aber man sollte es mal gesehen haben."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1454,7 +1454,7 @@ exports.level = {
               "`o/foo`ブランチに置きます。"
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1499,7 +1499,7 @@ exports.level = {
               "うわぁ〜！gitは`C2`をorigin上の場所として解決し、そのコミットをローカルの`bar`ブランチに直接ダウンロードしました。"
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1512,7 +1512,7 @@ exports.level = {
               "ご覧ください！`git push`と同じです。Gitはfetchする前にローカルへダウンロード先を作成しています。これはpushする際に、リモートにアップロード先が存在しない時、リモート上にアップロード先を作るのと同じです。"
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1527,7 +1527,7 @@ exports.level = {
               "とてもシンプルですね。確認してみましょう。"
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1586,7 +1586,7 @@ exports.level = {
               "Descărcăm doar commit-urile de pe `foo` și le plasăm pe `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1624,7 +1624,7 @@ exports.level = {
               "Wow! Vezi, git a rezolvat `C2` ca un loc pe remote și apoi a descărcat acele commit-uri în `bar` (care era o ramură locală)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1637,7 +1637,7 @@ exports.level = {
               "Vezi? E EXACT ca la git push. Git a creat destinația local înainte de a face fetch, la fel cum git va crea destinația pe remote înainte de a face push (dacă nu există)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1652,7 +1652,7 @@ exports.level = {
               "Foarte simplu, dar merită să fie văzut măcar o dată."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1709,7 +1709,7 @@ exports.level = {
               "Изтегляме само комитите от `foo` и ги поставяме върху `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1747,7 +1747,7 @@ exports.level = {
               "Уау! Виж — Git разпозна `C2` като място в origin и изтегли тези комити в `bar` (който е локален бранч)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1760,7 +1760,7 @@ exports.level = {
               "Виждаш ли — точно като `git push`. Git създава дестинацията локално преди fetch-а, точно както създава дестинация в remote преди push (ако тя не съществува)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1775,7 +1775,7 @@ exports.level = {
               "Доста просто, но си заслужава да се види поне веднъж."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1832,7 +1832,7 @@ exports.level = {
               "мы скачиваем только коммиты с ветки `foo` и помещаем их в `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1870,7 +1870,7 @@ exports.level = {
               "Ого! Видите, git распознал `C2` как место в origin и затем скачал эти коммиты в `bar`, которая является локальной веткой."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1883,7 +1883,7 @@ exports.level = {
               "Видите, поведение совсем такое же, как и у git push. Git создал ветку-получатель локально прежде чем скачивать данные. Всё как и в случае, когда git создаёт получателя в удалённом репозитории, когда мы закачиваем изменения (если получатель не существует)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1898,7 +1898,7 @@ exports.level = {
               "Достаточно просто, после того как мы пережили все эти технические тонкости."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -1955,7 +1955,7 @@ exports.level = {
               "커밋들을 `foo`브랜치에서만 내려받은 후 로컬의 `o/foo`브랜치에만 적용합니다."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -1993,7 +1993,7 @@ exports.level = {
               "이야! 보셨습니까, git이 `C2`을 origin의 place로 지정하고 커밋들을 내려받아 `bar`(로컬 브랜치)에 추가했습니다."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2006,7 +2006,7 @@ exports.level = {
               "보이나요, git push 와 똑같습니다. Git이 fetch를 수행하기전에 destination을 로컬에 만들었습니다. git이 push를 수행하기 전에 원격저장소에 destination을 만드는것과 똑같습니다(없을경우에)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2021,7 +2021,7 @@ exports.level = {
               "간단하지만, 짚고 넘어갑시다."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2078,7 +2078,7 @@ exports.level = {
               "Ми звантажуємо коміти лише з `foo` і кладемо їх в `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2116,7 +2116,7 @@ exports.level = {
               "Ого! Дивись, git прийняв `C2` за джерело, і звантажив коміти в `bar` (локальна гілка)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2129,7 +2129,7 @@ exports.level = {
               "Бачите, все як і в випадку з git push. Git створив локальну гілку-призначення перед звантаженням, так само як створить гілку-призначення на віддаленій стороні перед пушем (якщо її не існувало, звичайно)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2144,7 +2144,7 @@ exports.level = {
               "Все дуже просто, але варто було згадати ще раз."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2201,7 +2201,7 @@ exports.level = {
               "Ta chỉ tải xuống commit ở trên nhánh `foo` và đặt chúng ở nhánh `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2239,7 +2239,7 @@ exports.level = {
               "Wao! Thấy chứ, Git diễn giải `C2` thành một vị trí trên kho chứa từ xa sau đó tải xuống các commit lên nhánh `bar` ở kho chứa cục bộ."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2252,7 +2252,7 @@ exports.level = {
               "Thấy chứ, nó Y HỆT với git push. Git tạo ra đích đến ở kho chứa cục bộ trước khi nạp, cũng giống như Git sẽ tạo ra đích đến trên kho chứa từ xa trước khi đẩy (trong trường hợp nó không tồn tại)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2267,7 +2267,7 @@ exports.level = {
               "Khá là đơn giản, nhưng mà cũng nên xem qua thử."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2324,7 +2324,7 @@ exports.level = {
               "Prenesemo samo commite iz `foo` in jih postavimo na `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2362,7 +2362,7 @@ exports.level = {
               "Wow! Vidiš, git je naredil `C2` kot mesto na originu in nato prenesel commite na `bar` (ki je bil lokalen branch)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2375,7 +2375,7 @@ exports.level = {
               "Vidiš, je TAKO kot git push. Git je naredil destinacijo lokalno pred fetchem, tako kot bo naredil destinacijo na oddaljneme repotu pred pushem (če ne obstaja)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2390,7 +2390,7 @@ exports.level = {
               "Precej enostavno, ampak vredno, da gremo čez vsaj enkrat."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2447,7 +2447,7 @@ exports.level = {
               "pobraliśmy tylko commity z `foo` i umieściliśmy je na `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2485,7 +2485,7 @@ exports.level = {
               "Nieźle! Spójrz. Git zinterpretował `C2` jako miejsce na origin i pobrał z niego commity do `bar` (czyli lokalną gałąź)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2498,7 +2498,7 @@ exports.level = {
               "Widzisz, to działa DOKŁADNIE jak git push. Git stworzył lokalnie cel przed wykonaniem fetch, dokładnie tak samo jak zrobiłby to na zdalnym repozytorium przed zrobieniem push (gdyby cel tam nie istniał)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2513,7 +2513,7 @@ exports.level = {
               "Niby proste, ale warto to zobaczyć chociaż raz."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2570,7 +2570,7 @@ exports.level = {
               "Scarichiamo solamente i commit da `foo` e li piazziamo su `o/foo`."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2608,7 +2608,7 @@ exports.level = {
               "Wow! Vediamo, git ha risolto `C2` come un luogo sul repository remoto e ha poi scaricato quei commit su `bar` (nostro ramo locale)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2621,7 +2621,7 @@ exports.level = {
               "Visto, è PROPRIO come git push. Git ha creato la destinazione in locale prima di recuperare i dati, allo stesso modo in cui avrebbe creato la destinazione in remoto prima di caricarli con push (in caso non esista)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2636,7 +2636,7 @@ exports.level = {
               "Abbastanza semplice, ma vale la pena darci almeno un'occhiata."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2693,7 +2693,7 @@ exports.level = {
               "`foo` dalındaki commit'leri indirdik ve `o/foo` dalına yerleştirdik."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2731,7 +2731,7 @@ exports.level = {
               "Vay! Görüyorsunuz, git `C2`'yi bir yer olarak çözümlerken bu commit'leri `bar` dalına (yerel bir dal) indirdi."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2744,7 +2744,7 @@ exports.level = {
               "Görün! Tam olarak `git push` gibi. Git, hedefi yerel olarak oluşturdu ve fetch işlemi yaptı, tıpkı git'in uzak depoya push yaparken hedefi oluşturması gibi (eğer mevcut değilse)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2759,7 +2759,7 @@ exports.level = {
               "Oldukça basit ama sadece bir kez gözden geçirmeye değer."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2816,7 +2816,7 @@ exports.level = {
               "Csak a `foo`-ból töltjük le a commitokat, és az `o/foo`-ra rakjuk őket."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2854,7 +2854,7 @@ exports.level = {
               "Wow! Látod, a git feloldotta a `C2`-t a origin egy helyeként, majd letöltötte azokat a commitokat a `bar`-ba (amely egy helyi ág volt)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git branch bar; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2867,7 +2867,7 @@ exports.level = {
               "Látod, ez PONT olyan, mint a git push. A git létrehozta a célt helyi szinten a fetchelés előtt, ahogy a git is létrehozza a célt a távoliban a push előtt (ha az nem létezik)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2882,7 +2882,7 @@ exports.level = {
               "Elég egyszerű, de érdemes egyszer átmenni rajta."
             ],
             "command": "git fetch",
-            "beforeCommand": "git branch foo; git clone; git fakeTeamwork foo; git fakeTeamwork main"
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
           }
         },
         {
@@ -2939,7 +2939,7 @@ exports.level = {
               "Yalnız `foo`-dan commit-ləri endirir və onları `o/foo`-ya yerləşdiririk."
             ],
             "command": "git fetch origin foo",
-            "beforeCommand": "git clone; git fakeTeamwork foo 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo 2"
           }
         },
         {
@@ -2976,7 +2976,7 @@ exports.level = {
               "Vay! Bax, git `C2`-ni origin-dəki bir yer kimi müəyyən etdi və sonra həmin commit-ləri `bar`-a (ki bu, lokal branch idi) endirdi."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git clone; git fakeTeamwork; git branch bar"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git branch bar"
           }
         },
         {
@@ -2989,7 +2989,7 @@ exports.level = {
               "Bax, bu, TAM git push kimidir. Git fetch etməzdən əvvəl təyinatı lokal olaraq yaratdı, necə ki git push etməzdən əvvəl təyinatı remote-da yaradır (əgər mövcud deyilsə)."
             ],
             "command": "git fetch origin C2:bar",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -3004,7 +3004,7 @@ exports.level = {
               "Kifayət qədər sadədir, amma bir dəfə nəzərdən keçirməyə dəyər."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork foo 2; git fakeTeamwork main 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo 2; git fakeTeamwork main 2"
           }
         },
         {

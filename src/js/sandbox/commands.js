@@ -16,7 +16,7 @@ var Warning = Errors.Warning;
 var CommandResult = Errors.CommandResult;
 
 // Commands that are learning tools with no official docs
-var customGitCommands = ['fakeTeamwork', 'mergeMR'];
+var customGitCommands = ['fakeCreateRemote', 'fakeTeamwork', 'mergeMR'];
 
 // Descriptions for the sandbox / level commands defined in the regex maps
 // below (and in ../level). These power `help {command}` and also show up

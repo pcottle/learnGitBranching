@@ -87,7 +87,7 @@ exports.level = {
               "There, we successfully deleted the `foo` branch on remote by pushing the concept of \"nothing\" to it. That kinda makes sense..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -100,7 +100,7 @@ exports.level = {
               "Very odd / bizarre, but whatever. That's git for you!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -140,7 +140,7 @@ exports.level = {
               "اینجا، ما با موفقیت شاخه `foo` را در ریموت با push کردن مفهوم \"هیچ چیز\" به آن حذف کردیم. این تا حدودی منطقی به نظر می‌رسد..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -153,7 +153,7 @@ exports.level = {
               "بسیار عجیب / غریب، اما به هر حال. این گیت است دیگر!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -193,7 +193,7 @@ exports.level = {
               "Ici, nous avons brillamment supprimé  la branche `foo` du dépôt distant en lui envoyant le concept de \"rien\". Cela paraît à peu près logique..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -206,7 +206,7 @@ exports.level = {
               "Très étrange, mais peu importe. C'est Git !"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -246,7 +246,7 @@ exports.level = {
               "Ahí está, borramos la rama `foo` exitosamente del remoto pusheándole el concepto de \"nada\". Tiene algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -259,7 +259,7 @@ exports.level = {
               "Bastante bizarro, pero, meh, da igual. Así es git."
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -300,7 +300,7 @@ exports.level = {
               "Ahí está, eliminamos la rama `foo` exitosamente del remoto haciendo push con \"nada\". Tiene algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -313,7 +313,7 @@ exports.level = {
               "Bastante extraño, pero bueno, da igual. Así es git."
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -353,7 +353,7 @@ exports.level = {
               "Ahí está, eliminamos la rama `foo` exitosamente del remoto haciendo push con \"nada\". Tiene algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -366,7 +366,7 @@ exports.level = {
               "Bastante extraño, pero bueno, da igual. Así es git."
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -406,7 +406,7 @@ exports.level = {
               "Aqui, excluímos com sucesso a branch `foo` do repositório remoto por meio de um push de \"coisa nenhuma\" direcionado a ela. Até que faz sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -419,7 +419,7 @@ exports.level = {
               "Bastante estranho / bizarro, mas de qualquer forma. É assim que o Git é!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -459,7 +459,7 @@ exports.level = {
               "Ahí está, borramos a rama `foo` exitosamente do remoto empurrando o concepto da \"nada\". Ten algo de sentido..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -472,7 +472,7 @@ exports.level = {
               "Bastante bizarro, pero, meh, da igual. Así é git."
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -512,7 +512,7 @@ exports.level = {
               "看吧，我們藉由把 source \"留空\"，成功用 `push` 刪除了 `foo` branch，這合理吧..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -525,7 +525,7 @@ exports.level = {
               "很奇怪吧！但那正是 git 為你做的事情！"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -565,7 +565,7 @@ exports.level = {
               "就是这样子, 我们通过给 push 传空值 source，成功删除了远程仓库中的 `foo` 分支, 这真有意思..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -578,7 +578,7 @@ exports.level = {
               "很神奇吧！但无论怎么说, 这就是 Git！"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -618,7 +618,7 @@ exports.level = {
               "Und schon haben wir `foo` erfolgreich auf dem Remote gelöscht, weil wir \"Leere\" darauf geschoben haben. Ist auf seine Weise irgendwie logisch ..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -631,7 +631,7 @@ exports.level = {
               "Ziemlich abgefahren / bizarr, aber was soll's. Das ist halt Git."
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -675,7 +675,7 @@ exports.level = {
               "「無」という概念をブランチに押し付けることで、リモートの`foo`ブランチを削除することに成功しました。"
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -688,7 +688,7 @@ exports.level = {
               "非常に奇妙ですが、気にする程のことでもありません。"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -728,7 +728,7 @@ exports.level = {
               "Aici, am șters cu succes ramura `foo` de pe remote prin împingerea conceptului de \"nimic\" către ea. Asta are oarecum sens..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -741,7 +741,7 @@ exports.level = {
               "Foarte ciudat / bizar, dar nu contează. Așa este git-ul!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -781,7 +781,7 @@ exports.level = {
               "Ето, успешно изтрихме клона `foo` в отдалеченото хранилище, като push-нахме концепцията за \"нищо\" към него. Това донякъде има смисъл..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -794,7 +794,7 @@ exports.level = {
               "Много странно / причудливо, но както и да е. Това е git за теб!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -834,7 +834,7 @@ exports.level = {
               "Как видите, мы удалили ветку `foo` в удаленном репозитории, попытавшить протолкнуть(git push) в неё \"ничего\"."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -847,7 +847,7 @@ exports.level = {
               "Вот такой вот чудной git!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -887,7 +887,7 @@ exports.level = {
               "됐습니다, 원격 저장소의 `foo`브랜치를 성공적으로 삭제했습니다. \"없음\"을 push한다는것이 이것을 이뤘습니다. 흠 말이 되는것 같네요 null을 push했어요..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -900,7 +900,7 @@ exports.level = {
               "기괴합니다... 뭐어때요. git이 이런데요 뭐!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -940,7 +940,7 @@ exports.level = {
               "Ось, ми успішно видалили гілку `foo` на віддаленому сервері, запушивши в неї \"ніщо\". Ну, ніби все правильно..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -953,7 +953,7 @@ exports.level = {
               "Дуже дивно, але такий він, git!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -993,7 +993,7 @@ exports.level = {
               "Đó, ta đã xóa thành công nhánh `foo` trên kho chứa từ xa bằng cách đẩy \"không gì cả\" lên nó. Khá là hợp lý..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -1006,7 +1006,7 @@ exports.level = {
               "Khá là quái và dị. Nhưng mà đó là những gì Git làm!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1046,7 +1046,7 @@ exports.level = {
               "Tako, uspešno smo izbrisali `foo` branch na oddaljenem repotu s konceptom pushanja \"ničesar\" nanj. To ima nekako smisel ..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -1059,7 +1059,7 @@ exports.level = {
               "Zelo čudno / bizarno, ampak kakorkoli. Tak je git!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1099,7 +1099,7 @@ exports.level = {
               "Oto właśnie usunęliśmy skutecznie gałąź `foo` na zdalnym repozytorium, wypychając do niej ideę \"nicości\". To nawet ma jakiś sens..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -1112,7 +1112,7 @@ exports.level = {
               "Osobliwe i dziwaczne, ale nic nie poradzisz... Git tak ma!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1152,7 +1152,7 @@ exports.level = {
               "Ecco, abbiamo eliminato con successo il ramo `foo` avendovi caricato il concetto di \"nulla\". Ha senso effettivamente..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -1165,7 +1165,7 @@ exports.level = {
               "Molto strano, ma vabbé. Questo e altro da git!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1205,7 +1205,7 @@ exports.level = {
               "İşte, \"hiçbir şeyi\" uzak bir dala push yaparak `foo` dalını başarıyla sildik. Bu bir anlam taşıyor gibi... "
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -1218,7 +1218,7 @@ exports.level = {
               "Çok garip / tuhaf, ama neyse. Git işte böyle!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1258,7 +1258,7 @@ exports.level = {
               "Nos, sikeresen töröltük a `foo` ágat a távoliban azzal, hogy \"semmit\" pusholtunk rá. Ez valamelyest logikus..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git push origin main:foo"
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
           }
         },
         {
@@ -1271,7 +1271,7 @@ exports.level = {
               "Nagyon furcsa/különös, de mindegy. Ez a git!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1311,7 +1311,7 @@ exports.level = {
               "Budur, ona \"heçlik\" anlayışını push etməklə remote-dakı `foo` branch-ını uğurla sildik. Bu, bir növ məntiqlidir..."
             ],
             "command": "git push origin :foo",
-            "beforeCommand": "git clone; git fakeTeamwork foo"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo"
           }
         },
         {
@@ -1324,7 +1324,7 @@ exports.level = {
               "Çox qəribə / əcaib, amma nə olacaq ki. Bax, git belə şeydir!"
             ],
             "command": "git fetch origin :bar",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {

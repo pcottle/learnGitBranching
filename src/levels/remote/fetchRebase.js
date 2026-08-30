@@ -91,7 +91,7 @@ exports.level = {
               "See? Nothing happened because the command fails. `git push` fails because your most recent commit `C3` is based off of the remote at `C1`. The remote has since been updated to `C2` though, so git rejects your push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -114,7 +114,7 @@ exports.level = {
               "Boom! We updated our local representation of the remote with `git fetch`, rebased our work to reflect the new changes in the remote, and then pushed them with `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -139,7 +139,7 @@ exports.level = {
               "Boom! We updated our local representation of the remote with `git fetch`, *merged* the new work into our work (to reflect the new changes in the remote), and then pushed them with `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -164,7 +164,7 @@ exports.level = {
               "Same as before! Just a lot shorter."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -177,7 +177,7 @@ exports.level = {
               "Again, exact same as before!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -234,7 +234,7 @@ exports.level = {
               "می‌بینید؟ هیچ اتفاقی نیفتاد زیرا دستور با شکست مواجه شد. `git push` شکست می‌خورد زیرا آخرین کامیت شما `C3` بر اساس ریموت در `C1` است. اما ریموت از آن زمان به `C2` به‌روز شده است، بنابراین گیت push شما را رد می‌کند."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -257,7 +257,7 @@ exports.level = {
               "بوم! ما نمایش محلی خود از ریموت را با `git fetch` به‌روز کردیم، کار خود را rebase کردیم تا تغییرات جدید ریموت را منعکس کند، و سپس آنها را با `git push` ارسال کردیم."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -282,7 +282,7 @@ exports.level = {
               "بوم! ما نمایش محلی خود از ریموت را با `git fetch` به‌روز کردیم، کار جدید را در کار خود *ادغام* کردیم (تا تغییرات جدید ریموت را منعکس کند)، و سپس آنها را با `git push` ارسال کردیم."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -307,7 +307,7 @@ exports.level = {
               "مثل قبل! فقط خیلی کوتاه‌تر."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -320,7 +320,7 @@ exports.level = {
               "باز هم، دقیقاً مثل قبل!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -377,7 +377,7 @@ exports.level = {
               "Vous voyez ? Rien ne s'est produit car la commande a échoué. `git push` a échoué car votre commit le plus récent `C3` est basé sur `C1` sur le dépôt distant. Le dépôt distant a été mis à jour depuis avec `C2`, donc Git rejette votre push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -400,7 +400,7 @@ exports.level = {
               "Boum ! Nous avons mis à jour notre représentation locale du dépôt avec `git fetch`, rebasé notre travail pour refléter les nouveaux changements, et enfin les avons envoyés avec `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -425,7 +425,7 @@ exports.level = {
               "Boum ! Nous avons mis à jour notre représentation locale du dépôt distant avec `git fetch`, *fusionné* les nouveaux commits dans notre copie de travail (pour refléter les nouveaux changements du dépôt distant), et les avons ensuite envoyés avec `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -450,7 +450,7 @@ exports.level = {
               "Comme avant ! Juste un peu plus court."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -463,7 +463,7 @@ exports.level = {
               "Encore une fois, c'est exactement la même chose qu'auparavant !"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -520,7 +520,7 @@ exports.level = {
               "¿Ves? No pasó nada, porque el comando falla. `git push` falla porque `C3`, tu commit más reciente, está basado en el remoto sobre `C1`. El remoto fue actualizado a `C2` desde entonces, por lo que git rechaza tu push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -543,7 +543,7 @@ exports.level = {
               "¡Boom! Actualizamos nuestra representación local del remoto con `git fetch`, rebaseamos nuestro trabajo para reflejar los nuevos cambios del remoto, y después los pusheamos con `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -568,7 +568,7 @@ exports.level = {
               "¡Boom! Actualizamos nuestra representación local del remoto usando `git fetch`, *mergeamos* el nuevo trabajo junto con el nuestro (para reflejar los nuevos cambios en el remoto), y después los pusheamos usando `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -593,7 +593,7 @@ exports.level = {
               "¡Igual que antes! Sólo que bastante más corto."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -606,7 +606,7 @@ exports.level = {
               "Otra vez, ¡exactamente lo mismo que antes!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -664,7 +664,7 @@ exports.level = {
               "¿Ves? No pasó nada, porque el comando falla. `git push` falla porque `C3`, tu commit más reciente, está basado en el remoto sobre `C1`. El remoto fue actualizado a `C2` desde entonces, por lo que git rechaza tu push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -687,7 +687,7 @@ exports.level = {
               "¡Zas! Actualizamos nuestra representación local del remoto con `git fetch`, hacemos rebase de nuestro trabajo para reflejar los nuevos cambios del remoto, y después los subimos con `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -712,7 +712,7 @@ exports.level = {
               "¡Zas! Actualizamos nuestra representación local del remoto usando `git fetch`, *mergeamos* el nuevo trabajo junto con el nuestro (para reflejar los nuevos cambios en el remoto), y después los subimos usando `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -737,7 +737,7 @@ exports.level = {
               "¡Igual que antes! Sólo que bastante más corto."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -750,7 +750,7 @@ exports.level = {
               "Otra vez, ¡exactamente lo mismo que antes!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -807,7 +807,7 @@ exports.level = {
               "¿Ves? No pasó nada, porque el comando falla. `git push` falla porque `C3`, tu commit más reciente, está basado en el remoto sobre `C1`. El remoto fue actualizado a `C2` desde entonces, por lo que git rechaza tu push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -830,7 +830,7 @@ exports.level = {
               "¡Zas! Actualizamos nuestra representación local del remoto con `git fetch`, hacemos rebase de nuestro trabajo para reflejar los nuevos cambios del remoto, y después los subimos con `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -855,7 +855,7 @@ exports.level = {
               "¡Zas! Actualizamos nuestra representación local del remoto usando `git fetch`, *mergeamos* el nuevo trabajo junto con el nuestro (para reflejar los nuevos cambios en el remoto), y después los subimos usando `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -880,7 +880,7 @@ exports.level = {
               "¡Igual que antes! Sólo que bastante más corto."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -893,7 +893,7 @@ exports.level = {
               "Otra vez, ¡exactamente lo mismo que antes!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -950,7 +950,7 @@ exports.level = {
               "Viu? Nada aconteceu porque o comando falhou. O `git push` falha porque o commit mais recente (`C3`) é baseado no remoto em `C1`. Como o remoto foi atualizado no meio tempo, o Git rejeita o push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -973,7 +973,7 @@ exports.level = {
               "Boom! Nós atualizamos a representação local do repositório remoto com `git fetch`, fizemos rebase do nosso trabalho para refletir as novas mudanças no repositório remoto, e então enviamos nossas mudanças com `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -998,7 +998,7 @@ exports.level = {
               "Boom! Atualizamos nossa representação local do repositório remoto com `git fetch`, fizemos *merge* do novo trabalho com o nosso (para refletir as novas mudanças no repositório remoto), e então fizemos push deles com `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1023,7 +1023,7 @@ exports.level = {
               "Mesma coisa que antes! Porém muito mais curto."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1036,7 +1036,7 @@ exports.level = {
               "De novo, exatamente como antes!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1093,7 +1093,7 @@ exports.level = {
               "¿Ves? Non pasou nada, porque o comando falla. `git push` falla porque `C3`, o teu commit máis recente, está baseado no remoto sobre `C1`. O remoto foi actualizado a `C2` dende entonces, polo que git rechaza o teu push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1116,7 +1116,7 @@ exports.level = {
               "¡Boom! Actualizamos a nosa representación local do remoto con `git fetch`, rebasamos o noso traballo para reflexar os novos cambios do remoto, e despois os empurramos con `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1141,7 +1141,7 @@ exports.level = {
               "¡Boom! Actualizamos a nosa representación local do remoto usando `git fetch`, *mesturamos* ou *mergeamos* o novo traballo xunto co noso (para reflexar os novos cambios no remoto), e despois os empurramos empregando `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1166,7 +1166,7 @@ exports.level = {
               "¡Igual que antes! Só que máis corto."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1179,7 +1179,7 @@ exports.level = {
               "Outra vez, ¡exactamente o mesmo que antes!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1236,7 +1236,7 @@ exports.level = {
               "看到了沒？因為指令失敗了，所以沒有任何事情發生。 `git push` 失敗的原因是因為你最近的 commit `C3` 是在 `C1` 的後面，但是 remote 那邊是 `C2` 在 `C1` 的後面，所以 git 才會拒絕你的 push。"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1259,7 +1259,7 @@ exports.level = {
               "看吧！我們利用 `git fetch` 下載了 remote 上面的 commit，並且 rebase 我們的 commit，使得我們的 commit 可以接在 remote 上面最新的版本的後面，接著透過 `git push` 就可以上傳更新了。"
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1284,7 +1284,7 @@ exports.level = {
               "看吧！我們藉由 `git fetch` 把 remote 上的 commit 下載下來，並且 *merged* 該 commit 到我們目前的 branch（這樣就表示我們產生的 merge commit 有包含了 remote　上的 commit），接著再透過 `git push` 上傳到 remote。"
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1309,7 +1309,7 @@ exports.level = {
               "跟之前一樣！只是少打了很多指令。"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1322,7 +1322,7 @@ exports.level = {
               "又來了，剛好跟之前的一樣！"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1379,7 +1379,7 @@ exports.level = {
               "看见了吧？什么都没有变，因为命令失败了！`git push` 失败是因为你最新提交的 `C3` 基于远程分支中的 `C1`。而远程仓库中该分支已经更新到 `C2` 了，所以 Git 拒绝了你的推送请求。"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1402,7 +1402,7 @@ exports.level = {
               "我们用 `git fetch` 更新了本地仓库中的远程分支，然后用 rebase 将我们的工作移动到最新的提交记录下，最后再用 `git push` 推送到远程仓库。"
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1427,7 +1427,7 @@ exports.level = {
               "我们用 `git fetch` 更新了本地仓库中的远程分支，然后**合并**了新变更到我们的本地分支（为了包含远程仓库的变更），最后我们用 `git push` 把工作推送到远程仓库"
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1452,7 +1452,7 @@ exports.level = {
               "跟之前结果一样，但是命令更短了。"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1465,7 +1465,7 @@ exports.level = {
               "还是跟以前一样! "
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1522,7 +1522,7 @@ exports.level = {
               "Siehst du? Nichts passiert, weil der Befehl fehlschlägt. `git push` schlägt fehl, weil der neueste Commit `C3` auf dem Commit `C1` des Remotes basiert. Der entfernte Server hat mittlerweile jedoch `C2` gepusht bekommen, also lässt Git deinen Push jetzt nicht mehr zu."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1545,7 +1545,7 @@ exports.level = {
               "Bämm! Wir haben unsere lokale Abbildung des entfernten Repositorys mit `git fetch` auf den neuesten Stand gebracht, unsere Arbeit auf die neueste Version des Remotes drauf gepackt und dann mit `git push` auf den Server geschoben."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1570,7 +1570,7 @@ exports.level = {
               "Ok. Wir haben die lokale Abbildung des entfernen Repositorys mit `git fetch` aktualisiert, die neuen Änderungen per *Merge* in deine integriert, und letztere dann mit `git push` auf den Server gebracht."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1595,7 +1595,7 @@ exports.level = {
               "Genau wie vorher! Nur viel kürzer."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1608,7 +1608,7 @@ exports.level = {
               "Und wieder, genau wie zuvor!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1665,7 +1665,7 @@ exports.level = {
               "Vezi? Nu s-a întâmplat nimic pentru că comanda a eșuat. `git push` eșuează deoarece ultimul tău commit `C3` este bazat pe remote-ul de la `C1`. Între timp, remote-ul a fost actualizat la `C2`, așa că git respinge push-ul tău."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1688,7 +1688,7 @@ exports.level = {
               "Boom! Am actualizat reprezentarea locală a remote-ului cu `git fetch`, am făcut rebase muncii noastre pentru a reflecta noile modificări din remote și apoi le-am partajat cu `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1713,7 +1713,7 @@ exports.level = {
               "Boom! Am actualizat reprezentarea locală a remote-ului cu `git fetch`, *am îmbinat* noile modificări în munca noastră (pentru a reflecta noile modificări din remote) și apoi le-am împins cu `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1738,7 +1738,7 @@ exports.level = {
               "Exact ca înainte! Doar că mult mai scurt."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1751,7 +1751,7 @@ exports.level = {
               "Din nou, exact ca înainte!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1810,7 +1810,7 @@ exports.level = {
               "Виждаш ли? Нищо не се случи, защото командата се провали. `git push` не успява, защото последният ти комит `C3` е базиран на `C1`, докато отдалеченото хранилище вече е обновено до `C2`. Затова Git отхвърля push-а."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1833,7 +1833,7 @@ exports.level = {
               "Бум! Обновихме локалното си представяне на отдалеченото хранилище с `git fetch`, направихме rebase на работата си спрямо новите промени и след това ги публикувахме с `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1860,7 +1860,7 @@ exports.level = {
               "Бум! Обновихме локалното си представяне на отдалеченото хранилище с `git fetch`, *слихме* новите промени с нашите и след това ги публикувахме с `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1885,7 +1885,7 @@ exports.level = {
               "Същият резултат — но с много по-малко писане."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1898,7 +1898,7 @@ exports.level = {
               "Отново — абсолютно същото поведение."
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1957,7 +1957,7 @@ exports.level = {
               "Видите? Ничего не произошло. Всё потому, что команда `git push` не выполнилась успешно. Дело в том, что ваш последний коммит `C3` основан на удалённом коммите `C1`. В свою очередь, удалённый репозиторий уже изменился под воздействием `C2`. Вот почему git отклонил ваш push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -1980,7 +1980,7 @@ exports.level = {
               "Опа! Мы только что обновили наш локальный образ удалённого репозитория средствами `git fetch`. Ещё мы перебазировали наши наработки, чтобы они отражали все изменения с удалённого репозитория, и опубликовали их с помощью `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2005,7 +2005,7 @@ exports.level = {
               "Опа! Мы обновили наше локальное представление удалённого репозитория с помощью `git fetch`, *объединили* ваши новые наработки с нашими наработками (чтобы отразить изменения в удалённом репозитории) и затем опубликовали их с помощью `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2030,7 +2030,7 @@ exports.level = {
               "Тот же результат, как и ранее, но намного короче вызов команд."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2043,7 +2043,7 @@ exports.level = {
               "И снова - результат такой же, как и ранее!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2100,7 +2100,7 @@ exports.level = {
               "見ましたか？コマンドが失敗して、何も起こりませんでした。あなたの最近の`C3`コミットはリモートの`C1`コミットに依存しているため、`git push`は失敗しました。リモートには`C2`が更新されているので、gitはあなたのプッシュを拒否します。"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2123,7 +2123,7 @@ exports.level = {
               "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業をリベースさせてリモートの新しい変更に適用させ、`git push`でそれをプッシュしました。"
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2148,7 +2148,7 @@ exports.level = {
               "わお！私たちは`git fetch`でローカルのリモートブランチを更新し、私たちの作業を*マージ*して（リモートの新しい変更を反映するために）、`git push`でそれをプッシュしました。"
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2173,7 +2173,7 @@ exports.level = {
               "前と一緒です！そしてとても短いです。"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2186,7 +2186,7 @@ exports.level = {
               "ここでも、前と同じです！"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2243,7 +2243,7 @@ exports.level = {
               "Бачите? Нічого не сталося, тому що остання команда не виконалася. `git push` не спрацював, тому що Ваш нещодавній коміт `C3` базується на коміті `C1`. Але віддалений репо вже перейшов на `C2`, тому git відхилив Ваш push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2266,7 +2266,7 @@ exports.level = {
               "Ка-бум! Ми оновили наш локальний образ віддаленого репозиторію за допомогою `git fetch`, заребейсили наші напрацювання відповідно до змін у віддаленому репо, й завантажили їх за допомогою `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2291,7 +2291,7 @@ exports.level = {
               "Ка-бум! Ми оновили наш локальний образ віддаленої гілки за допомогою `git fetch`, *змерджили* нові напрацювання з власними (щоб відобразити останні зміни у віддаленій гілці), й відіслали їх за допомогою `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2316,7 +2316,7 @@ exports.level = {
               "Те саме, що й раніше! Просто трохи коротше."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2329,7 +2329,7 @@ exports.level = {
               "Знову, оскільки і було!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2386,7 +2386,7 @@ exports.level = {
               "보이죠? 명령어가 실행되지 않아서 아무것도 잃어나지 않습니다. 여러분의 최근 커밋 `C3`가 원격저장소의 `C1`을 기반으로 하기 때문에 `git push`가 실패합니다. 원격 저장소는 `C2`까지 갱신된 상태기때문에 git은 여러분의 push를 거부하게됩니다."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2409,7 +2409,7 @@ exports.level = {
               "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 변경들로 우리 작업을 리베이스 했습니다, 이제 `git push`하면 끝!"
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2434,7 +2434,7 @@ exports.level = {
               "Boom! `git fetch`로 원격 저장소의 변경정보를 가져오고, 새 작업을 우리 작업으로 *병합*했습니다 (원격 저장소의 변경을 반영하기 위해서죠), 이제 `git push`하면 끝!"
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2459,7 +2459,7 @@ exports.level = {
               "이전과 같습니다! 간결하고요."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2472,7 +2472,7 @@ exports.level = {
               "또다시, 이전과 같습니다!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2529,7 +2529,7 @@ exports.level = {
               "Thấy chứ? Không có gì xảy ra cả vì lệnh bị thất bại. `git push` thất bại vì commit mới nhất của bạn: `C3` dựa trên commit `C1` ở nhánh từ xa. Nhánh đó đã được cập nhật lên commit `C2`, nên Git từ chối lệnh đẩy của bạn"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2552,7 +2552,7 @@ exports.level = {
               "Bùùm! Ta đã cập nhật nhánh từ xa trong kho chứa cục bộ với `git fetch`, dịch chuyển thành quả của mình để phản ánh thay đổi mới của kho chứa từ xa, sau đó đẩy chúng lên với `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2577,7 +2577,7 @@ exports.level = {
               "Bùùm! Ta đã cập nhật đại diện nhánh từ xa tại kho chứa cục bộ với `git fetch`, *hợp nhất* (*merge*) thành quả mới vào thành quả của ta (để phản ánh thay đổi ở nhánh từ xa), sau đó đẩy chúng lên với `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2602,7 +2602,7 @@ exports.level = {
               "Giống hệt như trước! Chỉ là lệnh ngắn hơn."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2615,7 +2615,7 @@ exports.level = {
               "Lại một lần nữa, chính xác y hệt như trước!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2672,7 +2672,7 @@ exports.level = {
               "Vidiš? Nič se ni spremenilo, ker je ukaz spodeletel. `git push` spodleti, ker tvoj zadnji commit `C3` izhaja iz oddaljenega `C1`. Oddaljen repozitorij se je med tem posodobil na `C2`, zato git zavrne tvoj push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2695,7 +2695,7 @@ exports.level = {
               "Boom! Posodobili smo našo lokalno reprezentacijo oddaljenega repozitorija z `git fetch`, rebaseali naše delo, da vsebuje nove spremembe iz oddaljenega repota, nato pa naložili svoje delo z `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2720,7 +2720,7 @@ exports.level = {
               "Boom! Posodobili smo našo lokalno sliko oddaljenega repozitorija z `git fetch`, *zmergali* novo delo v naše delo (kot odraz novih sprememb na oddaljenem branchu) in jih nato naložili z `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2745,7 +2745,7 @@ exports.level = {
               "Enako kot prej! Le dosti krajše."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2758,7 +2758,7 @@ exports.level = {
               "Zopet enako kot prej!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2815,7 +2815,7 @@ exports.level = {
               "Spójrz, nic się nie zmieniło, ponieważ wykonanie polecenia nie powiodło się. Polecenie `git push` nie powiedzie się, ponieważ twój najnowszy commit `C3` jest oparty na zdalnym `C1`. Zdalny został jednak zaktualizowany do `C2`, więc Git odrzuca twojego pusha."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2838,7 +2838,7 @@ exports.level = {
               "Tadam! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, przebazowaliśmy naszą pracę, aby odzwierciedlić nowe zmiany na zdalnej gałęzi, a następnie wypchnęliśmy je za pomocą `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2863,7 +2863,7 @@ exports.level = {
               "Tadam! Zaktualizowaliśmy naszą lokalną reprezentację remote'a za pomocą `git fetch`, git dołączył (*merge*) nową pracę do naszej pracy (aby odzwierciedlić nowe zmiany na zdalnej gałęzi), a następnie wypchnął je za pomocą `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2888,7 +2888,7 @@ exports.level = {
               "Tak samo jak wcześniej! Tylko o wiele krócej."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2901,7 +2901,7 @@ exports.level = {
               "Jeszcze raz, dokładnie tak samo jak wcześniej!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2958,7 +2958,7 @@ exports.level = {
               "Visto? Non è successo nulla in quanto il comando fallisce. `git push` fallisce in quanto il tuo commit più recente, `C3`, è basato sullo stato del repository remoto a `C1`. Nel mentre però il remoto è stato aggiornato a `C2`, quindi git non accetta il tuo push."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -2981,7 +2981,7 @@ exports.level = {
               "Boom! Abbiamo aggiornato la nostra rappresentazione del remoto tramite `git fetch`, ribasato il nostro lavoro affinché rifletta i nuovi cambiamenti del remoto, e poi li abbiamo caricati con `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3006,7 +3006,7 @@ exports.level = {
               "Boom! Abbiamo aggiornato la nostra rappresentazione del remoto con `git fetch`, *fuso* le nuove modifiche al nostro lavoro (per riflettere i cambiamenti del remoto), e caricato quest'ultimo con `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3031,7 +3031,7 @@ exports.level = {
               "Identico a prima! Solo molto più breve."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3044,7 +3044,7 @@ exports.level = {
               "Di nuovo, esattamente uguale a prima!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3100,7 +3100,7 @@ exports.level = {
               "Görüyorsunuz değil mi? Hiçbir şey olmadı çünkü komut başarısız oldu. `git push` komutu başarısız oldu çünkü en son commit'iniz `C3`, `C1`'den alınan uzak depoya dayalıydı. Ancak uzak depo `C2`'ye güncellenmişti, bu yüzden git `push` işleminizi reddetti."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3123,7 +3123,7 @@ exports.level = {
               "Vay! Uzak deponun yerel temsiline `git fetch` ile güncelleme yaptık, çalışmamızı uzak depodaki yeni değişiklikleri yansıtacak şekilde rebase ettik ve ardından `git push` ile gönderdik."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3148,7 +3148,7 @@ exports.level = {
               "Vay! Uzak deponun yerel temsiline `git fetch` ile güncelleme yaptık, yeni çalışmaları *merge* ederek çalışmamıza entegre ettik (yeni değişiklikleri yansıtmak için) ve ardından `git push` ile gönderdik."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3173,7 +3173,7 @@ exports.level = {
               "Tıpkı öncekiler gibi! Ama çok daha kısa."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3186,7 +3186,7 @@ exports.level = {
               "Yine, tıpkı öncekiler gibi!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3243,7 +3243,7 @@ exports.level = {
               "Látod? Semmi sem történt, mert a parancs sikertelen. A `git push` azért sikertelen, mert a legutóbbi `C3` commitod a remote `C1`-én alapul. Azóta a remote `C2`-re frissült, így a git elutasítja a push-odat."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3266,7 +3266,7 @@ exports.level = {
               "Boom! Frissítettük a remote helyi megjelenítését a `git fetch`-csel, rebase-szel áthelyeztük a munkánkat, hogy tükrözze a remote új változtatásait, majd push-oltuk azokat a `git push`-sal."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3291,7 +3291,7 @@ exports.level = {
               "Boom! Frissítettük a remote helyi megjelenítését a `git fetch`-csel, *merge*-ltük az új munkát a saját munkánkba (hogy tükrözze a remote új változtatásait), majd push-oltuk azokat a `git push`-sal."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3316,7 +3316,7 @@ exports.level = {
               "Ugyanaz, mint előtte! Csak sokkal rövidebb."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3329,7 +3329,7 @@ exports.level = {
               "Megint pontosan ugyanaz, mint előtte!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {
@@ -3385,7 +3385,7 @@ exports.level = {
               "Gördün? Heç nə baş vermədi, çünki əmr uğursuz olur. `git push` uğursuz olur, çünki sənin ən son commit-in `C3` remote-un `C1`-dəki vəziyyətinə əsaslanır. Amma remote o vaxtdan `C2`-yə yenilənib, ona görə də git sənin push-unu rədd edir."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -3408,7 +3408,7 @@ exports.level = {
               "Bum! Remote-un lokal təsvirini `git fetch` ilə yenilədik, remote-dakı yeni dəyişiklikləri əks etdirmək üçün işimizi rebase etdik və sonra onları `git push` ilə push etdik."
             ],
             "command": "git fetch; git rebase o/main; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -3433,7 +3433,7 @@ exports.level = {
               "Bum! Remote-un lokal təsvirini `git fetch` ilə yenilədik, yeni işi öz işimizə *merge etdik* (remote-dakı yeni dəyişiklikləri əks etdirmək üçün) və sonra onları `git push` ilə push etdik."
             ],
             "command": "git fetch; git merge o/main; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -3458,7 +3458,7 @@ exports.level = {
               "Əvvəlki ilə eyni! Sadəcə xeyli qısa."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -3471,7 +3471,7 @@ exports.level = {
               "Yenə də, əvvəlki ilə tam eyni!"
             ],
             "command": "git pull; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {

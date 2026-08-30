@@ -83,7 +83,7 @@ exports.level = {
               "There we go! Commits `C2` and `C3` were downloaded to our local repository, and our remote branch `o/main` was updated to reflect this."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -156,7 +156,7 @@ exports.level = {
               "بفرمایید! کامیت‌های `C2` و `C3` در مخزن محلی ما دانلود شدند و شاخه ریموت ما `o/main` برای بازتاب این موضوع به‌روز شد."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -228,7 +228,7 @@ exports.level = {
               "Voilà ! Les commits `C2` et `C3` ont été téléchargés dans notre dépôt local, et notre branche distante `o/main` a été mise à jour pour refléter cela."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -301,7 +301,7 @@ exports.level = {
               "¡Ahí vamos! Bajamos los commits `C2` y `C3` a nuestro repositorio local, y nuestra rama remota `o/main` fue actualizada para reflejar este cambio."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -374,7 +374,7 @@ exports.level = {
               "¡Ahí está! Descargamos los commits `C2` y `C3` a nuestro repositorio local, y nuestra rama remota `o/main` fue actualizada para reflejar este cambio."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -447,7 +447,7 @@ exports.level = {
               "¡Allá vamos! Bajamos los commits `C2` y `C3` a nuestro repositorio local, y nuestra rama remota `o/main` fue actualizada para reflejar este cambio."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -520,7 +520,7 @@ exports.level = {
               "Lá vamos nós! Os commits `C2` e `C3` foram baixados para o nosso repositório local, e nossa branch remota `o/main` foi atualizado para refletir esse fato."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -593,7 +593,7 @@ exports.level = {
               "Alá imos! Os commits `C2` e `C3` baixáronse ó noso repositorio local, e a nosa rama `o/main` actualizouse para reflexar ese cambio."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -666,7 +666,7 @@ exports.level = {
               "看吧！commit `C2` 以及 `C3` 已經被下載到我們的 local repository，而且我們的 remote branch `o/main` 也更新了。"
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -739,7 +739,7 @@ exports.level = {
               "如你所见！`C2`、`C3` 被下载到了本地仓库，同时远程分支 `o/main` 也被更新，反映了这一变化"
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -812,7 +812,7 @@ exports.level = {
               "Das war's! Die Commits `C2` und `C3` wurden zu unserem Repository heruntergeladen und unser Remote Branch `o/main` wurde aktualisiert."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -885,7 +885,7 @@ exports.level = {
               "やりました！`C2`、`C3`コミットがローカルリポジトリにダウンロードされ、`o/main`リモートブランチに反映されました。"
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -958,7 +958,7 @@ exports.level = {
               "Perfect! Commit-urile `C2` și `C3` au fost descărcate în repozitorul nostru local, iar ramura noastră remote `o/main` a fost actualizată pentru a reflecta acest lucru."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1031,7 +1031,7 @@ exports.level = {
               "Готово! Комитите `C2` и `C3` бяха изтеглени в локалното ни хранилище, а отдалеченият бранч `o/main` беше обновен, за да отрази това."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1104,7 +1104,7 @@ exports.level = {
               "Вот и всё! Коммиты `C2` и `C3` были успешно скачаны в наш локальный репозиторий, и наша удалённая ветка `o/main` отобразила эти изменения соответствующим образом."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1177,7 +1177,7 @@ exports.level = {
               "Ось, маєте! Коміти `C2` та `C3` було завантажено до нашого локального сховища й наша віддалена гілка `o/main` була відповідно оновлена."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1250,7 +1250,7 @@ exports.level = {
               "됐습니다! 커밋 `C2` 와 `C3`가 우리의 로컬 저장소로 다운로드 되었고, 원격 브랜치 `o/main`가 이것을 반영하기 위해 업데이트 되었습니다."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1323,7 +1323,7 @@ exports.level = {
               "Đó! Commit `C2` và `C3` đã được tải xuống kho chứa cục bộ của ta, và nhánh từ xa `o/main` của ta đã được cập nhật để phản ánh điều này."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1396,7 +1396,7 @@ exports.level = {
               "Tako! Commita `C2` in `C3` sta bila prenesena v naš lokalen repozitorij in naš oddaljen branch `o/main` je bil posodobljen, da to odraža."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1469,7 +1469,7 @@ exports.level = {
               "No to jedziemy! Commity `C2` i `C3` zostały pobrane do naszego lokalnego repozytorium, a zdalna gałąź `o/main` została zaktualizowana, aby to odzwierciedlić."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1542,7 +1542,7 @@ exports.level = {
               "Ecco fatto! I commit `C2` e `C3` sono stati scaricati nel nostro repository locale, e il nostro ramo remoto `o/main` è stato aggiornato per riflettere questo cambiamento."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1615,7 +1615,7 @@ exports.level = {
               "சரி! Commit கள் `C2` மற்றும் `C3` நமது உள்ளூர்த் repository க்கு பதிவிறக்கம் செய்யப்பட்டது, மற்றும் நமது remote branch `o/main` இந்த புதுப்பிப்பை பிரதிபலிக்கவும் புதுப்பிக்கப்பட்டது."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1687,7 +1687,7 @@ exports.level = {
               "İşte oldu! `C2` ve `C3` commit'leri yerel depomuza indirildi ve uzak dalımız `o/main` bunu yansıtacak şekilde güncellendi."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1759,7 +1759,7 @@ exports.level = {
               "Megvan! A `C2` és `C3` commitokat letöltöttük a helyi repónkba, és a `o/main` távoli águnk frissült, hogy tükrözze ezt."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {
@@ -1832,7 +1832,7 @@ exports.level = {
               "Budur! `C2` və `C3` commit-ləri lokal repozitoriyamıza endirildi və remote branch-ımız `o/main` buna uyğun yeniləndi."
             ],
             "command": "git fetch",
-            "beforeCommand": "git clone; git fakeTeamwork 2"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
           }
         },
         {

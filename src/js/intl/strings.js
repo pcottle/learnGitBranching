@@ -556,6 +556,10 @@ exports.strings = {
     "hu_HU": "Ehhez a parancshoz szükséges egy origin",
     "az": "Həmin əmr üçün origin tələb olunur"
   },
+  "git-error-clone-no-pending-remote": {
+    "__desc__": "Shown when git clone is run without a remote waiting to be cloned",
+    "en_US": "There is no pending remote repository to clone. To create a remote from your current repository, use `git fakeCreateRemote` instead."
+  },
   "git-error-origin-exists": {
     "__desc__": "One of the error messages for git",
     "en_US": "An origin already exists! You cannot make a new one",

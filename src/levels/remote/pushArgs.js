@@ -104,7 +104,7 @@ exports.level = {
               "There we go! `main` got updated on the remote since we specified those arguments."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -117,7 +117,7 @@ exports.level = {
               "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -179,7 +179,7 @@ exports.level = {
               "بفرمایید! `main` در ریموت به‌روز شد زیرا ما آن آرگومان‌ها را مشخص کردیم."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -192,7 +192,7 @@ exports.level = {
               "دستور با شکست مواجه می‌شود (همانطور که می‌بینید)، زیرا `HEAD` روی یک شاخه ردیابی ریموت قرار ندارد."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -254,7 +254,7 @@ exports.level = {
               "Voilà ! `main` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -267,7 +267,7 @@ exports.level = {
               "La commande échoue (comme vous pouvez le voir), car `HEAD` ne se trouve pas sur une branche configurée pour suivre une branche distante."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -326,7 +326,7 @@ exports.level = {
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -339,7 +339,7 @@ exports.level = {
               "El comando falla (como podés ver), porque `HEAD` no está sobre ninguna rama que trackee algún remoto."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -399,7 +399,7 @@ exports.level = {
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -412,7 +412,7 @@ exports.level = {
               "El comando falla (como puedes ver), porque `HEAD` no está sobre ninguna rama que apunte a algún remoto."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -471,7 +471,7 @@ exports.level = {
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -484,7 +484,7 @@ exports.level = {
               "El comando falla (como puedes ver), porque `HEAD` no está sobre ninguna rama que apunte a algún remoto."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -543,7 +543,7 @@ exports.level = {
               "Aqui vamos nós! O `main` foi atualizado no repositório remoto, já que especificamos os parâmetros."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -556,7 +556,7 @@ exports.level = {
               "O comando falha (como você pode ver), já que o `HEAD` não havia sofrido checkout para uma branch com propriedade de remote-tracking definida."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -615,7 +615,7 @@ exports.level = {
               "¡Ahí o tes! Actualizouse `main` no remoto, porque especificamos eses parámetros."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -628,7 +628,7 @@ exports.level = {
               "O comando falla (como podes ver), xa que `HEAD` non está sobre ningunha rama que siga algún remoto."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -687,7 +687,7 @@ exports.level = {
               "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `main` branch 更新了。"
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -700,7 +700,7 @@ exports.level = {
               "指令會失敗（就像你看到的），因為 `HEAD` 並沒有指向一個有 track remote branch 的 branch 上面阿。"
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -759,7 +759,7 @@ exports.level = {
               "好了! 通过指定参数, 远程仓库中的 `main` 分支得到了更新。"
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -772,7 +772,7 @@ exports.level = {
               "命令失败了（正如你看到的，什么也没有发生）! 因为我们所切换的 HEAD 没有跟踪任何分支。"
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -834,7 +834,7 @@ exports.level = {
               "Da haben wir's! `main` wurde auf dem Remote aktualisiert, weil wir beide Optionen angegeben haben."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -847,7 +847,7 @@ exports.level = {
               "Der Befehl schlägt fehlt, da `HEAD` nicht auf einem Branch steht, der ein Remote trackt."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -906,7 +906,7 @@ exports.level = {
               "Așa! `main` a fost actualizat pe remote deoarece am specificat aceste argumente."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -919,7 +919,7 @@ exports.level = {
               "Comanda eșuează (așa cum poți vedea), deoarece `HEAD` nu este pe o ramură care urmărește un remote."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -980,7 +980,7 @@ exports.level = {
               "Ето така! `main` беше обновен на отдалеченото хранилище, тъй като посочихме тези аргументи."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -993,7 +993,7 @@ exports.level = {
               "Командата се проваля (както виждаш), тъй като `HEAD` не е върху клон, проследяващ отдалечено хранилище (remote-tracking branch)."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1055,7 +1055,7 @@ exports.level = {
               "Вот так! Мы обновили `main` на удалённом репозитории, принудительно указав аргументы в push."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1068,7 +1068,7 @@ exports.level = {
               "Как вы видите, команда не выполнилась, так как `HEAD` потерялся и не находится на удалённо-отслеживаемой ветке."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1130,7 +1130,7 @@ exports.level = {
               "やったね！これらの引数を指定していたので、リモートの`main`が更新されました。"
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1143,7 +1143,7 @@ exports.level = {
               "（ご覧の通り）コマンドは失敗しました。`HEAD`がリモートトラッキング設定のあるブランチにチェックアウトされていないためです。"
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1205,7 +1205,7 @@ exports.level = {
               "됐네요! 지정해준 인자들에 의해 원격 저장소의 `main`가 갱신 되었습니다."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1218,7 +1218,7 @@ exports.level = {
               "명령이 실패하며(보시다시피), `HEAD`가 원격저장소를 추적하는 브랜치에 체크아웃 되있지 않기 때문이죠."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1280,7 +1280,7 @@ exports.level = {
               "Ось так! `main` у віддаленому репозиторії оновився, оскільки ми вказали його в аргументах."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1293,7 +1293,7 @@ exports.level = {
               "Команда поверне помилку (як можна побачити), оскільки локальний `HEAD` не співпадає з відповідною віддаленою гілкою."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1355,7 +1355,7 @@ exports.level = {
               "Được rồi! Bằng cách chỉ định các tham số, nhánh `main` trong kho lưu trữ từ xa đã được cập nhật."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1368,7 +1368,7 @@ exports.level = {
               "Lệnh thất bại (như bạn có thể thấy, không có gì xảy ra)! Bởi vì `HEAD` không trỏ đến nhánh nào có theo dõi từ xa."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1430,7 +1430,7 @@ exports.level = {
               "Evo ga! `main` je bil posodobljen na oddaljenem repotu, ker smo podali te argumente."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1443,7 +1443,7 @@ exports.level = {
               "Ukaz ne uspe (kot lahko vidiš), ker `HEAD` ni checkoutan na branchu, ki ga oddaljeno sledimo."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1505,7 +1505,7 @@ exports.level = {
               "No i proszę! Zaktualizowaliśmy `main` na zdalnym repozytorium, ponieważ określiliśmy argumenty."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1518,7 +1518,7 @@ exports.level = {
               "Polecenie (jak widzisz) nie działa, ponieważ `HEAD` nie jest wybrany na gałęzi śledzącej."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1580,7 +1580,7 @@ exports.level = {
               "Ecco qui! `main` è stato aggiornato sul repository remoto come specificato dai parametri."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1593,7 +1593,7 @@ exports.level = {
               "Il comando fallisce (come puoi vedere), in quanto `HEAD` non si trova su un ramo che traccia il remoto."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1654,7 +1654,7 @@ exports.level = {
               "İşte böyle! `main` dalı, bu argümanları belirttiğimiz için uzak depoda güncellendi."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1667,7 +1667,7 @@ exports.level = {
               "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalına checkout yapılmış durumda değil."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1728,7 +1728,7 @@ exports.level = {
               "Megvan! A `main` frissült a távoliban, mert megadtuk azokat az argumentumokat."
             ],
             "command": "git checkout C0; git push origin main",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1741,7 +1741,7 @@ exports.level = {
               "A parancs sikertelen (ahogy látható), mert a `HEAD` nincs egy távoli követési ágon checkoutolva."
             ],
             "command": "git checkout C0; git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1800,7 +1800,7 @@ exports.level = {
               "Budur! Həmin arqumentləri göstərdiyimiz üçün remote-dakı `main` yeniləndi."
             ],
             "command": "git push origin main",
-            "beforeCommand": "git clone; git commit; git checkout C0"
+            "beforeCommand": "git fakeCreateRemote; git commit; git checkout C0"
           }
         },
         {
@@ -1813,7 +1813,7 @@ exports.level = {
               "Əmr uğursuz olur (gördüyün kimi), çünki `HEAD` remote izləmə branch-ında checkout edilməyib."
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit; git checkout C0"
+            "beforeCommand": "git fakeCreateRemote; git commit; git checkout C0"
           }
         },
         {

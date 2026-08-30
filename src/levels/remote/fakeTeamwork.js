@@ -81,7 +81,7 @@ exports.level = {
               "There we go -- the remote was updated with a new commit, and we haven't downloaded that commit yet because we haven't run `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -94,7 +94,7 @@ exports.level = {
               "With one command we simulated a teammate pushing three commits to the `foo` branch on our remote."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -135,7 +135,7 @@ exports.level = {
               "بفرمایید -- ریموت با یک کامیت جدید به‌روز شد، و ما هنوز آن کامیت را دانلود نکرده‌ایم زیرا `git fetch` را اجرا نکرده‌ایم."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -148,7 +148,7 @@ exports.level = {
               "با یک دستور، ما شبیه‌سازی کردیم که یک هم‌تیمی سه کامیت را به شاخه `foo` در ریموت ما push کرده است."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -189,7 +189,7 @@ exports.level = {
               "Voilà : le dépôt distant a été mis à jour avec un nouveau commit, et nous n'avons pas encore téléchargé ce commit parce que nous n'avons pas exécuté la commande `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -202,7 +202,7 @@ exports.level = {
               "Avec une seule commande, nous avons simulé un collègue ayant pushé 3 commits sur la branche `foo` de notre dépôt distant."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -243,7 +243,7 @@ exports.level = {
               "Ahí está: el remoto se actualizó con un nuevo commit, y todavía no nos bajamos ese commit porque aún no hicimos `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -256,7 +256,7 @@ exports.level = {
               "Con un único comando simulamos que un compañero de equipo pusheó tres commits a la rama `foo` de nuestro remoto."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -297,7 +297,7 @@ exports.level = {
               "Ahí está: el remoto se actualizó con un nuevo commit, y todavía no nos bajamos ese commit porque aún no hicimos `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -310,7 +310,7 @@ exports.level = {
               "Con un único comando simulamos que un compañero de equipo pusheó tres commits a la rama `foo` de nuestro remoto."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -351,7 +351,7 @@ exports.level = {
               "Aquí vamos -- El remoto fue actualizado con un nuevo commit, y no a sido descargado aún ese commit debido a que no se a corrido `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -364,7 +364,7 @@ exports.level = {
               "Con un comando simulamos a un compañero de equipo creando 3 commits a la rama `foo` en nuestro remoto."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -405,7 +405,7 @@ exports.level = {
               "Aqui vamos nos -- o repositório remoto foi atualizado com um novo commit, e ainda não baixamos esse commit porque não executamos um `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -418,7 +418,7 @@ exports.level = {
               "Com um único comando, nós simulamos um colega enviando 3 commits para a branch `foo` do repositório remoto."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -459,7 +459,7 @@ exports.level = {
               "Ahí o tes: a rama remota actualizouse cun novo commit, e aínda non nos baixamos ese commit porque inda non fixemos `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -472,7 +472,7 @@ exports.level = {
               "Cun único comando simulamos que un colega do equipo empurrou tres commits á rama `foo` do noso remoto."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -513,7 +513,7 @@ exports.level = {
               "我就說吧！remote 已經藉由一個新的 commit 而更新了，而且因為我們還沒有用 `git fetch`，所以表示我們還沒有下載該 commit。"
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -526,7 +526,7 @@ exports.level = {
               "我們利用一個指令將三個 commit 送給在 remote 上面的 `foo` branch。"
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -567,7 +567,7 @@ exports.level = {
               "完成了 —— 远程仓库增加了一个新提交，我们还没有下载它，因为我们还没有执行 `git fetch`。"
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -580,7 +580,7 @@ exports.level = {
               "通过一个命令，我们就模拟队友推送了 3 个提交记录到远程仓库的 foo 分支。"
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -621,7 +621,7 @@ exports.level = {
               "Da haben wir's -- der Server ist mit einem neuen Commit aktualisiert worden und wir haben ihn noch nicht lokal, weil wir weder `git fetch` noch `git pull` ausgeführt haben."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -634,7 +634,7 @@ exports.level = {
               "Mit einem Befehlt haben wir simuliert, dass ein Kollege drei Commits auf den  Branch `foo` gepackt hat."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -675,7 +675,7 @@ exports.level = {
               "Iată-ne -- remote-ul a fost actualizat cu un nou commit, iar noi nu am descărcat încă acel commit pentru că nu am rulat `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -688,7 +688,7 @@ exports.level = {
               "Cu o singură comandă am simulat că un coleg a partajat trei commit-uri pe ramura `foo` a remote-ului nostru."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -729,7 +729,7 @@ exports.level = {
               "Готово — отдалеченото хранилище беше обновено с нов комит, а ние все още не сме го изтеглили, защото не сме изпълнили `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -742,7 +742,7 @@ exports.level = {
               "С една единствена команда симулирахме как съотборник е качил три комита в бранча `foo` на отдалеченото хранилище."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -783,7 +783,7 @@ exports.level = {
               "Ну вот - удалённый репозиторий был изменён при помощи добавления нового коммита, и мы ещё не скачали этот коммит, потому что не запустили команду `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -796,7 +796,7 @@ exports.level = {
               "С помощью одной лишь команды мы симулируем добавление трёх коммитов в ветку `foo` на удалённом репозитории"
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -839,7 +839,7 @@ exports.level = {
               "ではいってみましょう -- リモートには新しいコミットが更新され、それはまだ私たちの手元にはダウンロードされていません。なぜなら、`git fetch`を走らせていませんからね。"
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -852,7 +852,7 @@ exports.level = {
               "一つのコマンドで、チームメイトが3個のコミットをリモートの`foo`ブランチにプッシュするという動作を再現することができました。"
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -893,7 +893,7 @@ exports.level = {
               "Є -- до віддаленого репозиторію додався ще один коміт, проте ми ще його не звантажили, оскільки ще не виконали `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -906,7 +906,7 @@ exports.level = {
               "Виконавши одну команду ми симулювали колегу, що запушив три коміти в гілку `foo` на віддаленому репозиторії."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -947,7 +947,7 @@ exports.level = {
               "자, 됐습니다 -- 원격 저장소에 새로운 커밋이 갱신되었습니다. 아직 `git fetch`를 하지 않았기 때문에 로컬로 내려받아지지는 않았습니다."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -960,7 +960,7 @@ exports.level = {
               "하나의 명령어로 팀원이 원격저장소의 `foo` 브랜치에 세개의 커밋을 push한것처럼 가장했습니다."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1001,7 +1001,7 @@ exports.level = {
               "Đó -- kho chứa từ xa đã được cập nhật thêm một commit, và ta chưa tải commit đó xuống vì ta chưa hề chạy lệnh `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1014,7 +1014,7 @@ exports.level = {
               "Chỉ với một câu lệnh ta có thể giả lập tạo ra 3 commit trên nhánh `foo` từ xa của ta."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1055,7 +1055,7 @@ exports.level = {
               "Tako -- oddaljen repo je bil posodobljen z novim commitom, katerega še nismo potegnili k sebi, ker še nismo pognali ukaza `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1068,7 +1068,7 @@ exports.level = {
               "Z enim ukazom smo simulirali sodelavca, ki je dodal tri commite na `foo` branch na našem oddaljnem repotu."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1109,7 +1109,7 @@ exports.level = {
               "Proszę bardzo - zdalny serwer został zaktualizowany o nowy commit, a my jeszcze go nie pobraliśmy, ponieważ nie uruchomiliśmy `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1122,7 +1122,7 @@ exports.level = {
               "Jednym poleceniem symulujemy, że kolega z zespołu wypycha trzy commity do gałęzi `foo` na zdalnym repozytorium."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1163,7 +1163,7 @@ exports.level = {
               "Ecco qua -- il repository remoto è stato aggiornato con un nuovo commit, e non lo abbiamo ancora scaricato in quanto non abbiamo eseguito `git fetch`."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1176,7 +1176,7 @@ exports.level = {
               "Con un comando abbiamo simulato un nostro collega che invia tre commit al ramo `foo` del repository remoto."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1217,7 +1217,7 @@ exports.level = {
               "İşte bu kadar -- uzaktaki depo yeni bir commit ile güncellendi ve biz henüz bu commit'i indirmedik çünkü `git fetch` komutunu çalıştırmadık."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1230,7 +1230,7 @@ exports.level = {
               "Tek bir komutla, takım arkadaşınızın uzaktaki depodaki `foo` dalına üç commit gönderdiğini simüle ettik."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1271,7 +1271,7 @@ exports.level = {
               "Megvan -- a remote egy új committal frissült, és mi még nem töltöttük le azt a commitot, mert nem futtattuk a `git fetch`-et."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1284,7 +1284,7 @@ exports.level = {
               "Egy paranccsal szimulálunk egy csapattag által a `foo` ágra a remote-unkon push-olt három commitot."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git branch foo; git clone"
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
           }
         },
         {
@@ -1325,7 +1325,7 @@ exports.level = {
               "Budur -- remote yeni bir commit-lə yeniləndi, biz isə hələ `git fetch` işlətmədiyimiz üçün həmin commit-i endirməmişik."
             ],
             "command": "git fakeTeamwork",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1338,7 +1338,7 @@ exports.level = {
               "Bir əmrlə komanda yoldaşının remote-umuzdakı `foo` branch-ına üç commit push etməsini simulyasiya etdik."
             ],
             "command": "git fakeTeamwork foo 3",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {

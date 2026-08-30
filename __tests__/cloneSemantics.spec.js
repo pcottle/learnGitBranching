@@ -67,11 +67,28 @@ var NON_MAIN_DEFAULT_START = JSON.stringify({
 });
 
 describe('Opt-in clone semantics', function() {
-  it('legacy git clone still makes a remote out of the local repo (unaffected)', function() {
+  it('git fakeCreateRemote makes a remote out of the local repo', function() {
     return expectTreeAsync(
-      'git clone',
+      'git fakeCreateRemote',
       '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}}'
     );
+  });
+
+  it('rejects git clone without a pending remote and leaves the tree unchanged', function() {
+    var headless = new HeadlessGit();
+    var beforeClone = headless.gitEngine.exportTreeString();
+
+    return new Promise(function(resolve) {
+      headless.sendCommand('git clone', { resolve: resolve });
+    }).then(function(commands) {
+      var error = commands[commands.length - 1].get('error');
+      expect(error.get('msg')).toBe(
+        'There is no pending remote repository to clone. ' +
+        'To create a remote from your current repository, use ' +
+        '`git fakeCreateRemote` instead.'
+      );
+      expect(headless.gitEngine.exportTreeString()).toBe(beforeClone);
+    });
   });
 
   it('opt-in clone copies the single-branch remote into the local repo', function() {

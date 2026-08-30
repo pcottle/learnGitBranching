@@ -22,6 +22,7 @@ const autoCompleteSuggestionOrder = [
   // That way cherry pick is not before checkout
   "git commit",
   "git clone",
+  "git fakeCreateRemote",
   "git fakeTeamwork",
   "git checkout",
   "git branch",

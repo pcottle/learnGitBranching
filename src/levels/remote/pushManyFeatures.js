@@ -90,7 +90,7 @@ exports.level = {
               "* published our work to the remote"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -143,7 +143,7 @@ exports.level = {
               "* کار ما را در ریموت منتشر کردند"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -196,7 +196,7 @@ exports.level = {
               "* on publie notre travail sur le dépôt distant"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -249,7 +249,7 @@ exports.level = {
               "* publicamos nuestro trabajo en ese remoto"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -303,7 +303,7 @@ exports.level = {
               "* publicamos nuestro trabajo en ese remoto"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -356,7 +356,7 @@ exports.level = {
               "* publicamos nuestro trabajo en ese remoto"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -409,7 +409,7 @@ exports.level = {
               "* Publicaram nosso trabalho no repositório remoto"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -462,7 +462,7 @@ exports.level = {
               "* publicamos o noso traballo nese remoto"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -515,7 +515,7 @@ exports.level = {
               "* 發佈到 remote 上面"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -568,7 +568,7 @@ exports.level = {
               "* unsere Commits zum Server gepusht haben."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -621,7 +621,7 @@ exports.level = {
               "* 向远程仓库推送我们的工作"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -674,7 +674,7 @@ exports.level = {
               "* push pentru a publica munca noastră pe remote"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -727,7 +727,7 @@ exports.level = {
               "* публикуваха работата ни в отдалеченото хранилище"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -780,7 +780,7 @@ exports.level = {
               "* закачали свои наработки в удалённый репозиторий"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -833,7 +833,7 @@ exports.level = {
               "* リモートに我々の作業を公開しました"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -886,7 +886,7 @@ exports.level = {
               "* 우리 작업을 원격저장소로 push했습니다."
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -939,7 +939,7 @@ exports.level = {
               "* опублікували наші зміни у віддаленому репозиторії"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -992,7 +992,7 @@ exports.level = {
               "* xuất bản thành quả của ta lên nhánh từ xa"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1045,7 +1045,7 @@ exports.level = {
               "* objavita naše delo na oddaljen repozitorij"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1098,7 +1098,7 @@ exports.level = {
               "* opublikowały naszą pracę na remote"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1151,7 +1151,7 @@ exports.level = {
               "* abbiamo pubblicato il nostro lavoro sul remoto"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1204,7 +1204,7 @@ exports.level = {
               "* Çalışmamızı uzak depoya gönderdi"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1257,7 +1257,7 @@ exports.level = {
               "* publikálták a munkánkat a távoliban"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1310,7 +1310,7 @@ exports.level = {
               "* işimizi remote-a dərc etdi"
             ],
             "command": "git pull --rebase; git push",
-            "beforeCommand": "git clone; git fakeTeamwork; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
           }
         },
         {

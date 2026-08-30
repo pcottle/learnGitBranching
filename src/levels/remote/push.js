@@ -86,7 +86,7 @@ exports.level = {
               "There we go -- the remote received commit `C2`, the branch `main` on the remote was updated to point at `C2`, and our *own* reflection of the remote (`o/main`) was updated as well. Everything is in sync!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -129,7 +129,7 @@ exports.level = {
               "پدیدار شد -- ریموت کامیت `C2` را دریافت کرد، شاخه `main` در ریموت به‌روز شد تا به `C2` اشاره کند، و بازتاب *خودمان* از ریموت (`o/main`) نیز به‌روز شد. همه چیز هماهنگ است!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -172,7 +172,7 @@ exports.level = {
               "Et voilà : le dépôt distant a reçu le commit `C2`, la branche `main` a été mise à jour sur `C2`, et votre *propre* représentation de la branche distante (`o/main`) a aussi été mise à jour. Tout est synchronisé !"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -213,7 +213,7 @@ exports.level = {
               "Ahí está: el remoto recibió el commit `C2`, la rama `main` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/main`) también fue actualizado. ¡Todo está en sincronía!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -255,7 +255,7 @@ exports.level = {
               "Ahí está: el remoto recibió el commit `C2`, la rama `main` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/main`) también fue actualizado. ¡Todo está en sincronía!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -296,7 +296,7 @@ exports.level = {
               "Ahí está: el remoto recibió el commit `C2`, la rama `main` de ese remoto se actualizó para apuntar a `C2`, y nuestro *propio* reflejo del remoto (`o/main`) también fue actualizado. ¡Todo está en sincronía!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -339,7 +339,7 @@ exports.level = {
               "Aqui vamos nós -- o repositório remoto recebeu o commit `C2`, a branch `main` no repositório remoto foi atualizada para apontar para `C2`, e o *nosso* reflexo do remoto (`o/main`) foi atualizado também. Está tudo sincronizado!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -382,7 +382,7 @@ exports.level = {
               "Ahí imos -- o repositorio remoto recibiu o commit `C2`, a rama `main` do repositorio remoto foi actualizado para apuntar para `C2`, e o *noso* reflexo do remoto (`o/main`) foi atualizado tamén. ¡Está todo sincronizado!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -423,7 +423,7 @@ exports.level = {
               "我說的沒錯吧！remote 收到了 commit `C2`，同時在 remote 上的 `main` branch 也一起更新並且指向 `C2`，同時我們*自己的* `o/main` 也一併更新了！"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -467,7 +467,7 @@ exports.level = {
               "过去了, 远程仓库接收了 `C2`，远程仓库中的 `main` 分支也被更新到指向 `C2` 了，我们的远程分支 (o/main) 也同样被更新了。所有的分支都同步了！"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -510,7 +510,7 @@ exports.level = {
               "Na bitte -- das Remote hat den Commit `C2` bekommen, der `main` auf dem Remote ist entsprechend aktualisiert worden und unsere *eigene* Abbildung des `main` auf dem Remote namens `o/main` wurde auch aktualisiert. Alles im Lot!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -553,7 +553,7 @@ exports.level = {
               "Remote-ul a primit commit-ul `C2`, ramura `main` de pe remote a fost actualizată pentru a indica către `C2`, iar propria noastră reflecție a remote-ului (`o/main`) a fost de asemenea actualizată. Totul este sincronizat!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -596,7 +596,7 @@ exports.level = {
               "Ето така -- отдалеченото хранилище получи къмит `C2`, клонът `main` там беше обновен да сочи към `C2`, а нашето *собствено* отражение на отдалеченото (`o/main`) също беше обновено. Всичко е синхронизирано!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -639,7 +639,7 @@ exports.level = {
               "Вот так - удалённый репозиторий получил новый коммит `C2`, ветка `main` на удалённом репозитории теперь указывает на `C2`, и наше *собственное* локальное отображение удалённого репозитория (`o/main`) изменилось соответственно. Всё синхронизировалось!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -682,7 +682,7 @@ exports.level = {
               "さて、いってみましょう -- リモートはコミット`C2`を受け取り、リモート上の`main`ブランチは`C2`の位置に更新され、私たち*自身*のリモートブランチ(`o/main`)も良い具合に更新されました。全てが同期されました！"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -725,7 +725,7 @@ exports.level = {
               "Ось, маєте -- віддалене сховище отримало  `C2`, гілку `main` на ньому було оновлено й тепер вона посилається на `C2`, а наше *власне* відображення віддаленого репо  (`o/main`) було також оновлено. Все синхронізовано!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -768,7 +768,7 @@ exports.level = {
               "자, 됐습니다 -- 원격 저장소가 커밋 `C2`를 받았고, 원격 저장소의 브랜치 `main`가 `C2`라는 지점까지 갱신 되었습니다. 그리고 원격 저장소의 반영인 *우리의* 원격 브랜치 (`o/main`)또한 잘 갱신 되었습니다. 모든게 동기화되어 있습니다!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -811,7 +811,7 @@ exports.level = {
               "Đó -- kho chứa từ xa đã nhận được commit `C2`, nhánh `main` ở kho chứa từ xa đã được cập nhật lên `C2`, và phản chiếu nhánh từ xa *của ta* (`o/main`) cũng được cập nhật luôn. Mọi thứ đã đồng bộ!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -854,7 +854,7 @@ exports.level = {
               "Tako je -- oddaljen repo je prejel commit `C2`, branch `main` na oddaljenem repotu je bil posodobljen, da kaže na `C2` in naš *lasten* prikaz oddaljenega repota (`o/main`) je bil prav tako posodobljen. Vse je usklajeno!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -899,7 +899,7 @@ exports.level = {
               "No i proszę -- remote otrzymał commit `C2`, gałąź `main` na zdalnym repozytorium została zaktualizowana do `C2`. Nasze *własne* odzwierciedlenie zdalnego (`o/main`) również zostało zaktualizowane. Wszystko jest zsynchronizowane!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -942,7 +942,7 @@ exports.level = {
               "Ecco qui -- il repository remoto ha ricevuto il commit `C2`, il ramo `main` sul remoto è stato aggiornato a puntare a `C2`, ed anche il *nostro* riflesso del repository remoto (`o/main`) è stato aggiornato. Tutto è stato sincronizzato!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -985,7 +985,7 @@ exports.level = {
               "İşte böyle -- uzak depo `C2` commitini aldı, uzak depodaki `main` branch'i `C2`'yi işaret edecek şekilde güncellendi ve bizim *kendi* uzak depo yansımamız (`o/main`) da güncellendi. Her şey senkronize!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1028,7 +1028,7 @@ exports.level = {
               "Megvan -- a remote megkapta a `C2` commitot, a remote-on lévő `main` ág frissült, hogy a `C2`-re mutasson, és a *saját* remote tükrünk (`o/main`) is frissült. Minden szinkronban van!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {
@@ -1071,7 +1071,7 @@ exports.level = {
               "Budur -- remote `C2` commit-ini aldı, remote-dakı `main` branch-ı `C2`-yə işarə etmək üçün yeniləndi və remote-un bizdəki *öz* təsviri (`o/main`) da yeniləndi. Hər şey sinxrondadır!"
             ],
             "command": "git push",
-            "beforeCommand": "git clone; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
         {

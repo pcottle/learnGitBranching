@@ -87,7 +87,7 @@ exports.level = {
               "Boom -- we downloaded `C3` with a `fetch` and then merged in that work with `git merge o/main`. Now our `main` branch reflects the new work from the remote (in this case, named `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -100,7 +100,7 @@ exports.level = {
               "The same thing! That should make it very clear that this simulator treats `git pull` as shorthand for `git fetch` followed by a merge of the branch that was just fetched. In real Git, that merge behavior corresponds to `git pull --no-rebase` when branches have diverged."
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -148,7 +148,7 @@ exports.level = {
               "بوم -- ما `C3` را با یک `fetch` دانلود کردیم و سپس آن کار را با `git merge o/main` ادغام کردیم. اکنون شاخه `main` ما کار جدید را از ریموت (در این مورد، با نام `origin`) منعکس می‌کند."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -161,7 +161,7 @@ exports.level = {
               "همان اتفاق! این باید کاملاً روشن کند که `git pull` اساساً مخفف یک `git fetch` است که به دنبال آن ادغام هر شاخه‌ای که تازه دریافت شده است، انجام می‌شود. (در گیت واقعی 2.34+، این معادل `git pull --no-rebase` است زمانی که شاخه‌ها واگرا شده‌اند.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -209,7 +209,7 @@ exports.level = {
               "Boum -- nous avons téléchargé `C3` avec un `fetch` et ensuite nous avons fusionné ce travail dans notre copie avec `git merge o/main`. Maintenant notre branche `main` reflète le nouveau travail du dépôt distant (dans ce cas, nommé `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -222,7 +222,7 @@ exports.level = {
               "La même chose ! Cela devrait maintenant être clair que `git pull` est surtout un raccourci pour `git fetch` suivi d'un merge de toutes les branches qui viennent d'avoir un fetch. (Dans le vrai git 2.34+, c'est équivalent à `git pull --no-rebase` quand les branches ont divergé.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -270,7 +270,7 @@ exports.level = {
               "Boom: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -283,7 +283,7 @@ exports.level = {
               "¡Lo mismo! Eso debería dejar bien en claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que sea que hayamos bajado. (En el git real 2.34+, esto equivale a `git pull --no-rebase` cuando las ramas han divergido.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -331,7 +331,7 @@ exports.level = {
               "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -344,7 +344,7 @@ exports.level = {
               "¡Lo mismo! Eso debería dejar muy claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido por un merge con la rama que acabamos de descargar. (En el git real 2.34+, esto equivale a `git pull --no-rebase` cuando las ramas han divergido.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -392,7 +392,7 @@ exports.level = {
               "Zas: descargamos `C3` con un `fetch` y luego lo mergeamos con `git merge o/main`. Ahora nuestra rama `main` refleja el nuevo trabajo del remoto (en este caso, llamado `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -405,7 +405,7 @@ exports.level = {
               "¡Lo mismo! Eso debería dejar muy claro que `git pull` es básicamente un atajo para hacer `git fetch` seguido de un merge con la rama que acabamos de descargar. (En el git real 2.34+, esto equivale a `git pull --no-rebase` cuando las ramas han divergido.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -453,7 +453,7 @@ exports.level = {
               "Boom -- nós baixamos o `C3` com um `fetch` e então fizemos um merge desse trabalho usando `git merge o/main`. Agora a nossa branch `main` reflete o trabalho realizado no repositório remoto (neste caso, chamado de `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -466,7 +466,7 @@ exports.level = {
               "A mesma coisa! Isso deixa bem claro que `git pull` é essencialmente um atalho para `git fetch` seguido de um merge da branch que acabou de ser baixada. (No git real 2.34+, isso equivale a `git pull --no-rebase` quando as branches divergiram.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -514,7 +514,7 @@ exports.level = {
               "Boom: descargamos `C3` cun `fetch` e logo mesturámolos con `git merge o/main`. Agora a nosa rama `main` reflexa o novo traballo do remoto (neste caso, chamado `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -527,7 +527,7 @@ exports.level = {
               "O mesmo! Iso debería deixar moi claro que `git pull` é basicamente un atallo para `git fetch` seguido dun merge da rama que acabamos de descargar. (No git real 2.34+, isto equivale a `git pull --no-rebase` cando as ramas diverxeron.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -575,7 +575,7 @@ exports.level = {
               "看吧! 我們利用 `fetch` 下載了 `C3` 並且利用 `git merge o/main` 來更新資料，現在我們的 `main` branch 跟 remote 同步了（在這個例子中，remote repository 叫作 `origin`）。"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -588,7 +588,7 @@ exports.level = {
               "一樣！這應該非常清楚地說明了 `git pull` 本質上是 `git fetch` 和合併剛剛取得的分支的簡寫。（在真實的 git 2.34+ 中，當分支產生分歧時，這等同於 `git pull --no-rebase`。）"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -636,7 +636,7 @@ exports.level = {
               "我们用 `fetch` 下载了 `C3`, 然后通过 `git merge o/main` 合并了这一提交记录。现在我们的 `main` 分支包含了远程仓库中的更新（在本例中远程仓库名为 `origin`）"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -649,7 +649,7 @@ exports.level = {
               "一样！这应该非常清楚地说明了 `git pull` 本质上是 `git fetch` 后跟一次合并的简写。（在真实的 git 2.34+ 中，当分支产生分歧时，这等同于 `git pull --no-rebase`。）"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -697,7 +697,7 @@ exports.level = {
               "Bämm -- wir haben `C3` mit `fetch` heruntergeladen und dann in unseren Branch mit `git merge o/main` integriert. Nun bildet unser `main` dieselben Inhalte ab, wie sie auf dem entfernten Server (`origin`) liegen."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -710,7 +710,7 @@ exports.level = {
               "Das Gleiche! Das zeigt deutlich, dass `git pull` im Wesentlichen eine Abkürzung für `git fetch` gefolgt von einem Merge des gerade geholten Branches ist. (Im echten git 2.34+ entspricht das `git pull --no-rebase`, wenn die Branches divergiert haben.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -758,7 +758,7 @@ exports.level = {
               "Boom -- am descărcat `C3` cu un `fetch` și apoi am combinat acea muncă cu `git merge o/main`. Acum ramura noastră `main` reflectă noua muncă de la remote (în acest caz, numit `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -771,7 +771,7 @@ exports.level = {
               "Același lucru! Asta ar trebui să clarifice că `git pull` este practic un scurtcut pentru `git fetch` urmat de un merge al ramurii care tocmai a fost adusă. (În git real 2.34+, aceasta este echivalentă cu `git pull --no-rebase` când ramurile au divergut.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -819,7 +819,7 @@ exports.level = {
               "Бум — изтеглихме `C3` с `fetch` и след това го обединихме с `git merge o/main`. Сега нашият клон `main` отразява новата работа от отдалеченото хранилище (в този случай, наречено `origin`)."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -832,7 +832,7 @@ exports.level = {
               "Същото нещо! Това трябва да изясни, че `git pull` е по същество съкращение за `git fetch`, последвано от сливане на клона, който току-що е бил взет. (В реалния git 2.34+, това е еквивалентно на `git pull --no-rebase`, когато клоновете са се разминали.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -880,7 +880,7 @@ exports.level = {
               "Опа - мы скачали `C3` с помощью команды `fetch` и затем объединяем эти наработки с помощью `git merge o/main`. Теперь наша ветка `main` отображает изменения с удалённого репозитория (в данном случае — с репозитория `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -893,7 +893,7 @@ exports.level = {
               "То же самое! Это должно чётко показать, что `git pull` — это, по существу, сокращение для `git fetch`, за которым следует слияние только что полученной ветки. (В реальном git 2.34+ это эквивалентно `git pull --no-rebase`, когда ветки расходятся.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -941,7 +941,7 @@ exports.level = {
               "わーお。私たちは`C3`を`fetch`でダウンロードして、`git merge o/main`でこれをマージしました。今や私たちの`main`ブランチに(この場合、`origin`という名前の)リモートの新しい作業内容が反映されています。"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -954,7 +954,7 @@ exports.level = {
               "同じ結果です！これにより、`git pull` は基本的に `git fetch` の後にフェッチされたブランチのマージを行うショートカットであることが明確になるはずです。（本物の git 2.34+ では、ブランチが分岐している場合、これは `git pull --no-rebase` に相当します。）"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1002,7 +1002,7 @@ exports.level = {
               "Ка-бум -- ми звантажили `C3` за допомогою `fetch` і потім змерджили їх, використавши `git merge o/main`. Тепер наша гілка `main` відповідає гілці з віддаленого сховища (в цьому випадку, з назвою `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1015,7 +1015,7 @@ exports.level = {
               "Те саме! Це повинно чітко показати, що `git pull` — це, по суті, скорочення для `git fetch`, за яким слідує злиття щойно отриманої гілки. (У реальному git 2.34+ це еквівалентно `git pull --no-rebase`, коли гілки розходяться.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1063,7 +1063,7 @@ exports.level = {
               "Boom -- 우리는 `C3`를 `fetch`로 내려 받고 `git merge o/main`로 우리의 작업으로 병합했습니다. 이제 우리의 `main` 브랜치는 원격 저장소의 새 작업들을 반영하게 됩니다(지금 사례에서 `origin`입니다)."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1076,7 +1076,7 @@ exports.level = {
               "같은 결과입니다! 이를 통해 `git pull`이 기본적으로 `git fetch` 후 방금 가져온 브랜치를 머지하는 것의 약어임을 명확히 알 수 있습니다. (실제 git 2.34+에서 브랜치가 분기되었을 때, 이는 `git pull --no-rebase`에 해당합니다.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1124,7 +1124,7 @@ exports.level = {
               "Bùùm -- ta tải xuống commit `C3` với lệnh `git fetch` rồi sau đó hợp nhất nó với lệnh `git merge o/main`. Giờ thì nhánh `main` đã phản ánh trạng thái mới từ kho chứa từ xa (trong trường hợp này là `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1137,7 +1137,7 @@ exports.level = {
               "Cũng vậy! Điều đó cho thấy rõ ràng rằng `git pull` về cơ bản là tắt gọn của `git fetch` theo sau là merge bất kỳ nhánh nào vừa được tải về. (Trong git thực 2.34+, điều này tương đương với `git pull --no-rebase` khi các nhánh đã phân kỳ.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1185,7 +1185,7 @@ exports.level = {
               "Boom -- prenesli smo `C3` s `fetch` in nato mergali delo z `git merge o/main`. Sedaj naš `main` branch odseva spremembe novega dela iz oddaljenega repoztorija (v tem primeru poimenovan `origin`)."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1198,7 +1198,7 @@ exports.level = {
               "Ista stvar! To bi moralo jasno pokazati, da je `git pull` v bistvu bližnjica za `git fetch`, ki mu sledi merge veje, ki je bila pravkar prenesena. (V resničnem git 2.34+ je to enakovredno `git pull --no-rebase`, ko sta se veji razšli.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1246,7 +1246,7 @@ exports.level = {
               "Tadam -- pobraliśmy `C3` za pomocą `fetch`, a następnie połączyliśmy tę pracę za pomocą `git merge o/main`. Teraz nasza gałąź `main` odzwierciedla nową pracę z remote (w tym przypadku o nazwie `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1259,7 +1259,7 @@ exports.level = {
               "To samo! To powinno jasno wskazywać, że `git pull` jest zasadniczo skrótem dla `git fetch` po którym następuje merge właśnie pobranej gałęzi. (W prawdziwym git 2.34+ jest to równoważne `git pull --no-rebase`, gdy gałęzie się rozeszły.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1307,7 +1307,7 @@ exports.level = {
               "Boom -- abbiamo scaricato `C3` con un `fetch` e poi fuso assieme il lavoro con `git merge o/main`. Ora il nostro ramo `main` riflette le nuove modifiche dal ramo remoto (in questo caso, chiamato `origin`)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1320,7 +1320,7 @@ exports.level = {
               "Lo stesso! Questo dovrebbe rendere chiaro che `git pull` è essenzialmente un'abbreviazione per `git fetch` seguito da un merge del branch appena scaricato. (Nel vero git 2.34+, questo equivale a `git pull --no-rebase` quando i branch hanno divergito.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1368,7 +1368,7 @@ exports.level = {
               "Boom -- `git fetch` komutuyla `C3`'ü indirdik ve ardından `git merge o/main` komutuyla bu işi birleştirdik. Artık `main` dalımız, uzak depodan (bu durumda `origin` olarak adlandırıldı) gelen yeni çalışmaları yansıtıyor."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1381,7 +1381,7 @@ exports.level = {
               "Aynı şey! Bu, `git pull`'ın esasen `git fetch`'in ardından az önce getirilen dalın merge edilmesinin kısaltması olduğunu açıkça ortaya koymalıdır. (Gerçek git 2.34+'da, dallar birbirinden ayrıldığında bu `git pull --no-rebase`'e eşdeğerdir.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1429,7 +1429,7 @@ exports.level = {
               "Boom -- letöltöttük a `C3`-t `fetch`-csel, majd beolvasztottuk azt a munkát a `git merge o/main`-nel. Most a `main` águnk tükrözi a remote új munkáját (ebben az esetben `origin` nevű)"
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1442,7 +1442,7 @@ exports.level = {
               "Ugyanaz! Ebből egyértelműen látható, hogy a `git pull` lényegében a `git fetch`, majd az imént lekért ág merge-ének rövidítése. (A valódi git 2.34+-ban, amikor az ágak eltértek egymástól, ez egyenértékű a `git pull --no-rebase`-szel.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1490,7 +1490,7 @@ exports.level = {
               "Bum -- `fetch` ilə `C3`-ü endirdik və sonra həmin işi `git merge o/main` ilə merge etdik. İndi `main` branch-ımız remote-dan (bu halda `origin` adlanan) gələn yeni işi əks etdirir."
             ],
             "command": "git fetch; git merge o/main",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1503,7 +1503,7 @@ exports.level = {
               "Eyni şey! Bu, `git pull`-ın mahiyyət etibarilə `git fetch`-dən sonra yeni götürülmüş filialın birləşdirilməsinin qısaltması olduğunu aydın göstərməlidir. (Həqiqi git 2.34+-da, filiallar ayrıldıqda bu `git pull --no-rebase` ilə ekvivalentdir.)"
             ],
             "command": "git pull",
-            "beforeCommand": "git clone; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
           }
         },
         {

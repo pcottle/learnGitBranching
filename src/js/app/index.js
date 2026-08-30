@@ -230,7 +230,7 @@ var initDemo = function(sandbox) {
     commands = commands.join(';#').split('#'); // hax
   } else if (params.hasOwnProperty('remoteDemo')) {
     commands = [
-      'git clone',
+      'git fakeCreateRemote',
       'git commit',
       'git fakeTeamwork',
       'git pull',

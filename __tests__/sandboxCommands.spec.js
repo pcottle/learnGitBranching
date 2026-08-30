@@ -31,6 +31,12 @@ describe('Sandbox Commands', function() {
       var joined = lines.join('\n');
       expect(joined).toContain('git fakeTeamwork');
       expect(joined).not.toContain('git-scm.com');
+
+      lines = SandboxCommands.getCommandHelpLines('fakeCreateRemote');
+      joined = lines.join('\n');
+      expect(joined).toContain('git fakeCreateRemote');
+      expect(joined).toContain('Create a fake remote repository');
+      expect(joined).not.toContain('git-scm.com');
     });
 
     it('documents sandbox commands like importTreeNow', function() {

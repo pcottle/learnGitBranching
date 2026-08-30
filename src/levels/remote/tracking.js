@@ -116,7 +116,7 @@ exports.level = {
               "As you can see, we used the implied merge target of `o/main` to update the `foo` branch. Note how main doesn't get updated!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -129,7 +129,7 @@ exports.level = {
               "Boom. We pushed our work to the `main` on the remote even though our branch was named something totally different."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -159,7 +159,7 @@ exports.level = {
               "Same as before, just a more explicit command. Sweet!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -234,7 +234,7 @@ exports.level = {
               "همانطور که می‌بینید، ما از هدف ادغام ضمنی `o/main` برای به‌روزرسانی شاخه `foo` استفاده کردیم. توجه کنید که چگونه main به‌روزرسانی نمی‌شود!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -247,7 +247,7 @@ exports.level = {
               "بوم. ما کارمان را به `main` در ریموت push کردیم با اینکه شاخه ما نام کاملاً متفاوتی داشت."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -277,7 +277,7 @@ exports.level = {
               "مانند قبل، فقط یک دستور صریح‌تر. شیرین است!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -352,7 +352,7 @@ exports.level = {
               "Comme vous pouvez le voir, nous avons utilisé la cible de fusion déclarée pour `o/main` afin de mettre à jour la branche `foo`. Remarquez que la branche `main` n'a pas été mise à jour !!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -365,7 +365,7 @@ exports.level = {
               "Boum. Nous avons envoyé notre travail sur `main` vers le dépôt distant alors que notre branche avait un nom totalement différent."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -395,7 +395,7 @@ exports.level = {
               "C'est la même chose, et c'est juste un peu plus explicite. Cool !"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -472,7 +472,7 @@ exports.level = {
               "Como podés ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Notá cómo `main` no fue actualizada!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -485,7 +485,7 @@ exports.level = {
               "Boom. Pusheamos nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -515,7 +515,7 @@ exports.level = {
               "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Una belleza!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -592,7 +592,7 @@ exports.level = {
               "Como puedes ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Observa cómo `main` no fue actualizada!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -605,7 +605,7 @@ exports.level = {
               "Zas. Hacemos push de nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -635,7 +635,7 @@ exports.level = {
               "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Muy útil!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -712,7 +712,7 @@ exports.level = {
               "Como puedes ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Observa cómo `main` no fue actualizada!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -725,7 +725,7 @@ exports.level = {
               "Zas. Hacemos push de nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -755,7 +755,7 @@ exports.level = {
               "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Muy útil!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -830,7 +830,7 @@ exports.level = {
               "Como você pode ver, usamos o alvo implícito de merge da `o/main` para atualizar a branch `foo`. Veja como a main local não sofreu atualização!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -843,7 +843,7 @@ exports.level = {
               "Boom. Nós enviamos nosso trabalho para a branch remota `main` ainda que nossa branch local tivesse um nome completamente diferente."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -873,7 +873,7 @@ exports.level = {
               "O mesmo de antes, apenas um comando mais explícito. Doce!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -950,7 +950,7 @@ exports.level = {
               "Como podes ver, empregamos o obxectivo implícito de merge `o/main` para actualizar a rama `foo`. ¡Nota como `main` non foi actualizada!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -963,7 +963,7 @@ exports.level = {
               "Boom. Empurramos o noso traballo á rama `main` do remoto incluso cando a nosa rama se chamaba totalmete distinto."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -993,7 +993,7 @@ exports.level = {
               "O mesmo que antes, só que un comando bastante máis explícito. ¡Unha cousa preciosa!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1068,7 +1068,7 @@ exports.level = {
               "就像你看到的，當 `o/main` 更新的時候，`foo` branch 也跟著一起被更新，要注意 main 並沒有被更新！"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1081,7 +1081,7 @@ exports.level = {
               "哇，即使我們的 branch 名稱完全一點關係都沒有，但我們還是 push 了 commit 到 remote 的 `main` branch 上面。"
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1111,7 +1111,7 @@ exports.level = {
               "跟之前一樣，就只是一個更加明確的指令，讚啦！"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1187,7 +1187,7 @@ exports.level = {
               "正如你所看到的, 我们使用了隐含的目标 `o/main` 来更新 `foo` 分支。需要注意的是 main 并未被更新！"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1200,7 +1200,7 @@ exports.level = {
               "我们将一个并不叫 `main` 的分支上的工作推送到了远程仓库中的 `main` 分支上"
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1230,7 +1230,7 @@ exports.level = {
               "跟之前一样, 但这个命令更明确！"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1299,7 +1299,7 @@ exports.level = {
               "Wie du siehst, benutzen wir das implizite Ziel beim `pull` um `foo` zu aktualisieren. Beachte, dass `main` nicht aktualisiert wird."
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1312,7 +1312,7 @@ exports.level = {
               "Bämm. Wir haben unsere Commits auf den `main` auf dem Server geschoben, obwohl unser lokaler Branch völlig anders heißt."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1342,7 +1342,7 @@ exports.level = {
               "Genau wie vorher, nur ist der Befehl ein bisschen eindeutiger. Schick!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1417,7 +1417,7 @@ exports.level = {
               "După cum poți vedea, am folosit ținta implicită de fuziune `o/main` pentru a actualiza ramura `foo`. Observă că `main` nu este actualizată!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1430,7 +1430,7 @@ exports.level = {
               "Bam. Am împins munca noastră pe `main` de pe remote chiar dacă ramura noastră se numea complet diferit."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1460,7 +1460,7 @@ exports.level = {
               "La fel ca înainte, doar că este o comandă mai explicită. Grozav!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1537,7 +1537,7 @@ exports.level = {
               "Как вы увидели, мы использовали `o/main`, чтобы обновить ветку `foo`. Обратите внимание, как обновился `main`!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1550,7 +1550,7 @@ exports.level = {
               "Оп! Мы закачали наши наработки на ветку `main` нашего удалённого репозитория. При том, что наша локальная ветка называется абсолютно по-другому."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1580,7 +1580,7 @@ exports.level = {
               "Словом, всё как и раньше, просто отдельная, специальная команда. Здорово!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1655,7 +1655,7 @@ exports.level = {
               "見ての通り、暗黙の取り込み先である`o/main`を使って`foo`ブランチを更新しました。`main`が更新されないことに注意してください！！"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1668,7 +1668,7 @@ exports.level = {
               "わーお。全く違う名前がつけられているブランチですが、リモートの`main`に内容をプッシュできました。"
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1698,7 +1698,7 @@ exports.level = {
               "前回と一緒で、より明示的なコマンドですね。とてもいい感じです！"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1773,7 +1773,7 @@ exports.level = {
               "보이듯이, 우리는 `o/main`를 `foo` 브랜치를 갱신하기 위한 내재된 merge 타겟으로 사용하고 있습니다. main이 갱신되지 않는다는것을 눈치챘죠?"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1786,7 +1786,7 @@ exports.level = {
               "Boom. 브랜치의 이름을 전혀 다른것으로 지었는데도 불구하고 우리 작업이 `main`로 push 되었습니다."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1816,7 +1816,7 @@ exports.level = {
               "이전과 같습니다,  좀 더 분명하게 알 수 있는 명령어죠. 좋아요!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -1891,7 +1891,7 @@ exports.level = {
               "Як видно з результату, при оновленні `foo` було використано автоматичний зв'язок з `o/main` під час операції `merge`. Зверніть увагу, `main` не було оновлено!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -1904,7 +1904,7 @@ exports.level = {
               "Ка-бум!. Ми запушили наші зміни у віддалений `main`, незважаючи на те, що локальна гілка називалась зовсім по-іншому."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -1934,7 +1934,7 @@ exports.level = {
               "Як і перший спосіб, але своя окрема команда."
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2009,7 +2009,7 @@ exports.level = {
               "Như bạn đã thấy, chúng tôi đã sử dụng mục tiêu ngầm `o / main` để cập nhật nhánh `foo`. Để ý rằng nhánh `main` không được cập nhật!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2022,7 +2022,7 @@ exports.level = {
               "Bùùm. Ta đã đẩy thành quả lên nhánh `main` ở kho chứa tù xa mặc dù nhánh của ta có tên hoàn toàn khác biệt"
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2052,7 +2052,7 @@ exports.level = {
               "Y hệt như trước, nhưng biểu hiện rõ ràng hơn. Tuyệt!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2127,7 +2127,7 @@ exports.level = {
               "Kot lahko vidiš, smo uporabili impliciran cilj mergea `o/main`, da posodobi `foo` branch. Opazi, kako se main ne posodobi!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2140,7 +2140,7 @@ exports.level = {
               "Boom. Naše delo smo naložili na `main` na oddaljenem repotu, čeprav je ime našega brancha nekaj povsem drugega."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2170,7 +2170,7 @@ exports.level = {
               "Enako kot prej, le bolj natančno. Lepa!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2245,7 +2245,7 @@ exports.level = {
               "நீங்கள் பார்ப்பதை போன்று, `foo` கிளை `o/main`ஐ மறைமுக இணை்ப்பு இல்க்காக அமைக்கப்பட்டுள்ளது.  எவ்வளவு `main` புதுப்பிக்கப்படவில்லை என்பதை நினைவில் கொள்க!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2258,7 +2258,7 @@ exports.level = {
               "சிரப்பு. நமது  கிளைக்கு முற்றிலும் வேறுபட்ட பெயரிடப்பட்டிருந்தாலும், நமது மாற்றங்களை தொலைதூரத்தில் உள்ள `main`தள்ளினோம்."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2288,7 +2288,7 @@ exports.level = {
               "முன்பு குறிப்பிட்டது போன்றுதான், மேலும் சற்று வெளிப்படையன கட்டளையாக!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2363,7 +2363,7 @@ exports.level = {
               "Jak widzisz, użyliśmy domyślnego celu scalania `o/main`, żeby zaktualizować gałąź `foo`. Zwróć uwagę, że `main` się nie aktualizuje!!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2376,7 +2376,7 @@ exports.level = {
               "Tadam! Wypchnęliśmy naszą pracę do `main` na `remote`, mimo że nasza gałąź nazywała się zupełnie inaczej."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2406,7 +2406,7 @@ exports.level = {
               "Tak samo jak poprzednio, tylko wyraźniej, widać to w poleceniu. Pięknie!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2481,7 +2481,7 @@ exports.level = {
               "Come puoi vedere, abbiamo usato il destinatario implicito di `o/main` per aggiornare il ramo `foo`. Se vedi il main non è stato aggiornato!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2494,7 +2494,7 @@ exports.level = {
               "Boom. Abbiamo caricato il nostro lavoro al ramo `main` sul repository remoto nonostante il nostro ramo avesse un nome totalmente diverso."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2524,7 +2524,7 @@ exports.level = {
               "Come prima, solo tramite un comando più esplicito. Bene dai!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2598,7 +2598,7 @@ exports.level = {
               "Gördüğünüz gibi, `o/main`'in dolaylı birleştirme hedefini kullanarak `foo` dalını güncelledik. Dikkat edin, `main` güncellenmedi!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2611,7 +2611,7 @@ exports.level = {
               "Boom. Dalımızın adı tamamen farklı olmasına rağmen çalışmamızı uzak depodaki `main` dalına push ettik."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2640,7 +2640,7 @@ exports.level = {
               "Öncekiyle aynı, sadece daha açık bir komut. Harika!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2715,7 +2715,7 @@ exports.level = {
               "Ahogy látod, az `o/main` implicit merge célját használtuk a `foo` ág frissítéséhez. Figyeld meg, hogy a main nem frissül!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2728,7 +2728,7 @@ exports.level = {
               "Bumm. A munkánkat a távoli `main`-re pusholtuk, annak ellenére, hogy az águnk neve egészen más volt."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2758,7 +2758,7 @@ exports.level = {
               "Ugyanaz, mint korábban, csak egy explicit parancs. Klassz!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {
@@ -2833,7 +2833,7 @@ exports.level = {
               "Gördüyün kimi, `foo` branch-ını yeniləmək üçün `o/main`-in nəzərdə tutulan merge hədəfindən istifadə etdik. Diqqət et ki, main yenilənmir!!"
             ],
             "command": "git checkout -b foo o/main; git pull",
-            "beforeCommand": "git clone; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
         {
@@ -2846,7 +2846,7 @@ exports.level = {
               "Bum. Branch-ımızın adı tamam başqa bir şey olsa da, işimizi remote-dakı `main`-ə push etdik."
             ],
             "command": "git checkout -b foo o/main; git commit; git push",
-            "beforeCommand": "git clone"
+            "beforeCommand": "git fakeCreateRemote"
           }
         },
         {
@@ -2876,7 +2876,7 @@ exports.level = {
               "Əvvəlki ilə eyni, sadəcə daha konkret bir əmr. Əla!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git clone; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
           }
         },
         {

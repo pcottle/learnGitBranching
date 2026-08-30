@@ -103,7 +103,7 @@ exports.level = {
               "See! by specifying `main` we downloaded commits onto `o/main` just as normal. Then we merged `o/main` to our currently checked out location which is *not* the local branch `main`. For this reason it can actually make sense to run git pull multiple times (with the same args) from different locations in order to update multiple branches."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -116,7 +116,7 @@ exports.level = {
               "Wow, that's a TON in one command. We created a new branch locally named `foo`, downloaded commits from remote's main onto that branch `foo`, and then merged that branch into our currently checked out branch `bar`. It's over 9000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -177,7 +177,7 @@ exports.level = {
               "می‌بینید! با مشخص کردن `main`، ما کامیت‌ها را طبق معمول در `o/main` دانلود کردیم. سپس `o/main` را در مکان فعلی چک‌اوت شده خود ادغام کردیم که شاخه محلی `main` *نیست*. به همین دلیل، واقعاً ممکن است منطقی باشد که git pull را چندین بار (با آرگومان‌های یکسان) از مکان‌های مختلف اجرا کنید تا شاخه‌های متعددی را به‌روزرسانی کنید."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -190,7 +190,7 @@ exports.level = {
               "وای، این حجم زیادی کار در یک دستور است. ما یک شاخه جدید به صورت محلی به نام `foo` ایجاد کردیم، کامیت‌ها را از main ریموت در آن شاخه `foo` دانلود کردیم، و سپس آن شاخه را در شاخه فعلی چک‌اوت شده خود `bar` ادغام کردیم. قدرتش بالای ۹۰۰۰ است!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -251,7 +251,7 @@ exports.level = {
               "Vu ? En précisant `main` nous avons téléchargé les commits dans `o/main` comme d'habitude. Puis nous avons fusionné `o/main` avec là où nous sommes, *sans nous soucier* de la branche courante."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -264,7 +264,7 @@ exports.level = {
               "Wow, INCROYABLE tout ce que nous avons fait en une commande. Nous avons créé une branche locale nommée `foo`, téléchargé les commits depuis la branche main distante dans `foo`, et ensuite fusionné cette branche dans notre branche actuelle de travail (checkoutée) `bar` !!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -325,7 +325,7 @@ exports.level = {
               "¡Ves! Especificando `main` bajamos los commits a `o/main` como siempre. Después mergeamos `o/main` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -338,7 +338,7 @@ exports.level = {
               "Wow, eso es un MONTÓN en un único comando. Creamos una nueva rama local llamada `foo`, descargamos los commits del main del remoto a esta rama `foo`, y después mezclamos esa rama a nuestra rama actual `bar`. ¡¡¡Supera los 9000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -399,7 +399,7 @@ exports.level = {
               "¡Ves! Especificando `main` descargamos los commits a `o/main` como siempre. Después hacemos merge de `o/main` a nuestra rama actual, la cual *no* es la rama local `main`. Por este motivo puede hacer sentido ejecutar git pull múltiples ocasiones (con los mismos argumentos) desde diferentes ubicaciones con el fin de actualizar múltiples ramas."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -412,7 +412,7 @@ exports.level = {
               "Increible, eso es MUCHISIMO en un único comando. Creamos una nueva rama local llamada `foo`, descargamos los commits del main remoto a la rama `foo`, y después hicimos merge esa rama a nuestra rama actual `bar`. ¡¡¡Su poder es de más de 8000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -473,7 +473,7 @@ exports.level = {
               "¡Ves! Especificando `main` descargamos los commits a `o/main` como siempre. Después mergeamos `o/main` a nuestra rama actual, *sin importar* qué había en nuestra copia de trabajo."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -486,7 +486,7 @@ exports.level = {
               "Caramba, eso es una BARBARIDAD en un único comando. Creamos una nueva rama local llamada `foo`, descargamos los commits del main del remoto a esta rama `foo`, y después mezclamos esa rama a nuestra rama actual `bar`. ¡¡¡Supera los 9000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -547,7 +547,7 @@ exports.level = {
               "Veja! Especificando `main` nós baixamos commits em `o/main` como sempre. Então fizemos um merge de `o/main` com o lugar onde estamos, *independente* daquilo que está atualmente em checkout."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -560,7 +560,7 @@ exports.level = {
               "Wow, isso é MUITA coisa em um comando só. Nós criamos uma nova branch local chamada `foo`, baixamos commits da main remoto nesse branch `foo`, e então fizemos um merge dela com a branch atualmente em checkout, `bar`."
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -621,7 +621,7 @@ exports.level = {
               "¡Ves! Indicando `main` baixamos os commits á `o/main` coma sempre. Despois mesturamos `o/main` á nosa rama actual, *sen importar* qué tiñamos na nos copia de traballo."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -634,7 +634,7 @@ exports.level = {
               "Wow, eso es unha CHEA nun único comando. Creamos unha nova rama local chamada `foo`, descargamos os commits do main do remoto a esta rama `foo`, e logo mesturamos esa rama á nosa rama actual `bar`. ¡¡¡Supera os 9000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -695,7 +695,7 @@ exports.level = {
               "看吧！指定位置為 `main`，跟平常一樣，我們下載了 commit 並且放到 `o/main` 上，接著，我們會 merge `o/main` 到我們現在的位置，*不管*我們現在所 checkout 的位置在哪裡。"
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -708,7 +708,7 @@ exports.level = {
               "哇！這個指令強而有力，我們在 local 建立了一個新的 `foo` branch，下載了 remote 的 `main` 的 commit，並且放到 local 的 `foo` branch，之後 merge `foo` branch 到我們目前所 checkout 的 `bar` branch。這實在是太超過了！！！"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -769,7 +769,7 @@ exports.level = {
               "看到了吧! 通过指定 `main` 我们更新了 `o/main`。然后将 `o/main` merge 到我们的所在的分支，**无论**我们当前所在的位置是哪。"
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -782,7 +782,7 @@ exports.level = {
               " 哇，这个命令做的事情真多。它先在本地创建了一个叫 `foo` 的分支，从远程仓库中的 main 分支中下载提交记录，并合并到 `foo`，然后再 merge 到我们的当前所在的分支 `bar` 上。操作够多的吧？！"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -843,7 +843,7 @@ exports.level = {
               "Siehst du? Da wir `main` angegeben haben, sind die Commits in `o/main` heruntergeladen worden. Danach wurde `o/main` gemerged, egal was gerade ausgecheckt war."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -856,7 +856,7 @@ exports.level = {
               "Wow, das ist eine Menge in einem einzelnen Befehl. Wir haben lokal einen neuen Branch namens `foo` erstellt, die Commits vom `main` des Servers dorthin heruntergeladen und ihn danach in unseren aktuell ausgecheckten Branch `bar` gemerged."
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -919,7 +919,7 @@ exports.level = {
               "このような挙動をするので、複数のブランチを更新するためには異なる場所（かつ同じ引数）で`git pull`を実行しなければいけません。"
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -935,7 +935,7 @@ exports.level = {
               "ローカルに`foo`ブランチを作成し、リモート上の`main`から`foo`ブランチにコミットをダウンロードして、そのブランチを今、チェックアウトしている`bar`ブランチにmergeしました！"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1000,7 +1000,7 @@ exports.level = {
               "Vezi! Specificând `main`, am descărcat commit-urile în `o/main` ca de obicei. Apoi am făcut merge de `o/main` în locul unde ne aflăm acum, *indiferent* de unde ne aflam."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1013,7 +1013,7 @@ exports.level = {
               "Wow, o MULȚIME de lucruri într-o singură comandă. Am creat o nouă ramură locală numit `foo`, am descărcat commit-urile de pe `main` de la remote în această ramură `foo`, și apoi am făcut merge acestuia în ramura curentă `bar`."
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1074,7 +1074,7 @@ exports.level = {
               "Как видно, мы указали `main`, поэтому как обычно все обновления притянулись на ветку `o/main`. Затем мы слили (merge) обновленную ветку `o/main` с веткой, на которой мы находимся."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1087,7 +1087,7 @@ exports.level = {
               "Ого, сколько всего выполнено всего одной командой!. Мы создали новую ветку `foo` в локальном репозитории, скачали на неё изменения с ветки `main` удаленного репозитория, а затем слили эту ветку с веткой `bar`, на которой мы находились!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1148,7 +1148,7 @@ exports.level = {
               "보이죠! `main`를 지정해서 우리는 `o/main`에 평소처럼 커밋들을 내려받았습니다. 그다음 우리가 있는 곳으로 `o/main`를 병합했습니다 현재 체크아웃된 브랜치와 *상관없이* 말이죠"
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1161,7 +1161,7 @@ exports.level = {
               "이야, 명령어 하나에 많은게 일어나고있습니다. 로컬에 이름이 `foo`인 새 브랜치를 만들고, 원격 저장소의 main에서 이 브랜치 `foo`에 커밋들을 내려받습니다, 그후 그 브랜치를 우리가 현재 체크아웃한 브랜치 `bar`로 병합했습니다. 오오오!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1222,7 +1222,7 @@ exports.level = {
               "От бачите, вказавши `main`, ми звантажили коміти в `o/main`, як завжди. Потім змерджили `o/main` в поточну гілку."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1235,7 +1235,7 @@ exports.level = {
               "Ого, стільки роботи однією командою. Ми створили локальну гілку з назвою `foo`, звантажили в неї коміти з віддаленого main, а потім змерджили `foo` в поточну гілку `bar`!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1296,7 +1296,7 @@ exports.level = {
               "Thấy chứ! Bằng cách chỉ định nhánh `main` ta tải các commit xuống nhánh `o/main` như thường lệ. Sau đó hợp nhất nhánh `o/main` vào nhánh cục bộ mà ta đang đứng, nhánh mà *không phải* nhánh cục bộ `main`. Nhờ vậy mà ta có thể chạy cùng một lệnh git pull (với cùng tham số) nhiều lần ở những vị trí khác nhau để áp dụng cùng cập nhật lên các nhánh khác nhau."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1309,7 +1309,7 @@ exports.level = {
               "Wao, quá NHIỀU trong một câu lệnh. Ta tạo ra một nhánh cục bộ là `foo`, tải commit xuống từ nhánh từ xa main xuống nhánh `foo` đó, và sau đó hợp nhất commit vào nhánh `bar` mà ta đang đứng. Đủ thứ luôn!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1370,7 +1370,7 @@ exports.level = {
               "Vidiš! Z določitvijo `main` smo prenesli commite na `o/main` kot ponavadi. Potem smo zmergali `o/main` v našo trenutno checkoutano lokacijo, ki *ni* lokalni branch `main`. Zaradi tega razloga je morda celo logično, da izvedemo git pull večkrat (z istimi argumenti) iz drugi lokacij, da posodobimo več branchev."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1383,7 +1383,7 @@ exports.level = {
               "Wow, to je pa RES veliko v enem ukazu. Naredili smo nov lokalen branch imenovan `foo`, prenesli commite iz oddaljenega masterja na ta branch `foo` in potem zmergali ta branch v naš trenutno checkoutan branch `bar`. Je več kot 9000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1444,7 +1444,7 @@ exports.level = {
               "Zobacz! Określając `main`, pobraliśmy commity do `o/main` tak jak zawsze. Potem scaliliśmy `o/main` z aktualnie wybranym miejscem, którym *nie* jest lokalna gałąź `main`. Właśnie z tego powodu może mieć sens wykonanie git pull wiele razy (z tymi samymi argumentami) z różnych lokalizacji, aby zaktualizować wiele gałęzi."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1457,7 +1457,7 @@ exports.level = {
               "No nieźle, jedno polecenie, a tyle się dzieje. Stworzyliśmy nową lokalną gałąź `foo`, pobraliśmy commity ze zdalnej gałęzi `main` do `foo`, a potem jeszcze scaliliśmy ją z aktualnie wybraną gałęzią `bar`. Grubo ponad osiem tysięcy!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1518,7 +1518,7 @@ exports.level = {
               "Visto! specificando `main` abbiamo scaricato i commit sul ramo `o/main` come sempre. Poi abbiamo fuso `o/main` con il ramo sul quale stavamo lavorando attualmente, il quale *non* è il ramo `main` locale. Per questo motivo può avere effettivamente senso eseguire più volte git pull (con gli stessi parametri) da posizioni differenti per aggiornare così più rami."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1531,7 +1531,7 @@ exports.level = {
               "Wow, è tantissimo per un comando solo! Abbiamo creato un nuovo ramo locale chiamato `foo`, scaricato i commit dal main remoto sul nuovo ramo `foo`, e poi fuso quel ramo con `bar`, quello sul quale stavamo lavorando attualmente. È oltre gli 8000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1592,7 +1592,7 @@ exports.level = {
               "Görüyorsunuz! `main`'i belirterek commit'leri normal şekilde `o/main` üzerine indirdik. Sonra `o/main`'i şu anda checkout yaptığımız konuma merge ettik; bu konum yerel `main` dalı *değil*. Bu nedenle birden fazla dalı güncellemek için `git pull`'ü farklı konumlardan (aynı argümanlarla) birden fazla kez çalıştırmak aslında mantıklı olabilir."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1605,7 +1605,7 @@ exports.level = {
               "Vay, bu bir komutta tonlarca şey oldu. Yerel olarak `foo` adında yeni bir branch oluşturduk, uzak depodaki `main`'den commitleri bu `foo` branch'ine indirdik ve sonra bu branch'i şu anda üzerinde çalıştığımız `bar` branch'ine birleştirdik. Bu gerçekten 9000'in üzerinde!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1666,7 +1666,7 @@ exports.level = {
               "Látod! A `main` megadásával letöltöttük a commitokat az `o/main`-re, ahogy szokásos. Majd merge-eltük az `o/main`-t az aktuálisan checkoutolt helyünkre, amely *nem* a helyi `main` ág. Ezért valójában érdemes lehet többször is futtatni a git pull-t (ugyanazokkal az argumentumokkal) különböző helyekről, hogy több ágat frissítsünk."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; go -b bar; git commit; git fakeTeamwork"
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
           }
         },
         {
@@ -1679,7 +1679,7 @@ exports.level = {
               "Wow, ez rengeteg dolog egy parancsban. Létrehoztunk egy új helyi `foo` nevű ágat, letöltöttük a commitokat a távoli main-ről arra a `foo` ágra, majd merge-eltük azt az ágat az aktuálisan checkoutolt `bar` águnkba. Ez több mint 9000!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; go -b bar; git commit"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
           }
         },
         {
@@ -1740,7 +1740,7 @@ exports.level = {
               "Gördün! `main` göstərməklə commit-ləri həmişəki kimi `o/main`-ə endirdik. Sonra `o/main`-i hazırda checkout etdiyimiz yerə merge etdik ki, bu da lokal `main` branch-ı *deyil*. Məhz buna görə çoxlu branch-ı yeniləmək üçün git pull-u fərqli yerlərdən (eyni arqumentlərlə) bir neçə dəfə işlətmək əslində məntiqli ola bilər."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git clone; git fakeTeamwork; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b foo"
           }
         },
         {
@@ -1753,7 +1753,7 @@ exports.level = {
               "Vay, bu, bir əmrdə ÇOX iş deməkdir. Lokal olaraq `foo` adlı yeni bir branch yaratdıq, remote-un main-indən commit-ləri həmin `foo` branch-ına endirdik, sonra həmin branch-ı hazırda checkout etdiyimiz `bar` branch-ına merge etdik. 9000-i keçir!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git clone; git fakeTeamwork; git checkout -b bar"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b bar"
           }
         },
         {
