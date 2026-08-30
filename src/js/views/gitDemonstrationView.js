@@ -117,6 +117,15 @@ class GitDemonstrationView extends ContainedBase {
   }
 
   dispatchBeforeCommand() {
+    if (this.options.beforeTree) {
+      // already loaded as the initial treeString in initVis()/reset() --
+      // going through Visualization's own load path (rather than calling
+      // gitEngine.loadTree directly here, like the beforeCommand path
+      // below) is what makes a clonePending beforeTree start hidden
+      // correctly, matching the real level.
+      return;
+    }
+
     if (!this.options.beforeCommand) {
       return;
     }
@@ -253,14 +262,21 @@ class GitDemonstrationView extends ContainedBase {
 
   initVis() {
     var visElement = this.$('div.visHolder div.visHolderInside')[0];
-    this.mainVis = new Visualization({
+    var visOptions = {
       el: visElement,
       containerElement: visElement,
       noKeyboardInput: true,
       noClick: true,
       smallCanvas: true,
       zIndex: -1
-    });
+    };
+    if (this.options.beforeTree) {
+      // load synchronously as part of paperInitialize(), same as a real
+      // level's startTree -- this is what lets a clonePending beforeTree
+      // start with the local repo hidden and the remote already visible
+      visOptions.treeString = JSON.stringify(this.options.beforeTree);
+    }
+    this.mainVis = new Visualization(visOptions);
     this.mainVis.customEvents.on('paperReady', function() {
       this.visFinished = true;
       this.dispatchBeforeCommand();

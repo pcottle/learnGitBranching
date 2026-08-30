@@ -1,7 +1,7 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C5\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\",\"localBranchesThatTrackThis\":null},\"o/main\":{\"target\":\"C3\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":[\"main\"]}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C5\":{\"parents\":[\"C3\",\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "solutionCommand": "git clone;git fakeTeamwork 2;git commit ;git pull",
-  "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":null,\"localBranchesThatTrackThis\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
+  "startTree": "{\"branches\":{\"main\":{\"target\":\"C0\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}},\"clonePending\":true}",
   "name": {
     "en_US": "Faking Teamwork",
     "fa": "شبیه‌سازی کار تیمی (Faking Teamwork)",
@@ -103,7 +103,7 @@ exports.level = {
             "markdowns": [
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
-              "Go ahead and make a remote (with `git clone`), fake some changes on that remote, add a local commit, and then pull down the remote changes and merge them. It's like a few lessons in one!"
+              "Go ahead and clone the remote repository, fake some changes on that remote, add a local commit, and then pull down the remote changes and merge them. It's like a few lessons in one!"
             ]
           }
         }
@@ -157,7 +157,7 @@ exports.level = {
             "markdowns": [
               "مراحل پیش رو قرار است بسیار دشوار باشند، بنابراین ما در این مرحله انتظارات بیشتری از شما داریم.",
               "",
-              "پیش بروید و یک ریموت بسازید (با `git clone`)، برخی تغییرات را در آن ریموت شبیه‌سازی کنید، یک کامیت محلی اضافه کنید و سپس تغییرات ریموت را دریافت کرده و آن‌ها را ادغام کنید. این مانند چند درس در یک درس است!"
+              "پیش بروید و مخزن ریموت را `git clone` کنید، برخی تغییرات را در آن ریموت شبیه‌سازی کنید، یک کامیت محلی اضافه کنید و سپس تغییرات ریموت را دریافت کرده و آن‌ها را ادغام کنید. این مانند چند درس در یک درس است!"
             ]
           }
         }
@@ -211,7 +211,7 @@ exports.level = {
             "markdowns": [
               "Les niveaux suivants vont devenir assez difficiles, nous augmentons donc un peu la difficulté de cet exercice.",
               "",
-              "Vous devrez créer un dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commiter les vôtres, et enfin appliquer les changements distants dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
+              "Vous devrez cloner le dépôt distant (avec `git clone`), simuler quelques changements sur ce dépôt, commiter les vôtres, et enfin appliquer les changements distants dans votre dépôt local (pull). C'est presque plusieurs leçons en une !"
             ]
           }
         }
@@ -265,7 +265,7 @@ exports.level = {
             "markdowns": [
               "Los niveles siguientes van a ser algo difíciles, así que vamos a exigirte un poco más en este nivel.",
               "",
-              "Animate y creá un remoto (con `git clone`), simulá algunos cambios en ese remoto, commiteá en tu repo local, y luego pulleate esos cambios. ¡Es como varias lecciones en una!"
+              "Animate y cloná el repositorio remoto (con `git clone`), simulá algunos cambios en ese remoto, commiteá en tu repo local, y luego pulleate esos cambios. ¡Es como varias lecciones en una!"
             ]
           }
         }
@@ -319,7 +319,7 @@ exports.level = {
             "markdowns": [
               "Los niveles siguientes van a ser algo difíciles, así que vamos a exigirte un poco más en este nivel.",
               "",
-              "Anímate y crea un remoto (con `git clone`), simula algunos cambios en ese remoto, haz commit en tu repo local, y luego haz pull de esos cambios. ¡Es como si fueran varias lecciones en una!"
+              "Anímate y clona el repositorio remoto (con `git clone`), simula algunos cambios en ese remoto, haz commit en tu repo local, y luego haz pull de esos cambios. ¡Es como si fueran varias lecciones en una!"
             ]
           }
         }
@@ -373,7 +373,7 @@ exports.level = {
             "markdowns": [
               "Los siguientes niveles serán bastante dificiles, pedimos más de ti para este nivel.",
               "",
-              "Vamos adelante y crea un remoto (con `git clone`) simula algunos cambios en ese remoto, commit tú mismo, y después descarga esos cambios. ¡Es como algunas lecciones en una!"
+              "Vamos adelante y clona el repositorio remoto (con `git clone`), simula algunos cambios en ese remoto, commit tú mismo, y después descarga esos cambios. ¡Es como algunas lecciones en una!"
             ]
           }
         }
@@ -427,7 +427,7 @@ exports.level = {
             "markdowns": [
               "Os níveis posteriores serão mais difíceis, então estamos pedindo um pouco mais de você neste nível.",
               "",
-              "Vá em frente e crie um repositório remoto (chamando `git clone`), simule algumas mudanças no repositório remoto, commite no repositório local, e então faça um pull das mudanças que haviam sido simuladas. É como se fossem várias lições em uma só!"
+              "Vá em frente e clone o repositório remoto (com `git clone`), simule algumas mudanças no repositório remoto, commite no repositório local, e então faça um pull das mudanças que haviam sido simuladas. É como se fossem várias lições em uma só!"
             ]
           }
         }
@@ -481,7 +481,7 @@ exports.level = {
             "markdowns": [
               "Os niveis seguintes van ser un pouco máis complicados, así que imos a esixirte un pouco máis neste nivel.",
               "",
-              "Anímate e crea unha rama remota (con `git clone`), e simula algúns cambios no repositorio remoto, logo desto, fai commit do teu repo local, e logo descarga os cambios. ¡É coma varias leccións nunha soa!"
+              "Anímate e clona o repositorio remoto (con `git clone`), e simula algúns cambios no repositorio remoto, logo desto, fai commit do teu repo local, e logo descarga os cambios. ¡É coma varias leccións nunha soa!"
             ]
           }
         }
@@ -589,7 +589,7 @@ exports.level = {
             "markdowns": [
               "接下来的关卡会相当的困难，所以在本关会让你做许多事情，先来热热身。",
               "",
-              "克隆一个远程仓库（用 `git clone`），再在刚创建的远程仓库中模拟一些修改，然后在你自己的本地分支上做一些提交，再拉取远程仓库的变更。这看起来像是包含了好几节的课程。"
+              "克隆一个远程仓库（用 `git clone`），再在这个远程仓库中模拟一些修改，然后在你自己的本地分支上做一些提交，再拉取远程仓库的变更。这看起来像是包含了好几节的课程。"
             ]
           }
         }
@@ -643,7 +643,7 @@ exports.level = {
             "markdowns": [
               "Die kommenden Level werden recht anspruchsvoll, daher verlangen wir auch in diesem Level schon etwas mehr.",
               "",
-              "Leg los und erstelle ein Remote (mit `git clone`), simuliere ein paar Änderungen auf dem Server, committe lokal und dann zieh dir die Änderungen vom Server. Das ist wie mehrere Level in einem!"
+              "Leg los und klone das Remote-Repository (mit `git clone`), simuliere ein paar Änderungen auf dem Server, committe lokal und dann zieh dir die Änderungen vom Server. Das ist wie mehrere Level in einem!"
             ]
           }
         }
@@ -697,7 +697,7 @@ exports.level = {
             "markdowns": [
               "Următoarele niveluri vor fi destul de dificile, așa că  cerem mai multe de la tine în acest nivel.",
               "",
-              "Astfel, încearcă să creezi un remote (cu `git clone`), să simulezi câteva modificări pe acel remote, să faci un commit local și apoi să descarci modificările de la remote și să le îmbini local la tine. Este ca și cum ar fi câteva lecții într-una singură!"
+              "Astfel, încearcă să clonezi repo-ul remote (cu `git clone`), să simulezi câteva modificări pe acel remote, să faci un commit local și apoi să descarci modificările de la remote și să le îmbini local la tine. Este ca și cum ar fi câteva lecții într-una singură!"
             ]
           }
         }
@@ -751,7 +751,7 @@ exports.level = {
             "markdowns": [
               "Следващите нива ще бъдат доста трудни, затова на това ниво ще искаме малко повече от теб.",
               "",
-              "Създай отдалечено хранилище (с `git clone`), симулирай няколко промени върху него, направи локален комит и след това изтегли отдалечените промени и ги слей. Все едно няколко урока в един!"
+              "Клонирай отдалеченото хранилище (с `git clone`), симулирай няколко промени върху него, направи локален комит и след това изтегли отдалечените промени и ги слей. Все едно няколко урока в един!"
             ]
           }
         }
@@ -861,7 +861,7 @@ exports.level = {
             "markdowns": [
               "今後のレベルはどんどん難しくなっていくでしょうから、このレベルでも私たちはあなたに少々多くのことを求めます。",
               "",
-              "先に行くには、リモートを作り（`git clone`で）、リモートに幾つかの変更を再現して、自身のリポジトリにコミットし、変更を取り込む必要があります。これは、このリモートのセクションでやった幾つかのレッスンの内容と似ていますね！"
+              "先に行くには、リモートをクローンし（`git clone`で）、リモートに幾つかの変更を再現して、自身のリポジトリにコミットし、変更を取り込む必要があります。これは、このリモートのセクションでやった幾つかのレッスンの内容と似ていますね！"
             ]
           }
         }
@@ -915,7 +915,7 @@ exports.level = {
             "markdowns": [
               "Наступні рівні будуть доволі складними, тому, щоб підготуватись, на цьому рівні теж доведеться не солодко.",
               "",
-              "Створіть віддалений репозиторій (за допомогою `git clone`), зробіть кілька фіктивних змін, зробіть кілька комітів локально, й підвантаж віддалені зміни. Це як кілька уроків в одному!"
+              "Склонуйте віддалений репозиторій (за допомогою `git clone`), зробіть кілька фіктивних змін, зробіть кілька комітів локально, й підвантаж віддалені зміни. Це як кілька уроків в одному!"
             ]
           }
         }
@@ -969,7 +969,7 @@ exports.level = {
             "markdowns": [
               "뒤의 레벨들이 조금 어렵기 때문에, 이번 레벨에서 여러분에게 조금 많은것을 요구하려고 합니다.",
               "",
-              "원격 저장소를 하나 만들고(`git clone`), 원격 저장소에 몇가지 가짜 변경을 만들고 로컬에서 커밋하고 원격의 변경들을 가져오세요. Goal과 같은 결과가 나오면 됩니다. 몇개의 레슨이 하나에 있다고 보면 되겠네요! 도전해봅시다."
+              "원격 저장소를 clone하고(`git clone`), 원격 저장소에 몇가지 가짜 변경을 만들고 로컬에서 커밋하고 원격의 변경들을 가져오세요. Goal과 같은 결과가 나오면 됩니다. 몇개의 레슨이 하나에 있다고 보면 되겠네요! 도전해봅시다."
             ]
           }
         }
@@ -1023,7 +1023,7 @@ exports.level = {
             "markdowns": [
               "Các cấp độ tới sẽ khá là khó, nên ở cấp độ này chúng tôi sẽ yêu cầu bạn thêm một chút.",
               "",
-              "Sao chép một kho chứa từ xa (sử dụng `git clone`), sau đó mô phỏng một số thay đổi trong kho chứa từ xa mà bạn vừa tạo, sau đó thực hiện một số commit trên nhánh cục bộ của riêng bạn, sau đó kéo các thay đổi từ kho chứa từ xa. Nhiều bài học trong một bài."
+              "Sao chép một kho chứa từ xa (sử dụng `git clone`), sau đó mô phỏng một số thay đổi trên kho chứa từ xa đó, sau đó thực hiện một số commit trên nhánh cục bộ của riêng bạn, sau đó kéo các thay đổi từ kho chứa từ xa. Nhiều bài học trong một bài."
             ]
           }
         }
@@ -1077,7 +1077,7 @@ exports.level = {
             "markdowns": [
               "Naslednje stopnje bodo precej težke, zato od tebe v tej stopnji zahtevamo še več.",
               "",
-              "Naredi oddaljen repo (z `git clone`), simuliraj nekaj sprememb na tem repotu, sam commitaj, nato pa potegni dol spremembe. Kot da bi bilo več lekcij v eni!"
+              "Kloniraj oddaljen repo (z `git clone`), simuliraj nekaj sprememb na tem repotu, sam commitaj, nato pa potegni dol spremembe. Kot da bi bilo več lekcij v eni!"
             ]
           }
         }
@@ -1131,7 +1131,7 @@ exports.level = {
             "markdowns": [
               "Kolejne poziomy będą dość trudne, więc tym razem twoje zadanie też jest bardziej wymagające.",
               "",
-              "Nie bój się, stwórz zdalne repozytorium (używając `git clone`), zasymuluj na nim kilka zmian i zatwierdź je, a następnie ściągnij (pull) je. To jak kilka lekcji w jednej!"
+              "Nie bój się, sklonuj zdalne repozytorium (używając `git clone`), zasymuluj na nim kilka zmian i zatwierdź je, a następnie ściągnij (pull) je. To jak kilka lekcji w jednej!"
             ]
           }
         }
@@ -1185,7 +1185,7 @@ exports.level = {
             "markdowns": [
               "I prossimi livelli saranno abbastanza tosti, quindi ti chiediamo un po' di più già da ora.",
               "",
-              "Crea un repository remoto (con `git clone`), simula alcune modifiche su quel repository, effettua tu un commit, e poi recupera quelle modifiche. È come più lezioni in una!"
+              "Clona il repository remoto (con `git clone`), simula alcune modifiche su quel repository, effettua tu un commit, e poi recupera quelle modifiche. È come più lezioni in una!"
             ]
           }
         }
@@ -1239,7 +1239,7 @@ exports.level = {
             "markdowns": [
               "Gelecek seviyeler oldukça zorlayıcı olacak, bu yüzden bu seviyede sizden daha fazlasını istiyoruz.",
               "",
-              "Bir uzak depo oluşturun (`git clone` ile), o uzak depoda bazı değişiklikleri taklit edin, kendi commit'inizi yapın ve ardından uzak depodaki değişiklikleri indirip merge edin. Bu, birkaç dersin bir araya gelmiş hali gibi!"
+              "Uzak depoyu klonlayın (`git clone` ile), o uzak depoda bazı değişiklikleri taklit edin, kendi commit'inizi yapın ve ardından uzak depodaki değişiklikleri indirip merge edin. Bu, birkaç dersin bir araya gelmiş hali gibi!"
             ]
           }
         }
@@ -1293,7 +1293,7 @@ exports.level = {
             "markdowns": [
               "A közelgő szintek elég nehezek lesznek, szóval többet kérünk tőled ennél a szintnél.",
               "",
-              "Hozz létre egy remote-ot (`git clone`-nal), szimulálj néhány változtatást azon a remote-on, adj hozzá egy helyi commitot, majd töltsd le a remote változtatásait és merge-eld azokat. Ez olyan, mint néhány lecke egyben!"
+              "Klónozd a remote repót (`git clone`-nal), szimulálj néhány változtatást azon a remote-on, adj hozzá egy helyi commitot, majd töltsd le a remote változtatásait és merge-eld azokat. Ez olyan, mint néhány lecke egyben!"
             ]
           }
         }
@@ -1347,7 +1347,7 @@ exports.level = {
             "markdowns": [
               "Qarşıdakı bölümlər kifayət qədər çətin olacaq, ona görə də bu bölümdə səndən daha çox şey istəyirik.",
               "",
-              "Davam et: bir remote yarat (`git clone` ilə), həmin remote-da bəzi dəyişiklikləri təqlid et, bir lokal commit əlavə et, sonra remote dəyişikliklərini çəkib endir və onları merge et. Bu, bir neçə dərs bir arada kimidir!"
+              "Davam et: remote-u clone et (`git clone` ilə), həmin remote-da bəzi dəyişiklikləri təqlid et, bir lokal commit əlavə et, sonra remote dəyişikliklərini çəkib endir və onları merge et. Bu, bir neçə dərs bir arada kimidir!"
             ]
           }
         }
