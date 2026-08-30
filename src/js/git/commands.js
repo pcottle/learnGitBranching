@@ -390,6 +390,13 @@ var commandConfig = {
     execute: function(engine, command) {
       command.acceptNoGeneralArgs();
       if (!engine.clonePending) {
+        if (engine.hasOrigin()) {
+          // e.g. running `git clone` twice in a clone level -- suggesting
+          // fakeCreateRemote here would just error with "origin exists"
+          throw new GitError({
+            msg: intl.str('git-error-clone-already-cloned')
+          });
+        }
         throw new GitError({
           msg: intl.str('git-error-clone-no-pending-remote')
         });

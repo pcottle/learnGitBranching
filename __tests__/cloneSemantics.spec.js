@@ -2,6 +2,7 @@ var base = require('./base');
 var expectTreeAsync = base.expectTreeAsync;
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/graph/treeCompare');
+var intl = require('../src/js/intl');
 
 // A single-branch remote: C0 <- C1 (main)
 var SINGLE_BRANCH_START = JSON.stringify({
@@ -82,12 +83,32 @@ describe('Opt-in clone semantics', function() {
       headless.sendCommand('git clone', { resolve: resolve });
     }).then(function(commands) {
       var error = commands[commands.length - 1].get('error');
+      // compare via intl.str so the assertion holds regardless of what
+      // locale earlier specs left the LocaleStore in
       expect(error.get('msg')).toBe(
-        'There is no pending remote repository to clone. ' +
-        'To create a remote from your current repository, use ' +
-        '`git fakeCreateRemote` instead.'
+        intl.str('git-error-clone-no-pending-remote')
       );
       expect(headless.gitEngine.exportTreeString()).toBe(beforeClone);
+    });
+  });
+
+  it('rejects a second git clone with an "already cloned" error, not the fakeCreateRemote hint', function() {
+    var headless = new HeadlessGit();
+    headless.gitEngine.loadTreeFromString(SINGLE_BRANCH_START);
+
+    return headless.sendCommand('git clone').then(function() {
+      expect(headless.gitEngine.clonePending).toBe(false);
+      var afterClone = headless.gitEngine.exportTreeString();
+
+      return new Promise(function(resolve) {
+        headless.sendCommand('git clone', { resolve: resolve });
+      }).then(function(commands) {
+        var error = commands[commands.length - 1].get('error');
+        expect(error.get('msg')).toBe(
+          intl.str('git-error-clone-already-cloned')
+        );
+        expect(headless.gitEngine.exportTreeString()).toBe(afterClone);
+      });
     });
   });
 
