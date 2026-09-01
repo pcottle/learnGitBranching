@@ -54,6 +54,46 @@ function longestCommonPrefix(strings) {
   return prefix;
 }
 
+/**
+ * The prompt renders spaces as non-breaking so that the fake cursor lines up
+ * with the real characters; the hint has to do the same or the two get out
+ * of sync.
+ */
+function shadowSafeText(text) {
+  return text.replace(/ /g, '\u00a0').replace(/\n/g, '');
+}
+
+/**
+ * Render the grey inline autocomplete hint into #shadow.
+ *
+ * #shadow sits directly on top of the real prompt text, so the characters
+ * the user already typed still need to be laid out (they push the suggested
+ * remainder over to the right spot) but must not be painted -- otherwise we
+ * draw a second, semi-transparent copy of every typed character on top of
+ * the real one, which reads as blurry / doubled text. Hence the hidden
+ * span for the typed part.
+ *
+ * We also use textContent rather than innerHTML: the typed text is
+ * arbitrary user input (anything before a ';' ends up here verbatim) and
+ * the real prompt escapes it, so the hint has to escape it too -- both to
+ * keep the two copies the same width and to keep markup out of the DOM.
+ */
+function renderShadowHint(shadowEl, typed, remainder) {
+  shadowEl.innerHTML = '';
+  if (!remainder) {
+    return;
+  }
+
+  const typedSpan = document.createElement('span');
+  typedSpan.className = 'shadowTyped';
+  typedSpan.textContent = shadowSafeText(typed);
+  shadowEl.appendChild(typedSpan);
+
+  const remainderSpan = document.createElement('span');
+  remainderSpan.textContent = shadowSafeText(remainder);
+  shadowEl.appendChild(remainderSpan);
+}
+
 class CommandPromptView {
   constructor(options) {
     options = options || {};
@@ -132,7 +172,7 @@ class CommandPromptView {
     if (lastCommand.length) {
       for (const c of allCommandsSorted) {
         if (c.startsWith(lastCommand)) {
-          shadowEl.innerHTML = (currentValue + c.replace(lastCommand, '')).replace(/ /g, '&nbsp;');
+          renderShadowHint(shadowEl, currentValue, c.substring(lastCommand.length));
           break;
         }
       }
@@ -184,11 +224,7 @@ class CommandPromptView {
               this._tabLastPrefix = lcp;
               // update the shadow hint with the first match's remainder
               const remain = matches[0].substring(lcp.length) || '';
-              if (remain) {
-                shadowEl.innerHTML = (el.value + remain).replace(/ /g, '&nbsp;');
-              } else {
-                shadowEl.innerHTML = '';
-              }
+              renderShadowHint(shadowEl, el.value, remain);
               // re-filter _tabMatches against the new LCP so subsequent Tabs cycle correctly
               this._tabMatches = allCommandsSorted.filter(
                 c => c.startsWith(lcp)
