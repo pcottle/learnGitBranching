@@ -100,7 +100,7 @@ exports.level = {
               "In order to reverse changes and *share* those reversed changes with others, we need to use `git revert`. Let's see it in action."
             ],
             "afterMarkdowns": [
-              "Weird, a new commit plopped down below the commit we wanted to reverse. That's because this new commit `C2'` introduces *changes* -- it just happens to introduce changes that exactly reverses the commit of `C2`.",
+              "Weird, a new commit was added at the tip of the branch. That's because this new commit `C2'` introduces changes that exactly reverse the changes introduced by `C2`.",
               "",
               "With reverting, you can push out your changes to share with others."
             ],
@@ -162,7 +162,7 @@ exports.level = {
               "برای بازگرداندن تغییرات و *به اشتراک گذاری* آن تغییرات بازگردانده شده با دیگران، باید از `git revert` استفاده کنیم. بیایید آن را در عمل ببینیم."
             ],
             "afterMarkdowns": [
-              "عجیب است، یک کامیت جدید پایین کامیتی که می‌خواستیم برگردانیم قرار گرفت. دلیلش این است که این کامیت جدید `'C2` *تغییراتی* را معرفی می‌کند -- فقط اتفاقاً تغییراتی را معرفی می‌کند که دقیقاً کامیت `C2` را خنثی می‌کنند.",
+              "عجیب است، یک کامیت جدید در نوک شاخه اضافه شد. دلیلش این است که این کامیت جدید `'C2` تغییراتی را معرفی می‌کند که دقیقاً تغییرات معرفی‌شده توسط `C2` را خنثی می‌کنند.",
               "",
               "با revert کردن، می‌توانید تغییرات خود را push کنید تا با دیگران به اشتراک بگذارید."
             ],
@@ -225,7 +225,7 @@ exports.level = {
               "Para revertir cambios y *compartir* esa _revertida_ con el resto, necesitamos usar `git revert`. Veámoslo en acción"
             ],
             "afterMarkdowns": [
-              "Extraño. Hay un nuevo commit aplicado sobre el que queríamos revertir. Eso es porque este nuevo commit `C2'` introduce *cambios* - sólo que esos cambios son exactamente los necesarios para revertir los que introdujo `C2`.",
+              "Extraño. Se agregó un nuevo commit en la punta de la rama. Eso es porque este nuevo commit `C2'` introduce cambios que revierten exactamente los cambios introducidos por `C2`.",
               "",
               "Cuando usás revert, podés pushear ese cambio para compartirlo con otros."
             ],
@@ -288,7 +288,7 @@ exports.level = {
               "Para revertir cambios y *compartir* esa _revertida_ con otros, necesitamos usar `git revert`. Veámoslo en acción"
             ],
             "afterMarkdowns": [
-              "Extraño. Hay un nuevo commit aplicado sobre el que queríamos revertir. Eso es porque este nuevo commit `C2'` introduce *cambios* - sólo que esos cambios son exactamente los necesarios para revertir los que introdujo `C2`.",
+              "Extraño. Se agregó un nuevo commit en la punta de la rama. Eso es porque este nuevo commit `C2'` introduce cambios que revierten exactamente los cambios introducidos por `C2`.",
               "",
               "Cuando utilices revert, puedes hacer push sobre ese cambio para compartirlo con otros."
             ],
@@ -351,7 +351,7 @@ exports.level = {
               "Para revertir cambios y *compartir* esa _revertida_ con otros, necesitamos usar `git revert`. Veámoslo en acción"
             ],
             "afterMarkdowns": [
-              "Extraño. Hay un nuevo commit aplicado sobre el que queríamos revertir. Eso es porque este nuevo commit `C2'` introduce *cambios* - sólo que esos cambios son exactamente los necesarios para revertir los que introdujo `C2`.",
+              "Extraño. Se agregó un nuevo commit en la punta de la rama. Eso es porque este nuevo commit `C2'` introduce cambios que revierten exactamente los cambios introducidos por `C2`.",
               "",
               "Cuando utilices revert, puedes hacer push sobre ese cambio para compartirlo con otros."
             ],
@@ -414,7 +414,7 @@ exports.level = {
               "Para reverter mudanças e conseguir *compartilhar* essas mudanças com os outros, precisamos usar o `git revert`. Vejamo-lo em ação"
             ],
             "afterMarkdowns": [
-              "Estranho, um novo commit surgiu abaixo do commit que queríamos reverter. Isso é porque o novo commit `C2'` introduz *mudanças* -- acontece que as mudanças que ele introduz revertem exatamente aquelas do commit `C2`.",
+              "Estranho, um novo commit foi adicionado na ponta do branch. Isso é porque o novo commit `C2'` introduz mudanças que revertem exatamente as mudanças introduzidas por `C2`.",
               "",
               "Com o `revert`, você pode fazer `push` das suas mudanças para compartilhá-las com os outros."
             ],
@@ -477,7 +477,7 @@ exports.level = {
               "Para revervir os cambios e *compartir* eses cambios ca outra xente, precisamos usar `git revert`. Atende a cómo funciona."
             ],
             "afterMarkdowns": [
-              "Estrano, xurdíu un novo commit por baixo do commit que queriamos desfacer. Iso é porque o novo commit `C2'` engadíu *cambios* -- o que pasa é que o commit desfai exactamente os cambios feitos no commit `C2`.",
+              "Estrano, engadiuse un novo commit na punta da rama. Iso é porque o novo commit `C2'` introduce cambios que reverten exactamente os cambios introducidos por `C2`.",
               "",
               "Con `revert`, ti podes facer `push` dos teus cambios para compartilos cos outros."
             ],
@@ -540,7 +540,7 @@ exports.level = {
               "Um Änderungen rückgängig zu machen und das mit anderen zu *teilen* müssen wir `git revert` benutzen. Schauen wir uns das in Aktion an."
             ],
             "afterMarkdowns": [
-              "Komisch, es ist ein neuer Commit entstanden. Das liegt daran, dass `C2'` genau die *Änderungen* enthält, die die Änderungen aus `C2` aufheben.",
+              "Komisch, ein neuer Commit wurde an der Spitze des Branches hinzugefügt. Das liegt daran, dass dieser neue Commit `C2'` Änderungen enthält, die genau die von `C2` eingeführten Änderungen aufheben.",
               "",
               "Durch Reverten kannst du das Zurücknehmen von Änderungen mit anderen teilen."
             ],
@@ -603,7 +603,7 @@ exports.level = {
               "変更を巻き戻して他の人とそれを共有するためには、`git revert`を使う必要があります。今度はこれを見てみましょう。"
             ],
             "afterMarkdowns": [
-              "あれ、おかしいな。巻き戻したいと思ってたコミットの下に新しいコミットが出来上がってしまったみたいです。そう、この新しい`C2'`コミットには`C2`コミットの内容を巻き戻す変更が含まれているのです。",
+              "あれ、おかしいな。ブランチの先端に新しいコミットが追加されました。これは、新しい`C2'`コミットが`C2`コミットによる変更をちょうど打ち消す変更を導入しているためです。",
               "",
               "こんな風にして、巻き戻した内容を他人と共有するためにはrevertを使います。"
             ],
@@ -666,7 +666,7 @@ exports.level = {
               "Pour pouvoir annuler des changements et *partager* ces annulations avec d'autres, nous devons utiliser `git revert`. Regardons comment cela fonctionne."
             ],
             "afterMarkdowns": [
-              "Étrangement, un nouveau commit est apparu en bas sous le commit que nous voulions annuler. C'est parce que ce nouveau commit `C2'` introduit des *modifications* -- celles qui correspondent justement à l'annulation de celles du commit `C2`.",
+              "Étrangement, un nouveau commit a été ajouté à l'extrémité de la branche. C'est parce que ce nouveau commit `C2'` introduit des modifications qui annulent exactement les modifications introduites par `C2`.",
               "",
               "Avec revert, vous pouvez diffuser (push) vos modifications et les partager avec tout le monde."
             ],
@@ -732,7 +732,7 @@ exports.level = {
             ],
             "command": "git revert HEAD^",
             "afterMarkdowns": [
-              "奇怪！在我们要撤销的提交记录后面居然多了一个新提交！这是因为新提交记录 `C2'` 引入了**更改** —— 这些更改能够刚好撤销 `C2` 提交的变更。",
+              "奇怪！分支的顶端居然多了一个新提交！这是因为新提交记录 `C2'` 引入的更改恰好撤销了 `C2` 引入的更改。",
               "",
               "通过 revert，你可以推送你的更改并与他人分享。"
             ],
@@ -795,7 +795,7 @@ exports.level = {
             ],
             "command": "git revert HEAD^",
             "afterMarkdowns": [
-              "很奇怪吧！在我們要取消的 commit 後面居然多了一個新的 commit！這是因為新的 commit `C2'` 引入了*修改*——用來表示我們取消 `C2` 這個 commit 的修改。",
+              "很奇怪吧！分支的頂端居然多了一個新的 commit！這是因為新的 commit `C2'` 引入的修改恰好抵消了 `C2` 引入的修改。",
               "",
               "多虧了 revert，現在可以把你的修改分享給別人啦。"
             ],
@@ -857,7 +857,7 @@ exports.level = {
               "변경분을 되돌리고, 이 되돌린 내용을 다른 사람들과 *공유하기* 위해서는, `git revert`를 써야합니다. 예제로 살펴볼게요."
             ],
             "afterMarkdowns": [
-              "어색하게도, 우리가 되돌리려고한 커밋의 아래에 새로운 커밋이 생겼습니다. `C2`라는 새로운 커밋에 *변경내용*이 기록되는데요, 이 변경내역이 정확히 `C2` 커밋 내용의 반대되는 내용입니다.",
+              "이상하게도, 브랜치의 끝에 새로운 커밋이 추가되었습니다. 이 새로운 `C2'` 커밋은 `C2`가 도입한 변경 내용을 정확히 되돌리는 변경 내용을 도입하기 때문입니다.",
               "",
               "리버트를 하면 다른 사람들에게도 변경 내역을 밀어(push) 보낼 수 있습니다."
             ],
@@ -920,7 +920,7 @@ exports.level = {
               "Pentru a anula modificările și a le *partaja* cu alții, trebuie să folosim `git revert`. Să vedem cum funcționează."
             ],
             "afterMarkdowns": [
-              "Ciudat, a apărut un nou commit sub commit-ul pe care voiam să-l anulăm. Asta pentru că noul commit `C2'` introduce *modificări* -- se întâmplă doar ca aceste modificări să fie exact cele care inversează modificările din commit-ul `C2`.",
+              "Ciudat, un nou commit a fost adăugat la vârful ramurii. Asta pentru că noul commit `C2'` introduce modificări care inversează exact modificările introduse de `C2`.",
               "",
               "Cu `revert`, poți să partajezi modificările tale pentru a le împărtăși cu ceilalți."
             ],
@@ -983,7 +983,7 @@ exports.level = {
               "За да отменим промени и да *споделим* тази отмяна с останалите, трябва да използваме `git revert`. Нека го видим в действие."
             ],
             "afterMarkdowns": [
-              "Странно — появи се нов комит под този, който искахме да отменим. Това е така, защото новият комит `C2'` въвежда *промени*, които точно неутрализират промените от `C2`.",
+              "Странно — нов комит беше добавен в края на клона. Това е така, защото новият комит `C2'` въвежда промени, които точно неутрализират промените, въведени от `C2`.",
               "",
               "При revert можеш спокойно да push-неш промените и да ги споделиш с други."
             ],
@@ -1046,7 +1046,7 @@ exports.level = {
               "Чтобы отменить изменения и поделиться отменёнными изменениями с остальными, надо использовать `git revert`. Посмотрим, как это работает"
             ],
             "afterMarkdowns": [
-              "Забавно, появился новый коммит. Дело в том, что новый коммит `C2'` просто содержит изменения, полностью противоположные тем, что сделаны в коммите `C2`.",
+              "Забавно, в конце ветки появился новый коммит. Дело в том, что новый коммит `C2'` содержит изменения, полностью отменяющие изменения, внесённые `C2`.",
               "",
               "После `revert` можно сделать `push` и поделиться изменениями с остальными."
             ],
@@ -1110,7 +1110,7 @@ exports.level = {
               "Для того щоб відкотити зміни й потім *поділитися* цими відкоченими змінами з друзями, потрібно використовувати `git revert`. Подивімось на прикладі"
             ],
             "afterMarkdowns": [
-              "Дивно, був створений новий коміт, нижче того коміту який ми хотіли відкотити. Це сталося тому що новий коміт `C2'` містить *зміни*  які повністю протилежні змінам `C2`.",
+              "Дивно, у кінці гілки було створено новий коміт. Це сталося тому, що новий коміт `C2'` містить зміни, які повністю скасовують зміни, внесені `C2`.",
               "",
               "Після revert, Ви зможете зробити push щоб поділитися гілкою з іншими."
             ],
@@ -1173,7 +1173,7 @@ exports.level = {
               "Để có thể hoàn tác và *chia sẻ* hoàn tác đó với người khác, thì ta cần sử dụng `git revert`. Xem thử cách thức nó hoạt động nào"
             ],
             "afterMarkdowns": [
-              "Lạ nhỉ, một commit mới được thả vào bên dưới commit mà ta muốn hoàn tác. Đó là bởi vì commit mới `C2'` này có chứa những *thay đổi* hoàn toàn ngược lại với những thay đổi trong commit `C2`.",
+              "Lạ nhỉ, một commit mới đã được thêm vào đầu nhánh. Đó là bởi vì commit mới `C2'` này có những thay đổi đảo ngược chính xác những thay đổi được `C2` đưa vào.",
               "",
               "Dùng revert thì bạn có thể đẩy thay đổi mình lên và chia sẻ với người khác."
             ],
@@ -1236,7 +1236,7 @@ exports.level = {
               "Če želimo ponastaviti spremembe in *deliti* te ponastavitve z drugimi, moramo uporabiti `git revert`. Poglejmo si to v praksi."
             ],
             "afterMarkdowns": [
-              "Čudno, nov commit se je naredil pod commitom, ki smo ga želeli reversati. To je zato, ker ta nov commit `C2'` uvede *spremembe* -- spremembe so pač v tem primeru točno nasprotne od `C2`.",
+              "Čudno, nov commit je bil dodan na vrh veje. To je zato, ker ta nov commit `C2'` uvede spremembe, ki natančno obrnejo spremembe, ki jih je uvedel `C2`.",
               "",
               "Z revertanjem lahko pushas in deliš svoje spremembe tudi z drugimi."
             ],
@@ -1299,7 +1299,7 @@ exports.level = {
               "W celu odwrócenia zmian i *podzielenia się* nimi z innymi, musimy użyć `git revert`. Zobaczmy, jak to działa."
             ],
             "afterMarkdowns": [
-              "Dziwne, nowy commit spadł poniżej tego, który chcieliśmy odwrócić. To dlatego, że ten nowy commit `C2'` wprowadza *zmiany* -- akurat takie, które idealnie odwracają commit `C2`.",
+              "Dziwne, nowy commit został dodany na końcu gałęzi. To dlatego, że ten nowy commit `C2'` wprowadza zmiany, które dokładnie odwracają zmiany wprowadzone przez `C2`.",
               "",
               "Dzięki `git revert` możesz wypchnąć swoje zmiany, by podzielić się nimi z innymi."
             ],
@@ -1352,7 +1352,7 @@ exports.level = {
               "Per fare in modo di annullare e *condividere* con gli altri le modifiche annullate, dobbiamo usare `git revert`. Vediamolo in azione."
             ],
             "afterMarkdowns": [
-              "Strano, un nuovo commit è stato creato sotto il commit che volevamo annullare. Questo perché il nuovo commit `C2'` porta *cambiamenti* -- per l'esattezza i cambiamenti sono quelli che annullano il commit `C2`.",
+              "Strano, un nuovo commit è stato aggiunto alla punta del branch. Questo perché il nuovo commit `C2'` introduce cambiamenti che annullano esattamente i cambiamenti introdotti da `C2`.",
               "",
               "Con git revert, aggiungi i cambiamenti che possono essere poi condivisi con altri."
             ],
@@ -1415,7 +1415,7 @@ exports.level = {
               "Değişiklikleri geri almak ve *geri alınan değişiklikleri başkalarıyla paylaşmak* için `git revert` kullanmamız gerekir. Bunun nasıl çalıştığına bakalım."
             ],
             "afterMarkdowns": [
-              "Tuhaf, geri almak istediğimiz commit'in altına yeni bir commit geldi. Çünkü bu yeni commit `C2'`, *değişiklikler* getiriyor -- sadece, `C2`'nin commit'ini tam olarak geri alan değişiklikler getiriyor.",
+              "Tuhaf, dalın ucuna yeni bir commit eklendi. Çünkü bu yeni `C2'` commit'i, `C2` tarafından getirilen değişiklikleri tam olarak geri alan değişiklikler getiriyor.",
               "",
               "Revert ile değişikliklerinizi başkalarıyla paylaşmak üzere push edebilirsiniz."
             ],
@@ -1478,7 +1478,7 @@ exports.level = {
               "A változtatások visszavonásához és a visszavont változtatások *megosztásához* másokkal, a `git revert` parancsot kell használnunk. Nézzük meg működés közben."
             ],
             "afterMarkdowns": [
-              "Furcsa, egy új commit jelent meg a visszavonni kívánt commit alatt. Ez azért van, mert ez az új commit `C2'` *változtatásokat* vezet be -- csakhogy ezek a változtatások pontosan visszavonják a `C2` commitot.",
+              "Furcsa, egy új commit került a branch végére. Ez azért van, mert ez az új `C2'` commit olyan változtatásokat vezet be, amelyek pontosan visszavonják a `C2` által bevezetett változtatásokat.",
               "",
               "A revert segítségével megoszthatod a változtatásokat másokkal."
             ],
@@ -1541,7 +1541,7 @@ exports.level = {
               "Dəyişiklikləri geri qaytarmaq və bu geri qaytarılmış dəyişiklikləri başqaları ilə *paylaşmaq* üçün `git revert`-dən istifadə etməliyik. Gəl bunu əməldə görək."
             ],
             "afterMarkdowns": [
-              "Qəribədir, geri qaytarmaq istədiyimiz commit-in altında yeni bir commit peyda oldu. Bunun səbəbi odur ki, bu yeni `C2'` commit-i *dəyişikliklər* təqdim edir -- sadəcə bu dəyişikliklər məhz `C2` commit-ini dəqiq geri qaytaran dəyişikliklərdir.",
+              "Qəribədir, branch-in ucuna yeni bir commit əlavə edildi. Bunun səbəbi odur ki, bu yeni `C2'` commit-i `C2` tərəfindən təqdim olunan dəyişiklikləri dəqiq geri qaytaran dəyişikliklər təqdim edir.",
               "",
               "Revert etməklə, dəyişikliklərini başqaları ilə paylaşmaq üçün push edə bilərsən."
             ],
