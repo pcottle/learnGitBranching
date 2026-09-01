@@ -36,11 +36,35 @@ const allCommandsSorted = autoCompleteSuggestionOrder.concat(
   .filter(command => !!command)
 );
 
+/**
+ * Compute the longest common prefix of an array of strings.
+ * e.g. ['git cherry-pick', 'git clone'] => 'git c'
+ */
+function longestCommonPrefix(strings) {
+  if (!strings || !strings.length) return '';
+  let prefix = strings[0];
+  for (let i = 1; i < strings.length; i++) {
+    let j = 0;
+    while (j < prefix.length && j < strings[i].length && prefix[j] === strings[i][j]) {
+      j++;
+    }
+    prefix = prefix.substring(0, j);
+    if (!prefix) return '';
+  }
+  return prefix;
+}
+
 class CommandPromptView {
   constructor(options) {
     options = options || {};
     this.el = options.el;
     this.$el = $(this.el);
+
+    // Tab-cycle autocomplete state
+    this._tabMatches = null;       // currently matched commands array
+    this._tabIndex = -1;           // current index within the cycle (-1 = not yet cycling)
+    this._tabLastPrefix = '';      // last prefix used to trigger Tab (used to detect reset)
+    this._tabLastFullPrefix = '';  // last full prefix (anything before the final ;) for reassembly
 
     this.initialize();
   }
@@ -99,7 +123,11 @@ class CommandPromptView {
     const allCommand = currentValue.split(';');
     const lastCommand = allCommand[allCommand.length - 1]
       .replace(/\s\s+/g, ' ').replace(/^\s/, '');
+    // everything before the last command (keep earlier commands intact when using ';' separator)
+    const prefixBeforeLast = allCommand.slice(0, -1).join(';') +
+      (allCommand.length > 1 ? ';' : '');
 
+    // ---- Step 1: update the shadow hint (grey preview of the first match's suffix) ----
     shadowEl.innerHTML = '';
     if (lastCommand.length) {
       for (const c of allCommandsSorted) {
@@ -110,11 +138,88 @@ class CommandPromptView {
       }
     }
 
-    if (e.keyCode === 9) {
+    // ---- Step 2: Tab-completion logic (Linux-style: LCP on first press, cycle on repeats) ----
+    if (e.keyCode === 9 && e.type === 'keydown') {
       e.preventDefault();
-      if (shadowEl.innerHTML) {
-        el.value = shadowEl.innerHTML.replace(/&nbsp;/g, ' ');
+
+      // Prefix changed (user edited input or it is not a repeated Tab) -> reset matches
+      if (lastCommand !== this._tabLastPrefix ||
+          prefixBeforeLast !== this._tabLastFullPrefix) {
+        this._tabMatches = null;
+        this._tabIndex = -1;
       }
+
+      if (lastCommand.length === 0) {
+        // empty input: nothing to do, just record state
+        this._tabLastPrefix = lastCommand;
+        this._tabLastFullPrefix = prefixBeforeLast;
+      } else {
+        // collect all commands matching the current prefix
+        if (this._tabMatches === null) {
+          this._tabMatches = allCommandsSorted.filter(
+            c => c.startsWith(lastCommand)
+          );
+          this._tabIndex = -1;
+        }
+
+        const matches = this._tabMatches;
+
+        if (matches.length === 0) {
+          // no matches: do nothing
+        } else if (matches.length === 1) {
+          // only one match: complete it fully
+          el.value = prefixBeforeLast + matches[0];
+          // after completing, clear the shadow hint
+          shadowEl.innerHTML = '';
+          this._tabIndex = 0;
+        } else {
+          // multiple matches
+          if (this._tabIndex === -1) {
+            // first Tab: complete up to the longest common prefix
+            const lcp = longestCommonPrefix(matches);
+            if (lcp.length > lastCommand.length) {
+              // a longer common prefix exists, fill it in
+              el.value = prefixBeforeLast + lcp;
+              // record the new prefix we just expanded to
+              this._tabLastPrefix = lcp;
+              // update the shadow hint with the first match's remainder
+              const remain = matches[0].substring(lcp.length) || '';
+              if (remain) {
+                shadowEl.innerHTML = (el.value + remain).replace(/ /g, '&nbsp;');
+              } else {
+                shadowEl.innerHTML = '';
+              }
+              // re-filter _tabMatches against the new LCP so subsequent Tabs cycle correctly
+              this._tabMatches = allCommandsSorted.filter(
+                c => c.startsWith(lcp)
+              );
+              this._tabIndex = -1;
+            } else {
+              // LCP equals the input itself: enter the cycle, show first match
+              this._tabIndex = 0;
+              el.value = prefixBeforeLast + matches[0];
+              shadowEl.innerHTML = '';
+            }
+          } else {
+            // repeated Tab: advance to the next match (cycle)
+            this._tabIndex = (this._tabIndex + 1) % matches.length;
+            el.value = prefixBeforeLast + matches[this._tabIndex];
+            shadowEl.innerHTML = '';
+          }
+        }
+
+        // update prefix record (when we've landed on a concrete command)
+        if (this._tabIndex >= 0) {
+          this._tabLastPrefix = matches[this._tabIndex];
+        }
+        this._tabLastFullPrefix = prefixBeforeLast;
+      }
+    } else if (e.type === 'keydown') {
+      // any non-Tab keydown: reset Tab-cycle state (prefix effectively changed)
+      this._tabMatches = null;
+      this._tabIndex = -1;
+      this._tabLastPrefix = lastCommand;
+      this._tabLastFullPrefix = prefixBeforeLast;
     }
 
     // lets also handle control + U to clear the line
