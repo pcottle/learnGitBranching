@@ -1491,8 +1491,24 @@ div.gitDemonstrationView {
 #shadow{
   position: absolute;
   bottom: 0px;
-  left: 21px;
+  /* match the box of #prompt p.command exactly (margin-left: 20px), so the
+   * hint wraps identically and the suggested remainder lands right after
+   * the text the user actually typed */
+  left: 20px;
+  right: 0px;
+  /* p.command gets this from the generic `p` rule -- the hint has to break
+   * lines the same way or a long command line puts the hint on the wrong
+   * line entirely */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   opacity: 0.4;
+  pointer-events: none;
+}
+
+/* the already-typed part of the hint only exists to take up space --
+ * painting it would double up on the real prompt text */
+#shadow .shadowTyped {
+  visibility: hidden;
 }
 
 .upsellImage {
