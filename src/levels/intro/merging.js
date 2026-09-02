@@ -25,6 +25,7 @@ exports.level = {
     "pl": "Merge w Gicie",
     "it_IT": "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்",
+    "te_IN": "Git Merge",
     "tr_TR": "Git'te Merge işlemleri",
     "hu_HU": "Merge Gitben",
     "az": "Git-də Merge (birləşdirmə)"
@@ -53,6 +54,7 @@ exports.level = {
     "pl": "Pamiętaj, aby commitować w określonej kolejności (bugFix przed main)",
     "it_IT": "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க",
+    "te_IN": "bugFix ను main ముందు ఉన్న క్రమంలో merge చేయాలని గమనించండి",
     "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)",
     "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)",
     "az": "Göstərilən ardıcıllıqla commit etməyi unutma (əvvəl bugFix, sonra main)"
@@ -1574,6 +1576,26 @@ exports.level = {
               "* இப்போது `bugFix`-ஐ `main` உடன் `git merge` இணைக்கலாம்",
               "",
               "*நினைவில் கொள்ளுங்கள், இந்த உரையாடலை \"குறிக்கோள்\" கொண்டு நீங்கள் மீண்டும் காணலாம்!*"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Merging",
+              "",
+              "ఇక్కడ రెండు branches ఉన్నాయి: `bugFix` మరియు `main`. మీరు `bugFix` కు కొన్ని commits చేశారు మరియు వాటిని `main` కు కలపాలనుకుంటున్నారు.",
+              "",
+              "దీన్ని చేయడానికి, `git merge` అనే command ను ఉపయోగిస్తారు.",
+              "",
+              "`git merge` రెండు branches ను కలుపుతుంది మరియు ఒక కొత్త commit సృష్టిస్తుంది (merge commit) ఇది రెండు parents ను కలిగి ఉంటుంది.",
+              "",
+              "`git merge bugFix` అని టైప్ చేయండి."
             ]
           }
         }

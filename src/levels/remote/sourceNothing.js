@@ -31,7 +31,8 @@ exports.level = {
     "it_IT": "Fonte del nulla",
     "tr_TR": "Hiçliğin kaynağı",
     "hu_HU": "Semmi forrása",
-    "az": "Heçliyin mənbəsi"
+    "az": "Heçliyin mənbəsi",
+    "te_IN": "శూన్యం యొక్క సోర్స్"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -57,7 +58,8 @@ exports.level = {
     "it_IT": "Il comando branch è disabilitato per questo livello quindi dovrai usare fetch!",
     "tr_TR": "Bu seviyede branch komutu devre dışı bırakıldı, bu yüzden fetch kullanman gerekecek!",
     "hu_HU": "A branch parancs le van tiltva ennél a szintnél, tehát a fetch-et kell használnod!",
-    "az": "Bu bölüm üçün branch əmri deaktiv edilib, ona görə də fetch işlətməli olacaqsan!"
+    "az": "Bu bölüm üçün branch əmri deaktiv edilib, ona görə də fetch işlətməli olacaqsan!",
+    "te_IN": "ఈ level కోసం branch command disabled, కాబట్టి fetch యూజ్ చేయాలి!"
   },
   "startDialog": {
     "en_US": {
@@ -1332,6 +1334,54 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu, qısa bir bölümdür -- bitirmək üçün sadəcə bir remote branch-ı sil və `git fetch` ilə yeni bir branch yarat!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Source of Nothing!",
+              "",
+              "ఇప్పటివరకు, push arguments తో specific commits ను specific branches కు push చేశాం. కానీ source ని ఖాళీగా వదిలివేస్తే ఏమవుతుందో చూద్దాం!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ముందుగా, source ఖాళీగా ఉంచి remote branch ను delete చేయడం ఎలాగో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! `foo` branch remote నుండి delete అయింది."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "చివరగా, లోకల్ గా ఎక్కడికీ \"శూన్యం\" fetch చేయడం నిజానికి కొత్త branch సృష్టిస్తుంది."
+            ],
+            "afterMarkdowns": [
+              "చాలా weird / strange గా ఉంది, కానీ git అలానే పనిచేస్తుంది!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఇది short level — పూర్తి చేయడానికి కేవలం remote branch ను delete చేసి, `git fetch` తో కొత్త branch సృష్టించు!"
             ]
           }
         }

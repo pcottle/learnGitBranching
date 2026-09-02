@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Parametri di git push - Espansione!",
     "tr_TR": "Git push argümanları -- Genişletilmiş!",
     "hu_HU": "Git push argumentumok -- Bővítve!",
-    "az": "Git push arqumentləri -- Genişləndirilmiş!"
+    "az": "Git push arqumentləri -- Genişləndirilmiş!",
+    "te_IN": "Git push ఆర్గ్యుమెంట్లు -- విస్తరించబడ్డాయి!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -51,7 +52,8 @@ exports.level = {
     "it_IT": "Puoi sempre ammettere la tua sconfitta e digitare \"show solution\" :P",
     "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P",
     "hu_HU": "Ne feledd, mindig elismerheted a vereséged, és beírhatod: \"show solution\" :P",
-    "az": "Unutma, məğlubiyyəti qəbul edib \\\"show solution\\\" yaza bilərsən :P"
+    "az": "Unutma, məğlubiyyəti qəbul edib \\\"show solution\\\" yaza bilərsən :P",
+    "te_IN": "ఓడిపోయానని ఒప్పుకొని \"show solution\" టైప్ చేయవచ్చు :P"
   },
   "startDialog": {
     "en_US": {
@@ -1740,6 +1742,81 @@ exports.level = {
               "Bu bölümdə vizuallaşdırmada göstərilən son hədəf vəziyyətinə çatmağa çalış və bu formatı unutma:",
               "",
               "`<mənbə>:<təyinat>`"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push Arguments -- మరింత!",
+              "",
+              "మునుపటి level లో push arguments గురించి కొంచెం చూశాం. ఇప్పుడు మరింత expand చేద్దాం!",
+              "",
+              "గుర్తుపెట్టుకో: `source:destination` format push లో కూడా పనిచేస్తుంది, fetch లాగానే."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ముందుగా, simple push arguments చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! మేము main branch ను remote `foo` branch కు push చేశాం."
+            ],
+            "command": "git push origin main foo",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇప్పుడు source:destination syntax తో:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! అదే result, syntax మారింది."
+            ],
+            "command": "git push origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "గమనించు: destination branch లేకపోతే, git దాన్ని remote లో create చేస్తుంది. ఇది చాలా useful!",
+              "",
+              "అలాగే, source ని ఖాళీగా వదిలివేస్తే, remote నుండి fetch జరుగుతుంది (push కాదు!)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Destination branch లేకపోతే ఏమవుతుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! Remote లో కొత్త branch create అయింది."
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level లో విజువలైజేషన్ లో చూపించిన చివరి లక్ష్య స్థితికి చేరడానికి try చేయి మరియు ఈ format ను forget అవ్వకు:",
+              "",
+              "`<source>:<destination>`"
             ]
           }
         }

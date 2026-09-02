@@ -27,6 +27,7 @@ exports.level = {
     "pl": "Odczep sobie HEAD",
     "tr_TR": "HEAD'i Ayır",
     "ta_IN": "உங்கள் HEAD ஐப் பிரிகொள்ளுங்கள்",
+    "te_IN": "మీ HEAD ను వేరుచేయి",
     "hu_HU": "Fejlécz le! (Detach HEAD)",
     "az": "HEAD'ini Ayır"
   },
@@ -53,6 +54,7 @@ exports.level = {
     "it_IT": "Usa l'etichetta (hash) sul commit per aiutarti!",
     "pl": "Użyj nazwy commita (hasza)!",
     "ta_IN": "உங்களுக்கு உதவ commit இன் லேபிள் (hash) ஐப் பயன்படுத்துங்கள்!",
+    "te_IN": "సహాయం కోసం commit hash ను యూజ్ చేయి!",
     "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!",
     "hu_HU": "Használd a commit azonosítóját (hash)!",
     "az": "Kömək üçün commit üzərindəki etiketdən (hash) istifadə et!"
@@ -1829,6 +1831,43 @@ exports.level = {
               "இந்த நிலையை முடிக்க, HEAD ஐ `bugFix` கிளையிலிருந்து தனித்துவமாக்கி commit க்கு இணைக்கவும்.",
               "",
               "இந்த commit ஐ அதன் hash மூலம் குறிப்பிடுங்கள். ஒவ்வொரு commit இன் hash அந்த commit ஐ பிரதிபலிக்கும் வட்டத்தில் காட்டப்படுகிறது."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detached HEAD",
+              "",
+              "HEAD అంటే మీరు ప్రస్తుతం ఏ branch పై పని చేస్తున్నారో దానికి సూచించే ఒక సూచిక.",
+              "",
+              "సాధారణంగా HEAD ఒక branch పై ఉంటుంది. కానీ కొన్నిసార్లు HEAD ఒక specific commit పై ఉంటుంది -- దీన్ని 'detached HEAD' అంటారు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Detached HEAD లో, HEAD ఒక branch ను సూచించదు. అది నేరుగా ఒక commit ను సూచిస్తుంది."
+            ],
+            "afterMarkdowns": [
+              "మీరు `git checkout <commit hash>` అని టైప్ చేసి detached HEAD కు మారవచ్చు."
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Detached HEAD లో, మీరు కొత్త commits చేయవచ్చు, కానీ మీరు branch కు తిరిగి మారినప్పుడు ఆ commits కనిపించవు."
             ]
           }
         }

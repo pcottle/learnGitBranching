@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Ricorda che puoi sempre usare i comandi undo e reset",
     "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz.",
     "hu_HU": "Ne feledd, mindig használhatod az undo vagy a reset parancsokat",
-    "az": "Main-i Push et!"
+    "az": "Main-i Push et!",
+    "te_IN": "Main ను Push చేయి!"
   },
   "name": {
     "en_US": "Push Main!",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Push main!",
     "tr_TR": "Main'i Push Et!",
     "hu_HU": "Sok feature pusholása",
-    "az": "Unutma, həmişə undo və ya reset əmrlərini işlədə bilərsən"
+    "az": "Unutma, həmişə undo və ya reset əmrlərini işlədə bilərsən",
+    "te_IN": "Main ను Push చేయి!"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -1324,6 +1326,52 @@ exports.level = {
               "* Remote o vaxtdan yenilənib, ona görə də həmin işi də daxil etməli olacağıq",
               "",
               ":O gərgindir! uğurlar, bu bölümü tamamlamaq böyük bir addımdır."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push Main!",
+              "",
+              "ఇప్పటివరకు, `pull` మరియు `push` ను individual features తో చూశాం. ఇప్పుడు, ఒకేసారి చాలా features ను push చేయడం ఎలాగో చూద్దాం!",
+              "",
+              "ఇది complex level — plan చేసుకోవడం మంచిది."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ముందుగా, main ను update చేసి push చేయడం యొక్క quick recap చూద్దాం."
+            ],
+            "afterMarkdowns": [
+              "ఇక్కడ రెండు commands యూజ్ చేశాం, అవి:",
+              "",
+              "* మన పనిను remote నుండి వచ్చిన కొత్త commits పై rebase చేశాయి",
+              "* మన పనిను remote కు push చేశాయి"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level చాలా కష్టం — solve చేయడానికి general plan ఇలా ఉంది:",
+              "",
+              "* మూడు feature branches ఉన్నాయి — `side1`, `side2` మరియు `side3`",
+              "* ఈ features ప్రతి దాన్ని వరుసగా remote కు push చేయాలి",
+              "* Remote అప్పటి నుండి update అయింది, కాబట్టి ఆ పని కూడా include చేయాలి",
+              "",
+              "ఇది intense! కృతజ్ఞతలు, ఈ level పూర్తి చేయడం పెద్ద step."
             ]
           }
         }

@@ -40,6 +40,7 @@ exports.level = {
     "it_IT": "Giocoliere di commit #2",
     "pl": "Żonglowanie commitami #2",
     "ta_IN": "Commitகளுடன் வித்தைகள் #2",
+    "te_IN": "Commits తో విద్యలు #2",
     "tr_TR": "Commit Hokkabazlığı #2",
     "hu_HU": "Commitok átrendezése #2",
     "az": "Commit Hoqqabazlığı #2"
@@ -68,6 +69,7 @@ exports.level = {
     "it_IT": "Non dimenticare di avanzare il main verso le ultime modifiche aggiornate!",
     "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
     "ta_IN": "Main ஐ புதுப்பிக்கப்பட்ட மாற்றங்களுக்கு முன்னேற்றமிடுவதை மறக்க வேண்டாம்!",
+    "te_IN": "నవీకరించబడిన మార్పులతో Main ను update చేయడం మరచిపోకండి!",
     "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
     "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!",
     "az": "main-i yenilənmiş dəyişikliklərə irəli aparmağı unutma!"
@@ -1010,6 +1012,45 @@ exports.level = {
               "இந்த நிலை-ல், நாம் `C2` ஐ ஒரே தடவையோ மாற்ற வேண்டும் ஆனால் `rebase -i` ஐ பயன்படுத்தாமல் அதை செய்ய வேண்டும். நான் உங்களுக்கு அதை கண்டுபிடிக்க விடுகிறேன்! :D",
               "",
               "நினைவில் வைக்கவும், commit-இல் உள்ள குறிப்பிட்ட எண்ணிக்கையான apostrophe-கள் (') முக்கியம் இல்லை, ஆனால் அந்த commit-இன் சமிக்ஞைகளில் உள்ள வித்தியாசங்கள் தான் முக்கியம். உதாரணமாக, நான் ஒரு மரத்தில், இலக்கு மரத்திற்கு பொருந்தும்போது, ஒரு கூடுதல் apostrophe உள்ளதையும் அளிப்பேன்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits తో విద్యలు #2",
+              "",
+              "మీరు interactive rebase ను ఉపయోగించి commits ను పునర్వ్యవస్థీకరించవచ్చు.",
+              "",
+              "మీరు `git commit --amend` అని టైప్ చేసి చివరి commit సందేశాన్ని సవరించవచ్చు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "మీరు గుర్తుంచుకోవాలి, `git cherry-pick` ఏదైనా commit ను HEAD లో ఉంచగలదు (ఆ commit HEAD యొక్క ancestor కాకపోతే)."
+            ],
+            "afterMarkdowns": [
+              "అద్భుతం! ముందుకు సాగిద్దాం."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ స్థాయిలో, `C2` ను `rebase -i` ఉపయోగించకుండా సవరించండి. మీకు దొరకనివ్వండి! :D",
+              "",
+              "గుర్తుంచుకోండి, commit లోని apostrophe ల సంఖ్య ముఖ్యం కాదు, కేవలం relative differences మాత్రమే ముఖ్యం."
             ]
           }
         }

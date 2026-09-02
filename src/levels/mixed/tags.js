@@ -26,6 +26,7 @@ exports.level = {
     "it_IT": "Git Tag",
     "pl": "Tagi Gita",
     "ta_IN": "Git டேக்கள்",
+    "te_IN": "Git Tags",
     "tr_TR": "Git Tag'leri",
     "hu_HU": "Git tagek",
     "az": "Git Tag-lər"
@@ -54,6 +55,7 @@ exports.level = {
     "it_IT": "Puoi fare direttamente checkout del commit o semplicemente del tag!",
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
     "ta_IN": "நீங்கள் நேரடியாக commit ஐ அல்லது tag ஐ checkout செய்யலாம்!",
+    "te_IN": "మీరు నేరుగా commit లేదా tag ను checkout చేయవచ్చు!",
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
     "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!",
     "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!"
@@ -1200,6 +1202,54 @@ exports.level = {
               "இந்த நிலையில், குறிக்கவும் `v1` ஐ check out செய்யவும் குறித்த tag களை உருவாக்கவும். நீங்கள் எப்படி detached `HEAD` நிலைக்கு செல்லுவதை கவனிக்கவும் -- இது `v1` tag க்கு நேரடியாக commit செய்ய முடியாது என்பதினால்.",
               "",
               "அடுத்த நிலைல் நாம் tag களுக்கான ஒரு அதிக ஆர்வமான பயன்பாட்டைப் பார்ப்போம்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tags",
+              "",
+              "సాధారణంగా, commits ను సూచించడానికి మనం commit hashes ను ఉపయోగిస్తాము. కానీ కొన్నిసార్లు మనం specific releases ను tags గా సూచించాలనుకుంటాము.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git tags అనేవి specific commits ను సూచించడానికి ఉపయోగించే bookmarks వంటివి.",
+              "",
+              "మీరు `git tag <tagname> <commit>` అని టైప్ చేసి tag సృష్టించవచ్చు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "దయచేసి ఒక tag సృష్టించి, దానిని ఒక commit కు సూచించండి."
+            ],
+            "afterMarkdowns": [
+              "అద్భుతం! మీరు ఒక tag ను సృష్టించారు మరియు దానిని commit కు సూచించారు."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ స్థాయిలో, target visualization లో tags ను సృష్టించండి మరియు `v1` ను check out చేయండి.",
+              "",
+              "తదుపరి స్థాయిలో, tags యొక్క మరింత interesting use case ను చూద్దాం."
             ]
           }
         }

@@ -25,6 +25,7 @@ exports.level = {
     "it_IT": "Dovrai usare almeno un riferimento diretto (hash) per completare questo livello",
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednej bezpośredniej referencji (hasza).",
     "ta_IN": "இந்த நிலவை முடிக்க குறைந்தது ஒரு நேரடி குறிப்பு (ஹாஷ்) பயன்படுத்த வேண்டும்",
+    "te_IN": "ఈ స్థాయిని పూర్తి చేయడానికి కనీసం ఒక direct reference (hash) ఉపయోగించాలి",
     "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek",
     "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod",
     "az": "Bu bölümü bitirmək üçün ən azı bir birbaşa istinaddan (hash) istifadə etməlisən"
@@ -52,6 +53,7 @@ exports.level = {
     "it_IT": "Riferimenti relativi #2 (~)",
     "pl": "Referencje względne #2 (~)",
     "ta_IN": "இணைக்கப்பட்ட குறிப்பு #2 (~)",
+    "te_IN": "అనుసంధాన reference #2 (~)",
     "tr_TR": "Göreli Referanslar #2 (~)",
     "hu_HU": "Relatív hivatkozások #2 (~)",
     "az": "Nisbi Ref-lər #2 (~)"
@@ -1708,6 +1710,33 @@ exports.level = {
               "",
               "Bu bölümü bitirmək üçün `HEAD`, `main` və `bugFix`-i göstərilən hədəf mövqelərinə köçür."
             ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relative References #2",
+              "",
+              "\"~\" అనేది parent commit ను సూచించడానికి ఉపయోగించే మరొక సంకేతం."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "మీరు `HEAD~3` అని టైప్ చేసి HEAD నుండి 3 commits వెనుకకు వెళ్ళవచ్చు."
+            ],
+            "afterMarkdowns": [
+              "మీరు `git checkout HEAD~1` అని టైప్ చేసి ఒక commit వెనుకకు మారవచ్చు."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
           }
         }
       ]

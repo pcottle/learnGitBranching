@@ -28,6 +28,7 @@ var langLocaleMap = {
   pl: 'pl',
   it: 'it_IT',
   ta: 'ta_IN',
+  te: 'te_IN',
   tr: 'tr_TR',
   fa: 'fa',
   hu: 'hu_HU',
@@ -46,6 +47,7 @@ var headerLocaleMap = {
   'tr-TR': 'tr_TR',
   'hu-HU': 'hu_HU',
   'hu': 'hu_HU',
+  'te-IN': 'te_IN',
 };
 
 var supportedLocalesList = Object.values(langLocaleMap)

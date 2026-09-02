@@ -26,6 +26,7 @@ exports.level = {
     "pl": "Referencje względne (^)",
     "tr_TR": "Göreli Referanslar (^)",
     "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)",
+    "te_IN": "హెచ్చరిక రిఫరెన్సులు (^)",
     "hu_HU": "Relatív hivatkozások (^)",
     "az": "Nisbi Ref-lər (^)"
   },
@@ -52,6 +53,7 @@ exports.level = {
     "it_IT": "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
     "pl": "Pamiętaj o operatorze wstawienia (^)!",
     "ta_IN": "உதவிக்குறிப்பை (^), மறக்காதீர்கள்!",
+    "te_IN": "హెచ్చరిక (^), మరచిపోకండి!",
     "tr_TR": "^ operatörünü hatırlayın!",
     "hu_HU": "Ne feledd a kalap (^) operátort!",
     "az": "Caret (^) operatorunu yadında saxla!"
@@ -1853,6 +1855,41 @@ exports.level = {
               "",
               "İstəsən hash-i göstərə bilərsən, amma bunun əvəzinə nisbi ref-lərdən istifadə etməyə çalış!"
             ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relative References",
+              "",
+              "ప్రతిసారీ commit hash ను టైప్ చేయడం చాలా ఇబ్బందికరంగా ఉంటుంది. అదృష్టవశాత్తు, Git కు branches మరియు commits ను సూచించడానికి మీరు ఉపయోగించగల కొన్ని సులభ మార్గాలు ఉన్నాయి."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "సాపేక్ష సూచనలు అనేవి commit hashes కు బదులుగా ఉపయోగించగల సులభ మార్గాలు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "\"^\" అనేది parent commit ను సూచించడానికి ఉపయోగించే సంకేతం."
+            ],
+            "afterMarkdowns": [
+              "మీరు `git checkout main^` అని టైప్ చేసి `main` branch యొక్క parent commit కు మారవచ్చు."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
           }
         }
       ]

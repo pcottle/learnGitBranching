@@ -28,7 +28,8 @@ exports.level = {
     "it_IT": "Git Push",
     "tr_TR": "Git Push",
     "hu_HU": "Git push",
-    "az": "Git Push"
+    "az": "Git Push",
+    "te_IN": "Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -53,7 +54,8 @@ exports.level = {
     "it_IT": "Ricorda di clonare il repository prima di usare push!",
     "tr_TR": "Unutmayın push işlemini yapmadan önce clone işlemini yapmanız gerekiyor!",
     "hu_HU": "Ne felejtsd el, clone-ozni kell, mielőtt push-olhatsz!",
-    "az": "Unutma, push edə bilmək üçün əvvəlcə clone etməlisən!"
+    "az": "Unutma, push edə bilmək üçün əvvəlcə clone etməlisən!",
+    "te_IN": "push చేయగలగడానికి ముందు clone చేయాలని గుర్తుపెట్టుకో!"
   },
   "startDialog": {
     "en_US": {
@@ -1079,6 +1081,43 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu bölümü bitirmək üçün sadəcə iki yeni commit-i remote ilə paylaş. Amma özünü hazırla, çünki bu dərslər bir az sonra xeyli çətinləşəcək!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push!",
+              "",
+              "ఇప్పటివరకు, remote repositories నుండి work pull చేయడం మాత్రమే చూశాం. ఇప్పుడు, మన work ను remote కు push చేయడం ఎలాగో చూద్దాం!",
+              "",
+              "`git push` remote repository కు commit లను send చేస్తుంది."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇక్కడ remote లో లేని కొన్ని మార్పులు ఉన్నాయి. వాటిని push చేద్దాం!"
+            ],
+            "afterMarkdowns": [
+              "అదిగో! Remote `C2` commit ను receive చేసింది, remote లోని `main` branch `C2` ను point చేయడానికి update అయింది, మరియు remote యొక్క మన దగ్గర ఉన్న *own* representation (`o/main`) కూడా update అయింది. అన్నీ sync లో ఉన్నాయి!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level పూర్తి చేయడానికి కేవలం రెండు కొత్త commits ను remote తో share చేయి. కానీ prepare అవ్వు, ఎందుకంటే ఈ పాఠాలు త్వరలో చాలా కష్టంగా మారతాయి!"
             ]
           }
         }

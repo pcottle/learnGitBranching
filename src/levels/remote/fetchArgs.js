@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Parametri di git fetch",
     "tr_TR": "Fetch argümanları",
     "hu_HU": "Fetch argumentumok",
-    "az": "Fetch arqumentləri"
+    "az": "Fetch arqumentləri",
+    "te_IN": "Fetch ఆర్గ్యుమెంట్లు"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Fai attenzione, alcuni ID dei commit potrebbero essere invertiti! Puoi leggere nuovamente le slide con \"help level\"",
     "tr_TR": "Commit ID'lerinin nasıl değiştiğine dikkat edin! \"help level\" komutunu kullanarak slaytları tekrar okuyabilirsiniz.",
     "hu_HU": "Figyelj, hogyan cserélhetek helyet a commit azonosítók! A diákat újra elolvashatod a \"help level\" paranccsal",
-    "az": "Commit id-lərinin yerlərini necə dəyişə biləcəyinə diqqət et! Slaydları \\\"help level\\\" ilə yenidən oxuya bilərsən"
+    "az": "Commit id-lərinin yerlərini necə dəyişə biləcəyinə diqqət et! Slaydları \\\"help level\\\" ilə yenidən oxuya bilərsən",
+    "te_IN": "Commit IDs ఎలా మారవచ్చో గమనించు! \"help level\" తో స్లైడ్లను మళ్ళీ చదవవచ్చు"
   },
   "startDialog": {
     "en_US": {
@@ -3014,6 +3016,89 @@ exports.level = {
               "Yaxşı, danışıq bəsdir! Bu bölümü bitirmək üçün hədəf vizuallaşdırmasında göstərilən commit-ləri fetch et. Həmin əmrlərlə bir az ustalıq göstər!",
               "",
               "Hər iki fetch əmri üçün mənbə və təyinatı göstərməli olacaqsan. Hədəf vizuallaşdırmasına diqqət et, çünki ID-lər yerlərini dəyişə bilər!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Fetch ఆర్గ్యుమెంట్లు",
+              "",
+              "మనం `git fetch` ను చాలా basic గా చూశాం, కానీ దీన్ని మరింత powerful గా యూజ్ చేయవచ్చు!",
+              "",
+              "ముందుగా, fetch చేయడానికి source మరియు destination ని స్పెసిఫై చేయవచ్చు:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇక్కడ source/destination syntax ను చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! మేము specific commit ను specific branch కు fetch చేశాం."
+            ],
+            "command": "git fetch origin C3:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "గమనించు: fetch syntax `source:destination` గా ఉంటుంది. source ను remote నుండి తీసుకుంటారు, destination ను లోకల్ గా సృష్టిస్తారు.",
+              "",
+              "Destination ని ఖాళీగా వదిలివేస్తే, fetch మాత్రమే జరుగుతుంది, branch క్రియేట్ అవ్వదు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Destination ఖాళీగా ఉంచితే ఏమవుతుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! Fetch జరిగింది కానీ కొత్త branch క్రియేట్ కాలేదు."
+            ],
+            "command": "git fetch origin C3:; git fetch origin C4",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "అలాగే, `git fetch` కు ఆర్గ్యుమెంట్లు ఇవ్వకపోతే, అన్ని remote branches నుండి అన్ని commits ను fetch చేస్తుంది..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఆర్గ్యుమెంట్లు లేకుండా fetch ఎలా పనిచేస్తుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చాలా simple గా ఉంది, కానీ ఒకసారి చూడడం మంచిది."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork foo 2; git fakeTeamwork main 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "బాగుంది, చాలా చర్చ జరిగింది! ఈ level పూర్తి చేయడానికి లక్ష్య విజువలైజేషన్ లో చూపించిన commits ను fetch చేయి. ఆ కమాండ్లతో కొంచెం నైపుణ్యం చూపించు!",
+              "",
+              "రెండు fetch commands కు source మరియు destination ను స్పెసిఫై చేయాలి. లక్ష్య విజువలైజేషన్ పై దృష్టి పెట్టు, ఎందుకంటే IDs మారవచ్చు!"
             ]
           }
         }

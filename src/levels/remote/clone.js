@@ -38,6 +38,7 @@ exports.level = {
     "zh_TW": "介紹 clone",
     "ro": "Introducere în clonare",
     "bg": "Въведение в clone",
+    "te_IN": "Clone పరిచయం",
     "ru_RU": "Введение в клонирование",
     "ko": "Clone 소개",
     "uk": "Знайомство з clone",
@@ -73,7 +74,8 @@ exports.level = {
     "it_IT": "Semplicemente git clone!",
     "tr_TR": "Sadece git clone yapın!",
     "hu_HU": "Csak git clone!",
-    "az": "Sadəcə git clone et!"
+    "az": "Sadəcə git clone et!",
+    "te_IN": "సింపుల్ గా git clone చేయి!"
   },
   "startDialog": {
     "en_US": {
@@ -1437,6 +1439,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu bölümü bitirmək üçün sadəcə sənin üçün hazırladığımız remote repozitoriyanı `git clone` et. Əsl öyrənmə növbəti dərslərdə olacaq."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Remote repositories అంత క్లిష్టంగా లేవు. ఈ రోజుల్లో cloud computing ప్రపంచంలో git remotes వెనుక చాలా మాయాజాలం ఉందని అనుకోవచ్చు, కానీ అవి నిజానికి మీ repository యొక్క కాపీలు మరొక కంప్యూటర్ లో మాత్రమే. సాధారణంగా ఈ మరొక కంప్యూటర్ తో Internet ద్వారా మాట్లాడవచ్చు, దీని ద్వారా commits ను వెనక్కి ముందుకు ట్రాన్స్‌ఫర్ చేయవచ్చు.",
+              "",
+              "అయినప్పటికీ, remote repositories చాలా మంచి లక్షణాలు కలిగి ఉన్నాయి:",
+              "",
+              "- ముందుగా, remotes గొప్ప backup గా పనిచేస్తాయి! లోకల్ git repositories ఫైల్లను మునుపటి స్థితికి రిస్టోర్ చేయగలవు (మీకు తెలిసినట్లు), కానీ ఆ సమాచారం అంతా లోకల్ గా స్టోర్ అవుతుంది. మీ git repository కాపీలను ఇతర కంప్యూటర్లలో ఉంచడం ద్వారా, మీ అన్ని లోకల్ డేటా పోయినా మీరు ఆపిన చోట నుండి కొనసాగించవచ్చు.",
+              "",
+              "- ముఖ్యంగా, remotes కోడింగ్ ను సోషల్ చేస్తాయి! మీ ప్రాజెక్ట్ కాపీ మరొక చోట హోస్ట్ చేయబడినందున, మీ స్నేహితులు మీ ప్రాజెక్ట్ కు చాలా సులభంగా కంట్రిబ్యూట్ చేయవచ్చు (లేదా మీ లేటెస్ట్ మార్పులను పుల్ చేయవచ్చు).",
+              "",
+              "Remote repositories చుట్టూ ఉన్న కార్యాచరణను విజువలైజ్ చేసే వెబ్‌సైట్లను (ఉదాహరణకు [GitHub](https://github.com/)) ఉపయోగించడం చాలా పాపులర్ అయింది, కానీ remote repositories _ఎల్లప్పుడూ_ ఈ టూల్స్ యొక్క అండర్‌లైంింగ్ బ్యాక్‌బోన్ గా పనిచేస్తాయి. కాబట్టి వాటిని అర్థం చేసుకోవడం ముఖ్యం!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remotes తో పని చేయడం మొదలుపెట్టడానికి మన కమాండ్",
+              "",
+              "ఇప్పటివరకు, Learn Git Branching _లోకల్_ repository పని యొక్క ప్రాథమికాలను (branching, merging, rebasing, మొదలైనవి) నేర్పించడంపై దృష్టి పెట్టింది. కానీ ఇప్పుడు remote repository పని గురించి నేర్చుకోవాలనుకుంటున్నందున, ఆ పాఠాల కోసం ఎన్విరాన్మెంట్ సెట్ చేసే కమాండ్ మనకు అవసరం. `git clone` ఆ కమాండ్ అవుతుంది.",
+              "",
+              "నిజమైన `git clone` లాగానే, ఈ పాఠం కోసం మేము remote repository ని సిద్ధం చేశాం, `git clone` రన్ చేయడం దాన్ని మీ లోకల్ repository లోకి పుల్ చేస్తుంది. ఇక్కడి నుండి, మీ లోకల్ repo లోని `o/main` మీరు clone చేసినప్పుడు remote యొక్క `main` branch ఎక్కడ ఉందో సూచిస్తుంది.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "స్లో గా స్టార్ట్ చేద్దాం, clone చేయడానికి ముందు remote repository ఎలా ఉంటుందో (మన విజువలైజేషన్ లో) చూద్దాం.",
+              ""
+            ],
+            "afterMarkdowns": [
+              "అదిగో! ఇప్పుడు remote నుండి clone చేసిన మీ సొంత లోకల్ కాపీ మీ దగ్గర ఉంది. తేడాను స్పష్టంగా చూపించడానికి కొన్ని విజువల్ మార్పులు మినహాయించి, చూడటానికి చాలా సమానంగా ఉంది -- తదుపరి levels లో ఈ repositories మధ్య పనిని ఎలా షేర్ చేస్తామో చూస్తారు."
+            ],
+            "command": "git clone",
+            "beforeTree": CLONE_START_TREE
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level పూర్తి చేయడానికి, మేము మీ కోసం సిద్ధం చేసిన remote repository ని `git clone` చేయి. నిజమైన లెర్నింగ్ తదుపరి పాఠాలలో వస్తుంది."
             ]
           }
         }

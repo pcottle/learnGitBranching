@@ -31,7 +31,8 @@ exports.level = {
     "pl": "Spaghetti gałęzi",
     "tr_TR": "Branch Spagettisi",
     "hu_HU": "Ág-spagetti",
-    "az": "Branch Spagetti"
+    "az": "Branch Spagetti",
+    "te_IN": "Branch స్పాగెట్టి"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -58,7 +59,8 @@ exports.level = {
     "pl": "Upewnij się, że robisz wszystko w odpowiedniej kolejności! Gałąź pierwsza, potem druga, potem trzecia.",
     "tr_TR": "Her şeyi doğru sırada yaptığından emin ol! Önce ilk branch (one), ardından ikinci branch (two), ardından üçüncü branch (three)",
     "hu_HU": "Ügyelj arra, hogy mindent a megfelelő sorrendben végezz el! Először a `one` ág, majd a `two`, aztán a `three`",
-    "az": "Hər şeyi düzgün ardıcıllıqla etdiyinə əmin ol! Əvvəl `one` branch, sonra `two`, sonra `three`"
+    "az": "Hər şeyi düzgün ardıcıllıqla etdiyinə əmin ol! Əvvəl `one` branch, sonra `two`, sonra `three`",
+    "te_IN": "అన్నీ సరైన క్రమంలో చేశావని నిర్ధారించుకో! మొదట `one` branch, తర్వాత `two`, తర్వాత `three`"
   },
   "startDialog": {
     "en_US": {
@@ -556,6 +558,26 @@ exports.level = {
               "`one` branch-ı həmin commit-lərin yenidən sıralanmasını və `C5`-in çıxarılmasını/atılmasını tələb edir. `two` branch-ı sadəcə commit-lərin sadə sıralanmasını tələb edir, `three` isə yalnız bir commit-in ötürülməsini tələb edir!",
               "",
               "Bunu necə həll edəcəyini özün tapacaqsan -- sonra mütləq `show solution` ilə həllimizi yoxla."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch స్పాగెట్టి",
+              "",
+              "వావ్! ఈ level లో చేరుకోవాల్సిన పెద్ద లక్ష్యం ఉంది.",
+              "",
+              "ఇక్కడ `main` ఉంది, దాని `one`, `two` మరియు `three` branches కంటే కొన్ని commits ముందు ఉన్నాయి. ఏదో కారణం వల్ల, ఈ మూడు branches ను main లోని లేటెస్ట్ కొన్ని commits యొక్క మార్చిన వెర్షన్లతో అప్‌డేట్ చేయాలి.",
+              "",
+              "`one` branch ఆ commits ను మళ్ళీ సిరీయలైజ్ చేసి `C5` ను తీసివేయమని అడుగుతుంది. `two` branch కేవలం commits ను సింపుల్ గా సిరీయలైజ్ చేయమని అడుగుతుంది, `three` కేవలం ఒక commit ను మాత్రమే పాస్ చేయమని అడుగుతుంది!",
+              "",
+              "దీన్ని ఎలా సాల్వ్ చేయాలో నువ్వే కనుగొంతావు -- తర్వాత మా సొల్యూషన్ చూసుకో `show solution` తో."
             ]
           }
         }

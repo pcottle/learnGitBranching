@@ -23,6 +23,7 @@ exports.level = {
     "pl": "Wprowadzenie do commitów Gita",
     "it_IT": "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்",
+    "te_IN": "Git Commits పరిచయం",
     "tr_TR": "Git Commit'e Giriş",
     "hu_HU": "Bevezetés a Git commitokba",
     "az": "Git Commit-lərinə giriş"
@@ -54,6 +55,7 @@ exports.level = {
     "pl": "Aby zakończyć, wystarczy dwukrotnie wpisać 'git commit'!",
     "it_IT": "Digita 'git commit' due volte per finire!",
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!",
+    "te_IN": "ఈ స్థాయిని పూర్తి చేయడానికి 'git commit' అని రెండుసార్లు టైప్ చేయి!",
     "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir.",
     "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!",
     "az": "Bölümü bitirmək üçün sadəcə iki dəfə 'git commit' yaz!"
@@ -992,6 +994,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "இப்போது இந்த திரை மூடிய பிறகு நீங்கள் முயற்சி செய்யுங்கள்!, இந்த நிலையை நிரைவு செய்ய இரண்டு கமிட்டுகள் செய்யுங்கள்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "Git commit మీ రిపోజిటరీలోని ట్రాక్ చేయబడిన ఫైల్లను Git రిపోజిటరీలో ఒక కాపీగా రికార్డ్ చేస్తుంది. కానీ ఇది పూర్తి కాపీ చేయడం కంటే మెరుగైనది!",
+              "",
+              "Git commits ను యథాస్థితిగా ఉంచడానికి ప్రయత్నిస్తుంది, కాబట్టి మీరు ప్రతిసారీ commit చేసినప్పుడు Git రిపోజిటరీలను గుడ్డగా కాపీ చేయదు. అది (సాధ్యమైతే) commits ను సంక్షిప్త మార్పుల సమాహారంగా, లేదా రిపోజిటరీలో ఇప్పటికే ఉన్న వెర్షన్ యొక్క \"తేడా\" మాత్రమే చూసి సేవ్ చేస్తుంది.",
+              "",
+              "అంతేకాకుండా, Git commits ఎప్పుడు చేయబడ్డాయో దాని చరిత్రను కూడా నిర్వహిస్తుంది. అందుకే చాలా commits ముందు రికార్డ్ చేయబడిన commits ను అనుసరిస్తాయి -- మన మ్యాప్‌లు వాటిని బాణం సంకేతాలుగా చూపిస్తాయి. చరిత్రను నిర్వహించడం కంప్యూటర్ సిస్టమ్‌లో పనిచేసే అందరికీ ఉపయోగకరంగా ఉంటుంది!",
+              "",
+              "అర్థం చేసుకోవడానికి చాలా ఉంది, కానీ ప్రస్తుతానికి మీరు commits ను ప్రాజెక్ట్ యొక్క snapshot గా భావించవచ్చు. Commits చాలా తేలికగా ఉంటాయి మరియు వాటి మధ్య మారడం చాలా సులభం!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇది ఆచరణలో ఎలా ఉంటుందో చూద్దాం. కుడి వైపున ఒక (చిన్న) Git రిపోజిటరీ దృశ్యమానం ఉంది. ఇప్పుడు అందులో రెండు commits ఉన్నాయి -- మొదటి commit, `C0`, మరియు దానిపై మరింత `C1` కొన్ని ఉపయోగకరమైన మార్పులతో.",
+              "",
+              "కొత్త commit చేయడానికి క్రింది బటన్ నొక్కండి."
+            ],
+            "afterMarkdowns": [
+              "అంతే! అద్భుతం. మనం రిపోజిటరీలో మార్పులు చేసి commit గా సేవ్ చేశాము. ఇప్పుడు చేసిన commit `C1` ద్వారా ఉంది, అది దాని మూలాన్ని అనుసరిస్తుంది."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ స్క్రీన్ మూసిన తర్వాత ప్రయత్నించండి!, ఈ స్థాయిని పూర్తి చేయడానికి రెండు commits చేయండి."
             ]
           }
         }

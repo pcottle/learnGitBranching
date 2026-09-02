@@ -29,6 +29,7 @@ exports.level = {
     "it_IT": "Introduzione al cherry-pick",
     "pl": "Wprowadzenie do cherry-pick",
     "ta_IN": "Cherry-pick அறிமுகம்",
+    "te_IN": "Cherry-pick పరిచయం",
     "tr_TR": "Cherry-pick işlemine giriş",
     "hu_HU": "Cherry-pick bevezetés",
     "az": "Cherry-pick-ə Giriş"
@@ -56,6 +57,7 @@ exports.level = {
     "it_IT": "git cherry-pick seguito dai nomi dei commit!",
     "pl": "git cherry-pick a po nim nazwy commitów!",
     "ta_IN": "git cherry-pick க்கு பிறகு commit பெயர்களை பின்தொடரவும்!",
+    "te_IN": "git cherry-pick తర్వాత commit hashes ను అనుసరించండి!",
     "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!",
     "hu_HU": "A git cherry-pick után add meg a commit neveket!",
     "az": "git cherry-pick-dən sonra commit adlarını yaz!"
@@ -1307,6 +1309,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "இந்த நிலையை முடிக்க, காட்டப்பட்டுள்ள மூன்று கிளைகளிலிருந்து சில பணிகளை `main` கிளைக்கு நகலெடுக்கவும். நாம் எவை commit செய்கின்றோம் என்பதை நீங்கள் goal visualization ஐப் பார்த்து தெரிந்துகொள்ளலாம்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Cherry-pick Intro",
+              "",
+              "ఇప్పటివరకు, మనం commits ను ఒక branch నుండి మరొక branch కు కలపడానికి merge మరియు rebase ను ఉపయోగించాము."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Cherry-pick అనేది ఒక specific commit ను ఒక branch నుండి మరొక branch కు కాపీ చేయడానికి ఉపయోగించే command.",
+              "",
+              "మీరు `git cherry-pick <commit1> <commit2> ...` అని టైప్ చేసి ఒకటి లేదా అంతకంటే ఎక్కువ commits ను cherry-pick చేయవచ్చు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇక్కడ ఒక repository ఉంది, ఇందులో మనం `side` branch లో ఉన్న కొన్ని commits ను `main` branch కు కాపీ చేయాలనుకుంటున్నాము."
+            ],
+            "afterMarkdowns": [
+              "అంతే! మనం `C2` మరియు `C4` commits ను అడిగాము, మరియు git వాటిని సులభంగా మనకు కాపీ చేసింది. చాలా సులభం!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ స్థాయిని పూర్తి చేయడానికి, చూపించిన మూడు branches నుండి కొన్ని commits ను `main` branch కు కాపీ చేయండి. మనం ఏ commits కావాలో goal visualization ను చూసి తెలుసుకోవచ్చు."
             ]
           }
         }

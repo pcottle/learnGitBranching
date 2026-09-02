@@ -18,6 +18,7 @@ exports.level = {
     es_ES: "Area de Staging (preparando)",
     vi: "Staging Area",
     uk: "Область підготовлених файлів (Staging Area)",
+    te_IN: "Staging ఏరియా",
   },
   hint: {
     es_AR:
@@ -42,6 +43,7 @@ exports.level = {
       "Bir dosyayı `git add <file>` ile stage'leyin, sonra `git commit` ile anlık fotoğrafını çekin. Bunu her dosya için birer kez olmak üzere iki defa yapın.",
     vi: "Đưa một tệp vào staging area bằng lệnh git add <file>, sau đó lưu lại (snapshot) bằng lệnh git commit. Hãy làm điều đó hai lần, mỗi lần cho một tệp.",
     uk: "Підготуйте файл за допомогою `git add <файл>`, потім збережіть його знімок командою `git commit`. Зробіть це двічі — по одному разу для кожного файлу.",
+    te_IN: "ఫైల్ ను `git add <file>` తో stage చేసి, `git commit` తో snapshot చేయి. ఇది రెండుసార్లు చేయి, ఒక్కో ఫైల్ కు ఒకసారి.",
   },
   startDialog: {
     en_US: {
@@ -666,6 +668,59 @@ exports.level = {
               "* `git add styles.css`, luego `git commit`",
               "",
               "Los nombres de archivo junto a cada commit objetivo muestran exactamente a dónde pertenece cada cambio. Dos commits limpios y el nivel es tuyo.",
+            ],
+          },
+        },
+      ],
+    },
+    te_IN: {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Staging ఏరియా",
+              "",
+              "ఈ learning experience లో ఇప్పటివరకు, commit చేయడంలో నిజంగా ఏమి జరుగుతుందో మనం స్కిప్ చేశాం. అవి ఫైల్ల సెట్ కు మార్పులను సూచిస్తాయని నీకు తెలిసి ఉండవచ్చు, కానీ ఏ ఫైల్ మార్పులు ఏ commit లో ఉండాలో ఎంచుకోవడంలో కొంత process ఉంటుంది.",
+              "",
+              "Git అన్ని మార్చిన ఫైల్లను అన్ని commits లో ఆటోమేటిక్ గా చేర్చాలనుకోదు -- అది చెడు! నువ్వు శాశ్వతంగా చేయాలనుకోని మార్పును, లేదా API key వంటి రహస్యాన్ని కూడా commit history లో GitHub కు లీక్ అయ్యేలా చేర్చవచ్చు.",
+              "",
+              "కాబట్టి ఫైల్ మార్పు commit లో భాగం కావాలంటే, దాన్ని ప్రత్యేకంగా సెలెక్ట్ చేయాలి. Git దీనికి మూడు జోన్లు ఉన్నాయి: మీ **వర్కింగ్ డైరెక్టరీ** (ఎడిట్ చేసే చోట), **staging ఏరియా** (తదుపరి commit లో ఉండేదానికి loading dock), మరియు **రిపోజిటరీ** (మీ శాశ్వత హిస్టరీ).",
+              "",
+              "`git add` తో ప్రతి commit లో ఏమి ఉండాలో *ఖచ్చితంగా* ఎంచుకుంటావు. అలా commits clean గా ఉంటాయి, మరియు నిన్ను ఒకేసారి అన్నీ commit చేయమని ఎప్పుడూ ఫోర్స్ చేయరు.",
+              "",
+              "*(ఈ levels కోసం, ఏ ఫైల్లు ఏ commits లో ఉన్నాయో ఇప్పుడు చూపిస్తాం.)*",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "ఎప్పుడైనా `git status` రన్ చేసి పరిస్థితి చూడు. ఇప్పుడు రెండు ఫైల్లు ఎడిట్ చేసినట్లు కనిపిస్తాయి కానీ stage చేయలేదు:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "మీ టర్న్! మీ పనిని **ఒక్కో ఫైల్** చొప్పున stage చేసి commit చేయి, తద్వారా ప్రతి commit focused గా ఉంటుంది:",
+              "",
+              "* `git add app.js`, తర్వాత `git commit`",
+              "* `git add styles.css`, తర్వాత `git commit`",
+              "",
+              "ప్రతి commit లక్ష్యం పక్కన ఉన్న ఫైల్ పేర్లు ప్రతి మార్పు ఎక్కడ ఉందో చూపిస్తాయి. రెండు clean commits మరియు level నీదే.",
             ],
           },
         },
