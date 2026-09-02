@@ -41,6 +41,7 @@ exports.level = {
     "it_IT": "Giocoliere di commit",
     "pl": "Żonglowanie commitami",
     "ta_IN": "Commitகளுடன் வித்தைகள்",
+    "te_IN": "Commits తో విద్యలు",
     "tr_TR": "Commit Hokkabazlığı",
     "hu_HU": "Commitok átrendezése",
     "az": "Commit-lərin Hoqqabazlığı"
@@ -69,6 +70,7 @@ exports.level = {
     "it_IT": "Il primo comando è git rebase -i HEAD~2",
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
     "ta_IN": "முதலில் கொடுக்கவேண்டிய கட்டளை git rebase -i HEAD~2",
+    "te_IN": "మొదట ఇవ్వవలసిన కమాండ్ git rebase -i HEAD~2",
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
     "hu_HU": "Az első parancs: git rebase -i HEAD~2",
     "az": "İlk əmr git rebase -i HEAD~2 olmalıdır"
@@ -859,6 +861,28 @@ exports.level = {
               "இறுதியாக, இதன் நோக்கம் இந்த நிலையில் கவனிக்கப்பட வேண்டும் -- நாம் commit களை இரண்டு முறை நகர்த்துவதை காரணமாக அவை இரண்டு ஆகவே ஒரு அப்போஸ்ட்ராபி சேர்க்கப்படுகின்றன. நாம் மாற்றிய commit க்கு மேலும் ஒரு அப்போஸ்ட்ராபி சேர்க்கப்படுகிறது, இதனால் முடிவில் மரப்போக்கின் இறுதி வடிவத்தை பெறுகிறோம்.",
               "",
               "இதனுடன், நான் இப்போது நிலைகளைக் ஒப்பிட முடியும் கட்டமைப்பு மற்றும் சாத்தியமான அப்போஸ்ட்ராபி வேறுபாடுகளின் அடிப்படையில். உங்கள் மரத்தில் `main` கிளை ஒரே கட்டமைப்பையும் மற்றும் சம்பந்தப்பட்ட அப்போஸ்ட்ராபி வேறுபாடுகளையும் கொண்டிருப்பதாக இருந்தால், நான் முழு கிரெடிட் அளிக்கிறேன்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits తో విద్యలు",
+              "",
+              "ఇప్పుడు మనకు ఒక కొత్త tool ఉంది: `git rebase -i`. ఇది interactive rebase."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Interactive rebase మీరు commits ను పునర్వ్యవస్థీకరించడానికి, తొలగించడానికి, లేదా సవరించడానికి అనుమతిస్తుంది."
             ]
           }
         }

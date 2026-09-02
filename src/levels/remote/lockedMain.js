@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Crea il ramo per la feature a partire dal main locale prima di resettarlo al pari del main remoto",
     "tr_TR": "Özellik dalını, origin/main ile aynı olacak şekilde sıfırlamadan önce yerel main'den oluşturun.",
     "hu_HU": "Hozd létre a feature ágat a helyi main-ből, mielőtt visszaállítod azt az origin/main-nel azonos állapotba",
-    "az": "Kilidli Main"
+    "az": "Kilidli Main",
+    "te_IN": "లాక్ చేయబడిన Main"
   },
   "name": {
     "en_US": "Locked Main",
@@ -50,7 +51,8 @@ exports.level = {
     "it_IT": "Main bloccato",
     "tr_TR": "Kilitli Main",
     "hu_HU": "Zárolt main",
-    "az": "Lokal main-i origin-in main-i ilə eyni olması üçün geri sıfırlamazdan əvvəl feature branch-ını ondan yarat"
+    "az": "Lokal main-i origin-in main-i ilə eyni olması üçün geri sıfırlamazdan əvvəl feature branch-ını ondan yarat",
+    "te_IN": "లాక్ చేయబడిన Main"
   },
   "startDialog": {
     "en_US": {
@@ -975,6 +977,42 @@ exports.level = {
               "## Həll",
               "",
               "feature adlı başqa bir branch yarat və onu remote-a push et. Həmçinin main-ini remote ilə sinxron olması üçün geri sıfırla, əks halda növbəti dəfə pull etdikdə başqasının commit-i səninkiylə konflikt yarada bilər."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locked Main",
+              "",
+              "పెద్ద team లో పనిచేస్తుంటే, main branch సాధారణంగా locked గా ఉంటుంది మరియు merge చేయడానికి pull request process అవసరం. లోకల్ గా directly main కు commit చేసి push చేయాలని try చేస్తే, ఇలాంటి error message వస్తుంది:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ఎందుకు reject అయింది?",
+              "",
+              "Remote directly main కు commits push చేయడాన్ని reject చేసింది, ఎందుకంటే main లోని policy pull requests యూజ్ చేయమని అడుగుతుంది.",
+              "",
+              "నువ్వు branch సృష్టించి దాన్ని push చేసి pull request open చేయాలని అనుకున్నావు, కానీ మరచిపోయి directly main కు commit చేశావు. ఇప్పుడు stuck అయ్యావు మరియు మీ మార్పులను push చేయలేకపోతున్నావు."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## సొల్యూషన్",
+              "",
+              "feature అనే మరొక branch సృష్టించి దాన్ని remote కు push చేయి. అలాగే main ను remote తో sync లో ఉండేలా reset చేయి, లేకపోతే తదుపరిసారి pull చేసినప్పుడు ఎవరైనా commit మీ commit తో conflict క్రియేట్ చేయవచ్చు."
             ]
           }
         }

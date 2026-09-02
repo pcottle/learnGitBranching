@@ -12,7 +12,8 @@ exports.level = {
     "ru_RU": "Отмена изменений с помощью git restore",
     "tr_TR": "git restore ile Geri Alma",
     "vi": "Hoàn tác bằng git restore",
-    "uk": "Скасування змін за допомогою git restore"
+    "uk": "Скасування змін за допомогою git restore",
+    "te_IN": "git restore తో అన్‌డూ చేయడం"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -23,7 +24,8 @@ exports.level = {
     "ru_RU": "Уберите из подготовленной области с помощью `git restore --staged secret.env`, отбросьте эксперимент командой `git restore experiment.js`, а затем выполните `git commit`.",
     "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın.",
     "vi": "Loại bỏ khỏi staging với `git restore --staged secret.env`, vứt bỏ thử nghiệm với `git restore experiment.js`, sau đó `git commit`.",
-    "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`."
+    "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`.",
+    "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి."
   },
   "startDialog": {
     "en_US": {
@@ -561,6 +563,40 @@ exports.level = {
               "* Закомітьте те, що залишилося: `git commit`",
               "",
               "Це створить один чистий коміт, що містить лише ту роботу, яку ви дійсно хотіли зберегти."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `git restore` తో అన్‌డూ చేయడం",
+              "",
+              "ప్రతి ఒక్కరూ కొంచెం గందరగోళం చెందుతారు. ఉద్దేశ్యం లేకుండా ఫైల్ stage చేస్తావు, లేదా పారేయాలనుకునే experiment స్టార్ట్ చేస్తావు. `git restore` మీ వర్కింగ్ డైరెక్టరీ మరియు staging ఏరియా కోసం ఆధునిక, ప్రత్యేకంగా రూపొందించిన అన్‌డూ బటన్.",
+              "",
+              "ఇది రెండు రకాలుగా పనిచేస్తుంది:",
+              "",
+              "* `git restore --staged <file>`: ఫైల్ ను **unstage** చేస్తుంది (staging ఏరియా నుండి వెనక్కి తీసుకెళ్తుంది, మీ edits ను keep చేస్తుంది)",
+              "* `git restore <file>`: ఫైల్ కు మీ edits ను పూర్తిగా **discard** చేస్తుంది (జాగ్రత్త, ఇది మార్పులను పారేస్తుంది!)",
+              "",
+              "*(ఇవి పాత `git reset HEAD <file>` మరియు `git checkout -- <file>` trick లను రీప్లేస్ చేస్తాయి. అదే idea, చాలా క్లియర్ పేర్లు.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "మీ టర్న్! మీ పనిని **ఒక్కో ఫైల్** చొప్పున stage చేసి commit చేయి, తద్వారా ప్రతి commit focused గా ఉంటుంది:",
+              "",
+              "* `git add app.js`, తర్వాత `git commit`",
+              "* `git add styles.css`, తర్వాత `git commit`",
+              "",
+              "ప్రతి commit లక్ష్యం పక్కన ఉన్న ఫైల్ పేర్లు ప్రతి మార్పు ఎక్కడ ఉందో చూపిస్తాయి. రెండు clean commits మరియు level నీదే.",
             ]
           }
         }

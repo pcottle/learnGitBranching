@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Rami Remoti",
     "tr_TR": "Uzak Dallar",
     "hu_HU": "Távoli ágak",
-    "az": "Remote Branch-lar"
+    "az": "Remote Branch-lar",
+    "te_IN": "Remote Branches"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Presta attenzione all'ordine -- fai prima un commit sul main!",
     "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!",
     "hu_HU": "Figyelj a sorrendere -- először a main-en commitolj!",
-    "az": "Ardıcıllığa diqqət et -- əvvəlcə main-də commit et!"
+    "az": "Ardıcıllığa diqqət et -- əvvəlcə main-də commit et!",
+    "te_IN": "ఆర్డరింగ్ పై దృష్టి పెట్టు — మొదట main పై commit చేయి!"
   },
   "startDialog": {
     "en_US": {
@@ -1532,6 +1534,43 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu bölümü bitirmək üçün bir dəfə `main`-dən commit et, bir dəfə də `o/main`-i checkout etdikdən sonra commit et. Bu, remote branch-ların necə fərqli davrandığını və yalnız remote-un vəziyyətini əks etdirmək üçün yeniləndiyini yaxşı başa düşməyə kömək edəcək."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Branches",
+              "",
+              "ఇప్పటివరకు, `o/main` గురించి చాలా చూశాం. ఇప్పుడు, remote branches ఎలా ప్రవర్తిస్తాయో చూద్దాం!",
+              "",
+              "Remote branches (ఉదాహరణకు `o/main`) నిజానికి remote నుండి copy చేయబడిన references మాత్రమే. అవి remote యొక్క state ను reflect చేస్తాయి."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Remote branch ను checkout చేసి ఏమి జరుగుతుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావు, git మనల్ని detached HEAD mode లోకి మార్చింది మరియు కొత్త commit యాడ్ చేసినప్పుడు `o/main` ను update చేయలేదు. దానికి కారణం `o/main` remote update అయినప్పుడు మాత్రమే update అవుతుంది."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level పూర్తి చేయడానికి, ఒకసారి `main` పై commit చేసి, మరొకసారి `o/main` ను checkout చేసి commit చేయి. ఇది remote branches ఎలా భిన్నంగా ప్రవర్తిస్తాయి మరియు remote యొక్క state ను మాత్రమే reflect చేయడానికి update అవుతాయో అర్థం చేసుకోవడంలో సహాయపడుతుంది."
             ]
           }
         }

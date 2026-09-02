@@ -25,6 +25,7 @@ exports.level = {
     "pl": "Rozgałęzienia w Gicie",
     "it_IT": "Creare rami in Git",
     "ta_IN": "கிட் கிளை நிருவாகம்",
+    "te_IN": "Git Branch నిర్వహణ",
     "tr_TR": "Git'te Branch işlemleri",
     "hu_HU": "Elágazás Gitben",
     "az": "Git-də Branch-lar"
@@ -53,6 +54,7 @@ exports.level = {
     "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
     "it_IT": "Crea un nuovo ramo con \"git branch <branch-name>\" e selezionalo con \"git checkout <branch-name>\"",
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக",
+    "te_IN": "ఇప్పుడు \"git branch <branch-name>\" కమాండ్ తో కొత్త branch ను సృష్టించి, ఆపై \"git checkout <branch-name>\" తో ఆ branch కు మారండి",
     "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git checkout <branch-name>\" komutu ile bu branch'e geçin.",
     "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git checkout <branch-name>\" paranccsal",
     "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git checkout <branch-adı>\" ilə ona keç"
@@ -1946,6 +1948,37 @@ exports.level = {
               "சொல்லபோனால், இதற்க்கு ஒரு குறுக்குவழி உள்ளது: ஒரு புதிய கிளையை உருவாக்கி ",
               "உடனெ அதற்க்கு மாற, நீங்கள்",
               "`git checkout -b [yourbranchname]` என கட்டளையிட்டால் போதும்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "Git branches మీ Git workflow లో అత్యంత శక్తివంతమైన అంశాలలో ఒకటి.",
+              "Branch అంటే మీరు పని చేస్తున్న స్వతంత్ర development లైన్. Git లో branch లు చాలా తేలికగా ఉంటాయి -- అవి చాలా తక్షణమే సృష్టించబడతాయి మరియు నాశనం చేయబడతాయి.",
+              "",
+              "Git branches గురించి గొప్ప విషయం ఏమిటంటే, మీరు ఒక branch పై పని చేస్తున్నప్పుడు, మీరు మిగిలిన ప్రపంచాన్ని పూర్తిగా మార్చవచ్చు.",
+              "",
+              "మీరు మీ ప్రాజెక్ట్ లో వేర్వేరు ఫీచర్లపై పని చేస్తున్నప్పుడు ఇది చాలా ఉపయోగకరంగా ఉంటుంది.",
+              "",
+              "మీరు branch ను సృష్టించినప్పుడు, మీరు ఆ branch పై చేసే మార్పులు ఆ branch కు మాత్రమే వర్తిస్తాయి, మిగిలిన branches పై కాదు.",
+              "",
+              "మీరు ఒక branch పై పని చేస్తున్నప్పుడు, మీరు మీ HEAD (మీ ప్రస్తుత పని చేస్తున్న branch) ను ఆ branch కు సెట్ చేస్తారు.",
+              "",
+              "మీరు `git branch` అని టైప్ చేసి మీ ప్రస్తుత branches ను చూడవచ్చు.",
+              "",
+              "మీరు `git branch <name>` అని టైప్ చేసి కొత్త branch సృష్టించవచ్చు.",
+              "",
+              "మీరు `git checkout <name>` అని టైప్ చేసి ఒక branch కు మారవచ్చు.",
+              "",
+              "మీరు `git checkout -b <newbranch>` అని టైప్ చేసి కొత్త branch సృష్టించి దానికి మారవచ్చు."
             ]
           }
         }

@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Simulare il lavoro di squadra",
     "tr_TR": "Takım Çalışması Simülasyonu",
     "hu_HU": "Csapatmunka szimulálása",
-    "az": "Komanda İşini Təqlid Etmək"
+    "az": "Komanda İşini Təqlid Etmək",
+    "te_IN": "టీమ్ వర్క్ సిమ్యులేట్ చేయడం"
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Tieni a mente che puoi specificare il numero di commit da simulare",
     "tr_TR": "Kaç commit oluşturulacağını belirtebileceğinizi unutmayın",
     "hu_HU": "Emlékezz, megadhatod a szimulált commitok számát",
-    "az": "Unutma, təqlid ediləcək commit-lərin sayını göstərə bilərsən"
+    "az": "Unutma, təqlid ediləcək commit-lərin sayını göstərə bilərsən",
+    "te_IN": "సిమ్యులేట్ చేయడానికి commits సంఖ్యను స్పెసిఫై చేయగలవని గుర్తుపెట్టుకో"
   },
   "startDialog": {
     "en_US": {
@@ -1348,6 +1350,60 @@ exports.level = {
               "Qarşıdakı bölümlər kifayət qədər çətin olacaq, ona görə də bu bölümdə səndən daha çox şey istəyirik.",
               "",
               "Davam et: remote-u clone et (`git clone` ilə), həmin remote-da bəzi dəyişiklikləri təqlid et, bir lokal commit əlavə et, sonra remote dəyişikliklərini çəkib endir və onları merge et. Bu, bir neçə dərs bir arada kimidir!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## కొలాబరేషన్ సిమ్యులేట్ చేయడం",
+              "",
+              "ఇక్కడ ఒక ట్రిక్కీ విషయం ఉంది -- రాబోయే కొన్ని పాఠాల కోసం, remote లో పరిచయం చేయబడిన మార్పులను ఎలా pull చేయాలో మిమ్మల్ని నేర్పించాలి.",
+              "",
+              "అంటే remote ను మీ సహోద్యోగులు / స్నేహితులు / సహకారులు అప్‌డేట్ చేశారని నిజానికి \"నటించాలి\", కొన్నిసార్లు specific branch పై లేదా నిర్దిష్ట commits సంఖ్యతో.",
+              "",
+              "దీన్ని చేయడానికి, మేము సరైన పేరు ఉన్న `git fakeTeamwork` కమాండ్ ను పరిచయం చేశాం! ఇది చాలా స్పష్టంగా ఉంటుంది, డెమో చూద్దాం..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork` యొక్క డిఫాల్ట్ ప్రవర్తన main పై ఒక commit ను సింపుల్ గా పెట్టడం."
+            ],
+            "afterMarkdowns": [
+              "చూశావా! మన remote లో ఒక కొత్త commit కనిపిస్తోంది. ఎవరో దీన్ని push చేశారని నటించాం."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git clone"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "కమాండ్ చివరలో commits సంఖ్యను లేదా branch ను కూడా స్పెసిఫై చేయవచ్చు."
+            ],
+            "afterMarkdowns": [
+              "ఒకే కమాండ్ తో మన remote లోని `foo` branch కు మూడు commits push చేసినట్లు సిమ్యులేట్ చేశాం."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "రాబోయే levels చాలా కష్టంగా ఉంటాయి, కాబట్టి ఈ level లో మేము మీ నుండి ఎక్కువ ఆశిస్తున్నాం.",
+              "",
+              "కొనసాగించు: remote ను clone చేయి (`git clone` తో), ఆ remote లో కొన్ని మార్పులు సిమ్యులేట్ చేయి, ఒక లోకల్ commit యాడ్ చేయి, తర్వాత remote మార్పులను పుల్ చేసి merge చేయి. ఇది చాలా పాఠాలు ఒకేసారి చేసినట్లే!"
             ]
           }
         }

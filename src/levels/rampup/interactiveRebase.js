@@ -29,6 +29,7 @@ exports.level = {
     "it_IT": "Puoi usare sia i rami che i riferimenti relativi (HEAD~) per specificare l'obiettivo del rebase",
     "pl": "Możesz użyć gałęzi lub referencji względnych (HEAD~), aby określić cel rebase'a",
     "ta_IN": "நீங்கள் rebase இலக்கை குறிப்பதற்கு கிளைகள் அல்லது பொருந்திய ரெஃபரன்ஸ்கள் (HEAD~) பயன்படுத்த முடியும்",
+    "te_IN": "మీరు rebase లక్ష్యాన్ని సూచించడానికి branches లేదా relative references (HEAD~) ఉపయోగించవచ్చు",
     "tr_TR": "Rebase hedefini belirtmek için ya dalları ya da göreli referansları (HEAD~) kullanabilirsiniz",
     "hu_HU": "A rebase célját megadhatod branchekkel vagy relatív hivatkozásokkal (HEAD~)",
     "az": "Rebase hədəfini göstərmək üçün branch-lardan və ya nisbi ref-lərdən (HEAD~) istifadə edə bilərsən"
@@ -56,6 +57,7 @@ exports.level = {
     "it_IT": "Introduzione al rebase interattivo",
     "pl": "Wprowadzenie do interaktywnego rebase'a",
     "ta_IN": "இன்டராக்டிவ் ரீபெஸ் அறிமுகம்",
+    "te_IN": "ఇంటరాక్టివ్ Rebase పరిచయం",
     "tr_TR": "Etkileşimli Rebase'e Giriş",
     "hu_HU": "Interaktív rebase bevezetés",
     "az": "İnteraktiv Rebase-yə giriş"
@@ -1562,6 +1564,57 @@ exports.level = {
           "options": {
             "markdowns": [
               "இந்த நிலையை முடிக்க, ஒரு இன்டராக்டிவ் ரீபெஸ் செய்யவும் மற்றும் இலக்கக் காட்சி காட்டிய வரிசையை அடையவும். தவறுகளை சரிசெய்ய `undo` அல்லது `reset` எப்போது வேண்டுமானாலும் பயன்படுத்தலாம் :D"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Interactive Rebase Intro",
+              "",
+              "Interactive rebase అనేది Git లోని అత్యంత శక్తివంతమైన ఫీచర్లలో ఒకటి, కానీ దీన్ని వివరించడం కష్టం."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Interactive rebase మీరు ముందుగా నిర్ణయించిన commits ను క్రమంలో మార్చడానికి, తొలగించడానికి, లేదా సవరించడానికి అనుమతిస్తుంది."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Interactive rebase ను ప్రారంభించడానికి, `git rebase -i HEAD~<n>` అని టైప్ చేయండి, ఇక్కడ `<n>` మీరు మార్చాలనుకుంటున్న commits సంఖ్య."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "బటన్ ను నొక్కితే, interactive rebase window తెరుస్తుంది. commits ను క్రమంలో మార్చండి (లేదా వాటిని తొలగించండి) మరియు ఫలితాన్ని చూడండి!"
+            ],
+            "afterMarkdowns": [
+              "బూమ్! Git మీరు UI లో సూచించిన విధంగానే commits ను కాపీ చేసింది."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ స్థాయిని పూర్తి చేయడానికి, interactive rebase చేసి goal visualization లో చూపించిన క్రమాన్ని సాధించండి. తప్పులను సరిదిద్దడానికి `undo` లేదా `reset` ను ఎప్పుడైనా ఉపయోగించవచ్చు :D"
             ]
           }
         }

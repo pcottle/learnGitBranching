@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Storico divergente",
     "tr_TR": "Ayrışan Geçmiş",
     "hu_HU": "Szétágazó előzmények",
-    "az": "Ayrılmış Tarixçə"
+    "az": "Ayrılmış Tarixçə",
+    "te_IN": "విభజించబడిన హిస్టరీ"
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -51,7 +52,8 @@ exports.level = {
     "it_IT": "Controlla l'ordinamento dalla schermata dell'obiettivo",
     "tr_TR": "Hedef görselleştirmesindeki sıralamaya dikkat edin",
     "hu_HU": "Nézd meg a sorrendet a cél vizualizációban",
-    "az": "Hədəf vizuallaşdırmasındakı ardıcıllığa bax"
+    "az": "Hədəf vizuallaşdırmasındakı ardıcıllığa bax",
+    "te_IN": "లక్ష్య విజువలైజేషన్ లోని ఆర్డరింగ్ చెక్ చేయి"
   },
   "startDialog": {
     "en_US": {
@@ -3486,6 +3488,60 @@ exports.level = {
               "* Bir az komanda işini təqlid et (1 commit)",
               "* Özün bir az iş commit et (1 commit)",
               "* İşini *rebase* vasitəsilə dərc et"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pull with Rebase",
+              "",
+              "మనం `pull` ను merge తో చూశాం, కానీ rebase తో కూడా పనిచేస్తుంది!",
+              "",
+              "`git pull --rebase` అనేది మీ local commits ను remote commits పై rebase చేస్తుంది, merge commit సృష్టించకుండా clean history ఉంచుతుంది."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git pull --rebase` ఎలా పనిచేస్తుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! మీ local commit rebase అయింది, clean linear history ఉంది."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "మళ్ళీ, అదే ఫలితం! కానీ history clean గా linear గా ఉంది.",
+              "",
+              "చాలా ప్రాజెక్ట్లు `pull --rebase` ను default గా యూజ్ చేస్తాయి ఎందుకంటే ఇది merge commits లేకుండా clean history ఉంచుతుంది."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Fetch, rebase/merge మరియు push తో పని చేసే workflow చాలా popular. తదుపరి పాఠాల్లో ఈ workflows యొక్క మరింత complex versions ను explore చేస్తాం, కానీ ఇప్పుడు దీన్ని try చేద్దాం.",
+              "",
+              "ఈ level సాల్వ్ చేయడానికి ఈ స్టెప్లు తీసుకో:",
+              "",
+              "* Repository ను clone చేయి",
+              "* కొంచెం team work simulate చేయి (1 commit)",
+              "* నువ్వు కొంచెం పని commit చేయి (1 commit)",
+              "* మీ పనిను *rebase* ద్వారా push చేయి"
             ]
           }
         }

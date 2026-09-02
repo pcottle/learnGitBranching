@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Tracciamento remoto",
     "tr_TR": "Uzaktan İzleme",
     "hu_HU": "Távoli követés",
-    "az": "Remote İzləmə"
+    "az": "Remote İzləmə",
+    "te_IN": "Remote ట్రాకింగ్"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -51,7 +52,8 @@ exports.level = {
     "it_IT": "Ricorda che ci sono due modi per impostare il tracciamento remoto!",
     "tr_TR": "Unutma, uzak izlemeyi ayarlamanın iki yolu vardır!",
     "hu_HU": "Ne feledd, a távoli követés beállításának két módja van!",
-    "az": "Unutma, remote izləməni qurmağın iki yolu var!"
+    "az": "Unutma, remote izləməni qurmağın iki yolu var!",
+    "te_IN": "Remote tracking సెట్ చేయడానికి రెండు మార్గాలు ఉన్నాయని గుర్తుపెట్టుకో!"
   },
   "startDialog": {
     "en_US": {
@@ -2301,6 +2303,104 @@ exports.level = {
         }
       ]
     },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote Tracking Branches",
+              "",
+              "Remote tracking branches అనేవి remote repository లోని branches యొక్క local copies.",
+              "",
+              "అవి `o/main` వంటి names ను కలిగి ఉంటాయి.",
+              "",
+              "`git clone` చేసినప్పుడు, Git స్వయంచాలకంగా `main` branch ను create చేస్తుంది మరియు దానిని `o/main` తో track చేస్తుంది."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ఈ విధానాన్ని నేనే అమలు చేయగలనా?",
+              "",
+              "అవును, తప్పకుండా! మీరు ఏదైనా branch ను `o/main` ను track చేసేలా అమలు చేయవచ్చు, అలా చేస్తే merge destination మరియు push destination రెండూ స్వయంచాలకంగా `main` ను సూచిస్తాయి. కాబట్టి `totallyNotMain` branch లో చేసే `git push` remote `main` branch లోని changes ను merge చేస్తుంది.",
+              "",
+              "దీనిని రెండు విధాలుగా చేయవచ్చు. మొదటిది క్రొత్త branch ను ఈ command తో create చేయడం:",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "లేదా `totallyNotMain` అనే branch ను create చేసి `o/main` ను track చేసేలా అమలు చేయడం."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "వివరణలు సరిపోయాయి, ఇప్పుడు practical ను చూద్దాం! `foo` branch ను `main` ను track చేసేలా అమలు చేద్దాం."
+            ],
+            "afterMarkdowns": [
+              "మీరు చూసినట్లుగా, `foo` branch `o/main` ను implicit destination గా అమలు చేయబడింది. `main` ఎంత update కాలేదో గుర్తుంచుకోండి!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Git push ను కూడా ప్రయోగిద్దాం."
+            ],
+            "afterMarkdowns": [
+              "అద్భుతం. మన branch కు పూర్తిగా భిన్నమైన పేరు ఉన్నప్పటికీ, మన changes ను remote `main` కు push చేశాము."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### విధానం #2",
+              "",
+              "Remote branch ను track చేసే మరొక మార్గం `git branch -u` ను ఉపయోగించడం. ఈ command ను ఇవ్వండి:",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "ఇది `foo` ను `o/main` ను track చేసేలా అమలు చేస్తుంది. `foo` ఇప్పటికే create అయితే, మీరు దానిని argument గా ఇవ్వనవసరం లేదు:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇప్పుడు ఈ రెండవ విధానాన్ని త్వరగా చూద్దాం..."
+            ],
+            "afterMarkdowns": [
+              "ముందు చెప్పినది అదే, కానీ మరింత clear గా command!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "సరే! ఈ level కోసం remote `main` branch కు push చేయండి, కానీ local గా *మీరు* `main` లో ఉండవలసిన అవసరం లేదు. మిగిలినది మీకే వదిలిపెడుతున్నాను, ఎందుకంటే ఇది advanced level :P"
+            ]
+          }
+        }
+      ]
+    },
     "pl": {
       "childViews": [
         {
@@ -2884,6 +2984,74 @@ exports.level = {
           "options": {
             "markdowns": [
               "Yaxşı! Bu bölümdə gəl lokal olaraq `main`-də *olmadan* işi remote-dakı `main` branch-ına push edək. Bunun əvəzinə, hədəf diaqramında göstərilən `side` adlı bir branch yaratmalısan."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Remote-Tracking branches",
+              "",
+              "గత కొన్ని పాఠాల్లో \"మాయాజాలం\" లాగా అనిపించిన ఒక విషయం ఏమిటంటే, git `main` branch `o/main` తో సంబంధం కలిగి ఉందని తెలుసు. ఈ branches కు సమానమైన పేర్లు ఉన్నాయి మరియు remote లోని `main` branch ను లోకల్ `main` branch తో కనెక్ట్ చేయడం లాజికల్ గా అర్థమయ్యే విషయం, కానీ ఈ కనెక్షన్ రెండు సందర్భాల్లో స్పష్టంగా ప్రదర్శించబడుతుంది:",
+              "",
+              "* Pull ఆపరేషన్ సమయంలో, commits `o/main` పై డౌన్‌లోడ్ అవుతాయి మరియు తర్వాత `main` branch లో *merge* అవుతాయి. Merge యొక్క implied target ఈ కనెక్షన్ నుండి నిర్ణయించబడుతుంది.",
+              "* Push ఆపరేషన్ సమయంలో, `main` branch నుండి పని remote యొక్క `main` branch కు push చేయబడింది (అది తర్వాత లోకల్ గా `o/main` గా సూచించబడింది). Push యొక్క *destination* `main` మరియు `o/main` మధ్య ఉన్న కనెక్షన్ నుండి నిర్ణయించబడుతుంది.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ కనెక్షన్ ను రెండు విధాలుగా సెట్ చేయవచ్చు. మొదటిది చూద్దాం..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "మొదటి మార్గం `git checkout -b` ను branch పేరుతో పాటు remote reference తో యూజ్ చేయడం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! ఇప్పుడు `foo` branch `o/main` ను tracking చేస్తోంది."
+            ],
+            "command": "git checkout -b foo o/main",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "రెండో మార్గం `git branch -u` యూజ్ చేయడం. ఇది ప్రస్తుత branch కు remote tracking ను సెట్ చేస్తుంది."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git branch -u` కమాండ్ ఎలా పనిచేస్తుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! ఇప్పుడు `foo` branch `o/main` ను tracking చేస్తోంది."
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "బాగుంది! ఈ level లో remote లోని `main` branch కు push చేయడానికి బదులుగా, లోకల్ గా `main` లో లేకుండా పని చేయడానికి ప్రయత్నిద్దాం. దీని బదులుగా, లక్ష్య డైగ్రామ్ లో చూపించిన `side` అనే branch ను సృష్టించాలి."
             ]
           }
         }

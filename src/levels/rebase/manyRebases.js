@@ -32,7 +32,8 @@ exports.level = {
     "pl": "Rebase ponad 9000 razy",
     "tr_TR": "9000 kereden fazla rebase işlemi yapmak",
     "hu_HU": "Sok rebase",
-    "az": "9000-dən çox dəfə rebase etmək"
+    "az": "9000-dən çox dəfə rebase etmək",
+    "te_IN": "9000 కంటే ఎక్కువసార్లు rebase చేయడం"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -59,7 +60,8 @@ exports.level = {
     "pl": "Pamiętaj, że najskuteczniejszym sposobem może być aktualizacja `main` dopiero na samym końcu...",
     "tr_TR": "Şunu hatırlamanı isterim ki: belki de en verimli yol işin sonunda maini güncellemektir.",
     "hu_HU": "Ne feledd, a leghatékonyabb módszer talán az, ha a main-t csak a végén frissíted...",
-    "az": "Yadında saxla, ən səmərəli yol bəlkə də main-i yalnız sonda yeniləməkdir..."
+    "az": "Yadında saxla, ən səmərəli yol bəlkə də main-i yalnız sonda yeniləməkdir...",
+    "te_IN": "గుర్తుపెట్టుకో, అత్యంత ఎఫిషియెంట్ మార్గం చివర్లో main ను మాత్రమే అప్‌డేట్ చేయడం కావచ్చు..."
   },
   "startDialog": {
     "en_US": {
@@ -557,6 +559,26 @@ exports.level = {
               "Faydalı bir məsləhət: `git rebase` ikinci arqument də qəbul edə bilər. `git rebase main bugFix` bir addımda `bugFix`-ə keçir və onu `main` üzərinə rebase edir -- yəni `git checkout bugFix; git rebase main`-in qısa formasıdır.",
               "",
               "Yol boyu səhv etsən, yenidən başlamaq üçün `reset`-dən istifadə et. Həllimizi mütləq yoxla və gör daha az əmrlə edə bilərsənmi!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ఒకటి కంటే ఎక్కువ branches ను Rebase చేయడం",
+              "",
+              "ఇక్కడ చాలా branches ఉన్నాయి! ఈ branches లోని పని అంతా main కు rebase చేద్దాం.",
+              "",
+              "కానీ పై డైరెక్షన్ పనిని కొంచెం క్లిష్టంగా చేస్తుంది -- అవి అన్ని commits ను వరుస క్రమంలో ఉంచాలని అనుకుంటున్నాయి. అంటే చివరి tree లో `C7'` కింద, దాని పై `C6'` మరియు అలా ఉండాలి.",
+              "",
+              "ఉపయోగకరమైన టిప్: `git rebase` రెండో ఆర్గ్యుమెంట్ కూడా తీసుకుంటుంది. `git rebase main bugFix` ఒకే step లో `bugFix` కు వెళ్ళి, దాన్ని `main` పై rebase చేస్తుంది -- అంటే `git checkout bugFix; git rebase main` యొక్క షార్ట్ ఫార్మ్.",
+              "",
+              "దారిలో తప్పు జరిగితే, మళ్ళీ స్టార్ట్ చేయడానికి `reset` యూజ్ చేయి. మా సొల్యూషన్ చూసి, తక్కువ commands తో చేయగలవో చూడు!"
             ]
           }
         }

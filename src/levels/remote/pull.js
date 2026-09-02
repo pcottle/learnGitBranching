@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Git Pull",
     "tr_TR": "Git Pull",
     "hu_HU": "Git pull",
-    "az": "Git Pull"
+    "az": "Git Pull",
+    "te_IN": "Git Pull"
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -51,7 +52,8 @@ exports.level = {
     "it_IT": "Semplicemente git pull!",
     "tr_TR": "Sadece git pull komutunu çalıştırın!",
     "hu_HU": "Csak futtasd a git pull-t!",
-    "az": "Sadəcə git pull et!"
+    "az": "Sadəcə git pull et!",
+    "te_IN": "సింపుల్ గా git pull చేయి!"
   },
   "startDialog": {
     "en_US": {
@@ -1513,6 +1515,45 @@ exports.level = {
               "`git pull`-un təfərrüatlarını (o cümlədən seçimləri və arqumentləri) sonra araşdıracağıq, amma hələlik gəl onu bölümdə sınayaq.",
               "",
               "Unutma -- bu bölümü əslində təkcə `fetch` və `merge` ilə həll edə bilərsən, amma bu, sənə bir əlavə əmrə başa gələcək :P"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull!",
+              "",
+              "ఇప్పటివరకు, `fetch` మరియు `merge` ను వేరుగా చూశాం. కానీ ఇవి రెండూ ఒకేసారి జరిగేలా ఒకే command ఉంది: `git pull`!",
+              "",
+              "`git pull` అనేది `git fetch` + `git merge` యొక్క shorthand."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch` + `merge` కు బదులుగా `git pull` యూజ్ చేస్తే ఏమవుతుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "అదే result! ఇది `git pull` నిజానికి `fetch` తర్వాత merge యొక్క shorthand అని స్పష్టంగా చూపిస్తుంది. (Git 2.34+ లో, branches diverge అయినప్పుడు ఇది `git pull --no-rebase` తో equivalent.)"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull` యొక్క details (options మరియు arguments సహా) తర్వాత explore చేస్తాం, కానీ ఇప్పుడు ఈ level లో try చేద్దాం.",
+              "",
+              "గుర్తుపెట్టుకో -- ఈ level ను నిజానికి `fetch` మరియు `merge` తో solve చేయవచ్చు, కానీ అది మరొక extra command అవుతుంది :P"
             ]
           }
         }

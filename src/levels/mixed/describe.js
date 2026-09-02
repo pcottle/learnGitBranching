@@ -35,6 +35,7 @@ exports.level = {
     "pl": "Git describe",
     "tr_TR": "Git Describe",
     "ta_IN": "Git விவரம்",
+    "te_IN": "Git వివరణ",
     "hu_HU": "Git describe",
     "az": "Git Describe"
   },
@@ -62,6 +63,7 @@ exports.level = {
     "it_IT": "Fai un commit da bugFix per procedere",
     "pl": "Scommituj raz na bugFix, żeby przejść dalej",
     "ta_IN": "நீங்கள் தொடர தயாராக இருக்கும்போது bugFix இல் ஒருமுறை commit செய்யவும்.",
+    "te_IN": "మీరు కొనసాగించడానికి సిద్ధంగా ఉన్నప్పుడు bugFix లో ఒకసారి commit చేయి.",
     "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir.",
     "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon",
     "az": "Davam etməyə hazır olduğunda, sadəcə bugFix üzərində bir dəfə commit et"
@@ -1452,6 +1454,43 @@ exports.level = {
               "Git describe பற்றிய அடிப்படை இவைதான்! இந்த கட்டளைக்கு பழக, இந்த நிலையில் சில இடங்களை விவரிக்க முயற்சி செய்யுங்கள்.",
               "",
               "தயார் என்றால், ஒரு முறை commit செய்து நிலையை முடிக்கலாம். உங்களுக்கு இலவசமாக வழங்கிய ஒன்று :P"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git వివరణ",
+              "",
+              "`git describe` అనేది మీరు ఉన్న ప్రదేశాన్ని వివరించే command.",
+              "",
+              "ఇది `<tag>_<numCommits>_g<hash>` ఫార్మాట్ లో output ను ఇస్తుంది."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఈ command ను ఉపయోగించి ఒక ఉదాహరణ చూద్దాం."
+            ],
+            "afterMarkdowns": [
+              "`git describe` మీ ప్రస్తుత స్థానాన్ని సమీపంలోని tag తో వివరిస్తుంది."
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe గురించి ఇదే basics! ఈ command ను practice చేయడానికి ఈ level లో కొన్ని places ను describe చేయండి."
             ]
           }
         }

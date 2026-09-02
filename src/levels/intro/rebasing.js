@@ -25,6 +25,7 @@ exports.level = {
     "it_IT": "Introduzione al rebase (ribasare)",
     "pl": "Wprowadzenie do Rebase",
     "ta_IN": "Rebase அறிமுகம்",
+    "te_IN": "Rebase పరిచయం",
     "tr_TR": "Rebase İşlemine Giriş",
     "hu_HU": "Rebase bevezetés",
     "az": "Rebase-ə giriş"
@@ -53,6 +54,7 @@ exports.level = {
     "it_IT": "Assicurati di fare prima il commit da bugFix",
     "pl": "Upewnij się, że masz już commit z bugFix",
     "ta_IN": "முதலில் bugFix இல் இருந்து commit செய்ய நீங்கள் உறுதி செய்யவும்",
+    "te_IN": "మొదట bugFix లో commit చేయి",
     "tr_TR": "Önce bugFix'ten commit attığınıza emin olun",
     "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz",
     "az": "Əvvəlcə bugFix-dən commit etdiyinə əmin ol"
@@ -1532,6 +1534,26 @@ exports.level = {
               "* மீண்டும் `bugFix` இல் செக் அவுட் செய்து main இல் rebase செய்யவும்",
               "",
               "வாழ்த்துக்கள்!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Git లో branches ను కలపడానికి రెండు విధానాలు ఉన్నాయి: merge మరియు rebase. ఇప్పటివరకు మనం merge ను ఉపయోగించాము.",
+              "",
+              "Rebase అనేది మరొక విధానం, ఇది మరింత శుభ్రమైన commit చరిత్రను సృష్టిస్తుంది.",
+              "",
+              "Rebase ఒక branch లోని commits ను తీసి మరొక branch చివరన ఉంచుతుంది.",
+              "",
+              "మీరు `git rebase main` అని టైప్ చేసి `bugFix` ను `main` పై rebase చేయవచ్చు."
             ]
           }
         }

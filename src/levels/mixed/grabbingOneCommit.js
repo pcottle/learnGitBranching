@@ -37,6 +37,7 @@ exports.level = {
     "it_IT": "Prendi solo 1 Commit",
     "pl": "Wzięcie tylko 1 commita",
     "ta_IN": "ஒரே ஒரு commit மட்டும் எடுப்பது",
+    "te_IN": "ఒకే ఒక commit ను తీసుకోవడం",
     "tr_TR": "Sadece 1 commit'i yakalamak",
     "hu_HU": "Csak 1 commit átvétele",
     "az": "Cəmi 1 commit-i götürmək"
@@ -65,6 +66,7 @@ exports.level = {
     "it_IT": "Ricorda, rebase interattivo o cherry-pick sono tuoi amici",
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
     "ta_IN": "மறவாதீர்கள், interactive rebase அல்லது cherry-pick இங்கே உங்கள் நண்பர்",
+    "te_IN": "గుర్తుంచుకోండి, interactive rebase లేదా cherry-pick ఇక్కడ మీ మిత్రుడు",
     "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız.",
     "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben",
     "az": "Yadında saxla, interactive rebase və ya cherry-pick burada sənin dostundur"
@@ -965,6 +967,36 @@ exports.level = {
           "options": {
             "markdowns": [
               "இது ஒரு பின்னேட்ட நிலை என்பதால், நீங்கள் எந்த கட்டளையை பயன்படுத்த விரும்புகிறீர்கள் என்பதை நீங்கள் தீர்மானிக்க முடியும், ஆனால் நிலையை முடிக்க, `bugFix` குறிப்பிடும் commit ஐ `main` பெறுவதில் உறுதி செய்யவும்."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## ఒకే ఒక commit ను తీసుకోవడం",
+              "",
+              "Interactive rebase చాలా శక్తివంతంగా ఉంటుంది, కానీ మనకు అవసరమైనది ఒకే ఒక commit ను తీసుకోవడం."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "మీరు `git cherry-pick` ను ఉపయోగించి ఒక specific commit ను తీసుకోవచ్చు."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఇది advanced level, కాబట్టి మీరు ఏ command ఉపయోగించాలనుకుంటున్నారో మీ ఇష్టం, కానీ `bugFix` సూచించే commit ను `main` పొందేలా చూడండి."
             ]
           }
         }

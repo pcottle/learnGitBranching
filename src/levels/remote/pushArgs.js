@@ -29,7 +29,8 @@ exports.level = {
     "it_IT": "Parametri di git push",
     "tr_TR": "Git push argümanları",
     "hu_HU": "Git push argumentumok",
-    "az": "Git push arqumentləri"
+    "az": "Git push arqumentləri",
+    "te_IN": "Git push ఆర్గ్యుమెంట్లు"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -55,7 +56,8 @@ exports.level = {
     "it_IT": "Puoi sempre guardare l'ultima slide del dialogo con \"objective\"",
     "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz",
     "hu_HU": "Mindig megnézheted a párbeszéd utolsó diáját az \"objective\" paranccsal",
-    "az": "Dialoqun son slaydına həmişə \\\"objective\\\" ilə baxa bilərsən"
+    "az": "Dialoqun son slaydına həmişə \\\"objective\\\" ilə baxa bilərsən",
+    "te_IN": "ఎప్పుడైనా \"objective\" తో dialog యొక్క చివరి slide చూడవచ్చు"
   },
   "startDialog": {
     "en_US": {
@@ -1823,6 +1825,79 @@ exports.level = {
               "Yaxşı, bu bölümdə gəl remote-dakı həm `foo`-nu, həm də `main`-i yeniləyək. İş orasındadır ki, bu bölüm üçün `git checkout` deaktiv edilib!",
               "",
               "*Qeyd: Remote branch-lar `o/` prefiksləri ilə işarələnib, çünki tam `origin/` etiketi bizim interfeysə sığmır. Bu barədə narahat olma... sadəcə həmişəki kimi remote-un adı olaraq `origin` işlət.*"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push Arguments",
+              "",
+              "`git push` కూడా arguments support చేస్తుంది, fetch/pull లాగానే!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇక్కడ specific branch ను specific destination కు push చేస్తున్నాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! మేము remote `foo` branch కు `C3` commit ను push చేశాం."
+            ],
+            "command": "git push origin C3:foo",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "గమనించు: push syntax `source:destination` గా ఉంటుంది. ఇది fetch syntax కు చాలా సమానం, కానీ direction రివర్స్ — ఇక్కడ మీరు remote కు send చేస్తున్నారు.",
+              "",
+              "Source ని ఖాళీగా వదిలివేస్తే, remote నుండి fetch జరుగుతుంది (ఇది push కాదు!)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Source ఖాళీగా ఉంచితే ఏమవుతుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! ఇది push కాదు, fetch జరిగింది. Source ఖాళీగా ఉంచడం ద్వారా remote నుండి pull చేసినట్లు అయింది."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Arguments లేకుండా push చేస్తే ఏమవుతుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "Command fail అయింది (చూశావు), ఎందుకంటే `HEAD` remote tracking branch పై checkout చేయబడలేదు."
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git commit; git checkout C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "బాగుంది, ఈ level లో remote లోని `foo` మరియు `main` రెండింటినీ update చేద్దాం. కానీ ఈ level కోసం `git checkout` disabled!",
+              "",
+              "*గమనిక: Remote branches `o/` prefix తో mark చేయబడ్డాయి, ఎందుకంటే full `origin/` label మన UI కు fit కాదు. దీని గురించి worry అవ్వకు... ఎల్లప్పుడూ remote name `origin` గా యూజ్ చేయి.*"
             ]
           }
         }

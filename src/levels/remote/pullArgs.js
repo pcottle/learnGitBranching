@@ -26,7 +26,8 @@ exports.level = {
     "it_IT": "Parametri di git pull",
     "tr_TR": "Git pull argümanları",
     "hu_HU": "Pull argumentumok",
-    "az": "Pull arqumentləri"
+    "az": "Pull arqumentləri",
+    "te_IN": "Pull ఆర్గ్యుమెంట్లు"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -52,7 +53,8 @@ exports.level = {
     "it_IT": "Ricorda che puoi creare nuovi rami locali sfruttando fetch/pull + parametri",
     "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin",
     "hu_HU": "Ne feledd, a fetch/pull argumentumaival új helyi ágakat hozhatsz létre",
-    "az": "Unutma, fetch/pull arqumentləri ilə yeni lokal branch-lar yarada bilərsən"
+    "az": "Unutma, fetch/pull arqumentləri ilə yeni lokal branch-lar yarada bilərsən",
+    "te_IN": "fetch/pull arguments తో కొత్త లోకల్ branches సృష్టించగలవని గుర్తుపెట్టుకో"
   },
   "startDialog": {
     "en_US": {
@@ -1761,6 +1763,62 @@ exports.level = {
           "options": {
             "markdowns": [
               "Yaxşı, bitirmək üçün hədəf vizuallaşdırmasının vəziyyətinə çat. Bir neçə commit endirməli, bir neçə yeni branch yaratmalı və həmin branch-ları başqa branch-lara merge etməli olacaqsan, amma bu, çox əmr tələb etməməlidir :P"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pull Arguments",
+              "",
+              "`git pull` కూడా fetch arguments ను support చేస్తుంది! ఇది చాలా powerful."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "fetch లో చూసినట్లుగానే, pull కు source/destination syntax యూజ్ చేయవచ్చు:"
+            ],
+            "afterMarkdowns": [
+              "చూశావా! ఈ ఒకే command లో చాలా పని జరిగింది."
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "గమనించు: `git pull` arguments ను `git fetch` arguments గా handle చేస్తుంది, కానీ అదనంగా merge కూడా చేస్తుంది. కాబట్టి fetch arguments అన్నీ pull లో కూడా పనిచేస్తాయి!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Source మరియు destination తో కూడా పనిచేస్తుందా? అవును! చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "వావ్, ఈ ఒకే command లో చాలా పని జరిగింది. లోకల్ గా `foo` అనే కొత్త branch సృష్టించాం, remote main నుండి commits ను `foo` branch కు fetch చేశాం, తర్వాత దాన్ని ప్రస్తుతం checkout చేసిన `bar` branch లో merge చేశాం. 9000 దాటింది!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b bar"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "బాగుంది, పూర్తి చేయడానికి లక్ష్య విజువలైజేషన్ స్థితికి చేరు. కొన్ని commits fetch చేయాలి, కొన్ని కొత్త branches సృష్టించాలి మరియు వాటిని ఇతర branches లో merge చేయాలి, కానీ ఇది చాలా commands అడగకూడదు :P"
             ]
           }
         }

@@ -26,6 +26,7 @@ exports.level = {
     "it_IT": "Git Fetch",
     "tr_TR": "Git Fetch",
     "ta_IN": "Git Fetch",
+    "te_IN": "Git Fetch",
     "hu_HU": "Git fetch",
     "az": "Git Fetch"
   },
@@ -53,6 +54,7 @@ exports.level = {
     "it_IT": "Semplicemente git fetch!",
     "tr_TR": "Sadece git fetch komutunu çalıştırın!",
     "ta_IN": "பொதுவாக git fetch நடத்துங்கள்!",
+    "te_IN": "సాధారణంగా git fetch నడపండి!",
     "hu_HU": "Csak futtasd a git fetch-et!",
     "az": "Sadəcə git fetch et!"
   },
@@ -1656,6 +1658,78 @@ exports.level = {
           "options": {
             "markdowns": [
               "இந்த level ஐ முடிக்க, எளிதாக `git fetch` செய்து அனைத்து commits களையும் பதிவிறக்கம் செய்யுங்கள்!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Git remote repositories అనేవి మీ ప్రాజెక్ట్ యొక్క different copies ఉంచే ప్రదేశాలు.",
+              "",
+              "Fetch అనేది remote repository నుండి commits మరియు branches ను మీ స్థానిక repository కు తీసుకురావడానికి ఉపయోగించే command.",
+              "",
+              "`git fetch` అని టైప్ చేసి remote repository నుండి data ను fetch చేయండి."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch` command ఎలా పనిచేస్తుందో చూద్దాం! మన local repository లో లేని రెండు commits ఉన్న remote repository ఇక్కడ ఉంది."
+            ],
+            "afterMarkdowns": [
+              "అయ్యింది! `C2` మరియు `C3` commits మన local repository కు download అయ్యాయి, మరియు remote branch `o/main` కూడా ఈ update ను reflect అయ్యేలా పునర్నిర్మించబడింది."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch ఏమి చేస్తుంది",
+              "",
+              "`git fetch` రెండు ముఖ్యమైన పనులు మాత్రమే చేస్తుంది. అవి:",
+              "",
+              "* remote లో ఉన్నట్లు కానీ మన local repository లో లేని commits ను download చేస్తుంది, మరియు...",
+              "* మన remote branches ఎక్కడ ఉన్నాయో దానిని update చేస్తుంది (ఉదాహరణకు, `o/main`)",
+              "",
+              "`git fetch` అంటే, మన _local_ copy యొక్క status ను _actual_ remote repository తో sync చేయడం (ప్రస్తుతానికి).",
+              "",
+              "మనం ముందు remote branches అనేవి remote repositories లో ఉన్న state ను reflect చేస్తాయి అని నేర్చుకున్నాం _మీరు ఆ remote తో చివరిసారిగా interact చేసినప్పుడు_ అనే state. `git fetch` అనేది ఆ remote తో మీరు interact చేసే మార్గం! ఈ connection స్పష్టంగా ఉంటుందని ఆశిస్తున్నాను.",
+              "",
+              "`git fetch` సాధారణంగా remote repository తో వెబ్ ద్వారా (ఉదాహరణకు `http://` లేదా `git://` వంటి protocol ద్వారా) connect అవుతుంది."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fetch ఏమి చేయదు",
+              "",
+              "`git fetch` అయినప్పటికీ, అది మీ _స్వంత_ local state ను మార్చదు. ఇది మీ `main` branch ను update చేయదు లేదా మీ file system యొక్క current state ను మార్చదు.",
+              "",
+              "ఇది ముఖ్యం ఎందుకంటే చాలా developers `git fetch` ను run చేస్తే, అది వారి local work ను remote యొక్క state ను reflect చేస్తుందని అనుకుంటారు. అది అవసరమైన మొత్తం data ను download చేయగలదు, కానీ అది నిజంగా మీ local files ను మార్చదు. మనం తర్వాత నేర్చుకునే commands ఆ actions చేస్తాయి :D",
+              "",
+              "కాబట్టి, ఒక రోజు చివరలో, `git fetch` ను run చేయడం అనేది ఒక download step గా భావించవచ్చు."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level ను పూర్తి చేయడానికి, `git fetch` అని టైప్ చేసి అన్ని commits ను download చేయండి!"
             ]
           }
         }

@@ -24,6 +24,7 @@ exports.level = {
     "vi": "Nhiều cha lắm mẹ",
     "sl_SI": "Več Staršev",
     "ta_IN": "ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்",
+    "te_IN": "బహుళ మూలాలు",
     "it_IT": "Genitori multipli",
     "pl": "Wielu rodziców",
     "tr_TR": "Birden fazla ebeveyn",
@@ -52,6 +53,7 @@ exports.level = {
     "vi": "Dùng lệnh `git branch bugWork` để tạo nhánh tại vị trí chỉ định",
     "sl_SI": "Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.",
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
+    "te_IN": "`git branch bugWork` ఉపయోగించి అవసరమైన commit తో కోల్పోయిన అనుసంధానాన్ని సృష్టించండి.",
     "it_IT": "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
     "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın.",
@@ -1879,6 +1881,90 @@ exports.level = {
               "இந்த படி நிலையை நிரைவு செய்ய, குறிப்பிட்டபட்டுள்ள பிரிவில் ஒரு கிளையை உருவாக்குங்கள்.",
               "",
               "வெளிப்படையாக சொல்லப்போனால் (`C6` போன்று) நேரடியாக கிளையை குறிப்பிடமுடியுன், இருப்பினும் இந்த சவால் மேல் குறிப்பிட்ட மாற்றிகளை பயன் படுத்தும் வகையில் அமைக்க பட்டுள்ளது!"
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## బహుళ మూలాలు",
+              "",
+              "Merge commits లో రెండు parents ఉంటాయి, కానీ కొన్నిసార్లు మనకు మూడు లేదా అంతకంటే ఎక్కువ parents ఉన్న commit అవసరం.",
+              "",
+              "దీన్ని 'octopus merge' అంటారు.",
+              "",
+              "`git merge` మూడు లేదా అంతకంటే ఎక్కువ branches ను కలపడానికి ఉపయోగించవచ్చు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇక్కడ merge commit ఉంది. `main^` అని ఎటువంటి number ఇవ్వకుండా checkout చేస్తే, అది merge commit యొక్క direct parent branch కు connect అవుతుంది.",
+              "",
+              "(*ఈ diagram లో, direct parent అనేది merge commit కు నేరుగా ఎదురుగా పైన చూపబడింది.*)"
+            ],
+            "afterMarkdowns": [
+              "అది బాగుంది -- ఇది మనం అందరం అలవాటు పడింది."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇప్పుడు రెండవ parent branch ను refer చేద్దాం..."
+            ],
+            "afterMarkdowns": [
+              "గమనించారా? మనం తదుపరి branch point కింద ఒక merge ను create చేశాము."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^` మరియు `~` modifiers commit tree ని సులభంగా navigate చేయడానికి help చేస్తాయి:"
+            ],
+            "afterMarkdowns": [
+              "Lightning fast!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "మరొక simple మార్గం, ఈ modifiers ను combine చేసి కూడా ఉపయోగించవచ్చు! చూడండి:"
+            ],
+            "afterMarkdowns": [
+              "పైన చూపిన అదే result, కానీ ఒకే command లో."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### ఇప్పుడు మీరు practice చేయండి",
+              "",
+              "ఈ level ను పూర్తి చేయడానికి, పేర్కొన్న ప్రదేశంలో ఒక branch ను create చేయండి.",
+              "",
+              "స్పష్టంగా చెప్పాలంటే (`C6` వంటివి) direct గా commit ను select చేయవచ్చు, కానీ ఈ challenge పైన పేర్కొన్న modifiers ను ఉపయోగించమని మిమ్మల్ని encourage చేస్తుంది!"
             ]
           }
         }

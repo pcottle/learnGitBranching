@@ -25,7 +25,8 @@ exports.level = {
     "it_IT": "Fondere in remoto",
     "tr_TR": "Uzak Sunucularla Birleştirme",
     "hu_HU": "Merge a távolival",
-    "az": "Remote-larla merge etmək"
+    "az": "Remote-larla merge etmək",
+    "te_IN": "Remotes తో merge చేయడం"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -51,7 +52,8 @@ exports.level = {
     "it_IT": "Fai attenzione all'albero nell'obiettivo",
     "tr_TR": "Hedef ağacına dikkat et!",
     "hu_HU": "Figyelj a célgráfra!",
-    "az": "Hədəf ağacına diqqət et!"
+    "az": "Hədəf ağacına diqqət et!",
+    "te_IN": "లక్ష్య ట్రీ పై దృష్టి పెట్టు!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -1128,6 +1130,87 @@ exports.level = {
           "options": {
             "markdowns": [
               "Gəl əvvəlki bölümü bu dəfə *merge* ilə həll etməyə çalışaq. Bir az qarışıq ola bilər, amma məsələni yaxşı əyani göstərir."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remotes తో Merge చేయడం",
+              "",
+              "ఇంతకుముందు, `git pull` rebase కు బదులుగా merge ను ఎలా యూజ్ చేస్తుందో చూశాం. ఇప్పుడు, ఒకేసారి చాలా features ను merge చేయడం ఎలాగో చూద్దాం!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ముందుగా, మన remote ను pull చేసి, side1 ను merge చేద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! side1 ను merge చేశాం."
+            ],
+            "command": "git pull; git merge side1",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ఇప్పుడు side2 ను merge చేద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! side2 ను merge చేశాం."
+            ],
+            "command": "git merge side2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "చివరగా, side3 ను merge చేసి push చేద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "అంతా సిద్ధం! అన్ని features ను merge చేసి remote కు push చేశాం."
+            ],
+            "command": "git merge side3; git push",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Merge మరియు rebase మధ్య చాలా debate ఉంది. Rebase యొక్క ప్రధాన pros/cons ఇక్కడ ఉన్నాయి:",
+              "",
+              "Pros:",
+              "",
+              "* Rebase commit tree ను చాలా clean గా చూపిస్తుంది, ఎందుకంటే అన్నీ linear గా ఉంటాయి",
+              "",
+              "Cons:",
+              "",
+              "* Rebase commit history ను మారుస్తుంది.",
+              "",
+              "ఉదాహరణకు, `C1` commit ను `C3` తర్వాత rebase చేయవచ్చు. అప్పుడు `C1'` work `C3` తర్వాత వచ్చినట్లు కనిపిస్తుంది, కానీ నిజానికి అది ముందే పూర్తైంది.",
+              "",
+              "కొందరు developers history ను protect చేయడం ఇష్టపడతారు కాబట్టి merge ను prefer చేస్తారు. మరికొందరు (నేను) clean commit tree ఉండటం ఇష్టపడతారు కాబట్టి rebase ను prefer చేస్తారు. అన్నీ preference మీద ఆధారపడి ఉంటాయి :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "మునుపటి level ను ఈసారి *merge* తో solve చేయడానికి try చేద్దాం. కొంచెం messy గా ఉండవచ్చు, కానీ problem ను బాగా visualize చేస్తుంది."
             ]
           }
         }

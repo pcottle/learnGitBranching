@@ -28,7 +28,8 @@ exports.level = {
     "pl": "Odwracanie zmian w Gicie",
     "tr_TR": "Değişiklikleri Git'te Geri Almak",
     "hu_HU": "Változtatások visszavonása Gitben",
-    "az": "Git-də Dəyişikliklərin Geri Qaytarılması"
+    "az": "Git-də Dəyişikliklərin Geri Qaytarılması",
+    "te_IN": "Git లో మార్పులను రివర్ట్ చేయడం"
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -54,7 +55,8 @@ exports.level = {
     "pl": "Zauważ, że revert i reset przyjmują różne argumenty",
     "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma.",
     "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad.",
-    "az": "Qeyd et ki, revert və reset fərqli parametrlər qəbul edir."
+    "az": "Qeyd et ki, revert və reset fərqli parametrlər qəbul edir.",
+    "te_IN": "revert మరియు reset వేర్వేరు ఆర్గ్యుమెంట్లు తీసుకుంటాయని గమనించు."
   },
   "startDialog": {
     "en_US": {
@@ -1556,6 +1558,69 @@ exports.level = {
               "Bu bölümü tamamlamaq üçün, həm `local`, həm də `pushed` üzərindəki ən son commit-i geri qaytar. Ümumilikdə iki commit-i revert edəcəksən (hər branch üçün bir dənə).",
               "",
               "Yadında saxla ki, `pushed` remote branch, `local` isə lokal branch-dır -- bu, hansı metodları seçəcəyini müəyyən etməyə kömək edəcək."
+            ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git లో మార్పులను రివర్ట్ చేయడం",
+              "",
+              "Git లో మార్పులను రివర్ట్ చేయడానికి చాలా మార్గాలు ఉన్నాయి. commit చేసినట్లే, Git లో మార్పులను రివర్ట్ చేయడంలో కూడా లో-లెవెల్ భాగం (ఫైల్లను లేదా చంక్స్ ను stage చేయడం) మరియు హై-లెవెల్ భాగం (మార్పులు నిజంగా ఎలా రివర్ట్ అవుతాయి) ఉన్నాయి. మన యాప్ రెండో దానిపై ఫోకస్ చేస్తుంది.",
+              "",
+              "Git లో మార్పులను అన్‌డూ చేయడానికి రెండు ప్రధాన మార్గాలు ఉన్నాయి -- ఒకటి `git reset` యూజ్ చేయడం, మరొకటి `git revert` యూజ్ చేయడం. తదుపరి డైలాగ్ లో ప్రతి దాన్ని చూద్దాం",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` branch రిఫరెన్స్ ను టైమ్ లో వెనక్కి, పాత commit కు move చేసి మార్పులను రివర్ట్ చేస్తుంది. ఈ విధంగా దీన్ని \"హిస్టరీ రీరైట్ చేయడం\" అని అనుకోవచ్చు; `git reset` branch ను ఆ commit ఎప్పుడూ జరగనట్లుగా వెనక్కి తీసుకెళ్తుంది.",
+              "",
+              "అది ఎలా ఉంటుందో చూద్దాం:"
+            ],
+            "afterMarkdowns": [
+              "బాగుంది! Git main branch రిఫరెన్స్ ను `C1` కు వెనక్కి తీసుకెళ్లింది; ఇప్పుడు మన లోకల్ రిపోజిటరీ `C2` ఎప్పుడూ జరగనట్లుగా ఉంది."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Reset మీ కంప్యూటర్ లోని లోకల్ branches కు బాగా పనిచేసినప్పటికీ, దాని \"హిస్టరీ రీరైట్\" మెథడ్ ఇతరులు యూజ్ చేసే remote branches కు పనిచేయదు.",
+              "",
+              "మార్పులను రివర్ట్ చేసి, ఆ రివర్టెడ్ మార్పులను ఇతరులతో *షేర్* చేయడానికి, `git revert` యూజ్ చేయాలి. అది ఎలా పనిచేస్తుందో చూద్దాం."
+            ],
+            "afterMarkdowns": [
+              "వింతగా ఉంది, branch చివరిలో కొత్త commit యాడ్ అయింది. అలా జరగడానికి కారణం, ఈ కొత్త `C2'` commit `C2` పరిచయం చేసిన మార్పులను ఖచ్చితంగా రివర్ట్ చేసే మార్పులను పరిచయం చేస్తుంది.",
+              "",
+              "రివర్ట్ చేయడం ద్వారా, మీ మార్పులను ఇతరులతో షేర్ చేయడానికి push చేయవచ్చు."
+            ],
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ఈ level పూర్తి చేయడానికి, `local` మరియు `pushed` రెండింటిపై ఉన్న లేటెస్ట్ commit ను రివర్ట్ చేయి. మొత్తం రెండు commits ను రివర్ట్ చేస్తావు (ఒక్కో branch కు ఒకటి).",
+              "",
+              "`pushed` అనేది remote branch మరియు `local` అనేది లోకల్ branch అని గుర్తుపెట్టుకో -- ఏ మెథడ్లు యూజ్ చేయాలో అనేది దీని ద్వారా తెలుస్తుంది."
             ]
           }
         }

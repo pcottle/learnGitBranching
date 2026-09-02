@@ -23,6 +23,7 @@ exports.strings = {
     "pl": "Wow! Ukończono ostatni poziom, świetnie!",
     "it_IT": "Wow! Hai concluso l'ultimo livello, grandioso!",
     "ta_IN": "ஆஹா! நீங்கள் கடைசி நிலையை முடித்துள்ளீர்கள், நன்று!",
+    "te_IN": "అబ్బా! మీరు చివరి స్థాయిని పూర్తి చేశారు, గొప్ప!",
     "tr_TR": "Wow! son seviyeyi tamamladın, tebrikler!",
     "hu_HU": "Hűha! Befejezted az utolsó szintet, remek!",
     "az": "Vay! Sonuncu bölümü bitirdin, əla!"
@@ -51,6 +52,7 @@ exports.strings = {
     "pl": "Czy chcesz przejść do następnego poziomu - *\"{nextLevel}\"*?",
     "it_IT": "Ti andrebbe di passare al prossimo livello, *\"{nextLevel}\"*?",
     "ta_IN": "அடுத்த நிலை * \"{nextLevel}\" * க்கு செல்ல விரும்புகிறீர்களா?",
+    "te_IN": "తదుపరి స్థాయి *\"{nextLevel}\"* కు వెళ్ళాలనుకుంటున్నారా?",
     "tr_TR": "Bir sonraki seviye olan *\"{nextLevel}\"* seviyesine geçmek ister misin?",
     "hu_HU": "Szeretnél továbblépni a következő szintre: *\"{nextLevel}\"*?",
     "az": "Növbəti bölümə — *\"{nextLevel}\"* — keçmək istəyirsən?"
@@ -79,6 +81,7 @@ exports.strings = {
     "pl": "Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.",
     "it_IT": "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     "ta_IN": "அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.",
+    "te_IN": "అద్భుతం! మీరు మా సాధనను సాధించారు.",
     "tr_TR": "Mükemmel! Bizim çözümümüzle aynı sonuca ulaştınız.",
     "hu_HU": "Fantasztikus! A megoldásod megegyezik a miénkkel.",
     "az": "Əla! Bizim həlli təkrarladın."
@@ -107,6 +110,7 @@ exports.strings = {
     "pl": "Niesamowite! Rozwiązałeś zadanie w ten sam sposób lub lepiej.",
     "it_IT": "Grandioso! Hai eguagliato o migliorato la nostra soluzione.",
     "ta_IN": "அருமை! எங்கள் கொடுக்க பட்ட தீர்வை நிறைவு செய்து விட்டீர்கள்.",
+    "te_IN": "అద్భుతం! మీరు మా సాధనను మించారు.",
     "tr_TR": "Mükemmel! Bizim çözümümüzü geçtiniz.",
     "hu_HU": "Fantasztikus! Túlszárnyaltad a megoldásunkat.",
     "az": "Əla! Bizim həlli qabaqladın."
@@ -135,6 +139,7 @@ exports.strings = {
     "pl": "Sprawdź, czy dasz radę to zrobić w {best} krokach :D",
     "it_IT": "Prova a migliorarti facendolo solo con {best} comandi :D",
     "ta_IN": "நீங்கள் அதை குறைக்க முடியுமா என்று பாருங்கள் {best} :D",
+    "te_IN": "దీన్ని {best} కి తగ్గించగలరో చూడండి :D",
     "tr_TR": "Bakalım bunu {best} adıma indirgeyebilir misin? :D",
     "hu_HU": "Nézd meg, le tudod-e csökkenteni {best} lépésre :D",
     "az": "Gör onu {best} əmrə qədər azalda bilərsənmi :D"
@@ -162,6 +167,7 @@ exports.strings = {
     "pl": "Ostrzeżenie! Mercurial prowadzi agresywną kolekcję śmieci i dlatego musi przycinać Twoje drzewo",
     "it_IT": "Attenzione! Mercurial ha un garbage collector molto aggressivo e perciò deve potare il tuo albero",
     "ta_IN": "எச்சரிக்கை! மெர்குரியல் வலிய களிவு சேகரிப்பு செய்கிறது, இதனால் உங்கள் மரத்தை கத்தரிக்க வேண்டிவரும்",
+    "te_IN": "హెచ్చరిక! Mercurial అత్యంత చురుకైన garbage collection చేస్తుంది, కాబట్టి మీ ట్రీని కత్తిరించాలి",
     "tr_TR": "Uyarı! Mercurial, agresif garbage collection yapar bu nedenle ağacınızı prune etmeniz gerekebilir.",
     "hu_HU": "Figyelmeztetés! A Mercurial agresszív szemétgyűjtést végez, ezért meg kell nyírnia a fádat",
     "az": "Xəbərdarlıq! Mercurial aqressiv garbage collection aparır və buna görə ağacını budamalıdır"
@@ -189,6 +195,7 @@ exports.strings = {
     "pl": "Opcja -A nie jest wymagana w tej aplikacji, po prostu zrób `commit`!",
     "it_IT": "L'opzione -A non è necessiaria, fai semplicemente commit!",
     "ta_IN": "இந்த பயன்பாட்டிற்கு -A மாற்று தேவையில்லை, `கமிட்` செய்யுங்கள்",
+    "te_IN": "ఈ యాప్ కోసం -A ఎంపిక అవసరం లేదు, `commit` చేయి!",
     "tr_TR": "Bu uygulama için -A seçeneği gereksizdir, sadece commit atın!",
     "hu_HU": "Az -A opció nem szükséges ehhez az alkalmazáshoz, csak commit-olj!",
     "az": "Bu tətbiq üçün -A seçiminə ehtiyac yoxdur, sadəcə commit et!"
@@ -215,7 +222,8 @@ exports.strings = {
     "sl_SI": "Za to aplikacijo ni na voljo `status` ukaza, ker tu ni `stage-anja` datotek. Poizkusiš lahko `hg summary`",
     "pl": "W tej aplikacji nie ma polecenia `status`, ponieważ nie ma przemieszczania plików. Zamiast tego wypróbuj `hg summary`",
     "it_IT": "Non esiste il comando status in quest'app, visto che non esiste lo staging dei file. Prova invece `hg summary`",
-    "ta_IN": "கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் இல்லை. அதற்கு பதிலாக `hg summary` முயற்சிக்கவும்",
+    "ta_IN": "கோப்புகள் எதுவும் அடுத்த படிநிலையில் இல்லை என்பதால், இந்த பயன்பாட்டிற்கான மதிப்பீடும் கட்டளை எதுவும் ఇల்லை. அதற்கு పதிலாக `hg summary` முயற்சிக்கவும்",
+    "te_IN": "ఫైల్లు staging లో లేవు కాబట్టి, ఈ యాప్ కోసం status కమాండ్ లేదు. దాని బదులుగా `hg summary` ట్రై చేయి",
     "tr_TR": "Bu uygulama için bir status komutu yok çünkü dosyalar stage edilemiyor. Bunun yerine hg summary komutunu deneyin.",
     "hu_HU": "Nincs status parancs ehhez az alkalmazáshoz, mivel nincs fájlok állomásoztatása. Próbáld helyette az hg summary parancsot",
     "az": "Bu tətbiqdə status əmri yoxdur, çünki faylların staging-i yoxdur. Onun əvəzinə hg summary sına"
@@ -243,6 +251,7 @@ exports.strings = {
     "pl": "Potrzebuję opcji {option} dla tego polecenia!",
     "it_IT": "Ho bisogno di {option} per quel comando!",
     "ta_IN": "எனக்கு அந்த கட்டளைக்கு மாற்று {option} தேவை",
+    "te_IN": "నాకు ఆ కమాండ్ కోసం {option} ఎంపిక అవసరం!",
     "tr_TR": "Bu komut için {option} seçeneğine ihtiyacım var!",
     "hu_HU": "Szükségem van a {option} opcióra ahhoz a parancshoz!",
     "az": "Bu əmr üçün mənə {option} seçimi lazımdır!"
@@ -270,6 +279,7 @@ exports.strings = {
     "pl": "`hg log` bez -f nie jest obecnie obsługiwany, użyj -f",
     "it_IT": "hg log senza -f non è attualmente supportato, usa -f",
     "ta_IN": "-f இல்லாமல் `hg log` தற்போது ஆதரிக்கப்படவில்லை, -f ஐப் பயன்படுத்தவும்",
+    "te_IN": "-f లేకుండా `hg log` ఇప్పుడు వర్తించదు, -f యూజ్ చేయి",
     "tr_TR": "-f olmadan hg logu şu anda desteklenmiyor, -f kullanın.",
     "hu_HU": "A -f nélküli hg log jelenleg nem támogatott, használd a -f kapcsolót",
     "az": "-f olmadan hg log hazırda dəstəklənmir, -f istifadə et"
@@ -297,6 +307,7 @@ exports.strings = {
     "pl": "Odłączono HEAD!",
     "it_IT": "Testa distaccata (Detached head)!",
     "ta_IN": "பிரிக்கப்பட்ட தலை!",
+    "te_IN": "వేరుచేయబడిన HEAD!",
     "tr_TR": "Detached HEAD! (Bağımsız HEAD!)",
     "hu_HU": "Leválasztott HEAD (Detached head)!",
     "az": "Ayrılmış HEAD (Detached head)!"
@@ -324,6 +335,7 @@ exports.strings = {
     "pl": "Na branch-u {branch}",
     "it_IT": "Sul ramo {branch}",
     "ta_IN": "{branch} கிளையில்",
+    "te_IN": "{branch} బ్రాంచ్ లో",
     "tr_TR": "{branch} branch'indesiniz",
     "hu_HU": "A(z) {branch} ágon",
     "az": "{branch} branch-ındasan"
@@ -351,6 +363,7 @@ exports.strings = {
     "pl": "Gotowy commit! (jak zawsze w tym demo)",
     "it_IT": "Pronto al commit! (come sempre in questa demo)",
     "ta_IN": "`commit` செய்ய தயார்! (இந்த செயல் விளக்கத்தில் எப்போதும் செய்வதை போல)",
+    "te_IN": "commit చేయడానికి సిద్ధం! (ఈ డెమోలో ఎల్లప్పుడూ చేసినట్లుగా)",
     "tr_TR": "Commit etmeye hazır! (bu demoda her zaman olduğu gibi)",
     "hu_HU": "Készen áll a commit-ra! (mint mindig ebben a demóban)",
     "az": "Commit etməyə hazır! (bu nümayişdə həmişə olduğu kimi)"
@@ -358,6 +371,7 @@ exports.strings = {
   "git-status-staged-header": {
     "__desc__": "git status header for changes that are staged (ready to commit)",
     "en_US": "Changes to be committed:",
+    "te_IN": "Commit చేయాల్సిన మార్పులు:",
     "pt_BR": "Mudanças a serem commitadas:",
     "de_DE": "Änderungen, die committed werden:",
     "zh_CN": "将要提交的更改：",
@@ -369,6 +383,7 @@ exports.strings = {
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
     "en_US": "Changes not staged for commit:",
+    "te_IN": "Commit కోసం stage చేయని మార్పులు:",
     "pt_BR": "Mudanças não adicionadas ao staging:",
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
     "zh_CN": "尚未暂存以备提交的更改：",
@@ -380,6 +395,7 @@ exports.strings = {
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
     "en_US": "nothing to commit, working tree clean",
+    "te_IN": "commit చేయడానికి ఏమీ లేదు, వర్కింగ్ ట్రీ శుభ్రంగా ఉంది",
     "pt_BR": "nada para commitar, diretório de trabalho limpo",
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
     "zh_CN": "没有需要提交的内容，工作区干净",
@@ -391,6 +407,7 @@ exports.strings = {
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
     "en_US": "no changes added to commit (stage them first with \"git add <file>\")",
+    "te_IN": "commit కోసం మార్పులు జోడించలేదు (మొదట \"git add <file>\" తో stage చేయి)",
     "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
     "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
     "zh_CN": "没有添加可供提交的更改（先用 \"git add <文件>\" 暂存）",
@@ -422,6 +439,7 @@ exports.strings = {
     "pl": "Szybki commit.",
     "it_IT": "Laura I love you, but our dogs too (Barone & Duchessa)!",
     "ta_IN": "Quick commit. Go Bears!",
+    "te_IN": "Quick commit. Go Bears!",
     "tr_TR": "Hızlı commit. Go Bears!",
     "hu_HU": "Gyors commit. Hajrá!"
   },
@@ -448,6 +466,7 @@ exports.strings = {
     "pl": "Już aktualne!",
     "it_IT": "E' gia la versione più recente!",
     "ta_IN": "ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது!",
+    "te_IN": "ఇప్పటికే నవీకరించబడింది!",
     "tr_TR": "Zaten güncel!",
     "hu_HU": "Már naprakész!",
     "az": "Onsuz da ən son vəziyyətdədir!"
@@ -475,6 +494,7 @@ exports.strings = {
     "pl": "Twój branch nie jest zsynchronizowany ze zdalny branch-em i nie można przeprowadzić pobierania",
     "it_IT": "Il tuo ramo origin non è sincronizzato con il ramo remoto, e fetch non può essere eseguito",
     "ta_IN": "உங்கள் மூலக் கிளை தொலைநிலைக் கிளையுடன் ஓருங்கினைக்கப்படவில்லை. `fetch` செய்ய முடியாது",
+    "te_IN": "మీ మూల branch రిమోట్ branch తో సింక్ కాలేదు. `fetch` చేయడం సాధ్యం కాదు",
     "tr_TR": "Origin Branch'iniz, Remote branch ile uyumsuzdur ve `fetch` işlemi gerçekleştirilemez.",
     "hu_HU": "Az origin ágad nincs szinkronban a távoli ággal, ezért a fetch nem hajtható végre",
     "az": "origin branch-ın remote branch ilə sinxron deyil və fetch yerinə yetirilə bilmir"
@@ -502,6 +522,7 @@ exports.strings = {
     "pl": "Zdalne repozytorium różni się od lokalnego repozytorium, dlatego twoich zmian nie można przesłać za pomocą prostego szybkiego `fast forward` (i dlatego polecenie `push` zostało odrzucone). Najpierw zrób `pull` aby pobrać nowe zmiany do lokalnego repozytorium, zintegruj je z branch-em i spróbuj ponownie. Możesz to zrobić za pomocą `git pull` lub `git pull --rebase`",
     "it_IT": "Il repository remoto è diverso dal tuo repository locale, quindi il caricamento non è un semplice fast forward (e per questo il tuo push è fallito). Per favore esegui pull per scaricare i nuovi cambiamenti dal repository remoto, incorporarli in questo ramo, e provare ancora. Puoi effettuarlo tramite i comandi git pull o git pull --rebase",
     "ta_IN": "தொலைநிலை களஞ்சியம் உங்கள் களஞ்சியத்திலிருந்து வேறுபட்டுள்ளது, எனவே உங்கள் மாற்றங்களை எளிமையான `fast forward` முறையில் பதிவேற்ற இயலாது (இதனால் உங்கள் `push` நிராகரிக்கப்பட்டது). தொலை களஞ்சியத்தில் புதிய மாற்றங்களை `pull` செய்து, அவற்றை இந்த கிளையில் இணைத்து, மீண்டும் முயற்சிக்கவும். நீங்கள் அவ்வாறு `git pull` அல்லது `git pull --rebase` கட்டளை கொண்டு செய்யலாம்",
+    "te_IN": "రిమోట్ రిపోజిటరీ మీ లోకల్ రిపోజిటరీ నుండి భిన్నంగా ఉంది, కాబట్టి మీ మార్పులను సాధారణ `fast forward` విధానంలో అప్‌లోడ్ చేయడం సాధ్యం కాదు (అందువల్ల మీ `push` రిజెక్ట్ అయింది). రిమోట్ రిపోజిటరీలోని కొత్త మార్పులను `pull` చేసి, ఈ branch లో చేర్చి, మళ్ళీ ట్రై చేయి. మీరు `git pull` లేదా `git pull --rebase` కమాండ్ తో ఇది చేయవచ్చు",
     "tr_TR": "Uzak depo, yerel deponuzdan sapmış durumda, bu yüzden değişikliklerinizi basit bir fast forward ile yüklemek mümkün değil (bu nedenle push işleminiz reddedildi). Lütfen uzak depodaki yeni değişiklikleri çekin, bunları bu dalda birleştirin ve tekrar deneyin. Bunu git pull veya git pull --rebase komutlarıyla yapabilirsiniz.",
     "hu_HU": "A távoli tárhely eltért a helyi tárhelytől, ezért a változtatások feltöltése nem egyszerű fast forward (és ezért a push-od vissza lett utasítva). Kérlek pull-old le az új változtatásokat a távoli tárhelyből, építsd be őket ebbe az ágba, és próbáld újra. Ezt megteheted a git pull vagy git pull --rebase paranccsal",
     "az": "remote repozitoriya sənin lokal repozitoriyandan ayrılıb, ona görə də dəyişikliklərini yükləmək sadə sürətli irəliləmə (fast-forward) deyil (və beləliklə push-un rədd edildi). Zəhmət olmasa remote repozitoriyadakı yeni dəyişiklikləri çəkib endir, onları bu branch-a daxil et və yenidən cəhd et. Bunu git pull və ya git pull --rebase ilə edə bilərsən"
@@ -529,6 +550,7 @@ exports.strings = {
     "pl": "Nie możesz wykonać tego polecenia w zdalnej gałęzi",
     "it_IT": "Non puoi eseguire questo comando su un ramo remoto",
     "ta_IN": "அந்த கட்டளையை நீங்கள் தொலைநிலை கிளையில் இயக்க முடியாது",
+    "te_IN": "మీరు ఆ కమాండ్ ను రిమోట్ branch లో అమలు చేయలేరు",
     "tr_TR": "Bu komutu uzak bir dalda çalıştırmak mümkün değil",
     "hu_HU": "Ezt a parancsot nem hajthatod végre egy távoli ágon",
     "az": "Həmin əmri remote branch-da yerinə yetirə bilməzsən"
@@ -556,6 +578,7 @@ exports.strings = {
     "pl": "Dla tego polecenia wymagane jest źródło (origin)",
     "it_IT": "E' necessario definire origin per questo comando",
     "ta_IN": "அந்த கட்டளைக்கு ஒரு துவக்க மூலம் தேவை",
+    "te_IN": "ఆ కమాండ్ కోసం ఒక మూలం అవసరం",
     "tr_TR": "Bu komut için bir origin gereklidir",
     "hu_HU": "Ehhez a parancshoz szükséges egy origin",
     "az": "Həmin əmr üçün origin tələb olunur"
@@ -583,6 +606,7 @@ exports.strings = {
     "pl": "Nie ma żadnego zdalnego repozytorium oczekującego na sklonowanie. Aby utworzyć zdalne repozytorium z bieżącego, użyj `git fakeCreateRemote`.",
     "it_IT": "Non c'è nessun repository remoto in attesa di essere clonato. Per creare un remoto dal tuo repository attuale, usa `git fakeCreateRemote`.",
     "ta_IN": "குளோன் செய்யக் காத்திருக்கும் தொலை களஞ்சியம் எதுவும் இல்லை. உங்கள் தற்போதைய களஞ்சியத்திலிருந்து ஒரு தொலை களஞ்சியத்தை உருவாக்க, `git fakeCreateRemote` ஐப் பயன்படுத்தவும்.",
+    "te_IN": "క్లోన్ చేయడానికి వేచి ఉన్న రిమోట్ రిపోజిటరీ లేదు. మీ ప్రస్తుత రిపోజిటరీ నుండి రిమోట్ సృష్టించడానికి, `git fakeCreateRemote` యూజ్ చేయి.",
     "tr_TR": "Klonlanmayı bekleyen bir uzak depo yok. Mevcut deponuzdan bir uzak depo oluşturmak için `git fakeCreateRemote` kullanın.",
     "hu_HU": "Nincs klónozásra váró távoli repository. Ha a jelenlegi repositorydból szeretnél remote-ot készíteni, használd a `git fakeCreateRemote` parancsot.",
     "az": "Klonlanmağı gözləyən uzaq repozitoriya yoxdur. Hazırkı repozitoriyandan remote yaratmaq üçün `git fakeCreateRemote` istifadə et."
@@ -610,6 +634,7 @@ exports.strings = {
     "pl": "Już sklonowałeś to repozytorium! Nie ma nic nowego do sklonowania.",
     "it_IT": "Hai già clonato questo repository! Non c'è niente di nuovo da clonare.",
     "ta_IN": "இந்த களஞ்சியத்தை நீங்கள் ஏற்கனவே குளோன் செய்துவிட்டீர்கள்! புதிதாக குளோன் செய்ய எதுவும் இல்லை.",
+    "te_IN": "మీరు ఈ రిపోజిటరీని ఇప్పటికే క్లోన్ చేశారు! క్లోన్ చేయడానికి కొత్తది ఏమీ లేదు.",
     "tr_TR": "Bu depoyu zaten klonladınız! Klonlanacak yeni bir şey yok.",
     "hu_HU": "Ezt a repositoryt már klónoztad! Nincs semmi új, amit klónozhatnál.",
     "az": "Bu repozitoriyanı artıq klonlamısan! Klonlamaq üçün yeni heç nə yoxdur."
@@ -637,6 +662,7 @@ exports.strings = {
     "pl": "Origin już istnieje! Nie możesz go ponownie założyć",
     "it_IT": "Origin già esistente! Non puoi crearne uno nuovo",
     "ta_IN": "துவக்க மூலம் ஒன்று ஏற்கனவே உள்ளது! நீங்கள் மீன்டும் ஒன்றை உருவாக்க முடியாது",
+    "te_IN": "మూలం ఇప్పటికే ఉంది! మీరు మరొకటి సృష్టించలేరు",
     "tr_TR": "Bir origin zaten mevcut! Yeni bir tane oluşturamazsınız",
     "hu_HU": "Már létezik egy origin! Nem hozhatsz létre újat",
     "az": "origin onsuz da mövcuddur! Yenisini yarada bilməzsən"
@@ -664,6 +690,7 @@ exports.strings = {
     "pl": "Nie możesz usunąć gałezi main, gałęzi na której aktualnie pracujesz, ani która nie jest gałezią",
     "it_IT": "Non puoi eliminare il ramo main, il ramo in cui sei, o cose che non sono rami",
     "ta_IN": "பிரதான கிளை, தற்ப்போது நடப்பில் உள்ள கிளை மற்றும் கிளை அல்லாத வற்றை அழிக்க இயலாது",
+    "te_IN": "మెయిన్ branch, మీరు ఉన్న branch, మరియు branch కాని వాటిని తొలగించడం సాధ్యం కాదు",
     "tr_TR": "main branch'ini, üzerinde bulunduğunuz branch'i veya branch olmayan şeyleri silemezsiniz",
     "hu_HU": "Nem törölheted a main ágat, azt az ágat amelyen éppen vagy, vagy olyan dolgokat amelyek nem ágak",
     "az": "main branch-ını, üzərində olduğun branch-ı və ya branch olmayan şeyləri silə bilmərsən"
@@ -691,6 +718,7 @@ exports.strings = {
     "pl": "Łączenie {target} z {current}",
     "it_IT": "Fuso {target} in {current}",
     "ta_IN": "{target}ஐ {current} கிளையுடன் இணை",
+    "te_IN": "{target} ను {current} లో కలపండి",
     "tr_TR": "{target} dalını {current} dalına merge et",
     "hu_HU": "{target} merge-elése {current} ágba",
     "az": "{target} {current}-ə birləşdirilir"
@@ -718,6 +746,7 @@ exports.strings = {
     "pl": "Nie znaleziono commit-u do zmiany! Wszystkie commit-y oraz scalenia lub zmiany już są zastosowane",
     "it_IT": "Non ci sono commit da ribasare! Sono tutti commit di merge o i cambiamenti sono già stati applicati",
     "ta_IN": "`rebase` செய்ய எந்த கமிட்டும் இல்லை, அனைத்தும் இணைப்பு கமிட்கள் அல்லது முன்பே இணைக்கப்பட்டவை",
+    "te_IN": "rebase చేయడానికి commits లేవు, అన్నీ merge commits లేదా ఇప్పటికే వర్తించిన మార్పులు",
     "tr_TR": "Rebase edilecek commit yok! Her şey ya merge commit'i ya da zaten uygulanmış değişiklikler",
     "hu_HU": "Nincs commit a rebase-hez! Minden merge commit vagy a változtatások már alkalmazva lettek",
     "az": "Rebase ediləcək commit yoxdur! Hər şey merge commit-dir və ya dəyişikliklər artıq tətbiq olunub"
@@ -745,6 +774,7 @@ exports.strings = {
     "pl": "Nie ma nic do zrobienia...",
     "it_IT": "Niente da fare...",
     "ta_IN": "செய்வதற்க்கு ஒன்றும் இல்லை...",
+    "te_IN": "చేయడానికి ఏమీ లేదు...",
     "tr_TR": "Yapılacak bir şey yok...",
     "hu_HU": "Nincs tennivaló...",
     "az": "Ediləcək heç nə yoxdur..."
@@ -772,6 +802,7 @@ exports.strings = {
     "pl": "Fast forward...",
     "it_IT": "Fast forwarding...",
     "ta_IN": "Fast forward...",
+    "te_IN": "Fast forward...",
     "tr_TR": "Hızlı ileri alınıyor...",
     "hu_HU": "Fast forwarding...",
     "az": "Sürətli irəliləmə (fast-forward)..."
@@ -799,6 +830,7 @@ exports.strings = {
     "pl": "Branch jest już aktualny",
     "it_IT": "Il ramo è già aggiornato",
     "ta_IN": "இந்த கிளை ஏற்கனவே புதுப்பித்த நிலையில் உள்ளது...",
+    "te_IN": "ఈ branch ఇప్పటికే నవీకరించబడింది...",
     "tr_TR": "Dal zaten güncel",
     "hu_HU": "Az ág már naprakész",
     "az": "Branch onsuz da ən son vəziyyətdədir"
@@ -826,6 +858,7 @@ exports.strings = {
     "pl": "Odnośnik {ref} nie istnieje lub jest nieznany",
     "it_IT": "Il riferimento (ref) {ref} non esiste o è sconosciuto",
     "ta_IN": "{ref} இல்லை அல்லது தெரியவில்லை",
+    "te_IN": "{ref} లేదు లేదా తెలియదు",
     "tr_TR": "{ref} referansı mevcut değil veya bilinmiyor",
     "hu_HU": "A(z) {ref} referencia nem létezik vagy ismeretlen",
     "az": "{ref} ref-i mövcud deyil və ya naməlumdur"
@@ -853,6 +886,7 @@ exports.strings = {
     "pl": "Commit {commit} nie ma {match}",
     "it_IT": "Il commit {commit} non ha un {match}",
     "ta_IN": "{commit}க்கு {match} எதுவும் இல்லை",
+    "te_IN": "{commit} కు {match} లేదు",
     "tr_TR": "{commit} commit'inin {match} referansı bulunmamaktadır",
     "hu_HU": "A(z) {commit} commit-nak nincs {match} szülője",
     "az": "{commit} commit-inin {match} yoxdur"
@@ -880,6 +914,7 @@ exports.strings = {
     "pl": "Ostrzeżenie!! Odłączony tryb HEAD",
     "it_IT": "Attenzione!! Situazione di testa distaccata (Detached HEAD)",
     "ta_IN": "எச்சரிக்கை !! `HEAD` துன்டிக்கப்பட்ட நிலையில் உள்ளது",
+    "te_IN": "హెచ్చరిక!! `HEAD` వేరుచేయబడిన స్థితిలో ఉంది",
     "tr_TR": "Uyarı!! Bağımsız HEAD durumu",
     "hu_HU": "Figyelmeztetés!! Leválasztott HEAD állapot",
     "az": "Xəbərdarlıq!! Ayrılmış HEAD vəziyyəti"
@@ -907,6 +942,7 @@ exports.strings = {
     "pl": "Nie ma potrzeby dodawania plików w tym demo",
     "it_IT": "Non c'è bisogno di aggiungere file in questa demo",
     "ta_IN": "இந்த நடைமுறையில் கோப்புகளை சேர்க்க தேவையில்லை",
+    "te_IN": "ఈ డెమోలో ఫైల్లను జోడించాల్సిన అవసరం లేదు",
     "tr_TR": "Bu demoda dosya eklemeye gerek yok",
     "hu_HU": "Ebben a demóban nincs szükség fájlok hozzáadására",
     "az": "Bu demoda fayl əlavə etməyə ehtiyac yoxdur"
@@ -914,6 +950,7 @@ exports.strings = {
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
+    "te_IN": "fatal: మారడానికి branch అవసరం. '{ref}' branch కాదు -- దీన్ని checkout చేసి HEAD ను వేరుచేయాలనుకుంటే 'git switch --detach {ref}' (లేదా '-d') యూజ్ చేయి.",
     "de_DE": "fatal: Zum Wechseln wird ein Branch benötigt. '{ref}' ist kein Branch -- benutze 'git switch --detach {ref}' (oder '-d'), wenn du ihn auschecken und den HEAD abkoppeln willst.",
     "zh_CN": "致命错误：切换需要一个分支。'{ref}' 不是分支——如果你想检出并分离 HEAD，请使用 'git switch --detach {ref}'（或 '-d'）。",
     "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
@@ -943,6 +980,7 @@ exports.strings = {
     "pl": "Podane przez Ciebie opcje są niezgodne lub nieprawidłowe",
     "it_IT": "Le opzioni che hai specificato sono incompatibili o sbagliate",
     "ta_IN": "நீங்கள் குறிப்பிட்ட அந்த மற்றிகள் பொருந்தாது அல்லது தவறானவை",
+    "te_IN": "మీరు పేర్కొన్న ఎంపికలు అసమతుల్యంగా లేదా తప్పుగా ఉన్నాయి",
     "tr_TR": "Belirttiğiniz seçenekler uyumsuz veya yanlış",
     "hu_HU": "A megadott opciók nem kompatibilisek vagy helytelenek",
     "az": "Qeyd etdiyin seçimlər uyğunsuzdur və ya yanlışdır"
@@ -970,6 +1008,7 @@ exports.strings = {
     "pl": "Commit {commit} już istnieje w Twoim zbiorze zmian, przerywam!",
     "it_IT": "Il commit {commit} è già presente, annullo!",
     "ta_IN": "{commit} உங்கள் மாற்றங்களின் தொகுப்பில் ஏற்கனவே உள்ளது, கட்டளை கைவிடப்பட்டது!",
+    "te_IN": "{commit} మీ మార్పుల సమితిలో ఇప్పటికే ఉంది, కమాండ్ క్యాన్సల్ అయింది!",
     "tr_TR": "Commit {commit} zaten değişiklik setinizde mevcut, işlem iptal ediliyor!",
     "hu_HU": "A(z) {commit} commit már létezik a változtatások között, megszakítás!",
     "az": "{commit} commit-i artıq dəyişikliklər dəstində mövcuddur, ləğv edilir!"
@@ -997,6 +1036,7 @@ exports.strings = {
     "pl": "Nie można zresetować w odłączonej HEAD! Użyj opcji `checkout`, jeśli chcesz się przenieść",
     "it_IT": "Non posso fare reset in modalità testa distaccata (detached head)! Utilizza checkout se vuoi spostarti",
     "ta_IN": "பிரிக்கப்பட்ட தலையில் மீட்டமைக்க முடியாது! நீங்கள் நகர்த்த விரும்பினால் `checkout` பயன்படுத்தவும்",
+    "te_IN": "వేరుచేయబడిన HEAD లో reset చేయడం సాధ్యం కాదు! మీరు కదలాలనుకుంటే `checkout` యూజ్ చేయి",
     "tr_TR": "Detached head durumunda sıfırlama yapılamaz! Taşımak istiyorsanız checkout kullanın",
     "hu_HU": "Leválasztott HEAD állapotban nem lehet reset-et csinálni! Használd a checkout-ot ha mozogni szeretnél",
     "az": "Ayrılmış HEAD-də reset edə bilmərsən! Yerini dəyişmək istəyirsənsə checkout istifadə et"
@@ -1024,6 +1064,7 @@ exports.strings = {
     "pl": "Domyślnym zachowaniem dla polecenia `reset` w LearnGitBranching jest parametr --hard, więc możesz pominąć tę opcję, Pamiętaj tylko, że domyślne zachowanie rzeczywistego GIT-a jest parametr --mixed.",
     "it_IT": "Il comportamento base per i resets su LearnGitBranching è --hard, per cui puoi tranquillamente omettere quella opzione se ti sei stancato di scriverla. Ricorda però che in Git, l'opzione di default è --mixed.",
     "ta_IN": "The default behavior for resets on LearnGitBranching is a --hard, so feel free to omit that option if you get tired of typing it out in our lessons. Just remember that the default behavior on actual Git is --mixed.",
+    "te_IN": "LearnGitBranching లో reset ల కోసం డిఫాల్ట్ ప్రవర్తన --hard, కాబట్టి మా పాఠాల్లో టైప్ చేయడం చాలా అనిపిస్తే ఆ ఎంపికను వదిలివేయండి. అసలు Git లో డిఫాల్ట్ ప్రవర్తన --mixed అని గుర్తుంచుకోండి.",
     "tr_TR": "LearnGitBranching'deki sıfırlama işlemlerinin varsayılan davranışı --hard'dır, bu yüzden derslerimizde yazarken bundan sıkılırsanız bu seçeneği atlayabilirsiniz. Ancak gerçek Git'teki varsayılan davranışın --mixed olduğunu unutmayın.",
     "hu_HU": "A LearnGitBranching alapértelmezett viselkedése reset esetén a --hard, tehát bátran kihagyhatod azt az opciót ha meguntad begépelni a leckéinkben. Csak emlékezz arra, hogy az eredeti Git alapértelmezése --mixed.",
     "az": "LearnGitBranching-də reset-in standart davranışı --hard-dır, ona görə dərslərimizdə bunu yazmaqdan yorulsan bu seçimi buraxa bilərsən. Sadəcə yadında saxla ki, əsl Git-də standart davranış --mixed-dir."
@@ -1051,6 +1092,7 @@ exports.strings = {
     "pl": "Nie ma koncepcji na dodawanie/indeksowanie zmian, więc opcja lub polecenie jest niepoprawne.",
     "it_IT": "Non esiste il concetto di aggiungere / indicizzare i file, quindi quell'opzione o comando non è valido!",
     "ta_IN": "கோப்புகளைச் சேர்ப்பது / நிலைநிறுத்துவது என்ற கருத்து ஒன்றும் இல்லை, எனவே அந்த மற்றி அல்லது கட்டளை தவறானது",
+    "te_IN": "ఫైల్లను జోడించడం / staging అనే భావన లేదు, కాబట్టి ఆ ఎంపిక లేదా కమాండ్ చెల్లదు!",
     "tr_TR": "Dosya ekleme / stage'leme kavramı yok, bu nedenle bu seçenek veya komut geçersiz!",
     "hu_HU": "Nincs fájlok hozzáadása/állomásoztatása fogalom, tehát ez az opció vagy parancs érvénytelen!",
     "az": "Fayl əlavə etmək / staging anlayışı yoxdur, ona görə bu seçim və ya əmr etibarsızdır!"
@@ -1078,6 +1120,7 @@ exports.strings = {
     "pl": "Cofam {oldCommit} : {oldMsg}",
     "it_IT": "Ripristino {oldCommit}: {oldMsg}",
     "ta_IN": "{oldCommit}: {oldMsg} மீன்டும் மாற்றியமைக்கிறது",
+    "te_IN": "{oldCommit} ను రివర్ట్ చేస్తోంది: {oldMsg}",
     "tr_TR": "{oldCommit} geri alınıyor: {oldMsg}",
     "hu_HU": "{oldCommit} visszaállítása: {oldMsg}",
     "az": "{oldCommit} geri qaytarılır: {oldMsg}"
@@ -1104,7 +1147,8 @@ exports.strings = {
     "sl_SI": "Pričakovanih je največ {upper} argumentov za {what}",
     "pl": "Oczekuję maksymalne {upper} parametrów dla {what}",
     "it_IT": "Mi aspetto al massimo {upper} parametro/i per {what}",
-    "ta_IN": "நான் {what}க்கான உள்ளீடு(கள்) அதிகபட்சமாக {upper} எதிர்பார்க்கிறேன்",
+    "ta_IN": "நான் {what}க்கான உள்ளீடு(கள்) அதிகபட்சமாக {upper} எதிர்பார்க்கிறேన்",
+    "te_IN": "నేను {what} కోసం గరిష్టంగా {upper} ఆర్గ్యుమెంట్(లు) ఆశిస్తాను",
     "tr_TR": "{what} için en fazla {upper} argüman bekliyorum",
     "hu_HU": "Legfeljebb {upper} argumentumot várok a(z) {what} számára",
     "az": "{what} üçün ən çoxu {upper} arqument gözləyirəm"
@@ -1132,6 +1176,7 @@ exports.strings = {
     "pl": "Oczekuję co najmniej {lower} parametrów dla {what}",
     "it_IT": "Mi aspetto come minimo {lower} parametro/i per {what}",
     "ta_IN": "நான் {what}க்கான உள்ளீடு(கள்) குறைந்தபட்சம் {lower} எதிர்பார்க்கிறேன்",
+    "te_IN": "నేను {what} కోసం కనీసం {lower} ఆర్గ్యుమెంట్(లు) ఆశిస్తాను",
     "tr_TR": "{what} için en az {lower} argüman bekliyorum",
     "hu_HU": "Legalább {lower} argumentumot várok a(z) {what} számára",
     "az": "{what} üçün ən azı {lower} arqument gözləyirəm"
@@ -1159,6 +1204,7 @@ exports.strings = {
     "pl": "To polecenie nie przyjmuje żadnych ogólnych parametrów",
     "it_IT": "Quel comando non accetta parametri generici",
     "ta_IN": "அந்த கட்டளை பொதுவான உள்ளீடு எதுவும் ஏற்கவில்லை",
+    "te_IN": "ఆ కమాండ్ సాధారణ ఆర్గ్యుమెంట్లను స్వీకరించదు",
     "tr_TR": "Bu komut genel argüman kabul etmez",
     "hu_HU": "Ez a parancs nem fogad el általános argumentumokat",
     "az": "Bu əmr ümumi arqumentləri qəbul etmir"
@@ -1183,6 +1229,7 @@ exports.strings = {
     "vi": "Xin lỗi, lệnh \"{command}\" không được hỗ trợ!",
     "sl_SI": "Ukaz \"{command}\" ni podprt, oprostite!",
     "ta_IN": "\"{command}\" என்ற கட்டளை ஆதரிக்கப்படவில்லை, வருந்துகிறோம்!",
+    "te_IN": "\"{command}\" కమాండ్ వర్తించదు, సారీ!",
     "tr_TR": "\"{command}\" komutu desteklenmiyor, üzgünüm!",
     "hu_HU": "A(z) \"{command}\" parancs nem támogatott, sajnálom!",
     "az": "\"{command}\" əmri dəstəklənmir, üzr istəyirəm!",
@@ -1211,6 +1258,7 @@ exports.strings = {
     "pl": "Skopiuj poniższy kod",
     "it_IT": "Copia il codice dell'albero qua sotto",
     "ta_IN": "`tree string`ஐ கீழே நகலெடுக்கவும்",
+    "te_IN": "క్రింద tree string ను కాపీ చేయి",
     "tr_TR": "Aşağıdaki ağaç dizesini kopyalayın",
     "hu_HU": "Másold le az alábbi faszöveget",
     "az": "Aşağıdakı ağac sətrini kopyala"
@@ -1239,6 +1287,7 @@ exports.strings = {
     "pl": "Naucz się Git Branching-u",
     "it_IT": "Impara Git Branching",
     "ta_IN": "கிட் கிளை அமைத்தல்",
+    "te_IN": "Git Branching నేర్చుకోండి",
     "tr_TR": "Learn Git Branching(Git Dal Oluşumunu Öğren)",
     "hu_HU": "Git elágazás megtanulása"
   },
@@ -1265,6 +1314,7 @@ exports.strings = {
     "pl": "Wybierz poziom",
     "it_IT": "Scegli un livello",
     "ta_IN": "ஒரு நிலையை தேர்வு செய்யுங்கள்",
+    "te_IN": "ఒక స్థాయిని ఎంచుకోండి",
     "tr_TR": "Bir level (Seviye) seç",
     "hu_HU": "Válassz egy szintet",
     "az": "Bölüm seç"
@@ -1290,6 +1340,7 @@ exports.strings = {
     "pl": "Główny",
     "it_IT": "Menu",
     "ta_IN": "பிரதானம்",
+    "te_IN": "మెయిన్",
     "tr_TR": "Main(Ana)",
     "hu_HU": "Főszint"
   },
@@ -1314,6 +1365,7 @@ exports.strings = {
     "pl": "Zdalny",
     "it_IT": "Remoto",
     "ta_IN": "தொலைநிலை",
+    "te_IN": "రిమోట్",
     "tr_TR": "Uzak(Remote)",
     "hu_HU": "Távoli"
   },
@@ -1340,6 +1392,7 @@ exports.strings = {
     "pl": "Przepraszamy, ze względu na wizualizacje musimy zachować krótkie nazwy gałęzi. Nazwa Twojej gałęzi została skrócona do 9 znaków, w wyniku czego otrzymano \"{branch}\"",
     "it_IT": "Scusa ma i nomi dei rami devono essere brevi per essere visualizzati. Il nome del tuo ramo è stato accorciato a 9 caratteri, rinominandolo come \"{branch}\"",
     "ta_IN": "மன்னிக்கவும், காட்சிகளுக்கு கிளை பெயர்களை குறுகியதாக வைத்திருக்க வேண்டி உள்ளது. உங்கள் கிளையின் பெயர் 9 எழுத்துகளாக சுருக்கப்பட்டு, \"{branch}\" ஆக மற்றப்பட்டுள்ளது",
+    "te_IN": "క్షమించండి, దృశ్యాల కోసం branch పేర్లను చిన్నగా ఉంచాలి. మీ branch పేరు 9 అక్షరాలకు కుదించబడింది, \"{branch}\" గా మార్చబడింది",
     "tr_TR": "Üzgünüm, görseller için dal isimlerini kısa tutmamız gerekiyor. Dal isminiz 9 karaktere kısaltıldı, bu da \"{branch}\" oldu.",
     "hu_HU": "Sajnos rövidnek kell tartanunk az ágneveket a megjelenítéshez. Az ágneved 9 karakterre lett rövidítve, az eredmény: \"{branch}\"",
     "az": "Üzr istəyirik, vizual görüntü üçün branch adlarını qısa saxlamalıyıq. Branch adın 9 simvola qısaldıldı və nəticədə \"{branch}\" oldu"
@@ -1367,6 +1420,7 @@ exports.strings = {
     "pl": "Ta nazwa gałęzi \"{branch}\" jest niedozwolona!",
     "it_IT": "Il nome \"{branch}\" per i rami non è consentito!",
     "ta_IN": "\"{branch}\" ஐ கிளையின் பெயராக ஏற்க்க இயலாது!",
+    "te_IN": "\"{branch}\" ను branch పేరుగా వాడొద్దు!",
     "tr_TR": "\"{branch}\" dal ismine izin verilmiyor!",
     "hu_HU": "Ez az ágnév \"{branch}\" nem megengedett!",
     "az": "\"{branch}\" branch adına icazə verilmir!"
@@ -1394,6 +1448,7 @@ exports.strings = {
     "pl": "Ta nazwa tagu \"{tag}\" jest niedozwolona!",
     "it_IT": "Il nome \"{tag}\" per i tag non è consentito!",
     "ta_IN": "\"{tag}\" ஐ குறிச்சொல் பெயராக ஏற்க்க இயலாது!",
+    "te_IN": "\"{tag}\" ను tag పేరుగా వాడొద్దు!",
     "tr_TR": "\"{tag}\" tag ismine izin verilmiyor!",
     "hu_HU": "Ez a tagnév \"{tag}\" nem megengedett!",
     "az": "\"{tag}\" tag adına icazə verilmir!"
@@ -1421,6 +1476,7 @@ exports.strings = {
     "pl": "Opcja \"{option}\" nie jest obsługiwana!",
     "it_IT": "L'opzione \"{option}\" non è supportata!",
     "ta_IN": "\"{option}\" மாற்று செயல் ஆதரிக்கப்படவில்லை!",
+    "te_IN": "\"{option}\" ఎంపిక వర్తించదు!",
     "tr_TR": "\"{option}\" seçeneği desteklenmiyor!",
     "hu_HU": "A(z) \"{option}\" opció nem támogatott!",
     "az": "\"{option}\" seçimi dəstəklənmir!"
@@ -1448,6 +1504,7 @@ exports.strings = {
     "pl": "git <polecenie> [<parametry>]",
     "it_IT": "git <command> [<args>]",
     "ta_IN": "git <command> [<args>]",
+    "te_IN": "git <command> [<args>]",
     "tr_TR": "git <komut> [<argümanlar>]",
     "hu_HU": "git <parancs> [<argumentumok>]",
     "az": "git <əmr> [<arqumentlər>]"
@@ -1475,6 +1532,7 @@ exports.strings = {
     "pl": "Obsługiwane polecenia:",
     "it_IT": "Comandi supportati:",
     "ta_IN": "செயலாக்கம் உள்ள கட்டளைகள்;",
+    "te_IN": "మద్దతు ఇచ్చే కమాండ్లు:",
     "tr_TR": "Desteklenen komutlar:",
     "hu_HU": "Támogatott parancsok:",
     "az": "Dəstəklənən əmrlər:"
@@ -1502,6 +1560,7 @@ exports.strings = {
     "pl": "Użyj",
     "it_IT": "Utilizzo:",
     "ta_IN": "பயன்பாடு",
+    "te_IN": "ఉపయోగం:",
     "tr_TR": "Kullanım:",
     "hu_HU": "Használat:",
     "az": "İstifadə:"
@@ -1529,6 +1588,7 @@ exports.strings = {
     "pl": "Wersja GIT-a OLSZA-YSC-1.0",
     "it_IT": "Git Version SHARDANA_SOFT.1.0.0",
     "ta_IN": "Git Version PCOTTLE.1.0",
+    "te_IN": "Git Version PCOTTLE.1.0",
     "tr_TR": "Git versiyonu PCOTTLE.1.0",
     "hu_HU": "Git Verzió PCOTTLE.1.0",
     "az": "Git Versiyası PCOTTLE.1.0"
@@ -1556,6 +1616,7 @@ exports.strings = {
     "pl": "Odwracanie drzewa...",
     "it_IT": "Girando l'albero...",
     "ta_IN": "Flipping tree...",
+    "te_IN": "ట్రీని తిప్పుతోంది...",
     "tr_TR": "Ağaç ters çevriliyor...",
     "hu_HU": "Fa megfordítása...",
     "az": "Ağac çevrilir..."
@@ -1583,6 +1644,7 @@ exports.strings = {
     "pl": "Odświeżanie drzewa...",
     "it_IT": "Aggiornando l'albero...",
     "ta_IN": "Refreshing tree...",
+    "te_IN": "ట్రీని రిఫ్రెష్ చేస్తోంది...",
     "tr_TR": "Ağaç yenileniyor...",
     "hu_HU": "Fa frissítése...",
     "az": "Ağac yenilənir..."
@@ -1610,6 +1672,7 @@ exports.strings = {
     "pl": "Ustawiono język na {locale}",
     "it_IT": "Locale impostato a {locale}",
     "ta_IN": "பிரதேசம் {locale}ஆக மற்ற பட்டுள்ளது",
+    "te_IN": "లోకేల్ {locale} గా సెట్ అయింది",
     "tr_TR": "{locale} olarak dil ayarlandı",
     "hu_HU": "Nyelv beállítva: {locale}",
     "az": "Dil {locale} olaraq təyin olundu"
@@ -1637,6 +1700,7 @@ exports.strings = {
     "pl": "Przywrócono język do wartości domyślnych, czyli {locale}",
     "it_IT": "Locale resettato al valore di default, che è {locale}",
     "ta_IN": "பிரதேசம் இயல்புநிலை {locale}க்கி மீட்டமைக்கப்பட்டுள்ளது",
+    "te_IN": "లోకేల్ డిఫాల్ట్ {locale} కు రీసెట్ అయింది",
     "tr_TR": "Dil varsayılan olarak sıfırlandı, bu {locale}",
     "hu_HU": "Nyelv visszaállítva az alapértelmezettre: {locale}",
     "az": "Dil standart olan {locale}-ə sıfırlandı"
@@ -1664,6 +1728,7 @@ exports.strings = {
     "pl": "Aby uzyskać więcej informacji, użyj jednego z następujących poleceń:",
     "it_IT": "Usa uno dei seguenti comandi per maggiori informazioni:",
     "ta_IN": "மேலும் தகவலுக்கு பின்வரும் கட்டளைகளில் ஒன்றைப் பயன்படுத்தவும்:",
+    "te_IN": "మరింత సమాచారం కోసం క్రింది కమాండ్లలో ఒకదాన్ని యూజ్ చేయి:",
     "tr_TR": "Daha fazla bilgi için lütfen aşağıdaki komutlardan birini kullanın:",
     "hu_HU": "Kérlek használd az alábbi parancsok egyikét további információkért:",
     "az": "Daha çox məlumat üçün aşağıdakı əmrlərdən birini istifadə et:"
@@ -1691,6 +1756,7 @@ exports.strings = {
     "pl": "Oto lista wszystkich dostępnych poleceń:",
     "it_IT": "Ecco la lista con tutti i comandi disponibili:",
     "ta_IN": "கிடைக்கக்கூடிய அனைத்து கட்டளைகளின் பட்டியல்:",
+    "te_IN": "అందుబాటులో ఉన్న అన్ని కమాండ్ల జాబితా:",
     "tr_TR": "İşte tüm mevcut komutların bir listesi:",
     "hu_HU": "Íme az összes elérhető parancs listája:",
     "az": "Mövcud bütün əmrlərin siyahısı budur:"
@@ -1718,6 +1784,7 @@ exports.strings = {
     "pl": "Katalog zmieniony na \"/home/users/windows/pl/demo\"",
     "it_IT": "Cartella modificata in  \"/directories/dont/matter/in/this/demo\"",
     "ta_IN": "அடைவு \"/directories/dont/matter/in/this/demo\"க்கு மாற்றப்பட்டது",
+    "te_IN": "డైరెక్టరీ \"/directories/dont/matter/in/this/demo\" కు మార్చబడింది",
     "tr_TR": "Dizin \"/directories/dont/matter/in/this/demo\" olarak değiştirildi",
     "hu_HU": "Könyvtár megváltoztatva: \"/konyvtarak/nem/fontosak/ebben/a/demoban\"",
     "az": "Qovluq \"/qovluqlar/bu/demoda/vacib/deyil\" olaraq dəyişdirildi"
@@ -1745,6 +1812,7 @@ exports.strings = {
     "pl": "SpokojnieToTylkoPlikDemo.txt",
     "it_IT": "NoNdEvIpReOcCuPaRtIdEiFiLeInQuEsTaDeMo.txt",
     "ta_IN": "DontWorryAboutFilesInThisDemo.txt",
+    "te_IN": "DontWorryAboutFilesInThisDemo.txt",
     "tr_TR": "DontWorryAboutFilesInThisDemo.txt",
     "hu_HU": "NeFeleddAFajlokNemFontosabbanADemoban.txt",
     "az": "BuDemodaFayllarHaqqındaNarahatOlma.txt"
@@ -1772,6 +1840,7 @@ exports.strings = {
     "pl": "Przepraszamy, ale LearnGitBranching nie obsługuje wpisywania komend z urządzeń mobilnych. Odwiedź LearnGitBranching na komputerze stacjonarnym, warto! :D",
     "it_IT": "LGB non funziona su mobile, vieni a trovarci da pc! Ne vale veramente la pena :D",
     "ta_IN": "LGBஆல் மொபைலில் உள்ளீட்டைப் பெற முடியாது, டெஸ்க்டாப்பில் பார்வையிடவும், அது பயணுள்ளது :D",
+    "te_IN": "LGB మొబైల్ లో input తీసుకోలేదు, డెస్క్‌టాప్ లో సందర్శించండి! అది విలువైనది :D",
     "tr_TR": "LGB mobilde giriş alamaz, masaüstü üzerinden ziyaret et! Değmesine değer :D",
     "hu_HU": "Az LGB nem tud bemenetet fogadni mobilon, látogass el asztali gépen! Megéri :D",
     "az": "LGB mobil cihazlarda daxiletmə qəbul edə bilmir, masaüstündən daxil ol! Buna dəyər :D"
@@ -1799,6 +1868,7 @@ exports.strings = {
     "pl": "Udostępnij to drzewo znajomym! Mogą je załadować za pomocą \"import tree\"",
     "it_IT": "Condividi quest'albero con i tuoi amici! Può essere importato tramite \"import tree\"",
     "ta_IN": "இந்த `tree`ஐ நண்பர்களுடன் பகிர்ந்து கொள்ளுங்கள்! அவர்கள் அதை \"import tree\" மூலம் பெறலாம்",
+    "te_IN": "ఈ `tree` ను మిత్రులతో పంచుకోండి! వారు దీన్ని \"import tree\" ద్వారా లోడ్ చేయవచ్చు",
     "tr_TR": "Bu ağacı arkadaşlarınla paylaş! \"import tree\" komutuyla yükleyebilirler",
     "hu_HU": "Oszd meg ezt a fát barátaiddal! Betölthetik az \"import tree\" paranccsal",
     "az": "Bu ağacı dostlarınla paylaş! Onlar onu \"import tree\" ilə yükləyə bilərlər"
@@ -1806,6 +1876,7 @@ exports.strings = {
   "share-progress": {
     "__desc__": "Button label prompting user to share their level completion on social media",
     "en_US": "Share your progress!",
+    "te_IN": "మీ పురోగతిని పంచుకోండి!",
     "de_DE": "Teile deinen Fortschritt!",
     "zh_CN": "分享你的进度！",
     "es_AR": "Compartí tu progreso!"
@@ -1813,6 +1884,7 @@ exports.strings = {
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
     "en_US": "X (Twitter)",
+    "te_IN": "X (Twitter)",
     "de_DE": "X (Twitter)",
     "zh_CN": "X (Twitter)",
     "es_AR": "X (Twitter)"
@@ -1820,6 +1892,7 @@ exports.strings = {
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
     "en_US": "LinkedIn",
+    "te_IN": "LinkedIn",
     "de_DE": "LinkedIn",
     "zh_CN": "LinkedIn",
     "es_AR": "LinkedIn"
@@ -1827,6 +1900,7 @@ exports.strings = {
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
     "en_US": "Facebook",
+    "te_IN": "Facebook",
     "de_DE": "Facebook",
     "zh_CN": "Facebook",
     "es_AR": "Facebook",
@@ -1854,6 +1928,7 @@ exports.strings = {
     "pl": "Wklej poniżej obiekt z kodem JSON!",
     "it_IT": "Incolla un blob JSON qui sotto!",
     "ta_IN": "ஒரு JSON blob-ஐ கீழே ஒட்டவும்",
+    "te_IN": "క్రింద JSON blob ను పేస్ట్ చేయి!",
     "tr_TR": "Aşağıya bir JSON verisi yapıştırın!",
     "hu_HU": "Illessz be egy JSON blobot alább!",
     "az": "Aşağıya bir JSON blob-u yapışdır!"
@@ -1881,6 +1956,7 @@ exports.strings = {
     "pl": "Rozwiązania zostały wyczyszczone, zaczynasz z czystą kartą.",
     "it_IT": "I progresse salvati sono stati resettati, stai iniziando da zero!",
     "ta_IN": "தீர்க்கப்பட்ட கோப்பு மீட்டமைக்கப்பட்டது, நீங்கள் ஆரம்பத்தில் இருந்து தொடங்குகிறீர்கள்!",
+    "te_IN": "సేవ్ చేసిన మ్యాప్ రీసెట్ అయింది, మీరు క్లీన్ షీట్ నుండి స్టార్ట్ చేస్తున్నారు!",
     "tr_TR": "Çözülen harita sıfırlandı, temiz bir sayfadan başlıyorsunuz!",
     "hu_HU": "A megoldott térkép visszaállítva, tiszta lappal kezdesz!",
     "az": "Həll xəritəsi sıfırlandı, təmiz vərəqdən başlayırsan!"
@@ -1908,6 +1984,7 @@ exports.strings = {
     "pl": "Nie jesteś na poziomie! Jesteś w trybie piaskownicy, zacznij poziom wpisując \"levels\"",
     "it_IT": "Non ti trovi in un livello! Sei nella sandbox, inizia un livello con \"levels\"",
     "ta_IN": "ஒரு நிலையில் இல்லாமல், நீங்கள் sandbox-இல் உள்ளீர்கள்! \"நிலைகள்\" மூலம் ஒரு நிலையைத் தொடங்கவும்",
+    "te_IN": "మీరు ఒక స్థాయిలో లేరు! మీరు sandbox లో ఉన్నారు, \"levels\" తో ఒక స్థాయిని స్టార్ట్ చేయి",
     "tr_TR": "Bir seviyede değilsiniz! Bir kum havuzundasınız, \"levels\" ile bir seviye başlatın.",
     "hu_HU": "Nem vagy egy szintben! A homokozóban vagy, indíts el egy szintet a \"levels\" paranccsal",
     "az": "Sən bölümdə deyilsən! Sandbox-dasan, \"levels\" ilə bir bölüm başlat"
@@ -1935,6 +2012,7 @@ exports.strings = {
     "pl": "Nie znaleziono poziomu {id}!. Otwieranie widoku wyboru poziomu...",
     "it_IT": "Non è stato trovato un livello con id \"{id}\"! Apro la finestra con la selezione dei livelli",
     "ta_IN": "அந்த \"{id}\"-க்கான நிலை  காணப்படவில்லை! நிலை தேர்வு செய்யும் திரை திறக்கிறது",
+    "te_IN": "\"{id}\" id కోసం స్థాయి కనుగొనబడలేదు! స్థాయి ఎంపిక దృశ్యం తెరవబడుతోంది",
     "tr_TR": "Bu id'ye \"{id}\" ait bir seviye bulunamadı! Seviye seçimi görünümünü açıyorum.",
     "hu_HU": "Nem található szint a(z) \"{id}\" azonosítóhoz! Szintválasztó nézet megnyitása",
     "az": "\"{id}\" id-li bölüm tapılmadı! Bölüm seçimi görünüşü açılır"
@@ -1962,6 +2040,7 @@ exports.strings = {
     "pl": "Nie ma już poleceń do cofnięcia!",
     "it_IT": "Non sono presenti comandi da annullare!",
     "ta_IN": "மீள்பதிவு அடுக்கு காலியாக உள்ளது!",
+    "te_IN": "అన్‌డో స్టాక్ ఖాళీగా ఉంది!",
     "tr_TR": "Geri alma yığını boş!",
     "hu_HU": "A visszavonási verem üres!",
     "az": "Geri al yığını boşdur!"
@@ -1989,6 +2068,7 @@ exports.strings = {
     "pl": "Już rozwiązałeś ten poziom, wypróbuj inne, używając \"levels\" lub wróć do trybu piaskownicy za pomocą polecenia \"sandbox\"",
     "it_IT": "Hai già risolto questo livello, prova altri livelli con \"levels\" o torna alla sandbox con \"sandbox\"",
     "ta_IN": "நீங்கள் ஏற்கனவே இந்த நிலையை தீர்த்துள்ளீர்கள், \"நிலைகள்\" மூலம் பிற நிலைகளை முயற்சிக்கவும் அல்லது \"sandbox\" உடன் sandbox-க்குச் செல்லவும்",
+    "te_IN": "మీరు ఈ స్థాయిని ఇప్పటికే సాల్వ్ చేశారు, \"levels\" తో ఇతర స్థాయిలను ట్రై చేయి లేదా \"sandbox\" తో sandbox కు తిరిగి వెళ్ళిపో",
     "tr_TR": "Bu seviyeyi zaten çözdünüz, \"levels\" komutuyla diğer seviyeleri deneyin veya \"sandbox\" komutuyla tekrar sandbox'a dönün.",
     "hu_HU": "Ezt a szintet már megoldottad, próbálj más szinteket a \"levels\" paranccsal vagy térj vissza a homokozóba a \"sandbox\" paranccsal",
     "az": "Bu bölümü artıq həll etmisən, \"levels\" ilə digər bölümləri yoxla və ya \"sandbox\" ilə sandbox-a qayıt"
@@ -2016,6 +2096,7 @@ exports.strings = {
     "pt_BR": "Resolvido!!!\n:D",
     "it_IT": "Risolto!!!\n:D",
     "ta_IN": "தீர்க்கப்பட்டது!!!\n:D",
+    "te_IN": "పరిష్కరించబడింది!!!\n:D",
     "tr_TR": "Tebrikler!!!\n:D",
     "hu_HU": "Megoldva!!!\n:D",
     "az": "Həll edildi!!!\n:D"
@@ -2043,6 +2124,7 @@ exports.strings = {
     "pl": "To polecenie Gita jest wyłączone na tym poziomie!",
     "it_IT": "Questo comando git è disabilitato per questo livello!",
     "ta_IN": "இந்த நிலையில் அந்த கிட் கட்டளை முடக்கப்பட்டுள்ளது",
+    "te_IN": "ఈ స్థాయిలో ఆ git కమాండ్ ఆపబడింది!",
     "tr_TR": "Bu seviyede o git komutu devre dışı bırakılmıştır!",
     "hu_HU": "Ez a git parancs le van tiltva ennél a szintnél!",
     "az": "Bu git əmri bu bölüm üçün deaktiv edilib!"
@@ -2070,6 +2152,7 @@ exports.strings = {
     "pl": "To jest JSON dla tego poziomu. Udostępnij go, komu chcesz, lub wyślij do mnie na GitHub.",
     "it_IT": "Ecco il JSON per questo livello! Condividilo con qualcuno o inviamelo tramite GitHub",
     "ta_IN": "இதோ இந்த நிலைக்கான JSON, இதை பகிர்ந்து கொள்ளுங்கள் அல்லது GitHub-இல் எனக்கு அனுப்புங்கள்",
+    "te_IN": "ఇది ఈ స్థాయి కోసం JSON! దీన్ని ఎవరితోనైనా పంచుకోండి లేదా GitHub లో నాకు పంపండి",
     "tr_TR": "İşte bu seviye için JSON! Bunu birisiyle paylaşabilir veya GitHub üzerinden bana gönderebilirsiniz.",
     "hu_HU": "Íme a JSON ehhez a szinthez! Oszd meg valakivel vagy küldd el nekem a GitHub-on",
     "az": "Bu bölüm üçün JSON budur! Onu kiminləsə paylaş və ya GitHub-da mənə göndər"
@@ -2097,6 +2180,7 @@ exports.strings = {
     "pl": "Nie określiłeś okna startowego, czy chcesz je dodać?",
     "it_IT": "Non hai specificato una finestra di partenza, ne vuoi aggiungere una?",
     "ta_IN": "தொடக்க உரை எதுவும் நீங்கள் குறிப்பிடவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?",
+    "te_IN": "మీరు స్టార్ట్ డైలాగ్ ను పేర్కొనలేదు, ఒకటి జోడించాలనుకుంటున్నారా?",
     "tr_TR": "Başlangıç diyaloğunu belirtmediniz, bir tane eklemek ister misiniz?",
     "hu_HU": "Nem adtál meg indítási párbeszédet, szeretnél egyet hozzáadni?",
     "az": "Başlanğıc dialoqu təyin etməmisən, birini əlavə etmək istəyirsən?"
@@ -2124,6 +2208,7 @@ exports.strings = {
     "pl": "Nie podałeś podpowiedzi, czy chcesz ją dodać?",
     "it_IT": "Non hai specificato un suggerimento, ne vuoi aggiungere uno?",
     "ta_IN": "நீங்கள் குறிப்பெதுவும் தரவில்லை, ஏதேனும் ஒன்றைச் சேர்க்க விரும்புகிறீர்களா?",
+    "te_IN": "మీరు హింట్ ను పేర్కొనలేదు, ఒకటి జోడించాలనుకుంటున్నారా?",
     "tr_TR": "Bir ipucu belirtmediniz, bir tane eklemek ister misiniz?",
     "hu_HU": "Nem adtál meg tippet, szeretnél egyet hozzáadni?",
     "az": "İpucu təyin etməmisən, birini əlavə etmək istəyirsən?"
@@ -2151,6 +2236,7 @@ exports.strings = {
     "pl": "Wpisz wskazówkę dotyczącą tego poziomu lub pozostaw ją pustą, jeśli nie chcesz jej uwzględniać.",
     "it_IT": "Inserisci un suggerimento per questo livello, oppure lascialo vuoto se non ne vuoi aggiungere",
     "ta_IN": "இந்த நிலைக்கான குறிப்பை உள்ளிடவும், குறிப்பு தேவை இல்லை என்றால் இதனை காலியாக விடுவும்",
+    "te_IN": "ఈ స్థాయి కోసం హింట్ ను ఎంటర్ చేయి, హింట్ అవసరం లేకపోతే దీన్ని ఖాళీగా వదిలివేయి",
     "tr_TR": "Bu seviye için ipucu girin, ya da bir ipucu eklemek istemiyorsanız burayı boş bırakın",
     "hu_HU": "Add meg a tippet ehhez a szinthez, vagy hagyd üresen ha nem szeretnél egyet hozzáadni",
     "az": "Bu bölüm üçün ipucunu daxil et, ya da əlavə etmək istəmirsənsə boş burax"
@@ -2178,6 +2264,7 @@ exports.strings = {
     "pl": "Wprowadź nazwę poziomu",
     "it_IT": "Inserisci il nome per questo livello",
     "ta_IN": "நிலைக்கான பெயரை உள்ளிடவும்",
+    "te_IN": "స్థాయి కోసం పేరును ఎంటర్ చేయి",
     "tr_TR": "Seviye için adı girin",
     "hu_HU": "Add meg a szint nevét",
     "az": "Bölümün adını daxil et"
@@ -2185,6 +2272,7 @@ exports.strings = {
   "no-solution-defined": {
     "__desc__": "Shown when the user runs `show solution` but the current level has no solution defined to place in the command box",
     "en_US": "This level doesn't have a solution to show!",
+    "te_IN": "ఈ స్థాయికి చూపించడానికి సాధన లేదు!",
     "az": "Bu bölümün göstəriləcək həlli yoxdur!",
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
     "zh_CN": "本关卡没有可供展示的解答！",
@@ -2216,6 +2304,7 @@ exports.strings = {
     "pl": "Twoje rozwiązanie jest puste!! Coś musi zostać zrobione.",
     "it_IT": "C'è qualcosa che non va. La soluzione è vuota!! ",
     "ta_IN": "உங்கள் தீர்வு காலியாக உள்ளது!! ஏதோ தவறாக இருக்கிறது",
+    "te_IN": "మీ సాధన ఖాళీగా ఉంది!! ఏదో తప్పు ఉంది",
     "tr_TR": "Çözümünüz boş!! Bir şeyler eksik",
     "hu_HU": "A megoldásod üres!! Valami hiányzik",
     "az": "Sənin həllin boşdur!! Nəsə səhvdir"
@@ -2243,6 +2332,7 @@ exports.strings = {
     "pl": "Ustawianie punktu startowego... Rozwiązanie i cel zostaną nadpisane, jeśli zostały wcześniej zdefiniowane",
     "it_IT": "Definendo punto di partenza... soluzione e obiettivo saranno sovrascritti se erano già stati definiti.",
     "ta_IN": "தொடக்கத்தை வரையறுத்தல்... தீர்வு மற்றும் குறிக்கோள் முன்னரே வரையறுக்கப்பட்டிருந்தால் மேலெழுதப்படும்",
+    "te_IN": "స్టార్ట్ పాయింట్ సెట్ చేస్తోంది... సాధన మరియు లక్ష్యం ముందుగా సెట్ చేస్తే ఓవర్‌రైట్ అవుతాయి",
     "tr_TR": "Başlangıç noktası belirleniyor... daha önce tanımlanan çözüm ve hedef üzerine yazılacaktır",
     "hu_HU": "Kezdőpont meghatározása... a megoldás és a cél felül lesz írva ha korábban már meg volt határozva",
     "az": "Başlanğıc nöqtəsi təyin edilir... əvvəllər təyin edilibsə, həll və hədəf üzərinə yazılacaq"
@@ -2270,6 +2360,7 @@ exports.strings = {
     "pl": "Jesteś na poziomie, więc istnieje kilka rodzajów pomocy. Wpisz \"help level\", aby dowiedzieć się więcej o tej lekcji, wpisz \"help general\", aby uzyskać pomoc dotyczącą korzystania z nauki GitBranching, lub wpisz \"objective\", aby dowiedzieć się, jak rozwiązać ten poziom.",
     "it_IT": "Sei dentro a un livello, hai a disposizione vari tipi di aiuto. Digita \"help level\" per saperne di più su questa lezione, \"help general\" per come usare Learn GitBranching, o \"objective\" per capire come risolvere il livello.",
     "ta_IN": "நீங்கள் ஒரு நிலையில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். இந்த பாடத்தைப் பற்றி மேலும் அறிய \"நிலைக்கான உதவி\" என்பதைத் தேர்ந்தெடுக்கவும், Learn GitBranching பற்றி மேலும் அறிய \"பொது உதவி\" பயன்படுத்துக, அல்லது இந்த நிலையை எவ்வாறு தீர்ப்பது என்பது பற்றி அறிய \"நோக்கம்\" தேர்ந்தெடுக்கவும்.",
+    "te_IN": "మీరు ఒక స్థాయిలో ఉన్నారు, కాబట్టి అనేక రకాల సహాయం అందుబాటులో ఉంది. ఈ పాఠం గురించి మరింత తెలుసుకోవడానికి \"help level\", Learn GitBranching గురించి మరింత తెలుసుకోవడానికి \"help general\", లేదా ఈ స్థాయిని ఎలా పరిష్కరించాలో తెలుసుకోవడానికి \"objective\" ఎంచుకోండి.",
     "tr_TR": "Bir seviyedesiniz, bu nedenle birden fazla yardım seçeneği mevcuttur. Bu derse dair daha fazla bilgi almak için \"help level\", Learn GitBranching kullanımını öğrenmek için \"help general\" veya seviyeyi nasıl çözeceğiniz hakkında bilgi almak için \"objective\" seçeneğini belirleyebilirsiniz.",
     "hu_HU": "Szintben vagy, ezért több segítségi forma is elérhető. Kérlek válaszd a \"help level\" lehetőséget ha többet szeretnél megtudni erről a leckéről, a \"help general\" lehetőséget a Learn GitBranching használatához, vagy az \"objective\" lehetőséget a szint megoldásának elsajátításához.",
     "az": "Sən bir bölümdəsən, ona görə bir neçə növ kömək mövcuddur. Bu dərs haqqında ətraflı bilmək üçün \"help level\", Learn GitBranching-dən istifadə üçün \"help general\", ya da bölümü necə həll edəcəyini öyrənmək üçün \"objective\" seç."
@@ -2297,6 +2388,7 @@ exports.strings = {
     "pl": "Znajdujesz się w kreatorze poziomów. Dostępnych jest tu kilka rodzajów pomocy. Wpisz \"help general\", aby uzyskać pomoc dotyczącą nauki GitBranching-u, lub wpisz \"help builder\", aby uzyskać pomoc dotyczącą konstruktora poziomów",
     "it_IT": "Sei in un generatore di livelli, hai a disposizione vari tipi di aiuto. Digita \"help general\" o \"help builder\"",
     "ta_IN": "நீங்கள் ஒரு நிலை கட்டமைப்பானில் உள்ளீர்கள், எனவே பல வகையான உதவி பெற இயலும். தயவுசெய்து \"பொது உதவி\" அல்லது \"கட்டமைப்பான் உதவி\" என்பதைத் தேர்ந்தெடுக்கவும்",
+    "te_IN": "మీరు స్థాయి బిల్డర్ లో ఉన్నారు, కాబట్టి అనేక రకాల సహాయం అందుబాటులో ఉంది. దయచేసి \"help general\" లేదా \"help builder\" ఎంచుకోండి",
     "tr_TR": "Bir seviye oluşturucudasınız, bu nedenle birden fazla yardım seçeneği mevcuttur. Lütfen \"help general\" veya \"help builder\" seçeneklerinden birini seçin.",
     "hu_HU": "Szintépítőben vagy, ezért több segítségi forma is elérhető. Kérlek válassz a \"help general\" vagy \"help builder\" lehetőségek közül",
     "az": "Sən bölüm konstruktorundasan, ona görə bir neçə növ kömək mövcuddur. Zəhmət olmasa \"help general\" və ya \"help builder\" seç"
@@ -2325,6 +2417,7 @@ exports.strings = {
     "pl": "Pokaż cel",
     "it_IT": "Mostra obiettivo",
     "ta_IN": "இலக்கைக் காட்டு",
+    "te_IN": "లక్ష్యం చూపించు",
     "tr_TR": "Hedefi Göster",
     "hu_HU": "Cél megjelenítése",
     "az": "Hədəfi Göstər"
@@ -2353,6 +2446,7 @@ exports.strings = {
     "pl": "Ukryj cel",
     "it_IT": "Nascondi obiettivo",
     "ta_IN": "இலக்கை மறை",
+    "te_IN": "లక్ష్యం దాచు",
     "tr_TR": "Hedefi Gizle",
     "hu_HU": "Cél elrejtése",
     "az": "Hədəfi Gizlə"
@@ -2380,6 +2474,7 @@ exports.strings = {
     "it_IT": "Istruzioni",
     "pt_BR": "Instruções",
     "ta_IN": "வழிமுறைகள்",
+    "te_IN": "సూచనలు",
     "tr_TR": "Talimatlar",
     "hu_HU": "Utasítások",
     "az": "Təlimatlar"
@@ -2407,6 +2502,7 @@ exports.strings = {
     "pt_BR": "Demonstração Git",
     "it_IT": "Dimostrazione Git",
     "ta_IN": "கிட் செயல் விளக்கம்",
+    "te_IN": "Git ప్రదర్శన",
     "tr_TR": "Git Gösterimi",
     "hu_HU": "Git bemutató",
     "az": "Git Nümayişi"
@@ -2435,6 +2531,7 @@ exports.strings = {
     "pl": "Cel do osiągnięcia",
     "it_IT": "Obiettivo da raggiungere",
     "ta_IN": "அடைய வேண்டிய இலக்கு",
+    "te_IN": "చేరుకోవలసిన లక్ష్యం",
     "tr_TR": "Ulaşılması Gereken Hedef",
     "hu_HU": "Elérendő cél",
     "az": "Çatılası Hədəf"
@@ -2463,6 +2560,7 @@ exports.strings = {
     "pl": "<span class=\"fwber\"> Uwaga:</span> Na tym poziomie będzie sprawdzana tylko poprawność gałęzi main. Pozostałe gałęzie są tylko odniesieniem (pokazane jako przerywane etykiety poniżej). Jak zawsze, możesz ukryć to okno klikając \"Ukryj cel\".",
     "it_IT": "<span class=\"fwber\">Nota:</span> In questo livello sarà selezionato solo il ramo main. Gli altri rami ci sono solo come riferimento (mostrati come etichette tratteggiate). Come sempre, puoi nascondere questa finestra con \"hide goal\"",
     "ta_IN": "<span class=\"fwber\">குறிப்பு:</span> இந்த மட்டத்தில் பிரதான கிளை மட்டுமே சரிபார்க்கப்படும். மற்ற கிளைகள் வெறுமனே விளக்க குறிப்புக்காக மட்டுமே (கீழே விடுபட்ட மேற்கோள்களாக காட்டப்பட்டுள்ளது). எப்பொழுதும் போல், \"இலக்கை மறை\" மூலம் இந்த சாளரத்தை மறைக்கலாம்",
+    "te_IN": "<span class=\"fwber\">గమనిక:</span> ఈ స్థాయిలో main branch మాత్రమే చెక్ చేయబడుతుంది. ఇతర branches కేవలం సూచన కోసం మాత్రమే (క్రింద డాష్డ్ లేబుల్స్ గా చూపబడతాయి). ఎల్లప్పుడూ, \"hide goal\" తో ఈ డైలాగ్ ను దాచవచ్చు",
     "tr_TR": "<span class=\"fwber\">Not:</span> Bu seviyede yalnızca ana dal kontrol edilecektir. Diğer dallar yalnızca referans amaçlıdır (aşağıda kesikli etiketler olarak gösterilmektedir). Her zamanki gibi, bu diyaloğu \"hedefi gizle\" ile gizleyebilirsiniz.",
     "hu_HU": "<span class=\"fwber\">Megjegyzés:</span> Ebben a szintben csak a main ág lesz ellenőrizve. A többi ág csak tájékoztatásul van (szaggatott vonallal jelölve alább). Mint mindig, elrejtheted ezt az ablakot a \"hide goal\" paranccsal",
     "az": "<span class=\"fwber\">Qeyd:</span> Bu bölümdə yalnız main branch-ı yoxlanılacaq. Digər branch-lar sadəcə istinad üçündür (aşağıda kəsik-kəsik etiketlərlə göstərilib). Həmişəki kimi, bu dialoqu \"hide goal\" ilə gizlədə bilərsən."
@@ -2491,6 +2589,7 @@ exports.strings = {
     "pl": "Możesz ukryć to okno za pomocą opcji \"ukryj cel\"",
     "it_IT": "Puoi nascondere questa finestra con \"hide goal\"",
     "ta_IN": "இந்த சாளரத்தை \"இலக்கை மறை\" மூலம் மறைக்கலாம்",
+    "te_IN": "ఈ విండోను \"hide goal\" తో దాచవచ్చు",
     "tr_TR": "Bu pencereyi \"hedefi gizle\" ile gizleyebilirsiniz",
     "hu_HU": "Elrejtheted ezt az ablakot a \"hide goal\" paranccsal",
     "az": "Bu pəncərəni \"hide goal\" ilə gizlədə bilərsən"
@@ -2519,6 +2618,7 @@ exports.strings = {
     "pl": "Możesz ukryć to okno za pomocą opcji \"ukryj start\"",
     "it_IT": "Puoi nascondere questa finestra con \"hide start\"",
     "ta_IN": "இந்த சாளரத்தை \"தொடக்கத்தை மறை\" மூலம் மறைக்கலாம்",
+    "te_IN": "ఈ విండోను \"hide start\" తో దాచవచ్చు",
     "tr_TR": "Bu pencereyi \"başlangıcı gizle\" ile gizleyebilirsiniz.",
     "hu_HU": "Elrejtheted ezt az ablakot a \"hide start\" paranccsal",
     "az": "Bu pəncərəni \"hide start\" ilə gizlədə bilərsən"
@@ -2547,6 +2647,7 @@ exports.strings = {
     "pl": "Twórca poziomu",
     "it_IT": "Generatore di livelli",
     "ta_IN": "நிலை கட்டமைப்பான்",
+    "te_IN": "స్థాయి బిల్డర్",
     "hu_HU": "Szintépítő",
     "az": "Bölüm Konstruktoru",
     "tr_TR": "Seviye Oluşturucu"
@@ -2575,6 +2676,7 @@ exports.strings = {
     "pl": "Dla tego poziomu nie ma okna startowego do wyświetlenia!",
     "it_IT": "Non esiste una finestra di partenza per questo livello!",
     "ta_IN": "இந்த நிலை பற்றி விளக்கிகாட்ட தொடக்க உரையாடல் எதுவும் இல்லை",
+    "te_IN": "ఈ స్థాయి కోసం చూపించడానికి స్టార్ట్ డైలాగ్ లేదు!",
     "tr_TR": "Bu seviye için gösterilecek bir başlangıç penceresi yok!",
     "hu_HU": "Nincs megjelenítendő indítási párbeszéd ehhez a szinthez!",
     "az": "Bu bölüm üçün göstəriləcək başlanğıc dialoqu yoxdur!"
@@ -2603,6 +2705,7 @@ exports.strings = {
     "pl": "Hmm, wydaje się, że nie ma podpowiedzi dla tego poziomu :-/",
     "it_IT": "Mmh, sembra non ci sia un suggerimento per questo livello :-/",
     "ta_IN": "ஹ்ம், இந்த நிலைக்கு ஒரு குறிப்பு எதுவும் இருப்பதாகத் தெரியவில்லை :-/",
+    "te_IN": "హ్మ్, ఈ స్థాయి కోసం హింట్ ఉన్నట్లు లేదు :-/",
     "tr_TR": "Hmm, bu seviye için bir ipucu görünmüyor :-/",
     "hu_HU": "Hmm, úgy tűnik nincs tipp ehhez a szinthez :-/",
     "az": "Hmm, bu bölüm üçün ipucu yoxdur deyəsən :-/"
@@ -2631,6 +2734,7 @@ exports.strings = {
     "pl": "Tłumaczenie dla klucza \"{key}\" jeszcze nie istnieje tłumaczenia :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!",
     "it_IT": "La traduzione per {key} non esiste ancora :( Fai un salto su GitHub e dacci una mano!",
     "ta_IN": "{key}-இன் மொழிபெயர்ப்பு கிடைக்கவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!",
+    "te_IN": "{key} కోసం అనువాదం ఇంకా అందుబాటులో లేదు :( github కు వెళ్ళి అనువాదం అందించండి!",
     "tr_TR": "{key} için henüz bir çeviri yok :( Lütfen GitHub'a gidin ve bir çeviri önerin!",
     "hu_HU": "A(z) {key} fordítása még nem létezik :( Kérlek ugorj fel a GitHub-ra és ajánlj fel egy fordítást!",
     "az": "{key} üçün tərcümə hələ mövcud deyil :( Zəhmət olmasa GitHub-a keç və tərcümə təklif et!"
@@ -2659,6 +2763,7 @@ exports.strings = {
     "pl": "Kolejne okno dialogowe lub tekst nie zostało jeszcze przetłumaczone na język polski :( Zapraszam na GitHub, aby pomóc w tłumaczeniu!",
     "it_IT": "Questo messaggio o testo non è ancora stato tradotto nella tua lingua :(  Fai un salto su GitHub e dacci una mano!",
     "ta_IN": "இந்த உரையாடல் அல்லது உரை உங்கள் தமிழில் இன்னும் மொழிபெயர்க்கப்படவில்லை :( github-இன் வழியாக் நீங்களும் மொழி பெயர்க்க உதவலாம்!",
+    "te_IN": "ఈ డైలాగ్ లేదా టెక్స్ట్ మీ భాషలో ఇంకా అనువదించబడలేదు :( అనువాదంలో సహాయం చేయడానికి github కు వెళ్ళండి!",
     "tr_TR": "Bu ileti veya metin henüz dilimize çevrilmemiş :( Çeviriye yardımcı olmak için GitHub'da bize katılın!",
     "hu_HU": "Ez a párbeszéd vagy szöveg még nincs lefordítva a te nyelvedre :( Ugorj fel a GitHub-ra a fordításhoz való segítségért!",
     "az": "Bu dialoq və ya mətn sənin dilinə hələ tərcümə olunmayıb :( Tərcüməyə kömək etmək üçün GitHub-a keç!"
@@ -2680,6 +2785,7 @@ exports.strings = {
     "pl": "Powrót",
     "it_IT": "Annulla",
     "ta_IN": "இரத்துசெய்",
+    "te_IN": "రద్దు",
     "vi": "Hủy",
     "tr_TR": "İptal",
     "hu_HU": "Mégse",
@@ -2703,6 +2809,7 @@ exports.strings = {
     "pl": "Dalej",
     "it_IT": "Conferma",
     "ta_IN": "உறுதிப்படுத்தவும்",
+    "te_IN": "నిర్ధారించు",
     "vi": "Đồng ý",
     "tr_TR": "Tamam",
     "hu_HU": "Megerősít",
@@ -2713,6 +2820,7 @@ exports.strings = {
     "__desc__": "Label in the top of the left-side menu. Remember to leave some space on the sides",
     "es_AR": "Nivel",
     "en_US": " Level ",
+    "te_IN": " స్థాయి ",
     "bg": " Ниво ",
     "fa": " مرحله ",
     "pt_BR": " Nível ",
@@ -2734,6 +2842,7 @@ exports.strings = {
   "close-window": {
     "__desc__": "Tooltip for the red control that closes a window.",
     "en_US": "Close window",
+    "te_IN": "విండోను మూయి",
     "az": "Pəncərəni bağla",
     "de_DE": "Fenster schließen",
     "zh_CN": "关闭窗口",
@@ -2745,6 +2854,7 @@ exports.strings = {
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
     "en_US": "Back",
+    "te_IN": "వెనుకకు",
     "az": "Geri",
     "de_DE": "Zurück",
     "zh_CN": "返回",
@@ -2757,6 +2867,7 @@ exports.strings = {
     "__desc__": "Levels command label in the bottom command helper bar.",
     "es_AR": "Niveles",
     "en_US": "Levels",
+    "te_IN": "స్థాయిలు",
     "bg": "Нива",
     "fa": "مراحل",
     "pt_BR": "Níveis",
@@ -2779,6 +2890,7 @@ exports.strings = {
     "__desc__": "Solution command label in the bottom command helper bar.",
     "es_AR": "Solución",
     "en_US": "Solution",
+    "te_IN": "సాధన",
     "bg": "Решение",
     "fa": "راه‌حل",
     "es_MX": "Solución",
@@ -2801,6 +2913,7 @@ exports.strings = {
     "__desc__": "Reset command label in the bottom command helper bar.",
     "es_AR": "Reiniciar",
     "en_US": "Reset",
+    "te_IN": "రీసెట్",
     "bg": "Нулиране",
     "fa": "بازنشانی",
     "pt_BR": "Reiniciar",
@@ -2822,6 +2935,7 @@ exports.strings = {
     "__desc__": "Undo command label in the bottom command helper bar.",
     "es_AR": "Deshacer",
     "en_US": "Undo",
+    "te_IN": "అన్‌డూ",
     "bg": "Отмяна",
     "fa": "بازگردانی",
     "pt_BR": "Desfazer",
@@ -2844,6 +2958,7 @@ exports.strings = {
     "__desc__": "Objective command label in the bottom command helper bar.",
     "es_AR": "Objetivo",
     "en_US": "Objective",
+    "te_IN": "లక్ష్యం",
     "bg": "Цел",
     "fa": "هدف",
     "es_MX": "Objetivo",
@@ -2866,6 +2981,7 @@ exports.strings = {
     "__desc__": "Help command label in the bottom command helper bar.",
     "es_AR": "Ayuda",
     "en_US": "Help",
+    "te_IN": "సహాయం",
     "bg": "Помощ",
     "fa": "راهنما",
     "pt_BR": "Ajuda",
@@ -2888,6 +3004,7 @@ exports.strings = {
     "__desc__": "Message that appears in git console when command is not supported in the current environment.",
     "es_AR": "¡El comando es valido, pero no está soportado en este ambiente! intentá ingresar un nivel o un constructor de nivel para usar ese comando",
     "en_US": "That command is valid, but not supported in this current environment! Try entering a level or level builder to use that command",
+    "te_IN": "ఆ కమాండ్ చెల్లుబాటు అవుతుంది, కానీ ప్రస్తుత ఎన్విరాన్మెంట్ లో వర్తించదు! ఆ కమాండ్ యూజ్ చేయడానికి స్థాయి లేదా స్థాయి బిల్డర్ లోకి ఎంటర్ అవ్వి",
     "bg": "Тази команда е валидна, но не се поддържа в текущата среда! Опитайте да влезете в ниво или редактор на нива, за да използвате тази команда",
     "fa": "اون دستور معتبر است، اما در محیط فعلی پشتیبانی نمی‌شود! برای استفاده از اون دستور سعی کن وارد یک مرحله یا سازنده مرحله بشی",
     "pt_BR": "Este comando é válido, mas não suportado no ambiente atual! Tente entrar num nível ou construtor de nível para usar este comando",
@@ -2910,6 +3027,7 @@ exports.strings = {
     "__desc__": "Title for the popup",
     "es_AR": "Rebase interactivo",
     "en_US": "Interactive Rebase",
+    "te_IN": "ఇంటరాక్టివ్ Rebase",
     "bg": "Интерактивно пребазиране",
     "fa": "Rebase تعاملی",
     "pt_BR": "Rebase interativo",
