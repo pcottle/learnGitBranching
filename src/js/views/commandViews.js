@@ -31,10 +31,14 @@ const autoCompleteSuggestionOrder = [
 ];
 
 const allCommandsSorted = autoCompleteSuggestionOrder.concat(
-  // add the rest that aren't in the list above
-  allCommands.map(command => autoCompleteSuggestionOrder.indexOf(command) > 0 ? null : command)
-  .filter(command => !!command)
+  allCommands.filter(command => autoCompleteSuggestionOrder.indexOf(command) === -1)
 );
+
+// Keycodes used in keydown handlers
+const KEY_TAB = 9;
+const KEY_BACKSPACE = 8;
+const KEY_U = 85; // Ctrl+U: clear line
+const KEY_W = 87; // Ctrl+W: delete word
 
 /**
  * Compute the longest common prefix of an array of strings.
@@ -52,6 +56,21 @@ function longestCommonPrefix(strings) {
     if (!prefix) return '';
   }
   return prefix;
+}
+
+/**
+ * Split a command line value into the prefix before the last ';' and the
+ * last command token. Single source of truth for ';' parsing.
+ */
+function splitCommands(value) {
+  const parts = value.split(';');
+  const lastCommand = parts[parts.length - 1]
+    .replace(/\s\s+/g, ' ')
+    .replace(/^\s/, '');
+  const prefixBeforeLast = parts.length > 1
+    ? parts.slice(0, -1).join(';') + ';'
+    : '';
+  return { lastCommand, prefixBeforeLast };
 }
 
 /**
@@ -119,6 +138,8 @@ class CommandPromptView {
 
     this.index = -1;
     this.commandParagraph = this.$('#prompt p.command')[0];
+    // Cache shadow element instead of re-querying on every keystroke
+    this.shadowEl = document.querySelector('#shadow');
     this.focus();
 
     Main.getEvents().on('rollupCommands', this.rollupCommands, this);
@@ -157,161 +178,183 @@ class CommandPromptView {
   onKeyDown(e) {
     var el = e.target;
 
-    const shadowEl = document.querySelector('#shadow');
+    const { lastCommand, prefixBeforeLast } = splitCommands(el.value);
 
-    const currentValue = el.value;
-    const allCommand = currentValue.split(';');
-    const lastCommand = allCommand[allCommand.length - 1]
-      .replace(/\s\s+/g, ' ').replace(/^\s/, '');
-    // everything before the last command (keep earlier commands intact when using ';' separator)
-    const prefixBeforeLast = allCommand.slice(0, -1).join(';') +
-      (allCommand.length > 1 ? ';' : '');
+    // Step 1: update the shadow hint (grey preview of the first match's suffix)
+    this._updateShadowHint(el.value, lastCommand);
 
-    // ---- Step 1: update the shadow hint (grey preview of the first match's suffix) ----
-    shadowEl.innerHTML = '';
-    if (lastCommand.length) {
-      for (const c of allCommandsSorted) {
-        if (c.startsWith(lastCommand)) {
-          renderShadowHint(shadowEl, currentValue, c.substring(lastCommand.length));
-          break;
-        }
-      }
+    // Key-specific handlers only fire on true keydown events
+    if (e.type !== 'keydown') {
+      this.updatePrompt(el);
+      return;
     }
 
-    // ---- Step 2: Tab-completion logic (Linux-style: LCP on first press, cycle on repeats) ----
-    if (e.keyCode === 9 && e.type === 'keydown') {
+    // Classify the key once, then dispatch flat
+    const isTab = e.keyCode === KEY_TAB;
+    const isClearLine = e.keyCode === KEY_U && e.ctrlKey;
+    const isDeleteWord = (e.keyCode === KEY_W && e.ctrlKey) ||
+                        (e.keyCode === KEY_BACKSPACE && e.altKey);
+
+    if (isTab || isClearLine || isDeleteWord) {
       e.preventDefault();
+    }
 
-      // Prefix changed (user edited input or it is not a repeated Tab) -> reset matches
-      if (lastCommand !== this._tabLastPrefix ||
-          prefixBeforeLast !== this._tabLastFullPrefix) {
-        this._tabMatches = null;
-        this._tabIndex = -1;
-      }
-
-      if (lastCommand.length === 0) {
-        // empty input: nothing to do, just record state
-        this._tabLastPrefix = lastCommand;
-        this._tabLastFullPrefix = prefixBeforeLast;
-      } else {
-        // collect all commands matching the current prefix
-        if (this._tabMatches === null) {
-          this._tabMatches = allCommandsSorted.filter(
-            c => c.startsWith(lastCommand)
-          );
-          this._tabIndex = -1;
-        }
-
-        const matches = this._tabMatches;
-
-        if (matches.length === 0) {
-          // no matches: do nothing
-        } else if (matches.length === 1) {
-          // only one match: complete it fully
-          el.value = prefixBeforeLast + matches[0];
-          // after completing, clear the shadow hint
-          shadowEl.innerHTML = '';
-          this._tabIndex = 0;
-        } else {
-          // multiple matches
-          if (this._tabIndex === -1) {
-            // first Tab: complete up to the longest common prefix
-            const lcp = longestCommonPrefix(matches);
-            if (lcp.length > lastCommand.length) {
-              // a longer common prefix exists, fill it in
-              el.value = prefixBeforeLast + lcp;
-              // record the new prefix we just expanded to
-              this._tabLastPrefix = lcp;
-              // update the shadow hint with the first match's remainder
-              const remain = matches[0].substring(lcp.length) || '';
-              renderShadowHint(shadowEl, el.value, remain);
-              // re-filter _tabMatches against the new LCP so subsequent Tabs cycle correctly
-              this._tabMatches = allCommandsSorted.filter(
-                c => c.startsWith(lcp)
-              );
-              this._tabIndex = -1;
-            } else {
-              // LCP equals the input itself: enter the cycle, show first match
-              this._tabIndex = 0;
-              el.value = prefixBeforeLast + matches[0];
-              shadowEl.innerHTML = '';
-            }
-          } else {
-            // repeated Tab: advance to the next match (cycle)
-            this._tabIndex = (this._tabIndex + 1) % matches.length;
-            el.value = prefixBeforeLast + matches[this._tabIndex];
-            shadowEl.innerHTML = '';
-          }
-        }
-
-        // update prefix record (when we've landed on a concrete command)
-        if (this._tabIndex >= 0) {
-          this._tabLastPrefix = matches[this._tabIndex];
-        }
-        this._tabLastFullPrefix = prefixBeforeLast;
-      }
-    } else if (e.type === 'keydown') {
-      // any non-Tab keydown: reset Tab-cycle state (prefix effectively changed)
+    // Step 2: Tab-completion logic (has its own state machine, don't reset on Tab)
+    if (isTab) {
+      this._handleTab(el, lastCommand, prefixBeforeLast);
+    } else {
+      // any non-Tab keydown: reset Tab-cycle state
       this._tabMatches = null;
       this._tabIndex = -1;
       this._tabLastPrefix = lastCommand;
       this._tabLastFullPrefix = prefixBeforeLast;
     }
 
-    // lets also handle control + U to clear the line
-    if (e.keyCode === 85 && e.ctrlKey && e.type === 'keydown') {
-      e.preventDefault();
+    // Ctrl+U: clear the line
+    if (isClearLine) {
       el.value = '';
       el.selectionStart = el.selectionEnd = 0;
     }
 
-     // handle control + W to delete up to previous word
-    const isDeleteWord = (
-      e.keyCode === 87 && e.ctrlKey && e.type === 'keydown'
-    ) || (
-      // handle alt + backspace to delete up to previous word
-      e.keyCode === 8 && e.altKey && e.type === 'keydown'
-    );
+    // Ctrl+W or Alt+Backspace: delete up to previous word
     if (isDeleteWord) {
-      e.preventDefault();
-      const cursorPos = el.selectionStart;
-      const textBeforeCursor = el.value.substring(0, cursorPos);
-      // Find the last word boundary
-      const lastSpaceIndex = textBeforeCursor.trimEnd().lastIndexOf(' ');
-      if (lastSpaceIndex >= 0) {
-        el.value = el.value.substring(0, lastSpaceIndex + 1) +
-                  el.value.substring(cursorPos);
-        el.selectionStart = el.selectionEnd = lastSpaceIndex + 1;
-      } else {
-        // If no space found, clear to start
-        el.value = el.value.substring(cursorPos);
-        el.selectionStart = el.selectionEnd = 0;
-      }
+      this._handleDeleteWord(el);
     }
+
     this.updatePrompt(el);
   }
 
   onKeyUp(e) {
-    this.onKeyDown(e);
+    // Bug fix: was calling this.onKeyDown(e) which ran the entire keydown
+    // pipeline 2-3 times per keystroke (triple DOM reflow). Now just sync
+    // shadow hint + prompt directly.
+    const el = e.target;
+    const { lastCommand } = splitCommands(el.value);
+    this._updateShadowHint(el.value, lastCommand);
 
-    // we need to capture some of these events.
-    var keyToFuncMap = {
-      enter: function() {
-        this.submit();
-      }.bind(this),
-      up: function() {
-        this.commandSelectChange(1);
-      }.bind(this),
-      down: function() {
-        this.commandSelectChange(-1);
-      }.bind(this)
+    const keyToFuncMap = {
+      enter: () => this.submit(),
+      up: () => this.commandSelectChange(1),
+      down: () => this.commandSelectChange(-1),
     };
 
     var key = keyboard.mapKeycodeToKey(e.which || e.keyCode);
     if (keyToFuncMap[key] !== undefined) {
       e.preventDefault();
       keyToFuncMap[key]();
-      this.onKeyDown(e);
+    }
+
+    this.updatePrompt(el);
+  }
+
+  // -- Shadow hint --
+
+  _updateShadowHint(currentValue, lastCommand) {
+    this.shadowEl.innerHTML = '';
+    if (!lastCommand.length) return;
+
+    for (const c of allCommandsSorted) {
+      if (c.startsWith(lastCommand)) {
+        renderShadowHint(this.shadowEl, currentValue, c.substring(lastCommand.length));
+        break;
+      }
+    }
+  }
+
+  // -- Tab completion (Linux-style: LCP on first press, cycle on repeats) --
+
+  _handleTab(el, lastCommand, prefixBeforeLast) {
+    // Prefix changed -> reset matches
+    if (lastCommand !== this._tabLastPrefix ||
+        prefixBeforeLast !== this._tabLastFullPrefix) {
+      this._tabMatches = null;
+      this._tabIndex = -1;
+    }
+
+    // Empty input: nothing to complete
+    if (lastCommand.length === 0) {
+      this._tabLastPrefix = lastCommand;
+      this._tabLastFullPrefix = prefixBeforeLast;
+      return;
+    }
+
+    // Lazily collect matches
+    if (this._tabMatches === null) {
+      this._tabMatches = allCommandsSorted.filter(c => c.startsWith(lastCommand));
+      this._tabIndex = -1;
+    }
+
+    const matches = this._tabMatches;
+
+    // No matches: nothing to do
+    if (matches.length === 0) {
+      this._tabLastFullPrefix = prefixBeforeLast;
+      return;
+    }
+
+    // Single match: complete fully
+    if (matches.length === 1) {
+      el.value = prefixBeforeLast + matches[0];
+      this.shadowEl.innerHTML = '';
+      this._tabIndex = 0;
+      this._tabLastPrefix = matches[0];
+      this._tabLastFullPrefix = prefixBeforeLast;
+      return;
+    }
+
+    // Multiple matches
+    if (this._tabIndex === -1) {
+      // First Tab: try expanding to LCP
+      const lcp = longestCommonPrefix(matches);
+
+      if (lcp.length > lastCommand.length) {
+        // LCP is longer than input — expand and stay in "first Tab" state
+        el.value = prefixBeforeLast + lcp;
+        this._tabLastPrefix = lcp;
+        const remain = matches[0].substring(lcp.length) || '';
+        renderShadowHint(this.shadowEl, el.value, remain);
+        this._tabMatches = allCommandsSorted.filter(c => c.startsWith(lcp));
+        this._tabIndex = -1;
+        this._tabLastFullPrefix = prefixBeforeLast;
+        return;
+      }
+
+      // LCP equals input — enter the cycle with the first match
+      this._tabIndex = 0;
+    } else {
+      // Repeated Tab: advance to the next match (wrap around)
+      this._tabIndex = (this._tabIndex + 1) % matches.length;
+    }
+
+    el.value = prefixBeforeLast + matches[this._tabIndex];
+    this.shadowEl.innerHTML = '';
+    this._tabLastPrefix = matches[this._tabIndex];
+    this._tabLastFullPrefix = prefixBeforeLast;
+  }
+
+  // -- Shortcut: Ctrl+W / Alt+Backspace — delete the previous word --
+  //
+  // Bug fix: old code computed lastSpaceIndex from textBeforeCursor.trimEnd()
+  // but sliced the original untrimmed string. Backward scan avoids the
+  // index mismatch.
+
+  _handleDeleteWord(el) {
+    const cursorPos = el.selectionStart;
+    const textBeforeCursor = el.value.substring(0, cursorPos);
+
+    // Scan backwards: skip trailing whitespace, then skip the word
+    let end = textBeforeCursor.length;
+    while (end > 0 && /\s/.test(textBeforeCursor[end - 1])) end--;
+    let start = end;
+    while (start > 0 && !/\s/.test(textBeforeCursor[start - 1])) start--;
+
+    if (start > 0) {
+      el.value = textBeforeCursor.substring(0, start) + el.value.substring(cursorPos);
+      el.selectionStart = el.selectionEnd = start;
+    } else {
+      // No word boundary found, clear to start
+      el.value = el.value.substring(cursorPos);
+      el.selectionStart = el.selectionEnd = 0;
     }
   }
 
@@ -340,21 +383,28 @@ class CommandPromptView {
     var selectionStart = el.selectionStart;
     var selectionEnd = el.selectionEnd;
     if (!text.length) {
-      text = ' ';
-      selectionStart = 0;
-      selectionEnd = 1;
-    } else if (selectionStart === selectionEnd) {
-      // Lets pretend they have selected the end character to make the cursor
-      // shown
-      text += ' ';
-      selectionEnd += 1;
-    } else if (selectionStart === undefined || selectionEnd === undefined) {
-      // I donno what this is for
-      selectionStart = Math.max(text.length - 1, 0);
-      selectionEnd = text.length;
+      // Empty input: show a single space with the cursor
+      this._setPromptHTML(' ', 0, 1);
+      return;
     }
 
-    var before = text.substring(0, selectionStart);
+    if (selectionStart === selectionEnd) {
+      // No selection: append a space at cursor position for display
+      this._setPromptHTML(text + ' ', selectionStart, selectionEnd + 1);
+      return;
+    }
+
+    if (selectionStart === undefined || selectionEnd === undefined) {
+      // I donno what this is for
+      this._setPromptHTML(text, Math.max(text.length - 1, 0), text.length);
+      return;
+    }
+
+    this._setPromptHTML(text, selectionStart, selectionEnd);
+  }
+
+  _setPromptHTML(text, selectionStart, selectionEnd) {
+    const before = text.substring(0, selectionStart);
     var middle = text.substring(selectionStart, selectionEnd);
     var end = text.substring(selectionEnd, text.length);
 
