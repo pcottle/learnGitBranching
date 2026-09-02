@@ -413,6 +413,48 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('tracks remote with --set-upstream-to (space syntax)', function() {
+    return expectTreeAsync(
+      'git clone; git branch foo; git branch --set-upstream-to o/main foo',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('tracks remote with --set-upstream-to= (equals syntax)', function() {
+    return expectTreeAsync(
+      'git clone; git branch foo; git branch --set-upstream-to=o/main foo',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('tracks remote with --set-upstream-to on current branch', function() {
+    return expectTreeAsync(
+      'git clone; git checkout -b foo; git branch --set-upstream-to o/main',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"foo":{"target":"C1","id":"foo","remoteTrackingBranchID":"o/main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"foo","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('push -u sets upstream tracking on existing branch', function() {
+    return expectTreeAsync(
+      'git clone; git commit; git push -u origin main',
+      '{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('push -u sets upstream tracking on new branch', function() {
+    return expectTreeAsync(
+      'git clone; git checkout -b side; git commit; git push -u origin side',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null},"side":{"target":"C2","id":"side","remoteTrackingBranchID":"o/side"},"o/side":{"target":"C2","id":"o/side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"side","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null},"side":{"target":"C2","id":"side","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('push -u with refspec sets upstream tracking on source branch', function() {
+    return expectTreeAsync(
+      'git clone; git checkout -b side; git commit; git push -u origin side:main',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null},"side":{"target":"C2","id":"side","remoteTrackingBranchID":"o/main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"side","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
   it('does not fetch if one arg is not branch ref', function() {
     return expectTreeAsync(
       'git fakeCreateRemote; git fakeTeamwork 2; git fetch origin main~1',
