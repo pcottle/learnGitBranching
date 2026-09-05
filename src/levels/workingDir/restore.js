@@ -13,7 +13,8 @@ exports.level = {
     "tr_TR": "git restore ile Geri Alma",
     "vi": "Hoàn tác bằng git restore",
     "uk": "Скасування змін за допомогою git restore",
-    "te_IN": "git restore తో అన్‌డూ చేయడం"
+    "te_IN": "git restore తో అన్‌డూ చేయడం",
+    "es_ES": "Deshacer con git restore"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -25,7 +26,8 @@ exports.level = {
     "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın.",
     "vi": "Loại bỏ khỏi staging với `git restore --staged secret.env`, vứt bỏ thử nghiệm với `git restore experiment.js`, sau đó `git commit`.",
     "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`.",
-    "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి."
+    "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి.",
+    "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`."
   },
   "startDialog": {
     "en_US": {
@@ -601,6 +603,66 @@ exports.level = {
           }
         }
       ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Deshacer con `git restore`",
+              "",
+              "Todos cometemos errores de vez en cuando. Puedes haber agregado un archivo al staging por accidente, o empezar un experimento que luego quieras descartar. `git restore` es el botón de deshacer moderno, diseñado específicamente para tu directorio de trabajo y área de staging.",
+              "",
+              "Viene en dos variantes:",
+              "",
+              "* `git restore --staged <archivo>`: **quitar del staging** un archivo (lo mueve de vuelta fuera del área de staging, manteniendo tus ediciones)",
+              "* `git restore <archivo>`: **descartar** completamente tus ediciones en un archivo (¡cuidado, esto elimina los cambios!)",
+              "",
+              "*(Estos comandos reemplazan los antiguos trucos `git reset HEAD <archivo>` y `git checkout -- <archivo>`. La idea es la misma, pero con nombres mucho más claros.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aquí está el desorden en tu escritorio ahora mismo:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Quieres hacer commit de `app.js`, pero `secret.env` se agregó al staging por accidente (debería ir en un commit posterior), así que lo dejaremos para después. Además, los cambios en `experiment.js` no funcionaron, así que los descartaremos por completo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ordena el desorden y luego haz commit:",
+              "",
+              "* Quita el archivo secreto del staging: `git restore --staged secret.env`",
+              "* Descarta el experimento: `git restore experiment.js`",
+              "* Haz commit de lo que queda: `git commit`",
+              "",
+              "Esto dará como resultado un único commit limpio, que solo contiene el trabajo que realmente querías conservar."
+            ]
+          }
+        }
+      ]
     }
-  }
+  },
 };
