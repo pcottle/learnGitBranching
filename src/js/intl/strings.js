@@ -418,7 +418,7 @@ exports.strings = {
     "vi" : "Không có thay đổi nào được thêm vào để commit (hãy đưa chúng vào staging area trước bằng lệnh \"git add <file>\")",
     "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")",
     "es_AR": "ningún cambio agregado para commitear (preparalos primero con \"git add <file>\")",
-    "ko": "커밋할 변경 사항을 추가하지 않았습니다 (\"git add <file>\" 및/또는 \"git commit <file> -a\"를 사용하십시오)"
+    "ko": "커밋할 변경 사항이 없습니다. 먼저 \"git add &lt;file&gt;\"로 스테이징하세요."
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
