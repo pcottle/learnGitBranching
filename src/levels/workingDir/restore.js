@@ -593,7 +593,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "책상에 잡동사니가 널부러져 있군요:",
+              "책상에 잡동사니가 널브러져 있군요:",
               "",
               "```",
               "Changes to be committed:",
