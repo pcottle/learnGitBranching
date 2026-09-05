@@ -13,7 +13,8 @@ exports.level = {
     "tr_TR": "git restore ile Geri Alma",
     "vi": "Hoàn tác bằng git restore",
     "uk": "Скасування змін за допомогою git restore",
-    "te_IN": "git restore తో అన్‌డూ చేయడం"
+    "te_IN": "git restore తో అన్‌డూ చేయడం",
+    "ko": "git restore로 되돌리기"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -25,7 +26,8 @@ exports.level = {
     "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın.",
     "vi": "Loại bỏ khỏi staging với `git restore --staged secret.env`, vứt bỏ thử nghiệm với `git restore experiment.js`, sau đó `git commit`.",
     "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`.",
-    "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి."
+    "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి.",
+    "ko": "`git restore --staged secret.env`로 스테이징을 해제하고, `git restore experiment.js`로 실험의 변경 사항을 버린 다음 `git commit`하세요."
   },
   "startDialog": {
     "en_US": {
@@ -563,6 +565,66 @@ exports.level = {
               "* Закомітьте те, що залишилося: `git commit`",
               "",
               "Це створить один чистий коміт, що містить лише ту роботу, яку ви дійсно хотіли зберегти."
+            ]
+          }
+        }
+      ]
+    },
+    "ko": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `git restore`로 되돌리기",
+              "",
+              "누구나 가끔 작업을 조금 엉망으로 만들 수 있습니다. 의도하지 않은 파일을 스테이징하거나, 나중에 버리고 싶은 실험을 시작하기도 합니다. `git restore`는 작업 디렉터리와 스테이징 영역의 변경을 되돌리기 위해 특별히 만들어진, 현대적인 명령입니다.",
+              "",
+              "두 가지 방식으로 사용할 수 있습니다:",
+              "",
+              "* `git restore --staged <file>`: 파일의 **스테이징을 해제**합니다. (수정 내용은 유지하면서 스테이징 영역에서만 뺍니다)",
+              "* `git restore <file>`: 파일의 수정 내용을 완전히 **버립니다**. (변경 사항이 사라지므로 주의하세요!)",
+              "",
+              "*(이 명령들은 예전의 `git reset HEAD <file>`과 `git checkout -- <file>` 트릭을 대신합니다. 같은 발상, 명확해진 이름.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "책상에 잡동사니가 널부러져 있군요:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "`app.js`만 커밋하려고 했지만 `secret.env`가 실수로 먼저 스테이징되었습니다. (이 파일은 다음 커밋에 들어가야 하므로) 나중을 위해 남겨 두겠습니다. 또한 `experiment.js`의 변경 사항은 제대로 작동하지 않았으므로 완전히 버리겠습니다."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "정리정돈하고, 커밋하세요:",
+              "",
+              "* 비밀 파일의 스테이징 해제하기: `git restore --staged secret.env`",
+              "* 실험의 변경 사항 버리기: `git restore experiment.js`",
+              "* 남은 변경 사항 커밋하기: `git commit`",
+              "",
+              "그러면 유지하려던 작업만 담긴 깔끔한 커밋 하나가 만들어집니다."
             ]
           }
         }
