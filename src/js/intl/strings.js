@@ -378,7 +378,8 @@ exports.strings = {
     "tr_TR": "Commit edilecek değişiklikler:",
     "vi": "Tiêu đề git status cho các thay đổi đã được staged (sẵn sàng commit)",
     "uk": "Зміни, підготовлені до коміту:",
-    "es_AR": "Cambios a ser commiteados:"
+    "es_AR": "Cambios a ser commiteados:",
+    "ko": "커밋할 변경 사항:"
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
@@ -390,7 +391,8 @@ exports.strings = {
     "tr_TR": "Commit için stage'lenmemiş değişiklikler:",
     "vi": "Tiêu đề của git status dành cho các tệp đã sửa đổi nhưng chưa được đưa vào staging area",
     "uk": "Зміни, не підготовлені до коміту:",
-    "es_AR": "Cambios no preparados(staged) para commitear:"
+    "es_AR": "Cambios no preparados(staged) para commitear:",
+    "ko": "커밋하도록 정하지 않은 변경 사항:"
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
@@ -402,7 +404,8 @@ exports.strings = {
     "tr_TR": "commit edilecek bir şey yok, çalışma ağacı temiz",
     "vi" : "Không có gì để commit, thư mục làm việc sạch sẽ",
     "uk": "нічого комітити, робоче дерево чисте",
-    "es_AR": "nada para commitear, árbol de trabajo limpio"
+    "es_AR": "nada para commitear, árbol de trabajo limpio",
+    "ko": "커밋할 사항 없음, 작업 폴더 깨끗함"
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
@@ -414,7 +417,8 @@ exports.strings = {
     "tr_TR": "commit'e eklenmiş değişiklik yok (önce \"git add <file>\" ile stage'leyin)",
     "vi" : "Không có thay đổi nào được thêm vào để commit (hãy đưa chúng vào staging area trước bằng lệnh \"git add <file>\")",
     "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")",
-    "es_AR": "ningún cambio agregado para commitear (preparalos primero con \"git add <file>\")"
+    "es_AR": "ningún cambio agregado para commitear (preparalos primero con \"git add <file>\")",
+    "ko": "커밋할 변경 사항을 추가하지 않았습니다 (\"git add <file>\" 및/또는 \"git commit <file> -a\"를 사용하십시오)"
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -955,7 +959,8 @@ exports.strings = {
     "zh_CN": "致命错误：切换需要一个分支。'{ref}' 不是分支——如果你想检出并分离 HEAD，请使用 'git switch --detach {ref}'（或 '-d'）。",
     "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
     "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD.",
-    "es_AR": "fatal: se requiere una branch para switchear. '{ref}' no es una branch -- usá 'git switch --detach {ref}' (o '-d') si querés separar(detach) el HEAD."
+    "es_AR": "fatal: se requiere una branch para switchear. '{ref}' no es una branch -- usá 'git switch --detach {ref}' (o '-d') si querés separar(detach) el HEAD.",
+    "ko": "fatal: 전환하려면 브랜치가 필요합니다. '{ref}' 항목은 브랜치가 아닙니다. HEAD를 분리한 상태로 전환하려면 'git switch --detach {ref}' 또는 '-d'를 사용하세요."
   },
   "git-error-options": {
     "__desc__": "One of the error messages for git",
@@ -1233,7 +1238,8 @@ exports.strings = {
     "tr_TR": "\"{command}\" komutu desteklenmiyor, üzgünüm!",
     "hu_HU": "A(z) \"{command}\" parancs nem támogatott, sajnálom!",
     "az": "\"{command}\" əmri dəstəklənmir, üzr istəyirəm!",
-    "uk": "Команда \"{command}\" не підтримується, вибачте!"
+    "uk": "Команда \"{command}\" не підтримується, вибачте!",
+    "ko": "죄송하지만 \"{command}\" 명령은 지원되지 않습니다!"
   },
   "copy-tree-string": {
     "__desc__": "The prompt to copy the tree when sharing",
@@ -1879,7 +1885,8 @@ exports.strings = {
     "te_IN": "మీ పురోగతిని పంచుకోండి!",
     "de_DE": "Teile deinen Fortschritt!",
     "zh_CN": "分享你的进度！",
-    "es_AR": "Compartí tu progreso!"
+    "es_AR": "Compartí tu progreso!",
+    "ko": "진행 상황 공유하기!"
   },
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
@@ -1887,7 +1894,8 @@ exports.strings = {
     "te_IN": "X (Twitter)",
     "de_DE": "X (Twitter)",
     "zh_CN": "X (Twitter)",
-    "es_AR": "X (Twitter)"
+    "es_AR": "X (Twitter)",
+    "ko": "X (Twitter)"
   },
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
@@ -1895,7 +1903,8 @@ exports.strings = {
     "te_IN": "LinkedIn",
     "de_DE": "LinkedIn",
     "zh_CN": "LinkedIn",
-    "es_AR": "LinkedIn"
+    "es_AR": "LinkedIn",
+    "ko": "LinkedIn"
   },
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
@@ -1904,6 +1913,7 @@ exports.strings = {
     "de_DE": "Facebook",
     "zh_CN": "Facebook",
     "es_AR": "Facebook",
+    "ko": "Facebook"
   },
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
@@ -2279,7 +2289,8 @@ exports.strings = {
     "tr_TR": "Bu seviyenin gösterilecek bir çözümü yok!",
     "vi": "Cấp độ này không có lời giải để hiển thị!",
     "uk": "Для цього рівня немає розв’язку для показу!",
-    "es_AR": "Este nivel no tiene una solución para mostrar!"
+    "es_AR": "Este nivel no tiene una solución para mostrar!",
+    "ko": "이 레벨에는 표시할 해답이 없습니다!"
   },
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
@@ -2790,7 +2801,8 @@ exports.strings = {
     "tr_TR": "İptal",
     "hu_HU": "Mégse",
     "az": "Ləğv et",
-    "uk": "Скасувати"
+    "uk": "Скасувати",
+    "ko": "취소"
   },
   "confirm-button": {
     "__desc__": "Confirm button label after completing a level",
@@ -2814,7 +2826,8 @@ exports.strings = {
     "tr_TR": "Tamam",
     "hu_HU": "Megerősít",
     "az": "Təsdiqlə",
-    "uk": "Підтвердити"
+    "uk": "Підтвердити",
+    "ko": "확인"
   },
   "level-label": {
     "__desc__": "Label in the top of the left-side menu. Remember to leave some space on the sides",
@@ -2837,7 +2850,8 @@ exports.strings = {
     "hu_HU": " Szint ",
     "az": " Bölüm ",
     "vi": "Level",
-    "uk": " Рівень "
+    "uk": " Рівень ",
+    "ko": " 레벨 "
   },
   "close-window": {
     "__desc__": "Tooltip for the red control that closes a window.",
@@ -2849,7 +2863,8 @@ exports.strings = {
     "tr_TR": "Pencereyi kapat",
     "vi": "Đóng cửa xổ",
     "uk": "Закрити вікно",
-    "es_AR": "Cerrar ventana"
+    "es_AR": "Cerrar ventana",
+    "ko": "창 닫기"
   },
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
@@ -2861,7 +2876,8 @@ exports.strings = {
     "tr_TR": "Geri",
     "vi": "Quay lại",
     "uk": "Назад",
-    "es_AR": "Volver"
+    "es_AR": "Volver",
+    "ko": "뒤로"
   },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
@@ -2884,7 +2900,8 @@ exports.strings = {
     "hu_HU": "Szintek",
     "az": "Bölümlər",
     "vi": "Levels",
-    "uk": "Рівні"
+    "uk": "Рівні",
+    "ko": "레벨 목록"
   },
   "command-helper-bar-solution": {
     "__desc__": "Solution command label in the bottom command helper bar.",
@@ -2907,7 +2924,8 @@ exports.strings = {
     "hu_HU": "Megoldás",
     "az": "Həll",
     "vi": "Đáp Án",
-    "uk": "Рішення"
+    "uk": "Рішення",
+    "ko": "해답"
   },
   "command-helper-bar-reset": {
     "__desc__": "Reset command label in the bottom command helper bar.",
@@ -2929,7 +2947,8 @@ exports.strings = {
     "hu_HU": "Visszaállítás",
     "vi": "Reset",
     "az": "Sıfırla",
-    "uk": "Скинути"
+    "uk": "Скинути",
+    "ko": "리셋"
   },
   "command-helper-bar-undo": {
     "__desc__": "Undo command label in the bottom command helper bar.",
@@ -2952,7 +2971,8 @@ exports.strings = {
     "hu_HU": "Visszavonás",
     "az": "Geri al",
     "vi": "Undo",
-    "uk": "Скасувати"
+    "uk": "Скасувати",
+    "ko": "되돌리기"
   },
   "command-helper-bar-objective": {
     "__desc__": "Objective command label in the bottom command helper bar.",
@@ -2975,7 +2995,8 @@ exports.strings = {
     "hu_HU": "Cél",
     "az": "Hədəf",
     "vi": "Yêu Cầu",
-    "uk": "Завдання"
+    "uk": "Завдання",
+    "ko": "목표"
   },
   "command-helper-bar-help": {
     "__desc__": "Help command label in the bottom command helper bar.",
@@ -2998,7 +3019,8 @@ exports.strings = {
     "hu_HU": "Segítség",
     "az": "Kömək",
     "vi": "Help",
-    "uk": "Допомога"
+    "uk": "Допомога",
+    "ko": "도움말"
   },
   "error-command-currently-not-supported": {
     "__desc__": "Message that appears in git console when command is not supported in the current environment.",
@@ -3021,7 +3043,8 @@ exports.strings = {
     "tr_TR": "Bu komut geçerli bir komuttur, fakat bu ortamda desteklenmemektedir. Bu komutu kullanmak için bir seviyeye (level) ya da seviye oluşturucuya (level builder) girin.",
     "hu_HU": "Ez a parancs érvényes, de nem támogatott a jelenlegi környezetben! Próbálj belépni egy szintbe vagy szintépítőbe hogy használd ezt a parancsot",
     "az": "Bu əmr etibarlıdır, lakin cari mühitdə dəstəklənmir! Bu əmri istifadə etmək üçün bir bölümə və ya bölüm konstruktoruna daxil olmağı sına",
-    "uk": "Ця команда дійсна, але не підтримується в цьому середовищі! Спробуйте увійти в рівень або редактор рівнів, щоб використати її"
+    "uk": "Ця команда дійсна, але не підтримується в цьому середовищі! Спробуйте увійти в рівень або редактор рівнів, щоб використати її",
+    "ko": "이 명령은 유효하지만 현재 환경에서는 지원되지 않습니다! 이 명령을 사용하려면 레벨 또는 레벨 생성기로 이동하세요."
   },
   "interactive-rebase-title": {
     "__desc__": "Title for the popup",
@@ -3044,6 +3067,7 @@ exports.strings = {
     "tr_TR": "Etkileşimli Rebase",
     "hu_HU": "Interaktív rebase",
     "az": "İnteraktiv Rebase",
-    "uk": "Інтерактивний Rebase"
+    "uk": "Інтерактивний Rebase",
+    "ko": "인터랙티브 리베이스"
   }
 }
