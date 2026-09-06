@@ -989,8 +989,24 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok! Vous êtes fin prêt pour faire des branches. Après la fermeture de cette fenêtre,",
-              "faites une nouvelle branche nommée `bugFix` et positionnez-vous sur cette branche."
+              "*Note : dans Git 2.23, une nouvelle commande appelée `git switch` a été introduite pour remplacer à terme `git checkout`, ",
+              "qui est un peu surchargée (elle fait plusieurs choses différentes selon les arguments). Les leçons ici continueront d'utiliser ",
+              "`checkout` plutôt que `switch` car la commande `switch` est encore considérée comme expérimentale et sa syntaxe peut changer. ",
+              "Vous pouvez toutefois essayer la nouvelle commande `switch` dans cette application, et aussi ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">en apprendre plus ici</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ok ! Vous êtes fin prêt pour faire des branches. Après la fermeture de cette fenêtre,",
+              "faites une nouvelle branche nommée `bugFix` et positionnez-vous sur cette branche.",
+              "",
+              "Au fait, voici un raccourci : si vous voulez créer une nouvelle ",
+              "branche ET vous y positionner en même temps, vous pouvez simplement ",
+              "taper `git checkout -b [nom-de-votre-branche]`."
             ]
           }
         }
