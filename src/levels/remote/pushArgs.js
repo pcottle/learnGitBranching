@@ -276,7 +276,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, pour ce niveau mettez à jour `foo` et `main` sur le dépôt distant. La difficulté est que `git checkout` est désactivée pour ce niveau !"
+              "Ok, pour ce niveau mettez à jour `foo` et `main` sur le dépôt distant. La difficulté est que `git checkout` est désactivée pour ce niveau !",
+              "",
+              "*Note : les branches distantes sont étiquetées avec le préfixe `o/` car le libellé complet `origin/` ne rentre pas dans notre interface. Ne vous en ",
+              "inquiétez pas... utilisez simplement `origin` comme nom du dépôt distant, comme d'habitude.*"
             ]
           }
         }

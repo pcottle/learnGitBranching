@@ -6,6 +6,7 @@ exports.level = {
   "name": {
     "en_US": "Undoing with git restore",
     "de_DE": "Rückgängig machen mit git restore",
+    "fr_FR": "Annuler avec git restore",
     "zh_CN": "使用 git restore 撤销修改",
     "zh_TW": "使用 git restore 復原變更",
     "pt_BR": "Desfazendo com git restore",
@@ -20,6 +21,7 @@ exports.level = {
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
     "de_DE": "Entferne `secret.env` aus der Staging Area mit `git restore --staged secret.env`, verwerfe die Änderungen an experiment mit `git restore experiment.js`, dann mach einen Commit mit `git commit`.",
+    "fr_FR": "Retirez de l'index avec `git restore --staged secret.env`, jetez l'expérience avec `git restore experiment.js`, puis `git commit`.",
     "zh_CN": "使用 `git restore --staged secret.env` 取消暂存，使用 `git restore experiment.js` 丢弃实验性修改，然后执行 `git commit`。",
     "zh_TW": "使用 `git restore --staged secret.env` 取消暫存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。",
     "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`.",
@@ -147,6 +149,66 @@ exports.level = {
               "* Committe den Rest: `git commit`",
               "",
               "Das resultiert in einem sauberen Commit, der nur das enthält, was du wirklich drin haben wolltest."
+            ]
+          }
+        }
+      ]
+    },
+    "fr_FR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Annuler avec `git restore`",
+              "",
+              "Tout le monde fait un peu de bazar de temps en temps. Vous indexez un fichier par erreur, ou vous commencez une expérience que vous préférez jeter. `git restore` est le bouton d'annulation moderne, conçu pour le répertoire de travail et la zone de staging.",
+              "",
+              "Il existe en deux versions :",
+              "",
+              "* `git restore --staged <file>` : **retirer de l'index** un fichier (le sortir de la zone de staging, en gardant vos modifications)",
+              "* `git restore <file>` : **abandonner** entièrement vos modifications sur un fichier (attention, cela jette les changements !)",
+              "",
+              "*(Ces commandes remplacent les anciens tours `git reset HEAD <file>` et `git checkout -- <file>`. Même idée, des noms bien plus clairs.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Voici le bazar sur votre bureau en ce moment :",
+              "",
+              "```",
+              "Modifications qui seront validées :",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Modifications qui ne seront pas validées :",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Vous voulez commiter `app.js`, mais `secret.env` a été indexé trop tôt par accident (il devrait être un commit au-dessus), alors gardons-le pour plus tard. De plus, les modifications de `experiment.js` n'ont pas fonctionné, donc jetons-les entièrement."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rangez, puis commitez :",
+              "",
+              "* Retirez le secret de l'index : `git restore --staged secret.env`",
+              "* Jetez l'expérience : `git restore experiment.js`",
+              "* Commitez ce qui reste : `git commit`",
+              "",
+              "Cela donne un commit propre, avec seulement le travail que vous vouliez garder."
             ]
           }
         }

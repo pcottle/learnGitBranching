@@ -374,6 +374,7 @@ exports.strings = {
     "te_IN": "Commit చేయాల్సిన మార్పులు:",
     "pt_BR": "Mudanças a serem commitadas:",
     "de_DE": "Änderungen, die committed werden:",
+    "fr_FR": "Modifications qui seront validées :",
     "zh_CN": "将要提交的更改：",
     "tr_TR": "Commit edilecek değişiklikler:",
     "vi": "Tiêu đề git status cho các thay đổi đã được staged (sẵn sàng commit)",
@@ -387,6 +388,7 @@ exports.strings = {
     "te_IN": "Commit కోసం stage చేయని మార్పులు:",
     "pt_BR": "Mudanças não adicionadas ao staging:",
     "de_DE": "Folgende Änderungen wurden noch nicht zum Commit vorgemerkt:",
+    "fr_FR": "Modifications qui ne seront pas validées :",
     "zh_CN": "尚未暂存以备提交的更改：",
     "tr_TR": "Commit için stage'lenmemiş değişiklikler:",
     "vi": "Tiêu đề của git status dành cho các tệp đã sửa đổi nhưng chưa được đưa vào staging area",
@@ -400,6 +402,7 @@ exports.strings = {
     "te_IN": "commit చేయడానికి ఏమీ లేదు, వర్కింగ్ ట్రీ శుభ్రంగా ఉంది",
     "pt_BR": "nada para commitar, diretório de trabalho limpo",
     "de_DE": "Nichts zu committen, Arbeitsverzeichnis ist sauber.",
+    "fr_FR": "rien à valider, la copie de travail est propre",
     "zh_CN": "没有需要提交的内容，工作区干净",
     "tr_TR": "commit edilecek bir şey yok, çalışma ağacı temiz",
     "vi" : "Không có gì để commit, thư mục làm việc sạch sẽ",
@@ -413,6 +416,7 @@ exports.strings = {
     "te_IN": "commit కోసం మార్పులు జోడించలేదు (మొదట \"git add <file>\" తో stage చేయి)",
     "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
     "de_DE": "Keine Änderungen zum Commit hinzugefügt (füge sie zuerst mit \"git add <Datei>\" zum Staging-Bereich hinzu).",
+    "fr_FR": "aucune modification ajoutée à valider (indexez-les d'abord avec \"git add <file>\")",
     "zh_CN": "没有添加可供提交的更改（先用 \"git add <文件>\" 暂存）",
     "tr_TR": "commit'e eklenmiş değişiklik yok (önce \"git add <file>\" ile stage'leyin)",
     "vi" : "Không có thay đổi nào được thêm vào để commit (hãy đưa chúng vào staging area trước bằng lệnh \"git add <file>\")",
@@ -956,6 +960,7 @@ exports.strings = {
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
     "te_IN": "fatal: మారడానికి branch అవసరం. '{ref}' branch కాదు -- దీన్ని checkout చేసి HEAD ను వేరుచేయాలనుకుంటే 'git switch --detach {ref}' (లేదా '-d') యూజ్ చేయి.",
     "de_DE": "fatal: Zum Wechseln wird ein Branch benötigt. '{ref}' ist kein Branch -- benutze 'git switch --detach {ref}' (oder '-d'), wenn du ihn auschecken und den HEAD abkoppeln willst.",
+    "fr_FR": "fatal : une branche est requise pour changer. '{ref}' n'est pas une branche -- utilisez 'git switch --detach {ref}' (ou '-d') si vous voulez vous y positionner et détacher HEAD.",
     "zh_CN": "致命错误：切换需要一个分支。'{ref}' 不是分支——如果你想检出并分离 HEAD，请使用 'git switch --detach {ref}'（或 '-d'）。",
     "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
     "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD.",
@@ -1884,6 +1889,7 @@ exports.strings = {
     "en_US": "Share your progress!",
     "te_IN": "మీ పురోగతిని పంచుకోండి!",
     "de_DE": "Teile deinen Fortschritt!",
+    "fr_FR": "Partagez votre progression !",
     "zh_CN": "分享你的进度！",
     "es_AR": "Compartí tu progreso!",
     "ko": "진행 상황 공유하기!"
@@ -1895,6 +1901,7 @@ exports.strings = {
     "de_DE": "X (Twitter)",
     "zh_CN": "X (Twitter)",
     "es_AR": "X (Twitter)",
+    "fr_FR": "X (Twitter)",
     "ko": "X (Twitter)"
   },
   "share-progress-linkedin": {
@@ -1904,6 +1911,7 @@ exports.strings = {
     "de_DE": "LinkedIn",
     "zh_CN": "LinkedIn",
     "es_AR": "LinkedIn",
+    "fr_FR": "LinkedIn",
     "ko": "LinkedIn"
   },
   "share-progress-facebook": {
@@ -1913,6 +1921,7 @@ exports.strings = {
     "de_DE": "Facebook",
     "zh_CN": "Facebook",
     "es_AR": "Facebook",
+    "fr_FR": "Facebook",
     "ko": "Facebook"
   },
   "paste-json": {
@@ -2285,6 +2294,7 @@ exports.strings = {
     "te_IN": "ఈ స్థాయికి చూపించడానికి సాధన లేదు!",
     "az": "Bu bölümün göstəriləcək həlli yoxdur!",
     "de_DE": "Für dieses Level gibt es keine Lösung zum Anzeigen!",
+    "fr_FR": "Ce niveau n'a pas de solution à afficher !",
     "zh_CN": "本关卡没有可供展示的解答！",
     "tr_TR": "Bu seviyenin gösterilecek bir çözümü yok!",
     "vi": "Cấp độ này không có lời giải để hiển thị!",
@@ -2859,6 +2869,7 @@ exports.strings = {
     "te_IN": "విండోను మూయి",
     "az": "Pəncərəni bağla",
     "de_DE": "Fenster schließen",
+    "fr_FR": "Fermer la fenêtre",
     "zh_CN": "关闭窗口",
     "tr_TR": "Pencereyi kapat",
     "vi": "Đóng cửa xổ",
@@ -2872,6 +2883,7 @@ exports.strings = {
     "te_IN": "వెనుకకు",
     "az": "Geri",
     "de_DE": "Zurück",
+    "fr_FR": "Retour",
     "zh_CN": "返回",
     "tr_TR": "Geri",
     "vi": "Quay lại",

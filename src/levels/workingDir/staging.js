@@ -8,6 +8,7 @@ exports.level = {
   name: {
     en_US: "The Staging Area",
     de_DE: "Die Staging Area",
+    fr_FR: "La zone de staging",
     zh_CN: "暂存区 Staging Area",
     zh_TW: "暫存區 Staging Area",
     pt_BR: "A área de staging",
@@ -30,6 +31,8 @@ exports.level = {
       "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     en_US:
       "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
+    fr_FR:
+      "Indexez un fichier avec `git add <file>`, puis enregistrez-le avec `git commit`. Faites cela deux fois, une fois par fichier.",
     de_DE:
       "Füge eine Datei mit `git add <Dateiname>` zur Staging Area hinzu. Dann sichere sie mit `git commit`. Mach das zwei mal.",
     zh_CN:
@@ -157,6 +160,63 @@ exports.level = {
               "* `git add styles.css`, dann `git commit`",
               "",
               "Die Dateinamen neben jedem Ziel-Commit zeigen genau wozu welche Änderung gehört. Zwei saubere Commits und das Level gehört dir.",
+            ],
+          },
+        },
+      ],
+    },
+    fr_FR: {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## La zone de staging",
+              "",
+              "Jusqu'ici, nous avons passé assez vite sur ce qui se passe vraiment quand on *crée* un commit. Vous savez peut-être qu'un commit représente des modifications sur un ensemble de fichiers, mais il y a en fait un petit processus pour choisir *quelles* modifications de fichiers vont dans *quels* commits.",
+              "",
+              "Git ne veut pas inclure automatiquement tous les fichiers modifiés dans tous les commits -- ce serait une mauvaise idée ! Cela pourrait figer une modification que vous ne voulez pas rendre permanente, ou même quelque chose de secret comme une clé d'API qui finirait sur GitHub dans l'historique.",
+              "",
+              "Ainsi, avant qu'une modification de fichier fasse partie d'un commit, elle doit être sélectionnée explicitement. Git a trois zones pour cela : votre **répertoire de travail** (où vous éditez), la **zone de staging** (un quai de chargement pour ce qui ira dans le prochain commit), et le **dépôt** (votre historique permanent).",
+              "",
+              "Vous choisissez *exactement* ce qui voyage dans chaque commit avec `git add`. C'est ainsi que les commits restent propres, et vous n'êtes jamais forcé de tout commiter d'un coup.",
+              "",
+              "*(Pour ces niveaux, nous montrerons désormais quels fichiers font partie de quels commits.)*",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Lancez `git status` à tout moment pour voir où vous en êtes. Pour l'instant, il montre deux fichiers que vous avez édités mais pas encore indexés :",
+              "",
+              "```",
+              "Modifications qui ne seront pas validées :",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Indexez un seul fichier avec `git add app.js`, ou prenez tout d'un coup avec `git add .`. Une fois un fichier indexé, `git commit` le scelle dans un snapshot.",
+              "",
+              "Vous avez des fichiers que vous ne voulez jamais commiter, comme des secrets, des logs, ou des déchets de compilation ? Listez-les dans un fichier `.gitignore` et Git les laissera tranquillement de côté.",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "À vous ! Indexez et commitez votre travail **un fichier à la fois**, pour que chaque commit reste ciblé :",
+              "",
+              "* `git add app.js`, puis `git commit`",
+              "* `git add styles.css`, puis `git commit`",
+              "",
+              "Les noms de fichiers à côté de chaque commit de l'objectif montrent exactement où chaque modification doit aller. Deux commits propres et le niveau est à vous.",
             ],
           },
         },
