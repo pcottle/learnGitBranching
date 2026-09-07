@@ -30,7 +30,8 @@ exports.level = {
     "tr_TR": "Git push argümanları",
     "hu_HU": "Git push argumentumok",
     "az": "Git push arqumentləri",
-    "te_IN": "Git push ఆర్గ్యుమెంట్లు"
+    "te_IN": "Git push ఆర్గ్యుమెంట్లు",
+    "hi_IN": "Git push आर्ग्युमेंट्स"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -57,7 +58,8 @@ exports.level = {
     "tr_TR": "Her zaman \"objective\" komutunu kullanarak diyalog penceresinin son sayfasına bakabilirsiniz",
     "hu_HU": "Mindig megnézheted a párbeszéd utolsó diáját az \"objective\" paranccsal",
     "az": "Dialoqun son slaydına həmişə \\\"objective\\\" ilə baxa bilərsən",
-    "te_IN": "ఎప్పుడైనా \"objective\" తో dialog యొక్క చివరి slide చూడవచ్చు"
+    "te_IN": "ఎప్పుడైనా \"objective\" తో dialog యొక్క చివరి slide చూడవచ్చు",
+    "hi_IN": "आप \"objective\" के साथ dialog की आख़िरी slide कभी भी देख सकते हैं"
   },
   "startDialog": {
     "en_US": {
@@ -130,6 +132,81 @@ exports.level = {
               "",
               "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
               "about this... simply use `origin` as the name of the remote like normal.*"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push arguments",
+              "",
+              "बढ़िया! अब जब आप remote tracking branches के बारे में जानते हैं, तो हम git push, fetch, और pull की working के पीछे का कुछ रहस्य खोलना शुरू कर सकते हैं। हम एक बार में एक command पर बात करेंगे, लेकिन इन सबके concepts एक जैसे ही हैं।",
+              "",
+              "पहले हम `git push` देखेंगे। आपने remote tracking lesson में सीखा था कि git, currently checked out branch की properties (जिस remote को वो \"track\" करती है) देखकर ये तय करता है कि कौन सा remote *और* कौन सी branch पर push करना है। बिना arguments के यही behaviour होता है, लेकिन git push optionally arguments भी ले सकता है, इस form में:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "आप पूछेंगे, ये `<place>` parameter क्या है? जल्द ही details में जाएँगे, लेकिन पहले एक example। ये command चलाइए:",
+              "",
+              "`git push origin main`",
+              "",
+              "इसका मतलब हिंदी में ये होता है:",
+              "",
+              "*मेरी repository में \"main\" नाम की branch पर जाओ, सारे commits उठाओ, और फिर \"origin\" नाम के remote पर जाकर उसकी \"main\" branch पर जाओ। उस branch पर जो commits missing हैं वो वहाँ रख दो, और काम पूरा होने पर मुझे बता दो।*",
+              "",
+              "`main` को \"place\" argument के तौर पर specify करके हमने git को बता दिया कि commits *कहाँ से आएँगे* और *कहाँ जाएँगे*। ये असल में दोनों repositories के बीच synchronize होने वाला \"place\" या \"location\" है।",
+              "",
+              "ध्यान रखें, चूँकि हमने git को सब कुछ बता दिया (दोनों arguments specify करके), वो पूरी तरह ignore करता है कि हम अभी कहाँ checked out हैं!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलो arguments specify करने का एक example देखें। ध्यान दो कि इस example में हम कहाँ checked out हैं।"
+            ],
+            "afterMarkdowns": [
+              "हो गया! जब हमने वो arguments specify किए तो `main` remote पर update हो गई।"
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "और अगर हम arguments specify न करें तो? क्या होगा?"
+            ],
+            "afterMarkdowns": [
+              "Command fail हो जाती है (जैसा आप देख सकते हैं), क्योंकि `HEAD` किसी remote-tracking branch पर checked out नहीं है।"
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ठीक है, इस level में remote पर `foo` और `main` दोनों को update करना है। Twist ये है कि इस level में `git checkout` disabled है!",
+              "",
+              "*Note: Remote branches के नाम `o/` prefix के साथ दिखाए जाते हैं, क्योंकि पूरा `origin/` नाम हमारी UI में fit नहीं होता। इसकी ",
+              "चिंता मत करो... बस हमेशा की तरह `origin` को remote के नाम की तरह इस्तेमाल करो.*"
             ]
           }
         }

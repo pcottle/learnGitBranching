@@ -24,6 +24,7 @@ exports.level = {
     "it_IT": "Introduzione ai commit in Git",
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்",
     "te_IN": "Git Commits పరిచయం",
+    "hi_IN": "Git Commits का परिचय",
     "tr_TR": "Git Commit'e Giriş",
     "hu_HU": "Bevezetés a Git commitokba",
     "az": "Git Commit-lərinə giriş"
@@ -56,6 +57,7 @@ exports.level = {
     "it_IT": "Digita 'git commit' due volte per finire!",
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!",
     "te_IN": "ఈ స్థాయిని పూర్తి చేయడానికి 'git commit' అని రెండుసార్లు టైప్ చేయి!",
+    "hi_IN": "बस दो बार 'git commit' टाइप करें और लेवल पूरा हो जाएगा!",
     "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir.",
     "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!",
     "az": "Bölümü bitirmək üçün sadəcə iki dəfə 'git commit' yaz!"
@@ -1036,6 +1038,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఈ స్క్రీన్ మూసిన తర్వాత ప్రయత్నించండి!, ఈ స్థాయిని పూర్తి చేయడానికి రెండు commits చేయండి."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commits",
+              "Git repository में commit आपकी directory की सारी (tracked) files का एक snapshot रिकॉर्ड करता है। ये एक बड़ी copy-paste जैसा ही है, बल्कि उससे भी बेहतर!",
+              "",
+              "Git commits को हल्का-फुल्का रखना चाहता है, इसलिए यह आपके commit करने की हर बार पूरी directory को अंधाधुंध copy नहीं करता। यह (जहां possible हो) एक commit को changes के एक सेट की तरह, या repository के एक version से अगले version तक के \"delta\" की तरह compress कर सकता है।",
+              "",
+              "Git यह भी याद रखता है कि कौन-सा commit कब बना था। इसीलिए ज़्यादातर commits के ऊपर उनके ancestor commits होते हैं -- हम इसे अपनी visualization में arrows से दिखाते हैं। History रखना project पर काम करने वालों सबके लिए फायदेमंद है!",
+              "",
+              "समझने के लिए बहुत कुछ है, लेकिन फिलहाल आप commits को project के snapshots समझिए। Commits बहुत हल्के होते हैं और उनके बीच switch करना बहुत तेज़ है!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए देखते हैं कि ये असल में कैसा दिखता है। दाईं तरफ हमारे पास एक (छोटे) git repository की visualization है। अभी वहां दो commits हैं -- पहला initial commit `C0`, और उसके बाद वाला एक commit `C1`, जिसमें कुछ meaningful changes हो सकते हैं।",
+              "",
+              "नया commit बनाने के लिए नीचे दिया बटन दबाएं।"
+            ],
+            "afterMarkdowns": [
+              "हो गया! कमाल। हमने अभी repository में changes किए और उन्हें एक commit के तौर पर save किया। हमारे बनाए इस commit का एक parent है, `C1`, जो बताता है कि यह commit किस commit पर बना था।"
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "अब आप खुद try करिए! ये window बंद होते ही, दो commits करें और लेवल पूरा करें।"
             ]
           }
         }

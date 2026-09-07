@@ -29,7 +29,8 @@ exports.level = {
     "tr_TR": "Değişiklikleri Git'te Geri Almak",
     "hu_HU": "Változtatások visszavonása Gitben",
     "az": "Git-də Dəyişikliklərin Geri Qaytarılması",
-    "te_IN": "Git లో మార్పులను రివర్ట్ చేయడం"
+    "te_IN": "Git లో మార్పులను రివర్ట్ చేయడం",
+    "hi_IN": "Git में Changes वापस लेना",
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -56,7 +57,8 @@ exports.level = {
     "tr_TR": "revert ve reset'in farklı parametreler aldığını unutma.",
     "hu_HU": "Figyeld meg, hogy a revert és a reset különböző argumentumokat fogad.",
     "az": "Qeyd et ki, revert və reset fərqli parametrlər qəbul edir.",
-    "te_IN": "revert మరియు reset వేర్వేరు ఆర్గ్యుమెంట్లు తీసుకుంటాయని గమనించు."
+    "te_IN": "revert మరియు reset వేర్వేరు ఆర్గ్యుమెంట్లు తీసుకుంటాయని గమనించు.",
+    "hi_IN": "ध्यान दें कि revert और reset अलग-अलग arguments लेती हैं।",
   },
   "startDialog": {
     "en_US": {
@@ -117,6 +119,68 @@ exports.level = {
               "To complete this level, reverse the most recent commit on both `local` and `pushed`. You will revert two commits total (one per branch).",
               "",
               "Keep in mind that `pushed` is a remote branch and `local` is a local branch -- that should help you choose your methods."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git में Changes वापस लेना",
+              "",
+              "Git में changes वापस लेने के बहुत सारे तरीके हैं। और commit करने की तरह ही, Git में changes वापस लेने में भी एक low-level हिस्सा होता है (अलग-अलग files या chunks को stage करना) और एक high-level हिस्सा (changes असल में कैसे वापस लिए जाते हैं)। हमारी app दूसरे हिस्से पर ध्यान देगी।",
+              "",
+              "Git में changes वापस लेने के दो मुख्य तरीके हैं -- एक है `git reset` और दूसरा है `git revert`। हम अगले dialog में इन दोनों को देखेंगे"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` एक branch की reference को समय में पीछे, एक पुराने commit तक खिसकाकर changes वापस लेता है। इस मायने में आप इसे \"history फिर से लिखना\" समझ सकते हैं; `git reset` branch को इतना पीछे ले जाता है कि जैसे वह commit कभी हुआ ही नहीं था।",
+              "",
+              "चलिए देखते हैं कि वह कैसा दिखता है:"
+            ],
+            "afterMarkdowns": [
+              "बढ़िया! Git ने main branch की reference को `C1` तक वापस खिसका दिया; अब हमारा local repository ऐसी हालत में है जैसे `C2` कभी हुआ ही नहीं।"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Reset आपके अपने machine की local branches के लिए बहुत अच्छा काम करता है, लेकिन उसका \"history फिर से लिखने\" वाला तरीका उन remote branches के लिए काम नहीं करता जिनका इस्तेमाल और लोग कर रहे हैं।",
+              "",
+              "Changes वापस लेने और उन वापस लिए हुए changes को *दूसरों के साथ शेयर* करने के लिए हमें `git revert` इस्तेमाल करना होगा। चलिए इसे असल में देखते हैं।"
+            ],
+            "afterMarkdowns": [
+              "अजीब है, branch के आखिर में एक नया commit जुड़ गया। ऐसा इसलिए क्योंकि यह नया commit `C2'` ऐसे changes लाता है जो `C2` वाले changes को ठीक-ठाक उलट देते हैं।",
+              "",
+              "Revert करने से आप अपने changes को दूसरों के साथ शेयर करने के लिए push कर सकते हैं।"
+            ],
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यह लेवल पूरा करने के लिए, `local` और `pushed` दोनों पर सबसे नए commit को वापस लें। आपको कुल दो commits वापस लेने हैं (हर branch पर एक)।",
+              "",
+              "ध्यान में रखें कि `pushed` एक remote branch है और `local` एक local branch -- इससे आपको अपने तरीके चुनने में मदद मिलेगी।"
             ]
           }
         }

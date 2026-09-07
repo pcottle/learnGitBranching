@@ -27,7 +27,8 @@ exports.level = {
     "tr_TR": "Unutmayın, her zaman undo veya reset komutlarını kullanabilirsiniz.",
     "hu_HU": "Ne feledd, mindig használhatod az undo vagy a reset parancsokat",
     "az": "Main-i Push et!",
-    "te_IN": "Main ను Push చేయి!"
+    "te_IN": "Main ను Push చేయి!",
+    "hi_IN": "Main को Push करो!"
   },
   "name": {
     "en_US": "Push Main!",
@@ -54,7 +55,8 @@ exports.level = {
     "tr_TR": "Main'i Push Et!",
     "hu_HU": "Sok feature pusholása",
     "az": "Unutma, həmişə undo və ya reset əmrlərini işlədə bilərsən",
-    "te_IN": "Main ను Push చేయి!"
+    "te_IN": "Main ను Push చేయి!",
+    "hi_IN": "याद रखो, आप हमेशा undo या reset commands इस्तेमाल कर सकते हैं"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -106,6 +108,59 @@ exports.level = {
               "* The remote has since been updated, so we will need to incorporate that work as well",
               "",
               ":O intense! good luck, completing this level is a big step."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Feature branches को merge करना",
+              "",
+              "अब जब आप fetch, pull, और push में comfortable हो गए हैं, चलो एक नए workflow के साथ इन skills का टेस्ट करते हैं।",
+              "",
+              "बड़े projects में developers अक्सर अपना सारा work feature branches पर (`main` से बनी हुई) करते हैं और उसे तभी integrate करते हैं जब वो तैयार हो जाता है। ये पिछले lesson जैसा ही है (जहाँ side branches को remote पर push किया जाता था), लेकिन यहाँ हम एक और step जोड़ते हैं।",
+              "",
+              "कुछ developers सिर्फ़ `main` branch पर होने पर ही push और pull करते हैं -- इससे `main` हमेशा remote (`o/main`) वाले work के साथ updated रहती है।",
+              "",
+              "तो इस workflow में हम दो चीज़ों को जोड़ते हैं:",
+              "",
+              "* feature branch के work को `main` में integrate करना, और",
+              "* remote से push और pull करना"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलो बहुत जल्दी से एक refresher देखें कि `main` को update करके work कैसे push करते हैं।"
+            ],
+            "afterMarkdowns": [
+              "यहाँ हमने दो commands चलाईं जिनसे:",
+              "",
+              "* हमारा work remote के नए commits पर rebase हो गया, और",
+              "* हमारा work remote पर publish हो गया"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ये level काफ़ी भारी है -- इसे solve करने का बड़ा outline ये है:",
+              "",
+              "* तीन feature branches हैं -- `side1` `side2` और `side3`",
+              "* हम इनमें से हर feature को, एक के बाद एक order से, remote पर push करना चाहते हैं",
+              "* Remote तब से updated हो चुका है, तो हमें वो work भी अपने साथ incorporate करना होगा",
+              "",
+              ":O गज़ब है! शुभकामनाएँ, ये level पूरा करना एक बड़ा क़दम है।"
             ]
           }
         }

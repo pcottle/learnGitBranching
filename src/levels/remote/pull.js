@@ -26,7 +26,8 @@ exports.level = {
     "tr_TR": "Git Pull",
     "hu_HU": "Git pull",
     "az": "Git Pull",
-    "te_IN": "Git Pull"
+    "te_IN": "Git Pull",
+    "hi_IN": "Git Pull",
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -53,7 +54,8 @@ exports.level = {
     "tr_TR": "Sadece git pull komutunu çalıştırın!",
     "hu_HU": "Csak futtasd a git pull-t!",
     "az": "Sadəcə git pull et!",
-    "te_IN": "సింపుల్ గా git pull చేయి!"
+    "te_IN": "సింపుల్ గా git pull చేయి!",
+    "hi_IN": "बस git pull रन करो!"
   },
   "startDialog": {
     "en_US": {
@@ -1554,6 +1556,67 @@ exports.level = {
               "`git pull` యొక్క details (options మరియు arguments సహా) తర్వాత explore చేస్తాం, కానీ ఇప్పుడు ఈ level లో try చేద్దాం.",
               "",
               "గుర్తుపెట్టుకో -- ఈ level ను నిజానికి `fetch` మరియు `merge` తో solve చేయవచ్చు, కానీ అది మరొక extra command అవుతుంది :P"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "अब जब हमने देख लिया कि `git fetch` से remote repository से डेटा कैसे फेच करते हैं, चलो अपने काम को उन बदलावों को दिखाने के लिए अपडेट करें!",
+              "",
+              "असल में इसके कई तरीके हैं -- जैसे ही नए commits आपके लोकल पर आ जाते हैं, आप उन्हें ऐसे शामिल कर सकते हो जैसे वे दूसरी branches के सामान्य commits हों। इसका मतलब है कि आप ऐसी कमांड्स चला सकते हो:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* वग़ैरह, वग़ैरह।",
+              "",
+              "असल में, remote बदलावों को *फेच* करके फिर उन्हें *मर्ज* करने का तरीका इतना आम है कि git ने एक कमांड दी है जो दोनों काम एक साथ करती है! वह कमांड है `git pull`।",
+              "",
+              "*नोट:* Git 2.27 में एक चेतावनी आई थी जब कोई pull स्ट्रैटेजी कॉन्फ़िगर नहीं थी। Git 2.34 से, ऐसी स्थिति में सादा `git pull` अलग हुई branches पर रुक जाता है और आपसे पूछता है कि उन्हें कैसे मिलाना है। मर्ज के लिए `git pull --no-rebase`, या rebase के लिए `git pull --rebase` इस्तेमाल करो। इस सिम्युलेटर में, `git pull` डिफ़ॉल्ट रूप से मर्ज व्यवहार अपनाता है।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलो पहले एक `fetch` और एक `merge` को क्रम से चलते देखें।"
+            ],
+            "afterMarkdowns": [
+              "धमाल -- हमने `fetch` से `C3` डाउनलोड किया और फिर उस काम को `git merge o/main` से मर्ज किया। अब हमारी `main` branch remote (इस मामले में, जिसका नाम `origin` है) के नए काम को दिखाती है।"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "अगर इसकी जगह `git pull` इस्तेमाल करें तो क्या होगा?"
+            ],
+            "afterMarkdowns": [
+              "वही बात! इससे साफ़ समझ आना चाहिए कि यह सिम्युलेटर `git pull` को `git fetch` के बाद अभी-अभी फेच की गई branch के मर्ज का शॉर्टकट मानता है। असली Git में, branches अलग होने पर यह मर्ज व्यवहार `git pull --no-rebase` के मुताबिक़ है।"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "हम `git pull` की बारीकियाँ बाद में देखेंगे (विकल्पों और आर्ग्युमेंट्स समेत), लेकिन अभी चलो इस level में इसे आज़माएँ।",
+              "",
+              "याद रखो -- आप यह level असल में सिर्फ़ `fetch` और `merge` से भी हल कर सकते हो, लेकिन उसमें एक एक्स्ट्रा कमांड लगेगी :P"
             ]
           }
         }

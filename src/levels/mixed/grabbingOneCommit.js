@@ -38,6 +38,7 @@ exports.level = {
     "pl": "Wzięcie tylko 1 commita",
     "ta_IN": "ஒரே ஒரு commit மட்டும் எடுப்பது",
     "te_IN": "ఒకే ఒక commit ను తీసుకోవడం",
+    "hi_IN": "सिर्फ 1 Commit उठाना",
     "tr_TR": "Sadece 1 commit'i yakalamak",
     "hu_HU": "Csak 1 commit átvétele",
     "az": "Cəmi 1 commit-i götürmək"
@@ -67,6 +68,7 @@ exports.level = {
     "pl": "Pamiętaj, że znasz już interaktywny rebase oraz cherry-pick",
     "ta_IN": "மறவாதீர்கள், interactive rebase அல்லது cherry-pick இங்கே உங்கள் நண்பர்",
     "te_IN": "గుర్తుంచుకోండి, interactive rebase లేదా cherry-pick ఇక్కడ మీ మిత్రుడు",
+    "hi_IN": "याद रखो, interactive rebase या cherry-pick यहाँ आपका दोस्त है",
     "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız.",
     "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben",
     "az": "Yadında saxla, interactive rebase və ya cherry-pick burada sənin dostundur"
@@ -106,6 +108,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure `main` receives the commit that `bugFix` references."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Locally stacked commits",
+              "",
+              "एक development situation जो अक्सर होती है: मैं एक bug ढूंढ रहा हूँ लेकिन वो बहुत चालाकी से छिपा है। अपनी detective work में मदद के लिए मैं कुछ debug कमांड और कुछ print statements डाल देता हूँ।",
+              "",
+              "ये सारे debugging / print statements अपने-अपने commits में हैं। आखिरकार मुझे bug मिल जाता है, मैं उसे fix करता हूँ और खुश हो जाता हूँ!",
+              "",
+              "बस एक दिक्कत है -- अब मुझे अपना `bugFix` वापस `main` branch में ले जाना है। अगर मैं `main` को सीधे fast-forward कर दूँ, तो `main` में मेरे सारे debug statements भी चले जाएंगे, जो ठीक नहीं है। कोई और रास्ता होना चाहिए..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "हमें git को बताना है कि सिर्फ एक commit को कॉपी करे। यह बिल्कुल पिछले levels जैसा है जहाँ हमने work इधर-उधर किया था -- हम वही कमांड इस्तेमाल कर सकते हैं:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "इस goal को पाने के लिए।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यह एक बाद का level है, इसलिए कौन सी कमांड इस्तेमाल करनी है यह फैसला आप पर छोड़ रहे हैं, लेकिन level पूरा करने के लिए ध्यान रखें कि `main` को वही commit मिले जिसे `bugFix` point कर रहा है।"
             ]
           }
         }

@@ -27,6 +27,7 @@ exports.level = {
     "tr_TR": "Göreli Referanslar (^)",
     "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)",
     "te_IN": "హెచ్చరిక రిఫరెన్సులు (^)",
+    "hi_IN": "Relative Refs (^)",
     "hu_HU": "Relatív hivatkozások (^)",
     "az": "Nisbi Ref-lər (^)"
   },
@@ -54,6 +55,7 @@ exports.level = {
     "pl": "Pamiętaj o operatorze wstawienia (^)!",
     "ta_IN": "உதவிக்குறிப்பை (^), மறக்காதீர்கள்!",
     "te_IN": "హెచ్చరిక (^), మరచిపోకండి!",
+    "hi_IN": "Caret (^) operator को याद रखें!",
     "tr_TR": "^ operatörünü hatırlayın!",
     "hu_HU": "Ne feledd a kalap (^) operátort!",
     "az": "Caret (^) operatorunu yadında saxla!"
@@ -129,6 +131,81 @@ exports.level = {
               "To complete this level, check out the parent commit of `bugFix`. This will detach `HEAD`.",
               "",
               "You can specify the hash if you want, but try using relative refs instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relative Refs",
+              "",
+              "Git में commit hashes बताकर इधर-उधर जाना थोड़ा थकाऊ हो सकता है। असली दुनिया में आपके terminal के पास कोई चटपटा commit tree visualization नहीं दिखेगा, तो आपको hashes देखने के लिए `git log` इस्तेमाल करना पड़ेगा।",
+              "",
+              "और भी बात, असली Git की दुनिया में hashes आम तौर पर काफी लंबी होती हैं। जैसे, पिछले लेवल को बनाने वाले commit का hash है `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`। मुंह से बोलने में बिल्कुल आसान नहीं है...",
+              "",
+              "अच्छी बात यह है कि Git hashes में होशियार है। यह आपसे उतने ही characters मांगता है जितने उस commit को अकेले पहचानने के लिए चाहिए। तो ऊपर वाली लंबी string की जगह मैं सिर्फ `fed2` टाइप कर सकता हूं।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "जैसा मैंने कहा, commits को उनके hash से बताना सबसे आसान काम नहीं है, इसीलिए Git में relative refs हैं। ये कमाल होती हैं!",
+              "",
+              "Relative refs के साथ, आप किसी याद रखने में आसान जगह से शुरू कर सकते हैं (जैसे `bugFix` branch या `HEAD`) और वहीं से काम चला सकते हैं।",
+              "",
+              "Relative commits बहुत ताकतवर होते हैं, लेकिन हम यहां दो आसान चीज़ें देखेंगे:",
+              "",
+              "* `^` से एक बार में एक commit ऊपर जाना",
+              "* `~<num>` से एक साथ कई commits ऊपर जाना"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए पहले Caret (^) operator को देखते हैं। हर बार जब आप इसे किसी ref के नाम के पीछे जोड़ते हैं, तो आप Git को बता रहे हैं कि बताए गए commit का parent ढूंढे।",
+              "",
+              "यानी `main^` लिखने का मतलब है \"`main` का पहला parent\"।",
+              "",
+              "`main^^` यानी `main` का grandparent (दूसरी पीढ़ी का ancestor)",
+              "",
+              "चलिए यहां main के ऊपर वाले commit पर चलते हैं।"
+            ],
+            "afterMarkdowns": [
+              "धमाका! हो गया। Commit hash टाइप करने से कहीं आसान।"
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "आप `HEAD` को भी एक relative ref की तरह इस्तेमाल कर सकते हैं। चलिए इसे कुछ बार इस्तेमाल करके commit tree में ऊपर चलते हैं।"
+            ],
+            "afterMarkdowns": [
+              "आसान है! `HEAD^` से हम समय में पीछे जा सकते हैं"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यह लेवल पूरा करने के लिए, `bugFix` के parent commit पर जाएं। इससे `HEAD` अलग (detach) हो जाएगा।",
+              "",
+              "आप चाहें तो hash लिख सकते हैं, लेकिन इसकी जगह relative refs इस्तेमाल करके देखें!"
             ]
           }
         }

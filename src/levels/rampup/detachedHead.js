@@ -28,6 +28,7 @@ exports.level = {
     "tr_TR": "HEAD'i Ayır",
     "ta_IN": "உங்கள் HEAD ஐப் பிரிகொள்ளுங்கள்",
     "te_IN": "మీ HEAD ను వేరుచేయి",
+    "hi_IN": "HEAD को अलग करें",
     "hu_HU": "Fejlécz le! (Detach HEAD)",
     "az": "HEAD'ini Ayır"
   },
@@ -55,6 +56,7 @@ exports.level = {
     "pl": "Użyj nazwy commita (hasza)!",
     "ta_IN": "உங்களுக்கு உதவ commit இன் லேபிள் (hash) ஐப் பயன்படுத்துங்கள்!",
     "te_IN": "సహాయం కోసం commit hash ను యూజ్ చేయి!",
+    "hi_IN": "मदद के लिए commit का hash (लेबल) इस्तेमाल करें!",
     "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!",
     "hu_HU": "Használd a commit azonosítóját (hash)!",
     "az": "Kömək üçün commit üzərindəki etiketdən (hash) istifadə et!"
@@ -133,6 +135,84 @@ exports.level = {
               "To complete this level, let's detach HEAD from `bugFix` and attach it to the commit instead.",
               "",
               "Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git में इधर-उधर घूमना",
+              "",
+              "Git के कुछ advanced features पर जाने से पहले, यह समझना ज़रूरी है कि आपके project को दिखाने वाले commit tree में अलग-अलग तरीकों से कैसे घूम सकते हैं।",
+              "",
+              "जब आप आराम से इधर-उधर घूमना सीख जाएंगे, तो बाकी git कमांड्स की आपकी पकड़ और बढ़ जाएगी!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "सबसे पहले हमें \"HEAD\" के बारे में बात करनी है। HEAD उस commit का एक symbolic नाम है जो इस वक्त checked out है -- यानी असल में वह commit जिसके ऊपर आप काम कर रहे हैं।",
+              "",
+              "HEAD हमेशा उस सबसे नए commit की तरफ इशारा करता है जो working tree में दिखाई दे रहा है। जो ज़्यादातर git कमांड्स working tree में बदलाव करती हैं, वे HEAD बदलने से शुरू होती हैं।",
+              "",
+              "आम तौर पर HEAD किसी branch के नाम (जैसे bugFix) की तरफ इशारा करता है। जब आप commit करते हैं, तो bugFix की स्थिति बदल जाती है और यह बदलाव HEAD से दिखाई देता है।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए इसे असल में देखते हैं। यहाँ हम एक commit से पहले और बाद में HEAD देखेंगे।"
+            ],
+            "afterMarkdowns": [
+              "देखा! HEAD शुरू से हमारी `main` branch के नीचे छुपा हुआ था।"
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEAD को अलग करना",
+              "",
+              "HEAD को अलग (detach) करने का सीधा मतलब है कि उसे किसी branch की जगह किसी commit से जोड़ देना। इससे पहले यह ऐसा दिखता है:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "और अब यह ऐसा हो गया:",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यह लेवल पूरा करने के लिए, चलिए HEAD को `bugFix` से अलग करके उसे commit से जोड़ दें।",
+              "",
+              "इस commit को उसके hash से बताएं। हर commit का hash उस commit को दिखाने वाले circle पर लिखा होता है।"
             ]
           }
         }

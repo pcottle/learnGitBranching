@@ -27,7 +27,8 @@ exports.level = {
     "tr_TR": "Uzak Dallar",
     "hu_HU": "Távoli ágak",
     "az": "Remote Branch-lar",
-    "te_IN": "Remote Branches"
+    "te_IN": "Remote Branches",
+    "hi_IN": "Remote Branches"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -54,7 +55,8 @@ exports.level = {
     "tr_TR": "Sıraya dikkat et -- önce main üzerinde commit yap!",
     "hu_HU": "Figyelj a sorrendere -- először a main-en commitolj!",
     "az": "Ardıcıllığa diqqət et -- əvvəlcə main-də commit et!",
-    "te_IN": "ఆర్డరింగ్ పై దృష్టి పెట్టు — మొదట main పై commit చేయి!"
+    "te_IN": "ఆర్డరింగ్ పై దృష్టి పెట్టు — మొదట main పై commit చేయి!",
+    "hi_IN": "Ordering पर ध्यान दो -- पहले main पर commit करो!"
   },
   "startDialog": {
     "en_US": {
@@ -115,6 +117,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, commit once off of `main` and once after checking out `o/main`. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote Branches",
+              "",
+              "अब जब आपने `git clone` को action में देख लिया, चलो जानते हैं कि असल में क्या बदला।",
+              "",
+              "पहली चीज़ जो आपको दिखी होगी, वो है हमारी local repository में एक नई branch जिसका नाम `o/main` है। इस तरह की branch को _remote_ branch कहते हैं; remote branches की ख़ास properties होती हैं क्योंकि इनका एक unique काम होता है।",
+              "",
+              "Remote branches, remote repositories की _state_ को reflect करती हैं (आख़िरी बार जब आपने उन remote repositories से बात की थी, तब से)। ये आपको ये समझने में मदद करती हैं कि आपका local work और public work में क्या फ़र्क़ है -- दूसरों के साथ work share करने से पहले ये एक critical step है।",
+              "",
+              "Remote branches की एक ख़ास property ये है कि जब आप इन्हें checkout करते हैं, तो आप detached `HEAD` mode में चले जाते हैं। Git ये जानबूझकर करता है क्योंकि आप इन branches पर सीधे work नहीं कर सकते; आपको कहीं और work करना है और फिर अपना work remote के साथ share करना है (जिसके बाद आपकी remote branches update हो जाएँगी)।",
+              "",
+              "साफ़ शब्दों में: Remote branches आपकी _local_ repository पर होती हैं, remote repository पर नहीं।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `o/` क्या है?",
+              "",
+              "शायद आप सोच रहे हों कि इन remote branches के नाम के आगे `o/` किस लिए है। दरअसल, remote branches की एक (ज़रूरी) naming convention भी है -- इन्हें इस format में दिखाया जाता है:",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "इसलिए, अगर आप `o/main` नाम की branch देखें, तो branch का नाम `main` है और remote का नाम `o` है।",
+              "",
+              "ज़्यादातर developers असल में अपने main remote को `o` नहीं बल्कि `origin` नाम देते हैं। ये इतना common है कि जब आप किसी repository को `git clone` करते हैं तो git ख़ुद आपका remote `origin` नाम से set कर देता है।",
+              "",
+              "अफ़सोस कि `origin` का पूरा नाम हमारी UI में fit नहीं होता, इसलिए हम `o` को shorthand की तरह इस्तेमाल करते हैं :( बस ये याद रखो कि असली git में आपका remote शायद `origin` ही होगा!",
+              "",
+              "समझने के लिए बहुत कुछ है, तो चलो इस सबको action में देखें।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलो एक remote branch को checkout करके देखें कि क्या होता है।"
+            ],
+            "afterMarkdowns": [
+              "जैसा आप देख सकते हैं, git ने हमें detached `HEAD` mode में डाल दिया और नई commit add करने पर `o/main` को update नहीं किया। इसकी वजह ये है कि `o/main` सिर्फ़ तब update होती है जब remote update हो।"
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "इस level को पूरा करने के लिए एक बार `main` से और एक बार `o/main` को checkout करने के बाद commit करो। इससे आपको समझ आएगा कि remote branches कैसे अलग तरह से behave करती हैं, और वो सिर्फ़ remote की state को reflect करने के लिए update होती हैं।"
             ]
           }
         }

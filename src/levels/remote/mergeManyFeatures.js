@@ -26,7 +26,8 @@ exports.level = {
     "tr_TR": "Uzak Sunucularla Birleştirme",
     "hu_HU": "Merge a távolival",
     "az": "Remote-larla merge etmək",
-    "te_IN": "Remotes తో merge చేయడం"
+    "te_IN": "Remotes తో merge చేయడం",
+    "hi_IN": "Remotes के साथ merge करना"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -53,7 +54,8 @@ exports.level = {
     "tr_TR": "Hedef ağacına dikkat et!",
     "hu_HU": "Figyelj a célgráfra!",
     "az": "Hədəf ağacına diqqət et!",
-    "te_IN": "లక్ష్య ట్రీ పై దృష్టి పెట్టు!"
+    "te_IN": "లక్ష్య ట్రీ పై దృష్టి పెట్టు!",
+    "hi_IN": "गोल ट्री पर ध्यान दो!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -1211,6 +1213,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "మునుపటి level ను ఈసారి *merge* తో solve చేయడానికి try చేద్దాం. కొంచెం messy గా ఉండవచ్చు, కానీ problem ను బాగా visualize చేస్తుంది."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Merge क्यों नहीं?",
+              "",
+              "Remote पर नए अपडेट push करने के लिए, तुम्हें बस इतना करना है कि remote के लेटेस्ट बदलावों को अपने काम में *शामिल* कर लो। इसका मतलब है कि तुम remote branch (जैसे `o/main`) पर rebase *या* merge — कुछ भी कर सकते हो।",
+              "",
+              "तो अगर दोनों तरीके चलते हैं, तो अब तक के पाठ rebase पर ही क्यों केंद्रित रहे? Remotes के साथ काम करते वक़्त `merge` को थोड़ा प्यार क्यों नहीं मिलता?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Developer कम्युनिटी में merge और rebase के फ़ायदे-नुक़सान पर बहुत बहस चलती है। यहाँ rebase के आम फ़ायदे / नुक़सान हैं:",
+              "",
+              "फ़ायदे:",
+              "",
+              "* Rebase तुम्हारे commit tree को बहुत साफ़ दिखाता है, क्योंकि सब कुछ एक सीधी लाइन में रहता है",
+              "",
+              "नुक़सान:",
+              "",
+              "* Rebase commit tree की (दिखने वाली) हिस्ट्री बदल देता है।",
+              "",
+              "उदाहरण के लिए, commit `C1` को `C3` के *बाद* rebase किया जा सकता है। फिर लगता है कि `C1'` का काम `C3` के बाद हुआ, हालाँकि असल में वह पहले ही पूरा हो चुका था।",
+              "",
+              "कुछ developers हिस्ट्री को सुरक्षित रखना पसंद करते हैं, इसलिए merge को तरजीह देते हैं। दूसरे (जैसे मैं) साफ़ commit tree पसंद करते हैं, इसलिए rebase को तरजीह देते हैं। सब आपकी पसंद पर टिका है :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "इस level के लिए, चलो पिछला level हल करने की कोशिश करें, लेकिन इस बार *merge* के साथ। थोड़ा उलझ सकता है, लेकिन बात को अच्छी तरह समझा देगा।"
             ]
           }
         }

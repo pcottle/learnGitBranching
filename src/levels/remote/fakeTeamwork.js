@@ -27,7 +27,8 @@ exports.level = {
     "tr_TR": "Takım Çalışması Simülasyonu",
     "hu_HU": "Csapatmunka szimulálása",
     "az": "Komanda İşini Təqlid Etmək",
-    "te_IN": "టీమ్ వర్క్ సిమ్యులేట్ చేయడం"
+    "te_IN": "టీమ్ వర్క్ సిమ్యులేట్ చేయడం",
+    "hi_IN": "टीम वर्क सिम्युलेट करना"
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
@@ -54,7 +55,8 @@ exports.level = {
     "tr_TR": "Kaç commit oluşturulacağını belirtebileceğinizi unutmayın",
     "hu_HU": "Emlékezz, megadhatod a szimulált commitok számát",
     "az": "Unutma, təqlid ediləcək commit-lərin sayını göstərə bilərsən",
-    "te_IN": "సిమ్యులేట్ చేయడానికి commits సంఖ్యను స్పెసిఫై చేయగలవని గుర్తుపెట్టుకో"
+    "te_IN": "సిమ్యులేట్ చేయడానికి commits సంఖ్యను స్పెసిఫై చేయగలవని గుర్తుపెట్టుకో",
+    "hi_IN": "याद रखो, सिम्युलेट करने के लिए commits की संख्या स्पेसिफ़ाई कर सकते हो"
   },
   "startDialog": {
     "en_US": {
@@ -1404,6 +1406,60 @@ exports.level = {
               "రాబోయే levels చాలా కష్టంగా ఉంటాయి, కాబట్టి ఈ level లో మేము మీ నుండి ఎక్కువ ఆశిస్తున్నాం.",
               "",
               "కొనసాగించు: remote ను clone చేయి (`git clone` తో), ఆ remote లో కొన్ని మార్పులు సిమ్యులేట్ చేయి, ఒక లోకల్ commit యాడ్ చేయి, తర్వాత remote మార్పులను పుల్ చేసి merge చేయి. ఇది చాలా పాఠాలు ఒకేసారి చేసినట్లే!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## कोलैबोरेशन सिम्युलेट करना",
+              "",
+              "यहाँ एक ट्रिकी बात है -- आने वाले कुछ पाठों के लिए, हमें आपको सिखाना होगा कि remote में आए बदलावों को कैसे pull किया जाता है।",
+              "",
+              "इसका मतलब है कि हमें असल में \"नाटक\" करना होगा कि remote को आपके किसी को-वर्कर / दोस्त / कोलैबोरेटर ने अपडेट किया है, कभी-कभी किसी खास branch पर या तय संख्या में commits के साथ।",
+              "",
+              "इसके लिए, हमने एक फ़िट नाम वाली कमांड `git fakeTeamwork` पेश की है! इसका मतलब बहुत साफ़ है, आइए एक डेमो देखें..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork` का डिफ़ॉल्ट व्यवहार बस main पर एक commit डाल देना है।"
+            ],
+            "afterMarkdowns": [
+              "देखो! हमारे remote में एक नया commit आ गया है, और हमने अभी तक `git fetch` रन नहीं किया है, इसलिए वह commit अभी डाउनलोड नहीं हुआ है।"
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "कमांड के आख़िर में commits की संख्या या branch भी स्पेसिफ़ाई कर सकते हो।"
+            ],
+            "afterMarkdowns": [
+              "एक ही कमांड से हमने सिम्युलेट किया कि एक टीममेट ने हमारे remote की `foo` branch पर तीन commits push किए।"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "आने वाले levels काफ़ी मुश्किल होंगे, इसलिए इस level में हम आपसे थोड़ा ज़्यादा उम्मीद कर रहे हैं।",
+              "",
+              "चलो शुरू करो: remote को clone करो (`git clone` से), उस remote पर कुछ बदलाव सिम्युलेट करो, एक लोकल commit जोड़ो, फिर remote के बदलाव pull करके merge करो। यह कई पाठ एक साथ करने जैसा है!"
             ]
           }
         }
