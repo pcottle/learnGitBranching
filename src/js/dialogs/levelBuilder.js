@@ -18,6 +18,25 @@ exports.dialog = {
       ]
     }
   }],
+  'hi_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Level builder में स्वागत है!',
+        '',
+        'यहाँ मुख्य steps हैं:',
+        '',
+        '  * Git कमांड्स से शुरुआती environment सेट करो',
+        '  * ```define start``` से शुरुआती tree डिफाइन करो',
+        '  * वो git कमांड्स की series डालो जो (सबसे अच्छा) solution बनाती है',
+        '  * ```define goal``` से goal tree डिफाइन करो। Goal डिफाइन करने से solution भी डिफाइन हो जाता है',
+        '  * चाहें तो ```define hint``` से एक hint डिफाइन करो',
+        '  * ```define name``` से नाम एडिट करो',
+        '  * चाहें तो ```edit dialog``` से एक अच्छा start dialog डिफाइन करो',
+        '  * अपना level JSON आउटपुट पाने के लिए ```finish``` कमांड डालो!'
+      ]
+    }
+  }],
   'de_DE': [{
     type: 'ModalAlert',
     options: {

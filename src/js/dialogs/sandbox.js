@@ -24,6 +24,29 @@ exports.dialog = {
       ]
     }
   }],
+  'hi_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Learn Git Branching में स्वागत है',
+        '',
+        'Git सीखने में दिलचस्पी है? तो आप बिल्कुल सही जगह पर आए हैं! ',
+        '"Learn Git Branching" web पर Git सीखने का सबसे visual और interactive तरीका है; ',
+        'आपको मज़ेदार levels से challenge किया जाएगा, powerful features के step-by-step ',
+        'demonstrations दिए जाएंगे, और रास्ते में थोड़ा मज़ा भी आएगा।',
+        '',
+        'इस dialog के बाद आप हमारे सारे levels देखेंगे। अगर आप beginner हैं, तो ',
+        'बस पहले level से शुरू करें। अगर आपको Git की basics पहले से आती हैं, तो ',
+        'बाद के ज़्यादा challenging levels ट्राई करें।',
+        '',
+        'Terminal में `show commands` टाइप करके आप सभी available कमांड्स देख सकते हैं।',
+        '',
+        'PS: अगली बार सीधे sandbox में जाना चाहते हैं?',
+        'ट्राई करें ',
+        '[यह special link](https://pcottle.github.io/learnGitBranching/?locale=hi_IN&NODEMO)'
+      ]
+    }
+  }],
   'es_AR': [{
     type: 'ModalAlert',
     options: {

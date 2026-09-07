@@ -10,6 +10,17 @@ exports.dialog = {
       ]
     }
   }],
+  'hi_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## शाबाश!!!',
+        '',
+        'आपने यह level *{numCommands}* कमांड में solve किया; ',
+        'हमारा solution {best} इस्तेमाल करता है।'
+      ]
+    }
+  }],
   'de_DE': [{
     type: 'ModalAlert',
     options: {

@@ -9,6 +9,16 @@ exports.dialog = {
       ]
     }
   }],
+  'hi_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## क्या आप सचमुच solution देखना चाहेंगे?',
+        '',
+        'मुझे आप पर भरोसा है! आप यह कर सकते हैं!'
+      ]
+    }
+  }],
   'de_DE': [{
     type: 'ModalAlert',
     options: {
