@@ -3084,146 +3084,182 @@ exports.strings = {
   },
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
-    "en_US": "Show commands"
+    "en_US": "Show commands",
+    "te_IN": "కమాండ్స్ చూపించు",
   },
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
-    "en_US": "Show available languages"
+    "en_US": "Show available languages",
+    "te_IN": "అందుబాటులో ఉన్న భాషలు చూపించు",
   },
   "main-helper-bar-threads": {
     "__desc__": "Tooltip for the link to the author's Threads profile",
-    "en_US": "Follow me on Threads"
+    "en_US": "Follow me on Threads",
+    "te_IN": "Threads లో నన్ను ఫాలో అవ్వండి",
   },
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
-    "en_US": "Bad numeric argument: {arg}"
+    "en_US": "Bad numeric argument: {arg}",
+    "te_IN": "సంఖ్యా ఆర్గ్యుమెంట్ తప్పు: {arg}",
   },
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
-    "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute"
+    "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute",
+    "te_IN": "Reset solved చేస్తే ప్రతి స్థాయి ఇంకా solve చేయనిదిగా మారుతుంది; ఇది destructive కమాండ్ కాబట్టి, అమలు చేయడానికి --confirm ఇవ్వండి",
   },
   "sandbox-error-something-went-wrong": {
     "__desc__": "Generic error when opening a level fails, {error} is the exception text",
-    "en_US": "Something went wrong {error}"
+    "en_US": "Something went wrong {error}",
+    "te_IN": "ఏదో తప్పు జరిగింది {error}",
   },
   "sandbox-alias-set": {
     "__desc__": "Confirmation that a command alias was created",
-    "en_US": "Set alias \"{alias}\" to \"{expansion}\""
+    "en_US": "Set alias \"{alias}\" to \"{expansion}\"",
+    "te_IN": "alias \"{alias}\" ని \"{expansion}\" కి సెట్ చేశారు",
   },
   "sandbox-alias-removed": {
     "__desc__": "Confirmation that a command alias was removed",
-    "en_US": "Removed alias \"{alias}\""
+    "en_US": "Removed alias \"{alias}\"",
+    "te_IN": "alias \"{alias}\" ని తీసేశారు",
   },
   "sandbox-rollup-done": {
     "__desc__": "Confirmation that previous commands were combined into one",
-    "en_US": "Commands combined!"
+    "en_US": "Commands combined!",
+    "te_IN": "కమాండ్స్ కలిపేశారు!",
   },
   "git-error-fetch-checked-out": {
     "__desc__": "Error when fetching into the branch that is currently checked out",
-    "en_US": "cannot fetch to {ref} when checked out on {ref}"
+    "en_US": "cannot fetch to {ref} when checked out on {ref}",
+    "te_IN": "{ref} పై checkout లో ఉన్నప్పుడు {ref} కి fetch చేయలేరు",
   },
   "git-error-not-a-branch": {
     "__desc__": "Error when a ref that must be a branch is not one",
-    "en_US": "{ref} is not a branch"
+    "en_US": "{ref} is not a branch",
+    "te_IN": "{ref} ఒక branch కాదు",
   },
   "git-error-not-a-remote-branch": {
     "__desc__": "Error when a ref that must be a remote branch is not one",
-    "en_US": "{ref} is not a remote branch"
+    "en_US": "{ref} is not a remote branch",
+    "te_IN": "{ref} ఒక రిమోట్ branch కాదు",
   },
   "git-error-not-a-remote": {
     "__desc__": "Error when the named remote does not exist in the repository",
-    "en_US": "{remote} is not a remote in your repository! try adding origin to that argument"
+    "en_US": "{remote} is not a remote in your repository! try adding origin to that argument",
+    "te_IN": "{remote} మీ రిపోజిటరీలో రిమోట్ కాదు! ఆ ఆర్గ్యుమెంట్ కి origin జోడించి ట్రై చేయి",
   },
   "git-error-branch-bang": {
     "__desc__": "Error when the named branch does not exist",
-    "en_US": "{branch} is not a branch!"
+    "en_US": "{branch} is not a branch!",
+    "te_IN": "{branch} ఒక branch కాదు!",
   },
   "git-error-not-remote-tracking": {
     "__desc__": "Error when pushing a branch that tracks no remote branch",
-    "en_US": "{branch} is not a remote tracking branch! I don't know where to push"
+    "en_US": "{branch} is not a remote tracking branch! I don't know where to push",
+    "te_IN": "{branch} ఒక రిమోట్-ట్రాకింగ్ branch కాదు! ఎక్కడికి push చేయాలో తెలియడం లేదు",
   },
   "git-error-pull-detached": {
     "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
-    "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!"
+    "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!",
+    "te_IN": "రిమోట్ branch పేర్కొనకపోతే, detached HEAD మోడ్ లో `git pull` అమలు చేయలేరు!",
   },
   "git-error-head-not-branch": {
     "__desc__": "Error when HEAD is detached but a branch is required",
-    "en_US": "fatal: HEAD does not point to a branch"
+    "en_US": "fatal: HEAD does not point to a branch",
+    "te_IN": "fatal: HEAD ఒక branch ని పాయింట్ చేయడం లేదు",
   },
   "git-error-delete-no-refs": {
     "__desc__": "Error when push --delete is given no refs",
-    "en_US": "--delete doesn't make sense without any refs"
+    "en_US": "--delete doesn't make sense without any refs",
+    "te_IN": "refs లేకుండా --delete అర్థం కాదు",
   },
   "git-error-delete-plain-refs": {
     "__desc__": "Error when push --delete is given a source:destination refspec",
-    "en_US": "--delete only accepts plain target ref names"
+    "en_US": "--delete only accepts plain target ref names",
+    "te_IN": "--delete సింపుల్ target ref పేర్లను మాత్రమే అంగీకరిస్తుంది",
   },
   "git-error-delete-nonexistent": {
     "__desc__": "Error when deleting a branch that does not exist",
-    "en_US": "cannot delete branch {branch} which doesn't exist"
+    "en_US": "cannot delete branch {branch} which doesn't exist",
+    "te_IN": "ఉనికిలో లేని {branch} branch ని డిలీట్ చేయలేరు",
   },
   "git-error-describe-no-tags": {
     "__desc__": "Error from git describe when the repository has no tags",
-    "en_US": "fatal: No tags found, cannot describe anything."
+    "en_US": "fatal: No tags found, cannot describe anything.",
+    "te_IN": "fatal: ట్యాగ్లు ఏవీ కనబడలేదు, describe చేయడం సాధ్యం కాదు.",
   },
   "git-error-no-tag-to-remove": {
     "__desc__": "Error when removing a tag that does not exist",
-    "en_US": "No tag found, nothing to remove"
+    "en_US": "No tag found, nothing to remove",
+    "te_IN": "ట్యాగ్ కనబడలేదు, తీసేయడానికి ఏమీ లేదు",
   },
   "git-error-nothing-to-clone": {
     "__desc__": "Error when cloning with no remote available",
-    "en_US": "Nothing to clone from!"
+    "en_US": "Nothing to clone from!",
+    "te_IN": "క్లోన్ చేయడానికి ఏమీ లేదు!",
   },
   "git-warning-tracking": {
     "__desc__": "Warning shown when a local branch starts tracking a remote branch",
-    "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\""
+    "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\"",
+    "te_IN": "లోకల్ branch \"{localBranch}\" ఇప్పుడు రిమోట్ branch \"{remoteBranch}\" ని ట్రాక్ చేస్తుంది",
   },
   "git-error-push-tag-source": {
     "__desc__": "Error when pushing a tag as the source of a refspec",
-    "en_US": "Tags are not allowed as sources for pushing"
+    "en_US": "Tags are not allowed as sources for pushing",
+    "te_IN": "ట్యాగ్లను push చేయడానికి సోర్స్ గా అనుమతించరు",
   },
   "git-error-delete-main-remote": {
     "__desc__": "Error when deleting the main branch on the remote",
-    "en_US": "You cannot delete main branch on remote!"
+    "en_US": "You cannot delete main branch on remote!",
+    "te_IN": "రిమోట్ లోని main branch ని డిలీట్ చేయలేరు!",
   },
   "git-error-commits-not-in-set": {
     "__desc__": "Error when named commits are not part of the given set",
-    "en_US": "Hey those commits don't exist in the set!"
+    "en_US": "Hey those commits don't exist in the set!",
+    "te_IN": "ఆ commits ఆ సెట్ లో లేవు!",
   },
   "git-error-no-tags-upstream": {
     "__desc__": "Error when fetching tags but the remote has none",
-    "en_US": "Fatal: no tags found upstream"
+    "en_US": "Fatal: no tags found upstream",
+    "te_IN": "Fatal: upstream లో ట్యాగ్లు ఏవీ కనబడలేదు",
   },
   "git-error-branch-rename-not-branch": {
     "__desc__": "Error when renaming something that is not a branch",
-    "en_US": "fatal: not a branch: {branch}"
+    "en_US": "fatal: not a branch: {branch}",
+    "te_IN": "fatal: అది branch కాదు: {branch}",
   },
   "git-error-branch-rename-exists": {
     "__desc__": "Error when renaming a branch to a name already taken",
-    "en_US": "fatal: A branch named '{branch}' already exists."
+    "en_US": "fatal: A branch named '{branch}' already exists.",
+    "te_IN": "fatal: '{branch}' పేరుతో branch ఇప్పటికే ఉంది.",
   },
   "hg-error-m-d-incompatible": {
     "__desc__": "Error when hg is given both -m and -d",
-    "en_US": "-m and -d are incompatible"
+    "en_US": "-m and -d are incompatible",
+    "te_IN": "-m మరియు -d ఒకదానితో ఒకటి కలిసి రావు",
   },
   "hg-error-r-d-incompatible": {
     "__desc__": "Error when hg is given both -r and -d",
-    "en_US": "-r is incompatible with -d"
+    "en_US": "-r is incompatible with -d",
+    "te_IN": "-r మరియు -d కలిసి రావు",
   },
   "hg-error-r-m-incompatible": {
     "__desc__": "Error when hg is given both -r and -m",
-    "en_US": "-r is incompatible with -m"
+    "en_US": "-r is incompatible with -m",
+    "te_IN": "-r మరియు -m కలిసి రావు",
   },
   "sandbox-tree-link": {
     "__desc__": "Preamble for the shareable link to the current tree state",
-    "en_US": "Here is a link to the current state of the tree: "
+    "en_US": "Here is a link to the current state of the tree: ",
+    "te_IN": "ట్రీ యొక్క ప్రస్తుత స్థితికి లింక్ ఇదిగో: ",
   },
   "sandbox-instructions-disabled": {
     "__desc__": "Message shown when level instructions have been turned off",
-    "en_US": "Level instructions disabled"
+    "en_US": "Level instructions disabled",
+    "te_IN": "స్థాయి సూచనలు ఆఫ్ చేయబడ్డాయి",
   },
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
-    "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands"
+    "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands",
+    "te_IN": "\"{target}\" కోసం డాక్యుమెంటేషన్ కనబడలేదు; అందుబాటులో ఉన్న కమాండ్స్ చూడాలంటే `show commands` రన్ చేయి",
   }
 }
