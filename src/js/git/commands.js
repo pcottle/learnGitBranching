@@ -51,9 +51,7 @@ var assertNotCheckedOut = function(engine, ref) {
   }
   if (engine.HEAD.get('target') === engine.refs[ref]) {
     throw new GitError({
-      msg: intl.todo(
-        'cannot fetch to ' + ref + ' when checked out on ' + ref
-      )
+      msg: intl.str('git-error-fetch-checked-out', { ref: ref })
     });
   }
 };
@@ -63,9 +61,7 @@ var assertIsBranch = function(engine, ref) {
   var obj = engine.resolveID(ref);
   if (!obj || obj.get('type') !== 'branch') {
     throw new GitError({
-      msg: intl.todo(
-        ref + ' is not a branch'
-      )
+      msg: intl.str('git-error-not-a-branch', { ref: ref })
     });
   }
 };
@@ -77,9 +73,7 @@ var assertIsRemoteBranch = function(engine, ref) {
   if (obj.get('type') !== 'branch' ||
       !obj.getIsRemote()) {
     throw new GitError({
-      msg: intl.todo(
-        ref + ' is not a remote branch'
-      )
+      msg: intl.str('git-error-not-a-remote-branch', { ref: ref })
     });
   }
 };
@@ -90,9 +84,7 @@ var assertOriginSpecified = function(generalArgs) {
   }
   if (generalArgs[0] !== 'origin') {
     throw new GitError({
-      msg: intl.todo(
-        generalArgs[0] + ' is not a remote in your repository! try adding origin to that argument'
-      )
+      msg: intl.str('git-error-not-a-remote', { remote: generalArgs[0] })
     });
   }
 };
@@ -101,22 +93,20 @@ var assertBranchIsRemoteTracking = function(engine, branchName) {
   branchName = crappyUnescape(branchName);
   if (!engine.resolveID(branchName)) {
     throw new GitError({
-      msg: intl.todo(branchName + ' is not a branch!')
+      msg: intl.str('git-error-branch-bang', { branch: branchName })
     });
   }
   var branch = engine.resolveID(branchName);
   if (branch.get('type') !== 'branch') {
     throw new GitError({
-      msg: intl.todo(branchName + ' is not a branch!')
+      msg: intl.str('git-error-branch-bang', { branch: branchName })
     });
   }
 
   var tracking = branch.getRemoteTrackingBranchID();
   if (!tracking) {
     throw new GitError({
-      msg: intl.todo(
-        branchName + ' is not a remote tracking branch! I don\'t know where to push'
-      )
+      msg: intl.str('git-error-not-remote-tracking', { branch: branchName })
     });
   }
   return tracking;
@@ -307,7 +297,7 @@ var commandConfig = {
         // can't be detached
         if (engine.getDetachedHead()) {
           throw new GitError({
-            msg: intl.todo('Git pull can not be executed in detached HEAD mode if no remote branch specified!')
+            msg: intl.str('git-error-pull-detached')
           });
         }
         // ok we need to get our currently checked out branch
@@ -364,7 +354,7 @@ var commandConfig = {
           branch = validateOriginBranchName(engine, generalArgs[0]);
           if (isNaN(parseInt(generalArgs[1], 10))) {
             throw new GitError({
-              msg: 'Bad numeric argument: ' + generalArgs[1]
+              msg: intl.str('git-error-bad-numeric-argument', { arg: generalArgs[1] })
             });
           }
           numToMake = parseInt(generalArgs[1], 10);
@@ -561,7 +551,7 @@ var commandConfig = {
           var headTarget = engine.HEAD.get('target');
           if (headTarget.get('type') !== 'branch') {
             throw new GitError({
-              msg: intl.todo('fatal: HEAD does not point to a branch')
+              msg: intl.str('git-error-head-not-branch')
             });
           }
           oldName = headTarget.get('id');
@@ -991,17 +981,13 @@ var commandConfig = {
       if(isDelete) {
         if(!firstArg) {
           throw new GitError({
-            msg: intl.todo(
-              '--delete doesn\'t make sense without any refs'
-            )
+            msg: intl.str('git-error-delete-no-refs')
           });
         }
 
         if(isColonRefspec(firstArg)) {
           throw new GitError({
-            msg: intl.todo(
-              '--delete only accepts plain target ref names'
-            )
+            msg: intl.str('git-error-delete-plain-refs')
           });
         }
 
@@ -1019,9 +1005,7 @@ var commandConfig = {
         destination = validateBranchName(engine, refspecParts[1]);
         if (source === "" && !engine.origin.resolveID(destination)) {
           throw new GitError({
-            msg: intl.todo(
-              'cannot delete branch ' + options.destination + ' which doesn\'t exist'
-            )
+            msg: intl.str('git-error-delete-nonexistent', { branch: options.destination })
           });
         }
       } else {
@@ -1070,9 +1054,7 @@ var commandConfig = {
       // first if there are no tags, we can't do anything so just throw
       if (engine.tagCollection.toArray().length === 0) {
         throw new GitError({
-          msg: intl.todo(
-            'fatal: No tags found, cannot describe anything.'
-          )
+          msg: intl.str('git-error-describe-no-tags')
         });
       }
 
@@ -1109,9 +1091,7 @@ var commandConfig = {
 
         if(tagToRemove == undefined){
           throw new GitError({
-            msg: intl.todo(
-              'No tag found, nothing to remove'
-            )
+            msg: intl.str('git-error-no-tag-to-remove')
           });
         }
 

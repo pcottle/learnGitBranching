@@ -481,7 +481,7 @@ GitEngine.prototype.makeOrigin = function(treeString) {
 GitEngine.prototype.cloneFromOrigin = function() {
   if (!this.hasOrigin()) {
     throw new GitError({
-      msg: intl.todo('Nothing to clone from!')
+      msg: intl.str('git-error-nothing-to-clone')
     });
   }
 
@@ -621,12 +621,10 @@ GitEngine.prototype.setLocalToTrackRemote = function(localBranch, remoteBranch) 
     return;
   }
 
-  var msg = 'local branch "' +
-    localBranch.get('id') +
-    '" set to track remote branch "' +
-    remoteBranch.get('id') +
-    '"';
-  this.command.addWarning(intl.todo(msg));
+  this.command.addWarning(intl.str('git-warning-tracking', {
+    localBranch: localBranch.get('id'),
+    remoteBranch: remoteBranch.get('id')
+  }));
 };
 
 GitEngine.prototype.getOrMakeRecursive = function(
@@ -1219,7 +1217,7 @@ GitEngine.prototype.push = function(options) {
   var sourceBranch = this.resolveID(options.source);
   if (sourceBranch && sourceBranch.attributes.type === 'tag') {
     throw new GitError({
-      msg: intl.todo('Tags are not allowed as sources for pushing'),
+      msg: intl.str('git-error-push-tag-source'),
     });
   }
 
@@ -1350,7 +1348,7 @@ GitEngine.prototype.pushDeleteRemoteBranch = function(
 ) {
   if (branchOnRemote.get('id') === 'main') {
     throw new GitError({
-      msg: intl.todo('You cannot delete main branch on remote!')
+      msg: intl.str('git-error-delete-main-remote')
     });
   }
   // ok so this isn't too bad -- we basically just:
@@ -2466,7 +2464,7 @@ GitEngine.prototype.rebaseInteractiveTest = function(targetSource, currentLocati
 
     if (extraCommits.length > 0) {
       throw new GitError({
-        msg: intl.todo('Hey those commits don\'t exist in the set!')
+        msg: intl.str('git-error-commits-not-in-set')
       });
     }
   }
@@ -2498,7 +2496,7 @@ GitEngine.prototype.rebaseInteractive = function(targetSource, currentLocation, 
     options.initialCommitOrdering[0].split(',').forEach(function (id) {
       if (!rebaseMap[id]) {
         throw new GitError({
-          msg: intl.todo('Hey those commits don\'t exist in the set!')
+          msg: intl.str('git-error-commits-not-in-set')
         });
       }
       initialCommitOrdering.push(id);
@@ -2874,7 +2872,7 @@ GitEngine.prototype.describe = function(ref) {
 
   if (!foundTag) {
     throw new GitError({
-      msg: intl.todo('Fatal: no tags found upstream')
+      msg: intl.str('git-error-no-tags-upstream')
     });
   }
 
@@ -2895,7 +2893,7 @@ GitEngine.prototype.renameBranch = function(oldName, newName, force) {
 
   if (!target || target.get('type') !== 'branch') {
     throw new GitError({
-      msg: intl.todo('fatal: not a branch: ' + oldName)
+      msg: intl.str('git-error-branch-rename-not-branch', { branch: oldName })
     });
   }
 
@@ -2910,7 +2908,7 @@ GitEngine.prototype.renameBranch = function(oldName, newName, force) {
   if (this.doesRefExist(newName)) {
     if (!force) {
       throw new GitError({
-        msg: intl.todo("fatal: A branch named '" + newName + "' already exists.")
+        msg: intl.str('git-error-branch-rename-exists', { branch: newName })
       });
     }
     var existing = this.resolveID(newName);

@@ -3081,5 +3081,149 @@ exports.strings = {
     "az": "İnteraktiv Rebase",
     "uk": "Інтерактивний Rebase",
     "ko": "인터랙티브 리베이스"
+  },
+  "main-helper-bar-commands": {
+    "__desc__": "Tooltip for the button that shows the list of commands",
+    "en_US": "Show commands"
+  },
+  "main-helper-bar-languages": {
+    "__desc__": "Tooltip for the button that shows the available languages",
+    "en_US": "Show available languages"
+  },
+  "main-helper-bar-threads": {
+    "__desc__": "Tooltip for the link to the author's Threads profile",
+    "en_US": "Follow me on Threads"
+  },
+  "git-error-bad-numeric-argument": {
+    "__desc__": "Error when a command argument that should be a number is not",
+    "en_US": "Bad numeric argument: {arg}"
+  },
+  "reset-solved-confirm": {
+    "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
+    "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute"
+  },
+  "sandbox-error-something-went-wrong": {
+    "__desc__": "Generic error when opening a level fails, {error} is the exception text",
+    "en_US": "Something went wrong {error}"
+  },
+  "sandbox-alias-set": {
+    "__desc__": "Confirmation that a command alias was created",
+    "en_US": "Set alias \"{alias}\" to \"{expansion}\""
+  },
+  "sandbox-alias-removed": {
+    "__desc__": "Confirmation that a command alias was removed",
+    "en_US": "Removed alias \"{alias}\""
+  },
+  "sandbox-rollup-done": {
+    "__desc__": "Confirmation that previous commands were combined into one",
+    "en_US": "Commands combined!"
+  },
+  "git-error-fetch-checked-out": {
+    "__desc__": "Error when fetching into the branch that is currently checked out",
+    "en_US": "cannot fetch to {ref} when checked out on {ref}"
+  },
+  "git-error-not-a-branch": {
+    "__desc__": "Error when a ref that must be a branch is not one",
+    "en_US": "{ref} is not a branch"
+  },
+  "git-error-not-a-remote-branch": {
+    "__desc__": "Error when a ref that must be a remote branch is not one",
+    "en_US": "{ref} is not a remote branch"
+  },
+  "git-error-not-a-remote": {
+    "__desc__": "Error when the named remote does not exist in the repository",
+    "en_US": "{remote} is not a remote in your repository! try adding origin to that argument"
+  },
+  "git-error-branch-bang": {
+    "__desc__": "Error when the named branch does not exist",
+    "en_US": "{branch} is not a branch!"
+  },
+  "git-error-not-remote-tracking": {
+    "__desc__": "Error when pushing a branch that tracks no remote branch",
+    "en_US": "{branch} is not a remote tracking branch! I don't know where to push"
+  },
+  "git-error-pull-detached": {
+    "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
+    "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!"
+  },
+  "git-error-head-not-branch": {
+    "__desc__": "Error when HEAD is detached but a branch is required",
+    "en_US": "fatal: HEAD does not point to a branch"
+  },
+  "git-error-delete-no-refs": {
+    "__desc__": "Error when push --delete is given no refs",
+    "en_US": "--delete doesn't make sense without any refs"
+  },
+  "git-error-delete-plain-refs": {
+    "__desc__": "Error when push --delete is given a source:destination refspec",
+    "en_US": "--delete only accepts plain target ref names"
+  },
+  "git-error-delete-nonexistent": {
+    "__desc__": "Error when deleting a branch that does not exist",
+    "en_US": "cannot delete branch {branch} which doesn't exist"
+  },
+  "git-error-describe-no-tags": {
+    "__desc__": "Error from git describe when the repository has no tags",
+    "en_US": "fatal: No tags found, cannot describe anything."
+  },
+  "git-error-no-tag-to-remove": {
+    "__desc__": "Error when removing a tag that does not exist",
+    "en_US": "No tag found, nothing to remove"
+  },
+  "git-error-nothing-to-clone": {
+    "__desc__": "Error when cloning with no remote available",
+    "en_US": "Nothing to clone from!"
+  },
+  "git-warning-tracking": {
+    "__desc__": "Warning shown when a local branch starts tracking a remote branch",
+    "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\""
+  },
+  "git-error-push-tag-source": {
+    "__desc__": "Error when pushing a tag as the source of a refspec",
+    "en_US": "Tags are not allowed as sources for pushing"
+  },
+  "git-error-delete-main-remote": {
+    "__desc__": "Error when deleting the main branch on the remote",
+    "en_US": "You cannot delete main branch on remote!"
+  },
+  "git-error-commits-not-in-set": {
+    "__desc__": "Error when named commits are not part of the given set",
+    "en_US": "Hey those commits don't exist in the set!"
+  },
+  "git-error-no-tags-upstream": {
+    "__desc__": "Error when fetching tags but the remote has none",
+    "en_US": "Fatal: no tags found upstream"
+  },
+  "git-error-branch-rename-not-branch": {
+    "__desc__": "Error when renaming something that is not a branch",
+    "en_US": "fatal: not a branch: {branch}"
+  },
+  "git-error-branch-rename-exists": {
+    "__desc__": "Error when renaming a branch to a name already taken",
+    "en_US": "fatal: A branch named '{branch}' already exists."
+  },
+  "hg-error-m-d-incompatible": {
+    "__desc__": "Error when hg is given both -m and -d",
+    "en_US": "-m and -d are incompatible"
+  },
+  "hg-error-r-d-incompatible": {
+    "__desc__": "Error when hg is given both -r and -d",
+    "en_US": "-r is incompatible with -d"
+  },
+  "hg-error-r-m-incompatible": {
+    "__desc__": "Error when hg is given both -r and -m",
+    "en_US": "-r is incompatible with -m"
+  },
+  "sandbox-tree-link": {
+    "__desc__": "Preamble for the shareable link to the current tree state",
+    "en_US": "Here is a link to the current state of the tree: "
+  },
+  "sandbox-instructions-disabled": {
+    "__desc__": "Message shown when level instructions have been turned off",
+    "en_US": "Level instructions disabled"
+  },
+  "sandbox-no-documentation": {
+    "__desc__": "Error when `show` is asked about an unknown command",
+    "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands"
   }
 }

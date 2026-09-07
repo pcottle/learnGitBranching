@@ -74,10 +74,6 @@ var getIntlKey = exports.getIntlKey = function(obj, key, overrideLocale) {
   return obj[key][locale];
 };
 
-exports.todo = function(str) {
-  return str;
-};
-
 exports.getDialog = function(obj) {
   return getIntlKey(obj, 'dialog') || obj.dialog[getDefaultLocale()];
 };
