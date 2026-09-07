@@ -254,7 +254,7 @@ class Sandbox {
     var url =
       'https://learngitbranching.js.org/?NODEMO&command=importTreeNow%20' + escape(treeJSON);
     command.setResult(
-      intl.todo('Here is a link to the current state of the tree: ') + '\n' + url
+      intl.str('sandbox-tree-link') + '\n' + url
     );
     command.finishWith(deferred);
   }
@@ -262,8 +262,7 @@ class Sandbox {
   resetSolved(command, deferred) {
     if (command.get('regexResults').input !== 'reset solved --confirm') {
       command.set('error', new Errors.GitError({
-        msg: 'Reset solved will mark each level as not yet solved; because ' +
-             'this is a destructive command, please pass in --confirm to execute',
+        msg: intl.str('reset-solved-confirm'),
       }));
       command.finishWith(deferred);
       return;
@@ -345,7 +344,7 @@ class Sandbox {
       });
     } catch(e) {
       command.set('error', new Errors.GitError({
-        msg: 'Something went wrong ' + String(e)
+        msg: intl.str('sandbox-error-something-went-wrong', { error: String(e) })
       }));
       throw e;
     }

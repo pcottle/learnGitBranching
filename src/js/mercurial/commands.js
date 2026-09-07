@@ -106,17 +106,17 @@ var commandConfig = {
 
       if (options['-m'] && options['-d']) {
         throw new GitError({
-          msg: intl.todo('-m and -d are incompatible')
+          msg: intl.str('hg-error-m-d-incompatible')
         });
       }
       if (options['-d'] && options['-r']) {
         throw new GitError({
-          msg: intl.todo('-r is incompatible with -d')
+          msg: intl.str('hg-error-r-d-incompatible')
         });
       }
       if (options['-m'] && options['-r']) {
         throw new GitError({
-          msg: intl.todo('-r is incompatible with -m')
+          msg: intl.str('hg-error-r-m-incompatible')
         });
       }
       if (generalArgs.length + (options['-r'] ? options['-r'].length : 0) +

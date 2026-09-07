@@ -5,6 +5,8 @@ var CommandsHelperBarView =
   require('../react_views/CommandsHelperBarView.jsx');
 var React = require('react');
 
+var intl = require('../intl');
+
 var keyMirror = require('../util/keyMirror');
 var log = require('../log');
 
@@ -57,7 +59,7 @@ class MainHelperBarView extends React.Component {
           shownBar: BARS.COMMANDS
         });
       }.bind(this),
-      title: 'Show commands'
+      title: intl.str('main-helper-bar-commands')
     }, {
       icon: 'fa-solid fa-language',
       onClick: function() {
@@ -65,12 +67,12 @@ class MainHelperBarView extends React.Component {
           shownBar: BARS.INTL
         });
       }.bind(this),
-      title: 'Show available languages'
+      title: intl.str('main-helper-bar-languages')
     }, {
       newPageLink: true,
       icon: 'fa-brands fa-threads',
       href: 'https://www.threads.net/@pcottle',
-      title: 'Follow me on Threads'
+      title: intl.str('main-helper-bar-threads')
     }];
   }
 

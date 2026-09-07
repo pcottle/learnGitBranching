@@ -100,14 +100,14 @@ var instantCommands = [
     const expansion = bits[2];
     LevelStore.addToAliasMap(alias, expansion);
     throw new CommandResult({
-      msg: 'Set alias "'+alias+'" to "'+expansion+'"',
+      msg: intl.str('sandbox-alias-set', { alias: alias, expansion: expansion }),
     });
   }, 'alias', 'Run `alias` to map a certain shortcut to an expansion'],
   [/^unalias (\w+)$/, function(bits) {
     const alias = bits[1];
     LevelStore.removeFromAliasMap(alias);
     throw new CommandResult({
-      msg: 'Removed alias "'+alias+'"',
+      msg: intl.str('sandbox-alias-removed', { alias: alias }),
     });
   }, 'unalias', 'Opposite of `alias`'],
   [/^locale (\w+)$/, function(bits) {
@@ -131,7 +131,7 @@ var instantCommands = [
   [/^disableLevelInstructions$/, function() {
     GlobalStateActions.disableLevelInstructions();
     throw new CommandResult({
-      msg: intl.todo('Level instructions disabled'),
+      msg: intl.str('sandbox-instructions-disabled'),
     });
   }, 'disableLevelInstructions', 'Disable the level instructions'],
   [/^refresh$/, function() {
@@ -148,7 +148,7 @@ var instantCommands = [
     // go roll up these commands by joining them with semicolons
     events.trigger('rollupCommands', bits[1]);
     throw new CommandResult({
-      msg: 'Commands combined!'
+      msg: intl.str('sandbox-rollup-done')
     });
   }],
   [/^echo "(.*?)"$|^echo (.*?)$/, function(bits) {
@@ -292,10 +292,7 @@ var showHelpForCommand = function(target) {
   var lines = getCommandHelpLines(target);
   if (!lines) {
     throw new CommandProcessError({
-      msg: intl.todo(
-        'No documentation found for "' + target + '"; ' +
-        'run `show commands` to see all available commands'
-      )
+      msg: intl.str('sandbox-no-documentation', { target: target })
     });
   }
 
