@@ -223,6 +223,17 @@ exports.dialog = {
       ]
     }
   }],
+  'te_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## బాగుంది!!!',
+        '',
+        'మీరు ఈ స్థాయిని *{numCommands}* కమాండ్(ల)తో పరిష్కరించారు; ',
+        'మా పరిష్కారానికి {best} కావాలి.'
+      ]
+    }
+  }],
   'ta_IN': [{
     type: 'ModalAlert',
     options: {
