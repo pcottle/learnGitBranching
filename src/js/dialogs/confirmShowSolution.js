@@ -181,6 +181,16 @@ exports.dialog = {
       ]
     }
   }],
+  'te_IN': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## నిజంగా పరిష్కారం చూడాలనుకుంటున్నారా?',
+        '',
+        'మీ మీద నాకు నమ్మకం ఉంది! మీరు చేయగలరు!'
+      ]
+    }
+  }],
     'ta_IN': [{
     type: 'ModalAlert',
     options: {
