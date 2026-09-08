@@ -33,7 +33,8 @@ exports.level = {
     "tr_TR": "9000 kereden fazla rebase işlemi yapmak",
     "hu_HU": "Sok rebase",
     "az": "9000-dən çox dəfə rebase etmək",
-    "te_IN": "9000 కంటే ఎక్కువసార్లు rebase చేయడం"
+    "te_IN": "9000 కంటే ఎక్కువసార్లు rebase చేయడం",
+    "hi_IN": "9000 से ज्यादा बार rebase करना"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -61,7 +62,8 @@ exports.level = {
     "tr_TR": "Şunu hatırlamanı isterim ki: belki de en verimli yol işin sonunda maini güncellemektir.",
     "hu_HU": "Ne feledd, a leghatékonyabb módszer talán az, ha a main-t csak a végén frissíted...",
     "az": "Yadında saxla, ən səmərəli yol bəlkə də main-i yalnız sonda yeniləməkdir...",
-    "te_IN": "గుర్తుపెట్టుకో, అత్యంత ఎఫిషియెంట్ మార్గం చివర్లో main ను మాత్రమే అప్‌డేట్ చేయడం కావచ్చు..."
+    "te_IN": "గుర్తుపెట్టుకో, అత్యంత ఎఫిషియెంట్ మార్గం చివర్లో main ను మాత్రమే అప్‌డేట్ చేయడం కావచ్చు...",
+    "hi_IN": "याद रखो, सबसे efficient तरीका शायद यह है कि आखिर में ही main को update करो..."
   },
   "startDialog": {
     "en_US": {
@@ -79,6 +81,26 @@ exports.level = {
               "One handy tip: `git rebase` can take a second argument. `git rebase main bugFix` checks out `bugFix` and rebases it onto `main` in one step -- a shorthand for `git checkout bugFix; git rebase main`.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### कई Branches को Rebase करना",
+              "",
+              "अरे वाह, यहाँ बहुत सारी branches चल रही हैं! चलिए इन सब branches के work को main पर rebase करते हैं।",
+              "",
+              "लेकिन ऊपर वाले लोग इसे थोड़ा मुश्किल बना रहे हैं -- उन्हें चाहिए कि सारे commits sequential order में हों। इसका मतलब है कि हमारे final tree में सबसे नीचे `C7'` हो, उसके ऊपर `C6'`, और इसी तरह, सब अपने order में।",
+              "",
+              "एक useful tip: `git rebase` एक दूसरा argument भी ले सकता है। `git rebase main bugFix` एक ही step में `bugFix` को checkout करके उसे `main` पर rebase कर देता है -- यह `git checkout bugFix; git rebase main` का shortcut है।",
+              "",
+              "अगर बीच में कुछ बिगड़ जाए, तो बेझिझक `reset` से फिर से शुरू कर दो। हमारा solution ज़रूर देखो और देखो कि क्या आप कम कमांड्स में कर सकते हो!"
             ]
           }
         }

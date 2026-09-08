@@ -26,6 +26,7 @@ exports.level = {
     "pl": "Aby ukończyć ten poziom, musisz użyć co najmniej jednej bezpośredniej referencji (hasza).",
     "ta_IN": "இந்த நிலவை முடிக்க குறைந்தது ஒரு நேரடி குறிப்பு (ஹாஷ்) பயன்படுத்த வேண்டும்",
     "te_IN": "ఈ స్థాయిని పూర్తి చేయడానికి కనీసం ఒక direct reference (hash) ఉపయోగించాలి",
+    "hi_IN": "यह लेवल पूरा करने के लिए आपको कम से कम एक बार सीधी reference (hash) इस्तेमाल करनी होगी",
     "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek",
     "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod",
     "az": "Bu bölümü bitirmək üçün ən azı bir birbaşa istinaddan (hash) istifadə etməlisən"
@@ -54,6 +55,7 @@ exports.level = {
     "pl": "Referencje względne #2 (~)",
     "ta_IN": "இணைக்கப்பட்ட குறிப்பு #2 (~)",
     "te_IN": "అనుసంధాన reference #2 (~)",
+    "hi_IN": "Relative Refs #2 (~)",
     "tr_TR": "Göreli Referanslar #2 (~)",
     "hu_HU": "Relatív hivatkozások #2 (~)",
     "az": "Nisbi Ref-lər #2 (~)"
@@ -125,6 +127,77 @@ exports.level = {
               "Now that you have seen relative refs and branch forcing in combination, let's use them to solve the next level.",
               "",
               "To complete this level, move `HEAD`, `main`, and `bugFix` to their goal destinations shown."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### \"~\" operator",
+              "",
+              "मान लीजिए आपको commit tree में एक साथ बहुत सारे levels ऊपर जाना है। `^` को कई बार टाइप करना थकाऊ हो सकता है, इसलिए Git में tilde (~) operator भी है।",
+              "",
+              "",
+              "Tilde operator (चाहें तो) अपने पीछे एक number लेता है, जो बताता है कि आप कितने parents ऊपर जाना चाहते हैं। चलिए इसे असल में देखते हैं।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए `~` से कुछ commits पीछे चलते हैं।"
+            ],
+            "afterMarkdowns": [
+              "धमाका! कितना छोटा -- relative refs कमाल होती हैं।"
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch forcing",
+              "",
+              "अब आप relative refs के expert हो गए हैं, तो चलिए इन्हें असल में किसी काम के लिए *इस्तेमाल* करते हैं।",
+              "",
+              "मैं relative refs का इस्तेमाल सबसे ज़्यादा branches को इधर-उधर खिसकाने के लिए करता हूं। आप `-f` option से किसी branch को सीधे किसी commit पर तोड़-फोड़कर (force) लगा सकते हैं। जैसे कुछ ऐसा:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "यह main branch को (ज़बरदस्ती) HEAD से तीन parents पीछे ले जाता है।",
+              "",
+              "*Note: असली git में `git branch -f` कमांड आपकी मौजूदा branch के लिए इजाज़त नहीं देता।*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए अभी वाली कमांड को असल में देखते हैं।"
+            ],
+            "afterMarkdowns": [
+              "लो हो गया! Relative refs ने हमें `C1` को छोटे-छोटे शब्दों में बताने का तरीका दिया और branch forcing (`-f`) ने branch को जल्दी से उस जगह ले जाने का।"
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "अब जब आपने relative refs और branch forcing को साथ में देख लिया है, चलिए इन्हें अगला लेवल हल करने में इस्तेमाल करते हैं।",
+              "",
+              "यह लेवल पूरा करने के लिए, `HEAD`, `main` और `bugFix` को दिखाई गई उनकी जगहों पर ले जाएं।"
             ]
           }
         }

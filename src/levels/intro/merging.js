@@ -26,6 +26,7 @@ exports.level = {
     "it_IT": "Fusione in Git",
     "ta_IN": "கிட்டில் இணைத்தல்",
     "te_IN": "Git Merge",
+    "hi_IN": "Git में Merge",
     "tr_TR": "Git'te Merge işlemleri",
     "hu_HU": "Merge Gitben",
     "az": "Git-də Merge (birləşdirmə)"
@@ -55,6 +56,7 @@ exports.level = {
     "it_IT": "Ricorda di effettuare i commit nell'ordine specificato (bugFix prima di main)",
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க",
     "te_IN": "bugFix ను main ముందు ఉన్న క్రమంలో merge చేయాలని గమనించండి",
+    "hi_IN": "याद रखें कि commit बताए गए क्रम में करें (पहले bugFix, फिर main)",
     "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)",
     "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)",
     "az": "Göstərilən ardıcıllıqla commit etməyi unutma (əvvəl bugFix, sonra main)"
@@ -1596,6 +1598,75 @@ exports.level = {
               "`git merge` రెండు branches ను కలుపుతుంది మరియు ఒక కొత్త commit సృష్టిస్తుంది (merge commit) ఇది రెండు parents ను కలిగి ఉంటుంది.",
               "",
               "`git merge bugFix` అని టైప్ చేయండి."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches और Merging",
+              "",
+              "बहुत बढ़िया! अब हम commit और branch करना जानते हैं। अब हमें कोई ऐसा तरीका सीखना होगा जिससे दो अलग-अलग branches के काम को आपस में जोड़ सकें। इससे हम एक नई branch बनाकर वहां कोई feature develop कर सकते हैं, फिर उसे वापस जोड़ सकते हैं।",
+              "",
+              "काम जोड़ने का पहला तरीका जो हम देखेंगे, वह है `git merge`। Git में merge करने से एक खास commit बनता है जिसके दो अलग parents होते हैं। दो parents वाला commit असल में यह कहता है: \"मैं इस parent का पूरा काम चाहता हूँ और उस parent का भी, *और* उन दोनों के सारे parents का काम भी।\"",
+              "",
+              "देखने में यह सब काफी आसान लगता है, चलिए अगली view में इसे देखते हैं।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "यहाँ हमारे पास दो branches हैं; हर एक का अपना एक अलग commit है। इसका मतलब है कि कोई भी branch repository में हमारे किए हुए पूरे \"काम\" को शामिल नहीं करती। चलिए इसे merge से ठीक करते हैं।",
+              "",
+              "हम `bugFix` branch को `main` में `merge` करेंगे।"
+            ],
+            "afterMarkdowns": [
+              "वाह! देखा? सबसे पहले, `main` अब ऐसे commit की तरफ इशारा कर रहा है जिसके दो parents हैं। अगर आप `main` से commit tree में ऊपर arrows को follow करें, तो root तक के हर commit से गुजरेंगे। इसका मतलब है कि `main` में अब repository का पूरा काम है।",
+              "",
+              "और देखिए, commits के colors कैसे बदल गए? सीखने में मदद के लिए मैंने कुछ color coordination जोड़ी है। हर branch का एक अपना color होता है। हर commit का color उन सारी branches के colors का एक मिश्रण होता है जिनमें वह commit शामिल है।",
+              "",
+              "तो यहाँ हम देख सकते हैं कि `main` branch का color सभी commits में घुल गया है, लेकिन `bugFix` का color नहीं। चलिए इसे भी ठीक करें..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए अब `main` को `bugFix` में merge करते हैं:"
+            ],
+            "afterMarkdowns": [
+              "चूंकि `bugFix` पहले से ही `main` का ancestor था, git को कुछ खास काम नहीं करना पड़ा; उसने बस `bugFix` को उसी commit पर खिसका दिया जहां `main` जुड़ा था।",
+              "",
+              "अब सारे commits एक ही color के हैं, यानी हर branch में repository का पूरा काम है! शाबाश!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यह लेवल पूरा करने के लिए ये steps follow करें:",
+              "",
+              "* `bugFix` नाम की एक नई branch बनाएं",
+              "* `git checkout bugFix` से `bugFix` branch पर जाएं",
+              "* एक बार commit करें",
+              "* `git checkout` से वापस `main` पर आएं",
+              "* एक और बार commit करें",
+              "* `git merge` से `bugFix` branch को `main` में merge करें",
+              "",
+              "*याद रखें, आप इस dialog को कभी भी \"objective\" लिखकर दोबारा देख सकते हैं!*"
             ]
           }
         }

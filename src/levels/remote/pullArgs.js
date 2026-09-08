@@ -27,7 +27,8 @@ exports.level = {
     "tr_TR": "Git pull argümanları",
     "hu_HU": "Pull argumentumok",
     "az": "Pull arqumentləri",
-    "te_IN": "Pull ఆర్గ్యుమెంట్లు"
+    "te_IN": "Pull ఆర్గ్యుమెంట్లు",
+    "hi_IN": "pull के आर्ग्युमेंट्स"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -54,7 +55,8 @@ exports.level = {
     "tr_TR": "Unutma, fetch/pull parametreleri ile yeni yerel dallar oluşturabilirsin",
     "hu_HU": "Ne feledd, a fetch/pull argumentumaival új helyi ágakat hozhatsz létre",
     "az": "Unutma, fetch/pull arqumentləri ilə yeni lokal branch-lar yarada bilərsən",
-    "te_IN": "fetch/pull arguments తో కొత్త లోకల్ branches సృష్టించగలవని గుర్తుపెట్టుకో"
+    "te_IN": "fetch/pull arguments తో కొత్త లోకల్ branches సృష్టించగలవని గుర్తుపెట్టుకో",
+    "hi_IN": "याद रखो, fetch/pull आर्ग्युमेंट्स से नई लोकल branches बना सकते हो"
   },
   "startDialog": {
     "en_US": {
@@ -1819,6 +1821,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "బాగుంది, పూర్తి చేయడానికి లక్ష్య విజువలైజేషన్ స్థితికి చేరు. కొన్ని commits fetch చేయాలి, కొన్ని కొత్త branches సృష్టించాలి మరియు వాటిని ఇతర branches లో merge చేయాలి, కానీ ఇది చాలా commands అడగకూడదు :P"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git pull के आर्ग्युमेंट्स",
+              "",
+              "अब जब आप `git fetch` और `git push` के आर्ग्युमेंट्स के बारे में लगभग *सब कुछ* जानते हो, तो git pull के लिए सिखाने को असल में कुछ बचा ही नहीं :)",
+              "",
+              "ऐसा इसलिए है क्योंकि git pull आख़िरकार *सचमुच* बस एक fetch का शॉर्टकट है, जिसके बाद अभी-अभी फेच की गई चीज़ मर्ज होती है। आप इसे ऐसे समझ सकते हो — *वही* आर्ग्युमेंट्स देकर git fetch चलाओ, और फिर उन commits को *जहाँ* वे पहुँचे, वहाँ मर्ज कर दो।",
+              "",
+              "यह तब भी लागू होता है जब आप पागलपन भरी मुश्किल आर्ग्युमेंट्स इस्तेमाल करो। चलो कुछ उदाहरण देखें:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यहाँ git की कुछ बराबर कमांड्स हैं:",
+              "",
+              "`git pull  origin foo` बराबर है:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "और...",
+              "",
+              "`git pull  origin bar:bugFix` बराबर है:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "देखा? git pull असल में बस fetch + merge का शॉर्टकट है, और git pull को सिर्फ़ इस बात की फ़िक्र है कि commits कहाँ पहुँचे (वह `destination` आर्ग्युमेंट जो वह fetch के दौरान निकालता है)।",
+              "",
+              "चलो एक डेमो देखें:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "अगर हम fetch करने की जगह बता दें, तो सब कुछ fetch की तरह पहले जैसा होता है, लेकिन हम अभी-अभी फेच की गई चीज़ को मर्ज कर देते हैं।"
+            ],
+            "afterMarkdowns": [
+              "देखा! `main` स्पेसिफ़ाई करने से हमने commits को पहले की तरह `o/main` पर डाउनलोड किया। फिर हमने `o/main` को अपनी मौजूदा checkout की हुई जगह में मर्ज किया, जो लोकल `main` branch *नहीं* है। इसी वजह से कई branches अपडेट करने के लिए अलग-अलग जगहों से git pull (वही आर्ग्स के साथ) कई बार चलाना असल में समझदारी भरा हो सकता है।"
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "क्या यह source और destination के साथ भी चलता है? बिलकुल! चलो देखते हैं:"
+            ],
+            "afterMarkdowns": [
+              "वाह, एक कमांड में इतना सब कुछ! हमने लोकली `foo` नाम की एक नई branch बनाई, remote की main से commits उस `foo` branch पर डाउनलोड किए, और फिर उस branch को अपनी मौजूदा checkout की हुई `bar` branch में मर्ज कर दिया। यह 9000 से ऊपर चला गया!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ठीक है, पूरा करने के लिए गोल विज़ुअलाइज़ेशन वाली स्थिति बनाओ। आपको कुछ commits डाउनलोड करने होंगे, कुछ नई branches बनानी होंगी, और उन branches को दूसरी branches में मर्ज करना होगा, लेकिन बहुत सारी कमांड्स नहीं लगेंगी :P"
             ]
           }
         }

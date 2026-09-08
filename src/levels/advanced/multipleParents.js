@@ -25,6 +25,7 @@ exports.level = {
     "sl_SI": "Več Staršev",
     "ta_IN": "ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்",
     "te_IN": "బహుళ మూలాలు",
+    "hi_IN": "कई Parents",
     "it_IT": "Genitori multipli",
     "pl": "Wielu rodziców",
     "tr_TR": "Birden fazla ebeveyn",
@@ -54,6 +55,7 @@ exports.level = {
     "sl_SI": "Uporabi `git branch bugWork` s ciljnim commitom za ustvarjanje manjkajoče reference.",
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
     "te_IN": "`git branch bugWork` ఉపయోగించి అవసరమైన commit తో కోల్పోయిన అనుసంధానాన్ని సృష్టించండి.",
+    "hi_IN": "`git branch bugWork` को target commit के साथ इस्तेमाल करके missing reference बनाओ।",
     "it_IT": "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
     "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın.",
@@ -143,6 +145,93 @@ exports.level = {
               "To complete this level, create a new branch at the specified destination.",
               "",
               "Obviously it would be easy to specify the commit directly (with something like `C6`), but I challenge you to use the modifiers we talked about instead!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Parents Specify करना",
+              "",
+              "`~` modifier की तरह, `^` modifier भी अपने बाद एक optional number ले सकता है।",
+              "",
+              "कितनी generations पीछे जाना है ये बताने की जगह (जो `~` लेता है), `^` वाला modifier बताता है कि merge commit से किस parent reference का रास्ता पकड़ना है। याद रखो, merge commits के कई parents होते हैं, इसलिए कौन सा रास्ता चुनना है ये ambiguous होता है।",
+              "",
+              "Git आम तौर पर merge commit से \"पहले\" parent का रास्ता ऊपर की तरफ पकड़ता है, लेकिन `^` के साथ एक number देने पर ये default behaviour बदल जाता है।",
+              "",
+              "बस बातें हो गईं, चलो इसे action में देखें।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "यहाँ हमारे पास एक merge commit है। अगर हम `main^` को modifier के बिना checkout करें, तो merge commit के बाद हम पहले parent का रास्ता पकड़ेंगे। ",
+              "",
+              "(*हमारे visuals में, पहला parent merge commit के ठीक ऊपर होता है।*)"
+            ],
+            "afterMarkdowns": [
+              "आसान -- यही तो हम सबको आदत से है।"
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "अब चलो इसकी जगह दूसरे parent को specify करके देखें..."
+            ],
+            "afterMarkdowns": [
+              "देखा? हम दूसरे parent का रास्ता ऊपर की तरफ गए।"
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^` और `~` modifiers मिलकर commit tree में इधर-उधर जाना बहुत powerful बना सकते हैं:"
+            ],
+            "afterMarkdowns": [
+              "बिजली की रफ़्तार!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "और भी ज़्यादा crazy बात ये है कि इन modifiers को आपस में जोड़ा जा सकता है! ये देखो:"
+            ],
+            "afterMarkdowns": [
+              "पहले जैसी ही movement, लेकिन पूरी एक ही command में।"
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### अब ख़ुद करके देखो",
+              "",
+              "ये level पूरा करने के लिए दिए गए destination पर एक नई branch बनाओ।",
+              "",
+              "साफ़ है कि commit को सीधे specify करना (जैसे `C6`) आसान होगा, लेकिन challenge ये है कि आप उसकी जगह उन modifiers का इस्तेमाल करो जिनकी हमने अभी बात की!"
             ]
           }
         }

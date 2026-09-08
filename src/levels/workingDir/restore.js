@@ -15,6 +15,7 @@ exports.level = {
     "vi": "Hoàn tác bằng git restore",
     "uk": "Скасування змін за допомогою git restore",
     "te_IN": "git restore తో అన్‌డూ చేయడం",
+    "hi_IN": "git restore से अनडू करना",
     "ko": "git restore로 되돌리기",
     "es_ES": "Deshacer con git restore"
   },
@@ -30,6 +31,7 @@ exports.level = {
     "vi": "Loại bỏ khỏi staging với `git restore --staged secret.env`, vứt bỏ thử nghiệm với `git restore experiment.js`, sau đó `git commit`.",
     "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`.",
     "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి.",
+    "hi_IN": "`git restore --staged secret.env` से stage से हटाओ, `git restore experiment.js` से experiment फेंक दो, फिर `git commit` करो।",
     "ko": "`git restore --staged secret.env`로 스테이징을 해제하고, `git restore experiment.js`로 실험의 변경 사항을 버린 다음 `git commit`하세요.",
     "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`."
   },
@@ -89,6 +91,66 @@ exports.level = {
               "* Commit what's left: `git commit`",
               "",
               "That lands one clean commit, with only the work you meant to keep."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `git restore` से अनडू करना",
+              "",
+              "कभी-कभी सब थोड़ा-बहुत गड़बड़ कर देते हैं। कभी गलती से कोई file stage कर देते हैं, या कोई experiment शुरू कर देते हैं जिसे फेंकना है। `git restore` आपके working directory और staging area के लिए बना, आधुनिक undo button है।",
+              "",
+              "यह दो तरीकों से आता है:",
+              "",
+              "* `git restore --staged <file>`: किसी file को **unstage** करो (उसे staging area से बाहर निकालो, आपके edits सुरक्षित रहते हैं)",
+              "* `git restore <file>`: किसी file के आपके सारे edits पूरी तरह **discard** करो (सावधान, इससे changes हमेशा के लिए चले जाते हैं!)",
+              "",
+              "*(ये पुराने `git reset HEAD <file>` और `git checkout -- <file>` tricks की जगह लेते हैं। वही idea, पर नाम कहीं साफ हैं।)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "अभी आपकी मेज़ पर यह गड़बड़ पड़ी है:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "आप `app.js` को commit करना चाहते हैं, लेकिन `secret.env` गलती से पहले ही stage हो गया (उसे ऊपर एक अलग commit में आना चाहिए), तो उसे बाद के लिए रोक लेते हैं। और `experiment.js` के changes काम नहीं आए, तो उसे पूरी तरह फेंक देते हैं।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "पहले सफाई करो, फिर commit करो:",
+              "",
+              "* Secret को unstage करो: `git restore --staged secret.env`",
+              "* Experiment को discard करो: `git restore experiment.js`",
+              "* जो बचा है उसे commit करो: `git commit`",
+              "",
+              "इससे एक साफ commit बनती है, जिसमें सिर्फ वही work है जो आप रखना चाहते थे।"
             ]
           }
         }

@@ -36,6 +36,7 @@ exports.level = {
     "tr_TR": "Git Describe",
     "ta_IN": "Git விவரம்",
     "te_IN": "Git వివరణ",
+    "hi_IN": "Git Describe",
     "hu_HU": "Git describe",
     "az": "Git Describe"
   },
@@ -64,6 +65,7 @@ exports.level = {
     "pl": "Scommituj raz na bugFix, żeby przejść dalej",
     "ta_IN": "நீங்கள் தொடர தயாராக இருக்கும்போது bugFix இல் ஒருமுறை commit செய்யவும்.",
     "te_IN": "మీరు కొనసాగించడానికి సిద్ధంగా ఉన్నప్పుడు bugFix లో ఒకసారి commit చేయి.",
+    "hi_IN": "आगे बढ़ने के लिए तैयार होते ही bugFix में एक बार commit कर दो।",
     "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir.",
     "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon",
     "az": "Davam etməyə hazır olduğunda, sadəcə bugFix üzərində bir dəfə commit et"
@@ -127,6 +129,69 @@ exports.level = {
               "That's pretty much all there is to git describe! Try describing a few of the locations in this level to get a feel for the command.",
               "",
               "Once you're ready, just go ahead and commit once to finish the level. We're giving you a freebie :P"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Tags कोडबेस में बढ़िया \"anchors\" की तरह काम करते हैं, इसलिए git में एक कमांड है जो *describe* करती है कि आप नज़दीकी \"anchor\" (यानी tag) से कहाँ हैं। और उस कमांड का नाम है `git describe`!",
+              "",
+              "Git describe आपको अपनी जगह पहचानने में मदद करता है, खासकर जब आप history में कई commits पीछे या आगे जा चुके हों; ऐसा तब हो सकता है जब आपने git bisect (एक debugging search) पूरा किया हो, या जब आप किसी ऐसे साथी के कंप्यूटर पर बैठे हों जो छुट्टी से लौटा है।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe कुछ ऐसे चलता है:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "यहाँ `<ref>` कोई भी चीज़ हो सकती है जिसे git एक commit में बदल सके। अगर आप ref नहीं देते, तो git वहीं से चलता है जहाँ आप अभी checkout कर रखे हैं (`HEAD`)।",
+              "",
+              "कमांड का output कुछ ऐसा दिखता है:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "यहाँ `tag` history में सबसे नज़दीकी ancestor tag है, `numCommits` वे commits की संख्या है जो उस tag से दूर हैं, और `<hash>` उस commit का hash है जिसे describe किया जा रहा है।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए एक छोटा example देखते हैं। नीचे दी गई इस tree के लिए:"
+            ],
+            "afterMarkdowns": [
+              "`git describe main` कमांड का output होगा:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "और `git describe side` का output होगा:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "बस, git describe में इतना ही है! कमांड की अच्छी पकड़ के लिए इस level में कुछ जगहों को describe करके देखो।",
+              "",
+              "जब तैयार हो जाओ, तो बस एक बार commit कर दो और level खत्म कर दो। हम आपको एक freebie दे रहे हैं :P"
             ]
           }
         }

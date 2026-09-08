@@ -26,6 +26,7 @@ exports.level = {
     "it_IT": "Creare rami in Git",
     "ta_IN": "கிட் கிளை நிருவாகம்",
     "te_IN": "Git Branch నిర్వహణ",
+    "hi_IN": "Git में Branches",
     "tr_TR": "Git'te Branch işlemleri",
     "hu_HU": "Elágazás Gitben",
     "az": "Git-də Branch-lar"
@@ -55,6 +56,7 @@ exports.level = {
     "it_IT": "Crea un nuovo ramo con \"git branch <branch-name>\" e selezionalo con \"git checkout <branch-name>\"",
     "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக",
     "te_IN": "ఇప్పుడు \"git branch <branch-name>\" కమాండ్ తో కొత్త branch ను సృష్టించి, ఆపై \"git checkout <branch-name>\" తో ఆ branch కు మారండి",
+    "hi_IN": "अब \"git branch <branch-name>\" कमांड से एक नई branch बनाएं, फिर \"git checkout <branch-name>\" से उस branch पर चले जाएं",
     "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git checkout <branch-name>\" komutu ile bu branch'e geçin.",
     "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git checkout <branch-name>\" paranccsal",
     "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git checkout <branch-adı>\" ilə ona keç"
@@ -1995,6 +1997,100 @@ exports.level = {
               "మీరు `git checkout <name>` అని టైప్ చేసి ఒక branch కు మారవచ్చు.",
               "",
               "మీరు `git checkout -b <newbranch>` అని టైప్ చేసి కొత్త branch సృష్టించి దానికి మారవచ్చు."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branches",
+              "",
+              "Git में branches बहुत ही हल्की (lightweight) होती हैं। वे बस एक खास commit की तरफ इशारा करने वाले pointers हैं -- बस इतना ही। इसीलिए बहुत से Git fans ये मंत्र दोहराते हैं:",
+              "",
+              "```",
+              "branch early, and branch often",
+              "```",
+              "",
+              "Branches बनाने में न कोई storage का खर्च है न memory का, इसलिए अपने काम को लॉजिकल तरीके से अलग-अलग हिस्सों में बांटना, बड़े-भारी branches रखने से कहीं आसान है।",
+              "",
+              "जब हम branches और commits को मिलाकर इस्तेमाल करना शुरू करेंगे, तब देखेंगे कि ये दो features कैसे साथ काम करते हैं। फिलहाल बस यह याद रखें कि branch असल में यह कहती है: \"मैं इस commit और उसके सारे parent commits के काम को शामिल करना चाहता हूँ।\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए देखते हैं कि branches असल में कैसे दिखते हैं।",
+              "",
+              "यहाँ हम `newImage` नाम की एक नई branch बनाएंगे।"
+            ],
+            "afterMarkdowns": [
+              "लो, बस! Branching में इतना ही है! अब `newImage` branch, commit `C1` की तरफ इशारा कर रही है।"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए कोशिश करते हैं कि इस नई branch पर थोड़ा काम करें। नीचे दिया बटन दबाएं।"
+            ],
+            "afterMarkdowns": [
+              "अरे नहीं! `main` branch आगे बढ़ गई लेकिन `newImage` नहीं! ऐसा इसलिए हुआ क्योंकि हम नई branch पर \"on\" नहीं थे, इसीलिए asterisk (*) `main` पर था।"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए git को बताते हैं कि हम इस कमांड से branch पर जाना चाहते हैं,",
+              "",
+              "```",
+              "git checkout <name>",
+              "```",
+              "",
+              "इससे हमारे changes commit करने से पहले हम नई branch पर चले जाएंगे।"
+            ],
+            "afterMarkdowns": [
+              "हो गया! हमारे changes नई branch पर रिकॉर्ड हो गए।"
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*Note: Git के version 2.23 में एक नई कमांड `git switch` आई है, जो आखिरकार `git checkout` की जगह लेगी, ",
+              "क्योंकि `checkout` थोड़ी ज़्यादा ही भारी कमांड है (arguments के हिसाब से यह कई अलग-अलग काम करती है)। यहाँ के lessons अब भी ",
+              "`switch` की जगह `checkout` ही इस्तेमाल करेंगे, क्योंकि `switch` कमांड को अभी experimental माना जाता है और इसका syntax आगे बदल सकता है। ",
+              "फिर भी आप इस app में नई `switch` कमांड try कर सकते हैं, और साथ ही ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">यहाँ से इसके बारे में और जान सकते हैं</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ठीक है! अब आप branching के लिए तैयार हैं। ये window बंद होते ही,",
+              "`bugFix` नाम की एक नई branch बनाएं और उस branch पर चले जाएं।",
+              "",
+              "वैसे, एक shortcut भी है: अगर आप एक ही साथ नई branch बनाना ",
+              "चाहें और उस पर switch करना चाहें, तो बस ",
+              "`git checkout -b [yourbranchname]` टाइप करें।"
             ]
           }
         }

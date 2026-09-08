@@ -27,6 +27,7 @@ exports.level = {
     "tr_TR": "Git Fetch",
     "ta_IN": "Git Fetch",
     "te_IN": "Git Fetch",
+    "hi_IN": "Git Fetch",
     "hu_HU": "Git fetch",
     "az": "Git Fetch"
   },
@@ -55,6 +56,7 @@ exports.level = {
     "tr_TR": "Sadece git fetch komutunu çalıştırın!",
     "ta_IN": "பொதுவாக git fetch நடத்துங்கள்!",
     "te_IN": "సాధారణంగా git fetch నడపండి!",
+    "hi_IN": "बस git fetch रन करो!",
     "hu_HU": "Csak futtasd a git fetch-et!",
     "az": "Sadəcə git fetch et!"
   },
@@ -1730,6 +1732,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఈ level ను పూర్తి చేయడానికి, `git fetch` అని టైప్ చేసి అన్ని commits ను download చేయండి!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Git remotes के साथ काम करना असल में बस डेटा दूसरे repositories _को_ और उनसे _ट्रांसफर_ करने तक सीमित है। जब तक हम commits आगे-पीछे भेज सकते हैं, हम git के द्वारा ट्रैक किया गया कोई भी अपडेट शेयर कर सकते हैं (और इसलिए काम, नई फ़ाइलें, नए आइडिये, लव लेटर्स वग़ैरह शेयर कर सकते हैं)।",
+              "",
+              "इस पाठ में हम सीखेंगे कि एक remote repository _से_ डेटा कैसे फेच किया जाता है -- इसके लिए कमांड फ़िट नाम से `git fetch` है।",
+              "",
+              "आप देखेंगे कि जैसे ही हम remote repository की अपनी तस्वीर अपडेट करते हैं, हमारी _remote_ branches भी उस नई तस्वीर को दिखाने के लिए अपडेट हो जाती हैं। यह पिछले पाठ की remote branches वाली बात से जुड़ता है।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch` की बारीकियों में जाने से पहले, चलो इसे अमल में देखें! यहाँ हमारे पास एक remote repository है जिसमें दो ऐसे commits हैं जो हमारी लोकल repository में नहीं हैं।"
+            ],
+            "afterMarkdowns": [
+              "हो गया! `C2` और `C3` commits हमारी लोकल repository में डाउनलोड हो गए, और हमारी remote branch `o/main` इसे दिखाने के लिए अपडेट हो गई।"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch क्या करता है",
+              "",
+              "`git fetch` दो मुख्य कदम उठाता है, और सिर्फ़ दो ही। यह:",
+              "",
+              "* वे commits डाउनलोड करता है जो remote के पास हैं लेकिन हमारी लोकल repository में नहीं हैं, और...",
+              "* हमारी remote branches कहाँ पॉइंट कर रही हैं, वह अपडेट करता है (उदाहरण के लिए, `o/main`)",
+              "",
+              "`git fetch` असल में remote repository की हमारी _लोकल_ तस्वीर को _असली_ remote repository की मौजूदा हालत के साथ सिंक में लाता है।",
+              "",
+              "अगर आपको पिछला पाठ याद है, तो हमने कहा था कि remote branches उस समय की remote repositories की हालत दिखाती हैं _जब से_ आपने उन remotes से आख़िरी बार बात की थी। `git fetch` उन remotes से बात करने का तरीका है! उम्मीद है कि remote branches और `git fetch` का रिश्ता अब साफ़ होगा।",
+              "",
+              "`git fetch` आम तौर पर Internet के ज़रिए remote repository से बात करता है (`http://` या `git://` जैसे प्रोटोकॉल के ज़रिए)।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch क्या *नहीं* करता",
+              "",
+              "लेकिन `git fetch` _आपकी_ लोकल स्थिति में कुछ भी नहीं बदलता। यह आपकी `main` branch को अपडेट नहीं करता और न ही आपके फ़ाइल सिस्टम की मौजूदा हालत में कुछ बदलता है।",
+              "",
+              "यह समझना ज़रूरी है, क्योंकि बहुत से developers सोचते हैं कि `git fetch` रन करने से उनका लोकल काम remote की हालत के मुताबिक़ हो जाएगा। यह इसके लिए ज़रूरी सारा डेटा डाउनलोड कर सकता है, लेकिन असल में आपकी लोकल फ़ाइलों में कुछ भी नहीं बदलता। हम आगे के पाठों में ऐसी कमांड्स सीखेंगे जो यह काम करती हैं :D",
+              "",
+              "तो कुल मिलाकर, `git fetch` रन करने को एक डाउनलोड स्टेप समझ सकते हो।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "इस level को पूरा करने के लिए, बस `git fetch` करके सारे commits डाउनलोड करो!"
             ]
           }
         }

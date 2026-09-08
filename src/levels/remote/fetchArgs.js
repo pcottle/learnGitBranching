@@ -27,7 +27,8 @@ exports.level = {
     "tr_TR": "Fetch argümanları",
     "hu_HU": "Fetch argumentumok",
     "az": "Fetch arqumentləri",
-    "te_IN": "Fetch ఆర్గ్యుమెంట్లు"
+    "te_IN": "Fetch ఆర్గ్యుమెంట్లు",
+    "hi_IN": "fetch के आर्ग्युमेंट्स"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -54,7 +55,8 @@ exports.level = {
     "tr_TR": "Commit ID'lerinin nasıl değiştiğine dikkat edin! \"help level\" komutunu kullanarak slaytları tekrar okuyabilirsiniz.",
     "hu_HU": "Figyelj, hogyan cserélhetek helyet a commit azonosítók! A diákat újra elolvashatod a \"help level\" paranccsal",
     "az": "Commit id-lərinin yerlərini necə dəyişə biləcəyinə diqqət et! Slaydları \\\"help level\\\" ilə yenidən oxuya bilərsən",
-    "te_IN": "Commit IDs ఎలా మారవచ్చో గమనించు! \"help level\" తో స్లైడ్లను మళ్ళీ చదవవచ్చు"
+    "te_IN": "Commit IDs ఎలా మారవచ్చో గమనించు! \"help level\" తో స్లైడ్లను మళ్ళీ చదవవచ్చు",
+    "hi_IN": "ध्यान देखो, commit IDs कैसे बदल गई हैं! \"help level\" से स्लाइड्स दोबारा पढ़ सकते हो"
   },
   "startDialog": {
     "en_US": {
@@ -3099,6 +3101,129 @@ exports.level = {
               "బాగుంది, చాలా చర్చ జరిగింది! ఈ level పూర్తి చేయడానికి లక్ష్య విజువలైజేషన్ లో చూపించిన commits ను fetch చేయి. ఆ కమాండ్లతో కొంచెం నైపుణ్యం చూపించు!",
               "",
               "రెండు fetch commands కు source మరియు destination ను స్పెసిఫై చేయాలి. లక్ష్య విజువలైజేషన్ పై దృష్టి పెట్టు, ఎందుకంటే IDs మారవచ్చు!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## git fetch के आर्ग्युमेंट्स",
+              "",
+              "अभी हमने git push के आर्ग्युमेंट्स के बारे में सब कुछ सीखा, यह बढ़िया `<place>` पैरामीटर, और यहाँ तक कि कोलन वाले refspecs (`<source>:<destination>`) भी। क्या यह सारा ज्ञान `git fetch` के लिए भी इस्तेमाल कर सकते हैं?",
+              "",
+              "बिलकुल! `git fetch` के आर्ग्युमेंट्स असल में `git push` वालों से *बहुत, बहुत* मिलते-जुलते हैं। वही कॉन्सेप्ट्स हैं, बस उल्टी दिशा में लागू होते हैं (क्योंकि अब आप commits अपलोड करने की बजाय डाउनलोड कर रहे हो)।",
+              "",
+              "चलो कॉन्सेप्ट्स को एक-एक करके देखें..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<place>` पैरामीटर",
+              "",
+              "अगर आप git fetch में एक place स्पेसिफ़ाई करो, जैसे नीचे वाली कमांड में:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git remote पर `foo` branch पर जाएगा, सारे वे commits उठाएगा जो लोकली मौजूद नहीं हैं, और फिर उन्हें लोकल `o/foo` branch पर डाल देगा।",
+              "",
+              "चलो इसे अमल में देखें (सिर्फ़ याद दिलाने के लिए)।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "एक place स्पेसिफ़ाई करके..."
+            ],
+            "afterMarkdowns": [
+              "हम सिर्फ़ `foo` से commits डाउनलोड करते हैं और उन्हें `o/foo` पर डालते हैं।"
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "सोच रहे होगे -- git ने वे commits `o/foo` remote branch पर क्यों डाले, सीधे मेरी लोकल `foo` branch पर क्यों नहीं? मैं तो सोच रहा था कि `<place>` पैरामीटर वह place है जो लोकली और remote दोनों जगह मौजूद होता है?",
+              "",
+              "अच्छा, git इस मामले में एक ख़ास अपवाद बनाता है, क्योंकि हो सकता है कि `foo` branch पर आपका कोई काम हो जिसे आप बिगाड़ना न चाहो!! यह `git fetch` वाले पिछले पाठ से जुड़ता है -- यह आपकी लोकल गैर-remote branches को अपडेट नहीं करता, सिर्फ़ commits डाउनलोड करता है (ताकि आप बाद में उन्हें देख / merge सकें)।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"अच्छा, ऐसा हो तो क्या होगा अगर मैं source और destination दोनों को `<source>:<destination>` से साफ़-साफ़ बता दूँ?\"",
+              "",
+              "अगर आप commits को *सीधे* एक लोकल branch पर fetch करने के लिए उत्साही हो, तो हाँ, आप इसे कोलन वाले refspec से बता सकते हो। आप उस branch पर commits fetch नहीं कर सकते जिस पर checkout किया हुआ है, लेकिन बाक़ी हालातों में git इसकी इजाज़त देता है।",
+              "",
+              "बस एक बात ध्यान रखो -- `<source>` अब *remote* की एक जगह है और `<destination>` एक *लोकल* जगह है जहाँ वे commits रखे जाएँगे। यह git push का हूबहू उल्टा है, और यह समझ की बात है क्योंकि हम डेटा उल्टी दिशा में ट्रांसफर कर रहे हैं!",
+              "",
+              "फिर भी, developers अमल में यह कम ही करते हैं। मैं यह मुख्य रूप से इसलिए बता रहा हूँ ताकि समझ आए कि `fetch` और `push` कितने मिलते-जुलते हैं, बस दिशाएँ उल्टी हैं।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलो यह पागलपन अमल में देखें:"
+            ],
+            "afterMarkdowns": [
+              "वाह! देखो, git ने `C2` को origin पर एक जगह की तरह रिज़ॉल्व किया और फिर उन commits को `bar` (जो एक लोकल branch थी) में डाउनलोड कर दिया।"
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "अगर कमांड रन करने से पहले destination मौजूद न हो तो? चलो आख़िरी स्लाइड फिर देखें, लेकिन इस बार `bar` पहले से मौजूद नहीं है।"
+            ],
+            "afterMarkdowns": [
+              "देखा? यह बिलकुल git push जैसा ही है। Git ने fetch से पहले destination को लोकली बनाया, ठीक वैसे ही जैसे git push से पहले remote पर destination बना देता है (अगर वह मौजूद न हो)।"
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "बिना आर्ग्युमेंट्स के?",
+              "",
+              "अगर `git fetch` को कोई आर्ग्युमेंट न मिले, तो वह बस remote के सारे commits सारी remote branches पर डाउनलोड कर देता है..."
+            ],
+            "afterMarkdowns": [
+              "काफ़ी सिंपल है, लेकिन एक बार देख लेना अच्छा रहता है।"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ठीक है, बहुत बातें हो गईं! इस level को पूरा करने के लिए सिर्फ़ गोल विज़ुअलाइज़ेशन में दिखाए गए commits को fetch करो। उन कमांड्स से फ़ैंसी बनो!",
+              "",
+              "आपको दोनों fetch कमांड्स के लिए source और destination स्पेसिफ़ाई करनी होंगी। गोल विज़ुअलाइज़ेशन पर ध्यान दो, क्योंकि IDs इधर-उधर बदली हो सकती हैं!"
             ]
           }
         }

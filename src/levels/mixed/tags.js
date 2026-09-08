@@ -27,6 +27,7 @@ exports.level = {
     "pl": "Tagi Gita",
     "ta_IN": "Git டேக்கள்",
     "te_IN": "Git Tags",
+    "hi_IN": "Git Tags",
     "tr_TR": "Git Tag'leri",
     "hu_HU": "Git tagek",
     "az": "Git Tag-lər"
@@ -56,6 +57,7 @@ exports.level = {
     "pl": "Możesz checkoutować commit bezpośrednio lub po prostu tag!",
     "ta_IN": "நீங்கள் நேரடியாக commit ஐ அல்லது tag ஐ checkout செய்யலாம்!",
     "te_IN": "మీరు నేరుగా commit లేదా tag ను checkout చేయవచ్చు!",
+    "hi_IN": "आप सीधे commit का या आसानी से tag का checkout कर सकते हैं!",
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
     "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!",
     "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!"
@@ -108,6 +110,58 @@ exports.level = {
               "For this level just create the tags in the goal visualization and then check `v1` out. Notice how you go into detached `HEAD` state -- this is because you can't commit directly onto the `v1` tag.",
               "",
               "In the next level we'll examine a more interesting use case for tags."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tags",
+              "",
+              "जैसा आपने पिछले levels में सीखा, branches को इधर-उधर ले जाना आसान है, और जैसे-जैसे काम आगे बढ़ता है वो अक्सर अलग-अलग commits को point करते रहते हैं। Branches आसानी से बदलते हैं, अक्सर temporary होते हैं, और हमेशा बदलते रहते हैं।",
+              "",
+              "अगर ऐसा है, तो हो सकता है आप सोच रहे हों कि क्या कोई तरीका है जिससे अपने project की history में किसी जगह को *permanent* तौर पर mark किया जा सके। Major releases और बड़े merges जैसी चीज़ों के लिए, क्या इन commits को branch से ज्यादा permanent किसी चीज़ से mark करने का कोई तरीका है?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "बिल्कुल है! Git tags ठीक इसी काम के लिए बने हैं -- वो कुछ commits को (काफी हद तक) permanent तौर पर \"milestones\" की तरह mark करते हैं, जिन्हें आप फिर एक branch की तरह refer कर सकते हैं।",
+              "",
+              "और भी जरूरी बात ये है कि नए commits बनने पर वो कभी नहीं हिलते। आप किसी tag को \"check out\" करके उस पर आगे का काम नहीं कर सकते -- tags commit tree में ऐसे anchors की तरह होते हैं जो कुछ खास जगहों को दिखाते हैं।",
+              "",
+              "चलिए देखते हैं tags असल में कैसे दिखते हैं।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "चलिए `C1` पर एक tag बनाने की कोशिश करते हैं, जो हमारे version 1 prototype है।"
+            ],
+            "afterMarkdowns": [
+              "लो हो गया! बहुत आसान। हमने tag का नाम `v1` रखा और commit `C1` को साफ-साफ point किया। अगर आप commit नहीं देते, तो git वहीं का इस्तेमाल करेगा जहाँ `HEAD` है।"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "इस level में बस goal visualization में tags बनाइए और फिर `v1` को check out कीजिए। देखिए कि आप detached `HEAD` state में कैसे चले जाते हैं -- यह इसलिए क्योंकि आप सीधे `v1` tag पर commit नहीं कर सकते।",
+              "",
+              "अगले level में हम tags का एक और मज़ेदार use case देखेंगे।"
             ]
           }
         }

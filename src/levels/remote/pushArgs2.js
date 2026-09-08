@@ -26,7 +26,8 @@ exports.level = {
     "tr_TR": "Git push argümanları -- Genişletilmiş!",
     "hu_HU": "Git push argumentumok -- Bővítve!",
     "az": "Git push arqumentləri -- Genişləndirilmiş!",
-    "te_IN": "Git push ఆర్గ్యుమెంట్లు -- విస్తరించబడ్డాయి!"
+    "te_IN": "Git push ఆర్గ్యుమెంట్లు -- విస్తరించబడ్డాయి!",
+    "hi_IN": "Git push आर्ग्युमेंट्स -- विस्तार से!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -53,7 +54,8 @@ exports.level = {
     "tr_TR": "Unutma, teslim olabileceğini ve \"show solution\" yazabileceğini :P",
     "hu_HU": "Ne feledd, mindig elismerheted a vereséged, és beírhatod: \"show solution\" :P",
     "az": "Unutma, məğlubiyyəti qəbul edib \\\"show solution\\\" yaza bilərsən :P",
-    "te_IN": "ఓడిపోయానని ఒప్పుకొని \"show solution\" టైప్ చేయవచ్చు :P"
+    "te_IN": "ఓడిపోయానని ఒప్పుకొని \"show solution\" టైప్ చేయవచ్చు :P",
+    "hi_IN": "याद रखो, हार मानकर \"show solution\" टाइप कर सकते हो :P"
   },
   "startDialog": {
     "en_US": {
@@ -119,6 +121,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "For this level, try to get to the end goal state shown in the visualization, and remember the format of:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` argument की details",
+              "",
+              "पिछले lesson से याद करो कि जब हमने git push के लिए `main` को place argument की तरह specify किया था, तो हमने commits का *source* (कहाँ से आएँगे) और *destination* (कहाँ जाएँगे) दोनों specify किए थे।",
+              "",
+              "अब शायद आप सोच रहे हों -- अगर source और destination अलग-अलग हों तो? अगर आप local की `foo` branch के commits को remote की `bar` branch पर push करना चाहें तो?",
+              "",
+              "अफ़सोस, ये git में मुमकिन नहीं है... हाहा, मज़ाक कर रहा था! बिल्कुल मुमकिन है :)... git में flexibility ढेर सारी है (लगभग ज़रूरत से ज़्यादा)।",
+              "",
+              "चलो अगली slide में देखें कि कैसे..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<place>` का source और destination दोनों specify करने के लिए बस दोनों को colon से जोड़ दो:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "इसे आम तौर पर colon refspec कहते हैं। Refspec असल में किसी ऐसी location का बस एक fancy नाम है जिसे git पहचान सकता है (जैसे `foo` branch या फिर सिर्फ़ `HEAD~1`)।",
+              "",
+              "जब आप source और destination दोनों अलग-अलग specify करते हैं, तो remote commands से बड़ी सफ़ाई से खेल सकते हैं। चलो एक demo देखें!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "याद रखो, `source` कोई भी ऐसी location हो सकती है जिसे git समझे:"
+            ],
+            "afterMarkdowns": [
+              "वाह! Command काफ़ी trippy है लेकिन समझ आती है -- git ने `foo^` को एक location में resolve किया, जो commits remote पर अभी नहीं थे उन्हें upload किया, और फिर destination को update कर दिया।"
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git fakeCreateRemote; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "और अगर जिस destination पर push करना है वो exist ही न करे? कोई दिक़्क़त नहीं! बस एक branch name दे दो, git आपके लिए remote पर वो branch बना देगा।"
+            ],
+            "afterMarkdowns": [
+              "मस्त, बड़ा slick है :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "इस level के लिए visualization में दिखाए गए end goal state तक पहुँचने की कोशिश करो, और ये format याद रखो:",
               "",
               "`<source>:<destination>`"
             ]

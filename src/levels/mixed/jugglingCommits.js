@@ -42,6 +42,7 @@ exports.level = {
     "pl": "Żonglowanie commitami",
     "ta_IN": "Commitகளுடன் வித்தைகள்",
     "te_IN": "Commits తో విద్యలు",
+    "hi_IN": "Commits के साथ जुगलबंदी",
     "tr_TR": "Commit Hokkabazlığı",
     "hu_HU": "Commitok átrendezése",
     "az": "Commit-lərin Hoqqabazlığı"
@@ -71,6 +72,7 @@ exports.level = {
     "pl": "Pierwsze polecenie to: git rebase -i HEAD~2",
     "ta_IN": "முதலில் கொடுக்கவேண்டிய கட்டளை git rebase -i HEAD~2",
     "te_IN": "మొదట ఇవ్వవలసిన కమాండ్ git rebase -i HEAD~2",
+    "hi_IN": "पहली कमांड है git rebase -i HEAD~2",
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
     "hu_HU": "Az első parancs: git rebase -i HEAD~2",
     "az": "İlk əmr git rebase -i HEAD~2 olmalıdır"
@@ -105,6 +107,40 @@ exports.level = {
               "Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree ",
               "",
               "That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree's `main` branch has the same structure and relative apostrophe differences, I'll give full credit."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits के साथ जुगलबंदी",
+              "",
+              "एक और situation जो काफी आम है। आपके पास कुछ changes हैं (`newImage`) और एक और सेट है (`caption`) जो उनसे जुड़े हैं, इसलिए वो आपकी repository में एक-दूसरे के ऊपर stacked हैं (यानी एक के बाद एक)।",
+              "",
+              "मुश्किल बात ये है कि कभी-कभी आपको किसी पुराने commit में छोटा-सा बदलाव करना पड़ता है। इस case में, design चाहता है कि हम `newImage` का size थोड़ा बदल दें, जबकि वो commit हमारी history में काफी पीछे है!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "हम इस मुश्किल को इन steps से पार करेंगे:",
+              "",
+              "* हम `git rebase -i` से commits का order बदलेंगे ताकि जिसे बदलना है वो सबसे ऊपर आ जाए",
+              "* हम `git commit --amend` से छोटा बदलाव करेंगे",
+              "* फिर हम `git rebase -i` से commits को वापस पहले वाले order में ले आएंगे",
+              "* आखिर में, हम main को tree के इस updated हिस्से पर ले जाकर level पूरा करेंगे (किसी भी तरीके से जो आपको पसंद हो)",
+              "",
+              "इस पूरे goal को पाने के कई तरीके हैं (मैं देख रहा हूँ आप cherry-pick की तरफ देख रहे हैं), और हम उनमें से और भी बाद में देखेंगे, लेकिन अभी इस technique पर ध्यान दें।",
+              "आखिर में, यहाँ goal state पर ध्यान दें -- हम commits को दो बार move करते हैं, इसलिए दोनों में एक apostrophe जुड़ जाता है। जिस commit को amend करते हैं उसमें एक और apostrophe जुड़ता है, जिससे tree का final रूप बनता है ",
+              "",
+              "वैसे, मैं अब levels की तुलना structure और apostrophes के relative फर्क के आधार पर कर सकता हूँ। जब तक आपके tree की `main` branch में वही structure और वही relative apostrophe फर्क हैं, मैं पूरे marks दूंगा।"
             ]
           }
         }

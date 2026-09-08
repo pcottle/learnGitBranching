@@ -39,6 +39,7 @@ exports.level = {
     "ro": "Introducere în clonare",
     "bg": "Въведение в clone",
     "te_IN": "Clone పరిచయం",
+    "hi_IN": "Clone का परिचय",
     "ru_RU": "Введение в клонирование",
     "ko": "Clone 소개",
     "uk": "Знайомство з clone",
@@ -75,7 +76,8 @@ exports.level = {
     "tr_TR": "Sadece git clone yapın!",
     "hu_HU": "Csak git clone!",
     "az": "Sadəcə git clone et!",
-    "te_IN": "సింపుల్ గా git clone చేయి!"
+    "te_IN": "సింపుల్ గా git clone చేయి!",
+    "hi_IN": "बस git clone करो!"
   },
   "startDialog": {
     "en_US": {
@@ -1496,6 +1498,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఈ level పూర్తి చేయడానికి, మేము మీ కోసం సిద్ధం చేసిన remote repository ని `git clone` చేయి. నిజమైన లెర్నింగ్ తదుపరి పాఠాలలో వస్తుంది."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remotes",
+              "",
+              "Remote repositories इतने मुश्किल नहीं हैं। आज के cloud computing के दौर में git remotes के पीछे बहुत जादू समझना आसान है, लेकिन असल में वे बस आपकी repository की कॉपियाँ हैं, दूसरे कंप्यूटर पर। आप आम तौर पर Internet के ज़रिए उस दूसरे कंप्यूटर से बात कर सकते हैं, जिससे commits को आगे-पीछे ट्रांसफर किया जा सकता है।",
+              "",
+              "फिर भी, remote repositories की कई बढ़िया खूबियाँ हैं:",
+              "",
+              "- सबसे पहले, remotes एक शानदार backup का काम करते हैं! लोकल git repositories फ़ाइलों को पुरानी स्थिति में रिस्टोर कर सकती हैं (जैसा आप जानते हैं), लेकिन वह सारी जानकारी लोकल स्टोर होती है। अपनी git repository की कॉपियाँ दूसरे कंप्यूटरों पर रखने से, आपका सारा लोकल डेटा खो जाने पर भी आप वहीं से काम चला सकते हैं जहाँ छोड़ा था।",
+              "",
+              "- इससे भी ज़रूरी बात, remotes कोडिंग को सोशल बनाते हैं! अब जब आपके प्रोजेक्ट की कॉपी किसी और जगह होस्ट है, तो आपके दोस्त बहुत आसानी से आपके प्रोजेक्ट में कंट्रिब्यूट कर सकते हैं (या आपके लेटेस्ट बदलाव पुल कर सकते हैं)।",
+              "",
+              "Remote repositories के इर्द-गिर्द की गतिविधि को विज़ुअलाइज़ करने वाली वेबसाइटों (जैसे [GitHub](https://github.com/)) का इस्तेमाल काफी पॉपुलर हो गया है, लेकिन remote repositories _हमेशा_ इन टूल्स की अंडरलाइंग बैकबोन का काम करते हैं। इसलिए इन्हें समझना ज़रूरी है!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remotes के साथ काम शुरू करने के लिए हमारी कमांड",
+              "",
+              "अभी तक, Learn Git Branching ने _लोकल_ repository के काम की बेसिक्स (branching, merging, rebasing, वग़ैरह) सिखाने पर ध्यान दिया है। लेकिन अब हम remote repository के काम के बारे में सीखना चाहते हैं, तो उन पाठों के लिए एनवायरनमेंट सेट करने की एक कमांड चाहिए। `git clone` वही कमांड होगी।",
+              "",
+              "असली `git clone` की तरह ही, हमने इस पाठ के लिए एक remote repository पहले से तैयार रखी है, और `git clone` रन करने से वह आपकी लोकल repository में आ जाती है। यहाँ से, आपकी लोकल repo का `o/main` बताता है कि clone करते वक़्त remote की `main` branch कहाँ थी।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "आइए धीरे-धीरे शुरू करें, clone करने से पहले देखें कि remote repository कैसी दिखती है (हमारे विज़ुअलाइज़ेशन में)।",
+              ""
+            ],
+            "afterMarkdowns": [
+              "यह रहा! अब remote से clone की गई आपकी अपनी लोकल कॉपी आपके पास है। दिखने में बहुत मिलती-जुलती है, सिवाय कुछ विज़ुअल बदलावों के जो फ़र्क़ साफ़ दिखाते हैं -- आगे के levels में देखेंगे कि हम इन repositories के बीच काम कैसे शेयर करते हैं।"
+            ],
+            "command": "git clone",
+            "beforeTree": CLONE_START_TREE
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "इस level को पूरा करने के लिए, बस हमारी तैयार की हुई remote repository को `git clone` करें। असली सीख अगले पाठों में आएगी।"
             ]
           }
         }

@@ -20,6 +20,7 @@ exports.level = {
     vi: "Staging Area",
     uk: "Область підготовлених файлів (Staging Area)",
     te_IN: "Staging ఏరియా",
+    hi_IN: "Staging एरिया",
     ko: "스테이징 영역 (Staging Area)",
   },
   hint: {
@@ -48,6 +49,7 @@ exports.level = {
     vi: "Đưa một tệp vào staging area bằng lệnh git add <file>, sau đó lưu lại (snapshot) bằng lệnh git commit. Hãy làm điều đó hai lần, mỗi lần cho một tệp.",
     uk: "Підготуйте файл за допомогою `git add <файл>`, потім збережіть його знімок командою `git commit`. Зробіть це двічі — по одному разу для кожного файлу.",
     te_IN: "ఫైల్ ను `git add <file>` తో stage చేసి, `git commit` తో snapshot చేయి. ఇది రెండుసార్లు చేయి, ఒక్కో ఫైల్ కు ఒకసారి.",
+    hi_IN: "`git add <file>` से file को stage करो, फिर `git commit` से उसका snapshot सेव करो। यह दो बार करो, हर file के लिए एक बार।",
     ko: "`git add <file>`로 파일을 스테이징한 다음 `git commit`으로 스냅샷을 저장하세요. 파일마다 한 번씩, 총 두 번 수행하세요.",
   },
   startDialog: {
@@ -103,6 +105,63 @@ exports.level = {
               "* `git add styles.css`, then `git commit`",
               "",
               "The filenames beside each goal commit show exactly where each change belongs. Two clean commits and the level is yours.",
+            ],
+          },
+        },
+      ],
+    },
+    hi_IN: {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Staging एरिया",
+              "",
+              "अब तक हमने यह नहीं देखा कि असल में commit *बनाने* में क्या-क्या होता है। शायद आप जानते हैं कि commits files में changes दिखाते हैं, लेकिन असल में यह चुनने में भी थोड़ी process है कि *कौन से* file changes *कौन से* commit में जाएंगे।",
+              "",
+              "Git सिर्फ अपने आप सारी बदली हुई files हर commit में डालना नहीं चाहता -- यह बुरा होगा! इसमें कोई ऐसा change भी शामिल हो सकता है जिसे आप permanent नहीं रखना चाहते, या कोई secret भी जैसे API key, जो आपकी commit history का हिस्सा बनकर GitHub पर leak हो सकती है।",
+              "",
+              "इसलिए किसी file का change commit का हिस्सा बनने से पहले, उसे खास तौर पर चुना जाना जरूरी है। Git के इसके लिए तीन zones हैं: आपकी **working directory** (जहाँ आप edit करते हैं), **staging area** (अगली commit में जाने वाली चीज़ों का loading dock), और **repository** (आपकी permanent history)।",
+              "",
+              "आप `git add` से *बिल्कुल* चुनते हैं कि हर commit में क्या जाएगा। इसी से commits साफ-सुथरे रहते हैं, और आपको कभी सब कुछ एक साथ commit करने की जरूरत नहीं पड़ती।",
+              "",
+              "*(इन levels से अब हम दिखाएंगे कि कौन सी files किन commits का हिस्सा हैं।)*",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "कभी भी `git status` चलाकर देख सकते हैं कि हालत क्या है। अभी यह दो files दिखा रहा है जिन्हें आपने edit किया है पर stage नहीं किया:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "`git add app.js` से एक file stage करो, या `git add .` से सब कुछ एक साथ उठा लो। एक बार file stage हो जाए, तो `git commit` उसे snapshot में सील कर देता है।",
+              "",
+              "क्या कुछ files हैं जिन्हें आप कभी commit नहीं करना चाहते, जैसे secrets, logs या build का कचरा? उन्हें एक `.gitignore` file में लिख दो, और git चुपचाप उन्हें अकेला छोड़ देगा।",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "अब आपकी बारी! अपने work को **एक-एक file करके** stage और commit करो, ताकि हर commit focused रहे:",
+              "",
+              "* `git add app.js`, फिर `git commit`",
+              "* `git add styles.css`, फिर `git commit`",
+              "",
+              "हर goal commit के बगल में लिखे filenames बताते हैं कि हर change कहाँ जाता है। दो साफ commits और level आपका।",
             ],
           },
         },

@@ -41,6 +41,7 @@ exports.level = {
     "pl": "Żonglowanie commitami #2",
     "ta_IN": "Commitகளுடன் வித்தைகள் #2",
     "te_IN": "Commits తో విద్యలు #2",
+    "hi_IN": "Commits के साथ जुगलबंदी #2",
     "tr_TR": "Commit Hokkabazlığı #2",
     "hu_HU": "Commitok átrendezése #2",
     "az": "Commit Hoqqabazlığı #2"
@@ -70,6 +71,7 @@ exports.level = {
     "pl": "Nie zapomnij sforwardować maina do najnowszych zmian!",
     "ta_IN": "Main ஐ புதுப்பிக்கப்பட்ட மாற்றங்களுக்கு முன்னேற்றமிடுவதை மறக்க வேண்டாம்!",
     "te_IN": "నవీకరించబడిన మార్పులతో Main ను update చేయడం మరచిపోకండి!",
+    "hi_IN": "main को updated changes तक ले जाना ना भूलें!",
     "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
     "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!",
     "az": "main-i yenilənmiş dəyişikliklərə irəli aparmağı unutma!"
@@ -113,6 +115,49 @@ exports.level = {
               "So in this level, let's accomplish the same objective of amending `C2` once but avoid using `rebase -i`. I'll leave it up to you to figure it out! :D",
               "",
               "Remember, the exact number of apostrophe's (') on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere."
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits के साथ जुगलबंदी #2",
+              "",
+              "*अगर आपने Commits के साथ जुगलबंदी #1 (पिछला level) पूरा नहीं किया है, तो कृपया आगे बढ़ने से पहले उसे कर लें*",
+              "",
+              "जैसा आपने पिछले level में देखा, हमने `rebase -i` से commits का order बदला था। जब जिस commit को बदलना था वो सबसे ऊपर आ गया, हम आसानी से --amend करके उसे वापस अपने मनपसंद order में ले गए।",
+              "",
+              "यहाँ बस एक दिक्कत है कि बहुत ज्यादा reordering होती है, जिससे rebase conflicts आ सकते हैं। चलिए `git cherry-pick` से एक और तरीका देखते हैं।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "याद रखें कि git cherry-pick tree में कहीं से भी एक commit उठाकर HEAD पर रख देता है (जब तक वो commit HEAD का ancestor नहीं है)।",
+              "",
+              "यह एक छोटा refresher demo है:"
+            ],
+            "afterMarkdowns": [
+              "बढ़िया! चलते हैं आगे।"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "तो इस level में, चलिए वही goal पूरा करते हैं -- `C2` को एक बार amend करना -- लेकिन `rebase -i` के बिना। यह आपको खुद सोचने के लिए छोड़ रहा हूँ! :D",
+              "",
+              "याद रखें, commit पर apostrophes (') की सही संख्या जरूरी नहीं है, सिर्फ relative फर्क जरूरी है। जैसे, मैं उस tree को भी पूरे marks दूंगा जो goal tree से मिलता है लेकिन हर जगह एक extra apostrophe हो।"
             ]
           }
         }

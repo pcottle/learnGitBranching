@@ -32,7 +32,8 @@ exports.level = {
     "tr_TR": "Branch Spagettisi",
     "hu_HU": "Ág-spagetti",
     "az": "Branch Spagetti",
-    "te_IN": "Branch స్పాగెట్టి"
+    "te_IN": "Branch స్పాగెట్టి",
+    "hi_IN": "Branch स्पेगेटी"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -60,7 +61,8 @@ exports.level = {
     "tr_TR": "Her şeyi doğru sırada yaptığından emin ol! Önce ilk branch (one), ardından ikinci branch (two), ardından üçüncü branch (three)",
     "hu_HU": "Ügyelj arra, hogy mindent a megfelelő sorrendben végezz el! Először a `one` ág, majd a `two`, aztán a `three`",
     "az": "Hər şeyi düzgün ardıcıllıqla etdiyinə əmin ol! Əvvəl `one` branch, sonra `two`, sonra `three`",
-    "te_IN": "అన్నీ సరైన క్రమంలో చేశావని నిర్ధారించుకో! మొదట `one` branch, తర్వాత `two`, తర్వాత `three`"
+    "te_IN": "అన్నీ సరైన క్రమంలో చేశావని నిర్ధారించుకో! మొదట `one` branch, తర్వాత `two`, తర్వాత `three`",
+    "hi_IN": "सुनिश्चित करो कि सब कुछ सही order में करो! पहले `one` branch, फिर `two`, फिर `three`"
   },
   "startDialog": {
     "en_US": {
@@ -78,6 +80,26 @@ exports.level = {
               "Branch `one` needs a re-ordering of those commits and an exclusion/drop of `C5`. Branch `two` just needs a pure reordering of the commits, and `three` only needs one commit transferred!",
               "",
               "We will let you figure out how to solve this one -- make sure to check out our solution afterwards with `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch स्पेगेटी",
+              "",
+              "अरे बाप रे! इस level में हमें बड़ा-सा goal पाना है।",
+              "",
+              "यहाँ हमारे पास `main` है जो branches `one`, `two` और `three` से कुछ commits आगे है। किसी भी वजह से, हमें इन तीनों branches को main के आखिरी कुछ commits के modified versions से update करना है।",
+              "",
+              "Branch `one` को उन commits का नया order चाहिए और `C5` को हटाना/छोड़ना है। Branch `two` को बस एक नए order की जरूरत है, और `three` को सिर्फ एक commit transfer करना है!",
+              "",
+              "इसे कैसे solve करना है यह आप पर छोड़ रहे हैं -- बाद में `show solution` से हमारा solution ज़रूर देख लेना। "
             ]
           }
         }

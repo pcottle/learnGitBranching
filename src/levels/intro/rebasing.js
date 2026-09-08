@@ -26,6 +26,7 @@ exports.level = {
     "pl": "Wprowadzenie do Rebase",
     "ta_IN": "Rebase அறிமுகம்",
     "te_IN": "Rebase పరిచయం",
+    "hi_IN": "Rebase का परिचय",
     "tr_TR": "Rebase İşlemine Giriş",
     "hu_HU": "Rebase bevezetés",
     "az": "Rebase-ə giriş"
@@ -55,6 +56,7 @@ exports.level = {
     "pl": "Upewnij się, że masz już commit z bugFix",
     "ta_IN": "முதலில் bugFix இல் இருந்து commit செய்ய நீங்கள் உறுதி செய்யவும்",
     "te_IN": "మొదట bugFix లో commit చేయి",
+    "hi_IN": "ध्यान रखें कि पहले bugFix में commit करें",
     "tr_TR": "Önce bugFix'ten commit attığınıza emin olun",
     "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz",
     "az": "Əvvəlcə bugFix-dən commit etdiyinə əmin ol"
@@ -125,6 +127,73 @@ exports.level = {
               "* Check out bugFix again and rebase onto main",
               "",
               "Good luck!"
+            ]
+          }
+        }
+      ]
+    },
+    "hi_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Branches के बीच काम जोड़ने का दूसरा तरीका है *rebasing.* Rebasing असल में commits के एक सेट को लेता है, उन्हें \"copy\" करता है, और उन्हें कहीं और रख देता है।",
+              "",
+              "यह भले ही भ्रमित करने वाला लगे, लेकिन rebasing का फायदा यह है कि इससे commits की एक अच्छी linear sequence बनाई जा सकती है। अगर सिर्फ rebasing को ही इस्तेमाल करने दिया जाए, तो repository का commit log / history काफी साफ-सुथरा रहेगा।",
+              "",
+              "चलिए इसे असल में देखते हैं..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "यहाँ फिर से हमारे पास दो branches हैं; ध्यान दें कि इस वक्त bugFix branch selected है (asterisk देखें)",
+              "",
+              "हम चाहेंगे कि हमारा bugFix वाला काम सीधे main के काम के ऊपर चला जाए। इससे ऐसा लगेगा जैसे इन दो features को एक के बाद एक develop किया गया, हालांकि असल में इन्हें साथ-साथ develop किया गया था।",
+              "",
+              "चलिए यह कमांड से करते हैं: `git rebase`।"
+            ],
+            "afterMarkdowns": [
+              "बढ़िया! अब हमारी bugFix branch का काम \"main के ऊपर\" चढ़ गया है, क्योंकि वह main की तरफ इशारा करता है। हालांकि हमारी visualization में यह main के नीचे दिखता है, क्योंकि हमारे commit trees नीचे की तरफ बढ़ते हैं।",
+              "",
+              "ध्यान दें कि commit C3 अब भी कहीं मौजूद है (tree में वह फीका दिखता है), और C3' वही \"copy\" है जिसे हमने main पर rebase किया।",
+              "",
+              "बस एक दिक्कत है कि main भी अपडेट नहीं हुआ है, चलिए अब वह करते हैं..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "अब हम `main` branch पर हैं। चलिए आगे बढ़ते हैं और `bugFix` पर rebase करते हैं..."
+            ],
+            "afterMarkdowns": [
+              "लो हो गया! चूंकि `main` पहले से `bugFix` का ancestor था, git ने बस `main` branch की reference को history में आगे खिसका दिया।"
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "यह लेवल पूरा करने के लिए ये करें:",
+              "",
+              "* `bugFix` नाम की एक नई branch पर जाएं",
+              "* एक बार commit करें",
+              "* वापस main पर जाकर फिर से commit करें",
+              "* दोबारा bugFix पर जाएं और main पर rebase करें",
+              "",
+              "शुभकामनाएं!"
             ]
           }
         }
