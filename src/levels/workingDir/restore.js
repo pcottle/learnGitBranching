@@ -17,6 +17,7 @@ exports.level = {
     "te_IN": "git restore తో అన్‌డూ చేయడం",
     "hi_IN": "git restore से अनडू करना",
     "ko": "git restore로 되돌리기",
+    "it_IT": "Annullare le modifiche con git restore",
     "es_ES": "Deshacer con git restore"
   },
   "hint": {
@@ -32,6 +33,7 @@ exports.level = {
     "uk": "Приберіть файл з індексу за допомогою `git restore --staged secret.env`, відкиньте експеримент командою `git restore experiment.js`, а потім виконайте `git commit`.",
     "te_IN": "`git restore --staged secret.env` తో stage నుండి తీసివేయి, `git restore experiment.js` తో experiment ను పారేయి, తర్వాత `git commit` చేయి.",
     "hi_IN": "`git restore --staged secret.env` से stage से हटाओ, `git restore experiment.js` से experiment फेंक दो, फिर `git commit` करो।",
+    "it_IT": "Rimuovi dallo staging con `git restore --staged secret.env`, scarta l'esperimento con `git restore experiment.js`, quindi esegui `git commit`.",
     "ko": "`git restore --staged secret.env`로 스테이징을 해제하고, `git restore experiment.js`로 실험의 변경 사항을 버린 다음 `git commit`하세요.",
     "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`."
   },
@@ -151,6 +153,66 @@ exports.level = {
               "* जो बचा है उसे commit करो: `git commit`",
               "",
               "इससे एक साफ commit बनती है, जिसमें सिर्फ वही work है जो आप रखना चाहते थे।"
+            ]
+          }
+        }
+      ]
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Annullare le modifiche con `git restore`",
+              "",
+              "A tutti capita di fare un po' di confusione a volte. Aggiungi allo staging un file che non volevi, o inizi un esperimento che preferiresti scartare. `git restore` è il pulsante \"annulla\" moderno e appositamente progettato per la tua working directory e la staging area.",
+              "",
+              "Puoi usarlo in due modi:",
+              "",
+              "* `git restore --staged <file>`: **rimuove dallo staging** un file (lo sposta fuori dalla staging area, mantenendo le tue modifiche)",
+              "* `git restore <file>`: **scarta** completamente le modifiche apportate a un file (attenzione, questo butta via i cambiamenti!)",
+              "",
+              "*(Questi comandi sostituiscono i vecchi trucchi `git reset HEAD <file>` e `git checkout -- <file>`. Stessa idea, ma con nomi molto più chiari.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ecco la situazione sulla tua scrivania in questo momento:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Vuoi eseguire il commit di `app.js`, ma `secret.env` è stato aggiunto allo staging in anticipo per errore (dovrebbe essere un commit a parte), quindi teniamolo da parte per dopo. Inoltre, le modifiche in `experiment.js` non hanno funzionato, quindi scartiamole del tutto."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Metti in ordine e poi fai il commit:",
+              "",
+              "* Rimuovi il segreto dallo staging: `git restore --staged secret.env`",
+              "* Scarta l'esperimento: `git restore experiment.js`",
+              "* Fai il commit di ciò che resta: `git commit`",
+              "",
+              "Questo produrrà un unico commit pulito, contenente solo il lavoro che intendevi mantenere."
             ]
           }
         }
