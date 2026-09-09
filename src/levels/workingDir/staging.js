@@ -21,6 +21,7 @@ exports.level = {
     uk: "Область підготовлених файлів (Staging Area)",
     te_IN: "Staging ఏరియా",
     hi_IN: "Staging एरिया",
+    it_IT: "L'area di staging",
     ko: "스테이징 영역 (Staging Area)",
   },
   hint: {
@@ -32,6 +33,8 @@ exports.level = {
       "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     en_US:
       "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
+    it_IT:
+      "Aggiungi un file allo staging con `git add <file>`, poi fai un commit con `git commit`. Fallo due volte, una per ciascun file.",
     fr_FR:
       "Indexez un fichier avec `git add <file>`, puis enregistrez-le avec `git commit`. Faites cela deux fois, une fois par fichier.",
     de_DE:
@@ -46,11 +49,16 @@ exports.level = {
       "Подготовьте файл с помощью 'git add <файл>', затем зафиксируйте его с помощью 'git commit'. Сделайте это дважды — по одному разу для каждого файла.",
     tr_TR:
       "Bir dosyayı `git add <file>` ile stage'leyin, sonra `git commit` ile anlık fotoğrafını çekin. Bunu her dosya için birer kez olmak üzere iki defa yapın.",
-    vi: "Đưa một tệp vào staging area bằng lệnh git add <file>, sau đó lưu lại (snapshot) bằng lệnh git commit. Hãy làm điều đó hai lần, mỗi lần cho một tệp.",
-    uk: "Підготуйте файл за допомогою `git add <файл>`, потім збережіть його знімок командою `git commit`. Зробіть це двічі — по одному разу для кожного файлу.",
-    te_IN: "ఫైల్ ను `git add <file>` తో stage చేసి, `git commit` తో snapshot చేయి. ఇది రెండుసార్లు చేయి, ఒక్కో ఫైల్ కు ఒకసారి.",
-    hi_IN: "`git add <file>` से file को stage करो, फिर `git commit` से उसका snapshot सेव करो। यह दो बार करो, हर file के लिए एक बार।",
-    ko: "`git add <file>`로 파일을 스테이징한 다음 `git commit`으로 스냅샷을 저장하세요. 파일마다 한 번씩, 총 두 번 수행하세요.",
+    vi: 
+      "Đưa một tệp vào staging area bằng lệnh git add <file>, sau đó lưu lại (snapshot) bằng lệnh git commit. Hãy làm điều đó hai lần, mỗi lần cho một tệp.",
+    uk: 
+      "Підготуйте файл за допомогою `git add <файл>`, потім збережіть його знімок командою `git commit`. Зробіть це двічі — по одному разу для кожного файлу.",
+    te_IN: 
+      "ఫైల్ ను `git add <file>` తో stage చేసి, `git commit` తో snapshot చేయి. ఇది రెండుసార్లు చేయి, ఒక్కో ఫైల్ కు ఒకసారి.",
+    hi_IN: 
+      "`git add <file>` से file को stage करो, फिर `git commit` से उसका snapshot सेव करो। यह दो बार करो, हर file के लिए एक बार।",
+    ko: 
+      "`git add <file>`로 파일을 스테이징한 다음 `git commit`으로 스냅샷을 저장하세요. 파일마다 한 번씩, 총 두 번 수행하세요.",
   },
   startDialog: {
     en_US: {
@@ -109,6 +117,63 @@ exports.level = {
           },
         },
       ],
+    },
+    "it_IT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## L'area di staging",
+              "",
+              "Fino ad ora in questo percorso di apprendimento, abbiamo sorvolato sull'idea di cosa comporti esattamente *creare* un commit. Potresti sapere che rappresentano modifiche a un insieme di file, ma c'è in realtà un po' di procedura nello scegliere *quali* file modificati diventeranno *quali* commit.",
+              "",
+              "Git non vuole includere automaticamente tutti i file modificati in tutti i commit -- sarebbe un guaio! Potrebbe includere una modifica che non vuoi rendere permanente, o persino qualcosa di segreto come una chiave API che potrebbe trapelare su GitHub come parte della cronologia dei tuoi commit.",
+              "",
+              "Quindi, prima che la modifica a un file diventi parte di un commit, deve essere selezionata specificamente. Git ha tre zone per questo: la tua **working directory** o directory di lavoro (dove modifichi), la **staging area** (una banchina di carico per ciò che finirà nel prossimo commit) e il **repository** (la tua cronologia permanente).",
+              "",
+              "Scegli *esattamente* cosa far viaggiare in ogni commit con `git add`. È così che i commit rimangono ordinati e non sei mai obbligato a committare tutto in una volta.",
+              "",
+              "*(Per questi livelli, d'ora in poi mostreremo quali file fanno parte di quali commit.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Esegui `git status` in qualsiasi momento per vedere a che punto sono le cose. In questo momento mostra due file che hai modificato ma non hai aggiunto allo staging:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Aggiungi allo staging un singolo file con `git add app.js`, o prendi tutto in una volta con `git add .`. Una volta che un file è nello staging, `git commit` lo sigilla in uno snapshot.",
+              "",
+              "Hai file che non vuoi mai committare, come segreti, log o scarti di compilazione? Elencali in un file `.gitignore` e git li ignorerà silenziosamente."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tocca a te! Aggiungi allo staging e fai il commit del tuo lavoro **un file alla volta**, così ogni commit rimane mirato:",
+              "",
+              "* `git add app.js`, poi `git commit`",
+              "* `git add styles.css`, poi `git commit`",
+              "",
+              "I nomi dei file accanto a ogni commit obiettivo mostrano esattamente a quale appartiene ogni modifica. Due commit puliti e il livello è tuo."
+            ]
+          }
+        }
+      ]
     },
     hi_IN: {
       childViews: [
