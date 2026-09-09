@@ -29,6 +29,7 @@ var TreeCompare = require('../graph/treeCompare');
 // regex map lives in its own JSX-free module so it can be required by the parse
 // waterfall / tests without loading the level's React views
 var regexMap = require('./levelRegexMap').regexMap;
+var undoBookkeeping = require('./undoBookkeeping');
 
 var parse = util.genParseCommand(regexMap, 'processLevelCommand');
 
@@ -407,7 +408,11 @@ class Level extends Sandbox {
   }
 
   undo() {
-    this.gitCommandsIssued.pop();
+    // only pop a command off gitCommandsIssued if there's really a tree
+    // snapshot for the base class's undo to restore -- see #1298
+    if (undoBookkeeping.shouldPopIssuedCommand(this.undoStack)) {
+      this.gitCommandsIssued.pop();
+    }
     super.undo.apply(this, arguments);
   }
 
@@ -420,14 +425,18 @@ class Level extends Sandbox {
   }
 
   afterCommandCB(command) {
-    if (this.doesCommandCountTowardsTotal(command)) {
-      // Count it as a command AND...
-      this.gitCommandsIssued.push(command.get('rawStr'));
-      // add our state for undo since our undo pops a command.
-      //
-      // Ugly inheritance overriding on private implementations ahead!
-      this.undoStack.push(this._treeBeforeCommand);
-    }
+    // only count/record a command if it actually changed the tree -- a
+    // command that "counts" by name (e.g. an interactive rebase) but was
+    // cancelled or was a no-op reorder must not push a real undo entry,
+    // or gitCommandsIssued and undoStack drift apart -- see #1298
+    undoBookkeeping.recordCommand({
+      gitCommandsIssued: this.gitCommandsIssued,
+      undoStack: this.undoStack,
+      treeBefore: this._treeBeforeCommand,
+      treeAfter: this.mainVis.gitEngine.exportTreeString(),
+      rawStr: command.get('rawStr'),
+      counts: this.doesCommandCountTowardsTotal(command)
+    });
   }
 
   doesCommandCountTowardsTotal(command) {
