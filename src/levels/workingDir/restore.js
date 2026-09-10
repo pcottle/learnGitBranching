@@ -18,7 +18,8 @@ exports.level = {
     "hi_IN": "git restore से अनडू करना",
     "ko": "git restore로 되돌리기",
     "it_IT": "Annullare le modifiche con git restore",
-    "es_ES": "Deshacer con git restore"
+    "es_ES": "Deshacer con git restore",
+    "es_AR": "Deshacer con git restore"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -35,7 +36,8 @@ exports.level = {
     "hi_IN": "`git restore --staged secret.env` से stage से हटाओ, `git restore experiment.js` से experiment फेंक दो, फिर `git commit` करो।",
     "it_IT": "Rimuovi dallo staging con `git restore --staged secret.env`, scarta l'esperimento con `git restore experiment.js`, quindi esegui `git commit`.",
     "ko": "`git restore --staged secret.env`로 스테이징을 해제하고, `git restore experiment.js`로 실험의 변경 사항을 버린 다음 `git commit`하세요.",
-    "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`."
+    "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`.",
+    "es_AR": "Quitá `secret.env` de staging con `git restore --staged secret.env`, descartá el experimento con `git restore experiment.js`, y luego hacé `git commit`."
   },
   "startDialog": {
     "en_US": {
@@ -905,6 +907,66 @@ exports.level = {
               "* Quita el archivo secreto del staging: `git restore --staged secret.env`",
               "* Descarta el experimento: `git restore experiment.js`",
               "* Haz commit de lo que queda: `git commit`",
+              "",
+              "Esto dará como resultado un único commit limpio, que solo contiene el trabajo que realmente querías conservar."
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Deshacer con `git restore`",
+              "",
+              "Todos cometemos errores de vez en cuando. Puedes haber agregado un archivo al staging por accidente, o empezar un experimento que luego quieras descartar. `git restore` es el botón de deshacer moderno, diseñado específicamente para tu directorio de trabajo y área de staging.",
+              "",
+              "Viene en dos variantes:",
+              "",
+              "* `git restore --staged <archivo>`: **quitar del staging** un archivo (lo mueve de vuelta fuera del área de staging, manteniendo tus ediciones)",
+              "* `git restore <archivo>`: **descartar** completamente tus ediciones en un archivo (¡cuidado, esto elimina los cambios!)",
+              "",
+              "*(Estos comandos reemplazan los antiguos trucos `git reset HEAD <archivo>` y `git checkout -- <archivo>`. La idea es la misma, pero con nombres mucho más claros.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Acá está el desorden en tu escritorio ahora mismo:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Querías hacer commit de `app.js`, pero `secret.env` se agregó al staging por accidente (debería ir en un commit posterior), así que lo dejamos para después. Además, los cambios en `experiment.js` no funcionaron, así que los descartaremos por completo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ordená el desorden y luego hacé commit:",
+              "",
+              "* Quitá el archivo secreto del staging: `git restore --staged secret.env`",
+              "* Descartá el experimento: `git restore experiment.js`",
+              "* Hacé commit de lo que queda: `git commit`",
               "",
               "Esto dará como resultado un único commit limpio, que solo contiene el trabajo que realmente querías conservar."
             ]
