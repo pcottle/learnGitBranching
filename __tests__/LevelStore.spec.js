@@ -93,6 +93,28 @@ describe('this store', function() {
 
     LevelActions.resetLevelsSolved();
   });
+
+  it('reports completion only after every level is solved', function() {
+    var sequenceMap = LevelStore.getSequenceToLevels();
+    var levelIDs = [];
+    Object.keys(sequenceMap).forEach(function(sequenceName) {
+      sequenceMap[sequenceName].forEach(function(level) {
+        levelIDs.push(level.id);
+      });
+    });
+
+    LevelActions.resetLevelsSolved();
+    expect(LevelStore.getTotalLevelCount()).toBe(levelIDs.length);
+    expect(LevelStore.areAllLevelsSolved()).toBe(false);
+
+    levelIDs.forEach(function(levelID) {
+      LevelActions.setLevelSolved(levelID, false);
+    });
+    expect(LevelStore.getSolvedLevelCount()).toBe(levelIDs.length);
+    expect(LevelStore.areAllLevelsSolved()).toBe(true);
+
+    LevelActions.resetLevelsSolved();
+  });
   
 
 });

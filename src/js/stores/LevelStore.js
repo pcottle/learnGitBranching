@@ -10,6 +10,7 @@ var util = require('../util');
 var ActionTypes = AppConstants.ActionTypes;
 var SOLVED_MAP_STORAGE_KEY = 'solvedMap';
 var ALIAS_STORAGE_KEY = 'aliasMap';
+var CERTIFICATE_SEEN_STORAGE_KEY = 'certificateSeen';
 
 var _levelMap = {};
 var _solvedMap = {};
@@ -124,6 +125,28 @@ function removeFromAliasMap(alias) {
   localStorage.setItem(ALIAS_STORAGE_KEY, JSON.stringify(aliasMap));
 }
 
+/**
+ * Whether the completion certificate has already popped up on its own.
+ * We only auto-show it the first time somebody clears every level, so that
+ * replaying levels afterwards does not nag them.
+ * @returns {boolean}
+ */
+function hasSeenCertificate() {
+  try {
+    return localStorage.getItem(CERTIFICATE_SEEN_STORAGE_KEY) === 'true';
+  } catch (e) {
+    return false;
+  }
+}
+
+function markCertificateSeen() {
+  try {
+    localStorage.setItem(CERTIFICATE_SEEN_STORAGE_KEY, 'true');
+  } catch (e) {
+    console.warn('local storage failed on set', e);
+  }
+}
+
 var validateLevel = function(level) {
   level = level || {};
   var requiredFields = [
@@ -184,6 +207,9 @@ AppConstants.StoreSubscribePrototype,
   addToAliasMap: addToAliasMap,
   removeFromAliasMap: removeFromAliasMap,
 
+  hasSeenCertificate: hasSeenCertificate,
+  markCertificateSeen: markCertificateSeen,
+
   getSequenceToLevels: function() {
     return levelSequences;
   },
@@ -236,6 +262,32 @@ AppConstants.StoreSubscribePrototype,
     return null;
   },
 
+  /**
+   * How many levels exist across every sequence.
+   * @returns {number}
+   */
+  getTotalLevelCount: function() {
+    return Object.keys(_levelMap).length;
+  },
+
+  /**
+   * How many distinct levels have been solved.
+   * @returns {number}
+   */
+  getSolvedLevelCount: function() {
+    return Object.keys(_levelMap).filter(function(levelID) {
+      return LevelStore.isLevelSolved(levelID);
+    }).length;
+  },
+
+  /**
+   * Whether every single level has been solved.
+   * @returns {boolean}
+   */
+  areAllLevelsSolved: function() {
+    return LevelStore.getSolvedLevelCount() === LevelStore.getTotalLevelCount();
+  },
+
   isLevelSolved: function(levelID) {
     var levelData = _solvedMap[levelID];
     if (levelData === true) {
@@ -260,6 +312,11 @@ AppConstants.StoreSubscribePrototype,
       case ActionTypes.RESET_LEVELS_SOLVED:
         _solvedMap = {};
         _syncToStorage();
+        try {
+          localStorage.removeItem(CERTIFICATE_SEEN_STORAGE_KEY);
+        } catch (e) {
+          console.warn('local storage failed on remove', e);
+        }
         shouldInform = true;
         break;
       case ActionTypes.SET_LEVEL_SOLVED:       
