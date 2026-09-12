@@ -2,6 +2,20 @@ var SandboxCommands = require('../src/js/sandbox/commands');
 var GitCommands = require('../src/js/git/commands');
 
 describe('Sandbox Commands', function() {
+  describe('certificate preview', function() {
+    it('is enabled only for pages loaded directly from the filesystem', function() {
+      expect(SandboxCommands.isCertificatePreviewEnabled({
+        protocol: 'file:'
+      })).toBe(true);
+      expect(SandboxCommands.isCertificatePreviewEnabled({
+        protocol: 'https:'
+      })).toBe(false);
+      expect(SandboxCommands.isCertificatePreviewEnabled({
+        protocol: 'http:'
+      })).toBe(false);
+    });
+  });
+
   describe('help {command}', function() {
     var getHelpTuple = function() {
       return SandboxCommands.instantCommands.filter(function(tuple) {

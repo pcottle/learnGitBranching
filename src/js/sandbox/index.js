@@ -259,6 +259,14 @@ class Sandbox {
     command.finishWith(deferred);
   }
 
+  showCertificate(command, deferred) {
+    var CertificateView = require('../views/certificateView').CertificateView;
+    var certificateView = new CertificateView({});
+    certificateView.getPromise().then(function() {
+      command.finishWith(deferred);
+    });
+  }
+
   resetSolved(command, deferred) {
     if (command.get('regexResults').input !== 'reset solved --confirm') {
       command.set('error', new Errors.GitError({
@@ -298,6 +306,7 @@ class Sandbox {
       'import level': this.importLevel,
       'importLevelNow': this.importLevelNow,
       'share permalink': this.sharePermalink,
+      'certificate': this.showCertificate,
     };
 
     var method = commandMap[command.get('method')];

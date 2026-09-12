@@ -49,6 +49,17 @@ var sandboxCommandDescriptions = {
   'help builder': 'Show help for the level builder'
 };
 
+// Keep the certificate command as a local preview affordance without making
+// it possible to bypass completion on the hosted app.
+var isCertificatePreviewEnabled = function(location) {
+  return !!location && location.protocol === 'file:';
+};
+
+if (util.isBrowser() && isCertificatePreviewEnabled(window.location)) {
+  sandboxCommandDescriptions.certificate =
+    'Preview the certificate of completion';
+}
+
 var instantCommands = [
   // Add a third and fourth item in the tuple if you want this to show
   // up in the `show commands` function
@@ -262,6 +273,10 @@ var regexMap = {
   'share permalink': /^share( +permalink)?$/
 };
 
+if (util.isBrowser() && isCertificatePreviewEnabled(window.location)) {
+  regexMap.certificate = /^certificate($|\s)/;
+}
+
 var getAllCommands = function() {
   var toDelete = [
     'mobileAlert'
@@ -366,6 +381,7 @@ var getCommandHelpLines = function(target) {
 
 exports.getAllCommands = getAllCommands;
 exports.getCommandHelpLines = getCommandHelpLines;
+exports.isCertificatePreviewEnabled = isCertificatePreviewEnabled;
 exports.instantCommands = instantCommands;
 exports.parse = util.genParseCommand(regexMap, 'processSandboxCommand');
 

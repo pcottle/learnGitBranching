@@ -1667,3 +1667,154 @@ div.gitDemonstrationView {
   border-color: #6ea9f7;
   background: rgba(24, 119, 242, 0.15);
 }
+
+/* Certificate of completion modal */
+.certificateView {
+  padding: 4px 0 8px;
+  text-align: center;
+}
+
+.certificateHeadline {
+  margin: 0 0 6px;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: #f2f5f8;
+}
+
+.certificateSubhead {
+  margin: 0 0 18px !important;
+  font-size: 13px;
+  line-height: 1.5 !important;
+  color: #8a8a8a;
+}
+
+.certificateNameRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.certificateNameLabel {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
+
+.certificateNameInput {
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+  font-size: 15px;
+  color: #f2f5f8;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  padding: 8px 14px;
+  min-width: 260px;
+  max-width: 100%;
+}
+
+.certificateNameInput::placeholder {
+  color: #6b6b6b;
+}
+
+.certificateNameInput:focus {
+  outline: none;
+  border-color: rgb(253, 152, 209);
+}
+
+.certificatePreview {
+  margin: 0 auto;
+  max-width: 760px;
+  line-height: 0;
+}
+
+.certificatePreview svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+}
+
+.certificateActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.certificateButton {
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+  font-size: 13px;
+  color: #d8d8d8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.certificateButton:hover:not(:disabled) {
+  color: #fff;
+  border-color: rgb(253, 152, 209);
+  background: rgba(253, 152, 209, 0.14);
+}
+
+.certificateButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.certificateStatus {
+  margin: 12px 0 0 !important;
+  min-height: 18px;
+  font-size: 12px;
+  line-height: 18px !important;
+  color: #7fd1a0;
+}
+
+.certificateStatus.certificateStatusError {
+  color: #f08a8a;
+}
+
+/* "View your certificate" call to action in the level complete dialog */
+.certificateCtaSection {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.certificateCtaButton {
+  font-family: Menlo, Monaco, Consolas, 'Droid Sans Mono', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  color: #1a1d23;
+  background: linear-gradient(90deg, #ff66c4, #c084f5, #7278ff);
+  border: none;
+  border-radius: 999px;
+  padding: 10px 26px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(192, 132, 245, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.certificateCtaButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(192, 132, 245, 0.5);
+}
+
+@media (max-width: 700px) {
+  .certificateNameInput {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .certificateHeadline {
+    font-size: 18px;
+  }
+}

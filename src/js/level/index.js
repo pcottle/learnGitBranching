@@ -22,6 +22,7 @@ var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
+var CertificateView = require('../views/certificateView').CertificateView;
 var LevelToolbarView = require('../react_views/LevelToolbarView.jsx');
 
 var TreeCompare = require('../graph/treeCompare');
@@ -553,15 +554,32 @@ class Level extends Sandbox {
       }
     }
 
+    // Every single level is now solved -- that unlocks the certificate.
+    var allLevelsSolved = LevelStore.areAllLevelsSolved();
+    // Only pop the certificate on its own the first time somebody clears the
+    // whole game. It remains available from the button in this dialog when a
+    // completed level is replayed.
+    var showCertificate = allLevelsSolved &&
+      !skipFinishDialog &&
+      !LevelStore.hasSeenCertificate();
+
     if (!skipFinishDialog) {
       finishAnimationChain = finishAnimationChain.then(function() {
         // we want to ask if they will move onto the next level
         // while giving them their results...
+        //
+        // ...unless this solve was the one that completed the whole game, in
+        // which case offering "move on to the next level" would be a lie --
+        // celebrate and hand over the certificate instead.
         var nextDialog = new NextLevelConfirm({
-          nextLevel: nextLevel,
+          nextLevel: showCertificate ? null : nextLevel,
           numCommands: numCommands,
           best: best,
-          levelName: levelName
+          levelName: levelName,
+          showCertificateCta: allLevelsSolved,
+          onCertificateRequest: function() {
+            showCertificate = true;
+          }
         });
 
         return nextDialog.getPromise();
@@ -570,7 +588,7 @@ class Level extends Sandbox {
 
     finishAnimationChain
     .then(function() {
-      if (!skipFinishDialog && nextLevel) {
+      if (!skipFinishDialog && nextLevel && !showCertificate) {
         log.choseNextLevel(nextLevel.id);
         Main.getEventBaton().trigger(
           'commandSubmitted',
@@ -583,6 +601,10 @@ class Level extends Sandbox {
     })
     .then(function() {
       GlobalStateActions.changeIsAnimating(false);
+      if (showCertificate) {
+        LevelStore.markCertificateSeen();
+        new CertificateView({});
+      }
       defer.resolve();
     });
   }

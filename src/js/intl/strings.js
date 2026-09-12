@@ -1,4 +1,92 @@
 exports.strings = {
+  "certificate-title": {
+    "__desc__": "Title of the modal window that shows the completion certificate",
+    "en_US": "Certificate of Completion"
+  },
+  "certificate-headline": {
+    "__desc__": "Headline inside the certificate modal, celebrating finishing every level",
+    "en_US": "You finished every single level!"
+  },
+  "certificate-subhead": {
+    "__desc__": "Sub-headline inside the certificate modal. {levels} is the total number of levels",
+    "en_US": "All {levels} of them. Put your name on it and take it with you."
+  },
+  "certificate-name-label": {
+    "__desc__": "Label for the text field where you type the name that appears on the certificate",
+    "en_US": "Your name"
+  },
+  "certificate-name-placeholder": {
+    "__desc__": "Placeholder for the certificate name text field",
+    "en_US": "Type your name here"
+  },
+  "certificate-copy": {
+    "__desc__": "Button that copies the certificate image to the clipboard",
+    "en_US": "Copy image"
+  },
+  "certificate-copied": {
+    "__desc__": "Status message after the certificate image is copied to the clipboard",
+    "en_US": "Copied! Paste it wherever you like."
+  },
+  "certificate-copy-failed": {
+    "__desc__": "Status message when copying the certificate image to the clipboard fails",
+    "en_US": "Copying failed. Try downloading it instead."
+  },
+  "certificate-copy-unsupported": {
+    "__desc__": "Status message when the browser cannot copy images to the clipboard at all",
+    "en_US": "This browser cannot copy images. Try downloading it instead."
+  },
+  "certificate-download": {
+    "__desc__": "Button that downloads the certificate as a PNG file",
+    "en_US": "Download PNG"
+  },
+  "certificate-downloaded": {
+    "__desc__": "Status message after the certificate PNG has been downloaded",
+    "en_US": "Saved to your downloads."
+  },
+  "certificate-download-failed": {
+    "__desc__": "Status message when downloading the certificate PNG fails",
+    "en_US": "Download failed, sorry about that."
+  },
+  "certificate-close": {
+    "__desc__": "Button that closes the completion certificate modal",
+    "en_US": "Close"
+  },
+  "certificate-cta": {
+    "__desc__": "Button in the level-complete dialog that opens the completion certificate",
+    "en_US": "\ud83c\udfc6  View your certificate"
+  },
+  "certificate-share": {
+    "__desc__": "Heading above the social share buttons in the certificate modal",
+    "en_US": "Share the news"
+  },
+  "certificate-svg-title": {
+    "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
+    "en_US": "CERTIFICATE OF COMPLETION"
+  },
+  "certificate-svg-name-placeholder": {
+    "__desc__": "Faded placeholder printed on the certificate before a name is entered",
+    "en_US": "YOUR NAME HERE"
+  },
+  "certificate-svg-achievement": {
+    "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
+    "en_US": "has completed all {levels} levels of Learn Git Branching"
+  },
+  "certificate-svg-topics-label": {
+    "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
+    "en_US": "TOPICS COVERED"
+  },
+  "certificate-svg-topics-first": {
+    "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
+    "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs"
+  },
+  "certificate-svg-topics-second": {
+    "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
+    "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push"
+  },
+  "certificate-svg-issued": {
+    "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
+    "en_US": "ISSUED"
+  },
   "finish-dialog-finished": {
     "__desc__": "One of the lines in the next level dialog",
     "ja": "最後のレベルをクリアしました！すごい！！",
