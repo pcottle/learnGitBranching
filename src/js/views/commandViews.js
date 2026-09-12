@@ -435,6 +435,13 @@ class CommandPromptView {
 
   setTextField(value) {
     this.$('#commandTextField').val(value);
+
+    // This method is also used by command-history navigation, submissions,
+    // and `show solution`, none of which dispatch an input event. Keep the
+    // autocomplete overlay in sync here so a hint for the previously typed
+    // command cannot remain painted over the new value.
+    const { lastCommand } = splitCommands(value);
+    this._updateShadowHint(value, lastCommand);
   }
 
   // Drop some text into the command box and focus it, without submitting --
