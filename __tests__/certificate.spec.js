@@ -11,6 +11,8 @@ describe('completion certificate', function() {
     expect(svg).toContain('x="50%"');
     expect(svg).toContain('text-anchor="middle"');
     expect(svg).toContain('>Peter Cottle</text>');
+    expect(svg).toContain('>TOPICS COVERED</text>');
+    expect(svg).toContain('>Commits &amp; Branches  •  Merging &amp; Rebasing');
   });
 
   it('centers the commit graph independently of the seal', function() {
@@ -21,10 +23,10 @@ describe('completion certificate', function() {
 
     // The node range plus the right-hand branch label balance around the
     // canvas center, while the seal remains a separate element.
-    expect(svg).toContain('cx="300" cy="610"');
-    expect(svg).toContain('cx="810" cy="610"');
+    expect(svg).toContain('cx="300" cy="630"');
+    expect(svg).toContain('cx="810" cy="630"');
     // The seal remains separate on the right rather than shifting the graph.
-    expect(svg).toContain('cx="1030" cy="556"');
+    expect(svg).toContain('cx="1030" cy="576"');
   });
 
   it('escapes recipient names and renders the completed level count', function() {

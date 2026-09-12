@@ -46,6 +46,10 @@ var DEFAULT_STRINGS = {
   // {levels} is substituted with the level count.
   achievement: 'has completed all {levels} levels of Learn Git Branching',
   flourish: 'from the basic concepts of a branch to mastery of remote pulls',
+  topicsLabel: 'TOPICS COVERED',
+  topics: 'Commits & Branches  •  Merging & Rebasing  •  ' +
+    'Cherry-pick & Relative Refs  •  Undoing Changes  •  ' +
+    'Tags & History  •  Fetch, Pull & Push',
   issued: 'ISSUED',
   site: 'learngitbranching.js.org',
   sealTop: 'COMPLETED',
@@ -212,8 +216,8 @@ function refLabel(label, cx, cy, options) {
  * @returns {string}
  */
 function commitGraph(options) {
-  var mainY = 610;
-  var sideY = 536;
+  var mainY = 630;
+  var sideY = 556;
 
   // Center the visual bounds of the whole graph, including its ref labels.
   // Centering only the merge commit made the diagram read as left-aligned.
@@ -271,7 +275,7 @@ function commitGraph(options) {
 function seal(options) {
   // Leave a comfortable gap beside the now-centered commit graph.
   var cx = 1030;
-  var cy = 556;
+  var cy = 576;
   var gold = COLORS.mergeCommit;
 
   return [
@@ -497,6 +501,16 @@ function buildCertificateSVG(options) {
   }));
   parts.push(text(strings.flourish, {
     x: 600, y: 438, size: 15, fill: COLORS.dim
+  }));
+
+  // A compact skills summary adds context without competing with the name or
+  // turning the certificate into a syllabus.
+  parts.push(text(strings.topicsLabel, {
+    x: 600, y: 458, size: 9, spacing: 2, fill: COLORS.mergeCommit,
+    weight: 'bold'
+  }));
+  parts.push(text(strings.topics, {
+    x: 600, y: 478, size: 10, fill: COLORS.body
   }));
 
   // --- decorative graph + seal -----------------------------------------

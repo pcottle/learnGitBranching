@@ -79,6 +79,14 @@ exports.strings = {
     "__desc__": "Smaller flourish line printed on the certificate below the achievement line",
     "en_US": "from the basic concepts of a branch to mastery of remote pulls"
   },
+  "certificate-svg-topics-label": {
+    "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
+    "en_US": "TOPICS COVERED"
+  },
+  "certificate-svg-topics": {
+    "__desc__": "Compact list of the main Git concepts taught by Learn Git Branching",
+    "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs  •  Undoing Changes  •  Tags & History  •  Fetch, Pull & Push"
+  },
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
     "en_US": "ISSUED"

@@ -75,6 +75,8 @@ function certificateStrings(levelsTotal) {
       levels: levelsTotal
     }),
     flourish: intl.str('certificate-svg-flourish'),
+    topicsLabel: intl.str('certificate-svg-topics-label'),
+    topics: intl.str('certificate-svg-topics'),
     issued: intl.str('certificate-svg-issued'),
     sealTop: intl.str('certificate-svg-seal-top'),
     sealBottom: intl.str('certificate-svg-seal-bottom')
