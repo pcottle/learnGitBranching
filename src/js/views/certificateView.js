@@ -7,7 +7,6 @@
  */
 
 var intl = require('../intl');
-var util = require('../util');
 var Views = require('../views');
 var ContainedBase = Views.ContainedBase;
 var ModalTerminal = Views.ModalTerminal;
@@ -18,35 +17,7 @@ var LevelStore = require('../stores/LevelStore');
 var sharing = require('../util/sharing');
 var certificate = require('../util/certificate');
 
-var NAME_STORAGE_KEY = 'certificateName';
 var STATUS_TIMEOUT = 3500;
-
-/**
- * The name typed onto the certificate is remembered between visits so people
- * do not have to retype it. Storage can throw (private browsing, disabled
- * cookies), hence the try/catch on both sides.
- * @returns {string}
- */
-function readStoredName() {
-  if (!util.isBrowser()) { return ''; }
-  try {
-    return window.localStorage.getItem(NAME_STORAGE_KEY) || '';
-  } catch (e) {
-    return '';
-  }
-}
-
-/**
- * @param {string} name
- */
-function writeStoredName(name) {
-  if (!util.isBrowser()) { return; }
-  try {
-    window.localStorage.setItem(NAME_STORAGE_KEY, name);
-  } catch (e) {
-    // Not being able to remember the name is not worth bothering anyone about.
-  }
-}
 
 /**
  * Escape a string for use inside a double-quoted HTML attribute.
@@ -90,7 +61,7 @@ class CertificateView extends ContainedBase {
     this.deferred = options.deferred || createDeferred();
     this.levelsTotal = options.levelsTotal || LevelStore.getTotalLevelCount();
     this.recipientName = options.name === undefined ?
-      readStoredName() :
+      LevelStore.getCertificateName() :
       String(options.name);
     this.statusTimeout = null;
 
@@ -190,7 +161,7 @@ class CertificateView extends ContainedBase {
 
   onNameInput() {
     this.recipientName = this.$('.certificateNameInput').val() || '';
-    writeStoredName(this.recipientName);
+    LevelStore.setCertificateName(this.recipientName);
     this.updatePreview();
   }
 

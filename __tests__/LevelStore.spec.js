@@ -47,6 +47,19 @@ describe('this store', function() {
       .toEqual(false);
   });
 
+  it('clears all certificate state when solved progress is reset', function() {
+    LevelStore.markCertificateSeen();
+    LevelStore.setCertificateName('Previous Learner');
+
+    expect(LevelStore.hasSeenCertificate()).toBe(true);
+    expect(LevelStore.getCertificateName()).toBe('Previous Learner');
+
+    LevelActions.resetLevelsSolved();
+
+    expect(LevelStore.hasSeenCertificate()).toBe(false);
+    expect(LevelStore.getCertificateName()).toBe('');
+  });
+
 
   it('can export and import solved progress', function() {
     var sequenceMap = LevelStore.getSequenceToLevels();

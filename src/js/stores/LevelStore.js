@@ -11,6 +11,7 @@ var ActionTypes = AppConstants.ActionTypes;
 var SOLVED_MAP_STORAGE_KEY = 'solvedMap';
 var ALIAS_STORAGE_KEY = 'aliasMap';
 var CERTIFICATE_SEEN_STORAGE_KEY = 'certificateSeen';
+var CERTIFICATE_NAME_STORAGE_KEY = 'certificateName';
 
 var _levelMap = {};
 var _solvedMap = {};
@@ -147,6 +148,31 @@ function markCertificateSeen() {
   }
 }
 
+/**
+ * The name typed onto the completion certificate. Keeping the certificate's
+ * persisted state together ensures a progress reset can clear it all for the
+ * next learner.
+ * @returns {string}
+ */
+function getCertificateName() {
+  try {
+    return localStorage.getItem(CERTIFICATE_NAME_STORAGE_KEY) || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+/**
+ * @param {string} name
+ */
+function setCertificateName(name) {
+  try {
+    localStorage.setItem(CERTIFICATE_NAME_STORAGE_KEY, name);
+  } catch (e) {
+    // Not being able to remember the name is not worth bothering anyone about.
+  }
+}
+
 var validateLevel = function(level) {
   level = level || {};
   var requiredFields = [
@@ -209,6 +235,8 @@ AppConstants.StoreSubscribePrototype,
 
   hasSeenCertificate: hasSeenCertificate,
   markCertificateSeen: markCertificateSeen,
+  getCertificateName: getCertificateName,
+  setCertificateName: setCertificateName,
 
   getSequenceToLevels: function() {
     return levelSequences;
@@ -314,6 +342,7 @@ AppConstants.StoreSubscribePrototype,
         _syncToStorage();
         try {
           localStorage.removeItem(CERTIFICATE_SEEN_STORAGE_KEY);
+          localStorage.removeItem(CERTIFICATE_NAME_STORAGE_KEY);
         } catch (e) {
           console.warn('local storage failed on remove', e);
         }
