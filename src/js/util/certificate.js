@@ -41,19 +41,15 @@ var COLORS = {
 var DEFAULT_STRINGS = {
   wordmark: 'LEARN GIT BRANCHING',
   title: 'CERTIFICATE OF COMPLETION',
-  certifies: 'This certifies that',
   namePlaceholder: 'YOUR NAME HERE',
   // {levels} is substituted with the level count.
   achievement: 'has completed all {levels} levels of Learn Git Branching',
-  flourish: 'from the basic concepts of a branch to mastery of remote pulls',
   topicsLabel: 'TOPICS COVERED',
-  topics: 'Commits & Branches  •  Merging & Rebasing  •  ' +
-    'Cherry-pick & Relative Refs  •  Undoing Changes  •  ' +
-    'Tags & History  •  Fetch, Pull & Push',
+  topicsFirst: 'Commits & Branches  •  Merging & Rebasing  •  ' +
+    'Cherry-pick & Relative Refs',
+  topicsSecond: 'Undoing Changes  •  Tags & History  •  Fetch, Pull & Push',
   issued: 'ISSUED',
-  site: 'learngitbranching.js.org',
-  sealTop: 'COMPLETED',
-  sealBottom: 'LEVELS'
+  site: 'learngitbranching.js.org'
 };
 
 /**
@@ -216,15 +212,15 @@ function refLabel(label, cx, cy, options) {
  * @returns {string}
  */
 function commitGraph(options) {
-  var mainY = 630;
-  var sideY = 556;
+  var mainY = 625;
+  var sideY = 563;
 
   // Center the visual bounds of the whole graph, including its ref labels.
   // Centering only the merge commit made the diagram read as left-aligned.
-  var main = [300, 390, 480, 570];
-  var side = [570, 660];
-  var mergeX = 720;
-  var tipX = 810;
+  var main = [350, 425, 500, 575];
+  var side = [575, 650];
+  var mergeX = 700;
+  var tipX = 775;
 
   var parts = [];
 
@@ -239,68 +235,32 @@ function commitGraph(options) {
   parts.push(commitEdge(side[1], sideY, mergeX, mainY));
 
   main.forEach(function(x) {
-    parts.push(commitNode(x, mainY, COLORS.mainCommit));
+    parts.push(commitNode(x, mainY, COLORS.mainCommit, 12));
   });
   side.forEach(function(x) {
-    parts.push(commitNode(x, sideY, COLORS.sideCommit));
+    parts.push(commitNode(x, sideY, COLORS.sideCommit, 12));
   });
-  parts.push(commitNode(tipX, mainY, COLORS.mainCommit));
+  parts.push(commitNode(tipX, mainY, COLORS.mainCommit, 12));
 
   // The merge commit is the hero of the graph, so it gets the gold treatment.
-  parts.push(commitNode(mergeX, mainY, COLORS.mergeCommit, 17));
+  parts.push(commitNode(mergeX, mainY, COLORS.mergeCommit, 15));
 
   // Connector stub from the side branch tip up to its label.
   parts.push('<path ' + attrs({
-    d: 'M' + side[1] + ',' + (sideY - 16) + ' L' + side[1] + ',' + (sideY - 30),
+    d: 'M' + side[1] + ',' + (sideY - 14) + ' L' + side[1] + ',' + (sideY - 26),
     stroke: COLORS.edge,
     'stroke-width': 2,
     opacity: 0.6
   }) + '/>');
 
-  parts.push(refLabel(options.sideBranchName, side[1], sideY - 44, {}));
-  parts.push(refLabel(options.branchName, tipX + 72, mainY, {}));
-  parts.push(refLabel(options.tagName, mergeX, mainY + 58, {
+  parts.push(refLabel(options.sideBranchName, side[1], sideY - 40, {}));
+  parts.push(refLabel(options.branchName, tipX + 62, mainY, {}));
+  parts.push(refLabel(options.tagName, mergeX, mainY + 52, {
     fill: COLORS.tagLabel,
     textFill: '#1A1D23'
   }));
 
   return parts.join('\n    ');
-}
-
-/**
- * The wax-seal-ish badge in the lower right corner.
- * @param {Object} options  count, top, bottom
- * @returns {string}
- */
-function seal(options) {
-  // Leave a comfortable gap beside the now-centered commit graph.
-  var cx = 1030;
-  var cy = 576;
-  var gold = COLORS.mergeCommit;
-
-  return [
-    '<circle ' + attrs({
-      cx: cx, cy: cy, r: 62, fill: 'rgba(227,179,65,0.07)',
-      stroke: gold, 'stroke-width': 2
-    }) + '/>',
-    '<circle ' + attrs({
-      cx: cx, cy: cy, r: 53, fill: 'none', stroke: gold,
-      'stroke-width': 1.5, 'stroke-dasharray': '3 6', opacity: 0.7
-    }) + '/>',
-    '<circle ' + attrs({
-      cx: cx, cy: cy, r: 44, fill: 'rgba(0,0,0,0.25)',
-      stroke: gold, 'stroke-width': 1, opacity: 0.9
-    }) + '/>',
-    text(options.top, {
-      x: cx, y: cy - 14, size: 10, spacing: 2.5, fill: gold, weight: 'bold'
-    }),
-    text(options.count, {
-      x: cx, y: cy + 12, size: 22, weight: 'bold', fill: COLORS.bright
-    }),
-    text(options.bottom, {
-      x: cx, y: cy + 32, size: 10, spacing: 2.5, fill: gold, weight: 'bold'
-    })
-  ].join('\n    ');
 }
 
 /**
@@ -462,29 +422,25 @@ function buildCertificateSVG(options) {
 
   // --- header -----------------------------------------------------------
   parts.push(text(strings.wordmark, {
-    x: 600, y: 106, size: 15, spacing: 8, fill: COLORS.dim, weight: 'bold'
+    x: 600, y: 122, size: 42, spacing: 6, weight: 'bold',
+    fill: 'url(#titleGrad)'
   }));
   parts.push(text(strings.title, {
-    x: 600, y: 172, size: 42, spacing: 5, weight: 'bold',
-    fill: 'url(#titleGrad)'
+    x: 600, y: 174, size: 24, spacing: 4, weight: 'bold', fill: COLORS.body
   }));
 
   // Divider with a commit node sitting on it, like a branch point.
   parts.push('<rect ' + attrs({
-    x: 330, y: 200, width: 540, height: 2, fill: 'url(#ruleGrad)'
+    x: 330, y: 202, width: 540, height: 2, fill: 'url(#ruleGrad)'
   }) + '/>');
-  parts.push(commitNode(600, 201, COLORS.branchLabel, 7));
+  parts.push(commitNode(600, 203, COLORS.branchLabel, 7));
 
   // --- body -------------------------------------------------------------
-  parts.push(text(strings.certifies, {
-    x: 600, y: 262, size: 18, spacing: 1, fill: COLORS.dim
-  }));
-
   parts.push(text(name, {
     // A percentage keeps the intent explicit even if the canvas dimensions
     // change later; text-anchor centers the actual rendered text run.
     x: '50%',
-    y: 336,
+    y: 302,
     size: nameSize,
     spacing: 2,
     weight: 'bold',
@@ -492,38 +448,32 @@ function buildCertificateSVG(options) {
   }));
 
   parts.push('<rect ' + attrs({
-    x: 600 - underlineWidth / 2, y: 360, width: underlineWidth, height: 1,
+    x: 600 - underlineWidth / 2, y: 326, width: underlineWidth, height: 1,
     fill: '#FFFFFF', opacity: 0.18
   }) + '/>');
 
   parts.push(text(achievement, {
-    x: 600, y: 406, size: 19, fill: COLORS.body
-  }));
-  parts.push(text(strings.flourish, {
-    x: 600, y: 438, size: 15, fill: COLORS.dim
+    x: 600, y: 371, size: 19, fill: COLORS.body
   }));
 
   // A compact skills summary adds context without competing with the name or
   // turning the certificate into a syllabus.
   parts.push(text(strings.topicsLabel, {
-    x: 600, y: 458, size: 9, spacing: 2, fill: COLORS.mergeCommit,
+    x: 600, y: 411, size: 12, spacing: 2.5, fill: COLORS.mergeCommit,
     weight: 'bold'
   }));
-  parts.push(text(strings.topics, {
-    x: 600, y: 478, size: 10, fill: COLORS.body
+  parts.push(text(strings.topicsFirst, {
+    x: 600, y: 442, size: 15, fill: COLORS.body
+  }));
+  parts.push(text(strings.topicsSecond, {
+    x: 600, y: 470, size: 15, fill: COLORS.body
   }));
 
-  // --- decorative graph + seal -----------------------------------------
+  // --- decorative graph ------------------------------------------------
   parts.push(commitGraph({
     branchName: options.branchName || 'life',
     sideBranchName: options.sideBranchName || 'learning',
     tagName: options.tagName || 'v1.0'
-  }));
-
-  parts.push(seal({
-    count: levelsTotal + '/' + levelsTotal,
-    top: strings.sealTop,
-    bottom: strings.sealBottom
   }));
 
   // --- footer -----------------------------------------------------------

@@ -69,17 +69,14 @@ function escapeAttr(value) {
 function certificateStrings(levelsTotal) {
   return {
     title: intl.str('certificate-svg-title'),
-    certifies: intl.str('certificate-svg-certifies'),
     namePlaceholder: intl.str('certificate-svg-name-placeholder'),
     achievement: intl.str('certificate-svg-achievement', {
       levels: levelsTotal
     }),
-    flourish: intl.str('certificate-svg-flourish'),
     topicsLabel: intl.str('certificate-svg-topics-label'),
-    topics: intl.str('certificate-svg-topics'),
+    topicsFirst: intl.str('certificate-svg-topics-first'),
+    topicsSecond: intl.str('certificate-svg-topics-second'),
     issued: intl.str('certificate-svg-issued'),
-    sealTop: intl.str('certificate-svg-seal-top'),
-    sealBottom: intl.str('certificate-svg-seal-bottom')
   };
 }
 

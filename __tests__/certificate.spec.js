@@ -13,20 +13,22 @@ describe('completion certificate', function() {
     expect(svg).toContain('>Peter Cottle</text>');
     expect(svg).toContain('>TOPICS COVERED</text>');
     expect(svg).toContain('>Commits &amp; Branches  •  Merging &amp; Rebasing');
+    expect(svg).toContain('>Undoing Changes  •  Tags &amp; History');
+    expect(svg).not.toContain('This certifies that');
+    expect(svg).not.toContain('from the basic concepts');
   });
 
-  it('centers the commit graph independently of the seal', function() {
+  it('renders a compact centered commit graph without a seal', function() {
     var svg = certificate.buildCertificateSVG({
       name: 'Peter Cottle',
       levelsTotal: 36
     });
 
     // The node range plus the right-hand branch label balance around the
-    // canvas center, while the seal remains a separate element.
-    expect(svg).toContain('cx="300" cy="630"');
-    expect(svg).toContain('cx="810" cy="630"');
-    // The seal remains separate on the right rather than shifting the graph.
-    expect(svg).toContain('cx="1030" cy="576"');
+    // canvas center without crowding the footer.
+    expect(svg).toContain('cx="350" cy="625"');
+    expect(svg).toContain('cx="775" cy="625"');
+    expect(svg).not.toContain('>36/36</text>');
   });
 
   it('escapes recipient names and renders the completed level count', function() {
@@ -36,7 +38,7 @@ describe('completion certificate', function() {
     });
 
     expect(svg).toContain('&lt;Ada &amp; Grace&gt;');
-    expect(svg).toContain('>36/36</text>');
+    expect(svg).toContain('all 36 levels');
     expect(svg).not.toContain('><Ada & Grace></text>');
   });
 

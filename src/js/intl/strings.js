@@ -63,10 +63,6 @@ exports.strings = {
     "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
     "en_US": "CERTIFICATE OF COMPLETION"
   },
-  "certificate-svg-certifies": {
-    "__desc__": "Line printed on the certificate above the recipient name",
-    "en_US": "This certifies that"
-  },
   "certificate-svg-name-placeholder": {
     "__desc__": "Faded placeholder printed on the certificate before a name is entered",
     "en_US": "YOUR NAME HERE"
@@ -75,29 +71,21 @@ exports.strings = {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
     "en_US": "has completed all {levels} levels of Learn Git Branching"
   },
-  "certificate-svg-flourish": {
-    "__desc__": "Smaller flourish line printed on the certificate below the achievement line",
-    "en_US": "from the basic concepts of a branch to mastery of remote pulls"
-  },
   "certificate-svg-topics-label": {
     "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
     "en_US": "TOPICS COVERED"
   },
-  "certificate-svg-topics": {
-    "__desc__": "Compact list of the main Git concepts taught by Learn Git Branching",
-    "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs  •  Undoing Changes  •  Tags & History  •  Fetch, Pull & Push"
+  "certificate-svg-topics-first": {
+    "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
+    "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs"
+  },
+  "certificate-svg-topics-second": {
+    "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
+    "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push"
   },
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
     "en_US": "ISSUED"
-  },
-  "certificate-svg-seal-top": {
-    "__desc__": "Top line of the seal badge on the certificate. Shown in capital letters",
-    "en_US": "COMPLETED"
-  },
-  "certificate-svg-seal-bottom": {
-    "__desc__": "Bottom line of the seal badge on the certificate. Shown in capital letters",
-    "en_US": "LEVELS"
   },
   "finish-dialog-finished": {
     "__desc__": "One of the lines in the next level dialog",
