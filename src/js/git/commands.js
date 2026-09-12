@@ -494,6 +494,7 @@ var commandConfig = {
       '-a',
       '-r',
       '-u',
+      '--set-upstream-to',
       '--contains',
       '-m',
       '-M',
@@ -516,8 +517,8 @@ var commandConfig = {
         return;
       }
 
-      if (commandOptions['-u']) {
-        args = commandOptions['-u'].concat(generalArgs);
+      if (commandOptions['-u'] || commandOptions['--set-upstream-to']) {
+        args = (commandOptions['-u'] || commandOptions['--set-upstream-to']).concat(generalArgs);
         command.validateArgBounds(args, 1, 2, '-u');
         var remoteBranch = crappyUnescape(args[0]);
         var branch = args[1] || engine.getOneBeforeCommit('HEAD').get('id');
@@ -944,7 +945,9 @@ var commandConfig = {
     options: [
       '--force',
       '--delete',
-      '-d'
+      '-d',
+      '-u',
+      '--set-upstream'
     ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
@@ -959,6 +962,7 @@ var commandConfig = {
       var sourceObj;
       var commandOptions = command.getOptionsMap();
       var force = !!commandOptions['--force'];
+      var setUpstream = !!(commandOptions['-u'] || commandOptions['--set-upstream']);
       var isDelete = commandOptions['-d'] || commandOptions['--delete'];
 
       // git push is pretty complex in terms of
@@ -972,6 +976,17 @@ var commandConfig = {
         generalArgs = option[0] === 'origin'
         ? option.concat(generalArgs)
         : generalArgs.concat(option);
+      }
+
+      // put upstream option values back in generalArgs as -u/--set-upstream
+      // are flag options (they don't take a value argument)
+      if (setUpstream) {
+        let upstreamOption = commandOptions['-u'] || commandOptions['--set-upstream'];
+        if (upstreamOption.length) {
+          generalArgs = upstreamOption[0] === 'origin'
+            ? upstreamOption.concat(generalArgs)
+            : generalArgs.concat(upstreamOption);
+        }
       }
 
       command.twoArgsForOrigin(generalArgs);
@@ -1008,6 +1023,13 @@ var commandConfig = {
             msg: intl.str('git-error-delete-nonexistent', { branch: options.destination })
           });
         }
+        // for -u with a refspec, resolve source as the branch to set tracking on
+        if (setUpstream && source) {
+          var resolvedSource = engine.resolveID(source);
+          if (resolvedSource && resolvedSource.get('type') === 'branch') {
+            sourceObj = resolvedSource;
+          }
+        }
       } else {
         if (firstArg) {
           // we are using this arg as destination AND source. the dest branch
@@ -1042,7 +1064,9 @@ var commandConfig = {
         // are always, always strings. very important :D
         destination: destination,
         source: source,
-        force: force
+        force: force,
+        setUpstream: setUpstream,
+        sourceObj: sourceObj
       });
     }
   },
