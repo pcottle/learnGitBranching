@@ -20,7 +20,6 @@ class MyError {
 
   getMsg() {
     if (!this.get('msg')) {
-      debugger;
       console.warn('my error without message');
     }
     return this.get('msg');

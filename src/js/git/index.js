@@ -3410,9 +3410,6 @@ class Branch extends Ref {
   }
 
   getIsRemote() {
-    if (typeof this.get('id') !== 'string') {
-      debugger;
-    }
     return this.get('id').slice(0, 2) === ORIGIN_PREFIX;
   }
 }
