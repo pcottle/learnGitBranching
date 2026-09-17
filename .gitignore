@@ -9,7 +9,7 @@ node_modules/
 build/*
 screens
 FontAwesome-Vectors.pdf
-index.html
+
 
 # Vim swaps
 *.sw*
