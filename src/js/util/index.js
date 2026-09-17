@@ -1,6 +1,3 @@
-var { readdirSync, lstatSync } = require('fs');
-var { join } = require('path');
-
 var escapeString = require('../util/escapeString');
 var constants = require('../util/constants');
 
@@ -58,17 +55,4 @@ exports.genParseCommand = function(regexMap, eventName) {
       }
     };
   };
-};
-
-exports.readDirDeep = function(dir) {
-  var paths = [];
-  readdirSync(dir).forEach(function(path) {
-    var aPath = join(dir, path);
-    if (lstatSync(aPath).isDirectory()) {
-      paths.push(...exports.readDirDeep(aPath));
-    } else {
-      paths.push(aPath);
-    }
-  });
-  return paths;
 };

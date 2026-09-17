@@ -21,8 +21,8 @@ getbranchname:
 	$(eval BRANCH_NAME = $(shell (git branch --show-current ) -replace '/','.'))
 
 build:
-	docker run --rm -v $${PWD}:/mnt --workdir /mnt node:14.20.0-alpine3.16 yarn install --frozen-lockfile
-	docker run --rm -v $${PWD}:/mnt --workdir /mnt node:14.20.0-alpine3.16 yarn gulp fastBuild
+	docker run --rm -v $${PWD}:/mnt --workdir /mnt node:20-alpine yarn install --frozen-lockfile
+	docker run --rm -v $${PWD}:/mnt --workdir /mnt node:20-alpine yarn build
 build_docker: getcommitid getbranchname
 	docker build -t $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME)$(TAG) -t $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME):$(BRANCH_NAME) -t $(REGISTRY_NAME)$(REPOSITORY_NAME)$(IMAGE_NAME):$(BRANCH_NAME)_$(COMMITID) .
 	docker build --target export --output type=local,dest=learnGitBranching_$(BRANCH_NAME)_$(COMMITID) .
@@ -33,4 +33,4 @@ run:
 clean:
 	echo 'not implemented'
 test: build
-	docker run --rm -v $${PWD}:/mnt --workdir /mnt node:14.20.0-alpine3.16 yarn test
+	docker run --rm -v $${PWD}:/mnt --workdir /mnt node:20-alpine yarn test

@@ -3,7 +3,6 @@
 .mimocode
 node_modules
 build
-index.html
 .nyc_output
 coverage
 screens
