@@ -2,6 +2,7 @@ var { join } = require('path');
 var { readFileSync } = require('fs');
 
 var util = require('../util');
+var readDirDeep = require('../util/readDirDeep').readDirDeep;
 var { strings } = require('../intl/strings');
 
 var canonicalLocale = 'en_US';
@@ -48,7 +49,7 @@ var validateKey = function(key) {
 
 if (!util.isBrowser()) {
   validateTranslations();
-  util.readDirDeep(join(__dirname, '../../')).forEach(function(path) {
+  readDirDeep(join(__dirname, '../../')).forEach(function(path) {
     var content = readFileSync(path);
     var match;
     while (match = easyRegex.exec(content)) {

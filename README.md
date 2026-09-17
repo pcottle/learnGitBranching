@@ -46,11 +46,8 @@ When reporting bugs, try running the command `debug_copyTree()` in your JS conso
 ## Building yourself / Contributing Functionality
 
 For contributing core functionality in the app, you'll probably want to test your changes
-at least once before submitting a pull request. That means you'll need the "gulp.js" build tool to build the app:
-
-https://gulpjs.com/docs/en/getting-started/quick-start
-
-You'll also need `yarn` to download all the dependencies of the project.
+at least once before submitting a pull request. The app builds with [Vite](https://vitejs.dev);
+you'll need `yarn` to download all the dependencies of the project.
 
 The general workflow / steps are below:
 
@@ -61,14 +58,15 @@ yarn install
 
 git checkout -b newAwesomeFeature
 vim ./src/js/git/index.js # some changes
-yarn gulp fastBuild # skips tests and linting, faster build
+yarn dev # dev server with live reload at http://localhost:5173
 
-# after building you can open up your browser to the index.html
-open ./index.html
-# file generated and see your changes
+# or, for a production build:
+yarn build # outputs index.html + hashed assets into ./build
+
+open ./build/index.html
 
 vim ./src/js/git/index.js # more changes
-yarn gulp build # runs tests and lint
+yarn test # runs the jasmine test suite
 
 git commit -am "My new sweet feature!"
 git push

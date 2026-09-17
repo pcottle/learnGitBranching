@@ -1,3 +1,4 @@
+require('../util/setupJQueryGlobals');
 var jQuery = require('jquery');
 var EventEmitter = require('events').EventEmitter;
 var React = require('react');

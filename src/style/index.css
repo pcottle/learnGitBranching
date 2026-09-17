@@ -1,0 +1,5 @@
+/* Entry stylesheet processed by Vite. Order matters (matches the old
+   gulp-concat glob order, minus the prebuilt all.min.css bundle). */
+@import './font-awesome.css';
+@import './main.css';
+@import './rainbows.css';
