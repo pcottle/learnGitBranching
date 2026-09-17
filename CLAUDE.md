@@ -15,29 +15,28 @@ yarn install
 
 ### Building
 ```bash
-yarn gulp fastBuild    # Fast build without tests/linting
-yarn gulp build        # Full production build with tests & lint
-yarn gulp watching     # Watch mode - rebuilds on file changes
+yarn dev               # Vite development server with live reload
+yarn build             # Checked production build in ./build
 ```
 
 ### Testing & Linting
 ```bash
 yarn test              # Run Jasmine test suite
 yarn test:coverage     # Run tests with nyc coverage
-gulp jshint            # Run JSHint linter
-gulp lintStrings       # Validate internationalization strings
+yarn lint              # Run JSHint linter
+yarn lint:strings      # Validate internationalization strings
 ```
 
 ### Development Server
 ```bash
 yarn dev               # Start Vite dev server
-# After building, open index.html directly in browser
+# After building, serve the build directory with a static file server
 ```
 
 ### Single Test Execution
 ```bash
-# Run specific test file
-npx gulp-jasmine __tests__/git.spec.js
+# Run a specific test file
+yarn jasmine __tests__/git.spec.js
 ```
 
 ## Architecture Overview
@@ -131,22 +130,19 @@ src/
 │   ├── graph/         # Tree comparison logic
 │   └── util/          # Utilities
 ├── levels/            # Level definitions organized by category
-├── style/             # CSS files
-└── template.index.html # HTML template
+└── style/             # CSS files
 
 __tests__/             # Jasmine test specs
+index.html             # Vite entry point and HTML view templates
 ```
 
 ## Build Process
 
-The gulp build process:
-1. Browserify bundles all JS files (including JSX with Babel transform)
-2. CSS files concatenated and minified (production)
-3. Files are hashed for cache busting
-4. `template.index.html` is processed with hashed filenames to generate `index.html`
-5. Tests run with Jasmine, linting with JSHint
-
-Production builds minify JS with Terser and HTML with html-minifier.
+The Vite build process:
+1. Tests run with Jasmine
+2. Vite bundles CommonJS JavaScript and transforms JSX
+3. CSS and JavaScript are minified and hashed for cache busting
+4. Static assets and generated documentation are copied into `build/`
 
 ## Key Technologies
 
@@ -156,8 +152,7 @@ Production builds minify JS with Terser and HTML with html-minifier.
 - **Raphael.js**: SVG graphics for visualization
 - **Q**: Promises for animation chains
 - **jQuery/jQuery UI**: DOM manipulation and dialogs
-- **Browserify + Babel**: Module bundling and JSX transform
-- **Gulp**: Build automation
+- **Vite**: Module bundling, development server, and JSX transform
 - **Jasmine**: Testing framework
 
 ## Testing Conventions

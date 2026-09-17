@@ -85,17 +85,14 @@ LearnGitBranching is a pretty simple application (from a technical perspective).
 
 Here is the high-level process of the build:
 
-* CSS is written into just one stylesheet (there is not a whole ton of styling)
-* New HTML is written into a template HTML file (`template.index.html`). This is only needed
-  for new views
-* The app is "built", which outputs:
-  * `index.html` in the root directory
-  * CSS and JS files in `./build` directory
-* If the app is being built for production, then these CSS and JS files
-  are hashed (to bust caches) and tests are run
+* `index.html` is the Vite entry point and contains the view templates
+* CSS and JavaScript are bundled and minified into `./build/assets`
+* Static assets and generated level documentation are copied into `./build`
+* Production builds run the tests before generating output
 * That's it!
 
-Thus, if you build the app locally, all you have to do in order to run the app is just open up `index.html` in the root directory of the repo. Pretty simple
+Use `yarn dev` while developing, or run `yarn build` and serve the resulting
+`./build` directory to inspect a production build.
 
 ### Docker
 

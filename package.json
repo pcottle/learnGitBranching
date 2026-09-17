@@ -11,11 +11,11 @@
   "license": "MIT",
   "scripts": {
     "preinstall": "node scripts/check-package-manager.js",
-    "build": "vite build && node scripts/postbuild.js",
+    "build": "yarn test && vite build && node scripts/postbuild.js",
     "dev": "vite",
     "test": "jasmine",
     "test:coverage": "nyc jasmine",
-    "lint": "jshint gulpfile.js __tests__/ src/",
+    "lint": "jshint __tests__/ src/",
     "lint:strings": "node src/js/intl/checkStrings",
     "docs:levels": "node scripts/generateLevelDocs"
   },

@@ -1222,7 +1222,6 @@ GitEngine.prototype.push = function(options) {
   }
 
   if (!this.origin.doesRefExist(options.destination)) {
-    console.warn('ref', options.destination);
     this.makeBranchOnOriginAndTrack(
       options.destination,
       this.getCommitFromRef(sourceBranch)

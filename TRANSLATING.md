@@ -159,10 +159,9 @@ Fill in all the empty `"xx_XX": ""` fields, then manually apply the translations
 1. Build the app:
    ```bash
    yarn install
-   yarn gulp fastBuild
    ```
 
-    **Why this matters (local development only):** the app loads a pre-bundled JS file (build/bundle-*.js) referenced from index.html — it does not read src/ files directly. Every time you edit a translation file, you must re-run yarn gulp fastBuild before the change shows up locally, otherwise you'll see stale (untranslated) content even though your source edits are correct. This only affects local testing — production builds are always built clean from source, so your merged changes will be included automatically.
+    The Vite development server reloads the app when translation source files change.
 
 2. Start the dev server:
    ```bash
@@ -182,7 +181,7 @@ Fill in all the empty `"xx_XX": ""` fields, then manually apply the translations
 
 6. Run the existing string validation:
    ```bash
-   yarn gulp lintStrings
+   yarn lint:strings
    ```
 
 ---
@@ -198,7 +197,7 @@ Before submitting your translation PR:
 - [ ] All level `hint` fields translated (34 levels)
 - [ ] All level `startDialog` fields translated (34 levels)
 - [ ] `node scripts/validate-locale.js xx_XX` passes with 0 errors
-- [ ] `yarn gulp lintStrings` passes
+- [ ] `yarn lint:strings` passes
 - [ ] `yarn test` passes
 - [ ] Tested locally by switching to the new locale in the UI
 

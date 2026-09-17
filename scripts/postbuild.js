@@ -4,7 +4,7 @@
  * Vite emits index.html + hashed assets into ./build. The site (GitHub Pages,
  * Docker/nginx image) additionally expects the static `assets/` and
  * `generatedDocs/` directories to sit alongside index.html, which the old
- * gulp build used to copy over.
+ * previous builds used to copy over.
  */
 const { cpSync, existsSync } = require('fs');
 const { join } = require('path');
