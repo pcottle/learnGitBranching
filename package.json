@@ -28,7 +28,7 @@
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "eslint": "^10.10.0",
     "globals": "^17.12.0",
-    "jasmine": "^4.6.0",
+    "jasmine": "^7.0.0",
     "nyc": "^15.1.0",
     "prompt": "^1.2.2",
     "vite": "^8.3.0",
