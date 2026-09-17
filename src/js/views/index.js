@@ -11,6 +11,17 @@ var throttle = require('../util/throttle');
 var { createEvents } = require('../util/eventEmitter');
 var sharing = require('../util/sharing');
 
+// ModalTerminal uses .draggable(); load it here rather than relying on
+// rebaseView.js, which is only required lazily when `git rebase -i` runs.
+require('jquery-ui/ui/widget');
+require('jquery-ui/ui/data');
+require('jquery-ui/ui/scroll-parent');
+require('jquery-ui/ui/plugin');
+require('jquery-ui/ui/safe-active-element');
+require('jquery-ui/ui/safe-blur');
+require('jquery-ui/ui/widgets/mouse');
+require('jquery-ui/ui/widgets/draggable');
+
 // Base View class - replacement for Backbone.View
 class BaseView {
   constructor(options) {
