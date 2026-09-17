@@ -13,7 +13,7 @@ jobs:
       REPO_PREFIX: ghcr.io/${{ github.repository }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: login-ghcr
         run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
