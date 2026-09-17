@@ -3,11 +3,9 @@ import { viteCommonjs } from '@originjs/vite-plugin-commonjs';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // This codebase is CommonJS (`require`) with JSX living in `.js` files, which
-// browserify + babelify used to handle. esbuild handles the JSX;
-// build.commonjsOptions (rollup-plugin-commonjs) handles the `require` calls
-// in the production build and vite-plugin-commonjs does it for the dev
-// server; nodePolyfills replaces the node builtins browserify auto-polyfilled
-// (events, process, ...).
+// browserify + babelify used to handle. Vite transforms the JSX;
+// @originjs/vite-plugin-commonjs handles application `require` calls; and nodePolyfills
+// replaces the node builtins browserify auto-polyfilled (events, process, ...).
 
 /**
  * The dev-time CJS interop emitted by @originjs/vite-plugin-commonjs reads
@@ -23,7 +21,7 @@ function cjsLazyInterop() {
   return {
     name: 'lgb-cjs-lazy-interop',
     enforce: 'post',
-    transform(code, id) {
+    transform(code) {
       if (!code.includes('.default || __require_for_vite_')) return null;
       const helper = 'function __lgbCjsLazy(ns) {\n' +
         '  try { return ns.default || ns; }\n' +
@@ -79,24 +77,16 @@ export default defineConfig({
   },
   optimizeDeps: {
     // jquery-ui's UMD build attaches to the global jQuery and exports
-    // nothing, which breaks the dev-time prebundle interop (a default
-    // import of a module with no exports). Serve it as-is; the app imports
-    // src/js/util/setupJQueryGlobals.js first, so window.jQuery exists
-    // before any of these modules evaluate.
+    // nothing. Serve it as-is after setupJQueryGlobals initializes the
+    // window.jQuery binding.
     exclude: ['jquery-ui'],
-    esbuildOptions: {
-      loader: {
+    rolldownOptions: {
+      moduleTypes: {
         '.js': 'jsx',
       },
     },
   },
   build: {
     outDir: 'build',
-    commonjsOptions: {
-      include: [/src\//, /node_modules/],
-      // JSX lives in .jsx files too; without this those modules are skipped
-      // and their `require` calls survive into the bundle.
-      extensions: ['.js', '.jsx'],
-    },
   },
 });

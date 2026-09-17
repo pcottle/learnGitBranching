@@ -15,7 +15,7 @@
     "dev": "vite",
     "test": "jasmine",
     "test:coverage": "nyc jasmine",
-    "lint": "eslint src __tests__ scripts vite.config.js eslint.config.js",
+    "lint": "eslint src __tests__ scripts vite.config.mjs eslint.config.js",
     "lint:fix": "yarn lint --fix",
     "lint:strings": "node src/js/intl/checkStrings",
     "docs:levels": "node scripts/generateLevelDocs"
@@ -31,7 +31,7 @@
     "jasmine": "^4.6.0",
     "nyc": "^15.1.0",
     "prompt": "^1.2.2",
-    "vite": "^4.5.14",
+    "vite": "^8.3.0",
     "vite-plugin-node-polyfills": "^0.28.0"
   },
   "dependencies": {
@@ -45,8 +45,7 @@
     "react-dom": "^17.0.2",
     "underscore": "^1.13.8"
   },
-  "allowScripts": {
-    "esbuild@0.14.54": true,
-    "esbuild@0.18.20": true
+  "resolutions": {
+    "esbuild": "0.28.1"
   }
 }
