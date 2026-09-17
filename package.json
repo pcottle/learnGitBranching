@@ -37,7 +37,7 @@
   "dependencies": {
     "flux": "^4.0.3",
     "jquery": "^3.4.0",
-    "jquery-ui": "1.13.2",
+    "jquery-ui": "1.14.2",
     "marked": "^4.0.12",
     "prop-types": "^15.8.1",
     "raphael": "^2.1.0",
