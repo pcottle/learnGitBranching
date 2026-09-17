@@ -767,7 +767,7 @@ var commandConfig = {
         origin.gitVisuals
       );
 
-      if (!!commandOptions['--delete-after-merge']) {
+      if (commandOptions['--delete-after-merge']) {
         origin.validateAndDeleteBranch(fromBranch);
       }
 

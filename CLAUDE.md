@@ -23,7 +23,8 @@ yarn build             # Checked production build in ./build
 ```bash
 yarn test              # Run Jasmine test suite
 yarn test:coverage     # Run tests with nyc coverage
-yarn lint              # Run JSHint linter
+yarn lint              # Run ESLint correctness checks
+yarn lint:fix          # Apply safe automatic lint fixes
 yarn lint:strings      # Validate internationalization strings
 ```
 
@@ -153,6 +154,7 @@ The Vite build process:
 - **Q**: Promises for animation chains
 - **jQuery/jQuery UI**: DOM manipulation and dialogs
 - **Vite**: Module bundling, development server, and JSX transform
+- **ESLint**: Static correctness checks
 - **Jasmine**: Testing framework
 
 ## Testing Conventions

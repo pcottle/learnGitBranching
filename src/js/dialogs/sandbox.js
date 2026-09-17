@@ -824,7 +824,7 @@ exports.dialog = {
         '',
         'Chcesz następnym razem przejść prosto do trybu piaskownicy? Kilknij [tutaj](https://pcottle.github.io/learnGitBranching/?locale=pl&NODEMO)',
         '',
-        'PS. GitHub zaczął nazywać domyślną gałąź `main` zamiast `master`, aby odejść od tendencyjnej terminologii. [(więcej informacji tutaj)](https://github.com/github/renaming)',,
+        'PS. GitHub zaczął nazywać domyślną gałąź `main` zamiast `master`, aby odejść od tendencyjnej terminologii. [(więcej informacji tutaj)](https://github.com/github/renaming)',
         'Zgodnie z tym ogólnobranżowym ruchem, zaktualizowaliśmy również "Learn Git Branching", by używać `main` zamiast `master` w naszych zadaniach.',
         'Ta zmiana nazwy powinna być już w miarę spójna, ale jeśli zauważysz jakieś błędy, nie krępuj się dodać pull request (lub zgłosić issue na githubie - prawy górny róg).'
       ]

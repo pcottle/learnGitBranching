@@ -7,7 +7,9 @@ async function translate(text, locale) {
   console.log(`Translating "${text}" to ${locale}`);
   // In a real implementation, you would call an API like OpenAI, Google Translate, etc.
   // For now, we'll just return a placeholder.
-  return new Promise(resolve => setTimeout(() => resolve(`[AI translated for ${locale}] ${text}`), 200));
+  return new Promise(resolve => {
+    setTimeout(() => resolve(`[AI translated for ${locale}] ${text}`), 200);
+  });
 }
 
 async function translateLevels(locale) {
@@ -319,4 +321,3 @@ async function main() {
 }
 
 main();
-

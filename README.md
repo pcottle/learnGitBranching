@@ -67,6 +67,7 @@ open ./build/index.html
 
 vim ./src/js/git/index.js # more changes
 yarn test # runs the jasmine test suite
+yarn lint # runs ESLint correctness checks
 
 git commit -am "My new sweet feature!"
 git push
