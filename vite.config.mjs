@@ -88,5 +88,9 @@ export default defineConfig({
   },
   build: {
     outDir: 'build',
+    // Vite 8's default Lightning CSS minifier collapses the legacy vendor
+    // fallbacks in main.css (dropping `display: flex`, `-webkit-box-flex`,
+    // ...), which breaks the page layout. esbuild keeps them intact.
+    cssMinify: 'esbuild',
   },
 });

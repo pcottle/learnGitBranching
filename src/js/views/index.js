@@ -13,6 +13,9 @@ var sharing = require('../util/sharing');
 
 // ModalTerminal uses .draggable(); load it here rather than relying on
 // rebaseView.js, which is only required lazily when `git rebase -i` runs.
+// version.js must come first: it creates `$.ui`, and in browser-globals mode
+// the other jquery-ui modules don't pull it in themselves.
+require('jquery-ui/ui/version');
 require('jquery-ui/ui/widget');
 require('jquery-ui/ui/data');
 require('jquery-ui/ui/scroll-parent');
