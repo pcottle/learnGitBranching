@@ -6,6 +6,7 @@ var ReactDOM = require('react-dom');
 
 var util = require('../util');
 var intl = require('../intl');
+var appLoading = require('../util/appLoading');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
 // used by the beforeunload handler below to warn about a level in progress
@@ -312,8 +313,15 @@ function changeLocaleFromHeaders(langString) {
 // Exported (with initFn injectable) so the ordering is unit-testable.
 function bootstrap(initFn) {
   detectLocale();
+  // safety net: never leave the spinner up forever if startup breaks
+  var safety = setTimeout(appLoading.hideAppLoading, 15000);
   return intl.loadLocale(LocaleStore.getLocale()).then(function() {
-    initFn();
+    try {
+      initFn();
+    } finally {
+      clearTimeout(safety);
+      appLoading.hideAppLoading();
+    }
   });
 }
 

@@ -435,6 +435,8 @@ class SeriesView extends BaseView {
 
   enterIcon(ev) {
     var id = this.getEventID(ev);
+    // warm the chunk when a desktop pointer shows intent
+    LevelStore.prefetchLevel(id);
     this.updateAboutForLevelID(id);
   }
 

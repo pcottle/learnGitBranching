@@ -3,6 +3,7 @@ var { createEvents } = require('../util/eventEmitter');
 
 var util = require('../util');
 var intl = require('../intl');
+var appLoading = require('../util/appLoading');
 var Main = require('../app');
 var Errors = require('../util/errors');
 
@@ -206,15 +207,18 @@ class Sandbox {
 
     // the full level definition (dialog copy, trees, solution) is code-split;
     // fetch it before constructing the level.
+    appLoading.showAppLoading();
     LevelStore.loadLevel(desiredID).then(function(loadedLevel) {
       self.currentLevel = new Level({
         level: loadedLevel,
         deferred: whenLevelOpen,
         command: command
       });
+      appLoading.hideAppLoading();
     }).catch(function(err) {
+      appLoading.hideAppLoading();
       console.error('failed to load level ' + desiredID, err);
-      command.addWarning(intl.str('level-no-id', { id: desiredID }));
+      command.addWarning(intl.str('level-load-failed', { id: desiredID }));
       command.set('status', 'error');
       whenLevelOpen.resolve();
     });
@@ -237,12 +241,22 @@ class Sandbox {
 
     // when editing an existing level its full definition may still be lazy
     var loadEdited = toEdit ? LevelStore.loadLevel(toEdit) : Promise.resolve(null);
+    if (toEdit) {
+      appLoading.showAppLoading();
+    }
     loadEdited.then(function() {
+      appLoading.hideAppLoading();
       self.levelBuilder = new LevelBuilder({
         deferred: whenBuilderOpen,
         editLevel: toEdit,
         skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
       });
+    }).catch(function(err) {
+      appLoading.hideAppLoading();
+      console.error('failed to load level ' + toEdit, err);
+      command.addWarning(intl.str('level-load-failed', { id: toEdit }));
+      command.set('status', 'error');
+      whenBuilderOpen.resolve();
     });
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);

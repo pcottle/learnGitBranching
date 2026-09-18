@@ -250,6 +250,18 @@ function loadLevel(id) {
   });
 }
 
+/**
+ * Best-effort warm-up of a level's chunk (e.g. the next level, or one the
+ * user hovered). Errors are swallowed; they surface if the level is opened.
+ * @param {string} id
+ * @returns {Promise<Object|undefined>}
+ */
+function prefetchLevel(id) {
+  return loadLevel(id).catch(function() {
+    return undefined;
+  });
+}
+
 var LevelStore = Object.assign(
 {},
 EventEmitter.prototype,
@@ -291,6 +303,8 @@ AppConstants.StoreSubscribePrototype,
   },
 
   loadLevel: loadLevel,
+
+  prefetchLevel: prefetchLevel,
 
   getNextLevel: function(id) {
     if (!_levelMap[id]) {
