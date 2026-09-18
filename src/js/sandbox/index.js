@@ -202,11 +202,21 @@ class Sandbox {
     // everything will be handled via event baton :DDDDDDDDD
     var whenLevelOpen = createDeferred();
     var Level = require('../level').Level;
+    var self = this;
 
-    this.currentLevel = new Level({
-      level: levelJSON,
-      deferred: whenLevelOpen,
-      command: command
+    // the full level definition (dialog copy, trees, solution) is code-split;
+    // fetch it before constructing the level.
+    LevelStore.loadLevel(desiredID).then(function(loadedLevel) {
+      self.currentLevel = new Level({
+        level: loadedLevel,
+        deferred: whenLevelOpen,
+        command: command
+      });
+    }).catch(function(err) {
+      console.error('failed to load level ' + desiredID, err);
+      command.addWarning(intl.str('level-no-id', { id: desiredID }));
+      command.set('status', 'error');
+      whenLevelOpen.resolve();
     });
 
     whenLevelOpen.promise.then(function() {
@@ -223,10 +233,16 @@ class Sandbox {
 
     var regexResults = command.get('regexResults') || [];
     var toEdit = regexResults[1] || false;
-    this.levelBuilder = new LevelBuilder({
-      deferred: whenBuilderOpen,
-      editLevel: toEdit,
-      skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
+    var self = this;
+
+    // when editing an existing level its full definition may still be lazy
+    var loadEdited = toEdit ? LevelStore.loadLevel(toEdit) : Promise.resolve(null);
+    loadEdited.then(function() {
+      self.levelBuilder = new LevelBuilder({
+        deferred: whenBuilderOpen,
+        editLevel: toEdit,
+        skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
+      });
     });
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);

@@ -14,7 +14,7 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 var BaseView = require('../views').BaseView;
 
-var LEVELS = require('../../levels');
+var sequenceInfoModule = require('../../levels/sequenceInfo');
 
 class LevelDropdownView extends ContainedBase {
   constructor(options) {
@@ -241,7 +241,7 @@ class LevelDropdownView extends ContainedBase {
 
   getSequencesOnTab() {
     return this.sequences.filter(function(sequenceName) {
-      var tab = LEVELS.getTabForSequence(sequenceName);
+      var tab = sequenceInfoModule.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);
   }

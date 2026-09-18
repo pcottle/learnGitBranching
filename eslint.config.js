@@ -59,6 +59,8 @@ module.exports = [
       'generatedDocs/**',
       'node_modules/**',
       'src/style/all.min.css',
+      'src/levels/generated/**',
+      'src/js/intl/generated/**',
     ],
   },
   {
