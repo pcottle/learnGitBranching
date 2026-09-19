@@ -36,7 +36,7 @@ You can share a link to LearnGitBranching with an arbitrary set of commands that
 
 ### Level Builder
 
-You can build levels with the `build level` command. A dialog will walk you through the process, and at the end it will show you a JSON blob that represents the level you just created. Paste that in a [gist](https://gist.github.com) or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run `import level` and paste the JSON in the resulting text field, or simply send them a custom URL with the the gist ID in the parameters, like so:
+You can build levels with the `build level` command. A dialog will walk you through the process, and at the end it will show you a JSON blob that represents the level you just created. Paste that in a [gist](https://gist.github.com) or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run `import level` and paste the JSON in the resulting text field, or simply send them a custom URL with the gist ID in the parameters, like so:
 https://pcottle.github.io/learnGitBranching/?gist_level_id=a84407351f9c9f0cb241
 
 ## Reporting Bugs / Opening Issues
@@ -97,7 +97,7 @@ Use `yarn dev` while developing, or run `yarn build` and serve the resulting
 
 ### Docker
 
-You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment with at [http://localhost:8080/](<http://localhost:8080/>)
+You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment at [http://localhost:8080/](<http://localhost:8080/>)
 
 You can build the app and image with the command: `docker build -t ghcr.io/pcottle/learngitbranching:latest`. See the [Makefile](Makefile) for information on how to build locally with docker.
 
