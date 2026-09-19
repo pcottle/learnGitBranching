@@ -6,6 +6,7 @@ var ReactDOM = require('react-dom');
 
 var util = require('../util');
 var intl = require('../intl');
+var appLoading = require('../util/appLoading');
 var LocaleStore = require('../stores/LocaleStore');
 var LocaleActions = require('../actions/LocaleActions');
 // used by the beforeunload handler below to warn about a level in progress
@@ -288,12 +289,6 @@ var initDemo = function(sandbox) {
     });
   }
 
-  if (params.locale !== undefined && params.locale.length) {
-    LocaleActions.changeLocaleFromURI(params.locale);
-  } else {
-    tryLocaleDetect();
-  }
-
   insertAlternateLinks();
 
   if (params.command) {
@@ -314,9 +309,44 @@ function changeLocaleFromHeaders(langString) {
   LocaleActions.changeLocaleFromHeader(langString);
 }
 
+// Detect the locale, wait for its (code-split) strings, then start the app.
+// Exported (with initFn injectable) so the ordering is unit-testable.
+function bootstrap(initFn) {
+  detectLocale();
+  // safety net: never leave the spinner up forever if startup breaks
+  var safety = setTimeout(appLoading.hideAppLoading, 15000);
+  return intl.loadLocale(LocaleStore.getLocale()).then(function() {
+    try {
+      initFn();
+    } finally {
+      clearTimeout(safety);
+      appLoading.hideAppLoading();
+    }
+  });
+}
+
+// Resolve the active locale before first render: an explicit ?locale= wins,
+// then the user's stored preference, then the browser header. The locale
+// strings can then be awaited before the first paint.
+function detectLocale() {
+  var params = util.parseQueryString(window.location.href);
+  if (params.locale !== undefined && params.locale.length) {
+    LocaleActions.changeLocaleFromURI(params.locale);
+    return;
+  }
+  var stored = LocaleStore.getStoredLocale();
+  if (stored) {
+    LocaleActions.changeLocale(stored);
+    return;
+  }
+  tryLocaleDetect();
+}
+
 if (require('../util').isBrowser()) {
   // this file gets included via node sometimes as well
-  $(document).ready(init);
+  $(document).ready(function() {
+    bootstrap(init);
+  });
 }
 
 /**
@@ -374,3 +404,5 @@ exports.getLevelDropdown = function() {
 };
 
 exports.init = init;
+exports.detectLocale = detectLocale;
+exports.bootstrap = bootstrap;

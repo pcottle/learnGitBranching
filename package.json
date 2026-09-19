@@ -11,6 +11,10 @@
   "license": "MIT",
   "scripts": {
     "preinstall": "node scripts/check-package-manager.js",
+    "generate": "node scripts/generate.js",
+    "predev": "node scripts/generate.js",
+    "prebuild": "node scripts/generate.js",
+    "pretest": "node scripts/generate.js",
     "build": "yarn test && vite build && node scripts/postbuild.js",
     "dev": "vite",
     "test": "jasmine",

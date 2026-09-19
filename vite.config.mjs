@@ -92,5 +92,19 @@ export default defineConfig({
     // fallbacks in main.css (dropping `display: flex`, `-webkit-box-flex`,
     // ...), which breaks the page layout. esbuild keeps them intact.
     cssMinify: 'esbuild',
+    rollupOptions: {
+      output: {
+        // Keep third-party code in a stable chunk. This does not shrink the
+        // first load (the vendor chunk is still a static import) but an
+        // app-only deploy no longer invalidates the ~143 KB (gzip) vendor
+        // bundle, so repeat visitors re-download far less.
+        manualChunks: function(id) {
+          if (id.indexOf('node_modules') !== -1) {
+            return 'vendor';
+          }
+          return undefined;
+        },
+      },
+    },
   },
 });

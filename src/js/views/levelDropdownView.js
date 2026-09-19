@@ -14,7 +14,7 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 var BaseView = require('../views').BaseView;
 
-var LEVELS = require('../../levels');
+var sequenceInfoModule = require('../../levels/sequenceInfo');
 
 class LevelDropdownView extends ContainedBase {
   constructor(options) {
@@ -241,7 +241,7 @@ class LevelDropdownView extends ContainedBase {
 
   getSequencesOnTab() {
     return this.sequences.filter(function(sequenceName) {
-      var tab = LEVELS.getTabForSequence(sequenceName);
+      var tab = sequenceInfoModule.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);
   }
@@ -435,6 +435,8 @@ class SeriesView extends BaseView {
 
   enterIcon(ev) {
     var id = this.getEventID(ev);
+    // warm the chunk when a desktop pointer shows intent
+    LevelStore.prefetchLevel(id);
     this.updateAboutForLevelID(id);
   }
 

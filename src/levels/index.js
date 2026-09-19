@@ -1,432 +1,70 @@
 // Each level is part of a "sequence;" levels within
-// a sequence proceed in the order listed here
-exports.levelSequences = {
+// a sequence proceed in the order listed here.
+//
+// `levelFiles` is the declarative source of truth (module paths only), which
+// the build-time manifest generator (scripts/generateLevelManifest.js) reads
+// to lazy-load each level on demand in the browser. `levelSequences` keeps
+// the old eager shape for Node tooling, tests, and the docs generator.
+var levelFiles = exports.levelFiles = {
   intro: [
-    require('./intro/commits').level,
-    require('./intro/branching').level,
-    require('./intro/merging').level,
-    require('./intro/rebasing').level
+    './intro/commits',
+    './intro/branching',
+    './intro/merging',
+    './intro/rebasing'
   ],
   rampup: [
-    require('./rampup/detachedHead').level,
-    require('./rampup/relativeRefs').level,
-    require('./rampup/relativeRefs2').level,
-    require('./rampup/reversingChanges').level
+    './rampup/detachedHead',
+    './rampup/relativeRefs',
+    './rampup/relativeRefs2',
+    './rampup/reversingChanges'
   ],
   move: [
-    require('./rampup/cherryPick').level,
-    require('./rampup/interactiveRebase').level,
-    require('./workingDir/staging').level,
-    require('./workingDir/restore').level
+    './rampup/cherryPick',
+    './rampup/interactiveRebase',
+    './workingDir/staging',
+    './workingDir/restore'
   ],
   mixed: [
-    require('./mixed/grabbingOneCommit').level,
-    require('./mixed/jugglingCommits').level,
-    require('./mixed/jugglingCommits2').level,
-    require('./mixed/tags').level,
-    require('./mixed/describe').level
+    './mixed/grabbingOneCommit',
+    './mixed/jugglingCommits',
+    './mixed/jugglingCommits2',
+    './mixed/tags',
+    './mixed/describe'
   ],
   advanced: [
-    require('./rebase/manyRebases').level,
-    require('./advanced/multipleParents').level,
-    require('./rebase/selectiveRebase').level
+    './rebase/manyRebases',
+    './advanced/multipleParents',
+    './rebase/selectiveRebase'
   ],
   remote: [
-    require('./remote/clone').level,
-    require('./remote/remoteBranches').level,
-    require('./remote/fetch').level,
-    require('./remote/pull').level,
-    require('./remote/fakeTeamwork').level,
-    require('./remote/push').level,
-    require('./remote/fetchRebase').level,
-    require('./remote/lockedMain').level
+    './remote/clone',
+    './remote/remoteBranches',
+    './remote/fetch',
+    './remote/pull',
+    './remote/fakeTeamwork',
+    './remote/push',
+    './remote/fetchRebase',
+    './remote/lockedMain'
   ],
   remoteAdvanced: [
-    require('./remote/pushManyFeatures').level,
-    require('./remote/mergeManyFeatures').level,
-    require('./remote/tracking').level,
-    require('./remote/pushArgs').level,
-    require('./remote/pushArgs2').level,
-    require('./remote/fetchArgs').level,
-    require('./remote/sourceNothing').level,
-    require('./remote/pullArgs').level
+    './remote/pushManyFeatures',
+    './remote/mergeManyFeatures',
+    './remote/tracking',
+    './remote/pushArgs',
+    './remote/pushArgs2',
+    './remote/fetchArgs',
+    './remote/sourceNothing',
+    './remote/pullArgs'
   ]
 };
 
-// there are also cute names and such for sequences
-var sequenceInfo = exports.sequenceInfo = {
-  intro: {
-    displayName: {
-      'en_US': 'Introduction Sequence',
-      'fa': 'سری مقدماتی',
-      'de_DE': 'Einführung',
-      'ja'   : 'まずはここから',
-      'fr_FR': 'Séquence d\'introduction',
-      'es_AR': 'Secuencia introductoria',
-      'es_MX': 'Secuencia introductoria',
-      'es_ES': 'Secuencia introductoria',
-      'pt_BR': 'Sequência introdutória',
-      'gl'   : 'Secuencia introductoria',
-      'zh_CN': '基础篇',
-      'zh_TW': '基礎篇',
-      'ko'   : 'git 기본',
-      'ro': "Introducere",
-      "'bg'": "Въведение",
-      'ru_RU': 'Введение',
-      'uk'   : 'Вступ',
-      'vi'   : 'Giới Thiệu Chuỗi Luyện Tập',
-      'sl_SI': 'Uvodno Zaporedje',
-      'pl'   : 'Wprowadzenie',
-      'it_IT': "Sequenza introduttiva",
-      'ta_IN': 'அறிமுக தொடர் வரிசை',
-      'tr_TR': 'Giriş bölümü'
-    },
-    about: {
-      'en_US': 'A nicely paced introduction to the majority of git commands',
-      'fa': 'مقدمه‌ای با سرعت مناسب بر اکثر دستورات git',
-      'de_DE': 'Eine gut abgestimmte Einführung in die wichtigsten Git-Befehle',
-      'ja'   : 'gitの基本的なコマンド群をほどよいペースで学ぶ',
-      'fr_FR': 'Une introduction en douceur à la majorité des commandes Git',
-      'es_AR': 'Una breve introducción a la mayoría de los comandos de git',
-      'es_MX': 'Una breve introducción a la mayoría de los comandos de git',
-      'es_ES': 'Una breve introducción a la mayoría de los comandos de git',
-      'pt_BR': 'Uma breve introdução à maioria dos comandos do git',
-      'gl'   : 'Unha breve introducción á maioría dos comandos de git',
-      'zh_CN': '循序渐进地介绍 Git 主要命令',
-      'zh_TW': '循序漸進地介紹 git 主要命令',
-      'ko'   : 'git의 주요 명령어를 깔끔하게 알려드립니다',
-      'ro': "Un bun început pentru majoritatea comenzilor git",
-      "'bg'": "Плавно и добре структуриранo въведение в повечето Git команди",
-      'ru_RU': 'Хорошо подобранное введение в основные команды git',
-      'uk'   : 'Гарно підібране введення в основні команди git',
-      'vi'   : 'Từng bước làm quen với phần lớn lệnh điều khiển Git',
-      'sl_SI': 'Prijeten uvod v git ukaze',
-      'pl'   : 'Krótkie wprowadzenie do większości poleceń Gita',
-      'it_IT': "Un'introduzione graduale ai principali comandi Git",
-      'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்',
-      'tr_TR': 'Git komutlarının çoğunun yüksek tempolu bir tanıtımı'
-    }
-  },
-  rampup: {
-    displayName: {
-      'en_US': 'Ramping Up',
-      'fa': 'افزایش مهارت',
-      'de_DE': 'Eine Stufe höher',
-      'ja'   : '次のレベルに進もう',
-      'fr_FR': 'Montée en puissance',
-      'es_AR': 'Acelerando',
-      'es_MX': 'Acelerando',
-      'es_ES': 'Acelerando',
-      'pt_BR': 'Acelerando',
-      'gl'   : 'Alixeirando',
-      'zh_CN': '高级篇',
-      'zh_TW': '進階篇',
-      'ro': "În continuare",
-      "'bg'": "Повишаване на нивото",
-      'ru_RU': 'Едем дальше',
-      'uk'   : 'Їдемо далі',
-      'ko'   : '다음 단계로',
-      'vi'   : 'Tăng Tốc',
-      'sl_SI': 'Prva Stopnička',
-      'pl'   : 'Rozkręcenie',
-      'it_IT': "Diamoci dentro",
-      'ta_IN': 'சற்று அதிகப்படுத்த',
-      'tr_TR': 'Hızlanma'
-    },
-    about: {
-      'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
-      'fa': 'وعده بعدی از جذابیت‌های ۱۰۰٪ گیت. امیدوارم گرسنه باشید',
-      'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
-      'ja'   : '更にgitの素晴らしさを堪能しよう',
-      'fr_FR': 'Le prochain excellent plat de pur Git. J\'espère que vous êtes affamés',
-      'es_AR': 'La próxima porción de 100% maravillas git. Espero que estés hambriento',
-      'es_MX': 'La próxima ración de git. Espero que estés hambriento',
-      'es_ES': 'La próxima ración de git. Espero que estés hambriento',
-      'pt_BR': 'A próxima porção de maravilhas do git. Faminto?',
-      'gl'   : 'A próxima porción das marabillas de git. Agardo que estés esfameado',
-      'zh_CN': '要开始介绍 Git 的超棒特性了，快来吧！',
-      'zh_TW': '接下來是 git 非常厲害的地方！相信你已經迫不及待了吧！',
-      'ro': "Următoarea porție de minunății git. Sper că ești flămând",
-      "'bg'": "Следващата доза 100% Git магия. Надявам се да си гладен",
-      'ru_RU': 'Следующая порция абсолютной git-крутотенюшки. Проголодались?',
-      'uk'   : 'Наступна порція абсолютної git-дивини. Сподіваюсь, ви зголодніли',
-      'ko'   : 'git은 아주 멋져요. 왜 멋진지 알려드립니다',
-      'vi'   : 'Tận hưởng khẩu phần tuyệt hảo của Git. Hi vọng bạn còn đói',
-      'sl_SI': 'Naslednja porcija git izjemnosti. Upam, da si lačen',
-      'pl'   : 'Następna porcja gita jest niesamowita. Mam nadzieję, że jesteś głodny',
-      'it_IT': "Porzione con il 100% di grandiosità Git, spero tu sia affamato",
-      'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்',
-      'tr_TR': 'Git\'in muhteşemliklerinden bir porsiyon daha. Umarım açsındır'
-    }
-  },
-  remote: {
-    tab: 'remote',
-    displayName: {
-      'en_US': 'Push & Pull -- Git Remotes!',
-      'fa': 'Push و Pull -- ریموت‌های Git!',
-      'de_DE': 'Push & Pull -- Remote Repositories',
-      'ja'   : 'Push及びPullコマンド -- Gitリモート',
-      'fr_FR': 'Push & Pull -- Dépôts Git distants !',
-      'es_AR': 'Push & Pull -- Git Remotes!',
-      'es_MX': 'Push & Pull -- Repositorios remotos en Git (Git Remotes)!',
-      'es_ES': 'Push y Pull -- Git Remotes!',
-      'pt_BR': 'Push & Pull -- repositórios remotos no Git!',
-      'gl'   : 'Push & Pull -- Repositorios remotos no Git!',
-      'zh_CN': 'Push & Pull —— Git 远程仓库！',
-      'zh_TW': 'Push & Pull -- Git Remotes!',
-      'ro': "Push & Pull -- Git Remotes!",
-      'bg': "Push & Pull -- Git отдалечени хранилища!",
-      'ru_RU': 'Push & Pull - удалённые репозитории в Git!',
-      'uk'   : 'Push & Pull -- віддалені репозиторії в Git!',
-      'ko'   : 'Push & Pull -- Git 원격 저장소!',
-      'vi'   : 'Push & Pull -- Git Remotes!',
-      'sl_SI': 'Push & Pull -- Oddaljeni Git',
-      'pl'   : 'Push & Pull -- Zdalne repozytoria',
-      'it_IT': "Push & Pull -- Git Remoto!",
-      'ta_IN': 'Push & Pull -- கிட் Remotes!',
-      'tr_TR': 'Push & Pull -- Git Uzak Depoları (Remotes)!'
-    },
-    about: {
-      'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
-      'fa': 'وقت به اشتراک گذاشتن ۰ و ۱ هاست بچه‌ها؛ کدنویسی اجتماعی می‌شود',
-      'fr_FR': 'Il est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
-      'ja'   : '自分のコードをより広く公開しましょう',
-      'de_DE': 'Zeit eure 1en und 0en zu teilen; Coding mit sozialer Komponente',
-      'es_AR': 'Hora de compartir sus 1\'s y 0\'s; programar se volvió social!',
-      'es_MX': 'Hora de compartir sus 1\'s y 0\'s, chicos; programar se volvió social!',
-      'es_ES': 'Hora de compartir vuestros 1\'s y 0\'s, chicos; programar se volvió social!',
-      'pt_BR': 'Hora de compartilhar seus 1\'s e 0\'s, crianças; programar agora é social!',
-      'gl'   : 'Hora de compartilos seus 1\' e 0\'s, rapaces; programar agora é social!',
-      'zh_CN': '是时候分享你的代码了，让编码变得社交化吧',
-      'zh_TW': '是時候分享你的程式碼了',
-      'ro': "E timpul să împărtășiți 1-urile și 0-urile copii; programarea a devenit socială",
-      'bg': "Време е да споделите своите единици и нули; програмирането стана социално",
-      'ru_RU': 'Настало время поделиться своими единичками и нулями. Время коллективного программирования',
-      'uk'   : 'Настав час поділитися своїми нулями та одиничками; соціальне програмування',
-      'ko'   : '자신의 코드를 공개할 때가 되었습니다. 코드를 공개해봅시다!',
-      'vi'   : 'Chia sẻ đứa con tinh thần \'0\' và \'1\' của bạn; mã đã đến với cộng đồng',
-      'sl_SI': 'Čas za deljenje tvojih 1 in 0; kodiranje je pravkar postalo socialno',
-      'pl'   : 'Czas podzielić się swoimi dziećmi 1 i 0; kodowanie właśnie stało się społeczne',
-      'it_IT':
-        "Ragazzi è arrivato il momento di condividere i vostri 0 e 1; programmare diventa social",
-      'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது',
-      'tr_TR': '0\'ları ve 1\'ler\'i paylaşma zamanı çocuklar, kodlama sosyal bir hal alıyor',
-    }
-  },
-  remoteAdvanced: {
-    tab: 'remote',
-    displayName: {
-      'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
-      'fa': 'به سوی Origin و فراتر از آن -- ریموت‌های پیشرفته Git!',
-      'de_DE': 'Bis zum Origin und noch viel weiter -- Fortgeschrittene Remote Repositories',
-      'ja'   : '"origin"とその先へ -- Gitリモート上級編',
-      'fr_FR': 'Vers l\'infini et au-delà -- dépôts distants version avancée',
-      'es_AR': 'Hasta el origin y más allá -- Git Remotes avanzado!',
-      'es_MX': 'Hasta el origin y más allá -- Git Remotes avanzado!',
-      'es_ES': 'Hasta el origen y más allá -- Git Remotes avanzado!',
-      'pt_BR': 'Até a origin e além -- repositórios remotos avançados!',
-      'gl'   : 'Ata á orixe e máis aló -- repositorios remotos avanzados!',
-      'zh_CN': '关于 origin 和它的周边 —— Git 远程仓库高级操作',
-      'zh_TW': '關於 origin 和其它 repo，git remote 的進階指令',
-      'ro': "Spre Origin-e și dincolo de ea -- Git Remotes avansate!",
-      'bg': "Към Origin и отвъд него -- Git Remotes за напреднали!",
-      'ru_RU': 'Через origin – к звёздам. Продвинутое использование Git Remotes',
-      'uk'   : 'Через origin – до зірок. Прогресивне використання Git Remotes',
-      'ko'   : '"origin"그 너머로 -- 고급 Git 원격 저장소',
-      'vi'   : 'Về Với Cội Nguồn Và Vươn Xa Hơn -- Git Remote Nâng Cao',
-      'sl_SI': 'Do Origina In Naprej -- Napredni Oddaljeni Git',
-      'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria',
-      'it_IT': "Verso Origin e oltre -- Git Remoto Avanzato!",
-      'ta_IN': 'ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!',
-      'tr_TR': 'Origin ve Ötesine -- Gelişmiş Git Uzak Depoları (Remotes)'
-    },
-    about: {
-      'en_US': 'And you thought being a benevolent dictator would be fun...',
-      'fa': 'و فکر می‌کردید که یک دیکتاتور خیرخواه بودن تفریح دارد...',
-      'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
-      'ja'   : '絶えず上級者の仕事は存在する。。。',
-      'es_AR': 'Y pensabas que ser un dictador benévolo sería divertido...',
-      'es_MX': 'Y pensabas que ser un dictador benévolo sería divertido...',
-      'es_ES': 'Y pensabas que ser un dictador benévolo sería divertido...',
-      'pt_BR': 'E você achava que ser um déspota esclarecido seria mais divertido...',
-      'gl'   : 'E pensabas que ser un dictador benévolo sería divertido...',
-      'zh_CN': '做一名仁慈的独裁者一定会很有趣……',
-      'zh_TW': '而且你會覺得做一個仁慈的獨裁者會很有趣...',
-      'de_DE': 'Git Remotes für Fortgeschrittene',
-      'ro': "Iar tu credeai că a fi un dictator binevoitor ar fi distractiv...",
-      'bg': "И си мислеше, че да си благосклонен диктатор ще е забавно...",
-      'ru_RU': 'Весело было быть всесильным мудрым правителем...',
-      'uk'   : 'А Ви думали, що бути всесильним диктатором весело...',
-      'ko'   : '상급자는 편할줄 알았겠지만...',
-      'vi'   : 'Và bạn nghĩ làm một kẻ độc tài nhân từ thì sẽ vui...',
-      'sl_SI': 'In ti si mislil, da je biti dobronamerni diktator zabavno ...',
-      'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
-      'it_IT': "E tu credevi che essere un dittatore benevolo fosse divertente...",
-      'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...',
-      'tr_TR': 'Ve hayırsever bir diktatör olmanın eğlenceli olacağını düşündün...'
-    }
-  },
-  move: {
-    displayName: {
-      'en_US': 'Moving and Staging Work',
-      'fa': 'جابجایی کارها',
-      'de_DE': 'Code umherschieben',
-      'fr_FR': 'Déplacer et indexer le travail',
-      'es_AR': 'Moviendo el trabajo por ahí',
-      'es_MX': 'Moviendo el trabajo por ahí',
-      'es_ES': 'Moviendo el trabajo por ahí',
-      'pt_BR': 'Movendo trabalho por aí',
-      'gl'   : 'Movendo o traballo por ahí',
-      'ja'   : 'コードの移動',
-      'ko'   : '코드 이리저리 옮기기',
-      'zh_CN': '移动提交记录',
-      'zh_TW': '調整提交順序',
-      'ro': "Mutarea muncii din colo-n coace",
-      'bg': "Преместване на работата",
-      'ru_RU': 'Перемещаем труды туда-сюда',
-      'uk'   : 'Переміщуємо роботу туди-сюди',
-      'vi'   : 'Di Chuyển Commit',
-      'sl_SI': 'Premikanje Dela Naokrog',
-      'pl'   : 'Przenoszenie pracy',
-      'it_IT': "Spostare il lavoro in giro",
-      'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது',
-      'tr_TR': 'Çalışmayı Taşımak ve Stage\'lemek'
-    },
-    about: {
-      'en_US': 'Move commits around and choose exactly which file changes belong together',
-      'fa': 'با تغییر درخت منبع راحت باشید :P',
-      'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
-      'fr_FR': 'Déplacez les commits et choisissez précisément quelles modifications de fichiers vont ensemble',
-      'es_AR': 'Preparate para modificar el directorio fuente :P',
-      'es_MX': 'Ponte cómodo al modificar el directorio fuente :P',
-      'es_ES': 'Ponte cómodo cuando modifiques el directorio fuente',
-      'pt_BR': 'Fique confortável em modificar a árvore de códigos',
-      'gl'   : 'Ponte cómodo modificando a árbore de git',
-      'ko'   : '작업 트리를 수정하는건 식은죽 먹기지요 이제',
-      'ja'   : '話題のrebaseってどんなものだろう？って人にオススメ',
-      'zh_CN': '自由修改提交树',
-      'zh_TW': '自由修改提交樹',
-      'ro': "Simte-te liber să modifici istoria :P",
-      'bg': "Свиквай с променянето на дървото на Git :P",
-      'ru_RU': 'Не стесняйтесь менять историю',
-      'uk'   : 'Не соромимось змінювати історію',
-      'vi'   : 'Dễ dàng chỉnh sửa cây lịch sử với "Git" :P',
-      'sl_SI': 'Spretno "Git" premikanje po drevesu :P',
-      'pl'   : 'Git dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
-      'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
-      'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
-      'tr_TR': 'Commit\'leri taşıyın ve hangi dosya değişikliklerinin birlikte gideceğine tam olarak siz karar verin'
-    }
-  },
-  mixed: {
-    displayName: {
-      'en_US': 'A Mixed Bag',
-      'fa': 'مجموعه‌ای درهم',
-      'de_DE': 'Eine bunte Mischung',
-      'ja'   : '様々なtips',
-      'fr_FR': 'Un assortiment',
-      'es_AR': 'Bolsa de gatos',
-      'es_MX': 'De todo un poco',
-      'es_ES': 'Un poco de todo',
-      'pt_BR': 'Sortidos',
-      'gl'   : 'Todo mesturado',
-      'ko'   : '종합선물세트',
-      'zh_CN': '杂项',
-      'zh_TW': '活用 git 的指令',
-      'ro': "De toate pentru toți",
-      'bg': "Разни",
-      'ru_RU': 'Сборная солянка',
-      'uk'   : 'Всяке',
-      'vi'   : 'Vài Mẹo Linh Tinh',
-      'sl_SI': 'Mešana Vreča',
-      'pl'   : 'Po trochu wszystkiego',
-      'it_IT': "Un po' di tutto",
-      'ta_IN': 'ஒரு கலப்பு பை',
-      'tr_TR': 'Ortaya Karışık'
-    },
-    about: {
-      'en_US': 'A mixed bag of Git techniques, tricks, and tips',
-      'fa': 'مجموعه‌ای درهم از تکنیک‌ها، ترفندها و نکات Git',
-      'de_DE': 'Eine bunte Mischung an Techniken, Tipps und Tricks',
-      'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
-      'fr_FR': 'Un assortiment de techniques et astuces pour utiliser Git',
-      'es_AR': 'Un rejunte de técnicas, trucos y tips sobre Git',
-      'es_MX': 'Un recopilatorio de técnicas, trucos y tips sobre Git',
-      'es_ES': 'Un batiburrillo de técnicas, trucos y sugerencias sobre Git',
-      'pt_BR': 'Técnicas, truques e dicas sortidas sobre Git',
-      'gl'   : 'Mestura de técnicas, trucos e consellos',
-      'ko'   : 'Git을 다루는 다양한 팁과 테크닉을 다양하게 알아봅니다',
-      'zh_CN': 'Git 技术、技巧与贴士大集合',
-      'zh_TW': 'git 的技術，招數與技巧',
-      'ro': "Un asortiment de tehnici, trucuri și sfaturi Git",
-      'bg': "Смесица от Git техники, трикове и съвети",
-      'ru_RU': 'Ассорти из приёмов работы с Git, хитростей и советов',
-      'uk'   : 'Різні прийоми роботи з Git, хитрощі та поради',
-      'vi'   : 'Các kỹ thuật, bí quyết, và mẹo vặt hữu ích',
-      'sl_SI': 'Mešana vreča Git tehnik, trikov in nasvetov',
-      'pl'   : 'Po trochu wszystkiego. Wskazówki i triki',
-      'it_IT': "Comandi Git assortiti, trucchi e consigli",
-      'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை',
-      'tr_TR': 'Git teknikleri, taktikleri ve püf noktalarından oluşan karma bir bölüm'
-    }
-  },
-  advanced: {
-    displayName: {
-      'en_US': 'Advanced Topics',
-      'fa': 'مباحث پیشرفته',
-      'de_DE': 'Themen für Fortgeschrittene',
-      'ja'   : '上級トピック',
-      'fr_FR': 'Sujets avancés',
-      'es_AR': 'Temas avanzados',
-      'es_MX': 'Temas avanzados',
-      'es_ES': 'Temas avanzados',
-      'pt_BR': 'Temas avançados',
-      'gl'   : 'Temas avanzados',
-      'zh_CN': '高级话题',
-      'zh_TW': '進階主題',
-      'ro': "Subiecte avansate",
-      'bg': "Теми за напреднали",
-      'ru_RU': 'Продвинутый уровень',
-      'uk'   : 'Досвідчений рівень',
-      'ko'   : '고급 문제',
-      'vi'   : 'Các Chủ Đề Nâng Cao',
-      'sl_SI': 'Napredne Teme',
-      'pl'   : 'Tematy zaawansowane',
-      'it_IT': "Argomenti avanzati",
-      'ta_IN': 'மேம்பட்ட தலைப்புகள்',
-      'tr_TR': 'İleri Seviye Konular'
-    },
-    about: {
-      'en_US': 'For the truly brave!',
-      'fa': 'برای شجاعان واقعی!',
-      'de_DE': 'Nur für die Tapferen',
-      'ja'   : '勇気ある人のみ！',
-      'fr_FR': 'Pour les plus courageux !',
-      'es_AR': '¡Para personas realmente valientes!',
-      'es_MX': '¡Para los verdaderos valientes!',
-      'es_ES': '¡Para los verdaderos valientes!',
-      'pt_BR': 'Para os verdadeiros valentes!',
-      'gl'   : '¡Para os verdadeiros valerosos!',
-      'zh_CN': '只为真正的勇士！',
-      'zh_TW': '來成為真正的強者吧！',
-      'ro': "Pentru cei cu adevărat curajoși!",
-      'bg': "За наистина смелите!",
-      'ru_RU': 'Если ты смелый, ловкий, умелый – потренируйся тут',
-      'uk'   : 'Для хоробрих',
-      'ko'   : '용기있는 도전자를 위해 준비한 문제입니다',
-      'vi'   : 'Mạnh mẽ lên!',
-      'sl_SI': 'Za resnično pogumne!',
-      'pl'   : 'Dla naprawdę odważnych!',
-      'it_IT': "Per i più temerari!",
-      'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!',
-      'tr_TR': 'Gerçekten cesur olanlara!'
-    }
-  }
-};
+exports.levelSequences = Object.keys(levelFiles).reduce(function(acc, sequenceName) {
+  acc[sequenceName] = levelFiles[sequenceName].map(function(modulePath) {
+    return require(modulePath).level;
+  });
+  return acc;
+}, {});
 
-exports.getTabForSequence = function(sequenceName) {
-  var info = sequenceInfo[sequenceName];
-  return (info.tab) ?
-    info.tab :
-    'main';
-};
+var sequenceInfoModule = require('./sequenceInfo');
+var sequenceInfo = exports.sequenceInfo = sequenceInfoModule.sequenceInfo;
+exports.getTabForSequence = sequenceInfoModule.getTabForSequence;
