@@ -17,6 +17,7 @@ yarn install
 ```bash
 yarn dev               # Vite development server with live reload
 yarn build             # Checked production build in ./build
+yarn generate          # Regenerate level + locale manifests (also pre-hooked)
 ```
 
 ### Testing & Linting
@@ -140,10 +141,40 @@ index.html             # Vite entry point and HTML view templates
 ## Build Process
 
 The Vite build process:
-1. Tests run with Jasmine
-2. Vite bundles CommonJS JavaScript and transforms JSX
-3. CSS and JavaScript are minified and hashed for cache busting
-4. Static assets and generated documentation are copied into `build/`
+1. `scripts/generate.js` writes `src/levels/generated/manifest.js` and
+   `src/js/intl/generated/<locale>.js` (hooked via `predev`/`prebuild`/`pretest`)
+2. Tests run with Jasmine
+3. Vite bundles CommonJS JavaScript and transforms JSX; the generated `load()` thunks
+   code-split each level and each locale into its own chunk, and third-party code
+   is kept in a stable `vendor` chunk for cacheability
+4. CSS and JavaScript are minified and hashed for cache busting
+5. Static assets and generated documentation are copied into `build/`
+
+### Lazy levels and locales
+
+Level definitions (dialog copy, trees, solutions) and locale string tables are
+the two largest parts of the app and carry every locale, so neither is imported
+at startup:
+
+- `src/levels/index.js` exposes the declarative `levelFiles` map (source of
+  truth). The generated manifest holds only `id`/`name` for the level map, and
+  `LevelStore.loadLevel(id)` dynamically imports the full definition when a
+  level is opened. `startLevel` and the builder's edit path await it; everything
+  else uses the synchronous stub.
+- `src/js/intl/strings.js` stays the translation source of truth. `intl`
+  synchronously loads `en_US` as a fallback and lazily imports the active
+  locale via `intl.loadLocale()`. The app resolves the locale and awaits that
+  load before the first render (see `app/index.js` `detectLocale`), so users
+  never see a frame of English first. Resolution order is
+  `?locale=` URL param → stored preference (`localStorage.locale`, with a
+  180-day TTL) → browser header; picks are persisted on change. Later runtime
+  switches emit a change event and re-render. `LocaleStore` itself stays
+  synchronous. A shared loading overlay (`#appLoading` in `index.html`, driven
+  by `src/js/util/appLoading.js`) covers slow startup and on-demand level
+  loads; it fades in only after 250 ms so fast loads never flash it, and
+  `bootstrap()` clears it (with a 15 s safety timeout). Levels are also
+  prefetched on intent (next level after solving, or hovering the level map)
+  via `LevelStore.prefetchLevel()`.
 
 ## Key Technologies
 
