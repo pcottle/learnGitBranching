@@ -1,4 +1,5 @@
 /* Entry stylesheet processed by Vite. Import order matters. */
+@import './all.min.css';
 @import './font-awesome.css';
 @import './main.css';
 @import './rainbows.css';
