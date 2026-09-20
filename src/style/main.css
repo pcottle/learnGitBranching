@@ -1853,8 +1853,8 @@ div.gitDemonstrationView {
 }
 
 /* Respect reduced-motion preferences for CSS transitions/animations.
-   This covers CSS-driven motion only; the graph's own animations are
-   JS-driven and are not yet reduced. */
+   The graph's own animations are JS-driven and read the same preference via
+   GRAPHICS.defaultAnimationTime in src/js/util/constants.js. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

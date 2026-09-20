@@ -12,13 +12,19 @@ var VIEWPORT = {
   minHeight: 600
 };
 
+// Users who ask for reduced motion get near-instant graph updates instead of
+// the full animation. Read once at load; a mid-session change needs a reload.
+var prefersReducedMotion = typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 var GRAPHICS = {
   arrowHeadSize: 8,
 
   nodeRadius: 17,
   curveControlPointOffset: 50,
   defaultEasing: 'easeInOut',
-  defaultAnimationTime: 400,
+  defaultAnimationTime: prefersReducedMotion ? 1 : 400,
 
   rectFill: 'hsb(0.8816909813322127,0.6,1)',
   headRectFill: '#7278FF',
