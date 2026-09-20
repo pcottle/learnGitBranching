@@ -15,7 +15,6 @@ var pendingLocaleLoads = {};
 
 var fallbackMap = {
   'zh_TW': 'zh_CN',
-  'es_AR': 'es_ES',
   'es_MX': 'es_ES'
 };
 
@@ -34,7 +33,7 @@ function stringFor(key, locale) {
  * @param {string} locale
  * @returns {Promise<Object|null>}
  */
-var loadLocale = exports.loadLocale = function(locale) {
+function loadSingleLocale(locale) {
   if (!locale || stringsByLocale[locale] || !generatedLoaders[locale]) {
     return Promise.resolve(stringsByLocale[locale] || null);
   }
@@ -50,6 +49,23 @@ var loadLocale = exports.loadLocale = function(locale) {
     });
   }
   return pendingLocaleLoads[locale];
+}
+
+var loadLocale = exports.loadLocale = function(locale) {
+  var fallbackLocale = fallbackMap[locale];
+  if (!fallbackLocale) {
+    return loadSingleLocale(locale);
+  }
+
+  // Regional fallbacks are useful only if their tables are in memory when
+  // str() performs its synchronous lookup. Load the one intentional fallback
+  // alongside the active locale rather than pulling every related locale.
+  return Promise.all([
+    loadSingleLocale(locale),
+    loadSingleLocale(fallbackLocale)
+  ]).then(function(results) {
+    return results[0];
+  });
 };
 
 

@@ -43,6 +43,30 @@ describe('intl locale loading', function() {
       done();
     });
   });
+
+  it('loads the intentional regional fallback alongside the active locale', function(done) {
+    LocaleActions.changeLocale('zh_TW');
+    intl.loadLocale('zh_TW').then(function() {
+      // zh_TW does not define this key, but zh_CN does.
+      expect(intl.str('helper-bar-back')).toEqual('返回');
+      done();
+    }).catch(function(err) {
+      fail(err);
+      done();
+    });
+  });
+
+  it('uses the Spanish fallback only where it adds a translation', function(done) {
+    LocaleActions.changeLocale('es_MX');
+    intl.loadLocale('es_MX').then(function() {
+      // es_MX does not define this key, but es_ES does.
+      expect(intl.str('main-levels-tab')).toEqual('Principal');
+      done();
+    }).catch(function(err) {
+      fail(err);
+      done();
+    });
+  });
 });
 
 describe('locale loader', function() {
