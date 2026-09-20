@@ -39,6 +39,54 @@ describe('generated artifacts', function() {
     });
   });
 
+  it('supports delayed function and constructor exports in dev CJS cycles', function() {
+    return import('../vite.config.mjs').then(function(mod) {
+      var plugin = mod.cjsLazyInterop();
+      var source = [
+        'var DelayedBase = (__require_for_vite_cycle.default || __require_for_vite_cycle).Base;',
+        'var delayedFunction = (__require_for_vite_cycle.default || __require_for_vite_cycle).fn;',
+        'class Derived extends DelayedBase {',
+        '  initialize() { this.wasInitializedAsDerived = true; }',
+        '}',
+        'exports.Derived = Derived;',
+        'exports.create = function(value) { return new Derived(value); };',
+        'exports.call = function(value) { return delayedFunction(value); };'
+      ].join('\n');
+      var transformed = plugin.transform(source).code;
+      var ready = false;
+      var namespace = {};
+      class DelayedBase {
+        constructor(value) {
+          this.value = value;
+          this.initialize();
+        }
+        initialize() { this.wasInitializedAsBase = true; }
+      }
+      var actual = {
+        Base: DelayedBase,
+        fn: function(value) { return value + 1; }
+      };
+      Object.defineProperty(namespace, 'default', {
+        get: function() {
+          if (!ready) { throw new ReferenceError('not initialized'); }
+          return actual;
+        }
+      });
+      var result = {};
+
+      Function('__require_for_vite_cycle', 'exports', transformed)(namespace, result);
+      ready = true;
+
+      var instance = result.create(41);
+      expect(instance instanceof result.Derived).toBe(true);
+      expect(instance.constructor).toBe(result.Derived);
+      expect(instance.wasInitializedAsDerived).toBe(true);
+      expect(instance.wasInitializedAsBase).toBeUndefined();
+      expect(instance.value).toEqual(41);
+      expect(result.call(41)).toEqual(42);
+    });
+  });
+
   it('maps sequences to their tab', function() {
     expect(sequenceInfo.getTabForSequence('intro')).toEqual('main');
     expect(sequenceInfo.getTabForSequence('remote')).toEqual('remote');

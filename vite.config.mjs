@@ -16,7 +16,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
  * to a lazy proxy when the eager read fails; the lazy proxy defers resolving
  * `module.exports` to the first property access, which matches browserify.
  */
-function cjsLazyInterop() {
+export function cjsLazyInterop() {
   const pattern = /(__require_for_vite_\w+)\.default \|\| \1\b/g;
   return {
     name: 'lgb-cjs-lazy-interop',
@@ -36,26 +36,40 @@ function cjsLazyInterop() {
         '    }\n' +
         '    return resolved;\n' +
         '  }\n' +
+        '  function resolvePath(path) {\n' +
+        '    var value = resolve();\n' +
+        '    if (!value) { return null; }\n' +
+        '    for (var i = 0; i < path.length; i++) {\n' +
+        '      value = value[path[i]];\n' +
+        '      if (value === undefined || value === null) { return value; }\n' +
+        '    }\n' +
+        '    return value;\n' +
+        '  }\n' +
         '  function lazy(path) {\n' +
         '    return new Proxy(function () {}, {\n' +
         '      get: function (target, prop) {\n' +
-        '        var mod = resolve();\n' +
-        '        if (!mod) { return lazy(path + "." + String(prop)); }\n' +
-        '        return mod[prop];\n' +
+        '        var value = resolvePath(path);\n' +
+        '        if (!value) { return lazy(path.concat([prop])); }\n' +
+        '        return value[prop];\n' +
         '      },\n' +
         '      set: function (target, prop, value) {\n' +
-        '        var mod = resolve();\n' +
-        '        if (mod) { mod[prop] = value; }\n' +
+        '        var parent = resolvePath(path);\n' +
+        '        if (parent) { parent[prop] = value; }\n' +
         '        return true;\n' +
         '      },\n' +
         '      apply: function (target, thisArg, args) {\n' +
-        '        var mod = resolve();\n' +
-        '        if (!mod) { throw new Error("Circular require of " + path + " used before initialization"); }\n' +
-        '        return mod.apply(thisArg, args);\n' +
+        '        var value = resolvePath(path);\n' +
+        '        if (!value) { throw new Error("Circular require of root." + path.join(".") + " used before initialization"); }\n' +
+        '        return Reflect.apply(value, thisArg, args);\n' +
+        '      },\n' +
+        '      construct: function (target, args, newTarget) {\n' +
+        '        var value = resolvePath(path);\n' +
+        '        if (!value) { throw new Error("Circular require of root." + path.join(".") + " used before initialization"); }\n' +
+        '        return Reflect.construct(value, args, newTarget);\n' +
         '      },\n' +
         '    });\n' +
         '  }\n' +
-        '  return lazy("root");\n' +
+        '  return lazy([]);\n' +
         '}\n';
       const fixed = code.replace(pattern, '__lgbCjsLazy($1)');
       return { code: helper + fixed, map: null };
