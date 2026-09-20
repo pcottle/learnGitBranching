@@ -2177,6 +2177,10 @@ exports.strings = {
     "__desc__": "When a level's definition could not be loaded (e.g. a network failure)",
     "en_US": "Could not load level \"{id}\". Check your connection and try again."
   },
+  "level-loading": {
+    "__desc__": "Shown in the level picker while a selected level is loading",
+    "en_US": "Loading level \"{id}\"\u2026"
+  },
   "level-no-id": {
     "__desc__": "When you say an id but that level doesn't exist",
     "en_US": "A level for that id \"{id}\" was not found! Opening up a level selection view",

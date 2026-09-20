@@ -195,10 +195,6 @@ class Sandbox {
       return;
     }
 
-    // we are good to go!! lets prep a bit visually
-    this.hide();
-    this.clear();
-
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
     var whenLevelOpen = createDeferred();
@@ -207,16 +203,18 @@ class Sandbox {
 
     // the full level definition (dialog copy, trees, solution) is code-split;
     // fetch it before constructing the level.
-    appLoading.showAppLoading();
     LevelStore.loadLevel(desiredID).then(function(loadedLevel) {
+      // Keep the existing UI in place until the chunk is ready. The level
+      // picker owns its loading state; direct terminal commands simply keep
+      // showing the sandbox instead of flashing a blank application shell.
+      self.hide();
+      self.clear();
       self.currentLevel = new Level({
         level: loadedLevel,
         deferred: whenLevelOpen,
         command: command
       });
-      appLoading.hideAppLoading();
     }).catch(function(err) {
-      appLoading.hideAppLoading();
       console.error('failed to load level ' + desiredID, err);
       command.addWarning(intl.str('level-load-failed', { id: desiredID }));
       command.set('status', 'error');

@@ -980,6 +980,53 @@ div.modalView.box.inFront.show {
 
 /* Level dropdown view */
 .levelDropdownView {
+  position: relative;
+}
+
+.levelDropdownLoadStatus {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  min-width: 220px;
+  padding: 14px 18px;
+  border-radius: 5px;
+  color: #222;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.levelDropdownView.is-loading .levelDropdownTabWrapper,
+.levelDropdownView.is-loading .seriesView {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.levelDropdownView.is-loading .levelDropdownLoadStatus,
+.levelDropdownView.load-error .levelDropdownLoadStatus {
+  display: block;
+}
+
+.levelDropdownView.is-loading .levelDropdownLoadStatus::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  border-top-color: #222;
+  border-radius: 50%;
+  animation: appLoadingSpin 700ms linear infinite;
+  vertical-align: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .levelDropdownView.is-loading .levelDropdownLoadStatus::before {
+    animation: none;
+  }
 }
 
 div.levelDropdownTabWrapper {
