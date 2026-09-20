@@ -3,6 +3,7 @@ var CommitCollection = Collections.CommitCollection;
 var BranchCollection = Collections.BranchCollection;
 var TagCollection = Collections.TagCollection;
 var EventBaton = require('../util/eventBaton').EventBaton;
+var a11y = require('../util/a11y');
 
 var GitVisuals = require('../visuals').GitVisuals;
 
@@ -146,6 +147,11 @@ class Visualization {
     }
 
     this.customEvents.trigger('gitEngineReady');
+    // publish the initial graph description for screen readers (the origin
+    // visualization keeps its own summary out of the way)
+    if (!this.gitEngine.isOrigin()) {
+      a11y.updateGraphSummary(this.gitEngine);
+    }
     this.customEvents.trigger('paperReady');
   }
 

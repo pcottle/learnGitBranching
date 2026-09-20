@@ -49,6 +49,8 @@
             <div class="box flex1">
               <div
                 class="close"
+                role="button"
+                tabindex="0"
                 aria-label="<%- closeWindowText %>"
                 data-tooltip="<%- closeWindowText %>">
               </div>
@@ -89,6 +91,8 @@
             <div class="box flex1">
               <div
                 class="close"
+                role="button"
+                tabindex="0"
                 aria-label="<%- closeWindowText %>"
                 data-tooltip="<%- closeWindowText %>">
               </div>
@@ -368,17 +372,23 @@
   <script type="text/html" id="interactive-rebase-entry-template">
     <li id="<%= id %>" class="rebaseEntry transitionOpacity">
       <div class="wrapper">
-        <i class="icon-align-justify"></i>
+        <i class="icon-align-justify" aria-hidden="true"></i>
         <span class="idwrapper">
           <%= id %>
         </span>
-        <button id="toggleButton" class="noStyle uiButton uiButtonPink">
+        <button type="button" class="noStyle uiButton uiButtonPink toggleButton" aria-pressed="<%= pick %>">
           <span class="showWhenPicked">
             Click to Drop/Omit
           </span>
           <span class="showWhenNotPicked">
             Click to Include/Pick
           </span>
+        </button>
+        <button type="button" class="noStyle uiButton uiButtonWhite moveUpButton" aria-label="<%= moveUpText %>" title="<%= moveUpText %>">
+          &uarr;
+        </button>
+        <button type="button" class="noStyle uiButton uiButtonWhite moveDownButton" aria-label="<%= moveDownText %>" title="<%= moveDownText %>">
+          &darr;
         </button>
       </div>
     </li>
@@ -400,7 +410,7 @@
   </noscript>
 
   <!-- The entire interface is within this div -->
-  <div id="interfaceWrapper" class="box horizontal flex1">
+  <div id="interfaceWrapper" class="box horizontal flex1" role="main">
     <div id="controls" class="box vertical flex1 visBackgroundColor">
       <div id="commandLineHistory" class="box vertical flex3">
           <div class="toolbar box vertical center">
@@ -431,8 +441,8 @@
           <div id="levelToolbarMount">
           </div>
 
-        <div id="terminal" class="box flex1 horizontal startAlign">
-          <div id="commandDisplay" class="box vertical flex1">
+        <div id="terminal" class="box flex1 horizontal startAlign" role="region" aria-label="Terminal">
+          <div id="commandDisplay" class="box vertical flex1" role="log" aria-live="polite" aria-relevant="additions text" aria-label="Terminal output">
           </div>
         </div>
 
@@ -470,14 +480,17 @@
 
   </div>
 
-  <div id="canvasHolder">
+  <div id="a11yGraphSummary" class="visuallyHidden" role="region" aria-label="Commit graph summary"></div>
+  <div id="a11yStatus" class="visuallyHidden" role="status" aria-live="polite"></div>
+
+  <div id="canvasHolder" aria-hidden="true">
   </div>
 
   <div id="reactMount">
   </div>
 
-  <div id="helperBarMount">
-  </div>
+  <nav id="helperBarMount" aria-label="Helper bar">
+  </nav>
 
   <a id="upsellImageLink" class="upsellImage" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">
     <img id="upsellImage" src="" alt="" />

@@ -128,6 +128,12 @@ var intlRefresh = function() {
     var key = $(el).attr('data-intl');
     $(el).text(intl.str(key));
   });
+
+  // accessible names for landmarks/regions (localized)
+  $('nav#helperBarMount').attr('aria-label', intl.str('a11y-helper-bar'));
+  $('#terminal').attr('aria-label', intl.str('a11y-terminal'));
+  $('#commandDisplay').attr('aria-label', intl.str('a11y-terminal-output'));
+  $('#a11yGraphSummary').attr('aria-label', intl.str('a11y-graph-summary'));
 };
 
 exports.getLocaleDirection = function(locale) {
