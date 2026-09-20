@@ -3,9 +3,8 @@
 var AppConstants = require('../constants/AppConstants');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var manifest = require('../../levels/generated/manifest');
-var sequenceInfo = require('../../levels/sequenceInfo').sequenceInfo;
-var requireLevel = require('../level/levelModule').requireLevel;
+var levelSequences = require('../../levels').levelSequences;
+var sequenceInfo = require('../../levels').sequenceInfo;
 var util = require('../util');
 
 var ActionTypes = AppConstants.ActionTypes;
@@ -15,8 +14,6 @@ var CERTIFICATE_SEEN_STORAGE_KEY = 'certificateSeen';
 var CERTIFICATE_NAME_STORAGE_KEY = 'certificateName';
 
 var _levelMap = {};
-var _levelLoaders = {};
-var levelSequences = {};
 var _solvedMap = {};
 var _sequences = [];
 
@@ -194,73 +191,35 @@ var validateLevel = function(level) {
 };
 
 /**
- * Unpack the level manifest. The manifest holds only the lightweight
- * metadata (id / name) needed to render the level map; each level's full
- * definition is code-split and fetched via LevelStore.loadLevel() when the
- * level is actually opened.
+ * Unpack the level sequences.
  */
-Object.keys(manifest.sequences).forEach(function(levelSequenceName) {
-  var entries = manifest.sequences[levelSequenceName];
+Object.keys(levelSequences).forEach(function(levelSequenceName) {
+  var levels = levelSequences[levelSequenceName];
   _sequences.push(levelSequenceName);
-  if (!entries || !entries.length) {
+  if (!levels || !levels.length) {
     throw new Error('no empty sequences allowed');
   }
 
-  levelSequences[levelSequenceName] = entries.map(function(entry) {
-    var compiledLevel = {
-      id: entry.id,
-      index: entry.index,
-      sequenceName: entry.sequenceName || levelSequenceName,
-      name: entry.name
-    };
-    _levelMap[compiledLevel.id] = compiledLevel;
-    _levelLoaders[compiledLevel.id] = entry.load;
-    return compiledLevel;
+  // for this particular sequence...
+  levels.forEach(function(level, index) {
+    validateLevel(level);
+
+    var id = levelSequenceName + String(index + 1);
+    var compiledLevel = Object.assign(
+      {},
+      level,
+      {
+        index: index,
+        id: id,
+        sequenceName: levelSequenceName
+      }
+    );
+
+    // update our internal data
+    _levelMap[id] = compiledLevel;
+    levelSequences[levelSequenceName][index] = compiledLevel;
   });
 });
-
-/**
- * Load (or return the already-loaded) full definition for a level ID.
- * Resolves to the same object returned by getLevel(), mutated in place so
- * existing references (the level map, sequences) see the full data.
- * @param {string} id
- * @returns {Promise<Object|null>}
- */
-function loadLevel(id) {
-  var level = _levelMap[id];
-  if (!level) { return Promise.resolve(null); }
-  if (level.__loaded) { return Promise.resolve(level); }
-
-  var loader = _levelLoaders[id];
-  if (!loader) {
-    level.__loaded = true;
-    return Promise.resolve(level);
-  }
-
-  return Promise.resolve().then(loader).then(function(mod) {
-    var full = requireLevel(mod, id);
-    validateLevel(full);
-    Object.assign(level, full, {
-      id: level.id,
-      index: level.index,
-      sequenceName: level.sequenceName
-    });
-    level.__loaded = true;
-    return level;
-  });
-}
-
-/**
- * Best-effort warm-up of a level's chunk (e.g. the next level, or one the
- * user hovered). Errors are swallowed; they surface if the level is opened.
- * @param {string} id
- * @returns {Promise<Object|undefined>}
- */
-function prefetchLevel(id) {
-  return loadLevel(id).catch(function() {
-    return undefined;
-  });
-}
 
 var LevelStore = Object.assign(
 {},
@@ -301,10 +260,6 @@ AppConstants.StoreSubscribePrototype,
   getLevel: function(id) {
     return _levelMap[id];
   },
-
-  loadLevel: loadLevel,
-
-  prefetchLevel: prefetchLevel,
 
   getNextLevel: function(id) {
     if (!_levelMap[id]) {

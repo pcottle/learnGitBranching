@@ -1,7 +1,5 @@
 var LevelActions = require('../src/js/actions/LevelActions');
 var LevelStore = require('../src/js/stores/LevelStore');
-var extractLevel = require('../src/js/level/levelModule').extractLevel;
-var requireLevel = require('../src/js/level/levelModule').requireLevel;
 
 describe('this store', function() {
 
@@ -130,72 +128,6 @@ describe('this store', function() {
 
     LevelActions.resetLevelsSolved();
   });
+  
 
-  it('returns the next level stub without loading its definition', function() {
-    var next = LevelStore.getNextLevel('intro1');
-    expect(next.id).toEqual('intro2');
-    expect(next.startDialog).toBeUndefined();
-  });
-
-  it('lazily loads a full level definition on demand', function(done) {
-    var stub = LevelStore.getLevel('intro1');
-    expect(stub.startDialog).toBeUndefined();
-
-    LevelStore.loadLevel('intro1').then(function(loaded) {
-      expect(loaded).toBe(stub); // merged in place
-      expect(loaded.startDialog).toBeDefined();
-      expect(loaded.goalTreeString).toBeDefined();
-      return LevelStore.loadLevel('intro1'); // already-loaded path
-    }).then(function(again) {
-      expect(again).toBe(stub);
-      done();
-    }).catch(function(err) {
-      fail(err);
-      done();
-    });
-  });
-
-  it('resolves null for an unknown level id', function(done) {
-    LevelStore.loadLevel('does-not-exist').then(function(level) {
-      expect(level).toBe(null);
-      done();
-    }).catch(function(err) {
-      fail(err);
-      done();
-    });
-  });
-
-  it('prefetches a level definition', function(done) {
-    LevelStore.prefetchLevel('rampup1').then(function(level) {
-      expect(level).toBe(LevelStore.getLevel('rampup1'));
-      expect(level.goalTreeString).toBeDefined();
-      done();
-    }).catch(function(err) {
-      fail(err);
-      done();
-    });
-  });
-
-});
-
-describe('level module interop', function() {
-  var level = { name: { en_US: 'A level' } };
-
-  it('unwraps the supported level definition shapes', function() {
-    expect(extractLevel({ level: level })).toBe(level);
-    expect(extractLevel({ default: { level: level } })).toBe(level);
-  });
-
-  it('returns null for unsupported or missing exports', function() {
-    expect(extractLevel({ default: level })).toBe(null);
-    expect(extractLevel({})).toBe(null);
-    expect(extractLevel(null)).toBe(null);
-  });
-
-  it('requireLevel throws when a module has no level export', function() {
-    expect(function() {
-      requireLevel({}, 'intro1');
-    }).toThrowError(/did not export a level/);
-    expect(requireLevel({ level: level }, 'intro1')).toBe(level);
-  });
 });

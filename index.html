@@ -136,7 +136,6 @@
         </div>
       <% } %>
     </div>
-    <div class="levelDropdownLoadStatus" role="status" aria-live="polite"></div>
   </script>
 
   <script type="text/html" id="series-view">
@@ -392,49 +391,6 @@
   <script type="module" src="/src/js/app/index.js"></script>
 </head>
 <body>
-  <!-- Shown only if startup takes a beat; removed once the app has rendered.
-       A pure-CSS delayed fade-in means fast (e.g. English) loads never flash it. -->
-  <div id="appLoading" role="status">
-    <span class="visuallyHidden">Loading&hellip;</span>
-  </div>
-  <style>
-    #appLoading {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 1000000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #5cbcfc;
-      opacity: 0;
-      animation: appLoadingFadeIn 150ms ease 250ms forwards;
-    }
-    #appLoading::after {
-      content: '';
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 3px solid rgba(0, 0, 0, 0.2);
-      border-top-color: #222;
-      animation: appLoadingSpin 700ms linear infinite;
-    }
-    @keyframes appLoadingFadeIn {
-      to { opacity: 1; }
-    }
-    @keyframes appLoadingSpin {
-      to { transform: rotate(360deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      #appLoading::after { animation: none; }
-    }
-    #appLoading[hidden] { display: none; }
-    /* used for on-demand level loads: show at once, no delayed fade */
-    #appLoading.appLoading-visible { opacity: 1; animation: none; }
-  </style>
-
   <!-- lol noscript. I did not write 9k+ lines of JS just for you to bounce off my website -->
   <noscript>
     <div style="z-index:1000000;background:red;color:white;position:absolute;top:0;left:0;height:300px;width:300px;">

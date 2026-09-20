@@ -3,7 +3,6 @@ var { createEvents } = require('../util/eventEmitter');
 
 var util = require('../util');
 var intl = require('../intl');
-var appLoading = require('../util/appLoading');
 var Main = require('../app');
 var Errors = require('../util/errors');
 
@@ -195,30 +194,19 @@ class Sandbox {
       return;
     }
 
+    // we are good to go!! lets prep a bit visually
+    this.hide();
+    this.clear();
+
     // we don't even need a reference to this,
     // everything will be handled via event baton :DDDDDDDDD
     var whenLevelOpen = createDeferred();
     var Level = require('../level').Level;
-    var self = this;
 
-    // the full level definition (dialog copy, trees, solution) is code-split;
-    // fetch it before constructing the level.
-    LevelStore.loadLevel(desiredID).then(function(loadedLevel) {
-      // Keep the existing UI in place until the chunk is ready. The level
-      // picker owns its loading state; direct terminal commands simply keep
-      // showing the sandbox instead of flashing a blank application shell.
-      self.hide();
-      self.clear();
-      self.currentLevel = new Level({
-        level: loadedLevel,
-        deferred: whenLevelOpen,
-        command: command
-      });
-    }).catch(function(err) {
-      console.error('failed to load level ' + desiredID, err);
-      command.addWarning(intl.str('level-load-failed', { id: desiredID }));
-      command.set('status', 'error');
-      whenLevelOpen.resolve();
+    this.currentLevel = new Level({
+      level: levelJSON,
+      deferred: whenLevelOpen,
+      command: command
     });
 
     whenLevelOpen.promise.then(function() {
@@ -235,26 +223,10 @@ class Sandbox {
 
     var regexResults = command.get('regexResults') || [];
     var toEdit = regexResults[1] || false;
-    var self = this;
-
-    // when editing an existing level its full definition may still be lazy
-    var loadEdited = toEdit ? LevelStore.loadLevel(toEdit) : Promise.resolve(null);
-    if (toEdit) {
-      appLoading.showAppLoading();
-    }
-    loadEdited.then(function() {
-      appLoading.hideAppLoading();
-      self.levelBuilder = new LevelBuilder({
-        deferred: whenBuilderOpen,
-        editLevel: toEdit,
-        skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
-      });
-    }).catch(function(err) {
-      appLoading.hideAppLoading();
-      console.error('failed to load level ' + toEdit, err);
-      command.addWarning(intl.str('level-load-failed', { id: toEdit }));
-      command.set('status', 'error');
-      whenBuilderOpen.resolve();
+    this.levelBuilder = new LevelBuilder({
+      deferred: whenBuilderOpen,
+      editLevel: toEdit,
+      skipIntro: command.attributes.rawStr.indexOf('skipIntro') !== -1,
     });
     whenBuilderOpen.promise.then(function() {
       command.finishWith(deferred);
