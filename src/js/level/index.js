@@ -503,6 +503,10 @@ class Level extends Sandbox {
     this.hideGoal();
 
     var nextLevel = LevelStore.getNextLevel(this.level.id);
+    if (nextLevel) {
+      // warm the next level's chunk while the solve dialog is up
+      LevelStore.prefetchLevel(nextLevel.id);
+    }
     var numCommands = this.gitCommandsIssued.length;
     var best = this.getNumSolutionCommands();
     var levelName = this.getEnglishName();

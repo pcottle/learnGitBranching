@@ -1,15 +1,73 @@
 var LocaleStore = require('../stores/LocaleStore');
+var AppConstants = require('../constants/AppConstants');
 
 var _ = require('underscore');
-var strings = require('../intl/strings').strings;
+var enStrings = require('./generated/en_US').strings;
+var generatedLoaders = require('./generated/loaders').loaders;
+var fetchLocale = require('./localeLoader').fetchLocale;
 
 var getDefaultLocale = LocaleStore.getDefaultLocale;
 
+// Locale string tables currently in memory; en_US is always present as the
+// synchronous fallback, everything else streams in via loadLocale().
+var stringsByLocale = { en_US: enStrings };
+var pendingLocaleLoads = {};
+
 var fallbackMap = {
   'zh_TW': 'zh_CN',
-  'es_AR': 'es_ES',
   'es_MX': 'es_ES'
 };
+
+function hasKey(key) {
+  return Object.prototype.hasOwnProperty.call(enStrings, key);
+}
+
+function stringFor(key, locale) {
+  var data = stringsByLocale[locale];
+  return data ? data[key] : undefined;
+}
+
+/**
+ * Dynamically import a locale's string table (resolves immediately if it is
+ * already loaded or has no loader).
+ * @param {string} locale
+ * @returns {Promise<Object|null>}
+ */
+function loadSingleLocale(locale) {
+  if (!locale || stringsByLocale[locale] || !generatedLoaders[locale]) {
+    return Promise.resolve(stringsByLocale[locale] || null);
+  }
+  if (!pendingLocaleLoads[locale]) {
+    pendingLocaleLoads[locale] = fetchLocale(generatedLoaders[locale]).then(function(data) {
+      delete pendingLocaleLoads[locale];
+      if (data) {
+        stringsByLocale[locale] = data;
+        // re-render so the localized copy replaces the en_US fallback
+        LocaleStore.emit(AppConstants.CHANGE_EVENT);
+      }
+      return data;
+    });
+  }
+  return pendingLocaleLoads[locale];
+}
+
+var loadLocale = exports.loadLocale = function(locale) {
+  var fallbackLocale = fallbackMap[locale];
+  if (!fallbackLocale) {
+    return loadSingleLocale(locale);
+  }
+
+  // Regional fallbacks are useful only if their tables are in memory when
+  // str() performs its synchronous lookup. Load the one intentional fallback
+  // alongside the active locale rather than pulling every related locale.
+  return Promise.all([
+    loadSingleLocale(locale),
+    loadSingleLocale(fallbackLocale)
+  ]).then(function(results) {
+    return results[0];
+  });
+};
+
 
 // lets change underscores template settings so it interpolates
 // things like "{branchName} does not exist".
@@ -34,17 +92,22 @@ var str = exports.str = function(key, params) {
   //  This is error number 3'
 
   var locale = LocaleStore.getLocale();
-  if (!strings[key]) {
+  if (!hasKey(key)) {
     console.warn('NO INTL support for key ' + key);
     return 'NO INTL support for key ' + key + '. this is probably a dev error';
   }
 
-  if (!strings[key][locale]) {
+  // make sure the requested locale eventually makes it into memory
+  loadLocale(locale);
+
+  var value = stringFor(key, locale);
+  if (!value) {
     // try falling back to another locale if in the map
     locale = fallbackMap[locale] || getDefaultLocale();
+    value = stringFor(key, locale);
   }
 
-  if (!strings[key][locale]) {
+  if (!value) {
     if (key !== 'error-untranslated') {
       return str('error-untranslated');
     }
@@ -52,7 +115,7 @@ var str = exports.str = function(key, params) {
   }
 
   return template(
-    strings[key][locale],
+    value,
     params
   );
 };

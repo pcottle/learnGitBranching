@@ -7,6 +7,10 @@ node_modules/
 
 # Build artifacts and asset stuff
 build/*
+# Generated at build/dev/test time from src/levels/index.js
+src/levels/generated/
+# Generated at build/dev/test time from src/js/intl/strings.js
+src/js/intl/generated/
 screens
 FontAwesome-Vectors.pdf
 

@@ -7,6 +7,10 @@ var EventEmitter = require('events').EventEmitter;
 
 var ActionTypes = AppConstants.ActionTypes;
 var DEFAULT_LOCALE = 'en_US';
+var LOCALE_STORAGE_KEY = 'locale';
+// A stored preference older than this falls back to the browser language, so
+// users who never clear it don't stay pinned forever.
+var LOCALE_STORAGE_TTL_MS = 1000 * 60 * 60 * 24 * 180;
 
 // resolve the messy mapping between browser language
 // and our supported locales
@@ -77,6 +81,41 @@ function _getLocaleFromHeader(langString) {
 }
 
 var _locale = DEFAULT_LOCALE;
+
+/**
+ * The locale the user last picked, if we can read a supported value back.
+ * @returns {string|null}
+ */
+function getStoredLocale() {
+  try {
+    var raw = window.localStorage.getItem(LOCALE_STORAGE_KEY);
+    if (!raw) { return null; }
+
+    var locale = raw;
+    var storedAt = null;
+    try {
+      var parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        locale = parsed.loc;
+        storedAt = parsed.at;
+      }
+    } catch (e) {
+      // legacy format: the raw string was the locale
+    }
+
+    if (!locale || supportedLocalesList.indexOf(locale) === -1) {
+      return null;
+    }
+    if (storedAt && (Date.now() - storedAt) > LOCALE_STORAGE_TTL_MS) {
+      return null;
+    }
+    return locale;
+  } catch (e) {
+    // localStorage unavailable (private mode, disabled, ...) -- fall through
+    return null;
+  }
+}
+
 var LocaleStore = Object.assign(
 {},
 EventEmitter.prototype,
@@ -86,6 +125,8 @@ AppConstants.StoreSubscribePrototype,
   getDefaultLocale: function() {
     return DEFAULT_LOCALE;
   },
+
+  getStoredLocale: getStoredLocale,
 
   getLangLocaleMap: function() {
     return Object.assign({}, langLocaleMap);
@@ -123,6 +164,16 @@ AppConstants.StoreSubscribePrototype,
     }
 
     if (util.isBrowser() && oldLocale !== _locale) {
+      // ponytail: persisted locale wins over navigator.language on later
+      // visits until the user switches again. Acceptable for a preference.
+      try {
+        window.localStorage.setItem(LOCALE_STORAGE_KEY, JSON.stringify({
+          loc: _locale,
+          at: Date.now()
+        }));
+      } catch (e) {
+        // not remembering the locale is not worth bothering anyone about
+      }
       var url = new URL(document.location.href);
       url.searchParams.set('locale', _locale);
       window.history.replaceState({}, '', url.href);

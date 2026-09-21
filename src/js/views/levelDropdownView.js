@@ -14,7 +14,7 @@ var ModalTerminal = require('../views').ModalTerminal;
 var ContainedBase = require('../views').ContainedBase;
 var BaseView = require('../views').BaseView;
 
-var LEVELS = require('../../levels');
+var sequenceInfoModule = require('../../levels/sequenceInfo');
 
 class LevelDropdownView extends ContainedBase {
   constructor(options) {
@@ -241,7 +241,7 @@ class LevelDropdownView extends ContainedBase {
 
   getSequencesOnTab() {
     return this.sequences.filter(function(sequenceName) {
-      var tab = LEVELS.getTabForSequence(sequenceName);
+      var tab = sequenceInfoModule.getTabForSequence(sequenceName);
       return tab === this.JSON.selectedTab;
     }, this);
   }
@@ -315,6 +315,9 @@ class LevelDropdownView extends ContainedBase {
 
   show(deferred, command) {
     this.currentCommand = command;
+    this.loadingLevelID = null;
+    this.$el.removeClass('is-loading load-error').removeAttr('aria-busy');
+    this.$('.levelDropdownLoadStatus').text('');
     // doing the update on show will allow us to fade which will be nice
     this.updateSolvedStatus();
 
@@ -335,7 +338,20 @@ class LevelDropdownView extends ContainedBase {
   }
 
   loadLevelID(id) {
-    if (!this.testOption('noOutput')) {
+    if (this.loadingLevelID) {
+      return;
+    }
+    if (this.testOption('noOutput')) {
+      this.hide();
+      return;
+    }
+
+    this.loadingLevelID = id;
+    this.keyboardListener.mute();
+    this.$el.removeClass('load-error').addClass('is-loading').attr('aria-busy', 'true');
+    this.$('.levelDropdownLoadStatus').text(intl.str('level-loading', { id: id }));
+
+    LevelStore.loadLevel(id).then(function() {
       Main.getEventBaton().trigger(
         'commandSubmitted',
         'level ' + id
@@ -343,8 +359,14 @@ class LevelDropdownView extends ContainedBase {
       var level = LevelStore.getLevel(id);
       var name = level.name.en_US;
       log.levelSelected(name);
-    }
-    this.hide();
+      this.hide();
+    }.bind(this)).catch(function(err) {
+      console.error('failed to load level ' + id, err);
+      this.loadingLevelID = null;
+      this.$el.removeClass('is-loading').addClass('load-error').attr('aria-busy', 'false');
+      this.$('.levelDropdownLoadStatus').text(intl.str('level-load-failed', { id: id }));
+      this.keyboardListener.listen();
+    }.bind(this));
   }
 
   updateSolvedStatus() {
@@ -435,6 +457,8 @@ class SeriesView extends BaseView {
 
   enterIcon(ev) {
     var id = this.getEventID(ev);
+    // warm the chunk when a desktop pointer shows intent
+    LevelStore.prefetchLevel(id);
     this.updateAboutForLevelID(id);
   }
 
