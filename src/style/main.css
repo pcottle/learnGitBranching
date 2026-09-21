@@ -983,6 +983,11 @@ div.modalView.box.inFront.show {
   position: relative;
 }
 
+.level-loading-icon {
+  display: inline-block;
+  animation: appLoadingSpin 700ms linear infinite;
+}
+
 .levelDropdownLoadStatus {
   display: none;
   position: absolute;
@@ -1024,6 +1029,7 @@ div.modalView.box.inFront.show {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .level-loading-icon,
   .levelDropdownView.is-loading .levelDropdownLoadStatus::before {
     animation: none;
   }

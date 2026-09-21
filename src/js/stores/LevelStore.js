@@ -220,13 +220,13 @@ Object.keys(manifest.sequences).forEach(function(levelSequenceName) {
 });
 
 /**
- * Load (or return the already-loaded) full definition for a level ID.
- * Resolves to the same object returned by getLevel(), mutated in place so
- * existing references (the level map, sequences) see the full data.
+ * Load only the requested level definition. Keeping this separate from the
+ * public loadLevel() prevents a background prefetch from cascading through
+ * every remaining level.
  * @param {string} id
  * @returns {Promise<Object|null>}
  */
-function loadLevel(id) {
+function loadLevelDefinition(id) {
   var level = _levelMap[id];
   if (!level) { return Promise.resolve(null); }
   if (level.__loaded) { return Promise.resolve(level); }
@@ -251,13 +251,33 @@ function loadLevel(id) {
 }
 
 /**
+ * Load (or return the already-loaded) full definition for a level ID, then
+ * begin warming the next level without delaying the current navigation.
+ * Resolves to the same object returned by getLevel(), mutated in place so
+ * existing references (the level map, sequences) see the full data.
+ * @param {string} id
+ * @returns {Promise<Object|null>}
+ */
+function loadLevel(id) {
+  return loadLevelDefinition(id).then(function(level) {
+    if (!level) { return level; }
+
+    var nextLevel = LevelStore.getNextLevel(id);
+    if (nextLevel) {
+      prefetchLevel(nextLevel.id);
+    }
+    return level;
+  });
+}
+
+/**
  * Best-effort warm-up of a level's chunk (e.g. the next level, or one the
  * user hovered). Errors are swallowed; they surface if the level is opened.
  * @param {string} id
  * @returns {Promise<Object|undefined>}
  */
 function prefetchLevel(id) {
-  return loadLevel(id).catch(function() {
+  return loadLevelDefinition(id).catch(function() {
     return undefined;
   });
 }

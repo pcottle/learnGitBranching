@@ -316,6 +316,7 @@ class LevelDropdownView extends ContainedBase {
   show(deferred, command) {
     this.currentCommand = command;
     this.loadingLevelID = null;
+    this.container.$('.toolbar .icon-cog').first().removeClass('level-loading-icon');
     this.$el.removeClass('is-loading load-error').removeAttr('aria-busy');
     this.$('.levelDropdownLoadStatus').text('');
     // doing the update on show will allow us to fade which will be nice
@@ -348,6 +349,7 @@ class LevelDropdownView extends ContainedBase {
 
     this.loadingLevelID = id;
     this.keyboardListener.mute();
+    this.container.$('.toolbar .icon-cog').first().addClass('level-loading-icon');
     this.$el.removeClass('load-error').addClass('is-loading').attr('aria-busy', 'true');
     this.$('.levelDropdownLoadStatus').text(intl.str('level-loading', { id: id }));
 
@@ -359,10 +361,12 @@ class LevelDropdownView extends ContainedBase {
       var level = LevelStore.getLevel(id);
       var name = level.name.en_US;
       log.levelSelected(name);
+      this.container.$('.toolbar .icon-cog').first().removeClass('level-loading-icon');
       this.hide();
     }.bind(this)).catch(function(err) {
       console.error('failed to load level ' + id, err);
       this.loadingLevelID = null;
+      this.container.$('.toolbar .icon-cog').first().removeClass('level-loading-icon');
       this.$el.removeClass('is-loading').addClass('load-error').attr('aria-busy', 'false');
       this.$('.levelDropdownLoadStatus').text(intl.str('level-load-failed', { id: id }));
       this.keyboardListener.listen();
