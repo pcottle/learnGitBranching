@@ -33,9 +33,6 @@ KeyboardListener.prototype.listen = function() {
 };
 
 KeyboardListener.prototype.mute = function() {
-  if (!this.listening) {
-    return;
-  }
   this.listening = false;
   Main.getEventBaton().releaseBaton('docKeydown', this.keydown, this);
   Main.getEventBaton().releaseBaton('onCloseButtonClick', this.onCloseButtonClick, this);
