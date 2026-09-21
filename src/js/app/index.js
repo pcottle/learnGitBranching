@@ -21,6 +21,26 @@ if (util.isBrowser()) {
   window.jQuery = jQuery;
   window.$ = jQuery;
   window.Raphael = require('raphael');
+
+  // Levels, locales and vendor code are code-split and fetched on demand
+  // (see CLAUDE.md "Lazy levels and locales"). A tab left open across a
+  // redeploy holds an index.html/module graph whose chunk hashes no longer
+  // exist once a newer build has replaced them, so a later dynamic import
+  // (opening a level, switching locale) 404s. Vite dispatches this event for
+  // exactly that case; reload once to pick up the freshly deployed chunks.
+  // Guarded to a single attempt per tab so a genuinely broken deploy 404s
+  // instead of reload-looping.
+  window.addEventListener('vite:preloadError', function(event) {
+    event.preventDefault();
+    var key = 'lgb-preload-reload';
+    try {
+      if (window.sessionStorage.getItem(key)) { return; }
+      window.sessionStorage.setItem(key, '1');
+    } catch (e) {
+      // sessionStorage unavailable (private mode, etc.); reload anyway.
+    }
+    window.location.reload();
+  });
 }
 
 var events = Object.assign(
