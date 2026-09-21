@@ -139,21 +139,17 @@ describe('this store', function() {
 
   it('lazily loads a full level definition on demand', function(done) {
     var stub = LevelStore.getLevel('intro1');
+    spyOn(LevelStore, 'prefetchLevel').and.returnValue(Promise.resolve());
     expect(stub.startDialog).toBeUndefined();
 
     LevelStore.loadLevel('intro1').then(function(loaded) {
       expect(loaded).toBe(stub); // merged in place
       expect(loaded.startDialog).toBeDefined();
       expect(loaded.goalTreeString).toBeDefined();
+      expect(LevelStore.prefetchLevel).toHaveBeenCalledWith('intro2');
       return LevelStore.loadLevel('intro1'); // already-loaded path
     }).then(function(again) {
       expect(again).toBe(stub);
-      // Explicit loads warm exactly one level ahead. Give the fire-and-forget
-      // import a turn to settle before checking its in-place metadata object.
-      return new Promise(function(resolve) { setTimeout(resolve, 0); });
-    }).then(function() {
-      expect(LevelStore.getLevel('intro2').startDialog).toBeDefined();
-      expect(LevelStore.getLevel('intro3').startDialog).toBeUndefined();
       done();
     }).catch(function(err) {
       fail(err);

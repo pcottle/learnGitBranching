@@ -264,7 +264,7 @@ function loadLevel(id) {
 
     var nextLevel = LevelStore.getNextLevel(id);
     if (nextLevel) {
-      prefetchLevel(nextLevel.id);
+      LevelStore.prefetchLevel(nextLevel.id);
     }
     return level;
   });
