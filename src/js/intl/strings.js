@@ -1439,6 +1439,78 @@ exports.strings = {
     "tr_TR": "Learn Git Branching(Git Dal Oluşumunu Öğren)",
     "hu_HU": "Git elágazás megtanulása"
   },
+  "a11y-terminal": {
+    "__desc__": "Accessible name for the terminal region",
+    "en_US": "Terminal"
+  },
+  "a11y-terminal-output": {
+    "__desc__": "Accessible name for the terminal output log",
+    "en_US": "Terminal output"
+  },
+  "a11y-helper-bar": {
+    "__desc__": "Accessible name for the helper bar navigation landmark",
+    "en_US": "Helper bar"
+  },
+  "a11y-graph-summary": {
+    "__desc__": "Accessible name for the text summary of the commit graph",
+    "en_US": "Commit graph summary"
+  },
+  "a11y-head-on-branch": {
+    "__desc__": "Graph summary: HEAD points at a branch",
+    "en_US": "HEAD is on branch {branch}"
+  },
+  "a11y-head-detached": {
+    "__desc__": "Graph summary: detached HEAD",
+    "en_US": "HEAD is detached at {id}"
+  },
+  "a11y-branches": {
+    "__desc__": "Graph summary: list of branches",
+    "en_US": "Branches: {branches}"
+  },
+  "a11y-tags": {
+    "__desc__": "Graph summary: list of tags",
+    "en_US": "Tags: {tags}"
+  },
+  "a11y-commits": {
+    "__desc__": "Graph summary: list of commits",
+    "en_US": "Commits: {commits}"
+  },
+  "a11y-branch-at": {
+    "__desc__": "Graph summary: branch and its commit",
+    "en_US": "{branch} at {target}"
+  },
+  "a11y-branch-at-remote": {
+    "__desc__": "Graph summary: remote-tracking branch and its commit",
+    "en_US": "{branch} at {target} (remote)"
+  },
+  "a11y-tag-at": {
+    "__desc__": "Graph summary: tag and its commit",
+    "en_US": "{tag} at {target}"
+  },
+  "a11y-commit-root": {
+    "__desc__": "Graph summary: root commit",
+    "en_US": "{id} (root)"
+  },
+  "a11y-commit-after": {
+    "__desc__": "Graph summary: commit and its parents",
+    "en_US": "{id} after {parents}"
+  },
+  "a11y-dialog": {
+    "__desc__": "Fallback accessible name for modal dialogs",
+    "en_US": "Dialog"
+  },
+  "interactive-rebase-move-up": {
+    "__desc__": "Label for the button that moves a rebase entry up",
+    "en_US": "Move up"
+  },
+  "interactive-rebase-move-down": {
+    "__desc__": "Label for the button that moves a rebase entry down",
+    "en_US": "Move down"
+  },
+  "interactive-rebase-moved": {
+    "__desc__": "Announced after reordering a rebase entry",
+    "en_US": "Moved {id} to position {position} of {total}"
+  },
   "select-a-level": {
     "__desc__": "The prompt to select a level on the drop down view",
     "en_US": "Select a level",

@@ -837,7 +837,7 @@ div.helperBar.show.BaseHelperBar {
 p.helperText,
 div.terminal-text p.helperText,
 .iRebaseDialog p.helperText {
-  font-size: 0.625em;
+  font-size: 0.75em;
 }
 
 .iRebaseDialog p.solutionText {
@@ -899,8 +899,28 @@ li.rebaseEntry a#toggleButton {
   right: -5px;
 }
 
-li.rebaseEntry.notPicked {
-  opacity: 0.2;
+li.rebaseEntry .toggleButton {
+  cursor: pointer;
+  font-size: 0.875em;
+}
+
+li.rebaseEntry .moveUpButton,
+li.rebaseEntry .moveDownButton {
+  cursor: pointer;
+  font-size: 0.875em;
+  margin-left: 4px;
+  padding: 2px 6px;
+}
+
+/* Signal the omitted state on the text (line-through gives a non-colour cue)
+   at a contrast-preserving opacity, without dimming the row's controls. */
+li.rebaseEntry.notPicked .idwrapper {
+  opacity: 0.75;
+  text-decoration: line-through;
+}
+
+li.rebaseEntry.notPicked > .wrapper > i {
+  opacity: 0.75;
 }
 
 li.rebaseEntry.notPicked span.showWhenPicked {
@@ -1426,12 +1446,12 @@ div.gitDemonstrationView {
 /* button stuff from liquidGraph */
 .uiButton {
   border-top: 1px solid #96d1f8;
-  background: #65a9d7;
-  background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
-  background: -webkit-linear-gradient(top, #3e779d, #65a9d7);
-  background: -moz-linear-gradient(top, #3e779d, #65a9d7);
-  background: -ms-linear-gradient(top, #3e779d, #65a9d7);
-  background: -o-linear-gradient(top, #3e779d, #65a9d7);
+  background: #3e779d;
+  background: -webkit-gradient(linear, left top, left bottom, from(#264f6b), to(#3e779d));
+  background: -webkit-linear-gradient(top, #264f6b, #3e779d);
+  background: -moz-linear-gradient(top, #264f6b, #3e779d);
+  background: -ms-linear-gradient(top, #264f6b, #3e779d);
+  background: -o-linear-gradient(top, #264f6b, #3e779d);
   padding: 5px 10px;
 
   -webkit-border-radius: 8px;
@@ -1464,16 +1484,17 @@ div.gitDemonstrationView {
 .uiButton:active {
   border-top-color: #1b435e;
   background: #1b435e;
+  color: #fff;
 }
 
 .uiButtonYellow {
   border-top: 1px solid #f4ffa1;
-  background: #288708;
-  background: -webkit-gradient(linear, left top, left bottom, from(#e0e63c), to(#288708));
-  background: -webkit-linear-gradient(top, #e0e63c, #288708);
-  background: -moz-linear-gradient(top, #e0e63c, #288708);
-  background: -ms-linear-gradient(top, #e0e63c, #288708);
-  background: -o-linear-gradient(top, #e0e63c, #288708);
+  background: #1b5e20;
+  background: -webkit-gradient(linear, left top, left bottom, from(#2e7d32), to(#1b5e20));
+  background: -webkit-linear-gradient(top, #2e7d32, #1b5e20);
+  background: -moz-linear-gradient(top, #2e7d32, #1b5e20);
+  background: -ms-linear-gradient(top, #2e7d32, #1b5e20);
+  background: -o-linear-gradient(top, #2e7d32, #1b5e20);
 }
 
 .uiButtonYellow:hover {
@@ -1483,57 +1504,60 @@ div.gitDemonstrationView {
 }
 .uiButtonYellow:active {
   border-top-color: #5edb15;
-  background: #5edb15;
+  background: #1b5e20;
+  color: #fff;
 }
 
 .uiButtonPink {
   border-top: 1px solid #96d1f8;
-  background: #80007c;
-  background: -webkit-gradient(linear, left top, left bottom, from(#fa1ee0), to(#80007c));
-  background: -webkit-linear-gradient(top, #fa1ee0, #80007c);
-  background: -moz-linear-gradient(top, #fa1ee0, #80007c);
-  background: -ms-linear-gradient(top, #fa1ee0, #80007c);
-  background: -o-linear-gradient(top, #fa1ee0, #80007c);
+  background: #6a1b9a;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ad1457), to(#6a1b9a));
+  background: -webkit-linear-gradient(top, #ad1457, #6a1b9a);
+  background: -moz-linear-gradient(top, #ad1457, #6a1b9a);
+  background: -ms-linear-gradient(top, #ad1457, #6a1b9a);
+  background: -o-linear-gradient(top, #ad1457, #6a1b9a);
 }
 .uiButtonPink:hover {
   border-top-color: #fa1ee0;
-  background: #fa1ee0;
-  color: #ccc;
+  background: #8e24aa;
+  color: #fff;
 }
 .uiButtonPink:active {
   border-top-color: #80007c;
-  background: #80007c;
+  background: #6a1b9a;
+  color: #fff;
 }
 
 .uiButtonRed {
   border-top: 1px solid #ffebee;
-  background: #cc1212;
-  background: -webkit-gradient(linear, left top, left bottom, from(#e08992), to(#cc1212));
-  background: -webkit-linear-gradient(top, #e08992, #cc1212);
-  background: -moz-linear-gradient(top, #e08992, #cc1212);
-  background: -ms-linear-gradient(top, #e08992, #cc1212);
-  background: -o-linear-gradient(top, #e08992, #cc1212);
+  background: #7f0000;
+  background: -webkit-gradient(linear, left top, left bottom, from(#b71c1c), to(#7f0000));
+  background: -webkit-linear-gradient(top, #b71c1c, #7f0000);
+  background: -moz-linear-gradient(top, #b71c1c, #7f0000);
+  background: -ms-linear-gradient(top, #b71c1c, #7f0000);
+  background: -o-linear-gradient(top, #b71c1c, #7f0000);
 }
 
 .uiButtonRed:hover {
   border-top-color: #cc102f;
-  background: #cc102f;
-  color: #ccc;
+  background: #a01010;
+  color: #fff;
 }
 
 .uiButtonRed:active {
   border-top-color: #ff0000;
-  background: #ff0000;
+  background: #7f0000;
+  color: #fff;
 }
 
 .uiButtonWhite {
   border-top: 1px solid #96d1f8;
-  background: #449ad4;
-  background: -webkit-gradient(linear, left top, left bottom, from(#d1edff), to(#449ad4));
-  background: -webkit-linear-gradient(top, #d1edff, #449ad4);
-  background: -moz-linear-gradient(top, #d1edff, #449ad4);
-  background: -ms-linear-gradient(top, #d1edff, #449ad4);
-  background: -o-linear-gradient(top, #d1edff, #449ad4);
+  background: #2f6f9f;
+  background: -webkit-gradient(linear, left top, left bottom, from(#2f6f9f), to(#245a82));
+  background: -webkit-linear-gradient(top, #2f6f9f, #245a82);
+  background: -moz-linear-gradient(top, #2f6f9f, #245a82);
+  background: -ms-linear-gradient(top, #2f6f9f, #245a82);
+  background: -o-linear-gradient(top, #2f6f9f, #245a82);
 }
 
 .uiButtonWhite:hover {
@@ -1544,7 +1568,8 @@ div.gitDemonstrationView {
 
 .uiButtonWhite:active {
   border-top-color: #9bcbeb;
-  background: #9bcbeb;
+  background: #245a82;
+  color: #fff;
 }
 
 
@@ -1869,5 +1894,27 @@ div.gitDemonstrationView {
 
   .certificateHeadline {
     font-size: 18px;
+  }
+}
+
+/* Consistent, visible keyboard focus across the app. Two-tone so the ring is
+   visible on both the light-blue app background and the dark modal surfaces. */
+:focus-visible {
+  outline: 3px solid #111;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px #fff;
+}
+
+/* Respect reduced-motion preferences for CSS transitions/animations.
+   The graph's own animations are JS-driven and read the same preference via
+   GRAPHICS.defaultAnimationTime in src/js/util/constants.js. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
