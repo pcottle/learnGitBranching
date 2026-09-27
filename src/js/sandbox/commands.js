@@ -42,7 +42,7 @@ var sandboxCommandDescriptions = {
   'share permalink': 'Generate a shareable permalink of the current tree',
   'show goal': 'Show the goal tree for the current level',
   'hide goal': 'Hide the goal tree',
-  'show solution': 'Write the current level\'s solution into the command box (without running it) so you can read, edit, or run it yourself',
+  'show solution': 'Run the current level\'s solution (after a confirmation prompt), so you can watch it play out and then read, edit, or re-run it from the command box',
   'objective': 'Show the objective of the current level',
   'start dialog': 'Replay the intro dialog of the current level',
   'help level': 'Show help for the current level',
