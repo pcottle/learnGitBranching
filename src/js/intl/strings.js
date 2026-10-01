@@ -3337,9 +3337,9 @@ exports.strings = {
   },
   "progress-import-prompt": {
     "__desc__": "Prompt shown above the text input when importing saved progress",
-    "en_US": "Paste your saved progress JSON below!",
-    "zh_CN": "请在下方粘贴您保存的进度 JSON！",
-    "zh_TW": "請在下方貼上您保存的進度 JSON！",
+    "en_US": "Paste your saved progress text below!",
+    "zh_CN": "请在下方粘贴您保存的进度文本！",
+    "zh_TW": "請在下方貼上您保存的進度文字！",
   },
   "progress-import-success": {
     "__desc__": "Shown in the terminal after progress is successfully imported",

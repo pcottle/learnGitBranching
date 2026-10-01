@@ -21,6 +21,58 @@ var ModalAlert = Views.ModalAlert;
 var BuilderViews = require('../views/builderViews');
 var MultiView = require('../views/multiView').MultiView;
 
+// ---- progress encoding helpers (added by us) ----
+var PROGRESS_PREFIX = 'lgb:';
+
+function _encodeBase64(str) {
+  if (typeof Buffer !== 'undefined' && typeof Buffer.from === 'function') {
+    return Buffer.from(str, 'utf8').toString('base64');
+  }
+  // browser: UTF-8 safe so non-ASCII level ids survive the round-trip
+  return btoa(unescape(encodeURIComponent(str)));
+}
+
+function _decodeBase64(str) {
+  if (typeof Buffer !== 'undefined' && typeof Buffer.from === 'function') {
+    return Buffer.from(str, 'base64').toString('utf8');
+  }
+  return decodeURIComponent(escape(atob(str)));
+}
+
+// compress {id:{solved,best}} -> {id:{s:0|1,b:0|1}}, then base64 with a prefix
+function encodeProgress(rawJSON) {
+  var map = JSON.parse(rawJSON);
+  var compact = {};
+  Object.keys(map).forEach(function(levelID) {
+    compact[levelID] = {
+      s: map[levelID].solved ? 1 : 0,
+      b: map[levelID].best ? 1 : 0
+    };
+  });
+  return PROGRESS_PREFIX + _encodeBase64(JSON.stringify(compact));
+}
+
+// reverse of encodeProgress; also accepts the old plain JSON format
+function decodeProgress(input) {
+  var text = String(input).trim();
+  if (text.indexOf(PROGRESS_PREFIX) === 0) {
+    text = text.slice(PROGRESS_PREFIX.length);
+  }
+  var json = (text.charAt(0) === '{')
+    ? text // legacy plain JSON
+    : _decodeBase64(text);
+  var parsed = JSON.parse(json);
+  var map = {};
+  Object.keys(parsed).forEach(function(levelID) {
+    var d = parsed[levelID] || {};
+    map[levelID] = {
+      solved: d.s === 1 || d.solved === true,
+      best: d.b === 1 || d.best === true
+    };
+  });
+  return map;
+}
+
 // Sandbox class converted from Backbone.View to ES6 class
 class Sandbox {
   // tag name here is purely vestigial. I made this a view
@@ -316,7 +368,7 @@ class Sandbox {
   }
 
   saveProgress(command, deferred) {
-    var progress = LevelStore.exportLevelProgress();
+    var progress = encodeProgress(LevelStore.exportLevelProgress());
     this.copyTextToClipboard(progress).then(function() {
       command.setResult(intl.str('progress-export-copied'));
       command.finishWith(deferred);
@@ -340,7 +392,7 @@ class Sandbox {
         return;
       }
       try {
-        LevelStore.importLevelProgress(inputText);
+        LevelStore.importLevelProgress(decodeProgress(inputText));
         command.setResult(intl.str('progress-import-success'));
       } catch (e) {
         command.set('error', new Errors.GitError({

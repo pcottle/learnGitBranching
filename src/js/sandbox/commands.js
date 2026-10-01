@@ -41,7 +41,7 @@ var sandboxCommandDescriptions = {
   'undo': 'Undo the last command',
   'share permalink': 'Generate a shareable permalink of the current tree',
   'save': 'Save your solved-level progress and copy it to the clipboard',
-  'load': 'Load solved-level progress from a saved JSON blob (opens a text input)',
+  'load': 'Load solved-level progress from a saved blob (opens a text input)',
   'show goal': 'Show the goal tree for the current level',
   'hide goal': 'Hide the goal tree',
   'show solution': 'Run the current level\'s solution (after a confirmation prompt), so you can watch it play out and then read, edit, or re-run it from the command box',
