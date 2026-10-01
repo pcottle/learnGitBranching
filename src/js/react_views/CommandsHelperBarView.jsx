@@ -54,6 +54,16 @@ class CommandsHelperBarView extends React.Component {
         this.fireCommand('help general; git help');
       }.bind(this)
     }, {
+      text: intl.str('command-helper-bar-export-progress'),
+      onClick: function() {
+        this.fireCommand('save');
+      }.bind(this),
+    }, {
+      text: intl.str('command-helper-bar-import-progress'),
+      onClick: function() {
+        this.fireCommand('load');
+      }.bind(this),
+    }, {
       icon: 'fa-solid fa-right-from-bracket',
       text: intl.str('helper-bar-back'),
       onClick: function() {

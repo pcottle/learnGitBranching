@@ -3383,6 +3383,48 @@ exports.strings = {
     "hi": "मुझे Threads पर फॉलो करें",
     "te_IN": "Threads లో నన్ను ఫాలో అవ్వండి",
   },
+  "command-helper-bar-export-progress": {
+    "__desc__": "Export progress command label in the bottom command helper bar.",
+    "en_US": "Export progress",
+    "zh_CN": "导出",
+    "zh_TW": "匯出",
+  },
+  "command-helper-bar-import-progress": {
+    "__desc__": "Import progress command label in the bottom command helper bar.",
+    "en_US": "Import progress",
+    "zh_CN": "导入",
+    "zh_TW": "匯入",
+  },
+  "progress-export-copied": {
+    "__desc__": "Shown in the terminal after the user exports their progress to the clipboard",
+    "en_US": "Progress copied to clipboard! Paste it somewhere safe to back it up. To restore later, run `load` and paste it in.",
+    "zh_CN": "进度已复制到剪贴板！请将其粘贴到安全的地方保存。恢复时运行 `load` 并粘贴即可。",
+    "zh_TW": "進度已複製到剪貼簿！請將其貼到安全的地方保存。恢復時執行 `load` 並貼上即可。",
+  },
+  "progress-import-prompt": {
+    "__desc__": "Prompt shown above the text input when importing saved progress",
+    "en_US": "Paste your saved progress text below!",
+    "zh_CN": "请在下方粘贴您保存的进度文本！",
+    "zh_TW": "請在下方貼上您保存的進度文字！",
+  },
+  "progress-import-success": {
+    "__desc__": "Shown in the terminal after progress is successfully imported",
+    "en_US": "Progress imported successfully!",
+    "zh_CN": "进度导入成功！",
+    "zh_TW": "進度匯入成功！",
+  },
+  "progress-import-error": {
+    "__desc__": "Shown in the terminal when importing progress fails",
+    "en_US": "Could not import progress: {error}",
+    "zh_CN": "无法导入进度：{error}",
+    "zh_TW": "無法匯入進度：{error}",
+  },
+  "progress-export-copy-failed": {
+    "__desc__": "Shown in the terminal when the progress could not be copied to the clipboard",
+    "en_US": "Could not copy progress to the clipboard: {error}",
+    "zh_CN": "无法将进度复制到剪贴板：{error}",
+    "zh_TW": "無法將進度複製到剪貼簿：{error}",
+  },
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
     "en_US": "Bad numeric argument: {arg}",
