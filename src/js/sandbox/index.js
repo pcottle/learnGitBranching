@@ -287,6 +287,73 @@ class Sandbox {
     command.finishWith(deferred);
   }
 
+  copyTextToClipboard(text) {
+    if (!util.isBrowser()) {
+      return Promise.resolve();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function() {
+        this.fallbackCopyText(text);
+      }.bind(this));
+    }
+    this.fallbackCopyText(text);
+    return Promise.resolve();
+  }
+
+  fallbackCopyText(text) {
+    var textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+    } finally {
+      document.body.removeChild(textArea);
+    }
+  }
+
+  saveProgress(command, deferred) {
+    var progress = LevelStore.exportLevelProgress();
+    this.copyTextToClipboard(progress).then(function() {
+      command.setResult(intl.str('progress-export-copied'));
+      command.finishWith(deferred);
+    }, function(e) {
+      command.set('error', new Errors.GitError({
+        msg: intl.str('progress-export-copy-failed', { error: String(e) })
+      }));
+      command.finishWith(deferred);
+    });
+  }
+
+  loadProgress(command, deferred) {
+    var jsonGrabber = new BuilderViews.MarkdownPresenter({
+      previewText: intl.str('progress-import-prompt'),
+      fillerText: ' '
+    });
+    jsonGrabber.deferred.promise
+    .then(function(inputText) {
+      if (!inputText) {
+        command.finishWith(deferred);
+        return;
+      }
+      try {
+        LevelStore.importLevelProgress(inputText);
+        command.setResult(intl.str('progress-import-success'));
+      } catch (e) {
+        command.set('error', new Errors.GitError({
+          msg: intl.str('progress-import-error', { error: String(e) })
+        }));
+      }
+      command.finishWith(deferred);
+    }.bind(this))
+    .catch(function() {
+      command.finishWith(deferred);
+    });
+  }
+
   showCertificate(command, deferred) {
     var CertificateView = require('../views/certificateView').CertificateView;
     var certificateView = new CertificateView({});
@@ -335,6 +402,8 @@ class Sandbox {
       'importLevelNow': this.importLevelNow,
       'share permalink': this.sharePermalink,
       'certificate': this.showCertificate,
+      'save': this.saveProgress,
+      'load': this.loadProgress,
     };
 
     var method = commandMap[command.get('method')];

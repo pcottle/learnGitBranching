@@ -40,6 +40,8 @@ var sandboxCommandDescriptions = {
   'importLevelNow': 'Import a level immediately from the JSON blob given after the command',
   'undo': 'Undo the last command',
   'share permalink': 'Generate a shareable permalink of the current tree',
+  'save': 'Save your solved-level progress and copy it to the clipboard',
+  'load': 'Load solved-level progress from a saved JSON blob (opens a text input)',
   'show goal': 'Show the goal tree for the current level',
   'hide goal': 'Hide the goal tree',
   'show solution': 'Run the current level\'s solution (after a confirmation prompt), so you can watch it play out and then read, edit, or re-run it from the command box',
@@ -270,7 +272,9 @@ var regexMap = {
   'import tree': /^import +tree$/,
   'import level': /^import +level$/,
   'undo': /^undo($|\s)/,
-  'share permalink': /^share( +permalink)?$/
+  'share permalink': /^share( +permalink)?$/,
+  'save': /^save($|\s)/,
+  'load': /^load($|\s)/
 };
 
 if (util.isBrowser() && isCertificatePreviewEnabled(window.location)) {
