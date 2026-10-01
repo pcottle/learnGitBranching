@@ -1,91 +1,135 @@
 exports.strings = {
   "certificate-title": {
     "__desc__": "Title of the modal window that shows the completion certificate",
-    "en_US": "Certificate of Completion"
+    "en_US": "Certificate of Completion",
+    "zh_CN": "荣誉证书",
+    "zh_TW": "榮譽證書",
   },
   "certificate-headline": {
     "__desc__": "Headline inside the certificate modal, celebrating finishing every level",
-    "en_US": "You finished every single level!"
+    "en_US": "You finished every single level!",
+    "zh_CN": "你完成了所有关卡！",
+    "zh_TW": "你完成了所有關卡！",
   },
   "certificate-subhead": {
     "__desc__": "Sub-headline inside the certificate modal. {levels} is the total number of levels",
-    "en_US": "All {levels} of them. Put your name on it and take it with you."
+    "en_US": "All {levels} of them. Put your name on it and take it with you.",
+    "zh_CN": "整整 {levels} 个关卡。签下你的名字，收下它吧。",
+    "zh_TW": "整整 {levels} 個關卡。簽下你的名字，收下它吧。",
   },
   "certificate-name-label": {
     "__desc__": "Label for the text field where you type the name that appears on the certificate",
-    "en_US": "Your name"
+    "en_US": "Your name",
+    "zh_CN": "签名",
+    "zh_TW": "簽名",
   },
   "certificate-name-placeholder": {
     "__desc__": "Placeholder for the certificate name text field",
-    "en_US": "Type your name here"
+    "en_US": "Type your name here",
+    "zh_CN": "在此输入你的名字",
+    "zh_TW": "在此輸入你的名字",
   },
   "certificate-copy": {
     "__desc__": "Button that copies the certificate image to the clipboard",
-    "en_US": "Copy image"
+    "en_US": "Copy image",
+    "zh_CN": "复制图片",
+    "zh_TW": "複製圖片",
   },
   "certificate-copied": {
     "__desc__": "Status message after the certificate image is copied to the clipboard",
-    "en_US": "Copied! Paste it wherever you like."
+    "en_US": "Copied! Paste it wherever you like.",
+    "zh_CN": "已复制！快去粘贴分享吧。",
+    "zh_TW": "已複製！快去貼上分享吧。",
   },
   "certificate-copy-failed": {
     "__desc__": "Status message when copying the certificate image to the clipboard fails",
-    "en_US": "Copying failed. Try downloading it instead."
+    "en_US": "Copying failed. Try downloading it instead.",
+    "zh_CN": "复制失败，请尝试下载。",
+    "zh_TW": "複製失敗，請嘗試下載。",
   },
   "certificate-copy-unsupported": {
     "__desc__": "Status message when the browser cannot copy images to the clipboard at all",
-    "en_US": "This browser cannot copy images. Try downloading it instead."
+    "en_US": "This browser cannot copy images. Try downloading it instead.",
+    "zh_CN": "当前浏览器不支持复制图片，试试下载吧。",
+    "zh_TW": "目前瀏覽器不支援複製圖片，試試下載吧。",
   },
   "certificate-download": {
     "__desc__": "Button that downloads the certificate as a PNG file",
-    "en_US": "Download PNG"
+    "en_US": "Download PNG",
+    "zh_CN": "下载 PNG",
+    "zh_TW": "下載 PNG",
   },
   "certificate-downloaded": {
     "__desc__": "Status message after the certificate PNG has been downloaded",
-    "en_US": "Saved to your downloads."
+    "en_US": "Saved to your downloads.",
+    "zh_CN": "已保存到下载目录。",
+    "zh_TW": "已儲存到下載目錄。",
   },
   "certificate-download-failed": {
     "__desc__": "Status message when downloading the certificate PNG fails",
-    "en_US": "Download failed, sorry about that."
+    "en_US": "Download failed, sorry about that.",
+    "zh_CN": "下载失败，非常抱歉。",
+    "zh_TW": "下載失敗，非常抱歉。",
   },
   "certificate-close": {
     "__desc__": "Button that closes the completion certificate modal",
-    "en_US": "Close"
+    "en_US": "Close",
+    "zh_CN": "关闭",
+    "zh_TW": "關閉",
   },
   "certificate-cta": {
     "__desc__": "Button in the level-complete dialog that opens the completion certificate",
-    "en_US": "\ud83c\udfc6  View your certificate"
+    "en_US": "\ud83c\udfc6  View your certificate",
+    "zh_CN": "🏆 领取你的荣誉证书",
+    "zh_TW": "🏆 領取你的榮譽證書",
   },
   "certificate-share": {
     "__desc__": "Heading above the social share buttons in the certificate modal",
-    "en_US": "Share the news"
+    "en_US": "Share the news",
+    "zh_CN": "分享这个好消息",
+    "zh_TW": "分享這個好消息",
   },
   "certificate-svg-title": {
     "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
-    "en_US": "CERTIFICATE OF COMPLETION"
+    "en_US": "CERTIFICATE OF COMPLETION",
+    "zh_CN": "通关证书",
+    "zh_TW": "通關證書",
   },
   "certificate-svg-name-placeholder": {
     "__desc__": "Faded placeholder printed on the certificate before a name is entered",
-    "en_US": "YOUR NAME HERE"
+    "en_US": "YOUR NAME HERE",
+    "zh_CN": "签名",
+    "zh_TW": "簽名",
   },
   "certificate-svg-achievement": {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
-    "en_US": "has completed all {levels} levels of Learn Git Branching"
+    "en_US": "has completed all {levels} levels of Learn Git Branching",
+    "zh_CN": "已完成 Learn Git Branching 所有关卡，共计 {levels} 个",
+    "zh_TW": "已完成 Learn Git Branching 所有關卡，共計 {levels} 個",
   },
   "certificate-svg-topics-label": {
     "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
-    "en_US": "TOPICS COVERED"
+    "en_US": "TOPICS COVERED",
+    "zh_CN": "涵盖主题",
+    "zh_TW": "涵蓋主題",
   },
   "certificate-svg-topics-first": {
     "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
-    "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs"
+    "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs",
+    "zh_CN": "提交与分支  •  合并与变基  •  Cherry-pick 与相对引用",
+    "zh_TW": "提交與分支  •  合併與變基  •  Cherry-pick 與相對引用",
   },
   "certificate-svg-topics-second": {
     "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
-    "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push"
+    "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push",
+    "zh_CN": "撤销改动  •  标签与历史  •  Fetch、Pull 与 Push",
+    "zh_TW": "撤銷改動  •  標籤與歷史  •  Fetch、Pull 與 Push",
   },
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
-    "en_US": "ISSUED"
+    "en_US": "ISSUED",
+    "zh_CN": "已签发",
+    "zh_TW": "已簽發",
   },
   "finish-dialog-finished": {
     "__desc__": "One of the lines in the next level dialog",
@@ -472,6 +516,7 @@ exports.strings = {
   "git-status-staged-header": {
     "__desc__": "git status header for changes that are staged (ready to commit)",
     "en_US": "Changes to be committed:",
+    "zh_TW": "將要提交的變更：",
     "hi": "Commit होने वाले बदलाव:",
     "te_IN": "Commit చేయాల్సిన మార్పులు:",
     "pt_BR": "Mudanças a serem commitadas:",
@@ -487,6 +532,7 @@ exports.strings = {
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
     "en_US": "Changes not staged for commit:",
+    "zh_TW": "尚未暫存以備提交的變更：",
     "hi": "Commit के लिए stage न किए गए बदलाव:",
     "te_IN": "Commit కోసం stage చేయని మార్పులు:",
     "pt_BR": "Mudanças não adicionadas ao staging:",
@@ -502,6 +548,7 @@ exports.strings = {
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
     "en_US": "nothing to commit, working tree clean",
+    "zh_TW": "沒有需要提交的內容，工作區乾淨",
     "hi": "commit करने को कुछ नहीं, working tree साफ है",
     "te_IN": "commit చేయడానికి ఏమీ లేదు, వర్కింగ్ ట్రీ శుభ్రంగా ఉంది",
     "pt_BR": "nada para commitar, diretório de trabalho limpo",
@@ -517,6 +564,7 @@ exports.strings = {
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
     "en_US": "no changes added to commit (stage them first with \"git add <file>\")",
+    "zh_TW": "沒有新增可供提交的變更（先用 \"git add <檔案>\" 暫存）",
     "hi": "commit के लिए कोई बदलाव add नहीं हुए (पहले \"git add <file>\" से stage करें)",
     "te_IN": "commit కోసం మార్పులు జోడించలేదు (మొదట \"git add <file>\" తో stage చేయి)",
     "pt_BR": "nenhuma mudança adicionada ao commit (adicione-as ao staging primeiro com \"git add <arquivo>\")",
@@ -1082,6 +1130,7 @@ exports.strings = {
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
+    "zh_TW": "致命錯誤：切換需要一個分支。'{ref}' 不是分支——如果你想檢出並分離 HEAD，請使用 'git switch --detach {ref}'（或 '-d'）。",
     "hi": "fatal: switch करने के लिए branch ज़रूरी है। '{ref}' कोई branch नहीं है -- अगर आप इसे check out करके HEAD को detach करना चाहते हैं तो 'git switch --detach {ref}' (या '-d') इस्तेमाल करें।",
     "te_IN": "fatal: మారడానికి branch అవసరం. '{ref}' branch కాదు -- దీన్ని checkout చేసి HEAD ను వేరుచేయాలనుకుంటే 'git switch --detach {ref}' (లేదా '-d') యూజ్ చేయి.",
     "de_DE": "fatal: Zum Wechseln wird ein Branch benötigt. '{ref}' ist kein Branch -- benutze 'git switch --detach {ref}' (oder '-d'), wenn du ihn auschecken und den HEAD abkoppeln willst.",
@@ -2045,6 +2094,7 @@ exports.strings = {
   "share-progress": {
     "__desc__": "Button label prompting user to share their level completion on social media",
     "en_US": "Share your progress!",
+    "zh_TW": "分享你的進度！",
     "hi": "अपनी progress share करें!",
     "te_IN": "మీ పురోగతిని పంచుకోండి!",
     "de_DE": "Teile deinen Fortschritt!",
@@ -2056,6 +2106,7 @@ exports.strings = {
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
     "en_US": "X (Twitter)",
+    "zh_TW": "X (Twitter)",
     "hi": "X (Twitter)",
     "te_IN": "X (Twitter)",
     "de_DE": "X (Twitter)",
@@ -2067,6 +2118,7 @@ exports.strings = {
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
     "en_US": "LinkedIn",
+    "zh_TW": "LinkedIn",
     "hi": "LinkedIn",
     "te_IN": "LinkedIn",
     "de_DE": "LinkedIn",
@@ -2078,6 +2130,7 @@ exports.strings = {
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
     "en_US": "Facebook",
+    "zh_TW": "Facebook",
     "hi": "Facebook",
     "te_IN": "Facebook",
     "de_DE": "Facebook",
@@ -2175,11 +2228,15 @@ exports.strings = {
   },
   "level-load-failed": {
     "__desc__": "When a level's definition could not be loaded (e.g. a network failure)",
-    "en_US": "Could not load level \"{id}\". Check your connection and try again."
+    "en_US": "Could not load level \"{id}\". Check your connection and try again.",
+    "zh_CN": "无法加载关卡 \"{id}\"。请检查网络连接后重试。",
+    "zh_TW": "無法載入關卡 \"{id}\"。請檢查網路連線後重試。",
   },
   "level-loading": {
     "__desc__": "Shown in the level picker while a selected level is loading",
-    "en_US": "Loading level \"{id}\"\u2026"
+    "en_US": "Loading level \"{id}\"\u2026",
+    "zh_CN": "正在加载关卡 \"{id}\"…",
+    "zh_TW": "正在載入關卡 \"{id}\"…",
   },
   "level-no-id": {
     "__desc__": "When you say an id but that level doesn't exist",
@@ -2474,6 +2531,7 @@ exports.strings = {
   "no-solution-defined": {
     "__desc__": "Shown when the user runs `show solution` but the current level has no solution defined to place in the command box",
     "en_US": "This level doesn't have a solution to show!",
+    "zh_TW": "本關卡沒有可供展示的解答！",
     "hi": "इस level में दिखाने जैसा कोई solution नहीं है!",
     "te_IN": "ఈ స్థాయికి చూపించడానికి సాధన లేదు!",
     "az": "Bu bölümün göstəriləcək həlli yoxdur!",
@@ -3070,6 +3128,7 @@ exports.strings = {
   "close-window": {
     "__desc__": "Tooltip for the red control that closes a window.",
     "en_US": "Close window",
+    "zh_TW": "關閉視窗",
     "hi": "Window बंद करें",
     "te_IN": "విండోను మూయి",
     "az": "Pəncərəni bağla",
@@ -3085,6 +3144,7 @@ exports.strings = {
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
     "en_US": "Back",
+    "zh_TW": "返回",
     "hi": "वापस",
     "te_IN": "వెనుకకు",
     "az": "Geri",
@@ -3299,6 +3359,8 @@ exports.strings = {
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
     "en_US": "Show commands",
+    "zh_CN": "菜单",
+    "zh_TW": "選單",
     "it_IT": "Mostra comandi",
     "hi": "Commands दिखाएँ",
     "te_IN": "కమాండ్స్ చూపించు",
@@ -3306,6 +3368,8 @@ exports.strings = {
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
     "en_US": "Show available languages",
+    "zh_CN": "语言",
+    "zh_TW": "語言",
     "it_IT": "Mostra le lingue disponibili",
     "hi": "उपलब्ध भाषाएँ दिखाएँ",
     "te_IN": "అందుబాటులో ఉన్న భాషలు చూపించు",
@@ -3313,6 +3377,8 @@ exports.strings = {
   "main-helper-bar-threads": {
     "__desc__": "Tooltip for the link to the author's Threads profile",
     "en_US": "Follow me on Threads",
+    "zh_CN": "在 Threads 上关注我",
+    "zh_TW": "在 Threads 上追蹤我",
     "it_IT": "Seguimi su Threads",
     "hi": "मुझे Threads पर फॉलो करें",
     "te_IN": "Threads లో నన్ను ఫాలో అవ్వండి",
@@ -3320,6 +3386,8 @@ exports.strings = {
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
     "en_US": "Bad numeric argument: {arg}",
+    "zh_CN": "错误的数字参数：{arg}",
+    "zh_TW": "錯誤的數字參數：{arg}",
     "it_IT": "Argomento numerico non valido: {arg}",
     "hi": "गलत numeric argument: {arg}",
     "te_IN": "సంఖ్యా ఆర్గ్యుమెంట్ తప్పు: {arg}",
@@ -3327,6 +3395,8 @@ exports.strings = {
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
     "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute",
+    "zh_CN": "重置已通关状态会将所有关卡标记为未通关；由于这是一个破坏性操作，请传入 --confirm 参数以执行",
+    "zh_TW": "重設已通關狀態會將所有關卡標記為未通關；由於這是一個破壞性操作，請傳入 --confirm 參數以執行",
     "it_IT": "Reset solved contrassegnerà ogni livello come non ancora risolto; poiché questo è un comando distruttivo, passa --confirm per eseguirlo",
     "hi": "Reset solved हर level को अभी solve न किया हुआ mark कर देगा; यह destructive command है, इसलिए चलाने के लिए --confirm दें",
     "te_IN": "Reset solved చేస్తే ప్రతి స్థాయి ఇంకా solve చేయనిదిగా మారుతుంది; ఇది destructive కమాండ్ కాబట్టి, అమలు చేయడానికి --confirm ఇవ్వండి",
@@ -3334,6 +3404,8 @@ exports.strings = {
   "sandbox-error-something-went-wrong": {
     "__desc__": "Generic error when opening a level fails, {error} is the exception text",
     "en_US": "Something went wrong {error}",
+    "zh_CN": "出错了 {error}",
+    "zh_TW": "出錯了 {error}",
     "it_IT": "Qualcosa è andato storto {error}",
     "hi": "कुछ गड़बड़ हो गई {error}",
     "te_IN": "ఏదో తప్పు జరిగింది {error}",
@@ -3341,6 +3413,8 @@ exports.strings = {
   "sandbox-alias-set": {
     "__desc__": "Confirmation that a command alias was created",
     "en_US": "Set alias \"{alias}\" to \"{expansion}\"",
+    "zh_CN": "已将别名 \"{alias}\" 设置为 \"{expansion}\"",
+    "zh_TW": "已將別名 \"{alias}\" 設定為 \"{expansion}\"",
     "it_IT": "Alias \"{alias}\" impostato su \"{expansion}\"",
     "hi": "Alias \"{alias}\" को \"{expansion}\" पर सेट किया",
     "te_IN": "alias \"{alias}\" ని \"{expansion}\" కి సెట్ చేశారు",
@@ -3348,6 +3422,8 @@ exports.strings = {
   "sandbox-alias-removed": {
     "__desc__": "Confirmation that a command alias was removed",
     "en_US": "Removed alias \"{alias}\"",
+    "zh_CN": "已移除别名 \"{alias}\"",
+    "zh_TW": "已移除別名 \"{alias}\"",
     "it_IT": "Alias \"{alias}\" rimosso",
     "hi": "Alias \"{alias}\" हटा दिया",
     "te_IN": "alias \"{alias}\" ని తీసేశారు",
@@ -3355,6 +3431,8 @@ exports.strings = {
   "sandbox-rollup-done": {
     "__desc__": "Confirmation that previous commands were combined into one",
     "en_US": "Commands combined!",
+    "zh_CN": "命令已合并！",
+    "zh_TW": "命令已合併！",
     "it_IT": "Comandi combinati!",
     "hi": "Commands जोड़ दिए गए!",
     "te_IN": "కమాండ్స్ కలిపేశారు!",
@@ -3362,6 +3440,8 @@ exports.strings = {
   "git-error-fetch-checked-out": {
     "__desc__": "Error when fetching into the branch that is currently checked out",
     "en_US": "cannot fetch to {ref} when checked out on {ref}",
+    "zh_CN": "当 {ref} 处于检出状态时，无法 fetch 到 {ref}",
+    "zh_TW": "當 {ref} 處於檢出狀態時，無法 fetch 到 {ref}",
     "it_IT": "impossible fare il fetch su {ref} mentre si trova su {ref}",
     "hi": "{ref} पर checked out होने पर {ref} में fetch नहीं कर सकते",
     "te_IN": "{ref} పై checkout లో ఉన్నప్పుడు {ref} కి fetch చేయలేరు",
@@ -3369,6 +3449,8 @@ exports.strings = {
   "git-error-not-a-branch": {
     "__desc__": "Error when a ref that must be a branch is not one",
     "en_US": "{ref} is not a branch",
+    "zh_CN": "{ref} 不是一个分支",
+    "zh_TW": "{ref} 不是一個分支",
     "it_IT": "{ref} non è un ramo",
     "hi": "{ref} कोई branch नहीं है",
     "te_IN": "{ref} ఒక branch కాదు",
@@ -3376,6 +3458,8 @@ exports.strings = {
   "git-error-not-a-remote-branch": {
     "__desc__": "Error when a ref that must be a remote branch is not one",
     "en_US": "{ref} is not a remote branch",
+    "zh_CN": "{ref} 不是一个远端分支",
+    "zh_TW": "{ref} 不是一個遠端分支",
     "it_IT": "{ref} non è un ramo remoto",
     "hi": "{ref} कोई remote branch नहीं है",
     "te_IN": "{ref} ఒక రిమోట్ branch కాదు",
@@ -3383,6 +3467,8 @@ exports.strings = {
   "git-error-not-a-remote": {
     "__desc__": "Error when the named remote does not exist in the repository",
     "en_US": "{remote} is not a remote in your repository! try adding origin to that argument",
+    "zh_CN": "{remote} 不是仓库中的远端！请尝试为该参数添加 origin",
+    "zh_TW": "{remote} 不是倉庫中的遠端！請嘗試為該參數添加 origin",
     "it_IT": "{remote} non è un remote nel tuo repository! Prova ad aggiungere origin a quell'argomento",
     "hi": "{remote} आपकी repository में कोई remote नहीं है! उस argument में origin जोड़कर try करें",
     "te_IN": "{remote} మీ రిపోజిటరీలో రిమోట్ కాదు! ఆ ఆర్గ్యుమెంట్ కి origin జోడించి ట్రై చేయి",
@@ -3390,6 +3476,8 @@ exports.strings = {
   "git-error-branch-bang": {
     "__desc__": "Error when the named branch does not exist",
     "en_US": "{branch} is not a branch!",
+    "zh_CN": "{branch} 不是一个分支！",
+    "zh_TW": "{branch} 不是一個分支！",
     "it_IT": "{branch} non è un ramo!",
     "hi": "{branch} कोई branch नहीं है!",
     "te_IN": "{branch} ఒక branch కాదు!",
@@ -3397,6 +3485,8 @@ exports.strings = {
   "git-error-not-remote-tracking": {
     "__desc__": "Error when pushing a branch that tracks no remote branch",
     "en_US": "{branch} is not a remote tracking branch! I don't know where to push",
+    "zh_CN": "{branch} 不是远端跟踪分支！无法确定推送位置",
+    "zh_TW": "{branch} 不是遠端跟蹤分支！無法確定推送位置",
     "it_IT": "{branch} non è un branch di tracciamento remoto! Non so dove effettuare il push",
     "hi": "{branch} कोई remote tracking branch नहीं है! मुझे नहीं पता कहाँ push करना है",
     "te_IN": "{branch} ఒక రిమోట్-ట్రాకింగ్ branch కాదు! ఎక్కడికి push చేయాలో తెలియడం లేదు",
@@ -3404,6 +3494,8 @@ exports.strings = {
   "git-error-pull-detached": {
     "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
     "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!",
+    "zh_CN": "处于分离 HEAD 状态时，若未指定远端分支则无法执行 git pull！",
+    "zh_TW": "處於分離 HEAD 狀態時，若未指定遠端分支則無法執行 git pull！",
     "it_IT": "Impossibile eseguire git pull in modalità HEAD staccata se non viene specificato alcun branch remoto!",
     "hi": "Detached HEAD mode में बिना remote branch बताए git pull नहीं चला सकते!",
     "te_IN": "రిమోట్ branch పేర్కొనకపోతే, detached HEAD మోడ్ లో `git pull` అమలు చేయలేరు!",
@@ -3411,6 +3503,8 @@ exports.strings = {
   "git-error-head-not-branch": {
     "__desc__": "Error when HEAD is detached but a branch is required",
     "en_US": "fatal: HEAD does not point to a branch",
+    "zh_CN": "fatal: HEAD 没有指向一个分支",
+    "zh_TW": "fatal: HEAD 沒有指向一個分支",
     "it_IT": "fatal: HEAD non punta a un branch",
     "hi": "fatal: HEAD किसी branch को point नहीं कर रहा",
     "te_IN": "fatal: HEAD ఒక branch ని పాయింట్ చేయడం లేదు",
@@ -3418,6 +3512,8 @@ exports.strings = {
   "git-error-delete-no-refs": {
     "__desc__": "Error when push --delete is given no refs",
     "en_US": "--delete doesn't make sense without any refs",
+    "zh_CN": "--delete 需要指定 ref",
+    "zh_TW": "--delete 需要指定 ref",
     "it_IT": "--delete non ha senso senza alcuna ref",
     "hi": "बिना किसी refs के --delete का कोई मतलब नहीं",
     "te_IN": "refs లేకుండా --delete అర్థం కాదు",
@@ -3425,6 +3521,8 @@ exports.strings = {
   "git-error-delete-plain-refs": {
     "__desc__": "Error when push --delete is given a source:destination refspec",
     "en_US": "--delete only accepts plain target ref names",
+    "zh_CN": "--delete 只接受普通目标 ref 名称",
+    "zh_TW": "--delete 只接受普通目標 ref 名稱",
     "it_IT": "--delete accetta solo nomi di ref di destinazione semplici",
     "hi": "--delete सिर्फ plain target ref नाम accept करता है",
     "te_IN": "--delete సింపుల్ target ref పేర్లను మాత్రమే అంగీకరిస్తుంది",
@@ -3432,6 +3530,8 @@ exports.strings = {
   "git-error-delete-nonexistent": {
     "__desc__": "Error when deleting a branch that does not exist",
     "en_US": "cannot delete branch {branch} which doesn't exist",
+    "zh_CN": "无法删除不存在的分支 {branch}",
+    "zh_TW": "無法刪除不存在的分支 {branch}",
     "it_IT": "impossibile eliminare il branch {branch} perché non esiste",
     "hi": "Branch {branch} मौजूद नहीं है, इसलिए delete नहीं कर सकते",
     "te_IN": "ఉనికిలో లేని {branch} branch ని డిలీట్ చేయలేరు",
@@ -3439,6 +3539,8 @@ exports.strings = {
   "git-error-describe-no-tags": {
     "__desc__": "Error from git describe when the repository has no tags",
     "en_US": "fatal: No tags found, cannot describe anything.",
+    "zh_CN": "fatal: 未找到标签，无法描述。",
+    "zh_TW": "fatal: 未找到標籤，無法描述。",
     "it_IT": "fatal: Nessun tag trovato, impossibile descrivere alcunché.",
     "hi": "fatal: कोई tag नहीं मिला, describe कुछ नहीं कर सकते।",
     "te_IN": "fatal: ట్యాగ్లు ఏవీ కనబడలేదు, describe చేయడం సాధ్యం కాదు.",
@@ -3446,6 +3548,8 @@ exports.strings = {
   "git-error-no-tag-to-remove": {
     "__desc__": "Error when removing a tag that does not exist",
     "en_US": "No tag found, nothing to remove",
+    "zh_CN": "未找到标签，无可删除内容",
+    "zh_TW": "未找到標籤，無可刪除內容",
     "it_IT": "Nessun tag trovato, niente da rimuovere",
     "hi": "कोई tag नहीं मिला, हटाने को कुछ नहीं",
     "te_IN": "ట్యాగ్ కనబడలేదు, తీసేయడానికి ఏమీ లేదు",
@@ -3453,6 +3557,8 @@ exports.strings = {
   "git-error-nothing-to-clone": {
     "__desc__": "Error when cloning with no remote available",
     "en_US": "Nothing to clone from!",
+    "zh_CN": "没有可 clone 的内容！",
+    "zh_TW": "沒有可 clone 的內容！",
     "it_IT": "Niente da clonare!",
     "hi": "Clone करने के लिए कुछ नहीं!",
     "te_IN": "క్లోన్ చేయడానికి ఏమీ లేదు!",
@@ -3460,6 +3566,8 @@ exports.strings = {
   "git-warning-tracking": {
     "__desc__": "Warning shown when a local branch starts tracking a remote branch",
     "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\"",
+    "zh_CN": "本地分支 \"{localBranch}\" 已设置为跟踪远端分支 \"{remoteBranch}\"",
+    "zh_TW": "本地分支 \"{localBranch}\" 已設定為跟蹤遠端分支 \"{remoteBranch}\"",
     "it_IT": "il branch locale \"{localBranch}\" è impostato per tracciare il branch remoto \"{remoteBranch}\"",
     "hi": "Local branch \"{localBranch}\" अब remote branch \"{remoteBranch}\" को track करेगी",
     "te_IN": "లోకల్ branch \"{localBranch}\" ఇప్పుడు రిమోట్ branch \"{remoteBranch}\" ని ట్రాక్ చేస్తుంది",
@@ -3467,6 +3575,8 @@ exports.strings = {
   "git-error-push-tag-source": {
     "__desc__": "Error when pushing a tag as the source of a refspec",
     "en_US": "Tags are not allowed as sources for pushing",
+    "zh_CN": "标签不能作为 push 的源",
+    "zh_TW": "標籤不能作為 push 的來源",
     "it_IT": "I tag non sono consentiti come sorgenti per il push",
     "hi": "Push के source के तौर पर tags allowed नहीं हैं",
     "te_IN": "ట్యాగ్లను push చేయడానికి సోర్స్ గా అనుమతించరు",
@@ -3474,6 +3584,8 @@ exports.strings = {
   "git-error-delete-main-remote": {
     "__desc__": "Error when deleting the main branch on the remote",
     "en_US": "You cannot delete main branch on remote!",
+    "zh_CN": "不能删除远端的 main 分支！",
+    "zh_TW": "不能刪除遠端的 main 分支！",
     "it_IT": "Non puoi eliminare il branch main sul remote!",
     "hi": "आप remote पर main branch delete नहीं कर सकते!",
     "te_IN": "రిమోట్ లోని main branch ని డిలీట్ చేయలేరు!",
@@ -3481,6 +3593,8 @@ exports.strings = {
   "git-error-commits-not-in-set": {
     "__desc__": "Error when named commits are not part of the given set",
     "en_US": "Hey those commits don't exist in the set!",
+    "zh_CN": "这些提交不在集合中！",
+    "zh_TW": "這些提交不在集合中！",
     "it_IT": "Ehi, quei commit non esistono nell'insieme!",
     "hi": "अरे, वे commits set में मौजूद नहीं हैं!",
     "te_IN": "ఆ commits ఆ సెట్ లో లేవు!",
@@ -3488,6 +3602,8 @@ exports.strings = {
   "git-error-no-tags-upstream": {
     "__desc__": "Error when fetching tags but the remote has none",
     "en_US": "Fatal: no tags found upstream",
+    "zh_CN": "Fatal: 上游未找到标签",
+    "zh_TW": "Fatal: 上游未找到標籤",
     "it_IT": "fatal: nessun tag trovato upstream",
     "hi": "Fatal: upstream में कोई tag नहीं मिला",
     "te_IN": "Fatal: upstream లో ట్యాగ్లు ఏవీ కనబడలేదు",
@@ -3495,6 +3611,8 @@ exports.strings = {
   "git-error-branch-rename-not-branch": {
     "__desc__": "Error when renaming something that is not a branch",
     "en_US": "fatal: not a branch: {branch}",
+    "zh_CN": "fatal: 不是分支：{branch}",
+    "zh_TW": "fatal: 不是分支：{branch}",
     "it_IT": "fatal: non è un branch: {branch}",
     "hi": "fatal: कोई branch नहीं: {branch}",
     "te_IN": "fatal: అది branch కాదు: {branch}",
@@ -3502,6 +3620,8 @@ exports.strings = {
   "git-error-branch-rename-exists": {
     "__desc__": "Error when renaming a branch to a name already taken",
     "en_US": "fatal: A branch named '{branch}' already exists.",
+    "zh_CN": "fatal: 名为 '{branch}' 的分支已存在。",
+    "zh_TW": "fatal: 名為 '{branch}' 的分支已存在。",
     "it_IT": "fatal: Un branch chiamato '{branch}' esiste già.",
     "hi": "fatal: '{branch}' नाम की branch पहले से मौजूद है।",
     "te_IN": "fatal: '{branch}' పేరుతో branch ఇప్పటికే ఉంది.",
@@ -3509,6 +3629,8 @@ exports.strings = {
   "hg-error-m-d-incompatible": {
     "__desc__": "Error when hg is given both -m and -d",
     "en_US": "-m and -d are incompatible",
+    "zh_CN": "-m 与 -d 不兼容",
+    "zh_TW": "-m 與 -d 不相容",
     "it_IT": "-m e -d non sono compatibili",
     "hi": "-m और -d साथ नहीं चल सकते",
     "te_IN": "-m మరియు -d ఒకదానితో ఒకటి కలిసి రావు",
@@ -3516,6 +3638,8 @@ exports.strings = {
   "hg-error-r-d-incompatible": {
     "__desc__": "Error when hg is given both -r and -d",
     "en_US": "-r is incompatible with -d",
+    "zh_CN": "-r 与 -d 不兼容",
+    "zh_TW": "-r 與 -d 不相容",
     "it_IT": "-r non è compatibile con -d",
     "hi": "-r और -d साथ नहीं चल सकते",
     "te_IN": "-r మరియు -d కలిసి రావు",
@@ -3523,6 +3647,8 @@ exports.strings = {
   "hg-error-r-m-incompatible": {
     "__desc__": "Error when hg is given both -r and -m",
     "en_US": "-r is incompatible with -m",
+    "zh_CN": "-r 与 -m 不兼容",
+    "zh_TW": "-r 與 -m 不相容",
     "it_IT": "-r non è compatibile con -m",
     "hi": "-r और -m साथ नहीं चल सकते",
     "te_IN": "-r మరియు -m కలిసి రావు",
@@ -3530,6 +3656,8 @@ exports.strings = {
   "sandbox-tree-link": {
     "__desc__": "Preamble for the shareable link to the current tree state",
     "en_US": "Here is a link to the current state of the tree: ",
+    "zh_CN": "这是当前提交树状态的链接：",
+    "zh_TW": "這是目前提交樹狀態的連結：",
     "it_IT": "Ecco un link allo stato attuale dell'albero: ",
     "hi": "यहाँ tree की मौजूदा state का link है: ",
     "te_IN": "ట్రీ యొక్క ప్రస్తుత స్థితికి లింక్ ఇదిగో: ",
@@ -3537,6 +3665,8 @@ exports.strings = {
   "sandbox-instructions-disabled": {
     "__desc__": "Message shown when level instructions have been turned off",
     "en_US": "Level instructions disabled",
+    "zh_CN": "关卡说明已禁用",
+    "zh_TW": "關卡說明已停用",
     "it_IT": "Istruzioni del livello disabilitate",
     "hi": "Level के निर्देश disabled हैं",
     "te_IN": "స్థాయి సూచనలు ఆఫ్ చేయబడ్డాయి",
@@ -3544,6 +3674,8 @@ exports.strings = {
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
     "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands",
+    "zh_CN": "未找到 \"{target}\" 的文档；运行 `show commands` 查看所有可用命令",
+    "zh_TW": "未找到 \"{target}\" 的文件；執行 `show commands` 檢視所有可用命令",
     "it_IT": "Nessuna documentazione trovata per \"{target}\"; esegui `show commands` per vedere tutti i comandi disponibili",
     "hi": "\"{target}\" के लिए कोई documentation नहीं मिली; सभी commands देखने के लिए `show commands` चलाएँ",
     "te_IN": "\"{target}\" కోసం డాక్యుమెంటేషన్ కనబడలేదు; అందుబాటులో ఉన్న కమాండ్స్ చూడాలంటే `show commands` రన్ చేయి",
