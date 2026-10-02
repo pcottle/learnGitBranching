@@ -2,132 +2,154 @@ exports.strings = {
   "certificate-title": {
     "__desc__": "Title of the modal window that shows the completion certificate",
     "en_US": "Certificate of Completion",
+    "tr_TR": "Tamamlama Sertifikası",
     "zh_CN": "荣誉证书",
     "zh_TW": "榮譽證書",
   },
   "certificate-headline": {
     "__desc__": "Headline inside the certificate modal, celebrating finishing every level",
     "en_US": "You finished every single level!",
+    "tr_TR": "Bütün seviyeleri bitirdin!",
     "zh_CN": "你完成了所有关卡！",
     "zh_TW": "你完成了所有關卡！",
   },
   "certificate-subhead": {
     "__desc__": "Sub-headline inside the certificate modal. {levels} is the total number of levels",
     "en_US": "All {levels} of them. Put your name on it and take it with you.",
+    "tr_TR": "Hem de {levels} seviyenin hepsini. Adını yaz, sertifikan senin olsun.",
     "zh_CN": "整整 {levels} 个关卡。签下你的名字，收下它吧。",
     "zh_TW": "整整 {levels} 個關卡。簽下你的名字，收下它吧。",
   },
   "certificate-name-label": {
     "__desc__": "Label for the text field where you type the name that appears on the certificate",
     "en_US": "Your name",
+    "tr_TR": "Adın",
     "zh_CN": "签名",
     "zh_TW": "簽名",
   },
   "certificate-name-placeholder": {
     "__desc__": "Placeholder for the certificate name text field",
     "en_US": "Type your name here",
+    "tr_TR": "Adını buraya yaz",
     "zh_CN": "在此输入你的名字",
     "zh_TW": "在此輸入你的名字",
   },
   "certificate-copy": {
     "__desc__": "Button that copies the certificate image to the clipboard",
     "en_US": "Copy image",
+    "tr_TR": "Görseli kopyala",
     "zh_CN": "复制图片",
     "zh_TW": "複製圖片",
   },
   "certificate-copied": {
     "__desc__": "Status message after the certificate image is copied to the clipboard",
     "en_US": "Copied! Paste it wherever you like.",
+    "tr_TR": "Kopyalandı! İstediğin yere yapıştırabilirsin.",
     "zh_CN": "已复制！快去粘贴分享吧。",
     "zh_TW": "已複製！快去貼上分享吧。",
   },
   "certificate-copy-failed": {
     "__desc__": "Status message when copying the certificate image to the clipboard fails",
     "en_US": "Copying failed. Try downloading it instead.",
+    "tr_TR": "Kopyalama başarısız oldu. Bunun yerine indirmeyi dene.",
     "zh_CN": "复制失败，请尝试下载。",
     "zh_TW": "複製失敗，請嘗試下載。",
   },
   "certificate-copy-unsupported": {
     "__desc__": "Status message when the browser cannot copy images to the clipboard at all",
     "en_US": "This browser cannot copy images. Try downloading it instead.",
+    "tr_TR": "Bu tarayıcı görsel kopyalayamıyor. Bunun yerine indirmeyi dene.",
     "zh_CN": "当前浏览器不支持复制图片，试试下载吧。",
     "zh_TW": "目前瀏覽器不支援複製圖片，試試下載吧。",
   },
   "certificate-download": {
     "__desc__": "Button that downloads the certificate as a PNG file",
     "en_US": "Download PNG",
+    "tr_TR": "PNG olarak indir",
     "zh_CN": "下载 PNG",
     "zh_TW": "下載 PNG",
   },
   "certificate-downloaded": {
     "__desc__": "Status message after the certificate PNG has been downloaded",
     "en_US": "Saved to your downloads.",
+    "tr_TR": "İndirilenler klasörüne kaydedildi.",
     "zh_CN": "已保存到下载目录。",
     "zh_TW": "已儲存到下載目錄。",
   },
   "certificate-download-failed": {
     "__desc__": "Status message when downloading the certificate PNG fails",
     "en_US": "Download failed, sorry about that.",
+    "tr_TR": "İndirme başarısız oldu, kusura bakma.",
     "zh_CN": "下载失败，非常抱歉。",
     "zh_TW": "下載失敗，非常抱歉。",
   },
   "certificate-close": {
     "__desc__": "Button that closes the completion certificate modal",
     "en_US": "Close",
+    "tr_TR": "Kapat",
     "zh_CN": "关闭",
     "zh_TW": "關閉",
   },
   "certificate-cta": {
     "__desc__": "Button in the level-complete dialog that opens the completion certificate",
     "en_US": "\ud83c\udfc6  View your certificate",
+    "tr_TR": "🏆  Sertifikanı gör",
     "zh_CN": "🏆 领取你的荣誉证书",
     "zh_TW": "🏆 領取你的榮譽證書",
   },
   "certificate-share": {
     "__desc__": "Heading above the social share buttons in the certificate modal",
     "en_US": "Share the news",
+    "tr_TR": "Haberi paylaş",
     "zh_CN": "分享这个好消息",
     "zh_TW": "分享這個好消息",
   },
   "certificate-svg-title": {
     "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
     "en_US": "CERTIFICATE OF COMPLETION",
+    "tr_TR": "TAMAMLAMA SERTİFİKASI",
     "zh_CN": "通关证书",
     "zh_TW": "通關證書",
   },
   "certificate-svg-name-placeholder": {
     "__desc__": "Faded placeholder printed on the certificate before a name is entered",
     "en_US": "YOUR NAME HERE",
+    "tr_TR": "ADINIZ BURAYA",
     "zh_CN": "签名",
     "zh_TW": "簽名",
   },
   "certificate-svg-achievement": {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
     "en_US": "has completed all {levels} levels of Learn Git Branching",
+    "tr_TR": "Learn Git Branching'in {levels} seviyesinin tamamını bitirmiştir",
     "zh_CN": "已完成 Learn Git Branching 所有关卡，共计 {levels} 个",
     "zh_TW": "已完成 Learn Git Branching 所有關卡，共計 {levels} 個",
   },
   "certificate-svg-topics-label": {
     "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
     "en_US": "TOPICS COVERED",
+    "tr_TR": "İŞLENEN KONULAR",
     "zh_CN": "涵盖主题",
     "zh_TW": "涵蓋主題",
   },
   "certificate-svg-topics-first": {
     "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
     "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs",
+    "tr_TR": "Commit ve Branch'ler  •  Merge ve Rebase  •  Cherry-pick ve Göreli Referanslar",
     "zh_CN": "提交与分支  •  合并与变基  •  Cherry-pick 与相对引用",
     "zh_TW": "提交與分支  •  合併與變基  •  Cherry-pick 與相對引用",
   },
   "certificate-svg-topics-second": {
     "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
     "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push",
+    "tr_TR": "Değişiklikleri Geri Alma  •  Tag'ler ve Geçmiş  •  Fetch, Pull ve Push",
     "zh_CN": "撤销改动  •  标签与历史  •  Fetch、Pull 与 Push",
     "zh_TW": "撤銷改動  •  標籤與歷史  •  Fetch、Pull 與 Push",
   },
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
     "en_US": "ISSUED",
+    "tr_TR": "VERİLİŞ TARİHİ",
     "zh_CN": "已签发",
     "zh_TW": "已簽發",
   },
@@ -1130,6 +1152,7 @@ exports.strings = {
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
+    "tr_TR": "fatal: switch için bir branch gerekir. '{ref}' bir branch değil -- checkout yapıp HEAD'i ayırmak (detach) istiyorsan 'git switch --detach {ref}' (ya da '-d') kullan.",
     "zh_TW": "致命錯誤：切換需要一個分支。'{ref}' 不是分支——如果你想檢出並分離 HEAD，請使用 'git switch --detach {ref}'（或 '-d'）。",
     "hi": "fatal: switch करने के लिए branch ज़रूरी है। '{ref}' कोई branch नहीं है -- अगर आप इसे check out करके HEAD को detach करना चाहते हैं तो 'git switch --detach {ref}' (या '-d') इस्तेमाल करें।",
     "te_IN": "fatal: మారడానికి branch అవసరం. '{ref}' branch కాదు -- దీన్ని checkout చేసి HEAD ను వేరుచేయాలనుకుంటే 'git switch --detach {ref}' (లేదా '-d') యూజ్ చేయి.",
@@ -2094,6 +2117,7 @@ exports.strings = {
   "share-progress": {
     "__desc__": "Button label prompting user to share their level completion on social media",
     "en_US": "Share your progress!",
+    "tr_TR": "İlerlemeni paylaş!",
     "zh_TW": "分享你的進度！",
     "hi": "अपनी progress share करें!",
     "te_IN": "మీ పురోగతిని పంచుకోండి!",
@@ -2106,6 +2130,7 @@ exports.strings = {
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
     "en_US": "X (Twitter)",
+    "tr_TR": "X (Twitter)",
     "zh_TW": "X (Twitter)",
     "hi": "X (Twitter)",
     "te_IN": "X (Twitter)",
@@ -2118,6 +2143,7 @@ exports.strings = {
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
     "en_US": "LinkedIn",
+    "tr_TR": "LinkedIn",
     "zh_TW": "LinkedIn",
     "hi": "LinkedIn",
     "te_IN": "LinkedIn",
@@ -2130,6 +2156,7 @@ exports.strings = {
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
     "en_US": "Facebook",
+    "tr_TR": "Facebook",
     "zh_TW": "Facebook",
     "hi": "Facebook",
     "te_IN": "Facebook",
@@ -2229,12 +2256,14 @@ exports.strings = {
   "level-load-failed": {
     "__desc__": "When a level's definition could not be loaded (e.g. a network failure)",
     "en_US": "Could not load level \"{id}\". Check your connection and try again.",
+    "tr_TR": "\"{id}\" seviyesi yüklenemedi. Bağlantını kontrol edip tekrar dene.",
     "zh_CN": "无法加载关卡 \"{id}\"。请检查网络连接后重试。",
     "zh_TW": "無法載入關卡 \"{id}\"。請檢查網路連線後重試。",
   },
   "level-loading": {
     "__desc__": "Shown in the level picker while a selected level is loading",
     "en_US": "Loading level \"{id}\"\u2026",
+    "tr_TR": "\"{id}\" seviyesi yükleniyor…",
     "zh_CN": "正在加载关卡 \"{id}\"…",
     "zh_TW": "正在載入關卡 \"{id}\"…",
   },
@@ -3359,6 +3388,7 @@ exports.strings = {
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
     "en_US": "Show commands",
+    "tr_TR": "Komutları göster",
     "zh_CN": "菜单",
     "zh_TW": "選單",
     "it_IT": "Mostra comandi",
@@ -3368,6 +3398,7 @@ exports.strings = {
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
     "en_US": "Show available languages",
+    "tr_TR": "Mevcut dilleri göster",
     "zh_CN": "语言",
     "zh_TW": "語言",
     "it_IT": "Mostra le lingue disponibili",
@@ -3377,6 +3408,7 @@ exports.strings = {
   "main-helper-bar-threads": {
     "__desc__": "Tooltip for the link to the author's Threads profile",
     "en_US": "Follow me on Threads",
+    "tr_TR": "Threads'te beni takip et",
     "zh_CN": "在 Threads 上关注我",
     "zh_TW": "在 Threads 上追蹤我",
     "it_IT": "Seguimi su Threads",
@@ -3386,48 +3418,56 @@ exports.strings = {
   "command-helper-bar-export-progress": {
     "__desc__": "Export progress command label in the bottom command helper bar.",
     "en_US": "Export progress",
+    "tr_TR": "İlerlemeyi dışa aktar",
     "zh_CN": "导出",
     "zh_TW": "匯出",
   },
   "command-helper-bar-import-progress": {
     "__desc__": "Import progress command label in the bottom command helper bar.",
     "en_US": "Import progress",
+    "tr_TR": "İlerlemeyi içe aktar",
     "zh_CN": "导入",
     "zh_TW": "匯入",
   },
   "progress-export-copied": {
     "__desc__": "Shown in the terminal after the user exports their progress to the clipboard",
     "en_US": "Progress copied to clipboard! Paste it somewhere safe to back it up. To restore later, run `load` and paste it in.",
+    "tr_TR": "İlerlemen panoya kopyalandı! Yedeklemek için güvenli bir yere yapıştır. Sonra geri yüklemek için `load` komutunu çalıştırıp metni yapıştırman yeterli.",
     "zh_CN": "进度已复制到剪贴板！请将其粘贴到安全的地方保存。恢复时运行 `load` 并粘贴即可。",
     "zh_TW": "進度已複製到剪貼簿！請將其貼到安全的地方保存。恢復時執行 `load` 並貼上即可。",
   },
   "progress-import-prompt": {
     "__desc__": "Prompt shown above the text input when importing saved progress",
     "en_US": "Paste your saved progress text below!",
+    "tr_TR": "Kaydettiğin ilerleme metnini aşağıya yapıştır!",
     "zh_CN": "请在下方粘贴您保存的进度文本！",
     "zh_TW": "請在下方貼上您保存的進度文字！",
   },
   "progress-import-success": {
     "__desc__": "Shown in the terminal after progress is successfully imported",
     "en_US": "Progress imported successfully!",
+    "tr_TR": "İlerleme başarıyla içe aktarıldı!",
     "zh_CN": "进度导入成功！",
     "zh_TW": "進度匯入成功！",
   },
   "progress-import-error": {
     "__desc__": "Shown in the terminal when importing progress fails",
     "en_US": "Could not import progress: {error}",
+    "tr_TR": "İlerleme içe aktarılamadı: {error}",
     "zh_CN": "无法导入进度：{error}",
     "zh_TW": "無法匯入進度：{error}",
   },
   "progress-export-copy-failed": {
     "__desc__": "Shown in the terminal when the progress could not be copied to the clipboard",
     "en_US": "Could not copy progress to the clipboard: {error}",
+    "tr_TR": "İlerleme panoya kopyalanamadı: {error}",
     "zh_CN": "无法将进度复制到剪贴板：{error}",
     "zh_TW": "無法將進度複製到剪貼簿：{error}",
   },
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
     "en_US": "Bad numeric argument: {arg}",
+    "tr_TR": "Geçersiz sayısal argüman: {arg}",
     "zh_CN": "错误的数字参数：{arg}",
     "zh_TW": "錯誤的數字參數：{arg}",
     "it_IT": "Argomento numerico non valido: {arg}",
@@ -3437,6 +3477,7 @@ exports.strings = {
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
     "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute",
+    "tr_TR": "reset solved bütün seviyeleri çözülmemiş olarak işaretler; bu geri alınamaz bir komut olduğu için çalıştırmak istiyorsan --confirm ekle",
     "zh_CN": "重置已通关状态会将所有关卡标记为未通关；由于这是一个破坏性操作，请传入 --confirm 参数以执行",
     "zh_TW": "重設已通關狀態會將所有關卡標記為未通關；由於這是一個破壞性操作，請傳入 --confirm 參數以執行",
     "it_IT": "Reset solved contrassegnerà ogni livello come non ancora risolto; poiché questo è un comando distruttivo, passa --confirm per eseguirlo",
@@ -3446,6 +3487,7 @@ exports.strings = {
   "sandbox-error-something-went-wrong": {
     "__desc__": "Generic error when opening a level fails, {error} is the exception text",
     "en_US": "Something went wrong {error}",
+    "tr_TR": "Bir şeyler ters gitti {error}",
     "zh_CN": "出错了 {error}",
     "zh_TW": "出錯了 {error}",
     "it_IT": "Qualcosa è andato storto {error}",
@@ -3455,6 +3497,7 @@ exports.strings = {
   "sandbox-alias-set": {
     "__desc__": "Confirmation that a command alias was created",
     "en_US": "Set alias \"{alias}\" to \"{expansion}\"",
+    "tr_TR": "\"{alias}\" takma adı \"{expansion}\" olarak ayarlandı",
     "zh_CN": "已将别名 \"{alias}\" 设置为 \"{expansion}\"",
     "zh_TW": "已將別名 \"{alias}\" 設定為 \"{expansion}\"",
     "it_IT": "Alias \"{alias}\" impostato su \"{expansion}\"",
@@ -3464,6 +3507,7 @@ exports.strings = {
   "sandbox-alias-removed": {
     "__desc__": "Confirmation that a command alias was removed",
     "en_US": "Removed alias \"{alias}\"",
+    "tr_TR": "\"{alias}\" takma adı kaldırıldı",
     "zh_CN": "已移除别名 \"{alias}\"",
     "zh_TW": "已移除別名 \"{alias}\"",
     "it_IT": "Alias \"{alias}\" rimosso",
@@ -3473,6 +3517,7 @@ exports.strings = {
   "sandbox-rollup-done": {
     "__desc__": "Confirmation that previous commands were combined into one",
     "en_US": "Commands combined!",
+    "tr_TR": "Komutlar birleştirildi!",
     "zh_CN": "命令已合并！",
     "zh_TW": "命令已合併！",
     "it_IT": "Comandi combinati!",
@@ -3482,6 +3527,7 @@ exports.strings = {
   "git-error-fetch-checked-out": {
     "__desc__": "Error when fetching into the branch that is currently checked out",
     "en_US": "cannot fetch to {ref} when checked out on {ref}",
+    "tr_TR": "{ref} checkout edilmişken {ref} üzerine fetch yapılamaz",
     "zh_CN": "当 {ref} 处于检出状态时，无法 fetch 到 {ref}",
     "zh_TW": "當 {ref} 處於檢出狀態時，無法 fetch 到 {ref}",
     "it_IT": "impossible fare il fetch su {ref} mentre si trova su {ref}",
@@ -3491,6 +3537,7 @@ exports.strings = {
   "git-error-not-a-branch": {
     "__desc__": "Error when a ref that must be a branch is not one",
     "en_US": "{ref} is not a branch",
+    "tr_TR": "{ref} bir branch değil",
     "zh_CN": "{ref} 不是一个分支",
     "zh_TW": "{ref} 不是一個分支",
     "it_IT": "{ref} non è un ramo",
@@ -3500,6 +3547,7 @@ exports.strings = {
   "git-error-not-a-remote-branch": {
     "__desc__": "Error when a ref that must be a remote branch is not one",
     "en_US": "{ref} is not a remote branch",
+    "tr_TR": "{ref} bir remote branch değil",
     "zh_CN": "{ref} 不是一个远端分支",
     "zh_TW": "{ref} 不是一個遠端分支",
     "it_IT": "{ref} non è un ramo remoto",
@@ -3509,6 +3557,7 @@ exports.strings = {
   "git-error-not-a-remote": {
     "__desc__": "Error when the named remote does not exist in the repository",
     "en_US": "{remote} is not a remote in your repository! try adding origin to that argument",
+    "tr_TR": "{remote} deponda tanımlı bir remote değil! O argümana origin eklemeyi dene",
     "zh_CN": "{remote} 不是仓库中的远端！请尝试为该参数添加 origin",
     "zh_TW": "{remote} 不是倉庫中的遠端！請嘗試為該參數添加 origin",
     "it_IT": "{remote} non è un remote nel tuo repository! Prova ad aggiungere origin a quell'argomento",
@@ -3518,6 +3567,7 @@ exports.strings = {
   "git-error-branch-bang": {
     "__desc__": "Error when the named branch does not exist",
     "en_US": "{branch} is not a branch!",
+    "tr_TR": "{branch} bir branch değil!",
     "zh_CN": "{branch} 不是一个分支！",
     "zh_TW": "{branch} 不是一個分支！",
     "it_IT": "{branch} non è un ramo!",
@@ -3527,6 +3577,7 @@ exports.strings = {
   "git-error-not-remote-tracking": {
     "__desc__": "Error when pushing a branch that tracks no remote branch",
     "en_US": "{branch} is not a remote tracking branch! I don't know where to push",
+    "tr_TR": "{branch} bir remote tracking branch değil! Nereye push edeceğimi bilmiyorum",
     "zh_CN": "{branch} 不是远端跟踪分支！无法确定推送位置",
     "zh_TW": "{branch} 不是遠端跟蹤分支！無法確定推送位置",
     "it_IT": "{branch} non è un branch di tracciamento remoto! Non so dove effettuare il push",
@@ -3536,6 +3587,7 @@ exports.strings = {
   "git-error-pull-detached": {
     "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
     "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!",
+    "tr_TR": "Remote branch belirtilmeden detached HEAD modunda git pull çalıştırılamaz!",
     "zh_CN": "处于分离 HEAD 状态时，若未指定远端分支则无法执行 git pull！",
     "zh_TW": "處於分離 HEAD 狀態時，若未指定遠端分支則無法執行 git pull！",
     "it_IT": "Impossibile eseguire git pull in modalità HEAD staccata se non viene specificato alcun branch remoto!",
@@ -3545,6 +3597,7 @@ exports.strings = {
   "git-error-head-not-branch": {
     "__desc__": "Error when HEAD is detached but a branch is required",
     "en_US": "fatal: HEAD does not point to a branch",
+    "tr_TR": "fatal: HEAD bir branch'i göstermiyor",
     "zh_CN": "fatal: HEAD 没有指向一个分支",
     "zh_TW": "fatal: HEAD 沒有指向一個分支",
     "it_IT": "fatal: HEAD non punta a un branch",
@@ -3554,6 +3607,7 @@ exports.strings = {
   "git-error-delete-no-refs": {
     "__desc__": "Error when push --delete is given no refs",
     "en_US": "--delete doesn't make sense without any refs",
+    "tr_TR": "--delete tek başına, ref verilmeden bir anlam ifade etmiyor",
     "zh_CN": "--delete 需要指定 ref",
     "zh_TW": "--delete 需要指定 ref",
     "it_IT": "--delete non ha senso senza alcuna ref",
@@ -3563,6 +3617,7 @@ exports.strings = {
   "git-error-delete-plain-refs": {
     "__desc__": "Error when push --delete is given a source:destination refspec",
     "en_US": "--delete only accepts plain target ref names",
+    "tr_TR": "--delete yalnızca düz hedef ref adlarını kabul eder",
     "zh_CN": "--delete 只接受普通目标 ref 名称",
     "zh_TW": "--delete 只接受普通目標 ref 名稱",
     "it_IT": "--delete accetta solo nomi di ref di destinazione semplici",
@@ -3572,6 +3627,7 @@ exports.strings = {
   "git-error-delete-nonexistent": {
     "__desc__": "Error when deleting a branch that does not exist",
     "en_US": "cannot delete branch {branch} which doesn't exist",
+    "tr_TR": "var olmayan {branch} branch'i silinemez",
     "zh_CN": "无法删除不存在的分支 {branch}",
     "zh_TW": "無法刪除不存在的分支 {branch}",
     "it_IT": "impossibile eliminare il branch {branch} perché non esiste",
@@ -3581,6 +3637,7 @@ exports.strings = {
   "git-error-describe-no-tags": {
     "__desc__": "Error from git describe when the repository has no tags",
     "en_US": "fatal: No tags found, cannot describe anything.",
+    "tr_TR": "fatal: Hiç tag bulunamadı, describe yapılacak bir şey yok.",
     "zh_CN": "fatal: 未找到标签，无法描述。",
     "zh_TW": "fatal: 未找到標籤，無法描述。",
     "it_IT": "fatal: Nessun tag trovato, impossibile descrivere alcunché.",
@@ -3590,6 +3647,7 @@ exports.strings = {
   "git-error-no-tag-to-remove": {
     "__desc__": "Error when removing a tag that does not exist",
     "en_US": "No tag found, nothing to remove",
+    "tr_TR": "Tag bulunamadı, kaldırılacak bir şey yok",
     "zh_CN": "未找到标签，无可删除内容",
     "zh_TW": "未找到標籤，無可刪除內容",
     "it_IT": "Nessun tag trovato, niente da rimuovere",
@@ -3599,6 +3657,7 @@ exports.strings = {
   "git-error-nothing-to-clone": {
     "__desc__": "Error when cloning with no remote available",
     "en_US": "Nothing to clone from!",
+    "tr_TR": "Clone'lanacak bir şey yok!",
     "zh_CN": "没有可 clone 的内容！",
     "zh_TW": "沒有可 clone 的內容！",
     "it_IT": "Niente da clonare!",
@@ -3608,6 +3667,7 @@ exports.strings = {
   "git-warning-tracking": {
     "__desc__": "Warning shown when a local branch starts tracking a remote branch",
     "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\"",
+    "tr_TR": "yerel \"{localBranch}\" branch'i, remote \"{remoteBranch}\" branch'ini takip edecek şekilde ayarlandı",
     "zh_CN": "本地分支 \"{localBranch}\" 已设置为跟踪远端分支 \"{remoteBranch}\"",
     "zh_TW": "本地分支 \"{localBranch}\" 已設定為跟蹤遠端分支 \"{remoteBranch}\"",
     "it_IT": "il branch locale \"{localBranch}\" è impostato per tracciare il branch remoto \"{remoteBranch}\"",
@@ -3617,6 +3677,7 @@ exports.strings = {
   "git-error-push-tag-source": {
     "__desc__": "Error when pushing a tag as the source of a refspec",
     "en_US": "Tags are not allowed as sources for pushing",
+    "tr_TR": "Push için kaynak olarak tag kullanılamaz",
     "zh_CN": "标签不能作为 push 的源",
     "zh_TW": "標籤不能作為 push 的來源",
     "it_IT": "I tag non sono consentiti come sorgenti per il push",
@@ -3626,6 +3687,7 @@ exports.strings = {
   "git-error-delete-main-remote": {
     "__desc__": "Error when deleting the main branch on the remote",
     "en_US": "You cannot delete main branch on remote!",
+    "tr_TR": "Remote'taki main branch'ini silemezsin!",
     "zh_CN": "不能删除远端的 main 分支！",
     "zh_TW": "不能刪除遠端的 main 分支！",
     "it_IT": "Non puoi eliminare il branch main sul remote!",
@@ -3635,6 +3697,7 @@ exports.strings = {
   "git-error-commits-not-in-set": {
     "__desc__": "Error when named commits are not part of the given set",
     "en_US": "Hey those commits don't exist in the set!",
+    "tr_TR": "Hey, o commit'ler kümede yok!",
     "zh_CN": "这些提交不在集合中！",
     "zh_TW": "這些提交不在集合中！",
     "it_IT": "Ehi, quei commit non esistono nell'insieme!",
@@ -3644,6 +3707,7 @@ exports.strings = {
   "git-error-no-tags-upstream": {
     "__desc__": "Error when fetching tags but the remote has none",
     "en_US": "Fatal: no tags found upstream",
+    "tr_TR": "Fatal: upstream'de hiç tag bulunamadı",
     "zh_CN": "Fatal: 上游未找到标签",
     "zh_TW": "Fatal: 上游未找到標籤",
     "it_IT": "fatal: nessun tag trovato upstream",
@@ -3653,6 +3717,7 @@ exports.strings = {
   "git-error-branch-rename-not-branch": {
     "__desc__": "Error when renaming something that is not a branch",
     "en_US": "fatal: not a branch: {branch}",
+    "tr_TR": "fatal: bir branch değil: {branch}",
     "zh_CN": "fatal: 不是分支：{branch}",
     "zh_TW": "fatal: 不是分支：{branch}",
     "it_IT": "fatal: non è un branch: {branch}",
@@ -3662,6 +3727,7 @@ exports.strings = {
   "git-error-branch-rename-exists": {
     "__desc__": "Error when renaming a branch to a name already taken",
     "en_US": "fatal: A branch named '{branch}' already exists.",
+    "tr_TR": "fatal: '{branch}' adında bir branch zaten var.",
     "zh_CN": "fatal: 名为 '{branch}' 的分支已存在。",
     "zh_TW": "fatal: 名為 '{branch}' 的分支已存在。",
     "it_IT": "fatal: Un branch chiamato '{branch}' esiste già.",
@@ -3671,6 +3737,7 @@ exports.strings = {
   "hg-error-m-d-incompatible": {
     "__desc__": "Error when hg is given both -m and -d",
     "en_US": "-m and -d are incompatible",
+    "tr_TR": "-m ile -d birlikte kullanılamaz",
     "zh_CN": "-m 与 -d 不兼容",
     "zh_TW": "-m 與 -d 不相容",
     "it_IT": "-m e -d non sono compatibili",
@@ -3680,6 +3747,7 @@ exports.strings = {
   "hg-error-r-d-incompatible": {
     "__desc__": "Error when hg is given both -r and -d",
     "en_US": "-r is incompatible with -d",
+    "tr_TR": "-r ile -d birlikte kullanılamaz",
     "zh_CN": "-r 与 -d 不兼容",
     "zh_TW": "-r 與 -d 不相容",
     "it_IT": "-r non è compatibile con -d",
@@ -3689,6 +3757,7 @@ exports.strings = {
   "hg-error-r-m-incompatible": {
     "__desc__": "Error when hg is given both -r and -m",
     "en_US": "-r is incompatible with -m",
+    "tr_TR": "-r ile -m birlikte kullanılamaz",
     "zh_CN": "-r 与 -m 不兼容",
     "zh_TW": "-r 與 -m 不相容",
     "it_IT": "-r non è compatibile con -m",
@@ -3698,6 +3767,7 @@ exports.strings = {
   "sandbox-tree-link": {
     "__desc__": "Preamble for the shareable link to the current tree state",
     "en_US": "Here is a link to the current state of the tree: ",
+    "tr_TR": "Ağacın şu anki durumuna giden bağlantı: ",
     "zh_CN": "这是当前提交树状态的链接：",
     "zh_TW": "這是目前提交樹狀態的連結：",
     "it_IT": "Ecco un link allo stato attuale dell'albero: ",
@@ -3707,6 +3777,7 @@ exports.strings = {
   "sandbox-instructions-disabled": {
     "__desc__": "Message shown when level instructions have been turned off",
     "en_US": "Level instructions disabled",
+    "tr_TR": "Seviye yönergeleri kapatıldı",
     "zh_CN": "关卡说明已禁用",
     "zh_TW": "關卡說明已停用",
     "it_IT": "Istruzioni del livello disabilitate",
@@ -3716,6 +3787,7 @@ exports.strings = {
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
     "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands",
+    "tr_TR": "\"{target}\" için dokümantasyon bulunamadı; tüm komutları görmek için `show commands` çalıştır",
     "zh_CN": "未找到 \"{target}\" 的文档；运行 `show commands` 查看所有可用命令",
     "zh_TW": "未找到 \"{target}\" 的文件；執行 `show commands` 檢視所有可用命令",
     "it_IT": "Nessuna documentazione trovata per \"{target}\"; esegui `show commands` per vedere tutti i comandi disponibili",
