@@ -227,6 +227,14 @@ class ModalView {
     this.className = 'modalView box horizontal center transitionOpacityLinear';
     this.el = document.createElement(this.tagName);
     this.el.className = this.className;
+    this.el.setAttribute('role', 'dialog');
+    this.el.setAttribute('aria-modal', 'true');
+    // hidden until shown; keeps it out of the accessibility tree
+    this.el.setAttribute('aria-hidden', 'true');
+    this.el.setAttribute('inert', '');
+    this.el.setAttribute('tabindex', '-1');
+    // dialogs need an accessible name; callers pass one via options.label
+    this.el.setAttribute('aria-label', options.label || intl.str('a11y-dialog'));
     this.$el = $(this.el);
     this.template = _.template($('#modal-view-template').html());
 
@@ -267,14 +275,24 @@ class ModalView {
   onKeyUp(e) { e.preventDefault(); }
 
   show() {
+    this._lastFocus = document.activeElement;
     this.toggleZ(true);
     process.nextTick(function() {
       this.toggleShow(true);
+      // move focus into the dialog so it is announced and keyboard users land here
+      if (this.el.focus) {
+        this.el.focus();
+      }
     }.bind(this));
   }
 
   hide() {
     this.toggleShow(false);
+    // return focus to where the user was before the dialog opened
+    if (this._lastFocus && document.contains(this._lastFocus) &&
+        this._lastFocus.focus) {
+      this._lastFocus.focus();
+    }
     setTimeout(function() {
       if (!this.shown) {
         this.toggleZ(false);
@@ -294,12 +312,16 @@ class ModalView {
         if (child.classList.contains('modalView')) return;
         if (!child.hasAttribute('inert')) child.setAttribute('inert', '');
       });
+      this.el.removeAttribute('aria-hidden');
+      this.el.removeAttribute('inert');
       this.stealKeyboard();
     } else {
       Array.from(document.body.children).forEach(function(child) {
         if (child.classList.contains('modalView')) return;
         if (child.hasAttribute('inert')) child.removeAttribute('inert');
       });
+      this.el.setAttribute('aria-hidden', 'true');
+      this.el.setAttribute('inert', '');
       this.releaseKeyboard();
     }
 
@@ -326,7 +348,7 @@ class ModalTerminal extends ContainedBase {
 
     this.template = _.template($('#terminal-window-template').html());
     this.navEvents = options.events || createEvents();
-    this.container = new ModalView();
+    this.container = new ModalView({ label: options.title || intl.str('a11y-dialog') });
     this.JSON = {
       title: options.title,
       closeWindowText: intl.str('close-window')
@@ -334,11 +356,21 @@ class ModalTerminal extends ContainedBase {
 
     this.render();
     this.$('div.inside').on('click', this.onClick.bind(this));
-    this.$('div.controls div.close').on('click', this.onCloseButtonClick.bind(this));
+    this.$('div.controls div.close')
+      .on('click', this.onCloseButtonClick.bind(this))
+      .on('keydown', this.onCloseControlKeyDown.bind(this));
+  }
+
+  onCloseControlKeyDown(e) {
+    if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+      e.preventDefault();
+      this.onCloseButtonClick();
+    }
   }
 
   updateTitle(title) {
     this.$('.modal-title').text(title);
+    this.container.el.setAttribute('aria-label', title || intl.str('a11y-dialog'));
   }
 
   onCloseButtonClick() {
@@ -373,6 +405,8 @@ class ModalAlert extends ContainedBase {
     }
 
     this.container = new ModalTerminal({});
+    // the element with role="dialog" is the ModalView (this.container.container)
+    this.container.container.el.setAttribute('aria-label', this.JSON.title || intl.str('a11y-dialog'));
     this.render();
 
     if (!options.wait) {
@@ -647,7 +681,14 @@ class CanvasTerminalHolder extends BaseView {
 
     $(window).on('resize', debounce(this.recalcLayout.bind(this), 300));
     // Only close via the window's close control; clicks inside should not auto-hide
-    this.$('div.controls div.close').on('click', this.onClick.bind(this));
+    this.$('div.controls div.close')
+      .on('click', this.onClick.bind(this))
+      .on('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
+          e.preventDefault();
+          this.onClick();
+        }
+      }.bind(this));
 
     if (options.additionalClass) {
       this.$el.addClass(options.additionalClass);

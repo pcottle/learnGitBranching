@@ -7,6 +7,8 @@ var ContainedBase = require('../views').ContainedBase;
 var ConfirmCancelView = require('../views').ConfirmCancelView;
 
 var intl = require('../intl');
+var RebaseEntries = require('../level/rebaseEntries');
+var RebaseEntry = RebaseEntries.RebaseEntry;
 
 require('jquery-ui/ui/widget');
 require('jquery-ui/ui/scroll-parent');
@@ -28,19 +30,14 @@ class InteractiveRebaseView extends ContainedBase {
     this.template = _.template($('#interactive-rebase-template').html());
     this.deferred = options.deferred;
     this.rebaseMap = {};
-    this.entryObjMap = {};
     this.options = options;
 
-    this.rebaseEntries = new RebaseEntryCollection();
+    this.rebaseEntries = new RebaseEntries.RebaseEntryCollection();
     options.toRebase.reverse();
     options.toRebase.forEach(function(commit) {
       var id = commit.get('id');
       this.rebaseMap[id] = commit;
-
-      this.entryObjMap[id] = new RebaseEntry({
-        id: id
-      });
-      this.rebaseEntries.add(this.entryObjMap[id]);
+      this.rebaseEntries.add(new RebaseEntry({ id: id }));
     }, this);
 
     this.container = new ModalTerminal({
@@ -64,18 +61,11 @@ class InteractiveRebaseView extends ContainedBase {
       this.restoreVis();
     }
 
-    var uiOrder = [];
-    this.$('ul.rebaseEntries li').each(function(i, obj) {
-      uiOrder.push(obj.id);
-    });
-
-    var toRebase = [];
-    uiOrder.forEach(function(id) {
-      if (this.entryObjMap[id].get('pick')) {
-        toRebase.unshift(this.rebaseMap[id]);
-      }
+    // authoritative order is the collection (kept in sync by the view's
+    // keyboard move controls), not the DOM
+    var toRebase = this.rebaseEntries.getPicked().map(function(entry) {
+      return this.rebaseMap[entry.get('id')];
     }, this);
-    toRebase.reverse();
 
     this.deferred.resolve(toRebase);
     this.$el.html('');
@@ -95,14 +85,23 @@ class InteractiveRebaseView extends ContainedBase {
     this.rebaseEntries.each(function(entry) {
       new RebaseEntryView({
         el: listHolder,
-        model: entry
+        model: entry,
+        collection: this.rebaseEntries
       });
     }, this);
 
     listHolder.sortable({
       axis: 'y',
       placeholder: 'rebaseEntry transitionOpacity ui-state-highlight',
-      appendTo: 'parent'
+      appendTo: 'parent',
+      // dragging only moves DOM nodes; keep the model order in sync so
+      // confirm() (which reads the collection) sees the dragged order
+      stop: function() {
+        var orderedIds = listHolder.children('li').map(function() {
+          return this.id;
+        }).get();
+        this.rebaseEntries.reorder(orderedIds);
+      }.bind(this)
     });
 
     this.makeButtons();
@@ -134,92 +133,12 @@ class InteractiveRebaseView extends ContainedBase {
   }
 }
 
-class RebaseEntry {
-  constructor(options = {}) {
-    this._events = {};
-    this.attributes = {
-      pick: true,
-      id: options.id
-    };
-  }
-
-  get(key) {
-    return this.attributes[key];
-  }
-
-  set(key, value) {
-    var oldValue = this.attributes[key];
-    this.attributes[key] = value;
-    if (oldValue !== value) {
-      this.trigger('change:' + key, this, value);
-      this.trigger('change', this);
-    }
-  }
-
-  on(eventName, callback, context) {
-    if (!this._events[eventName]) {
-      this._events[eventName] = [];
-    }
-    this._events[eventName].push({ callback: callback, context: context || this });
-  }
-
-  trigger(eventName) {
-    var listeners = this._events[eventName];
-    if (!listeners) return;
-    var args = Array.prototype.slice.call(arguments, 1);
-    listeners.forEach(function(listener) {
-      listener.callback.apply(listener.context, args);
-    });
-  }
-
-  toggle() {
-    this.set('pick', !this.get('pick'));
-  }
-
-  toJSON() {
-    return Object.assign({}, this.attributes);
-  }
-}
-
-class RebaseEntryCollection {
-  constructor() {
-    this._events = {};
-    this.models = [];
-    this.length = 0;
-  }
-
-  add(model) {
-    this.models.push(model);
-    this.length = this.models.length;
-    this.trigger('add', model, this);
-  }
-
-  each(callback, context) {
-    this.models.forEach(callback, context);
-  }
-
-  on(eventName, callback, context) {
-    if (!this._events[eventName]) {
-      this._events[eventName] = [];
-    }
-    this._events[eventName].push({ callback: callback, context: context || this });
-  }
-
-  trigger(eventName) {
-    var listeners = this._events[eventName];
-    if (!listeners) return;
-    var args = Array.prototype.slice.call(arguments, 1);
-    listeners.forEach(function(listener) {
-      listener.callback.apply(listener.context, args);
-    });
-  }
-}
-
 class RebaseEntryView {
   constructor(options) {
     this.el = options.el;
     this.$el = $(this.el);
     this.model = options.model;
+    this.collection = options.collection;
     this.tagName = 'li';
     this.template = _.template($('#interactive-rebase-entry-template').html());
 
@@ -232,15 +151,70 @@ class RebaseEntryView {
 
   toggle() {
     this.model.toggle();
-    this.listEntry.toggleClass('notPicked', !this.model.get('pick'));
+    var picked = this.model.get('pick');
+    this.listEntry.toggleClass('notPicked', !picked);
+    this.listEntry.find('.toggleButton').attr('aria-pressed', String(picked));
+  }
+
+  moveUp() {
+    this.move(-1, 'prev');
+  }
+
+  moveDown() {
+    this.move(1, 'next');
+  }
+
+  move(delta, siblingDirection) {
+    if (!this.collection.move(this.model, delta)) {
+      return; // already at the end
+    }
+
+    // re-inserting the <li> detaches it, which blurs the pressed button;
+    // restore focus so repeated presses (the keyboard flow) keep working
+    var focused = document.activeElement;
+
+    var sibling = this.listEntry[siblingDirection]('li');
+    if (sibling.length) {
+      if (delta < 0) {
+        this.listEntry.insertBefore(sibling);
+      } else {
+        this.listEntry.insertAfter(sibling);
+      }
+    }
+
+    if (focused && this.listEntry[0].contains(focused)) {
+      focused.focus();
+    }
+    this.announcePosition();
+  }
+
+  announcePosition() {
+    if (typeof document === 'undefined') { return; }
+    var status = document.getElementById('a11yStatus');
+    if (!status) { return; }
+    status.textContent = intl.str('interactive-rebase-moved', {
+      id: this.model.get('id'),
+      position: this.collection.models.indexOf(this.model) + 1,
+      total: this.collection.length
+    });
   }
 
   render() {
-    this.$el.append(this.template(this.model.toJSON()));
+    var json = Object.assign({}, this.model.toJSON(), {
+      moveUpText: intl.str('interactive-rebase-move-up'),
+      moveDownText: intl.str('interactive-rebase-move-down')
+    });
+    this.$el.append(this.template(json));
     this.listEntry = this.$el.children(':last');
 
-    this.listEntry.delegate('#toggleButton', 'click', function() {
+    this.listEntry.delegate('.toggleButton', 'click', function() {
       this.toggle();
+    }.bind(this));
+    this.listEntry.delegate('.moveUpButton', 'click', function() {
+      this.moveUp();
+    }.bind(this));
+    this.listEntry.delegate('.moveDownButton', 'click', function() {
+      this.moveDown();
     }.bind(this));
   }
 }
