@@ -6,7 +6,7 @@ var readDirDeep = require('../util/readDirDeep').readDirDeep;
 var { strings } = require('../intl/strings');
 
 var canonicalLocale = 'en_US';
-var easyRegex = /intl\.str\(\s*'([a-zA-Z\-]+)'/g;
+var easyRegex = /intl\.str\(\s*'([a-zA-Z0-9\-]+)'/g;
 
 var allKetSet = new Set(Object.keys(strings));
 allKetSet.delete('error-untranslated'); // used in ./index.js
