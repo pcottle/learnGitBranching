@@ -10,6 +10,7 @@ exports.level = {
     "zh_CN": "使用 git restore 撤销修改",
     "zh_TW": "使用 git restore 復原變更",
     "pt_BR": "Desfazendo com git restore",
+    "pt_PT": "Desfazer com git restore",
     "ru_RU": "Отмена изменений с помощью git restore",
     "tr_TR": "git restore ile Geri Alma",
     "vi": "Hoàn tác bằng git restore",
@@ -28,6 +29,7 @@ exports.level = {
     "zh_CN": "使用 `git restore --staged secret.env` 取消暂存，使用 `git restore experiment.js` 丢弃实验性修改，然后执行 `git commit`。",
     "zh_TW": "使用 `git restore --staged secret.env` 取消暫存，使用 `git restore experiment.js` 捨棄實驗性變更，然後執行 `git commit`。",
     "pt_BR": "Tire do staging com `git restore --staged secret.env`, jogue fora o experimento com `git restore experiment.js` e depois faça `git commit`.",
+    "pt_PT": "Tira do staging com `git restore --staged secret.env`, deita fora a experiência com `git restore experiment.js` e depois faz `git commit`.",
     "ru_RU": "Уберите из подготовленной области с помощью `git restore --staged secret.env`, отбросьте эксперимент командой `git restore experiment.js`, а затем выполните `git commit`.",
     "tr_TR": "`git restore --staged secret.env` ile stage'den çıkarın, `git restore experiment.js` ile denemeyi çöpe atın, sonra `git commit` yapın.",
     "vi": "Loại bỏ khỏi staging với `git restore --staged secret.env`, vứt bỏ thử nghiệm với `git restore experiment.js`, sau đó `git commit`.",
@@ -575,6 +577,66 @@ exports.level = {
               "* Commite o que sobrou: `git commit`",
               "",
               "Isso resulta em um único commit limpo, apenas com o trabalho que você queria manter."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Desfazer com `git restore`",
+              "",
+              "Toda a gente faz uma pequena confusão de vez em quando. Adicionas ao staging um ficheiro sem querer, ou começas uma experiência que preferias deitar fora. O `git restore` é o botão de desfazer moderno, feito de propósito para a tua pasta de trabalho e para a área de staging.",
+              "",
+              "Tem duas variantes:",
+              "",
+              "* `git restore --staged <file>`: **tira do staging** um ficheiro (retira-o da área de staging, mas mantém as tuas edições)",
+              "* `git restore <file>`: **descarta** por completo as edições que fizeste a um ficheiro (cuidado, isto deita as alterações fora!)",
+              "",
+              "*(Estes substituem os truques antigos `git reset HEAD <file>` e `git checkout -- <file>`. A mesma ideia, com nomes muito mais claros.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Esta é a confusão que tens agora em cima da mesa:",
+              "",
+              "```",
+              "Alterações a incluir no commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Alterações que ainda não estão no staging:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Queres fazer commit do `app.js`, mas o `secret.env` foi parar ao staging antes do tempo, por engano (devia ser um commit por cima), por isso vamos deixá-lo para depois. Além disso, as alterações do `experiment.js` não resultaram, por isso vamos deitá-las fora por completo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Arruma tudo e depois faz commit:",
+              "",
+              "* Tira o segredo do staging: `git restore --staged secret.env`",
+              "* Descarta a experiência: `git restore experiment.js`",
+              "* Faz commit do que sobrou: `git commit`",
+              "",
+              "Assim ficas com um único commit limpo, só com o trabalho que querias manter."
             ]
           }
         }
