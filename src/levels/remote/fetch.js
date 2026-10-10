@@ -12,6 +12,7 @@ exports.level = {
     "es_MX": "Git fetch",
     "es_ES": "git fetch",
     "pt_BR": "Git Fetch",
+    "pt_PT": "Git Fetch",
     "gl": "Git Fetch",
     "zh_CN": "Git Fetch",
     "zh_TW": "git fetch",
@@ -41,6 +42,7 @@ exports.level = {
     "es_MX": "Simplemente ¡escribe git fetch!",
     "es_ES": "Simplemente ¡escribe git fetch!",
     "pt_BR": "Simplesmente chame git fetch!",
+    "pt_PT": "Basta executares git fetch!",
     "gl": "¡Sinxelamente fai git fetch!",
     "zh_CN": "只需要运行 git fetch 命令!",
     "zh_TW": "只要下 git fetch 指令",
@@ -566,6 +568,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para terminar este nível, simplesmente execute `git fetch` e baixe todos os commits!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Trabalhar com repositórios remotos do git resume-se, no fundo, a transferir dados _para_ e _de_ outros repositórios. Desde que consigamos enviar commits de um lado para o outro, podemos partilhar qualquer tipo de atualização que o git acompanhe (e, assim, partilhar trabalho, ficheiros novos, ideias novas, cartas de amor, etc.).",
+              "",
+              "Nesta lição vamos aprender a ir buscar dados _a_ um repositório remoto -- o comando para isto chama-se, convenientemente, `git fetch`.",
+              "",
+              "Vais reparar que, à medida que atualizamos a nossa representação do repositório remoto, os nossos branches _remotos_ são atualizados para refletir essa nova representação. Isto liga-se à lição anterior sobre branches remotos."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Antes de entrarmos nos pormenores do `git fetch`, vamos vê-lo em ação! Aqui temos um repositório remoto com dois commits que o nosso repositório local não tem."
+            ],
+            "afterMarkdowns": [
+              "Aí está! Os commits `C2` e `C3` foram descarregados para o nosso repositório local, e o nosso branch remoto `o/main` foi atualizado para refletir isso."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### O que o fetch faz",
+              "",
+              "O `git fetch` faz dois passos principais, e apenas dois. Ele:",
+              "",
+              "* descarrega os commits que o repositório remoto tem mas que faltam no nosso repositório local, e...",
+              "* atualiza para onde apontam os nossos branches remotos (por exemplo, o `o/main`)",
+              "",
+              "No fundo, o `git fetch` sincroniza a nossa representação _local_ do repositório remoto com o aspeto _real_ do repositório remoto (neste momento).",
+              "",
+              "Se te lembras da lição anterior, dissemos que os branches remotos refletem o estado dos repositórios remotos _desde_ a última vez que falaste com eles. O `git fetch` é a forma de falares com esses repositórios remotos! Esperamos que agora a ligação entre os branches remotos e o `git fetch` seja clara.",
+              "",
+              "Normalmente, o `git fetch` fala com o repositório remoto através da Internet (com um protocolo como `http://` ou `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### O que o fetch não faz",
+              "",
+              "No entanto, o `git fetch` não altera nada no _teu_ estado local. Não atualiza o teu branch `main` nem muda nada no aspeto atual do teu sistema de ficheiros.",
+              "",
+              "É importante perceber isto, porque muitos programadores pensam que executar `git fetch` faz com que o trabalho local passe a refletir o estado do repositório remoto. Pode descarregar todos os dados necessários para isso, mas _não_ altera de facto nenhum dos teus ficheiros locais. Nas próximas lições vamos aprender comandos que fazem exatamente isso :D",
+              "",
+              "Ou seja, no fim de contas, podes pensar no `git fetch` como o passo de descarregar."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para terminar o nível, basta fazeres `git fetch` e descarregares todos os commits!"
             ]
           }
         }
