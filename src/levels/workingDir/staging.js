@@ -12,6 +12,7 @@ exports.level = {
     zh_CN: "暂存区 Staging Area",
     zh_TW: "暫存區 Staging Area",
     pt_BR: "A área de staging",
+    pt_PT: "A área de staging",
     ru_RU: "Область подготовленных файлов (Индекс)",
     tr_TR: "Staging Area (Hazırlık Alanı)",
     es_AR: "Área de Staging",
@@ -45,6 +46,8 @@ exports.level = {
       "使用 `git add <file>` 暫存一個檔案，再用 `git commit` 將它儲存為快照。每個檔案各執行一次，共執行兩次。",
     pt_BR:
       "Adicione um arquivo ao staging com `git add <arquivo>` e depois tire uma fotografia (snapshot) dele com `git commit`. Faça isso duas vezes, uma para cada arquivo.",
+    pt_PT:
+      "Adiciona um ficheiro ao staging com `git add <file>` e depois guarda-o num snapshot com `git commit`. Faz isto duas vezes, uma por ficheiro.",
     ru_RU:
       "Подготовьте файл с помощью 'git add <файл>', затем зафиксируйте его с помощью 'git commit'. Сделайте это дважды — по одному разу для каждого файла.",
     tr_TR:
@@ -512,6 +515,63 @@ exports.level = {
               "* `git add styles.css` e depois `git commit`",
               "",
               "Os nomes dos arquivos ao lado de cada commit do objetivo mostram exatamente onde cada mudança deve ficar. Dois commits limpos e o nível é seu.",
+            ],
+          },
+        },
+      ],
+    },
+    pt_PT: {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## A área de staging",
+              "",
+              "Até agora, nesta aprendizagem, passámos por cima do que está exatamente envolvido em *fazer* um commit. Talvez saibas que os commits representam alterações a um conjunto de ficheiros, mas há todo um processo para escolher *que* alterações de ficheiros vão para *que* commits.",
+              "",
+              "O Git não quer simplesmente incluir todos os ficheiros alterados em todos os commits -- isso seria mau! Podia incluir uma alteração que não queres tornar permanente, ou até algo secreto, como uma chave de API, que podia acabar no GitHub como parte do histórico de commits.",
+              "",
+              "Por isso, antes de uma alteração a um ficheiro fazer parte de um commit, tem de ser selecionada explicitamente. O Git tem três zonas para isto: a tua **pasta de trabalho** (onde editas), a **área de staging** (uma espécie de cais de carga para o que vai no próximo commit) e o **repositório** (o teu histórico permanente).",
+              "",
+              "Com o `git add` escolhes *exatamente* o que vai em cada commit. É assim que os commits se mantêm arrumados, e nunca tens de fazer commit de tudo de uma vez.",
+              "",
+              "*(Nestes níveis, vamos passar a mostrar que ficheiros fazem parte de que commits.)*",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Executa `git status` sempre que quiseres para ver em que ponto estão as coisas. Neste momento mostra dois ficheiros que editaste mas ainda não adicionaste ao staging:",
+              "",
+              "```",
+              "Alterações que ainda não estão no staging:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Adiciona um único ficheiro ao staging com `git add app.js`, ou apanha tudo de uma vez com `git add .`. Quando um ficheiro está no staging, o `git commit` fecha-o num snapshot.",
+              "",
+              "Tens ficheiros que nunca queres incluir em commits, como segredos, logs ou lixo da compilação? Põe-nos num ficheiro `.gitignore` e o git deixa-os em paz, sem dizer nada.",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "É a tua vez! Adiciona ao staging e faz commit do teu trabalho **um ficheiro de cada vez**, para cada commit ficar focado:",
+              "",
+              "* `git add app.js` e depois `git commit`",
+              "* `git add styles.css` e depois `git commit`",
+              "",
+              "Os nomes dos ficheiros ao lado de cada commit do objetivo mostram exatamente onde pertence cada alteração. Dois commits limpos e o nível é teu.",
             ],
           },
         },

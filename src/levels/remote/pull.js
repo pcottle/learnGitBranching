@@ -10,6 +10,7 @@ exports.level = {
     "es_AR": "git pull",
     "es_ES": "git pull",
     "pt_BR": "Git Pull",
+    "pt_PT": "Git Pull",
     "gl": "Git Pull",
     "de_DE": "Git Pull",
     "ja": "Git Pull",
@@ -38,6 +39,7 @@ exports.level = {
     "es_MX": "Simplemente ¡ejecuta git pull!",
     "es_ES": "Simplemente ¡ejecuta git pull!",
     "pt_BR": "Basta executar git pull!",
+    "pt_PT": "Basta executares git pull!",
     "gl": "Sinxelamente fai git pull!",
     "de_DE": "Führe einfach git pull aus.",
     "ja": "単にgit pullを実行！",
@@ -480,6 +482,67 @@ exports.level = {
               "Vamos explorar os detalhes do `git pull` mais tarde (incluindo opções e parâmetros), mas por enquanto, experimente usá-lo em sua forma mais básica.",
               "",
               "Lembre-se -- você também poderia resolver este nível com um `fetch` e um `merge`, mas isso lhe custaria um comando a mais :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Agora que já vimos como ir buscar dados a um repositório remoto com `git fetch`, vamos atualizar o nosso trabalho para refletir essas alterações!",
+              "",
+              "Há várias formas de o fazer -- quando tens commits novos disponíveis localmente, podes incorporá-los como se fossem commits normais de outros branches. Ou seja, podes executar comandos como:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* etc., etc.",
+              "",
+              "Na verdade, o fluxo de trabalho de fazer *fetch* das alterações remotas e depois fazer *merge* delas é tão comum que o git tem um comando que faz as duas coisas de uma vez! Esse comando é o `git pull`.",
+              "",
+              "*Nota:* o Git 2.27 introduziu um aviso para quando não há nenhuma estratégia de pull configurada. Desde o Git 2.34, nessa situação, um `git pull` simples para quando os branches divergiram e pede-te que escolhas como os conciliar. Usa `git pull --no-rebase` para fazer merge, ou `git pull --rebase` para fazer rebase. Neste simulador, o `git pull` faz merge por omissão."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Primeiro, vamos ver um `fetch` e um `merge` executados um a seguir ao outro."
+            ],
+            "afterMarkdowns": [
+              "Bum -- descarregámos o `C3` com um `fetch` e depois integrámos esse trabalho com `git merge o/main`. Agora o nosso branch `main` reflete o trabalho novo do repositório remoto (neste caso, chamado `origin`)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "O que aconteceria se usássemos antes o `git pull`?"
+            ],
+            "afterMarkdowns": [
+              "Exatamente o mesmo! Isto deve deixar bem claro que este simulador trata o `git pull` como uma abreviatura de `git fetch` seguido de um merge do branch que acabou de ser descarregado. No Git a sério, esse comportamento de merge corresponde a `git pull --no-rebase` quando os branches divergiram."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vamos explorar os pormenores do `git pull` mais à frente (incluindo opções e argumentos), mas, por agora, vamos experimentá-lo no nível.",
+              "",
+              "Lembra-te -- podes resolver este nível só com `fetch` e `merge`, mas isso vai custar-te um comando extra :P"
             ]
           }
         }

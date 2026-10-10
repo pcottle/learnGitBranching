@@ -12,6 +12,7 @@ exports.level = {
     "es_ES": "Simulando el trabajo en equipo",
     "es_MX": "Simulando el trabajo en equipo",
     "pt_BR": "Simulando trabalho em equipe",
+    "pt_PT": "Simular trabalho de equipa",
     "gl": "Simulando o traballo no repositorio",
     "zh_CN": "模拟团队合作",
     "zh_TW": "模擬團隊合作",
@@ -40,6 +41,7 @@ exports.level = {
     "es_ES": "Recuerda que puedes especificar cuántos commits simular",
     "es_MX": "Recuerda que puedes especificar cuántos commits simular",
     "pt_BR": "Lembre-se que você pode especificar quantos commits quer simular",
+    "pt_PT": "Lembra-te de que podes indicar o número de commits a simular",
     "gl": "Lembra que podes especifar cantos commits queres simular",
     "zh_CN": "记住你可以指定仿真提交的个数",
     "zh_TW": "你要記得指定要送多少個 commit 出去",
@@ -432,6 +434,60 @@ exports.level = {
               "Os níveis posteriores serão mais difíceis, então estamos pedindo um pouco mais de você neste nível.",
               "",
               "Vá em frente e clone o repositório remoto (com `git clone`), simule algumas mudanças no repositório remoto, commite no repositório local, e então faça um pull das mudanças que haviam sido simuladas. É como se fossem várias lições em uma só!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simular colaboração",
+              "",
+              "Aqui está a parte complicada -- em algumas das próximas lições, temos de te ensinar a ir buscar alterações que foram feitas no repositório remoto.",
+              "",
+              "Isso quer dizer que temos basicamente de \"fingir\" que o repositório remoto foi atualizado por um dos teus colegas / amigos / colaboradores, às vezes num branch específico ou com um certo número de commits.",
+              "",
+              "Para isso, criámos o comando `git fakeTeamwork`, com um nome muito a propósito! Explica-se praticamente a si próprio, vamos ver uma demonstração..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "O comportamento por omissão do `fakeTeamwork` é simplesmente largar um commit no main."
+            ],
+            "afterMarkdowns": [
+              "Aí está -- o repositório remoto foi atualizado com um commit novo, e ainda não descarregámos esse commit porque ainda não executámos `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Também podes indicar o número de commits ou o branch, acrescentando-os ao comando."
+            ],
+            "afterMarkdowns": [
+              "Com um só comando, simulámos um colega de equipa a fazer push de três commits para o branch `foo` no nosso repositório remoto."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Os próximos níveis vão ser bastante difíceis, por isso neste nível vamos pedir-te mais.",
+              "",
+              "Clona o repositório remoto, simula algumas alterações nesse repositório remoto, faz um commit local e depois vai buscar as alterações remotas e faz merge delas. É como várias lições numa só!"
             ]
           }
         }

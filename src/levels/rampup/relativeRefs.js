@@ -13,6 +13,7 @@ exports.level = {
     "es_MX": "Referencias relativas (^)",
     "es_ES": "Referencias relativas (^)",
     "pt_BR": "Referências relativas (^)",
+    "pt_PT": "Referências relativas (^)",
     "gl": "Referencias relativas (^)",
     "de_DE": "Relative Referenzen (^)",
     "ro": "Referințe relative (^)",
@@ -41,6 +42,7 @@ exports.level = {
     "es_MX": "¡No olvides el operador ^!",
     "es_ES": "¡No te olvides del operador ^!",
     "pt_BR": "Não se esqueça do operador circunflexo (^)",
+    "pt_PT": "Lembra-te do operador circunflexo (^)!",
     "gl": "Non se esqueza do operador circunflexo (^)",
     "zh_CN": "记住操作符（^）！",
     "zh_TW": "不要忘記插入（^）符號！",
@@ -731,6 +733,81 @@ exports.level = {
               "Para completar esse nível, faça checkout do commit pai da `bugFix`. Isso soltará o `HEAD`.",
               "",
               "Você pode especificar o hash se quiser, mas tente usar referências relativas em vez disso!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referências relativas",
+              "",
+              "Andar pelo Git a indicar hashes de commits pode tornar-se um bocado aborrecido. No mundo real não vais ter uma visualização bonita da árvore de commits ao lado do terminal, por isso vais ter de usar `git log` para ver os hashes.",
+              "",
+              "Além disso, no mundo real do Git os hashes costumam ser muito mais compridos. Por exemplo, o hash do commit que introduziu o nível anterior é `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Não é propriamente fácil de dizer...",
+              "",
+              "A boa notícia é que o Git é esperto com os hashes. Só precisas de indicar caracteres suficientes do hash para identificar o commit sem ambiguidade. Por isso, posso escrever `fed2` em vez daquela sequência enorme ali em cima."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como disse, indicar commits pelo hash não é a coisa mais prática do mundo, e é por isso que o Git tem referências relativas. São fantásticas!",
+              "",
+              "Com as referências relativas, podes partir de um sítio fácil de lembrar (como o branch `bugFix` ou a `HEAD`) e trabalhar a partir daí.",
+              "",
+              "As referências relativas são poderosas, mas aqui vamos apresentar só duas simples:",
+              "",
+              "* Subir um commit de cada vez com `^`",
+              "* Subir vários commits de uma vez com `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver primeiro o operador circunflexo (^). Sempre que o acrescentas ao nome de uma referência, estás a dizer ao Git para encontrar o pai do commit indicado.",
+              "",
+              "Portanto, dizer `main^` é o mesmo que dizer \"o primeiro pai do `main`\".",
+              "",
+              "`main^^` é o avô (antecessor de segunda geração) do `main`",
+              "",
+              "Vamos fazer checkout do commit acima do main."
+            ],
+            "afterMarkdowns": [
+              "Pumba! Já está. Muito mais fácil do que escrever o hash do commit."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Também podes usar a `HEAD` como referência relativa. Vamos usá-la algumas vezes para subir na árvore de commits."
+            ],
+            "afterMarkdowns": [
+              "Fácil! Podemos viajar para trás no tempo com `HEAD^`"
+            ],
+            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, faz checkout do commit pai do `bugFix`. Isto vai desanexar a `HEAD`.",
+              "",
+              "Podes indicar o hash, se quiseres, mas experimenta antes usar referências relativas!"
             ]
           }
         }

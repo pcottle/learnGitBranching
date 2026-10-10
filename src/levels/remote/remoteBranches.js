@@ -11,6 +11,7 @@ exports.level = {
     "es_MX": "Ramas remotas",
     "es_ES": "Ramas remotas",
     "pt_BR": "Branches remotas",
+    "pt_PT": "Branches remotos",
     "gl": "Ramas remotas",
     "de_DE": "Branches auf entfernten Servern",
     "ja": "リモートのブランチ",
@@ -39,6 +40,7 @@ exports.level = {
     "es_MX": "Presta atención al orden: ¡haz commit sobre main primero!",
     "es_ES": "Presta atención al orden: ¡haz commit sobre main primero!",
     "pt_BR": "Preste atenção na ordem: commite no main primeiro!",
+    "pt_PT": "Atenção à ordem -- faz primeiro o commit no main!",
     "gl": "Preta atención á orde: fai commit no main primeiro",
     "de_DE": "Beachte die Sortierung -- committe zuerst auf dem main!",
     "ja": "順番に注意 -- まずmainに対してcommitしましょう",
@@ -552,6 +554,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nível, commite uma vez na `main`, e outra vez depois de fazer checkout na `o/main`. Isso vai ajudá-lo a sentir como as branches remotas se comportam de forma diferente, e como elas apenas se atualizam para refletir o estado do repositório remoto."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches remotos no Git",
+              "",
+              "Agora que já viste o `git clone` em ação, vamos ver o que mudou de facto.",
+              "",
+              "A primeira coisa em que deves ter reparado é que apareceu no nosso repositório local um branch novo chamado `o/main`. Este tipo de branch chama-se branch _remoto_; os branches remotos têm propriedades especiais porque servem um propósito único.",
+              "",
+              "Os branches remotos refletem o _estado_ dos repositórios remotos (desde a última vez que falaste com esses repositórios remotos). Ajudam-te a perceber a diferença entre o teu trabalho local e o trabalho que já é público -- um passo essencial antes de partilhares o teu trabalho com outras pessoas.",
+              "",
+              "Os branches remotos têm a propriedade especial de, quando fazes checkout deles, ficares em modo detached `HEAD`. O Git faz isto de propósito, porque não podes trabalhar diretamente nestes branches; tens de trabalhar noutro sítio e depois partilhar o teu trabalho com o repositório remoto (e só então os teus branches remotos são atualizados).",
+              "",
+              "Para que fique claro: os branches remotos estão no teu repositório _local_, não no repositório remoto."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### O que é o `o/`?",
+              "",
+              "Deves estar a perguntar-te para que serve o `o/` no início destes branches remotos. Pois bem, os branches remotos também têm uma convenção de nomes (obrigatória) -- aparecem no formato:",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "Assim, se olhares para um branch chamado `o/main`, o nome do branch é `main` e o nome do repositório remoto é `o`.",
+              "",
+              "A maioria dos programadores dá ao seu repositório remoto principal o nome `origin`, e não `o`. Isto é tão comum que o git configura o teu repositório remoto com o nome `origin` quando fazes `git clone` de um repositório.",
+              "",
+              "Infelizmente, o nome completo `origin` não cabe na nossa interface, por isso usamos `o` como abreviatura :( Lembra-te só de que, quando usares o git a sério, o teu repositório remoto vai provavelmente chamar-se `origin`!",
+              "",
+              "É muita coisa para assimilar, por isso vamos ver tudo isto em ação."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos fazer checkout de um branch remoto e ver o que acontece."
+            ],
+            "afterMarkdowns": [
+              "Como podes ver, o git pôs-nos em modo detached `HEAD` e depois não atualizou o `o/main` quando adicionámos um commit novo. Isto acontece porque o `o/main` só é atualizado quando o repositório remoto é atualizado."
+            ],
+            "command": "git checkout o/main; git commit",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para terminar este nível, faz um commit a partir do `main` e outro depois de fazeres checkout do `o/main`. Isto vai ajudar-te a interiorizar que os branches remotos se comportam de forma diferente e só são atualizados para refletir o estado do repositório remoto."
             ]
           }
         }

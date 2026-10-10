@@ -11,6 +11,7 @@ exports.level = {
     "es_MX": "Recuerda que siempre puedes usar los comandos reset y undo",
     "es_ES": "Recuerda que siempre puedes usar los comandos reset y undo",
     "pt_BR": "Lembre-se que você sempre pode usar undo ou reset",
+    "pt_PT": "Lembra-te de que podes sempre usar os comandos undo ou reset",
     "gl": "Lembra que sempre podes usar undo ou reset",
     "de_DE": "Denk dran, du kannst immer undo oder reset benutzen, um deine Befehle zurück zu nehmen.",
     "ja": "undoやresetコマンドをいつでも使用することができるのをお忘れなく",
@@ -39,6 +40,7 @@ exports.level = {
     "es_MX": "Recuerda que siempre puedes usar los comandos reset y undo",
     "es_ES": "¡Push Main!",
     "pt_BR": "Push Main!",
+    "pt_PT": "Faz push do main!",
     "gl": "Empurra ó Main!",
     "de_DE": "Push Main!",
     "ja": "Push Main!",
@@ -480,6 +482,59 @@ exports.level = {
               "* O repositório remoto foi atualizado desde então, então também precisaremos incorporar o trabalho realizado lá",
               "",
               ":O intenso! boa sorte, completar este nível é um grande passo."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Juntar branches de funcionalidades",
+              "",
+              "Agora que já estás à vontade com fetch, pull e push, vamos pôr estas competências à prova com um novo fluxo de trabalho.",
+              "",
+              "É comum os programadores de projetos grandes fazerem todo o trabalho em branches de funcionalidades (criados a partir do `main`) e só integrarem esse trabalho quando estiver pronto. Isto é parecido com a lição anterior (em que se fazia push de branches laterais para o repositório remoto), mas aqui acrescentamos mais um passo.",
+              "",
+              "Alguns programadores só fazem push e pull quando estão no branch `main` -- assim o `main` fica sempre atualizado com o que está no repositório remoto (`o/main`).",
+              "",
+              "Por isso, neste fluxo de trabalho juntamos duas coisas:",
+              "",
+              "* integrar o trabalho dos branches de funcionalidades no `main`, e",
+              "* fazer push e pull do repositório remoto"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos relembrar rapidamente como atualizar o `main` e fazer push do trabalho."
+            ],
+            "afterMarkdowns": [
+              "Aqui executámos dois comandos que:",
+              "",
+              "* fizeram rebase do nosso trabalho para cima dos commits novos do repositório remoto, e",
+              "* publicaram o nosso trabalho no repositório remoto"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este nível é bem puxado -- aqui fica o plano geral para o resolveres:",
+              "",
+              "* Há três branches de funcionalidades -- `side1` `side2` e `side3`",
+              "* Queremos fazer push de cada uma destas funcionalidades, por ordem, para o repositório remoto",
+              "* Entretanto o repositório remoto foi atualizado, por isso também vamos ter de incorporar esse trabalho",
+              "",
+              ":O intenso! Boa sorte, completar este nível é um grande passo."
             ]
           }
         }

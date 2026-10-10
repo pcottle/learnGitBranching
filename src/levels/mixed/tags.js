@@ -12,6 +12,7 @@ exports.level = {
     "es_ES": "Tags en git",
     "es_MX": "Tags de Git",
     "pt_BR": "Tags no Git",
+    "pt_PT": "Tags no Git",
     "gl": "Etiquetas en git",
     "fr_FR": "Git Tags",
     "zh_CN": "Git Tag",
@@ -43,6 +44,7 @@ exports.level = {
     "es_ES": "Puedes hacer checkout directamente el commit, ¡o simplemente el tag!",
     "es_MX": "Puedes cambiar (checkout) directamente a la confirmación, ¡o simplemente cambiar (checkout) al tag!",
     "pt_BR": "Você pode fazer checkout diretamente no commit ou na tag correspondente!",
+    "pt_PT": "Podes fazer checkout diretamente do commit ou, simplesmente, da tag!",
     "gl": "Podes saltar directamente ó commit, ¡ou a etiqueta, que é máis doado!",
     "zh_TW": "你可以直接 checkout 到 commit 上，或是簡單的 checkout 到 tag 上",
     "zh_CN": "你可以直接 checkout 到 commit 上，或是简单地 checkout 到 tag 上",
@@ -634,6 +636,58 @@ exports.level = {
               "Para completar esta tarefa, simplesmente crie as tags mostradas na visualização do objetivo, e então faça checkout em `v1`. Veja que você vai para o estado \"Detached HEAD\" -- isso é devido ao fato de que você não pode commitar diretamente na tag `v1`.",
               "",
               "No próximo nível, examinaremos mais um caso de uso interessante para as tags."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Tags no Git",
+              "",
+              "Como aprendeste nas lições anteriores, os branches são fáceis de mover e muitas vezes apontam para commits diferentes à medida que se trabalha neles. Os branches alteram-se com facilidade, são muitas vezes temporários e estão sempre a mudar.",
+              "",
+              "Sendo assim, talvez estejas a perguntar-te se há forma de marcar *permanentemente* certos pontos no histórico do teu projeto. Para coisas como versões importantes e grandes merges, há alguma maneira de marcar esses commits com algo mais permanente do que um branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Claro que há! As tags do Git servem exatamente para isso -- marcam de forma (mais ou menos) permanente certos commits como \"marcos\", que depois podes referenciar como se fossem um branch.",
+              "",
+              "Mais importante ainda: nunca se movem quando são criados mais commits. Não podes fazer \"checkout\" de uma tag e depois trabalhar nessa tag -- as tags existem como âncoras na árvore de commits que assinalam certos pontos.",
+              "",
+              "Vamos ver como são as tags na prática."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos criar uma tag no `C1`, que é o protótipo da nossa versão 1."
+            ],
+            "afterMarkdowns": [
+              "Pronto! Muito fácil. Chamámos `v1` à tag e indicámos explicitamente o commit `C1`. Se não indicares o commit, o git usa simplesmente aquele para onde a `HEAD` estiver a apontar."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Neste nível, cria as tags que vês na visualização do objetivo e depois faz checkout da `v1`. Repara que ficas em estado de detached `HEAD` -- isto acontece porque não podes fazer commit diretamente na tag `v1`.",
+              "",
+              "No próximo nível vamos ver um caso de uso mais interessante para as tags."
             ]
           }
         }

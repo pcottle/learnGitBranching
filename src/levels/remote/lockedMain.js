@@ -15,6 +15,7 @@ exports.level = {
     "es_MX": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "es_ES": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "pt_BR": "Crie a branch feature a partir da branch main no local antes de reestabelecê-lo para que seja o mesmo que a branch main de origem",
+    "pt_PT": "Cria o branch feature a partir do main local antes de fazeres reset ao main para ficar igual ao main do origin",
     "fr_FR": "Créer la branche feature à partir du main local, avant de la restaurer dans le même état que o/main",
     "ko": "로컬 저장소의 main 브랜치로부터 feature 브랜치를 만드세요. 그리고 o/main과 같아질 수 있도록 로컬 저장소의 main 브랜치를 reset 하세요.",
     "sl_SI": "Naredi feature branch iz lokalnega masterja preden ga ponastaviš, da bo enak kot origin main.",
@@ -42,6 +43,7 @@ exports.level = {
     "es_MX": "Crea la rama feature desde la rama main en local antes de restablecerlo para que sea el mismo que la rama main de origen",
     "es_ES": "Main bloqueado",
     "pt_BR": "Main bloqueado",
+    "pt_PT": "Main bloqueado",
     "fr_FR": "Main verrouillé",
     "ko": "잠겨버린 main 브랜치",
     "sl_SI": "Zaklenjen Main",
@@ -503,6 +505,46 @@ exports.level = {
               "## A solução",
               "",
               "Crie outra branch chamada feature e faça um push dela para o repositório remoto. Além disso, resete a main de volta a estar sincronizada com o repositório remoto para não ter problemas da próxima vez que fizer um pull e os commits de alguém conflitarem com o seu."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push rejeitado pelo repositório remoto!",
+              "",
+              "Se trabalhas numa equipa grande, é provável que o main esteja bloqueado e que seja preciso passar por um processo de Pull Request para integrar alterações. Se fizeres commit diretamente no main local e tentares fazer push, vais deparar-te com uma mensagem parecida com esta:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Porque é que foi rejeitado?",
+              "",
+              "O repositório remoto rejeitou o push de commits diretamente para o main, por causa da política que obriga a usar pull requests no main.",
+              "",
+              "A ideia era seguires o processo: criar um branch, fazer push desse branch e abrir um pull request. Mas esqueceste-te e fizeste commit diretamente no main. Agora estás encalhado e não consegues fazer push das tuas alterações."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## A solução",
+              "",
+              "Cria outro branch chamado feature e faz push dele para o repositório remoto. Além disso, faz reset ao teu main para voltar a ficar sincronizado com o repositório remoto; caso contrário, podes ter problemas da próxima vez que fizeres pull e o commit de outra pessoa entrar em conflito com o teu."
             ]
           }
         }
