@@ -243,6 +243,29 @@ exports.dialog = {
       ]
     }
   }],
+  'pt_PT': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## Boas-vindas ao Learn Git Branching',
+        '',
+        'Tens interesse em aprender Git? Então vieste ao sítio certo! ',
+        'O "Learn Git Branching" é a forma mais visual e interativa de aprender Git ',
+        'na web: vais enfrentar níveis desafiantes, ver demonstrações passo a passo ',
+        'de funcionalidades poderosas e, quem sabe, até divertir-te um bocado pelo caminho.',
+        '',
+        'Depois deste diálogo, vais ver a variedade de níveis que temos para oferecer. Se estás a ',
+        'começar agora, avança e começa pelo primeiro. Se já sabes o básico de Git, ',
+        'experimenta alguns dos nossos níveis mais avançados e desafiantes.',
+        '',
+        'Podes ver todos os comandos disponíveis com `show commands` no terminal.',
+        '',
+        'PS: Queres ir diretamente para a sandbox da próxima vez?',
+        'Experimenta ',
+        '[este link especial](https://pcottle.github.io/learnGitBranching/?locale=pt_PT&NODEMO).'
+      ]
+    }
+  }],
   'gl': [{
     type: 'ModalAlert',
     options: {
