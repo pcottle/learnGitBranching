@@ -14,6 +14,7 @@ exports.level = {
     "es_MX": "Múltiples padres",
     "es_ES": "Múltiples padres",
     "pt_BR": "Múltiplos pais",
+    "pt_PT": "Vários pais",
     "gl": "Múltiples pais",
     "zh_TW": "多個 parent commit",
     "ro": "Mai mulți părinți",
@@ -44,6 +45,7 @@ exports.level = {
     "es_MX": "Use `git branch bugWork` sobre algún commit para crear la referencia faltante",
     "es_ES": "Usa `git branch bugWork` sobre algún commit para crear la referencia que falta",
     "pt_BR": "Use `git branch bugWork` com um commit alvo para criar a referência que falta",
+    "pt_PT": "Usa `git branch bugWork` com um commit de destino para criar a referência em falta.",
     "gl": "Usa `git branch bugWork` sobre calquera commit para crear a referencia que falta",
     "zh_TW": "在一個指定的 commit 上面使用 `git branch bugWork`。",
     "ro": "Folosește `git branch bugWork` cu un commit țintă pentru a crea referința lipsă.",
@@ -1014,6 +1016,93 @@ exports.level = {
               "Para completar este nível, crie um nova branch no destino especificado.",
               "",
               "Obviamente seria mais fácil especificar o commit diretamente (com algo como `C6`), mas em vez disso eu desafio você a usar os modificadores sobre os quais falamos!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Indicar pais",
+              "",
+              "Tal como o modificador `~`, o modificador `^` também aceita um número opcional a seguir.",
+              "",
+              "Em vez de indicar o número de gerações a recuar (que é o que o `~` recebe), o número no `^` indica que referência de pai seguir a partir de um commit de merge. Lembra-te de que os commits de merge têm vários pais, por isso o caminho a escolher é ambíguo.",
+              "",
+              "Normalmente, o Git segue o \"primeiro\" pai para cima a partir de um commit de merge, mas indicar um número com `^` muda este comportamento por omissão.",
+              "",
+              "Chega de conversa, vamos vê-lo em ação.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aqui temos um commit de merge. Se fizermos checkout de `main^` sem o modificador, seguimos o primeiro pai do commit de merge. ",
+              "",
+              "(*Na nossa visualização, o primeiro pai fica diretamente acima do commit de merge.*)"
+            ],
+            "afterMarkdowns": [
+              "Fácil -- é aquilo a que já estamos todos habituados."
+            ],
+            "command": "git checkout main^",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Agora vamos experimentar indicar antes o segundo pai..."
+            ],
+            "afterMarkdowns": [
+              "Vês? Seguimos o outro pai para cima."
+            ],
+            "command": "git checkout main^2",
+            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Os modificadores `^` e `~` tornam a navegação numa árvore de commits muito poderosa:"
+            ],
+            "afterMarkdowns": [
+              "Rápido como um relâmpago!"
+            ],
+            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mais incrível ainda: estes modificadores podem ser encadeados! Repara:"
+            ],
+            "afterMarkdowns": [
+              "O mesmo movimento de antes, mas tudo num só comando."
+            ],
+            "command": "git checkout HEAD~^2~2",
+            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Põe em prática",
+              "",
+              "Para completar este nível, cria um branch novo no destino indicado.",
+              "",
+              "Obviamente, seria fácil indicar o commit diretamente (com algo como `C6`), mas desafio-te a usar antes os modificadores de que falámos!"
             ]
           }
         }

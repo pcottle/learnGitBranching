@@ -16,6 +16,7 @@ exports.level = {
     "es_MX": "Rebaseando más de 9000... veces",
     "es_ES": "Rebaseando más de 9000 veces",
     "pt_BR": "Fazendo mais de 9000 rebases",
+    "pt_PT": "Rebase mais de 9000 vezes",
     "gl": "Facendo máis de 9000 rebases",
     "fr_FR": "Rebaser plus de 1000 fois",
     "ko": "9천번이 넘는 리베이스",
@@ -45,6 +46,7 @@ exports.level = {
     "es_MX": "Recuerda, la manera más eficiente podría ser actualizar main hasta el final...",
     "es_ES": "Recuerda, la manera más eficiente podría ser actualizar main sólo al final...",
     "pt_BR": "Lembre-se, a forma mais eficiente pode ser atualizar a main por último...",
+    "pt_PT": "Lembra-te: a forma mais eficiente pode ser atualizar o main só no fim...",
     "gl": "Lembra, a forma máis eficiente pode ser actualizar a rama main ó final...",
     "fr_FR": "Rappelez-vous, la façon la plus efficace peut être de mettre à jour main seulement à la fin...",
     "ja": "最も効率的なやり方はmainを最後に更新するだけかもしれない・・・",
@@ -221,6 +223,26 @@ exports.level = {
               "Uma dica útil: o `git rebase` pode receber um segundo argumento. `git rebase main bugFix` faz checkout da `bugFix` e o rebase dela sobre a `main` em um único passo -- um atalho para `git checkout bugFix; git rebase main`.",
               "",
               "Se você fizer besteira, sinta-se livre para usar o comando `reset` para recomeçar do zero. Depois lembre de olhar nossa solução do gabarito para ver se consegue resolver a tarefa usando menos comandos!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Fazer rebase de vários branches",
+              "",
+              "Bolas, temos aqui imensos branches! Vamos fazer rebase de todo o trabalho destes branches para cima do main.",
+              "",
+              "Mas a chefia está a complicar um bocadinho as coisas -- quer que os commits fiquem todos por ordem sequencial. Isto quer dizer que a nossa árvore final deve ter o `C7'` em baixo, o `C6'` por cima desse, e assim por diante, tudo por ordem.",
+              "",
+              "Uma dica útil: o `git rebase` aceita um segundo argumento. `git rebase main bugFix` faz checkout do `bugFix` e faz rebase dele para cima do `main` num só passo -- é um atalho para `git checkout bugFix; git rebase main`.",
+              "",
+              "Se te enganares pelo caminho, usa à vontade o `reset` para começar de novo. Não te esqueças de ver a nossa solução, para veres se consegues fazê-lo com menos comandos!"
             ]
           }
         }

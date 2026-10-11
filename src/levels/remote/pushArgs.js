@@ -14,6 +14,7 @@ exports.level = {
     "es_AR": "Parámetros de git push",
     "es_ES": "Parámetros de git push",
     "pt_BR": "Parâmetros do git push",
+    "pt_PT": "Argumentos do git push",
     "gl": "Parámetros de git push",
     "de_DE": "Optionen für Git Push",
     "ja": "Git pushの引数",
@@ -42,6 +43,7 @@ exports.level = {
     "es_MX": "Siempre puedes ver el último mensaje escribiendo ",
     "es_ES": "Siempre puedes ver el último mensaje escribiendo \"objective\"",
     "pt_BR": "Você sempre pode rever o último slide com o comando \"objective\"",
+    "pt_PT": "Podes sempre rever o último diapositivo do diálogo com \"objective\"",
     "gl": "Ti sempre podes desfacer último mensaxe escribindo \"objective\"",
     "de_DE": "Du kannst dir die Zielsetzung des Levels immer wieder mit \"objective\" anzeigen lassen",
     "ja": "ダイアログの最後のスライドを参照するには\"objective\"を実行",
@@ -646,6 +648,81 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, neste nível vamos atualizar tanto a `foo` como a `main` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumentos do push",
+              "",
+              "Ótimo! Agora que já conheces os branches de seguimento, podemos começar a desvendar parte do mistério de como funcionam o git push, o fetch e o pull. Vamos tratar de um comando de cada vez, mas os conceitos são muito parecidos entre eles.",
+              "",
+              "Primeiro vamos ver o `git push`. Aprendeste na lição sobre seguimento remoto que o git descobria o repositório remoto *e* o branch para onde fazer push olhando para as propriedades do branch atualmente em checkout (o repositório remoto que ele \"segue\"). Este é o comportamento quando não indicas argumentos, mas o git push também pode receber argumentos neste formato:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "O que é o parâmetro `<place>`, perguntas tu? Já vamos aos pormenores, mas primeiro um exemplo. Executar o comando:",
+              "",
+              "`git push origin main`",
+              "",
+              "quer dizer isto em português:",
+              "",
+              "*Vai ao branch chamado \"main\" no meu repositório, pega em todos os commits, e depois vai ao branch \"main\" do repositório remoto chamado \"origin\". Põe nesse branch os commits que lá faltarem e avisa-me quando terminares.*",
+              "",
+              "Ao indicar `main` como argumento \"place\", dissemos ao git de onde os commits *vêm* e para onde *vão*. É, no fundo, o \"sítio\" ou \"local\" a sincronizar entre os dois repositórios.",
+              "",
+              "Repara que, como dissemos ao git tudo o que ele precisa de saber (indicando os dois argumentos), ele ignora completamente onde estamos em checkout!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver um exemplo em que indicamos os argumentos. Repara onde estamos em checkout neste exemplo."
+            ],
+            "afterMarkdowns": [
+              "Aí está! O `main` foi atualizado no repositório remoto porque indicámos esses argumentos."
+            ],
+            "command": "git checkout C0; git push origin main",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E se não tivéssemos indicado os argumentos? O que é que aconteceria?"
+            ],
+            "afterMarkdowns": [
+              "O comando falha (como podes ver), porque a `HEAD` não está num branch de seguimento."
+            ],
+            "command": "git checkout C0; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Muito bem, neste nível vamos atualizar tanto o `foo` como o `main` no repositório remoto. O truque é que o `git checkout` está desativado neste nível!",
+              "",
+              "*Nota: os branches remotos têm o prefixo `o/` porque a etiqueta completa `origin/` não cabe na nossa interface. Não te preocupes ",
+              "com isso... usa simplesmente `origin` como nome do repositório remoto, como de costume.*"
             ]
           }
         }

@@ -10,6 +10,7 @@ exports.level = {
     "es_MX": "Haciendo merge en Git",
     "es_ES": "Haciendo merge en Git",
     "pt_BR": "Merge no Git",
+    "pt_PT": "Merge no Git",
     "gl": "Merge en Git",
     "fr_FR": "Faire des 'merge' (fusions de branches) avec Git",
     "ko": "Git에서 브랜치 합치기(Merge)",
@@ -41,6 +42,7 @@ exports.level = {
     "es_MX": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "es_ES": "Acuérdate de hacer commit en el orden especificado (bugFix antes de main)",
     "pt_BR": "Lembre-se de commitar na ordem especificada (bugFix antes de main)",
+    "pt_PT": "Lembra-te de fazer os commits pela ordem indicada (bugFix antes de main)",
     "gl": "Lembrate de facer commit na orde específica (bugFix antes de main)",
     "fr_FR": "Pensez à faire des commits dans l'ordre indiqué (bugFix avant main)",
     "zh_CN": "要按目标窗口中指定的顺序进行提交（bugFix 先于 main）",
@@ -681,6 +683,75 @@ exports.level = {
               "* Junte a branch `bugFix` na `main` com `git merge`",
               "",
               "*Lembre-se, você pode sempre mostrar esta mensagem novamente com o comando \"objective\"!*"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches e merge",
+              "",
+              "Ótimo! Já sabemos fazer commits e criar branches. Agora precisamos de aprender uma forma de juntar o trabalho de dois branches diferentes. Assim podemos criar um branch, desenvolver uma funcionalidade nova e depois voltar a integrá-la.",
+              "",
+              "O primeiro método para juntar trabalho que vamos ver é o `git merge`. Fazer merge no Git cria um commit especial com dois pais distintos. Um commit com dois pais quer basicamente dizer \"quero incluir todo o trabalho deste pai aqui e daquele ali, *e* o conjunto de todos os pais deles.\"",
+              "",
+              "É mais fácil com imagens. Vamos ver isto na próxima janela."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aqui temos dois branches, e cada um tem um commit único. Isto quer dizer que nenhum dos branches inclui todo o \"trabalho\" que fizemos no repositório. Vamos resolver isso com um merge.",
+              "",
+              "Vamos fazer `merge` do branch `bugFix` para o `main`."
+            ],
+            "afterMarkdowns": [
+              "Uau! Viste aquilo? Para começar, o `main` aponta agora para um commit com dois pais. Se seguires as setas pela árvore de commits acima a partir do `main`, passas por todos os commits até à raiz. Isto quer dizer que o `main` contém agora todo o trabalho do repositório.",
+              "",
+              "Reparaste também que as cores dos commits mudaram? Para ajudar na aprendizagem, incluí um esquema de cores. Cada branch tem uma cor própria. Cada commit fica com uma cor que é a mistura das cores de todos os branches que contêm esse commit.",
+              "",
+              "Aqui vemos que a cor do branch `main` está misturada em todos os commits, mas a do `bugFix` não. Vamos resolver isso..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos fazer merge do `main` para o `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Como o `bugFix` era antecessor do `main`, o git não teve de fazer nada: limitou-se a mover o `bugFix` para o mesmo commit para onde o `main` aponta.",
+              "",
+              "Agora todos os commits têm a mesma cor, o que quer dizer que cada branch contém todo o trabalho do repositório! Boa!"
+            ],
+            "command": "git checkout bugFix; git merge main",
+            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, segue estes passos:",
+              "",
+              "* Cria um branch novo chamado `bugFix`",
+              "* Faz checkout do branch `bugFix` com `git checkout bugFix`",
+              "* Faz um commit",
+              "* Volta ao `main` com `git checkout`",
+              "* Faz outro commit",
+              "* Faz merge do branch `bugFix` para o `main` com `git merge`",
+              "",
+              "*Lembra-te de que podes voltar a ver este diálogo sempre que quiseres com \"objective\"!*"
             ]
           }
         }

@@ -10,6 +10,7 @@ exports.level = {
     "es_AR": "Mergeando con los remotos",
     "es_ES": "Haciendo merge con los remotos",
     "pt_BR": "Merge com remotos",
+    "pt_PT": "Merge com repositórios remotos",
     "gl": "Merge cos repos remotos",
     "de_DE": "Änderungen vom Remote zusammenführen",
     "ja": "リモートとのmerge",
@@ -38,6 +39,7 @@ exports.level = {
     "es_MX": "¡Presta atención al árbol final!",
     "es_ES": "¡Presta atención al árbol final!",
     "pt_BR": "Preste atenção na árvore do objetivo!",
+    "pt_PT": "Presta atenção à árvore do objetivo!",
     "gl": "Presta atención á arbore final!",
     "de_DE": "Beachte den Ziel-Baum!",
     "ja": "ゴールツリーをよく見てください！",
@@ -370,6 +372,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para este nível, tente resolver o mesmo problema do nível anterior, mas usando *merge* em vez de rebase. A árvore pode ficar um pouco cabeluda, mas isso ilustra bem o nosso ponto."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Porque não fazer merge?",
+              "",
+              "Para fazeres push de atualizações novas para o repositório remoto, só precisas de *incorporar* as alterações mais recentes do repositório remoto. Isto quer dizer que podes fazer rebase *ou* merge do branch remoto (p. ex. `o/main`).",
+              "",
+              "Então, se podes usar qualquer um dos métodos, porque é que as lições se concentraram até agora no rebase? Porque é que o `merge` não recebe nenhum carinho quando trabalhamos com repositórios remotos?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Há muito debate na comunidade de programadores sobre as vantagens e desvantagens do merge e do rebase. Estes são, em geral, os prós e contras do rebase:",
+              "",
+              "Prós:",
+              "",
+              "* O rebase deixa a tua árvore de commits muito limpa, porque fica tudo numa linha reta",
+              "",
+              "Contras:",
+              "",
+              "* O rebase modifica o histórico (aparente) da árvore de commits.",
+              "",
+              "Por exemplo, pode fazer-se rebase do commit `C1` para *depois* do `C3`. Fica então a parecer que o trabalho do `C1'` veio depois do `C3`, quando na realidade foi feito antes.",
+              "",
+              "Alguns programadores adoram preservar o histórico e por isso preferem o merge. Outros (como eu) preferem ter uma árvore de commits limpa e preferem o rebase. No fundo, é uma questão de gosto :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Neste nível, vamos tentar resolver o nível anterior, mas desta vez com *merge*. Pode ficar um bocadinho confuso, mas ilustra bem a ideia."
             ]
           }
         }

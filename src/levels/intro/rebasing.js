@@ -11,6 +11,7 @@ exports.level = {
     "es_MX": "Introducción a rebase",
     "es_ES": "Introducción a rebase",
     "pt_BR": "Introdução ao rebase",
+    "pt_PT": "Introdução ao rebase",
     "gl": "Introducción a rebase",
     "fr_FR": "Introduction à rebase",
     "ko": "리베이스(rebase)의 기본",
@@ -42,6 +43,7 @@ exports.level = {
     "es_MX": "Asegúrate de hacer commit desde bugFix primero",
     "es_ES": "Asegúrate de hacer commit desde bugFix primero",
     "pt_BR": "O bugFix precisa ser commitado primeiro",
+    "pt_PT": "Certifica-te de que fazes primeiro o commit no bugFix",
     "gl": "Asegurate de facer o commit dende bugFix primeiro",
     "ko": "bugFix 브랜치에서 먼저 커밋하세요",
     "zh_CN": "先在 bugFix 分支上进行提交",
@@ -661,6 +663,73 @@ exports.level = {
               "* Faça um commit",
               "* Volte à main e faça um novo commit",
               "* Faça checkout da bugFix novamente e faça rebase na main",
+              "",
+              "Boa sorte!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Rebase no Git",
+              "",
+              "A segunda forma de juntar trabalho entre branches é o *rebase.* Fazer rebase consiste basicamente em pegar num conjunto de commits, \"copiá-los\" e largá-los noutro sítio.",
+              "",
+              "Pode parecer confuso, mas a vantagem do rebase é que permite criar uma sequência de commits linear e arrumada. O log de commits / histórico do repositório fica muito mais limpo se só for permitido fazer rebase.",
+              "",
+              "Vamos vê-lo em ação..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aqui temos outra vez dois branches; repara que o branch bugFix está selecionado neste momento (vê o asterisco)",
+              "",
+              "Queremos mover o nosso trabalho do bugFix diretamente para cima do trabalho do main. Assim, parece que as duas funcionalidades foram desenvolvidas uma a seguir à outra, quando na realidade foram desenvolvidas em paralelo.",
+              "",
+              "Vamos fazer isso com o comando `git rebase`."
+            ],
+            "afterMarkdowns": [
+              "Fantástico! Agora o trabalho do nosso branch bugFix está empilhado \"em cima do main\", porque aponta para o main. Na nossa visualização aparece abaixo do main, porque as nossas árvores de commits crescem para baixo.",
+              "",
+              "Repara que o commit C3 continua a existir algures (aparece esbatido na árvore) e que o C3' é a \"cópia\" que pusemos em cima do main com o rebase.",
+              "",
+              "O único problema é que o main também ainda não foi atualizado. Vamos tratar disso agora..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Agora estamos no branch `main`. Vamos fazer rebase para cima do `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Pronto! Como o `main` era antecessor do `bugFix`, o git limitou-se a mover a referência do branch `main` para a frente no histórico."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, faz o seguinte:",
+              "",
+              "* Cria um branch novo chamado `bugFix` e faz checkout dele",
+              "* Faz um commit",
+              "* Volta ao main e faz outro commit",
+              "* Volta a fazer checkout do bugFix e faz rebase para cima do main",
               "",
               "Boa sorte!"
             ]

@@ -12,6 +12,7 @@ exports.level = {
     "es_MX": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "es_ES": "Vas a necesitar usar al menos una referencia directa (hash) para completar este nivel",
     "pt_BR": "Você precisará usar pelo menos uma referência direta (hash) para completar este nível",
+    "pt_PT": "Vais precisar de usar pelo menos uma referência direta (hash) para completar este nível",
     "gl": "Precisarás usar polo menos unha referencia directa (hash) para completar este nivel",
     "de_DE": "Du musst mindestens einen Hash benutzen, um dieses Level zu schaffen",
     "ja": "このレベルをクリアするには少なくとも一つの直接リファレンス（hash）を使用する必要があります",
@@ -40,6 +41,7 @@ exports.level = {
     "es_ES": "Referencias relativas #2 (~)",
     "es_MX": "Referencias relativas #2 (~)",
     "pt_BR": "Referências relativas #2 (~)",
+    "pt_PT": "Referências relativas #2 (~)",
     "gl": "Referencias relativas #2 (~)",
     "fr_FR": "Références relatives #2 (~)",
     "zh_CN": "相对引用2（~）",
@@ -545,6 +547,77 @@ exports.level = {
               "Agora que você viu referências relativas e movimentação de branches combinadas, vamos usá-las para resolver o próximo nível.",
               "",
               "Para completar este nível, mova o `HEAD` e as branches `main` e `bugFix` para os destinos mostrados no objetivo."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### O operador \"~\"",
+              "",
+              "Imagina que queres subir muitos níveis na árvore de commits. Escrever `^` várias vezes pode ser aborrecido, por isso o Git também tem o operador til (~).",
+              "",
+              "",
+              "O operador til aceita (opcionalmente) um número a seguir, que indica quantos pais queres subir. Vamos vê-lo em ação."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos indicar um número de commits para trás com `~`."
+            ],
+            "afterMarkdowns": [
+              "Pumba! Tão conciso -- as referências relativas são mesmo boas."
+            ],
+            "command": "git checkout HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forçar branches",
+              "",
+              "Agora que já és especialista em referências relativas, vamos *usá-las* para alguma coisa.",
+              "",
+              "Uma das formas mais comuns de eu usar referências relativas é para mover branches. Podes reatribuir um branch diretamente a um commit com a opção `-f`. Algo como:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "move (à força) o branch main para três pais atrás da HEAD.",
+              "",
+              "*Nota: num ambiente git real, o comando `git branch -f` não é permitido no branch em que estás.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver esse comando em ação."
+            ],
+            "afterMarkdowns": [
+              "Aí está! As referências relativas deram-nos uma forma concisa de nos referirmos ao `C1`, e forçar o branch (`-f`) deu-nos uma forma rápida de mover um branch para esse sítio."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Agora que já viste as referências relativas e o forçar de branches em conjunto, vamos usá-los para resolver o próximo nível.",
+              "",
+              "Para completar este nível, move a `HEAD`, o `main` e o `bugFix` para os destinos indicados no objetivo."
             ]
           }
         }

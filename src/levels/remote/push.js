@@ -13,6 +13,7 @@ exports.level = {
     "es_AR": "git push",
     "es_ES": "git push",
     "pt_BR": "Git Push",
+    "pt_PT": "Git Push",
     "gl": "Git Push",
     "de_DE": "Git Push",
     "ja": "Git Push",
@@ -41,6 +42,7 @@ exports.level = {
     "es_MX": "¡Recuerda que tienes que clonar antes de hacer push!",
     "es_ES": "¡Recuerda que tienes que clonar antes de hacer push!",
     "pt_BR": "Lembre-se de clonar antes de fazer o push!",
+    "pt_PT": "Lembra-te de que tens de clonar antes de poderes fazer push!",
     "de_DE": "Denk dran, dass du einen Clone brauchst, bevor du pushen kannst!",
     "ja": "Pushができるようになるには、まずリポジトリをcloneする必要があるのをお忘れなく",
     "fr_FR": "Rappelez-vous que vous devez cloner avant de pouvoir faire un push !",
@@ -394,6 +396,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "Para completar este nível, simplesmente compartilhe dois novos commits com o repositório remoto. No entanto, segure-se no seu assento, pois estas lições estão prestes a ficar mais difíceis!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Pronto, já fui buscar alterações ao repositório remoto e incorporei-as no meu trabalho local. Ótimo... mas como é que partilho o _meu_ trabalho fantástico com toda a gente?",
+              "",
+              "Bem, a forma de enviar trabalho partilhado é o oposto de o descarregar. E qual é o oposto de `git pull`? `git push`!",
+              "",
+              "O `git push` encarrega-se de enviar as _tuas_ alterações para um repositório remoto indicado e de atualizar esse repositório remoto para incorporar os teus commits novos. Quando o `git push` termina, todos os teus amigos podem descarregar o teu trabalho a partir do repositório remoto.",
+              "",
+              "Podes pensar no `git push` como um comando para \"publicar\" o teu trabalho. Tem uma série de subtilezas que vamos ver em breve, mas vamos começar devagarinho...",
+              "",
+              "*nota -- o comportamento do `git push` sem argumentos varia consoante uma definição do git chamada `push.default`. O valor por omissão desta definição depende da versão do git que estás a usar, mas nas nossas lições vamos usar o valor `upstream`. Não é nada de especial, mas vale a pena verificares as tuas definições antes de fazeres push nos teus próprios projetos.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Aqui temos algumas alterações que o repositório remoto não tem. Vamos enviá-las!"
+            ],
+            "afterMarkdowns": [
+              "Aí está -- o repositório remoto recebeu o commit `C2`, o branch `main` do repositório remoto foi atualizado para apontar para o `C2`, e o *nosso* reflexo do repositório remoto (`o/main`) também foi atualizado. Está tudo sincronizado!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para terminar este nível, basta partilhares dois commits novos com o repositório remoto. Mas aperta o cinto, porque estas lições estão prestes a ficar bem mais difíceis!"
             ]
           }
         }

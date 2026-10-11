@@ -8,6 +8,7 @@ exports.level = {
     "es_MX": "Introducción a los commits de Git",
     "es_ES": "Introducción a los commits de Git",
     "pt_BR": "Introdução aos commits no Git",
+    "pt_PT": "Introdução aos commits no Git",
     "gl": "Introducción ós commits de Git",
     "fr_FR": "Introduction aux commits avec Git",
     "ja": "Gitのコミット",
@@ -41,6 +42,7 @@ exports.level = {
     "es_MX": "¡Simplemente escribe 'git commit' dos veces para terminar!",
     "es_ES": "¡Simplemente escribe 'git commit' dos veces para terminar!",
     "pt_BR": "Simplesmente digite 'git commit' duas vezes para concluir!",
+    "pt_PT": "Basta escreveres 'git commit' duas vezes para terminar!",
     "gl": "Simplemente escribe 'git commit' dúas veces para terminar.",
     "fr_FR": "Il suffit de saisir 'git commit' deux fois pour réussir !",
     "zh_CN": "执行两次 'git commit' 就可以过关了！",
@@ -443,6 +445,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "Vamos lá, tente você agora! Quando esta janela se fechar, faça dois commits para completar o nível."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits no Git",
+              "Um commit num repositório git regista um retrato (snapshot) de todos os ficheiros (monitorizados pelo git) da tua pasta. É como um copiar e colar gigante, mas ainda melhor!",
+              "",
+              "Mas o Git quer que os commits sejam o mais leves possível, por isso não copia às cegas a pasta inteira de cada vez que fazes commit. Sempre que pode, guarda um commit como um conjunto de alterações, ou um \"delta\", de uma versão do repositório para a seguinte.",
+              "",
+              "O Git também guarda um histórico de que commits foram feitos e quando. É por isso que a maioria dos commits tem commits antecessores por cima -- assinalamos isso com setas na nossa visualização. Manter o histórico é ótimo para toda a gente que trabalha no projeto!",
+              "",
+              "É muita coisa para assimilar, mas, por agora, podes pensar nos commits como retratos do projeto. Os commits são muito leves e saltar de um para outro é rapidíssimo!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver como isto funciona na prática. À direita temos a visualização de um (pequeno) repositório git. Neste momento há dois commits -- o commit inicial, `C0`, e um commit a seguir, `C1`, que pode ter algumas alterações importantes.",
+              "",
+              "Carrega no botão abaixo para fazer um novo commit."
+            ],
+            "afterMarkdowns": [
+              "Aí está! Fantástico. Acabámos de fazer alterações no repositório e de as guardar num commit. O commit que acabámos de criar tem um pai, `C1`, que indica em que commit se baseou."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Agora experimenta tu! Quando esta janela fechar, faz dois commits para completar o nível."
             ]
           }
         }

@@ -10,6 +10,7 @@ exports.level = {
     "es_AR": "Trackeando remotos",
     "es_ES": "Trackeando remotos",
     "pt_BR": "Seguindo remotos",
+    "pt_PT": "Seguimento de branches remotos",
     "gl": "Traceando os remotos",
     "de_DE": "Remote Tracking",
     "ja": "リモートのトラッキング",
@@ -38,6 +39,7 @@ exports.level = {
     "es_MX": "¡Recuerda que hay dos formas de trackear un remoto!",
     "es_ES": "¡Recuerda que hay dos formas de trackear un remoto!",
     "pt_BR": "Lembre-se que há duas formas de seguir um ramo remoto!",
+    "pt_PT": "Lembra-te de que há duas formas de definir o seguimento remoto!",
     "gl": "¡Lembrate de que hai dúas formas de seguir unha rama remota!",
     "de_DE": "Nicht vergessen, es gibt zwei Arten Remote Tracking einzurichten!",
     "ja": "リモートトラッキングを設定する方法が二つあるのをお忘れなく!",
@@ -1003,6 +1005,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok! Para este nível, vamos fazer push na branch remota `main` *sem estar* em um checkout da `main` local. Vou deixar você descobrir o resto, já que isto é um curso avançado :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branches de seguimento",
+              "",
+              "Uma coisa que pode ter parecido \"mágica\" nas últimas lições é o git saber que o branch `main` estava relacionado com o `o/main`. Claro que estes branches têm nomes parecidos e pode fazer sentido ligar o branch `main` do repositório remoto ao branch `main` local, mas esta ligação fica bem clara em dois cenários:",
+              "",
+              "* Durante um pull, os commits são descarregados para o `o/main` e depois é feito *merge* deles para o branch `main`. O alvo implícito do merge é determinado por esta ligação.",
+              "* Durante um push, o trabalho do branch `main` foi enviado para o branch `main` do repositório remoto (que depois ficou representado localmente pelo `o/main`). O *destino* do push é determinado pela ligação entre o `main` e o `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Seguimento remoto",
+              "",
+              "Resumindo, esta ligação entre o `main` e o `o/main` explica-se simplesmente pela propriedade de \"seguimento remoto\" (remote tracking) dos branches. O branch `main` está configurado para seguir o `o/main` -- isto quer dizer que há um alvo de merge implícito e um destino de push implícito para o branch `main`.",
+              "",
+              "Podes estar a perguntar-te como é que esta propriedade foi definida no branch `main` se não executaste nenhum comando para isso. Bem, quando clonas um repositório com o git, esta propriedade é definida automaticamente para ti. ",
+              "",
+              "Durante um clone, o git cria um branch remoto para cada branch do repositório remoto (ou seja, branches como o `o/main`). Depois cria um branch local que segue o branch que está ativo no repositório remoto, que na maioria dos casos é o `main`.",
+              "",
+              "Quando o git clone termina, só tens um branch local (para não te afogares em branches), mas podes ver todos os branches do repositório remoto (se tiveres muita curiosidade). É o melhor dos dois mundos!",
+              "",
+              "Isto também explica porque é que podes ver a seguinte mensagem ao clonar:",
+              "",
+              "    o branch local \"main\" passou a seguir o branch remoto \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Posso definir isto à mão?",
+              "",
+              "Claro que sim! Podes fazer com que qualquer branch siga o `o/main` e, se o fizeres, esse branch vai ter o mesmo destino de push e o mesmo alvo de merge implícitos que o `main`. Isto quer dizer que podes executar `git push` num branch chamado `totallyNotMain` e o teu trabalho vai parar ao branch `main` do repositório remoto!",
+              "",
+              "Há duas formas de definir esta propriedade. A primeira é fazer checkout de um branch novo usando um branch remoto como referência. Ao executar",
+              "",
+              "`git checkout -b totallyNotMain o/main`",
+              "",
+              "Crias um branch novo chamado `totallyNotMain`, configurado para seguir o `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Chega de conversa, vamos ver uma demonstração! Vamos fazer checkout de um branch novo chamado `foo` e configurá-lo para seguir o `main` do repositório remoto."
+            ],
+            "afterMarkdowns": [
+              "Como vês, usámos o alvo de merge implícito, o `o/main`, para atualizar o branch `foo`. Repara que o main não é atualizado!!"
+            ],
+            "command": "git checkout -b foo o/main; git pull",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "O mesmo se aplica ao git push."
+            ],
+            "afterMarkdowns": [
+              "Pumba. Fizemos push do nosso trabalho para o `main` do repositório remoto, apesar de o nosso branch ter um nome completamente diferente."
+            ],
+            "command": "git checkout -b foo o/main; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Forma n.º 2",
+              "",
+              "Outra forma de definir o seguimento remoto de um branch é simplesmente usar a opção `git branch -u`. Ao executar",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "configuras o branch `foo` para seguir o `o/main`. Se estiveres com o `foo` em checkout, podes até omiti-lo:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver rapidamente esta outra forma de definir o seguimento remoto..."
+            ],
+            "afterMarkdowns": [
+              "Igual ao anterior, só que com um comando mais explícito. Boa!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Muito bem! Neste nível, vamos fazer push de trabalho para o branch `main` do repositório remoto *sem* estarmos com o `main` local em checkout. Em vez disso, deves criar um branch chamado `side`, como mostra o diagrama do objetivo."
             ]
           }
         }

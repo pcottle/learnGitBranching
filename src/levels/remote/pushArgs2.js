@@ -10,6 +10,7 @@ exports.level = {
     "es_AR": "¡Más! Parámetros de git push",
     "es_ES": "¡Más! Parámetros de git push",
     "pt_BR": "Parâmetros do git push -- expandido",
+    "pt_PT": "Argumentos do git push -- versão alargada!",
     "gl": "Parámetros de git push -- ampliado",
     "de_DE": "Optionen für Git Push -- noch mehr!",
     "ja": "Git pushの引数 -- 拡張編!",
@@ -38,6 +39,7 @@ exports.level = {
     "es_MX": "Recuerda que puedes admitir tu derrota y escribir ",
     "es_ES": "Recuerda que puedes admitir tu derrota y escribir \"show solution\" para ver la solución :P",
     "pt_BR": "Lembre-se que você pode admitir que foi derrotado e digitar \"show solution\" :P",
+    "pt_PT": "Lembra-te de que podes atirar a toalha ao chão e escrever \"show solution\" :P",
     "gl": "Lembrate que podes admitir que fuches derrotado e escribir \"show solution\" para amosala solución :P",
     "de_DE": "Vergiss nicht dass du aufgeben kannst, indem du \"show solution\" eingibst :P",
     "ja": "降参して解説を見るには\"show solution\"を実行できるのをお忘れなく",
@@ -614,6 +616,76 @@ exports.level = {
               "Para este nível, tente chegar ao estado do objetivo mostrado na visualização, e lembre-se do formato:",
               "",
               "`<origem>:<destino>`"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detalhes do argumento `<place>`",
+              "",
+              "Lembra-te da lição anterior: quando indicámos `main` como argumento place do git push, indicámos tanto a *fonte* de onde os commits vinham como o *destino* para onde iam.",
+              "",
+              "Podes então estar a pensar -- e se quiséssemos que a fonte e o destino fossem diferentes? E se quisesses fazer push de commits do branch `foo` local para o branch `bar` do repositório remoto?",
+              "",
+              "Bem, infelizmente isso é impossível no git... estou a brincar! Claro que é possível :)... o git tem imensa flexibilidade (quase demasiada).",
+              "",
+              "Vamos ver como no próximo diapositivo..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para indicares a fonte e o destino do `<place>`, basta juntá-los com dois pontos:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Isto costuma chamar-se refspec com dois pontos. Refspec é só um nome pomposo para um local que o git consegue perceber (como o branch `foo` ou até só `HEAD~1`).",
+              "",
+              "Quando indicas a fonte e o destino de forma independente, podes fazer coisas bastante elaboradas e precisas com os comandos remotos. Vamos ver uma demonstração!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lembra-te de que `source` é qualquer local que o git perceba:"
+            ],
+            "afterMarkdowns": [
+              "Uau! É um comando bem alucinante, mas faz sentido -- o git resolveu `foo^` para um local, enviou os commits que ainda não estavam no repositório remoto e depois atualizou o destino."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git fakeCreateRemote; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "E se o destino para onde queres fazer push não existir? Não há problema! Basta dares um nome de branch e o git cria esse branch no repositório remoto por ti."
+            ],
+            "afterMarkdowns": [
+              "Boa, isto é mesmo jeitoso :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Neste nível, tenta chegar ao estado final mostrado na visualização, e lembra-te do formato:",
+              "",
+              "`<source>:<destination>`"
             ]
           }
         }

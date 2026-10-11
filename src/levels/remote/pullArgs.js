@@ -11,6 +11,7 @@ exports.level = {
     "es_MX": "Parámetros de pull",
     "es_ES": "Parámetros de pull",
     "pt_BR": "Parâmetros do pull",
+    "pt_PT": "Argumentos do pull",
     "gl": "Parámetros de pull",
     "de_DE": "Optionen für Pull",
     "ja": "Pullの引数",
@@ -39,6 +40,7 @@ exports.level = {
     "es_MX": "Recuerda que puedes crear nuevas ramas locales usando los parámetros de fetch/pull",
     "es_ES": "Recuerda que puedes crear nuevas ramas locales usando los parámetros de fetch/pull",
     "pt_BR": "Lembre-se que você pode criar novas branches locais com parâmetros de fetch/pull",
+    "pt_PT": "Lembra-te de que podes criar branches locais novos com os argumentos do fetch/pull",
     "gl": "Lémbrate que podes crear novas ramas locais con parámetros de fetch/pull",
     "de_DE": "Du kannst neue lokale Branches mittels fetch / pull erstellen",
     "ja": "Fetchとpullの引数を利用してローカルで新規ブランチを作成できるのをお忘れなく",
@@ -572,6 +574,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "Ok, para terminar, obtenha o estado da visualização do objetivo. Você vai precisar baixar alguns commits, criar novas branches, e fazer merge de branches em outras branches, mas não deve precisar de muitos comandos para isso :P"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumentos do git pull",
+              "",
+              "Agora que já sabes praticamente *tudo* o que há para saber sobre os argumentos do `git fetch` e do `git push`, já quase não sobra nada para explicar sobre o git pull :)",
+              "",
+              "Isto porque, no fim de contas, o git pull é *mesmo* só um atalho para um fetch seguido de um merge do que acabou de ser descarregado. Podes pensar nele como executar o git fetch com os *mesmos* argumentos e depois fazer merge *do sítio* onde esses commits foram parar.",
+              "",
+              "Isto aplica-se mesmo quando usas argumentos loucamente complicados. Vamos ver alguns exemplos:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Aqui estão alguns comandos equivalentes no git:",
+              "",
+              "`git pull  origin foo` é o mesmo que:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "E...",
+              "",
+              "`git pull  origin bar:bugFix` é o mesmo que:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "Vês? O git pull é mesmo só um atalho para fetch + merge, e a única coisa que interessa ao git pull é onde os commits foram parar (o argumento `destination` que ele descobre durante o fetch).",
+              "",
+              "Vamos ver uma demonstração:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Se indicarmos o sítio de onde fazer fetch, acontece tudo como antes com o fetch, mas fazemos merge do que acabou de ser descarregado."
+            ],
+            "afterMarkdowns": [
+              "Vês? Ao indicar `main`, descarregámos os commits para o `o/main` como de costume. Depois fizemos merge do `o/main` para o sítio onde estamos em checkout, que *não* é o branch local `main`. Por isso, pode mesmo fazer sentido executar o git pull várias vezes (com os mesmos argumentos) a partir de sítios diferentes, para atualizar vários branches."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Também funciona com fonte e destino? Podes crer! Vamos ver:"
+            ],
+            "afterMarkdowns": [
+              "Uau, é IMENSA coisa num só comando. Criámos localmente um branch novo chamado `foo`, descarregámos commits do main do repositório remoto para esse branch `foo` e depois fizemos merge desse branch para o branch onde estamos em checkout, o `bar`. É mais de 9000!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Muito bem, para terminar, chega ao estado mostrado na visualização do objetivo. Vais ter de descarregar alguns commits, criar alguns branches novos e fazer merge desses branches para outros branches, mas não deve ser preciso usar muitos comandos :P"
             ]
           }
         }

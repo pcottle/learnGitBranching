@@ -17,6 +17,7 @@ exports.level = {
     "es_MX": "Espagueti de ramas",
     "es_ES": "Ensalada de ramas",
     "pt_BR": "Espaguete de branches",
+    "pt_PT": "Esparguete de branches",
     "gl": "Espaguete de ramas",
     "ja": "ブランチスパゲッティ",
     "zh_CN": "纠缠不清的分支",
@@ -45,6 +46,7 @@ exports.level = {
     "es_MX": "¡Asegúrate de hacer las cosas en el orden correcto! Primero la rama uno, después la dos, y después la tres.",
     "es_ES": "¡Asegúrate de hacer las cosas en el orden correcto! Crea primero la rama `one`, después `two`, y después `three`.",
     "pt_BR": "Certifique-se de fazer tudo na ordem correta! Crie a branch `one` primeiro, depois `two`, depois `three`.",
+    "pt_PT": "Garante que fazes tudo pela ordem certa! Primeiro o branch one, depois o two e depois o three",
     "gl": "¡Afiánzate de facer as cousas no orde correcto! Crea ramas `one` de primeiras, e logo `two` e `three`.",
     "ja": "全て正しい順番で処理すること！oneが最初で、次がtwo、最後にthreeを片付ける。",
     "ko": "올바른 순서로 진행하세요! 브랜치 `one`이 처음, 그 다음 `two`, 마지막으로 `three`입니다",
@@ -240,6 +242,26 @@ exports.level = {
               "A branch `one` precisa de uma reordenação e da exclusão do `C5`. A `two` precisa apenas de reordenação. A `three` precisa de um único commit!",
               "",
               "Vamos deixar você descobrir como resolver esta tarefa -- mas não deixe de ver a nossa solução depois com o comando `show solution`. "
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Esparguete de branches",
+              "",
+              "Eh lááá, calma aí! Este nível tem um objetivo e peras.",
+              "",
+              "Aqui temos o `main`, que está alguns commits à frente dos branches `one` `two` e `three`. Por algum motivo, precisamos de atualizar estes três branches com versões modificadas dos últimos commits do main.",
+              "",
+              "O branch `one` precisa de uma reordenação desses commits e de excluir/descartar o `C5`. O branch `two` só precisa de uma reordenação simples dos commits, e o `three` só precisa que lhe seja transferido um commit!",
+              "",
+              "Vamos deixar-te descobrir como resolver este -- não te esqueças de ver depois a nossa solução com `show solution`. "
             ]
           }
         }

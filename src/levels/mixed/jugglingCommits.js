@@ -28,6 +28,7 @@ exports.level = {
     "es_ES": "Haciendo malabares con los commits",
     "es_MX": "Malabareando con las confirmaciones",
     "pt_BR": "Malabarismo com commits",
+    "pt_PT": "Malabarismo com commits",
     "gl": "Argallando cos commits",
     "ja": "コミットをやりくりする",
     "zh_CN": "提交的技巧 #1",
@@ -57,6 +58,7 @@ exports.level = {
     "es_MX": "El primer comando es git rebase -i HEAD~2",
     "es_ES": "El primer comando es git rebase -i HEAD~2",
     "pt_BR": "O primeiro comando é git rebase -i HEAD~2",
+    "pt_PT": "O primeiro comando é git rebase -i HEAD~2",
     "gl": "O primeiro comando é git rebase -i HEAD~2",
     "ja": "最初に打つコマンドはgit rebase -i HEAD~2",
     "ko": "첫번째 명령은 git rebase -i HEAD~2 입니다",
@@ -384,6 +386,40 @@ exports.level = {
               "Por último, preste atenção no estado do \"objetivo\" aqui -- como nós movemos os commits duas vezes, ambos ficam com um apóstrofo. Um apóstrofo adicional é colocado no commit que sofreu o \"amend\", o que nos dá a forma final da árvore ",
               "",
               "Tendo dito isto, posso avaliar a resposta baseado na estrutura e nas diferenças relativas de número de apóstrofos. Desde que a branch `main` da sua árvore tenha a mesma estrutura, e o número de apóstrofos seja igual a menos de uma constante, darei a você todos os pontos para esta tarefa."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Malabarismo com commits",
+              "",
+              "Eis outra situação bastante comum. Tens algumas alterações (`newImage`) e outro conjunto de alterações (`caption`) que estão relacionadas, por isso estão empilhadas umas em cima das outras no teu repositório (ou seja, umas a seguir às outras).",
+              "",
+              "O problema é que, às vezes, precisas de fazer uma pequena alteração a um commit anterior. Neste caso, a equipa de design quer que mudemos ligeiramente as dimensões de `newImage`, apesar de esse commit estar lá muito para trás no nosso histórico!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Vamos ultrapassar esta dificuldade da seguinte forma:",
+              "",
+              "* Reordenamos os commits com `git rebase -i`, para que aquele que queremos alterar fique no topo",
+              "* Fazemos `git commit --amend` para aplicar a pequena alteração",
+              "* Depois voltamos a pôr os commits pela ordem original com `git rebase -i`",
+              "* Por fim, movemos o main para esta parte atualizada da árvore para terminar o nível (com o método que preferires)",
+              "",
+              "Há muitas formas de chegar a este objetivo (já estou a ver-te a piscar o olho ao cherry-pick), e vamos ver mais algumas à frente, mas, por agora, vamos concentrar-nos nesta técnica.",
+              "Por último, repara no estado pretendido -- como movemos os commits duas vezes, ambos ganham um apóstrofo. O commit que alterámos com amend ganha ainda mais um apóstrofo, e é isso que dá a forma final da árvore ",
+              "",
+              "Dito isto, agora consigo comparar os níveis com base na estrutura e nas diferenças relativas de apóstrofos. Desde que o branch `main` da tua árvore tenha a mesma estrutura e as mesmas diferenças relativas de apóstrofos, dou-te a pontuação máxima."
             ]
           }
         }

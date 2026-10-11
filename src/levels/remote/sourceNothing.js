@@ -16,6 +16,7 @@ exports.level = {
     "es_AR": "Origen de nada",
     "es_ES": "Origen de nada",
     "pt_BR": "Origem vazia",
+    "pt_PT": "Fonte vazia",
     "gl": "Orixen de nada",
     "de_DE": "Die Quelle des Nichts",
     "ja": "無のsource",
@@ -44,6 +45,7 @@ exports.level = {
     "es_MX": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "es_ES": "El comando branch está deshabilitado para este nivel, así que ¡vas a tener que usar fetch!",
     "pt_BR": "O comando branch está desabilitado para este nível, então você terá de usar o fetch!",
+    "pt_PT": "O comando branch está desativado neste nível, por isso vais ter de usar o fetch!",
     "gl": "O comando branch está deshabilitado para este nivel, entón terás que empregar o comando fetch!",
     "de_DE": "Der branch Befehl ist für diesen Level inaktiv, du musst also fetch benutzen",
     "ja": "このレベルではbranchコマンドが無効になっているのでfetchを使うしかない！",
@@ -484,6 +486,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "Este é um nível rápido de resolver -- basta remover uma branch remota com `git push` e criar uma nova branch local com `git fetch` para terminar!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Esquisitices do `<source>`",
+              "",
+              "O git abusa do parâmetro `<source>` de duas formas estranhas. Estes dois abusos vêm do facto de, tecnicamente, podermos indicar \"nada\" como `source` válido tanto no git push como no git fetch. Para indicar nada, usa-se um argumento vazio:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Vamos ver o que fazem..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "O que acontece quando fazes push de \"nada\" para um branch remoto? Apaga-o!"
+            ],
+            "afterMarkdowns": [
+              "Pronto, apagámos com sucesso o branch `foo` no repositório remoto ao fazer push do conceito de \"nada\" para ele. Até faz algum sentido..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Por fim, fazer fetch de \"nada\" para um sítio local cria um branch novo."
+            ],
+            "afterMarkdowns": [
+              "Muito estranho / bizarro, mas pronto. É o git no seu melhor!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este nível é rápido -- basta apagares um branch remoto e criares um branch novo com `git fetch` para terminar!"
             ]
           }
         }

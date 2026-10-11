@@ -10,6 +10,7 @@ exports.level = {
     "es_AR": "Desacopla tu HEAD",
     "es_ES": "Desacopla tu HEAD",
     "pt_BR": "Solte a sua cabeça",
+    "pt_PT": "Solta essa HEAD",
     "gl": "Abandona o teu HEAD",
     "fr_FR": "Détacher votre HEAD",
     "zh_CN": "分离 HEAD",
@@ -39,6 +40,7 @@ exports.level = {
     "es_MX": "¡Usa la etiqueta (hash) sobre el commit para ayudarte!",
     "es_ES": "¡Usa la etiqueta (hash) sobre el commit para ayudarte!",
     "pt_BR": "Use o identificador (hash) sobre o commit para te ajudar!",
+    "pt_PT": "Usa a etiqueta (hash) do commit para te ajudar!",
     "gl": "¡Usa a etiqueta (hash) sobre o commit para axudarte!",
     "de_DE": "Benutze den Bezeichner (den Hash) des Commits.",
     "ja": "コミットのラベル（hash）を使用",
@@ -603,6 +605,84 @@ exports.level = {
               "Para completar este nível, vamos soltar o HEAD da `bugFix` e em vez disso anexá-lo ao commit.",
               "",
               "Especifique o commit por meio do hash correspondente. O hash de cada commit é mostrado dentro do círculo que representa o commit (a letra C seguida de um número)."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Andar pelo Git",
+              "",
+              "Antes de passarmos a algumas das funcionalidades mais avançadas do Git, é importante perceber as diferentes formas de andar pela árvore de commits que representa o teu projeto.",
+              "",
+              "Quando estiveres à vontade a andar por aí, os teus poderes com os outros comandos git vão ficar amplificados!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Primeiro temos de falar da \"HEAD\". A HEAD é o nome simbólico do commit em que tens o checkout feito neste momento -- é basicamente o commit sobre o qual estás a trabalhar.",
+              "",
+              "A HEAD aponta sempre para o commit mais recente refletido na árvore de trabalho. A maioria dos comandos git que fazem alterações à árvore de trabalho começa por alterar a HEAD.",
+              "",
+              "Normalmente a HEAD aponta para o nome de um branch (como bugFix). Quando fazes commit, o estado do bugFix muda e essa alteração é visível através da HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver isto em ação. Aqui vamos mostrar a HEAD antes e depois de um commit."
+            ],
+            "afterMarkdowns": [
+              "Vês? A HEAD esteve sempre escondida por baixo do nosso branch `main`."
+            ],
+            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Desanexar a HEAD (detached HEAD)",
+              "",
+              "Desanexar a HEAD significa apenas ligá-la a um commit em vez de a um branch. Antes, fica assim:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "E agora fica",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git checkout C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, vamos desanexar a HEAD do `bugFix` e ligá-la diretamente ao commit.",
+              "",
+              "Indica esse commit pelo hash. O hash de cada commit aparece no círculo que representa o commit."
             ]
           }
         }

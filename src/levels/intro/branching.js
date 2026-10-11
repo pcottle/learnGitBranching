@@ -12,6 +12,7 @@ exports.level = {
     "es_MX": "Creando ramas en Git",
     "es_ES": "Creando ramas en Git",
     "pt_BR": "Branches no Git",
+    "pt_PT": "Branches no Git",
     "gl": "Ramas en Git",
     "fr_FR": "Gérer les branches avec Git",
     "zh_CN": "Git Branch",
@@ -41,6 +42,7 @@ exports.level = {
     "es_MX": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
     "es_ES": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
     "pt_BR": "Crie uma nova branch com \"git branch [nome]\" e mude para ela com \"git checkout [nome]\"",
+    "pt_PT": "Cria um branch novo com \"git branch <nome-do-branch>\" e muda para ele com \"git checkout <nome-do-branch>\"",
     "gl": "Crea unha nova rama con \"git branch [nome]\" e cambiate a ela facendo \"git checkout [nome]\"",
     "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
     "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git checkout <分支名>' 来切换到分支",
@@ -833,6 +835,100 @@ exports.level = {
               "Por falar nisso, aqui vai um atalho: se você quiser criar uma nova ",
               "branch E fazer o checkout ao mesmo tempo, você pode simplesmente ",
               "digitar `git checkout -b [nomedasuabranch]`."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branches no Git",
+              "",
+              "Os branches no Git também são incrivelmente leves. São simplesmente apontadores para um commit específico -- nada mais. É por isso que muitos entusiastas do Git repetem o mantra:",
+              "",
+              "```",
+              "faz branch cedo, faz branch muitas vezes",
+              "```",
+              "",
+              "Como criar muitos branches não gasta espaço nem memória extra, é mais fácil dividir o trabalho de forma lógica do que ter branches enormes e pesados.",
+              "",
+              "Quando começarmos a misturar branches e commits, vamos ver como estas duas funcionalidades se combinam. Por agora, lembra-te só de que um branch diz basicamente \"quero incluir o trabalho deste commit e de todos os commits pais dele.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver como são os branches na prática.",
+              "",
+              "Aqui vamos criar um branch novo chamado `newImage`."
+            ],
+            "afterMarkdowns": [
+              "Pronto, criar branches é só isto! O branch `newImage` aponta agora para o commit `C1`."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos pôr algum trabalho neste branch novo. Carrega no botão abaixo."
+            ],
+            "afterMarkdowns": [
+              "Oh não! O branch `main` avançou, mas o branch `newImage` não! Isso aconteceu porque não estávamos \"no\" branch novo, e é por isso que o asterisco (*) estava no `main`."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos dizer ao git que queremos fazer checkout do branch com",
+              "",
+              "```",
+              "git checkout <nome>",
+              "```",
+              "",
+              "Isto põe-nos no branch novo antes de fazermos commit das nossas alterações."
+            ],
+            "afterMarkdowns": [
+              "Aí está! As nossas alterações ficaram registadas no branch novo."
+            ],
+            "command": "git checkout newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "*Nota: na versão 2.23 do Git foi introduzido um comando novo, o `git switch`, que deverá vir a substituir o `git checkout`, ",
+              "que faz um pouco de tudo (comporta-se de maneira diferente consoante os argumentos). As lições aqui continuam a usar ",
+              "`checkout` em vez de `switch`, porque o comando `switch` ainda é considerado experimental e a sintaxe pode mudar no futuro. ",
+              "Mesmo assim, podes experimentar o novo comando `switch` nesta aplicação e também ",
+              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">saber mais aqui</a>.* "
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Muito bem! Já tens tudo para começar a criar branches. Quando esta janela fechar,",
+              "cria um branch novo chamado `bugFix` e muda para esse branch.",
+              "",
+              "Já agora, fica aqui um atalho: se quiseres criar um branch novo ",
+              "E fazer checkout dele ao mesmo tempo, podes simplesmente ",
+              "escrever `git checkout -b [yourbranchname]`."
             ]
           }
         }

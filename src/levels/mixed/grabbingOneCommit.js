@@ -24,6 +24,7 @@ exports.level = {
     "es_ES": "Tomando un único commit",
     "es_MX": "Tomando un único commit",
     "pt_BR": "Pegando um único commit",
+    "pt_PT": "Apanhar só 1 commit",
     "gl": "Escollendo un único commit",
     "ja": "一つのコミットのみを取得",
     "zh_CN": "只取一个提交记录",
@@ -53,6 +54,7 @@ exports.level = {
     "es_MX": "Recuerda, el rebase interactivo o el cherry-pick son tus aliados aquí",
     "es_ES": "Recuerda, el rebase interactivo y el cherry-pick son tus amigos",
     "pt_BR": "Lembre-se, o rebase interativo ou o cherry-pick são seus amigos aqui",
+    "pt_PT": "Lembra-te: aqui, o rebase interativo e o cherry-pick são teus amigos",
     "gl": "Recorda, o rebase interativo ou cherry-pick é un dos teus colegas aquí",
     "ja": "このレベルではインタラクティブモードのrebaseやcherry-pickがクリアのカギです",
     "ko": "대화식 리베이스(rebase -i)나 or 체리픽(cherry-pick)을 사용하세요",
@@ -418,6 +420,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Este é um nível avançado, então vamos deixar para você a decisão de qual comando usar, mas para completar este nível, certifique-se de que a `main` receba o commit referenciado pela `bugFix`."
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commits empilhados localmente",
+              "",
+              "Eis uma situação que acontece muitas vezes durante o desenvolvimento: estou a tentar encontrar um bug, mas ele não se deixa apanhar facilmente. Para ajudar no meu trabalho de detetive, acrescento alguns comandos de depuração e algumas instruções de print.",
+              "",
+              "Todas estas instruções de depuração / print ficam nos seus próprios commits. Finalmente encontro o bug, corrijo-o e festejo!",
+              "",
+              "O único problema é que agora tenho de levar o meu `bugFix` de volta para o branch `main`. Se eu simplesmente fizesse fast-forward do `main`, o `main` ficaria com todas as minhas instruções de depuração, o que não interessa a ninguém. Tem de haver outra forma..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Temos de dizer ao git para copiar só um dos commits. É tal e qual como nos níveis anteriores sobre mover trabalho de um lado para o outro -- podemos usar os mesmos comandos:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Para o conseguir."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Este já é um nível mais avançado, por isso deixamos-te escolher o comando que queres usar. Mas, para completar o nível, garante que o `main` recebe o commit que o `bugFix` referencia."
             ]
           }
         }

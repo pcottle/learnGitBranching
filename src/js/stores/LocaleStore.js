@@ -45,6 +45,7 @@ var headerLocaleMap = {
   'zh-CN': 'zh_CN',
   'zh-TW': 'zh_TW',
   'pt-BR': 'pt_BR',
+  'pt-PT': 'pt_PT',
   'es-MX': 'es_MX',
   'es-ES': 'es_ES',
   'it-IT': 'it_IT',
