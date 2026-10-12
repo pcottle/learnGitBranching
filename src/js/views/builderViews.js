@@ -4,6 +4,7 @@ var { marked } = require('marked');
 
 var Views = require('../views');
 var throttle = require('../util/throttle');
+var intl = require('../intl');
 var ModalTerminal = Views.ModalTerminal;
 var ContainedBase = Views.ContainedBase;
 
@@ -144,7 +145,7 @@ class MarkdownPresenter extends ContainedBase {
     };
 
     this.container = new ModalTerminal({
-      title: 'Check this out...'
+      title: intl.str('check-this-out')
     });
     this.render();
 
