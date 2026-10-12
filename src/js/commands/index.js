@@ -91,7 +91,7 @@ var commands = {
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
       if (config.description) {
-        map[vcs][displayName] = config.description;
+        map[vcs][displayName] = intl.str(config.description);
       }
     });
     return map;
