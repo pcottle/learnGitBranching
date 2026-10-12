@@ -116,7 +116,7 @@ var commandConfig = {
   commit: {
     sc: /^(gc|git ci)($|\s)/,
     regex: /^git +commit($|\s)/,
-    description: 'Record changes to the repository',
+    description: 'command-description-commit',
     options: [
       '--amend',
       '-a',
@@ -201,7 +201,7 @@ var commandConfig = {
   cherrypick: {
     displayName: 'cherry-pick',
     regex: /^git +cherry-pick($|\s)/,
-    description: 'Apply changes from existing commits',
+    description: 'command-description-cherrypick',
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
@@ -231,7 +231,7 @@ var commandConfig = {
   gc: {
     displayName: 'gc',
     regex: /^git +gc($|\s)/,
-    description: 'Cleanup unnecessary files and optimize the repository',
+    description: 'command-description-gc',
     execute: function(engine, command) {
       engine.pruneTree(false);
     }
@@ -239,7 +239,7 @@ var commandConfig = {
 
   pull: {
     regex: /^git +pull($|\s)/,
-    description: 'Fetch from and integrate with another repository or branch',
+    description: 'command-description-pull',
     options: [
       '--force',
       '--rebase'
@@ -376,7 +376,7 @@ var commandConfig = {
 
   clone: {
     regex: /^git +clone *?$/,
-    description: 'Clone a repository into a new directory',
+    description: 'command-description-clone',
     execute: function(engine, command) {
       command.acceptNoGeneralArgs();
       if (!engine.clonePending) {
@@ -398,7 +398,7 @@ var commandConfig = {
 
   fakeCreateRemote: {
     regex: /^git +fakeCreateRemote *?$/,
-    description: 'Create a fake remote repository from the current local repository',
+    description: 'command-description-fakeCreateRemote',
     execute: function(engine, command) {
       command.acceptNoGeneralArgs();
       engine.makeOrigin(engine.printTree());
@@ -407,7 +407,7 @@ var commandConfig = {
 
   remote: {
     regex: /^git +remote($|\s)/,
-    description: 'Manage set of tracked repositories',
+    description: 'command-description-remote',
     options: [
       '-v'
     ],
@@ -427,7 +427,7 @@ var commandConfig = {
 
   fetch: {
     regex: /^git +fetch($|\s)/,
-    description: 'Download objects and refs from another repository',
+    description: 'command-description-fetch',
     options: [
       '--force',
     ],
@@ -484,7 +484,7 @@ var commandConfig = {
   branch: {
     sc: /^(gb|git br)($|\s)/,
     regex: /^git +branch($|\s)/,
-    description: 'List, create, or delete branches',
+    description: 'command-description-branch',
     options: [
       '-d',
       '-D',
@@ -610,7 +610,7 @@ var commandConfig = {
   add: {
     sc: /^ga($|\s)/,
     regex: /^git +add($|\s)/,
-    description: 'Add file contents to the staging area',
+    description: 'command-description-add',
     options: [
       '-A',
       '-u'
@@ -633,7 +633,7 @@ var commandConfig = {
 
   restore: {
     regex: /^git +restore($|\s)/,
-    description: 'Restore working tree files',
+    description: 'command-description-restore',
     options: [
       '--staged',
       '-S'
@@ -659,7 +659,7 @@ var commandConfig = {
 
   reset: {
     regex: /^git +reset($|\s)/,
-    description: 'Reset current HEAD to a specified state',
+    description: 'command-description-reset',
     options: [
       '--hard',
       '--soft'
@@ -695,7 +695,7 @@ var commandConfig = {
 
   revert: {
     regex: /^git +revert($|\s)/,
-    description: 'Revert some existing commits',
+    description: 'command-description-revert',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
 
@@ -706,7 +706,7 @@ var commandConfig = {
 
   merge: {
     regex: /^git +merge($|\s)/,
-    description: 'Join two or more development histories together',
+    description: 'command-description-merge',
     options: [
       '--no-ff',
       '--squash'
@@ -784,7 +784,7 @@ var commandConfig = {
     dontCountForGolf: true,
     displayName: 'rev-list',
     regex: /^git +rev-list($|\s)/,
-    description: 'List commits reachable from specified commit(s)',
+    description: 'command-description-revlist',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       command.validateArgBounds(generalArgs, 1);
@@ -796,7 +796,7 @@ var commandConfig = {
   log: {
     dontCountForGolf: true,
     regex: /^git +log($|\s)/,
-    description: 'Show commit logs',
+    description: 'command-description-log',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
 
@@ -808,7 +808,7 @@ var commandConfig = {
   show: {
     dontCountForGolf: true,
     regex: /^git +show($|\s)/,
-    description: 'Show various types of objects',
+    description: 'command-description-show',
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       command.oneArgImpliedHead(generalArgs);
@@ -818,7 +818,7 @@ var commandConfig = {
 
   rebase: {
     sc: /^gr($|\s)/,
-    description: 'Reapply commits on top of another base tip',
+    description: 'command-description-rebase',
     options: [
       '-i',
       '--solution-ordering',
@@ -878,7 +878,7 @@ var commandConfig = {
     dontCountForGolf: true,
     sc: /^(gst|gs|git st)($|\s)/,
     regex: /^git +status($|\s)/,
-    description: 'Show the working tree status',
+    description: 'command-description-status',
     execute: function(engine) {
       // no parsing at all
       engine.status();
@@ -888,7 +888,7 @@ var commandConfig = {
   checkout: {
     sc: /^(go|git co)($|\s)/,
     regex: /^git +checkout($|\s)/,
-    description: 'Switch branches or restore working tree files',
+    description: 'command-description-checkout',
     options: [
       '-b',
       '-B',
@@ -940,7 +940,7 @@ var commandConfig = {
 
   push: {
     regex: /^git +push($|\s)/,
-    description: 'Update remote refs along with associated objects',
+    description: 'command-description-push',
     options: [
       '--force',
       '--delete',
@@ -1049,7 +1049,7 @@ var commandConfig = {
 
   describe: {
     regex: /^git +describe($|\s)/,
-    description: 'Give an object a human readable name',
+    description: 'command-description-describe',
     execute: function(engine, command) {
       // first if there are no tags, we can't do anything so just throw
       if (engine.tagCollection.toArray().length === 0) {
@@ -1068,7 +1068,7 @@ var commandConfig = {
 
   tag: {
     regex: /^git +tag($|\s)/,
-    description: 'Create, list, or delete tag references',
+    description: 'command-description-tag',
     options: [
       '-d'
     ],
@@ -1116,7 +1116,7 @@ var commandConfig = {
   switch: {
     sc: /^(gsw|git sw)($|\s)/,
     regex: /^git +switch($|\s)/,
-    description: 'Switch branches',
+    description: 'command-description-switch',
     options: [
       '-c',
       '--create',
