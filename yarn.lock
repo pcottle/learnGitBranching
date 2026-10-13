@@ -2053,10 +2053,10 @@ make-dir@^4.0.0:
   dependencies:
     semver "^7.5.3"
 
-marked@^18.0.14:
-  version "18.0.14"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-18.0.14.tgz#90c0ed46b3f9f1e99d8d96cc8b06937884adedc5"
-  integrity sha512-mBHK6FBHuBAlhgRe88w9F0O1AbwwXJUcQibUbC/QcdTbVGAD7aWza+xt3N6oT/jCZx3/OMeS+8rnuiHZcQ9s7A==
+marked@^18.1.0:
+  version "18.1.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-18.1.0.tgz#16e3d81d9d92fbc5c5cb502e6c2aa065ca3490e9"
+  integrity sha512-PamYXWWWg2nboG3oX5Ffzpy3EFZROqZJK9hSlMmUnekp7TxPs5DcT95vwd46m73/exfKCRVMtgXoPMI4FEJL6w==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"
