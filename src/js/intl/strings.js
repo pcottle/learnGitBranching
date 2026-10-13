@@ -3979,6 +3979,12 @@ exports.strings = {
     "hi": "\"{target}\" के लिए कोई documentation नहीं मिली; सभी commands देखने के लिए `show commands` चलाएँ",
     "te_IN": "\"{target}\" కోసం డాక్యుమెంటేషన్ కనబడలేదు; అందుబాటులో ఉన్న కమాండ్స్ చూడాలంటే `show commands` రన్ చేయి",
   },
+  "check-this-out": {
+    "__desc__": "Title of the modal shown when importing a level, importing progress or sharing a level",
+    "en_US": "Check this out...",
+    "zh_CN": "请在此输入",
+    "zh_TW": "請在此輸入",
+  },
   "command-description-commit": {
     "__desc__": "Description shown in the help dialog for the git commit command",
     "en_US": "Record changes to the repository",
