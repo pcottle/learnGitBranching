@@ -90,8 +90,8 @@ var commands = {
     var map = this.blankMap();
     this.loop(function(config, name, vcs) {
       var displayName = config.displayName || name;
-      if (config.description) {
-        map[vcs][displayName] = intl.str(config.description);
+      if (config.descriptionKey) {
+        map[vcs][displayName] = intl.str(config.descriptionKey);
       }
     });
     return map;
