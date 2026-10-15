@@ -457,13 +457,13 @@ exports.level = {
           "options": {
             "markdowns": [
               "## Commits no Git",
-              "Um commit num repositório git regista um retrato (snapshot) de todos os ficheiros (monitorizados pelo git) da tua pasta. É como um copiar e colar gigante, mas ainda melhor!",
+              "Um commit num repositório git regista um snapshot (retrato) de todos os ficheiros (monitorizados pelo git) da tua pasta. É como um copiar e colar gigante, mas ainda melhor!",
               "",
               "Mas o Git quer que os commits sejam o mais leves possível, por isso não copia às cegas a pasta inteira de cada vez que fazes commit. Sempre que pode, guarda um commit como um conjunto de alterações, ou um \"delta\", de uma versão do repositório para a seguinte.",
               "",
               "O Git também guarda um histórico de que commits foram feitos e quando. É por isso que a maioria dos commits tem commits antecessores por cima -- assinalamos isso com setas na nossa visualização. Manter o histórico é ótimo para toda a gente que trabalha no projeto!",
               "",
-              "É muita coisa para assimilar, mas, por agora, podes pensar nos commits como retratos do projeto. Os commits são muito leves e saltar de um para outro é rapidíssimo!"
+              "É muita coisa para assimilar, mas, por agora, podes pensar nos commits como snapshots do projeto. Os commits são muito leves e saltar de um para outro é rapidíssimo!"
             ]
           }
         },

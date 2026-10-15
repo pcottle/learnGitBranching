@@ -590,14 +590,14 @@ exports.level = {
             "markdowns": [
               "## Desfazer com `git restore`",
               "",
-              "Toda a gente faz uma pequena confusão de vez em quando. Adicionas ao staging um ficheiro sem querer, ou começas uma experiência que preferias deitar fora. O `git restore` é o botão de desfazer moderno, feito de propósito para a tua pasta de trabalho e para a área de staging.",
+              "Toda a gente faz uma pequena confusão de vez em quando. Adicionas ao staging um ficheiro sem querer, ou começas uma experiência que preferias deitar fora. O `git restore` é o botão de desfazer moderno, criado especificamente para a tua pasta de trabalho e para a área de staging.",
               "",
               "Tem duas variantes:",
               "",
               "* `git restore --staged <file>`: **tira do staging** um ficheiro (retira-o da área de staging, mas mantém as tuas edições)",
               "* `git restore <file>`: **descarta** por completo as edições que fizeste a um ficheiro (cuidado, isto deita as alterações fora!)",
               "",
-              "*(Estes substituem os truques antigos `git reset HEAD <file>` e `git checkout -- <file>`. A mesma ideia, com nomes muito mais claros.)*"
+              "*(Estes comandos substituem os truques antigos `git reset HEAD <file>` e `git checkout -- <file>`. A mesma ideia, com nomes muito mais claros.)*"
             ]
           }
         },
@@ -622,7 +622,7 @@ exports.level = {
               "  modified:   experiment.js",
               "```",
               "",
-              "Queres fazer commit do `app.js`, mas o `secret.env` foi parar ao staging antes do tempo, por engano (devia ser um commit por cima), por isso vamos deixá-lo para depois. Além disso, as alterações do `experiment.js` não resultaram, por isso vamos deitá-las fora por completo."
+              "Queres fazer commit do `app.js`, mas o `secret.env` foi parar ao staging antes do tempo, por engano (devia ficar num commit à parte, por cima deste), por isso vamos deixá-lo para depois. Além disso, as alterações do `experiment.js` não resultaram, portanto vamos deitá-las fora por completo."
             ]
           }
         },

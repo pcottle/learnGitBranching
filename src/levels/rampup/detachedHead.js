@@ -10,7 +10,7 @@ exports.level = {
     "es_AR": "Desacopla tu HEAD",
     "es_ES": "Desacopla tu HEAD",
     "pt_BR": "Solte a sua cabeça",
-    "pt_PT": "Solta essa HEAD",
+    "pt_PT": "Desanexa essa HEAD",
     "gl": "Abandona o teu HEAD",
     "fr_FR": "Détacher votre HEAD",
     "zh_CN": "分离 HEAD",

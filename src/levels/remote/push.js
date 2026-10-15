@@ -417,7 +417,7 @@ exports.level = {
               "",
               "Podes pensar no `git push` como um comando para \"publicar\" o teu trabalho. Tem uma série de subtilezas que vamos ver em breve, mas vamos começar devagarinho...",
               "",
-              "*nota -- o comportamento do `git push` sem argumentos varia consoante uma definição do git chamada `push.default`. O valor por omissão desta definição depende da versão do git que estás a usar, mas nas nossas lições vamos usar o valor `upstream`. Não é nada de especial, mas vale a pena verificares as tuas definições antes de fazeres push nos teus próprios projetos.*"
+              "*nota -- o comportamento do `git push` sem argumentos varia consoante uma definição do git chamada `push.default`. O valor por omissão desta definição depende da versão do git que estás a usar, mas nas nossas lições vamos usar o valor `upstream`. Não é grave, mas vale a pena verificares as tuas definições antes de fazeres push nos teus próprios projetos.*"
             ]
           }
         },

@@ -517,7 +517,7 @@ exports.level = {
               "Primeiro, vamos ver um `fetch` e um `merge` executados um a seguir ao outro."
             ],
             "afterMarkdowns": [
-              "Bum -- descarregámos o `C3` com um `fetch` e depois integrámos esse trabalho com `git merge o/main`. Agora o nosso branch `main` reflete o trabalho novo do repositório remoto (neste caso, chamado `origin`)"
+              "Pumba -- descarregámos o `C3` com um `fetch` e depois integrámos esse trabalho com `git merge o/main`. Agora o nosso branch `main` reflete o trabalho novo do repositório remoto (neste caso, chamado `origin`)"
             ],
             "command": "git fetch; git merge o/main",
             "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
