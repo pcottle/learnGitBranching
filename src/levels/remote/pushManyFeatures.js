@@ -493,7 +493,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Juntar branches de funcionalidades",
+              "## Merge de branches de funcionalidades",
               "",
               "Agora que já estás à vontade com fetch, pull e push, vamos pôr estas competências à prova com um novo fluxo de trabalho.",
               "",

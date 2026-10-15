@@ -528,7 +528,7 @@ exports.level = {
               "Por fim, fazer fetch de \"nada\" para um sítio local cria um branch novo."
             ],
             "afterMarkdowns": [
-              "Muito estranho / bizarro, mas pronto. É o git no seu melhor!"
+              "Muito estranho / bizarro, mas pronto. Coisas do git!"
             ],
             "command": "git fetch origin :bar",
             "beforeCommand": "git fakeCreateRemote"

@@ -744,7 +744,7 @@ exports.level = {
             "markdowns": [
               "Rebase interativo quer simplesmente dizer que o Git está a usar o comando `rebase` com a opção `-i`.",
               "",
-              "Se incluíres esta opção, o git abre uma interface que mostra que commits estão prestes a ser copiados para baixo do alvo do rebase. Também mostra os hashes e as mensagens dos commits, o que é ótimo para perceberes o que é o quê.",
+              "Se incluíres esta opção, o git abre uma interface que mostra que commits estão prestes a ser copiados para debaixo do alvo do rebase. Também mostra os hashes e as mensagens dos commits, o que é ótimo para perceberes o que é o quê.",
               "",
               "No git \"a sério\", essa janela é um ficheiro aberto num editor de texto como o `vim`. Para o nosso caso, criei uma pequena janela de diálogo que se comporta da mesma forma."
             ]
@@ -754,12 +754,12 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Quando o diálogo do rebase interativo abre, podes fazer duas coisas na nossa aplicação educativa:",
+              "Quando a janela do rebase interativo se abre, podes fazer duas coisas na nossa aplicação educativa:",
               "",
               "* Podes reordenar os commits simplesmente mudando a ordem deles na interface (arrastando-os com o rato).",
-              "* Podes escolher manter todos os commits ou descartar alguns. Quando o diálogo abre, cada commit está marcado para ser incluído, com o botão `pick` ao lado ativo. Para descartar um commit, desativa o botão `pick` dele.",
+              "* Podes escolher manter todos os commits ou descartar alguns. Quando a janela se abre, cada commit está marcado para ser incluído, porque o botão `pick` ao lado dele está ativo. Para descartar um commit, desativa o botão `pick` dele.",
               "",
-              "*Vale a pena referir que, no rebase interativo do git real, podes fazer muito mais coisas, como fazer squash (juntar) de commits, alterar mensagens de commits e até editar os próprios commits. Mas, para o nosso caso, vamos concentrar-nos nestas duas operações.*",
+              "*Vale a pena referir que, no rebase interativo do git a sério, podes fazer muito mais coisas, como fazer squash (juntar) de commits, alterar mensagens de commits e até editar os próprios commits. Mas, para o nosso caso, vamos concentrar-nos nestas duas operações.*",
               "",
               "Ótimo! Vamos ver um exemplo."
             ]
@@ -769,7 +769,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Quando carregares no botão, vai aparecer uma janela de rebase interativo. Muda a ordem de alguns commits (ou tira o pick a alguns, à vontade) e vê o resultado!"
+              "Quando carregares no botão, vai aparecer uma janela de rebase interativo. Muda a ordem de alguns commits (ou, se quiseres, desativa o pick de alguns) e vê o resultado!"
             ],
             "afterMarkdowns": [
               "Pumba! O Git copiou os commits exatamente da forma que indicaste na interface."

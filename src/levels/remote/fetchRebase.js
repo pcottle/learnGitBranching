@@ -1119,7 +1119,7 @@ exports.level = {
               "E se fizermos rebase antes do push..."
             ],
             "afterMarkdowns": [
-              "Bum! Atualizámos a nossa representação local do repositório remoto com `git fetch`, fizemos rebase do nosso trabalho para refletir as alterações novas do repositório remoto e depois enviámo-las com `git push`."
+              "Pumba! Atualizámos a nossa representação local do repositório remoto com `git fetch`, fizemos rebase do nosso trabalho para refletir as alterações novas do repositório remoto e depois enviámo-las com `git push`."
             ],
             "command": "git fetch; git rebase o/main; git push",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
@@ -1144,7 +1144,7 @@ exports.level = {
               "E se, em vez de rebase, fizermos merge..."
             ],
             "afterMarkdowns": [
-              "Bum! Atualizámos a nossa representação local do repositório remoto com `git fetch`, fizemos *merge* do trabalho novo para o nosso (para refletir as alterações novas do repositório remoto) e depois enviámo-lo com `git push`."
+              "Pumba! Atualizámos a nossa representação local do repositório remoto com `git fetch`, fizemos *merge* do trabalho novo para o nosso (para refletir as alterações novas do repositório remoto) e depois enviámo-lo com `git push`."
             ],
             "command": "git fetch; git merge o/main; git push",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"

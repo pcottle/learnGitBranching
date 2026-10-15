@@ -560,7 +560,7 @@ exports.level = {
             "markdowns": [
               "### O operador \"~\"",
               "",
-              "Imagina que queres subir muitos níveis na árvore de commits. Escrever `^` várias vezes pode ser aborrecido, por isso o Git também tem o operador til (~).",
+              "Imagina que queres subir muitas gerações na árvore de commits. Escrever `^` várias vezes pode ser aborrecido, por isso o Git também tem o operador til (~).",
               "",
               "",
               "O operador til aceita (opcionalmente) um número a seguir, que indica quantos pais queres subir. Vamos vê-lo em ação."
@@ -594,7 +594,7 @@ exports.level = {
               "",
               "move (à força) o branch main para três pais atrás da HEAD.",
               "",
-              "*Nota: num ambiente git real, o comando `git branch -f` não é permitido no branch em que estás.*"
+              "*Nota: num ambiente git a sério, o comando `git branch -f` não é permitido no branch em que estás.*"
             ]
           }
         },

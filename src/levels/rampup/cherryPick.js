@@ -531,9 +531,9 @@ exports.level = {
             "markdowns": [
               "## Mover trabalho de um lado para o outro",
               "",
-              "Até agora vimos o básico do git -- fazer commits, criar branches e andar pela árvore de código. Só estes conceitos chegam para aproveitar 90% do poder dos repositórios git e cobrir as principais necessidades de quem programa.",
+              "Até agora vimos o básico do git -- fazer commits, criar branches e andar pela árvore de commits. Só estes conceitos chegam para aproveitar 90% do poder dos repositórios git e cobrir as principais necessidades dos programadores.",
               "",
-              "Os restantes 10%, no entanto, podem ser bastante úteis em fluxos de trabalho complexos (ou quando te metes numa alhada). O próximo conceito que vamos ver é \"mover trabalho de um lado para o outro\" -- por outras palavras, é uma forma de quem programa dizer \"quero este trabalho aqui e aquele ali\" de maneira precisa, elegante e flexível.",
+              "Os restantes 10%, no entanto, podem ser bastante úteis em fluxos de trabalho complexos (ou quando te metes numa alhada). O próximo conceito que vamos ver é \"mover trabalho de um lado para o outro\" -- por outras palavras, é uma forma de os programadores dizerem \"quero este trabalho aqui e aquele ali\" de maneira precisa, elegante e flexível.",
               "",
               "Pode parecer muita coisa, mas é um conceito simples."
             ]
@@ -549,7 +549,7 @@ exports.level = {
               "",
               "* `git cherry-pick <Commit1> <Commit2> <...>`",
               "",
-              "É uma forma muito direta de dizer que queres copiar uma série de commits para baixo da tua posição atual (`HEAD`). Pessoalmente, adoro o `cherry-pick` porque tem muito pouca magia envolvida e é fácil de perceber.",
+              "É uma forma muito direta de dizer que queres copiar uma série de commits para debaixo da tua posição atual (`HEAD`). Pessoalmente, adoro o `cherry-pick` porque envolve muito pouca magia e é fácil de perceber.",
               "",
               "Vamos ver uma demonstração!",
               ""
@@ -563,7 +563,7 @@ exports.level = {
               "Aqui está um repositório com algum trabalho no branch `side` que queremos copiar para o `main`. Podíamos fazê-lo com um rebase (que já aprendemos), mas vamos ver como se porta o cherry-pick."
             ],
             "afterMarkdowns": [
-              "É só isto! Queríamos os commits `C2` e `C4` e o git largou-os mesmo por baixo de nós. Simples assim!"
+              "É só isto! Queríamos os commits `C2` e `C4` e o git largou-os mesmo por baixo de nós. Mais simples não há!"
             ],
             "command": "git cherry-pick C2 C4",
             "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
@@ -573,7 +573,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Para completar este nível, copia algum trabalho dos três branches indicados para o main. Podes ver que commits queremos olhando para a visualização do objetivo.",
+              "Para completar este nível, basta copiares algum trabalho dos três branches indicados para o main. Para saberes que commits queremos, olha para a visualização do objetivo.",
               ""
             ]
           }
