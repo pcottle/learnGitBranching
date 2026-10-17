@@ -3,6 +3,7 @@ var createDeferred = require('../util/promise').createDeferred;
 var intl = require('../intl');
 var GRAPHICS = require('../util/constants').GRAPHICS;
 var debounce = require('../util/debounce');
+var a11y = require('../util/a11y');
 var GlobalStateStore = require('../stores/GlobalStateStore');
 
 var VisNode = require('../visuals/visNode').VisNode;
@@ -435,12 +436,18 @@ GitVisuals.prototype.refreshTree = function(speed) {
 
   // this method can only be called after graphics are rendered
   this.fullCalc();
+  if (!this.gitEngine.isOrigin()) {
+    a11y.updateGraphSummary(this.gitEngine);
+  }
 
   this.animateAll(speed);
 };
 
 GitVisuals.prototype.refreshTreeHarsh = function() {
   this.fullCalc();
+  if (!this.gitEngine.isOrigin()) {
+    a11y.updateGraphSummary(this.gitEngine);
+  }
 
   this.animateAll(0);
 };
