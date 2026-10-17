@@ -1218,7 +1218,7 @@ exports.strings = {
     "de_DE": "fatal: Zum Wechseln wird ein Branch benötigt. '{ref}' ist kein Branch -- benutze 'git switch --detach {ref}' (oder '-d'), wenn du ihn auschecken und den HEAD abkoppeln willst.",
     "fr_FR": "fatal : une branche est requise pour changer. '{ref}' n'est pas une branche -- utilisez 'git switch --detach {ref}' (ou '-d') si vous voulez vous y positionner et détacher HEAD.",
     "zh_CN": "致命错误：切换需要一个分支。'{ref}' 不是分支——如果你想检出并分离 HEAD，请使用 'git switch --detach {ref}'（或 '-d'）。",
-    "vi": "lỗi khi người dùng cố gắng 'git switch' sang một commit hoặc tag (thao tác này sẽ làm tách rời HEAD) mà không truyền tham số -d / --detach",
+    "vi": "nghiêm trọng: cần một branch để switch tới. '{ref}' không phải là branch -- dùng 'git switch --detach {ref}' (hoặc '-d') nếu bạn muốn check out nó và tách rời HEAD.",
     "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD.",
     "es_AR": "fatal: se requiere una branch para switchear. '{ref}' no es una branch -- usá 'git switch --detach {ref}' (o '-d') si querés separar(detach) el HEAD.",
     "ko": "fatal: 전환하려면 브랜치가 필요합니다. '{ref}' 항목은 브랜치가 아닙니다. HEAD를 분리한 상태로 전환하려면 'git switch --detach {ref}' 또는 '-d'를 사용하세요."
