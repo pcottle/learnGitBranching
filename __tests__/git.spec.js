@@ -377,6 +377,13 @@ describe('Git', function() {
     );
   });
 
+  it('removes several tags at once', function() {
+    return expectTreeAsync(
+      'git tag v1 C0; git tag v2; git tag v3; git tag -d v1 v2',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"tags":{"v3":{"target":"C1","id":"v3","type":"tag"}},"HEAD":{"target":"main","id":"HEAD"}}'
+    );
+  });
+
   it('makes a tag on another ref', function() {
     return expectTreeAsync(
       'git tag v1 C0',

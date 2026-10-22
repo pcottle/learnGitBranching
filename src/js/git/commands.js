@@ -1077,26 +1077,35 @@ var commandConfig = {
       var commandOptions = command.getOptionsMap();
 
       if (commandOptions['-d']) {
-        var tagID = commandOptions['-d'];
-        var tagToRemove;
-
-        assertIsRef(engine, tagID);
-
-        command.oneArgImpliedHead(tagID);
-        engine.tagCollection.each(function(tag) {
-          if(tag.get('id') == tagID){
-            tagToRemove = tag;
-          }
-        }, true);
-
-        if(tagToRemove == undefined){
+        // like "git branch -d", this takes any number of tags. The option
+        // parser only attaches the first name to "-d", so fold the rest
+        // back in from the general args.
+        var tagIDs = commandOptions['-d'].concat(generalArgs);
+        if (!tagIDs.length) {
           throw new GitError({
             msg: intl.str('git-error-no-tag-to-remove')
           });
         }
 
-        engine.tagCollection.remove(tagToRemove);
-        delete engine.refs[tagID];
+        // look up every tag before removing any, so a typo in one name
+        // doesn't leave the deletion half done
+        var tagsToRemove = tagIDs.map(function(tagID) {
+          var tagToRemove = engine.tagCollection.find(function(tag) {
+            return tag.get('id') === tagID;
+          });
+
+          if (tagToRemove === undefined) {
+            throw new GitError({
+              msg: intl.str('git-error-no-tag-to-remove')
+            });
+          }
+          return tagToRemove;
+        });
+
+        tagsToRemove.forEach(function(tag) {
+          engine.tagCollection.remove(tag);
+          delete engine.refs[tag.get('id')];
+        });
 
         engine.gitVisuals.refreshTree();
         return;
