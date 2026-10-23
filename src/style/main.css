@@ -688,11 +688,51 @@ p.commandLine span.prompt {
 }
 
 #commandLineHistory {
+  /* keeps the terminal above the tree when it is dragged over it */
+  position: relative;
+  z-index: 2;
   height: 100%;
   margin: 10px;
   border-radius: 5px;
   box-shadow: 1px 0px 15px rgba(100, 100, 100, 1);
   overflow: auto;
+}
+
+/* once resized by hand, the terminal keeps its size instead of filling its column */
+#commandLineHistory.resized {
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -ms-flex: none;
+  flex: none;
+}
+
+#commandLineHistory .ui-resizable-handle {
+  position: absolute;
+  z-index: 3;
+}
+
+#commandLineHistory .ui-resizable-e {
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+#commandLineHistory .ui-resizable-s {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  cursor: ns-resize;
+}
+
+#commandLineHistory .ui-resizable-se {
+  right: 0;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  cursor: nwse-resize;
 }
 
 #commandLineHistory #terminal.scrolling {
