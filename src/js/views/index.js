@@ -13,17 +13,20 @@ var sharing = require('../util/sharing');
 
 // ModalTerminal uses .draggable(); load it here rather than relying on
 // rebaseView.js, which is only required lazily when `git rebase -i` runs.
+// The main terminal (see CommandUI in app/index.js) also uses .resizable().
 // version.js must come first: it creates `$.ui`, and in browser-globals mode
 // the other jquery-ui modules don't pull it in themselves.
 require('jquery-ui/ui/version');
 require('jquery-ui/ui/widget');
 require('jquery-ui/ui/data');
+require('jquery-ui/ui/disable-selection');
 require('jquery-ui/ui/scroll-parent');
 require('jquery-ui/ui/plugin');
 require('jquery-ui/ui/safe-active-element');
 require('jquery-ui/ui/safe-blur');
 require('jquery-ui/ui/widgets/mouse');
 require('jquery-ui/ui/widgets/draggable');
+require('jquery-ui/ui/widgets/resizable');
 
 // Base View class - replacement for Backbone.View
 class BaseView {

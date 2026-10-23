@@ -401,6 +401,46 @@ function CommandUI() {
     ),
     document.getElementById('commandDisplay')
   );
+
+  var $terminal = $('#commandLineHistory');
+  makeTerminalDraggable($terminal);
+  makeTerminalResizable($terminal);
+
+  // double-clicking the toolbar snaps the terminal back to its original
+  // place and size
+  $terminal.find('.toolbar').on('dblclick', function() {
+    $terminal.removeClass('resized');
+    $terminal.css({ top: 0, left: 0, width: '', height: '' });
+  });
+}
+
+/**
+  * Lets the main terminal be dragged around by its toolbar, the same way
+  * the goal window can.
+**/
+function makeTerminalDraggable($terminal) {
+  $terminal.draggable({
+    cursor: 'move',
+    handle: '.toolbar',
+    containment: '#interfaceWrapper',
+    scroll: false
+  });
+}
+
+/**
+  * Lets the main terminal be resized from its right edge, bottom edge and
+  * bottom-right corner. Once resized it stops stretching to fill its column.
+**/
+function makeTerminalResizable($terminal) {
+  $terminal.resizable({
+    handles: 'e, s, se',
+    containment: '#interfaceWrapper',
+    minWidth: 250,
+    minHeight: 200,
+    start: function() {
+      $terminal.addClass('resized');
+    }
+  });
 }
 
 exports.getEvents = function() {
