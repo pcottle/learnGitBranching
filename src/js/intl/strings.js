@@ -3653,6 +3653,7 @@ exports.strings = {
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
     "en_US": "Bad numeric argument: {arg}",
+    "fr_FR": "Argument numérique invalide : {arg}",
     "pt_PT": "Argumento numérico inválido: {arg}",
     "tr_TR": "Geçersiz sayısal argüman: {arg}",
     "zh_CN": "错误的数字参数：{arg}",
@@ -3724,6 +3725,7 @@ exports.strings = {
   "git-error-fetch-checked-out": {
     "__desc__": "Error when fetching into the branch that is currently checked out",
     "en_US": "cannot fetch to {ref} when checked out on {ref}",
+    "fr_FR": "impossible de faire un fetch vers {ref} lorsque {ref} est la branche actuellement extraite",
     "pt_PT": "não é possível fazer fetch para {ref} quando {ref} está em checkout",
     "tr_TR": "{ref} checkout edilmişken {ref} üzerine fetch yapılamaz",
     "zh_CN": "当 {ref} 处于检出状态时，无法 fetch 到 {ref}",
@@ -3735,6 +3737,7 @@ exports.strings = {
   "git-error-not-a-branch": {
     "__desc__": "Error when a ref that must be a branch is not one",
     "en_US": "{ref} is not a branch",
+    "fr_FR": "{ref} n'est pas une branche",
     "pt_PT": "{ref} não é um branch",
     "tr_TR": "{ref} bir branch değil",
     "zh_CN": "{ref} 不是一个分支",
@@ -3746,6 +3749,7 @@ exports.strings = {
   "git-error-not-a-remote-branch": {
     "__desc__": "Error when a ref that must be a remote branch is not one",
     "en_US": "{ref} is not a remote branch",
+    "fr_FR": "{ref} n'est pas une branche distante",
     "pt_PT": "{ref} não é um branch remoto",
     "tr_TR": "{ref} bir remote branch değil",
     "zh_CN": "{ref} 不是一个远端分支",
@@ -3757,6 +3761,7 @@ exports.strings = {
   "git-error-not-a-remote": {
     "__desc__": "Error when the named remote does not exist in the repository",
     "en_US": "{remote} is not a remote in your repository! try adding origin to that argument",
+    "fr_FR": "{remote} n'est pas un dépôt distant de votre dépôt ! Essayez d'ajouter origin à cet argument",
     "pt_PT": "{remote} não é um repositório remoto do teu repositório! Experimenta acrescentar origin a esse argumento",
     "tr_TR": "{remote} deponda tanımlı bir remote değil! O argümana origin eklemeyi dene",
     "zh_CN": "{remote} 不是仓库中的远端！请尝试为该参数添加 origin",
@@ -3768,6 +3773,7 @@ exports.strings = {
   "git-error-branch-bang": {
     "__desc__": "Error when the named branch does not exist",
     "en_US": "{branch} is not a branch!",
+    "fr_FR": "{branch} n'est pas une branche !",
     "pt_PT": "{branch} não é um branch!",
     "tr_TR": "{branch} bir branch değil!",
     "zh_CN": "{branch} 不是一个分支！",
@@ -3779,6 +3785,7 @@ exports.strings = {
   "git-error-not-remote-tracking": {
     "__desc__": "Error when pushing a branch that tracks no remote branch",
     "en_US": "{branch} is not a remote tracking branch! I don't know where to push",
+    "fr_FR": "{branch} ne suit aucune branche distante ! Je ne sais pas où faire le push",
     "pt_PT": "{branch} não segue nenhum branch remoto! Não sei para onde fazer push",
     "tr_TR": "{branch} bir remote tracking branch değil! Nereye push edeceğimi bilmiyorum",
     "zh_CN": "{branch} 不是远端跟踪分支！无法确定推送位置",
@@ -3790,6 +3797,7 @@ exports.strings = {
   "git-error-pull-detached": {
     "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
     "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!",
+    "fr_FR": "git pull ne peut pas être exécuté quand HEAD est détaché si aucune branche distante n'est spécifiée !",
     "pt_PT": "Não é possível executar git pull em detached HEAD sem indicar um branch remoto!",
     "tr_TR": "Remote branch belirtilmeden detached HEAD modunda git pull çalıştırılamaz!",
     "zh_CN": "处于分离 HEAD 状态时，若未指定远端分支则无法执行 git pull！",
@@ -3801,6 +3809,7 @@ exports.strings = {
   "git-error-head-not-branch": {
     "__desc__": "Error when HEAD is detached but a branch is required",
     "en_US": "fatal: HEAD does not point to a branch",
+    "fr_FR": "fatal : HEAD ne pointe pas vers une branche",
     "pt_PT": "fatal: a HEAD não aponta para um branch",
     "tr_TR": "fatal: HEAD bir branch'i göstermiyor",
     "zh_CN": "fatal: HEAD 没有指向一个分支",
@@ -3812,6 +3821,7 @@ exports.strings = {
   "git-error-delete-no-refs": {
     "__desc__": "Error when push --delete is given no refs",
     "en_US": "--delete doesn't make sense without any refs",
+    "fr_FR": "--delete n'a pas de sens sans aucune référence",
     "pt_PT": "--delete não faz sentido sem nenhuma ref",
     "tr_TR": "--delete tek başına, ref verilmeden bir anlam ifade etmiyor",
     "zh_CN": "--delete 需要指定 ref",
@@ -3823,6 +3833,7 @@ exports.strings = {
   "git-error-delete-plain-refs": {
     "__desc__": "Error when push --delete is given a source:destination refspec",
     "en_US": "--delete only accepts plain target ref names",
+    "fr_FR": "--delete n'accepte que des noms simples de références cibles",
     "pt_PT": "--delete só aceita nomes simples de refs de destino",
     "tr_TR": "--delete yalnızca düz hedef ref adlarını kabul eder",
     "zh_CN": "--delete 只接受普通目标 ref 名称",
@@ -3834,6 +3845,7 @@ exports.strings = {
   "git-error-delete-nonexistent": {
     "__desc__": "Error when deleting a branch that does not exist",
     "en_US": "cannot delete branch {branch} which doesn't exist",
+    "fr_FR": "impossible de supprimer la branche {branch}, car elle n'existe pas",
     "pt_PT": "não é possível apagar o branch {branch}, porque não existe",
     "tr_TR": "var olmayan {branch} branch'i silinemez",
     "zh_CN": "无法删除不存在的分支 {branch}",
@@ -3845,6 +3857,7 @@ exports.strings = {
   "git-error-describe-no-tags": {
     "__desc__": "Error from git describe when the repository has no tags",
     "en_US": "fatal: No tags found, cannot describe anything.",
+    "fr_FR": "fatal : aucun tag trouvé, impossible de décrire quoi que ce soit.",
     "pt_PT": "fatal: Não foram encontradas tags, não é possível descrever nada.",
     "tr_TR": "fatal: Hiç tag bulunamadı, describe yapılacak bir şey yok.",
     "zh_CN": "fatal: 未找到标签，无法描述。",
@@ -3856,6 +3869,7 @@ exports.strings = {
   "git-error-no-tag-to-remove": {
     "__desc__": "Error when removing a tag that does not exist",
     "en_US": "No tag found, nothing to remove",
+    "fr_FR": "Aucun tag trouvé, rien à supprimer",
     "pt_PT": "Nenhuma tag encontrada, não há nada para remover",
     "tr_TR": "Tag bulunamadı, kaldırılacak bir şey yok",
     "zh_CN": "未找到标签，无可删除内容",
@@ -3867,6 +3881,7 @@ exports.strings = {
   "git-error-nothing-to-clone": {
     "__desc__": "Error when cloning with no remote available",
     "en_US": "Nothing to clone from!",
+    "fr_FR": "Rien à cloner !",
     "pt_PT": "Não há nada de onde clonar!",
     "tr_TR": "Clone'lanacak bir şey yok!",
     "zh_CN": "没有可 clone 的内容！",
@@ -3878,6 +3893,7 @@ exports.strings = {
   "git-warning-tracking": {
     "__desc__": "Warning shown when a local branch starts tracking a remote branch",
     "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\"",
+    "fr_FR": "la branche locale \"{localBranch}\" suit désormais la branche distante \"{remoteBranch}\"",
     "pt_PT": "o branch local \"{localBranch}\" passou a seguir o branch remoto \"{remoteBranch}\"",
     "tr_TR": "yerel \"{localBranch}\" branch'i, remote \"{remoteBranch}\" branch'ini takip edecek şekilde ayarlandı",
     "zh_CN": "本地分支 \"{localBranch}\" 已设置为跟踪远端分支 \"{remoteBranch}\"",
@@ -3889,6 +3905,7 @@ exports.strings = {
   "git-error-push-tag-source": {
     "__desc__": "Error when pushing a tag as the source of a refspec",
     "en_US": "Tags are not allowed as sources for pushing",
+    "fr_FR": "Les tags ne sont pas autorisés comme source d'un push",
     "pt_PT": "Não é permitido usar tags como origem de um push",
     "tr_TR": "Push için kaynak olarak tag kullanılamaz",
     "zh_CN": "标签不能作为 push 的源",
@@ -3900,6 +3917,7 @@ exports.strings = {
   "git-error-delete-main-remote": {
     "__desc__": "Error when deleting the main branch on the remote",
     "en_US": "You cannot delete main branch on remote!",
+    "fr_FR": "Vous ne pouvez pas supprimer la branche main sur le dépôt distant !",
     "pt_PT": "Não podes apagar o branch main no repositório remoto!",
     "tr_TR": "Remote'taki main branch'ini silemezsin!",
     "zh_CN": "不能删除远端的 main 分支！",
@@ -3911,6 +3929,7 @@ exports.strings = {
   "git-error-commits-not-in-set": {
     "__desc__": "Error when named commits are not part of the given set",
     "en_US": "Hey those commits don't exist in the set!",
+    "fr_FR": "Hé, ces commits n'existent pas dans l'ensemble !",
     "pt_PT": "Ei, esses commits não existem no conjunto!",
     "tr_TR": "Hey, o commit'ler kümede yok!",
     "zh_CN": "这些提交不在集合中！",
@@ -3922,6 +3941,7 @@ exports.strings = {
   "git-error-no-tags-upstream": {
     "__desc__": "Error when fetching tags but the remote has none",
     "en_US": "Fatal: no tags found upstream",
+    "fr_FR": "Fatal : aucun tag trouvé en amont",
     "pt_PT": "Fatal: não foram encontradas tags no upstream",
     "tr_TR": "Fatal: upstream'de hiç tag bulunamadı",
     "zh_CN": "Fatal: 上游未找到标签",
@@ -3933,6 +3953,7 @@ exports.strings = {
   "git-error-branch-rename-not-branch": {
     "__desc__": "Error when renaming something that is not a branch",
     "en_US": "fatal: not a branch: {branch}",
+    "fr_FR": "fatal : n'est pas une branche : {branch}",
     "pt_PT": "fatal: não é um branch: {branch}",
     "tr_TR": "fatal: bir branch değil: {branch}",
     "zh_CN": "fatal: 不是分支：{branch}",
@@ -3944,6 +3965,7 @@ exports.strings = {
   "git-error-branch-rename-exists": {
     "__desc__": "Error when renaming a branch to a name already taken",
     "en_US": "fatal: A branch named '{branch}' already exists.",
+    "fr_FR": "fatal : une branche nommée '{branch}' existe déjà.",
     "pt_PT": "fatal: Já existe um branch chamado '{branch}'.",
     "tr_TR": "fatal: '{branch}' adında bir branch zaten var.",
     "zh_CN": "fatal: 名为 '{branch}' 的分支已存在。",
@@ -3955,6 +3977,7 @@ exports.strings = {
   "hg-error-m-d-incompatible": {
     "__desc__": "Error when hg is given both -m and -d",
     "en_US": "-m and -d are incompatible",
+    "fr_FR": "-m et -d sont incompatibles",
     "pt_PT": "-m e -d são incompatíveis",
     "tr_TR": "-m ile -d birlikte kullanılamaz",
     "zh_CN": "-m 与 -d 不兼容",
@@ -3966,6 +3989,7 @@ exports.strings = {
   "hg-error-r-d-incompatible": {
     "__desc__": "Error when hg is given both -r and -d",
     "en_US": "-r is incompatible with -d",
+    "fr_FR": "-r est incompatible avec -d",
     "pt_PT": "-r é incompatível com -d",
     "tr_TR": "-r ile -d birlikte kullanılamaz",
     "zh_CN": "-r 与 -d 不兼容",
@@ -3977,6 +4001,7 @@ exports.strings = {
   "hg-error-r-m-incompatible": {
     "__desc__": "Error when hg is given both -r and -m",
     "en_US": "-r is incompatible with -m",
+    "fr_FR": "-r est incompatible avec -m",
     "pt_PT": "-r é incompatível com -m",
     "tr_TR": "-r ile -m birlikte kullanılamaz",
     "zh_CN": "-r 与 -m 不兼容",
