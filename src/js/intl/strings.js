@@ -4057,6 +4057,7 @@ exports.strings = {
   "command-description-commit": {
     "__desc__": "Description shown in the help dialog for the git commit command",
     "en_US": "Record changes to the repository",
+    "fr_FR": "Enregistrer les modifications dans le dépôt",
     "pt_PT": "Registar alterações no repositório",
     "zh_CN": "记录对仓库的更改",
     "zh_TW": "記錄對儲存庫的更改",
@@ -4064,6 +4065,7 @@ exports.strings = {
   "command-description-cherrypick": {
     "__desc__": "Description shown in the help dialog for the git cherrypick command",
     "en_US": "Apply changes from existing commits",
+    "fr_FR": "Appliquer les modifications de commits existants",
     "pt_PT": "Aplicar as alterações de commits existentes",
     "zh_CN": "应用已有提交中的更改",
     "zh_TW": "套用既有提交中的變更",
@@ -4071,6 +4073,7 @@ exports.strings = {
   "command-description-gc": {
     "__desc__": "Description shown in the help dialog for the git gc command",
     "en_US": "Cleanup unnecessary files and optimize the repository",
+    "fr_FR": "Nettoyer les fichiers inutiles et optimiser le dépôt",
     "pt_PT": "Limpar ficheiros desnecessários e otimizar o repositório",
     "zh_CN": "清理不必要的文件并优化仓库",
     "zh_TW": "清理不必要的檔案並最佳化儲存庫",
@@ -4078,6 +4081,7 @@ exports.strings = {
   "command-description-pull": {
     "__desc__": "Description shown in the help dialog for the git pull command",
     "en_US": "Fetch from and integrate with another repository or branch",
+    "fr_FR": "Récupérer et intégrer les modifications d'un autre dépôt ou d'une branche",
     "pt_PT": "Fazer fetch de outro repositório ou branch e integrar as alterações",
     "zh_CN": "从另一个仓库或分支获取并整合",
     "zh_TW": "從另一個儲存庫或分支擷取並整合",
@@ -4085,6 +4089,7 @@ exports.strings = {
   "command-description-clone": {
     "__desc__": "Description shown in the help dialog for the git clone command",
     "en_US": "Clone a repository into a new directory",
+    "fr_FR": "Cloner un dépôt dans un nouveau répertoire",
     "pt_PT": "Clonar um repositório para uma pasta nova",
     "zh_CN": "将仓库克隆到一个新目录",
     "zh_TW": "將儲存庫複製到一個新目錄",
@@ -4092,6 +4097,7 @@ exports.strings = {
   "command-description-fakeCreateRemote": {
     "__desc__": "Description shown in the help dialog for the git fakeCreateRemote command",
     "en_US": "Create a fake remote repository from the current local repository",
+    "fr_FR": "Créer un faux dépôt distant à partir du dépôt local actuel",
     "pt_PT": "Criar um repositório remoto simulado a partir do repositório local atual",
     "zh_CN": "基于当前本地仓库创建模拟远程仓库",
     "zh_TW": "基於目前的本機儲存庫建立一個模擬遠端儲存庫",
@@ -4099,6 +4105,7 @@ exports.strings = {
   "command-description-remote": {
     "__desc__": "Description shown in the help dialog for the git remote command",
     "en_US": "Manage set of tracked repositories",
+    "fr_FR": "Gérer l'ensemble des dépôts suivis",
     "pt_PT": "Gerir o conjunto de repositórios seguidos",
     "zh_CN": "管理已跟踪的仓库集合",
     "zh_TW": "管理已追蹤的儲存庫集合",
@@ -4106,6 +4113,7 @@ exports.strings = {
   "command-description-fetch": {
     "__desc__": "Description shown in the help dialog for the git fetch command",
     "en_US": "Download objects and refs from another repository",
+    "fr_FR": "Télécharger les objets et références d'un autre dépôt",
     "pt_PT": "Descarregar objetos e refs de outro repositório",
     "zh_CN": "从另一个仓库下载对象与引用",
     "zh_TW": "從另一個儲存庫下載物件與引用",
@@ -4113,6 +4121,7 @@ exports.strings = {
   "command-description-branch": {
     "__desc__": "Description shown in the help dialog for the git branch command",
     "en_US": "List, create, or delete branches",
+    "fr_FR": "Lister, créer ou supprimer des branches",
     "pt_PT": "Listar, criar ou apagar branches",
     "zh_CN": "列出、创建或删除分支",
     "zh_TW": "列出、建立或刪除分支",
@@ -4120,6 +4129,7 @@ exports.strings = {
   "command-description-add": {
     "__desc__": "Description shown in the help dialog for the git add command",
     "en_US": "Add file contents to the staging area",
+    "fr_FR": "Ajouter le contenu de fichiers à l'index",
     "pt_PT": "Adicionar o conteúdo de ficheiros à área de staging",
     "zh_CN": "将文件内容添加到暂存区",
     "zh_TW": "將檔案內容加入暫存區",
@@ -4127,6 +4137,7 @@ exports.strings = {
   "command-description-restore": {
     "__desc__": "Description shown in the help dialog for the git restore command",
     "en_US": "Restore working tree files",
+    "fr_FR": "Restaurer les fichiers de l'arbre de travail",
     "pt_PT": "Restaurar ficheiros da árvore de trabalho",
     "zh_CN": "还原工作树文件",
     "zh_TW": "還原工作樹檔案",
@@ -4134,6 +4145,7 @@ exports.strings = {
   "command-description-reset": {
     "__desc__": "Description shown in the help dialog for the git reset command",
     "en_US": "Reset current HEAD to a specified state",
+    "fr_FR": "Réinitialiser HEAD à l'état spécifié",
     "pt_PT": "Repor a HEAD atual num estado indicado",
     "zh_CN": "将当前 HEAD 重置至指定状态",
     "zh_TW": "將目前的 HEAD 重設為指定狀態",
@@ -4141,6 +4153,7 @@ exports.strings = {
   "command-description-revert": {
     "__desc__": "Description shown in the help dialog for the git revert command",
     "en_US": "Revert some existing commits",
+    "fr_FR": "Annuler des commits existants",
     "pt_PT": "Reverter alguns commits existentes",
     "zh_CN": "撤销某些已有提交",
     "zh_TW": "還原一些既有提交",
@@ -4148,6 +4161,7 @@ exports.strings = {
   "command-description-merge": {
     "__desc__": "Description shown in the help dialog for the git merge command",
     "en_US": "Join two or more development histories together",
+    "fr_FR": "Fusionner deux historiques de développement ou plus",
     "pt_PT": "Juntar dois ou mais históricos de desenvolvimento",
     "zh_CN": "合并两个或多个开发历史",
     "zh_TW": "將兩個或多個開發歷史合併在一起",
@@ -4155,6 +4169,7 @@ exports.strings = {
   "command-description-revlist": {
     "__desc__": "Description shown in the help dialog for the git revlist command",
     "en_US": "List commits reachable from specified commit(s)",
+    "fr_FR": "Lister les commits accessibles depuis le(s) commit(s) spécifié(s)",
     "pt_PT": "Listar os commits alcançáveis a partir do(s) commit(s) indicado(s)",
     "zh_CN": "列出从指定提交可达的提交",
     "zh_TW": "列出從指定提交可達的提交",
@@ -4162,6 +4177,7 @@ exports.strings = {
   "command-description-log": {
     "__desc__": "Description shown in the help dialog for the git log command",
     "en_US": "Show commit logs",
+    "fr_FR": "Afficher l'historique des commits",
     "pt_PT": "Mostrar o histórico de commits",
     "zh_CN": "显示提交日志",
     "zh_TW": "顯示提交日誌",
@@ -4169,6 +4185,7 @@ exports.strings = {
   "command-description-show": {
     "__desc__": "Description shown in the help dialog for the git show command",
     "en_US": "Show various types of objects",
+    "fr_FR": "Afficher différents types d'objets",
     "pt_PT": "Mostrar vários tipos de objetos",
     "zh_CN": "显示各种类型的对象",
     "zh_TW": "顯示各種類型的物件",
@@ -4176,6 +4193,7 @@ exports.strings = {
   "command-description-rebase": {
     "__desc__": "Description shown in the help dialog for the git rebase command",
     "en_US": "Reapply commits on top of another base tip",
+    "fr_FR": "Réappliquer des commits sur une autre base",
     "pt_PT": "Reaplicar commits em cima de outra base",
     "zh_CN": "在另一个基底上重新应用提交",
     "zh_TW": "在另一個基線上重新套用提交",
@@ -4183,6 +4201,7 @@ exports.strings = {
   "command-description-status": {
     "__desc__": "Description shown in the help dialog for the git status command",
     "en_US": "Show the working tree status",
+    "fr_FR": "Afficher l'état de l'arbre de travail",
     "pt_PT": "Mostrar o estado da árvore de trabalho",
     "zh_CN": "显示工作树状态",
     "zh_TW": "顯示工作樹狀態",
@@ -4190,6 +4209,7 @@ exports.strings = {
   "command-description-checkout": {
     "__desc__": "Description shown in the help dialog for the git checkout command",
     "en_US": "Switch branches or restore working tree files",
+    "fr_FR": "Changer de branche ou restaurer les fichiers de l'arbre de travail",
     "pt_PT": "Mudar de branch ou restaurar ficheiros da árvore de trabalho",
     "zh_CN": "切换分支或还原工作树文件",
     "zh_TW": "切換分支或還原工作樹檔案",
@@ -4197,6 +4217,7 @@ exports.strings = {
   "command-description-push": {
     "__desc__": "Description shown in the help dialog for the git push command",
     "en_US": "Update remote refs along with associated objects",
+    "fr_FR": "Mettre à jour les références distantes ainsi que les objets associés",
     "pt_PT": "Atualizar refs remotas e os objetos associados",
     "zh_CN": "更新远程引用及相关对象",
     "zh_TW": "更新遠端引用及相關物件",
@@ -4204,6 +4225,7 @@ exports.strings = {
   "command-description-describe": {
     "__desc__": "Description shown in the help dialog for the git describe command",
     "en_US": "Give an object a human readable name",
+    "fr_FR": "Donner à un objet un nom lisible par un humain",
     "pt_PT": "Dar a um objeto um nome legível por humanos",
     "zh_CN": "为对象指定一个可读名称",
     "zh_TW": "為物件指定一個人類可讀的名稱",
@@ -4211,6 +4233,7 @@ exports.strings = {
   "command-description-tag": {
     "__desc__": "Description shown in the help dialog for the git tag command",
     "en_US": "Create, list, or delete tag references",
+    "fr_FR": "Créer, lister ou supprimer des tags",
     "pt_PT": "Criar, listar ou apagar refs de tag",
     "zh_CN": "创建、列出或删除标签引用",
     "zh_TW": "建立、列出或刪除標籤引用",
@@ -4218,6 +4241,7 @@ exports.strings = {
   "command-description-switch": {
     "__desc__": "Description shown in the help dialog for the git switch command",
     "en_US": "Switch branches",
+    "fr_FR": "Changer de branche",
     "pt_PT": "Mudar de branch",
     "zh_CN": "切换分支",
     "zh_TW": "切換分支",
