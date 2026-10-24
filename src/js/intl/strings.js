@@ -3608,6 +3608,7 @@ exports.strings = {
   "progress-export-copied": {
     "__desc__": "Shown in the terminal after the user exports their progress to the clipboard",
     "en_US": "Progress copied to clipboard! Paste it somewhere safe to back it up. To restore later, run `load` and paste it in.",
+    "fr_FR": "Progression copiée dans le presse-papiers ! Collez-la dans un endroit sûr pour la sauvegarder. Pour la restaurer plus tard, lancez `load` et collez-la.",
     "pt_PT": "Progresso copiado para a área de transferência! Cola-o num sítio seguro para teres uma cópia. Para o recuperares mais tarde, executa `load` e cola-o.",
     "tr_TR": "İlerlemen panoya kopyalandı! Yedeklemek için güvenli bir yere yapıştır. Sonra geri yüklemek için `load` komutunu çalıştırıp metni yapıştırman yeterli.",
     "zh_CN": "进度已复制到剪贴板！请将其粘贴到安全的地方保存。恢复时运行 `load` 并粘贴即可。",
@@ -3616,6 +3617,7 @@ exports.strings = {
   "progress-import-prompt": {
     "__desc__": "Prompt shown above the text input when importing saved progress",
     "en_US": "Paste your saved progress text below!",
+    "fr_FR": "Collez ci-dessous le texte de la sauvegarde de votre progression !",
     "pt_PT": "Cola aqui em baixo o texto do progresso que guardaste!",
     "tr_TR": "Kaydettiğin ilerleme metnini aşağıya yapıştır!",
     "zh_CN": "请在下方粘贴您保存的进度文本！",
@@ -3624,6 +3626,7 @@ exports.strings = {
   "progress-import-success": {
     "__desc__": "Shown in the terminal after progress is successfully imported",
     "en_US": "Progress imported successfully!",
+    "fr_FR": "Progression importée avec succès !",
     "pt_PT": "Progresso importado com sucesso!",
     "tr_TR": "İlerleme başarıyla içe aktarıldı!",
     "zh_CN": "进度导入成功！",
@@ -3632,6 +3635,7 @@ exports.strings = {
   "progress-import-error": {
     "__desc__": "Shown in the terminal when importing progress fails",
     "en_US": "Could not import progress: {error}",
+    "fr_FR": "Impossible d'importer la progression : {error}",
     "pt_PT": "Não foi possível importar o progresso: {error}",
     "tr_TR": "İlerleme içe aktarılamadı: {error}",
     "zh_CN": "无法导入进度：{error}",
@@ -3640,6 +3644,7 @@ exports.strings = {
   "progress-export-copy-failed": {
     "__desc__": "Shown in the terminal when the progress could not be copied to the clipboard",
     "en_US": "Could not copy progress to the clipboard: {error}",
+    "fr_FR": "Impossible de copier la progression dans le presse-papiers : {error}",
     "pt_PT": "Não foi possível copiar o progresso para a área de transferência: {error}",
     "tr_TR": "İlerleme panoya kopyalanamadı: {error}",
     "zh_CN": "无法将进度复制到剪贴板：{error}",
