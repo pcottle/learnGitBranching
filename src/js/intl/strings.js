@@ -3589,6 +3589,7 @@ exports.strings = {
   },
   "command-helper-bar-export-progress": {
     "__desc__": "Export progress command label in the bottom command helper bar.",
+    "fr_FR": "Exporter la progression",
     "en_US": "Export progress",
     "pt_PT": "Exportar progresso",
     "tr_TR": "İlerlemeyi dışa aktar",
@@ -3597,6 +3598,7 @@ exports.strings = {
   },
   "command-helper-bar-import-progress": {
     "__desc__": "Import progress command label in the bottom command helper bar.",
+    "fr_FR": "Importer la progression",
     "en_US": "Import progress",
     "pt_PT": "Importar progresso",
     "tr_TR": "İlerlemeyi içe aktar",
