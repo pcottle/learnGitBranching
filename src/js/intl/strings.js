@@ -2,6 +2,7 @@ exports.strings = {
   "certificate-title": {
     "__desc__": "Title of the modal window that shows the completion certificate",
     "en_US": "Certificate of Completion",
+    "fr_FR": "Certificat de réussite",
     "pt_PT": "Certificado de Conclusão",
     "tr_TR": "Tamamlama Sertifikası",
     "zh_CN": "荣誉证书",
@@ -10,6 +11,7 @@ exports.strings = {
   "certificate-headline": {
     "__desc__": "Headline inside the certificate modal, celebrating finishing every level",
     "en_US": "You finished every single level!",
+    "fr_FR": "Vous avez terminé tous les niveaux !",
     "pt_PT": "Concluíste todos os níveis!",
     "tr_TR": "Bütün seviyeleri bitirdin!",
     "zh_CN": "你完成了所有关卡！",
@@ -18,6 +20,7 @@ exports.strings = {
   "certificate-subhead": {
     "__desc__": "Sub-headline inside the certificate modal. {levels} is the total number of levels",
     "en_US": "All {levels} of them. Put your name on it and take it with you.",
+    "fr_FR": "Les {levels} niveaux, sans exception. Inscrivez votre nom et emportez-le avec vous.",
     "pt_PT": "Todos os {levels}, sem exceção. Põe aqui o teu nome e leva-o contigo.",
     "tr_TR": "Hem de {levels} seviyenin hepsini. Adını yaz, sertifikan senin olsun.",
     "zh_CN": "整整 {levels} 个关卡。签下你的名字，收下它吧。",
@@ -26,6 +29,7 @@ exports.strings = {
   "certificate-name-label": {
     "__desc__": "Label for the text field where you type the name that appears on the certificate",
     "en_US": "Your name",
+    "fr_FR": "Votre nom",
     "pt_PT": "O teu nome",
     "tr_TR": "Adın",
     "zh_CN": "签名",
@@ -34,6 +38,7 @@ exports.strings = {
   "certificate-name-placeholder": {
     "__desc__": "Placeholder for the certificate name text field",
     "en_US": "Type your name here",
+    "fr_FR": "Saisissez votre nom ici",
     "pt_PT": "Escreve aqui o teu nome",
     "tr_TR": "Adını buraya yaz",
     "zh_CN": "在此输入你的名字",
@@ -42,6 +47,7 @@ exports.strings = {
   "certificate-copy": {
     "__desc__": "Button that copies the certificate image to the clipboard",
     "en_US": "Copy image",
+    "fr_FR": "Copier l'image",
     "pt_PT": "Copiar imagem",
     "tr_TR": "Görseli kopyala",
     "zh_CN": "复制图片",
@@ -50,6 +56,7 @@ exports.strings = {
   "certificate-copied": {
     "__desc__": "Status message after the certificate image is copied to the clipboard",
     "en_US": "Copied! Paste it wherever you like.",
+    "fr_FR": "Copiée ! Collez-la où vous voulez.",
     "pt_PT": "Copiada! Cola-a onde quiseres.",
     "tr_TR": "Kopyalandı! İstediğin yere yapıştırabilirsin.",
     "zh_CN": "已复制！快去粘贴分享吧。",
@@ -58,6 +65,7 @@ exports.strings = {
   "certificate-copy-failed": {
     "__desc__": "Status message when copying the certificate image to the clipboard fails",
     "en_US": "Copying failed. Try downloading it instead.",
+    "fr_FR": "La copie a échoué. Essayez plutôt de la télécharger.",
     "pt_PT": "Não foi possível copiar. Experimenta descarregá-la.",
     "tr_TR": "Kopyalama başarısız oldu. Bunun yerine indirmeyi dene.",
     "zh_CN": "复制失败，请尝试下载。",
@@ -66,6 +74,7 @@ exports.strings = {
   "certificate-copy-unsupported": {
     "__desc__": "Status message when the browser cannot copy images to the clipboard at all",
     "en_US": "This browser cannot copy images. Try downloading it instead.",
+    "fr_FR": "Ce navigateur ne peut pas copier d'images. Essayez plutôt de la télécharger.",
     "pt_PT": "Este navegador não consegue copiar imagens. Experimenta descarregá-la.",
     "tr_TR": "Bu tarayıcı görsel kopyalayamıyor. Bunun yerine indirmeyi dene.",
     "zh_CN": "当前浏览器不支持复制图片，试试下载吧。",
@@ -74,6 +83,7 @@ exports.strings = {
   "certificate-download": {
     "__desc__": "Button that downloads the certificate as a PNG file",
     "en_US": "Download PNG",
+    "fr_FR": "Télécharger en PNG",
     "pt_PT": "Descarregar PNG",
     "tr_TR": "PNG olarak indir",
     "zh_CN": "下载 PNG",
@@ -82,6 +92,7 @@ exports.strings = {
   "certificate-downloaded": {
     "__desc__": "Status message after the certificate PNG has been downloaded",
     "en_US": "Saved to your downloads.",
+    "fr_FR": "Enregistré dans vos téléchargements.",
     "pt_PT": "Guardado nas tuas transferências.",
     "tr_TR": "İndirilenler klasörüne kaydedildi.",
     "zh_CN": "已保存到下载目录。",
@@ -90,6 +101,7 @@ exports.strings = {
   "certificate-download-failed": {
     "__desc__": "Status message when downloading the certificate PNG fails",
     "en_US": "Download failed, sorry about that.",
+    "fr_FR": "Le téléchargement a échoué, désolé.",
     "pt_PT": "A transferência falhou. Desculpa!",
     "tr_TR": "İndirme başarısız oldu, kusura bakma.",
     "zh_CN": "下载失败，非常抱歉。",
@@ -98,6 +110,7 @@ exports.strings = {
   "certificate-close": {
     "__desc__": "Button that closes the completion certificate modal",
     "en_US": "Close",
+    "fr_FR": "Fermer",
     "pt_PT": "Fechar",
     "tr_TR": "Kapat",
     "zh_CN": "关闭",
@@ -106,6 +119,7 @@ exports.strings = {
   "certificate-cta": {
     "__desc__": "Button in the level-complete dialog that opens the completion certificate",
     "en_US": "\ud83c\udfc6  View your certificate",
+    "fr_FR": "🏆  Voir votre certificat",
     "pt_PT": "🏆  Ver o teu certificado",
     "tr_TR": "🏆  Sertifikanı gör",
     "zh_CN": "🏆 领取你的荣誉证书",
@@ -114,6 +128,7 @@ exports.strings = {
   "certificate-share": {
     "__desc__": "Heading above the social share buttons in the certificate modal",
     "en_US": "Share the news",
+    "fr_FR": "Partagez la nouvelle",
     "pt_PT": "Partilha a novidade",
     "tr_TR": "Haberi paylaş",
     "zh_CN": "分享这个好消息",
@@ -122,6 +137,7 @@ exports.strings = {
   "certificate-svg-title": {
     "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
     "en_US": "CERTIFICATE OF COMPLETION",
+    "fr_FR": "CERTIFICAT DE RÉUSSITE",
     "pt_PT": "CERTIFICADO DE CONCLUSÃO",
     "tr_TR": "TAMAMLAMA SERTİFİKASI",
     "zh_CN": "通关证书",
@@ -130,6 +146,7 @@ exports.strings = {
   "certificate-svg-name-placeholder": {
     "__desc__": "Faded placeholder printed on the certificate before a name is entered",
     "en_US": "YOUR NAME HERE",
+    "fr_FR": "VOTRE NOM ICI",
     "pt_PT": "O TEU NOME AQUI",
     "tr_TR": "ADINIZ BURAYA",
     "zh_CN": "签名",
@@ -138,6 +155,7 @@ exports.strings = {
   "certificate-svg-achievement": {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
     "en_US": "has completed all {levels} levels of Learn Git Branching",
+    "fr_FR": "a terminé les {levels} niveaux de Learn Git Branching",
     "pt_PT": "concluiu todos os {levels} níveis do Learn Git Branching",
     "tr_TR": "Learn Git Branching'in {levels} seviyesinin tamamını bitirmiştir",
     "zh_CN": "已完成 Learn Git Branching 所有关卡，共计 {levels} 个",
@@ -146,6 +164,7 @@ exports.strings = {
   "certificate-svg-topics-label": {
     "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
     "en_US": "TOPICS COVERED",
+    "fr_FR": "SUJETS ABORDÉS",
     "pt_PT": "TEMAS ABORDADOS",
     "tr_TR": "İŞLENEN KONULAR",
     "zh_CN": "涵盖主题",
@@ -154,6 +173,7 @@ exports.strings = {
   "certificate-svg-topics-first": {
     "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
     "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs",
+    "fr_FR": "Commits et branches  •  Merge et rebase  •  Cherry-pick et références relatives",
     "pt_PT": "Commits e branches  •  Merge e rebase  •  Cherry-pick e referências relativas",
     "tr_TR": "Commit ve Branch'ler  •  Merge ve Rebase  •  Cherry-pick ve Göreli Referanslar",
     "zh_CN": "提交与分支  •  合并与变基  •  Cherry-pick 与相对引用",
@@ -162,6 +182,7 @@ exports.strings = {
   "certificate-svg-topics-second": {
     "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
     "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push",
+    "fr_FR": "Annuler des modifications  •  Tags et historique  •  Fetch, pull et push",
     "pt_PT": "Desfazer alterações  •  Tags e histórico  •  Fetch, pull e push",
     "tr_TR": "Değişiklikleri Geri Alma  •  Tag'ler ve Geçmiş  •  Fetch, Pull ve Push",
     "zh_CN": "撤销改动  •  标签与历史  •  Fetch、Pull 与 Push",
@@ -170,6 +191,7 @@ exports.strings = {
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
     "en_US": "ISSUED",
+    "fr_FR": "DÉLIVRÉ LE",
     "pt_PT": "EMITIDO EM",
     "tr_TR": "VERİLİŞ TARİHİ",
     "zh_CN": "已签发",
