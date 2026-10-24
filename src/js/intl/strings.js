@@ -3554,6 +3554,7 @@ exports.strings = {
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
     "en_US": "Show commands",
+    "fr_FR": "Afficher les commandes",
     "pt_PT": "Mostrar comandos",
     "tr_TR": "Komutları göster",
     "zh_CN": "菜单",
@@ -3565,6 +3566,7 @@ exports.strings = {
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
     "en_US": "Show available languages",
+    "fr_FR": "Afficher les langues disponibles",
     "pt_PT": "Mostrar idiomas disponíveis",
     "tr_TR": "Mevcut dilleri göster",
     "zh_CN": "语言",
@@ -3576,6 +3578,7 @@ exports.strings = {
   "main-helper-bar-threads": {
     "__desc__": "Tooltip for the link to the author's Threads profile",
     "en_US": "Follow me on Threads",
+    "fr_FR": "Suivez-moi sur Threads",
     "pt_PT": "Segue-me no Threads",
     "tr_TR": "Threads'te beni takip et",
     "zh_CN": "在 Threads 上关注我",
