@@ -3664,6 +3664,7 @@ exports.strings = {
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
     "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute",
+    "fr_FR": "reset solved marquera chaque niveau comme non résolu. Comme il s'agit d'une commande destructive, ajoutez --confirm pour l'exécuter",
     "pt_PT": "O reset solved marca todos os níveis como não resolvidos. Como é um comando destrutivo, acrescenta --confirm para o executares",
     "tr_TR": "reset solved bütün seviyeleri çözülmemiş olarak işaretler; bu geri alınamaz bir komut olduğu için çalıştırmak istiyorsan --confirm ekle",
     "zh_CN": "重置已通关状态会将所有关卡标记为未通关；由于这是一个破坏性操作，请传入 --confirm 参数以执行",
@@ -3675,6 +3676,7 @@ exports.strings = {
   "sandbox-error-something-went-wrong": {
     "__desc__": "Generic error when opening a level fails, {error} is the exception text",
     "en_US": "Something went wrong {error}",
+    "fr_FR": "Une erreur s'est produite {error}",
     "pt_PT": "Algo correu mal {error}",
     "tr_TR": "Bir şeyler ters gitti {error}",
     "zh_CN": "出错了 {error}",
@@ -3686,6 +3688,7 @@ exports.strings = {
   "sandbox-alias-set": {
     "__desc__": "Confirmation that a command alias was created",
     "en_US": "Set alias \"{alias}\" to \"{expansion}\"",
+    "fr_FR": "Alias \"{alias}\" défini comme \"{expansion}\"",
     "pt_PT": "Alias \"{alias}\" definido como \"{expansion}\"",
     "tr_TR": "\"{alias}\" takma adı \"{expansion}\" olarak ayarlandı",
     "zh_CN": "已将别名 \"{alias}\" 设置为 \"{expansion}\"",
@@ -3697,6 +3700,7 @@ exports.strings = {
   "sandbox-alias-removed": {
     "__desc__": "Confirmation that a command alias was removed",
     "en_US": "Removed alias \"{alias}\"",
+    "fr_FR": "Alias \"{alias}\" supprimé",
     "pt_PT": "Alias \"{alias}\" removido",
     "tr_TR": "\"{alias}\" takma adı kaldırıldı",
     "zh_CN": "已移除别名 \"{alias}\"",
@@ -3708,6 +3712,7 @@ exports.strings = {
   "sandbox-rollup-done": {
     "__desc__": "Confirmation that previous commands were combined into one",
     "en_US": "Commands combined!",
+    "fr_FR": "Commandes combinées !",
     "pt_PT": "Comandos combinados!",
     "tr_TR": "Komutlar birleştirildi!",
     "zh_CN": "命令已合并！",
@@ -3983,6 +3988,7 @@ exports.strings = {
   "sandbox-tree-link": {
     "__desc__": "Preamble for the shareable link to the current tree state",
     "en_US": "Here is a link to the current state of the tree: ",
+    "fr_FR": "Voici un lien vers l'état actuel de l'arbre : ",
     "pt_PT": "Aqui tens um link para o estado atual da árvore: ",
     "tr_TR": "Ağacın şu anki durumuna giden bağlantı: ",
     "zh_CN": "这是当前提交树状态的链接：",
@@ -3994,6 +4000,7 @@ exports.strings = {
   "sandbox-instructions-disabled": {
     "__desc__": "Message shown when level instructions have been turned off",
     "en_US": "Level instructions disabled",
+    "fr_FR": "Instructions du niveau désactivées",
     "pt_PT": "Instruções do nível desativadas",
     "tr_TR": "Seviye yönergeleri kapatıldı",
     "zh_CN": "关卡说明已禁用",
@@ -4005,6 +4012,7 @@ exports.strings = {
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
     "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands",
+    "fr_FR": "Aucune documentation trouvée pour \"{target}\". Lancez `show commands` pour voir toutes les commandes disponibles",
     "pt_PT": "Não foi encontrada documentação para \"{target}\". Executa `show commands` para veres todos os comandos disponíveis",
     "tr_TR": "\"{target}\" için dokümantasyon bulunamadı; tüm komutları görmek için `show commands` çalıştır",
     "zh_CN": "未找到 \"{target}\" 的文档；运行 `show commands` 查看所有可用命令",
@@ -4016,6 +4024,7 @@ exports.strings = {
   "check-this-out": {
     "__desc__": "Title of the modal shown when importing a level, importing progress or sharing a level",
     "en_US": "Check this out...",
+    "fr_FR": "Jetez un œil...",
     "pt_PT": "Vê isto...",
     "zh_CN": "请在此输入",
     "zh_TW": "請在此輸入",
