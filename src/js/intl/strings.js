@@ -2377,6 +2377,7 @@ exports.strings = {
   "level-load-failed": {
     "__desc__": "When a level's definition could not be loaded (e.g. a network failure)",
     "en_US": "Could not load level \"{id}\". Check your connection and try again.",
+    "fr_FR": "Impossible de charger le niveau \"{id}\". Vérifiez votre connexion et réessayez.",
     "pt_PT": "Não foi possível carregar o nível \"{id}\". Verifica a tua ligação e tenta outra vez.",
     "tr_TR": "\"{id}\" seviyesi yüklenemedi. Bağlantını kontrol edip tekrar dene.",
     "zh_CN": "无法加载关卡 \"{id}\"。请检查网络连接后重试。",
@@ -2385,6 +2386,7 @@ exports.strings = {
   "level-loading": {
     "__desc__": "Shown in the level picker while a selected level is loading",
     "en_US": "Loading level \"{id}\"\u2026",
+    "fr_FR": "Chargement du niveau \"{id}\"…",
     "pt_PT": "A carregar o nível \"{id}\"…",
     "tr_TR": "\"{id}\" seviyesi yükleniyor…",
     "zh_CN": "正在加载关卡 \"{id}\"…",
