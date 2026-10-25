@@ -2,6 +2,7 @@ exports.strings = {
   "certificate-title": {
     "__desc__": "Title of the modal window that shows the completion certificate",
     "en_US": "Certificate of Completion",
+    "fr_FR": "Certificat de réussite",
     "pt_PT": "Certificado de Conclusão",
     "tr_TR": "Tamamlama Sertifikası",
     "zh_CN": "荣誉证书",
@@ -10,6 +11,7 @@ exports.strings = {
   "certificate-headline": {
     "__desc__": "Headline inside the certificate modal, celebrating finishing every level",
     "en_US": "You finished every single level!",
+    "fr_FR": "Vous avez terminé tous les niveaux !",
     "pt_PT": "Concluíste todos os níveis!",
     "tr_TR": "Bütün seviyeleri bitirdin!",
     "zh_CN": "你完成了所有关卡！",
@@ -18,6 +20,7 @@ exports.strings = {
   "certificate-subhead": {
     "__desc__": "Sub-headline inside the certificate modal. {levels} is the total number of levels",
     "en_US": "All {levels} of them. Put your name on it and take it with you.",
+    "fr_FR": "Les {levels} niveaux, sans exception. Inscrivez votre nom et emportez-le avec vous.",
     "pt_PT": "Todos os {levels}, sem exceção. Põe aqui o teu nome e leva-o contigo.",
     "tr_TR": "Hem de {levels} seviyenin hepsini. Adını yaz, sertifikan senin olsun.",
     "zh_CN": "整整 {levels} 个关卡。签下你的名字，收下它吧。",
@@ -26,6 +29,7 @@ exports.strings = {
   "certificate-name-label": {
     "__desc__": "Label for the text field where you type the name that appears on the certificate",
     "en_US": "Your name",
+    "fr_FR": "Votre nom",
     "pt_PT": "O teu nome",
     "tr_TR": "Adın",
     "zh_CN": "签名",
@@ -34,6 +38,7 @@ exports.strings = {
   "certificate-name-placeholder": {
     "__desc__": "Placeholder for the certificate name text field",
     "en_US": "Type your name here",
+    "fr_FR": "Saisissez votre nom ici",
     "pt_PT": "Escreve aqui o teu nome",
     "tr_TR": "Adını buraya yaz",
     "zh_CN": "在此输入你的名字",
@@ -42,6 +47,7 @@ exports.strings = {
   "certificate-copy": {
     "__desc__": "Button that copies the certificate image to the clipboard",
     "en_US": "Copy image",
+    "fr_FR": "Copier l'image",
     "pt_PT": "Copiar imagem",
     "tr_TR": "Görseli kopyala",
     "zh_CN": "复制图片",
@@ -50,6 +56,7 @@ exports.strings = {
   "certificate-copied": {
     "__desc__": "Status message after the certificate image is copied to the clipboard",
     "en_US": "Copied! Paste it wherever you like.",
+    "fr_FR": "Copiée ! Collez-la où vous voulez.",
     "pt_PT": "Copiada! Cola-a onde quiseres.",
     "tr_TR": "Kopyalandı! İstediğin yere yapıştırabilirsin.",
     "zh_CN": "已复制！快去粘贴分享吧。",
@@ -58,6 +65,7 @@ exports.strings = {
   "certificate-copy-failed": {
     "__desc__": "Status message when copying the certificate image to the clipboard fails",
     "en_US": "Copying failed. Try downloading it instead.",
+    "fr_FR": "La copie a échoué. Essayez plutôt de la télécharger.",
     "pt_PT": "Não foi possível copiar. Experimenta descarregá-la.",
     "tr_TR": "Kopyalama başarısız oldu. Bunun yerine indirmeyi dene.",
     "zh_CN": "复制失败，请尝试下载。",
@@ -66,6 +74,7 @@ exports.strings = {
   "certificate-copy-unsupported": {
     "__desc__": "Status message when the browser cannot copy images to the clipboard at all",
     "en_US": "This browser cannot copy images. Try downloading it instead.",
+    "fr_FR": "Ce navigateur ne peut pas copier d'images. Essayez plutôt de la télécharger.",
     "pt_PT": "Este navegador não consegue copiar imagens. Experimenta descarregá-la.",
     "tr_TR": "Bu tarayıcı görsel kopyalayamıyor. Bunun yerine indirmeyi dene.",
     "zh_CN": "当前浏览器不支持复制图片，试试下载吧。",
@@ -74,6 +83,7 @@ exports.strings = {
   "certificate-download": {
     "__desc__": "Button that downloads the certificate as a PNG file",
     "en_US": "Download PNG",
+    "fr_FR": "Télécharger en PNG",
     "pt_PT": "Descarregar PNG",
     "tr_TR": "PNG olarak indir",
     "zh_CN": "下载 PNG",
@@ -82,6 +92,7 @@ exports.strings = {
   "certificate-downloaded": {
     "__desc__": "Status message after the certificate PNG has been downloaded",
     "en_US": "Saved to your downloads.",
+    "fr_FR": "Enregistré dans vos téléchargements.",
     "pt_PT": "Guardado nas tuas transferências.",
     "tr_TR": "İndirilenler klasörüne kaydedildi.",
     "zh_CN": "已保存到下载目录。",
@@ -90,6 +101,7 @@ exports.strings = {
   "certificate-download-failed": {
     "__desc__": "Status message when downloading the certificate PNG fails",
     "en_US": "Download failed, sorry about that.",
+    "fr_FR": "Le téléchargement a échoué, désolé.",
     "pt_PT": "A transferência falhou. Desculpa!",
     "tr_TR": "İndirme başarısız oldu, kusura bakma.",
     "zh_CN": "下载失败，非常抱歉。",
@@ -98,6 +110,7 @@ exports.strings = {
   "certificate-close": {
     "__desc__": "Button that closes the completion certificate modal",
     "en_US": "Close",
+    "fr_FR": "Fermer",
     "pt_PT": "Fechar",
     "tr_TR": "Kapat",
     "zh_CN": "关闭",
@@ -106,6 +119,7 @@ exports.strings = {
   "certificate-cta": {
     "__desc__": "Button in the level-complete dialog that opens the completion certificate",
     "en_US": "\ud83c\udfc6  View your certificate",
+    "fr_FR": "🏆  Voir votre certificat",
     "pt_PT": "🏆  Ver o teu certificado",
     "tr_TR": "🏆  Sertifikanı gör",
     "zh_CN": "🏆 领取你的荣誉证书",
@@ -114,6 +128,7 @@ exports.strings = {
   "certificate-share": {
     "__desc__": "Heading above the social share buttons in the certificate modal",
     "en_US": "Share the news",
+    "fr_FR": "Partagez la nouvelle",
     "pt_PT": "Partilha a novidade",
     "tr_TR": "Haberi paylaş",
     "zh_CN": "分享这个好消息",
@@ -122,6 +137,7 @@ exports.strings = {
   "certificate-svg-title": {
     "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
     "en_US": "CERTIFICATE OF COMPLETION",
+    "fr_FR": "CERTIFICAT DE RÉUSSITE",
     "pt_PT": "CERTIFICADO DE CONCLUSÃO",
     "tr_TR": "TAMAMLAMA SERTİFİKASI",
     "zh_CN": "通关证书",
@@ -130,6 +146,7 @@ exports.strings = {
   "certificate-svg-name-placeholder": {
     "__desc__": "Faded placeholder printed on the certificate before a name is entered",
     "en_US": "YOUR NAME HERE",
+    "fr_FR": "VOTRE NOM ICI",
     "pt_PT": "O TEU NOME AQUI",
     "tr_TR": "ADINIZ BURAYA",
     "zh_CN": "签名",
@@ -138,6 +155,7 @@ exports.strings = {
   "certificate-svg-achievement": {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
     "en_US": "has completed all {levels} levels of Learn Git Branching",
+    "fr_FR": "a terminé les {levels} niveaux de Learn Git Branching",
     "pt_PT": "concluiu todos os {levels} níveis do Learn Git Branching",
     "tr_TR": "Learn Git Branching'in {levels} seviyesinin tamamını bitirmiştir",
     "zh_CN": "已完成 Learn Git Branching 所有关卡，共计 {levels} 个",
@@ -146,6 +164,7 @@ exports.strings = {
   "certificate-svg-topics-label": {
     "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
     "en_US": "TOPICS COVERED",
+    "fr_FR": "SUJETS ABORDÉS",
     "pt_PT": "TEMAS ABORDADOS",
     "tr_TR": "İŞLENEN KONULAR",
     "zh_CN": "涵盖主题",
@@ -154,6 +173,7 @@ exports.strings = {
   "certificate-svg-topics-first": {
     "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
     "en_US": "Commits & Branches  •  Merging & Rebasing  •  Cherry-pick & Relative Refs",
+    "fr_FR": "Commits et branches  •  Merge et rebase  •  Cherry-pick et références relatives",
     "pt_PT": "Commits e branches  •  Merge e rebase  •  Cherry-pick e referências relativas",
     "tr_TR": "Commit ve Branch'ler  •  Merge ve Rebase  •  Cherry-pick ve Göreli Referanslar",
     "zh_CN": "提交与分支  •  合并与变基  •  Cherry-pick 与相对引用",
@@ -162,6 +182,7 @@ exports.strings = {
   "certificate-svg-topics-second": {
     "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
     "en_US": "Undoing Changes  •  Tags & History  •  Fetch, Pull & Push",
+    "fr_FR": "Annuler des modifications  •  Tags et historique  •  Fetch, pull et push",
     "pt_PT": "Desfazer alterações  •  Tags e histórico  •  Fetch, pull e push",
     "tr_TR": "Değişiklikleri Geri Alma  •  Tag'ler ve Geçmiş  •  Fetch, Pull ve Push",
     "zh_CN": "撤销改动  •  标签与历史  •  Fetch、Pull 与 Push",
@@ -170,6 +191,7 @@ exports.strings = {
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
     "en_US": "ISSUED",
+    "fr_FR": "DÉLIVRÉ LE",
     "pt_PT": "EMITIDO EM",
     "tr_TR": "VERİLİŞ TARİHİ",
     "zh_CN": "已签发",
@@ -2355,6 +2377,7 @@ exports.strings = {
   "level-load-failed": {
     "__desc__": "When a level's definition could not be loaded (e.g. a network failure)",
     "en_US": "Could not load level \"{id}\". Check your connection and try again.",
+    "fr_FR": "Impossible de charger le niveau \"{id}\". Vérifiez votre connexion et réessayez.",
     "pt_PT": "Não foi possível carregar o nível \"{id}\". Verifica a tua ligação e tenta outra vez.",
     "tr_TR": "\"{id}\" seviyesi yüklenemedi. Bağlantını kontrol edip tekrar dene.",
     "zh_CN": "无法加载关卡 \"{id}\"。请检查网络连接后重试。",
@@ -2363,6 +2386,7 @@ exports.strings = {
   "level-loading": {
     "__desc__": "Shown in the level picker while a selected level is loading",
     "en_US": "Loading level \"{id}\"\u2026",
+    "fr_FR": "Chargement du niveau \"{id}\"…",
     "pt_PT": "A carregar o nível \"{id}\"…",
     "tr_TR": "\"{id}\" seviyesi yükleniyor…",
     "zh_CN": "正在加载关卡 \"{id}\"…",
@@ -3530,6 +3554,7 @@ exports.strings = {
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
     "en_US": "Show commands",
+    "fr_FR": "Afficher les commandes",
     "pt_PT": "Mostrar comandos",
     "tr_TR": "Komutları göster",
     "zh_CN": "菜单",
@@ -3541,6 +3566,7 @@ exports.strings = {
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
     "en_US": "Show available languages",
+    "fr_FR": "Afficher les langues disponibles",
     "pt_PT": "Mostrar idiomas disponíveis",
     "tr_TR": "Mevcut dilleri göster",
     "zh_CN": "语言",
@@ -3552,6 +3578,7 @@ exports.strings = {
   "main-helper-bar-threads": {
     "__desc__": "Tooltip for the link to the author's Threads profile",
     "en_US": "Follow me on Threads",
+    "fr_FR": "Suivez-moi sur Threads",
     "pt_PT": "Segue-me no Threads",
     "tr_TR": "Threads'te beni takip et",
     "zh_CN": "在 Threads 上关注我",
@@ -3562,6 +3589,7 @@ exports.strings = {
   },
   "command-helper-bar-export-progress": {
     "__desc__": "Export progress command label in the bottom command helper bar.",
+    "fr_FR": "Exporter la progression",
     "en_US": "Export progress",
     "pt_PT": "Exportar progresso",
     "tr_TR": "İlerlemeyi dışa aktar",
@@ -3570,6 +3598,7 @@ exports.strings = {
   },
   "command-helper-bar-import-progress": {
     "__desc__": "Import progress command label in the bottom command helper bar.",
+    "fr_FR": "Importer la progression",
     "en_US": "Import progress",
     "pt_PT": "Importar progresso",
     "tr_TR": "İlerlemeyi içe aktar",
@@ -3579,6 +3608,7 @@ exports.strings = {
   "progress-export-copied": {
     "__desc__": "Shown in the terminal after the user exports their progress to the clipboard",
     "en_US": "Progress copied to clipboard! Paste it somewhere safe to back it up. To restore later, run `load` and paste it in.",
+    "fr_FR": "Progression copiée dans le presse-papiers ! Collez-la dans un endroit sûr pour la sauvegarder. Pour la restaurer plus tard, lancez `load` et collez-la.",
     "pt_PT": "Progresso copiado para a área de transferência! Cola-o num sítio seguro para teres uma cópia. Para o recuperares mais tarde, executa `load` e cola-o.",
     "tr_TR": "İlerlemen panoya kopyalandı! Yedeklemek için güvenli bir yere yapıştır. Sonra geri yüklemek için `load` komutunu çalıştırıp metni yapıştırman yeterli.",
     "zh_CN": "进度已复制到剪贴板！请将其粘贴到安全的地方保存。恢复时运行 `load` 并粘贴即可。",
@@ -3587,6 +3617,7 @@ exports.strings = {
   "progress-import-prompt": {
     "__desc__": "Prompt shown above the text input when importing saved progress",
     "en_US": "Paste your saved progress text below!",
+    "fr_FR": "Collez ci-dessous le texte de la sauvegarde de votre progression !",
     "pt_PT": "Cola aqui em baixo o texto do progresso que guardaste!",
     "tr_TR": "Kaydettiğin ilerleme metnini aşağıya yapıştır!",
     "zh_CN": "请在下方粘贴您保存的进度文本！",
@@ -3595,6 +3626,7 @@ exports.strings = {
   "progress-import-success": {
     "__desc__": "Shown in the terminal after progress is successfully imported",
     "en_US": "Progress imported successfully!",
+    "fr_FR": "Progression importée avec succès !",
     "pt_PT": "Progresso importado com sucesso!",
     "tr_TR": "İlerleme başarıyla içe aktarıldı!",
     "zh_CN": "进度导入成功！",
@@ -3603,6 +3635,7 @@ exports.strings = {
   "progress-import-error": {
     "__desc__": "Shown in the terminal when importing progress fails",
     "en_US": "Could not import progress: {error}",
+    "fr_FR": "Impossible d'importer la progression : {error}",
     "pt_PT": "Não foi possível importar o progresso: {error}",
     "tr_TR": "İlerleme içe aktarılamadı: {error}",
     "zh_CN": "无法导入进度：{error}",
@@ -3611,6 +3644,7 @@ exports.strings = {
   "progress-export-copy-failed": {
     "__desc__": "Shown in the terminal when the progress could not be copied to the clipboard",
     "en_US": "Could not copy progress to the clipboard: {error}",
+    "fr_FR": "Impossible de copier la progression dans le presse-papiers : {error}",
     "pt_PT": "Não foi possível copiar o progresso para a área de transferência: {error}",
     "tr_TR": "İlerleme panoya kopyalanamadı: {error}",
     "zh_CN": "无法将进度复制到剪贴板：{error}",
@@ -3619,6 +3653,7 @@ exports.strings = {
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
     "en_US": "Bad numeric argument: {arg}",
+    "fr_FR": "Argument numérique invalide : {arg}",
     "pt_PT": "Argumento numérico inválido: {arg}",
     "tr_TR": "Geçersiz sayısal argüman: {arg}",
     "zh_CN": "错误的数字参数：{arg}",
@@ -3630,6 +3665,7 @@ exports.strings = {
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
     "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute",
+    "fr_FR": "reset solved marquera chaque niveau comme non résolu. Comme il s'agit d'une commande destructive, ajoutez --confirm pour l'exécuter",
     "pt_PT": "O reset solved marca todos os níveis como não resolvidos. Como é um comando destrutivo, acrescenta --confirm para o executares",
     "tr_TR": "reset solved bütün seviyeleri çözülmemiş olarak işaretler; bu geri alınamaz bir komut olduğu için çalıştırmak istiyorsan --confirm ekle",
     "zh_CN": "重置已通关状态会将所有关卡标记为未通关；由于这是一个破坏性操作，请传入 --confirm 参数以执行",
@@ -3641,6 +3677,7 @@ exports.strings = {
   "sandbox-error-something-went-wrong": {
     "__desc__": "Generic error when opening a level fails, {error} is the exception text",
     "en_US": "Something went wrong {error}",
+    "fr_FR": "Une erreur s'est produite {error}",
     "pt_PT": "Algo correu mal {error}",
     "tr_TR": "Bir şeyler ters gitti {error}",
     "zh_CN": "出错了 {error}",
@@ -3652,6 +3689,7 @@ exports.strings = {
   "sandbox-alias-set": {
     "__desc__": "Confirmation that a command alias was created",
     "en_US": "Set alias \"{alias}\" to \"{expansion}\"",
+    "fr_FR": "Alias \"{alias}\" défini comme \"{expansion}\"",
     "pt_PT": "Alias \"{alias}\" definido como \"{expansion}\"",
     "tr_TR": "\"{alias}\" takma adı \"{expansion}\" olarak ayarlandı",
     "zh_CN": "已将别名 \"{alias}\" 设置为 \"{expansion}\"",
@@ -3663,6 +3701,7 @@ exports.strings = {
   "sandbox-alias-removed": {
     "__desc__": "Confirmation that a command alias was removed",
     "en_US": "Removed alias \"{alias}\"",
+    "fr_FR": "Alias \"{alias}\" supprimé",
     "pt_PT": "Alias \"{alias}\" removido",
     "tr_TR": "\"{alias}\" takma adı kaldırıldı",
     "zh_CN": "已移除别名 \"{alias}\"",
@@ -3674,6 +3713,7 @@ exports.strings = {
   "sandbox-rollup-done": {
     "__desc__": "Confirmation that previous commands were combined into one",
     "en_US": "Commands combined!",
+    "fr_FR": "Commandes combinées !",
     "pt_PT": "Comandos combinados!",
     "tr_TR": "Komutlar birleştirildi!",
     "zh_CN": "命令已合并！",
@@ -3685,6 +3725,7 @@ exports.strings = {
   "git-error-fetch-checked-out": {
     "__desc__": "Error when fetching into the branch that is currently checked out",
     "en_US": "cannot fetch to {ref} when checked out on {ref}",
+    "fr_FR": "impossible de faire un fetch vers {ref} lorsque {ref} est la branche actuellement extraite",
     "pt_PT": "não é possível fazer fetch para {ref} quando {ref} está em checkout",
     "tr_TR": "{ref} checkout edilmişken {ref} üzerine fetch yapılamaz",
     "zh_CN": "当 {ref} 处于检出状态时，无法 fetch 到 {ref}",
@@ -3696,6 +3737,7 @@ exports.strings = {
   "git-error-not-a-branch": {
     "__desc__": "Error when a ref that must be a branch is not one",
     "en_US": "{ref} is not a branch",
+    "fr_FR": "{ref} n'est pas une branche",
     "pt_PT": "{ref} não é um branch",
     "tr_TR": "{ref} bir branch değil",
     "zh_CN": "{ref} 不是一个分支",
@@ -3707,6 +3749,7 @@ exports.strings = {
   "git-error-not-a-remote-branch": {
     "__desc__": "Error when a ref that must be a remote branch is not one",
     "en_US": "{ref} is not a remote branch",
+    "fr_FR": "{ref} n'est pas une branche distante",
     "pt_PT": "{ref} não é um branch remoto",
     "tr_TR": "{ref} bir remote branch değil",
     "zh_CN": "{ref} 不是一个远端分支",
@@ -3718,6 +3761,7 @@ exports.strings = {
   "git-error-not-a-remote": {
     "__desc__": "Error when the named remote does not exist in the repository",
     "en_US": "{remote} is not a remote in your repository! try adding origin to that argument",
+    "fr_FR": "{remote} n'est pas un dépôt distant de votre dépôt ! Essayez d'ajouter origin à cet argument",
     "pt_PT": "{remote} não é um repositório remoto do teu repositório! Experimenta acrescentar origin a esse argumento",
     "tr_TR": "{remote} deponda tanımlı bir remote değil! O argümana origin eklemeyi dene",
     "zh_CN": "{remote} 不是仓库中的远端！请尝试为该参数添加 origin",
@@ -3729,6 +3773,7 @@ exports.strings = {
   "git-error-branch-bang": {
     "__desc__": "Error when the named branch does not exist",
     "en_US": "{branch} is not a branch!",
+    "fr_FR": "{branch} n'est pas une branche !",
     "pt_PT": "{branch} não é um branch!",
     "tr_TR": "{branch} bir branch değil!",
     "zh_CN": "{branch} 不是一个分支！",
@@ -3740,6 +3785,7 @@ exports.strings = {
   "git-error-not-remote-tracking": {
     "__desc__": "Error when pushing a branch that tracks no remote branch",
     "en_US": "{branch} is not a remote tracking branch! I don't know where to push",
+    "fr_FR": "{branch} ne suit aucune branche distante ! Je ne sais pas où faire le push",
     "pt_PT": "{branch} não segue nenhum branch remoto! Não sei para onde fazer push",
     "tr_TR": "{branch} bir remote tracking branch değil! Nereye push edeceğimi bilmiyorum",
     "zh_CN": "{branch} 不是远端跟踪分支！无法确定推送位置",
@@ -3751,6 +3797,7 @@ exports.strings = {
   "git-error-pull-detached": {
     "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
     "en_US": "Git pull can not be executed in detached HEAD mode if no remote branch specified!",
+    "fr_FR": "git pull ne peut pas être exécuté quand HEAD est détaché si aucune branche distante n'est spécifiée !",
     "pt_PT": "Não é possível executar git pull em detached HEAD sem indicar um branch remoto!",
     "tr_TR": "Remote branch belirtilmeden detached HEAD modunda git pull çalıştırılamaz!",
     "zh_CN": "处于分离 HEAD 状态时，若未指定远端分支则无法执行 git pull！",
@@ -3762,6 +3809,7 @@ exports.strings = {
   "git-error-head-not-branch": {
     "__desc__": "Error when HEAD is detached but a branch is required",
     "en_US": "fatal: HEAD does not point to a branch",
+    "fr_FR": "fatal : HEAD ne pointe pas vers une branche",
     "pt_PT": "fatal: a HEAD não aponta para um branch",
     "tr_TR": "fatal: HEAD bir branch'i göstermiyor",
     "zh_CN": "fatal: HEAD 没有指向一个分支",
@@ -3773,6 +3821,7 @@ exports.strings = {
   "git-error-delete-no-refs": {
     "__desc__": "Error when push --delete is given no refs",
     "en_US": "--delete doesn't make sense without any refs",
+    "fr_FR": "--delete n'a pas de sens sans aucune référence",
     "pt_PT": "--delete não faz sentido sem nenhuma ref",
     "tr_TR": "--delete tek başına, ref verilmeden bir anlam ifade etmiyor",
     "zh_CN": "--delete 需要指定 ref",
@@ -3784,6 +3833,7 @@ exports.strings = {
   "git-error-delete-plain-refs": {
     "__desc__": "Error when push --delete is given a source:destination refspec",
     "en_US": "--delete only accepts plain target ref names",
+    "fr_FR": "--delete n'accepte que des noms simples de références cibles",
     "pt_PT": "--delete só aceita nomes simples de refs de destino",
     "tr_TR": "--delete yalnızca düz hedef ref adlarını kabul eder",
     "zh_CN": "--delete 只接受普通目标 ref 名称",
@@ -3795,6 +3845,7 @@ exports.strings = {
   "git-error-delete-nonexistent": {
     "__desc__": "Error when deleting a branch that does not exist",
     "en_US": "cannot delete branch {branch} which doesn't exist",
+    "fr_FR": "impossible de supprimer la branche {branch}, car elle n'existe pas",
     "pt_PT": "não é possível apagar o branch {branch}, porque não existe",
     "tr_TR": "var olmayan {branch} branch'i silinemez",
     "zh_CN": "无法删除不存在的分支 {branch}",
@@ -3806,6 +3857,7 @@ exports.strings = {
   "git-error-describe-no-tags": {
     "__desc__": "Error from git describe when the repository has no tags",
     "en_US": "fatal: No tags found, cannot describe anything.",
+    "fr_FR": "fatal : aucun tag trouvé, impossible de décrire quoi que ce soit.",
     "pt_PT": "fatal: Não foram encontradas tags, não é possível descrever nada.",
     "tr_TR": "fatal: Hiç tag bulunamadı, describe yapılacak bir şey yok.",
     "zh_CN": "fatal: 未找到标签，无法描述。",
@@ -3817,6 +3869,7 @@ exports.strings = {
   "git-error-no-tag-to-remove": {
     "__desc__": "Error when removing a tag that does not exist",
     "en_US": "No tag found, nothing to remove",
+    "fr_FR": "Aucun tag trouvé, rien à supprimer",
     "pt_PT": "Nenhuma tag encontrada, não há nada para remover",
     "tr_TR": "Tag bulunamadı, kaldırılacak bir şey yok",
     "zh_CN": "未找到标签，无可删除内容",
@@ -3828,6 +3881,7 @@ exports.strings = {
   "git-error-nothing-to-clone": {
     "__desc__": "Error when cloning with no remote available",
     "en_US": "Nothing to clone from!",
+    "fr_FR": "Rien à cloner !",
     "pt_PT": "Não há nada de onde clonar!",
     "tr_TR": "Clone'lanacak bir şey yok!",
     "zh_CN": "没有可 clone 的内容！",
@@ -3839,6 +3893,7 @@ exports.strings = {
   "git-warning-tracking": {
     "__desc__": "Warning shown when a local branch starts tracking a remote branch",
     "en_US": "local branch \"{localBranch}\" set to track remote branch \"{remoteBranch}\"",
+    "fr_FR": "la branche locale \"{localBranch}\" suit désormais la branche distante \"{remoteBranch}\"",
     "pt_PT": "o branch local \"{localBranch}\" passou a seguir o branch remoto \"{remoteBranch}\"",
     "tr_TR": "yerel \"{localBranch}\" branch'i, remote \"{remoteBranch}\" branch'ini takip edecek şekilde ayarlandı",
     "zh_CN": "本地分支 \"{localBranch}\" 已设置为跟踪远端分支 \"{remoteBranch}\"",
@@ -3850,6 +3905,7 @@ exports.strings = {
   "git-error-push-tag-source": {
     "__desc__": "Error when pushing a tag as the source of a refspec",
     "en_US": "Tags are not allowed as sources for pushing",
+    "fr_FR": "Les tags ne sont pas autorisés comme source d'un push",
     "pt_PT": "Não é permitido usar tags como origem de um push",
     "tr_TR": "Push için kaynak olarak tag kullanılamaz",
     "zh_CN": "标签不能作为 push 的源",
@@ -3861,6 +3917,7 @@ exports.strings = {
   "git-error-delete-main-remote": {
     "__desc__": "Error when deleting the main branch on the remote",
     "en_US": "You cannot delete main branch on remote!",
+    "fr_FR": "Vous ne pouvez pas supprimer la branche main sur le dépôt distant !",
     "pt_PT": "Não podes apagar o branch main no repositório remoto!",
     "tr_TR": "Remote'taki main branch'ini silemezsin!",
     "zh_CN": "不能删除远端的 main 分支！",
@@ -3872,6 +3929,7 @@ exports.strings = {
   "git-error-commits-not-in-set": {
     "__desc__": "Error when named commits are not part of the given set",
     "en_US": "Hey those commits don't exist in the set!",
+    "fr_FR": "Hé, ces commits n'existent pas dans l'ensemble !",
     "pt_PT": "Ei, esses commits não existem no conjunto!",
     "tr_TR": "Hey, o commit'ler kümede yok!",
     "zh_CN": "这些提交不在集合中！",
@@ -3883,6 +3941,7 @@ exports.strings = {
   "git-error-no-tags-upstream": {
     "__desc__": "Error when fetching tags but the remote has none",
     "en_US": "Fatal: no tags found upstream",
+    "fr_FR": "Fatal : aucun tag trouvé en amont",
     "pt_PT": "Fatal: não foram encontradas tags no upstream",
     "tr_TR": "Fatal: upstream'de hiç tag bulunamadı",
     "zh_CN": "Fatal: 上游未找到标签",
@@ -3894,6 +3953,7 @@ exports.strings = {
   "git-error-branch-rename-not-branch": {
     "__desc__": "Error when renaming something that is not a branch",
     "en_US": "fatal: not a branch: {branch}",
+    "fr_FR": "fatal : n'est pas une branche : {branch}",
     "pt_PT": "fatal: não é um branch: {branch}",
     "tr_TR": "fatal: bir branch değil: {branch}",
     "zh_CN": "fatal: 不是分支：{branch}",
@@ -3905,6 +3965,7 @@ exports.strings = {
   "git-error-branch-rename-exists": {
     "__desc__": "Error when renaming a branch to a name already taken",
     "en_US": "fatal: A branch named '{branch}' already exists.",
+    "fr_FR": "fatal : une branche nommée '{branch}' existe déjà.",
     "pt_PT": "fatal: Já existe um branch chamado '{branch}'.",
     "tr_TR": "fatal: '{branch}' adında bir branch zaten var.",
     "zh_CN": "fatal: 名为 '{branch}' 的分支已存在。",
@@ -3916,6 +3977,7 @@ exports.strings = {
   "hg-error-m-d-incompatible": {
     "__desc__": "Error when hg is given both -m and -d",
     "en_US": "-m and -d are incompatible",
+    "fr_FR": "-m et -d sont incompatibles",
     "pt_PT": "-m e -d são incompatíveis",
     "tr_TR": "-m ile -d birlikte kullanılamaz",
     "zh_CN": "-m 与 -d 不兼容",
@@ -3927,6 +3989,7 @@ exports.strings = {
   "hg-error-r-d-incompatible": {
     "__desc__": "Error when hg is given both -r and -d",
     "en_US": "-r is incompatible with -d",
+    "fr_FR": "-r est incompatible avec -d",
     "pt_PT": "-r é incompatível com -d",
     "tr_TR": "-r ile -d birlikte kullanılamaz",
     "zh_CN": "-r 与 -d 不兼容",
@@ -3938,6 +4001,7 @@ exports.strings = {
   "hg-error-r-m-incompatible": {
     "__desc__": "Error when hg is given both -r and -m",
     "en_US": "-r is incompatible with -m",
+    "fr_FR": "-r est incompatible avec -m",
     "pt_PT": "-r é incompatível com -m",
     "tr_TR": "-r ile -m birlikte kullanılamaz",
     "zh_CN": "-r 与 -m 不兼容",
@@ -3949,6 +4013,7 @@ exports.strings = {
   "sandbox-tree-link": {
     "__desc__": "Preamble for the shareable link to the current tree state",
     "en_US": "Here is a link to the current state of the tree: ",
+    "fr_FR": "Voici un lien vers l'état actuel de l'arbre : ",
     "pt_PT": "Aqui tens um link para o estado atual da árvore: ",
     "tr_TR": "Ağacın şu anki durumuna giden bağlantı: ",
     "zh_CN": "这是当前提交树状态的链接：",
@@ -3960,6 +4025,7 @@ exports.strings = {
   "sandbox-instructions-disabled": {
     "__desc__": "Message shown when level instructions have been turned off",
     "en_US": "Level instructions disabled",
+    "fr_FR": "Instructions du niveau désactivées",
     "pt_PT": "Instruções do nível desativadas",
     "tr_TR": "Seviye yönergeleri kapatıldı",
     "zh_CN": "关卡说明已禁用",
@@ -3971,6 +4037,7 @@ exports.strings = {
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
     "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands",
+    "fr_FR": "Aucune documentation trouvée pour \"{target}\". Lancez `show commands` pour voir toutes les commandes disponibles",
     "pt_PT": "Não foi encontrada documentação para \"{target}\". Executa `show commands` para veres todos os comandos disponíveis",
     "tr_TR": "\"{target}\" için dokümantasyon bulunamadı; tüm komutları görmek için `show commands` çalıştır",
     "zh_CN": "未找到 \"{target}\" 的文档；运行 `show commands` 查看所有可用命令",
@@ -3982,6 +4049,7 @@ exports.strings = {
   "check-this-out": {
     "__desc__": "Title of the modal shown when importing a level, importing progress or sharing a level",
     "en_US": "Check this out...",
+    "fr_FR": "Jetez un œil...",
     "pt_PT": "Vê isto...",
     "zh_CN": "请在此输入",
     "zh_TW": "請在此輸入",
@@ -3989,6 +4057,7 @@ exports.strings = {
   "command-description-commit": {
     "__desc__": "Description shown in the help dialog for the git commit command",
     "en_US": "Record changes to the repository",
+    "fr_FR": "Enregistrer les modifications dans le dépôt",
     "pt_PT": "Registar alterações no repositório",
     "zh_CN": "记录对仓库的更改",
     "zh_TW": "記錄對儲存庫的更改",
@@ -3996,6 +4065,7 @@ exports.strings = {
   "command-description-cherrypick": {
     "__desc__": "Description shown in the help dialog for the git cherrypick command",
     "en_US": "Apply changes from existing commits",
+    "fr_FR": "Appliquer les modifications de commits existants",
     "pt_PT": "Aplicar as alterações de commits existentes",
     "zh_CN": "应用已有提交中的更改",
     "zh_TW": "套用既有提交中的變更",
@@ -4003,6 +4073,7 @@ exports.strings = {
   "command-description-gc": {
     "__desc__": "Description shown in the help dialog for the git gc command",
     "en_US": "Cleanup unnecessary files and optimize the repository",
+    "fr_FR": "Nettoyer les fichiers inutiles et optimiser le dépôt",
     "pt_PT": "Limpar ficheiros desnecessários e otimizar o repositório",
     "zh_CN": "清理不必要的文件并优化仓库",
     "zh_TW": "清理不必要的檔案並最佳化儲存庫",
@@ -4010,6 +4081,7 @@ exports.strings = {
   "command-description-pull": {
     "__desc__": "Description shown in the help dialog for the git pull command",
     "en_US": "Fetch from and integrate with another repository or branch",
+    "fr_FR": "Récupérer et intégrer les modifications d'un autre dépôt ou d'une branche",
     "pt_PT": "Fazer fetch de outro repositório ou branch e integrar as alterações",
     "zh_CN": "从另一个仓库或分支获取并整合",
     "zh_TW": "從另一個儲存庫或分支擷取並整合",
@@ -4017,6 +4089,7 @@ exports.strings = {
   "command-description-clone": {
     "__desc__": "Description shown in the help dialog for the git clone command",
     "en_US": "Clone a repository into a new directory",
+    "fr_FR": "Cloner un dépôt dans un nouveau répertoire",
     "pt_PT": "Clonar um repositório para uma pasta nova",
     "zh_CN": "将仓库克隆到一个新目录",
     "zh_TW": "將儲存庫複製到一個新目錄",
@@ -4024,6 +4097,7 @@ exports.strings = {
   "command-description-fakeCreateRemote": {
     "__desc__": "Description shown in the help dialog for the git fakeCreateRemote command",
     "en_US": "Create a fake remote repository from the current local repository",
+    "fr_FR": "Créer un faux dépôt distant à partir du dépôt local actuel",
     "pt_PT": "Criar um repositório remoto simulado a partir do repositório local atual",
     "zh_CN": "基于当前本地仓库创建模拟远程仓库",
     "zh_TW": "基於目前的本機儲存庫建立一個模擬遠端儲存庫",
@@ -4031,6 +4105,7 @@ exports.strings = {
   "command-description-remote": {
     "__desc__": "Description shown in the help dialog for the git remote command",
     "en_US": "Manage set of tracked repositories",
+    "fr_FR": "Gérer l'ensemble des dépôts suivis",
     "pt_PT": "Gerir o conjunto de repositórios seguidos",
     "zh_CN": "管理已跟踪的仓库集合",
     "zh_TW": "管理已追蹤的儲存庫集合",
@@ -4038,6 +4113,7 @@ exports.strings = {
   "command-description-fetch": {
     "__desc__": "Description shown in the help dialog for the git fetch command",
     "en_US": "Download objects and refs from another repository",
+    "fr_FR": "Télécharger les objets et références d'un autre dépôt",
     "pt_PT": "Descarregar objetos e refs de outro repositório",
     "zh_CN": "从另一个仓库下载对象与引用",
     "zh_TW": "從另一個儲存庫下載物件與引用",
@@ -4045,6 +4121,7 @@ exports.strings = {
   "command-description-branch": {
     "__desc__": "Description shown in the help dialog for the git branch command",
     "en_US": "List, create, or delete branches",
+    "fr_FR": "Lister, créer ou supprimer des branches",
     "pt_PT": "Listar, criar ou apagar branches",
     "zh_CN": "列出、创建或删除分支",
     "zh_TW": "列出、建立或刪除分支",
@@ -4052,6 +4129,7 @@ exports.strings = {
   "command-description-add": {
     "__desc__": "Description shown in the help dialog for the git add command",
     "en_US": "Add file contents to the staging area",
+    "fr_FR": "Ajouter le contenu de fichiers à l'index",
     "pt_PT": "Adicionar o conteúdo de ficheiros à área de staging",
     "zh_CN": "将文件内容添加到暂存区",
     "zh_TW": "將檔案內容加入暫存區",
@@ -4059,6 +4137,7 @@ exports.strings = {
   "command-description-restore": {
     "__desc__": "Description shown in the help dialog for the git restore command",
     "en_US": "Restore working tree files",
+    "fr_FR": "Restaurer les fichiers de l'arbre de travail",
     "pt_PT": "Restaurar ficheiros da árvore de trabalho",
     "zh_CN": "还原工作树文件",
     "zh_TW": "還原工作樹檔案",
@@ -4066,6 +4145,7 @@ exports.strings = {
   "command-description-reset": {
     "__desc__": "Description shown in the help dialog for the git reset command",
     "en_US": "Reset current HEAD to a specified state",
+    "fr_FR": "Réinitialiser HEAD à l'état spécifié",
     "pt_PT": "Repor a HEAD atual num estado indicado",
     "zh_CN": "将当前 HEAD 重置至指定状态",
     "zh_TW": "將目前的 HEAD 重設為指定狀態",
@@ -4073,6 +4153,7 @@ exports.strings = {
   "command-description-revert": {
     "__desc__": "Description shown in the help dialog for the git revert command",
     "en_US": "Revert some existing commits",
+    "fr_FR": "Annuler des commits existants",
     "pt_PT": "Reverter alguns commits existentes",
     "zh_CN": "撤销某些已有提交",
     "zh_TW": "還原一些既有提交",
@@ -4080,6 +4161,7 @@ exports.strings = {
   "command-description-merge": {
     "__desc__": "Description shown in the help dialog for the git merge command",
     "en_US": "Join two or more development histories together",
+    "fr_FR": "Fusionner deux historiques de développement ou plus",
     "pt_PT": "Juntar dois ou mais históricos de desenvolvimento",
     "zh_CN": "合并两个或多个开发历史",
     "zh_TW": "將兩個或多個開發歷史合併在一起",
@@ -4087,6 +4169,7 @@ exports.strings = {
   "command-description-revlist": {
     "__desc__": "Description shown in the help dialog for the git revlist command",
     "en_US": "List commits reachable from specified commit(s)",
+    "fr_FR": "Lister les commits accessibles depuis le(s) commit(s) spécifié(s)",
     "pt_PT": "Listar os commits alcançáveis a partir do(s) commit(s) indicado(s)",
     "zh_CN": "列出从指定提交可达的提交",
     "zh_TW": "列出從指定提交可達的提交",
@@ -4094,6 +4177,7 @@ exports.strings = {
   "command-description-log": {
     "__desc__": "Description shown in the help dialog for the git log command",
     "en_US": "Show commit logs",
+    "fr_FR": "Afficher l'historique des commits",
     "pt_PT": "Mostrar o histórico de commits",
     "zh_CN": "显示提交日志",
     "zh_TW": "顯示提交日誌",
@@ -4101,6 +4185,7 @@ exports.strings = {
   "command-description-show": {
     "__desc__": "Description shown in the help dialog for the git show command",
     "en_US": "Show various types of objects",
+    "fr_FR": "Afficher différents types d'objets",
     "pt_PT": "Mostrar vários tipos de objetos",
     "zh_CN": "显示各种类型的对象",
     "zh_TW": "顯示各種類型的物件",
@@ -4108,6 +4193,7 @@ exports.strings = {
   "command-description-rebase": {
     "__desc__": "Description shown in the help dialog for the git rebase command",
     "en_US": "Reapply commits on top of another base tip",
+    "fr_FR": "Réappliquer des commits sur une autre base",
     "pt_PT": "Reaplicar commits em cima de outra base",
     "zh_CN": "在另一个基底上重新应用提交",
     "zh_TW": "在另一個基線上重新套用提交",
@@ -4115,6 +4201,7 @@ exports.strings = {
   "command-description-status": {
     "__desc__": "Description shown in the help dialog for the git status command",
     "en_US": "Show the working tree status",
+    "fr_FR": "Afficher l'état de l'arbre de travail",
     "pt_PT": "Mostrar o estado da árvore de trabalho",
     "zh_CN": "显示工作树状态",
     "zh_TW": "顯示工作樹狀態",
@@ -4122,6 +4209,7 @@ exports.strings = {
   "command-description-checkout": {
     "__desc__": "Description shown in the help dialog for the git checkout command",
     "en_US": "Switch branches or restore working tree files",
+    "fr_FR": "Changer de branche ou restaurer les fichiers de l'arbre de travail",
     "pt_PT": "Mudar de branch ou restaurar ficheiros da árvore de trabalho",
     "zh_CN": "切换分支或还原工作树文件",
     "zh_TW": "切換分支或還原工作樹檔案",
@@ -4129,6 +4217,7 @@ exports.strings = {
   "command-description-push": {
     "__desc__": "Description shown in the help dialog for the git push command",
     "en_US": "Update remote refs along with associated objects",
+    "fr_FR": "Mettre à jour les références distantes ainsi que les objets associés",
     "pt_PT": "Atualizar refs remotas e os objetos associados",
     "zh_CN": "更新远程引用及相关对象",
     "zh_TW": "更新遠端引用及相關物件",
@@ -4136,6 +4225,7 @@ exports.strings = {
   "command-description-describe": {
     "__desc__": "Description shown in the help dialog for the git describe command",
     "en_US": "Give an object a human readable name",
+    "fr_FR": "Donner à un objet un nom lisible par un humain",
     "pt_PT": "Dar a um objeto um nome legível por humanos",
     "zh_CN": "为对象指定一个可读名称",
     "zh_TW": "為物件指定一個人類可讀的名稱",
@@ -4143,6 +4233,7 @@ exports.strings = {
   "command-description-tag": {
     "__desc__": "Description shown in the help dialog for the git tag command",
     "en_US": "Create, list, or delete tag references",
+    "fr_FR": "Créer, lister ou supprimer des tags",
     "pt_PT": "Criar, listar ou apagar refs de tag",
     "zh_CN": "创建、列出或删除标签引用",
     "zh_TW": "建立、列出或刪除標籤引用",
@@ -4150,6 +4241,7 @@ exports.strings = {
   "command-description-switch": {
     "__desc__": "Description shown in the help dialog for the git switch command",
     "en_US": "Switch branches",
+    "fr_FR": "Changer de branche",
     "pt_PT": "Mudar de branch",
     "zh_CN": "切换分支",
     "zh_TW": "切換分支",
