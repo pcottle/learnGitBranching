@@ -4,7 +4,7 @@ We have a pretty relaxed environment in this project so there's no formal templa
 
 ### Translations
 
-I welcome all translation improvements or additions! The levels are stored in giant JSON blobs, keyed by locale for each string. This means its somewhat awkward to add new translations, since you have to edit the JSON manually.
+I welcome all translation improvements or additions! The levels are stored in giant JSON blobs, keyed by locale for each string. This means it's somewhat awkward to add new translations, since you have to edit the JSON manually.
 
 ### Bug Fixes, New Features, etc
 
