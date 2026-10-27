@@ -104,7 +104,7 @@ exports.level = {
               "",
               "Yes you can! You can make any arbitrary branch track `o/main`, and if you do so, that branch will have the same implied push destination and merge target as `main`. This means you can run `git push` on a branch named `totallyNotMain` and have your work pushed to the `main` branch on the remote!",
               "",
-              "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
+              "There are two ways to set this property. The first is to create and switch to a new branch by using a remote branch as the specified ref. Running",
               "",
               "`git switch -c totallyNotMain o/main`",
               "",
@@ -116,7 +116,7 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Enough talking, let's see a demonstration! We will checkout a new branch named `foo` and set it to track `main` on the remote."
+              "Enough talking, let's see a demonstration! We will create and switch to a new branch named `foo` and set it to track `main` on the remote."
             ],
             "afterMarkdowns": [
               "As you can see, we used the implied merge target of `o/main` to update the `foo` branch. Note how main doesn't get updated!!"
