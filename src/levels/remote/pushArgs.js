@@ -109,7 +109,7 @@ exports.level = {
             "afterMarkdowns": [
               "There we go! `main` got updated on the remote since we specified those arguments."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -122,7 +122,7 @@ exports.level = {
             "afterMarkdowns": [
               "The command fails (as you can see), since `HEAD` is not checked out on a remote-tracking branch."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -130,10 +130,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, for this level let's update both `foo` and `main` on the remote. The twist is that `git checkout` is disabled for this level!",
+              "Ok, for this level let's update both `foo` and `main` on the remote. The twist is that `git switch` is disabled for this level!",
               "",
-              "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry ",
-              "about this... simply use `origin` as the name of the remote like normal.*"
+              "*Note: The remote branches are labeled with `o/` prefixes because the full `origin/` label does not fit in our UI. Don't worry",
+              " about this... simply use `origin` as the name of the remote like normal.*"
             ]
           }
         }
@@ -184,7 +184,7 @@ exports.level = {
             "afterMarkdowns": [
               "हो गया! जब हमने वो arguments specify किए तो `main` remote पर update हो गई।"
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -197,7 +197,7 @@ exports.level = {
             "afterMarkdowns": [
               "Command fail हो जाती है (जैसा आप देख सकते हैं), क्योंकि `HEAD` किसी remote-tracking branch पर checked out नहीं है।"
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -205,7 +205,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "ठीक है, इस level में remote पर `foo` और `main` दोनों को update करना है। Twist ये है कि इस level में `git checkout` disabled है!",
+              "ठीक है, इस level में remote पर `foo` और `main` दोनों को update करना है। Twist ये है कि इस level में `git switch` disabled है!",
               "",
               "*Note: Remote branches के नाम `o/` prefix के साथ दिखाए जाते हैं, क्योंकि पूरा `origin/` नाम हमारी UI में fit नहीं होता। इसकी ",
               "चिंता मत करो... बस हमेशा की तरह `origin` को remote के नाम की तरह इस्तेमाल करो.*"
@@ -259,7 +259,7 @@ exports.level = {
             "afterMarkdowns": [
               "بفرمایید! `main` در ریموت به‌روز شد زیرا ما آن آرگومان‌ها را مشخص کردیم."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -272,7 +272,7 @@ exports.level = {
             "afterMarkdowns": [
               "دستور با شکست مواجه می‌شود (همانطور که می‌بینید)، زیرا `HEAD` روی یک شاخه ردیابی ریموت قرار ندارد."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -280,7 +280,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "بسیار خب، برای این مرحله بیایید هم `foo` و هم `main` را در ریموت به‌روز کنیم. نکته انحرافی این است که `git checkout` برای این مرحله غیرفعال است!",
+              "بسیار خب، برای این مرحله بیایید هم `foo` و هم `main` را در ریموت به‌روز کنیم. نکته انحرافی این است که `git switch` برای این مرحله غیرفعال است!",
               "",
               "*نکته: شاخه‌های ریموت با پیشوند `o/` برچسب‌گذاری شده‌اند زیرا برچسب کامل `origin/` در رابط کاربری ما جا نمی‌شود. نگران ",
               "این موضوع نباشید... به سادگی از `origin` به عنوان نام ریموت مانند همیشه استفاده کنید.*"
@@ -334,7 +334,7 @@ exports.level = {
             "afterMarkdowns": [
               "Voilà ! `main` a été mise à jour puisque nous avons spécifié ces arguments."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -347,7 +347,7 @@ exports.level = {
             "afterMarkdowns": [
               "La commande échoue (comme vous pouvez le voir), car `HEAD` ne se trouve pas sur une branche configurée pour suivre une branche distante."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -355,7 +355,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, pour ce niveau mettez à jour `foo` et `main` sur le dépôt distant. La difficulté est que `git checkout` est désactivée pour ce niveau !",
+              "Ok, pour ce niveau mettez à jour `foo` et `main` sur le dépôt distant. La difficulté est que `git switch` est désactivée pour ce niveau !",
               "",
               "*Note : les branches distantes sont étiquetées avec le préfixe `o/` car le libellé complet `origin/` ne rentre pas dans notre interface. Ne vous en ",
               "inquiétez pas... utilisez simplement `origin` comme nom du dépôt distant, comme d'habitude.*"
@@ -409,7 +409,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -422,7 +422,7 @@ exports.level = {
             "afterMarkdowns": [
               "El comando falla (como podés ver), porque `HEAD` no está sobre ninguna rama que trackee algún remoto."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -430,7 +430,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
+              "Ok. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git switch` en este nivel!"
             ]
           }
         }
@@ -482,7 +482,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -495,7 +495,7 @@ exports.level = {
             "afterMarkdowns": [
               "El comando falla (como puedes ver), porque `HEAD` no está sobre ninguna rama que apunte a algún remoto."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -503,7 +503,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Perfecto. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
+              "Perfecto. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git switch` en este nivel!"
             ]
           }
         }
@@ -554,7 +554,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí está! Se actualizó `main` en el remoto, porque especificamos esos parámetros."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -567,7 +567,7 @@ exports.level = {
             "afterMarkdowns": [
               "El comando falla (como puedes ver), porque `HEAD` no está sobre ninguna rama que apunte a algún remoto."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -575,7 +575,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Perfecto. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git checkout` en este nivel!"
+              "Perfecto. Para este nivel, actualicemos tanto `foo` como `main` en el remoto. El tema está en que ¡tenemos deshabilitado `git switch` en este nivel!"
             ]
           }
         }
@@ -626,7 +626,7 @@ exports.level = {
             "afterMarkdowns": [
               "Aqui vamos nós! O `main` foi atualizado no repositório remoto, já que especificamos os parâmetros."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -639,7 +639,7 @@ exports.level = {
             "afterMarkdowns": [
               "O comando falha (como você pode ver), já que o `HEAD` não havia sofrido checkout para uma branch com propriedade de remote-tracking definida."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -647,7 +647,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, neste nível vamos atualizar tanto a `foo` como a `main` no repositório remoto. Porém desabilitamos o comando `git checkout` para dificultar um pouco a tarefa!"
+              "Ok, neste nível vamos atualizar tanto a `foo` como a `main` no repositório remoto. Porém desabilitamos o comando `git switch` para dificultar um pouco a tarefa!"
             ]
           }
         }
@@ -698,7 +698,7 @@ exports.level = {
             "afterMarkdowns": [
               "Aí está! O `main` foi atualizado no repositório remoto porque indicámos esses argumentos."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -711,7 +711,7 @@ exports.level = {
             "afterMarkdowns": [
               "O comando falha (como podes ver), porque a `HEAD` não está num branch de seguimento."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -719,7 +719,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Muito bem, neste nível vamos atualizar tanto o `foo` como o `main` no repositório remoto. O truque é que o `git checkout` está desativado neste nível!",
+              "Muito bem, neste nível vamos atualizar tanto o `foo` como o `main` no repositório remoto. O truque é que o `git switch` está desativado neste nível!",
               "",
               "*Nota: os branches remotos têm o prefixo `o/` porque a etiqueta completa `origin/` não cabe na nossa interface. Não te preocupes ",
               "com isso... usa simplesmente `origin` como nome do repositório remoto, como de costume.*"
@@ -773,7 +773,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí o tes! Actualizouse `main` no remoto, porque especificamos eses parámetros."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -786,7 +786,7 @@ exports.level = {
             "afterMarkdowns": [
               "O comando falla (como podes ver), xa que `HEAD` non está sobre ningunha rama que siga algún remoto."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -794,7 +794,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok. Para este nivel, actualiza tanto `foo` como `main` no remoto. O tema está en que ¡temos deshabilitado `git checkout` neste nivel!"
+              "Ok. Para este nivel, actualiza tanto `foo` como `main` no remoto. O tema está en que ¡temos deshabilitado `git switch` neste nivel!"
             ]
           }
         }
@@ -845,7 +845,7 @@ exports.level = {
             "afterMarkdowns": [
               "我說的沒錯吧！因為我們加上了參數，所以在 remote 上的 `main` branch 更新了。"
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -858,7 +858,7 @@ exports.level = {
             "afterMarkdowns": [
               "指令會失敗（就像你看到的），因為 `HEAD` 並沒有指向一個有 track remote branch 的 branch 上面阿。"
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -866,7 +866,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `main` branch，比較遺憾的是 `git checkout` 在這個關卡中是不被允許的喔！"
+              "好的，在這個關卡中，我們要更新在 remote 上的 `foo` 以及 `main` branch，比較遺憾的是 `git switch` 在這個關卡中是不被允許的喔！"
             ]
           }
         }
@@ -917,7 +917,7 @@ exports.level = {
             "afterMarkdowns": [
               "好了! 通过指定参数, 远程仓库中的 `main` 分支得到了更新。"
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -930,7 +930,7 @@ exports.level = {
             "afterMarkdowns": [
               "命令失败了（正如你看到的，什么也没有发生）! 因为我们所切换的 HEAD 没有跟踪任何分支。"
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -938,7 +938,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "本关我们要更新远程仓库中的 `foo` 和 `main`, 但是 `git checkout` 被禁用了！",
+              "本关我们要更新远程仓库中的 `foo` 和 `main`, 但是 `git switch` 被禁用了！",
               "",
               "*注意：远程分支使用 `o/` 开头是因为 `origin/` 对于 UI 来说太长了。不用太在意这个，直接用 `origin` 作为远程仓库的名称就可以了。*",
               ""
@@ -992,7 +992,7 @@ exports.level = {
             "afterMarkdowns": [
               "Da haben wir's! `main` wurde auf dem Remote aktualisiert, weil wir beide Optionen angegeben haben."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1005,7 +1005,7 @@ exports.level = {
             "afterMarkdowns": [
               "Der Befehl schlägt fehlt, da `HEAD` nicht auf einem Branch steht, der ein Remote trackt."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1013,7 +1013,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, in diesem Level lass uns sowohl `foo` als auch `main` auf dem Remote aktualisieren. Um's spannender zu machen ist `git checkout` in diesem Level deaktiviert."
+              "Ok, in diesem Level lass uns sowohl `foo` als auch `main` auf dem Remote aktualisieren. Um's spannender zu machen ist `git switch` in diesem Level deaktiviert."
             ]
           }
         }
@@ -1064,7 +1064,7 @@ exports.level = {
             "afterMarkdowns": [
               "Așa! `main` a fost actualizat pe remote deoarece am specificat aceste argumente."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1077,7 +1077,7 @@ exports.level = {
             "afterMarkdowns": [
               "Comanda eșuează (așa cum poți vedea), deoarece `HEAD` nu este pe o ramură care urmărește un remote."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1085,7 +1085,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "În regulă, pentru acest nivel să actualizăm atât `foo` cât și `main` pe remote. Provocarea este că `git checkout` este dezactivat pentru acest nivel!",
+              "În regulă, pentru acest nivel să actualizăm atât `foo` cât și `main` pe remote. Provocarea este că `git switch` este dezactivat pentru acest nivel!",
               "",
               "*Notă: Ramurile remote sunt etichetate cu prefixul `o/` deoarece eticheta completă `origin/` nu încape în UI-ul nostru. Nu-ți face griji în legătură cu asta... folosește pur și simplu `origin` ca numele remote-ului ca de obicei.*"
             ]
@@ -1138,7 +1138,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ето така! `main` беше обновен на отдалеченото хранилище, тъй като посочихме тези аргументи."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1151,7 +1151,7 @@ exports.level = {
             "afterMarkdowns": [
               "Командата се проваля (както виждаш), тъй като `HEAD` не е върху клон, проследяващ отдалечено хранилище (remote-tracking branch)."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1159,7 +1159,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Добре, за това ниво нека обновим както `foo`, така и `main` на отдалеченото хранилище. Уловката е, че `git checkout` е забранен за това ниво!",
+              "Добре, за това ниво нека обновим както `foo`, така и `main` на отдалеченото хранилище. Уловката е, че `git switch` е забранен за това ниво!",
               "",
               "*Бележка: Отдалечените клонове са обозначени с префикс `o/`, защото пълният етикет `origin/` не се побира в нашия интерфейс. Не се тревожи ",
               "за това... просто използвай `origin` като име на отдалеченото хранилище, както обикновено.*"
@@ -1213,7 +1213,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вот так! Мы обновили `main` на удалённом репозитории, принудительно указав аргументы в push."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1226,7 +1226,7 @@ exports.level = {
             "afterMarkdowns": [
               "Как вы видите, команда не выполнилась, так как `HEAD` потерялся и не находится на удалённо-отслеживаемой ветке."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1234,7 +1234,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Хорошо, для выполнения этого уровня давайте обновим обе ветки `foo` и `main` на удалённом репозитории. Фишка в том, что команда `git checkout` не доступна на этом уровне!",
+              "Хорошо, для выполнения этого уровня давайте обновим обе ветки `foo` и `main` на удалённом репозитории. Фишка в том, что команда `git switch` не доступна на этом уровне!",
               "",
               "*Замечание: Удалённые ветки помечены как `o/`, а не `origin/`. Дело в том, что полная метка не помещается на экране. Не волнуйтесь ",
               "по этому поводу... просто используйте знакомый нам `origin` для обращения к удалённому репозиторию.*"
@@ -1288,7 +1288,7 @@ exports.level = {
             "afterMarkdowns": [
               "やったね！これらの引数を指定していたので、リモートの`main`が更新されました。"
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1301,7 +1301,7 @@ exports.level = {
             "afterMarkdowns": [
               "（ご覧の通り）コマンドは失敗しました。`HEAD`がリモートトラッキング設定のあるブランチにチェックアウトされていないためです。"
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1309,7 +1309,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルでは`foo`と`main`の両方をリモートに更新してみましょう。ここでは`git checkout`が無効になっているので注意してください。",
+              "このレベルでは`foo`と`main`の両方をリモートに更新してみましょう。ここでは`git switch`が無効になっているので注意してください。",
               "",
               "*注：`origin/`ラベルがUIに収まらないため、リモートブランチには`o/`が付いていますが心配しないでください。",
               "これについては... 通常のようにリモートの名前に`origin`を使用してくださいね。*"
@@ -1363,7 +1363,7 @@ exports.level = {
             "afterMarkdowns": [
               "됐네요! 지정해준 인자들에 의해 원격 저장소의 `main`가 갱신 되었습니다."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1376,7 +1376,7 @@ exports.level = {
             "afterMarkdowns": [
               "명령이 실패하며(보시다시피), `HEAD`가 원격저장소를 추적하는 브랜치에 체크아웃 되있지 않기 때문이죠."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1384,7 +1384,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "좋습니다, 이번 레벨에서는 원격저장소의 `foo`, `main`브랜치 모두 갱신해봅시다. 이번 문제는 `git checkout`이 비활성화 되있다는 점이 특징이죠!",
+              "좋습니다, 이번 레벨에서는 원격저장소의 `foo`, `main`브랜치 모두 갱신해봅시다. 이번 문제는 `git switch`이 비활성화 되있다는 점이 특징이죠!",
               "",
               "*노트: 원격 브랜치들은 `o/`접두어로 분류되어 있습니다. `origin/`으로 생략없이 표현하면 UI에 안맞아서 이렇게 표현했어요. ",
               "그래서... 원격저장소 이름은 원래처럼 `origin`으로 써주세요.*"
@@ -1438,7 +1438,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ось так! `main` у віддаленому репозиторії оновився, оскільки ми вказали його в аргументах."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1451,7 +1451,7 @@ exports.level = {
             "afterMarkdowns": [
               "Команда поверне помилку (як можна побачити), оскільки локальний `HEAD` не співпадає з відповідною віддаленою гілкою."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1459,7 +1459,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Гаразд, на цьому рівні оновімо віддалені гілки `foo` і `main`. Для ускладнення ми заборонимо використовувати `git checkout`!",
+              "Гаразд, на цьому рівні оновімо віддалені гілки `foo` і `main`. Для ускладнення ми заборонимо використовувати `git switch`!",
               "",
               "*Пам'ятайте, віддалені гілки позначені префіксом `o/`, оскільки повний префікс `origin/` не влазить в наш UI. Але не хвилюйтеся ",
               "про це... Ви можете використовувати `origin` посилаючись на віддалений репозиторій.*"
@@ -1513,7 +1513,7 @@ exports.level = {
             "afterMarkdowns": [
               "Được rồi! Bằng cách chỉ định các tham số, nhánh `main` trong kho lưu trữ từ xa đã được cập nhật."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1526,7 +1526,7 @@ exports.level = {
             "afterMarkdowns": [
               "Lệnh thất bại (như bạn có thể thấy, không có gì xảy ra)! Bởi vì `HEAD` không trỏ đến nhánh nào có theo dõi từ xa."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1534,7 +1534,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Được rồi, trong cấp độ này hãy cập nhánh `foo` và `main` trên kho lưu trữ từ xa. Cái khó là ở cấp độ này lệnh `git checkout` đã bị vô hiệu hóa!",
+              "Được rồi, trong cấp độ này hãy cập nhánh `foo` và `main` trên kho lưu trữ từ xa. Cái khó là ở cấp độ này lệnh `git switch` đã bị vô hiệu hóa!",
               "",
               "*Chú ý: Các nhánh từ xa được đánh dấu bằng tiền tố `o/` bời vì UI của chúng tôi không chứa được hết `origin/`. Đừng lo ",
               "về vấn đề này... đơn giản cứ dùng `origin` như bình thường thôi.*"
@@ -1588,7 +1588,7 @@ exports.level = {
             "afterMarkdowns": [
               "Evo ga! `main` je bil posodobljen na oddaljenem repotu, ker smo podali te argumente."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1601,7 +1601,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ukaz ne uspe (kot lahko vidiš), ker `HEAD` ni checkoutan na branchu, ki ga oddaljeno sledimo."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1609,7 +1609,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, za to stopnjo posodobimo oba `foo` in `main` na oddaljenem repotu. Trik je, da je `git checkout` onemogočen za to stopnjo!",
+              "Ok, za to stopnjo posodobimo oba `foo` in `main` na oddaljenem repotu. Trik je, da je `git switch` onemogočen za to stopnjo!",
               "",
               "*Opomba: Oddaljeni branchi so označeni z `o/` predpono, ker celotna `origin/` oznaka ne paše v naš prikaz. Ne skrbi ",
               "glede tega ... preprosto uporabi `origin` kot ime oddaljenega repota kot ponavadi.*"
@@ -1663,7 +1663,7 @@ exports.level = {
             "afterMarkdowns": [
               "No i proszę! Zaktualizowaliśmy `main` na zdalnym repozytorium, ponieważ określiliśmy argumenty."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1676,7 +1676,7 @@ exports.level = {
             "afterMarkdowns": [
               "Polecenie (jak widzisz) nie działa, ponieważ `HEAD` nie jest wybrany na gałęzi śledzącej."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1684,7 +1684,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Oki, na tym poziomie uaktualnijmy zarówno `foo`, jak i `main` na zdalnym repozytorium. Haczyk polega na tym, że zablokowaliśmy na tym poziomie `git checkout`!",
+              "Oki, na tym poziomie uaktualnijmy zarówno `foo`, jak i `main` na zdalnym repozytorium. Haczyk polega na tym, że zablokowaliśmy na tym poziomie `git switch`!",
               "",
               "*Uwaga: Zdalne gałęzie mają przedrostek `o/`, ponieważ pełna nazwa `origin/` nie mieści się w naszym interfejsie. Nie przejmuj się tym... ",
               "po prostu użyj `origin` jako nazwy zdalnego repozytorium.*"
@@ -1738,7 +1738,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ecco qui! `main` è stato aggiornato sul repository remoto come specificato dai parametri."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1751,7 +1751,7 @@ exports.level = {
             "afterMarkdowns": [
               "Il comando fallisce (come puoi vedere), in quanto `HEAD` non si trova su un ramo che traccia il remoto."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1759,7 +1759,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Ok, per questo livello aggiorniamo sia il ramo `foo` che `main` sul remoto. Attenzione perché git checkout è disabilitato per questo livello!",
+              "Ok, per questo livello aggiorniamo sia il ramo `foo` che `main` sul remoto. Attenzione perché git switch è disabilitato per questo livello!",
               "",
               "*Nota: I rami remoti hanno i prefissi `o/` perché `origin/` non si adattava bene alla nostra interfaccia. Non preoccuparti ",
               "... usa pure `origin` come nome del repository remoto come sempre.*"
@@ -1812,7 +1812,7 @@ exports.level = {
             "afterMarkdowns": [
               "İşte böyle! `main` dalı, bu argümanları belirttiğimiz için uzak depoda güncellendi."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1825,7 +1825,7 @@ exports.level = {
             "afterMarkdowns": [
               "Komut başarısız olur (gördüğünüz gibi), çünkü `HEAD` uzak izleme dalına checkout yapılmış durumda değil."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1833,7 +1833,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tamam, bu seviye için hem `foo` hem de `main` dallarını uzak depoda güncellememiz gerekiyor. Fark şu ki, bu seviyede `git checkout` devre dışı bırakıldı!",
+              "Tamam, bu seviye için hem `foo` hem de `main` dallarını uzak depoda güncellememiz gerekiyor. Fark şu ki, bu seviyede `git switch` devre dışı bırakıldı!",
               "",
               "*Not: Uzak depo dalları, UI'ımızda tam `origin/` etiketinin sığmadığı için `o/` önekleriyle etiketlendi. Endişelenmeyin... basitçe `origin`'i uzak depo adı olarak kullanın, her zamanki gibi.*"
             ]
@@ -1886,7 +1886,7 @@ exports.level = {
             "afterMarkdowns": [
               "Megvan! A `main` frissült a távoliban, mert megadtuk azokat az argumentumokat."
             ],
-            "command": "git checkout C0; git push origin main",
+            "command": "git switch --detach C0; git push origin main",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1899,7 +1899,7 @@ exports.level = {
             "afterMarkdowns": [
               "A parancs sikertelen (ahogy látható), mert a `HEAD` nincs egy távoli követési ágon checkoutolva."
             ],
-            "command": "git checkout C0; git push",
+            "command": "git switch --detach C0; git push",
             "beforeCommand": "git fakeCreateRemote; git commit"
           }
         },
@@ -1907,7 +1907,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Rendben, ehhez a szinthez frissítsük mind a `foo`, mind a `main` ágat a távoliban. A csavar az, hogy ennél a szintnél a `git checkout` le van tiltva!",
+              "Rendben, ehhez a szinthez frissítsük mind a `foo`, mind a `main` ágat a távoliban. A csavar az, hogy ennél a szintnél a `git switch` le van tiltva!",
               "",
               "*Megjegyzés: A távoli ágak `o/` előtaggal vannak jelölve, mert a teljes `origin/` jelölés nem fér el az UI-ban. Ne aggódj emiatt... egyszerűen használd az `origin`-t a távoli neveként, mint általában.*"
             ]
@@ -1959,7 +1959,7 @@ exports.level = {
               "Budur! Həmin arqumentləri göstərdiyimiz üçün remote-dakı `main` yeniləndi."
             ],
             "command": "git push origin main",
-            "beforeCommand": "git fakeCreateRemote; git commit; git checkout C0"
+            "beforeCommand": "git fakeCreateRemote; git commit; git switch --detach C0"
           }
         },
         {
@@ -1972,14 +1972,14 @@ exports.level = {
               "Əmr uğursuz olur (gördüyün kimi), çünki `HEAD` remote izləmə branch-ında checkout edilməyib."
             ],
             "command": "git push",
-            "beforeCommand": "git fakeCreateRemote; git commit; git checkout C0"
+            "beforeCommand": "git fakeCreateRemote; git commit; git switch --detach C0"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Yaxşı, bu bölümdə gəl remote-dakı həm `foo`-nu, həm də `main`-i yeniləyək. İş orasındadır ki, bu bölüm üçün `git checkout` deaktiv edilib!",
+              "Yaxşı, bu bölümdə gəl remote-dakı həm `foo`-nu, həm də `main`-i yeniləyək. İş orasındadır ki, bu bölüm üçün `git switch` deaktiv edilib!",
               "",
               "*Qeyd: Remote branch-lar `o/` prefiksləri ilə işarələnib, çünki tam `origin/` etiketi bizim interfeysə sığmır. Bu barədə narahat olma... sadəcə həmişəki kimi remote-un adı olaraq `origin` işlət.*"
             ]
@@ -2045,14 +2045,14 @@ exports.level = {
               "Command fail అయింది (చూశావు), ఎందుకంటే `HEAD` remote tracking branch పై checkout చేయబడలేదు."
             ],
             "command": "git push",
-            "beforeCommand": "git fakeCreateRemote; git commit; git checkout C0"
+            "beforeCommand": "git fakeCreateRemote; git commit; git switch --detach C0"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "బాగుంది, ఈ level లో remote లోని `foo` మరియు `main` రెండింటినీ update చేద్దాం. కానీ ఈ level కోసం `git checkout` disabled!",
+              "బాగుంది, ఈ level లో remote లోని `foo` మరియు `main` రెండింటినీ update చేద్దాం. కానీ ఈ level కోసం `git switch` disabled!",
               "",
               "*గమనిక: Remote branches `o/` prefix తో mark చేయబడ్డాయి, ఎందుకంటే full `origin/` label మన UI కు fit కాదు. దీని గురించి worry అవ్వకు... ఎల్లప్పుడూ remote name `origin` గా యూజ్ చేయి.*"
             ]

@@ -1,9 +1,9 @@
 
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Learn Git Branching - Level Documentation</title>
-      <style>.markdown-body {
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Learn Git Branching - Level Documentation</title>
+    <style>.markdown-body {
   --base-size-4: 0.25rem;
   --base-size-8: 0.5rem;
   --base-size-16: 1rem;
@@ -1258,22 +1258,22 @@
 }
 
 </style>
-      <style>
-        body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 40px; }
-        .level { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        .level-name { color: #333; }
-        .level-goal { background: #f5f5f5; padding: 10px; border-radius: 4px; }
-        .level-solution { font-family: monospace; background: #f0f0f0; padding: 10px; }
-        .level-hint { color: #666; font-style: italic; }
-      </style>
-    </head>
-    <body>
-      <div class="markdown-body">
-        <h1>Learn Git Branching - All Levels Documentation</h1>
+    <style>
+      body { font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; padding: 40px; }
+      .level { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+      .level-name { color: #333; }
+      .level-goal { background: #f5f5f5; padding: 10px; border-radius: 4px; }
+      .level-solution { font-family: monospace; background: #f0f0f0; padding: 10px; }
+      .level-hint { color: #666; font-style: italic; }
+    </style>
+  </head>
+  <body>
+    <div class="markdown-body">
+      <h1>Learn Git Branching - All Levels Documentation</h1>
 
-      <h2>Level Sequence: Introduction Sequence</h2>
-      <h6>A nicely paced introduction to the majority of git commands</h6>
-    <h3>Level: Introduction to Git Commits</h3><h2 id="git-commits">Git Commits</h2>
+    <h2>Level Sequence: Introduction Sequence</h2>
+    <h6>A nicely paced introduction to the majority of git commands</h6>
+  <h3>Level: Introduction to Git Commits</h3><h2>Git Commits</h2>
 <p>A commit in a git repository records a snapshot of all the (tracked) files in your directory. It&#39;s like a giant copy and paste, but even better!</p>
 <p>Git wants to keep commits as lightweight as possible though, so it doesn&#39;t just blindly copy the entire directory every time you commit. It can (when possible) compress a commit as a set of changes, or a &quot;delta&quot;, from one version of the repository to the next.</p>
 <p>Git also maintains a history of which commits were made when. That&#39;s why most commits have ancestor commits above them -- we designate this with arrows in our visualization. Maintaining history is great for everyone working on the project!</p>
@@ -1282,7 +1282,7 @@
 <p>Hit the button below to make a new commit.</p>
 <pre class="level-solution">git commit</pre><p>There we go! Awesome. We just made changes to the repository and saved them as a commit. The commit we just made has a parent, <code>C1</code>, which references which commit it was based off of.</p>
 <p>Go ahead and try it out on your own! After this window closes, make two commits to complete the level.</p>
-<h3>Level: Branching in Git</h3><h2 id="git-branches">Git Branches</h2>
+<h3>Level: Branching in Git</h3><h2>Git Branches</h2>
 <p>Branches in Git are incredibly lightweight as well. They are simply pointers to a specific commit -- nothing more. This is why many Git enthusiasts chant the mantra:</p>
 <pre><code>branch early, and branch often
 </code></pre>
@@ -1294,21 +1294,17 @@
 <p>Let&#39;s try to put some work on this new branch. Hit the button below.</p>
 <pre class="level-solution">git commit</pre><p>Oh no! The <code>main</code> branch moved but the <code>newImage</code> branch didn&#39;t! That&#39;s because we weren&#39;t &quot;on&quot; the new branch, which is why the asterisk (*) was on <code>main</code>.</p>
 <p>Let&#39;s tell git we want to checkout the branch with</p>
-<pre><code>git checkout &lt;name&gt;
+<pre><code>git switch &lt;name&gt;
 </code></pre>
 <p>This will put us on the new branch before committing our changes.</p>
-<pre class="level-solution">git checkout newImage; git commit</pre><p>There we go! Our changes were recorded on the new branch.</p>
-<p><em>Note: In Git version 2.23, a new command called <code>git switch</code> was introduced to eventually replace <code>git checkout</code>,
-which is somewhat overloaded (it does a bunch of different things depending on the arguments). The lessons here will still use
-<code>checkout</code> instead of <code>switch</code> because the <code>switch</code> command is still considered experimental and the syntax may change in the future.
-However you can still try out the new <code>switch</code> command in this application, and also
-<a href="https://git-scm.com/docs/git-switch" target="_blank">learn more here</a>.</em> </p>
+<pre class="level-solution">git switch newImage; git commit</pre><p>There we go! Our changes were recorded on the new branch.</p>
+<p>Note: Prefer <code>git switch</code> when changing branches. <code>git checkout</code> remains available for legacy tutorials and can also restore files.</p>
 <p>Ok! You are all ready to get branching. Once this window closes,
 make a new branch named <code>bugFix</code> and switch to that branch.</p>
 <p>By the way, here&#39;s a shortcut: if you want to create a new
-branch AND check it out at the same time, you can simply
-type <code>git checkout -b [yourbranchname]</code>.</p>
-<h3>Level: Merging in Git</h3><h2 id="branches-and-merging">Branches and Merging</h2>
+ branch AND check it out at the same time, you can simply
+type <code>git switch -c [yourbranchname]</code>.</p>
+<h3>Level: Merging in Git</h3><h2>Branches and Merging</h2>
 <p>Great! We now know how to commit and branch. Now we need to learn some kind of way of combining the work from two different branches together. This will allow us to branch off, develop a new feature, and then combine it back in.</p>
 <p>The first method to combine work that we will examine is <code>git merge</code>. Merging in Git creates a special commit that has two unique parents. A commit with two parents essentially means &quot;I want to include all the work from this parent over here and this one over here, <em>and</em> the set of all their parents.&quot;</p>
 <p>It&#39;s easier with visuals, let&#39;s check it out in the next view.</p>
@@ -1318,26 +1314,26 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>Also, see how the colors of the commits changed? To help with learning, I have included some color coordination. Each branch has a unique color. Each commit turns a color that is the blended combination of all the branches that contain that commit.</p>
 <p>So here we see that the <code>main</code> branch color is blended into all the commits, but the <code>bugFix</code> color is not. Let&#39;s fix that...</p>
 <p>Let&#39;s merge <code>main</code> into <code>bugFix</code>:</p>
-<pre class="level-solution">git checkout bugFix; git merge main</pre><p>Since <code>bugFix</code> was an ancestor of <code>main</code>, git didn&#39;t have to do any work; it simply just moved <code>bugFix</code> to the same commit <code>main</code> was attached to.</p>
+<pre class="level-solution">git switch bugFix; git merge main</pre><p>Since <code>bugFix</code> was an ancestor of <code>main</code>, git didn&#39;t have to do any work; it simply just moved <code>bugFix</code> to the same commit <code>main</code> was attached to.</p>
 <p>Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!</p>
 <p>To complete this level, do the following steps:</p>
 <ul>
 <li>Make a new branch called <code>bugFix</code></li>
-<li>Checkout the <code>bugFix</code> branch with <code>git checkout bugFix</code></li>
+<li>Checkout the <code>bugFix</code> branch with <code>git switch bugFix</code></li>
 <li>Commit once</li>
-<li>Go back to <code>main</code> with <code>git checkout</code></li>
+<li>Go back to <code>main</code> with <code>git switch main</code></li>
 <li>Commit another time</li>
 <li>Merge the branch <code>bugFix</code> into <code>main</code> with <code>git merge</code></li>
 </ul>
 <p><em>Remember, you can always re-display this dialog with &quot;objective&quot;!</em></p>
-<h3>Level: Rebase Introduction</h3><h2 id="git-rebase">Git Rebase</h2>
+<h3>Level: Rebase Introduction</h3><h2>Git Rebase</h2>
 <p>The second way of combining work between branches is <em>rebasing.</em> Rebasing essentially takes a set of commits, &quot;copies&quot; them, and plops them down somewhere else.</p>
 <p>While this sounds confusing, the advantage of rebasing is that it can be used to make a nice linear sequence of commits. The commit log / history of the repository will be a lot cleaner if only rebasing is allowed.</p>
 <p>Let&#39;s see it in action...</p>
 <p>Here we have two branches yet again; note that the bugFix branch is currently selected (note the asterisk)</p>
 <p>We would like to move our work from bugFix directly onto the work from main. That way it would look like these two features were developed sequentially, when in reality they were developed in parallel.</p>
 <p>Let&#39;s do that with the <code>git rebase</code> command.</p>
-<pre class="level-solution">git rebase main</pre><p>Awesome! Now the work from our bugFix branch is stacked "on top of main", since it points to main. In our visualization though, it's shown below main since our commit trees flow downwards.</p>
+<pre class="level-solution">git rebase main</pre><p>Awesome! Now the work from our bugFix branch is stacked &quot;on top of main&quot;, since it points to main. In our visualization though, it&#39;s shown below main since our commit trees flow downwards.</p>
 <p>Note that the commit C3 still exists somewhere (it has a faded appearance in the tree), and C3&#39; is the &quot;copy&quot; that we rebased onto main.</p>
 <p>The only problem is that main hasn&#39;t been updated either, let&#39;s do that now...</p>
 <p>Now we are checked out on the <code>main</code> branch. Let&#39;s go ahead and rebase onto <code>bugFix</code>...</p>
@@ -1351,25 +1347,25 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 </ul>
 <p>Good luck!</p>
 
-      <h2>Level Sequence: Ramping Up</h2>
-      <h6>The next serving of 100% git awesomes-ness. Hope you're hungry</h6>
-    <h3>Level: Detach yo' HEAD</h3><h2 id="moving-around-in-git">Moving around in Git</h2>
+    <h2>Level Sequence: Ramping Up</h2>
+    <h6>The next serving of 100% git awesomes-ness. Hope you're hungry</h6>
+  <h3>Level: Detach yo' HEAD</h3><h2>Moving around in Git</h2>
 <p>Before we get to some of the more advanced features of Git, it&#39;s important to understand different ways to move through the commit tree that represents your project.</p>
 <p>Once you&#39;re comfortable moving around, your powers with other git commands will be amplified!</p>
-<h2 id="head">HEAD</h2>
+<h2>HEAD</h2>
 <p>First we have to talk about &quot;HEAD&quot;. HEAD is the symbolic name for the currently checked out commit -- it&#39;s essentially what commit you&#39;re working on top of.</p>
 <p>HEAD always points to the most recent commit which is reflected in the working tree. Most git commands which make changes to the working tree will start by changing HEAD.</p>
 <p>Normally HEAD points to a branch name (like bugFix). When you commit, the status of bugFix is altered and this change is visible through HEAD.</p>
 <p>Let&#39;s see this in action. Here we will reveal HEAD before and after a commit.</p>
-<pre class="level-solution">git checkout C1; git checkout main; git commit; git checkout C2</pre><p>See! HEAD was hiding underneath our <code>main</code> branch all along.</p>
-<h3 id="detaching-head">Detaching HEAD</h3>
+<pre class="level-solution">git switch --detach C1; git switch main; git commit; git switch --detach C2</pre><p>See! HEAD was hiding underneath our <code>main</code> branch all along.</p>
+<h3>Detaching HEAD</h3>
 <p>Detaching HEAD just means attaching it to a commit instead of a branch. This is what it looks like beforehand:</p>
 <p>HEAD -&gt; main -&gt; C1</p>
-<pre class="level-solution">git checkout C1</pre><p>And now it&#39;s</p>
+<pre class="level-solution">git switch --detach C1</pre><p>And now it&#39;s</p>
 <p>HEAD -&gt; C1</p>
 <p>To complete this level, let&#39;s detach HEAD from <code>bugFix</code> and attach it to the commit instead.</p>
 <p>Specify this commit by its hash. The hash for each commit is displayed on the circle that represents the commit.</p>
-<h3>Level: Relative Refs (^)</h3><h2 id="relative-refs">Relative Refs</h2>
+<h3>Level: Relative Refs (^)</h3><h2>Relative Refs</h2>
 <p>Moving around in Git by specifying commit hashes can get a bit tedious. In the real world you won&#39;t have a nice commit tree visualization next to your terminal, so you&#39;ll have to use <code>git log</code> to see hashes.</p>
 <p>Furthermore, hashes are usually a lot longer in the real Git world as well. For instance, the hash of the commit that introduced the previous level is <code>fed2da64c0efc5293610bdd892f82a58e8cbc5d8</code>. Doesn&#39;t exactly roll off the tongue...</p>
 <p>The upside is that Git is smart about hashes. It only requires you to specify enough characters of the hash until it uniquely identifies the commit. So I can type <code>fed2</code> instead of the long string above.</p>
@@ -1384,17 +1380,17 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>So saying <code>main^</code> is equivalent to &quot;the first parent of <code>main</code>&quot;.</p>
 <p><code>main^^</code> is the grandparent (second-generation ancestor) of <code>main</code></p>
 <p>Let&#39;s check out the commit above main here.</p>
-<pre class="level-solution">git checkout main^</pre><p>Boom! Done. Way easier than typing the commit hash.</p>
+<pre class="level-solution">git switch --detach main^</pre><p>Boom! Done. Way easier than typing the commit hash.</p>
 <p>You can also reference <code>HEAD</code> as a relative ref. Let&#39;s use that a couple of times to move upwards in the commit tree.</p>
-<pre class="level-solution">git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^</pre><p>Easy! We can travel backwards in time with <code>HEAD^</code></p>
+<pre class="level-solution">git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^</pre><p>Easy! We can travel backwards in time with <code>HEAD^</code></p>
 <p>To complete this level, check out the parent commit of <code>bugFix</code>. This will detach <code>HEAD</code>.</p>
 <p>You can specify the hash if you want, but try using relative refs instead!</p>
-<h3>Level: Relative Refs #2 (~)</h3><h3 id="the--operator">The &quot;~&quot; operator</h3>
+<h3>Level: Relative Refs #2 (~)</h3><h3>The &quot;~&quot; operator</h3>
 <p>Say you want to move a lot of levels up in the commit tree. It might be tedious to type <code>^</code> several times, so Git also has the tilde (~) operator.</p>
 <p>The tilde operator (optionally) takes in a trailing number that specifies the number of parents you would like to ascend. Let&#39;s see it in action.</p>
 <p>Let&#39;s specify a number of commits back with <code>~</code>.</p>
-<pre class="level-solution">git checkout HEAD~4</pre><p>Boom! So concise -- relative refs are great.</p>
-<h3 id="branch-forcing">Branch forcing</h3>
+<pre class="level-solution">git switch --detach HEAD~4</pre><p>Boom! So concise -- relative refs are great.</p>
+<h3>Branch forcing</h3>
 <p>You&#39;re an expert on relative refs now, so let&#39;s actually <em>use</em> them for something.</p>
 <p>One of the most common ways I use relative refs is to move branches around. You can directly reassign a branch to a commit with the <code>-f</code> option. So something like:</p>
 <p><code>git branch -f main HEAD~3</code></p>
@@ -1404,24 +1400,24 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <pre class="level-solution">git branch -f main HEAD~3</pre><p>There we go! Relative refs gave us a concise way to refer to <code>C1</code> and branch forcing (<code>-f</code>) gave us a way to quickly move a branch to that location.</p>
 <p>Now that you have seen relative refs and branch forcing in combination, let&#39;s use them to solve the next level.</p>
 <p>To complete this level, move <code>HEAD</code>, <code>main</code>, and <code>bugFix</code> to their goal destinations shown.</p>
-<h3>Level: Reversing Changes in Git</h3><h2 id="reversing-changes-in-git">Reversing Changes in Git</h2>
+<h3>Level: Reversing Changes in Git</h3><h2>Reversing Changes in Git</h2>
 <p>There are many ways to reverse changes in Git. And just like committing, reversing changes in Git has both a low-level component (staging individual files or chunks) and a high-level component (how the changes are actually reversed). Our application will focus on the latter.</p>
 <p>There are two primary ways to undo changes in Git -- one is using <code>git reset</code> and the other is using <code>git revert</code>. We will look at each of these in the next dialog</p>
-<h2 id="git-reset">Git Reset</h2>
+<h2>Git Reset</h2>
 <p><code>git reset</code> reverses changes by moving a branch reference backwards in time to an older commit. In this sense you can think of it as &quot;rewriting history;&quot; <code>git reset</code> will move a branch backwards as if the commit had never been made in the first place.</p>
 <p>Let&#39;s see what that looks like:</p>
 <pre class="level-solution">git reset HEAD~1</pre><p>Nice! Git moved the main branch reference back to <code>C1</code>; now our local repository is in a state as if <code>C2</code> had never happened.</p>
-<h2 id="git-revert">Git Revert</h2>
+<h2>Git Revert</h2>
 <p>While resetting works great for local branches on your own machine, its method of &quot;rewriting history&quot; doesn&#39;t work for remote branches that others are using.</p>
 <p>In order to reverse changes and <em>share</em> those reversed changes with others, we need to use <code>git revert</code>. Let&#39;s see it in action.</p>
-<pre class="level-solution">git revert HEAD</pre><p>Weird, a new commit plopped down below the commit we wanted to reverse. That&#39;s because this new commit <code>C2&#39;</code> introduces <em>changes</em> -- it just happens to introduce changes that exactly reverses the commit of <code>C2</code>.</p>
+<pre class="level-solution">git revert HEAD^</pre><p>Weird, a new commit was added at the tip of the branch. That&#39;s because this new commit <code>C2&#39;</code> introduces changes that exactly reverse the changes introduced by <code>C2</code>.</p>
 <p>With reverting, you can push out your changes to share with others.</p>
 <p>To complete this level, reverse the most recent commit on both <code>local</code> and <code>pushed</code>. You will revert two commits total (one per branch).</p>
 <p>Keep in mind that <code>pushed</code> is a remote branch and <code>local</code> is a local branch -- that should help you choose your methods.</p>
 
-      <h2>Level Sequence: Push & Pull -- Git Remotes!</h2>
-      <h6>Time to share your 1's and 0's kids; coding just got social</h6>
-    <h3>Level: Clone Intro</h3><h2 id="git-remotes">Git Remotes</h2>
+    <h2>Level Sequence: Push & Pull -- Git Remotes!</h2>
+    <h6>Time to share your 1's and 0's kids; coding just got social</h6>
+  <h3>Level: Clone Intro</h3><h2>Git Remotes</h2>
 <p>Remote repositories aren&#39;t actually that complicated. In today&#39;s world of cloud computing it&#39;s easy to think that there&#39;s a lot of magic behind git remotes, but they are actually just copies of your repository on another computer. You can typically talk to this other computer through the Internet, which allows you to transfer commits back and forth.</p>
 <p>That being said, remote repositories have a bunch of great properties:</p>
 <ul>
@@ -1431,19 +1427,19 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 </li>
 </ul>
 <p>It&#39;s become very popular to use websites that visualize activity around remote repos (like <a href="https://github.com/">GitHub</a>), but remote repositories <em>always</em> serve as the underlying backbone for these tools. So it&#39;s important to understand them!</p>
-<h2 id="our-command-to-create-remotes">Our Command to create remotes</h2>
+<h2>Our Command to start working with remotes</h2>
 <p>Up until this point, Learn Git Branching has focused on teaching the basics of <em>local</em> repository work (branching, merging, rebasing, etc). However now that we want to learn about remote repository work, we need a command to set up the environment for those lessons. <code>git clone</code> will be that command.</p>
-<p>Technically, <code>git clone</code> in the real world is the command you&#39;ll use to create <em>local</em> copies of remote repositories (from github for example). We use this command a bit differently in Learn Git Branching though -- <code>git clone</code> actually makes a remote repository out of your local one. Sure it&#39;s technically the opposite meaning of the real command, but it helps build the connection between cloning and remote repository work, so let&#39;s just run with it for now.</p>
-<p>Lets start slow and just look at what a remote repository looks like (in our visualization).</p>
-<pre class="level-solution">git clone</pre><p>There it is! Now we have a remote repository of our project. It looks pretty similar except for some visual changes to make the distinction apparent -- in later levels you&#39;ll get to see how we share work across these repositories.</p>
-<p>To finish this level, simply <code>git clone</code> your existing repository. The real learning will come in following lessons.</p>
-<h3>Level: Remote Branches</h3><h2 id="git-remote-branches">Git Remote Branches</h2>
+<p>Just like the real <code>git clone</code>, we&#39;ve set up a remote repository for this lesson, and running <code>git clone</code> will pull it down into your local repository. From here on, <code>o/main</code> in your local repo refers to where the remote&#39;s <code>main</code> branch was at the time you cloned it.</p>
+<p>Lets start slow and just look at what a remote repository looks like (in our visualization) before we clone it.</p>
+<pre class="level-solution">git clone</pre><p>There it is! Now you have your own local copy of the project, cloned from the remote. It looks pretty similar except for some visual changes to make the distinction apparent -- in later levels you&#39;ll get to see how we share work across these repositories.</p>
+<p>To finish this level, simply <code>git clone</code> the remote repository we&#39;ve set up for you. The real learning will come in following lessons.</p>
+<h3>Level: Remote Branches</h3><h2>Git Remote Branches</h2>
 <p>Now that you&#39;ve seen <code>git clone</code> in action, let&#39;s dive into what actually changed.</p>
 <p>The first thing you may have noticed is that a new branch appeared in our local repository called <code>o/main</code>. This type of branch is called a <em>remote</em> branch; remote branches have special properties because they serve a unique purpose.</p>
 <p>Remote branches reflect the <em>state</em> of remote repositories (since you last talked to those remote repositories). They help you understand the difference between your local work and what work is public -- a critical step to take before sharing your work with others.</p>
 <p>Remote branches have the special property that when you check them out, you are put into detached <code>HEAD</code> mode. Git does this on purpose because you can&#39;t work on these branches directly; you have to work elsewhere and then share your work with the remote (after which your remote branches will be updated).</p>
 <p>To be clear: Remote branches are on your <em>local</em> repository, not on the remote repository.</p>
-<h3 id="what-is-o">What is <code>o/</code>?</h3>
+<h3>What is <code>o/</code>?</h3>
 <p>You may be wondering what the leading <code>o/</code> is for on these remote branches. Well, remote branches also have a (required) naming convention -- they are displayed in the format of:</p>
 <ul>
 <li><code>&lt;remote name&gt;/&lt;branch name&gt;</code></li>
@@ -1453,15 +1449,15 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>Unfortunately the full name of <code>origin</code> does not fit in our UI, so we use <code>o</code> as shorthand :( Just remember when you&#39;re using real git, your remote is probably going to be named <code>origin</code>!</p>
 <p>That&#39;s a lot to take in, so let&#39;s see all this in action.</p>
 <p>Lets check out a remote branch and see what happens.</p>
-<pre class="level-solution">git checkout o/main; git commit</pre><p>As you can see, git put us into detached <code>HEAD</code> mode and then did not update <code>o/main</code> when we added a new commit. This is because <code>o/main</code> will only update when the remote updates.</p>
+<pre class="level-solution">git switch o/main; git commit</pre><p>As you can see, git put us into detached <code>HEAD</code> mode and then did not update <code>o/main</code> when we added a new commit. This is because <code>o/main</code> will only update when the remote updates.</p>
 <p>To finish this level, commit once off of <code>main</code> and once after checking out <code>o/main</code>. This will help drive home how remote branches behave differently, and they only update to reflect the state of the remote.</p>
-<h3>Level: Git Fetchin'</h3><h2 id="git-fetch">Git Fetch</h2>
+<h3>Level: Git Fetchin'</h3><h2>Git Fetch</h2>
 <p>Working with git remotes really just boils down to transferring data <em>to</em> and <em>from</em> other repositories. As long as we can send commits back and forth, we can share any type of update that is tracked by git (and thus share work, new files, new ideas, love letters, etc.).</p>
 <p>In this lesson we will learn how to fetch data <em>from</em> a remote repository -- the command for this is conveniently named <code>git fetch</code>.</p>
 <p>You&#39;ll notice that as we update our representation of the remote repository, our <em>remote</em> branches will update to reflect that new representation. This ties into the previous lesson on remote branches.</p>
 <p>Before getting into the details of <code>git fetch</code>, let&#39;s see it in action! Here we have a remote repository that contains two commits that our local repository does not have.</p>
 <pre class="level-solution">git fetch</pre><p>There we go! Commits <code>C2</code> and <code>C3</code> were downloaded to our local repository, and our remote branch <code>o/main</code> was updated to reflect this.</p>
-<h3 id="what-fetch-does">What fetch does</h3>
+<h3>What fetch does</h3>
 <p><code>git fetch</code> performs two main steps, and two main steps only. It:</p>
 <ul>
 <li>downloads the commits that the remote has but are missing from our local repository, and...</li>
@@ -1470,12 +1466,12 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p><code>git fetch</code> essentially brings our <em>local</em> representation of the remote repository into synchronization with what the <em>actual</em> remote repository looks like (right now).</p>
 <p>If you remember from the previous lesson, we said that remote branches reflect the state of the remote repositories <em>since</em> you last talked to those remotes. <code>git fetch</code> is the way you talk to these remotes! Hopefully the connection between remote branches and <code>git fetch</code> is apparent now.</p>
 <p><code>git fetch</code> usually talks to the remote repository through the Internet (via a protocol like <code>http://</code> or <code>git://</code>).</p>
-<h3 id="what-fetch-doesnt-do">What fetch doesn&#39;t do</h3>
+<h3>What fetch doesn&#39;t do</h3>
 <p><code>git fetch</code>, however, does not change anything about <em>your</em> local state. It will not update your <code>main</code> branch or change anything about how your file system looks right now.</p>
 <p>This is important to understand because a lot of developers think that running <code>git fetch</code> will make their local work reflect the state of the remote. It may download all the necessary data to do that, but it does <em>not</em> actually change any of your local files. We will learn commands in later lessons to do just that :D</p>
 <p>So at the end of the day, you can think of running <code>git fetch</code> as a download step.</p>
 <p>To finish the level, simply <code>git fetch</code> and download all the commits!</p>
-<h3>Level: Git Pullin'</h3><h2 id="git-pull">Git Pull</h2>
+<h3>Level: Git Pullin'</h3><h2>Git Pull</h2>
 <p>Now that we&#39;ve seen how to fetch data from a remote repository with <code>git fetch</code>, let&#39;s update our work to reflect those changes!</p>
 <p>There are actually many ways to do this -- once you have new commits available locally, you can incorporate them as if they were just normal commits on other branches. This means you could execute commands like:</p>
 <ul>
@@ -1485,13 +1481,14 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <li>etc., etc.</li>
 </ul>
 <p>In fact, the workflow of <em>fetching</em> remote changes and then <em>merging</em> them is so common that git actually provides a command that does both at once! That command is <code>git pull</code>.</p>
+<p><em>Note:</em> Git 2.27 introduced a warning when no pull strategy was configured. Since Git 2.34, a bare <code>git pull</code> stops on diverged branches in that situation and asks you to choose how to reconcile them. Use <code>git pull --no-rebase</code> to merge, or <code>git pull --rebase</code> to rebase. In this simulator, <code>git pull</code> defaults to the merge behavior.</p>
 <p>Let&#39;s first see a <code>fetch</code> and a <code>merge</code> executed sequentially.</p>
 <pre class="level-solution">git fetch; git merge o/main</pre><p>Boom -- we downloaded <code>C3</code> with a <code>fetch</code> and then merged in that work with <code>git merge o/main</code>. Now our <code>main</code> branch reflects the new work from the remote (in this case, named <code>origin</code>)</p>
 <p>What would happen if we used <code>git pull</code> instead?</p>
-<pre class="level-solution">git pull</pre><p>The same thing! That should make it very clear that <code>git pull</code> is essentially shorthand for a <code>git fetch</code> followed by a merge of whatever branch was just fetched.</p>
+<pre class="level-solution">git pull</pre><p>The same thing! That should make it very clear that this simulator treats <code>git pull</code> as shorthand for <code>git fetch</code> followed by a merge of the branch that was just fetched. In real Git, that merge behavior corresponds to <code>git pull --no-rebase</code> when branches have diverged.</p>
 <p>We will explore the details of <code>git pull</code> later (including options and arguments), but for now let&#39;s try it out in the level.</p>
 <p>Remember -- you can actually solve this level with just <code>fetch</code> and <code>merge</code>, but it will cost you an extra command :P</p>
-<h3>Level: Faking Teamwork</h3><h2 id="simulating-collaboration">Simulating collaboration</h2>
+<h3>Level: Faking Teamwork</h3><h2>Simulating collaboration</h2>
 <p>So here is the tricky thing -- for some of these upcoming lessons, we need to teach you how to pull down changes that were introduced in the remote.</p>
 <p>That means we need to essentially &quot;pretend&quot; that the remote was updated by one of your coworkers / friends / collaborators, sometimes on a specific branch or a certain number of commits.</p>
 <p>In order to do this, we introduced the aptly-named command <code>git fakeTeamwork</code>! It&#39;s pretty self explanatory, let&#39;s see a demo...</p>
@@ -1500,8 +1497,8 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>You can also specify the number of commits or the branch by appending them to the command.</p>
 <pre class="level-solution">git fakeTeamwork foo 3</pre><p>With one command we simulated a teammate pushing three commits to the <code>foo</code> branch on our remote.</p>
 <p>The upcoming levels are going to be pretty difficult, so we&#39;re asking more of you for this level.</p>
-<p>Go ahead and make a remote (with <code>git clone</code>), fake some changes on that remote, commit yourself, and then pull down those changes. It&#39;s like a few lessons in one!</p>
-<h3>Level: Git Pushin'</h3><h2 id="git-push">Git Push</h2>
+<p>Go ahead and clone the remote repository, fake some changes on that remote, add a local commit, and then pull down the remote changes and merge them. It&#39;s like a few lessons in one!</p>
+<h3>Level: Git Pushin'</h3><h2>Git Push</h2>
 <p>Ok, so I&#39;ve fetched changes from remote and incorporated them into my work locally. That&#39;s great and all... but how do I share <em>my</em> awesome work with everyone else?</p>
 <p>Well, the way to upload shared work is the opposite of downloading shared work. And what&#39;s the opposite of <code>git pull</code>? <code>git push</code>!</p>
 <p><code>git push</code> is responsible for uploading <em>your</em> changes to a specified remote and updating that remote to incorporate your new commits. Once <code>git push</code> completes, all your friends can then download  your work from the remote.</p>
@@ -1510,7 +1507,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>Here we have some changes that the remote does not have. Let&#39;s upload them!</p>
 <pre class="level-solution">git push</pre><p>There we go -- the remote received commit <code>C2</code>, the branch <code>main</code> on the remote was updated to point at <code>C2</code>, and our <em>own</em> reflection of the remote (<code>o/main</code>) was updated as well. Everything is in sync!</p>
 <p>To finish this level, simply share two new commits with the remote. Strap in though, because these lessons are about to get a lot harder!</p>
-<h3>Level: Diverged History</h3><h2 id="diverged-work">Diverged Work</h2>
+<h3>Level: Diverged History</h3><h2>Diverged Work</h2>
 <p>So far we&#39;ve seen how to <code>pull</code> down commits from others and how to <code>push</code> up our own changes. It seems pretty simple, so how can people get so confused?</p>
 <p>The difficulty comes in when the history of the repository <em>diverges</em>. Before discussing the details of this, let&#39;s see an example...</p>
 <p>Imagine you clone a repository on Monday and start dabbling on a side feature. By Friday you are ready to publish your feature -- but oh no! Your coworkers have written a bunch of code during the week that&#39;s made your feature out of date (and obsolete). They&#39;ve also published these commits to the shared remote repository, so now <em>your</em> work is based on an <em>old</em> version of the project that&#39;s no longer relevant.</p>
@@ -1542,19 +1539,19 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <li>Commit some work yourself (1 commit)</li>
 <li>Publish your work via <em>rebasing</em></li>
 </ul>
-<h3>Level: Locked Main</h3><h2 id="remote-rejected">Remote Rejected!</h2>
+<h3>Level: Locked Main</h3><h2>Remote Rejected!</h2>
 <p>If you work on a large collaborative team it&#39;s likely that main is locked and requires some Pull Request process to merge changes. If you commit directly to main locally and try pushing you will be greeted with a message similar to this:</p>
 <pre><code> ! [remote rejected] main -&gt; main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)
 </code></pre>
-<h2 id="why-was-it-rejected">Why was it rejected?</h2>
+<h2>Why was it rejected?</h2>
 <p>The remote rejected the push of commits directly to main because of the policy on main requiring pull requests to instead be used.</p>
 <p>You meant to follow the process creating a branch then pushing that branch and doing a pull request, but you forgot and committed directly to main. Now you are stuck and cannot push your changes.</p>
-<h2 id="the-solution">The solution</h2>
+<h2>The solution</h2>
 <p>Create another branch called feature and push that to the remote. Also reset your main back to be in sync with the remote otherwise you may have issues next time you do a pull and someone else&#39;s commit conflicts with yours.</p>
 
-      <h2>Level Sequence: To Origin And Beyond -- Advanced Git Remotes!</h2>
-      <h6>And you thought being a benevolent dictator would be fun...</h6>
-    <h3>Level: Push Main!</h3><h2 id="merging-feature-branches">Merging feature branches</h2>
+    <h2>Level Sequence: To Origin And Beyond -- Advanced Git Remotes!</h2>
+    <h6>And you thought being a benevolent dictator would be fun...</h6>
+  <h3>Level: Push Main!</h3><h2>Merging feature branches</h2>
 <p>Now that you&#39;re comfortable with fetching, pulling, and pushing, let&#39;s put these skills to the test with a new workflow.</p>
 <p>It&#39;s common for developers on big projects to do all their work on feature branches (off of <code>main</code>) and then integrate that work only once it&#39;s ready. This is similar to the previous lesson (where side branches get pushed to the remote), but here we introduce one more step.</p>
 <p>Some developers only push and pull when on the <code>main</code> branch -- that way <code>main</code> always stays updated to what is on the remote (<code>o/main</code>).</p>
@@ -1576,7 +1573,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <li>The remote has since been updated, so we will need to incorporate that work as well</li>
 </ul>
 <p>:O intense! good luck, completing this level is a big step.</p>
-<h3>Level: Merging with remotes</h3><h2 id="why-not-merge">Why not merge?</h2>
+<h3>Level: Merging with remotes</h3><h2>Why not merge?</h2>
 <p>In order to push new updates to the remote, all you need to do is <em>incorporate</em> the latest changes from the remote. That means you can either rebase <em>or</em> merge in the remote branch (e.g. <code>o/main</code>).</p>
 <p>So if you can do either method, why have the lessons focused on rebasing so far? Why is there no love for <code>merge</code> when working with remotes?</p>
 <p>There&#39;s a lot of debate about the tradeoffs between merging and rebasing in the development community. Here are the general pros / cons of rebasing:</p>
@@ -1591,13 +1588,13 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>For example, commit <code>C1</code> can be rebased <em>past</em> <code>C3</code>. It then appears that the work for <code>C1&#39;</code> came after <code>C3</code> when in reality it was completed beforehand.</p>
 <p>Some developers love to preserve history and thus prefer merging. Others (like myself) prefer having a clean commit tree and prefer rebasing. It all comes down to preferences :D</p>
 <p>For this level, let&#39;s try to solve the previous level but with <em>merging</em> instead. It may get a bit hairy but it illustrates the point well.</p>
-<h3>Level: Remote Tracking</h3><h3 id="remote-tracking-branches">Remote-Tracking branches</h3>
+<h3>Level: Remote Tracking</h3><h3>Remote-Tracking branches</h3>
 <p>One thing that might have seemed &quot;magical&quot; about the last few lessons is that git knew the <code>main</code> branch was related to <code>o/main</code>. Sure these branches have similar names and it might make logical sense to connect the <code>main</code> branch on the remote to the local <code>main</code> branch, but this connection is demonstrated clearly in two scenarios:</p>
 <ul>
 <li>During a pull operation, commits are downloaded onto <code>o/main</code> and then <em>merged</em> into the <code>main</code> branch. The implied target of the merge is determined from this connection.</li>
 <li>During a push operation, work from the <code>main</code> branch was pushed onto the remote&#39;s <code>main</code> branch (which was then represented by <code>o/main</code> locally). The <em>destination</em> of the push is determined from the connection between <code>main</code> and <code>o/main</code>.</li>
 </ul>
-<h2 id="remote-tracking">Remote tracking</h2>
+<h2>Remote tracking</h2>
 <p>Long story short, this connection between <code>main</code> and <code>o/main</code> is explained simply by the &quot;remote tracking&quot; property of branches. The <code>main</code> branch is set to track <code>o/main</code> -- this means there is an implied merge target and implied push destination for the <code>main</code> branch.</p>
 <p>You may be wondering how this property got set on the <code>main</code> branch when you didn&#39;t run any commands to specify it. Well, when you clone a repository with git, this property is actually set for you automatically. </p>
 <p>During a clone, git creates a remote branch for every branch on the remote (aka branches like <code>o/main</code>). It then creates a local branch that tracks the currently active branch on the remote, which is <code>main</code> in most cases.</p>
@@ -1605,16 +1602,16 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>This also explains why you may see the following command output when cloning:</p>
 <pre><code>local branch &quot;main&quot; set to track remote branch &quot;o/main&quot;
 </code></pre>
-<h3 id="can-i-specify-this-myself">Can I specify this myself?</h3>
+<h3>Can I specify this myself?</h3>
 <p>Yes you can! You can make any arbitrary branch track <code>o/main</code>, and if you do so, that branch will have the same implied push destination and merge target as <code>main</code>. This means you can run <code>git push</code> on a branch named <code>totallyNotMain</code> and have your work pushed to the <code>main</code> branch on the remote!</p>
 <p>There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running</p>
-<p><code>git checkout -b totallyNotMain o/main</code></p>
+<p><code>git switch -c totallyNotMain o/main</code></p>
 <p>Creates a new branch named <code>totallyNotMain</code> and sets it to track <code>o/main</code>.</p>
 <p>Enough talking, let&#39;s see a demonstration! We will checkout a new branch named <code>foo</code> and set it to track <code>main</code> on the remote.</p>
-<pre class="level-solution">git checkout -b foo o/main; git pull</pre><p>As you can see, we used the implied merge target of <code>o/main</code> to update the <code>foo</code> branch. Note how main doesn&#39;t get updated!!</p>
+<pre class="level-solution">git switch -c foo o/main; git pull</pre><p>As you can see, we used the implied merge target of <code>o/main</code> to update the <code>foo</code> branch. Note how main doesn&#39;t get updated!!</p>
 <p>This also applies for git push.</p>
-<pre class="level-solution">git checkout -b foo o/main; git commit; git push</pre><p>Boom. We pushed our work to the <code>main</code> on the remote even though our branch was named something totally different.</p>
-<h3 id="way-2">Way #2</h3>
+<pre class="level-solution">git switch -c foo o/main; git commit; git push</pre><p>Boom. We pushed our work to the <code>main</code> on the remote even though our branch was named something totally different.</p>
+<h3>Way #2</h3>
 <p>Another way to set remote tracking on a branch is to simply use the <code>git branch -u</code> option. Running</p>
 <p><code>git branch -u o/main foo</code></p>
 <p>will set the <code>foo</code> branch to track <code>o/main</code>. If <code>foo</code> is currently checked out you can even leave it off:</p>
@@ -1622,7 +1619,7 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>Let&#39;s see this other way of specifying remote tracking real quick...</p>
 <pre class="level-solution">git branch -u o/main foo; git commit; git push</pre><p>Same as before, just a more explicit command. Sweet!</p>
 <p>Ok! For this level let&#39;s push work onto the <code>main</code> branch on remote while <em>not</em> checked out on <code>main</code> locally. You should instead create a branch named <code>side</code> which the goal diagram will show.</p>
-<h3>Level: Git push arguments</h3><h2 id="push-arguments">Push arguments</h2>
+<h3>Level: Git push arguments</h3><h2>Push arguments</h2>
 <p>Great! Now that you know about remote tracking branches we can start to uncover some of the mystery behind how git push, fetch, and pull work. We&#39;re going to tackle one command at a time but the concepts between them are very similar.</p>
 <p>First we&#39;ll look at <code>git push</code>. You learned in the remote tracking lesson that git figured out the remote <em>and</em> the branch to push to by looking at the properties of the currently checked out branch (the remote that it &quot;tracks&quot;). This is the behavior with no arguments specified, but git push can optionally take arguments in the form of:</p>
 <p><code>git push &lt;remote&gt; &lt;place&gt;</code></p>
@@ -1633,13 +1630,13 @@ type <code>git checkout -b [yourbranchname]</code>.</p>
 <p>By specifying <code>main</code> as the &quot;place&quot; argument, we told git where the commits will <em>come from</em> and where the commits <em>will go</em>. It&#39;s essentially the &quot;place&quot; or &quot;location&quot; to synchronize between the two repositories.</p>
 <p>Keep in mind that since we told git everything it needs to know (by specifying both arguments), it totally ignores where we are checked out!</p>
 <p>Let&#39;s see an example of specifying the arguments. Note the location where we are checked out in this example.</p>
-<pre class="level-solution">git checkout C0; git push origin main</pre><p>There we go! <code>main</code> got updated on the remote since we specified those arguments.</p>
+<pre class="level-solution">git switch --detach C0; git push origin main</pre><p>There we go! <code>main</code> got updated on the remote since we specified those arguments.</p>
 <p>What if we hadn&#39;t specified the arguments? What would happen?</p>
-<pre class="level-solution">git checkout C0; git push</pre><p>The command fails (as you can see), since <code>HEAD</code> is not checked out on a remote-tracking branch.</p>
-<p>Ok, for this level let&#39;s update both <code>foo</code> and <code>main</code> on the remote. The twist is that <code>git checkout</code> is disabled for this level!</p>
+<pre class="level-solution">git switch --detach C0; git push</pre><p>The command fails (as you can see), since <code>HEAD</code> is not checked out on a remote-tracking branch.</p>
+<p>Ok, for this level let&#39;s update both <code>foo</code> and <code>main</code> on the remote. The twist is that <code>git switch</code> is disabled for this level!</p>
 <p><em>Note: The remote branches are labeled with <code>o/</code> prefixes because the full <code>origin/</code> label does not fit in our UI. Don&#39;t worry
-about this... simply use <code>origin</code> as the name of the remote like normal.</em></p>
-<h3>Level: Git push arguments -- Expanded!</h3><h2 id="place-argument-details"><code>&lt;place&gt;</code> argument details</h2>
+ about this... simply use <code>origin</code> as the name of the remote like normal.</em></p>
+<h3>Level: Git push arguments -- Expanded!</h3><h2><code>&lt;place&gt;</code> argument details</h2>
 <p>Remember from the previous lesson that when we specified <code>main</code> as the place argument for git push, we specified both the <em>source</em> of where the commits would come from and the <em>destination</em> of where the commits would go.</p>
 <p>You might then be wondering -- what if we wanted the source and destination to be different? What if you wanted to push commits from the <code>foo</code> branch locally onto the <code>bar</code> branch on remote?</p>
 <p>Well unfortunately that&#39;s impossible in git... just kidding! Of course it&#39;s possible :)... git has tons and tons of flexibility (almost too much).</p>
@@ -1654,11 +1651,11 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <pre class="level-solution">git push origin main:newBranch</pre><p>Sweet, that&#39;s pretty slick :D</p>
 <p>For this level, try to get to the end goal state shown in the visualization, and remember the format of:</p>
 <p><code>&lt;source&gt;:&lt;destination&gt;</code></p>
-<h3>Level: Fetch arguments</h3><h2 id="git-fetch-arguments">Git fetch arguments</h2>
+<h3>Level: Fetch arguments</h3><h2>Git fetch arguments</h2>
 <p>So we&#39;ve just learned all about git push arguments, this cool <code>&lt;place&gt;</code> parameter, and even colon refspecs (<code>&lt;source&gt;:&lt;destination&gt;</code>). Can we use all this knowledge for <code>git fetch</code> as well?</p>
 <p>You betcha! The arguments for <code>git fetch</code> are actually <em>very, very</em> similar to those for <code>git push</code>. It&#39;s the same type of concepts but just applied in the opposite direction (since now you are downloading commits rather than uploading).</p>
 <p>Let&#39;s go over the concepts one at a time...</p>
-<h3 id="the-place-parameter">The <code>&lt;place&gt;</code> parameter</h3>
+<h3>The <code>&lt;place&gt;</code> parameter</h3>
 <p>If you specify a place with git fetch like in the following command:</p>
 <p><code>git fetch origin foo</code></p>
 <p>Git will go to the <code>foo</code> branch on the remote, grab all the commits that aren&#39;t present locally, and then plop them down onto the <code>o/foo</code> branch locally.</p>
@@ -1680,7 +1677,7 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <pre class="level-solution">git fetch</pre><p>Pretty simple, but worth going over just once.</p>
 <p>Ok, enough talking! To finish this level, fetch just the specified commits in the goal visualization. Get fancy with those commands!</p>
 <p>You will have to specify the source and destination for both fetch commands. Pay attention to the goal visualization since the IDs may be switched around!</p>
-<h3>Level: Source of nothing</h3><h3 id="oddities-of-source">Oddities of <code>&lt;source&gt;</code></h3>
+<h3>Level: Source of nothing</h3><h3>Oddities of <code>&lt;source&gt;</code></h3>
 <p>Git abuses the <code>&lt;source&gt;</code> parameter in two weird ways. These two abuses come from the fact that you can technically specify &quot;nothing&quot; as a valid <code>source</code> for both git push and git fetch. The way you specify nothing is via an empty argument:</p>
 <ul>
 <li><code>git push origin :side</code></li>
@@ -1692,7 +1689,7 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <p>Finally, fetching &quot;nothing&quot; to a place locally actually makes a new branch.</p>
 <pre class="level-solution">git fetch origin :bar</pre><p>Very odd / bizarre, but whatever. That&#39;s git for you!</p>
 <p>This is a quick level -- just delete one remote branch and create a new branch with <code>git fetch</code> to finish!</p>
-<h3>Level: Pull arguments</h3><h2 id="git-pull-arguments">Git pull arguments</h2>
+<h3>Level: Pull arguments</h3><h2>Git pull arguments</h2>
 <p>Now that you know pretty much <em>everything</em> there is to know about arguments for <code>git fetch</code> and <code>git push</code>, there&#39;s almost really nothing left to cover for git pull :)</p>
 <p>That&#39;s because git pull at the end of the day is <em>really</em> just shorthand for a fetch followed by merging in whatever was just fetched. You can think of it as running git fetch with the <em>same</em> arguments specified and then merging in <em>where</em> those commits ended up.</p>
 <p>This applies even when you use crazy-complicated arguments as well. Let&#39;s see some examples:</p>
@@ -1710,13 +1707,13 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <pre class="level-solution">git pull origin main:foo</pre><p>Wow, that&#39;s a TON in one command. We created a new branch locally named <code>foo</code>, downloaded commits from remote&#39;s main onto that branch <code>foo</code>, and then merged that branch into our currently checked out branch <code>bar</code>. It&#39;s over 9000!!!</p>
 <p>Ok to finish up, attain the state of the goal visualization. You&#39;ll need to download some commits, make some new branches, and merge those branches into other branches, but it shouldn&#39;t take many commands :P</p>
 
-      <h2>Level Sequence: Moving Work Around</h2>
-      <h6>"Git" comfortable with modifying the source tree :P</h6>
-    <h3>Level: Cherry-pick Intro</h3><h2 id="moving-work-around">Moving Work Around</h2>
+    <h2>Level Sequence: Moving and Staging Work</h2>
+    <h6>Move commits around and choose exactly which file changes belong together</h6>
+  <h3>Level: Cherry-pick Intro</h3><h2>Moving Work Around</h2>
 <p>So far we&#39;ve covered the basics of git -- committing, branching, and moving around in the source tree. Just these concepts are enough to leverage 90% of the power of git repositories and cover the main needs of developers.</p>
 <p>That remaining 10%, however, can be quite useful during complex workflows (or when you&#39;ve gotten yourself into a bind). The next concept we&#39;re going to cover is &quot;moving work around&quot; -- in other words, it&#39;s a way for developers to say &quot;I want this work here and that work there&quot; in precise, eloquent, flexible ways.</p>
 <p>This may seem like a lot, but it&#39;s a simple concept.</p>
-<h2 id="git-cherry-pick">Git Cherry-pick</h2>
+<h2>Git Cherry-pick</h2>
 <p>The first command in this series is called <code>git cherry-pick</code>. It takes on the following form:</p>
 <ul>
 <li><code>git cherry-pick &lt;Commit1&gt; &lt;Commit2&gt; &lt;...&gt;</code></li>
@@ -1726,11 +1723,11 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <p>Here&#39;s a repository where we have some work in branch <code>side</code> that we want to copy to <code>main</code>. This could be accomplished through a rebase (which we have already learned), but let&#39;s see how cherry-pick performs.</p>
 <pre class="level-solution">git cherry-pick C2 C4</pre><p>That&#39;s it! We wanted commits <code>C2</code> and <code>C4</code> and git plopped them down right below us. Simple as that!</p>
 <p>To complete this level, simply copy some work from the three branches shown into main. You can see which commits we want by looking at the goal visualization.</p>
-<h3>Level: Interactive Rebase Intro</h3><h2 id="git-interactive-rebase">Git Interactive Rebase</h2>
+<h3>Level: Interactive Rebase Intro</h3><h2>Git Interactive Rebase</h2>
 <p>Git cherry-pick is great when you know which commits you want (<em>and</em> you know their corresponding hashes) -- it&#39;s hard to beat the simplicity it provides.</p>
 <p>But what about the situation where you don&#39;t know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it&#39;s the best way to review a series of commits you&#39;re about to rebase.</p>
 <p>Let&#39;s dive into the details...</p>
-<p>All interactive rebase means Git is using the <code>rebase</code> command with the <code>-i</code> option.</p>
+<p>All interactive rebase means is that Git is using the <code>rebase</code> command with the <code>-i</code> option.</p>
 <p>If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what&#39;s what.</p>
 <p>For &quot;real&quot; git, the UI window means opening up a file in a text editor like <code>vim</code>. For our purposes, I&#39;ve built a small dialog window that behaves the same way.</p>
 <p>When the interactive rebase dialog opens, you have the ability to do two things in our educational application:</p>
@@ -1743,10 +1740,57 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <p>When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!</p>
 <pre class="level-solution">git rebase -i HEAD~4 --aboveAll</pre><p>Boom! Git copied down commits in the exact same way you specified through the UI.</p>
 <p>To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always <code>undo</code> or <code>reset</code> to fix mistakes :D</p>
+<h3>Level: The Staging Area</h3><h2>The Staging Area</h2>
+<p>So far in this learning experience, we have glossed over the idea of what exactly is involved in actually <em>making</em> a commit. You might know that they represent changes to a set of files, but there&#39;s actually a bit of process in choosing <em>which</em> file changes become <em>which</em> commits.</p>
+<p>Git doesn&#39;t want to just automatically include all changed files in all commits -- that would be bad! It could include a change you don&#39;t want to make permanent, or even something secret like an API key that could leak into GitHub as part of your commit history.</p>
+<p>Thus before a change to a file becomes part of a commit, it has to be specifically selected. Git has three zones for this: your <strong>working directory</strong> (where you edit), the <strong>staging area</strong> (a loading dock for what is in the next commit), and the <strong>repository</strong> (your permanent history).</p>
+<p>You pick <em>exactly</em> what rides along in each commit with <code>git add</code>. That&#39;s how commits stay tidy, and you&#39;re never forced to commit everything at once.</p>
+<p><em>(For these levels, we will now show which files are part of what commits.)</em></p>
+<p>Run <code>git status</code> any time to see where things stand. Right now it shows two files you&#39;ve edited but haven&#39;t staged:</p>
+<pre><code>Changes not staged for commit:
+</code></pre>
+<pre><code>  modified:   app.js
+</code></pre>
+<pre><code>  modified:   styles.css
+</code></pre>
+<p>Stage a single file with <code>git add app.js</code>, or grab everything at once with <code>git add .</code>. Once a file is staged, <code>git commit</code> seals it into a snapshot.</p>
+<p>Got files you never want to commit, like secrets, logs, or build junk? List them in a <code>.gitignore</code> file and git will quietly leave them alone.</p>
+<p>Your turn! Stage and commit your work <strong>one file at a time</strong>, so each commit stays focused:</p>
+<ul>
+<li><code>git add app.js</code>, then <code>git commit</code></li>
+<li><code>git add styles.css</code>, then <code>git commit</code></li>
+</ul>
+<p>The filenames beside each goal commit show exactly where each change belongs. Two clean commits and the level is yours.</p>
+<h3>Level: Undoing with git restore</h3><h2>Undoing with <code>git restore</code></h2>
+<p>Everybody makes a little mess sometimes. You stage a file you didn&#39;t mean to, or start an experiment you&#39;d rather throw away. <code>git restore</code> is the modern, purpose-built undo button for your working directory and staging area.</p>
+<p>It comes in two flavors:</p>
+<ul>
+<li><code>git restore --staged &lt;file&gt;</code>: <strong>unstage</strong> a file (move it back out of the staging area, keeping your edits)</li>
+<li><code>git restore &lt;file&gt;</code>: <strong>discard</strong> your edits to a file entirely (careful, this throws the changes away!)</li>
+</ul>
+<p><em>(These replace the older <code>git reset HEAD &lt;file&gt;</code> and <code>git checkout -- &lt;file&gt;</code> tricks. Same idea, much clearer names.)</em></p>
+<p>Here&#39;s the mess on your desk right now:</p>
+<pre><code>Changes to be committed:
+</code></pre>
+<pre><code>  modified:   app.js
+</code></pre>
+<pre><code>  modified:   secret.env
+</code></pre>
+<pre><code>Changes not staged for commit:
+  modified:   experiment.js
+</code></pre>
+<p>You want to commit <code>app.js</code>, but <code>secret.env</code> got staged early by accident (it should be a commit on top), so lets save that for later. Also the <code>experiment.js</code> changes did not work so lets throw that out entirely.</p>
+<p>Tidy up, then commit:</p>
+<ul>
+<li>Unstage the secret: <code>git restore --staged secret.env</code></li>
+<li>Discard the experiment: <code>git restore experiment.js</code></li>
+<li>Commit what&#39;s left: <code>git commit</code></li>
+</ul>
+<p>That lands one clean commit, with only the work you meant to keep.</p>
 
-      <h2>Level Sequence: A Mixed Bag</h2>
-      <h6>A mixed bag of Git techniques, tricks, and tips</h6>
-    <h3>Level: Grabbing Just 1 Commit</h3><h2 id="locally-stacked-commits">Locally stacked commits</h2>
+    <h2>Level Sequence: A Mixed Bag</h2>
+    <h6>A mixed bag of Git techniques, tricks, and tips</h6>
+  <h3>Level: Grabbing Just 1 Commit</h3><h2>Locally stacked commits</h2>
 <p>Here&#39;s a development situation that often happens: I&#39;m trying to track down a bug but it is quite elusive. In order to aid in my detective work, I put in a few debug commands and a few print statements.</p>
 <p>All of these debugging / print statements are in their own commits. Finally I track down the bug, fix it, and rejoice!</p>
 <p>Only problem is that I now need to get my <code>bugFix</code> back into the <code>main</code> branch. If I simply fast-forwarded <code>main</code>, then <code>main</code> would get all my debug statements which is undesirable. There has to be another way...</p>
@@ -1757,7 +1801,7 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 </ul>
 <p>To achieve this goal.</p>
 <p>This is a later level so we will leave it up to you to decide which command you want to use, but in order to complete the level, make sure <code>main</code> receives the commit that <code>bugFix</code> references.</p>
-<h3>Level: Juggling Commits</h3><h2 id="juggling-commits">Juggling Commits</h2>
+<h3>Level: Juggling Commits</h3><h2>Juggling Commits</h2>
 <p>Here&#39;s another situation that happens quite commonly. You have some changes (<code>newImage</code>) and another set of changes (<code>caption</code>) that are related, so they are stacked on top of each other in your repository (aka one after another).</p>
 <p>The tricky thing is that sometimes you need to make a small modification to an earlier commit. In this case, design wants us to change the dimensions of <code>newImage</code> slightly, even though that commit is way back in our history!!</p>
 <p>We will overcome this difficulty by doing the following:</p>
@@ -1770,7 +1814,7 @@ about this... simply use <code>origin</code> as the name of the remote like norm
 <p>There are many ways to accomplish this overall goal (I see you eye-ing cherry-pick), and we will see more of them later, but for now let&#39;s focus on this technique.
 Lastly, pay attention to the goal state here -- since we move the commits twice, they both get an apostrophe appended. One more apostrophe is added for the commit we amend, which gives us the final form of the tree </p>
 <p>That being said, I can compare levels now based on structure and relative apostrophe differences. As long as your tree&#39;s <code>main</code> branch has the same structure and relative apostrophe differences, I&#39;ll give full credit.</p>
-<h3>Level: Juggling Commits #2</h3><h2 id="juggling-commits-2">Juggling Commits #2</h2>
+<h3>Level: Juggling Commits #2</h3><h2>Juggling Commits #2</h2>
 <p><em>If you haven&#39;t completed Juggling Commits #1 (the previous level), please do so before continuing</em></p>
 <p>As you saw in the last level, we used <code>rebase -i</code> to reorder the commits. Once the commit we wanted to change was on top, we could easily --amend it and re-order back to our preferred order.</p>
 <p>The only issue here is that there is a lot of reordering going on, which can introduce rebase conflicts. Let&#39;s look at another method with <code>git cherry-pick</code>.</p>
@@ -1779,7 +1823,7 @@ Lastly, pay attention to the goal state here -- since we move the commits twice,
 <pre class="level-solution">git cherry-pick C2</pre><p>Nice! Let&#39;s move on.</p>
 <p>So in this level, let&#39;s accomplish the same objective of amending <code>C2</code> once but avoid using <code>rebase -i</code>. I&#39;ll leave it up to you to figure it out! :D</p>
 <p>Remember, the exact number of apostrophe&#39;s (&#39;) on the commit are not important, only the relative differences. For example, I will give credit to a tree that matches the goal tree but has one extra apostrophe everywhere.</p>
-<h3>Level: Git Tags</h3><h2 id="git-tags">Git Tags</h2>
+<h3>Level: Git Tags</h3><h2>Git Tags</h2>
 <p>As you have learned from previous lessons, branches are easy to move around and often refer to different commits as work is completed on them. Branches are easily mutated, often temporary, and always changing.</p>
 <p>If that&#39;s the case, you may be wondering if there&#39;s a way to <em>permanently</em> mark historical points in your project&#39;s history. For things like major releases and big merges, is there any way to mark these commits with something more permanent than a branch?</p>
 <p>You bet there is! Git tags support this exact use case -- they (somewhat) permanently mark certain commits as &quot;milestones&quot; that you can then reference like a branch.</p>
@@ -1789,7 +1833,7 @@ Lastly, pay attention to the goal state here -- since we move the commits twice,
 <pre class="level-solution">git tag v1 C1</pre><p>There! Quite easy. We named the tag <code>v1</code> and referenced the commit <code>C1</code> explicitly. If you leave the commit off, git will just use whatever <code>HEAD</code> is at.</p>
 <p>For this level just create the tags in the goal visualization and then check <code>v1</code> out. Notice how you go into detached <code>HEAD</code> state -- this is because you can&#39;t commit directly onto the <code>v1</code> tag.</p>
 <p>In the next level we&#39;ll examine a more interesting use case for tags.</p>
-<h3>Level: Git Describe</h3><h3 id="git-describe">Git Describe</h3>
+<h3>Level: Git Describe</h3><h3>Git Describe</h3>
 <p>Because tags serve as such great &quot;anchors&quot; in the codebase, git has a command to <em>describe</em> where you are relative to the closest &quot;anchor&quot; (aka tag). And that command is called <code>git describe</code>!</p>
 <p>Git describe can help you get your bearings after you&#39;ve moved many commits backwards or forwards in history; this can happen after you&#39;ve completed a git bisect (a debugging search) or when sitting down at the computer of a coworker who just got back from vacation.</p>
 <p>Git describe takes the form of:</p>
@@ -1806,35 +1850,36 @@ Lastly, pay attention to the goal state here -- since we move the commits twice,
 <p>That&#39;s pretty much all there is to git describe! Try describing a few of the locations in this level to get a feel for the command.</p>
 <p>Once you&#39;re ready, just go ahead and commit once to finish the level. We&#39;re giving you a freebie :P</p>
 
-      <h2>Level Sequence: Advanced Topics</h2>
-      <h6>For the truly brave!</h6>
-    <h3>Level: Rebasing over 9000 times</h3><h3 id="rebasing-multiple-branches">Rebasing Multiple Branches</h3>
+    <h2>Level Sequence: Advanced Topics</h2>
+    <h6>For the truly brave!</h6>
+  <h3>Level: Rebasing over 9000 times</h3><h3>Rebasing Multiple Branches</h3>
 <p>Man, we have a lot of branches going on here! Let&#39;s rebase all the work from these branches onto main.</p>
 <p>Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have <code>C7&#39;</code> at the bottom, <code>C6&#39;</code> above that, and so on, all in order.</p>
+<p>One handy tip: <code>git rebase</code> can take a second argument. <code>git rebase main bugFix</code> checks out <code>bugFix</code> and rebases it onto <code>main</code> in one step -- a shorthand for <code>git switch bugFix; git rebase main</code>.</p>
 <p>If you mess up along the way, feel free to use <code>reset</code> to start over again. Be sure to check out our solution and see if you can do it in fewer commands!</p>
-<h3>Level: Multiple parents</h3><h3 id="specifying-parents">Specifying Parents</h3>
+<h3>Level: Multiple parents</h3><h3>Specifying Parents</h3>
 <p>Like the <code>~</code> modifier, the <code>^</code> modifier also accepts an optional number after it.</p>
 <p>Rather than specifying the number of generations to go back (what <code>~</code> takes), the modifier on <code>^</code> specifies which parent reference to follow from a merge commit. Remember that merge commits have multiple parents, so the path to choose is ambiguous.</p>
 <p>Git will normally follow the &quot;first&quot; parent upwards from a merge commit, but specifying a number with <code>^</code> changes this default behavior.</p>
 <p>Enough talking, let&#39;s see it in action.</p>
 <p>Here we have a merge commit. If we checkout <code>main^</code> without the modifier, we will follow the first parent after the merge commit. </p>
 <p>(<em>In our visuals, the first parent is positioned directly above the merge commit.</em>)</p>
-<pre class="level-solution">git checkout main^</pre><p>Easy -- this is what we are all used to.</p>
+<pre class="level-solution">git switch --detach main^</pre><p>Easy -- this is what we are all used to.</p>
 <p>Now let&#39;s try specifying the second parent instead...</p>
-<pre class="level-solution">git checkout main^2</pre><p>See? We followed the other parent upwards.</p>
+<pre class="level-solution">git switch --detach main^2</pre><p>See? We followed the other parent upwards.</p>
 <p>The <code>^</code> and <code>~</code> modifiers can make moving around a commit tree very powerful:</p>
-<pre class="level-solution">git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2</pre><p>Lightning fast!</p>
+<pre class="level-solution">git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2</pre><p>Lightning fast!</p>
 <p>Even crazier, these modifiers can be chained together! Check this out:</p>
-<pre class="level-solution">git checkout HEAD~^2~2</pre><p>The same movement as before, but all in one command.</p>
-<h3 id="put-it-to-practice">Put it to practice</h3>
+<pre class="level-solution">git switch --detach HEAD~^2~2</pre><p>The same movement as before, but all in one command.</p>
+<h3>Put it to practice</h3>
 <p>To complete this level, create a new branch at the specified destination.</p>
 <p>Obviously it would be easy to specify the commit directly (with something like <code>C6</code>), but I challenge you to use the modifiers we talked about instead!</p>
-<h3>Level: Branch Spaghetti</h3><h2 id="branch-spaghetti">Branch Spaghetti</h2>
+<h3>Level: Branch Spaghetti</h3><h2>Branch Spaghetti</h2>
 <p>WOAHHHhhh Nelly! We have quite the goal to reach in this level.</p>
 <p>Here we have <code>main</code> that is a few commits ahead of branches <code>one</code> <code>two</code> and <code>three</code>. For whatever reason, we need to update these three other branches with modified versions of the last few commits on main.</p>
 <p>Branch <code>one</code> needs a re-ordering of those commits and an exclusion/drop of <code>C5</code>. Branch <code>two</code> just needs a pure reordering of the commits, and <code>three</code> only needs one commit transferred!</p>
 <p>We will let you figure out how to solve this one -- make sure to check out our solution afterwards with <code>show solution</code>. </p>
 
-    </div>
-    </body>
-    </html>
+  </div>
+  </body>
+  </html>

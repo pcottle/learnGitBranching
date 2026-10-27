@@ -19,11 +19,12 @@ const autoCompleteSuggestionOrder = [
   'reset', // over reset solved
   'import level', // over import tree
   // for the git commands, we did an analysis and got a better order.
-  // That way cherry pick is not before checkout
+  // That way cherry pick is not before switch
   "git commit",
   "git clone",
   "git fakeCreateRemote",
   "git fakeTeamwork",
+  "git switch",
   "git checkout",
   "git branch",
   "git fetch",

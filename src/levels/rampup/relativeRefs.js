@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git checkout bugFix^",
+  "solutionCommand": "git switch --detach bugFix^",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Relative Refs (^)",
@@ -109,7 +109,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Done. Way easier than typing the commit hash."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -122,7 +122,7 @@ exports.level = {
             "afterMarkdowns": [
               "Easy! We can travel backwards in time with `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -184,7 +184,7 @@ exports.level = {
             "afterMarkdowns": [
               "धमाका! हो गया। Commit hash टाइप करने से कहीं आसान।"
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -197,7 +197,7 @@ exports.level = {
             "afterMarkdowns": [
               "आसान है! `HEAD^` से हम समय में पीछे जा सकते हैं"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -259,7 +259,7 @@ exports.level = {
             "afterMarkdowns": [
               "بوم! انجام شد. خیلی راحت‌تر از تایپ کردن هش کامیت بود."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -272,7 +272,7 @@ exports.level = {
             "afterMarkdowns": [
               "آسان بود! ما می‌توانیم با `HEAD^` در زمان به عقب سفر کنیم."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -334,7 +334,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boum ! Fini. Bien plus facile que d'écrire l'identifiant du commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -347,7 +347,7 @@ exports.level = {
             "afterMarkdowns": [
               "Facile ! Nous pouvons voyager dans le temps avec `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -409,7 +409,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bämm! Fertig. Einfacher, als den Commit-Hash zu tippen (oder zu kopieren)."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -422,7 +422,7 @@ exports.level = {
             "afterMarkdowns": [
               "Das war einfach. Wir reisen mit `HEAD^` in der Zeit zurück."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -484,7 +484,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Ahí está. Mucho más simple que tipear el hash de ese commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -497,7 +497,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -559,7 +559,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Zas! Ahí está. Mucho más simple que escribir el hash de ese commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -572,7 +572,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -634,7 +634,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vientos! Ahí está. Mucho más simple que escribir el hash de ese commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -647,7 +647,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -709,7 +709,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Pronto. Muito mais fácil que digitar o hash do commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -722,7 +722,7 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil! Podemos viajar para trás no tempo com `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -784,7 +784,7 @@ exports.level = {
             "afterMarkdowns": [
               "Pumba! Já está. Muito mais fácil do que escrever o hash do commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -797,7 +797,7 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil! Podemos viajar para trás no tempo com `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -859,7 +859,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Ahí o tes. Moito máis rápido que por o hash do commit."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -872,7 +872,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Chupado! Podemos viaxar cara atrás no tempo con `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -934,7 +934,7 @@ exports.level = {
             "afterMarkdowns": [
               "搞定。这比输入提交哈希值容易多了。"
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -947,7 +947,7 @@ exports.level = {
             "afterMarkdowns": [
               "很简单吧？！我们可以一直使用 `HEAD^` 向上移动。"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1009,7 +1009,7 @@ exports.level = {
             "afterMarkdowns": [
               "看吧！完成了。這種方式比輸入代表 commit 的 hash 值簡單多了！"
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1022,7 +1022,7 @@ exports.level = {
             "afterMarkdowns": [
               "簡單吧！我們可以一直使用 `HEAD^` 向上移動。"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1084,7 +1084,7 @@ exports.level = {
             "afterMarkdowns": [
               "やりました！コミットハッシュを書くよりずっと簡単ですね。"
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1097,7 +1097,7 @@ exports.level = {
             "afterMarkdowns": [
               "簡単ですね!`HEAD^`で時間を巻き戻せます。"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1159,7 +1159,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ura! Gata. Mult mai ușor decât să scrii hash-ul commit-ului."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1172,7 +1172,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ușor! Putem călători înapoi în timp cu `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1234,7 +1234,7 @@ exports.level = {
             "afterMarkdowns": [
               "Бум! Готово. Много по-лесно от въвеждане на хеш."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1247,7 +1247,7 @@ exports.level = {
             "afterMarkdowns": [
               "Лесно! Можем да пътуваме назад във времето с `HEAD^`."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1309,7 +1309,7 @@ exports.level = {
             "afterMarkdowns": [
               "Опачки! Готово. Сильно проще, чем поиск и указание хеша."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1322,7 +1322,7 @@ exports.level = {
             "afterMarkdowns": [
               "Изи! Мы можем путешествовать во времени при помощи `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1384,7 +1384,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! 됐습니다. 커밋의 해시를 입력하는 것보다 훨씬 쉬운 방법입니다."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1397,7 +1397,7 @@ exports.level = {
             "afterMarkdowns": [
               "쉽군요! 이제 우린 `HEAD^`를 통해 시간을 거슬러 올라갈 수 있습니다."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1459,7 +1459,7 @@ exports.level = {
             "afterMarkdowns": [
               "Бум! Готово. Трохи простіше ніж набирати хеш коміту"
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1472,7 +1472,7 @@ exports.level = {
             "afterMarkdowns": [
               "Просто! Ми можемо переміщуватись назад в часі з `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1534,7 +1534,7 @@ exports.level = {
             "afterMarkdowns": [
               "BÙUM! Đã xong. Đơn giản hơn gõ mã băm nhiều."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1547,7 +1547,7 @@ exports.level = {
             "afterMarkdowns": [
               "Game là dễ! Du hành ngược thời gian với `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1609,7 +1609,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Narejeno. Veliko enostavneje kot tipkanje hasha commita."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1622,7 +1622,7 @@ exports.level = {
             "afterMarkdowns": [
               "Enostavno! Lahko potujemo nazaj v čas z `HEAD^`."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1684,7 +1684,7 @@ exports.level = {
             "afterMarkdowns": [
               "Tadam! Gotowe! O wiele łatwiej niż wpisując hasz commita."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1697,7 +1697,7 @@ exports.level = {
             "afterMarkdowns": [
               "Łatwizna! Możemy cofać się w czasie, używając `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1759,7 +1759,7 @@ exports.level = {
             "afterMarkdowns": [
               "Colpito! Fatto. Mille volte meglio che scrivere l'hash."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1772,7 +1772,7 @@ exports.level = {
             "afterMarkdowns": [
               "Facile! Possiamo viaggiare in dietro nel tempo con `HEAD^`"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1834,7 +1834,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! İşte bu kadar. Commit hash'ini yazmaktan çok daha kolay."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1847,7 +1847,7 @@ exports.level = {
             "afterMarkdowns": [
               "Kolay! `HEAD^` ile zaman içinde geri gidebiliriz."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1909,7 +1909,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bumm! Megvan. Sokkal könnyebb, mint a commit hash-t begépelni."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1922,7 +1922,7 @@ exports.level = {
             "afterMarkdowns": [
               "Könnyű! A `HEAD^`-vel visszautazhatunk az időben."
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -1984,7 +1984,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bumm! Oldu. Commit hash-ini yazmaqdan qat-qat asandır."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         },
@@ -1997,7 +1997,7 @@ exports.level = {
             "afterMarkdowns": [
               "Asandır! `HEAD^` ilə zamanda geriyə səyahət edə bilərik"
             ],
-            "command": "git checkout C3; git checkout HEAD^; git checkout HEAD^; git checkout HEAD^",
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
             "beforeCommand": "git commit; git commit"
           }
         },
@@ -2040,9 +2040,9 @@ exports.level = {
               "\"^\" అనేది parent commit ను సూచించడానికి ఉపయోగించే సంకేతం."
             ],
             "afterMarkdowns": [
-              "మీరు `git checkout main^` అని టైప్ చేసి `main` branch యొక్క parent commit కు మారవచ్చు."
+              "మీరు `git switch --detach main^` అని టైప్ చేసి `main` branch యొక్క parent commit కు మారవచ్చు."
             ],
-            "command": "git checkout main^",
+            "command": "git switch --detach main^",
             "beforeCommand": "git commit"
           }
         }

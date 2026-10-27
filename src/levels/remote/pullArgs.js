@@ -1820,7 +1820,7 @@ exports.level = {
               "Gördün! `main` göstərməklə commit-ləri həmişəki kimi `o/main`-ə endirdik. Sonra `o/main`-i hazırda checkout etdiyimiz yerə merge etdik ki, bu da lokal `main` branch-ı *deyil*. Məhz buna görə çoxlu branch-ı yeniləmək üçün git pull-u fərqli yerlərdən (eyni arqumentlərlə) bir neçə dəfə işlətmək əslində məntiqli ola bilər."
             ],
             "command": "git pull origin main",
-            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git switch -c foo"
           }
         },
         {
@@ -1833,7 +1833,7 @@ exports.level = {
               "Vay, bu, bir əmrdə ÇOX iş deməkdir. Lokal olaraq `foo` adlı yeni bir branch yaratdıq, remote-un main-indən commit-ləri həmin `foo` branch-ına endirdik, sonra həmin branch-ı hazırda checkout etdiyimiz `bar` branch-ına merge etdik. 9000-i keçir!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b bar"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git switch -c bar"
           }
         },
         {
@@ -1868,7 +1868,7 @@ exports.level = {
               "చూశావా! ఈ ఒకే command లో చాలా పని జరిగింది."
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git switch -c foo"
           }
         },
         {
@@ -1889,7 +1889,7 @@ exports.level = {
               "వావ్, ఈ ఒకే command లో చాలా పని జరిగింది. లోకల్ గా `foo` అనే కొత్త branch సృష్టించాం, remote main నుండి commits ను `foo` branch కు fetch చేశాం, తర్వాత దాన్ని ప్రస్తుతం checkout చేసిన `bar` branch లో merge చేశాం. 9000 దాటింది!!!"
             ],
             "command": "git pull origin main:foo",
-            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git checkout -b bar"
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git switch -c bar"
           }
         },
         {

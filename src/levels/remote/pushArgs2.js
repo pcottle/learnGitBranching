@@ -1863,7 +1863,7 @@ exports.level = {
               "Vay! Bu, olduqca başgicəlləndirici bir əmrdir, amma məntiqlidir -- git `foo^`-u bir məkana çevirdi, remote-da hələ olmayan commit-ləri yüklədi və sonra təyinatı yenilədi."
             ],
             "command": "git push origin foo^:main",
-            "beforeCommand": "git fakeCreateRemote; git commit; git commit; git checkout -b foo; git commit"
+            "beforeCommand": "git fakeCreateRemote; git commit; git commit; git switch -c foo; git commit"
           }
         },
         {

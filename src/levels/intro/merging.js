@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C2\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\",\"C2\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git merge bugFix",
+  "solutionCommand": "git switch -c bugFix;git commit;git switch main;git commit;git merge bugFix",
   "name": {
     "en_US": "Merging in Git",
     "ar": "الدمج في Git",
@@ -99,7 +99,7 @@ exports.level = {
               "So here we see that the `main` branch color is blended into all the commits, but the `bugFix` color is not. Let's fix that..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -113,8 +113,8 @@ exports.level = {
               "",
               "Now all the commits are the same color, which means each branch contains all the work in the repository! Woohoo!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -124,9 +124,9 @@ exports.level = {
               "To complete this level, do the following steps:",
               "",
               "* Make a new branch called `bugFix`",
-              "* Checkout the `bugFix` branch with `git checkout bugFix`",
+              "* Checkout the `bugFix` branch with `git switch bugFix`",
               "* Commit once",
-              "* Go back to `main` with `git checkout`",
+              "* Go back to `main` with `git switch main`",
               "* Commit another time",
               "* Merge the branch `bugFix` into `main` with `git merge`",
               "",
@@ -168,7 +168,7 @@ exports.level = {
               "نرى هنا أن لون فرع `main` امتزج في جميع الكومِتات، لكن لون `bugFix` لم يمتزج بعد. لنعالج ذلك..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -182,8 +182,8 @@ exports.level = {
               "",
               "الآن جميع الكومِتات بنفس اللون، مما يعني أن كل فرع يضم كل العمل في المستودع! رائع!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -193,9 +193,9 @@ exports.level = {
               "لإتمام هذا المستوى، نفّذ الخطوات التالية:",
               "",
               "* أنشئ فرعاً جديداً باسم `bugFix`",
-              "* انتقل إلى فرع `bugFix` باستخدام `git checkout bugFix`",
+              "* انتقل إلى فرع `bugFix` باستخدام `git switch bugFix`",
               "* أنجز كومِتاً واحدة",
-              "* ارجع إلى `main` باستخدام `git checkout`",
+              "* ارجع إلى `main` باستخدام `git switch main`",
               "* أنجز كومِتاً أخرى",
               "* ادمج الفرع `bugFix` في `main` باستخدام `git merge`",
               "",
@@ -237,7 +237,7 @@ exports.level = {
               "پس در اینجا می‌بینیم که رنگ شاخه `main` در تمام کامیت‌ها ترکیب شده است، اما رنگ `bugFix` خیر. بیایید آن را درست کنیم..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -251,8 +251,8 @@ exports.level = {
               "",
               "حالا تمام کامیت‌ها هم‌رنگ هستند، که یعنی هر شاخه شامل تمام کارهای موجود در مخزن است! هورا!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -262,9 +262,9 @@ exports.level = {
               "برای تکمیل این مرحله، گام‌های زیر رو انجام بده:",
               "",
               "* یک شاخه جدید به نام `bugFix` بساز",
-              "* با `git checkout bugFix` وارد شاخه `bugFix` شو",
+              "* با `git switch bugFix` وارد شاخه `bugFix` شو",
               "* یک بار کامیت کن",
-              "* با `git checkout` به `main` برگرد",
+              "* با `git switch main` به `main` برگرد",
               "* یک بار دیگه کامیت کن",
               "* شاخه `bugFix` رو با `git merge` در `main` ادغام کن",
               "",
@@ -306,7 +306,7 @@ exports.level = {
               "Wir sehen also, dass die Farbe des Branch `main` in alle Commits gemischt wurde, die von `bugFix` aber nicht. Ändern wir das ..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -320,8 +320,8 @@ exports.level = {
               "",
               "Jetzt haben alle Commits dieselbe Farbe, das heißt jeder Branch enthält die Informationen des gesamten Repositorys! Juhu!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -331,9 +331,9 @@ exports.level = {
               "Führe folgendes aus, um diesen Level zu schaffen:",
               "",
               "* Lege einen neuen Branch `bugFix` an",
-              "* Checke `bugFix` aus mittels `git checkout bugFix`",
+              "* Checke `bugFix` aus mittels `git switch bugFix`",
               "* Mach einen Commit",
-              "* Geh mit `git checkout` zum `main` zurück",
+              "* Geh mit `git switch main` zum `main` zurück",
               "* Mach noch einen Commit",
               "* Merge den Branch `bugFix` in `main` mit `git merge`",
               "",
@@ -375,7 +375,7 @@ exports.level = {
               "今回のコミットには`main`ブランチの色が使われました。しかし`bugFix`ブランチの色がまだ変わってないようなので、これを変えてみましょう。"
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -389,8 +389,8 @@ exports.level = {
               "",
               "これで全てのコミットが同じ色になりました。つまり、リポジトリの中の全ての変更をそれぞれのブランチが持ったことになります。やったね！"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -400,9 +400,9 @@ exports.level = {
               "以下の作業で理解度の確認をしてみましょう:",
               "",
               "* `bugFix`という名前で新しいブランチを切る",
-              "* `git checkout bugFix`コマンドで`bugFix`ブランチに切り替える",
+              "* `git switch bugFix`コマンドで`bugFix`ブランチに切り替える",
               "* 一回だけコミット",
-              "* `git checkout`で`main`へ戻る",
+              "* `git switch main`で`main`へ戻る",
               "* もう1回コミットする",
               "* `git merge`コマンドを使って、`bugFix`ブランチを`main`ブランチへとマージする",
               "",
@@ -444,7 +444,7 @@ exports.level = {
               "Así que acá vemos que el color de la rama `main` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -458,8 +458,8 @@ exports.level = {
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Wiii!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -469,9 +469,9 @@ exports.level = {
               "Para completar este nivel, seguí estos pasos:",
               "",
               "* Creá una nueva rama, llamada `bugFix`",
-              "* Haz checkout de la rama `bugFix` usando `git checkout bugFix`",
+              "* Haz checkout de la rama `bugFix` usando `git switch bugFix`",
               "* Hacé un commit",
-              "* Volvé a `main` con `git checkout`",
+              "* Volvé a `main` con `git switch main`",
               "* Hacé otro commit",
               "* Mergeá la rama `bugFix` a `main` usando `git merge`",
               "",
@@ -513,7 +513,7 @@ exports.level = {
               "Así que acá vemos que el color de la rama `main` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -527,8 +527,8 @@ exports.level = {
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Súper!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -538,9 +538,9 @@ exports.level = {
               "Para completar este nivel, sigue estos pasos:",
               "",
               "* Crea una nueva rama, llamada `bugFix`",
-              "* Cambia a la rama `bugFix` usando `git checkout bugFix`",
+              "* Cambia a la rama `bugFix` usando `git switch bugFix`",
               "* Haz un commit",
-              "* Vuelve a `main` con `git checkout`",
+              "* Vuelve a `main` con `git switch main`",
               "* Haz otro commit",
               "* Haz un merge de la rama `bugFix` a `main` usando `git merge`",
               "",
@@ -582,7 +582,7 @@ exports.level = {
               "Así que aquí vemos que el color de la rama `main` participa en la mezcla de todos los commits, pero que el de `bugFix` no. Arreglemos eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -596,8 +596,8 @@ exports.level = {
               "",
               "Ahora todos los commits son del mismo color, lo que significa que cada rama contiene todo el trabajo que hay en el repositorio. ¡Genial!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -607,9 +607,9 @@ exports.level = {
               "Para completar este nivel, sigue estos pasos:",
               "",
               "* Crea una nueva rama, llamada `bugFix`",
-              "* Haz checkout de la rama `bugFix` usando `git checkout bugFix`",
+              "* Haz checkout de la rama `bugFix` usando `git switch bugFix`",
               "* Crea un commit",
-              "* Vuelve a `main` con `git checkout`",
+              "* Vuelve a `main` con `git switch main`",
               "* Crea otro commit",
               "* Haz merge de la rama `bugFix` a `main` usando `git merge`",
               "",
@@ -651,7 +651,7 @@ exports.level = {
               "Aqui vemos que a cor da branch `main` está misturada em todos os commits, mas a cor da `bugFix` não está. Vamos corrigir isso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -665,8 +665,8 @@ exports.level = {
               "",
               "Agora todos os commits possuem a mesma cor, o que significa que ambas as branches contêm todo o trabalho realizado no repositório! Eba!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -676,9 +676,9 @@ exports.level = {
               "Para completar este nível, faça o seguinte:",
               "",
               "* Crie uma nova branch chamada `bugFix`",
-              "* Faça checkout na branch `bugFix` com `git checkout bugFix`",
+              "* Faça checkout na branch `bugFix` com `git switch bugFix`",
               "* Faça um commit",
-              "* Volte à `main` com `git checkout`",
+              "* Volte à `main` com `git switch main`",
               "* Faça um novo commit",
               "* Junte a branch `bugFix` na `main` com `git merge`",
               "",
@@ -720,7 +720,7 @@ exports.level = {
               "Aqui vemos que a cor do branch `main` está misturada em todos os commits, mas a do `bugFix` não. Vamos resolver isso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -734,8 +734,8 @@ exports.level = {
               "",
               "Agora todos os commits têm a mesma cor, o que quer dizer que cada branch contém todo o trabalho do repositório! Boa!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -745,9 +745,9 @@ exports.level = {
               "Para completar este nível, segue estes passos:",
               "",
               "* Cria um branch novo chamado `bugFix`",
-              "* Faz checkout do branch `bugFix` com `git checkout bugFix`",
+              "* Faz checkout do branch `bugFix` com `git switch bugFix`",
               "* Faz um commit",
-              "* Volta ao `main` com `git checkout`",
+              "* Volta ao `main` com `git switch main`",
               "* Faz outro commit",
               "* Faz merge do branch `bugFix` para o `main` com `git merge`",
               "",
@@ -789,7 +789,7 @@ exports.level = {
               "Aquí vemos que a  rama `main` está mesturada en todos os commits, pero a cor da rama `bugFix` non o está. Imos arranxar eso..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -803,8 +803,8 @@ exports.level = {
               "",
               "Agora tódolos commits teñen a mesma cor, o que significa que ambas ramas teñen o mesmo traballo no repositorios! Iepa!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -814,9 +814,9 @@ exports.level = {
               "Para completar este nivel, fai o seguinte:",
               "",
               "* Crea unha nova ramara chamada `bugFix`",
-              "* Fai checkout da rama `bugFix` con `git checkout bugFix`",
+              "* Fai checkout da rama `bugFix` con `git switch bugFix`",
               "* Fai un commit",
-              "* Volve á rama `main` con `git checkout`",
+              "* Volve á rama `main` con `git switch main`",
               "* Fai un novo commit",
               "* Xunta a rama `bugFix` en `main` con `git merge`",
               "",
@@ -858,7 +858,7 @@ exports.level = {
               "Ici nous voyons que la couleur de `main` est intégrée à tous les commits, sauf ceux de `bugFix`. Réparons cela..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -872,8 +872,8 @@ exports.level = {
               "",
               "Maintenant tous les commits sont de la même couleur, ce qui indique que chaque branche contient tout le contenu du dépôt ! Woohoo !"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -883,9 +883,9 @@ exports.level = {
               "Pour accomplir ce niveau, effectuez les opérations suivantes :",
               "",
               "* Faites une nouvelle branche appelée `bugFix`",
-              "* Positionnez-vous sur la branche `bugFix` avec `git checkout bugFix`",
+              "* Positionnez-vous sur la branche `bugFix` avec `git switch bugFix`",
               "* Faites un commit",
-              "* Retournez sur la branche `main` (commande `git checkout`)",
+              "* Retournez sur la branche `main` (commande `git switch main`)",
               "* Faites un nouveau commit",
               "* Fusionnez la branche `bugFix` dans `main` avec `git merge`",
               "",
@@ -927,7 +927,7 @@ exports.level = {
               "",
               "所以，`main` 分支的颜色被混入到所有的提交记录，但 `bugFix` 没有。下面咱们让它也改变一下颜色。"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -936,13 +936,13 @@ exports.level = {
             "beforeMarkdowns": [
               "咱们再把 `main` 分支合并到 `bugFix`："
             ],
-            "command": "git checkout bugFix; git merge main",
+            "command": "git switch bugFix; git merge main",
             "afterMarkdowns": [
               "因为 `main` 继承自 `bugFix`，Git 什么都不用做，只是简单地把 `bugFix` 移动到 `main` 所指向的那个提交记录。",
               "",
               "现在所有提交记录的颜色都一样了，这表明每一个分支都包含了代码库的所有修改！大功告成！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -952,9 +952,9 @@ exports.level = {
               "要想通过这一关，需要以下几步：",
               "",
               "* 创建新分支 `bugFix`",
-              "* 用 `git checkout bugFix` 命令切换到该分支",
+              "* 用 `git switch bugFix` 命令切换到该分支",
               "* 提交一次",
-              "* 用 `git checkout main` 切换回 `main`",
+              "* 用 `git switch main` 切换回 `main`",
               "* 再提交一次",
               "* 用 `git merge` 把 `bugFix` 合并到 `main`",
               "",
@@ -996,7 +996,7 @@ exports.level = {
               "",
               "所以，`main` branch 的顏色被混入到所有的 commit，但 `bugFix` 沒有。接下來就改一下這裡吧。"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1005,13 +1005,13 @@ exports.level = {
             "beforeMarkdowns": [
               "讓我們 merge  `main` branch 到 `bugFix` 吧。"
             ],
-            "command": "git checkout bugFix; git merge main",
+            "command": "git switch bugFix; git merge main",
             "afterMarkdowns": [
               "因為 `bugFix` branch只是 `main` branch 的 parent，git 什麼都不用做，只是簡單地把 `bugfix` branch 移動到 `main` 指向的 commit。",
               "",
               "現在所有的 commit 的顏色都是一樣的啦，這表示每一個 branch 都包含了所有文件的修改！太厲害了啦！"
             ],
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1021,9 +1021,9 @@ exports.level = {
               "想完成這一關，執行以下的操作：",
               "",
               "* 建立新的 branch，叫做 `bugFix` ",
-              "* 用 `git checkout bugFix` 切換到 `bugFix` branch",
+              "* 用 `git switch bugFix` 切換到 `bugFix` branch",
               "* commit 一次",
-              "* 用 `git checkout` 切換回 `main` branch",
+              "* 用 `git switch main` 切換回 `main` branch",
               "* 再 commit 一次",
               "* 用 `git merge`  將 `bugFix` merge 到 `main`",
               "",
@@ -1065,7 +1065,7 @@ exports.level = {
               "그런식으로 여기에 `bugFix`브랜치 쪽을 제외한 나머지 커밋만 `main` 브랜치의 색으로 칠해져 있습니다. 이걸 고쳐보죠..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1079,8 +1079,8 @@ exports.level = {
               "",
               "짜잔! 이제 모든 커밋의 색이 같아졌고, 이는 두 브랜치가 모두 저장소의 모든 작업 내역을 포함하고 있다는 뜻입니다."
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1090,9 +1090,9 @@ exports.level = {
               "아래 작업을 해서 이 레벨을 통과하세요:",
               "",
               "* `bugFix`라는 새 브랜치를 만듭니다",
-              "* `git checkout bugFix`를 입력해 `bugFix` 브랜치로 이동(checkout)합니다.",
+              "* `git switch bugFix`를 입력해 `bugFix` 브랜치로 이동(checkout)합니다.",
               "* 커밋 한 번 하세요",
-              "* `git checkout` 명령어를 이용해 `main`브랜치로 돌아갑니다",
+              "* `git switch main` 명령어를 이용해 `main`브랜치로 돌아갑니다",
               "* 커밋 또 하세요",
               "* `git merge` 명령어로 `bugFix`브랜치를 `main`에 합쳐 넣습니다.",
               "",
@@ -1134,7 +1134,7 @@ exports.level = {
               "Așa că aici vedem că culoarea ramurii `main` este amestecată în toate commit-urile, dar culoarea `bugFix` nu este. Să reparăm asta..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1148,8 +1148,8 @@ exports.level = {
               "",
               "Acum toate commit-urile au aceeași culoare, ceea ce înseamnă că fiecare ramură conține toată munca din repozitoriu! Yay!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1159,9 +1159,9 @@ exports.level = {
               "Pentru a finaliza acest nivel, efectuează următorii pași:",
               "",
               "* Creează o nouă ramură numită `bugFix`",
-              "* Mutăte pe ramura `bugFix` folosind `git checkout bugFix`",
+              "* Mutăte pe ramura `bugFix` folosind `git switch bugFix`",
               "* Fă un commit",
-              "* Întoarce-te la `main` cu `git checkout`",
+              "* Întoarce-te la `main` cu `git switch main`",
               "* Fă un alt commit",
               "* Combină ramura `bugFix` în `main` folosind `git merge`",
               "",
@@ -1203,7 +1203,7 @@ exports.level = {
               "Така че тук виждаме, че цветът на клона `main` е смесен във всички комити, но цветът на `bugFix` не е. Нека поправим това..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1217,8 +1217,8 @@ exports.level = {
               "",
               "Сега всички комити са с един и същи цвят, което означава, че всеки клон съдържа цялата работа в хранилището! Юху!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1228,9 +1228,9 @@ exports.level = {
               "За да завършите това ниво, изпълнете следните стъпки:",
               "",
               " * Направете нов клон, наречен `bugFix`",
-              " * Превключете към клона `bugFix` с `git checkout bugFix`",
+              " * Превключете към клона `bugFix` с `git switch bugFix`",
               " * Направете един комит",
-              " * Върнете се към `main` с `git checkout`",
+              " * Върнете се към `main` с `git switch main`",
               " * Направете още един комит",
               " * Слейте клона `bugFix` в `main` с `git merge`",
               "",
@@ -1272,7 +1272,7 @@ exports.level = {
               "И вот мы видим, что цвет ветки `main` подмешан к каждому коммиту, а ветки `bugFix` - нет. Это можно поправить."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1286,8 +1286,8 @@ exports.level = {
               "",
               "Теперь все коммиты одного цвета, что означает, что каждая ветка содержит все изменения репозитория! Поздравляем!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1297,9 +1297,9 @@ exports.level = {
               "Чтобы пройти этот уровень, сделай следующее:",
               "",
               "* Создай новую ветку под названием `bugFix`",
-              "* Переключись на новую ветку `bugFix` командой `git checkout bugFix`",
+              "* Переключись на новую ветку `bugFix` командой `git switch bugFix`",
               "* Сделай один коммит",
-              "* Вернись на ветку `main` при помощи `git checkout`",
+              "* Вернись на ветку `main` при помощи `git switch main`",
               "* Сделай ещё один коммит",
               "* Слей ветку `bugFix` с веткой `main` при помощи `git merge`",
               "",
@@ -1341,7 +1341,7 @@ exports.level = {
               "Тож ми бачимо що колір гілки `main` містять всі коміти, але не колір `bugFix`. Давайте виправимо це..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1355,8 +1355,8 @@ exports.level = {
               "",
               "Тепер всі коміти одного кольору, що означає що кожна гілка включає в собі всю корисну інформацію яка є в цьому репозиторії! Ура!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1366,9 +1366,9 @@ exports.level = {
               "Щоб пройти цей рівень виконайте наступні кроки:",
               "",
               "* Зробіть нову гілку (branch) з назвою `bugFix`",
-              "* Перейдіть на гілку `bugFix` за допомогою `git checkout bugFix`",
+              "* Перейдіть на гілку `bugFix` за допомогою `git switch bugFix`",
               "* Зробіть один коміт",
-              "* Поверніться до `main` за допомогою `git checkout`",
+              "* Поверніться до `main` за допомогою `git switch main`",
               "* Зробіть ще один коміт",
               "* Об’єднайте (злийте) гілку `bugFix` в `main` за допомогою `git merge`",
               "",
@@ -1410,7 +1410,7 @@ exports.level = {
               "Vì vậy, ở đây chúng ta thấy rằng màu nhánh `main` được pha trộn vào tất cả các commit, nhưng màu `bugFix` thì không. Hãy sửa nó nào..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1424,8 +1424,8 @@ exports.level = {
               "",
               "Giờ thì tất cả commit đã có cùng màu, nghĩa là mỗi nhánh đã chứa tất cả thành quả trong kho! Ồ hố!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1435,9 +1435,9 @@ exports.level = {
               "Để hoàn thành cấp độ này, hãy làm theo các bước bên dưới:",
               "",
               "* Tạo một nhánh mới tên là `bugFix`",
-              "* Chuyển sang nhánh `bugFix` với `git checkout bugFix`",
+              "* Chuyển sang nhánh `bugFix` với `git switch bugFix`",
               "* Commit một lần",
-              "* Trở về `main` với `git checkout`",
+              "* Trở về `main` với `git switch main`",
               "* Commit một lần nữa",
               "* Gộp nhánh `bugFix` vào `main` với `git merge`",
               "",
@@ -1479,7 +1479,7 @@ exports.level = {
               "Torej tukaj vidimo, da je `main` branch barva zmešana v vseh commitih, `bugFix` barva pa ne. Popravimo to ..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1493,8 +1493,8 @@ exports.level = {
               "",
               "Sedaj so vsi commiti iste barve, kar pomeni, da vsak branch vsebuje vse delo v repozitoriju!! Woohoo!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1504,9 +1504,9 @@ exports.level = {
               "Da zaključiš to stopnjo, naredi naslednje korake:",
               "",
               "* Naredi novi branch `bugFix`",
-              "* Checkoutaj `bugFix` branch z `git checkout bugFix`",
+              "* Checkoutaj `bugFix` branch z `git switch bugFix`",
               "* Enkrat commitaj",
-              "* Pojdi nazaj na `main` z `git checkout`",
+              "* Pojdi nazaj na `main` z `git switch main`",
               "* Še enkrat commitaj",
               "* Mergeaj branch `bugFix` v `main` z `git merge`",
               "",
@@ -1548,7 +1548,7 @@ exports.level = {
               "Tutaj widzimy, że kolor gałęzi `main` jest składową kolorów wszystkich commitów, ale kolor gałęzi `bugFix` już nie. Naprawmy to..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1562,8 +1562,8 @@ exports.level = {
               "",
               "Teraz wszystkie commity mają ten sam kolor, co oznacza, że każda gałąź zawiera całą pracę znajdującą się w repozytorium! Super!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1573,9 +1573,9 @@ exports.level = {
               "Aby ukończyć ten poziom, wykonaj następujące czynności:",
               "",
               "* Stwórz nową gałąź o nazwie `bugFix`",
-              "* Przełącz się na gałąź `bugFix`, używając polecenia `git checkout bugFix`",
+              "* Przełącz się na gałąź `bugFix`, używając polecenia `git switch bugFix`",
               "* Zrób jeden commit",
-              "* Wróć do gałęzi `main` za pomocą polecenia `git checkout`",
+              "* Wróć do gałęzi `main` za pomocą polecenia `git switch main`",
               "* Zrób kolejny commit",
               "* Połącz gałąź `bugFix` z gałęzią `main`, używając polecenia `git merge`",
               "",
@@ -1617,7 +1617,7 @@ exports.level = {
               "ஆகவே, `main` கிளையின் வண்ணம் அனைத்து கமிட்டுகளிலும் கலந்திருப்பதை இங்கே காண்கிறோம், ஆனால் `bugFix` நிறம் மட்டும் இல்லை. அதை சரிசெய்வோம்..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1631,8 +1631,8 @@ exports.level = {
               "",
               "இப்போது அனைத்து கமிட்களும் ஒரே நிரத்தில் உள்ளது, அதாவது அனைத்து கிளைகளிலும் களஞ்சியத்தில் உள்ள அனைத்து மாற்றங்களும் உள்ளன! வூஹூ!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1642,9 +1642,9 @@ exports.level = {
               "இந்த நிலையை முடிக்க, பின்வரும் படிகளைச் செய்யுங்கள்:",
               "",
               "* `bugFix` என்ற புதிய கிளையை உருவாக்குங்கள்",
-              "* `git checkout bugFix` கொண்டு `bugFix` கிளைக்கு மாற்றி கொல்லுங்கள்",
+              "* `git switch bugFix` கொண்டு `bugFix` கிளைக்கு மாற்றி கொல்லுங்கள்",
               "* ஒரு கமிட் செய்யுங்கள்",
-              "* மீண்டும் `main`-க்கு `git checkout` கட்டளைமூலம் மாறுங்கள்",
+              "* மீண்டும் `main`-க்கு `git switch main` கட்டளைமூலம் மாறுங்கள்",
               "* மீண்டும் ஒரு கமிட் செய்யுங்கள்",
               "* இப்போது `bugFix`-ஐ `main` உடன் `git merge` இணைக்கலாம்",
               "",
@@ -1706,7 +1706,7 @@ exports.level = {
               "तो यहाँ हम देख सकते हैं कि `main` branch का color सभी commits में घुल गया है, लेकिन `bugFix` का color नहीं। चलिए इसे भी ठीक करें..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1720,8 +1720,8 @@ exports.level = {
               "",
               "अब सारे commits एक ही color के हैं, यानी हर branch में repository का पूरा काम है! शाबाश!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1731,9 +1731,9 @@ exports.level = {
               "यह लेवल पूरा करने के लिए ये steps follow करें:",
               "",
               "* `bugFix` नाम की एक नई branch बनाएं",
-              "* `git checkout bugFix` से `bugFix` branch पर जाएं",
+              "* `git switch bugFix` से `bugFix` branch पर जाएं",
               "* एक बार commit करें",
-              "* `git checkout` से वापस `main` पर आएं",
+              "* `git switch main` से वापस `main` पर आएं",
               "* एक और बार commit करें",
               "* `git merge` से `bugFix` branch को `main` में merge करें",
               "",
@@ -1775,7 +1775,7 @@ exports.level = {
               "Qui vediamo che il colore del ramo `main` è la combinazione di tutti i commit , ma il colore di `bugFix` è diverso. Sistemiamolo..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1789,8 +1789,8 @@ exports.level = {
               "",
               "Ora tutti i commit hanno lo stesso colore, il che significa che ogni ramo contiene tutto il lavoro del repository! WoWoWoW!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1800,9 +1800,9 @@ exports.level = {
               "Per completare questo livello, esegui i seguenti passaggi:",
               "",
               "* Crea un nuovo ramo di nome `bugFix`",
-              "* Seleziona il ramo `bugFix` con il comando `git checkout bugFix`",
+              "* Seleziona il ramo `bugFix` con il comando `git switch bugFix`",
               "* Esegui un commit",
-              "* Ritorna al ramo `main` con `git checkout`",
+              "* Ritorna al ramo `main` con `git switch main`",
               "* Esegui un nuovo commit",
               "* Fondi il ramo `bugFix` nel `main` con `git merge`",
               "",
@@ -1844,7 +1844,7 @@ exports.level = {
               "Yani burada `main` branch'inin renginin tüm commit'lere karıştığını, ancak `bugFix` renginin karışmadığını görüyoruz. Şimdi bunu düzeltelim..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1858,8 +1858,8 @@ exports.level = {
               "",
               "Artık tüm commit'ler aynı renk oldu, bu da her branch'in repo'daki tüm çalışmaları içerdiği anlamına geliyor! Yaşasın!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1869,9 +1869,9 @@ exports.level = {
               "Bu seviyeyi tamamlamak için aşağıdaki adımları yapmanız gerekiyor:",
               "",
               "* `bugFix` adında yeni bir branch oluşturun",
-              "* `git checkout bugFix` komutu ile `bugFix` branch'ine geçin ",
+              "* `git switch bugFix` komutu ile `bugFix` branch'ine geçin ",
               "* bir commit atın",
-              "* `git checkout` komutu ile `main` branch'ine geri dönün ",
+              "* `git switch main` komutu ile `main` branch'ine geri dönün ",
               "* başka bir commit atın",
               "* Ardından `git merge` komutu ile `bugFix`'i `main`'e merge edin",
               "",
@@ -1913,7 +1913,7 @@ exports.level = {
               "Tehát itt látjuk, hogy a `main` branch színe beolvad az összes commitba, de a `bugFix` színe nem. Javítsuk ezt..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1927,8 +1927,8 @@ exports.level = {
               "",
               "Most már minden commit ugyanolyan színű, ami azt jelenti, hogy minden branch tartalmazza a tároló összes munkáját! Hurrá!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -1938,9 +1938,9 @@ exports.level = {
               "A szint teljesítéséhez tedd a következőket:",
               "",
               "* Hozz létre egy `bugFix` nevű új branchet",
-              "* Válts a `bugFix` branchre a `git checkout bugFix` paranccsal",
+              "* Válts a `bugFix` branchre a `git switch bugFix` paranccsal",
               "* Commitolj egyszer",
-              "* Menj vissza a `main`-re a `git checkout` paranccsal",
+              "* Menj vissza a `main`-re a `git switch main` paranccsal",
               "* Commitolj még egyszer",
               "* Mergeld a `bugFix` branchet a `main`-be a `git merge` paranccsal",
               "",
@@ -1982,7 +1982,7 @@ exports.level = {
               "Beləliklə, burada görürük ki, `main` branch-ının rəngi bütün commit-lərə qarışıb, amma `bugFix`-in rəngi qarışmayıb. Gəl bunu düzəldək..."
             ],
             "command": "git merge bugFix",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit"
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
           }
         },
         {
@@ -1996,8 +1996,8 @@ exports.level = {
               "",
               "İndi bütün commit-lər eyni rəngdədir, bu da o deməkdir ki, hər branch repozitoriyadakı bütün işi ehtiva edir! Yaşasın!"
             ],
-            "command": "git checkout bugFix; git merge main",
-            "beforeCommand": "git checkout -b bugFix; git commit; git checkout main; git commit; git merge bugFix"
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
           }
         },
         {
@@ -2007,9 +2007,9 @@ exports.level = {
               "Bu bölümü tamamlamaq üçün aşağıdakı addımları yerinə yetir:",
               "",
               "* `bugFix` adlı yeni bir branch yarat",
-              "* `git checkout bugFix` ilə `bugFix` branch-ına keç",
+              "* `git switch bugFix` ilə `bugFix` branch-ına keç",
               "* Bir dəfə commit et",
-              "* `git checkout` ilə `main`-ə qayıt",
+              "* `git switch main` ilə `main`-ə qayıt",
               "* Bir dəfə də commit et",
               "* `git merge` ilə `bugFix` branch-ını `main`-ə merge et",
               "",

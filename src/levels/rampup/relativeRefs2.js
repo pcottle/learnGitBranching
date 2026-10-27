@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C6\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C0\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C1\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git branch -f main C6;git checkout HEAD~1;git branch -f bugFix HEAD~1",
+  "solutionCommand": "git branch -f main C6;git switch --detach HEAD~1;git branch -f bugFix HEAD~1",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C4\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C5\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C3\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C5\"],\"id\":\"C6\"}},\"HEAD\":{\"target\":\"C2\",\"id\":\"HEAD\"}}",
   "hint": {
     "en_US": "You'll need to use at least one direct reference (hash) to complete this level",
@@ -87,7 +87,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! So concise -- relative refs are great."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -119,7 +119,7 @@ exports.level = {
               "There we go! Relative refs gave us a concise way to refer to `C1` and branch forcing (`-f`) gave us a way to quickly move a branch to that location."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -158,7 +158,7 @@ exports.level = {
             "afterMarkdowns": [
               "धमाका! कितना छोटा -- relative refs कमाल होती हैं।"
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -190,7 +190,7 @@ exports.level = {
               "लो हो गया! Relative refs ने हमें `C1` को छोटे-छोटे शब्दों में बताने का तरीका दिया और branch forcing (`-f`) ने branch को जल्दी से उस जगह ले जाने का।"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -229,7 +229,7 @@ exports.level = {
             "afterMarkdowns": [
               "بوم! خیلی موجز -- ارجاعات نسبی عالی هستند."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -261,7 +261,7 @@ exports.level = {
               "بفرما! ارجاعات نسبی راهی موجز برای اشاره به `C1` به ما دادند و جابجایی اجباری شاخه (`-f`) راهی برای انتقال سریع یک شاخه به آن مکان به ما داد."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -300,7 +300,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Boom! Bien conciso -- las referencias relativas la rompen."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -330,7 +330,7 @@ exports.level = {
               "¡Ahí vamos! Las referencias relativas nos dieron una manera concisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -369,7 +369,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Zas! Bien conciso -- las referencias relativas la rompen."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -399,7 +399,7 @@ exports.level = {
               "¡Allá vamos! Las referencias relativas nos proporcionaron una manera concisa de referenciar a `C1`, y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -438,7 +438,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Vientos! Genial -- las referencias relativas son lo mejor."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -468,7 +468,7 @@ exports.level = {
               "¡Allá vamos! Las referencias relativas nos proporcionaron una manera breve de referenciar a `C1` y forzar la rama (`-f`) nos dio una manera rápida de mover la rama a esa ubicación"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -507,7 +507,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Tão conciso -- referências relativas são incríveis."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -537,7 +537,7 @@ exports.level = {
               "Aqui vamos nós! As referências relativas nos deram uma forma concisa de nos referirmos ao `C1`, e a movimentação de branches (com `-f`) nos deu uma forma de apontar rapidamente uma branch para esse local."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -576,7 +576,7 @@ exports.level = {
             "afterMarkdowns": [
               "Pumba! Tão conciso -- as referências relativas são mesmo boas."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -608,7 +608,7 @@ exports.level = {
               "Aí está! As referências relativas deram-nos uma forma concisa de nos referirmos ao `C1`, e forçar o branch (`-f`) deu-nos uma forma rápida de mover um branch para esse sítio."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -647,7 +647,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Veeeña! Ben apuntado -- as referencias relativas son a leche."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -677,7 +677,7 @@ exports.level = {
               "¡Agora é o a nosa quenda! As referencias relativas nos darán unha forma concisa de nos referír a `C1`, e forzar a rama (con `-f`) deunos unha forma rápida de movela rama `main` a esa posición."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -716,7 +716,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boum ! Tellement rapide ! Les références relatives sont géniales."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -746,7 +746,7 @@ exports.level = {
               "On y est ! Les références relatives nous donnent une méthode concise pour référencer `C1` et le forçage de branche (`-f`) nous donne une méthode rapide pour déplacer une branche à cet emplacement."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -784,7 +784,7 @@ exports.level = {
             "afterMarkdowns": [
               "Peng! So einfach -- relative Referenzen sind super."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -814,7 +814,7 @@ exports.level = {
               "Das war's schon! Relative Referenzen ermöglichen es uns den Commit `C1` sehr einfach anzugeben und `git branch -f` ermöglicht es uns, den Branch sehr schnell auf diesen Commit zu setzen."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -853,7 +853,7 @@ exports.level = {
             "afterMarkdowns": [
               "多么的简洁 —— 相对引用就是方便啊！"
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -885,7 +885,7 @@ exports.level = {
               "就是这样! 相对引用让我们能简洁地指向 `C1`，而强制修改分支（`-f`）则让我们能快速地将一个分支移动到那个位置。"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -924,7 +924,7 @@ exports.level = {
             "afterMarkdowns": [
               "哇！太簡潔了 -- 相對引用真的很好用！"
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -978,7 +978,7 @@ exports.level = {
             "afterMarkdowns": [
               "よっしゃ！効率が良いですね -- 相対リファレンスはなんと便利です。"
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1008,7 +1008,7 @@ exports.level = {
               "できました！相対リファレンスを使うことで、手短く`C1`を指定することができ、`-f`でブランチを強制的にそこへ移動することができました。"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1047,7 +1047,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Atât de concis -- referințele relative sunt grozave."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1079,7 +1079,7 @@ exports.level = {
               "Grozav! Referințele relative ne-au oferit o modalitate concisă de a ne referi la `C1`, iar mutarea forțată (`-f`) ne-a oferit o modalitate rapidă de a muta o ramură la acea locație."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1118,7 +1118,7 @@ exports.level = {
         "afterMarkdowns": [
           "Бум! Толкова кратко и ясно — относителните референции са страхотни."
         ],
-        "command": "git checkout HEAD~4",
+        "command": "git switch --detach HEAD~4",
         "beforeCommand": "git commit; git commit; git commit"
       }
     },
@@ -1150,7 +1150,7 @@ exports.level = {
           "Готово! Относителните референции ни дадоха кратък начин да посочим `C1`, а принудителното преместване (`-f`) — бърз начин да преместим клона там."
         ],
         "command": "git branch -f main HEAD~3",
-        "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+        "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
       }
     },
     {
@@ -1189,7 +1189,7 @@ exports.level = {
             "afterMarkdowns": [
               "Оп! Очевидно, относительные ссылки прекрасны."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1219,7 +1219,7 @@ exports.level = {
               "Вуаля! Относительная ссылка дала нам возможность просто сослаться на `C1`, а branch forcing (`-f`) позволил быстро переместить указатель ветки на этот коммит."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1258,7 +1258,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! 아주 간결합니다. -- 상대 참조는 대단해요."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1288,7 +1288,7 @@ exports.level = {
               "됐네요! 우리는 상대 참조를 통해 `C1`을 간결한 방법으로 참조할 수 있었고 브랜치 강제(`-f`)를 통해 브랜치를 저 위치로 빠르게 옮길 수 있었습니다."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1327,7 +1327,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ка-бум! Так коротко -- відносні посилання прекрасні."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1357,7 +1357,7 @@ exports.level = {
               "Ось і маєте! Відносні посилання дають нам зручний спосіб доступу до коміту `C1`, крім того форсування гілок (`-f`) дає нам можливість швидко перемістити гілку на цей коміт"
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1396,7 +1396,7 @@ exports.level = {
             "afterMarkdowns": [
               "BÙUM! Quá chuẩn luôn -- tham chiếu tương đối tuyệt vời."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1426,7 +1426,7 @@ exports.level = {
               "Đóóóó! Tham chiếu tương đối cho chúng ta một cách chuẩn xác để trỏ tới `C1` và ép nhánh bằng (`-f`) để dịch chuyển nhanh chóng nhánh tới đó."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1465,7 +1465,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Tako jedrnato -- relativne reference so super."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1495,7 +1495,7 @@ exports.level = {
               "Tako ja! Relativne reference so nam dale jedrnat način s katerim se lahko nanašamo na `C1` in branch force-anje (`-f`) nam je omogočilo, da hitro prestavimo branch na to lokacijo."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1534,7 +1534,7 @@ exports.level = {
             "afterMarkdowns": [
               "Tadam! Ale szybko - referencje względne są czadowe."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1564,7 +1564,7 @@ exports.level = {
               "Proszę bardzo! Referencje względne umożliwiły ci odnieść się w zwięzły sposób do `C1`, a forsowanie gałęzi (`-f`) pozwoliło na szybkie przeniesienie gałęzi w to konkretne miejsce."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1603,7 +1603,7 @@ exports.level = {
             "afterMarkdowns": [
               "Fatto! Breve ed efficace -- i riferimenti relativi sono stupendi."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1633,7 +1633,7 @@ exports.level = {
               "Ecco qua! I riferimenti relativi ci permettono facilmente di specificare `C1` e il branch forcing (`-f`) ci da modo di spostare rapidamente il ramo su quella posizione."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1671,7 +1671,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom! Ne kadar kısa ve öz -- göreli referanslar harika."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1703,7 +1703,7 @@ exports.level = {
               "İşte böyle! Göreli referanslar bize `C1`'e başvurmanın kısa bir yolunu sundu ve branch zorlaması (`-f`) ise branch'i hızlıca o konuma taşımanın yolunu verdi."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1742,7 +1742,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bumm! Milyen tömör -- a relatív hivatkozások nagyszerűek."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1774,7 +1774,7 @@ exports.level = {
               "Na igen! A relatív hivatkozások tömör módot adtak a `C1`-re való hivatkozáshoz, és a branch kényszerítés (`-f`) lehetővé tette, hogy gyorsan oda mozgassuk a branchet."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1813,7 +1813,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vay! Necə də yığcam -- nisbi ref-lər əladır."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         },
@@ -1845,7 +1845,7 @@ exports.level = {
               "Budur! Nisbi ref-lər bizə `C1`-ə istinad etmək üçün yığcam bir yol verdi, branch məcburiyyəti (`-f`) isə bizə bir branch-ı tez bir şəkildə həmin yerə köçürmək imkanı verdi."
             ],
             "command": "git branch -f main HEAD~3",
-            "beforeCommand": "git commit; git commit; git commit; git checkout -b bugFix"
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
           }
         },
         {
@@ -1879,9 +1879,9 @@ exports.level = {
               "మీరు `HEAD~3` అని టైప్ చేసి HEAD నుండి 3 commits వెనుకకు వెళ్ళవచ్చు."
             ],
             "afterMarkdowns": [
-              "మీరు `git checkout HEAD~1` అని టైప్ చేసి ఒక commit వెనుకకు మారవచ్చు."
+              "మీరు `git switch --detach HEAD~1` అని టైప్ చేసి ఒక commit వెనుకకు మారవచ్చు."
             ],
-            "command": "git checkout HEAD~4",
+            "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
           }
         }

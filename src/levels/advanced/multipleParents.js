@@ -95,8 +95,8 @@ exports.level = {
             "afterMarkdowns": [
               "Easy -- this is what we are all used to."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -108,8 +108,8 @@ exports.level = {
             "afterMarkdowns": [
               "See? We followed the other parent upwards."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -121,8 +121,8 @@ exports.level = {
             "afterMarkdowns": [
               "Lightning fast!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -134,8 +134,8 @@ exports.level = {
             "afterMarkdowns": [
               "The same movement as before, but all in one command."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -182,8 +182,8 @@ exports.level = {
             "afterMarkdowns": [
               "आसान -- यही तो हम सबको आदत से है।"
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -195,8 +195,8 @@ exports.level = {
             "afterMarkdowns": [
               "देखा? हम दूसरे parent का रास्ता ऊपर की तरफ गए।"
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -208,8 +208,8 @@ exports.level = {
             "afterMarkdowns": [
               "बिजली की रफ़्तार!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -221,8 +221,8 @@ exports.level = {
             "afterMarkdowns": [
               "पहले जैसी ही movement, लेकिन पूरी एक ही command में।"
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -269,8 +269,8 @@ exports.level = {
             "afterMarkdowns": [
               "سهل -- هذا ما اعتدنا عليه جميعاً."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -282,8 +282,8 @@ exports.level = {
             "afterMarkdowns": [
               "أترى؟ تتبعنا الأب الآخر إلى الأعلى."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -295,8 +295,8 @@ exports.level = {
             "afterMarkdowns": [
               "بسرعة البرق!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -308,8 +308,8 @@ exports.level = {
             "afterMarkdowns": [
               "نفس الحركة كما قبل، لكن في أمر واحد."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -355,8 +355,8 @@ exports.level = {
             "afterMarkdowns": [
               "آسان است -- این همان چیزی است که همه ما به آن عادت داریم."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -368,8 +368,8 @@ exports.level = {
             "afterMarkdowns": [
               "دیدید؟ ما والد دیگر را به سمت بالا دنبال کردیم."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -381,8 +381,8 @@ exports.level = {
             "afterMarkdowns": [
               "با سرعت رعد و برق!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -394,8 +394,8 @@ exports.level = {
             "afterMarkdowns": [
               "همان حرکت قبلی، اما همه در یک دستور."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -442,8 +442,8 @@ exports.level = {
             "afterMarkdowns": [
               "Simpel -- so kennen wir das."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -455,8 +455,8 @@ exports.level = {
             "afterMarkdowns": [
               "Gesehen? Wir gehen zu dem anderen Vorgänger zurück."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -468,8 +468,8 @@ exports.level = {
             "afterMarkdowns": [
               "Bämm!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -481,8 +481,8 @@ exports.level = {
             "afterMarkdowns": [
               "Gleicher Ablauf wie zuvor, nur alles in einem Befehl."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -529,8 +529,8 @@ exports.level = {
             "afterMarkdowns": [
               "Facile -- c'est ce que nous faisons tout le temps."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -542,8 +542,8 @@ exports.level = {
             "afterMarkdowns": [
               "Vous voyez ? Nous suivons le second parent."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -555,8 +555,8 @@ exports.level = {
             "afterMarkdowns": [
               "Boum, vitesse du tonnerre !"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -568,8 +568,8 @@ exports.level = {
             "afterMarkdowns": [
               "Le même résultat, mais en une seule commande."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -616,8 +616,8 @@ exports.level = {
             "afterMarkdowns": [
               "这正是我们都已经习惯的方法。"
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -629,8 +629,8 @@ exports.level = {
             "afterMarkdowns": [
               "看见了吧？我们回到了另外一个 parent 提交上。"
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -642,8 +642,8 @@ exports.level = {
             "afterMarkdowns": [
               "快若闪电！"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -655,8 +655,8 @@ exports.level = {
             "afterMarkdowns": [
               "和前面的结果一样，但只用了一条命令。"
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -703,8 +703,8 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil -- esto es algo habitual."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -716,8 +716,8 @@ exports.level = {
             "afterMarkdowns": [
               "¿Ves? Seguimos al otro padre hacia arriba."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -729,8 +729,8 @@ exports.level = {
             "afterMarkdowns": [
               "¡Rapidísimo!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -742,8 +742,8 @@ exports.level = {
             "afterMarkdowns": [
               "El mismo movimiento que antes, pero todo en uno."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -790,8 +790,8 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil -- esto es a lo que estamos acostumbrados."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -803,8 +803,8 @@ exports.level = {
             "afterMarkdowns": [
               "¿Ves? Seguimos al otro padre hacia arriba."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -816,8 +816,8 @@ exports.level = {
             "afterMarkdowns": [
               "¡Rapidísimo!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -829,8 +829,8 @@ exports.level = {
             "afterMarkdowns": [
               "El mismo movimiento que antes, pero todo en uno."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -877,8 +877,8 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil -- esto es a lo que estamos acostumbrados."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -890,8 +890,8 @@ exports.level = {
             "afterMarkdowns": [
               "¿Ves? Seguimos al otro padre hacia arriba."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -903,8 +903,8 @@ exports.level = {
             "afterMarkdowns": [
               "¡Rapidísimo!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -916,8 +916,8 @@ exports.level = {
             "afterMarkdowns": [
               "El mismo movimiento que antes, pero todo en uno."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -964,8 +964,8 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil -- isso é aquilo com o que já estamos acostumados."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -977,8 +977,8 @@ exports.level = {
             "afterMarkdowns": [
               "Viu? Subimos para o outro pai."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -990,8 +990,8 @@ exports.level = {
             "afterMarkdowns": [
               "Rápido como a luz!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1003,8 +1003,8 @@ exports.level = {
             "afterMarkdowns": [
               "O mesmo movimento que o anterior, mas tudo em um único comando."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1051,8 +1051,8 @@ exports.level = {
             "afterMarkdowns": [
               "Fácil -- é aquilo a que já estamos todos habituados."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1064,8 +1064,8 @@ exports.level = {
             "afterMarkdowns": [
               "Vês? Seguimos o outro pai para cima."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1077,8 +1077,8 @@ exports.level = {
             "afterMarkdowns": [
               "Rápido como um relâmpago!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1090,8 +1090,8 @@ exports.level = {
             "afterMarkdowns": [
               "O mesmo movimento de antes, mas tudo num só comando."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1138,8 +1138,8 @@ exports.level = {
             "afterMarkdowns": [
               "Sinxelo, eso é aquelo co que xa estamos acostumados."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1151,8 +1151,8 @@ exports.level = {
             "afterMarkdowns": [
               "¿Viches? Subimos para o outro pai."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1164,8 +1164,8 @@ exports.level = {
             "afterMarkdowns": [
               "Rápido coma a luz!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1177,8 +1177,8 @@ exports.level = {
             "afterMarkdowns": [
               "O mesmo movemento feito antes, pero feito nun só comando."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1225,8 +1225,8 @@ exports.level = {
             "afterMarkdowns": [
               "簡單吧！這就是預設的情況。"
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1238,8 +1238,8 @@ exports.level = {
             "afterMarkdowns": [
               "看到了嗎？我們回到了第二個 parent commit。"
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1251,8 +1251,8 @@ exports.level = {
             "afterMarkdowns": [
               "簡直就像是電光石火！"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1264,8 +1264,8 @@ exports.level = {
             "afterMarkdowns": [
               "和前面的結果一樣，但只用了一條指令。"
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1312,8 +1312,8 @@ exports.level = {
             "afterMarkdowns": [
               "Ușor -- asta este ceea ce suntem obișnuiți să facem."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1325,8 +1325,8 @@ exports.level = {
             "afterMarkdowns": [
               "Vezi? Am urmat celălalt părinte în sus."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1338,8 +1338,8 @@ exports.level = {
             "afterMarkdowns": [
               "Rapid ca fulgerul!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1351,8 +1351,8 @@ exports.level = {
             "afterMarkdowns": [
               "Aceeași mișcare ca înainte, dar totul într-o singură comandă."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1398,8 +1398,8 @@ exports.level = {
             "afterMarkdowns": [
               "Лесно — това е поведението, с което сме свикнали."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1411,8 +1411,8 @@ exports.level = {
             "afterMarkdowns": [
               "Виждаш ли? Последвахме другия родител нагоре."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1424,8 +1424,8 @@ exports.level = {
             "afterMarkdowns": [
               "Светкавично бързо!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1437,8 +1437,8 @@ exports.level = {
             "afterMarkdowns": [
               "Същото движение както преди, но с една-единствена команда."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1485,8 +1485,8 @@ exports.level = {
             "afterMarkdowns": [
               "Просто - прямо как мы любим."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1498,8 +1498,8 @@ exports.level = {
             "afterMarkdowns": [
               "Вот. Мы на втором родительском коммите."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1511,8 +1511,8 @@ exports.level = {
             "afterMarkdowns": [
               "Быстро как Флэш!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1524,8 +1524,8 @@ exports.level = {
             "afterMarkdowns": [
               "Сделаем то же самое, что перед этим, только в одну команду."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1572,8 +1572,8 @@ exports.level = {
             "afterMarkdowns": [
               "簡単ですね -- これがデフォルトの動作になります。"
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1585,8 +1585,8 @@ exports.level = {
             "afterMarkdowns": [
               "見ましたか？私たちは他の親に移ることができました。"
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1598,8 +1598,8 @@ exports.level = {
             "afterMarkdowns": [
               "超高速ですね！"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1611,8 +1611,8 @@ exports.level = {
             "afterMarkdowns": [
               "前と同じ移動ですが、なんと一つのコマンドでできています。"
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1659,8 +1659,8 @@ exports.level = {
             "afterMarkdowns": [
               "간단하죠 -- 우리한테 익숙한 모습입니다."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1672,8 +1672,8 @@ exports.level = {
             "afterMarkdowns": [
               "보이나요? 다른 부모를 선택해 올라갔습니다."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1685,8 +1685,8 @@ exports.level = {
             "afterMarkdowns": [
               "빛처럼 빠르게 말이죠!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1698,8 +1698,8 @@ exports.level = {
             "afterMarkdowns": [
               "앞과 같은 움직임이지만 하나의 명령으로 표현되었습니다."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1746,8 +1746,8 @@ exports.level = {
             "afterMarkdowns": [
               "Легко -- те до чого ми всі звикли."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1759,8 +1759,8 @@ exports.level = {
             "afterMarkdowns": [
               "Бачите? Ми перейшли до другого батька вверх."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1772,8 +1772,8 @@ exports.level = {
             "afterMarkdowns": [
               "Супер швидко!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1785,8 +1785,8 @@ exports.level = {
             "afterMarkdowns": [
               "Те саме, що й перед цим, але однією командою."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1833,8 +1833,8 @@ exports.level = {
             "afterMarkdowns": [
               "Dễ dàng -- đó là cách mà ta thường làm."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1846,8 +1846,8 @@ exports.level = {
             "afterMarkdowns": [
               "Thấy chứ? Ta đã leo lên commit cha khác lúc trước."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1859,8 +1859,8 @@ exports.level = {
             "afterMarkdowns": [
               "Nhanh như chớp!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1872,8 +1872,8 @@ exports.level = {
             "afterMarkdowns": [
               "Cùng con đường như lúc trước, nhưng chỉ cần 1 dòng lệnh."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1920,8 +1920,8 @@ exports.level = {
             "afterMarkdowns": [
               "Enostavno -- tega smo vsi navajeni."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1933,8 +1933,8 @@ exports.level = {
             "afterMarkdowns": [
               "Vidiš? Sledili smo drugemu staršu navzgor."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -1946,8 +1946,8 @@ exports.level = {
             "afterMarkdowns": [
               "Bliskovito!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -1959,8 +1959,8 @@ exports.level = {
             "afterMarkdowns": [
               "Isto gibanje kot prej, ampak vse z enim ukazom."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2007,8 +2007,8 @@ exports.level = {
             "afterMarkdowns": [
               "அது பரவாயில்லை -- இது நாம் அனைவரும் பழக்கமாகிவிட்டது."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2020,8 +2020,8 @@ exports.level = {
             "afterMarkdowns": [
               "கவனத்தீர்களா? நாம் அடுத்த கிளை மூழப்புள்ளியின் கீழ் இணைப்பை உருவாக்கி உள்ளொம்."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2033,8 +2033,8 @@ exports.level = {
             "afterMarkdowns": [
               "மின்னல் வேகம்!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2046,8 +2046,8 @@ exports.level = {
             "afterMarkdowns": [
               "மேல் கண்ட அதே வழி மாற்றம்தான் ஆனால் அனைத்தும் ஒரே கட்டளையில்."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2091,8 +2091,8 @@ exports.level = {
             "afterMarkdowns": [
               "అది బాగుంది -- ఇది మనం అందరం అలవాటు పడింది."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2104,8 +2104,8 @@ exports.level = {
             "afterMarkdowns": [
               "గమనించారా? మనం తదుపరి branch point కింద ఒక merge ను create చేశాము."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2117,8 +2117,8 @@ exports.level = {
             "afterMarkdowns": [
               "Lightning fast!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2130,8 +2130,8 @@ exports.level = {
             "afterMarkdowns": [
               "పైన చూపిన అదే result, కానీ ఒకే command లో."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2178,8 +2178,8 @@ exports.level = {
             "afterMarkdowns": [
               "Spokojnie - do tego wszyscy jesteśmy przyzwyczajeni."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2191,8 +2191,8 @@ exports.level = {
             "afterMarkdowns": [
               "Spójrz. Przenieślismy się do drugiego rodzica."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2204,8 +2204,8 @@ exports.level = {
             "afterMarkdowns": [
               "Co za prędkość!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2217,8 +2217,8 @@ exports.level = {
             "afterMarkdowns": [
               "Ten sam ruch co poprzednio, ale wszystko w jednym poleceniu."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2265,8 +2265,8 @@ exports.level = {
             "afterMarkdowns": [
               "Facile -- questo è quello a cui siamo abituati."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2278,8 +2278,8 @@ exports.level = {
             "afterMarkdowns": [
               "Vedi? Abbiamo seguito il secondo genitore verso l'alto."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2291,8 +2291,8 @@ exports.level = {
             "afterMarkdowns": [
               "Super veloce!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2304,8 +2304,8 @@ exports.level = {
             "afterMarkdowns": [
               "Stessi passaggi di prima, ma tutto con un comando."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2352,8 +2352,8 @@ exports.level = {
             "afterMarkdowns": [
               "Kolay -- bu, hepimizin alışık olduğu şey."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2365,8 +2365,8 @@ exports.level = {
             "afterMarkdowns": [
               "Görüyor musunuz? Diğer ebeveyni yukarıya takip ettik."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2378,8 +2378,8 @@ exports.level = {
             "afterMarkdowns": [
               "Şimşek gibi hızlı!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2391,8 +2391,8 @@ exports.level = {
             "afterMarkdowns": [
               "Önceki hareketin aynısı, ancak tümünü tek bir komutla."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2439,8 +2439,8 @@ exports.level = {
             "afterMarkdowns": [
               "Egyszerű -- ez az, amihez mindannyian szokva vagyunk."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2452,8 +2452,8 @@ exports.level = {
             "afterMarkdowns": [
               "Látod? A másik szülőt követtük felfelé."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2465,8 +2465,8 @@ exports.level = {
             "afterMarkdowns": [
               "Villámgyorsan!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2478,8 +2478,8 @@ exports.level = {
             "afterMarkdowns": [
               "Ugyanaz a mozgás mint előbb, de egyetlen parancsban."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2526,8 +2526,8 @@ exports.level = {
             "afterMarkdowns": [
               "Asandır -- hamımızın öyrəşdiyi budur."
             ],
-            "command": "git checkout main^",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2539,8 +2539,8 @@ exports.level = {
             "afterMarkdowns": [
               "Gördün? Biz digər valideyni yuxarı izlədik."
             ],
-            "command": "git checkout main^2",
-            "beforeCommand": "git checkout HEAD^; git commit; git checkout main; git merge C2"
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
           }
         },
         {
@@ -2552,8 +2552,8 @@ exports.level = {
             "afterMarkdowns": [
               "İldırım sürətilə!"
             ],
-            "command": "git checkout HEAD~; git checkout HEAD^2; git checkout HEAD~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {
@@ -2565,8 +2565,8 @@ exports.level = {
             "afterMarkdowns": [
               "Əvvəlki ilə eyni hərəkət, amma hamısı bir əmrdə."
             ],
-            "command": "git checkout HEAD~^2~2",
-            "beforeCommand": "git commit; git checkout C0; git commit; git commit; git commit; git checkout main; git merge C5; git commit"
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
           }
         },
         {

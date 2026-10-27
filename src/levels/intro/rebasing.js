@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22main%22%7D%2C%22bugFix%22%3A%7B%22target%22%3A%22C2%27%22%2C%22id%22%3A%22bugFix%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C2%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22bugFix%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git checkout -b bugFix;git commit;git checkout main;git commit;git checkout bugFix;git rebase main",
+  "solutionCommand": "git switch -c bugFix;git commit;git switch main;git commit;git switch bugFix;git rebase main",
   "name": {
     "en_US": "Rebase Introduction",
     "ar": "مقدمة إلى Rebase",
@@ -101,7 +101,7 @@ exports.level = {
               "The only problem is that main hasn't been updated either, let's do that now..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -114,7 +114,7 @@ exports.level = {
               "There! Since `main` was an ancestor of `bugFix`, git simply moved the `main` branch reference forward in history."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -168,7 +168,7 @@ exports.level = {
               "बस एक दिक्कत है कि main भी अपडेट नहीं हुआ है, चलिए अब वह करते हैं..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -181,7 +181,7 @@ exports.level = {
               "लो हो गया! चूंकि `main` पहले से `bugFix` का ancestor था, git ने बस `main` branch की reference को history में आगे खिसका दिया।"
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -235,7 +235,7 @@ exports.level = {
               "تنها مشکل این است که main هم به‌روزرسانی نشده است، بیایید حالا این کار را انجام دهیم..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -248,7 +248,7 @@ exports.level = {
               "بفرما! از آنجا که `main` اجداد `bugFix` بود، git به سادگی مرجع شاخه `main` را در تاریخچه به جلو برد."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -302,7 +302,7 @@ exports.level = {
               "Aber `main` ist jetzt nicht aktualisiert worden, lass uns das gerade noch nachholen ..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -315,7 +315,7 @@ exports.level = {
               "So! Da `main` ein Vorgänger von `bugFix` war konnte Git hier einfach den Bezeichner `main` auf denselben Commit schieben, auf den auch `bugFix` zeigt."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -369,7 +369,7 @@ exports.level = {
               "一つ問題が残ってて、mainブランチがまだ最新化されていませんね。ちょっと直してみましょう。。"
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -382,7 +382,7 @@ exports.level = {
               "できた！`main`は`bugFix`の直前のコミットだったので、gitは単純に`main`ブランチのポインタを前に進めただけでした。"
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -436,7 +436,7 @@ exports.level = {
               "El único problema es que main todavía no se actualizó, resolvámoslo ahora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -449,7 +449,7 @@ exports.level = {
               "¡Ahí está! Como `main` era un ancestro de `bugFix`, git simplemente movió la referencia de `main` hacia adelante en la historia."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -503,7 +503,7 @@ exports.level = {
               "El único problema es que main todavía no se actualizó, resolvámoslo ahora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -516,7 +516,7 @@ exports.level = {
               "¡Ahí está! Como `main` era un ancestro de `bugFix`, git simplemente movió la referencia de `main` hacia adelante en la historia."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -570,7 +570,7 @@ exports.level = {
               "El único problema es que main todavía no se actualizó, resolvámoslo ahora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -583,7 +583,7 @@ exports.level = {
               "¡Ahí está! Como `main` era un ancestro de `bugFix`, git simplemente movió la referencia de `main` hacia adelante en la historia."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -637,7 +637,7 @@ exports.level = {
               "O único problema é que a main não foi atualizada também, vamos atualiza-la agora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -650,7 +650,7 @@ exports.level = {
               "Aí está! Como a `main` era um ancestral da `bugFix`, o git simplesmente moveu a referência da branch `main` para frente na história."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -704,7 +704,7 @@ exports.level = {
               "O único problema é que o main também ainda não foi atualizado. Vamos tratar disso agora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -717,7 +717,7 @@ exports.level = {
               "Pronto! Como o `main` era antecessor do `bugFix`, o git limitou-se a mover a referência do branch `main` para a frente no histórico."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -771,7 +771,7 @@ exports.level = {
               "O único problema é que a rama main non foi actualizada tamén, ímolo facer agora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -784,7 +784,7 @@ exports.level = {
               "¡Xa está! Como `main` era um ancestro de `bugFix`, git simplemente moveu a referencia da rama `main` máis adiante na historia."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -838,7 +838,7 @@ exports.level = {
               "Le seul problème est que main n'a pas été mis à jour, faisons cela maintenant…"
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -853,7 +853,7 @@ exports.level = {
               "Maintenant que vous avez vu comment cela fonctionne, essayons ce niveau !"
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -907,7 +907,7 @@ exports.level = {
               "",
               "现在唯一的问题就是 main 还没有更新，下面咱们就来更新它吧……"
             ],
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -920,7 +920,7 @@ exports.level = {
             "afterMarkdowns": [
               "好了！由于 `bugFix` 继承自 `main`，所以 Git 只是简单的把 `main` 分支的引用向前移动了一下而已。"
             ],
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -974,7 +974,7 @@ exports.level = {
               "",
               "現在唯一的問題是 main branch 還沒有更新...我們接下來就更新它吧！"
             ],
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -987,7 +987,7 @@ exports.level = {
             "afterMarkdowns": [
               "完成！因為 `main` branch 是 `bugFix` 的 parent，所以 git 只是把 `main` branch 往前移動到 `bugFix` 上。"
             ],
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1041,7 +1041,7 @@ exports.level = {
               "`main`이 아직 그대로라는 문제가 남아있는데요, 바로 해결해보죠..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1054,7 +1054,7 @@ exports.level = {
               "보세요! `main`이 `bugFix`의 부모쪽에 있었기 때문에, 단순히 그 브랜치를 더 앞쪽의 커밋을 가리키게 이동하는 것이 전부입니다."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1108,7 +1108,7 @@ exports.level = {
               "Singura problemă este că main nu a fost actualizat, să rezolvăm asta acum..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1121,7 +1121,7 @@ exports.level = {
               "Iată! Deoarece `main` era un strămoș al `bugFix`, git a mutat pur și simplu referința ramurii `main` înainte în istorie."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1175,7 +1175,7 @@ exports.level = {
               "Единственият проблем е, че main също не е актуализиран, нека направим това сега..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1188,7 +1188,7 @@ exports.level = {
               "Ето! Тъй като `main` беше предшественик на `bugFix`, git просто премести референцията на клона `main` напред в историята."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1242,7 +1242,7 @@ exports.level = {
               "Единственная проблема - ветка `main` не обновлена до последних изменений. Это легко исправить."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1255,7 +1255,7 @@ exports.level = {
               "Вуаля! Так как `main` был предком `bugFix`, git просто сдвинул ссылку на `main` вперёд."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1309,7 +1309,7 @@ exports.level = {
               "Є лише одна проблема: гілка main також не була оновлена, давайте зробимо це наступним кроком..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1322,7 +1322,7 @@ exports.level = {
               "Вуаля! Так як `main` це предок `bugFix`, git просто просунув посилання гілки `main` вперед в історії."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1376,7 +1376,7 @@ exports.level = {
               "Vấn đề duy nhất bây giờ là nhánh main vẫn chưa được cập nhật, làm luôn cho nóng nào..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1389,7 +1389,7 @@ exports.level = {
               "Đó! Bởi vì `main` là cha ông của `bugFix`, Git đơn giản chuyển tham chiếu của nhánh `main` tiến lên."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1443,7 +1443,7 @@ exports.level = {
               "Edini problem je, da tudi main ni bil posodobljen, naredimo to sedaj ..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1456,7 +1456,7 @@ exports.level = {
               "Tako! Ker je bil `main` prednik `bugFix`, je git enostavno premaknil `main` branch referenco naprej v zgodovini."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1510,7 +1510,7 @@ exports.level = {
               "Jedynym problemem jest to, że `main` nie został jeszcze zaktualizowany. Zróbmy to teraz..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1523,7 +1523,7 @@ exports.level = {
               "Gotowe! Ponieważ `main` był przodkiem `bugFix`, git po prostu przesunął odniesienie do `main` do przodu w historii."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1577,7 +1577,7 @@ exports.level = {
               "L'unico problema è che il main non è ancora stato aggiornato, facciamolo ora..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1590,7 +1590,7 @@ exports.level = {
               "Ecco qua! Visto che main era un antenato di `bugFix`, git sposta semplicemente il riferimento al ramo `main` in avanti."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1644,7 +1644,7 @@ exports.level = {
               "ஒரே பிரச்சினை என்னவென்றால் main இன்னும் புதுப்பிக்கப்படவில்லை, அதை இப்போது செய்யலாம்..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1657,7 +1657,7 @@ exports.level = {
               "இங்கே! ஏனெனில் `main` என்பது `bugFix` இன் முன்னோடி ஆக இருந்தது, git எளிதாக `main` பிரான்சின் குறி வரலாற்றை முன்னேற்றியுள்ளது."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1731,7 +1731,7 @@ exports.level = {
               "Tek sorun, main'in henüz güncellenmemiş olması, hadi şimdi bunu yapalım..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1744,7 +1744,7 @@ exports.level = {
               "İşte! `main`, `bugFix`'in atası olduğu için, git sadece `main` dalının referansını geçmişte ileri taşıdı."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1798,7 +1798,7 @@ exports.level = {
               "Az egyetlen probléma, hogy a main sem frissült, csináljuk meg most..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1811,7 +1811,7 @@ exports.level = {
               "Megvan! Mivel a `main` a `bugFix` őse volt, a git egyszerűen előrébb mozgatta a `main` branch referenciáját az előzményekben."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
@@ -1865,7 +1865,7 @@ exports.level = {
               "Yeganə problem odur ki, main də yenilənməyib, gəl indi bunu edək..."
             ],
             "command": "git rebase main",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
           }
         },
         {
@@ -1878,7 +1878,7 @@ exports.level = {
               "Budur! `main` `bugFix`-in əcdadı olduğu üçün git sadəcə `main` branch istinadını tarixçədə irəli apardı."
             ],
             "command": "git rebase bugFix",
-            "beforeCommand": "git commit; git checkout -b bugFix C1; git commit; git rebase main; git checkout main"
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
           }
         },
         {
