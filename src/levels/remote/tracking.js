@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%7D%2C%22o/main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22o/main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3A%22o/main%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%2C%22originTree%22%3A%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D%7D",
-  "solutionCommand": "git checkout -b side o/main;git commit;git pull --rebase;git push",
+  "solutionCommand": "git switch -c side o/main;git commit;git pull --rebase;git push",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\",\"remoteTrackingBranchID\":\"o/main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\",\"remoteTrackingBranchID\":null}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Tracking",
@@ -104,9 +104,9 @@ exports.level = {
               "",
               "Yes you can! You can make any arbitrary branch track `o/main`, and if you do so, that branch will have the same implied push destination and merge target as `main`. This means you can run `git push` on a branch named `totallyNotMain` and have your work pushed to the `main` branch on the remote!",
               "",
-              "There are two ways to set this property. The first is to checkout a new branch by using a remote branch as the specified ref. Running",
+              "There are two ways to set this property. The first is to create and switch to a new branch by using a remote branch as the specified ref. Running",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "Creates a new branch named `totallyNotMain` and sets it to track `o/main`."
             ]
@@ -116,12 +116,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Enough talking, let's see a demonstration! We will checkout a new branch named `foo` and set it to track `main` on the remote."
+              "Enough talking, let's see a demonstration! We will create and switch to a new branch named `foo` and set it to track `main` on the remote."
             ],
             "afterMarkdowns": [
               "As you can see, we used the implied merge target of `o/main` to update the `foo` branch. Note how main doesn't get updated!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -134,7 +134,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. We pushed our work to the `main` on the remote even though our branch was named something totally different."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -165,7 +165,7 @@ exports.level = {
               "Same as before, just a more explicit command. Sweet!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -224,7 +224,7 @@ exports.level = {
               "",
               "इस property को set करने के दो तरीक़े हैं। पहला है remote branch को specified ref की तरह इस्तेमाल करके नई branch checkout करना। चलाइए,",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "इससे `totallyNotMain` नाम की नई branch बनती है और वो `o/main` को track करने लगती है।"
             ]
@@ -239,7 +239,7 @@ exports.level = {
             "afterMarkdowns": [
               "जैसा आप देख सकते हैं, हमने `o/main` के implied merge target का इस्तेमाल करके `foo` branch को update किया। ध्यान दो कि main update नहीं हुई!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -252,7 +252,7 @@ exports.level = {
             "afterMarkdowns": [
               "धड़ाम. हमने अपना work remote की `main` पर push कर दिया, हालाँकि हमारी branch का नाम कुछ और ही था।"
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -283,7 +283,7 @@ exports.level = {
               "पहले जैसा ही, बस एक ज़्यादा साफ़ command. मस्त!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -342,7 +342,7 @@ exports.level = {
               "",
               "دو راه برای تنظیم این ویژگی وجود دارد. اولین راه این است که یک شاخه جدید را با استفاده از یک شاخه ریموت به عنوان مرجع مشخص شده checkout کنید. اجرای",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "یک شاخه جدید به نام `totallyNotMain` ایجاد می‌کند و آن را برای رهگیری `o/main` تنظیم می‌کند."
             ]
@@ -357,7 +357,7 @@ exports.level = {
             "afterMarkdowns": [
               "همانطور که می‌بینید، ما از هدف ادغام ضمنی `o/main` برای به‌روزرسانی شاخه `foo` استفاده کردیم. توجه کنید که چگونه main به‌روزرسانی نمی‌شود!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -370,7 +370,7 @@ exports.level = {
             "afterMarkdowns": [
               "بوم. ما کارمان را به `main` در ریموت push کردیم با اینکه شاخه ما نام کاملاً متفاوتی داشت."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -401,7 +401,7 @@ exports.level = {
               "مانند قبل، فقط یک دستور صریح‌تر. شیرین است!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -458,9 +458,9 @@ exports.level = {
               "",
               "Absolument ! Vous pouvez suivre `o/main` depuis n'importe quelle branche, et si vous le faites, cette branche va avoir la même destination de push et cible de merge que pour `main`. Cela signifie que vous pouvez exécuter `git push` sur une branche nommée `totallyNotMain` mais envoyer tout de même votre travail sur la branche `main` du dépôt distant !",
               "",
-              "Il y a deux façons de configurer cette propriété. La première est de créer une nouvelle branche en la branchant immédiatement sur la branche distante, à l'aide de `git checkout -b` :",
+              "Il y a deux façons de configurer cette propriété. La première est de créer une nouvelle branche en la branchant immédiatement sur la branche distante, à l'aide de `git switch -c` :",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "Cette commande crée une nouvelle branche nommée `totallyNotMain` et la configure pour suivre `o/main`."
             ]
@@ -475,7 +475,7 @@ exports.level = {
             "afterMarkdowns": [
               "Comme vous pouvez le voir, nous avons utilisé la cible de fusion déclarée pour `o/main` afin de mettre à jour la branche `foo`. Remarquez que la branche `main` n'a pas été mise à jour !!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -488,7 +488,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boum. Nous avons envoyé notre travail sur `main` vers le dépôt distant alors que notre branche avait un nom totalement différent."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -519,7 +519,7 @@ exports.level = {
               "C'est la même chose, et c'est juste un peu plus explicite. Cool !"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -580,7 +580,7 @@ exports.level = {
               "",
               "Hay dos formas de establecer esta propiedad. La primera es hacer checkout de una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
               "",
-              "`git checkout -b absolutamenteNoEsMain o/main`",
+              "`git switch -c absolutamenteNoEsMain o/main`",
               "",
               "Crea una nueva rama llamada `absolutamenteNoEsMain` y la hace trackear a `o/main`."
             ]
@@ -595,7 +595,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como podés ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Notá cómo `main` no fue actualizada!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -608,7 +608,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. Pusheamos nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -639,7 +639,7 @@ exports.level = {
               "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Una belleza!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -700,7 +700,7 @@ exports.level = {
               "",
               "Hay dos formas de establecer esta propiedad. La primera es hacer checkout sobre una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
               "",
-              "`git checkout -b absolutamenteNoEsMain o/main`",
+              "`git switch -c absolutamenteNoEsMain o/main`",
               "",
               "Crea una nueva rama llamada `absolutamenteNoEsMain` y la hace trackear a `o/main`."
             ]
@@ -715,7 +715,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como puedes ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Observa cómo `main` no fue actualizada!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -728,7 +728,7 @@ exports.level = {
             "afterMarkdowns": [
               "Zas. Hacemos push de nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -759,7 +759,7 @@ exports.level = {
               "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Muy útil!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -820,7 +820,7 @@ exports.level = {
               "",
               "Hay dos formas de establecer esta propiedad. La primera es hacer checkout sobre una nueva rama usando una rama remota como la referencia especificada. Ejecutar",
               "",
-              "`git checkout -b absolutamenteNoEsMain o/main`",
+              "`git switch -c absolutamenteNoEsMain o/main`",
               "",
               "Crea una nueva rama llamada `absolutamenteNoEsMain` y la hace trackear a `o/main`."
             ]
@@ -835,7 +835,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como puedes ver, usamos el objetivo implícito de merge `o/main` para actualizar la rama `foo`. ¡Observa cómo `main` no fue actualizada!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -848,7 +848,7 @@ exports.level = {
             "afterMarkdowns": [
               "Zas. Hacemos push de nuestro trabajo a la rama `main` del remoto incluso cuando nuestra rama se llamaba totalmente distinto."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -879,7 +879,7 @@ exports.level = {
               "Lo mismo que antes, sólo que con un comando bastante más explícito. ¡Muy útil!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -938,7 +938,7 @@ exports.level = {
               "",
               "Há duas formas de configurar essa propriedade. A primeira consiste em fazer checkout de uma nova branch usando a branch remota como especificação de referência. Executar",
               "",
-              "`git checkout -b realmenteNaoSouOMain o/main`",
+              "`git switch -c realmenteNaoSouOMain o/main`",
               "",
               "Cria uma nova branch chamada `realmenteNaoSouOMain` e o configura para seguir a `o/main`."
             ]
@@ -953,7 +953,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como você pode ver, usamos o alvo implícito de merge da `o/main` para atualizar a branch `foo`. Veja como a main local não sofreu atualização!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -966,7 +966,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. Nós enviamos nosso trabalho para a branch remota `main` ainda que nossa branch local tivesse um nome completamente diferente."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -997,7 +997,7 @@ exports.level = {
               "O mesmo de antes, apenas um comando mais explícito. Doce!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1056,7 +1056,7 @@ exports.level = {
               "",
               "Há duas formas de definir esta propriedade. A primeira é fazer checkout de um branch novo usando um branch remoto como referência. Ao executar",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "Crias um branch novo chamado `totallyNotMain`, configurado para seguir o `o/main`."
             ]
@@ -1071,7 +1071,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como vês, usámos o alvo de merge implícito, o `o/main`, para atualizar o branch `foo`. Repara que o main não é atualizado!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1084,7 +1084,7 @@ exports.level = {
             "afterMarkdowns": [
               "Pumba. Fizemos push do nosso trabalho para o `main` do repositório remoto, apesar de o nosso branch ter um nome completamente diferente."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1115,7 +1115,7 @@ exports.level = {
               "Igual ao anterior, só que com um comando mais explícito. Boa!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1176,7 +1176,7 @@ exports.level = {
               "",
               "Hai dúas formas de establecer esta propiedade. A primeira é facer checkout a unha nova rama empregando unha rama remota como a referencia especificada. Executar",
               "",
-              "`git checkout -b nonMain o/main`",
+              "`git switch -c nonMain o/main`",
               "",
               "Crea unha nova rama chamada `nonMain` e persigue a `o/main`."
             ]
@@ -1191,7 +1191,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como podes ver, empregamos o obxectivo implícito de merge `o/main` para actualizar a rama `foo`. ¡Nota como `main` non foi actualizada!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1204,7 +1204,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. Empurramos o noso traballo á rama `main` do remoto incluso cando a nosa rama se chamaba totalmete distinto."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1235,7 +1235,7 @@ exports.level = {
               "O mesmo que antes, só que un comando bastante máis explícito. ¡Unha cousa preciosa!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1294,7 +1294,7 @@ exports.level = {
               "",
               "有兩個方式可以設定，第一個就是藉由參考一個 remote branch 來 checkout 一個新的 branch。執行",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "建立一個新的 `totallyNotMain` branch 並且它會 track `o/main`。"
             ]
@@ -1309,7 +1309,7 @@ exports.level = {
             "afterMarkdowns": [
               "就像你看到的，當 `o/main` 更新的時候，`foo` branch 也跟著一起被更新，要注意 main 並沒有被更新！"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1322,7 +1322,7 @@ exports.level = {
             "afterMarkdowns": [
               "哇，即使我們的 branch 名稱完全一點關係都沒有，但我們還是 push 了 commit 到 remote 的 `main` branch 上面。"
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1353,7 +1353,7 @@ exports.level = {
               "跟之前一樣，就只是一個更加明確的指令，讚啦！"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1413,7 +1413,7 @@ exports.level = {
               "",
               "有两种方法设置这个属性，第一种就是通过远程分支切换到一个新的分支，执行: ",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "就可以创建一个名为 `totallyNotMain` 的分支，它跟踪远程分支 `o/main`。"
             ]
@@ -1428,7 +1428,7 @@ exports.level = {
             "afterMarkdowns": [
               "正如你所看到的, 我们使用了隐含的目标 `o/main` 来更新 `foo` 分支。需要注意的是 main 并未被更新！"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1441,7 +1441,7 @@ exports.level = {
             "afterMarkdowns": [
               "我们将一个并不叫 `main` 的分支上的工作推送到了远程仓库中的 `main` 分支上"
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1472,7 +1472,7 @@ exports.level = {
               "跟之前一样, 但这个命令更明确！"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1525,7 +1525,7 @@ exports.level = {
               "",
               "Es gibt zwei Möglichkeiten diese Eigenschaft zu definieren. Die erste ist, einen neuen lokalen Branch von einem Remote Branch auszuchecken. Wenn man",
               "",
-              "    git checkout -b absolut_nicht_main o/main",
+              "    git switch -c absolut_nicht_main o/main",
               "",
               "eingibt, wird ein neuer lokaler Branch namens `absolut_nicht_main` angelegt, der `o/main` trackt."
             ]
@@ -1540,7 +1540,7 @@ exports.level = {
             "afterMarkdowns": [
               "Wie du siehst, benutzen wir das implizite Ziel beim `pull` um `foo` zu aktualisieren. Beachte, dass `main` nicht aktualisiert wird."
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1553,7 +1553,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bämm. Wir haben unsere Commits auf den `main` auf dem Server geschoben, obwohl unser lokaler Branch völlig anders heißt."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1584,7 +1584,7 @@ exports.level = {
               "Genau wie vorher, nur ist der Befehl ein bisschen eindeutiger. Schick!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1643,7 +1643,7 @@ exports.level = {
               "",
               "Există două moduri de a seta această proprietate. Primul este să faci treci la o ramură nouă folosind o ramură remote ca referință specificată. Rulând",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "Creează o nouă ramură numită `totallyNotMain` și o setează să urmărească `o/main`."
             ]
@@ -1658,7 +1658,7 @@ exports.level = {
             "afterMarkdowns": [
               "După cum poți vedea, am folosit ținta implicită de fuziune `o/main` pentru a actualiza ramura `foo`. Observă că `main` nu este actualizată!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1671,7 +1671,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bam. Am împins munca noastră pe `main` de pe remote chiar dacă ramura noastră se numea complet diferit."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1702,7 +1702,7 @@ exports.level = {
               "La fel ca înainte, doar că este o comandă mai explicită. Grozav!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1763,7 +1763,7 @@ exports.level = {
               "",
               "Есть два способа сделать это. Первый - это выполнить checkout для новой ветки, указав удалённую ветку в качестве ссылки. Для этого необходимо выполнить команду",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               ", которая создаст новую ветку с именем `totallyNotMain` и укажет ей следить за `o/main`."
             ]
@@ -1778,7 +1778,7 @@ exports.level = {
             "afterMarkdowns": [
               "Как вы увидели, мы использовали `o/main`, чтобы обновить ветку `foo`. Обратите внимание, как обновился `main`!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1791,7 +1791,7 @@ exports.level = {
             "afterMarkdowns": [
               "Оп! Мы закачали наши наработки на ветку `main` нашего удалённого репозитория. При том, что наша локальная ветка называется абсолютно по-другому."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1822,7 +1822,7 @@ exports.level = {
               "Словом, всё как и раньше, просто отдельная, специальная команда. Здорово!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1881,7 +1881,7 @@ exports.level = {
               "",
               "このプロパティを設定するには2つの方法があります。一つ目は、リモートブランチをリファレンスとして新しいブランチをチェックアウトするというものです。例えば",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "を実行する事で`totallyNotMain`という名前のブランチを新しく作り、`o/main`への追跡プロパティを設定します。"
             ]
@@ -1896,7 +1896,7 @@ exports.level = {
             "afterMarkdowns": [
               "見ての通り、暗黙の取り込み先である`o/main`を使って`foo`ブランチを更新しました。`main`が更新されないことに注意してください！！"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -1909,7 +1909,7 @@ exports.level = {
             "afterMarkdowns": [
               "わーお。全く違う名前がつけられているブランチですが、リモートの`main`に内容をプッシュできました。"
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1940,7 +1940,7 @@ exports.level = {
               "前回と一緒で、より明示的なコマンドですね。とてもいい感じです！"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -1999,7 +1999,7 @@ exports.level = {
               "",
               "이 속성을 설정하는데에는 두가지 방법이 있습니다. 첫 번째는 지정한 원격 브랜치를 참조해서 새로운 브랜치를 생성하여 checkout 하는 방법 입니다. 다음을 실행하면",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "`totallyNotMain`라는 이름의 새 브랜치를 생성하고 `o/main`를 추적하게 설정합니다."
             ]
@@ -2014,7 +2014,7 @@ exports.level = {
             "afterMarkdowns": [
               "보이듯이, 우리는 `o/main`를 `foo` 브랜치를 갱신하기 위한 내재된 merge 타겟으로 사용하고 있습니다. main이 갱신되지 않는다는것을 눈치챘죠?"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2027,7 +2027,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. 브랜치의 이름을 전혀 다른것으로 지었는데도 불구하고 우리 작업이 `main`로 push 되었습니다."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2058,7 +2058,7 @@ exports.level = {
               "이전과 같습니다,  좀 더 분명하게 알 수 있는 명령어죠. 좋아요!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2117,7 +2117,7 @@ exports.level = {
               "",
               "Є два шляхи встановити такий зв'язок. Перший - створити нову гілку з явним вказанням зв'язку (за ким стежити). Виконання",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "створить гілку `totallyNotMain`, яка стежить за `o/main`."
             ]
@@ -2132,7 +2132,7 @@ exports.level = {
             "afterMarkdowns": [
               "Як видно з результату, при оновленні `foo` було використано автоматичний зв'язок з `o/main` під час операції `merge`. Зверніть увагу, `main` не було оновлено!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2145,7 +2145,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ка-бум!. Ми запушили наші зміни у віддалений `main`, незважаючи на те, що локальна гілка називалась зовсім по-іншому."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2176,7 +2176,7 @@ exports.level = {
               "Як і перший спосіб, але своя окрема команда."
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2235,7 +2235,7 @@ exports.level = {
               "",
               "Có 2 cách để thiết lập thuộc tính này. Cách đầu tiên là chuyển sang một nhánh mới từ một nhánh từ xa bằng cách thực hiện",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "Tạo ra một nhánh mới `totallyNotMain` và thiết lập cho nó theo dõi nhánh `o/main`."
             ]
@@ -2250,7 +2250,7 @@ exports.level = {
             "afterMarkdowns": [
               "Như bạn đã thấy, chúng tôi đã sử dụng mục tiêu ngầm `o / main` để cập nhật nhánh `foo`. Để ý rằng nhánh `main` không được cập nhật!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2263,7 +2263,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bùùm. Ta đã đẩy thành quả lên nhánh `main` ở kho chứa tù xa mặc dù nhánh của ta có tên hoàn toàn khác biệt"
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2294,7 +2294,7 @@ exports.level = {
               "Y hệt như trước, nhưng biểu hiện rõ ràng hơn. Tuyệt!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2353,7 +2353,7 @@ exports.level = {
               "",
               "Obstajata dva načina, da nastaviš to lastnost. Prvi je, da checkoutaš nov branch z uporabo oddaljenega brancha kot določeno referenca. Izvedba",
               "",
-              "`git checkout -b splohNiMain o/main`",
+              "`git switch -c splohNiMain o/main`",
               "",
               "Ustvari nov branch imenovan `splohNiMain` in nastavi, da sledi `o/main`."
             ]
@@ -2368,7 +2368,7 @@ exports.level = {
             "afterMarkdowns": [
               "Kot lahko vidiš, smo uporabili impliciran cilj mergea `o/main`, da posodobi `foo` branch. Opazi, kako se main ne posodobi!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2381,7 +2381,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. Naše delo smo naložili na `main` na oddaljenem repotu, čeprav je ime našega brancha nekaj povsem drugega."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2412,7 +2412,7 @@ exports.level = {
               "Enako kot prej, le bolj natančno. Lepa!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2471,7 +2471,7 @@ exports.level = {
               "",
               "இதனை இரண்டு வகையாக செய்யலாம். முதலாவதாக புதிய கிளையை பின் வரும் கட்டளை கொண்டு பதிப்பித்தல்",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "அல்லது `totallyNotMain` என்ற கிளையை உருவாக்கி `o/main` கண்காணிக்கு படி அமைத்தல்."
             ]
@@ -2486,7 +2486,7 @@ exports.level = {
             "afterMarkdowns": [
               "நீங்கள் பார்ப்பதை போன்று, `foo` கிளை `o/main`ஐ மறைமுக இணை்ப்பு இல்க்காக அமைக்கப்பட்டுள்ளது.  எவ்வளவு `main` புதுப்பிக்கப்படவில்லை என்பதை நினைவில் கொள்க!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2499,7 +2499,7 @@ exports.level = {
             "afterMarkdowns": [
               "சிரப்பு. நமது  கிளைக்கு முற்றிலும் வேறுபட்ட பெயரிடப்பட்டிருந்தாலும், நமது மாற்றங்களை தொலைதூரத்தில் உள்ள `main`தள்ளினோம்."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2530,7 +2530,7 @@ exports.level = {
               "முன்பு குறிப்பிட்டது போன்றுதான், மேலும் சற்று வெளிப்படையன கட்டளையாக!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2569,7 +2569,7 @@ exports.level = {
               "",
               "దీనిని రెండు విధాలుగా చేయవచ్చు. మొదటిది క్రొత్త branch ను ఈ command తో create చేయడం:",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "లేదా `totallyNotMain` అనే branch ను create చేసి `o/main` ను track చేసేలా అమలు చేయడం."
             ]
@@ -2584,7 +2584,7 @@ exports.level = {
             "afterMarkdowns": [
               "మీరు చూసినట్లుగా, `foo` branch `o/main` ను implicit destination గా అమలు చేయబడింది. `main` ఎంత update కాలేదో గుర్తుంచుకోండి!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2597,7 +2597,7 @@ exports.level = {
             "afterMarkdowns": [
               "అద్భుతం. మన branch కు పూర్తిగా భిన్నమైన పేరు ఉన్నప్పటికీ, మన changes ను remote `main` కు push చేశాము."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2628,7 +2628,7 @@ exports.level = {
               "ముందు చెప్పినది అదే, కానీ మరింత clear గా command!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2687,7 +2687,7 @@ exports.level = {
               "",
               "Są dwa sposoby ustawienia tej właściwości. Pierwszym jest checkout nowej gałęzi wykorzystujący zdalną gałąź jako określoną referencję. Polecenie",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "tworzy nową gałąź o nazwie `totallyNotMain` i każe jej śledzić `o/main`."
             ]
@@ -2702,7 +2702,7 @@ exports.level = {
             "afterMarkdowns": [
               "Jak widzisz, użyliśmy domyślnego celu scalania `o/main`, żeby zaktualizować gałąź `foo`. Zwróć uwagę, że `main` się nie aktualizuje!!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2715,7 +2715,7 @@ exports.level = {
             "afterMarkdowns": [
               "Tadam! Wypchnęliśmy naszą pracę do `main` na `remote`, mimo że nasza gałąź nazywała się zupełnie inaczej."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2746,7 +2746,7 @@ exports.level = {
               "Tak samo jak poprzednio, tylko wyraźniej, widać to w poleceniu. Pięknie!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2805,7 +2805,7 @@ exports.level = {
               "",
               "Ci sono due modi per impostare questa proprietà. Il primo è creare il nuovo ramo tramite checkout specificando un ramo remoto come riferimento. Eseguire",
               "",
-              "`git checkout -b perNienteIlMain o/main`",
+              "`git switch -c perNienteIlMain o/main`",
               "",
               "Crea un nuovo ramo chiamato `perNienteIlMain` e lo imposta a tracciare `o/main`."
             ]
@@ -2820,7 +2820,7 @@ exports.level = {
             "afterMarkdowns": [
               "Come puoi vedere, abbiamo usato il destinatario implicito di `o/main` per aggiornare il ramo `foo`. Se vedi il main non è stato aggiornato!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2833,7 +2833,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. Abbiamo caricato il nostro lavoro al ramo `main` sul repository remoto nonostante il nostro ramo avesse un nome totalmente diverso."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2864,7 +2864,7 @@ exports.level = {
               "Come prima, solo tramite un comando più esplicito. Bene dai!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -2922,7 +2922,7 @@ exports.level = {
               "",
               "Bu özelliği ayarlamanın iki yolu vardır. Birincisi, bir uzak dalı belirtilen ref olarak kullanarak yeni bir dal oluşturmak. Aşağıdaki komutu çalıştırarak:",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "`totallyNotMain` adında yeni bir dal oluşturur ve bu dalı `o/main`'i izlemeye ayarlar."
             ]
@@ -2937,7 +2937,7 @@ exports.level = {
             "afterMarkdowns": [
               "Gördüğünüz gibi, `o/main`'in dolaylı birleştirme hedefini kullanarak `foo` dalını güncelledik. Dikkat edin, `main` güncellenmedi!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -2950,7 +2950,7 @@ exports.level = {
             "afterMarkdowns": [
               "Boom. Dalımızın adı tamamen farklı olmasına rağmen çalışmamızı uzak depodaki `main` dalına push ettik."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -2980,7 +2980,7 @@ exports.level = {
               "Öncekiyle aynı, sadece daha açık bir komut. Harika!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -3039,7 +3039,7 @@ exports.level = {
               "",
               "Kétféleképpen lehet beállítani ezt a tulajdonságot. Az első az, hogy egy új ágat checkoutolsz, megadva egy távoli ágat a ref-ként. A következő futtatása",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "létrehoz egy `totallyNotMain` nevű új ágat, és beállítja az `o/main` követésére."
             ]
@@ -3054,7 +3054,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ahogy látod, az `o/main` implicit merge célját használtuk a `foo` ág frissítéséhez. Figyeld meg, hogy a main nem frissül!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -3067,7 +3067,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bumm. A munkánkat a távoli `main`-re pusholtuk, annak ellenére, hogy az águnk neve egészen más volt."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -3098,7 +3098,7 @@ exports.level = {
               "Ugyanaz, mint korábban, csak egy explicit parancs. Klassz!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -3157,7 +3157,7 @@ exports.level = {
               "",
               "Bu xüsusiyyəti təyin etməyin iki yolu var. Birincisi, remote branch-ı göstərilən ref kimi işlədərək yeni bir branch-ı checkout etməkdir. Bunu işlətmək:",
               "",
-              "`git checkout -b totallyNotMain o/main`",
+              "`git switch -c totallyNotMain o/main`",
               "",
               "`totallyNotMain` adlı yeni bir branch yaradır və onu `o/main`-i izləməyə qurur."
             ]
@@ -3172,7 +3172,7 @@ exports.level = {
             "afterMarkdowns": [
               "Gördüyün kimi, `foo` branch-ını yeniləmək üçün `o/main`-in nəzərdə tutulan merge hədəfindən istifadə etdik. Diqqət et ki, main yenilənmir!!"
             ],
-            "command": "git checkout -b foo o/main; git pull",
+            "command": "git switch -c foo o/main; git pull",
             "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
           }
         },
@@ -3185,7 +3185,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bum. Branch-ımızın adı tamam başqa bir şey olsa da, işimizi remote-dakı `main`-ə push etdik."
             ],
-            "command": "git checkout -b foo o/main; git commit; git push",
+            "command": "git switch -c foo o/main; git commit; git push",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -3216,7 +3216,7 @@ exports.level = {
               "Əvvəlki ilə eyni, sadəcə daha konkret bir əmr. Əla!"
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {
@@ -3257,12 +3257,12 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "మొదటి మార్గం `git checkout -b` ను branch పేరుతో పాటు remote reference తో యూజ్ చేయడం:"
+              "మొదటి మార్గం `git switch -c` ను branch పేరుతో పాటు remote reference తో యూజ్ చేయడం:"
             ],
             "afterMarkdowns": [
               "బాగుంది! ఇప్పుడు `foo` branch `o/main` ను tracking చేస్తోంది."
             ],
-            "command": "git checkout -b foo o/main",
+            "command": "git switch -c foo o/main",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -3284,7 +3284,7 @@ exports.level = {
               "బాగుంది! ఇప్పుడు `foo` branch `o/main` ను tracking చేస్తోంది."
             ],
             "command": "git branch -u o/main foo; git commit; git push",
-            "beforeCommand": "git fakeCreateRemote; git checkout -b foo"
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
           }
         },
         {

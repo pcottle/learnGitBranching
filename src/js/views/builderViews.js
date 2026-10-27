@@ -209,7 +209,7 @@ class DemonstrationBuilder extends ContainedBase {
     this.beforeCommandView = new TextGrabber({
       container: this,
       helperText: 'The git command(s) to set up the demonstration view (before it is displayed)',
-      initialText: options.beforeCommand || 'git checkout -b bugFix'
+      initialText: options.beforeCommand || 'git switch -c bugFix'
     });
 
     this.commandView = new TextGrabber({

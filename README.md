@@ -56,7 +56,7 @@ git clone <your fork of the repo>
 cd learnGitBranching
 yarn install
 
-git checkout -b newAwesomeFeature
+git switch -c newAwesomeFeature
 vim ./src/js/git/index.js # some changes
 yarn dev # dev server with live reload at http://localhost:5173
 

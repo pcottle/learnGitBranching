@@ -80,7 +80,7 @@ exports.level = {
               "",
               "Upper management is making this a bit trickier though -- they want the commits to all be in sequential order. So this means that our final tree should have `C7'` at the bottom, `C6'` above that, and so on, all in order.",
               "",
-              "One handy tip: `git rebase` can take a second argument. `git rebase main bugFix` checks out `bugFix` and rebases it onto `main` in one step -- a shorthand for `git checkout bugFix; git rebase main`.",
+              "One handy tip: `git rebase` can take a second argument. `git rebase main bugFix` checks out `bugFix` and rebases it onto `main` in one step -- a shorthand for `git switch bugFix; git rebase main`.",
               "",
               "If you mess up along the way, feel free to use `reset` to start over again. Be sure to check out our solution and see if you can do it in fewer commands!"
             ]
@@ -100,7 +100,7 @@ exports.level = {
               "",
               "लेकिन ऊपर वाले लोग इसे थोड़ा मुश्किल बना रहे हैं -- उन्हें चाहिए कि सारे commits sequential order में हों। इसका मतलब है कि हमारे final tree में सबसे नीचे `C7'` हो, उसके ऊपर `C6'`, और इसी तरह, सब अपने order में।",
               "",
-              "एक useful tip: `git rebase` एक दूसरा argument भी ले सकता है। `git rebase main bugFix` एक ही step में `bugFix` को checkout करके उसे `main` पर rebase कर देता है -- यह `git checkout bugFix; git rebase main` का shortcut है।",
+              "एक useful tip: `git rebase` एक दूसरा argument भी ले सकता है। `git rebase main bugFix` एक ही step में `bugFix` को checkout करके उसे `main` पर rebase कर देता है -- यह `git switch bugFix; git rebase main` का shortcut है।",
               "",
               "अगर बीच में कुछ बिगड़ जाए, तो बेझिझक `reset` से फिर से शुरू कर दो। हमारा solution ज़रूर देखो और देखो कि क्या आप कम कमांड्स में कर सकते हो!"
             ]
@@ -120,7 +120,7 @@ exports.level = {
               "",
               "غير أن الإدارة العليا تجعل الأمر أصعب قليلاً -- فهي تريد أن تكون جميع عمليات الحفظ مرتبةً بشكل تسلسلي. هذا يعني أن شجرتنا النهائية يجب أن تحتوي على `C7'` في الأسفل، وفوقه `C6'`، وهكذا، كل شيء بالترتيب.",
               "",
-              "نصيحة مفيدة: يمكن للأمر `git rebase` أن يأخذ وسيطًا ثانيًا. فالأمر `git rebase main bugFix` ينتقل إلى الفرع `bugFix` ويعيد تأسيسه على `main` في خطوة واحدة -- وهو اختصار لـ `git checkout bugFix; git rebase main`.",
+              "نصيحة مفيدة: يمكن للأمر `git rebase` أن يأخذ وسيطًا ثانيًا. فالأمر `git rebase main bugFix` ينتقل إلى الفرع `bugFix` ويعيد تأسيسه على `main` في خطوة واحدة -- وهو اختصار لـ `git switch bugFix; git rebase main`.",
               "",
               "إذا ارتكبت خطأً في الطريق، فلا تتردد في استخدام `reset` للبدء من جديد. تأكد من مراجعة الحل المقترح ومعرفة ما إذا كان بإمكانك تنفيذه بعدد أقل من الأوامر!"
             ]
@@ -140,7 +140,7 @@ exports.level = {
               "",
               "با این حال، مدیریت ارشد این کار را کمی پیچیده‌تر کرده است -- آن‌ها می‌خواهند همه کامیت‌ها به ترتیب متوالی باشند. بنابراین این بدان معناست که درخت نهایی ما باید `C7'` را در پایین، `C6'` را بالای آن و به همین ترتیب، همه را به ترتیب داشته باشد.",
               "",
-              "یک نکتهٔ کاربردی: دستور `git rebase` می‌تواند آرگومان دومی هم بگیرد. دستور `git rebase main bugFix` در یک مرحله شاخهٔ `bugFix` را چک‌اوت کرده و آن را روی `main` ری‌بیس می‌کند -- که میان‌بری است برای `git checkout bugFix; git rebase main`.",
+              "یک نکتهٔ کاربردی: دستور `git rebase` می‌تواند آرگومان دومی هم بگیرد. دستور `git rebase main bugFix` در یک مرحله شاخهٔ `bugFix` را چک‌اوت کرده و آن را روی `main` ری‌بیس می‌کند -- که میان‌بری است برای `git switch bugFix; git rebase main`.",
               "",
               "اگر در طول مسیر دچار اشتباه شدید، با خیال راحت از `reset` برای شروع مجدد استفاده کنید. حتماً راه حل ما را بررسی کنید و ببینید آیا می‌توانید آن را با دستورات کمتری انجام دهید!"
             ]
@@ -160,7 +160,7 @@ exports.level = {
               "",
               "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
               "",
-              "Un tip útil: `git rebase` puede recibir un segundo argumento. `git rebase main bugFix` hace checkout de `bugFix` y la rebasea sobre `main` en un solo paso -- un atajo para `git checkout bugFix; git rebase main`.",
+              "Un tip útil: `git rebase` puede recibir un segundo argumento. `git rebase main bugFix` hace checkout de `bugFix` y la rebasea sobre `main` en un solo paso -- un atajo para `git switch bugFix; git rebase main`.",
               "",
               "Si hacés líos en el camino, sentite libre de usar `reset` para empezar de nuevo. ¡Asegurate de verificar tu solución y ver si podés hacerla en alguna cantidad menor de commandos!"
             ]
@@ -180,7 +180,7 @@ exports.level = {
               "",
               "La alta dirección nos está haciendo las cosas un poco más complicadas -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7'` al final, `C6'` antes de ese, y así, todos en orden.",
               "",
-              "Un consejo útil: `git rebase` puede recibir un segundo argumento. `git rebase main bugFix` hace checkout de `bugFix` y la rebasea sobre `main` en un solo paso -- un atajo para `git checkout bugFix; git rebase main`.",
+              "Un consejo útil: `git rebase` puede recibir un segundo argumento. `git rebase main bugFix` hace checkout de `bugFix` y la rebasea sobre `main` en un solo paso -- un atajo para `git switch bugFix; git rebase main`.",
               "",
               "Si te revuelves durante el camino, siéntete libre de usar `reset` para empezar de nuevo. ¡Asegúrate de verificar nuestra solución y ver si puedes lograrlo en un número menor de comandos!"
             ]
@@ -200,7 +200,7 @@ exports.level = {
               "",
               "La gente de administración nos está haciendo las cosas un poco complicadas, igual -- quieren que nuestros commits estén todos en orden secuencial. Esto significa que nuestro árbol final tendría que tener `C7` al final, `C6` antes de ese, y así siguiendo, todos en orden.",
               "",
-              "Un consejo útil: `git rebase` puede recibir un segundo argumento. `git rebase main bugFix` hace checkout de `bugFix` y la rebasea sobre `main` en un solo paso -- un atajo para `git checkout bugFix; git rebase main`.",
+              "Un consejo útil: `git rebase` puede recibir un segundo argumento. `git rebase main bugFix` hace checkout de `bugFix` y la rebasea sobre `main` en un solo paso -- un atajo para `git switch bugFix; git rebase main`.",
               "",
               "Si te haces un lío durante el proceso, siéntete libre de usar `reset` para empezar de nuevo. ¡Asegúrate de verificar tu solución y ver si puedes realizarla en un número inferior de comandos!"
             ]
@@ -220,7 +220,7 @@ exports.level = {
               "",
               "No entanto, a cúpula da administração está tornando as coisas mais difíceis -- eles querem que os commits estejam todos em ordem sequencial. Isso significa que a nossa árvore final precisa ter o `C7'` por último, `C6'` acima disso, e assim por diante, tudo ordenado.",
               "",
-              "Uma dica útil: o `git rebase` pode receber um segundo argumento. `git rebase main bugFix` faz checkout da `bugFix` e o rebase dela sobre a `main` em um único passo -- um atalho para `git checkout bugFix; git rebase main`.",
+              "Uma dica útil: o `git rebase` pode receber um segundo argumento. `git rebase main bugFix` faz checkout da `bugFix` e o rebase dela sobre a `main` em um único passo -- um atalho para `git switch bugFix; git rebase main`.",
               "",
               "Se você fizer besteira, sinta-se livre para usar o comando `reset` para recomeçar do zero. Depois lembre de olhar nossa solução do gabarito para ver se consegue resolver a tarefa usando menos comandos!"
             ]
@@ -240,7 +240,7 @@ exports.level = {
               "",
               "Mas a chefia está a complicar um bocadinho as coisas -- quer que os commits fiquem todos por ordem sequencial. Isto quer dizer que a nossa árvore final deve ter o `C7'` em baixo, o `C6'` por cima desse, e assim por diante, tudo por ordem.",
               "",
-              "Uma dica útil: o `git rebase` aceita um segundo argumento. `git rebase main bugFix` faz checkout do `bugFix` e faz rebase dele para cima do `main` num só passo -- é um atalho para `git checkout bugFix; git rebase main`.",
+              "Uma dica útil: o `git rebase` aceita um segundo argumento. `git rebase main bugFix` faz checkout do `bugFix` e faz rebase dele para cima do `main` num só passo -- é um atalho para `git switch bugFix; git rebase main`.",
               "",
               "Se te enganares pelo caminho, usa à vontade o `reset` para começar de novo. Não te esqueças de ver a nossa solução, para veres se consegues fazê-lo com menos comandos!"
             ]
@@ -260,7 +260,7 @@ exports.level = {
               "",
               "A xente de administración estanos a facer as cousas complicadas, igual eles queren que os commits estén todos en orde secuencial. Isto significa que a nosa árbore final precisa ter `C7'` de último, `C6'` inda por riba, está por adiante, todo ordeado.",
               "",
-              "Un consello útil: `git rebase` pode recibir un segundo argumento. `git rebase main bugFix` fai checkout da `bugFix` e o rebase dela sobre a `main` nun só paso -- un atallo para `git checkout bugFix; git rebase main`.",
+              "Un consello útil: `git rebase` pode recibir un segundo argumento. `git rebase main bugFix` fai checkout da `bugFix` e o rebase dela sobre a `main` nun só paso -- un atallo para `git switch bugFix; git rebase main`.",
               "",
               "Se te fas un lio polo camiño, síntete ceibe para usar o comando `reset` para comezar de cero outra vez. Despois lembra ollar a nosa solución para ver se consegues resolver a tarefa usando menos comandos!"
             ]
@@ -280,7 +280,7 @@ exports.level = {
               "",
               "Les patrons rendent cela encore plus compliqué -- ils veulent que les commits soient faits de manière séquentielle. Cela signifie donc que dans votre arbre final `C7'` est tout en bas, `C6'` juste au-dessus, et ainsi de suite, dans cet ordre.",
               "",
-              "Une astuce pratique : `git rebase` peut prendre un second argument. `git rebase main bugFix` fait un checkout de `bugFix` et la rebase sur `main` en une seule étape -- un raccourci pour `git checkout bugFix; git rebase main`.",
+              "Une astuce pratique : `git rebase` peut prendre un second argument. `git rebase main bugFix` fait un checkout de `bugFix` et la rebase sur `main` en une seule étape -- un raccourci pour `git switch bugFix; git rebase main`.",
               "",
               "Si vous faites une erreur en cours de route, n'hésitez pas à utiliser `reset` pour recommencer. Pensez à comparer votre solution à la nôtre et voyez si vous pouvez le faire en moins de commandes !"
             ]
@@ -300,7 +300,7 @@ exports.level = {
               "",
               "Die Führungsetage macht die Sache allerdings etwas trickreicher -- sie möchte, dass alle Commits in aufsteigender Reihenfolge geordnet sind. Das heißt unser fertiger Baum sollte `C7` ganz unten haben, darüber `C6` und so weiter und so fort.",
               "",
-              "Ein praktischer Tipp: `git rebase` kann ein zweites Argument bekommen. `git rebase main bugFix` checkt `bugFix` aus und rebased ihn in einem Schritt auf den `main` -- eine Abkürzung für `git checkout bugFix; git rebase main`.",
+              "Ein praktischer Tipp: `git rebase` kann ein zweites Argument bekommen. `git rebase main bugFix` checkt `bugFix` aus und rebased ihn in einem Schritt auf den `main` -- eine Abkürzung für `git switch bugFix; git rebase main`.",
               "",
               "Wenn du irgendwo einen Fehler machst, benütze ruhig `reset` um wieder von vorne anzufangen oder `undo` um einen Schritt zurückzugehen. Schau dir die Lösung an und versuche es in weniger Schritten hinzubekommen."
             ]
@@ -320,7 +320,7 @@ exports.level = {
               "",
               "おエライさん方が今回の仕事を少しトリッキーにしてくれました -- コミットはすべて一列の連続した状態にしてほしいそうです。つまり私たちが作るリポジトリの最終的なツリーの状態は、`C7'`が最後に来て、`C6'`がその一つ上に来て、、と順に積み重なるイメージです。",
               "",
-              "便利なヒント：`git rebase`には2つ目の引数を渡すことができます。`git rebase main bugFix`は、`bugFix`をチェックアウトして`main`にリベースするところまでを一度に行ってくれます。つまり`git checkout bugFix; git rebase main`の省略形です。",
+              "便利なヒント：`git rebase`には2つ目の引数を渡すことができます。`git rebase main bugFix`は、`bugFix`をチェックアウトして`main`にリベースするところまでを一度に行ってくれます。つまり`git switch bugFix; git rebase main`の省略形です。",
               "",
               "試行錯誤してツリーが汚くなってきたら、`reset`コマンドを使ってツリーの状態を初期化してください。模範解答をチェックして、それよりも簡単なコマンドで済ませられるかどうかを考えるのも忘れずに！"
             ]
@@ -340,7 +340,7 @@ exports.level = {
               "",
               "但是你的领导给你提了点要求 —— 他们希望得到有序的提交历史，也就是我们最终的结果应该是 `C6'` 在 `C7'` 上面， `C5'` 在 `C6'` 上面，依此类推。",
               "",
-              "一个实用的小技巧：`git rebase` 命令可以带第二个参数。`git rebase main bugFix` 会先切换到 `bugFix` 分支，再把它 rebase 到 `main` 上，一步到位 —— 相当于 `git checkout bugFix; git rebase main` 的简写。",
+              "一个实用的小技巧：`git rebase` 命令可以带第二个参数。`git rebase main bugFix` 会先切换到 `bugFix` 分支，再把它 rebase 到 `main` 上，一步到位 —— 相当于 `git switch bugFix; git rebase main` 的简写。",
               "",
               "即使你搞砸了也没关系，用 `reset` 命令就可以重新开始了。记得看看我们提供的答案，看你能否使用更少的命令来完成任务！"
             ]
@@ -360,7 +360,7 @@ exports.level = {
               "",
               "但是你的主管找了點麻煩，他們希望得到有序的 commit history，也就是我們最終的結果是 `C7'` 在最下面，`C6'` 在它上面，以此類推。",
               "",
-              "一個實用的小技巧：`git rebase` 指令可以帶第二個參數。`git rebase main bugFix` 會先 checkout `bugFix`，再將它 rebase 到 `main` 上，一步完成 -- 相當於 `git checkout bugFix; git rebase main` 的簡寫。",
+              "一個實用的小技巧：`git rebase` 指令可以帶第二個參數。`git rebase main bugFix` 會先 checkout `bugFix`，再將它 rebase 到 `main` 上，一步完成 -- 相當於 `git switch bugFix; git rebase main` 的簡寫。",
               "",
               "假如你搞砸了，沒有關係啦！你用 `reset` 就可以重新開始！記得看看我們提供的答案，看你是否能夠使用更少的指令完成這一關！"
             ]
@@ -380,7 +380,7 @@ exports.level = {
               "",
               "윗선에서 일을 복잡하게 만드네요 -- 그 분들이 이 모든 커밋들을 순서에 맞게 정렬하라고 합니다. 그럼 결국 우리의 최종 목표 트리는 제일 아래에 `C7'` 커밋, 그 위에 `C6'` 커밋, 또 그 위에 순서대로 보여합니다.",
               "",
-              "유용한 팁 하나: `git rebase`는 두 번째 인자를 받을 수 있습니다. `git rebase main bugFix`는 `bugFix`를 체크아웃하고 `main`에 리베이스하는 것을 한 번에 해줍니다 -- 즉 `git checkout bugFix; git rebase main`의 축약형입니다.",
+              "유용한 팁 하나: `git rebase`는 두 번째 인자를 받을 수 있습니다. `git rebase main bugFix`는 `bugFix`를 체크아웃하고 `main`에 리베이스하는 것을 한 번에 해줍니다 -- 즉 `git switch bugFix; git rebase main`의 축약형입니다.",
               "",
               "만일 작업중에 내용이 꼬인다면, `reset`이라고 쳐서 처음부터 다시 시작할 수 있습니다. 모범 답안을 확인해 보시고, 혹시 더 적은 수의 커맨드로 해결할 수 있는지 알아보세요!"
             ]
@@ -400,7 +400,7 @@ exports.level = {
               "",
               "Dar șefii ne complică puțin viața -- vor ca toate commit-urile să fie în ordine secvențială. Asta înseamnă că arborele nostru final ar trebui să aibă `C7'` jos, `C6'` deasupra lui și așa mai departe, totul în ordine.",
               "",
-              "Un sfat util: `git rebase` poate primi un al doilea argument. `git rebase main bugFix` face checkout pe `bugFix` și îi face rebase pe `main` într-un singur pas -- o prescurtare pentru `git checkout bugFix; git rebase main`.",
+              "Un sfat util: `git rebase` poate primi un al doilea argument. `git rebase main bugFix` face checkout pe `bugFix` și îi face rebase pe `main` într-un singur pas -- o prescurtare pentru `git switch bugFix; git rebase main`.",
               "",
               "Dacă te încurci pe parcurs, nu ezita să folosești `reset` pentru a începe de la capăt. Asigură-te că verifici soluția noastră și vezi dacă poți să o faci cu mai puține comenzi!"
             ]
@@ -420,7 +420,7 @@ exports.level = {
               "",
               "Висшето ръководство обаче прави задачата малко по-сложна — искат всички комити да са в строг последователен ред. Това означава, че крайното дърво трябва да има `C7'` най-отдолу, `C6'` над него и така нататък, всичко подред.",
               "",
-              "Полезен съвет: `git rebase` може да приеме втори аргумент. `git rebase main bugFix` превключва към `bugFix` и го rebase-ва върху `main` с една стъпка — съкратен запис на `git checkout bugFix; git rebase main`.",
+              "Полезен съвет: `git rebase` може да приеме втори аргумент. `git rebase main bugFix` превключва към `bugFix` и го rebase-ва върху `main` с една стъпка — съкратен запис на `git switch bugFix; git rebase main`.",
               "",
               "Ако объркаш нещо по пътя, спокойно можеш да използваш `reset`, за да започнеш отначало. Не забравяй да погледнеш нашето решение и да видиш дали можеш да се справиш с по-малко команди!"
             ]
@@ -440,7 +440,7 @@ exports.level = {
               "",
               "Но начальство усложняет нашу задачу тем, что желает видеть все коммиты по порядку. Так что коммит `С7'` должен идти после коммита `С6'` и так далее.",
               "",
-              "Полезный совет: `git rebase` может принимать второй аргумент. `git rebase main bugFix` переключается на `bugFix` и делает rebase на `main` за один шаг – это сокращение для `git checkout bugFix; git rebase main`.",
+              "Полезный совет: `git rebase` может принимать второй аргумент. `git rebase main bugFix` переключается на `bugFix` и делает rebase на `main` за один шаг – это сокращение для `git switch bugFix; git rebase main`.",
               "",
               "Если что-то пойдёт не так – не надо стесняться использовать `reset`, чтобы начать всё с чистого листа. Постарайся сделать как можно меньше манипуляций!"
             ]
@@ -460,7 +460,7 @@ exports.level = {
               "",
               "Але вище керівництво нам не полегшує життя -- вони хочуть, щоб всі коміти були впорядковані. Це означає, що в результаті коміт `C7'` має бути з самого низу, `C6'` трохи вище, і так далі, все за порядком.",
               "",
-              "Корисна порада: `git rebase` може приймати другий аргумент. `git rebase main bugFix` переключається на `bugFix` та робить rebase на `main` за один крок -- це скорочення для `git checkout bugFix; git rebase main`.",
+              "Корисна порада: `git rebase` може приймати другий аргумент. `git rebase main bugFix` переключається на `bugFix` та робить rebase на `main` за один крок -- це скорочення для `git switch bugFix; git rebase main`.",
               "",
               "Якщо Ви щось зробите не так, сміливо використовуйте `reset` щоб почати спочатку. Подивіться на наш розв’язок і подумайте, чи Ви можете обійтись меншою кількістю команд!"
             ]
@@ -480,7 +480,7 @@ exports.level = {
               "",
               "Nhưng mà cha quản lý lại muốn oái oăm hơn cơ -- hắn muốn tất cả commit xếp thẳng hàng. Nghĩa là cây lịch sử của ta sẽ có `C7'` ở cuối, phía trên là `C6'`, và cứ thế theo đúng thứ tự.",
               "",
-              "Một mẹo hữu ích: `git rebase` có thể nhận thêm đối số thứ hai. `git rebase main bugFix` sẽ checkout nhánh `bugFix` rồi rebase nó vào `main` chỉ trong một bước -- cách viết tắt của `git checkout bugFix; git rebase main`.",
+              "Một mẹo hữu ích: `git rebase` có thể nhận thêm đối số thứ hai. `git rebase main bugFix` sẽ checkout nhánh `bugFix` rồi rebase nó vào `main` chỉ trong một bước -- cách viết tắt của `git switch bugFix; git rebase main`.",
               "",
               "Nếu mà nhỡ may bạn làm nhầm thì có thể dùng lệnh `reset` để bắt đầu lại. Hãy nhớ đối chiếu với đáp án của chúng tôi xem bạn có thể hoàn thành với ít câu lệnh hơn không!"
             ]
@@ -500,7 +500,7 @@ exports.level = {
               "",
               "Toda vodstvo se je odločilo, da le ne bo tako preprosto -- žeijo da so vsi commiti v zaporednem vrstnem redu. To pomeni, da bo naše ciljno drevo moralo imeti `C7'` na dnu, `C6'` nad njim, in tako dalje po vrsti.",
               "",
-              "Uporaben nasvet: `git rebase` lahko sprejme drugi argument. `git rebase main bugFix` v enem koraku checkouta `bugFix` in ga rebasea na `main` -- bližnjica za `git checkout bugFix; git rebase main`.",
+              "Uporaben nasvet: `git rebase` lahko sprejme drugi argument. `git rebase main bugFix` v enem koraku checkouta `bugFix` in ga rebasea na `main` -- bližnjica za `git switch bugFix; git rebase main`.",
               "",
               "Če med reševanjem zamočiš, preprosto uporabi `reset`, da začneš znova. Poglej tudi našo rešitev in preveri, če lahko stopnjo rešiš še z manj ukazi!"
             ]
@@ -520,7 +520,7 @@ exports.level = {
               "",
               "Kierownictwo trochę utrudnia sprawę -- chcą, aby wszystkie commity były w odpowiedniej kolejności. Oznacza to, że nasze końcowe drzewo powinno mieć `C7'` na dole, `C6'` powyżej i tak dalej.",
               "",
-              "Przydatna wskazówka: `git rebase` może przyjąć drugi argument. `git rebase main bugFix` przełącza się na `bugFix` i wykonuje rebase na `main` w jednym kroku -- to skrót dla `git checkout bugFix; git rebase main`.",
+              "Przydatna wskazówka: `git rebase` może przyjąć drugi argument. `git rebase main bugFix` przełącza się na `bugFix` i wykonuje rebase na `main` w jednym kroku -- to skrót dla `git switch bugFix; git rebase main`.",
               "",
               "Jeśli po drodze namieszasz, nie krępuj się użyć `reset`, aby zacząć od nowa. Przeanalizuj nasze rozwiązanie i sprawdź, czy dasz radę to zrobić, używając mniejszej liczby poleceń!"
             ]
@@ -540,7 +540,7 @@ exports.level = {
               "",
               "I piani alti ci stanno rendendo la vita complicata -- vogliono i commit tutti in ordine progressivo. Questo significa che alla fine il nostro albero avrà `C7'` come ultimo commit, `C6'` sopra di esso, e così via, tutto in ordine.",
               "",
-              "Un consiglio utile: `git rebase` può ricevere un secondo argomento. `git rebase main bugFix` fa il checkout di `bugFix` e il rebase sul `main` in un solo passo -- una scorciatoia per `git checkout bugFix; git rebase main`.",
+              "Un consiglio utile: `git rebase` può ricevere un secondo argomento. `git rebase main bugFix` fa il checkout di `bugFix` e il rebase sul `main` in un solo passo -- una scorciatoia per `git switch bugFix; git rebase main`.",
               "",
               "Se ti smarrisci lungo la via, usa `reset` senza problemi per ripartire da capo. Assicurati di raggiungere l'obiettivo e cerca di farlo con il minor numero di comandi!"
             ]
@@ -560,7 +560,7 @@ exports.level = {
               "",
               "Ancak üst yönetim işi biraz zorlaştırıyor -- tüm commit'lerin sıralı olmasını istiyorlar. Yani bu, ağacımızın son halinin en altta `C7'`, onun üstünde `C6'`, vs. sırayla olması gerektiği anlamına geliyor.",
               "",
-              "Faydalı bir ipucu: `git rebase` ikinci bir argüman alabilir. `git rebase main bugFix`, tek adımda `bugFix` branch'ine geçer ve onu `main` üzerine rebase eder -- yani `git checkout bugFix; git rebase main` komutlarının kısayoludur.",
+              "Faydalı bir ipucu: `git rebase` ikinci bir argüman alabilir. `git rebase main bugFix`, tek adımda `bugFix` branch'ine geçer ve onu `main` üzerine rebase eder -- yani `git switch bugFix; git rebase main` komutlarının kısayoludur.",
               "",
               "Yolda bir şeyleri karıştırırsanız, yeniden başlamak için `reset` kullanmaktan çekinmeyin. Çözümümüze göz atmayı ve bu seviyeyi daha az komutla bitirip bitiremeyeceğinizi denemeyi unutmayın!"
             ]
@@ -580,7 +580,7 @@ exports.level = {
               "",
               "A felsőbb vezetés azonban egy kicsit nehezebbé teszi ezt -- azt szeretnék, hogy az összes commit sorban legyen egymás után. Ez azt jelenti, hogy a végső fánkon a `C7'`-nek legyen legalul, a `C6'` fölötte, és így tovább, sorban.",
               "",
-              "Egy hasznos tipp: a `git rebase` kaphat egy második argumentumot is. A `git rebase main bugFix` egy lépésben checkoutolja a `bugFix`-et és rebase-eli a `main`-re -- a `git checkout bugFix; git rebase main` rövidítése.",
+              "Egy hasznos tipp: a `git rebase` kaphat egy második argumentumot is. A `git rebase main bugFix` egy lépésben checkoutolja a `bugFix`-et és rebase-eli a `main`-re -- a `git switch bugFix; git rebase main` rövidítése.",
               "",
               "Ha elrontod útközben, nyugodtan használd a `reset`-et az újrakezdéshez. Feltétlenül nézd meg a megoldásunkat, és nézd meg, hogy kevesebb paranccsal is megoldható-e!"
             ]
@@ -600,7 +600,7 @@ exports.level = {
               "",
               "Ancaq yuxarı rəhbərlik işi bir az çətinləşdirir -- onlar bütün commit-lərin ardıcıl sırada olmasını istəyir. Bu o deməkdir ki, son ağacımızda `C7'` ən aşağıda, onun üstündə `C6'` və s. sırayla olmalıdır.",
               "",
-              "Faydalı bir məsləhət: `git rebase` ikinci arqument də qəbul edə bilər. `git rebase main bugFix` bir addımda `bugFix`-ə keçir və onu `main` üzərinə rebase edir -- yəni `git checkout bugFix; git rebase main`-in qısa formasıdır.",
+              "Faydalı bir məsləhət: `git rebase` ikinci arqument də qəbul edə bilər. `git rebase main bugFix` bir addımda `bugFix`-ə keçir və onu `main` üzərinə rebase edir -- yəni `git switch bugFix; git rebase main`-in qısa formasıdır.",
               "",
               "Yol boyu səhv etsən, yenidən başlamaq üçün `reset`-dən istifadə et. Həllimizi mütləq yoxla və gör daha az əmrlə edə bilərsənmi!"
             ]
@@ -620,7 +620,7 @@ exports.level = {
               "",
               "కానీ పై డైరెక్షన్ పనిని కొంచెం క్లిష్టంగా చేస్తుంది -- అవి అన్ని commits ను వరుస క్రమంలో ఉంచాలని అనుకుంటున్నాయి. అంటే చివరి tree లో `C7'` కింద, దాని పై `C6'` మరియు అలా ఉండాలి.",
               "",
-              "ఉపయోగకరమైన టిప్: `git rebase` రెండో ఆర్గ్యుమెంట్ కూడా తీసుకుంటుంది. `git rebase main bugFix` ఒకే step లో `bugFix` కు వెళ్ళి, దాన్ని `main` పై rebase చేస్తుంది -- అంటే `git checkout bugFix; git rebase main` యొక్క షార్ట్ ఫార్మ్.",
+              "ఉపయోగకరమైన టిప్: `git rebase` రెండో ఆర్గ్యుమెంట్ కూడా తీసుకుంటుంది. `git rebase main bugFix` ఒకే step లో `bugFix` కు వెళ్ళి, దాన్ని `main` పై rebase చేస్తుంది -- అంటే `git switch bugFix; git rebase main` యొక్క షార్ట్ ఫార్మ్.",
               "",
               "దారిలో తప్పు జరిగితే, మళ్ళీ స్టార్ట్ చేయడానికి `reset` యూజ్ చేయి. మా సొల్యూషన్ చూసి, తక్కువ commands తో చేయగలవో చూడు!"
             ]

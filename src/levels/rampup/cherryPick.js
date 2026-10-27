@@ -110,7 +110,7 @@ exports.level = {
               "That's it! We wanted commits `C2` and `C4` and git plopped them down right below us. Simple as that!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -167,7 +167,7 @@ exports.level = {
               "बस हो गया! हमें commits `C2` और `C4` चाहिए थे और git ने उन्हें हमारे ठीक नीचे रख दिया। इतना ही सिंपल!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -224,7 +224,7 @@ exports.level = {
               "همین بود! ما کامیت‌های `C2` و `C4` را می‌خواستیم و git آن‌ها را درست زیر ما قرار داد. به همین سادگی!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -281,7 +281,7 @@ exports.level = {
               "Voilà ! Nous voulions les commits `C2` et `C4` et Git les a fait apparaître juste sous nos pieds. Aussi simple que ça !"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -338,7 +338,7 @@ exports.level = {
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -395,7 +395,7 @@ exports.level = {
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y git los aplicó justo donde estábamos. ¡Tan simple como eso!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -452,7 +452,7 @@ exports.level = {
               "¡Eso es todo! Queríamos los commits `C2` y `C4` y Git los aplicó justo donde estábamos. ¡Tan simple como eso!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -509,7 +509,7 @@ exports.level = {
               "É isso! Queríamos os commits `C2` e `C4` e o git os inseriu logo abaixo de nós. Simples assim!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -566,7 +566,7 @@ exports.level = {
               "É só isto! Queríamos os commits `C2` e `C4` e o git largou-os mesmo por baixo de nós. Mais simples não há!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -623,7 +623,7 @@ exports.level = {
               "¡Eso é! Queríamos os commits `C2` e `C4` e git insertounos por baixo de nós. ¡Moi sinxelo!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -680,7 +680,7 @@ exports.level = {
               "就是那樣！我們複製了 `C2` 以及 `C4` 並且把它們放到我們的後面，很簡單吧！"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -736,7 +736,7 @@ exports.level = {
               "就是这样！我们想要提交 `C2` 和 `C4`，所以 Git 就将被它们抓过来放到当前分支下了。 就是这么简单!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -793,7 +793,7 @@ exports.level = {
               "Das war's! Wir wollten die Commits `C2` und `C4` und Git hat die einfach unter unseren aktuellen Checkout kopiert. So einfach ist das."
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -850,7 +850,7 @@ exports.level = {
               "これだけで終わりです！コミット`C2` と `C4`を取得したかったわけですが、gitが現在の位置の直下に落としてくれました。単純ですね！"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -907,7 +907,7 @@ exports.level = {
               "Asta e tot! Am vrut commit-urile `C2` și `C4`, iar git le-a plasat imediat sub noi. Simplu, nu?"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -964,7 +964,7 @@ exports.level = {
               "Това е всичко! Искахме комитите `C2` и `C4`, а git ги постави точно под текущата ни позиция. Толкова е просто!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1021,7 +1021,7 @@ exports.level = {
               "Вуаля! Мы хотели перенести коммиты `C2` и `C4`, Git дал нам их там, где они нужны. Всё просто!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1078,7 +1078,7 @@ exports.level = {
               "됐습니다! 우리는 `C2`와 `C4` 커밋을 원했고 git이 우리가 원하는 곳 바로 밑에 톡 떨어뜨려 줬습니다. 아주 간단하죠!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1135,7 +1135,7 @@ exports.level = {
               "Овва! Ми хотіли коміти `C2` та `C4` і git додав їх до поточного розташування. Просто й доступно!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1192,7 +1192,7 @@ exports.level = {
               "Thế thôi! Chúng ta chỉ cần các commit `C2` và `C4`, vì vậy Git sẽ lấy chúng và đặt chúng dưới nhánh hiện tại. Thật đơn giản!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1249,7 +1249,7 @@ exports.level = {
               "To je to! Želeli smo commita `C2` in `C4` in git ju je prilimal točno pod nas. Preprosto!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1306,7 +1306,7 @@ exports.level = {
               "No i fajnie! Chcieliśmy commity `C2` i `C4` i Git zrzucił je nam zaraz pod spód. Bułka z masłem!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1363,7 +1363,7 @@ exports.level = {
               "Ecco qua! Volevamo i commit `C2` e `C4` e git li ha copiati sotto di noi. Semplicissimo!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1419,7 +1419,7 @@ exports.level = {
               "அது போதும்! நாம் `C2` மற்றும் `C4` commit களை வேண்டினோம், மற்றும் git அவற்றை எளிதாக நமக்கு கீழே நகலெடுத்தது. மிக எளிதானது!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1464,7 +1464,7 @@ exports.level = {
               "అంతే! మనం `C2` మరియు `C4` commits ను అడిగాము, మరియు git వాటిని సులభంగా మనకు కాపీ చేసింది. చాలా సులభం!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1520,7 +1520,7 @@ exports.level = {
               "Ve işte bu kadar! `C2` ve `C4` commit'lerini istedik, ve git, bunları tam istediğimiz yere yerleştirdi. Bu kadar basit!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1577,7 +1577,7 @@ exports.level = {
               "Ennyi! A `C2` és `C4` commitokat akartuk, és a git pontosan alánk tette őket. Ilyen egyszerű!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {
@@ -1634,7 +1634,7 @@ exports.level = {
               "Hamısı bu qədər! Biz `C2` və `C4` commit-lərini istəyirdik və git onları düz altımıza qoydu. Bu qədər sadədir!"
             ],
             "command": "git cherry-pick C2 C4",
-            "beforeCommand": "git checkout -b side; git commit; git commit; git commit; git checkout main; git commit;"
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
           }
         },
         {

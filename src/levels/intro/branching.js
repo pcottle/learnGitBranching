@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C1\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git branch bugFix;git checkout bugFix",
+  "solutionCommand": "git branch bugFix;git switch bugFix",
   "name": {
     "en_US": "Branching in Git",
     "ar": "التفرع في Git",
@@ -33,35 +33,35 @@ exports.level = {
     "az": "Git-də Branch-lar"
   },
   "hint": {
-    "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git checkout <branch-name>\"",
-    "ar": "أنشئ فرعاً جديداً بـ \"git branch <branch-name>\" وانتقل إليه بـ \"git checkout <branch-name>\"",
-    "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بساز و با \"git checkout <branch-name>\" واردش شو",
-    "de_DE": "Lege mit \"git branch [Branch-Name]\" einen neuen Branch an und checke ihn mit \"git checkout [Branch-Name]\" aus",
-    "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git checkout [ブランチ名]\"）",
-    "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git checkout [nombre]\"",
-    "es_MX": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
-    "es_ES": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git checkout [nombre]\"",
-    "pt_BR": "Crie uma nova branch com \"git branch [nome]\" e mude para ela com \"git checkout [nome]\"",
-    "pt_PT": "Cria um branch novo com \"git branch <branch-name>\" e muda para ele com \"git checkout <branch-name>\"",
-    "gl": "Crea unha nova rama con \"git branch [nome]\" e cambiate a ela facendo \"git checkout [nome]\"",
-    "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git checkout [nom]\"",
-    "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git checkout <分支名>' 来切换到分支",
-    "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git checkout [ branch 名稱]' 切換到該 branch",
-    "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git checkout [브랜치명]\"로 그 브랜치로 이동하세요",
-    "ro": "Creează o ramură nouă cu \"git branch [nume-ramură]\" și treci la ea cu \"git checkout [nume-ramură]\"",
-    "bg": "Създайте нов клон, използвайки \"git branch <име-на-клона>\" и преминете към него с \"git checkout <име-на-клона>\"",
-    "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git checkout [name]\"",
-    "uk": "Створіть нову гілку за допомогою \"git branch [ім’я]\" й перейдіть на неї за допомогою \"git checkout [ім’я]\"",
-    "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git checkout [ten-nhanh]\"",
-    "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git checkout [ime-brancha]\"",
-    "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git checkout <nazwa-gałęzi>\"",
-    "it_IT": "Crea un nuovo ramo con \"git branch <branch-name>\" e selezionalo con \"git checkout <branch-name>\"",
-    "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git checkout <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக",
-    "te_IN": "ఇప్పుడు \"git branch <branch-name>\" కమాండ్ తో కొత్త branch ను సృష్టించి, ఆపై \"git checkout <branch-name>\" తో ఆ branch కు మారండి",
-    "hi_IN": "अब \"git branch <branch-name>\" कमांड से एक नई branch बनाएं, फिर \"git checkout <branch-name>\" से उस branch पर चले जाएं",
-    "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git checkout <branch-name>\" komutu ile bu branch'e geçin.",
-    "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git checkout <branch-name>\" paranccsal",
-    "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git checkout <branch-adı>\" ilə ona keç"
+    "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git switch <branch-name>\"",
+    "ar": "أنشئ فرعاً جديداً بـ \"git branch <branch-name>\" وانتقل إليه بـ \"git switch <branch-name>\"",
+    "fa": "با دستور \"git branch <branch-name>\" یک شاخه جدید بساز و با \"git switch <branch-name>\" واردش شو",
+    "de_DE": "Lege mit \"git branch [Branch-Name]\" einen neuen Branch an und checke ihn mit \"git switch [Branch-Name]\" aus",
+    "ja": "ブランチの作成（\"git branch [ブランチ名]\"）と、チェックアウト（\"git switch [ブランチ名]\"）",
+    "es_AR": "Hacé una nueva rama con \"git branch [nombre]\" y cambiá a ella con \"git switch [nombre]\"",
+    "es_MX": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git switch [nombre]\"",
+    "es_ES": "Crea una nueva rama con \"git branch [nombre]\" y sitúate en ella con \"git switch [nombre]\"",
+    "pt_BR": "Crie uma nova branch com \"git branch [nome]\" e mude para ela com \"git switch [nome]\"",
+    "pt_PT": "Cria um branch novo com \"git branch <branch-name>\" e muda para ele com \"git switch <branch-name>\"",
+    "gl": "Crea unha nova rama con \"git branch [nome]\" e cambiate a ela facendo \"git switch [nome]\"",
+    "fr_FR": "Faites une nouvelle branche avec \"git branch [nom]\" positionnez-vous dans celle-ci avec \"git switch [nom]\"",
+    "zh_CN": "用 'git branch <分支名>' 来创建分支，用 'git switch <分支名>' 来切换到分支",
+    "zh_TW": "用 'git branch [ branch 名稱]' 來建立 branch，用 'git switch [ branch 名稱]' 切換到該 branch",
+    "ko": "\"git branch [브랜치명]\"으로 새 브랜치를 만들고, \"git switch [브랜치명]\"로 그 브랜치로 이동하세요",
+    "ro": "Creează o ramură nouă cu \"git branch [nume-ramură]\" și treci la ea cu \"git switch [nume-ramură]\"",
+    "bg": "Създайте нов клон, използвайки \"git branch <име-на-клона>\" и преминете към него с \"git switch <име-на-клона>\"",
+    "ru_RU": "Создай новую ветку при помощи \"git branch [name]\" и перейди на неё при помощи \"git switch [name]\"",
+    "uk": "Створіть нову гілку за допомогою \"git branch [ім’я]\" й перейдіть на неї за допомогою \"git switch [ім’я]\"",
+    "vi": "Tạo một nhánh mới với lệnh \"git branch [ten-nhanh]\" và chuyển sang đó với lệnh \"git switch [ten-nhanh]\"",
+    "sl_SI": "Naredi nov branch z \"git branch [ime-brancha]\" in ga checkoutaj z \"git switch [ime-brancha]\"",
+    "pl": "Utwórz nową gałąź za pomocą \"git branch <nazwa-gałęzi>\" i przełącz się na nią za pomocą \"git switch <nazwa-gałęzi>\"",
+    "it_IT": "Crea un nuovo ramo con \"git branch <branch-name>\" e selezionalo con \"git switch <branch-name>\"",
+    "ta_IN": "இப்போது \"git branch <branch-name>\" கட்டளையை கொண்டு புதிய கிளை ஒன்றை உருவாக்குக பின் \"git switch <branch-name>\" கொண்டு அந்த கிளைக்கு தாவுக",
+    "te_IN": "ఇప్పుడు \"git branch <branch-name>\" కమాండ్ తో కొత్త branch ను సృష్టించి, ఆపై \"git switch <branch-name>\" తో ఆ branch కు మారండి",
+    "hi_IN": "अब \"git branch <branch-name>\" कमांड से एक नई branch बनाएं, फिर \"git switch <branch-name>\" से उस branch पर चले जाएं",
+    "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git switch <branch-name>\" komutu ile bu branch'e geçin.",
+    "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git switch <branch-name>\" paranccsal",
+    "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git switch <branch-adı>\" ilə ona keç"
   },
   "disabledMap": {
     "git revert": true
@@ -122,7 +122,7 @@ exports.level = {
               "Let's tell git we want to checkout the branch with",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "This will put us on the new branch before committing our changes."
@@ -130,7 +130,7 @@ exports.level = {
             "afterMarkdowns": [
               "There we go! Our changes were recorded on the new branch."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -138,11 +138,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "*Note: In Git version 2.23, a new command called `git switch` was introduced to eventually replace `git checkout`, ",
-              "which is somewhat overloaded (it does a bunch of different things depending on the arguments). The lessons here will still use ",
-              "`checkout` instead of `switch` because the `switch` command is still considered experimental and the syntax may change in the future. ",
-              "However you can still try out the new `switch` command in this application, and also ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">learn more here</a>.* "
+              "Note: Prefer `git switch` when changing branches. `git checkout` remains available for legacy tutorials and can also restore files."
             ]
           }
         },
@@ -153,9 +149,9 @@ exports.level = {
               "Ok! You are all ready to get branching. Once this window closes,",
               "make a new branch named `bugFix` and switch to that branch.",
               "",
-              "By the way, here's a shortcut: if you want to create a new ",
-              "branch AND check it out at the same time, you can simply ",
-              "type `git checkout -b [yourbranchname]`."
+              "By the way, here's a shortcut: if you want to create a new",
+              " branch AND check it out at the same time, you can simply",
+              "type `git switch -c [yourbranchname]`."
             ]
           }
         }
@@ -216,7 +212,7 @@ exports.level = {
               "لنخبر git أننا نريد الانتقال إلى الفرع باستخدام",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "سيضعنا هذا على الفرع الجديد قبل تسجيل تغييراتنا."
@@ -224,20 +220,8 @@ exports.level = {
             "afterMarkdowns": [
               "ها هو! تم تسجيل تغييراتنا على الفرع الجديد."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*ملاحظة: في الإصدار 2.23 من Git، أُضيف أمر جديد باسم `git switch` ليحل تدريجياً محل `git checkout`، ",
-              "الذي يقوم بعمليات متعددة مختلفة بحسب الوسيطات. ستستمر الدروس هنا في استخدام ",
-              "`checkout` بدلاً من `switch` لأن أمر `switch` لا يزال تجريبياً وقد تتغير صياغته مستقبلاً. ",
-              "مع ذلك يمكنك تجربة الأمر الجديد `switch` في هذا التطبيق، ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">وتعلم المزيد هنا</a>.* "
-            ]
           }
         },
         {
@@ -249,7 +233,7 @@ exports.level = {
               "",
               "بالمناسبة، هناك اختصار مفيد: إذا أردت إنشاء فرع جديد",
               "والانتقال إليه في آنٍ واحد، اكتب ببساطة",
-              "`git checkout -b [yourbranchname]`."
+              "`git switch -c [yourbranchname]`."
             ]
           }
         }
@@ -310,7 +294,7 @@ exports.level = {
               "بیایید به git بگوییم که می‌خواهیم با دستور زیر وارد شاخه شویم",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "این کار ما را قبل از کامیت تغییراتمان، روی شاخه جدید قرار می‌دهد."
@@ -318,20 +302,8 @@ exports.level = {
             "afterMarkdowns": [
               "بفرما! تغییرات ما روی شاخه جدید ثبت شد."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*نکته: در نسخه 2.23 گیت، دستور جدیدی به نام `git switch` معرفی شد تا در نهایت جایگزین `git checkout` شود، ",
-              "که تا حدی بیش از حد بارگذاری شده است (بسته به آرگومان‌ها کارهای مختلفی انجام می‌دهد). درس‌های اینجا همچنان از ",
-              "`checkout` به جای `switch` استفاده می‌کنند زیرا دستور `switch` هنوز آزمایشی در نظر گرفته می‌شود و سینتکس آن ممکن است در آینده تغییر کند. ",
-              "با این حال شما همچنان می‌توانید دستور جدید `switch` را در این برنامه امتحان کنید، و همچنین ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">اینجا بیشتر بدانید</a>.* "
-            ]
           }
         },
         {
@@ -343,7 +315,7 @@ exports.level = {
               "",
               "راستی، این یک میانبر است: اگر می‌خواهید یک ",
               "شاخه جدید بسازید و همزمان وارد آن شوید، می‌توانید به سادگی ",
-              "`git checkout -b [yourbranchname]` را تایپ کنید."
+              "`git switch -c [yourbranchname]` را تایپ کنید."
             ]
           }
         }
@@ -400,7 +372,7 @@ exports.level = {
               "Sagen wir Git also erst mal auf welchem Branch wir arbeiten wollen, und zwar mit",
               "",
               "```",
-              "git checkout <Name>",
+              "git switch <Name>",
               "```",
               "",
               "Das wird uns auf den neuen Branch bringen bevor wir unsere Änderungen committen."
@@ -408,18 +380,8 @@ exports.level = {
             "afterMarkdowns": [
               "Und fertig! Unsere Änderungen wurden im neuen Branch gespeichert."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Hinweis: In Git-Version 2.23 wurde der neue Befehl `git switch` eingeführt. Er konzentriert sich auf das Wechseln von Branches, während `git checkout` je nach Argument verschiedene Aufgaben übernimmt. Die Lektionen hier verwenden weiterhin `checkout`, damit die verwendeten Befehle durchgehend einheitlich bleiben. ",
-              "Du kannst `git switch` aber trotzdem in dieser App ausprobieren und auch ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\" rel=\"noopener noreferrer\">hier mehr erfahren</a>.* "
-            ]
           }
         },
         {
@@ -428,7 +390,7 @@ exports.level = {
             "markdowns": [
               "Cool! Jetzt bist du so weit, selbst Branches anzulegen. Wenn dieses Fenster geschlossen wurde, leg einen neuen Branch namens `bugFix` an und schalte auf diesen um.",
               "",
-              "Übrigens, hier ein Tipp: Wenn du einen neuen Branch erstellen UND direkt auf diesen wechseln willst, kannst du einfach `git checkout -b <deinbranchname>` eingeben."
+              "Übrigens, hier ein Tipp: Wenn du einen neuen Branch erstellen UND direkt auf diesen wechseln willst, kannst du einfach `git switch -c <deinbranchname>` eingeben."
             ]
           }
         }
@@ -489,7 +451,7 @@ exports.level = {
               "今度は作業したいブランチ名をgitに伝えてみましょう。",
               "",
               "```",
-              "git checkout [ブランチ名]",
+              "git switch [ブランチ名]",
               "```",
               "",
               "このようにして、コミットする前に新しいブランチへと作業ブランチを移動することができます。"
@@ -497,7 +459,7 @@ exports.level = {
             "afterMarkdowns": [
               "できましたね。今度は新しいブランチに対して変更を記録することができました。"
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -567,7 +529,7 @@ exports.level = {
               "Digámosle a git que queremos hacer checkout de esa rama con",
               "",
               "```",
-              "git checkout [name]",
+              "git switch [name]",
               "```",
               "",
               "Esto va a situarnos en esa rama antes de commitear nuestros cambios."
@@ -575,7 +537,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí estamos! Nuestros cambios se registraron en nuestra nueva rama."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -645,7 +607,7 @@ exports.level = {
               "Digámosle a git que queremos hacer checkout a esa rama con",
               "",
               "```",
-              "git checkout [name]",
+              "git switch [name]",
               "```",
               "",
               "Esto nos situará en esa rama antes de hacer commit a nuestros cambios."
@@ -653,7 +615,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí estamos! Nuestros cambios se registraron en nuestra nueva rama."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -723,7 +685,7 @@ exports.level = {
               "Digámosle a git que queremos hacer checkout a esa rama con",
               "",
               "```",
-              "git checkout [name]",
+              "git switch [name]",
               "```",
               "",
               "Esto va a situarnos en esa rama antes de hacer un commit con nuestros cambios."
@@ -731,7 +693,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ahí estamos! Nuestros cambios se registraron en nuestra nueva rama."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -801,7 +763,7 @@ exports.level = {
               "Vamos contar ao git que queremos fazer checkout na branch com:",
               "",
               "```",
-              "git checkout [nome]",
+              "git switch [nome]",
               "```",
               "",
               "Isso vai nos situar na branch antes de commitarmos nossas mudanças."
@@ -809,20 +771,8 @@ exports.level = {
             "afterMarkdowns": [
               "Aqui vamos nós! Nossas mudanças foram gravadas na nova branch."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Nota: Na versão do Git 2.23, um novo comando chamado `git switch` foi introduzido para substituir futuramente o `git checkout`, ",
-              "que é um pouco sobrecarregado (ele faz várias coisas diferentes dependendo dos argumentos). As lições aqui continuarão usando",
-              "`checkout` ao invés de `switch` pois o comando `switch` ainda é considerado experimental e sua sintaxe pode mudar no futuro. ",
-              "No entanto, você ainda pode testar o novo comando `switch` nesta aplicação e também",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">saber mais aqui</a>.* "
-            ]
           }
         },
         {
@@ -834,7 +784,7 @@ exports.level = {
               "",
               "Por falar nisso, aqui vai um atalho: se você quiser criar uma nova ",
               "branch E fazer o checkout ao mesmo tempo, você pode simplesmente ",
-              "digitar `git checkout -b [nomedasuabranch]`."
+              "digitar `git switch -c [nomedasuabranch]`."
             ]
           }
         }
@@ -895,7 +845,7 @@ exports.level = {
               "Vamos dizer ao git que queremos fazer checkout do branch com",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Isto põe-nos no branch novo antes de fazermos commit das nossas alterações."
@@ -903,20 +853,8 @@ exports.level = {
             "afterMarkdowns": [
               "Aí está! As nossas alterações ficaram registadas no branch novo."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Nota: na versão 2.23 do Git foi introduzido um comando novo, o `git switch`, que deverá vir a substituir o `git checkout`, ",
-              "que faz um pouco de tudo (comporta-se de maneira diferente consoante os argumentos). As lições aqui continuam a usar ",
-              "`checkout` em vez de `switch`, porque o comando `switch` ainda é considerado experimental e a sintaxe pode mudar no futuro. ",
-              "Mesmo assim, podes experimentar o novo comando `switch` nesta aplicação e também ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">saber mais aqui</a>.* "
-            ]
           }
         },
         {
@@ -928,7 +866,7 @@ exports.level = {
               "",
               "Já agora, fica aqui um atalho: se quiseres criar um branch novo ",
               "E fazer checkout dele ao mesmo tempo, podes simplesmente ",
-              "escrever `git checkout -b [yourbranchname]`."
+              "escrever `git switch -c [yourbranchname]`."
             ]
           }
         }
@@ -989,7 +927,7 @@ exports.level = {
               "Ímoslle decir a Git que nos queremos mover á rama con:",
               "",
               "```",
-              "git checkout [nome]",
+              "git switch [nome]",
               "```",
               "",
               "Esto vainos levar á rama que tiñamos antes de facer os nosos cambios."
@@ -997,7 +935,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Imos alá! Os nosos cambios foron grabados na nova rama."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -1010,7 +948,7 @@ exports.level = {
               "",
               "Inda así, hai un atallo: se ti quixeras crear unha nova ",
               "rama e moverte a ela ó mesmo tempo, ti podes escribir simplemente ",
-              "`git checkout -b [a-tua- rama]`."
+              "`git switch -c [a-tua- rama]`."
             ]
           }
         }
@@ -1071,7 +1009,7 @@ exports.level = {
               "Indiquons à Git que nous voulons nous positionner sur la branche avec ",
               "",
               "```",
-              "git checkout [nom]",
+              "git switch [nom]",
               "```",
               "",
               "Cela nous positionne sur la nouvelle branche avant de faire un commit avec nos modifications."
@@ -1079,20 +1017,8 @@ exports.level = {
             "afterMarkdowns": [
               "C'est parti ! Nos modifications ont été enregistrées sur la nouvelle branche."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Note : dans Git 2.23, une nouvelle commande appelée `git switch` a été introduite pour remplacer à terme `git checkout`, ",
-              "qui est un peu surchargée (elle fait plusieurs choses différentes selon les arguments). Les leçons ici continueront d'utiliser ",
-              "`checkout` plutôt que `switch` car la commande `switch` est encore considérée comme expérimentale et sa syntaxe peut changer. ",
-              "Vous pouvez toutefois essayer la nouvelle commande `switch` dans cette application, et aussi ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">en apprendre plus ici</a>.* "
-            ]
           }
         },
         {
@@ -1104,7 +1030,7 @@ exports.level = {
               "",
               "Au fait, voici un raccourci : si vous voulez créer une nouvelle ",
               "branche ET vous y positionner en même temps, vous pouvez simplement ",
-              "taper `git checkout -b [nom-de-votre-branche]`."
+              "taper `git switch -c [nom-de-votre-branche]`."
             ]
           }
         }
@@ -1165,12 +1091,12 @@ exports.level = {
               "现在咱们告诉 Git 我们想要切换到新的分支上",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "下面的命令会让我们在提交修改之前先切换到新的分支上"
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "afterMarkdowns": [
               "这就对了！我们的修改已经保存到新的分支里了。"
             ],
@@ -1181,20 +1107,10 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "*注意：在 Git 2.23 版本中，引入了一个名为 `git switch` 的新命令，最终会取代 `git checkout`，因为 `checkout` 作为单个命令有点超载（它承载了很多独立的功能）。",
-              "由于现在很多人还无法使用 `switch`，本次课程仍然使用 `checkout` 而不是 `switch`，",
-              "但是如果你想尝试一下新命令，我们的应用也是支持的！并且你可以从<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">这里</a>学到更多关于新命令的内容。*"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
               "OK，你们都已经准备好使用分支了。当前窗口关闭后，",
               "创建一个名为 `bugFix` 的新分支，然后切换过去。",
               "",
-              "对了，有个更简洁的方式：如果你想创建一个新的分支同时切换到新创建的分支的话，可以通过 `git checkout -b <your-branch-name>` 来实现。"
+              "对了，有个更简洁的方式：如果你想创建一个新的分支同时切换到新创建的分支的话，可以通过 `git switch -c <your-branch-name>` 来实现。"
             ]
           }
         }
@@ -1255,12 +1171,12 @@ exports.level = {
               "使用如下指令告訴 git 我們想要切換到新的 branch",
               "",
               "```",
-              "git checkout [name]",
+              "git switch [name]",
               "```",
               "",
               "這可以讓我們在 commit 之前切換到新的 branch。"
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "afterMarkdowns": [
               "太好了！新的 branch 已經記錄了我們的修改。"
             ],
@@ -1333,7 +1249,7 @@ exports.level = {
               "아래의 명령으로 새 브랜치로 이동해 봅시다.",
               "",
               "```",
-              "git checkout [브랜치명]",
+              "git switch [브랜치명]",
               "```",
               "",
               "이렇게 하면 변경분을 커밋하기 전에 새 브랜치로 이동하게 됩니다."
@@ -1341,7 +1257,7 @@ exports.level = {
             "afterMarkdowns": [
               "이거죠! 이제 우리의 변경이 새 브랜치에 기록되었습니다!"
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -1411,7 +1327,7 @@ exports.level = {
               "Să-i spunem lui Git că vrem să facem checkout pe ramura cu",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Aceasta ne va poziționa pe noua ramură înainte de a face commit cu modificările noastre."
@@ -1419,20 +1335,8 @@ exports.level = {
             "afterMarkdowns": [
               "Incredibil! Modificările noastre au fost înregistrate pe noua ramură."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Notă: În versiunea 2.23 a Git, a fost introdusă o nouă comandă numită `git switch`, care va înlocui în cele din urmă `git checkout`",
-              " deoarece acesta din urmă este oarecum suprasolicitată (face multe lucruri diferite în funcție de argumente). Lecțiile de aici vor folosi în continuare ",
-              "`checkout` în loc de `switch`, deoarece comanda `switch` este încă considerată experimentală și sintaxa sa se poate schimba în viitor.",
-              "Cu toate acestea, puteți încerca noua comandă `switch` în această aplicație, și de asemenea ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">poți afla mai multe aici</a>.* "
-            ]
           }
         },
         {
@@ -1444,7 +1348,7 @@ exports.level = {
               "",
               "Apropo, iată o scurtătură: dacă vrei să creezi o nouă ramură",
               " ȘI să treci pe ea în același timp, poți pur și simplu ",
-              "să scrii `git checkout -b [numele-ramurii]`."
+              "să scrii `git switch -c [numele-ramurii]`."
             ]
           }
         }
@@ -1505,7 +1409,7 @@ exports.level = {
               "Нека кажем на git, че искаме да преминем към (checkout) клона с:",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Това ще ни прехвърли в новия клон, преди да направим комит на промените."
@@ -1513,20 +1417,8 @@ exports.level = {
             "afterMarkdowns": [
               "Готово! Промените ни бяха записани в новия клон."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Бележка: Във версия 2.23 на Git беше въведена нова команда, наречена `git switch`, която евентуално да замени `git checkout`, ",
-              "тъй като последната е малко претоварена (върши много различни неща в зависимост от аргументите). Уроците тук все още ще използват ",
-              "`checkout` вместо `switch`, тъй като командата `switch` все още се счита за експериментална и синтаксисът може да се промени в бъдеще. ",
-              "Въпреки това все още можете да изпробвате новата команда `switch` в това приложение, както и да ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">научите повече тук</a>.* "
-            ]
           }
         },
         {
@@ -1538,7 +1430,7 @@ exports.level = {
               "",
               "Между другото, ето един пряк път: ако искате да създадете нов ",
               "клон И да превключите към него едновременно, можете просто ",
-              "да напишете `git checkout -b [име-на-вашия-клон]`."
+              "да напишете `git switch -c [име-на-вашия-клон]`."
             ]
           }
         }
@@ -1599,7 +1491,7 @@ exports.level = {
               "Сообщим Git, что хотим выбрать ветку",
               "",
               "```",
-              "git checkout [name]",
+              "git switch [name]",
               "```",
               "",
               "Эта команда перенесёт нас на новую ветку в момент, когда мы ещё не коммитили изменения"
@@ -1607,7 +1499,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вот так! Наши изменения записаны уже в новую ветку"
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -1619,7 +1511,7 @@ exports.level = {
               "создай ветку с именем bugFix и переключись на неё.",
               "",
               "Кстати вот тебе совет, ты можешь создать новую ветку и переключиться на неё",
-              "с помощью одной команды: ```git checkout -b [yourbranchname]```."
+              "с помощью одной команды: ```git switch -c [yourbranchname]```."
             ]
           }
         }
@@ -1680,7 +1572,7 @@ exports.level = {
               "Давайте вкажемо Git, що ми хочемо перейти на нову гілку за допомогою",
               "",
               "```",
-              "git checkout [ім’я]",
+              "git switch [ім’я]",
               "```",
               "",
               "Ця команда перекине нас на нову гілку до того, як ми закомітимо наші зміни."
@@ -1688,7 +1580,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ось і все! Наші зміни були записані в нову гілку."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -1758,7 +1650,7 @@ exports.level = {
               "Nào cùng bảo Git chuyển ta sang nhánh khác với lệnh",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Lệnh này sẽ chuyển ta sang nhánh mới trước khi commit."
@@ -1766,20 +1658,8 @@ exports.level = {
             "afterMarkdowns": [
               "Đó! Thay đổi của ta đã được lưu sang nhánh mới."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Note: Ở phiên bản Git 2.23, một câu lệnh mới được giới thiệu mang tên `git switch`, mục đích là để thay thế cho lệnh `git checkout`, ",
-              "vì lệnh cũ có quá nhiều tham số, mỗi tham số truyền vào sẽ thực hiện nhiều thứ khác nhau. Bài học này vẫn sẽ sử dụng ",
-              "`checkout` thay vì `switch`, vì lệnh `switch` hiện vẫn đang trong giai đoạn thử nghiệm và cú pháp có thể thay đổi trong tương lai. ",
-              "Mặc dù vậy, bạn vẫn có thể thử dùng câu lệnh `switch` ở ứng dụng này, và ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">tìm hiểu thêm tại đây</a>.* "
-            ]
           }
         },
         {
@@ -1791,7 +1671,7 @@ exports.level = {
               "",
               "Tiện thể, có đường tắt đấy: nếu bạn muốn tạo nhánh mới ",
               "VÀ đồng thời chuyển sang luôn, bạn chỉ cần ",
-              "gõ `git checkout -b [yourbranchname]`."
+              "gõ `git switch -c [yourbranchname]`."
             ]
           }
         }
@@ -1852,7 +1732,7 @@ exports.level = {
               "Povejmo gitu, da želimo checkoutat branch z",
               "",
               "```",
-              "git checkout <ime>",
+              "git switch <ime>",
               "```",
               "",
               "To nas bo postavilo na nov branch pred commitanjem sprememb."
@@ -1860,7 +1740,7 @@ exports.level = {
             "afterMarkdowns": [
               "Tako je! Naše sprememebe so zabeležene na novem branchu."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
           }
         },
@@ -1873,7 +1753,7 @@ exports.level = {
               "",
               "Mimogrede, tu je bližnjica: če hočeš narediti nov ",
               "branch IN ga hkrati checkoutati, lahko enostavno ",
-              "natipkaš `git checkout -b [imeTvojegaBrancha]`."
+              "natipkaš `git switch -c [imeTvojegaBrancha]`."
             ]
           }
         }
@@ -1936,7 +1816,7 @@ exports.level = {
               "Powiedzmy gitowi, z którą gałęzią chcemy pracować",
               "",
               "```",
-              "git checkout <nazwa-gałęzi>",
+              "git switch <nazwa-gałęzi>",
               "```",
               "",
               "Spowoduje to przeniesienie nas do nowej gałęzi przed wprowadzeniem zmian."
@@ -1944,19 +1824,8 @@ exports.level = {
             "afterMarkdowns": [
               "Gotowe! Nasze zmiany zostały zarejestrowane w nowej gałęzi."
             ],
-            "command": "git checkout myBranch; git commit",
+            "command": "git switch myBranch; git commit",
             "beforeCommand": "git branch myBranch"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Uwaga: w wersji 2.23 Gita zostało wprowadzono nowe polecenie o nazwie \n`git switch`, które zastępuje polecenie `git checkout`, ",
-              "które jest nieco przeciążone (robi wiele oddzielnych rzeczy zależnie od argumentów). Tutaj będziemy omawiać tylko",
-              "`git checkout`, ponieważ wciąż jest to najczęściej stosowane polecenie.",
-              "Mimo to, możesz wypróbować funkcjonalność `switch` sam. Aplikacja jest na to gotowa! <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">Dowiedz się wiecej</a>.* "
-            ]
           }
         },
         {
@@ -1968,7 +1837,7 @@ exports.level = {
               "",
               "Przy okazji, oto skrót: jeśli chcesz stworzyć",
               "nową gałąź ORAZ się na nią przełączyć,",
-              "użyj `git checkout -b <nazwa-gałęzi>`."
+              "użyj `git switch -c <nazwa-gałęzi>`."
             ]
           }
         }
@@ -2029,7 +1898,7 @@ exports.level = {
               "இப்போது நாம் கிட்டை கிளை தாவ சொல்லுவோம்.",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "புதிய மாற்றங்களை கமிட் செய்யும் முன்பு இது நம்மை புதிய கிளைக்கு மாற்றும்."
@@ -2037,19 +1906,8 @@ exports.level = {
             "afterMarkdowns": [
               "அவ்வலவுதான்! நமது மாற்றங்கள் புதிய கிளையின் பதிவு செய்ய பட்டுள்ளது."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*குறிப்பு: கிட் 2.23 முதல், `git switch` என்ற புதிய கட்டளை `git checkout`க்கு மாற்றாக அறிமுகம் செய்ய பட்டுள்ளது, ",
-              "ஏன் என்றால் அது ஒரே கட்டளையில் அதிகப்படியான வேளைகளை செய்கிறது (சொல்லப்போனால் அது கொத்தாக பல தனிப்பட்ட செயல்களை செய்கின்றது). ",
-              "இன்னு பலர் `switch` பயன்படுத்த வழி இல்லாததால் இங்குள்ள பாடங்கள் இன்னும் `switch`க்கு பதில் `checkout` பயன்படுத்து கின்றது. ",
-              "இருப்பினும் இந்த செயலியில் நீங்கள் `switch`ஐ முயற்சிக்க விரும்பினால் செய்யலாம்! <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">மேலும் விவரங்களுக்கு</a>.* "
-            ]
           }
         },
         {
@@ -2061,7 +1919,7 @@ exports.level = {
               "",
               "சொல்லபோனால், இதற்க்கு ஒரு குறுக்குவழி உள்ளது: ஒரு புதிய கிளையை உருவாக்கி ",
               "உடனெ அதற்க்கு மாற, நீங்கள்",
-              "`git checkout -b [yourbranchname]` என கட்டளையிட்டால் போதும்."
+              "`git switch -c [yourbranchname]` என கட்டளையிட்டால் போதும்."
             ]
           }
         }
@@ -2090,9 +1948,9 @@ exports.level = {
               "",
               "మీరు `git branch <name>` అని టైప్ చేసి కొత్త branch సృష్టించవచ్చు.",
               "",
-              "మీరు `git checkout <name>` అని టైప్ చేసి ఒక branch కు మారవచ్చు.",
+              "మీరు `git switch <name>` అని టైప్ చేసి ఒక branch కు మారవచ్చు.",
               "",
-              "మీరు `git checkout -b <newbranch>` అని టైప్ చేసి కొత్త branch సృష్టించి దానికి మారవచ్చు."
+              "మీరు `git switch -c <newbranch>` అని టైప్ చేసి కొత్త branch సృష్టించి దానికి మారవచ్చు."
             ]
           }
         }
@@ -2153,7 +2011,7 @@ exports.level = {
               "चलिए git को बताते हैं कि हम इस कमांड से branch पर जाना चाहते हैं,",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "इससे हमारे changes commit करने से पहले हम नई branch पर चले जाएंगे।"
@@ -2161,20 +2019,8 @@ exports.level = {
             "afterMarkdowns": [
               "हो गया! हमारे changes नई branch पर रिकॉर्ड हो गए।"
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Note: Git के version 2.23 में एक नई कमांड `git switch` आई है, जो आखिरकार `git checkout` की जगह लेगी, ",
-              "क्योंकि `checkout` थोड़ी ज़्यादा ही भारी कमांड है (arguments के हिसाब से यह कई अलग-अलग काम करती है)। यहाँ के lessons अब भी ",
-              "`switch` की जगह `checkout` ही इस्तेमाल करेंगे, क्योंकि `switch` कमांड को अभी experimental माना जाता है और इसका syntax आगे बदल सकता है। ",
-              "फिर भी आप इस app में नई `switch` कमांड try कर सकते हैं, और साथ ही ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">यहाँ से इसके बारे में और जान सकते हैं</a>.* "
-            ]
           }
         },
         {
@@ -2186,7 +2032,7 @@ exports.level = {
               "",
               "वैसे, एक shortcut भी है: अगर आप एक ही साथ नई branch बनाना ",
               "चाहें और उस पर switch करना चाहें, तो बस ",
-              "`git checkout -b [yourbranchname]` टाइप करें।"
+              "`git switch -c [yourbranchname]` टाइप करें।"
             ]
           }
         }
@@ -2247,7 +2093,7 @@ exports.level = {
               "Diciamo a Git che vogliamo selezionare il ramo con",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Questo ci metterà sul nuovo ramo prima di fare un nuovo commit."
@@ -2255,19 +2101,8 @@ exports.level = {
             "afterMarkdowns": [
               "Ecco qua! I cambiamenti sono stati memorizzati sul nuovo ramo."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Nota: In Git versione 2.23, è stato introdotto un nuovo comando, `git switch`, per sostituire `git checkout`, ",
-              "che è sovraccaricato di funzionalità (fa un sacco di cose diverse). Queste lezioni usano comunque ",
-              "`checkout` invece che `switch` perché molti non hanno ancora accesso a `switch`, ma quest'app supporta comunque il comando ",
-              "se sei curioso di provarlo! Potete <a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">scoprire di più qui</a>.* "
-            ]
           }
         },
         {
@@ -2279,7 +2114,7 @@ exports.level = {
               "",
               "Comunque, c'è una scorciatoia: se vuoi creare un nuovo ",
               "ramo E selezionarlo in un solo passaggio, puoi semplicemente ",
-              "digitare `git checkout -b [yourbranchname]`."
+              "digitare `git switch -c [yourbranchname]`."
             ]
           }
         }
@@ -2340,7 +2175,7 @@ exports.level = {
               "Git'e aşağıdaki komut ile başka bir branch'e geçmek istediğimizi söyleyelim",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Bu değişikliklerimizi commit'lemeden önce bizi yeni branch'e yönlendirecek."
@@ -2348,20 +2183,8 @@ exports.level = {
             "afterMarkdowns": [
               "İşte bu! Değişikliklerimiz yeni branch'te kaydedildi."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Not: Git'in 2.23 sürümünde, `git checkout`'un yerine geçmek üzere `git switch` adında yeni bir komut tanıtıldı, ",
-              "Bu komut, bazı argümanlara bağlı olarak bir dizi farklı işlem yapabilmektedir. ",
-              "Buradaki dersler hala `switch` yerine `checkout` kullanılarak anlatılacaktır, çünkü switch komutu hala deneysel kabul ediliyor ve sözdizisi ",
-              "gelecekte değişebilir. Bununla birlikte, bu uygulamada yeni `switch` komutunu deneyebilir ve ayrıca daha fazla bilgi için buraya bakabilirsiniz. ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">git switch</a>.* "
-            ]
           }
         },
         {
@@ -2373,7 +2196,7 @@ exports.level = {
               "",
               "Bu arada, size bir kısayol: Eğer yeni bir branch oluşturmak ve ",
               "aynı anda bu branch'e geçmek isterseniz, sadece ",
-              "`git checkout -b [yourbranchname]` komutunu kullanabilirsiniz."
+              "`git switch -c [yourbranchname]` komutunu kullanabilirsiniz."
             ]
           }
         }
@@ -2434,7 +2257,7 @@ exports.level = {
               "Mondjuk meg a Gitnek, hogy át akarunk váltani a branchre ezzel a paranccsal:",
               "",
               "```",
-              "git checkout <name>",
+              "git switch <name>",
               "```",
               "",
               "Ez az új branchre helyez minket a változtatások commitolása előtt."
@@ -2442,20 +2265,8 @@ exports.level = {
             "afterMarkdowns": [
               "Megvan! A változtatásaink az új branchen lettek rögzítve."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Megjegyzés: A Git 2.23-as verziójában bevezettek egy `git switch` nevű új parancsot, amely végül felváltja a `git checkout`-ot, ",
-              "amely kissé túlterhelt (különböző argumentumoktól függően sok mindent csinál). Az itt lévő leckék még mindig ",
-              "`checkout`-ot használnak `switch` helyett, mert a `switch` parancs még kísérletinek számít és a szintaxisa jövőben változhat. ",
-              "Azonban kipróbálhatod az új `switch` parancsot ebben az alkalmazásban, és ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">itt többet is megtudhatsz róla</a>.* "
-            ]
           }
         },
         {
@@ -2467,7 +2278,7 @@ exports.level = {
               "",
               "Egyébként van egy gyorsbillentyű: ha egyszerre akarsz egy új ",
               "branchet létrehozni ÉS ráváltani, egyszerűen",
-              "írd be: `git checkout -b [branchneved]`."
+              "írd be: `git switch -c [branchneved]`."
             ]
           }
         }
@@ -2528,7 +2339,7 @@ exports.level = {
               "Gəl git-ə branch-a keçmək istədiyimizi deyək:",
               "",
               "```",
-              "git checkout <ad>",
+              "git switch <ad>",
               "```",
               "",
               "Bu, dəyişikliklərimizi commit etməzdən əvvəl bizi yeni branch-ın üstünə keçirəcək."
@@ -2536,20 +2347,8 @@ exports.level = {
             "afterMarkdowns": [
               "Budur! Dəyişikliklərimiz yeni branch-da qeydə alındı."
             ],
-            "command": "git checkout newImage; git commit",
+            "command": "git switch newImage; git commit",
             "beforeCommand": "git branch newImage"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "*Qeyd: Git 2.23 versiyasında `git checkout`-u tədricən əvəz etmək üçün `git switch` adlı yeni bir əmr təqdim edildi; ",
-              "`checkout` bir qədər həddindən artıq yüklənmişdir (arqumentlərdən asılı olaraq bir sıra fərqli işlər görür). Buradakı dərslər hələ də ",
-              "`switch` əvəzinə `checkout` işlədəcək, çünki `switch` əmri hələ də təcrübi sayılır və sintaksisi gələcəkdə dəyişə bilər. ",
-              "Bununla belə, bu tətbiqdə yeni `switch` əmrini yoxlaya, həmçinin ",
-              "<a href=\"https://git-scm.com/docs/git-switch\" target=\"_blank\">buradan daha çox öyrənə</a> bilərsən.* "
-            ]
           }
         },
         {
@@ -2561,7 +2360,7 @@ exports.level = {
               "",
               "Yeri gəlmişkən, bir qısayol: eyni anda həm yeni branch ",
               "yaradıb HƏM DƏ ona keçmək istəyirsənsə, sadəcə ",
-              "`git checkout -b [branch-adın]` yaza bilərsən."
+              "`git switch -c [branch-adın]` yaza bilərsən."
             ]
           }
         }

@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"}}",
-  "solutionCommand": "git checkout C4",
+  "solutionCommand": "git switch --detach C4",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
     "en_US": "Detach yo' HEAD",
@@ -106,7 +106,7 @@ exports.level = {
             "afterMarkdowns": [
               "See! HEAD was hiding underneath our `main` branch all along."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -126,7 +126,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -184,7 +184,7 @@ exports.level = {
             "afterMarkdowns": [
               "देखा! HEAD शुरू से हमारी `main` branch के नीचे छुपा हुआ था।"
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -204,7 +204,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -262,7 +262,7 @@ exports.level = {
             "afterMarkdowns": [
               "دیدید! HEAD تمام مدت زیر شاخه `main` ما پنهان شده بود."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -282,7 +282,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -340,7 +340,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ves! HEAD estuvo oculta bajo nuestra rama `main` todo este tiempo."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -360,7 +360,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -418,7 +418,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ves! HEAD estuvo oculta bajo nuestra rama `main` todo este tiempo."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -438,7 +438,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -496,7 +496,7 @@ exports.level = {
             "afterMarkdowns": [
               "¡Ves! HEAD estuvo oculta bajo nuestra rama `main` todo este tiempo."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -516,7 +516,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -574,7 +574,7 @@ exports.level = {
             "afterMarkdowns": [
               "Veja! O HEAD estava se escondendo ao lado da nossa `main` esse tempo todo."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -594,7 +594,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -652,7 +652,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vês? A HEAD esteve sempre escondida por baixo do nosso branch `main`."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -672,7 +672,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -730,7 +730,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ves! O HEAD estivo ó lado do noso `main` todo este tempo."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -750,7 +750,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -808,7 +808,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vous voyez ! HEAD était caché en-dessous de la branche `main` tout le long."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -828,7 +828,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -886,7 +886,7 @@ exports.level = {
             "afterMarkdowns": [
               "Siehst du? `HEAD` war die ganze Zeit unter `main` versteckt."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -906,7 +906,7 @@ exports.level = {
               "",
               "`HEAD` -> `C1`"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -963,7 +963,7 @@ exports.level = {
               "（译者注：实际这些命令并不是真的在查看 HEAD 指向，看下一屏就了解了。如果想看 HEAD 指向，可以通过 `cat .git/HEAD` 查看，",
               "如果 HEAD 指向的是一个符号引用（即分支名而非提交的哈希值），还可以用 `git symbolic-ref HEAD` 查看它的指向。但是该程序不支持这两个命令）"
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -982,7 +982,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1036,7 +1036,7 @@ exports.level = {
             "afterMarkdowns": [
               "看吧！HEAD 一直藏在 `main` 分支的後面。"
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1056,7 +1056,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1114,7 +1114,7 @@ exports.level = {
             "afterMarkdowns": [
               "ほら、HEADが元から`main`ブランチの下に隠れていたんですね！"
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1134,7 +1134,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1192,7 +1192,7 @@ exports.level = {
             "afterMarkdowns": [
               "Vezi! HEAD era ascuns sub ramura noastră `main` până acum."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1212,7 +1212,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1270,7 +1270,7 @@ exports.level = {
             "afterMarkdowns": [
               "Виждаш ли? HEAD през цялото време е бил скрит под нашия клон `main`."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1290,7 +1290,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1348,7 +1348,7 @@ exports.level = {
             "afterMarkdowns": [
               "Вот! HEAD всё это время скрывался за веткой `main`."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1368,7 +1368,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1426,7 +1426,7 @@ exports.level = {
             "afterMarkdowns": [
               "보세요! HEAD가 `main`브랜치 아래에 숨어 있던 거군요."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1446,7 +1446,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1504,7 +1504,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ви диви! HEAD весь цей час ховався за гілкою `main`."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1524,7 +1524,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1582,7 +1582,7 @@ exports.level = {
             "afterMarkdowns": [
               "Thấy chứ? HEAD đã ẩn dưới nhánh `main` suốt."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1602,7 +1602,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1660,7 +1660,7 @@ exports.level = {
             "afterMarkdowns": [
               "Evo! HEAD se je vseskozi skrival pod našim `main` branchom."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1680,7 +1680,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1738,7 +1738,7 @@ exports.level = {
             "afterMarkdowns": [
               "Zobacz! HEAD przez cały czas ukrywał się pod naszą gałęzią `main`."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1758,7 +1758,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1816,7 +1816,7 @@ exports.level = {
             "afterMarkdowns": [
               "Visto! HEAD era nascosto sotto il ramo `main`."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1836,7 +1836,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1889,7 +1889,7 @@ exports.level = {
             "afterMarkdowns": [
               "Görüyorsunuz! HEAD, `main` dalımızın altındaymış."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1908,7 +1908,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -1961,7 +1961,7 @@ exports.level = {
             "afterMarkdowns": [
               "பாருங்கள்! HEAD எப்போது `main` கிளையின் கீழ் மறைந்திருந்தது."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -1980,7 +1980,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -2017,9 +2017,9 @@ exports.level = {
               "Detached HEAD లో, HEAD ఒక branch ను సూచించదు. అది నేరుగా ఒక commit ను సూచిస్తుంది."
             ],
             "afterMarkdowns": [
-              "మీరు `git checkout <commit hash>` అని టైప్ చేసి detached HEAD కు మారవచ్చు."
+              "మీరు `git switch --detach <commit hash>` అని టైప్ చేసి detached HEAD కు మారవచ్చు."
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -2075,7 +2075,7 @@ exports.level = {
             "afterMarkdowns": [
               "Látod! A HEAD végig a `main` branch alatt rejtőzött."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -2095,7 +2095,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
@@ -2153,7 +2153,7 @@ exports.level = {
             "afterMarkdowns": [
               "Bax! HEAD bütün bu müddət `main` branch-ımızın altında gizlənirmiş."
             ],
-            "command": "git checkout C1; git checkout main; git commit; git checkout C2",
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
             "beforeCommand": ""
           }
         },
@@ -2173,7 +2173,7 @@ exports.level = {
               "",
               "HEAD -> C1"
             ],
-            "command": "git checkout C1",
+            "command": "git switch --detach C1",
             "beforeCommand": ""
           }
         },
