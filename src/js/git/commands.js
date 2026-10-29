@@ -89,6 +89,15 @@ var assertOriginSpecified = function(generalArgs) {
   }
 };
 
+// --force takes no value, but the option parser still attaches the next
+// word to it, so put that word back where it belongs
+var withForceArg = function(commandOptions, generalArgs) {
+  var forceArgs = commandOptions['--force'] || [];
+  return forceArgs[0] === 'origin'
+    ? forceArgs.concat(generalArgs)
+    : generalArgs.concat(forceArgs);
+};
+
 var assertBranchIsRemoteTracking = function(engine, branchName) {
   branchName = crappyUnescape(branchName);
   if (!engine.resolveID(branchName)) {
@@ -253,7 +262,7 @@ var commandConfig = {
 
       var commandOptions = command.getOptionsMap();
       var force = !!commandOptions['--force'];
-      var generalArgs = command.getGeneralArgs();
+      var generalArgs = withForceArg(commandOptions, command.getGeneralArgs());
       if (commandOptions['--rebase']) {
         generalArgs = commandOptions['--rebase'].concat(generalArgs);
       }
@@ -442,7 +451,7 @@ var commandConfig = {
       var destination;
       var commandOptions = command.getOptionsMap();
       var force = !!commandOptions['--force'];
-      var generalArgs = command.getGeneralArgs();
+      var generalArgs = withForceArg(commandOptions, command.getGeneralArgs());
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
@@ -963,7 +972,7 @@ var commandConfig = {
 
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
-      var generalArgs = command.getGeneralArgs();
+      var generalArgs = withForceArg(commandOptions, command.getGeneralArgs());
 
       // put the commandOption of delete back in the generalArgs
       // as it is a flag option
