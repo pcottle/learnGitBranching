@@ -97,9 +97,9 @@ Use `yarn dev` while developing, or run `yarn build` and serve the resulting
 
 ### Docker
 
-You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching:main`. Access your environment at [http://localhost:8080/](<http://localhost:8080/>)
+You can run the most recently built stable image with `docker run -p 8080:80 ghcr.io/pcottle/learngitbranching`. Access your environment at [http://localhost:8080/](<http://localhost:8080/>)
 
-You can build the app and image with the command: `docker build -t ghcr.io/pcottle/learngitbranching:latest`. See the [Makefile](Makefile) for information on how to build locally with docker.
+You can build the app and image with the command: `docker build -t ghcr.io/pcottle/learngitbranching:latest .`. See the [Makefile](Makefile) for information on how to build locally with docker.
 
 ## Some of our amazing contributors
 
