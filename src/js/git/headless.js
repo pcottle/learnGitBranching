@@ -118,9 +118,15 @@ HeadlessGit.prototype.sendCommand = function(value, entireCommandPromise) {
         rawStr: commandStr
       });
 
+      commands.push(commandObj);
+      if (commandObj.get('error')) {
+        // like the command buffer in the real app, never run a command that
+        // already failed to parse (unknown option, unsupported command, ...)
+        return;
+      }
+
       var thisDeferred = createDeferred();
       this.gitEngine.dispatch(commandObj, thisDeferred);
-      commands.push(commandObj);
       return thisDeferred.promise;
     }.bind(this));
   }, this);

@@ -1778,6 +1778,18 @@ exports.strings = {
     "hu_HU": "Ez a tagnév \"{tag}\" nem megengedett!",
     "az": "\"{tag}\" tag adına icazə verilmir!"
   },
+  "option-requires-value": {
+    "__desc__": "When the user gives an option that needs a value (like -m) but leaves the value out",
+    "en_US": "The option \"{option}\" requires a value!"
+  },
+  "option-takes-no-value": {
+    "__desc__": "When the user gives a value to an option that does not take one (like --force=yes)",
+    "en_US": "The option \"{option}\" does not take a value!"
+  },
+  "command-unterminated-quote": {
+    "__desc__": "When the user opens a quote in a command but never closes it",
+    "en_US": "This command has a quote that is never closed: {command}"
+  },
   "option-not-supported": {
     "__desc__": "When the user specifies an option that is not supported by our demo",
     "en_US": "The option \"{option}\" is not supported!",

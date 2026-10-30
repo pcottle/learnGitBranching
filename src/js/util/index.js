@@ -1,5 +1,6 @@
 var escapeString = require('../util/escapeString');
 var constants = require('../util/constants');
+var commandLine = require('../util/commandLine');
 
 exports.parseQueryString = function(uri) {
   // from http://stevenbenner.com/2010/03/javascript-regex-trick-parse-a-query-string-into-an-object/
@@ -18,7 +19,7 @@ exports.isBrowser = function() {
 
 exports.splitTextCommand = function(value, func, context) {
   func = func.bind(context);
-  value.split(';').forEach(function(command, index) {
+  commandLine.splitStatements(value).forEach(function(command, index) {
     command = escapeString(command);
     command = command
       .replace(/^(\s+)/, '')

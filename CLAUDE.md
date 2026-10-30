@@ -63,6 +63,13 @@ yarn jasmine __tests__/git.spec.js
 - Supports both git and Mercurial command sets
 - Command delegation system allows commands to internally invoke other commands
 - All git commands are simulated - they manipulate in-memory data structures
+- Options are declared per command (`options: ['--amend', {names: ['-m', '--message'], args: 1}]`);
+  `src/js/commands/optionParser.js` turns the words after `git <command>` into
+  `generalArgs` + an options map (name -> array of values; every alias maps to the same array).
+  Flags never swallow the following word, `args: 1` options take one value, `args: '?'` is optional.
+  It understands `--opt=value`, `-am` clusters and `--`. `src/js/util/commandLine.js` does the
+  quote-aware `;` splitting and word tokenizing, so commands should read `getGeneralArgs()` /
+  `getOptionsMap()` rather than re-parse strings
 
 **Levels System** (`src/levels/`)
 - Each level is a JavaScript module exporting level configuration
