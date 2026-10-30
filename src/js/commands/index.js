@@ -1,6 +1,8 @@
 var intl = require('../intl');
 
 var Errors = require('../util/errors');
+var commandLine = require('../util/commandLine');
+var OptionParser = require('./optionParser');
 var GitCommands = require('../git/commands');
 var MercurialCommands = require('../mercurial/commands');
 
@@ -11,6 +13,8 @@ var commandConfigs = {
   'git': GitCommands.commandConfig,
   'hg': MercurialCommands.commandConfig
 };
+
+var optionSpecs = null;
 
 var commands = {
   execute: function(vcs, name, engine, commandObj) {
@@ -63,16 +67,38 @@ var commands = {
     return map;
   },
 
+  /**
+   * The normalized option specs ({names, args}) for every command, keyed
+   * like the other maps. Built once, since the configs never change.
+   */
+  getOptionSpecs: function() {
+    if (!optionSpecs) {
+      optionSpecs = this.blankMap();
+      this.loop(function(config, name, vcs) {
+        var displayName = config.displayName || name;
+        optionSpecs[vcs][displayName] = OptionParser.normalizeOptions(config.options);
+      });
+    }
+    return optionSpecs;
+  },
+
+  /**
+   * Every option name each command understands (aliases included), e.g.
+   * {git: {commit: {'-m': false, '--message': false, ...}}}. Used for help.
+   */
   getOptionMap: function() {
     var optionMap = this.blankMap();
-    this.loop(function(config, name, vcs) {
-      var displayName = config.displayName || name;
-      var thisMap = {};
-      // start all options off as disabled
-      (config.options || []).forEach(function(option) {
-        thisMap[option] = false;
+    var specs = this.getOptionSpecs();
+    Object.keys(specs).forEach(function(vcs) {
+      Object.keys(specs[vcs]).forEach(function(displayName) {
+        var thisMap = {};
+        specs[vcs][displayName].forEach(function(spec) {
+          spec.names.forEach(function(name) {
+            thisMap[name] = false;
+          });
+        });
+        optionMap[vcs][displayName] = thisMap;
       });
-      optionMap[vcs][displayName] = thisMap;
     });
     return optionMap;
   },
@@ -124,7 +150,6 @@ var commands = {
 var parse = function(str) {
   var vcs;
   var method;
-  var options;
 
   // see if we support this particular command
   var regexMap = commands.getRegexMap();
@@ -135,13 +160,6 @@ var parse = function(str) {
       if (regex.exec(str)) {
         vcs = thisVCS;
         method = thisMethod;
-        // every valid regex has to have the parts of
-        // <vcs> <command> <stuff>
-        // because there are always two space-groups
-        // before our "stuff" we can simply
-        // split on space-groups and grab everything after
-        // the second:
-        options = str.match(/('.*?'|".*?"|\S+)/g).slice(2);
       }
     });
   });
@@ -150,68 +168,38 @@ var parse = function(str) {
     return false;
   }
 
-  // we support this command!
-  // parse off the options and assemble the map / general args
-  var parsedOptions = new CommandOptionParser(vcs, method, options);
-  var error = parsedOptions.explodeAndSet();
+  // we support this command! every valid regex has to have the parts of
+  // <vcs> <command> <stuff>, so the words after the first two are the
+  // options and arguments that the command's option specs know how to read
+  var lexed = commandLine.tokenize(str);
+  var options = lexed.tokens.slice(2);
+  var parsed;
+  if (lexed.unterminated) {
+    parsed = {
+      options: {},
+      args: [],
+      error: new CommandProcessError({
+        msg: intl.str('command-unterminated-quote', { command: str })
+      })
+    };
+  } else {
+    parsed = OptionParser.parseArguments(
+      commands.getOptionSpecs()[vcs][method],
+      options
+    );
+  }
+
   return {
     toSet: {
-      generalArgs: parsedOptions.generalArgs,
-      supportedMap: parsedOptions.supportedMap,
-      error: error,
+      generalArgs: parsed.args,
+      supportedMap: parsed.options,
+      error: parsed.error,
       vcs: vcs,
       method: method,
       options: options,
       eventName: 'processGitCommand'
     }
   };
-};
-
-/**
- * CommandOptionParser
- */
-function CommandOptionParser(vcs, method, options) {
-  this.vcs = vcs;
-  this.method = method;
-  this.rawOptions = options;
-
-  this.supportedMap = commands.getOptionMap()[vcs][method];
-  if (this.supportedMap === undefined) {
-    throw new Error('No option map for ' + method);
-  }
-
-  this.generalArgs = [];
-}
-
-CommandOptionParser.prototype.explodeAndSet = function() {
-  for (var i = 0; i < this.rawOptions.length; i++) {
-    var part = this.rawOptions[i];
-
-    if (part.slice(0,1) == '-') {
-      // it's an option, check supportedMap
-      if (this.supportedMap[part] === undefined) {
-        return new CommandProcessError({
-          msg: intl.str(
-            'option-not-supported',
-            { option: part }
-          )
-        });
-      }
-
-      var next = this.rawOptions[i + 1];
-      var optionArgs = [];
-      if (next && next.slice(0,1) !== '-') {
-        // only store the next argument as this
-        // option value if its not another option
-        i++;
-        optionArgs = [next];
-      }
-      this.supportedMap[part] = optionArgs;
-    } else {
-      // must be a general arg
-      this.generalArgs.push(part);
-    }
-  }
 };
 
 exports.commands = commands;

@@ -14,7 +14,7 @@ var commandConfig = {
     options: [
       '--amend',
       '-A',
-      '-m'
+      { names: ['-m'], args: 1 }
     ],
     delegate: function(engine, command) {
       var options = command.getOptionsMap();
@@ -54,7 +54,7 @@ var commandConfig = {
   graft: {
     regex: /^hg +graft($|\s)/,
     options: [
-      '-r'
+      { names: ['-r'], args: 1 }
     ],
     delegate: function(engine, command) {
       command.acceptNoGeneralArgs();
@@ -92,7 +92,7 @@ var commandConfig = {
   bookmark: {
     regex: /^hg (bookmarks|bookmark|book)($|\s)/,
     options: [
-      '-r',
+      { names: ['-r'], args: 1 },
       '-f',
       '-d'
     ],
@@ -156,9 +156,9 @@ var commandConfig = {
   rebase: {
     regex: /^hg +rebase($|\s+)/,
     options: [
-      '-d',
-      '-s',
-      '-b'
+      { names: ['-d'], args: 1 },
+      { names: ['-s'], args: 1 },
+      { names: ['-b'], args: 1 }
     ],
     execute: function(engine, command) {
       var throwE = function() {
@@ -196,7 +196,7 @@ var commandConfig = {
   update: {
     regex: /^hg +(update|up)($|\s+)/,
     options: [
-      '-r'
+      { names: ['-r'], args: 1 }
     ],
     delegate: function(engine, command) {
       command.appendOptionR();
@@ -210,7 +210,7 @@ var commandConfig = {
   backout: {
     regex: /^hg +backout($|\s+)/,
     options: [
-      '-r'
+      { names: ['-r'], args: 1 }
     ],
     delegate: function(engine, command) {
       command.prependOptionR();
@@ -227,9 +227,8 @@ var commandConfig = {
       var args = command.getGeneralArgs();
       command.validateArgBounds(args, 1, 1);
       command.setOptionsMap({
-        '-i': args
+        '-i': []
       });
-      command.setGeneralArgs([]);
       return {
         vcs: 'git',
         name: 'rebase'

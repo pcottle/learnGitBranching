@@ -89,15 +89,6 @@ var assertOriginSpecified = function(generalArgs) {
   }
 };
 
-// --force takes no value, but the option parser still attaches the next
-// word to it, so put that word back where it belongs
-var withForceArg = function(commandOptions, generalArgs) {
-  var forceArgs = commandOptions['--force'] || [];
-  return forceArgs[0] === 'origin'
-    ? forceArgs.concat(generalArgs)
-    : generalArgs.concat(forceArgs);
-};
-
 var assertBranchIsRemoteTracking = function(engine, branchName) {
   branchName = crappyUnescape(branchName);
   if (!engine.resolveID(branchName)) {
@@ -128,35 +119,19 @@ var commandConfig = {
     descriptionKey: 'command-description-commit',
     options: [
       '--amend',
-      '-a',
-      '--all',
-      '-am',
-      '-m'
+      { names: ['-a', '--all'] },
+      { names: ['-m', '--message'], args: 1 }
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
       command.acceptNoGeneralArgs();
 
-      if (commandOptions['-am'] && (
-          commandOptions['-a'] || commandOptions['--all'] || commandOptions['-m'])) {
-        throw new GitError({
-          msg: intl.str('git-error-options')
-        });
-      }
-
       var msg = null;
       var args = null;
-      var stageAll = !!(commandOptions['-a'] || commandOptions['--all'] ||
-        commandOptions['-am']);
+      var stageAll = !!commandOptions['-a'];
       if (stageAll && !engine.changesModelEngaged) {
         // classic levels have no real staging, so -a is a no-op worth flagging
         command.addWarning(intl.str('git-warning-add'));
-      }
-
-      if (commandOptions['-am']) {
-        args = commandOptions['-am'];
-        command.validateArgBounds(args, 1, 1, '-am');
-        msg = args[0];
       }
 
       if (commandOptions['-m']) {
@@ -165,21 +140,11 @@ var commandConfig = {
         msg = args[0];
       }
 
-      if (commandOptions['--amend']) {
-        args = commandOptions['--amend'];
-        command.validateArgBounds(args, 0, 0, '--amend');
-      }
-
       var newCommit = engine.commit({
         isAmend: !!commandOptions['--amend'],
         all: stageAll
       });
       if (msg) {
-        msg = msg
-          .replace(/&quot;/g, '"')
-          .replace(/^"/g, '')
-          .replace(/"$/g, '');
-
         newCommit.set('commitMessage', msg);
       }
 
@@ -250,7 +215,7 @@ var commandConfig = {
     regex: /^git +pull($|\s)/,
     descriptionKey: 'command-description-pull',
     options: [
-      '--force',
+      { names: ['--force', '-f'] },
       '--rebase'
     ],
     execute: function(engine, command) {
@@ -262,10 +227,7 @@ var commandConfig = {
 
       var commandOptions = command.getOptionsMap();
       var force = !!commandOptions['--force'];
-      var generalArgs = withForceArg(commandOptions, command.getGeneralArgs());
-      if (commandOptions['--rebase']) {
-        generalArgs = commandOptions['--rebase'].concat(generalArgs);
-      }
+      var generalArgs = command.getGeneralArgs();
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
       // here is the deal -- git pull is pretty complex with
@@ -438,7 +400,7 @@ var commandConfig = {
     regex: /^git +fetch($|\s)/,
     descriptionKey: 'command-description-fetch',
     options: [
-      '--force',
+      { names: ['--force', '-f'] }
     ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
@@ -451,7 +413,7 @@ var commandConfig = {
       var destination;
       var commandOptions = command.getOptionsMap();
       var force = !!commandOptions['--force'];
-      var generalArgs = withForceArg(commandOptions, command.getGeneralArgs());
+      var generalArgs = command.getGeneralArgs();
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
 
@@ -495,18 +457,15 @@ var commandConfig = {
     regex: /^git +branch($|\s)/,
     descriptionKey: 'command-description-branch',
     options: [
-      '-d',
+      { names: ['-d', '--delete'] },
       '-D',
-      '-m',
-      '-f',
-      '--force',
-      '-a',
-      '-r',
-      '-u',
-      '--contains',
-      '-m',
+      { names: ['-m', '--move'] },
       '-M',
-      '--move'
+      { names: ['-f', '--force'] },
+      { names: ['-a', '--all'] },
+      { names: ['-r', '--remotes'] },
+      { names: ['-u', '--set-upstream-to'], args: 1 },
+      { names: ['--contains'], args: 1 }
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
@@ -515,11 +474,9 @@ var commandConfig = {
       var args = null;
       // handle deletion first
       if (commandOptions['-d'] || commandOptions['-D']) {
-        var names = commandOptions['-d'] || commandOptions['-D'];
-        names = names.concat(generalArgs);
-        command.validateArgBounds(names, 1, Number.MAX_VALUE, '-d');
+        command.validateArgBounds(generalArgs, 1, Number.MAX_VALUE, '-d');
 
-        names.forEach(function(name) {
+        generalArgs.forEach(function(name) {
           engine.validateAndDeleteBranch(name);
         });
         return;
@@ -548,10 +505,9 @@ var commandConfig = {
         return;
       }
 
-      if (commandOptions['-m'] || commandOptions['-M'] || commandOptions['--move']) {
-        var moveArgs = commandOptions['-m'] || commandOptions['-M'] || commandOptions['--move'];
+      if (commandOptions['-m'] || commandOptions['-M']) {
         var force = !!commandOptions['-M'];
-        args = moveArgs.concat(generalArgs);
+        args = generalArgs;
         command.validateArgBounds(args, 1, 2, '-m');
 
         var oldName, newName;
@@ -575,28 +531,14 @@ var commandConfig = {
         return;
       }
 
-      if (commandOptions['-f'] || commandOptions['--force']) {
-        args = commandOptions['-f'] || commandOptions['--force'];
-        args = args.concat(generalArgs);
+      if (commandOptions['-f']) {
+        args = generalArgs;
         command.twoArgsImpliedHead(args, '-f');
 
         // we want to force a branch somewhere
         engine.forceBranch(args[0], args[1]);
         return;
       }
-
-      if (commandOptions['-m']) {
-        args = commandOptions['-m'].concat(generalArgs);
-        command.validateArgBounds(args, 1, 2, '-m');
-
-        if (args.length === 1) {
-          args.unshift(engine.getOneBeforeCommit('HEAD').get('id'));
-        }
-
-        engine.renameBranch(args[0], args[1]);
-        return;
-      }
-
 
       if (generalArgs.length === 0) {
         var branches;
@@ -621,8 +563,8 @@ var commandConfig = {
     regex: /^git +add($|\s)/,
     descriptionKey: 'command-description-add',
     options: [
-      '-A',
-      '-u'
+      { names: ['-A', '--all'] },
+      { names: ['-u', '--update'] }
     ],
     execute: function(engine, command) {
       if (!engine.changesModelEngaged) {
@@ -644,8 +586,7 @@ var commandConfig = {
     regex: /^git +restore($|\s)/,
     descriptionKey: 'command-description-restore',
     options: [
-      '--staged',
-      '-S'
+      { names: ['--staged', '-S'] }
     ],
     execute: function(engine, command) {
       if (!engine.changesModelEngaged) {
@@ -656,13 +597,8 @@ var commandConfig = {
       }
       var commandOptions = command.getOptionsMap();
       var generalArgs = command.getGeneralArgs();
-      var staged = !!commandOptions['--staged'] || !!commandOptions['-S'];
-      // options absorb the filename that follows them (e.g.
-      // "git restore --staged config.env"), so fold those back in
-      var paths = generalArgs
-        .concat(commandOptions['--staged'] || [])
-        .concat(commandOptions['-S'] || []);
-      engine.restoreFiles(paths, { staged: staged });
+      var staged = !!commandOptions['--staged'];
+      engine.restoreFiles(generalArgs, { staged: staged });
     }
   },
 
@@ -686,8 +622,6 @@ var commandConfig = {
         command.addWarning(
           intl.str('git-warning-hard')
         );
-        // don't absorb the arg off of --hard
-        generalArgs = generalArgs.concat(commandOptions['--hard']);
       }
 
       command.validateArgBounds(generalArgs, 1, 1);
@@ -723,7 +657,7 @@ var commandConfig = {
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
 
-      var generalArgs = command.getGeneralArgs().concat(commandOptions['--no-ff'] || []).concat(commandOptions['--squash'] || []);
+      var generalArgs = command.getGeneralArgs();
       command.validateArgBounds(generalArgs, 1, 1);
 
       var newCommit = engine.merge(
@@ -830,12 +764,12 @@ var commandConfig = {
     descriptionKey: 'command-description-rebase',
     options: [
       '-i',
-      '--solution-ordering',
-      '--interactive-test',
+      { names: ['--solution-ordering'], args: 1 },
+      // with no value: behave as if the user confirmed the rebase dialog
+      { names: ['--interactive-test'], args: '?' },
       '--aboveAll',
-      '-p',
-      '--preserve-merges',
-      '--onto'
+      { names: ['-p', '--preserve-merges'] },
+      { names: ['--onto'], args: 1 }
     ],
     regex: /^git +rebase($|\s)/,
     execute: function(engine, command) {
@@ -843,7 +777,7 @@ var commandConfig = {
       var generalArgs = command.getGeneralArgs();
 
       if (commandOptions['-i']) {
-        var args = commandOptions['-i'].concat(generalArgs);
+        var args = generalArgs;
         command.twoArgsImpliedHead(args, ' -i');
 
         if (commandOptions['--interactive-test']) {
@@ -870,7 +804,7 @@ var commandConfig = {
         command.threeArgsImpliedHead(args, ' --onto');
 
         engine.rebaseOnto(args[0], args[1], args[2], {
-          preserveMerges: commandOptions['-p'] || commandOptions['--preserve-merges']
+          preserveMerges: !!commandOptions['-p']
         });
 
         return;
@@ -878,7 +812,7 @@ var commandConfig = {
 
       command.twoArgsImpliedHead(generalArgs);
       engine.rebase(generalArgs[0], generalArgs[1], {
-        preserveMerges: commandOptions['-p'] || commandOptions['--preserve-merges']
+        preserveMerges: !!commandOptions['-p']
       });
     }
   },
@@ -899,9 +833,8 @@ var commandConfig = {
     regex: /^git +checkout($|\s)/,
     descriptionKey: 'command-description-checkout',
     options: [
-      '-b',
-      '-B',
-      '-'
+      { names: ['-b'], args: 1 },
+      { names: ['-B'], args: 1 }
     ],
     execute: function(engine, command) {
       var commandOptions = command.getOptionsMap();
@@ -920,7 +853,16 @@ var commandConfig = {
         return;
       }
 
-      if (commandOptions['-']) {
+      if (commandOptions['-B']) {
+        args = commandOptions['-B'].concat(generalArgs);
+        command.twoArgsImpliedHead(args, '-B');
+
+        engine.forceBranch(args[0], args[1]);
+        engine.checkout(args[0]);
+        return;
+      }
+
+      if (generalArgs.length === 1 && generalArgs[0] === '-') {
         // get the heads last location
         var lastPlace = engine.HEAD.get('lastLastTarget');
         if (!lastPlace) {
@@ -929,15 +871,6 @@ var commandConfig = {
           });
         }
         engine.HEAD.set('target', lastPlace);
-        return;
-      }
-
-      if (commandOptions['-B']) {
-        args = commandOptions['-B'].concat(generalArgs);
-        command.twoArgsImpliedHead(args, '-B');
-
-        engine.forceBranch(args[0], args[1]);
-        engine.checkout(args[0]);
         return;
       }
 
@@ -951,9 +884,8 @@ var commandConfig = {
     regex: /^git +push($|\s)/,
     descriptionKey: 'command-description-push',
     options: [
-      '--force',
-      '--delete',
-      '-d'
+      { names: ['--force', '-f'] },
+      { names: ['--delete', '-d'] }
     ],
     execute: function(engine, command) {
       if (!engine.hasOrigin()) {
@@ -968,20 +900,11 @@ var commandConfig = {
       var sourceObj;
       var commandOptions = command.getOptionsMap();
       var force = !!commandOptions['--force'];
-      var isDelete = commandOptions['-d'] || commandOptions['--delete'];
+      var isDelete = !!commandOptions['--delete'];
 
       // git push is pretty complex in terms of
       // the arguments it wants as well... get ready!
-      var generalArgs = withForceArg(commandOptions, command.getGeneralArgs());
-
-      // put the commandOption of delete back in the generalArgs
-      // as it is a flag option
-      if(isDelete) {
-        let option = commandOptions['-d'] || commandOptions['--delete'];
-        generalArgs = option[0] === 'origin'
-        ? option.concat(generalArgs)
-        : generalArgs.concat(option);
-      }
+      var generalArgs = command.getGeneralArgs();
 
       command.twoArgsForOrigin(generalArgs);
       assertOriginSpecified(generalArgs);
@@ -1079,17 +1002,15 @@ var commandConfig = {
     regex: /^git +tag($|\s)/,
     descriptionKey: 'command-description-tag',
     options: [
-      '-d'
+      { names: ['-d', '--delete'] }
     ],
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       var commandOptions = command.getOptionsMap();
 
       if (commandOptions['-d']) {
-        // like "git branch -d", this takes any number of tags. The option
-        // parser only attaches the first name to "-d", so fold the rest
-        // back in from the general args.
-        var tagIDs = commandOptions['-d'].concat(generalArgs);
+        // like "git branch -d", this takes any number of tags
+        var tagIDs = generalArgs;
         if (!tagIDs.length) {
           throw new GitError({
             msg: intl.str('git-error-no-tag-to-remove')
@@ -1136,33 +1057,19 @@ var commandConfig = {
     regex: /^git +switch($|\s)/,
     descriptionKey: 'command-description-switch',
     options: [
-      '-c',
-      '--create',
-      '-C',
-      '--force-create',
-      '-t',
-      '--track',
-      '-d',
-      '--detach',
-      '-'
+      { names: ['-c', '--create'], args: 1 },
+      { names: ['-C', '--force-create'], args: 1 },
+      // the actual tracking is set up by engine.branch() below, which links
+      // to a remote start-point automatically (the same path
+      // "git checkout -b <branch> <remote>" already uses)
+      { names: ['-t', '--track'] },
+      { names: ['-d', '--detach'] }
     ],
     execute: function(engine, command) {
       var generalArgs = command.getGeneralArgs();
       var commandOptions = command.getOptionsMap();
 
-      // "-t" / "--track" asks the new branch to track its start-point. It takes
-      // no value of its own, but the option parser is greedy: if the flag sits
-      // right before the start-point ref (e.g. "git switch -c side -t o/main")
-      // that ref gets attached to it, so hand any such value back to the
-      // general args before we read them. The actual tracking is then set up by
-      // engine.branch() below, which links to a remote start-point automatically
-      // (the same path "git checkout -b <branch> <remote>" already uses).
-      let trackOption = commandOptions['-t'] ? commandOptions['-t'] : commandOptions['--track'];
-      if (trackOption && trackOption.length) {
-        generalArgs = generalArgs.concat(trackOption);
-      }
-
-      let createOption = commandOptions['-c'] ? commandOptions['-c'] : commandOptions['--create'];
+      let createOption = commandOptions['-c'];
       if (createOption) {
         // the user is really trying to just make a
         // branch and then switch to it. so first:
@@ -1174,12 +1081,10 @@ var commandConfig = {
         engine.checkout(validId);
         return;
       }
-      let sfc = '-C';
-      let lfc = '--force-create';
-      let fcOption = commandOptions[sfc] ? commandOptions[sfc] : commandOptions[lfc];
+      let fcOption = commandOptions['-C'];
       if (fcOption) {
         let args = fcOption.concat(generalArgs);
-        command.twoArgsImpliedHead(args, sfc);
+        command.twoArgsImpliedHead(args, '-C');
 
         let validId = engine.validateBranchName(args[0]);
         engine.forceBranch(validId, args[1]);
@@ -1187,7 +1092,7 @@ var commandConfig = {
         return;
       }
 
-      if (commandOptions['-']) {
+      if (generalArgs.length === 1 && generalArgs[0] === '-') {
         // get the heads last location
         var lastPlace = engine.HEAD.get('lastLastTarget');
         if (!lastPlace) {
@@ -1199,15 +1104,11 @@ var commandConfig = {
         return;
       }
 
-      let detachOption = commandOptions['-d'] ? commandOptions['-d'] : commandOptions['--detach'];
-      if (detachOption) {
-        // "-d" / "--detach" explicitly asks to check out a commit-ish and leave
-        // HEAD detached there. Like "-t" above, a ref sitting right after the
-        // flag gets attached to it by the greedy option parser, so fold it back
-        // into the general args before we read it.
-        let args = detachOption.concat(generalArgs);
-        command.validateArgBounds(args, 1, 1, '-d');
-        engine.checkout(engine.crappyUnescape(args[0]));
+      if (commandOptions['-d']) {
+        // "-d" / "--detach" explicitly asks to check out a commit-ish and
+        // leave HEAD detached there
+        command.validateArgBounds(generalArgs, 1, 1, '-d');
+        engine.checkout(engine.crappyUnescape(generalArgs[0]));
         return;
       }
 
