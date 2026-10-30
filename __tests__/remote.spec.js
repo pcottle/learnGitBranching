@@ -477,6 +477,27 @@ describe('Git Remotes', function() {
     );
   });
 
+  it('accepts --force before the remote on push', function() {
+    return expectTreeAsync(
+      'git commit; git fakeCreateRemote;git reset HEAD~1;git push --force origin main',
+      '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('accepts --force before the remote on fetch', function() {
+    return expectTreeAsync(
+      'git fakeCreateRemote; git fakeTeamwork; git commit; git checkout C1; git fetch --force origin main:main',
+      '{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C3":{"parents":["C1"],"id":"C3"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"C1","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
+  it('accepts --force before the remote on pull', function() {
+    return expectTreeAsync(
+      'git fakeCreateRemote; git fakeTeamwork; git pull --force origin main',
+      '{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C2","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C2","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"},"C2":{"parents":["C1"],"id":"C2"}},"tags":{},"HEAD":{"target":"main","id":"HEAD"}}}'
+    );
+  });
+
   describe('mergeMR/mergePR on remote', function() {
     it('requires a remote', function() {
       return runCommand('git mergeMR', function(commandMsg) {
