@@ -30,7 +30,8 @@ exports.level = {
     "hi_IN": "Git में Branches",
     "tr_TR": "Git'te Branch işlemleri",
     "hu_HU": "Elágazás Gitben",
-    "az": "Git-də Branch-lar"
+    "az": "Git-də Branch-lar",
+    "bn_BD": "Git-এ Branch"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git switch <branch-name>\"",
@@ -61,7 +62,8 @@ exports.level = {
     "hi_IN": "अब \"git branch <branch-name>\" कमांड से एक नई branch बनाएं, फिर \"git switch <branch-name>\" से उस branch पर चले जाएं",
     "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git switch <branch-name>\" komutu ile bu branch'e geçin.",
     "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git switch <branch-name>\" paranccsal",
-    "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git switch <branch-adı>\" ilə ona keç"
+    "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git switch <branch-adı>\" ilə ona keç",
+    "bn_BD": "\"git branch <branch-name>\" দিয়ে একটি নতুন branch তৈরি করো এবং \"git switch <branch-name>\" দিয়ে সেটিতে চলে যাও"
   },
   "disabledMap": {
     "git revert": true
@@ -2361,6 +2363,96 @@ exports.level = {
               "Yeri gəlmişkən, bir qısayol: eyni anda həm yeni branch ",
               "yaradıb HƏM DƏ ona keçmək istəyirsənsə, sadəcə ",
               "`git switch -c [branch-adın]` yaza bilərsən."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branch",
+              "",
+              "Git-এ branch-ও অবিশ্বাস্য রকম হালকা। এগুলো কেবল একটি নির্দিষ্ট commit-এর দিকে নির্দেশকারী পয়েন্টার -- এর বেশি কিছু নয়। আর সেজন্যই অনেক Git উৎসাহী এই মন্ত্র জপেন:",
+              "",
+              "```",
+              "branch early, and branch often",
+              "```",
+              "",
+              "যেহেতু অনেক branch তৈরি করতে কোনো বাড়তি স্টোরেজ / মেমরি খরচ নেই, তাই বিশাল ভারী branch রাখার চেয়ে তোমার কাজ যুক্তিসঙ্গতভাবে ভাগ করে নেওয়া সহজ।",
+              "",
+              "branch আর commit মেশাতে শুরু করলে আমরা দেখব এই দুটি বৈশিষ্ট্য কীভাবে একসাথে কাজ করে। আপাতত শুধু মনে রেখো, branch মূলত বলে \"আমি এই commit এবং এর সব parent commit-এর কাজ অন্তর্ভুক্ত করতে চাই।\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো দেখি বাস্তবে branch দেখতে কেমন।",
+              "",
+              "এখানে আমরা `newImage` নামে একটি নতুন branch তৈরি করব।"
+            ],
+            "afterMarkdowns": [
+              "ব্যস, branch করা এটুকুই! `newImage` branch এখন `C1` commit-কে নির্দেশ করছে।"
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো এই নতুন branch-এ কিছু কাজ রাখার চেষ্টা করি। নিচের বাটনে ক্লিক করো।"
+            ],
+            "afterMarkdowns": [
+              "ওহ না! `main` branch সরে গেল কিন্তু `newImage` branch সরল না! কারণ আমরা নতুন branch-এর \"ওপর\" ছিলাম না, আর সেজন্যই তারকা চিহ্ন (*) `main`-এর পাশে ছিল।"
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো git-কে বলি আমরা এই branch-এ checkout করতে চাই:",
+              "",
+              "```",
+              "git switch <name>",
+              "```",
+              "",
+              "এটি আমাদের পরিবর্তন commit করার আগে নতুন branch-এ নিয়ে যাবে।"
+            ],
+            "afterMarkdowns": [
+              "এই তো! আমাদের পরিবর্তনগুলো নতুন branch-এ রেকর্ড হয়েছে।"
+            ],
+            "command": "git switch newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "দ্রষ্টব্য: branch বদলানোর সময় `git switch` ব্যবহার করাই ভালো। পুরোনো টিউটোরিয়ালের জন্য `git checkout` এখনও আছে এবং এটি ফাইলও পুনরুদ্ধার করতে পারে।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ঠিক আছে! তুমি branch করার জন্য পুরোপুরি প্রস্তুত। এই উইন্ডো বন্ধ হলে,",
+              "`bugFix` নামে একটি নতুন branch তৈরি করো এবং সেই branch-এ switch করো।",
+              "",
+              "প্রসঙ্গত, একটি শর্টকাট: একই সাথে নতুন branch তৈরি করতে",
+              " এবং সেটিতে checkout করতে চাইলে, শুধু",
+              "`git switch -c [yourbranchname]` লিখলেই হবে।"
             ]
           }
         }
