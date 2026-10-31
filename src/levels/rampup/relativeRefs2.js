@@ -30,7 +30,8 @@ exports.level = {
     "hi_IN": "यह लेवल पूरा करने के लिए आपको कम से कम एक बार सीधी reference (hash) इस्तेमाल करनी होगी",
     "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek",
     "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod",
-    "az": "Bu bölümü bitirmək üçün ən azı bir birbaşa istinaddan (hash) istifadə etməlisən"
+    "az": "Bu bölümü bitirmək üçün ən azı bir birbaşa istinaddan (hash) istifadə etməlisən",
+    "bn_BD": "এই level সম্পূর্ণ করতে তোমাকে অন্তত একটি সরাসরি রেফারেন্স (hash) ব্যবহার করতে হবে"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -60,7 +61,8 @@ exports.level = {
     "hi_IN": "Relative Refs #2 (~)",
     "tr_TR": "Göreli Referanslar #2 (~)",
     "hu_HU": "Relatív hivatkozások #2 (~)",
-    "az": "Nisbi Ref-lər #2 (~)"
+    "az": "Nisbi Ref-lər #2 (~)",
+    "bn_BD": "আপেক্ষিক Ref #২ (~)"
   },
   "startDialog": {
     "en_US": {
@@ -1883,6 +1885,77 @@ exports.level = {
             ],
             "command": "git switch --detach HEAD~4",
             "beforeCommand": "git commit; git commit; git commit"
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### \"~\" অপারেটর",
+              "",
+              "ধরো তুমি commit tree-তে অনেক স্তর ওপরে যেতে চাও। `^` বারবার টাইপ করা বিরক্তিকর হতে পারে, তাই Git-এ tilde (~) অপারেটরও আছে।",
+              "",
+              "",
+              "tilde অপারেটরের পরে (ইচ্ছা হলে) একটি সংখ্যা দেওয়া যায়, যা নির্দেশ করে তুমি কতগুলো parent ওপরে উঠতে চাও। চলো কাজে দেখি।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো `~` দিয়ে কয়েকটি commit পেছনে যাওয়ার সংখ্যা নির্দিষ্ট করি।"
+            ],
+            "afterMarkdowns": [
+              "বুম! কী সংক্ষিপ্ত -- আপেক্ষিক ref দারুণ জিনিস।"
+            ],
+            "command": "git switch --detach HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch জোর করে সরানো (Branch forcing)",
+              "",
+              "তুমি এখন আপেক্ষিক ref-এ পারদর্শী, তাই চলো সেগুলো সত্যিই কোনো কাজে *ব্যবহার* করি।",
+              "",
+              "আপেক্ষিক ref আমি সবচেয়ে বেশি যেসব কাজে ব্যবহার করি তার একটি হলো branch এদিক-ওদিক সরানো। `-f` অপশন দিয়ে তুমি সরাসরি কোনো branch-কে অন্য একটি commit-এ নতুন করে নির্ধারণ করতে পারো। যেমন এরকম কিছু:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "এটি main branch-কে (জোর করে) HEAD-এর তিন parent পেছনে সরিয়ে নেয়।",
+              "",
+              "*দ্রষ্টব্য: আসল git পরিবেশে তোমার বর্তমান branch-এর জন্য `git branch -f` কমান্ড অনুমোদিত নয়।*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো আগের কমান্ডটি কাজে দেখি।"
+            ],
+            "afterMarkdowns": [
+              "এই তো! আপেক্ষিক ref আমাদের `C1`-কে নির্দেশ করার একটি সংক্ষিপ্ত উপায় দিল, আর branch forcing (`-f`) দিল একটি branch-কে দ্রুত সেই জায়গায় সরিয়ে নেওয়ার উপায়।"
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "আপেক্ষিক ref ও branch forcing একসাথে দেখার পর, চলো পরের level সমাধান করতে সেগুলো ব্যবহার করি।",
+              "",
+              "এই level সম্পূর্ণ করতে `HEAD`, `main` ও `bugFix`-কে দেখানো লক্ষ্যস্থানে সরাও।"
+            ]
           }
         }
       ]
