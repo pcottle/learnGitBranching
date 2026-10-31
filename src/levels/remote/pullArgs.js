@@ -29,7 +29,8 @@ exports.level = {
     "hu_HU": "Pull argumentumok",
     "az": "Pull arqumentləri",
     "te_IN": "Pull ఆర్గ్యుమెంట్లు",
-    "hi_IN": "pull के आर्ग्युमेंट्स"
+    "hi_IN": "pull के आर्ग्युमेंट्स",
+    "bn_BD": "Pull-এর আর্গুমেন্ট"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -58,7 +59,8 @@ exports.level = {
     "hu_HU": "Ne feledd, a fetch/pull argumentumaival új helyi ágakat hozhatsz létre",
     "az": "Unutma, fetch/pull arqumentləri ilə yeni lokal branch-lar yarada bilərsən",
     "te_IN": "fetch/pull arguments తో కొత్త లోకల్ branches సృష్టించగలవని గుర్తుపెట్టుకో",
-    "hi_IN": "याद रखो, fetch/pull आर्ग्युमेंट्स से नई लोकल branches बना सकते हो"
+    "hi_IN": "याद रखो, fetch/pull आर्ग्युमेंट्स से नई लोकल branches बना सकते हो",
+    "bn_BD": "মনে রেখো, fetch/pull-এর আর্গুমেন্ট দিয়ে নতুন লোকাল branch তৈরি করা যায়"
   },
   "startDialog": {
     "en_US": {
@@ -1971,6 +1973,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "ठीक है, पूरा करने के लिए गोल विज़ुअलाइज़ेशन वाली स्थिति बनाओ। आपको कुछ commits डाउनलोड करने होंगे, कुछ नई branches बनानी होंगी, और उन branches को दूसरी branches में मर्ज करना होगा, लेकिन बहुत सारी कमांड्स नहीं लगेंगी :P"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git pull-এর আর্গুমেন্ট",
+              "",
+              "`git fetch` আর `git push`-এর আর্গুমেন্ট নিয়ে জানার মতো প্রায় *সবকিছুই* এখন তুমি জানো, তাই git pull নিয়ে আলাদা করে বলার মতো আসলে প্রায় কিছুই বাকি নেই :)",
+              "",
+              "কারণ git pull দিনের শেষে *আসলে* শুধু একটা fetch-এর শর্টহ্যান্ড, যার পরে যা fetch হলো সেটা merge করা হয়। তুমি একে এভাবে ভাবতে পারো: *একই* আর্গুমেন্ট দিয়ে git fetch চালানো, তারপর সেই commit-গুলো *যেখানে* গিয়ে জমা হলো সেখানে merge করা।",
+              "",
+              "এমনকি অত্যন্ত জটিল আর্গুমেন্ট ব্যবহার করলেও এটা প্রযোজ্য। চলো কিছু উদাহরণ দেখি:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "git-এ কিছু সমতুল্য কমান্ড এখানে দেওয়া হলো:",
+              "",
+              "`git pull  origin foo` সমান:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "আর...",
+              "",
+              "`git pull  origin bar:bugFix` সমান:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "দেখলে? git pull আসলে fetch + merge-এর শর্টহ্যান্ড, আর git pull শুধু খেয়াল রাখে commit-গুলো কোথায় গিয়ে পৌঁছাল (`destination` আর্গুমেন্ট, যেটা সে fetch-এর সময়ই বের করে নেয়)।",
+              "",
+              "চলো একটা ডেমো দেখি:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "আমরা যদি কোথা থেকে fetch করব তা নির্দিষ্ট করে দিই, তাহলে সবকিছু আগের মতোই fetch-এর নিয়মে ঘটে, তবে সদ্য fetch হওয়া অংশটা merge হয়ে যায়।"
+            ],
+            "afterMarkdowns": [
+              "দেখো! `main` নির্দিষ্ট করে দেওয়ায় আমরা স্বাভাবিকভাবেই `o/main`-এ commit নামিয়ে আনলাম। তারপর `o/main`-কে merge করলাম আমাদের বর্তমান checkout করা অবস্থানে, যেটা লোকাল branch `main` *নয়*। এই কারণেই একাধিক branch আপডেট করতে বিভিন্ন জায়গা থেকে (একই আর্গুমেন্ট দিয়ে) একাধিকবার git pull চালানোটা আসলে যুক্তিসংগত হতে পারে।"
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "source আর destination দিলেও কি কাজ করে? অবশ্যই! চলো দেখি:"
+            ],
+            "afterMarkdowns": [
+              "বাহ, এক কমান্ডে কত কিছু! আমরা লোকালি `foo` নামে একটা নতুন branch তৈরি করলাম, remote-এর main থেকে commit নামিয়ে সেই `foo` branch-এ আনলাম, তারপর সেই branch-টা আমাদের বর্তমান checkout করা branch `bar`-এ merge করলাম। এ তো ৯০০০-এরও বেশি!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ঠিক আছে, শেষ করতে গোল ভিজ্যুয়ালাইজেশনের অবস্থায় পৌঁছাও। তোমাকে কিছু commit নামাতে হবে, কিছু নতুন branch বানাতে হবে এবং সেই branch-গুলো অন্য branch-এ merge করতে হবে, তবে খুব বেশি কমান্ড লাগার কথা নয় :P"
             ]
           }
         }
