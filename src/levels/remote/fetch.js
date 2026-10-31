@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C3\",\"id\":\"bugFix\"},\"o/main\":{\"target\":\"C2\",\"id\":\"o/main\"},\"o/bugFix\":{\"target\":\"C3\",\"id\":\"o/bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C5\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C7\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C2\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"},\"C6\":{\"parents\":[\"C3\"],\"id\":\"C6\"},\"C7\":{\"parents\":[\"C6\"],\"id\":\"C7\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Git Fetchin'",
+    "bn_BD": "Git Fetch করা",
     "fa": "گیت فچ (Git Fetch)",
     "fr_FR": "Git fetch",
     "de_DE": "Git Fetch",
@@ -34,6 +35,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "just run git fetch!",
+    "bn_BD": "শুধু git fetch চালান!",
     "fa": "فقط git fetch رو اجرا کن!",
     "fr_FR": "Exécuter juste git fetch",
     "de_DE": "Einfach git fetch ausführen!",
@@ -131,6 +133,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish the level, simply `git fetch` and download all the commits!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "git remote নিয়ে কাজ করা আসলে অন্য repository-তে ডেটা _পাঠানো_ আর সেখান থেকে _আনা_-তে এসে ঠেকে। যতক্ষণ আমরা commit আদান-প্রদান করতে পারি, ততক্ষণ git যা ট্র্যাক করে সেরকম যেকোনো আপডেট শেয়ার করা সম্ভব (অর্থাৎ কাজ, নতুন ফাইল, নতুন ভাবনা, প্রেমপত্র ইত্যাদিও শেয়ার করা যায়)।",
+              "",
+              "এই পাঠে আমরা শিখব remote repository _থেকে_ ডেটা কীভাবে আনতে হয় -- এর কমান্ডের নাম সুবিধামতো `git fetch`।",
+              "",
+              "লক্ষ্য করবেন, আমরা যখন remote repository-র নিজস্ব উপস্থাপনা হালনাগাদ করি, তখন আমাদের _remote_ branch-গুলোও সেই নতুন উপস্থাপনা অনুযায়ী আপডেট হয়। এটি remote branch নিয়ে আগের পাঠের সঙ্গে যুক্ত।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`git fetch`-এর বিস্তারিতে যাওয়ার আগে চলুন এটি কাজ করতে দেখি! এখানে একটি remote repository আছে যাতে দুটি commit আছে, যা আমাদের local repository-তে নেই।"
+            ],
+            "afterMarkdowns": [
+              "এই তো! `C2` ও `C3` commit দুটি আমাদের local repository-তে ডাউনলোড হয়েছে, আর আমাদের remote branch `o/main` সেটি প্রতিফলিত করতে আপডেট হয়েছে।"
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch যা করে",
+              "",
+              "`git fetch` দুটি প্রধান ধাপ করে, শুধুই দুটি। এটি:",
+              "",
+              "* remote-এ আছে কিন্তু আমাদের local repository-তে নেই এমন commit ডাউনলোড করে, এবং...",
+              "* আমাদের remote branch-গুলো কোথায় নির্দেশ করবে তা আপডেট করে (যেমন `o/main`)",
+              "",
+              "`git fetch` মূলত remote repository-র আমাদের _local_ উপস্থাপনাকে _আসল_ remote repository এখন যেমন আছে তার সঙ্গে সমন্বিত করে আনে।",
+              "",
+              "আগের পাঠের কথা মনে থাকলে, আমরা বলেছিলাম remote branch আপনার সর্বশেষ যোগাযোগের _সময়ের_ remote repository-র অবস্থা প্রতিফলিত করে। `git fetch`-ই হলো এই remote-গুলোর সঙ্গে কথা বলার উপায়! আশা করি remote branch আর `git fetch`-এর সম্পর্ক এখন স্পষ্ট।",
+              "",
+              "`git fetch` সাধারণত ইন্টারনেটের মাধ্যমে (`http://` বা `git://`-এর মতো প্রোটোকলে) remote repository-র সঙ্গে যোগাযোগ করে।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### fetch যা করে না",
+              "",
+              "তবে `git fetch` _আপনার_ local অবস্থার কিছুই বদলায় না। এটি আপনার `main` branch আপডেট করবে না, বা আপনার ফাইল সিস্টেম এখন যেমন দেখাচ্ছে তার কিছুই পাল্টাবে না।",
+              "",
+              "এটি বোঝা জরুরি, কারণ অনেক ডেভেলপার ভাবেন `git fetch` চালালে তাদের local কাজ remote-এর অবস্থার মতো হয়ে যাবে। এটি তার জন্য প্রয়োজনীয় সব ডেটা ডাউনলোড করতে পারে, কিন্তু আপনার local ফাইলের কিছুই _বদলায় না_। ঠিক সেই কাজের কমান্ডগুলো আমরা পরের পাঠে শিখব :D",
+              "",
+              "তাই শেষ পর্যন্ত, `git fetch` চালানোকে আপনি একটি ডাউনলোড ধাপ হিসেবে ভাবতে পারেন।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "লেভেল শেষ করতে শুধু `git fetch` করুন আর সব commit ডাউনলোড করে নিন!"
             ]
           }
         }
