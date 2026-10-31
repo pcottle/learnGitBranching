@@ -32,6 +32,7 @@ exports.level = {
     "az": "Git-də Dəyişikliklərin Geri Qaytarılması",
     "te_IN": "Git లో మార్పులను రివర్ట్ చేయడం",
     "hi_IN": "Git में Changes वापस लेना",
+    "bn_BD": "Git-এ পরিবর্তন ফিরিয়ে নেওয়া",
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -61,6 +62,7 @@ exports.level = {
     "az": "Qeyd et ki, revert və reset fərqli parametrlər qəbul edir.",
     "te_IN": "revert మరియు reset వేర్వేరు ఆర్గ్యుమెంట్లు తీసుకుంటాయని గమనించు.",
     "hi_IN": "ध्यान दें कि revert और reset अलग-अलग arguments लेती हैं।",
+    "bn_BD": "লক্ষ্য করো, revert ও reset ভিন্ন ভিন্ন argument নেয়।",
   },
   "startDialog": {
     "en_US": {
@@ -1750,6 +1752,69 @@ exports.level = {
               "ఈ level పూర్తి చేయడానికి, `local` మరియు `pushed` రెండింటిపై ఉన్న లేటెస్ట్ commit ను రివర్ట్ చేయి. మొత్తం రెండు commits ను రివర్ట్ చేస్తావు (ఒక్కో branch కు ఒకటి).",
               "",
               "`pushed` అనేది remote branch మరియు `local` అనేది లోకల్ branch అని గుర్తుపెట్టుకో -- ఏ మెథడ్లు యూజ్ చేయాలో అనేది దీని ద్వారా తెలుస్తుంది."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git-এ পরিবর্তন ফিরিয়ে নেওয়া",
+              "",
+              "Git-এ পরিবর্তন ফিরিয়ে নেওয়ার অনেক উপায় আছে। commit করার মতোই, Git-এ পরিবর্তন ফিরিয়ে নেওয়ারও একটি নিম্ন-স্তরের অংশ (আলাদা আলাদা ফাইল বা chunk stage করা) এবং একটি উচ্চ-স্তরের অংশ (পরিবর্তনগুলো আসলে কীভাবে ফিরিয়ে নেওয়া হয়) আছে। আমাদের অ্যাপ্লিকেশন দ্বিতীয়টির ওপর মনোযোগ দেবে।",
+              "",
+              "Git-এ পরিবর্তন undo করার দুটি প্রধান উপায় আছে -- একটি `git reset` ব্যবহার করা, অন্যটি `git revert` ব্যবহার করা। পরবর্তী dialog-এ আমরা প্রতিটি দেখব",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` একটি branch reference-কে সময়ের পেছনে, কোনো পুরোনো commit-এ সরিয়ে নিয়ে পরিবর্তন ফিরিয়ে নেয়। এই অর্থে একে \"ইতিহাস নতুন করে লেখা\" বলে ভাবতে পারো; `git reset` branch-কে এমনভাবে পেছনে নিয়ে যায় যেন ওই commit কখনো করাই হয়নি।",
+              "",
+              "চলো দেখি এটি কেমন দেখায়:"
+            ],
+            "afterMarkdowns": [
+              "চমৎকার! Git main branch reference-কে `C1`-এ ফিরিয়ে নিয়েছে; এখন আমাদের local repository এমন অবস্থায় আছে যেন `C2` কখনো ঘটেইনি।"
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "reset তোমার নিজের মেশিনের local branch-এর জন্য দারুণ কাজ করলেও, এর \"ইতিহাস নতুন করে লেখা\" পদ্ধতি অন্যরা ব্যবহার করছে এমন remote branch-এর জন্য কাজ করে না।",
+              "",
+              "পরিবর্তন ফিরিয়ে নিয়ে সেই ফিরিয়ে নেওয়া পরিবর্তনগুলো অন্যদের সাথে *শেয়ার* করতে হলে আমাদের `git revert` ব্যবহার করতে হবে। চলো কাজে দেখি।"
+            ],
+            "afterMarkdowns": [
+              "অদ্ভুত, branch-এর মাথায় একটি নতুন commit যোগ হয়েছে। এর কারণ, এই নতুন `C2'` commit এমন পরিবর্তন আনে যা `C2`-এর আনা পরিবর্তনগুলোকে হুবহু উল্টে দেয়।",
+              "",
+              "revert করলে তুমি তোমার পরিবর্তন অন্যদের সাথে শেয়ার করার জন্য push করতে পারো।"
+            ],
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level সম্পূর্ণ করতে, `local` ও `pushed` উভয়ের সবচেয়ে সাম্প্রতিক commit ফিরিয়ে নাও। মোট দুটি commit তুমি revert করবে (প্রতি branch-এ একটি)।",
+              "",
+              "মনে রেখো, `pushed` একটি remote branch আর `local` একটি local branch -- এটি তোমাকে পদ্ধতি বেছে নিতে সাহায্য করবে।"
             ]
           }
         }
