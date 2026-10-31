@@ -34,7 +34,8 @@ exports.level = {
     "hi_IN": "rebase का target बताने के लिए आप branches या relative references (HEAD~) में से कुछ भी इस्तेमाल कर सकते हैं",
     "tr_TR": "Rebase hedefini belirtmek için ya dalları ya da göreli referansları (HEAD~) kullanabilirsiniz",
     "hu_HU": "A rebase célját megadhatod branchekkel vagy relatív hivatkozásokkal (HEAD~)",
-    "az": "Rebase hədəfini göstərmək üçün branch-lardan və ya nisbi ref-lərdən (HEAD~) istifadə edə bilərsən"
+    "az": "Rebase hədəfini göstərmək üçün branch-lardan və ya nisbi ref-lərdən (HEAD~) istifadə edə bilərsən",
+    "bn_BD": "rebase-এর লক্ষ্য নির্দিষ্ট করতে তুমি branch অথবা আপেক্ষিক রেফারেন্স (HEAD~) যেকোনোটি ব্যবহার করতে পারো"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -64,7 +65,8 @@ exports.level = {
     "hi_IN": "Interactive Rebase का परिचय",
     "tr_TR": "Etkileşimli Rebase'e Giriş",
     "hu_HU": "Interaktív rebase bevezetés",
-    "az": "İnteraktiv Rebase-yə giriş"
+    "az": "İnteraktiv Rebase-yə giriş",
+    "bn_BD": "Interactive Rebase-এর পরিচিতি"
   },
   "startDialog": {
     "en_US": {
@@ -1883,6 +1885,72 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu bölümü bitirmək üçün interaktiv rebase et və hədəf vizuallaşdırmasında göstərilən sıraya nail ol. Unutma ki, səhvləri düzəltmək üçün həmişə `undo` və ya `reset` edə bilərsən :D"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "তুমি যখন জানো কোন commit-গুলো চাও (_এবং_ সেগুলোর hash-ও জানো), তখন Git cherry-pick দারুণ -- এর সরলতাকে হারানো কঠিন।",
+              "",
+              "কিন্তু যদি তুমি না জানো কোন commit-গুলো চাও, তখন কী হবে? সৌভাগ্যবশত git সেখানেও তোমার পাশে আছে! এর জন্য আমরা interactive rebasing ব্যবহার করতে পারি -- rebase করতে যাওয়া commit-গুলোর সারি পর্যালোচনা করার এটাই সবচেয়ে ভালো উপায়।",
+              "",
+              "চলো বিস্তারিত দেখি..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "interactive rebase মানে শুধু এটুকুই যে Git `rebase` কমান্ড `-i` অপশনসহ ব্যবহার করছে।",
+              "",
+              "এই অপশনটি দিলে git একটি UI খুলবে, যেখানে দেখা যাবে rebase-এর লক্ষ্যের নিচে কোন commit-গুলো কপি হতে যাচ্ছে। এতে সেগুলোর commit hash ও বার্তাও দেখানো হয়, যা কোনটা কী তা বুঝতে দারুণ সাহায্য করে।",
+              "",
+              "\"আসল\" git-এ UI window মানে `vim`-এর মতো কোনো text editor-এ একটি ফাইল খোলা। আমাদের উদ্দেশ্যের জন্য আমি একটি ছোট dialog window বানিয়েছি, যা একই রকম আচরণ করে।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "interactive rebase-এর dialog খুললে, আমাদের এই শিক্ষামূলক অ্যাপ্লিকেশনে তুমি দুটি কাজ করতে পারবে:",
+              "",
+              "* UI-তে commit-গুলোর ক্রম বদলে (মাউস দিয়ে drag ও drop করে) তুমি সেগুলো নতুনভাবে সাজাতে পারো।",
+              "* তুমি সব commit রাখতে অথবা নির্দিষ্ট কিছু বাদ দিতে পারো। dialog খোলার সময় প্রতিটি commit-এর পাশের `pick` বাটন সক্রিয় থাকায় সেগুলো অন্তর্ভুক্ত থাকে। কোনো commit বাদ দিতে তার `pick` বাটন বন্ধ করে দাও।",
+              "",
+              "*উল্লেখ করা দরকার যে আসল git interactive rebase-এ আরও অনেক কিছু করা যায়, যেমন commit squash করা (একসাথে জুড়ে দেওয়া), commit বার্তা সংশোধন করা, এমনকি commit-গুলো নিজেই edit করা। তবে আমাদের উদ্দেশ্যে আমরা ওপরের এই দুটি কাজেই মনোযোগ দেব।*",
+              "",
+              "দারুণ! চলো একটি উদাহরণ দেখি।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "বাটনে ক্লিক করলে একটি interactive rebase window দেখা যাবে। কিছু commit-এর ক্রম বদলে দেখো (অথবা নির্দ্বিধায় কিছু unpick করো) এবং ফলাফল দেখো!"
+            ],
+            "afterMarkdowns": [
+              "বুম! তুমি UI-তে যেভাবে নির্দেশ দিয়েছিলে, git ঠিক সেভাবেই commit-গুলো কপি করে নিয়ে এসেছে।"
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level শেষ করতে, একটি interactive rebase করো এবং goal visualization-এ দেখানো ক্রমটি অর্জন করো। মনে রেখো, ভুল ঠিক করতে তুমি সবসময় `undo` বা `reset` করতে পারো :D"
             ]
           }
         }
