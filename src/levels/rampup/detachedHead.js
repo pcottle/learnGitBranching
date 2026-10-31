@@ -31,7 +31,8 @@ exports.level = {
     "te_IN": "మీ HEAD ను వేరుచేయి",
     "hi_IN": "HEAD को अलग करें",
     "hu_HU": "Fejlécz le! (Detach HEAD)",
-    "az": "HEAD'ini Ayır"
+    "az": "HEAD'ini Ayır",
+    "bn_BD": "তোমার HEAD বিচ্ছিন্ন করো"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -61,7 +62,8 @@ exports.level = {
     "hi_IN": "मदद के लिए commit का hash (लेबल) इस्तेमाल करें!",
     "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!",
     "hu_HU": "Használd a commit azonosítóját (hash)!",
-    "az": "Kömək üçün commit üzərindəki etiketdən (hash) istifadə et!"
+    "az": "Kömək üçün commit üzərindəki etiketdən (hash) istifadə et!",
+    "bn_BD": "সাহায্যের জন্য commit-এর লেবেল (hash) ব্যবহার করো!"
   },
   "startDialog": {
     "en_US": {
@@ -2184,6 +2186,84 @@ exports.level = {
               "Bu bölümü bitirmək üçün gəl HEAD-i `bugFix`-dən ayıraq və onun əvəzinə commit-ə bağlayaq.",
               "",
               "Bu commit-i hash-i ilə göstər. Hər commit-in hash-i onu təmsil edən dairənin üzərində göstərilir."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git-এ চলাচল",
+              "",
+              "Git-এর আরও উন্নত কিছু ফিচারে যাওয়ার আগে, তোমার project-কে প্রতিনিধিত্ব করা commit tree-র মধ্য দিয়ে চলাচলের বিভিন্ন উপায় বোঝা জরুরি।",
+              "",
+              "একবার চলাচলে স্বচ্ছন্দ হয়ে গেলে, অন্যান্য git কমান্ডে তোমার দক্ষতা অনেক বেড়ে যাবে!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "প্রথমে আমাদের \"HEAD\" নিয়ে কথা বলতে হবে। HEAD হলো বর্তমানে checkout করা commit-এর প্রতীকী নাম -- মূলত তুমি কোন commit-এর ওপর কাজ করছ, সেটাই।",
+              "",
+              "HEAD সবসময় সবচেয়ে সাম্প্রতিক commit-কে নির্দেশ করে, যা working tree-তে প্রতিফলিত হয়। working tree-তে পরিবর্তন আনে এমন বেশিরভাগ git কমান্ড শুরুতেই HEAD পরিবর্তন করে।",
+              "",
+              "সাধারণত HEAD একটি branch-এর নামকে নির্দেশ করে (যেমন bugFix)। তুমি commit করলে bugFix-এর অবস্থা বদলে যায় এবং এই পরিবর্তন HEAD-এর মাধ্যমে দেখা যায়।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো কাজে দেখি। এখানে আমরা commit-এর আগে ও পরে HEAD দেখাব।"
+            ],
+            "afterMarkdowns": [
+              "দেখো! HEAD এতক্ষণ আমাদের `main` branch-এর নিচেই লুকিয়ে ছিল।"
+            ],
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### HEAD বিচ্ছিন্ন করা",
+              "",
+              "HEAD বিচ্ছিন্ন করা মানে কেবল সেটিকে branch-এর বদলে একটি commit-এর সাথে যুক্ত করা। আগে এটি এরকম দেখায়:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "আর এখন এটি",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git switch --detach C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level সম্পূর্ণ করতে, চলো HEAD-কে `bugFix` থেকে বিচ্ছিন্ন করে তার বদলে commit-এর সাথে যুক্ত করি।",
+              "",
+              "এই commit-কে তার hash দিয়ে নির্দিষ্ট করো। প্রতিটি commit-এর hash সেই commit-কে নির্দেশ করা বৃত্তের ওপর দেখানো থাকে।"
             ]
           }
         }
