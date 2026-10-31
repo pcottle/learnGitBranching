@@ -1,72 +1,68 @@
 exports.level = {
-  "goalTreeString": "%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C4%27%22%2C%22id%22%3A%22main%22%7D%2C%22overHere%22%3A%7B%22target%22%3A%22C1%22%2C%22id%22%3A%22overHere%22%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C3%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C3%27%22%7D%2C%22C5%27%22%3A%7B%22parents%22%3A%5B%22C3%27%22%5D%2C%22id%22%3A%22C5%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C5%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22main%22%2C%22id%22%3A%22HEAD%22%7D%7D",
-  "solutionCommand": "git rebase -i overHere --solution-ordering C3,C5,C4",
-  "compareOnlyMainHashAgnostic": true,
-  "disabledMap": {
-    "git cherry-pick": true
-  },
-  "startTree": "{\"branches\":{\"main\":{\"target\":\"C5\",\"id\":\"main\"},\"overHere\":{\"target\":\"C1\",\"id\":\"overHere\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"},\"C5\":{\"parents\":[\"C4\"],\"id\":\"C5\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
-  "hint": {
-    "en_US": "you can use either branches or relative refs (HEAD~) to specify the rebase target",
-    "fa": "می‌تونی از شاخه‌ها یا ارجاعات نسبی (HEAD~) برای تعیین هدف rebase استفاده کنی",
-    "es_AR": "podés usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
-    "es_ES": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
-    "es_MX": "puedes usar tanto ramas como referencias relativas (HEAD~) para especificar el objetivo del rebase",
-    "pt_BR": "Você pode usar branches ou referências relativas (HEAD~) para especificar o alvo do rebase",
-    "pt_PT": "podes usar branches ou referências relativas (HEAD~) para indicar o alvo do rebase",
-    "gl": "Podes usar ramas ou referencias relativas (HEAD~) para especificar o obxectivo do rebase",
-    "de_DE": "Du kannst entweder Branches oder relative Ref-Angaben (z.B. HEAD~) benutzen, um das Ziel des Rebase anzugeben.",
-    "fr_FR": "Vous pouvez utiliser soit les branches, soit les références relatives (HEAD~) pour spécifier la cible à rebaser",
-    "zh_CN": "branch 或者是相对位置（HEAD~）都可以用來指定 rebase 的目标",
-    "zh_TW": "你可以指定 branch 或者是相對位置（HEAD~）來表示 rebase 的目標",
-    "ro": "Poți folosi fie ramuri, fie referințe relative (HEAD~) pentru a specifica ținta rebase-ului",
-    "bg": "Можеш да използваш както имена на бранчове, така и относителни референции (HEAD~), за да укажеш целта на rebase",
-    "ru_RU": "Можно использовать либо ветки, либо относительные ссылки (HEAD~), чтобы указать цель для Rebase",
-    "ja": "リベースする対象の指定には、ブランチ名や相対リファレンス(HEAD~)が使えます",
-    "ko": "리베이스할 타겟으로 브랜치나 상대 참조(HEAD~)를 사용할 수 있습니다",
-    "uk": "Ви можете використовувати гілки чи відносні посилання (HEAD~) щоб вказувати ціль для rebase",
-    "vi": "bạn có thể sử dụng tham chiếu tương đối (HEAD~) hoặc nhánh để chỉ định mục tiêu rebase",
-    "sl_SI": "Uporabiš lahko bilokateri branch ali relativno referenco (HEAD~), da določiš cilj za rebase.",
-    "it_IT": "Puoi usare sia i rami che i riferimenti relativi (HEAD~) per specificare l'obiettivo del rebase",
-    "pl": "Możesz użyć gałęzi lub referencji względnych (HEAD~), aby określić cel rebase'a",
-    "ta_IN": "நீங்கள் rebase இலக்கை குறிப்பதற்கு கிளைகள் அல்லது பொருந்திய ரெஃபரன்ஸ்கள் (HEAD~) பயன்படுத்த முடியும்",
-    "te_IN": "మీరు rebase లక్ష్యాన్ని సూచించడానికి branches లేదా relative references (HEAD~) ఉపయోగించవచ్చు",
-    "hi_IN": "rebase का target बताने के लिए आप branches या relative references (HEAD~) में से कुछ भी इस्तेमाल कर सकते हैं",
-    "tr_TR": "Rebase hedefini belirtmek için ya dalları ya da göreli referansları (HEAD~) kullanabilirsiniz",
-    "hu_HU": "A rebase célját megadhatod branchekkel vagy relatív hivatkozásokkal (HEAD~)",
-    "az": "Rebase hədəfini göstərmək üçün branch-lardan və ya nisbi ref-lərdən (HEAD~) istifadə edə bilərsən",
-    "bn_BD": "rebase-এর লক্ষ্য নির্দিষ্ট করতে তুমি branch অথবা আপেক্ষিক রেফারেন্স (HEAD~) যেকোনোটি ব্যবহার করতে পারো"
-  },
+  "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C3\",\"id\":\"HEAD\"}}",
+  "solutionCommand": "git switch --detach bugFix^",
+  "startTree": "{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"},\"bugFix\":{\"target\":\"C4\",\"id\":\"bugFix\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C3\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"bugFix\",\"id\":\"HEAD\"}}",
   "name": {
-    "en_US": "Interactive Rebase Intro",
-    "fa": "معرفی Interactive Rebase",
-    "es_AR": "Introducción al rebase interactivo",
-    "es_ES": "Introducción al rebase interactivo",
-    "es_MX": "Introducción al rebase interactivo",
-    "pt_BR": "Introdução ao rebase interativo",
-    "pt_PT": "Introdução ao rebase interativo",
-    "gl": "Introducción ó rebase interativo",
-    "de_DE": "Einführung in Interaktives Rebase",
-    "ja": "インタラクティブrebase入門",
-    "fr_FR": "Introduction au rebase interactif",
-    "zh_CN": "交互式 rebase",
-    "zh_TW": "介紹互動式的 rebase",
-    "ro": "Introducere în rebase interactiv",
-    "bg": "Въведение в интерактивния rebase",
-    "ru_RU": "Введение в интерактивный Rebase",
-    "ko": "인터랙티브 리베이스 소개",
-    "uk": "Знайомство з інтерактивним rebase",
-    "vi": "Giới thiệu về rebase tương tác",
-    "sl_SI": "Interaktivni uvod v Rebase",
-    "it_IT": "Introduzione al rebase interattivo",
-    "pl": "Wprowadzenie do interaktywnego rebase'a",
-    "ta_IN": "இன்டராக்டிவ் ரீபெஸ் அறிமுகம்",
-    "te_IN": "ఇంటరాక్టివ్ Rebase పరిచయం",
-    "hi_IN": "Interactive Rebase का परिचय",
-    "tr_TR": "Etkileşimli Rebase'e Giriş",
-    "hu_HU": "Interaktív rebase bevezetés",
-    "az": "İnteraktiv Rebase-yə giriş",
-    "bn_BD": "Interactive Rebase-এর পরিচিতি"
+    "en_US": "Relative Refs (^)",
+    "fa": "ارجاعات نسبی (^)",
+    "fr_FR": "Références relatives (^)",
+    "ja": "相対リファレンス (^)",
+    "zh_CN": "相对引用（^）",
+    "zh_TW": "相對引用（^）",
+    "es_AR": "Referencias relativas (^)",
+    "es_MX": "Referencias relativas (^)",
+    "es_ES": "Referencias relativas (^)",
+    "pt_BR": "Referências relativas (^)",
+    "pt_PT": "Referências relativas (^)",
+    "gl": "Referencias relativas (^)",
+    "de_DE": "Relative Referenzen (^)",
+    "ro": "Referințe relative (^)",
+    "bg": "Относителни референции (^)",
+    "ru_RU": "Относительные ссылки (^)",
+    "ko": "상대 참조 (^) (Relative Refs)",
+    "uk": "Відносні посилання",
+    "vi": "Tham chiếu tương đối (^)",
+    "sl_SI": "Relativne Reference (^)",
+    "it_IT": "Riferimenti relativi (^)",
+    "pl": "Referencje względne (^)",
+    "tr_TR": "Göreli Referanslar (^)",
+    "ta_IN": "உதவிக்குறிப்பு குறிப்பிடல்கள் (^)",
+    "te_IN": "హెచ్చరిక రిఫరెన్సులు (^)",
+    "hi_IN": "Relative Refs (^)",
+    "hu_HU": "Relatív hivatkozások (^)",
+    "az": "Nisbi Ref-lər (^)",
+    "bn_BD": "আপেক্ষিক Ref (^)"
+  },
+  "hint": {
+    "en_US": "Remember the Caret (^) operator!",
+    "fa": "عملگر Caret (^) را به خاطر بسپارید!",
+    "fr_FR": "Rappelez-vous de l'opérateur circonflexe (^)",
+    "ja": "相対リファレンス(^)を思い出して！",
+    "de_DE": "Denk an den Dach-Operator (^)!",
+    "es_AR": "¡No te olvides del operador ^!",
+    "es_MX": "¡No olvides el operador ^!",
+    "es_ES": "¡No te olvides del operador ^!",
+    "pt_BR": "Não se esqueça do operador circunflexo (^)",
+    "pt_PT": "Lembra-te do operador circunflexo (^)!",
+    "gl": "Non se esqueza do operador circunflexo (^)",
+    "zh_CN": "记住操作符（^）！",
+    "zh_TW": "不要忘記插入（^）符號！",
+    "ro": "Nu uita operatorul `^`",
+    "bg": "Не забравяй оператора Caret (^)",
+    "ru_RU": "Не забудь оператор `^`",
+    "ko": "(^)연산자를 기억하세요!",
+    "uk": "Не забудьте оператор `^`",
+    "vi": "Đừng quên dấu mũ (^)!",
+    "sl_SI": "Spomni se na (^) operator!",
+    "it_IT": "Ricorda l'operatore Caret(^)... l'accento circonflesso!",
+    "pl": "Pamiętaj o operatorze wstawienia (^)!",
+    "ta_IN": "உதவிக்குறிப்பை (^), மறக்காதீர்கள்!",
+    "te_IN": "హెచ్చరిక (^), మరచిపోకండి!",
+    "hi_IN": "Caret (^) operator को याद रखें!",
+    "tr_TR": "^ operatörünü hatırlayın!",
+    "hu_HU": "Ne feledd a kalap (^) operátort!",
+    "az": "Caret (^) operatorunu yadında saxla!",
+    "bn_BD": "Caret (^) অপারেটরের কথা মনে রেখো!"
   },
   "startDialog": {
     "en_US": {
@@ -75,13 +71,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interactive Rebase",
+              "## Relative Refs",
               "",
-              "Git cherry-pick is great when you know which commits you want (_and_ you know their corresponding hashes) -- it's hard to beat the simplicity it provides.",
+              "Moving around in Git by specifying commit hashes can get a bit tedious. In the real world you won't have a nice commit tree visualization next to your terminal, so you'll have to use `git log` to see hashes.",
               "",
-              "But what about the situation where you don't know what commits you want? Thankfully git has you covered there as well! We can use interactive rebasing for this -- it's the best way to review a series of commits you're about to rebase.",
+              "Furthermore, hashes are usually a lot longer in the real Git world as well. For instance, the hash of the commit that introduced the previous level is `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Doesn't exactly roll off the tongue...",
               "",
-              "Let's dive into the details..."
+              "The upside is that Git is smart about hashes. It only requires you to specify enough characters of the hash until it uniquely identifies the commit. So I can type `fed2` instead of the long string above."
             ]
           }
         },
@@ -89,26 +85,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "All interactive rebase means is that Git is using the `rebase` command with the `-i` option.",
+              "Like I said, specifying commits by their hash isn't the most convenient thing ever, which is why Git has relative refs. They are awesome!",
               "",
-              "If you include this option, git will open up a UI to show you which commits are about to be copied below the target of the rebase. It also shows their commit hashes and messages, which is great for getting a bearing on what's what.",
+              "With relative refs, you can start somewhere memorable (like the branch `bugFix` or `HEAD`) and work from there.",
               "",
-              "For \"real\" git, the UI window means opening up a file in a text editor like `vim`. For our purposes, I've built a small dialog window that behaves the same way."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "When the interactive rebase dialog opens, you have the ability to do two things in our educational application:",
+              "Relative commits are powerful, but we will introduce two simple ones here:",
               "",
-              "* You can reorder commits simply by changing their order in the UI (via dragging and dropping with the mouse).",
-              "* You can choose to keep all commits or drop specific ones. When the dialog opens, each commit is set to be included by the `pick` button next to it being active. To drop a commit, toggle off its `pick` button.",
-              "",
-              "*It is worth mentioning that in the real git interactive rebase you can do many more things like squashing (combining) commits, amending commit messages, and even editing the commits themselves. For our purposes though we will focus on these two operations above.*",
-              "",
-              "Great! Let's see an example."
+              "* Moving upwards one commit at a time with `^`",
+              "* Moving upwards a number of times with `~<num>`"
             ]
           }
         },
@@ -116,20 +100,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "When you hit the button, an interactive rebase window will appear. Reorder some commits around (or feel free to unpick some) and see the result!"
+              "Let's look at the Caret (^) operator first. Each time you append that to a ref name, you are telling Git to find the parent of the specified commit.",
+              "",
+              "So saying `main^` is equivalent to \"the first parent of `main`\".",
+              "",
+              "`main^^` is the grandparent (second-generation ancestor) of `main`",
+              "",
+              "Let's check out the commit above main here."
             ],
             "afterMarkdowns": [
-              "Boom! Git copied down commits in the exact same way you specified through the UI."
+              "Boom! Done. Way easier than typing the commit hash."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "You can also reference `HEAD` as a relative ref. Let's use that a couple of times to move upwards in the commit tree."
+            ],
+            "afterMarkdowns": [
+              "Easy! We can travel backwards in time with `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "To finish this level, do an interactive rebase and achieve the order shown in the goal visualization. Remember you can always `undo` or `reset` to fix mistakes :D"
+              "To complete this level, check out the parent commit of `bugFix`. This will detach `HEAD`.",
+              "",
+              "You can specify the hash if you want, but try using relative refs instead!"
             ]
           }
         }
@@ -141,13 +146,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interactive Rebase",
+              "## Relative Refs",
               "",
-              "Git cherry-pick तब बहुत बढ़िया है जब आपको पता हो कि आपको कौन-से commits चाहिए (_और_ उनके hashes भी पता हों) -- इसकी सिंपlicity से बेहतर कुछ नहीं।",
+              "Git में commit hashes बताकर इधर-उधर जाना थोड़ा थकाऊ हो सकता है। असली दुनिया में आपके terminal के पास कोई चटपटा commit tree visualization नहीं दिखेगा, तो आपको hashes देखने के लिए `git log` इस्तेमाल करना पड़ेगा।",
               "",
-              "लेकिन अगर आपको पता नहीं कि आपको कौन-से commits चाहिए तो? शुक्रिया, git ने वहां भी आपको सोच रखा है! इसके लिए हम interactive rebasing इस्तेमाल कर सकते हैं -- जिन commits को आप rebase करने जा रहे हैं, उन्हें review करने का यह सबसे अच्छा तरीका है।",
+              "और भी बात, असली Git की दुनिया में hashes आम तौर पर काफी लंबी होती हैं। जैसे, पिछले लेवल को बनाने वाले commit का hash है `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`। मुंह से बोलने में बिल्कुल आसान नहीं है...",
               "",
-              "चलिए बारीकी में उतरते हैं..."
+              "अच्छी बात यह है कि Git hashes में होशियार है। यह आपसे उतने ही characters मांगता है जितने उस commit को अकेले पहचानने के लिए चाहिए। तो ऊपर वाली लंबी string की जगह मैं सिर्फ `fed2` टाइप कर सकता हूं।"
             ]
           }
         },
@@ -155,26 +160,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Interactive rebase का यही मतलब है कि Git `rebase` कमांड को `-i` option के साथ इस्तेमाल कर रहा है।",
+              "जैसा मैंने कहा, commits को उनके hash से बताना सबसे आसान काम नहीं है, इसीलिए Git में relative refs हैं। ये कमाल होती हैं!",
               "",
-              "अगर आप यह option जोड़ते हैं, तो git एक UI खोलेगा जिसमें दिखेगा कि कौन-से commits rebase के target के नीचे copy होने वाले हैं। यह उनके commit hashes और messages भी दिखाता है, जिससे यह समझने में आसानी होती है कि क्या क्या है।",
+              "Relative refs के साथ, आप किसी याद रखने में आसान जगह से शुरू कर सकते हैं (जैसे `bugFix` branch या `HEAD`) और वहीं से काम चला सकते हैं।",
               "",
-              "\"असली\" git में, यह UI window का मतलब है कि एक file `vim` जैसे text editor में खुलती है। हमारी ज़रूरत के लिए मैंने एक छोटा dialog window बनाया है जो उसी तरह काम करता है।"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "जब interactive rebase का dialog खुलता है, तो आप इस educational app में दो काम कर सकते हैं:",
+              "Relative commits बहुत ताकतवर होते हैं, लेकिन हम यहां दो आसान चीज़ें देखेंगे:",
               "",
-              "* आप commits का क्रम बदल सकते हैं, बस UI में उनकी जगह बदलकर (माउस से drag करके छोड़ देकर)।",
-              "* आप चुन सकते हैं कि सारे commits रखने हैं या कुछ खास commits हटाने हैं। Dialog खुलने पर हर commit शामिल होने के लिए सेट रहता है, उसके पास वाला `pick` बटन चालू रहता है। किसी commit को हटाने के लिए उसका `pick` बटन बंद कर दें।",
-              "",
-              "*बात करने लायक है कि असली git के interactive rebase में आप बहुत कुछ और भी कर सकते हैं, जैसे commits को squash करना (आपस में जोड़ना), commit messages बदलना, और commits को खुद भी edit करना। लेकिन हमारी ज़रूरत के लिए हम ऊपर वाले इन दो operations पर ध्यान देंगे।*",
-              "",
-              "बढ़िया! चलिए एक example देखते हैं।"
+              "* `^` से एक बार में एक commit ऊपर जाना",
+              "* `~<num>` से एक साथ कई commits ऊपर जाना"
             ]
           }
         },
@@ -182,20 +175,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "जैसे ही आप बटन दबाएंगे, एक interactive rebase window खुलेगा। कुछ commits का क्रम बदलें (या मन चाहे तो कुछ commits को unpick कर दें) और नतीजा देखें!"
+              "चलिए पहले Caret (^) operator को देखते हैं। हर बार जब आप इसे किसी ref के नाम के पीछे जोड़ते हैं, तो आप Git को बता रहे हैं कि बताए गए commit का parent ढूंढे।",
+              "",
+              "यानी `main^` लिखने का मतलब है \"`main` का पहला parent\"।",
+              "",
+              "`main^^` यानी `main` का grandparent (दूसरी पीढ़ी का ancestor)",
+              "",
+              "चलिए यहां main के ऊपर वाले commit पर चलते हैं।"
             ],
             "afterMarkdowns": [
-              "धमाका! Git ने commits को बिल्कुल उसी तरह copy किया जैसा आपने UI से बताया था।"
+              "धमाका! हो गया। Commit hash टाइप करने से कहीं आसान।"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "आप `HEAD` को भी एक relative ref की तरह इस्तेमाल कर सकते हैं। चलिए इसे कुछ बार इस्तेमाल करके commit tree में ऊपर चलते हैं।"
+            ],
+            "afterMarkdowns": [
+              "आसान है! `HEAD^` से हम समय में पीछे जा सकते हैं"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "यह लेवल पूरा करने के लिए एक interactive rebase करें और goal visualization में दिखाया गया क्रम बनाएं। याद रखें, गलती हो जाए तो आप कभी भी `undo` या `reset` कर सकते हैं :D"
+              "यह लेवल पूरा करने के लिए, `bugFix` के parent commit पर जाएं। इससे `HEAD` अलग (detach) हो जाएगा।",
+              "",
+              "आप चाहें तो hash लिख सकते हैं, लेकिन इसकी जगह relative refs इस्तेमाल करके देखें!"
             ]
           }
         }
@@ -207,13 +221,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## دستور Git Interactive Rebase",
+              "## ارجاعات نسبی (Relative Refs)",
               "",
-              "دستور git cherry-pick زمانی عالی است که می‌دانید کدام کامیت‌ها را می‌خواهید (_و_ هش‌های مربوط به آن‌ها را هم می‌دانید) -- سادگی آن بی‌نظیر است.",
+              "جابجایی در Git با مشخص کردن هش کامیت‌ها می‌تواند کمی خسته‌کننده باشد. در دنیای واقعی شما یک تصویرسازی زیبای درخت کامیت در کنار ترمینال خود نخواهید داشت، بنابراین مجبور خواهید بود از `git log` برای دیدن هش‌ها استفاده کنید.",
               "",
-              "اما در شرایطی که نمی‌دانید کدام کامیت‌ها را می‌خواهید چطور؟ خوشبختانه git اینجا هم به کمکتان می‌آید! ما می‌توانیم از interactive rebase (ریبیس تعاملی) برای این کار استفاده کنیم -- این بهترین راه برای بازبینی یک سری از کامیت‌هایی است که می‌خواهید rebase کنید.",
+              "علاوه بر این، هش‌ها معمولاً در دنیای واقعی Git بسیار طولانی‌تر هستند. برای مثال، هش کامیتی که مرحله قبلی را معرفی کرد `fed2da64c0efc5293610bdd892f82a58e8cbc5d8` است. دقیقاً راحت به زبان نمی‌آید...",
               "",
-              "بیایید وارد جزئیات شویم..."
+              "نکته مثبت این است که Git در مورد هش‌ها هوشمند است. فقط از شما می‌خواهد که تعداد کافی از کاراکترهای هش را مشخص کنید تا زمانی که به طور منحصر به فرد کامیت را شناسایی کند. بنابراین من می‌توانم به جای رشته طولانی بالا، `fed2` را تایپ کنم."
             ]
           }
         },
@@ -221,26 +235,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "منظور از interactive rebase فقط این است که Git از دستور `rebase` با گزینه `-i` استفاده می‌کند.",
+              "همانطور که گفتم، مشخص کردن کامیت‌ها با هش آن‌ها راحت‌ترین کار نیست، به همین دلیل است که Git ارجاعات نسبی دارد. آن‌ها عالی هستند!",
               "",
-              "اگر این گزینه را اضافه کنید، git یک رابط کاربری باز می‌کند تا به شما نشان دهد کدام کامیت‌ها قرار است در زیر هدف rebase کپی شوند. همچنین هش‌ها و پیام‌های آن‌ها را نشان می‌دهد که برای فهمیدن اینکه هر کدام چیست عالی است.",
+              "با ارجاعات نسبی، می‌توانید از جایی که به یاد ماندنی است (مثل شاخه `bugFix` یا `HEAD`) شروع کنید و از آنجا کار کنید.",
               "",
-              "در git \"واقعی\"، پنجره رابط کاربری به معنای باز کردن یک فایل در یک ویرایشگر متن مانند `vim` است. برای مقاصد ما، من یک پنجره گفتگوی کوچک ساخته‌ام که به همان شکل عمل می‌کند."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "وقتی کادر گفتگوی interactive rebase باز می‌شود، می‌تونی دوتا کار انجام بدی:",
+              "ارجاعات نسبی قدرتمند هستند، اما ما در اینجا دو مورد ساده را معرفی می‌کنیم:",
               "",
-              "* می‌تونی ترتیب کامیت‌ها رو به سادگی با تغییر ترتیبشون در رابط کاربری (از طریق کشیدن و رها کردن با ماوس) عوض کنی.",
-              "* می‌تونی انتخاب کنی که همه کامیت‌ها رو نگه داری یا بعضی‌هاشون رو حذف کنی. وقتی کادر گفتگو باز می‌شه، دکمه `pick` کنار هر کامیت فعاله تا اون کامیت نگه داشته بشه. برای حذف یک کامیت، دکمه `pick` کنارش رو خاموش کن.",
-              "",
-              "*بد نیست بدونی که در interactive rebase واقعی git می‌تونی کارهای خیلی بیشتری مثل squash (ادغام) کامیت‌ها، اصلاح پیام‌های کامیت و حتی ویرایش خود کامیت‌ها انجام بدی. با این حال، برای این درس فقط روی همین دو عملیات تمرکز می‌کنیم.*",
-              "",
-              "عالی! بیایید یک مثال ببینیم."
+              "* جابجایی به سمت بالا، یک کامیت در هر بار با `^`",
+              "* جابجایی به سمت بالا به تعداد دفعات مشخص با `~<num>`"
             ]
           }
         },
@@ -248,20 +250,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "وقتی دکمه را بزنید، یک پنجره interactive rebase ظاهر می‌شود. ترتیب برخی کامیت‌ها را تغییر دهید (یا آزادانه برخی را unpick کنید) و نتیجه را ببینید!"
+              "بیایید اول به عملگر Caret (^) نگاه کنیم. هر بار که آن را به نام یک ارجاع اضافه می‌کنید، به Git می‌گویید که والد کامیت مشخص شده را پیدا کند.",
+              "",
+              "بنابراین گفتن `main^` معادل \"اولین والد `main`\" است.",
+              "",
+              "`main^^` پدربزرگ (جد نسل دوم) `main` است.",
+              "",
+              "بیایید اینجا به کامیت بالای main برویم."
             ],
             "afterMarkdowns": [
-              "بوم! Git کامیت‌ها را دقیقا به همان روشی که از طریق رابط کاربری مشخص کردید کپی کرد."
+              "بوم! انجام شد. خیلی راحت‌تر از تایپ کردن هش کامیت بود."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "شما همچنین می‌توانید به `HEAD` به عنوان یک ارجاع نسبی اشاره کنید. بیایید چند بار از آن برای حرکت به سمت بالا در درخت کامیت استفاده کنیم."
+            ],
+            "afterMarkdowns": [
+              "آسان بود! ما می‌توانیم با `HEAD^` در زمان به عقب سفر کنیم."
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "برای پایان دادن به این مرحله، یک interactive rebase انجام بده و به ترتیبی که در تصویرسازی هدف نشان داده شده برس. یادت باشه که همیشه می‌تونی برای اصلاح اشتباهات از `undo` یا `reset` استفاده کنی :D"
+              "برای تکمیل این مرحله، به کامیت والد `bugFix` بروید (check out کنید). این کار `HEAD` را جدا می‌کند.",
+              "",
+              "اگر بخواهید می‌توانید هش را مشخص کنید، اما سعی کنید به جای آن از ارجاعات نسبی استفاده کنید!"
             ]
           }
         }
@@ -273,13 +296,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interactive Rebase",
+              "## Références relatives",
               "",
-              "Git cherry-pick est pratique quand vous savez exactement quels commits vous voulez (_et_ que vous connaissez leurs identifiants) -- il est difficile de battre sa simplicité.",
+              "Se déplacer dans Git en spécifiant des identifiants de commits (hashes) peut être un peu agaçant. Dans le monde réel vous n'aurez pas une vue sur un joli arbre des commits à côté de votre terminal, et vous devrez donc utiliser `git log` pour connaître les identifiants.",
               "",
-              "Mais que faire quand vous ne connaissez pas les identifiants des commits ? Heureusement Git a pensé à vous pour ce cas-là ! Nous pouvons utiliser un rebase interactif pour cela -- c'est la meilleure façon de réexaminer une série de commits que vous vous apprêtez à rebaser.",
+              "De plus, les identifiants sont plus longs dans le vrai monde de Git qu'ici. Par exemple, l'identifiant du commit introduit au précédent niveau était `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Difficilement mémorisable...",
               "",
-              "Entrons un peu plus dans les détails..."
+              "Le côté positif est que Git est intelligent avec les identifiants. Vous avez seulement à spécifier les premiers caractères de l'identifiant jusqu'à ce qu'il reconnaisse exactement le commit. Ainsi je peux taper `fed2` au lieu de la longue chaîne ci-dessus."
             ]
           }
         },
@@ -287,25 +310,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Tout rebase interactif signifie utiliser la commande `rebase` avec l'option `-i`.",
+              "Comme je l'ai dit, spécifier un commit par son identifiant n'est pas très pratique, c'est pourquoi Git a des références relatives. Elles sont géniales !",
               "",
-              "Si vous mettez cette option, Git va ouvrir une interface graphique pour vous montrer quels commits vont être copiés en-dessous de la cible sur laquelle vous rebasez. Elle vous montre aussi les identifiants et commentaires des commits, ce qui est pratique pour s'orienter parmi les commits.",
+              "Avec les références relatives vous pouvez commencer par vous placer à un endroit mémorisable (comme la branche `bugFix` ou `HEAD`) et travailler depuis cet endroit.",
               "",
-              "Pour le \"vrai\" Git, l'interface graphique correspond en fait à ouvrir un fichier dans un éditeur de texte comme `vim`. Pour notre exemple, j'ai construit une petite fenêtre de dialogue qui se comporte de la même façon."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Quand le rebase interactif s'ouvre, vous avez trois possibilités :",
+              "Les commits relatifs sont puissants, et on va en présenter deux simples ici :",
               "",
-              "* Vous pouvez réarranger les commits simplement en changeant leur ordre dans l'interface graphique (dans notre fenêtre de dialogue, cela signifie déplacer les objets avec la souris -- drag and drop).",
-              "* Vous pouvez omettre certains commits. Cela est désigné par `pick` : cliquer sur `pick` désélectionne/resélectionne le commit.",
-              "* Enfin, vous pouvez écraser des commits. Malheureusement notre niveau ne supporte pas cette option, nous allons donc sauter les détails concernant cette possibilité. Pour faire court, cela vous permet de mélanger des commits.",
-              "",
-              "Super ! Voyons un exemple."
+              "* Revenir d'un commit en arrière avec `^`",
+              "* Revenir de plusieurs en arrière avec `~<num>`"
             ]
           }
         },
@@ -313,543 +325,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Quand vous activez le bouton, une fenêtre de rebase interactif va s'ouvrir. Reordonnez quelques commits (ou supprimez-en certains) et regardez le résultat !"
+              "Regardons l'opérateur circonflexe (^) d'abord. Chaque fois que vous le faites suivre un nom de référence, vous êtes en train de demander à Git de trouver le parent du commit spécifié.",
+              "",
+              "Ainsi, `main^` est équivalent à \"le premier parent de `main`\".",
+              "",
+              "`main^^` est le grand-parent (ancêtre de seconde génération) de `main`",
+              "",
+              "Faisons un checkout du commit avant main."
             ],
             "afterMarkdowns": [
-              "Boum ! Git a copié les commits de la même manière que vous l'aviez spécifié."
+              "Boum ! Fini. Bien plus facile que d'écrire l'identifiant du commit."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Pour finir ce niveau, faites un rebase interactif et atteignez l'ordre indiqué dans la fenêtre d'objectif. Souvenez-vous que vous pouvez toujours exécuter les commandes `undo` ou `reset` pour réparer vos erreurs :D"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_TW": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## git interactive rebase",
-              "",
-              "當你知道你要複製哪些 commit（而且你也知道他們所對應的 hash 值），那麼 `git cherry-pick`  很適合你。",
-              "",
-              "但是如果你不知道你要的是哪些 commit 呢？ 很幸運的是，git 也有考慮到這個問題喔！我們可以用互動式的 rebase 來做到，當你想要檢查你想要的 commit 的時候，這會是最好的方法。",
-              "",
-              "讓我們來看一下這些細節..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "互動式的 rebase 相當於使用 rebase 這個指令的時候，後面加上一個 `-i` 的選項。",
-              "",
-              "如果你有包含了這個選項，git 就會打開一個 UI，讓你知道說有哪些 commit 會被複製下來，它也會告訴你它們的 hash 值以及可以讓你知道它們是什麼的訊息。",
-              "",
-              "在\"實務上\"，UI 會利用一個編輯器（例如 vim）打開一個檔案，對於我們來說，我已經設計了一個有同樣功能的對話視窗。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "當互動式的 rebase 的對話視窗打開之後，你就可以做到三件事情：",
-              "",
-              "* 你可以藉由改變這些 commit 在 UI 的位置（在我們的視窗中，可以透過滑鼠去拖拉），來重新排序它們的順序。",
-              "* 你可以選擇完全忽略掉某些 commit，可以用滑鼠按一下，使它變暗，就表示你要忽略掉該 commit。",
-              "* 最後, 你可以把 commit 合併在一起，但基於某些理由，在我們的關卡裡面並沒有這個功能。",
-              "",
-              "太棒了！讓我們來看一個例子！"
-            ]
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "當你按下按鈕的時候，一個互動式的 rebase 的視窗就會跳出來，重新排序一些 commit（大膽忽略掉某些 commit），然後看一下結果吧！"
+              "Vous pouvez aussi utiliser `HEAD` comme une référence relative. Utilisons cela plusieurs fois pour remonter l'arbre des commits."
             ],
             "afterMarkdowns": [
-              "看吧！ git 根據你所選擇的 commit，把它們複製了下來。"
+              "Facile ! Nous pouvons voyager dans le temps avec `HEAD^`"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "要完成這個關卡，使用互動式的 rebase，並且完成視覺化目標所表示 commit 的順序，記住！你可以經常使用 `undo` 或者 `reset` 來修正你的一些錯誤:D"
-            ]
-          }
-        }
-      ]
-    },
-    "zh_CN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git 交互式变基",
+              "Pour compléter ce niveau, faites un checkout du commit parent de `bugFix`. Cela va détacher `HEAD`.",
               "",
-              "当你知道你所需要的提交记录（**并且**还知道这些提交记录的哈希值）时, 用 cherry-pick 再好不过了 —— 没有比这更简单的方式了。",
-              "",
-              "但是如果你不清楚你想要的提交记录的哈希值呢? 幸运的是，Git 也有办法应对这种情况！我们可以使用交互式变基来解决这个问题 —— 这是审查你即将变基的一系列提交的最佳方式。",
-              "",
-              "咱们具体来看一下……"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "交互式变基就是指使用带参数 `--interactive`（或简写为 `-i`）的 `rebase` 命令",
-              "",
-              "如果你在命令后增加了这个选项, Git 会打开一个用户界面，向你展示哪些提交即将被复制到变基目标的下方。它还会显示这些提交的哈希值和提交信息，这对于理清脉络非常有帮助。",
-              "",
-              "在实际使用时，所谓的 UI 窗口一般会在像 `vim` 这样的文本编辑器中打开一个文件。出于教学目的，我构建了一个行为相同的小型对话框窗口。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "当交互式变基对话框打开时，在我们的教学应用中，你可以做两件事：",
-              "",
-              "* 调整提交记录的顺序（通过鼠标拖放来完成）",
-              "* 选择保留所有提交，或者丢弃特定的提交。当对话框打开时，每个提交旁边的 `pick` 按钮处于激活状态，表示该提交会被包含进来。要丢弃一个提交，只需关闭它的 `pick` 按钮。",
-              "",
-              "*值得一提的是，在真正的 Git 交互式变基中，你还可以做更多的事情，比如压缩提交、修改提交信息，甚至编辑提交本身。不过在我们的课程中，我们将重点放在上述两个操作上。*",
-              "",
-              "很好！让我们来看一个例子。"
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "当你点击下面的按钮时，会出现一个交互式变基对话框。试着重新排列一些提交（或者也可以取消选中一些），然后看看结果！"
-            ],
-            "afterMarkdowns": [
-              "Git 严格按照你在对话框中指定的方式复制了提交。"
-            ],
-            "command": "git rebase -i HEAD~4",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "要通过本关, 请执行一次交互式变基，并实现目标可视化图中显示的提交顺序。记住，你随时都可以用 `undo` 或 `reset` 来修正错误 :D"
-            ]
-          }
-        }
-      ]
-    },
-    "es_AR": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## git rebase interactivo",
-              "",
-              "git cherry-pick es genial cuando sabés cuáles commits querés (_y_ sabés sus hashes) -- es dificil superar la simpleza que provee.",
-              "",
-              "Pero ¿qué pasa cuando no sabés qué commits querés? Por suerte ¡git te cubre en esta situación, también! Podemos usar el rebase interactivo para esto -- es la mejor manera de revisar una serie de commits que estás por rebasear.",
-              "",
-              "Entremos en los detalles..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Todo rebase interactivo significa usar el comando `rebase` con la opción `-i`.",
-              "",
-              "Si incluís esta opción, git abrirá una UI para mostrarte qué commits están a punto de ser copiados sobre el objetivo del rebase. También muestra sus hashes y mensajes, que ayuda mucho para saber qué es cada commit.",
-              "",
-              "Para el git \"de verdad\", la UI significa abrir un archivo en un editor de textos como `vim`. Para nuestro propósito, hice una pequeña interfaz que se comporta de ese mismo modo."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Cuando el diálogo de rebase interactivo se abre, tenés la capacidad de hacer 3 cosas:",
-              "",
-              "* Podés reordenar los commits con solamente cambiar su orden en la UI (en nuestra ventana, eso significa hacer drag & drop con el mouse).",
-              "* Podés elegir ignorar completamente algunos commits. Esto se designa con `pick` -- no hacerle `pick` a algún commit significa que querés ignorarlo.",
-              "* Finalmente, podés _squashear_ commits. Desafortunadamente, nuestros niveles no soportan esto por cuestiones logísticas, por lo que voy a ahorrarte los detalles. Haciéndola corta, te permite combinar varios commits en uno solo.",
-              "",
-              "¡Genial! Veamos un ejemplo."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Cuando apretes el botón, va a aparecer una ventana de rebase interactivo. Reordená los commits (sentite libre de ignorar alguno, también) ¡y mirá el resultado!"
-            ],
-            "afterMarkdowns": [
-              "¡Boom! Git copió los commits exactamente de la misma manera que lo especificaste en la UI."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Para completar el nivel, hacé un rebase interactivo y alcanzá el orden que se muestra en la visualización objetivo. Acordate que siempre podés hacer `undo` y `reset` para arreglar errores :D"
-            ]
-          }
-        }
-      ]
-    },
-    "es_ES": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## git rebase interactivo",
-              "",
-              "git cherry-pick es genial cuando sabes qué commits quieres (_y_ sabes sus hashes) -- es dificil superar la simpleza que provee.",
-              "",
-              "Pero ¿qué pasa cuando no sabes qué commits quieres? Por suerte ¡git te cubre en esta situación, también! Podemos usar el rebase interactivo para esto -- es la mejor manera de revisar una serie de commits que estás a punto de rebasear.",
-              "",
-              "Entremos en los detalles..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Todo rebase interactivo significa usar el comando `rebase` con la opción `-i`.",
-              "",
-              "Si incluyes esta opción, git abrirá una UI para mostrarte qué commits están a punto de ser copiados sobre el objetivo del rebase. También muestra sus hashes y mensajes, que ayuda mucho para saber qué es cada commit.",
-              "",
-              "Para el git \"de verdad\", la UI signfica abrir un archivo en un editor de textos como `vim`. Para nuestro propósito, hice una pequeña interfaz que se comporta de ese mismo modo."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Cuando el diálogo de rebase interactivo se abre, tienes la capacidad de hacer 3 cosas:",
-              "",
-              "* Puedes reordenar los commits con solamente cambiar su orden en la UI (en nuestra ventana, eso significa hacer drag & drop con el mouse).",
-              "* Puedes elegir ignorar completamente algunos commits. Esto se designa con `pick` -- no hacerle `pick` a algún commit significa que quieres ignorarlo.",
-              "* Finalmente, puedes _squashear_ commits. Desafortunadamente, nuestros niveles no soportan esto por cuestiones logísticas, por lo que voy a ahorrarte los detalles. Resumiendo, te permite combinar varios commits en uno solo.",
-              "",
-              "¡Genial! Veamos un ejemplo."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Cuando aprietes el botón, va a aparecer una ventana de rebase interactivo. Reordena los commits (siéntete libre de ignorar alguno, también) ¡y observa el resultado!"
-            ],
-            "afterMarkdowns": [
-              "¡Zas! Git copió los commits exactamente de la misma manera que lo especificaste en la UI."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Para completar el nivel, haz un rebase interactivo y alcanza el orden que se muestra en la visualización objetivo. Recuerda que siempre puedes hacer `undo` y `reset` para arreglar errores :D"
-            ]
-          }
-        }
-      ]
-    },
-    "es_MX": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git rebase interactivo",
-              "",
-              "git cherry-pick es genial cuando sabes qué commits quieres (_y_ sabes sus hashes) -- es dificil superar la simpleza que provee.",
-              "",
-              "Pero ¿qué pasa cuando no sabes qué commits quieres? Por suerte ¡Git te cubre en esta situación también! Podemos usar el rebase interactivo para esto -- es la mejor manera de revisar una serie de commits que estás a punto de rebasear.",
-              "",
-              "Entremos en los detalles..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Todo rebase interactivo significa usar el comando `rebase` con la opción `-i`.",
-              "",
-              "Si incluyes esta opción, git abrirá una UI para mostrarte qué commits están a punto de ser copiados sobre el objetivo del rebase. También muestra sus hashes y mensajes, que ayuda mucho para saber qué es cada commit.",
-              "",
-              "Para el git \"de verdad\", la UI signfica abrir un archivo en un editor de textos como `vim`. Para nuestro propósito, hice una pequeña interfaz que se comporta de ese mismo modo."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Cuando el diálogo de rebase interactivo se abre, tienes la capacidad de hacer 2 cosas:",
-              "",
-              "* Puedes reordenar las confirmaciones con solamente cambiar su orden en la UI (en nuestra ventana, eso significa arrastrar y soltar con el mouse).",
-              "* Puedes elegir mantener todas las confirmciones o ignorar algunas específicas. Cuando la ventana se abre, cada confirmación se asigna como incluido por medio del botón `pick` que está activo al lado. Para ignorar una confirmación, desactiva el botón `pick`.",
-              "",
-              "Vale la pena mencionar que en el rebase interactivo puedes hacer muchas más cosas como combinar confirmaciones, modificar los mensajes d elas confirmaciones e incluso editar las confirmaciones. Para nuestros propósitos nos centraremos en las dos operaciones anteriores.",
-              "",
-              "¡Genial! Veamos un ejemplo."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Cuando presiones el botón, va a aparecer una ventana de rebase interactivo. Reordena los commits (siéntete libre de ignorar alguno, también) ¡y observa el resultado!"
-            ],
-            "afterMarkdowns": [
-              "¡Vientos! Git copió las cofirmaciones exactamente de la misma manera que lo especificaste en la UI."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Para completar el nivel, haz un rebase interactivo y alcanza el orden que se muestra en la visualización objetivo. Recuerda que siempre puedes hacer `undo` y `reset` para arreglar errores :D"
-            ]
-          }
-        }
-      ]
-    },
-    "pt_BR": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Rebase Interativo do Git",
-              "",
-              "O cherry-pick é ótimo quando você sabe de antemão quais commits você quer (_e_ você sabe os hashes correspondentes) -- é difícil bater a simplicidade que ele oferece.",
-              "",
-              "Mas e quando você não sabe quais commits você quer? Felizmente o git pode te ajudar nesta situação também! Podemos usar o rebase interativo para isso -- trata-se da melhor forma de rever uma série de commits sobre os quais você está prestes a fazer um rebase.",
-              "",
-              "Mergulhemos nos detalhes..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "O rebase interativo é simplesmente o comando `rebase` com a opção `-i`.",
-              "",
-              "Se você incluir essa opção, o git abrirá uma interface para mostrar quais commits estão prestes a serem copiados abaixo do alvo do rebase. Ele também mostra os hashes e as mensagens dos commits, o que é ótimo para ter noção do que é o que.",
-              "",
-              "No git \"de verdade\", a interface nada mais é que um arquivo aberto em um editor de texto (por exemplo o `vim`). Para os nossos propósitos, eu montei uma pequena janela que se comporta da mesma forma."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Quando a janela de rebase interativo abrir, você pode fazer 3 coisas diferentes:",
-              "",
-              "* Você pode reordenar os commits simplesmente mudando sua ordem na interface (na nossa janela isso significa arrastar e soltar com o mouse).",
-              "* Você pode escolher simplesmente omitir alguns commits. Para isso, clique no botão `pick` -- deixar o `pick` desligado significa que você quer descartar o commit.",
-              "* Por fim, você pode \"esmagar\" (fazer squash) nos commits. Infelizmente, nosso tutorial não será capaz de cobrir essa funcionalidade por alguns motivos logísticos, então vamos pular os detalhes disto. Em resumo, no entanto, o squash permite que você combine commits.",
-              "",
-              "Ótimo! Vejamos um exemplo."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Quando você clicar o botão, uma janela de rebase interativo se abrirá. Reordene alguns commits da forma como você preferir (ou sinta-se livre para desmarcar o `pick` de alguns) e veja o resultado!"
-            ],
-            "afterMarkdowns": [
-              "Boom! O Git copiou alguns commits exatamente da mesma forma que você os especificou na janela."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Para finalizar este nível, faça um rebase interativo e obtenha a ordem mostrada na visualização do objetivo. Lembre-se que você pode usar os comandos `undo` ou `reset` para corrigir erros :D"
-            ]
-          }
-        }
-      ]
-    },
-    "pt_PT": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Rebase interativo no Git",
-              "",
-              "O git cherry-pick é ótimo quando sabes que commits queres (_e_ sabes os hashes correspondentes) -- é difícil bater a simplicidade que oferece.",
-              "",
-              "Mas e quando não sabes que commits queres? Felizmente, o git também tem solução para isso! Podemos usar o rebase interativo -- é a melhor forma de rever uma série de commits antes de fazeres rebase deles.",
-              "",
-              "Vamos aos pormenores..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Rebase interativo quer simplesmente dizer que o Git está a usar o comando `rebase` com a opção `-i`.",
-              "",
-              "Se incluíres esta opção, o git abre uma interface que mostra que commits estão prestes a ser copiados para debaixo do alvo do rebase. Também mostra os hashes e as mensagens dos commits, o que é ótimo para perceberes o que é o quê.",
-              "",
-              "No git \"a sério\", essa janela é um ficheiro aberto num editor de texto como o `vim`. Para o nosso caso, criei uma pequena janela de diálogo que se comporta da mesma forma."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Quando a janela do rebase interativo se abre, podes fazer duas coisas na nossa aplicação educativa:",
-              "",
-              "* Podes reordenar os commits simplesmente mudando a ordem deles na interface (arrastando-os com o rato).",
-              "* Podes escolher manter todos os commits ou descartar alguns. Quando a janela se abre, cada commit está marcado para ser incluído, porque o botão `pick` ao lado dele está ativo. Para descartar um commit, desativa o botão `pick` dele.",
-              "",
-              "*Vale a pena referir que, no rebase interativo do git a sério, podes fazer muito mais coisas, como fazer squash (juntar) de commits, alterar mensagens de commits e até editar os próprios commits. Mas, para o nosso caso, vamos concentrar-nos nestas duas operações.*",
-              "",
-              "Ótimo! Vamos ver um exemplo."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Quando carregares no botão, vai aparecer uma janela de rebase interativo. Muda a ordem de alguns commits (ou, se quiseres, desativa o pick de alguns) e vê o resultado!"
-            ],
-            "afterMarkdowns": [
-              "Pumba! O Git copiou os commits exatamente da forma que indicaste na interface."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Para terminar este nível, faz um rebase interativo e chega à ordem mostrada na visualização do objetivo. Lembra-te de que podes sempre usar `undo` ou `reset` para corrigir erros :D"
-            ]
-          }
-        }
-      ]
-    },
-    "gl": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Rebase Interativo en Git",
-              "",
-              "Empregar cherry-pick é xenial cando coñeces qué commits queres (_e_ coñeces os seus códigos hash) -- é difícil mellorar a súa simplicidade.",
-              "",
-              "Pero ¿qué pasa cando non sabes qué commits son os que queres? Por sorte, ¡git cúbrete nesta situación tamén! Podemos empregar o rebase interactivo para esto -- é a mellor forma de revisar unha serie de commits que estás a rebasar.",
-              "",
-              "Mergullémonos nos detalles..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "O rebase interativo é o comando `rebase` coa opción `-i`.",
-              "",
-              "Se ti inclúes esta opción, o git abrirá unha interfaz para mostrar qué commits están hábiles para ser copiados sobre o obxectivo do rebase. Tamén amosa os seus códigos hash e mensaxes dos commits, o cal axuda moito para saber qué é cada commit.",
-              "",
-              "En git \"de verdade\", a interfaz significa abrir un arquivo de texto nun editor (por exemplo `vim`). Para os nosos propósitos, aquí aparecerá unha pequena ventá que se comporta do mesmo xeito."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Cando a xanela de rebase interativo abra, poderás facer 3 cousas distintas:",
-              "",
-              "* Podes reordenar os commits simplemente cambiando a súa orde na interface (na nosa ventá significa arrastrar e soltar os commits).",
-              "* Podes escoller a opción de omitir algúns commits. Para iso, pincha no botón `pick` -- deixar o `pick` desligado significa que queres descartar o commit.",
-              "* Ademáis, ti podes \"esmagar\" (fazer squash) nos commits. Tristemente, este tutorial non será capaz de cubrir esa funcionalidade por algúns motivos loxísticos, entón imos pulir algúns detalles ó respecto. Resumindo, o squash permite combinar commits.",
-              "",
-              "¡Xenial! Vexamos un exemplo."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "Cando pinches o botón, unha ventá de rebase interativo abrirase. Reordena algúns commits da forma que ti prefieras (ou se o prefires desmarca o `pick` de algúns) e mira o seu resultado!"
-            ],
-            "afterMarkdowns": [
-              "¡Veña! Git copiou algúns commits exatamente da mesma forma que o indicaches na ventá."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Para finalizar este nivel, fai un rebase interativo e obteñaa a orde amosada na visualización do obxectivo. Lembra que podes usar os comandos `undo` ou `reset` para correxir erros :D"
+              "Vous pouvez spécifier l'identifiant du commit si vous voulez, mais essayez plutôt d'utiliser les références relatives !"
             ]
           }
         }
@@ -861,13 +371,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Interaktiver Rebase",
+              "## Relative Referenzen",
               "",
-              "Cherry-pick ist großartig, wenn du genau weißt, welche Commits du willst (_und_ ihre jeweiligen Hashes kennst) -- es ist dann schwer an Einfachheit zu überbieten.",
+              "Es kann etwas mühselig werden, sich in einem Commit-Baum mittels Angabe der Hashes zu bewegen. Im echten Leben hat man normalerweise keine hübsche Visualisierung des Baumes neben seinem Terminal, also benutzt man `git log` um die Hashes zu sehen.",
               "",
-              "Aber wie sieht es aus, wenn du die benötigten Commits nicht genau kennst? Zum Glück bietet Git auch dafür eine Lösung an. Das können wir mit interaktivem Rebase machen -- die beste Art sich eine Serie von Commits in einem Rebase genau anzusehen.",
+              "Außerdem sind die echten Hashes sehr viel länger und nicht fortlaufend nummeriert. Beispielsweise heißt der Hash, mit dem ich den letzten Level committet habe, in echt `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Nicht gerade einprägsam ...",
               "",
-              "Schauen wir uns die Details an ..."
+              "Zum Glück ist Git intelligent wenn es um die Hashes geht. Du musst nur soviele Zeichen eines Hashes angeben, bis der Hash eindeutig ist. Ich kann also `fed2` eingeben anstatt die komplette Zeichenkette tippen zu müssen."
             ]
           }
         },
@@ -875,25 +385,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Interaktives Rebase bedeutet einfach nur, dass man dem `rebase` Befehl die Option `-i` hinzufügt.",
+              "Wie ich schon sagte: Commits über ihren Hash zu referenzieren ist nicht gerade der bequemste Weg. Weshalb es in Git relative Referenzen gibt. Welche super sind!",
               "",
-              "Wenn du das machst, zeigt Git dir jeden einzelnen Commit, der durch den Rebase kopiert werden würde. Es zeigt dir die Hashes und Kommentare, was gut ist um einen Überblick zu bekommen.",
+              "Mit relativen Referenzen kann man bei einem leicht zu merkenden Bezeichner anfangen (zum Beispiel dem Branch-Namen `bugFix` oder der Referenz `HEAD`) und sich von dort vorarbeiten.",
               "",
-              "Im \"echten\" Git werden die Commits in einem Text-Editor angezeigt (z.B. in `vim`). Für unsere Zwecke habe ich ein kleines Dialog-Fenster gebaut, das sich ähnlich verhält."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Wenn sich der Dialog für den interaktiven Rebase öffnet, kannst du drei Dinge tun:",
+              "Relative Referenzierung von Commits kann komplex sein, aber wir starten mit zwei einfachen Beispielen:",
               "",
-              "* Du kannst die Reihenfolge der Commits durch Ziehen und Ablegen ändern.",
-              "* Du kannst einen Commit beim Rebase ignorieren, indem du im Dialog auf die Schaltfläche `omit` klickst. Du kannst einen Commit wieder aufnehmen, indem du auf `pick` klickst.",
-              "* Außerdem kannst du Commits zusammenfassen (squash). Leider wird das hier nicht unterstützt, aber im echten Git fasst es Commits zu einem zusammen.",
-              "",
-              "Super! Schauen wir uns ein Beispiel an."
+              "* Geh einen Commit zurück mit `^`",
+              "* Geh eine bestimmte Anzahl von Commits zurück mit `~<Anzahl>`"
             ]
           }
         },
@@ -901,20 +400,641 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Wenn du die Schaltfläche anklickst, wird sich der Rebase-Dialog öffnen. Verändere die Reihenfolge der Commits oder klicke bei einigen auf `pick` bzw. `omit` und schaue dir das Ergebnis an."
+              "Schauen wir uns zuerst den Dach-Operator (`^`) an. Jedes mal wenn du ihn hinter einen Referenz-Namen setzt, sagst du Git damit, dass es zum Vorgänger des angegebenen Commits gehen soll.",
+              "",
+              "Das heißt `main^` ist gleichbedeutend mit \"direkter Vorgänger des Commits, auf den `main` zeigt\".",
+              "",
+              "`main^^` ist also der Vorgänger des Vorgängers von `main`.",
+              "",
+              "Wir checken jetzt mal den Commit vor `main` aus:"
             ],
             "afterMarkdowns": [
-              "Bämm! Git hat die Commits genau so kopiert, wie du es ausgewählt hast."
+              "Bämm! Fertig. Einfacher, als den Commit-Hash zu tippen (oder zu kopieren)."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Du kannst auch `HEAD` als Basis für relative Referenzen benutzen. Lass uns das ein paar Mal verwenden, um uns im Commit-Baum nach oben zu bewegen."
+            ],
+            "afterMarkdowns": [
+              "Das war einfach. Wir reisen mit `HEAD^` in der Zeit zurück."
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Um dieses Level zu schaffen mach einen interaktiven Rebase, um genau die Reihenfolge zu erzeugen, die im Ziel-Baum angezeigt wird. Denk daran, dass du jederzeit mit `undo` oder `reset` Fehler rückgängig machen kannst. :D"
+              "Um dieses Level abzuschließen musst du den direkten Vorgänger von `bugFix` auschecken. Dadurch wirst du `HEAD` von `bugFix` abkoppeln.",
+              "",
+              "Du kannst natürlich den Hash angeben, aber versuch doch relative Referenzen zu benutzen!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_AR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referencias relativas",
+              "",
+              "Moverse por git usando los hashes de los commits puede volverse un tanto tedioso. En el mundo real no vas a tener una visualización de commits tan linda en la terminal, así que vas a tener que usar `git log` para ver los hashes.",
+              "",
+              "Peor aún, los hashes en general son mucho más largos en el git real, también. Por ejemplo, el hash del commit que introduje en el nivel anterior es `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. No es algo particularmente fácil de nombrar...",
+              "",
+              "Lo copado es que git es bastante astuto con los hashes. Sólo requiere que especifiques una cantidad de caracteres suficientes para identificar unívocamente al commit. Entonces, yo podría simplemente tipear `fed2` en lugar de esa cadena larga de arriba."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como ya dije, especificar los commits por su hash no es la manera más conveniente, y por eso git tiene referencias relativas. ¡Son geniales!",
+              "",
+              "Con las referencias relativas podés arrancar de algún lugar recordable (como la rama `bugFix`, o `HEAD`) y manejarte desde ahí.",
+              "",
+              "Los commits relativos son poderosos, pero ahora vamos a presentar sólo dos formas simples:",
+              "",
+              "* Moverse un commit atrás con `^`",
+              "* Moverse una cantidad de commits atrás con `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos el operador ^ primero. Cada vez que le agregás eso al nombre de una referencia, le estás diciendo a git que use el padre del commit especificado.",
+              "",
+              "Entonces, decir `main^` es equivalente a \"el primer padre de `main`\".",
+              "",
+              "`main^^` es el _abuelo_ (segunda generación de ancestros) de `main`",
+              "",
+              "Veamos el commit que está antes de main acá."
+            ],
+            "afterMarkdowns": [
+              "¡Boom! Ahí está. Mucho más simple que tipear el hash de ese commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También podés referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol."
+            ],
+            "afterMarkdowns": [
+              "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, haz checkout del padre del commit de `bugFix`. Esto va a desacoplar `HEAD`.",
+              "",
+              "Podés especificar el hash si querés, pero mejor ¡tratá de usar la referencia relativa!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_ES": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referencias relativas",
+              "",
+              "Moverse por git usando los hashes de los commits puede volverse un tanto tedioso. En el mundo real no vas a tener una visualización de commits tan linda en la terminal, así que vas a tener que usar `git log` para ver los hashes.",
+              "",
+              "Peor aún, los hashes en general son mucho más largos en el git real, también. Por ejemplo, el hash del commit que introduje en el nivel anterior es `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. No es algo particularmente fácil de nombrar...",
+              "",
+              "Lo interesante es que git es bastante astuto con los hashes. Sólo requiere que especifiques una cantidad de caracteres suficientes para identificar unívocamente al commit. Entonces, yo podría simplemente tipear `fed2` en lugar de esa cadena larga de arriba."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como ya dije, especificar los commits por su hash no es la manera más conveniente, y por eso git tiene referencias relativas. ¡Son geniales!",
+              "",
+              "Con las referencias relativas puedes arrancar de algún lugar recordable (como la rama `bugFix`, o `HEAD`) y trabajar desde ahí.",
+              "",
+              "Los commits relativos son poderosos, pero ahora vamos a presentar sólo dos formas simples:",
+              "",
+              "* Moverse un commit hacia atrás con `^`",
+              "* Moverse una cantidad de commits hacia atrás con `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos el operador ^ primero. Cada vez que le agregas eso al nombre de una referencia, le estás diciendo a git que use el padre del commit especificado.",
+              "",
+              "Entonces, decir `main^` es equivalente a \"el primer padre de `main`\".",
+              "",
+              "`main^^` es el _abuelo_ (segunda generación de ancestros) de `main`",
+              "",
+              "Veamos el commit que está antes de main aquí."
+            ],
+            "afterMarkdowns": [
+              "¡Zas! Ahí está. Mucho más simple que escribir el hash de ese commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También puedes referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol."
+            ],
+            "afterMarkdowns": [
+              "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, haz checkout sobre el padre del commit de `bugFix`. Esto va a detachear a `HEAD`.",
+              "",
+              "Puedes especificar el hash si quieres, pero mejor ¡trata de usar la referencia relativa!"
+            ]
+          }
+        }
+      ]
+    },
+    "es_MX": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referencias relativas",
+              "",
+              "Moverse por ahí en Git usando los hashes de los commits puede volverse un tanto tedioso. En el mundo real no vas a tener una visualización de commits tan linda en la terminal, así que vas a tener que usar `git log` para ver los hashes.",
+              "",
+              "Peor aún, los hashes en general son mucho más largos en el git real, también. Por ejemplo, el hash del commit que introduje en el nivel anterior es `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. No es algo particularmente fácil de nombrar...",
+              "",
+              "Lo interesante es que Git es bastante astuto con los hashes. Sólo requiere que especifiques una cantidad de caracteres suficientes para identificar unívocamente al commit. Entonces, yo podría simplemente tipear `fed2` en lugar de esa larga cadena de arriba."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como ya dije, especificar los commits por su hash no es la manera más conveniente y por eso Git tiene referencias relativas. ¡Son geniales!",
+              "",
+              "Con las referencias relativas puedes arrancar de algún lugar memorable (como la rama `bugFix`, o `HEAD`) y trabajar desde ahí.",
+              "",
+              "Los commits relativos son poderosos, pero ahora vamos a presentar sólo dos formas simples:",
+              "",
+              "* Moverse un commit hacia atrás con `^`",
+              "* Moverse una cantidad de commits hacia atrás con `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Veamos el operador ^ primero. Cada vez que le agregas eso al nombre de una referencia, le estás diciendo a git que use el padre del commit especificado.",
+              "",
+              "Entonces, `main^` quiere decir que es equivalente a \"el primer padre de `main`\".",
+              "",
+              "`main^^` es el _abuelo_ (segunda generación de ancestros) de `main`",
+              "",
+              "Veamos el commit que está antes de main aquí."
+            ],
+            "afterMarkdowns": [
+              "Vientos! Ahí está. Mucho más simple que escribir el hash de ese commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "También puedes referenciar a `HEAD` como una referencia relativa. Usémoslo un par de veces para movernos hacia atrás en nuestro árbol."
+            ],
+            "afterMarkdowns": [
+              "¡Fácil! Podemos volver en el tiempo con `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, haz checkout sobre el padre del commit de `bugFix`. Esto va a detachear a `HEAD`.",
+              "",
+              "Puedes especificar el hash si quieres, pero mejor ¡trata de usar la referencia relativa!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_BR": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referências relativas",
+              "",
+              "Mover-se pela árvore do Git especificando o hash do commit pode se tornar um pouco entediante. No mundo real, você não terá à sua disposição essa bonita visualização da árvore ao lado do seu terminal, então você terá de usar o comando `git log` para ver os hashes.",
+              "",
+              "Além disso, os hashes são geralmente muito maiores no mundo real. Por exemplo, o hash do commit que introduziu o nível de exercícios anterior é `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Não é algo exatamente fácil de lembrar.",
+              "",
+              "O que salva é que o Git é inteligente com os hashes. Ele só exige que você especifique a quantidade de caracteres do hash suficiente para identificar unicamente o commit. Então eu posso digitar apenas `fed2` em vez da grande string acima."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como eu disse, especificar commits pelo hash não é sempre o mais conveniente, e é por isso que o Git suporta referências relativas. Elas são fantásticas!",
+              "",
+              "Com referências relativas, você pode começar a partir de um ponto fácil de lembrar (como a branch `bugFix` ou o `HEAD`) e referenciar a partir dali.",
+              "",
+              "Commits relativos são poderosos, mas vamos introduzir apenas dois tipos simples aqui:",
+              "",
+              "* Mover para cima um commit por vez com `^`",
+              "* Mover para cima um número de vezes com `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos dar uma olhada no operador circunflexo (^) primeiro. Cada vez que você adicioná-lo a um nome de referência, você está dizendo ao Git para encontrar o pai do commit especificado.",
+              "",
+              "Então, dizer `main^` é equivalente a \"o primeiro pai da `main`\".",
+              "",
+              "`main^^` é o avó (ancestral de segunda geração) da `main`",
+              "",
+              "Vamos fazer checkout do commit logo acima da main."
+            ],
+            "afterMarkdowns": [
+              "Boom! Pronto. Muito mais fácil que digitar o hash do commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Você também pode usar o `HEAD` como parte de uma referência relativa. Vamos usar isso para nos mover para cima algumas vezes na árvore de commits."
+            ],
+            "afterMarkdowns": [
+              "Fácil! Podemos viajar para trás no tempo com `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar esse nível, faça checkout do commit pai da `bugFix`. Isso soltará o `HEAD`.",
+              "",
+              "Você pode especificar o hash se quiser, mas tente usar referências relativas em vez disso!"
+            ]
+          }
+        }
+      ]
+    },
+    "pt_PT": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referências relativas",
+              "",
+              "Andar pelo Git a indicar hashes de commits pode tornar-se um bocado aborrecido. No mundo real não vais ter uma visualização bonita da árvore de commits ao lado do terminal, por isso vais ter de usar `git log` para ver os hashes.",
+              "",
+              "Além disso, no mundo real do Git os hashes costumam ser muito mais compridos. Por exemplo, o hash do commit que introduziu o nível anterior é `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Não é propriamente fácil de dizer...",
+              "",
+              "A boa notícia é que o Git é esperto com os hashes. Só precisas de indicar caracteres suficientes do hash para identificar o commit sem ambiguidade. Por isso, posso escrever `fed2` em vez daquela sequência enorme ali em cima."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como disse, indicar commits pelo hash não é a coisa mais prática do mundo, e é por isso que o Git tem referências relativas. São fantásticas!",
+              "",
+              "Com as referências relativas, podes partir de um sítio fácil de lembrar (como o branch `bugFix` ou a `HEAD`) e trabalhar a partir daí.",
+              "",
+              "As referências relativas são poderosas, mas aqui vamos apresentar só duas simples:",
+              "",
+              "* Subir um commit de cada vez com `^`",
+              "* Subir vários commits de uma vez com `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Vamos ver primeiro o operador circunflexo (^). Sempre que o acrescentas ao nome de uma referência, estás a dizer ao Git para encontrar o pai do commit indicado.",
+              "",
+              "Portanto, dizer `main^` é o mesmo que dizer \"o primeiro pai do `main`\".",
+              "",
+              "`main^^` é o avô (antecessor de segunda geração) do `main`",
+              "",
+              "Vamos fazer checkout do commit acima do main."
+            ],
+            "afterMarkdowns": [
+              "Pumba! Já está. Muito mais fácil do que escrever o hash do commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Também podes usar a `HEAD` como referência relativa. Vamos usá-la algumas vezes para subir na árvore de commits."
+            ],
+            "afterMarkdowns": [
+              "Fácil! Podemos viajar para trás no tempo com `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nível, faz checkout do commit pai do `bugFix`. Isto vai desanexar a `HEAD`.",
+              "",
+              "Podes indicar o hash, se quiseres, mas experimenta antes usar referências relativas!"
+            ]
+          }
+        }
+      ]
+    },
+    "gl": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Referencias relativas",
+              "",
+              "Moverse por a árbore de git usando os códigos hash dos commits pode volverse un pouco tedioso. Neste mundo real non vas ter unha visualización dos commits tan bonita no terminal, así que vas ter que usar `git log` para ver cada código hash.",
+              "",
+              "Inda peor, os códigos hash són xeralmente moito máis grandes no mundo real. Por exemplo, o hash do commit que introduxemos no nivel anterior é `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Non é algo sinxelo de lembrar.",
+              "",
+              "O bo é que git aínda afina cos hashes. El só precisa que expecifiques a cantidade mínima de caracteres suficientes para identificar unívocamente ó commit. Entón eu podo escribir `fed2` e non o hash completo."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Como xa dixemos, indicar os commits polo seu código hash non é a forma máis convinte, e é por eso que git ten referencias relativas. ¡Son a caña!",
+              "",
+              "Cas referencias relativas, podes comezar por un punto sinxelo de lembrar (como a rama `bugFix` ou o `HEAD`) e referenciar a partir de ahí.",
+              "",
+              "Os commits relativos son poderosos, pero agora imos presentar só dous formas sinxelas:",
+              "",
+              "* Moverse un commit por riba con `^`",
+              "* Mover unha cantidade de commits atrás con `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Votémoslle unha ollada o operador (^) primeiro. Cada vez que o engadimos a unha referencia, estaslle dicindo a commit que queres o pai de esa referencia.",
+              "",
+              "Entón, dicir `main^` é equivalente a \"o primeiro pai do `main`\".",
+              "",
+              "`main^^` é o avó (ancestral de segunda xeración) do `main`",
+              "",
+              "Imos facer checkout do commit que está enriba de main."
+            ],
+            "afterMarkdowns": [
+              "Boom! Ahí o tes. Moito máis rápido que por o hash do commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tamén podes usar o `HEAD` como parte dunha referencia relativa. Ímolo utilizar para nos mover uns commits cara arriba na árbore."
+            ],
+            "afterMarkdowns": [
+              "¡Chupado! Podemos viaxar cara atrás no tempo con `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Para completar este nivel, fai checkout do commit pai de `bugFix`. Iso soltará o `HEAD`.",
+              "",
+              "¡Podes indicar o hash que queiras, pero intenta empregar as referencias relativas, é moito mellor!"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_CN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 相对引用",
+              "",
+              "通过指定提交记录哈希值的方式在 Git 中移动不太方便。在实际应用时，并没有像本程序中这么漂亮的可视化提交树供你参考，所以你得用 `git log` 来查看提交记录的哈希值。",
+              "",
+              "并且哈希值在真实的 Git 世界中也会长得多（译者注：基于 SHA-1，共 40 位）。例如，添加上一关的那个提交的哈希值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌头都快打结了吧...",
+              "",
+              "好在 Git 对哈希值处理得很聪明。你只需要提供能够唯一标识提交记录的前几个字符即可。因此我可以仅输入 `fed2`，而不是上面的一长串。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "正如我前面所说，通过哈希值指定提交记录并不是最方便的方式，所以 Git 提供了相对引用。这个就很厉害了!",
+              "",
+              "使用相对引用的话，你就可以从一个易于记忆的地方（比如 `bugFix` 分支或 `HEAD`）开始计算，然后移动。",
+              "",
+              "相对引用非常给力，这里我介绍两个简单的用法：",
+              "",
+              "* 使用 `^` 向上移动 1 个提交记录",
+              "* 使用 `~<num>` 向上移动多个提交记录，如 `~3`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "首先看看操作符 `^`。把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的 parent 提交。",
+              "",
+              "所以 `main^` 相当于“`main` 的 parent 节点”。",
+              "",
+              "`main^^` 是 `main` 的第二个 parent 节点",
+              "",
+              "现在咱们切换到 main 上面的那个提交。"
+            ],
+            "afterMarkdowns": [
+              "搞定。这比输入提交哈希值容易多了。"
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你也可以将 `HEAD` 作为相对引用的参照。我们来用几次 `HEAD^` 在提交树上向上移动。"
+            ],
+            "afterMarkdowns": [
+              "很简单吧？！我们可以一直使用 `HEAD^` 向上移动。"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成此关，请切换到 `bugFix` 的 parent 节点。这会使 `HEAD` 进入分离状态。",
+              "",
+              "如果你愿意的话，使用哈希值也可以过关，但请尽量使用相对引用！"
+            ]
+          }
+        }
+      ]
+    },
+    "zh_TW": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## 相對引用",
+              "",
+              "如果要在 git 中移動，透過指定 commit 的 hash 值的方式會變得比較麻煩。在實際例子中，你的終端機上面不會出現漂亮且具備視覺效果的 commit tree，所以你不得不用 `git log` 來查詢 hash 值。",
+              "",
+              "另外，hash 值的長度在真實的 git 環境中很長。舉個例子，前一個關卡的介紹中的 commit 的 hash 值是 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`。舌頭不要打結了...",
+              "",
+              "幸運的是，git 對於處理 hash 值很有一套。你只需要提供能夠唯一辨識出該 commit 的前幾個字元就可以了。所以，我可以只輸入 `fed2` 而不是上面的一長串字元。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "我說過，透過 hash 值來指定 commit 不是很方便，所以 git 加入了相對引用。這個就很厲害了!",
+              "",
+              "使用相對引用，你可以從一個易於記憶的地方（比如說 branch 名稱 `bugFix` 或 `HEAD`）開始工作。",
+              "",
+              "相對引用非常好用，這裡我介紹兩個簡單的用法：",
+              "",
+              "* 使用 `^` 向上移動一個 commit",
+              "* 使用 `~<num>` 向上移動多個 commit"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "首先看看插入（^）這一個符號。把這個符號接在某一個 reference 後面，就表示你告訴 git 去找到該 reference 所指向的 commit 的 parent commit。",
+              "",
+              "所以 `main^` 相當於 \"`main` 的 parent commit\"。",
+              "",
+              " `main^^` 是 `main` 的 grandparent commit（往前推兩代）",
+              "",
+              "切換到 main的 parent commit"
+            ],
+            "afterMarkdowns": [
+              "看吧！完成了。這種方式比輸入代表 commit 的 hash 值簡單多了！"
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "你也可以把 `HEAD` 當作相對引用。以下指令使用 `HEAD` 在 commit tree 中向上移動數次。"
+            ],
+            "afterMarkdowns": [
+              "簡單吧！我們可以一直使用 `HEAD^` 向上移動。"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "要完成這一關，切換到 `bugFix` 的 parent commit。這會分離出 `HEAD`。",
+              "",
+              "如果你願意的話，透過直接指定 hash 值的方式也可以過關，但是還是試試看相對引用吧！"
             ]
           }
         }
@@ -926,13 +1046,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git インタラクティブrebase",
+              "## 相対リファレンス",
               "",
-              "どのコミットを操りたいか（そしてそれを指定するハッシュ）がわかる時に`git cherry-pick`はとても便利で、その簡単さはとてもありがたいです。 ",
+              "コミットのハッシュを利用してgitの中で移動するのも少し疲れる時もあります。現実の世界では、このチュートリアルのようにターミナルの隣に見やすいツリーのビジュアライズがないので、ハッシュを見るには`git log`を使う必要があります。",
               "",
-              "しかし、どのコミットを操りたいかがわからない時はどうでしょう？ありがたいことに、そんな時にぴったりのコマンドがgitに備わっています。このためにgitのインタラクティブrebaseを使えます。rebaseしたい一連のコミットを一括で見るベストな方法です。",
+              "その上、実際のハッシュはこちらで見たものよりずっと長いです。例えば、先ほどのレベルの紹介のコミットハッシュは`fed2da64c0efc5293610bdd892f82a58e8cbc5d8`です。少し覚えにくいですね...",
               "",
-              "具体的に見てみましょう..."
+              "そのため、gitでは手短くコミットを指定する方法があります。ユニークな存在だと確認できるだけのハッシュの字数を入力すれば良いです -- 上記の長い文字列の代わりに`fed2`を入力するだけで済みます。"
             ]
           }
         },
@@ -940,25 +1060,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "インタラクティブrebaseとは単に、`rebase`コマンドに`-i`オプションを合わせて使うことです。",
+              "先ほど言いましたように、ハッシュでコミットを指定するのがめんどくさくなる時もあるので、gitには相対リファレンスという素晴らしい機能があります。",
               "",
-              "このオプションをつければ、gitがインタフェースを開き、どのコミットがrebase対象の下にコピーされるかを確認できます。それらのコミットのハッシュやメッセージも表示され、rebaseの概要を一眼で見るのに便利です。",
+              "相対リファレンスを使うことで、覚えやすい位置（例えば`bugFix`ブランチや`HEAD`）から始め、そのところから相対的な位置を指定できます。",
               "",
-              "\"ホンモノ\"のgitでは、その「インターフェース」とは`vim`などのテキストエディタの中でファイルが開くだけです。ここでコンセプトを見せるために同じような動作をする小さなダイアログウィンドウを作りました。"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "インタラクティブrebaseダイアログが開くと、３つの操作から選べます:",
+              "相対コミットは強力ですが、ここでは二つをご紹介します:",
               "",
-              "* UIウィンドウのなかで順番を調整するだけでコミットの順番を変えられます（こちらのダイアログでは、マウスでドラッグアンドドロップで操作します）。",
-              "* 特定のコミットを丸ごと除くこともできます。除きたいコミットを指定するには`pick`をオフにします。",
-              "* 最後に、コミットを組み合わせられます。技術的に制限があり再現できないのでその詳細な説明を省きますが、短く言いますと、複数のコミットを一つにまとめることができる機能です。",
-              "",
-              "さて、例を見てみましょう。"
+              "* 一つずつ上へ移動させる`^`（カレット）",
+              "* 複数回上へ移動させる `~<num>`"
             ]
           }
         },
@@ -966,20 +1075,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "ボタンを押せば、インタラクティブrebaseウィンドウが現れます。コミットの順番を変更したり、`pick`を外したりしてみて、その結果を見てみましょう！"
+              "まずはカレット(^)から始めましょう。リファレンス名にカレットを追加すると、指定コミットの親コミットを見つけるようにとgitに命令を出しています。",
+              "",
+              "なので `main^`と記述すれば、\"`main`の一個上の親\"、という意味になります。",
+              "",
+              "そして`main^^`とはその親の一つの上のコミット(２代前の親)を指します。",
+              "",
+              "mainの上のコミットをここで見てみましょう"
             ],
             "afterMarkdowns": [
-              "よっしゃー。gitがUIで指定されたようにコミットをコピーしました！"
+              "やりました！コミットハッシュを書くよりずっと簡単ですね。"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`HEAD`を相対リファレンスとして参照することもできます。 ここで数回そのコマンドを使い、コミットツリーの中で上へと移動しましょう。"
+            ],
+            "afterMarkdowns": [
+              "簡単ですね!`HEAD^`で時間を巻き戻せます。"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "このレベルをクリアするにはインタラクティブrebaseを実行し、ゴールのビジュアライズに表示されている順番を実現しましょう。ミスがあれば`undo`や`reset`で修正できるのをお忘れなく。"
+              "このレベルをクリアするには、`bugFix`の親コミットをチェックアウトしてください。その操作により`HEAD`が分離されます。",
+              "",
+              "ハッシュを使用してもいいですが、その代わりに相対リファレンスを試してみましょう！"
             ]
           }
         }
@@ -991,13 +1121,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Rebase Interactiv",
+              "## Referințe relative",
               "",
-              "Git cherry-pick este grozav atunci când știi ce commit-uri vrei (_și_ știi hash-urile lor) -- e greu să depășești simplitatea pe care o oferă.",
+              "Navigarea în Git specificând hash-urile commit-urilor poate deveni puțin obositoare. În lumea reală nu vei avea o vizualizare a arborelui de commit-uri atât de frumoasă lângă terminalul tău, așa că va trebui să folosești `git log` pentru a vedea hash-urile.",
               "",
-              "Dar ce se întâmplă când nu știi ce commit-uri vrei? Din fericire, git te ajută și în această situație! Putem folosi rebase-ul interactiv pentru asta -- este cea mai bună modalitate de a revizui o serie de commit-uri cărora urmează să le faci rebase.",
+              "În plus, hash-urile sunt de obicei mult mai lungi în lumea reală a Git-ului. De exemplu, hash-ul commit-ului care a introdus nivelul anterior este `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Nu este tocmai ușor de pronunțat...",
               "",
-              "Hai să ne uităm în detalii..."
+              "Partea bună este că Git este destul de inteligent cu hash-urile. El necesită doar să specifici suficiente caractere din hash pentru a identifica în mod unic commit-ul. Astfel că pot tasta `fed2` în loc de șirul lung de mai sus."
             ]
           }
         },
@@ -1005,26 +1135,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Rebase-ul interactiv înseamnă pur și simplu că folosești comanda `rebase` cu opțiunea `-i`.",
+              "Așa cum am spus, specificarea commit-urilor prin hash nu este cea mai convenabilă metodă, motiv pentru care Git are referințe relative. Acestea sunt grozave!",
               "",
-              "Dacă incluzi această opțiune, git va deschide o interfață pentru a-ți arăta ce commit-uri sunt pe cale să fie copiate sub ținta rebase-ului. De asemenea, îți arată hash-urile și mesajele commit-urilor, ceea ce este grozav pentru a înțelege ce reprezintă fiecare.",
+              "Cu referințele relative, poți începe de undeva memorabil (cum ar fi ramura `bugFix` sau `HEAD`) și să lucrezi de acolo.",
               "",
-              "În git-ul \"adevărat\", interfața înseamnă deschiderea unui fișier într-un editor de text (de exemplu `vim`). Pentru scopurile noastre, am construit o mică fereastră de dialog care se comportă la fel."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Când dialogul de rebase interactiv se deschide, ai posibilitatea de a face 3 lucruri diferite:",
+              "Commit-urile relative sunt puternice, dar aici vom introduce doar două moduri simple de a le utiliza:",
               "",
-              "* Poți reordona commit-urile pur și simplu schimbând ordinea lor în interfață (în fereastra noastră, asta înseamnă să tragi și să lași cu mouse-ul).",
-              "* Poți alege să păstrezi toate commit-urile sau să omiți unele. Fiecare commit este setat să fie inclus prin butonul `pick` activ lângă el. Pentru a omite un commit, dezactivează butonul `pick`.",
-              "",
-              "* Merită de știut că în rebase-ul interactiv poți face multe alte lucruri, cum ar fi combinarea commit-urilor (squashing), modificarea mesajelor commit-urilor și chiar editarea lor. Pentru scopurile noastre, ne vom concentra doar pe aceste două operațiuni de mai sus.",
-              "",
-              "Perfect! Să vedem un exemplu."
+              "* Deplasarea în sus cu un singur commit folosind `^`",
+              "* Deplasarea în sus de mai multe ori folosind `~<num>`"
             ]
           }
         },
@@ -1032,90 +1150,120 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Când apeși butonul, va apărea o fereastră de rebase interactiv. Reordonează unele commit-uri (sau simte-te liber să omiți unele) și vezi rezultatul!"
+              "Să începem cu operatorul `^`. De fiecare dată când îl adaugi la un nume de referință, îi spui lui Git să găsească părintele commit-ului specificat.",
+              "",
+              "Deci, spunând `main^` este echivalent cu \"primul părinte al lui `main`\".",
+              "",
+              "`main^^` este bunicul (strămoșul de a doua generație) al lui `main`",
+              "",
+              "Dă să trecem pe commit-ul deasupra lui main."
             ],
             "afterMarkdowns": [
-              "Boom! Git a copiat commit-urile exact așa cum le-ai specificat în interfață."
+              "Ura! Gata. Mult mai ușor decât să scrii hash-ul commit-ului."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "De asemenea, poți referi `HEAD` ca o referință relativă. Să folosim asta de câteva ori pentru a ne deplasa în sus în arborele de commit-uri."
+            ],
+            "afterMarkdowns": [
+              "Ușor! Putem călători înapoi în timp cu `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Pentru a finaliza acest nivel, fă un rebase interactiv și obține ordinea afișată în vizualizare. Amintește-ți că poți folosi întotdeauna `undo` sau `reset` pentru a corecta greșelile :D"
+              "Pentru a finaliza acest nivel, treci la părintele commit-ului `bugFix`. Aceasta va detașa `HEAD`.",
+              "",
+              "Poți specifica hash-ul dacă vrei, dar încearcă să folosești mai întâi referințe relative!"
             ]
           }
         }
       ]
     },
     "bg": {
-  "childViews": [
-    {
-      "type": "ModalAlert",
-      "options": {
-        "markdowns": [
-          "## Git интерактивен rebase",
-          "",
-          "`git cherry-pick` е чудесен, когато знаеш кои комити искаш (_и_ знаеш съответните им хешове) — трудно е да се победи простотата му.",
-          "",
-          "Но какво става, когато не знаеш точно кои комити ти трябват? За щастие git има решение и за това! Можем да използваме интерактивен rebase — това е най-добрият начин да прегледаш поредица от комити, които предстои да rebase-неш.",
-          "",
-          "Нека навлезем в детайлите..."
-        ]
-      }
-    },
-    {
-      "type": "ModalAlert",
-      "options": {
-        "markdowns": [
-          "Интерактивният rebase означава просто използване на командата `rebase` с опцията `-i`.",
-          "",
-          "Когато добавиш тази опция, git ще отвори интерфейс, който показва кои комити ще бъдат копирани под целта на rebase-а. Показват се и техните хешове и съобщения, което много помага за ориентация.",
-          "",
-          "В \"истинския\" git този интерфейс представлява файл, отворен в текстов редактор като `vim`. За целите на това обучение сме изградили малък диалогов прозорец, който се държи по същия начин."
-        ]
-      }
-    },
-    {
-      "type": "ModalAlert",
-      "options": {
-        "markdowns": [
-          "Когато се отвори диалогът за интерактивен rebase, в нашето обучително приложение можеш да направиш две неща:",
-          "",
-          "* Можеш да пренареждаш комитите, като просто променяш реда им в интерфейса (чрез drag & drop с мишката).",
-          "* Можеш да избереш дали да запазиш всички комити или да премахнеш конкретни. По подразбиране всеки комит е включен чрез активния бутон `pick`. За да премахнеш комит, изключи бутона `pick` до него.",
-          "",
-          "*Струва си да се спомене, че в реалния интерактивен rebase на git можеш да правиш още много неща — като squash (обединяване) на комити, редактиране на съобщения и дори промяна на самите комити. За нашите цели обаче ще се фокусираме само върху горните две операции.*",
-          "",
-          "Страхотно! Нека видим пример."
-        ]
-      }
-    },
-    {
-      "type": "GitDemonstrationView",
-      "options": {
-        "beforeMarkdowns": [
-          "Когато натиснеш бутона, ще се появи прозорец за интерактивен rebase. Пренареди някои комити (или свободно премахни някои) и виж резултата!"
-        ],
-        "afterMarkdowns": [
-          "Бум! Git копира комитите точно по начина, който зададе чрез интерфейса."
-        ],
-        "command": "git rebase -i HEAD~4 --aboveAll",
-        "beforeCommand": "git commit; git commit; git commit; git commit"
-      }
-    },
-    {
-      "type": "ModalAlert",
-      "options": {
-        "markdowns": [
-          "За да завършиш това ниво, направи интерактивен rebase и постигни подредбата, показана в целевата визуализация. Помни, че винаги можеш да използваш `undo` или `reset`, за да поправиш грешки :D"
-        ]
-      }
-    }
-  ]
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Относителни референции",
+              "",
+              "Навигирането в Git чрез посочване на хешове на комити може да стане доста досадно. В реалния свят няма да имаш красива визуализация на дървото с комити до терминала си, затова ще трябва да използваш `git log`, за да виждаш хешовете.",
+              "",
+              "Освен това, хешовете в реалния Git обикновено са много по-дълги. Например, хешът на комита от предишното ниво е `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Не е точно лесен за запомняне...",
+              "",
+              "Добрата новина е, че Git е умен при работа с хешове. Нужно е да въведеш само толкова символи, колкото са достатъчни, за да се идентифицира комитът еднозначно. Така че можеш да напишеш просто `fed2` вместо цялата дълга поредица."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Както вече казахме, посочването на комити чрез хешове не е най-удобният начин — затова Git има относителни референции. И те са страхотни!",
+              "",
+              "С относителните референции можеш да започнеш от нещо лесно за запомняне (като бранча `bugFix` или `HEAD`) и да се ориентираш оттам.",
+              "",
+              "Относителните комити са много мощни, но тук ще представим два прости варианта:",
+              "",
+              "* Придвижване нагоре с един комит чрез `^`",
+              "* Придвижване нагоре с определен брой комити чрез `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Нека първо разгледаме оператора Caret (^). Всеки път, когато го добавиш към име на референция, казваш на Git да намери родителя на посочения комит.",
+              "",
+              "Така `main^` означава „първият родител на `main`“.",
+              "",
+              "`main^^` е дядото (предшественик от второ поколение) на `main`.",
+              "",
+              "Нека checkout-нем комита над main."
+            ],
+            "afterMarkdowns": [
+              "Бум! Готово. Много по-лесно от въвеждане на хеш."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Можеш също да използваш `HEAD` като относителна референция. Нека го направим няколко пъти, за да се движим нагоре в дървото с комити."
+            ],
+            "afterMarkdowns": [
+              "Лесно! Можем да пътуваме назад във времето с `HEAD^`."
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "За да завършиш това ниво, направи checkout на родителския комит на `bugFix`. Това ще отдели `HEAD` (detached HEAD).",
+              "",
+              "Можеш да използваш хеш, ако искаш — но пробвай с относителни референции!"
+            ]
+          }
+        }
+      ]
     },
     "ru_RU": {
       "childViews": [
@@ -1123,13 +1271,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interactive Rebase",
+              "## Относительные ссылки",
               "",
-              "Git cherry-pick прекрасен, когда точно известно, какие коммиты нужны (и известны их точные хеши)",
+              "Передвигаться по дереву Git при помощи указания хешей коммитов немного неудобно. В реальной ситуации у вас вряд ли будет красивая визуализация дерева в терминале, так что придётся каждый раз использовать `git log`, чтобы найти хеш нужного коммита",
               "",
-              "Но как быть в случае, когда точно не известно какие коммиты нужны? К счастью, Git позаботился о таких ситуациях! Можно использовать интерактивный rebase для этого - лучший способ отобрать набор коммитов для rebase.",
+              "Более того, хеши в реальном репозитории Git намного более длинные. Например, хеш для коммита, который приведён в предыдущем уровне - `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Не очень просто для произношения =)",
               "",
-              "Углубимся в детали."
+              "Хорошая новость в том, что Git достаточно умён в работе с хешами. Ему нужны лишь первые несколько символов для того, чтобы идентифицировать конкретный коммит. Так что можно написать просто `fed2` вместо колбасы выше."
             ]
           }
         },
@@ -1137,25 +1285,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Всё, что нужно для интерактивного rebase - это опция `-i`",
+              "Как мы уже говорили, указание на коммит при помощи его хеша - не самый удобный способ, поэтому Git поддерживает относительные ссылки и они прекрасны!",
               "",
-              "Если добавить эту опцию, Git откроет интерфейс просмотра того, какие коммиты готовы к копированию на цель rebase (target). Также показываются хеши коммитов и комментарии к ним, так что можно легко понять что к чему.",
+              "С относительными ссылками можно начать с какого-либо удобного места (например, с ветки `bugFix` или от HEAD) и двигаться от него",
               "",
-              "Для \"реального\" Git, этот интерфейс означает просто открытие файла в редакторе типа vim. Для этой обучалки, я сделал небольшое диалоговое окно, которое по сути делает то же, что и редактор."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "После открытия окна интерактивного rebase есть три варианта для каждого коммита:",
+              "Относительные ссылки - мощный инструмент, но мы покажем два простых способа использования:",
               "",
-              "* Можно сменить положение коммита по порядку, переставив строчку с ним в редакторе (у нас в окошке строку с коммитом можно перенести просто мышкой).",
-              "* Можно \"выкинуть\" коммит из ребейза. Для этого есть `pick` - переключение его означает, что нужно выкинуть коммит.",
-              "* Наконец, можно соединить коммиты. В этом уровне игры у нас не реализована эта возможность, но, вкратце, при помощи этой функции можно объединять изменения двух коммитов.",
-              "",
-              "Ну что ж, посмотрим на примеры!"
+              "* Перемещение на один коммит назад `^`",
+              "* Перемещение на несколько коммитов назад `~<num>`"
             ]
           }
         },
@@ -1163,20 +1300,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "После нажатия на эту кнопку появится окно интерактивного rebase. Переставь несколько коммитов (или удали кое-какие) и посмотри, что получится в итоге!"
+              "Для начала рассмотрим оператор каретки (^). Когда мы добавляем его к имени ссылки, Git воспринимает это как указание найти родителя указанного коммита.",
+              "",
+              "Так что `main^` означает \"первый родитель ветки `main`\".",
+              "",
+              "`main^^` означает прародитель (родитель родителя) `main`",
+              "",
+              "Давайте переключимся на коммит Выше `main`"
             ],
             "afterMarkdowns": [
-              "Бах! Git скопировал коммиты в точности так, как было указано через интерфейс!"
+              "Опачки! Готово. Сильно проще, чем поиск и указание хеша."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Можно также использовать `HEAD` как относительную ссылку. Попробуем пройти несколько раз назад по дереву коммитов"
+            ],
+            "afterMarkdowns": [
+              "Изи! Мы можем путешествовать во времени при помощи `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Чтобы пройти этот уровень, переставь коммиты при помощи интерактивного rebase в таком порядке, как указано на визуализации. На всякий случай, помни, что всегда можно исправить ошибку, вызвав команду undo или reset."
+              "Чтобы пройти этот уровень, переместись на первого родителя ветки `bugFix`. Это отделит `HEAD` от ветки.",
+              "",
+              "Конечно, можно указать хеш, но надо попробовать использовать относительные ссылки!"
             ]
           }
         }
@@ -1188,13 +1346,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git 인터렉티브 리베이스(Interactive Rebase)",
+              "## 상대 참조",
               "",
-              "Git 체리-픽은 여러분이 원하는 커밋이 무엇인지 알때(각각의 해시값도) 아주 유용합니다 -- 체리-픽이 제공하는 간단함은 아주 매력적입니다.",
+              "Git에서 여기저기 이동할 때 커밋의 해시를 사용하는 방법은 조금 귀찮습니다. 실제로 Git을 사용할 때는 터미널화면 옆에 예쁘장하게 커밋트리가 보이진 않으니까요. 매번 해시를 확인하려고 `git log` 명령어를 치고 있을 겁니다.",
               "",
-              "하지만 원하는 커밋을 모르는 상황에는 어쩌죠? 고맙게도 git은 이런상황에 대한 대안이 있습니다. 우리는 이럴 때 인터렉티브 리베이스를 사용하면됩니다 -- 리베이스할 일련의 커밋들을 검토할 수 있는 가장 좋은 방법입니다.",
+              "나아가서, 실제 Git에서는 해시들이 훨씬 더 깁니다. 예를 들어  이전 레벨에 소개했던 커밋의 해시는 `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`입니다. 쓰기 쉬워 보이진 않네요....",
               "",
-              "자세히 알아보죠..."
+              "다행히도, Git은 똑똑합니다. 해시가 커밋의 고유한 값임을 보여줄 수 있을 만큼만 명시해주면 됩니다. 위의 긴 문자열 대신 `fed2`만 입력해도 되는 겁니다."
             ]
           }
         },
@@ -1202,25 +1360,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "인터렉티브 리베이스가 의미하는 뜻은 `rebase` 명령어를 사용할 때 `-i` 옵션을 같이 사용한다는 것입니다.",
+              "말했듯이, 커밋들을 해시로 구분하고 사용하는것이 아주 편하다고 볼 수는 없습니다. Git의 상대 참조(Relative Ref)가 여기서 등장합니다. 굉장한 기능입니다.",
               "",
-              "이 옵션을 추가하면, git은 리베이스의 목적지가 되는 곳 아래에 복사될 커밋들을 보여주는 UI를 띄울것 입니다. 각 커밋을 구분할 수 있는 각각의 해시들과 메시지도 보여줍니다.",
+              "상대 참조로 우리가 기억할 만한 지점(브랜치 `bugFix`라든가 `HEAD`라든가)에서 출발해서 이동하여 다른 지점에 도달해 작업을 할 수 있습니다.",
               "",
-              "\"실제\" git 에서는 UI창을 띄우는것 대신에 `vim`과 같은 텍스트 편집기에서 파일을 엽니다. 저희는 배우는 것이 목적이기에 같은 역할을 하는 작은 대화창을 만들어서 대신했습니다."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "인터렉티브 리베이스 대화창이 열리면, 3가지를 할 수 있습니다:",
+              "상대 커밋은 강력한 기능인데, 여기서 두가지 간단한 방법을 소개하겠습니다.",
               "",
-              "* 적용할 커밋들의 순서를 UI를 통해 바꿀수 있습니다(여기서는 마우스 드래그앤 드롭으로 가능합니다)",
-              "* 원하지 않는 커밋들을 뺄 수 있습니다. 이것은 `pick`을 이용해 지정할 수 있습니다(여기서는 `pick`토글 버튼을 끄는것으로 가능합니다)",
-              "* 마지막으로, 커밋을 스쿼시(squash)할 수 있습니다. 불행히도 저희 레벨은 몇개의 논리적 문제들 때문에 지원을 하지 않습니다. 이거에 대해서는 넘어가겠습니다. 요약하자면 커밋을 합칠 수 있습니다",
-              "",
-              "자! 예시를 확인해 봅시다."
+              "* 한번에 한 커밋 위로 움직이는 `^`",
+              "* 한번에 여러 커밋 위로 올라가는 `~<num>`"
             ]
           }
         },
@@ -1228,20 +1375,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "버튼을 누르면 인터렉티브 리베이스 대화창이 뜰 것 입니다. 커밋들의 순서를 바꿔보고(커밋을 빼 봐도 됩니다) 결과를 확인해봅시다!"
+              "먼저 캐럿 (^) 연산자 부터 알아보겠습니다. 참조 이름에 하나씩 추가할 때마다, 명시한 커밋의 부모를 찾게 됩니다.",
+              "",
+              "`main^`는 \"`main`의 부모\"와 같은 의미 입니다.",
+              "",
+              "`main^^` 는 \"`main`의 조부모(부모의 부모)\"를 의미합니다",
+              "",
+              "main 위에 있는 부모를 체크아웃 해 봅시다."
             ],
             "afterMarkdowns": [
-              "Boom! Git이 UI를 통해 명시한 그대로 커밋들을 복사했습니다."
+              "Boom! 됐습니다. 커밋의 해시를 입력하는 것보다 훨씬 쉬운 방법입니다."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "또한 참조인 `HEAD`도 상대참조를 위해 사용할 수 있습니다. 커밋트리 위쪽으로 움직이기위해 여러번 사용 해 봅시다."
+            ],
+            "afterMarkdowns": [
+              "쉽군요! 이제 우린 `HEAD^`를 통해 시간을 거슬러 올라갈 수 있습니다."
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "이번 레벨을 통과하기 위해서 goal에 나타난 순서대로 만들기 위해 인터렉티브 리베이스를 사용해봅시다. `undo`와 `reset`을 통해 했던 실수들은 되돌릴 수 있습니다 :D"
+              "이 레벨을 완료하기 위해서는, `bugFix`의 부모 커밋을 체크아웃 하십시오. 이렇게 하면 `HEAD`가 분리 될 것입니다.",
+              "",
+              "해시를 이용해서도 할 수 있지만, 상대 참조를 활용하는 것을 연습해 보세요!"
             ]
           }
         }
@@ -1253,13 +1421,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Інтерактивний Rebase",
+              "## Відносні посилання",
               "",
-              "Git cherry-pick зручно користуватись, коли Ви знаєте які коміти Вам потрібні (_і_ Ви знаєте їхні хеші) -- важко вигадати щось простіше.",
+              "Пересуватися по гіту використовуючи хеш комітів може бути трохи напряжно. В справжньому гіті в Вас не буде візуалізації дерева комітів в терміналі, тому доведеться використовувати `git log` щоб подивится хеші комітів.",
               "",
-              "Але що робити в ситуації, коли Ви не знаєте які коміти потрібні? На щастя git може впоратись і з цим! Для цього випадку використовують інтерактивний rebase -- це найкращий спосіб перевірити серію комітів які потрібно заребейсити.",
+              "Більше того, хеші як правило набагато довші в справжньому гіті. Типовий хеш виглядає як `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Без мнемонік не обійтися)...",
               "",
-              "Розглянемо це детальніше..."
+              "З іншого боку git дуже розумно працює з хешами. Він просить вказати рівно стільки літер, скільки потрібно щоб відрізнити один коміт від іншого. Отже, замість довгого хеша зверху можна просто набрати `fed2`."
             ]
           }
         },
@@ -1267,25 +1435,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Інтерактивний rebase це насправді команда  `rebase` з опцією `-i`.",
+              "Як було сказано, вказувати коміти за хешем не найзручніша річ, через це git підтримує відносні посилання. Вони реально круті!",
               "",
-              "Якщо додати цю опцію, git відкриє діалог в якому покаже які коміти будуть скопійовані до кінцевого призначення. Він також покаже хеші комітів та їхні повідомлення, що допоможе розібратися що й до чого.",
+              "З відносними посиланнями Ви можете почати з якогось зручного місця  (наприклад гілки `bugFix` чи посилання `HEAD`) й вказати потрібний коміт відносно цього посилання",
               "",
-              "В \"справжньому\" git, замість UI вікна відкриється файл в сконфігурованому текстовому редакторі, можливо `vim`. Для цього туторіалу я створив невеличке діалогове вікно що поводиться приблизно так само."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Коли відкриється вікно інтерактивного rebase Ви можете зробити три речі:",
+              "Відносні коміти є дуже потужним інструментом, але ми почнемо з двох простих прикладів:",
               "",
-              "* Ви можете переставити коміти між собою просто змінивши їх порядок в діалозі (в нашому вікні Ви зможете перетягнути їх мишкою).",
-              "* Ви можете повністю пропустити якісь коміти. В туторіалі потрібно вимкнути опцію `pick`, але в справжньому гіт потрібно просто видалити відповідний рядок.",
-              "* Також можна розчавити (squash) якісь коміти. На жаль наш туторіал не підтримує цю фічу (оскільки ми не підтримуємо роботу з файлами), але це дуже зручна опція в справжньому гіт. За її допомогою можна декілька різніх комітів об’єднати в один.",
-              "",
-              "Чудово! Розгляньмо це на прикладі"
+              "* Йдемо вверх на один коміт за допомогою `^`",
+              "* Йдемо вверх на кілька комітів за допомогою `~<число>`"
             ]
           }
         },
@@ -1293,20 +1450,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Коли Ви натиснеш кнопку, відкриється вікно інтерактивного rebase. Перестав якісь коміти (можете пропустити якісь якщо хочете), і подивіться що вийде!"
+              "Розберемось спочатку з оператором каретки (^). Кожна каретка додана до посилання (напр. до імені коміту) вказує git що потрібно знайти батька посилання до якого застосована каретка.",
+              "",
+              "Тож `main^` тотожнє до \"перший предок посилання `main`\".",
+              "",
+              "`main^^` це дідусь (предок другого покоління) посилання `main`",
+              "",
+              "Давайте перейдемо на коміт трохи вище від main:"
             ],
             "afterMarkdowns": [
-              "Ка-бум! Git cкопіював коміти відповідно до того що було вказано в UI."
+              "Бум! Готово. Трохи простіше ніж набирати хеш коміту"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ви також можете використовувати `HEAD` з відносними посиланнями. Використаємо це щоб трошки піднятися по дереву."
+            ],
+            "afterMarkdowns": [
+              "Просто! Ми можемо переміщуватись назад в часі з `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Щоб пройти цей рівень за допомогою інтерактивного rebase впорядкуй коміти як показано на візуалізації. Пам’ятай що Ви завжди можете використати `undo` чи `reset` щоб виправити помилку :D"
+              "Щоб пройти цей рівень перемістись на першого предка гілки `bugFix`. Ви опинитеся в стані `detach HEAD`.",
+              "",
+              "Ви, звичайно, можете вказати хеш, але натомість спробуйте користуватися відносними посиланнями!"
             ]
           }
         }
@@ -1318,13 +1496,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Rebase Tương tác",
+              "## Tham chiếu tương đối",
               "",
-              "Khi bạn biết rõ mình muốn những commit nào (và mã băm tương ứng của chúng) thì Git cherry-pick là công cụ tuyệt vời -- nó đơn giản đến bất ngờ.",
+              "Dịch chuyển trong Git bằng cách chỉ định mã băm (hash) của commit cỏ vẻ hơi buồn tẻ. Trong đời thực thì sẽ không có mô tả Git trực quan ngay bên cạnh terminal của bạn đâu, nên nếu bạn muốn nhìn mã băm của commit thì phải dùng `git log` thôi.",
               "",
-              "Nhưng mà lỡ như bạn không biết mình cần commit nào thì sao? May mà Git cũng có công cụ cho việc này! Ta có thể dùng rebase tương tác cho việc này -- đó là cách tốt nhất để cân nhắc lựa chọn các commit mà bạn muốn rebase.",
+              "Hơn nữa, mã băm thực tế thường dài hơn rất nhiều. Ví dụ, mã băm của commit được giới thiệu trong phần trước là `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Đọc mà xoắn hết cả lưỡi...",
               "",
-              "Hãy đi sâu vào chi tiết nào..."
+              "Được cái là Git cũng khá thông minh về mã băm. Chỉ cần cung cấp kí tự mã băm đủ để phân biệt với các commit khác. Cho nên tôi có thể đơn giản chỉ cần gõ `fed2` thay vì cái chuỗi dài ngoằng phía trên."
             ]
           }
         },
@@ -1332,26 +1510,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Rebase tương tác nghĩa là dùng lệnh `rebase` với tùy chọn `-i`.",
+              "Như tôi đã nói, xác định commit bằng mã băm chẳng hề thuận tiện tẹo nào, đó là tại sao Git có những `tham chiếu tương đối`. Chúng rất tuyệt vời!",
               "",
-              "Nếu lệnh của bạn có bao hàm tùy chọn này, Git sẽ mở một giao diện người dùng để cho bạn biết những commit nào sẽ được sao chép xuống dưới mục tiêu rebase. Nó cũng đồng thời thể hiện mã băm và thông điệp của commit, điều này thật tuyệt bởi nhờ đó ta có thể phân biệt được chúng.",
+              "Với tham chiếu tương đối, bạn có thể bắt đầu từ những nơi có thể ghi nhớ được (như là nhánh `bugFix` hoặc `HEAD`) và làm việc trên đó.",
               "",
-              "Với Git \"thật\", cửa sổ UI (giao diện người dùng) sẽ được mở thông qua một tệp nhờ công cụ chỉnh sửa văn bản như là `vim`. Vì mục đích học tập, tôi đã xây dựng một hộp thoại nhỏ mà nó hành xử cũng tương tự như vậy."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Khi hộp thoại rebase tương tác bật lên, trong ứng dụng giáo dục của chúng tôi, bạn có khả năng làm hai điều sau:",
+              "Những commit tương đối (relative commits) rất mạnh mẽ, nhưng chúng tôi sẽ chỉ giới thiệu 2 loại đơn giản sau:",
               "",
-              "* Bạn có thể sắp xếp lại commit một cách đơn giản thông qua UI (bằng cách kéo thả trên công cụ của chúng tôi).",
-              "* Bạn có thể chọn hoặc loại bỏ một vài commit cụ thể. Điều này được thể hiện qua nút `pick` -- tắt nút `pick` nghĩa là bạn loại bỏ commit đó.",
-              "",
-              "*Chú ý rằng, đối với rebase tương tác trong thực tế, bạn có thể làm nhiều thứ hơn như squash (kết hợp) commit, sửa đổi commit message, thậm chí là chỉnh sửa commit. Tuy nhiên, chúng ta chỉ cần tập trung vào hai thao tác trên.*",
-              "",
-              "Tuyệt! Cùng xem qua một ví dụ nào."
+              "* Dịch chuyển lên 1 commit mỗi lần với `^`",
+              "* Dịch chuyển lên nhiều commit mỗi lần với `~<số>`"
             ]
           }
         },
@@ -1359,20 +1525,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Khi bấm nút, một cửa sổ rebase tương tác sẽ xuất hiện. Bạn có thể sắp xếp lại một số commit (hoặc có thể xóa bớt) và xem thử kết quả!"
+              "Xem thử cái dấu mũ (^) trước nào. Mỗi lần bạn nối nó với một cái tên tham chiếu, bạn đang ra lệnh cho Git tìm kiếm cha của một commit cụ thể.",
+              "",
+              "Cho nên `main^` nghĩa là \"cha đầu tiên của `main`\".",
+              "",
+              "`main^^` là ông nội (tổ tiên thế hệ 2) của `main`",
+              "",
+              "Thử nhảy sang commit trước main nào"
             ],
             "afterMarkdowns": [
-              "BÙÙM! Git sao chép chính xác các commit mà bạn chọn thông qua UI."
+              "BÙUM! Đã xong. Đơn giản hơn gõ mã băm nhiều."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bạn cũng có thể dùng `HEAD` như là tham chiếu tương đối. Thử dùng nó để leo commit vài lần nào."
+            ],
+            "afterMarkdowns": [
+              "Game là dễ! Du hành ngược thời gian với `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Để hoàn thành cấp độ này, thực hiện rebase tương tác sao cho thứ tự commit giống với mục tiêu. Hãy nhớ rằng nếu gặp lỗi bạn luôn có thể hoàn tác hoặc đặt lại :D"
+              "Để hoàn thành cấp độ này, nhảy sang cha của `bugFix`. Tức là tháo `HEAD`.",
+              "",
+              "Nếu muốn thì bạn có thể dùng mã băm, nhưng thế thì còn gì vui nữa dùng tham chiếu tương đối đi!"
             ]
           }
         }
@@ -1384,13 +1571,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interaktivni Rebase",
+              "## Relativne Reference",
               "",
-              "Git cherry-pick je odličen način, ko veš katere commite bi rad (in poznaš njihove hashe) -- težko je premagati njegovo enostavnost.",
+              "Premikanje po Gitu z določanjem hashev commitov je lahko včasih nerodno. V praksi ne boš imel na voljo lepe vizualizacije drevesa zraven ukaznega terminala, zato boš moral uporabljati `git log`, da boš videl hashe.",
               "",
-              "Ampak kaj pa situacija, ko ne veš katere commite želiš? K sreči ima git pokrito tudi to! Uporabimo lahko interaktivni rebase -- gre za najboljši način za pregled commitov, ki jih želiš rebaseati.",
+              "Hashi so ponavadi v praksi tudi veliko daljši. Naprimer, hash commita, predstavljenega v prejšnji stopnji, je `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Ni ravno preprosto za izgovoriti ...",
               "",
-              "Spustimo se v podrobnosti ..."
+              "Pozitivna stran je, da je Git pameten glede hashev. Zahteva, da napišeš le toliko znakov hasha, da lahko prepozna unikaten commit. Tako lahko napišem `fed2`, namesto dolge verzije zgoraj."
             ]
           }
         },
@@ -1398,25 +1585,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Vse kar interaktvini rebase pomeni je, da uporabimo `rebase` ukaz z opcijo `-i`.",
+              "Kot sem rekel, izbiranje commitov po njihovih hashih ni ravno najpriročnejša stvar na svetu, zato ima Git relativne reference. In te so super!",
               "",
-              "Če vključiš to opcijo, bo git odprl okno, da ti pokaže, kateri commiti bodo skopirani pod naš ciljni commit rebaseanja. Prav tako pokaže tudi njihove hashe in sporočila, kar je super za razumevanje kaj je kaj.",
+              "Z relativni referencami lahko izhajaš iz nekje (npr. branch `bugFix` ali `HEAD`) in delaš od tam.",
               "",
-              "Za \"pravi\" git, odpiranje okna pomeni odpiranje datoteke v urejevalniku kot je `vim`. Za naš namen sem zgradil majhno okno, ki se obnaša enako."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Ko se odpre okno za interaktivno rebaseanje, imaš možnost narediti 3 stvari:",
+              "Relativni commiti so močni in obsegajoči, ampak tu bomo predstavili dva preprosta:",
               "",
-              "* Enostavno lahko preurediš commite v vrstni red, ki ga želiš (v našem oknu to dosežeš kar s klikom in vlečenjem miške).",
-              "* Odločiš se lahko, da čisto izpustiš nekatere commite. To je omogočeno s `pick` -- izklop `pick` opcije pomeni, da bi rad commit izpustil.",
-              "* Nenazadnje, commite lahko tudi stisnemo. Nažalost naše stopnje tega ne podpirajo zaradi logističnih razlogov, zato bom preskočil podrobnosti tega. Toda če povzamem -- omogoča združevanje commitov.",
-              "",
-              "Super! Poglejmo primer."
+              "* Premikanje navzgor en commit naenkrat z `^`",
+              "* Premikanje navzgor n-krat z `~<n>`"
             ]
           }
         },
@@ -1424,20 +1600,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ko pritisneš gumb, se bo pojavilo interaktivno okno. Prerazporedi nekaj commitov okoli (ali pa jih odstrani z omit) in poglej rezultat!"
+              "Poglejmo najprej operator `^`. Vsakič, ko pripneš to imenu reference, poveš Gitu, naj najde starša tega commita.",
+              "",
+              "Torej `main^` je isto kot \"prvi starš brancha `main`\".",
+              "",
+              "`main^^` je stari starš (prednik druge generacije) `main`.",
+              "",
+              "Checkoutajmo sedaj commit nad masterjem."
             ],
             "afterMarkdowns": [
-              "Boom! Git je na dno skopiral commite v točno takšnem vrstnem redu, kot si ga določil v oknu."
+              "Boom! Narejeno. Veliko enostavneje kot tipkanje hasha commita."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Prav tako se lahko sklicuješ na `HEAD` kot relativno referenco. Uporabimo to nekajkrat, da se pomakenmo višje po drevesu commitov."
+            ],
+            "afterMarkdowns": [
+              "Enostavno! Lahko potujemo nazaj v čas z `HEAD^`."
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Za dokončanje te stopnje naredi interaktvini rebase in doseži vrstni red, kot je predstavljen v ciljni vizualizaciji. Vedno lahko razveljavjiš z `undo` ali ponastaviš z `reset` ukazom, da popraviš napake :D"
+              "Za dokončanje te stopnje, checkoutaj starša commita `bugFix`. To bo ločilo `HEAD`.",
+              "",
+              "Hash lahko določiš, če želiš, ampak probaj raje z relativnimi referencami!"
             ]
           }
         }
@@ -1449,13 +1646,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Interaktywny rebase w Gicie",
+              "## Referencje względne",
               "",
-              "Cherry-pick jest świetny, gdy wiesz, które commity chcesz przenieść (_oraz_ znasz ich hasze) - trudno jest dyskutować z prostotą, którą zapewnia.",
+              "Poruszanie się w Gicie poprzez określanie haszy commitów może być trochę nudne. W prawdziwym świecie nie zobaczysz ładnej wizualizacji drzewa commitów obok swojego terminala (chyba, że używasz Forka lub TortoiseGita). Musisz użyć `git log`, aby zobaczyć hasze.",
               "",
-              "Ale co w sytuacji, gdy nie wiesz, które commity chcesz przenieść? Na szczęście Git jest przygotowany również na tę sytuację! Możemy wykorzystać do tego interaktywny rebase - to najlepszy sposób, aby przejrzeć serię commitów, które zamierzasz rebase'ować (czyli: przebazować).",
+              "Co więcej, hasze są zazwyczaj o wiele dłuższe w prawdziwym Gicie. Na przykład hash commita, który był na początku poprzedniego poziomu, to `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Spróbuj to przeczytać!",
               "",
-              "Przejdźmy do szczegółów..."
+              "Plusem jest to, że Git sprytnie radzi sobie z haszami. Wymaga jedynie podania tylu znaków hasza, ile potrzebuje, aby jednoznacznie zidentyfikować konkretny commit. Dlatego mogę wpisać jedynie `fed2` zamiast długiego łańcucha powyżej."
             ]
           }
         },
@@ -1463,26 +1660,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Wszystkie interaktywne znaczniki rebase używają polecenia `rebase` z opcją `-i`.",
+              "Jak już powiedzieliśmy, wybieranie commitów, używając ich hasza, nie jest najprzyjemniejszą rzeczą w życiu, dlatego Git ma referencje względne. Są niesamowite!",
               "",
-              "Jeśli włączysz tę opcję, Git otworzy okno, aby pokazać ci, które commity mają być skopiowane poniżej wskazanego celu przebazowania (np. HEADa). W oknie pokażą się również wiadomości i hasze commitów, żeby ułatwić ci zrozumienie, co jest czym.",
+              "Korzystając z referencji względnych, możesz zacząć od miejsca, które zapamiętasz (jak np. gałąź `bugFix` lub `HEAD`), i pracować stamtąd.",
               "",
-              "Dla \"prawdziwego\" Gita otwarte okno oznacza otwarcie pliku w edytorze tekstu, takim jak np. `vim`. Dla naszych potrzeb zbudowałem małe okno dialogowe, które zachowuje się tak samo."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Kiedy otworzy się okno dialogowe do interaktywnego przebazowania, masz możliwość zrobienia dwóch rzeczy w naszej aplikacji edukacyjnej:",
+              "Relatywne commity są potężne, ale pokażemy tu tylko dwie proste sytuacje:",
               "",
-              "* Możesz zmienić kolejność commitów, po prostu przeciągając i upuszczając je myszką w oknie.",
-              "* Możesz zdecydować się zachować wszystkie commity lub pominąć niektóre z nich. Jest to oznaczone przez aktywny przycisk `pick`. Wyłączenie przycisku spowoduje pominięciu commitu.",
-              "",
-              "* Warto wspomnieć, że w prawdziwym interaktywnym rebase'ie możesz zrobić wiele innych rzeczy, takich jak squash (łączenie) commitów, poprawianie wiadomości commitów, a nawet edycja samych commitów. Dla naszych potrzeb jednak wystarczy, że skupimy się na dwóch omówionych operacjach.",
-              "",
-              "Świetnie! Spójrzmy na przykład."
+              "* Poruszanie się wstecz o jeden commit za pomocą `^`",
+              "* Poruszanie się wstecz o ileś commitów z `~<num>`"
             ]
           }
         },
@@ -1490,20 +1675,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Po naciśnięciu przycisku pojawi się interaktywne okno przebazowania. Zmień kolejność niektórych commitów (lub usuń niektóre z nich, a co!) i zobacz wynik!"
+              "Spójrzmy najpierw na operator karety / daszek (^). Za każdym razem, gdy dodajesz go do referencji względnej, mówisz Gitowi, aby znalazł rodzica określonego commita.",
+              "",
+              "Wpisując zatem `main^`, mamy na myśli \"pierwszego rodzica z gałęzi `main`\".",
+              "",
+              "`main^^` to dziadek (przodek drugiego stopnia) gałęzi `main`.",
+              "",
+              "Zcheckoutujmy commit powyżej `main`:"
             ],
             "afterMarkdowns": [
-              "Tadam! Git skopiował commity w sposób podany w oknie."
+              "Tadam! Gotowe! O wiele łatwiej niż wpisując hasz commita."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Możesz również odwołać się do `HEAD` jako referencji względnej. Użyjmy tego kilka razy, aby przesunąć się w górę drzewa commitów."
+            ],
+            "afterMarkdowns": [
+              "Łatwizna! Możemy cofać się w czasie, używając `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Aby ukończyć ten poziom, zrób interaktywny rebase i ustaw kolejność pokazaną w wizualizacji celu. Pamiętaj, że zawsze możesz użyć `undo` lub `reset`, aby naprawić błędy :D"
+              "Aby ukończyć ten poziom, checkoutuj commita-rodzica z gałęzi `bugFix`. To spowoduje odczepienie `HEADa`.",
+              "",
+              "Możesz wybrać commita po haszu, jeżeli chcesz, ale spróbuj wykorzystać nowe umiejętności i użyć referencji względnej!"
             ]
           }
         }
@@ -1515,13 +1721,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git rebase interattivo",
+              "## Riferimenti relativi",
               "",
-              "Git cherry-pick è fantastico quando sai quale commit vuoi (_e_ conosci l'hash corrispondente) -- è difficile avere di meglio.",
+              "Spostarsi in Git specificando l'hash dei commit può essere una scocciatura. Nella vita vera non avrai un bell'albero con tutti i commit sullo schermo, dovrai usare `git log` per vedere gli hash.",
               "",
-              "Ma cosa accade se non sai quale commit ti serve? Per fortuna git ci viene in contro anche in questo caso! Possiamo usare il rebase interattivo -- è il miglior modo per rivedere la sequenza di commit di cui stai per fare il rebase.",
+              "Inoltre, gli hash sono solitamente molto più lunghi. Per esempio, l'hash del commit nel livello precedente è `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Non così semplice da ricordare...",
               "",
-              "Vediamolo nel dettaglio..."
+              "La nota positiva è che Git è furbo con gli hash. Richiede un numero di caratteri dell'hash tali da poter identificare in modo univoco il commit. Posso scrivere `fed2` invece dell'hash completo."
             ]
           }
         },
@@ -1529,26 +1735,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Fare rebase interattivo significa usare il comando `rebase` con l'opzione `-i`.",
+              "Come detto prima, specificare un commit tramite l'hash non è assolutamente il modo migliore, ragion per cui Git ha i riferimenti relativi. Sono stupendi!",
               "",
-              "Se aggiungi quest'opzione, git aprirà un'interfaccia per mostrarti quali commit stanno per essere copiati sotto il commit su cui vuoi fare il rebase. Verrà anche mostrato l'hash e il messaggio del commit, il che è grandioso per darci l'idea di cosa è cosa",
+              "Tramite i riferimenti relativi, puoi partire da un punto facile da ricordare (per esempio dal ramo `bugFix` o `HEAD`) e procedere da lì.",
               "",
-              "Nel git \"vero\", l'interfaccia che si apre in realtà è un editor di testo come `vim`. Nel nostro caso, ho creato una piccola finestra che si comporta allo stesso modo."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Quando la finestra si apre, hai la possibilità di fare due cose:",
+              "Questi riferimenti sono strumenti potenti, introduciamo i più semplici:",
               "",
-              "* Puoi riordinare i commit modificandone l'ordine (drag & drop con il mouse).",
-              "* Puoi decidere se conservare tutti i commit o rimuoverne qualcuno. Quando la finestra si apre, ogni commit è considerato preso dal pulsante `pick` attivo affianco a esso. Per scartare un commit, disattiva il suo pulsante `pick`.",
-              "",
-              "*Vale la pena ricordare che nel vero rebase interattivo puoi fare molte più cose come lo squashing (combinazione) di commit, la modifica del messaggio di commit (amending), e perfino la modifica dello stesso commit. Noi ci concentreremo sulle due funzioni descritte sopra.*",
-              "",
-              "Bene! Vediamo un esempio."
+              "* Risalire di un commit alla volta con `^`",
+              "* Risalire di tot commit alla volta con `~<num>`"
             ]
           }
         },
@@ -1556,20 +1750,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Quando premi il pulsante, apparirà la finestra del rebase interattivo. Riordina qualche commit (o sentiti libero di scartarne qualcuno) e vediamo il risultato!"
+              "Diamo un occhiata all'operatore (^) chiamato Caret o accento circonflesso. Ogni volta che lo aggiungi a un riferimento, stai dicendo a Git di cercare il genitore del commit specificato.",
+              "",
+              "Quindi, dire `main^` è equivalente a dire \"il primo genitore di `main`\".",
+              "",
+              "`main^^` è il nonno (antenato di seconda generazione) di `main`",
+              "",
+              "Selezioniamo il commit sopra main."
             ],
             "afterMarkdowns": [
-              "Boom! Git ha fatto la copia nell'ordine esatto che hai specificato nell'interfaccia grafica."
+              "Colpito! Fatto. Mille volte meglio che scrivere l'hash."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Puoi considerare `HEAD` come un riferimento relativo. Usiamolo un paio di volte per risalire l'albero dei commit."
+            ],
+            "afterMarkdowns": [
+              "Facile! Possiamo viaggiare in dietro nel tempo con `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Per concludere questo livello, esegui un rebase interattivo e raggiungi l'obiettivo mostrato. Ricordati che puoi sempre fare `undo` o `reset` per correggere gli errori :D"
+              "Per completare questo livello, seleziona il commit padre di `bugFix`. Questo provocherà una detached `HEAD`.",
+              "",
+              "Puoi usare l'hash se vuoi, ma prova a usare i riferimenti relativi!"
             ]
           }
         }
@@ -1581,13 +1796,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Etkileşimli Rebase",
+              "## Göreli Referanslar",
               "",
-              "Git cherry-pick, hangi commit'leri istediğinizi biliyorsanız (ve onların karşılık gelen hash'lerini de biliyorsanız) harikadır – sağladığı sadeliği geçmek zordur.",
+              "Git'te commit hash'lerini belirterek gezinmek biraz sıkıcı olabilir. Gerçek dünyada terminalin yanında güzel bir commit ağacı görselleştirmesi olmayacağı için hash'leri görmek için `git log` kullanmanız gerekecek.",
               "",
-              "Peki, hangi commit'leri istediğinizi bilmediğiniz bir durumla karşılaşırsanız ne olur? Neyse ki git bu konuda da sizi destekliyor! Bunu çözmek için etkileşimli rebase kullanabiliriz – bu, rebase yapacağınız commit'lerin bir serisini gözden geçirmenin en iyi yoludur.",
+              "Ayrıca, hash'ler gerçek Git dünyasında genellikle çok daha uzun olur. Örneğin, önceki seviyeyi oluşturan commit'in hash'i `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Pek de kolay okunabilir değil...",
               "",
-              "Hadi detaylara dalalım..."
+              "İyi tarafı, Git'in hash'lerle akıllı olmasıdır. Sadece commit'i benzersiz şekilde tanımlayabilen hash'in yeterince uzun kısmını belirtmeniz gerekir. Yani yukarıdaki uzun string yerine `fed2` yazabilirim."
             ]
           }
         },
@@ -1595,26 +1810,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Etkileşimli rebase, git'in `rebase` komutunu `-i` seçeneği ile kullanması anlamına gelir.",
+              "Dediğim gibi, commit'leri hash'leriyle belirtmek her zaman en pratik şey değildir, bu yüzden Git göreli referansları sunar. Bunlar harikadır!",
               "",
-              "Bu seçeneği eklediğinizde, git rebase'in hedefinin altına kopyalanacak commit'leri gösteren bir kullanıcı arayüzü açar. Bu arayüz, commit'lerin hash'lerini ve mesajlarını da gösterir, bu da neyin ne olduğunu anlamak için harikadır.",
+              "Göreli referanslarla, hatırlanması kolay bir yerden (mesela `bugFix` dalı ya da `HEAD`) başlayabilir ve buradan ilerleyebilirsiniz.",
               "",
-              "Gerçek git'te, bu kullanıcı arayüzü, `vim` gibi bir metin düzenleyicisinde bir dosya açmak anlamına gelir. Bizim amacımız için ise, aynı şekilde davranan küçük bir iletişim kutusu oluşturdum."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Etkileşimli rebase iletişim kutusu açıldığında, eğitim uygulamamızda iki şey yapabilirsiniz:",
+              "Göreli commit'ler güçlüdür, ancak burada iki basit örneğini sunacağız:",
               "",
-              "* Commit'leri, UI'de sıralarını değiştirerek (fareyle sürükleyip bırakarak) yeniden sıralayabilirsiniz.",
-              "* Tüm commit'leri tutabilir veya belirli olanları silebilirsiniz. İletişim kutusu açıldığında, her commit, yanındaki `pick` düğmesinin aktif olmasıyla dahil edilmek üzere ayarlanır. Bir commit'i silmek için, `pick` düğmesini kapatın.",
-              "",
-              "*Gerçek git'te etkileşimli rebase ile daha birçok şey yapılabilir, örneğin commit'leri birleştirme (squash), commit mesajlarını değiştirme ve hatta commit'leri düzenleme. Ancak bizim amacımız için yalnızca yukarıdaki iki işleme odaklanacağız.*",
-              "",
-              "Harika! Hadi bir örneğe bakalım."
+              "* `^` ile bir commit yukarıya hareket etmek",
+              "* `~<num>` ile birden fazla commit yukarıya hareket etmek"
             ]
           }
         },
@@ -1622,137 +1825,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Düğmeye tıkladığınızda, etkileşimli bir rebase penceresi açılacaktır. Bazı commit'leri sıralayın (veya bazılarını seçmeyin) ve sonucu görün!"
+              "İlk olarak Caret (^) operatörüne bakalım. Her defasında bu operatörü bir referans adının sonuna eklediğinizde, Git'e belirtilen commit'in ebeveynini bulmasını söylüyorsunuz.",
+              "",
+              "`main^` demek, \"`main`'in ilk ebeveyni\" demektir.",
+              "",
+              "`main^^` ise `main`'in büyükbabasıdır (ikinci kuşak atasal commit).",
+              "",
+              "Hadi `main` üzerindeki bir commit'e bakalım."
             ],
             "afterMarkdowns": [
-              "Boom! Git, commit'leri tam olarak UI üzerinden belirttiğiniz şekilde kopyaladı."
+              "Boom! İşte bu kadar. Commit hash'ini yazmaktan çok daha kolay."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Bu seviyeyi bitirmek için etkileşimli rebase yapın ve hedef görselleştirmesinde gösterilen sıralamayı elde edin. Unutmayın, her zaman `undo` veya `reset` komutlarını kullanarak hataları düzeltebilirsiniz :D"
-            ]
-          }
-        }
-      ]
-    },
-    "ta_IN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Git இன்டராக்டிவ் ரீபெஸ்",
-              "",
-              "நீங்கள் எந்த commitகளையும் விரும்புகிறீர்கள் என்று தெரிந்திருப்பின் (அல்லது அவற்றின் hashகளைப் பெறுவது தெரிந்திருந்தால்) Git cherry-pick அருமையாக இருக்கிறது -- அது வழங்கும் எளிமையை ஆஸ்தி வைத்து எதிர்க்க முடியாது.",
-              "",
-              "ஆனால் நீங்கள் எந்த commitகளையும் விரும்புகிறீர்கள் என்று தெரியாத சந்தர்ப்பத்தில் என்ன செய்வது? அதற்காக Git இல் இன்டராக்டிவ் ரீபெசிங் உதவிகரமாக இருக்கும்! இது நீங்கள் ரீபெஸ் செய்யும் commitகளை பார்வையிடுவதற்கான சிறந்த வழி.",
-              "",
-              "விவரங்களுக்குள் விரைவில் செல்கின்றோம்..."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "எல்லா இன்டராக்டிவ் ரீபெஸ் என்று பொருள் Git `rebase` கமாண்டுடன் `-i` விருப்பத்தைப் பயன்படுத்துவதாகும்.",
-              "",
-              "இந்த விருப்பத்தை சேர்த்தால், Git உங்கள் ரீபெஸ் இலக்கின் கீழ் படிபடும் commitகளைக் காண்பிக்கும் UIவை திறக்கும். அது commit hashes மற்றும் messagesஐவும் காட்டுகிறது, இது என்னவென்றால் என்ன என்பதை அறிய உதவும்.",
-              "",
-              "சதா Git-இல், UI விண்டோவாக இருந்தால், அது `vim` போன்ற ஒரு உரைத் தொகுப்பியில் ஒரு கோப்பைத் திறப்பதாகும். ஆனால் இங்கு, நான் அதேவாறு செயல்படும் சிறிய டயலாக் விண்டோவை உருவாக்கினேன்."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "இன்டராக்டிவ் ரீபெஸ் டயலாக் திறக்கப்பட்டவுடன், நீங்கள் நம்முடைய கல்வி பயன்பாட்டில் இரண்டு செயல்களை செய்ய முடியும்:",
-              "",
-              "* நீங்கள் commitகளை UIவில் அவர்களின் வரிசையை மாற்றுவதன் மூலம் திருப்பிசெய்யலாம் (முழுவதும் திரும்ப வைக்கும் மாறும்போது).",
-              "* நீங்கள் அனைத்து commitகளையும் வைத்திருப்பதற்கும், குறிப்பிட்ட commitகளை விட்டு வைக்க முடியும். டயலாக் திறக்கும்போது, ஒவ்வொரு commitக்கும் `pick` பொத்தானுடன் சேர்க்கப்பட்டுள்ளது.",
-              "",
-              "*உண்மையான Git-இல் இன்டராக்டிவ் ரீபெஸில் பல மேலதிக செயல்களையும் செய்ய முடியும், உதாரணமாக commitகளை சேர்க்க, commit messageஐ திருத்த, commitகளை திருத்துவதற்கும் கூட. ஆனால் இங்கு, நாம் மேலே குறிப்பிடப்பட்ட இரண்டு செயல்களுக்கே கவனம் செலுத்துவோம்.*",
-              "",
-              "சிறப்பாக! ஒரு உதாரணத்தைப் பார்ப்போம்."
-            ]
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
           }
         },
         {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "பொத்தானை அழுத்தினால், ஒரு இன்டராக்டிவ் ரீபெஸ் விண்டோ திறக்கப்படும். commitகளை வரிசைப்படுத்துங்கள் (அல்லது அவற்றை unpick செய்யவும்) மற்றும் முடிவைப் பாருங்கள்!"
+              "`HEAD`'i de göreli bir referans olarak kullanabilirsiniz. Hadi bunu birkaç kez kullanalım ve commit ağacında yukarıya doğru hareket edelim."
             ],
             "afterMarkdowns": [
-              "பூம்! Git commitகளை UI வழியாக நீங்கள் குறிப்பிடும் வகையில் அதேபோல கொடுத்து விடும்."
+              "Kolay! `HEAD^` ile zaman içinde geri gidebiliriz."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "இந்த நிலையை முடிக்க, ஒரு இன்டராக்டிவ் ரீபெஸ் செய்யவும் மற்றும் இலக்கக் காட்சி காட்டிய வரிசையை அடையவும். தவறுகளை சரிசெய்ய `undo` அல்லது `reset` எப்போது வேண்டுமானாலும் பயன்படுத்தலாம் :D"
-            ]
-          }
-        }
-      ]
-    },
-    "te_IN": {
-      "childViews": [
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "## Interactive Rebase Intro",
+              "Bu seviyeyi tamamlamak için, `bugFix`'in ebeveyn commit'ine göz atın. Bu, `HEAD`'i ayıracaktır.",
               "",
-              "Interactive rebase అనేది Git లోని అత్యంత శక్తివంతమైన ఫీచర్లలో ఒకటి, కానీ దీన్ని వివరించడం కష్టం."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Interactive rebase మీరు ముందుగా నిర్ణయించిన commits ను క్రమంలో మార్చడానికి, తొలగించడానికి, లేదా సవరించడానికి అనుమతిస్తుంది."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Interactive rebase ను ప్రారంభించడానికి, `git rebase -i HEAD~<n>` అని టైప్ చేయండి, ఇక్కడ `<n>` మీరు మార్చాలనుకుంటున్న commits సంఖ్య."
-            ]
-          }
-        },
-        {
-          "type": "GitDemonstrationView",
-          "options": {
-            "beforeMarkdowns": [
-              "బటన్ ను నొక్కితే, interactive rebase window తెరుస్తుంది. commits ను క్రమంలో మార్చండి (లేదా వాటిని తొలగించండి) మరియు ఫలితాన్ని చూడండి!"
-            ],
-            "afterMarkdowns": [
-              "బూమ్! Git మీరు UI లో సూచించిన విధంగానే commits ను కాపీ చేసింది."
-            ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "ఈ స్థాయిని పూర్తి చేయడానికి, interactive rebase చేసి goal visualization లో చూపించిన క్రమాన్ని సాధించండి. తప్పులను సరిదిద్దడానికి `undo` లేదా `reset` ను ఎప్పుడైనా ఉపయోగించవచ్చు :D"
+              "Hash'i belirtmek isterseniz belirtebilirsiniz, ancak göreli referansları kullanmayı deneyin!"
             ]
           }
         }
@@ -1764,13 +1871,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interaktív Rebase",
+              "## Relatív hivatkozások",
               "",
-              "A Git cherry-pick remek, ha tudod, melyik commitokat szeretnéd (_és_ ismered a megfelelő hash-eiket) -- nehéz legyőzni az egyszerűségét.",
+              "A Gitben commit hash-ek megadásával mozogni kissé fárasztó lehet. A valódi életben nem lesz egy szép commit fa vizualizáció a terminálod mellett, így a `git log` parancsot kell majd használnod a hash-ek megtekintéséhez.",
               "",
-              "De mi a helyzet, ha nem tudod, melyik commitokat szeretnéd? Szerencsére a git erre is megoldást kínál! Használhatjuk az interaktív rebase-t -- ez a legjobb módja egy sor commit áttekintésének, mielőtt rebaselnéd őket.",
+              "Ráadásul a hash-ek a valódi Git-világban általában jóval hosszabbak. Például az előző szintet bevezető commit hash-e `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Ez aztán nem csúszik le könnyen...",
               "",
-              "Merüljünk el a részletekben..."
+              "A jó hír az, hogy a Git okosan kezeli a hash-eket. Csak annyi karaktert kell megadnod a hash-ből, ami egyértelműen azonosítja a commitot. Tehát `fed2`-t is írhatok a fenti hosszú karakterlánc helyett."
             ]
           }
         },
@@ -1778,26 +1885,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Az interaktív rebase azt jelenti, hogy a Git a `rebase` parancsot a `-i` opcióval használja.",
+              "Ahogy mondtam, a commitok hash-ekkel való megadása nem mindig a legkényelmesebb, ezért léteznek a relatív hivatkozások a Gitben. Ezek csodálatosak!",
               "",
-              "Ha hozzáadod ezt az opciót, a git megnyit egy felhasználói felületet, amely megmutatja, mely commitok kerülnek majd a rebase célpontja alá másolásra. Az commit hash-eket és üzeneteket is megmutatja, ami nagyszerű az eligazodáshoz.",
+              "A relatív hivatkozásokkal egy könnyen megjegyezhető helyről (például a `bugFix` branch vagy a `HEAD`) indulhatsz, és onnan navigálhatsz.",
               "",
-              "A \"valódi\" gitben a felhasználói felület egy szövegszerkesztőben (pl. `vim`) megnyitott fájlt jelent. A mi céljainkra egy kis párbeszédablakot készítettem, amely ugyanúgy működik."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "Amikor megnyílik az interaktív rebase párbeszédablak, két dolgot tehetsz az oktatási alkalmazásban:",
+              "A relatív commitok erősek, de itt két egyszerűt mutatunk be:",
               "",
-              "* Átrendezhetid a commitokat egyszerűen azáltal, hogy megváltoztatod a sorrendjüket a felhasználói felületen (fogd és vidd az egérrel).",
-              "* Dönthetesz, hogy megtartod az összes commitot, vagy kihagysz bizonyosakat. A párbeszédablak megnyitásakor minden commit mellett aktív a `pick` gomb. Egy commit kihagyásához kapcsold ki a `pick` gombját.",
-              "",
-              "*Érdemes megjegyezni, hogy a valódi git interaktív rebase-ben sokkal több mindent megtehetsz, például összevonhatod (squash) a commitokat, módosíthatod a commit üzeneteket, sőt szerkesztheted magukat a commitokat. A mi céljainkra azonban a fenti két műveletre összpontosítunk.*",
-              "",
-              "Remek! Nézzünk meg egy példát."
+              "* Egy committal felfelé mozgás a `^` operátorral",
+              "* Több committal felfelé mozgás a `~<szám>` operátorral"
             ]
           }
         },
@@ -1805,20 +1900,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Ha megnyomod a gombot, megjelenik egy interaktív rebase ablak. Rendezd át a commitokat (vagy hagyd ki néhányat), és nézd meg az eredményt!"
+              "Először nézzük meg a kalap (^) operátort. Minden alkalommal, amikor ezt hozzáfűzöd egy hivatkozásnévhez, a Gitnek azt mondod, hogy keresse meg a megadott commit szülőjét.",
+              "",
+              "Tehát a `main^` egyenértékű a \"`main` első szülőjével\".",
+              "",
+              "`main^^` a `main` nagyapja (másodgenerációs őse)",
+              "",
+              "Nézzük meg a main feletti commitot itt."
             ],
             "afterMarkdowns": [
-              "Bumm! A Git pontosan úgy másolta le a commitokat, ahogyan a felhasználói felületen megadtad."
+              "Bumm! Megvan. Sokkal könnyebb, mint a commit hash-t begépelni."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "A `HEAD`-et is használhatod relatív hivatkozásként. Használjuk ezt néhányszor, hogy feljebb mozogjunk a commit fában."
+            ],
+            "afterMarkdowns": [
+              "Könnyű! A `HEAD^`-vel visszautazhatunk az időben."
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "A szint befejezéséhez végezz el egy interaktív rebase-t, és érd el a cél vizualizációban látható sorrendet. Ne feledd, hogy mindig használhatod az `undo` vagy `reset` parancsot a hibák javítására :D"
+              "A szint teljesítéséhez válts a `bugFix` szülő commitjára. Ez leválasztja a `HEAD`-et.",
+              "",
+              "Ha akarod, megadhatod a hash-t, de próbálj inkább relatív hivatkozásokat használni!"
             ]
           }
         }
@@ -1830,13 +1946,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git İnteraktiv Rebase",
+              "## Nisbi Ref-lər",
               "",
-              "Git cherry-pick, hansı commit-ləri istədiyini bildiyin zaman (_və_ onların uyğun hash-lərini də bildiyin zaman) əladır -- verdiyi sadəliyi keçmək çətindir.",
+              "Git-də commit hash-lərini göstərməklə hərəkət etmək bir az yorucu ola bilər. Real dünyada terminalının yanında belə gözəl bir commit ağacı vizuallaşdırması olmayacaq, ona görə hash-ləri görmək üçün `git log`-dan istifadə etməli olacaqsan.",
               "",
-              "Bəs hansı commit-ləri istədiyini bilmədiyin vəziyyətdə nə etməli? Xoşbəxtlikdən git bunu da düşünüb! Bunun üçün interaktiv rebase-dən istifadə edə bilərik -- bu, rebase etmək istədiyin bir sıra commit-ə nəzər salmağın ən yaxşı yoludur.",
+              "Üstəlik, real Git dünyasında hash-lər adətən xeyli daha uzun olur. Məsələn, əvvəlki bölümü təqdim edən commit-in hash-i `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`-dir. Deyəndə dil süründürmür...",
               "",
-              "Gəl detallara keçək..."
+              "Yaxşı tərəfi odur ki, Git hash-lər barədə ağıllıdır. O, yalnız commit-i unikal şəkildə identifikasiya edən qədər simvol yazmağını tələb edir. Beləliklə, yuxarıdakı uzun sətir əvəzinə sadəcə `fed2` yaza bilərəm."
             ]
           }
         },
@@ -1844,26 +1960,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "İnteraktiv rebase sadəcə Git-in `rebase` əmrini `-i` seçimi ilə istifadə etməsi deməkdir.",
+              "Dediyim kimi, commit-ləri hash-lə göstərmək heç də ən rahat üsul deyil, elə buna görə də Git-də nisbi ref-lər var. Onlar möhtəşəmdir!",
               "",
-              "Bu seçimi əlavə etsən, git rebase-in hədəfinin altına kopyalanacaq commit-ləri göstərən bir interfeys açacaq. Həmçinin onların commit hash-lərini və mesajlarını da göstərir ki, bu da nəyin nə olduğunu anlamaq üçün əladır.",
+              "Nisbi ref-lərlə yadda qalan bir yerdən (məsələn, `bugFix` branch-ı və ya `HEAD`) başlaya və oradan davam edə bilərsən.",
               "",
-              "\"Əsl\" git-də, bu interfeys pəncərəsi `vim` kimi bir mətn redaktorunda fayl açmaq deməkdir. Bizim məqsədimiz üçün isə eyni şəkildə davranan kiçik bir dialoq pəncərəsi qurmuşam."
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "İnteraktiv rebase dialoqu açıldıqda, tədris tətbiqimizdə iki şey etmək imkanın var:",
+              "Nisbi commit-lər güclüdür, amma biz burada iki sadə üsulu təqdim edəcəyik:",
               "",
-              "* Commit-lərin sırasını sadəcə interfeysdə (siçanla sürükləyib buraxaraq) dəyişməklə yenidən sıralaya bilərsən.",
-              "* Bütün commit-ləri saxlamağı və ya müəyyən olanları atmağı seçə bilərsən. Dialoq açıldıqda, hər commit yanındakı `pick` düyməsi aktiv olduğu üçün daxil edilməyə təyin olunub. Bir commit-i atmaq üçün onun `pick` düyməsini söndür.",
-              "",
-              "*Qeyd etmək lazımdır ki, əsl git-in interaktiv rebase-ində squash etmək (birləşdirmək), commit mesajlarını dəyişmək və hətta commit-lərin özünü redaktə etmək kimi daha çox şey edə bilərsən. Bizim məqsədimiz üçün isə yuxarıdakı iki əməliyyata fokuslanacağıq.*",
-              "",
-              "Əla! Gəl bir nümunəyə baxaq."
+              "* `^` ilə hər dəfə bir commit yuxarı hərəkət etmək",
+              "* `~<say>` ilə bir neçə dəfə yuxarı hərəkət etmək"
             ]
           }
         },
@@ -1871,21 +1975,77 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "Düyməyə basdıqda, interaktiv rebase pəncərəsi görünəcək. Bəzi commit-lərin sırasını dəyiş (yaxud bəzilərini seçmə) və nəticəyə bax!"
+              "Gəl əvvəlcə Caret (^) operatoruna baxaq. Onu bir ref adının sonuna hər əlavə etdiyində, Git-ə göstərilən commit-in valideynini tapmasını deyirsən.",
+              "",
+              "Beləliklə, `main^` demək \"`main`-in birinci valideyni\" deməkdir.",
+              "",
+              "`main^^` isə `main`-in babası (ikinci nəsil əcdadı)dır",
+              "",
+              "Gəl burada main-in üstündəki commit-i checkout edək."
             ],
             "afterMarkdowns": [
-              "Bum! Git commit-ləri tam olaraq interfeys vasitəsilə göstərdiyin kimi kopyaladı."
+              "Bumm! Oldu. Commit hash-ini yazmaqdan qat-qat asandır."
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`HEAD`-i də nisbi ref kimi istifadə edə bilərsən. Gəl commit ağacında yuxarı hərəkət etmək üçün onu bir neçə dəfə işlədək."
+            ],
+            "afterMarkdowns": [
+              "Asandır! `HEAD^` ilə zamanda geriyə səyahət edə bilərik"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "Bu bölümü bitirmək üçün interaktiv rebase et və hədəf vizuallaşdırmasında göstərilən sıraya nail ol. Unutma ki, səhvləri düzəltmək üçün həmişə `undo` və ya `reset` edə bilərsən :D"
+              "Bu bölümü bitirmək üçün `bugFix`-in valideyn commit-ini checkout et. Bu, `HEAD`-i ayıracaq (detached HEAD).",
+              "",
+              "İstəsən hash-i göstərə bilərsən, amma bunun əvəzinə nisbi ref-lərdən istifadə etməyə çalış!"
             ]
+          }
+        }
+      ]
+    },
+    "te_IN": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relative References",
+              "",
+              "ప్రతిసారీ commit hash ను టైప్ చేయడం చాలా ఇబ్బందికరంగా ఉంటుంది. అదృష్టవశాత్తు, Git కు branches మరియు commits ను సూచించడానికి మీరు ఉపయోగించగల కొన్ని సులభ మార్గాలు ఉన్నాయి."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "సాపేక్ష సూచనలు అనేవి commit hashes కు బదులుగా ఉపయోగించగల సులభ మార్గాలు."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "\"^\" అనేది parent commit ను సూచించడానికి ఉపయోగించే సంకేతం."
+            ],
+            "afterMarkdowns": [
+              "మీరు `git switch --detach main^` అని టైప్ చేసి `main` branch యొక్క parent commit కు మారవచ్చు."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
           }
         }
       ]
@@ -1896,13 +2056,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "## Git Interactive Rebase",
+              "## আপেক্ষিক Ref",
               "",
-              "তুমি যখন জানো কোন commit-গুলো চাও (_এবং_ সেগুলোর hash-ও জানো), তখন Git cherry-pick দারুণ -- এর সরলতাকে হারানো কঠিন।",
+              "commit hash উল্লেখ করে Git-এ চলাচল করা কিছুটা বিরক্তিকর হয়ে উঠতে পারে। বাস্তব জগতে তোমার terminal-এর পাশে সুন্দর কোনো commit tree visualization থাকবে না, তাই hash দেখতে তোমাকে `git log` ব্যবহার করতে হবে।",
               "",
-              "কিন্তু যদি তুমি না জানো কোন commit-গুলো চাও, তখন কী হবে? সৌভাগ্যবশত git সেখানেও তোমার পাশে আছে! এর জন্য আমরা interactive rebasing ব্যবহার করতে পারি -- rebase করতে যাওয়া commit-গুলোর সারি পর্যালোচনা করার এটাই সবচেয়ে ভালো উপায়।",
+              "তাছাড়া, আসল Git-এর জগতে hash সাধারণত অনেক বেশি লম্বা হয়। যেমন, আগের level-টি যে commit চালু করেছিল তার hash হলো `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`। মুখে বলা মোটেও সহজ নয়...",
               "",
-              "চলো বিস্তারিত দেখি..."
+              "সুখবর হলো, hash-এর ব্যাপারে Git বেশ চালাক। commit-টিকে অনন্যভাবে চিহ্নিত করতে যতগুলো অক্ষর লাগে, ততগুলো দিলেই চলে। তাই ওপরের লম্বা স্ট্রিংয়ের বদলে আমি শুধু `fed2` লিখতে পারি।"
             ]
           }
         },
@@ -1910,26 +2070,14 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "interactive rebase মানে শুধু এটুকুই যে Git `rebase` কমান্ড `-i` অপশনসহ ব্যবহার করছে।",
+              "যেমন বললাম, hash দিয়ে commit নির্দিষ্ট করা মোটেও সবচেয়ে সুবিধাজনক উপায় নয়, আর সেজন্যই Git-এ আপেক্ষিক ref আছে। এগুলো দারুণ!",
               "",
-              "এই অপশনটি দিলে git একটি UI খুলবে, যেখানে দেখা যাবে rebase-এর লক্ষ্যের নিচে কোন commit-গুলো কপি হতে যাচ্ছে। এতে সেগুলোর commit hash ও বার্তাও দেখানো হয়, যা কোনটা কী তা বুঝতে দারুণ সাহায্য করে।",
+              "আপেক্ষিক ref দিয়ে তুমি মনে রাখার মতো কোনো জায়গা (যেমন `bugFix` branch বা `HEAD`) থেকে শুরু করে সেখান থেকেই এগোতে পারো।",
               "",
-              "\"আসল\" git-এ UI window মানে `vim`-এর মতো কোনো text editor-এ একটি ফাইল খোলা। আমাদের উদ্দেশ্যের জন্য আমি একটি ছোট dialog window বানিয়েছি, যা একই রকম আচরণ করে।"
-            ]
-          }
-        },
-        {
-          "type": "ModalAlert",
-          "options": {
-            "markdowns": [
-              "interactive rebase-এর dialog খুললে, আমাদের এই শিক্ষামূলক অ্যাপ্লিকেশনে তুমি দুটি কাজ করতে পারবে:",
+              "আপেক্ষিক commit খুব শক্তিশালী, তবে এখানে আমরা দুটি সহজ উপায় দেখাব:",
               "",
-              "* UI-তে commit-গুলোর ক্রম বদলে (মাউস দিয়ে drag ও drop করে) তুমি সেগুলো নতুনভাবে সাজাতে পারো।",
-              "* তুমি সব commit রাখতে অথবা নির্দিষ্ট কিছু বাদ দিতে পারো। dialog খোলার সময় প্রতিটি commit-এর পাশের `pick` বাটন সক্রিয় থাকায় সেগুলো অন্তর্ভুক্ত থাকে। কোনো commit বাদ দিতে তার `pick` বাটন বন্ধ করে দাও।",
-              "",
-              "*উল্লেখ করা দরকার যে আসল git interactive rebase-এ আরও অনেক কিছু করা যায়, যেমন commit squash করা (একসাথে জুড়ে দেওয়া), commit বার্তা সংশোধন করা, এমনকি commit-গুলো নিজেই edit করা। তবে আমাদের উদ্দেশ্যে আমরা ওপরের এই দুটি কাজেই মনোযোগ দেব।*",
-              "",
-              "দারুণ! চলো একটি উদাহরণ দেখি।"
+              "* `^` দিয়ে একবারে একটি commit ওপরে যাওয়া",
+              "* `~<num>` দিয়ে একসাথে কয়েকটি commit ওপরে যাওয়া"
             ]
           }
         },
@@ -1937,20 +2085,41 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "বাটনে ক্লিক করলে একটি interactive rebase window দেখা যাবে। কিছু commit-এর ক্রম বদলে দেখো (অথবা নির্দ্বিধায় কিছু unpick করো) এবং ফলাফল দেখো!"
+              "চলো আগে Caret (^) অপারেটর দেখি। কোনো ref-এর নামের শেষে এটি যতবার যোগ করবে, ততবার তুমি Git-কে বলছ নির্দিষ্ট commit-এর parent খুঁজে বের করতে।",
+              "",
+              "অতএব `main^` বলা মানে \"`main`-এর প্রথম parent\"।",
+              "",
+              "`main^^` হলো `main`-এর grandparent (দ্বিতীয় প্রজন্মের পূর্বপুরুষ)",
+              "",
+              "চলো এখানে main-এর ঠিক ওপরের commit-টি checkout করি।"
             ],
             "afterMarkdowns": [
-              "বুম! তুমি UI-তে যেভাবে নির্দেশ দিয়েছিলে, git ঠিক সেভাবেই commit-গুলো কপি করে নিয়ে এসেছে।"
+              "বুম! হয়ে গেল। commit hash টাইপ করার চেয়ে অনেক সহজ।"
             ],
-            "command": "git rebase -i HEAD~4 --aboveAll",
-            "beforeCommand": "git commit; git commit; git commit; git commit"
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "তুমি `HEAD`-কেও আপেক্ষিক ref হিসেবে ব্যবহার করতে পারো। চলো commit tree-তে ওপরে ওঠার জন্য এটি কয়েকবার ব্যবহার করি।"
+            ],
+            "afterMarkdowns": [
+              "সহজ! `HEAD^` দিয়ে আমরা সময়ের পেছনে ভ্রমণ করতে পারি"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
           }
         },
         {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "এই level শেষ করতে, একটি interactive rebase করো এবং goal visualization-এ দেখানো ক্রমটি অর্জন করো। মনে রেখো, ভুল ঠিক করতে তুমি সবসময় `undo` বা `reset` করতে পারো :D"
+              "এই level সম্পূর্ণ করতে `bugFix`-এর parent commit-টি checkout করো। এতে `HEAD` বিচ্ছিন্ন (detached) হয়ে যাবে।",
+              "",
+              "চাইলে hash উল্লেখ করতে পারো, তবে তার বদলে আপেক্ষিক ref ব্যবহার করার চেষ্টা করো!"
             ]
           }
         }
