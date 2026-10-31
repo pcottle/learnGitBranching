@@ -35,7 +35,8 @@ exports.level = {
     "hu_HU": "Sok rebase",
     "az": "9000-dən çox dəfə rebase etmək",
     "te_IN": "9000 కంటే ఎక్కువసార్లు rebase చేయడం",
-    "hi_IN": "9000 से ज्यादा बार rebase करना"
+    "hi_IN": "9000 से ज्यादा बार rebase करना",
+    "bn_BD": "৯০০০ বারের বেশি rebase করা"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -65,7 +66,8 @@ exports.level = {
     "hu_HU": "Ne feledd, a leghatékonyabb módszer talán az, ha a main-t csak a végén frissíted...",
     "az": "Yadında saxla, ən səmərəli yol bəlkə də main-i yalnız sonda yeniləməkdir...",
     "te_IN": "గుర్తుపెట్టుకో, అత్యంత ఎఫిషియెంట్ మార్గం చివర్లో main ను మాత్రమే అప్‌డేట్ చేయడం కావచ్చు...",
-    "hi_IN": "याद रखो, सबसे efficient तरीका शायद यह है कि आखिर में ही main को update करो..."
+    "hi_IN": "याद रखो, सबसे efficient तरीका शायद यह है कि आखिर में ही main को update करो...",
+    "bn_BD": "মনে রেখো, সবচেয়ে কার্যকর উপায় হয়তো শেষে শুধু main আপডেট করা..."
   },
   "startDialog": {
     "en_US": {
@@ -623,6 +625,26 @@ exports.level = {
               "ఉపయోగకరమైన టిప్: `git rebase` రెండో ఆర్గ్యుమెంట్ కూడా తీసుకుంటుంది. `git rebase main bugFix` ఒకే step లో `bugFix` కు వెళ్ళి, దాన్ని `main` పై rebase చేస్తుంది -- అంటే `git switch bugFix; git rebase main` యొక్క షార్ట్ ఫార్మ్.",
               "",
               "దారిలో తప్పు జరిగితే, మళ్ళీ స్టార్ట్ చేయడానికి `reset` యూజ్ చేయి. మా సొల్యూషన్ చూసి, తక్కువ commands తో చేయగలవో చూడు!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### একাধিক Branch Rebase করা",
+              "",
+              "বাহ, এখানে তো অনেকগুলো branch চলছে! চলো এই সব branch-এর কাজ main-এ rebase করে ফেলি।",
+              "",
+              "তবে ঊর্ধ্বতন কর্তৃপক্ষ ব্যাপারটা একটু জটিল করে দিয়েছে -- তারা চায় সব commit ক্রমানুসারে সাজানো থাকুক। অর্থাৎ আমাদের চূড়ান্ত tree-তে `C7'` সবার নিচে থাকবে, তার ওপরে `C6'`, এভাবে সবকিছু পরপর সাজানো থাকবে।",
+              "",
+              "একটা কাজের টিপ: `git rebase` দ্বিতীয় একটি argument-ও নিতে পারে। `git rebase main bugFix` এক ধাপেই `bugFix` checkout করে সেটিকে `main`-এর ওপর rebase করে দেয় -- এটি `git switch bugFix; git rebase main`-এর সংক্ষিপ্ত রূপ।",
+              "",
+              "মাঝপথে কিছু গোলমাল হয়ে গেলে নির্দ্বিধায় `reset` ব্যবহার করে আবার নতুন করে শুরু করো। আমাদের solution দেখে নিও এবং দেখো তুমি আরও কম কমান্ডে করতে পারো কি না!"
             ]
           }
         }
