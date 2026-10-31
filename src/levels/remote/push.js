@@ -31,7 +31,8 @@ exports.level = {
     "hu_HU": "Git push",
     "az": "Git Push",
     "te_IN": "Git Push",
-    "hi_IN": "Git Push"
+    "hi_IN": "Git Push",
+    "bn_BD": "Git Push করা"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -59,7 +60,8 @@ exports.level = {
     "hu_HU": "Ne felejtsd el, clone-ozni kell, mielőtt push-olhatsz!",
     "az": "Unutma, push edə bilmək üçün əvvəlcə clone etməlisən!",
     "te_IN": "push చేయగలగడానికి ముందు clone చేయాలని గుర్తుపెట్టుకో!",
-    "hi_IN": "याद रखो, push करने से पहले clone करना ज़रूरी है!"
+    "hi_IN": "याद रखो, push करने से पहले clone करना ज़रूरी है!",
+    "bn_BD": "মনে রেখো, push করার আগে clone করতেই হবে!"
   },
   "startDialog": {
     "en_US": {
@@ -143,6 +145,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "इस level को पूरा करने के लिए बस दो नए commits remote के साथ share करो। पर तैयार हो जाओ, क्योंकि अब ये lessons काफ़ी मुश्किल होने वाली हैं!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "ঠিক আছে, আমি remote থেকে পরিবর্তনগুলো fetch করে নিজের লোকাল কাজে অন্তর্ভুক্ত করে ফেলেছি। দারুণ... কিন্তু _আমার_ দুর্দান্ত কাজটা বাকি সবার সাথে শেয়ার করব কীভাবে?",
+              "",
+              "শেয়ার করা কাজ আপলোড করার পদ্ধতি আসলে শেয়ার করা কাজ ডাউনলোড করার ঠিক উল্টো। আর `git pull`-এর উল্টো কী? `git push`!",
+              "",
+              "`git push` _তোমার_ পরিবর্তনগুলো নির্দিষ্ট একটা remote-এ আপলোড করে এবং সেই remote-কে আপডেট করে যাতে তোমার নতুন commit-গুলো সেখানে অন্তর্ভুক্ত হয়। `git push` শেষ হলে তোমার বন্ধুরা remote থেকে তোমার কাজ ডাউনলোড করতে পারবে।",
+              "",
+              "`git push`-কে তুমি তোমার কাজ \"পাবলিশ\" করার কমান্ড হিসেবে ভাবতে পারো। এর ভেতরে অনেক সূক্ষ্ম বিষয় আছে যেগুলোতে আমরা শিগগিরই যাব, তবে আপাতত ছোট ছোট পদক্ষেপ দিয়েই শুরু করা যাক...",
+              "",
+              "*নোট -- আর্গুমেন্ট ছাড়া `git push`-এর আচরণ git-এর `push.default` নামের একটা সেটিংয়ের ওপর নির্ভর করে। এই সেটিংয়ের ডিফল্ট মান তোমার git-এর ভার্সনের ওপর নির্ভর করে, তবে আমাদের পাঠগুলোতে আমরা `upstream` মান ব্যবহার করব। এটা খুব বড় কোনো ব্যাপার নয়, কিন্তু নিজের প্রজেক্টে push করার আগে সেটিংগুলো একবার দেখে নেওয়া ভালো।*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এখানে আমাদের কিছু পরিবর্তন আছে যা remote-এর কাছে নেই। চলো সেগুলো আপলোড করি!"
+            ],
+            "afterMarkdowns": [
+              "এই তো -- remote `C2` commit পেয়েছে, remote-এর `main` branch আপডেট হয়ে `C2`-কে নির্দেশ করছে, এবং remote-এর *নিজস্ব* প্রতিফলনও (`o/main`) আপডেট হয়েছে। সবকিছু সিঙ্কে আছে!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level শেষ করতে শুধু দুটো নতুন commit remote-এর সাথে শেয়ার করো। তবে সিটবেল্ট বেঁধে নাও, কারণ পাঠগুলো এবার অনেক কঠিন হতে চলেছে!"
             ]
           }
         }
