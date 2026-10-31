@@ -34,7 +34,8 @@ exports.level = {
     "hu_HU": "Semmi forrása",
     "az": "Heçliyin mənbəsi",
     "te_IN": "శూన్యం యొక్క సోర్స్",
-    "hi_IN": "शून्य का सोर्स"
+    "hi_IN": "शून्य का सोर्स",
+    "bn_BD": "শূন্যের source"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -63,7 +64,8 @@ exports.level = {
     "hu_HU": "A branch parancs le van tiltva ennél a szintnél, tehát a fetch-et kell használnod!",
     "az": "Bu bölüm üçün branch əmri deaktiv edilib, ona görə də fetch işlətməli olacaqsan!",
     "te_IN": "ఈ level కోసం branch command disabled, కాబట్టి fetch యూజ్ చేయాలి!",
-    "hi_IN": "इस level में branch command disabled है, इसलिए आपको fetch इस्तेमाल करना पड़ेगा!"
+    "hi_IN": "इस level में branch command disabled है, इसलिए आपको fetch इस्तेमाल करना पड़ेगा!",
+    "bn_BD": "এই level-এ branch কমান্ড নিষ্ক্রিয় করা আছে, তাই তোমাকে fetch ব্যবহার করতে হবে!"
   },
   "startDialog": {
     "en_US": {
@@ -167,6 +169,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "ये एक छोटा level है -- बस एक remote branch delete करो और `git fetch` से एक नई branch बनाकर पूरा करो!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `<source>`-এর অদ্ভুত আচরণ",
+              "",
+              "Git `<source>` প্যারামিটারটাকে দুটো অদ্ভুত উপায়ে অপব্যবহার করে। এই দুটো অপব্যবহারের কারণ হলো, git push আর git fetch দুটোতেই প্রযুক্তিগতভাবে \"কিছুই না\"-কে বৈধ `source` হিসেবে দেওয়া যায়। \"কিছুই না\" নির্দিষ্ট করার উপায় হলো একটা ফাঁকা আর্গুমেন্ট:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "চলো দেখি এগুলো কী করে..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "একটা remote branch-এ \"কিছুই না\" push করলে কী হয়? সেটা মুছে যায়!"
+            ],
+            "afterMarkdowns": [
+              "এই তো, \"কিছুই না\"-এর ধারণা push করে আমরা remote-এর `foo` branch সফলভাবে মুছে ফেললাম। বিষয়টা কিছুটা যুক্তিসংগতই লাগে..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "সবশেষে, লোকালি কোনো জায়গায় \"কিছুই না\" fetch করলে আসলে একটা নতুন branch তৈরি হয়ে যায়।"
+            ],
+            "afterMarkdowns": [
+              "খুবই অদ্ভুত / উদ্ভট, কিন্তু যাই হোক। git এমনই!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এটা একটা ছোট level -- শেষ করতে শুধু একটা remote branch মুছে ফেলো আর `git fetch` দিয়ে একটা নতুন branch তৈরি করো!"
             ]
           }
         }
