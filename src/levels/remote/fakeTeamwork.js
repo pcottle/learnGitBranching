@@ -4,6 +4,7 @@ exports.level = {
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C0\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}},\"clonePending\":true}",
   "name": {
     "en_US": "Faking Teamwork",
+    "bn_BD": "Teamwork সিমুলেট করা",
     "fa": "شبیه‌سازی کار تیمی (Faking Teamwork)",
     "fr_FR": "Simulation du travail d'équipe",
     "de_DE": "Teamarbeit simulieren",
@@ -33,6 +34,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
+    "bn_BD": "মনে রাখবেন, কতগুলো commit নকল করবেন তা আপনি নির্দিষ্ট করে দিতে পারেন",
     "fa": "به یاد داشته باشید که می‌توانید تعداد کامیت‌ها را برای شبیه‌سازی مشخص کنید",
     "fr_FR": "Rappelez-vous que vous pouvez spécifier le nombre de commits à simuler",
     "de_DE": "Nicht vergessen, du kannst angeben wie viele Commits simuliert werden sollen.",
@@ -110,6 +112,60 @@ exports.level = {
               "The upcoming levels are going to be pretty difficult, so we're asking more of you for this level.",
               "",
               "Go ahead and clone the remote repository, fake some changes on that remote, add a local commit, and then pull down the remote changes and merge them. It's like a few lessons in one!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## সহযোগিতার সিমুলেশন",
+              "",
+              "এখানেই কৌশলের ব্যাপার -- আসন্ন কিছু পাঠে আমাদের আপনাকে শেখাতে হবে remote-এ যেসব পরিবর্তন এসেছে সেগুলো কীভাবে pull করে নামাতে হয়।",
+              "",
+              "অর্থাৎ আমাদের মূলত ভান করতে হবে যে আপনার কোনো সহকর্মী / বন্ধু / সহযোগী remote আপডেট করেছেন, কখনো কোনো নির্দিষ্ট branch-এ বা নির্দিষ্ট সংখ্যক commit দিয়ে।",
+              "",
+              "এটি করার জন্য আমরা সঠিক নামের একটি কমান্ড এনেছি: `git fakeTeamwork`! নাম থেকেই অনেকটা বোঝা যায়, চলুন একটি ডেমো দেখি..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`fakeTeamwork`-এর ডিফল্ট আচরণ হলো main-এ শুধু একটি commit বসিয়ে দেওয়া।"
+            ],
+            "afterMarkdowns": [
+              "এই তো -- remote একটি নতুন commit দিয়ে আপডেট হয়েছে, আর আমরা এখনো সেই commit ডাউনলোড করিনি কারণ `git fetch` চালাইনি।"
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "কমান্ডের শেষে যোগ করে আপনি commit-এর সংখ্যা বা branch-ও নির্দিষ্ট করে দিতে পারেন।"
+            ],
+            "afterMarkdowns": [
+              "একটি কমান্ডেই আমরা সিমুলেট করলাম যে একজন সহকর্মী আমাদের remote-এর `foo` branch-এ তিনটি commit push করেছেন।"
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "আসন্ন লেভেলগুলো বেশ কঠিন হবে, তাই এই লেভেলে আমরা আপনার কাছ থেকে একটু বেশি আশা করছি।",
+              "",
+              "এগিয়ে যান: remote repository clone করুন, সেই remote-এ কিছু পরিবর্তন নকল করুন, একটি local commit যোগ করুন, তারপর remote-এর পরিবর্তনগুলো pull করে merge করুন। এ যেন কয়েকটি পাঠ একসঙ্গে!"
             ]
           }
         }
