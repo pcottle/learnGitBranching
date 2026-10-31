@@ -29,6 +29,7 @@ exports.level = {
     "az": "Git Pull",
     "te_IN": "Git Pull",
     "hi_IN": "Git Pull",
+    "bn_BD": "Git Pull করা",
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -57,7 +58,8 @@ exports.level = {
     "hu_HU": "Csak futtasd a git pull-t!",
     "az": "Sadəcə git pull et!",
     "te_IN": "సింపుల్ గా git pull చేయి!",
-    "hi_IN": "बस git pull रन करो!"
+    "hi_IN": "बस git pull रन करो!",
+    "bn_BD": "শুধু git pull চালাও!"
   },
   "startDialog": {
     "en_US": {
@@ -1680,6 +1682,67 @@ exports.level = {
               "हम `git pull` की बारीकियाँ बाद में देखेंगे (विकल्पों और आर्ग्युमेंट्स समेत), लेकिन अभी चलो इस level में इसे आज़माएँ।",
               "",
               "याद रखो -- आप यह level असल में सिर्फ़ `fetch` और `merge` से भी हल कर सकते हो, लेकिन उसमें एक एक्स्ट्रा कमांड लगेगी :P"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "`git fetch` দিয়ে remote repository থেকে ডেটা আনার পদ্ধতি তো দেখা হলো, এবার চলো সেই পরিবর্তনগুলো নিজের কাজে প্রতিফলিত করি!",
+              "",
+              "এটা করার আসলে অনেক উপায় আছে -- লোকালি নতুন commit পেয়ে গেলে সেগুলোকে অন্য branch-এর সাধারণ commit-এর মতোই নিজের কাজে অন্তর্ভুক্ত করা যায়। অর্থাৎ তুমি এরকম কমান্ড চালাতে পারো:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* ইত্যাদি, ইত্যাদি।",
+              "",
+              "আসলে remote-এর পরিবর্তন *fetch* করে তারপর *merge* করার এই workflow এতই প্রচলিত যে git এমন একটা কমান্ডই দিয়েছে যেটা দুটো কাজ একসাথে করে ফেলে! সেই কমান্ডটাই `git pull`।",
+              "",
+              "*নোট:* কোনো pull strategy কনফিগার করা না থাকলে Git 2.27 একটা সতর্কবার্তা দেখানো শুরু করে। Git 2.34 থেকে, ওই অবস্থায় branch-গুলো আলাদা (diverged) হয়ে গেলে শুধু `git pull` থেমে যায় এবং কীভাবে সমন্বয় করতে চাও তা বেছে নিতে বলে। merge করতে `git pull --no-rebase` অথবা rebase করতে `git pull --rebase` ব্যবহার করো। এই সিমুলেটরে `git pull` ডিফল্টভাবে merge আচরণ অনুসরণ করে।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো প্রথমে একটা `fetch` আর একটা `merge` পর পর চালিয়ে দেখি।"
+            ],
+            "afterMarkdowns": [
+              "বুম -- আমরা `fetch` দিয়ে `C3` নামিয়ে আনলাম এবং তারপর `git merge o/main` দিয়ে সেই কাজ merge করলাম। এখন আমাদের `main` branch remote-এর (এখানে যার নাম `origin`) নতুন কাজ প্রতিফলিত করছে"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এর বদলে যদি `git pull` ব্যবহার করতাম, তাহলে কী হতো?"
+            ],
+            "afterMarkdowns": [
+              "একই জিনিস! এতে পরিষ্কার হওয়া উচিত যে এই সিমুলেটর `git pull`-কে `git fetch`-এর পর সদ্য fetch করা branch merge করার শর্টহ্যান্ড হিসেবে ধরে। আসল Git-এ branch আলাদা হয়ে গেলে সেই merge আচরণ `git pull --no-rebase`-এর সমতুল্য।"
+            ],
+            "command": "git pull",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`git pull`-এর বিস্তারিত (অপশন ও আর্গুমেন্টসহ) আমরা পরে দেখব, তবে আপাতত চলো level-এ এটা চেষ্টা করি।",
+              "",
+              "মনে রেখো -- তুমি এই level শুধু `fetch` আর `merge` দিয়েও সমাধান করতে পারো, তবে একটা বাড়তি কমান্ড লাগবে :P"
             ]
           }
         }
