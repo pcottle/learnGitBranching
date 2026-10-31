@@ -28,7 +28,8 @@ exports.level = {
     "hu_HU": "Git push argumentumok -- Bővítve!",
     "az": "Git push arqumentləri -- Genişləndirilmiş!",
     "te_IN": "Git push ఆర్గ్యుమెంట్లు -- విస్తరించబడ్డాయి!",
-    "hi_IN": "Git push आर्ग्युमेंट्स -- विस्तार से!"
+    "hi_IN": "Git push आर्ग्युमेंट्स -- विस्तार से!",
+    "bn_BD": "Git push-এর আর্গুমেন্ট -- বিস্তারিত!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -57,7 +58,8 @@ exports.level = {
     "hu_HU": "Ne feledd, mindig elismerheted a vereséged, és beírhatod: \"show solution\" :P",
     "az": "Unutma, məğlubiyyəti qəbul edib \\\"show solution\\\" yaza bilərsən :P",
     "te_IN": "ఓడిపోయానని ఒప్పుకొని \"show solution\" టైప్ చేయవచ్చు :P",
-    "hi_IN": "याद रखो, हार मानकर \"show solution\" टाइप कर सकते हो :P"
+    "hi_IN": "याद रखो, हार मानकर \"show solution\" टाइप कर सकते हो :P",
+    "bn_BD": "মনে রেখো, হার মেনে নিয়ে \"show solution\" টাইপ করে দিতেও পারো :P"
   },
   "startDialog": {
     "en_US": {
@@ -193,6 +195,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "इस level के लिए visualization में दिखाए गए end goal state तक पहुँचने की कोशिश करो, और ये format याद रखो:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `<place>` আর্গুমেন্টের বিস্তারিত",
+              "",
+              "আগের পাঠ থেকে মনে করো, git push-এর place আর্গুমেন্ট হিসেবে `main` দেওয়ার সময় আমরা একসাথে commit-গুলো কোথা থেকে আসবে সেই *source* এবং কোথায় যাবে সেই *destination* দুটোই নির্দিষ্ট করে দিয়েছিলাম।",
+              "",
+              "তাহলে তোমার মনে প্রশ্ন জাগতে পারে -- source আর destination আলাদা হলে কী করব? লোকালি `foo` branch-এর commit যদি remote-এর `bar` branch-এ push করতে চাই?",
+              "",
+              "দুর্ভাগ্যবশত git-এ সেটা অসম্ভব... মজা করলাম! অবশ্যই সম্ভব :)... git-এর নমনীয়তা অফুরন্ত (প্রায় প্রয়োজনের চেয়েও বেশি)।",
+              "",
+              "চলো পরের স্লাইডে দেখি কীভাবে..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "`<place>`-এর source আর destination দুটোই আলাদাভাবে নির্দিষ্ট করতে শুধু কোলন (colon) দিয়ে দুটোকে জুড়ে দাও:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "একে সাধারণত colon refspec বলা হয়। Refspec আসলে এমন একটা জায়গার সুন্দর নাম যা git বুঝে নিতে পারে (যেমন `foo` branch, এমনকি শুধু `HEAD~1`)।",
+              "",
+              "source আর destination আলাদাভাবে নির্দিষ্ট করতে পারলে remote কমান্ড দিয়ে তুমি বেশ কারুকাজ আর নিখুঁত কাজ করতে পারো। চলো একটা ডেমো দেখি!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "মনে রেখো, `source` হলো যেকোনো অবস্থান যা git বুঝতে পারে:"
+            ],
+            "afterMarkdowns": [
+              "ওয়াও! কমান্ডটা বেশ অদ্ভুত, কিন্তু অর্থপূর্ণ -- git `foo^`-কে একটা অবস্থানে রূপান্তর করল, remote-এ যেসব commit তখনও ছিল না সেগুলো আপলোড করল, এবং তারপর destination আপডেট করল।"
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git fakeCreateRemote; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "তুমি যে destination-এ push করতে চাও সেটা যদি আগে থেকে না থাকে? কোনো সমস্যা নেই! শুধু একটা branch-এর নাম দাও, git তোমার জন্য remote-এ branch-টা তৈরি করে দেবে।"
+            ],
+            "afterMarkdowns": [
+              "দারুণ, বেশ চমৎকার :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level-এ ভিজ্যুয়ালাইজেশনে দেখানো চূড়ান্ত অবস্থায় পৌঁছানোর চেষ্টা করো, আর এই ফরম্যাটটা মনে রেখো:",
               "",
               "`<source>:<destination>`"
             ]
