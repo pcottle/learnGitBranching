@@ -39,6 +39,7 @@ var langLocaleMap = {
   hu: 'hu_HU',
   ar: 'ar',
   az: 'az',
+  bn: 'bn',
 };
 
 var headerLocaleMap = {
