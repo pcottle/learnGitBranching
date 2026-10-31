@@ -28,7 +28,8 @@ exports.level = {
     "hu_HU": "Távoli követés",
     "az": "Remote İzləmə",
     "te_IN": "Remote ట్రాకింగ్",
-    "hi_IN": "Remote ट्रैकिंग"
+    "hi_IN": "Remote ट्रैकिंग",
+    "bn_BD": "Remote ট্র্যাকিং"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -57,7 +58,8 @@ exports.level = {
     "hu_HU": "Ne feledd, a távoli követés beállításának két módja van!",
     "az": "Unutma, remote izləməni qurmağın iki yolu var!",
     "te_IN": "Remote tracking సెట్ చేయడానికి రెండు మార్గాలు ఉన్నాయని గుర్తుపెట్టుకో!",
-    "hi_IN": "याद रखो, remote tracking set करने के दो तरीक़े हैं!"
+    "hi_IN": "याद रखो, remote tracking set करने के दो तरीक़े हैं!",
+    "bn_BD": "মনে রেখো, remote tracking সেট করার দুটো উপায় আছে!"
   },
   "startDialog": {
     "en_US": {
@@ -291,6 +293,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "ठीक है! इस level में remote की `main` branch पर work push करो, बिना local पर `main` को checkout किए *हुए*। इसकी जगह आपको `side` नाम की एक branch बनानी है, जो goal diagram में दिखेगी।"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Remote-Tracking branch",
+              "",
+              "গত কয়েকটা পাঠে একটা জিনিস হয়তো \"জাদুকরী\" মনে হয়েছে: git জানত যে `main` branch-টা `o/main`-এর সাথে সম্পর্কিত। ঠিকই, এই branch-গুলোর নাম একই রকম আর remote-এর `main` branch-কে লোকাল `main` branch-এর সাথে যুক্ত করা যুক্তিসংগতও মনে হতে পারে, কিন্তু এই সংযোগ দুটো পরিস্থিতিতে স্পষ্ট বোঝা যায়:",
+              "",
+              "* pull অপারেশনের সময় commit-গুলো `o/main`-এ নামানো হয় এবং তারপর `main` branch-এ *merge* করা হয়। merge-এর অন্তর্নিহিত লক্ষ্য এই সংযোগ থেকেই নির্ধারিত হয়।",
+              "* push অপারেশনের সময় `main` branch-এর কাজ remote-এর `main` branch-এ push করা হয় (যেটা লোকালি `o/main` দিয়ে দেখানো হয়)। push-এর *গন্তব্য* `main` ও `o/main`-এর সংযোগ থেকেই নির্ধারিত হয়।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "সংক্ষেপে বললে, `main` আর `o/main`-এর এই সংযোগটা সহজভাবে ব্যাখ্যা করা যায় branch-এর \"remote tracking\" বৈশিষ্ট্য দিয়ে। `main` branch-টা `o/main`-কে track করার জন্য সেট করা -- অর্থাৎ `main` branch-এর জন্য একটা অন্তর্নিহিত merge-লক্ষ্য এবং অন্তর্নিহিত push-গন্তব্য আছে।",
+              "",
+              "তুমি হয়তো ভাবছ, এই বৈশিষ্ট্য সেট করার জন্য কোনো কমান্ড না চালালেও `main` branch-এ এটা কীভাবে সেট হয়ে গেল। আসলে git দিয়ে কোনো repository clone করলে এই বৈশিষ্ট্য আপনাআপনি তোমার জন্য সেট হয়ে যায়। ",
+              "",
+              "clone করার সময় git remote-এর প্রতিটা branch-এর জন্য একটা remote branch তৈরি করে (অর্থাৎ `o/main`-এর মতো branch)। তারপর remote-এ বর্তমানে সক্রিয় branch-টাকে track করে এমন একটা লোকাল branch তৈরি করে, যেটা বেশিরভাগ ক্ষেত্রে `main`।",
+              "",
+              "git clone শেষ হলে তোমার কাছে মাত্র একটা লোকাল branch থাকে (যাতে তুমি বিভ্রান্ত না হও) কিন্তু (তুমি যদি খুব কৌতূহলী হও) remote-এর সব ভিন্ন ভিন্ন branch দেখতে পাও। এ যেন দুই জগতের সেরাটা পাওয়া!",
+              "",
+              "এ থেকে এটাও বোঝা যায় কেন clone করার সময় তুমি নিচের কমান্ড আউটপুটটা দেখতে পেতে পারো:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### আমি কি নিজে এটা নির্দিষ্ট করে দিতে পারি?",
+              "",
+              "হ্যাঁ, পারো! যেকোনো branch-কে তুমি `o/main` track করাতে পারো, আর তা করলে সেই branch-এর অন্তর্নিহিত push-গন্তব্য ও merge-লক্ষ্য `main`-এর মতোই হবে। অর্থাৎ `totallyNotMain` নামের কোনো branch-এ `git push` চালালেও তোমার কাজ remote-এর `main` branch-এ push হয়ে যাবে!",
+              "",
+              "এই বৈশিষ্ট্য সেট করার দুটো উপায় আছে। প্রথমটা হলো ref হিসেবে একটা remote branch দিয়ে নতুন branch তৈরি করে তাতে switch করা। এই কমান্ডটা চালালে",
+              "",
+              "`git switch -c totallyNotMain o/main`",
+              "",
+              "`totallyNotMain` নামে একটা নতুন branch তৈরি হয় এবং সেটা `o/main`-কে track করার জন্য সেট হয়ে যায়।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "অনেক কথা হলো, এবার একটা ডেমো দেখা যাক! আমরা `foo` নামে একটা নতুন branch তৈরি করে তাতে switch করব এবং সেটাকে remote-এর `main` track করার জন্য সেট করব।"
+            ],
+            "afterMarkdowns": [
+              "যেমন দেখতেই পাচ্ছ, `foo` branch আপডেট করতে আমরা `o/main`-এর অন্তর্নিহিত merge-লক্ষ্য ব্যবহার করলাম। লক্ষ করো main আপডেট হয়নি!!"
+            ],
+            "command": "git switch -c foo o/main; git pull",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এটা git push-এর ক্ষেত্রেও প্রযোজ্য।"
+            ],
+            "afterMarkdowns": [
+              "বুম। আমাদের branch-এর নাম সম্পূর্ণ আলাদা হওয়া সত্ত্বেও আমরা কাজ remote-এর `main`-এ push করে দিলাম।"
+            ],
+            "command": "git switch -c foo o/main; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### দ্বিতীয় উপায়",
+              "",
+              "একটা branch-এ remote tracking সেট করার আরেকটা উপায় হলো সরাসরি `git branch -u` অপশন ব্যবহার করা। এই কমান্ডটা চালালে",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "`foo` branch-টা `o/main`-কে track করার জন্য সেট হয়ে যাবে। `foo` যদি বর্তমানে checkout করা থাকে, তাহলে সেটা বাদও দিতে পারো:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো আরেকটা উপায়ে remote tracking নির্দিষ্ট করা দ্রুত দেখে নিই..."
+            ],
+            "afterMarkdowns": [
+              "আগের মতোই, শুধু কমান্ডটা আরও সুস্পষ্ট। দারুণ!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ঠিক আছে! এই level-এ চলো লোকালি `main`-এ checkout করা *না* থেকে remote-এর `main` branch-এ কাজ push করি। এর বদলে `side` নামে একটা branch তৈরি করতে হবে, যেটা গোল ডায়াগ্রামে দেখানো হবে।"
             ]
           }
         }
