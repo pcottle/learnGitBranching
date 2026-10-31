@@ -46,7 +46,8 @@ exports.level = {
     "hi_IN": "Commits के साथ जुगलबंदी",
     "tr_TR": "Commit Hokkabazlığı",
     "hu_HU": "Commitok átrendezése",
-    "az": "Commit-lərin Hoqqabazlığı"
+    "az": "Commit-lərin Hoqqabazlığı",
+    "bn_BD": "Commit নিয়ে জাগলিং"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -77,7 +78,8 @@ exports.level = {
     "hi_IN": "पहली कमांड है git rebase -i HEAD~2",
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
     "hu_HU": "Az első parancs: git rebase -i HEAD~2",
-    "az": "İlk əmr git rebase -i HEAD~2 olmalıdır"
+    "az": "İlk əmr git rebase -i HEAD~2 olmalıdır",
+    "bn_BD": "প্রথম কমান্ডটি হলো git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -1057,6 +1059,40 @@ exports.level = {
               "Sonda, buradakı hədəf vəziyyətə diqqət et -- commit-ləri iki dəfə köçürdüyümüz üçün, hər ikisinə bir apostrof əlavə olunur. Amend etdiyimiz commit üçün isə daha bir apostrof əlavə olunur ki, bu da bizə ağacın son formasını verir ",
               "",
               "Bunu deməklə, indi bölümləri struktur və nisbi apostrof fərqlərinə əsasən müqayisə edə bilərəm. Ağacındakı `main` branch-ı eyni struktura və nisbi apostrof fərqlərinə malik olduğu müddətcə, sənə tam bal verəcəyəm."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit নিয়ে জাগলিং",
+              "",
+              "এখানে আরেকটি পরিস্থিতি, যা বেশ সাধারণ। তোমার কিছু পরিবর্তন (`newImage`) আর আরেক সেট পরিবর্তন (`caption`) আছে যেগুলো পরস্পর সম্পর্কিত, তাই সেগুলো তোমার repository-তে একটির ওপর আরেকটি স্তূপ করা (অর্থাৎ একটির পর আরেকটি)।",
+              "",
+              "জটিল ব্যাপার হলো, কখনো কখনো আগের কোনো commit-এ ছোট একটি পরিবর্তন করা দরকার হয়। এই ক্ষেত্রে, ডিজাইন টিম চায় আমরা `newImage`-এর মাপ সামান্য বদলাই, যদিও সেই commit আমাদের ইতিহাসে অনেক পেছনে!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "আমরা নিচের কাজগুলো করে এই সমস্যা কাটিয়ে উঠব:",
+              "",
+              "* `git rebase -i` দিয়ে commit-গুলো এমনভাবে নতুন করে সাজাব যাতে যেটি বদলাতে চাই সেটি ওপরে থাকে",
+              "* সামান্য পরিবর্তনটি করতে `git commit --amend` ব্যবহার করব",
+              "* তারপর `git rebase -i` দিয়ে commit-গুলোকে আগের ক্রমে ফিরিয়ে আনব",
+              "* সবশেষে, level শেষ করতে main-কে tree-র এই হালনাগাদ অংশে সরিয়ে নেব (তোমার পছন্দমতো পদ্ধতিতে)",
+              "",
+              "এই সামগ্রিক লক্ষ্যে পৌঁছানোর অনেক উপায় আছে (দেখতে পাচ্ছি তুমি cherry-pick-এর দিকে নজর দিচ্ছ), এবং পরে আমরা তার আরও কিছু দেখব, তবে আপাতত এই কৌশলটিতেই মনোযোগ দেওয়া যাক।",
+              "সবশেষে, এখানকার লক্ষ্য অবস্থার দিকে খেয়াল করো -- যেহেতু আমরা commit-গুলো দুবার সরাই, দুটিতেই একটি করে apostrophe যোগ হয়। যে commit amend করি তার জন্য আরও একটি apostrophe যোগ হয়, যা আমাদের tree-র চূড়ান্ত রূপ দেয় ",
+              "",
+              "বলা বাহুল্য, আমি এখন কাঠামো ও আপেক্ষিক apostrophe-র পার্থক্যের ভিত্তিতে level তুলনা করতে পারি। তোমার tree-র `main` branch-এর কাঠামো ও আপেক্ষিক apostrophe-র পার্থক্য একই হলেই আমি পূর্ণ নম্বর দেব।"
             ]
           }
         }
