@@ -29,7 +29,8 @@ exports.level = {
     "hu_HU": "Távoli ágak",
     "az": "Remote Branch-lar",
     "te_IN": "Remote Branches",
-    "hi_IN": "Remote Branches"
+    "hi_IN": "Remote Branches",
+    "bn_BD": "Remote Branch"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -58,7 +59,8 @@ exports.level = {
     "hu_HU": "Figyelj a sorrendere -- először a main-en commitolj!",
     "az": "Ardıcıllığa diqqət et -- əvvəlcə main-də commit et!",
     "te_IN": "ఆర్డరింగ్ పై దృష్టి పెట్టు — మొదట main పై commit చేయి!",
-    "hi_IN": "Ordering पर ध्यान दो -- पहले main पर commit करो!"
+    "hi_IN": "Ordering पर ध्यान दो -- पहले main पर commit करो!",
+    "bn_BD": "ক্রমের দিকে খেয়াল রাখো -- আগে main-এ commit করো!"
   },
   "startDialog": {
     "en_US": {
@@ -182,6 +184,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "इस level को पूरा करने के लिए एक बार `main` से और एक बार `o/main` को checkout करने के बाद commit करो। इससे आपको समझ आएगा कि remote branches कैसे अलग तरह से behave करती हैं, और वो सिर्फ़ remote की state को reflect करने के लिए update होती हैं।"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote Branch",
+              "",
+              "`git clone` কাজ করতে তো দেখলে, এবার চলো দেখি আসলে কী কী বদলেছে।",
+              "",
+              "তুমি প্রথমে যেটা লক্ষ করে থাকতে পারো তা হলো, আমাদের লোকাল repository-তে `o/main` নামে একটা নতুন branch এসেছে। এই ধরনের branch-কে বলা হয় _remote_ branch; remote branch-এর কিছু বিশেষ বৈশিষ্ট্য আছে, কারণ এগুলোর একটা অনন্য উদ্দেশ্য রয়েছে।",
+              "",
+              "Remote branch remote repository-গুলোর _অবস্থা_ প্রতিফলিত করে (সেই remote repository-গুলোর সাথে তোমার সর্বশেষ যোগাযোগের সময় পর্যন্ত)। এগুলো তোমার লোকাল কাজ আর কোন কাজ পাবলিক হয়েছে তার পার্থক্য বুঝতে সাহায্য করে -- অন্যদের সাথে কাজ শেয়ার করার আগে এটা একটা গুরুত্বপূর্ণ ধাপ।",
+              "",
+              "Remote branch-এর একটা বিশেষ বৈশিষ্ট্য হলো, এগুলো checkout করলে তুমি detached `HEAD` মোডে চলে যাও। git এটা ইচ্ছাকৃতভাবেই করে, কারণ এসব branch-এ সরাসরি কাজ করা যায় না; তোমাকে অন্য কোথাও কাজ করে তারপর সেই কাজ remote-এর সাথে শেয়ার করতে হবে (এরপর তোমার remote branch আপডেট হবে)।",
+              "",
+              "স্পষ্ট করে বলি: Remote branch থাকে তোমার _লোকাল_ repository-তে, remote repository-তে নয়।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### `o/` কী?",
+              "",
+              "তুমি হয়তো ভাবছ এই remote branch-গুলোর শুরুতে `o/` কেন। আসলে remote branch-এর একটা (বাধ্যতামূলক) নামকরণ রীতি আছে -- এগুলো এই ফরম্যাটে দেখানো হয়:",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "তাই `o/main` নামের কোনো branch দেখলে বুঝবে branch-এর নাম `main` আর remote-এর নাম `o`।",
+              "",
+              "বেশিরভাগ developer আসলে তাদের প্রধান remote-এর নাম `origin` রাখে, `o` নয়। এটা এতটাই প্রচলিত যে কোনো repository `git clone` করলে git নিজেই তোমার remote-এর নাম `origin` বানিয়ে দেয়।",
+              "",
+              "দুর্ভাগ্যবশত `origin` পুরো নামটা আমাদের UI-তে ধরে না, তাই আমরা সংক্ষেপে `o` ব্যবহার করছি :( শুধু মনে রেখো, আসল git ব্যবহার করার সময় তোমার remote-এর নাম সম্ভবত `origin`-ই হবে!",
+              "",
+              "অনেক কিছু জানা হলো, তাই চলো এসবের কার্যকারিতা দেখি।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো একটা remote branch checkout করে দেখি কী হয়।"
+            ],
+            "afterMarkdowns": [
+              "যেমন দেখতেই পাচ্ছ, git আমাদের detached `HEAD` মোডে নিয়ে গেছে এবং নতুন commit যোগ করার পরও `o/main` আপডেট করেনি। কারণ `o/main` শুধু তখনই আপডেট হয় যখন remote আপডেট হয়।"
+            ],
+            "command": "git switch o/main; git commit",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level শেষ করতে `main` থেকে একবার commit করো এবং `o/main` checkout করে আরেকবার commit করো। এতে বোঝা যাবে remote branch-গুলো কীভাবে আলাদাভাবে আচরণ করে, আর এগুলো শুধু remote-এর অবস্থা প্রতিফলিত করতেই আপডেট হয়।"
             ]
           }
         }
