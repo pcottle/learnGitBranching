@@ -56,7 +56,7 @@ var headerLocaleMap = {
   'hu': 'hu_HU',
   'te-IN': 'te_IN',
   'hi-IN': 'hi_IN',
-  'bn-BD': 'bn',
+  'bn-BD': 'bn_BD',
 };
 
 var supportedLocalesList = Object.values(langLocaleMap)
