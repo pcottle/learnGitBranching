@@ -4465,7 +4465,7 @@ exports.strings = {
   "command-description-switch": {
     "__desc__": "Description shown in the help dialog for the git switch command",
     "en_US": "Switch branches",
-    "bn_BD": "branch বদলান",
+    "bn_BD": "branch বদলাও",
     "fr_FR": "Changer de branche",
     "pt_PT": "Mudar de branch",
     "zh_CN": "切换分支",
