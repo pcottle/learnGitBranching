@@ -26,6 +26,7 @@ exports.level = {
     "ta_IN": "கிட் கமிட்கள் ஒரு அறிமுகம்",
     "te_IN": "Git Commits పరిచయం",
     "hi_IN": "Git Commits का परिचय",
+    "bn_BD": "Git Commit-এর পরিচিতি",
     "tr_TR": "Git Commit'e Giriş",
     "hu_HU": "Bevezetés a Git commitokba",
     "az": "Git Commit-lərinə giriş"
@@ -60,6 +61,7 @@ exports.level = {
     "ta_IN": "இந்த நிலையை நிரைவு செய்ய 'git commit' என்று இரண்டு முறை தட்டச்சு செய்க!",
     "te_IN": "ఈ స్థాయిని పూర్తి చేయడానికి 'git commit' అని రెండుసార్లు టైప్ చేయి!",
     "hi_IN": "बस दो बार 'git commit' टाइप करें और लेवल पूरा हो जाएगा!",
+    "bn_BD": "শেষ করতে শুধু দুবার 'git commit' টাইপ করো!",
     "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir.",
     "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!",
     "az": "Bölümü bitirmək üçün sadəcə iki dəfə 'git commit' yaz!"
@@ -1124,6 +1126,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "अब आप खुद try करिए! ये window बंद होते ही, दो commits करें और लेवल पूरा करें।"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commit",
+              "একটা git repository-তে commit তোমার ডিরেক্টরির সব (tracked) ফাইলের একটা স্ন্যাপশট রেকর্ড করে। এ যেন একটা বিশাল কপি-পেস্ট, তবে তার চেয়েও ভালো!",
+              "",
+              "তবে git commit-গুলো যতটা সম্ভব হালকা রাখতে চায়, তাই প্রতিবার commit করার সময় পুরো ডিরেক্টরি অন্ধভাবে কপি করে না। সম্ভব হলে সে একটা commit-কে repository-র এক ভার্সন থেকে পরের ভার্সনে পরিবর্তনের একটা সেট, অর্থাৎ \"ডেল্টা\" (delta) হিসেবে সংকুচিত করে রাখে।",
+              "",
+              "Git এটাও মনে রাখে কোন commit কখন করা হয়েছে। এ কারণেই বেশিরভাগ commit-এর ওপরে পূর্বপুরুষ (ancestor) commit থাকে -- আমাদের ভিজ্যুয়ালাইজেশনে আমরা সেটা তীর দিয়ে দেখাই। হিস্ট্রি সংরক্ষণ প্রজেক্টে কাজ করা সবার জন্যই দারুণ!",
+              "",
+              "অনেক কিছু একসাথে বোঝা কঠিন, তবে আপাতত commit-কে প্রজেক্টের স্ন্যাপশট হিসেবে ভাবতে পারো। Commit খুবই হালকা, আর এক commit থেকে আরেকটাতে যাওয়া ঝড়ের গতিতে হয়!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো বাস্তবে এটা দেখতে কেমন তা দেখি। ডানদিকে একটা (ছোট) git repository-র ভিজ্যুয়ালাইজেশন আছে। এই মুহূর্তে দুটো commit আছে -- প্রথম ইনিশিয়াল commit `C0`, আর তার পরের একটা commit `C1`, যেটাতে কিছু অর্থবহ পরিবর্তন থাকতে পারে।",
+              "",
+              "নতুন commit করতে নিচের বোতামে চাপ দাও."
+            ],
+            "afterMarkdowns": [
+              "এই তো! চমৎকার। আমরা repository-তে পরিবর্তন করলাম এবং সেটা একটা commit হিসেবে সংরক্ষণ করলাম। এইমাত্র করা commit-এর একটা parent আছে, `C1`, যেটা নির্দেশ করে commit-টা কোন commit-এর ওপর ভিত্তি করে তৈরি।"
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এবার নিজে চেষ্টা করে দেখো! এই উইন্ডো বন্ধ হওয়ার পর level শেষ করতে দুটো commit করো।"
             ]
           }
         }
