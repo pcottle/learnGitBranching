@@ -203,7 +203,7 @@ class IntlHelperBarView extends React.Component{
       text: 'বাংলা',
       testID: 'bangla',
       onClick: function(){
-        this.fireCommand('locale bn; levels');
+        this.fireCommand('locale bn_BD; levels');
       }.bind(this)
     },{
       icon: 'fa-solid fa-right-from-bracket',
