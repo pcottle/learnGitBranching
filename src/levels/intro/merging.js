@@ -28,6 +28,7 @@ exports.level = {
     "ta_IN": "கிட்டில் இணைத்தல்",
     "te_IN": "Git Merge",
     "hi_IN": "Git में Merge",
+    "bn_BD": "Git-এ Merge করা",
     "tr_TR": "Git'te Merge işlemleri",
     "hu_HU": "Merge Gitben",
     "az": "Git-də Merge (birləşdirmə)"
@@ -59,6 +60,7 @@ exports.level = {
     "ta_IN": "bugFix முன் main என்ற கொடுக்கப்பட்ட வரிசையில் கட்டலை இடுவதை கருத்தில் கொள்க",
     "te_IN": "bugFix ను main ముందు ఉన్న క్రమంలో merge చేయాలని గమనించండి",
     "hi_IN": "याद रखें कि commit बताए गए क्रम में करें (पहले bugFix, फिर main)",
+    "bn_BD": "নির্দিষ্ট ক্রমে commit করতে ভুলো না (main-এর আগে bugFix)",
     "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)",
     "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)",
     "az": "Göstərilən ardıcıllıqla commit etməyi unutma (əvvəl bugFix, sonra main)"
@@ -1738,6 +1740,75 @@ exports.level = {
               "* `git merge` से `bugFix` branch को `main` में merge करें",
               "",
               "*याद रखें, आप इस dialog को कभी भी \"objective\" लिखकर दोबारा देख सकते हैं!*"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch আর Merge",
+              "",
+              "দারুণ! এখন আমরা জানি কীভাবে commit আর branch করতে হয়। এবার আমাদের শিখতে হবে দুটো আলাদা branch-এর কাজ কীভাবে একসাথে জুড়তে হয়। এর ফলে আমরা branch বের করে নতুন ফিচার ডেভেলপ করে সেটা আবার জুড়ে দিতে পারব।",
+              "",
+              "কাজ জোড়ার যে প্রথম পদ্ধতিটা আমরা দেখব সেটা হলো `git merge`। Git-এ merge করলে একটা বিশেষ commit তৈরি হয় যার দুটো আলাদা parent থাকে। দুটো parent-ওয়ালা commit মূলত বোঝায়: \"আমি এখানকার এই parent-এর সব কাজ আর ওখানকার ওই parent-এর সব কাজ নিতে চাই, *এবং* তাদের সব parent-দের সমষ্টিও।\"",
+              "",
+              "ভিজ্যুয়াল দিয়ে বোঝা সহজ, চলো পরের ভিউতে দেখি।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এখানে আমাদের দুটো branch আছে; প্রতিটাতে একটা করে স্বতন্ত্র commit আছে। অর্থাৎ কোনো branch-ই repository-তে আমাদের করা পুরো \"কাজ\"-এর সমষ্টি ধারণ করে না। চলো merge দিয়ে এটা ঠিক করি।",
+              "",
+              "আমরা `bugFix` branch-কে `main`-এ `merge` করব।"
+            ],
+            "afterMarkdowns": [
+              "বাহ! দেখলে? প্রথমত, `main` এখন এমন একটা commit-কে নির্দেশ করছে যার দুটো parent। `main` থেকে তীর ধরে commit tree-র ওপরে উঠলে পথের প্রতিটা commit পেরিয়ে একদম root পর্যন্ত পৌঁছে যাবে। অর্থাৎ `main` এখন repository-র সব কাজ ধারণ করে।",
+              "",
+              "আরেকটা জিনিস লক্ষ করো, commit-গুলোর রং বদলে গেছে? শেখার সুবিধার জন্য আমি একটু রঙের সমন্বয় রেখেছি। প্রতিটা branch-এর একটা নিজস্ব রং আছে। প্রতিটা commit সেই সব branch-এর রঙের মিশ্রণ ধারণ করে যেগুলো সেই commit ধারণ করে।",
+              "",
+              "এখানে আমরা দেখছি `main` branch-এর রং সব commit-এ মিশে গেছে, কিন্তু `bugFix`-এর রং মেশেনি। চলো সেটা ঠিক করি..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো `main`-কে `bugFix`-এ merge করি:"
+            ],
+            "afterMarkdowns": [
+              "যেহেতু `bugFix` ছিল `main`-এর পূর্বপুরুষ (ancestor), git-কে কোনো কাজ করতে হয়নি; সে শুধু `bugFix`-কে সরিয়ে `main` যে commit-এ ছিল সেখানে নিয়ে গেছে।",
+              "",
+              "এখন সব commit একই রঙের, অর্থাৎ প্রতিটা branch repository-র সব কাজ ধারণ করে! ওহু!"
+            ],
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level শেষ করতে নিচের ধাপগুলো অনুসরণ করো:",
+              "",
+              "* `bugFix` নামে একটা নতুন branch তৈরি করো",
+              "* `git switch bugFix` দিয়ে `bugFix` branch-এ checkout করো",
+              "* একবার commit করো",
+              "* `git switch main` দিয়ে `main`-এ ফিরে যাও",
+              "* আরেকবার commit করো",
+              "* `git merge` দিয়ে `bugFix` branch-কে `main`-এ merge করো",
+              "",
+              "*মনে রেখো, তুমি যেকোনো সময় \"objective\" লিখে এই ডায়ালগ আবার দেখতে পারো!*"
             ]
           }
         }

@@ -28,6 +28,7 @@ exports.level = {
     "ta_IN": "Rebase அறிமுகம்",
     "te_IN": "Rebase పరిచయం",
     "hi_IN": "Rebase का परिचय",
+    "bn_BD": "Rebase-এর পরিচিতি",
     "tr_TR": "Rebase İşlemine Giriş",
     "hu_HU": "Rebase bevezetés",
     "az": "Rebase-ə giriş"
@@ -59,6 +60,7 @@ exports.level = {
     "ta_IN": "முதலில் bugFix இல் இருந்து commit செய்ய நீங்கள் உறுதி செய்யவும்",
     "te_IN": "మొదట bugFix లో commit చేయి",
     "hi_IN": "ध्यान रखें कि पहले bugFix में commit करें",
+    "bn_BD": "আগে bugFix থেকে commit করতে ভুলো না",
     "tr_TR": "Önce bugFix'ten commit attığınıza emin olun",
     "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz",
     "az": "Əvvəlcə bugFix-dən commit etdiyinə əmin ol"
@@ -196,6 +198,73 @@ exports.level = {
               "* दोबारा bugFix पर जाएं और main पर rebase करें",
               "",
               "शुभकामनाएं!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "branch-গুলোর মধ্যে কাজ জোড়ার দ্বিতীয় উপায়টা হলো *rebase করা।* Rebase মূলত একসেট commit নিয়ে সেগুলোর \"কপি\" বানিয়ে অন্য কোথাও বসিয়ে দেয়।",
+              "",
+              "শুনতে জটিল লাগলেও rebase-এর সুবিধা হলো এটা দিয়ে commit-গুলোর একটা সুন্দর রৈখিক (linear) ক্রম তৈরি করা যায়। শুধু rebase ব্যবহার করলে repository-র commit log / হিস্ট্রি অনেক বেশি পরিচ্ছন্ন হয়।",
+              "",
+              "চলো কাজে দেখি..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এখানে আবার আমাদের দুটো branch আছে; লক্ষ করো bugFix branch-টা এখন সিলেক্ট করা (তারকাচিহ্ন দেখো)।",
+              "",
+              "আমরা bugFix-এর কাজ সরাসরি main-এর কাজের ওপর নিয়ে যেতে চাই। তাহলে দেখে মনে হবে ফিচার দুটো একের পর এক তৈরি হয়েছে, যদিও বাস্তবে সেগুলো সমান্তরালে তৈরি হয়েছিল।",
+              "",
+              "চলো `git rebase` কমান্ড দিয়ে সেটা করি।"
+            ],
+            "afterMarkdowns": [
+              "দারুণ! এখন আমাদের bugFix branch-এর কাজ \"main-এর ওপরে\" সাজানো, কারণ এটা main-কে নির্দেশ করছে। তবে আমাদের ভিজ্যুয়ালাইজেশনে commit tree নিচের দিকে প্রবাহিত হয় বলে এটা main-এর নিচে দেখাচ্ছে।",
+              "",
+              "খেয়াল করো, commit C3 এখনও কোথাও আছে (tree-তে এটা ঝাপসা দেখাচ্ছে), আর C3' হলো সেই \"কপি\" যেটা আমরা main-এর ওপর rebase করেছি।",
+              "",
+              "একমাত্র সমস্যা হলো main-ও এখনো আপডেট হয়নি, চলো সেটা এখনই করি..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এখন আমরা `main` branch-এ checkout করা আছি। চলো `bugFix`-এর ওপর rebase করি..."
+            ],
+            "afterMarkdowns": [
+              "এই তো! `main` ছিল `bugFix`-এর ancestor, তাই git শুধু `main` branch রেফারেন্সটাকে হিস্ট্রিতে সামনের দিকে সরিয়ে দিয়েছে।"
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level শেষ করতে নিচের ধাপগুলো অনুসরণ করো",
+              "",
+              "* `bugFix` নামে একটা নতুন branch checkout করো",
+              "* একবার commit করো",
+              "* main-এ ফিরে গিয়ে আবার commit করো",
+              "* bugFix আবার checkout করে main-এর ওপর rebase করো",
+              "",
+              "শুভকামনা!"
             ]
           }
         }
