@@ -28,7 +28,7 @@ exports.level = {
     "hu_HU": "Merge a távolival",
     "az": "Remote-larla merge etmək",
     "te_IN": "Remotes తో merge చేయడం",
-    "hi_IN": "Remotes के साथ merge करना"
+    "hi_IN": "Remotes के साथ merge करना",
     "bn_BD": "Remote-এর সাথে merge করা"
   },
   "hint": {
@@ -58,7 +58,7 @@ exports.level = {
     "hu_HU": "Figyelj a célgráfra!",
     "az": "Hədəf ağacına diqqət et!",
     "te_IN": "లక్ష్య ట్రీ పై దృష్టి పెట్టు!",
-    "hi_IN": "गोल ट्री पर ध्यान दो!"
+    "hi_IN": "गोल ट्री पर ध्यान दो!",
     "bn_BD": "গোল ট্রির দিকে খেয়াল রাখো!"
   },
   "compareOnlyMain": true,
@@ -1311,9 +1311,6 @@ exports.level = {
           }
         }
       ]
-    }
-  }
-},
     },
     "bn_BD": {
       "childViews": [
@@ -1359,4 +1356,6 @@ exports.level = {
           }
         }
       ]
-    };
+    }
+  }
+};
