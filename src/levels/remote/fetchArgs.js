@@ -34,7 +34,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
-    "bn_BD": "commit id-গুলো কীভাবে অদলবদল হতে পারে সেদিকে খেয়াল করুন! আপনি \"help level\" দিয়ে স্লাইডগুলো আবার পড়তে পারেন",
+    "bn_BD": "commit id-গুলো কীভাবে অদলবদল হতে পারে সেদিকে খেয়াল করো! তুমি \"help level\" দিয়ে স্লাইডগুলো আবার পড়তে পারো",
     "fa": "دقت کنید که چگونه شناسه کامیت‌ها ممکن است جابجا شده باشند! می‌توانید اسلایدها را دوباره با \"help level\" بخوانید",
     "fr_FR": "Faites attention à la façon dont les ids des commits ont été intervertis ! Vous pouvez relire les slides avec \"help level\"",
     "zh_CN": "注意下提交对象的 id 是如何交换的! 你可以通过 `help level` 重新阅读本关卡的所有对话框!",
@@ -196,9 +196,9 @@ exports.level = {
               "",
               "তাহলে আমরা git push-এর আর্গুমেন্ট, এই দারুণ `<place>` প্যারামিটার, এমনকি কোলন-যুক্ত refspec (`<source>:<destination>`) সম্পর্কে সবই শিখলাম। এই সব জ্ঞান কি `git fetch`-এর ক্ষেত্রেও কাজে লাগানো যায়?",
               "",
-              "অবশ্যই! `git fetch`-এর আর্গুমেন্ট আসলে `git push`-এর আর্গুমেন্টের সঙ্গে *খুবই, খুবই* মিল। ধারণাগুলো একই, শুধু উল্টো দিকে প্রয়োগ হয় (কারণ এখন আপনি commit আপলোড না করে ডাউনলোড করছেন)।",
+              "অবশ্যই! `git fetch`-এর আর্গুমেন্ট আসলে `git push`-এর আর্গুমেন্টের সঙ্গে *খুবই, খুবই* মিল। ধারণাগুলো একই, শুধু উল্টো দিকে প্রয়োগ হয় (কারণ এখন তুমি commit আপলোড না করে ডাউনলোড করছ)।",
               "",
-              "চলুন ধারণাগুলো একটি একটি করে দেখি..."
+              "চলো ধারণাগুলো একটি একটি করে দেখি..."
             ]
           }
         },
@@ -208,13 +208,13 @@ exports.level = {
             "markdowns": [
               "### `<place>` প্যারামিটার",
               "",
-              "নিচের কমান্ডের মতো git fetch-এ যদি আপনি একটি place নির্দিষ্ট করেন:",
+              "নিচের কমান্ডের মতো git fetch-এ যদি তুমি একটি place নির্দিষ্ট করো:",
               "",
               "`git fetch origin foo`",
               "",
               "Git remote-এর `foo` branch-এ যাবে, local-এ নেই এমন সব commit তুলে আনবে, তারপর সেগুলো local-এর `o/foo` branch-এ বসিয়ে দেবে।",
               "",
-              "চলুন এটি কাজ করতে দেখি (শুধু ঝালিয়ে নেওয়ার জন্য)।"
+              "চলো এটি কাজ করতে দেখি (শুধু ঝালিয়ে নেওয়ার জন্য)।"
             ]
           }
         },
@@ -235,9 +235,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "আপনি হয়তো ভাবছেন -- git কেন সেই commit-গুলো আমার local `foo` branch-এ না বসিয়ে `o/foo` remote branch-এ বসাল? আমি তো ভেবেছিলাম `<place>` প্যারামিটার এমন একটি জায়গা যা local ও remote দুই জায়গাতেই আছে?",
+              "তুমি হয়তো ভাবছ -- git কেন সেই commit-গুলো আমার local `foo` branch-এ না বসিয়ে `o/foo` remote branch-এ বসাল? আমি তো ভেবেছিলাম `<place>` প্যারামিটার এমন একটি জায়গা যা local ও remote দুই জায়গাতেই আছে?",
               "",
-              "আসলে এই ক্ষেত্রে git একটি বিশেষ ব্যতিক্রম করে, কারণ `foo` branch-এ আপনার এমন কাজ থাকতে পারে যা আপনি এলোমেলো করতে চান না!! এটি `git fetch` নিয়ে আগের পাঠের সঙ্গে সম্পর্কিত -- এটি আপনার remote নয় এমন local branch আপডেট করে না, শুধু commit ডাউনলোড করে (যাতে পরে আপনি সেগুলো পরীক্ষা / merge করতে পারেন)।",
+              "আসলে এই ক্ষেত্রে git একটি বিশেষ ব্যতিক্রম করে, কারণ `foo` branch-এ তোমার এমন কাজ থাকতে পারে যা তুমি এলোমেলো করতে চাও না!! এটি `git fetch` নিয়ে আগের পাঠের সঙ্গে সম্পর্কিত -- এটি তোমার remote নয় এমন local branch আপডেট করে না, শুধু commit ডাউনলোড করে (যাতে পরে তুমি সেগুলো পরীক্ষা / merge করতে পারো)।",
               ""
             ]
           }
@@ -248,7 +248,7 @@ exports.level = {
             "markdowns": [
               "\"তাহলে, `<source>:<destination>` দিয়ে যদি আমি source আর destination দুটোই স্পষ্টভাবে দিই, তখন কী হবে?\"",
               "",
-              "commit-গুলো *সরাসরি* কোনো local branch-এ আনার ইচ্ছা যদি প্রবল হয়, তাহলে হ্যাঁ, কোলন refspec দিয়ে সেটি নির্দিষ্ট করতে পারেন। যে branch-এ এখন checkout করা আছে তাতে commit fetch করা যায় না, তবে এছাড়া git এটি অনুমোদন করবে।",
+              "commit-গুলো *সরাসরি* কোনো local branch-এ আনার ইচ্ছা যদি প্রবল হয়, তাহলে হ্যাঁ, কোলন refspec দিয়ে সেটি নির্দিষ্ট করতে পারো। যে branch-এ এখন checkout করা আছে তাতে commit fetch করা যায় না, তবে এছাড়া git এটি অনুমোদন করবে।",
               "",
               "তবে এখানে একটাই শর্ত -- `<source>` এখন *remote*-এর একটি জায়গা আর `<destination>` হলো সেই commit-গুলো রাখার একটি *local* জায়গা। এটি git push-এর ঠিক উল্টো, আর তা যুক্তিসঙ্গতই কারণ আমরা ডেটা উল্টো দিকে পাঠাচ্ছি!",
               "",
@@ -260,10 +260,10 @@ exports.level = {
           "type": "GitDemonstrationView",
           "options": {
             "beforeMarkdowns": [
-              "চলুন এই পাগলামিটা কাজ করতে দেখি:"
+              "চলো এই পাগলামিটা কাজ করতে দেখি:"
             ],
             "afterMarkdowns": [
-              "বাহ! দেখুন, git `C2`-কে origin-এর একটি জায়গা হিসেবে বুঝে নিয়ে সেই commit-গুলো `bar`-এ (যা একটি local branch ছিল) ডাউনলোড করেছে।"
+              "বাহ! দেখো, git `C2`-কে origin-এর একটি জায়গা হিসেবে বুঝে নিয়ে সেই commit-গুলো `bar`-এ (যা একটি local branch ছিল) ডাউনলোড করেছে।"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
@@ -276,7 +276,7 @@ exports.level = {
               "কমান্ড চালানোর আগে destination না থাকলে কী হবে? আগের স্লাইডটাই দেখি, তবে `bar` আগে থেকে না থাকা অবস্থায়।"
             ],
             "afterMarkdowns": [
-              "দেখুন, এটি ঠিক git push-এর মতোই। fetch করার আগে git local-এ destination তৈরি করে নিয়েছে, ঠিক যেমন push করার আগে git remote-এ destination তৈরি করে (যদি না থাকে)।"
+              "দেখো, এটি ঠিক git push-এর মতোই। fetch করার আগে git local-এ destination তৈরি করে নিয়েছে, ঠিক যেমন push করার আগে git remote-এ destination তৈরি করে (যদি না থাকে)।"
             ],
             "command": "git fetch origin C2:bar",
             "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
@@ -301,9 +301,9 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "ঠিক আছে, কথা অনেক হলো! এই লেভেল শেষ করতে লক্ষ্যের ভিজ্যুয়ালাইজেশনে দেখানো commit-গুলোই শুধু fetch করুন। কমান্ডগুলো নিয়ে একটু কারিগরি দেখান!",
+              "ঠিক আছে, কথা অনেক হলো! এই লেভেল শেষ করতে লক্ষ্যের ভিজ্যুয়ালাইজেশনে দেখানো commit-গুলোই শুধু fetch করো। কমান্ডগুলো নিয়ে একটু কারিগরি দেখাও!",
               "",
-              "দুটি fetch কমান্ডেরই source ও destination আপনাকে নির্দিষ্ট করতে হবে। লক্ষ্যের ভিজ্যুয়ালাইজেশনের দিকে নজর রাখুন, কারণ ID-গুলো অদলবদল হয়ে থাকতে পারে!"
+              "দুটি fetch কমান্ডেরই source ও destination তোমাকে নির্দিষ্ট করতে হবে। লক্ষ্যের ভিজ্যুয়ালাইজেশনের দিকে নজর রাখো, কারণ ID-গুলো অদলবদল হয়ে থাকতে পারে!"
             ]
           }
         }

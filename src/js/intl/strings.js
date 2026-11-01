@@ -172,7 +172,7 @@ exports.strings = {
   "certificate-svg-achievement": {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
     "en_US": "has completed all {levels} levels of Learn Git Branching",
-    "bn_BD": "Learn Git Branching-এর সবকটি {levels}টি লেভেল সম্পন্ন করেছেন",
+    "bn_BD": "Learn Git Branching-এর সবকটি {levels}টি লেভেল সম্পন্ন করেছ",
     "fr_FR": "a terminé les {levels} niveaux de Learn Git Branching",
     "pt_PT": "concluiu todos os {levels} níveis do Learn Git Branching",
     "tr_TR": "Learn Git Branching'in {levels} seviyesinin tamamını bitirmiştir",
@@ -413,7 +413,7 @@ exports.strings = {
   "hg-a-option": {
     "__desc__": "warning for when using -A option",
     "en_US": "The -A option is not needed for this app, just commit away!",
-    "bn_BD": "এই অ্যাপের জন্য -A অপশন লাগবে না, শুধু commit করে যান!",
+    "bn_BD": "এই অ্যাপের জন্য -A অপশন লাগবে না, শুধু commit করে যাও!",
     "hi": "इस app में -A option की ज़रूरत नहीं है, बस commit करते जाइए!",
     "bg": "Опцията -A не е необходима за това приложение, просто комитвай!",
     "fa": "گزینه -A برای این برنامه نیاز نیست، فقط کامیت کن!",
@@ -568,7 +568,7 @@ exports.strings = {
   "git-status-onbranch": {
     "__desc__": "One of the lines for git status output",
     "en_US": "On branch {branch}",
-    "bn_BD": "{branch} branch-এ আছেন",
+    "bn_BD": "{branch} branch-এ আছ",
     "hi": "{branch} branch पर हैं",
     "bg": "На клон {branch}",
     "fa": "روی شاخه {branch}",
@@ -1647,7 +1647,7 @@ exports.strings = {
   "learn-git-branching": {
     "__desc__": "The title of the app, with spaces",
     "en_US": "Learn Git Branching",
-    "bn_BD": "Git Branching শিখুন",
+    "bn_BD": "Git Branching শেখো",
     "hi": "Learn Git Branching",
     "bg": "Learn Git Branching",
     "fa": "آموزش Git Branching",
@@ -2276,7 +2276,7 @@ exports.strings = {
   "mobile-alert": {
     "__desc__": "When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them",
     "en_US": "LGB can't receive input on mobile, visit on desktop! it's worth it :D",
-    "bn_BD": "LGB মোবাইলে ইনপুট নিতে পারে না, ডেস্কটপে আসুন! এটা সার্থক হবে :D",
+    "bn_BD": "LGB মোবাইলে ইনপুট নিতে পারে না, ডেস্কটপে এসো! এটা সার্থক হবে :D",
     "hi": "LGB मोबाइल पर input नहीं ले सकता, desktop पर खोलें! यह worth it है :D",
     "bg": "LGB не може да приема входни данни на мобилни устройства, посетете ни от компютър! Заслужава си :D",
     "fa": "این برنامه روی موبایل ورودی دریافت نمی‌کنه، با دسکتاپ امتحان کن! ارزشش رو داره :D",
@@ -2963,7 +2963,7 @@ exports.strings = {
   "show-goal-button": {
     "__desc__": "button label to show goal",
     "en_US": "Show Goal",
-    "bn_BD": "লক্ষ্য দেখান",
+    "bn_BD": "লক্ষ্য দেখাও",
     "hi": "Goal दिखाएँ",
     "bg": "Покажи цел",
     "fa": "نمایش هدف",
@@ -2995,7 +2995,7 @@ exports.strings = {
   "hide-goal-button": {
     "__desc__": "button label to hide goal",
     "en_US": "Hide Goal",
-    "bn_BD": "লক্ষ্য লুকান",
+    "bn_BD": "লক্ষ্য লুকাও",
     "hi": "Goal छिपाएँ",
     "bg": "Скрий цел",
     "fa": "مخفی کردن هدف",
@@ -3313,7 +3313,7 @@ exports.strings = {
   "error-untranslated-key": {
     "__desc__": "This error happens when we are trying to translate a specific key and the locale version is mission",
     "en_US": "The translation for {key} does not exist yet :( Please hop on github and offer up a translation!",
-    "bn_BD": "{key}-এর অনুবাদ এখনো নেই :( দয়া করে GitHub-এ এসে একটি অনুবাদ দিন!",
+    "bn_BD": "{key}-এর অনুবাদ এখনো নেই :( দয়া করে GitHub-এ এসে একটি অনুবাদ দাও!",
     "hi": "{key} का translation अभी मौजूद नहीं है :( कृपया GitHub पर आकर एक translation दें!",
     "bg": "Преводът за {key} все още не съществува :( Моля, посетете GitHub и предложете превод!",
     "fa": "ترجمه برای {key} هنوز وجود ندارد :( لطفاً به GitHub سری بزنید و ترجمه‌ای ارائه دهید!",
@@ -3711,7 +3711,7 @@ exports.strings = {
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
     "en_US": "Show commands",
-    "bn_BD": "কমান্ডসমূহ দেখান",
+    "bn_BD": "কমান্ডসমূহ দেখাও",
     "fr_FR": "Afficher les commandes",
     "pt_PT": "Mostrar comandos",
     "tr_TR": "Komutları göster",
@@ -3724,7 +3724,7 @@ exports.strings = {
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
     "en_US": "Show available languages",
-    "bn_BD": "উপলব্ধ ভাষাগুলো দেখান",
+    "bn_BD": "উপলব্ধ ভাষাগুলো দেখাও",
     "fr_FR": "Afficher les langues disponibles",
     "pt_PT": "Mostrar idiomas disponíveis",
     "tr_TR": "Mevcut dilleri göster",
@@ -3833,7 +3833,7 @@ exports.strings = {
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
     "en_US": "Reset solved will mark each level as not yet solved; because this is a destructive command, please pass in --confirm to execute",
-    "bn_BD": "Reset solved প্রতিটি লেভেলকে এখনো সমাধান-না-হওয়া হিসেবে চিহ্নিত করবে; এটি একটি ধ্বংসাত্মক কমান্ড হওয়ায় চালাতে দয়া করে --confirm দিন",
+    "bn_BD": "Reset solved প্রতিটি লেভেলকে এখনো সমাধান-না-হওয়া হিসেবে চিহ্নিত করবে; এটি একটি ধ্বংসাত্মক কমান্ড হওয়ায় চালাতে দয়া করে --confirm দাও",
     "fr_FR": "reset solved marquera chaque niveau comme non résolu. Comme il s'agit d'une commande destructive, ajoutez --confirm pour l'exécuter",
     "pt_PT": "O reset solved marca todos os níveis como não resolvidos. Como é um comando destrutivo, acrescenta --confirm para o executares",
     "tr_TR": "reset solved bütün seviyeleri çözülmemiş olarak işaretler; bu geri alınamaz bir komut olduğu için çalıştırmak istiyorsan --confirm ekle",
@@ -4236,7 +4236,7 @@ exports.strings = {
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
     "en_US": "No documentation found for \"{target}\"; run `show commands` to see all available commands",
-    "bn_BD": "\"{target}\"-এর কোনো ডকুমেন্টেশন পাওয়া যায়নি; সব উপলব্ধ কমান্ড দেখতে `show commands` চালান",
+    "bn_BD": "\"{target}\"-এর কোনো ডকুমেন্টেশন পাওয়া যায়নি; সব উপলব্ধ কমান্ড দেখতে `show commands` চালাও",
     "fr_FR": "Aucune documentation trouvée pour \"{target}\". Lancez `show commands` pour voir toutes les commandes disponibles",
     "pt_PT": "Não foi encontrada documentação para \"{target}\". Executa `show commands` para veres todos os comandos disponíveis",
     "tr_TR": "\"{target}\" için dokümantasyon bulunamadı; tüm komutları görmek için `show commands` çalıştır",
@@ -4375,7 +4375,7 @@ exports.strings = {
   "command-description-merge": {
     "__desc__": "Description shown in the help dialog for the git merge command",
     "en_US": "Join two or more development histories together",
-    "bn_BD": "দুই বা ততোধিক উন্নয়ন-ইতিহাস একসঙ্গে জুড়ুন",
+    "bn_BD": "দুই বা ততোধিক উন্নয়ন-ইতিহাস একসঙ্গে জোড়ো",
     "fr_FR": "Fusionner deux historiques de développement ou plus",
     "pt_PT": "Juntar dois ou mais históricos de desenvolvimento",
     "zh_CN": "合并两个或多个开发历史",
@@ -4384,7 +4384,7 @@ exports.strings = {
   "command-description-revlist": {
     "__desc__": "Description shown in the help dialog for the git revlist command",
     "en_US": "List commits reachable from specified commit(s)",
-    "bn_BD": "নির্দিষ্ট commit থেকে পৌঁছানো যায় এমন commit-এর তালিকা দেখান",
+    "bn_BD": "নির্দিষ্ট commit থেকে পৌঁছানো যায় এমন commit-এর তালিকা দেখাও",
     "fr_FR": "Lister les commits accessibles depuis le(s) commit(s) spécifié(s)",
     "pt_PT": "Listar os commits alcançáveis a partir do(s) commit(s) indicado(s)",
     "zh_CN": "列出从指定提交可达的提交",
@@ -4393,7 +4393,7 @@ exports.strings = {
   "command-description-log": {
     "__desc__": "Description shown in the help dialog for the git log command",
     "en_US": "Show commit logs",
-    "bn_BD": "commit log দেখান",
+    "bn_BD": "commit log দেখাও",
     "fr_FR": "Afficher l'historique des commits",
     "pt_PT": "Mostrar o histórico de commits",
     "zh_CN": "显示提交日志",
@@ -4402,7 +4402,7 @@ exports.strings = {
   "command-description-show": {
     "__desc__": "Description shown in the help dialog for the git show command",
     "en_US": "Show various types of objects",
-    "bn_BD": "বিভিন্ন ধরনের অবজেক্ট দেখান",
+    "bn_BD": "বিভিন্ন ধরনের অবজেক্ট দেখাও",
     "fr_FR": "Afficher différents types d'objets",
     "pt_PT": "Mostrar vários tipos de objetos",
     "zh_CN": "显示各种类型的对象",
@@ -4420,7 +4420,7 @@ exports.strings = {
   "command-description-status": {
     "__desc__": "Description shown in the help dialog for the git status command",
     "en_US": "Show the working tree status",
-    "bn_BD": "working tree-র অবস্থা দেখান",
+    "bn_BD": "working tree-র অবস্থা দেখাও",
     "fr_FR": "Afficher l'état de l'arbre de travail",
     "pt_PT": "Mostrar o estado da árvore de trabalho",
     "zh_CN": "显示工作树状态",
@@ -4447,7 +4447,7 @@ exports.strings = {
   "command-description-describe": {
     "__desc__": "Description shown in the help dialog for the git describe command",
     "en_US": "Give an object a human readable name",
-    "bn_BD": "কোনো অবজেক্টকে মানুষের পাঠযোগ্য একটি নাম দিন",
+    "bn_BD": "কোনো অবজেক্টকে মানুষের পাঠযোগ্য একটি নাম দাও",
     "fr_FR": "Donner à un objet un nom lisible par un humain",
     "pt_PT": "Dar a um objeto um nome legível por humanos",
     "zh_CN": "为对象指定一个可读名称",

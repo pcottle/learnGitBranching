@@ -25,7 +25,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
-    "bn_BD": "`git restore --staged secret.env` দিয়ে unstage করুন, `git restore experiment.js` দিয়ে experiment ফেলে দিন, তারপর `git commit` করুন।",
+    "bn_BD": "`git restore --staged secret.env` দিয়ে unstage করো, `git restore experiment.js` দিয়ে experiment ফেলে দাও, তারপর `git commit` করো।",
     "de_DE": "Entferne `secret.env` aus der Staging Area mit `git restore --staged secret.env`, verwerfe die Änderungen an experiment mit `git restore experiment.js`, dann mach einen Commit mit `git commit`.",
     "fr_FR": "Retirez de l'index avec `git restore --staged secret.env`, jetez l'expérience avec `git restore experiment.js`, puis `git commit`.",
     "zh_CN": "使用 `git restore --staged secret.env` 取消暂存，使用 `git restore experiment.js` 丢弃实验性修改，然后执行 `git commit`。",
@@ -112,11 +112,11 @@ exports.level = {
             "markdowns": [
               "## `git restore` দিয়ে পরিবর্তন ফিরিয়ে নেওয়া",
               "",
-              "মাঝেমধ্যে সবাই একটু গোলমাল করে ফেলে। হয়তো ভুল করে একটি ফাইল stage করে ফেলেছেন, কিংবা এমন একটি experiment শুরু করেছেন যা ফেলে দিতে চান। `git restore` হলো আপনার working directory ও staging area-র জন্য আধুনিক, বিশেষভাবে তৈরি undo বোতাম।",
+              "মাঝেমধ্যে সবাই একটু গোলমাল করে ফেলে। হয়তো ভুল করে একটি ফাইল stage করে ফেলেছ, কিংবা এমন একটি experiment শুরু করেছ যা ফেলে দিতে চাও। `git restore` হলো তোমার working directory ও staging area-র জন্য আধুনিক, বিশেষভাবে তৈরি undo বোতাম।",
               "",
               "এটি দুই রকমে আসে:",
               "",
-              "* `git restore --staged <file>`: একটি ফাইল **unstage** করে (ফাইলটি staging area থেকে বের করে আনে, আপনার edit-গুলো থেকে যায়)",
+              "* `git restore --staged <file>`: একটি ফাইল **unstage** করে (ফাইলটি staging area থেকে বের করে আনে, তোমার edit-গুলো থেকে যায়)",
               "* `git restore <file>`: একটি ফাইলের সব edit পুরোপুরি **discard** করে (সাবধান, এতে পরিবর্তনগুলো মুছে যায়!)",
               "",
               "*(এগুলো পুরনো `git reset HEAD <file>` ও `git checkout -- <file>` কৌশলের জায়গা নেয়। ধারণা একই, নামগুলো অনেক পরিষ্কার।)*"
@@ -127,7 +127,7 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "আপনার ডেস্কে এখন যে অগোছালো অবস্থা:",
+              "তোমার ডেস্কে এখন যে অগোছালো অবস্থা:",
               "",
               "```",
               "Changes to be committed:",
@@ -144,7 +144,7 @@ exports.level = {
               "  modified:   experiment.js",
               "```",
               "",
-              "আপনি `app.js` commit করতে চান, কিন্তু `secret.env` ভুল করে আগেই stage হয়ে গেছে (এটি আলাদা একটি commit-এ আসা উচিত), তাই সেটি পরের জন্য রেখে দিই। আর `experiment.js`-এর পরিবর্তনগুলো কাজ করেনি, তাই ওটা পুরোপুরি ফেলে দিই।"
+              "তুমি `app.js` commit করতে চাও, কিন্তু `secret.env` ভুল করে আগেই stage হয়ে গেছে (এটি আলাদা একটি commit-এ আসা উচিত), তাই সেটি পরের জন্য রেখে দিই। আর `experiment.js`-এর পরিবর্তনগুলো কাজ করেনি, তাই ওটা পুরোপুরি ফেলে দিই।"
             ]
           }
         },
@@ -152,13 +152,13 @@ exports.level = {
           "type": "ModalAlert",
           "options": {
             "markdowns": [
-              "গুছিয়ে নিন, তারপর commit করুন:",
+              "গুছিয়ে নাও, তারপর commit করো:",
               "",
-              "* গোপন ফাইলটি unstage করুন: `git restore --staged secret.env`",
-              "* experiment বাতিল করুন: `git restore experiment.js`",
-              "* যা বাকি আছে তা commit করুন: `git commit`",
+              "* গোপন ফাইলটি unstage করো: `git restore --staged secret.env`",
+              "* experiment বাতিল করো: `git restore experiment.js`",
+              "* যা বাকি আছে তা commit করো: `git commit`",
               "",
-              "এতে একটি পরিষ্কার commit তৈরি হয়, যেখানে শুধু সেই কাজই থাকে যা আপনি রাখতে চেয়েছিলেন।"
+              "এতে একটি পরিষ্কার commit তৈরি হয়, যেখানে শুধু সেই কাজই থাকে যা তুমি রাখতে চেয়েছিলে।"
             ]
           }
         }

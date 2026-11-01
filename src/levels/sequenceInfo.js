@@ -147,7 +147,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
-      'bn_BD': 'বন্ধুরা, আপনাদের ১ আর ০ ভাগ করে নেওয়ার সময় এসেছে; কোডিং এখন সামাজিক হয়ে উঠেছে',
+      'bn_BD': 'বন্ধুরা, তোমাদের ১ আর ০ ভাগ করে নেওয়ার সময় এসেছে; কোডিং এখন সামাজিক হয়ে উঠেছে',
       'fa': 'وقت به اشتراک گذاشتن ۰ و ۱ هاست بچه‌ها؛ کدنویسی اجتماعی می‌شود',
       'fr_FR': 'Il est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
       'ja'   : '自分のコードをより広く公開しましょう',
@@ -205,7 +205,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
-      'bn_BD': 'আর আপনি ভেবেছিলেন উদার একনায়ক হওয়া মজার হবে...',
+      'bn_BD': 'আর তুমি ভেবেছিলে উদার একনায়ক হওয়া মজার হবে...',
       'fa': 'و فکر می‌کردید که یک دیکتاتور خیرخواه بودن تفریح دارد...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
       'ja'   : '絶えず上級者の仕事は存在する。。。',
@@ -261,7 +261,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'Move commits around and choose exactly which file changes belong together',
-      'bn_BD': 'commit এদিক-ওদিক সরান আর ঠিক করুন কোন ফাইলের পরিবর্তনগুলো একসঙ্গে থাকবে',
+      'bn_BD': 'commit এদিক-ওদিক সরাও আর ঠিক করো কোন ফাইলের পরিবর্তনগুলো একসঙ্গে থাকবে',
       'fa': 'با تغییر درخت منبع راحت باشید :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Déplacez les commits et choisissez précisément quelles modifications de fichiers vont ensemble',
