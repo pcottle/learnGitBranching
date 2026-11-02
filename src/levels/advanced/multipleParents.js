@@ -27,6 +27,7 @@ exports.level = {
     "ta_IN": "ஒன்றுக்கு மேற்ப்பட்ட துவக்க கிலைகள்",
     "te_IN": "బహుళ మూలాలు",
     "hi_IN": "कई Parents",
+    "bn_BD": "একাধিক Parent",
     "it_IT": "Genitori multipli",
     "pl": "Wielu rodziców",
     "tr_TR": "Birden fazla ebeveyn",
@@ -58,6 +59,7 @@ exports.level = {
     "ta_IN": "`git branch bugWork` பயன்படுத்தி தேவைப்படும் கமிட்டுடன் இழந்த இணைப்பை உருவாக்குக.",
     "te_IN": "`git branch bugWork` ఉపయోగించి అవసరమైన commit తో కోల్పోయిన అనుసంధానాన్ని సృష్టించండి.",
     "hi_IN": "`git branch bugWork` को target commit के साथ इस्तेमाल करके missing reference बनाओ।",
+    "bn_BD": "`git branch bugWork` কমান্ডের সাথে একটা target commit দিয়ে অনুপস্থিত রেফারেন্সটা তৈরি করো।",
     "it_IT": "Scrivi `git branch bugWork` con un commit per creare il riferimento mancante.",
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
     "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın.",
@@ -234,6 +236,93 @@ exports.level = {
               "ये level पूरा करने के लिए दिए गए destination पर एक नई branch बनाओ।",
               "",
               "साफ़ है कि commit को सीधे specify करना (जैसे `C6`) आसान होगा, लेकिन challenge ये है कि आप उसकी जगह उन modifiers का इस्तेमाल करो जिनकी हमने अभी बात की!"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Parent নির্দিষ্ট করা",
+              "",
+              "`~` মডিফায়ারের মতো `^` মডিফায়ারও তার পরে একটা ঐচ্ছিক সংখ্যা নিতে পারে।",
+              "",
+              "কত প্রজন্ম পেছনে যেতে হবে তা নির্দিষ্ট করার বদলে (`~` যা করে), `^`-এর সংখ্যাটা বলে দেয় merge commit থেকে কোন parent রেফারেন্স ধরে যেতে হবে। মনে রেখো, merge commit-এর একাধিক parent থাকে, তাই কোন পথে যাওয়া হবে সেটা দ্ব্যর্থক।",
+              "",
+              "Git সাধারণত merge commit থেকে ওপরের দিকে \"প্রথম\" parent ধরে এগোয়, কিন্তু `^`-এর সাথে একটা সংখ্যা দিলে এই ডিফল্ট আচরণ বদলে যায়।",
+              "",
+              "কথা অনেক হলো, চলো কাজে দেখি।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এখানে একটা merge commit আছে। মডিফায়ার ছাড়া `main^` checkout করলে আমরা merge commit-এর পরে প্রথম parent ধরে এগোব। ",
+              "",
+              "(*আমাদের ভিজ্যুয়ালে প্রথম parent-টা merge commit-এর ঠিক ওপরে অবস্থিত।*)"
+            ],
+            "afterMarkdowns": [
+              "সহজ -- আমরা সবাই এতেই অভ্যস্ত।"
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এবার তার বদলে দ্বিতীয় parent নির্দিষ্ট করে দেখি..."
+            ],
+            "afterMarkdowns": [
+              "দেখলে? আমরা অন্য parent ধরে ওপরে উঠলাম।"
+            ],
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "`^` আর `~` মডিফায়ার দিয়ে commit tree-তে ঘোরাঘুরি খুব শক্তিশালী করে তোলা যায়:"
+            ],
+            "afterMarkdowns": [
+              "বিদ্যুৎ গতিতে!"
+            ],
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "আরও অবিশ্বাস্য ব্যাপার হলো, এই মডিফায়ারগুলো একসাথে জুড়েও দেওয়া যায়! এটা দেখো:"
+            ],
+            "afterMarkdowns": [
+              "আগের মতোই একই চলাচল, কিন্তু সবটা এক কমান্ডে।"
+            ],
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### হাতেকলমে চর্চা",
+              "",
+              "এই level শেষ করতে নির্দিষ্ট গন্তব্যে একটা নতুন branch তৈরি করো।",
+              "",
+              "স্পষ্টতই commit সরাসরি নির্দিষ্ট করে দেওয়া সহজ হতো (যেমন `C6`), কিন্তু আমি তোমাকে চ্যালেঞ্জ করছি, বরং এতক্ষণ যে মডিফায়ারগুলোর কথা বললাম সেগুলোই ব্যবহার করো!"
             ]
           }
         }

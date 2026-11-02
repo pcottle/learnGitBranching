@@ -199,7 +199,13 @@ class IntlHelperBarView extends React.Component{
       onClick: function() {
         this.fireCommand('locale az; levels');
       }.bind(this)
-    }, {
+    },{
+      text: 'বাংলা',
+      testID: 'bangla',
+      onClick: function(){
+        this.fireCommand('locale bn_BD; levels');
+      }.bind(this)
+    },{
       icon: 'fa-solid fa-right-from-bracket',
       text: intl.str('helper-bar-back'),
       onClick: function() {

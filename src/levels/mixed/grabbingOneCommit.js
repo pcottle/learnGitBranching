@@ -42,7 +42,8 @@ exports.level = {
     "hi_IN": "सिर्फ 1 Commit उठाना",
     "tr_TR": "Sadece 1 commit'i yakalamak",
     "hu_HU": "Csak 1 commit átvétele",
-    "az": "Cəmi 1 commit-i götürmək"
+    "az": "Cəmi 1 commit-i götürmək",
+    "bn_BD": "মাত্র ১টি Commit তুলে নেওয়া"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -73,7 +74,8 @@ exports.level = {
     "hi_IN": "याद रखो, interactive rebase या cherry-pick यहाँ आपका दोस्त है",
     "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız.",
     "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben",
-    "az": "Yadında saxla, interactive rebase və ya cherry-pick burada sənin dostundur"
+    "az": "Yadında saxla, interactive rebase və ya cherry-pick burada sənin dostundur",
+    "bn_BD": "মনে রেখো, এখানে interactive rebase বা cherry-pick-ই তোমার বন্ধু"
   },
   "startDialog": {
     "en_US": {
@@ -1196,6 +1198,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu, sonrakı bölümlərdən biridir, ona görə də hansı əmrdən istifadə etmək istədiyini sənə buraxırıq, amma bölümü bitirmək üçün `main`-in `bugFix`-in işarə etdiyi commit-i aldığından əmin ol."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## স্থানীয়ভাবে স্তূপ করা commit",
+              "",
+              "ডেভেলপমেন্টে প্রায়ই এমন একটি পরিস্থিতি হয়: আমি একটি bug খুঁজে বের করার চেষ্টা করছি, কিন্তু সেটা বেশ লুকোচুরি খেলছে। আমার গোয়েন্দাগিরিতে সাহায্য করতে আমি কিছু debug কমান্ড আর কিছু print statement বসিয়ে দিই।",
+              "",
+              "এই সব debugging / print statement নিজ নিজ commit-এ আছে। অবশেষে আমি bug-টি খুঁজে পাই, ঠিক করি এবং আনন্দ করি!",
+              "",
+              "একমাত্র সমস্যা হলো, এখন আমার `bugFix`-কে আবার `main` branch-এ আনতে হবে। আমি যদি সরাসরি `main`-কে fast-forward করে দিই, তাহলে `main`-এ আমার সব debug statement-ও চলে আসবে, যা কাম্য নয়। নিশ্চয়ই অন্য কোনো উপায় আছে..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "আমাদের git-কে বলতে হবে যেন শুধু একটি commit কপি করে। এটা ঠিক আগের সেই কাজ সরানোর level-গুলোর মতোই -- আমরা একই কমান্ডগুলো ব্যবহার করতে পারি:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "এই লক্ষ্যে পৌঁছানোর জন্য।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এটি পরের দিকের একটি level, তাই কোন কমান্ড ব্যবহার করবে তা তোমার সিদ্ধান্তের ওপর ছেড়ে দিচ্ছি, তবে level সম্পূর্ণ করতে নিশ্চিত করো যে `bugFix` যে commit-কে নির্দেশ করছে, `main` সেটি পাচ্ছে।"
             ]
           }
         }

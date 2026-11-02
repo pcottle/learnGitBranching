@@ -32,7 +32,8 @@ exports.level = {
     "hu_HU": "Git push argumentumok",
     "az": "Git push arqumentləri",
     "te_IN": "Git push ఆర్గ్యుమెంట్లు",
-    "hi_IN": "Git push आर्ग्युमेंट्स"
+    "hi_IN": "Git push आर्ग्युमेंट्स",
+    "bn_BD": "Git push-এর আর্গুমেন্ট"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -61,7 +62,8 @@ exports.level = {
     "hu_HU": "Mindig megnézheted a párbeszéd utolsó diáját az \"objective\" paranccsal",
     "az": "Dialoqun son slaydına həmişə \\\"objective\\\" ilə baxa bilərsən",
     "te_IN": "ఎప్పుడైనా \"objective\" తో dialog యొక్క చివరి slide చూడవచ్చు",
-    "hi_IN": "आप \"objective\" के साथ dialog की आख़िरी slide कभी भी देख सकते हैं"
+    "hi_IN": "आप \"objective\" के साथ dialog की आख़िरी slide कभी भी देख सकते हैं",
+    "bn_BD": "\"objective\" লিখে তুমি যেকোনো সময় ডায়ালগের শেষ স্লাইডটা দেখতে পারো"
   },
   "startDialog": {
     "en_US": {
@@ -209,6 +211,81 @@ exports.level = {
               "",
               "*Note: Remote branches के नाम `o/` prefix के साथ दिखाए जाते हैं, क्योंकि पूरा `origin/` नाम हमारी UI में fit नहीं होता। इसकी ",
               "चिंता मत करो... बस हमेशा की तरह `origin` को remote के नाम की तरह इस्तेमाल करो.*"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Push-এর আর্গুমেন্ট",
+              "",
+              "দারুণ! এখন যেহেতু remote tracking branch সম্পর্কে তুমি জানো, git push, fetch এবং pull কীভাবে কাজ করে তার রহস্যের কিছুটা আমরা উন্মোচন করতে পারি। আমরা একবারে একটা কমান্ড নিয়ে কাজ করব, তবে সবগুলোর ধারণা খুবই কাছাকাছি।",
+              "",
+              "প্রথমে আমরা `git push` দেখব। remote tracking পাঠে তুমি শিখেছ যে বর্তমানে checkout করা branch-এর বৈশিষ্ট্য (অর্থাৎ যে remote-কে সেটা \"ট্র্যাক\" করে) দেখে git নিজেই বুঝে নেয় কোন remote *এবং* কোন branch-এ push করতে হবে। কোনো আর্গুমেন্ট না দিলে এটাই আচরণ, তবে git push ঐচ্ছিকভাবে এই ধরনের আর্গুমেন্টও নিতে পারে:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "তুমি বলছ `<place>` প্যারামিটারটা কী? শিগগিরই আমরা বিস্তারিতে যাব, তবে আগে একটা উদাহরণ। এই কমান্ডটা দিলে:",
+              "",
+              "`git push origin main`",
+              "",
+              "সাধারণ ভাষায় এর মানে দাঁড়ায়:",
+              "",
+              "*আমার repository-র \"main\" নামের branch-এ যাও, সব commit তুলে নাও, তারপর \"origin\" নামের remote-এর \"main\" branch-এ যাও। সেই branch-এ যেসব commit নেই সেগুলো বসিয়ে দাও, আর কাজ শেষ হলে আমাকে জানাও।*",
+              "",
+              "\"place\" আর্গুমেন্ট হিসেবে `main` দেওয়ার মাধ্যমে আমরা git-কে বলে দিলাম commit-গুলো কোথা থেকে *আসবে* এবং কোথায় *যাবে*। এটা মূলত দুই repository-র মধ্যে সিঙ্ক করার \"জায়গা\" বা \"অবস্থান\"।",
+              "",
+              "মনে রেখো, git-এর যা যা জানা দরকার (দুটো আর্গুমেন্ট দিয়ে) সবই যেহেতু আমরা বলে দিয়েছি, তাই আমরা এখন কোথায় checkout করা আছি সেটা সে পুরোপুরি উপেক্ষা করে!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো আর্গুমেন্ট দেওয়ার একটা উদাহরণ দেখি। এই উদাহরণে আমরা কোথায় checkout করা আছি সেটা লক্ষ করো।"
+            ],
+            "afterMarkdowns": [
+              "এই তো! আমরা ওই আর্গুমেন্টগুলো দেওয়ায় remote-এ `main` আপডেট হয়ে গেছে।"
+            ],
+            "command": "git switch --detach C0; git push origin main",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "আমরা যদি আর্গুমেন্ট না দিতাম? তাহলে কী হতো?"
+            ],
+            "afterMarkdowns": [
+              "কমান্ডটা ব্যর্থ হয়েছে (যেমন দেখতেই পাচ্ছ), কারণ `HEAD` কোনো remote-tracking branch-এ checkout করা নেই।"
+            ],
+            "command": "git switch --detach C0; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ঠিক আছে, এই level-এ চলো remote-এর `foo` আর `main` দুটোই আপডেট করি। তবে মজার ব্যাপার হলো, এই level-এ `git switch` নিষ্ক্রিয় করা আছে!",
+              "",
+              "*নোট: remote branch-গুলোর নামের আগে `o/` প্রিফিক্স দেখানো হয়েছে, কারণ পুরো `origin/` লেবেলটা আমাদের UI-তে ধরে না। এ নিয়ে একদম চিন্তা কোরো না",
+              "... সবসময়ের মতো শুধু `origin`-কেই remote-এর নাম হিসেবে ব্যবহার করো।*"
             ]
           }
         }

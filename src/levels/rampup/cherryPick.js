@@ -34,7 +34,8 @@ exports.level = {
     "hi_IN": "Cherry-pick का परिचय",
     "tr_TR": "Cherry-pick işlemine giriş",
     "hu_HU": "Cherry-pick bevezetés",
-    "az": "Cherry-pick-ə Giriş"
+    "az": "Cherry-pick-ə Giriş",
+    "bn_BD": "Cherry-pick-এর পরিচিতি"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -64,7 +65,8 @@ exports.level = {
     "hi_IN": "git cherry-pick के बाद commits के नाम लिखें!",
     "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!",
     "hu_HU": "A git cherry-pick után add meg a commit neveket!",
-    "az": "git cherry-pick-dən sonra commit adlarını yaz!"
+    "az": "git cherry-pick-dən sonra commit adlarını yaz!",
+    "bn_BD": "git cherry-pick-এর পরে commit-গুলোর নাম লেখো!"
   },
   "startDialog": {
     "en_US": {
@@ -1642,6 +1644,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bu bölümü bitirmək üçün sadəcə göstərilən üç branch-dan bəzi işləri main-ə kopyala. Hansı commit-ləri istədiyimizi hədəf vizuallaşdırmasına baxaraq görə bilərsən.",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## কাজ এদিক-ওদিক সরানো",
+              "",
+              "এখন পর্যন্ত আমরা git-এর মৌলিক বিষয়গুলো দেখেছি -- commit করা, branch তৈরি করা এবং source tree-তে ঘুরে বেড়ানো। শুধু এই ধারণাগুলোই git repository-র ৯০% ক্ষমতা কাজে লাগাতে এবং ডেভেলপারদের প্রধান প্রয়োজন মেটাতে যথেষ্ট।",
+              "",
+              "তবে বাকি ১০% জটিল workflow-তে (অথবা যখন তুমি নিজেই কোনো ঝামেলায় জড়িয়ে পড়ো) বেশ কাজে লাগতে পারে। পরবর্তী যে ধারণাটি আমরা দেখব তা হলো \"কাজ এদিক-ওদিক সরানো\" -- অর্থাৎ, ডেভেলপাররা যেন নিখুঁত, সাবলীল ও নমনীয়ভাবে বলতে পারে \"আমি এই কাজটা এখানে চাই আর ওই কাজটা ওখানে\"।",
+              "",
+              "শুনতে অনেক কিছু মনে হতে পারে, কিন্তু ধারণাটি আসলে সহজ।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "এই সিরিজের প্রথম কমান্ডটির নাম `git cherry-pick`। এটি দেখতে এরকম:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "এটি খুবই সরাসরি একটি উপায় বোঝানোর জন্য যে তুমি কয়েকটি commit তোমার বর্তমান অবস্থানের (`HEAD`) নিচে কপি করতে চাও। আমি ব্যক্তিগতভাবে `cherry-pick` খুব পছন্দ করি, কারণ এতে জাদু খুবই কম এবং এটি বোঝা সহজ।",
+              "",
+              "চলো একটা demo দেখি!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এখানে একটি repository আছে, যেখানে `side` branch-এ কিছু কাজ আছে যা আমরা `main`-এ কপি করতে চাই। এটি rebase দিয়েও করা যেত (যা আমরা আগেই শিখেছি), কিন্তু চলো দেখি cherry-pick কীভাবে কাজ করে।"
+            ],
+            "afterMarkdowns": [
+              "ব্যস, হয়ে গেল! আমরা `C2` ও `C4` commit চেয়েছিলাম আর git সেগুলো ঠিক আমাদের নিচেই বসিয়ে দিয়েছে। এত সহজ!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level সম্পূর্ণ করতে, দেখানো তিনটি branch থেকে কিছু কাজ main-এ কপি করো। আমরা কোন commit-গুলো চাই তা goal visualization দেখে বুঝে নিতে পারবে।",
               ""
             ]
           }

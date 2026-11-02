@@ -25,6 +25,7 @@ exports.level = {
   "solutionCommand": "git clone",
   "name": {
     "en_US": "Clone Intro",
+    "bn_BD": "Clone পরিচিতি",
     "fa": "مقدمه Clone",
     "fr_FR": "Introduction à clone",
     "de_DE": "Einführung in Clone",
@@ -54,6 +55,7 @@ exports.level = {
   },
   "hint": {
     "en_US": "Just git clone!",
+    "bn_BD": "শুধু git clone করো!",
     "fa": "فقط git clone کن!",
     "fr_FR": "Simplement git clone !",
     "de_DE": "Einfach git clone ausführen!",
@@ -134,6 +136,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "To finish this level, simply `git clone` the remote repository we've set up for you. The real learning will come in following lessons."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote",
+              "",
+              "Remote repository আসলে তেমন জটিল কিছু নয়। আজকের ক্লাউড কম্পিউটিংয়ের দুনিয়ায় ভাবা সহজ যে git remote-এর পেছনে অনেক জাদু আছে, কিন্তু আসলে এগুলো অন্য কোনো কম্পিউটারে রাখা তোমার repository-র কপি মাত্র। সাধারণত ইন্টারনেটের মাধ্যমে তুমি ওই কম্পিউটারের সঙ্গে যোগাযোগ করতে পারো, যার ফলে commit আদান-প্রদান করা যায়।",
+              "",
+              "তবে remote repository-র বেশ কিছু চমৎকার বৈশিষ্ট্য আছে:",
+              "",
+              "- সবার আগে, remote একটি দারুণ ব্যাকআপ হিসেবে কাজ করে! Local git repository আগের অবস্থায় ফাইল ফিরিয়ে আনতে পারে (যেমনটা তুমি জানো), কিন্তু সেই সব তথ্য স্থানীয়ভাবেই জমা থাকে। অন্য কম্পিউটারে তোমার git repository-র কপি থাকলে তোমার সব local ডেটা হারিয়ে গেলেও যেখানে ছেড়েছিলে সেখান থেকেই আবার শুরু করতে পারবে।",
+              "",
+              "- আরও গুরুত্বপূর্ণ হলো, remote কোডিংকে সামাজিক করে তোলে! এখন তোমার প্রজেক্টের একটি কপি অন্য কোথাও হোস্ট করা আছে, তাই তোমার বন্ধুরা খুব সহজেই তোমার প্রজেক্টে অবদান রাখতে পারে (বা তোমার সর্বশেষ পরিবর্তনগুলো pull করে নিতে পারে)।",
+              "",
+              "remote repo-কে ঘিরে কার্যকলাপ দেখায় এমন ওয়েবসাইট (যেমন [GitHub](https://github.com/)) ব্যবহার করা খুব জনপ্রিয় হয়ে উঠেছে, কিন্তু এসব টুলের মূল ভিত্তি হিসেবে remote repository _সবসময়ই_ থাকে। তাই এগুলো বোঝা গুরুত্বপূর্ণ!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## remote নিয়ে কাজ শুরুর কমান্ড",
+              "",
+              "এখন পর্যন্ত Learn Git Branching _local_ repository-র মৌলিক কাজ (branching, merging, rebasing ইত্যাদি) শেখানোর দিকে মনোযোগ দিয়েছে। কিন্তু এখন যেহেতু আমরা remote repository নিয়ে কাজ শিখতে চাই, সেই পাঠগুলোর পরিবেশ তৈরি করার জন্য আমাদের একটি কমান্ড দরকার। সেই কমান্ড হলো `git clone`।",
+              "",
+              "আসল `git clone`-এর মতোই, আমরা এই পাঠের জন্য একটি remote repository তৈরি করে রেখেছি, আর `git clone` চালালে সেটি তোমার local repository-তে নেমে আসবে। এখন থেকে তোমার local repo-র `o/main` বোঝায় clone করার সময় remote-এর `main` branch যেখানে ছিল সেই অবস্থান।",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "ধীরে শুরু করা যাক, clone করার আগে একটি remote repository (আমাদের ভিজ্যুয়ালাইজেশনে) দেখতে কেমন, তা-ই আগে দেখি।",
+              ""
+            ],
+            "afterMarkdowns": [
+              "এই তো! এখন তোমার কাছে প্রজেক্টের নিজস্ব local কপি আছে, যা remote থেকে clone করা। পার্থক্য স্পষ্ট করতে কিছু ভিজ্যুয়াল পরিবর্তন ছাড়া এটি দেখতে প্রায় একই -- পরবর্তী লেভেলগুলোতে দেখবে কীভাবে এই repository-গুলোর মধ্যে কাজ ভাগ করে নেওয়া হয়।"
+            ],
+            "command": "git clone",
+            "beforeTree": CLONE_START_TREE
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই লেভেল শেষ করতে শুধু তোমার জন্য সাজানো remote repository-টি `git clone` করো। আসল শেখা হবে পরবর্তী পাঠগুলোতে।"
             ]
           }
         }

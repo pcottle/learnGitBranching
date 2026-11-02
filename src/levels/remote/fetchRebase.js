@@ -28,7 +28,8 @@ exports.level = {
     "hu_HU": "Szétágazó előzmények",
     "az": "Ayrılmış Tarixçə",
     "te_IN": "విభజించబడిన హిస్టరీ",
-    "hi_IN": "अलग-अलग हुई हिस्ट्री"
+    "hi_IN": "अलग-अलग हुई हिस्ट्री",
+    "bn_BD": "আলাদা হয়ে যাওয়া হিস্ট্রি"
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -57,7 +58,8 @@ exports.level = {
     "hu_HU": "Nézd meg a sorrendet a cél vizualizációban",
     "az": "Hədəf vizuallaşdırmasındakı ardıcıllığa bax",
     "te_IN": "లక్ష్య విజువలైజేషన్ లోని ఆర్డరింగ్ చెక్ చేయి",
-    "hi_IN": "गोल विज़ुअलाइज़ेशन में दिखाए गए क्रम को देख लो"
+    "hi_IN": "गोल विज़ुअलाइज़ेशन में दिखाए गए क्रम को देख लो",
+    "bn_BD": "গোল ভিজ্যুয়ালাইজেশনে দেখানো ক্রমটা দেখে নাও"
   },
   "startDialog": {
     "en_US": {
@@ -3832,6 +3834,149 @@ exports.level = {
               "* थोड़ा फ़ेक टीमवर्क करो (1 commit)",
               "* खुद थोड़ा काम commit करो (1 commit)",
               "* अपने काम को *rebase* के ज़रिए पब्लिश करो"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## আলাদা হয়ে যাওয়া কাজ",
+              "",
+              "এখন পর্যন্ত আমরা দেখেছি কীভাবে অন্যদের commit `pull` করে নামিয়ে আনতে হয় এবং নিজের পরিবর্তন `push` করে ওপরে পাঠাতে হয়। বিষয়টা বেশ সহজ মনে হচ্ছে, তাহলে মানুষ এত বিভ্রান্ত হয় কেন?",
+              "",
+              "সমস্যা শুরু হয় যখন repository-র হিস্ট্রি *আলাদা হয়ে যায়* (diverge করে)। এর বিস্তারিত নিয়ে কথা বলার আগে চলো একটা উদাহরণ দেখি...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "ধরো তুমি সোমবার একটা repository clone করে একটা সাইড ফিচারে কাজ শুরু করলে। শুক্রবারের মধ্যে তুমি তোমার ফিচারটা পাবলিশ করার জন্য প্রস্তুত -- কিন্তু হায়! সপ্তাহের মধ্যে তোমার সহকর্মীরা অনেকখানি কোড লিখে ফেলেছে, যার ফলে তোমার ফিচারটা পুরনো (এবং অকেজো) হয়ে গেছে। তারা এই commit-গুলো শেয়ার করা remote repository-তেও পাবলিশ করে দিয়েছে, ফলে এখন *তোমার* কাজ প্রজেক্টের একটা *পুরনো* ভার্সনের ওপর দাঁড়িয়ে আছে, যেটা আর প্রাসঙ্গিক নয়।",
+              "",
+              "এই অবস্থায় `git push` কমান্ডটা দ্ব্যর্থক। তুমি `git push` চালালে git কি remote repository-কে সোমবারের অবস্থায় ফিরিয়ে নেবে? নতুন কোড না সরিয়ে কি তোমার কোডটা যোগ করার চেষ্টা করবে? নাকি তোমার পরিবর্তনগুলো পুরোপুরি পুরনো হয়ে গেছে বলে সেগুলো একদম উপেক্ষা করবে?",
+              "",
+              "এই পরিস্থিতিতে (যেখানে হিস্ট্রি আলাদা হয়ে গেছে) এত বেশি অস্পষ্টতা থাকায় git তোমাকে পরিবর্তন `push` করতে দেয় না। আসলে তোমার কাজ শেয়ার করার আগে remote-এর সর্বশেষ অবস্থা নিজের কাজের সাথে যুক্ত করতে git তোমাকে বাধ্য করে।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "কথা তো অনেক হলো! চলো পরিস্থিতিটা হাতেকলমে দেখি।"
+            ],
+            "afterMarkdowns": [
+              "দেখলে? কিছুই হলো না, কারণ কমান্ডটা ব্যর্থ হয়েছে। `git push` ব্যর্থ হয় কারণ তোমার সবচেয়ে সাম্প্রতিক commit `C3` দাঁড়িয়ে আছে remote-এর `C1`-এর ওপর। কিন্তু remote ততক্ষণে `C2`-তে আপডেট হয়ে গেছে, তাই git তোমার push প্রত্যাখ্যান করে।"
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই পরিস্থিতির সমাধান কীভাবে করবে? খুব সহজ, তোমাকে শুধু remote branch-এর সবচেয়ে সাম্প্রতিক ভার্সনের ওপর ভিত্তি করে নিজের কাজ সাজাতে হবে।",
+              "",
+              "এটা করার কয়েকটা উপায় আছে, তবে সবচেয়ে সরাসরি উপায় হলো rebase করে নিজের কাজটা সরিয়ে নেওয়া। চলো দেখি সেটা দেখতে কেমন।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এবার push করার আগে যদি আমরা rebase করি..."
+            ],
+            "afterMarkdowns": [
+              "বুম! আমরা `git fetch` দিয়ে remote-এর লোকাল রূপটা আপডেট করলাম, remote-এর নতুন পরিবর্তনগুলো প্রতিফলিত করতে আমাদের কাজ rebase করলাম, এবং তারপর `git push` দিয়ে সেগুলো push করে দিলাম।"
+            ],
+            "command": "git fetch; git rebase o/main; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "remote repository আপডেট হয়ে গেলে নিজের কাজ আপডেট করার আর কোনো উপায় আছে কি? অবশ্যই! চলো একই জিনিস `merge` দিয়ে করে দেখি।",
+              "",
+              "যদিও `git merge` তোমার কাজ সরায় না (বরং শুধু একটা merge commit তৈরি করে), তবু এটা git-কে জানিয়ে দেওয়ার একটা উপায় যে তুমি remote-এর সব পরিবর্তন নিজের কাজে অন্তর্ভুক্ত করে নিয়েছ। কারণ remote branch এখন তোমার নিজের branch-এর *পূর্বপুরুষ* (ancestor), অর্থাৎ তোমার commit remote branch-এর সব commit-ই ধারণ করে।",
+              "",
+              "চলো এটা করে দেখি..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "এবার rebase না করে যদি merge করি..."
+            ],
+            "afterMarkdowns": [
+              "বুম! আমরা `git fetch` দিয়ে remote-এর লোকাল রূপটা আপডেট করলাম, নতুন কাজটা আমাদের কাজের সাথে *merge* করলাম (remote-এর নতুন পরিবর্তনগুলো প্রতিফলিত করতে), এবং তারপর `git push` দিয়ে সেগুলো push করে দিলাম।"
+            ],
+            "command": "git fetch; git merge o/main; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "দারুণ! এত কমান্ড না লিখেও কি এটা করার কোনো উপায় আছে?",
+              "",
+              "অবশ্যই -- তুমি তো ইতিমধ্যেই জানো `git pull` আসলে fetch আর merge-এর শর্টহ্যান্ড। সুবিধার ব্যাপার হলো, `git pull --rebase` হলো fetch আর rebase-এর শর্টহ্যান্ড!",
+              "",
+              "চলো এই শর্টহ্যান্ড কমান্ডগুলো কাজ করতে দেখি।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "প্রথমে `--rebase` দিয়ে..."
+            ],
+            "afterMarkdowns": [
+              "আগের মতোই! শুধু অনেক ছোট।"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "আর এবার সাধারণ `pull` দিয়ে।"
+            ],
+            "afterMarkdowns": [
+              "আবারও, ঠিক আগের মতোই!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "fetch করা, rebase/merge করা এবং push করার এই workflow খুবই প্রচলিত। পরবর্তী পাঠগুলোতে আমরা এই workflow-গুলোর আরও জটিল রূপ দেখব, কিন্তু আপাতত চলো এটা নিজে চেষ্টা করি।",
+              "",
+              "এই level সমাধান করতে নিচের ধাপগুলো অনুসরণ করো:",
+              "",
+              "* তোমার repo clone করো",
+              "* কিছুটা নকল টিমওয়ার্ক করো (১টা commit)",
+              "* নিজে কিছু কাজ commit করো (১টা commit)",
+              "* *rebase* করে তোমার কাজ পাবলিশ করো"
             ]
           }
         }

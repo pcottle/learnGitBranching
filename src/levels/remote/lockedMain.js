@@ -28,7 +28,8 @@ exports.level = {
     "hu_HU": "Hozd létre a feature ágat a helyi main-ből, mielőtt visszaállítod azt az origin/main-nel azonos állapotba",
     "az": "Kilidli Main",
     "te_IN": "లాక్ చేయబడిన Main",
-    "hi_IN": "feature branch को लोकल main से बनाओ, इससे पहले कि तुम main को origin के main जैसा रीसेट करो"
+    "hi_IN": "feature branch को लोकल main से बनाओ, इससे पहले कि तुम main को origin के main जैसा रीसेट करो",
+    "bn_BD": "origin-এর main-এর সমান করে main রিসেট করার আগে লোকাল main থেকে feature branch তৈরি করো"
   },
   "name": {
     "en_US": "Locked Main",
@@ -56,7 +57,8 @@ exports.level = {
     "hu_HU": "Zárolt main",
     "az": "Lokal main-i origin-in main-i ilə eyni olması üçün geri sıfırlamazdan əvvəl feature branch-ını ondan yarat",
     "te_IN": "లాక్ చేయబడిన Main",
-    "hi_IN": "लॉक्ड Main"
+    "hi_IN": "लॉक्ड Main",
+    "bn_BD": "লকড Main"
   },
   "startDialog": {
     "en_US": {
@@ -1097,6 +1099,46 @@ exports.level = {
               "## हल",
               "",
               "feature नाम की एक और branch बनाओ और उसे remote पर push करो। साथ ही अपने main को रीसेट करके remote के साथ सिंक में लाओ, वरना अगली बार pull करते वक़्त मुश्किल हो सकती है और किसी और का commit तुम्हारे commit से टकरा सकता है।"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote প্রত্যাখ্যান করেছে!",
+              "",
+              "তুমি যদি বড় কোনো সহযোগী টিমে কাজ করো, তাহলে খুব সম্ভবত main লক করা থাকে এবং পরিবর্তন merge করতে Pull Request প্রক্রিয়া মানতে হয়। তুমি যদি লোকালি সরাসরি main-এ commit করে push করার চেষ্টা করো, তাহলে এরকম একটা বার্তা দেখতে পাবে:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## প্রত্যাখ্যাত হলো কেন?",
+              "",
+              "remote সরাসরি main-এ commit push করা প্রত্যাখ্যান করেছে, কারণ main-এর নীতি অনুযায়ী পরিবর্তনের জন্য pull request ব্যবহার করতে হয়।",
+              "",
+              "তুমি আসলে নিয়ম মেনে একটা branch তৈরি করে সেই branch push করা এবং pull request করার কথাই ভেবেছিলে, কিন্তু ভুলে গিয়ে সরাসরি main-এ commit করে ফেলেছ। এখন তুমি আটকে গেছ এবং তোমার পরিবর্তনগুলো push করতে পারছ না।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## সমাধান",
+              "",
+              "feature নামে আরেকটা branch তৈরি করো এবং সেটা remote-এ push করো। সেই সাথে তোমার main-কে রিসেট করে remote-এর সাথে সিঙ্কে নিয়ে এসো, নইলে পরের বার pull করার সময় অন্য কারও commit তোমার commit-এর সাথে conflict করে সমস্যা হতে পারে।"
             ]
           }
         }

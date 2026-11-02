@@ -31,7 +31,8 @@ exports.level = {
     "hi_IN": "Git Tags",
     "tr_TR": "Git Tag'leri",
     "hu_HU": "Git tagek",
-    "az": "Git Tag-lər"
+    "az": "Git Tag-lər",
+    "bn_BD": "Git Tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -62,7 +63,8 @@ exports.level = {
     "hi_IN": "आप सीधे commit का या आसानी से tag का checkout कर सकते हैं!",
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
     "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!",
-    "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!"
+    "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!",
+    "bn_BD": "তুমি সরাসরি commit checkout করতে পারো, অথবা সহজভাবে tag-ই checkout করো!"
   },
   "startDialog": {
     "en_US": {
@@ -1514,6 +1516,58 @@ exports.level = {
               "Bu bölüm üçün sadəcə hədəf vizuallaşdırmasındakı tag-ları yarat və sonra `v1`-i checkout et. Necə detached `HEAD` vəziyyətinə keçdiyinə diqqət et -- bunun səbəbi `v1` tag-ının üzərinə birbaşa commit edə bilməməyindir.",
               "",
               "Növbəti bölümdə tag-lar üçün daha maraqlı bir istifadə halını araşdıracağıq."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tag",
+              "",
+              "আগের পাঠগুলো থেকে তুমি জেনেছ, branch সহজেই সরানো যায় এবং কাজ সম্পূর্ণ হওয়ার সাথে সাথে প্রায়ই ভিন্ন ভিন্ন commit-কে নির্দেশ করে। branch সহজেই বদলে যায়, প্রায়ই সাময়িক হয় এবং সবসময় পরিবর্তনশীল।",
+              "",
+              "তাই যদি হয়, তুমি হয়তো ভাবছ, তোমার project-এর ইতিহাসের কিছু বিন্দুকে *স্থায়ীভাবে* চিহ্নিত করার কোনো উপায় আছে কি না। বড় release বা বড় merge-এর মতো বিষয়গুলোর জন্য, এই commit-গুলোকে branch-এর চেয়ে আরও স্থায়ী কিছু দিয়ে চিহ্নিত করার কোনো উপায় আছে কি?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "অবশ্যই আছে! Git tag ঠিক এই প্রয়োজনের জন্যই -- এগুলো কিছু commit-কে (মোটামুটি) স্থায়ীভাবে \"মাইলফলক\" (milestone) হিসেবে চিহ্নিত করে, যেগুলোকে তুমি পরে branch-এর মতো উল্লেখ করতে পারো।",
+              "",
+              "তবে আরও গুরুত্বপূর্ণ কথা হলো, নতুন commit তৈরি হলেও এগুলো কখনো সরে না। তুমি কোনো tag \"checkout\" করে সেই tag-এর ওপর কাজ সম্পূর্ণ করতে পারবে না -- tag হলো commit tree-র নোঙরের মতো, যা নির্দিষ্ট কিছু জায়গা চিহ্নিত করে।",
+              "",
+              "চলো দেখি বাস্তবে tag দেখতে কেমন।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো `C1`-এ একটি tag তৈরি করি, যা আমাদের version 1 prototype।"
+            ],
+            "afterMarkdowns": [
+              "এই তো! বেশ সহজ। আমরা tag-টির নাম দিলাম `v1` এবং স্পষ্টভাবে `C1` commit-কে উল্লেখ করলাম। commit বাদ দিলে git শুধু `HEAD` যেখানে আছে সেটিই ব্যবহার করবে।"
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level-এ শুধু লক্ষ্য visualization-এ দেখানো tag-গুলো তৈরি করো এবং তারপর `v1` checkout করো। খেয়াল করো তুমি কীভাবে detached `HEAD` অবস্থায় চলে যাও -- কারণ `v1` tag-এর ওপর সরাসরি commit করা যায় না।",
+              "",
+              "পরের level-এ আমরা tag-এর আরও মজার একটি ব্যবহার দেখব।"
             ]
           }
         }

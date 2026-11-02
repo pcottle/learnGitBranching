@@ -7,6 +7,7 @@ var sequenceInfo = {
   intro: {
     displayName: {
       'en_US': 'Introduction Sequence',
+      'bn_BD': 'পরিচিতি পর্ব',
       'fa': 'سری مقدماتی',
       'de_DE': 'Einführung',
       'ja'   : 'まずはここから',
@@ -33,6 +34,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
+      'bn_BD': 'git-এর বেশিরভাগ কমান্ডের সঙ্গে সুন্দর গতিতে পরিচিত হওয়ার ধাপ',
       'fa': 'مقدمه‌ای با سرعت مناسب بر اکثر دستورات git',
       'de_DE': 'Eine gut abgestimmte Einführung in die wichtigsten Git-Befehle',
       'ja'   : 'gitの基本的なコマンド群をほどよいペースで学ぶ',
@@ -61,6 +63,7 @@ var sequenceInfo = {
   rampup: {
     displayName: {
       'en_US': 'Ramping Up',
+      'bn_BD': 'গতি বাড়ানো',
       'fa': 'افزایش مهارت',
       'de_DE': 'Eine Stufe höher',
       'ja'   : '次のレベルに進もう',
@@ -87,6 +90,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
+      'bn_BD': '১০০% git-এর মজার পরবর্তী পরিবেশন। আশা করি খিদে আছে',
       'fa': 'وعده بعدی از جذابیت‌های ۱۰۰٪ گیت. امیدوارم گرسنه باشید',
       'de_DE': 'Eine Portion Git-Wahnsinn zum Thema Navigation',
       'ja'   : '更にgitの素晴らしさを堪能しよう',
@@ -116,6 +120,7 @@ var sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'Push & Pull -- Git Remotes!',
+      'bn_BD': 'Push ও Pull -- Git Remote!',
       'fa': 'Push و Pull -- ریموت‌های Git!',
       'de_DE': 'Push & Pull -- Remote Repositories',
       'ja'   : 'Push及びPullコマンド -- Gitリモート',
@@ -142,6 +147,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
+      'bn_BD': 'বন্ধুরা, তোমাদের ১ আর ০ ভাগ করে নেওয়ার সময় এসেছে; কোডিং এখন সামাজিক হয়ে উঠেছে',
       'fa': 'وقت به اشتراک گذاشتن ۰ و ۱ هاست بچه‌ها؛ کدنویسی اجتماعی می‌شود',
       'fr_FR': 'Il est le temps de partager vos 1 et vos 0 les enfants, le code vient de devenir social.',
       'ja'   : '自分のコードをより広く公開しましょう',
@@ -172,6 +178,7 @@ var sequenceInfo = {
     tab: 'remote',
     displayName: {
       'en_US': 'To Origin And Beyond -- Advanced Git Remotes!',
+      'bn_BD': 'Origin ও তার ওপারে -- উন্নত Git Remote!',
       'fa': 'به سوی Origin و فراتر از آن -- ریموت‌های پیشرفته Git!',
       'de_DE': 'Bis zum Origin und noch viel weiter -- Fortgeschrittene Remote Repositories',
       'ja'   : '"origin"とその先へ -- Gitリモート上級編',
@@ -198,6 +205,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
+      'bn_BD': 'আর তুমি ভেবেছিলে উদার একনায়ক হওয়া মজার হবে...',
       'fa': 'و فکر می‌کردید که یک دیکتاتور خیرخواه بودن تفریح دارد...',
       'fr_FR': 'Et vous pensiez qu\'être un dictateur bienfaisant serait amusant...',
       'ja'   : '絶えず上級者の仕事は存在する。。。',
@@ -226,6 +234,7 @@ var sequenceInfo = {
   move: {
     displayName: {
       'en_US': 'Moving and Staging Work',
+      'bn_BD': 'কাজ সরানো ও Staging',
       'fa': 'جابجایی کارها',
       'de_DE': 'Code umherschieben',
       'fr_FR': 'Déplacer et indexer le travail',
@@ -252,6 +261,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'Move commits around and choose exactly which file changes belong together',
+      'bn_BD': 'commit এদিক-ওদিক সরাও আর ঠিক করো কোন ফাইলের পরিবর্তনগুলো একসঙ্গে থাকবে',
       'fa': 'با تغییر درخت منبع راحت باشید :P',
       'de_DE': 'Gewöhn dich daran, den Git-Baum zu verändern',
       'fr_FR': 'Déplacez les commits et choisissez précisément quelles modifications de fichiers vont ensemble',
@@ -280,6 +290,7 @@ var sequenceInfo = {
   mixed: {
     displayName: {
       'en_US': 'A Mixed Bag',
+      'bn_BD': 'মিশ্র ঝুড়ি',
       'fa': 'مجموعه‌ای درهم',
       'de_DE': 'Eine bunte Mischung',
       'ja'   : '様々なtips',
@@ -306,6 +317,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
+      'bn_BD': 'Git-এর নানা কৌশল, ট্রিক ও পরামর্শের মিশ্র সংগ্রহ',
       'fa': 'مجموعه‌ای درهم از تکنیک‌ها، ترفندها و نکات Git',
       'de_DE': 'Eine bunte Mischung an Techniken, Tipps und Tricks',
       'ja'   : 'gitを使う上での様々なtipsやテクニックなど',
@@ -334,6 +346,7 @@ var sequenceInfo = {
   advanced: {
     displayName: {
       'en_US': 'Advanced Topics',
+      'bn_BD': 'উন্নত বিষয়',
       'fa': 'مباحث پیشرفته',
       'de_DE': 'Themen für Fortgeschrittene',
       'ja'   : '上級トピック',
@@ -360,6 +373,7 @@ var sequenceInfo = {
     },
     about: {
       'en_US': 'For the truly brave!',
+      'bn_BD': 'সত্যিকারের সাহসীদের জন্য!',
       'fa': 'برای شجاعان واقعی!',
       'de_DE': 'Nur für die Tapferen',
       'ja'   : '勇気ある人のみ！',

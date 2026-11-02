@@ -29,7 +29,8 @@ exports.level = {
     "hu_HU": "Ne feledd, mindig használhatod az undo vagy a reset parancsokat",
     "az": "Main-i Push et!",
     "te_IN": "Main ను Push చేయి!",
-    "hi_IN": "Main को Push करो!"
+    "hi_IN": "Main को Push करो!",
+    "bn_BD": "মনে রেখো, তুমি সবসময়ই undo বা reset কমান্ড ব্যবহার করতে পারো"
   },
   "name": {
     "en_US": "Push Main!",
@@ -58,7 +59,8 @@ exports.level = {
     "hu_HU": "Sok feature pusholása",
     "az": "Unutma, həmişə undo və ya reset əmrlərini işlədə bilərsən",
     "te_IN": "Main ను Push చేయి!",
-    "hi_IN": "याद रखो, आप हमेशा undo या reset commands इस्तेमाल कर सकते हैं"
+    "hi_IN": "याद रखो, आप हमेशा undo या reset commands इस्तेमाल कर सकते हैं",
+    "bn_BD": "Main-কে Push করো!"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -163,6 +165,59 @@ exports.level = {
               "* Remote तब से updated हो चुका है, तो हमें वो work भी अपने साथ incorporate करना होगा",
               "",
               ":O गज़ब है! शुभकामनाएँ, ये level पूरा करना एक बड़ा क़दम है।"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Feature branch merge করা",
+              "",
+              "fetch, pull আর push করায় এখন তুমি স্বচ্ছন্দ, তাই চলো একটা নতুন workflow দিয়ে এই দক্ষতাগুলো যাচাই করি।",
+              "",
+              "বড় প্রজেক্টে developer-দের সব কাজ feature branch-এ (`main` থেকে আলাদা করে) করে ফেলা এবং কাজ প্রস্তুত হলেই কেবল সেটা integrate করা খুবই প্রচলিত। এটা আগের পাঠের মতোই (যেখানে side branch-গুলো remote-এ push করা হয়েছিল), তবে এখানে আরও একটা ধাপ যোগ হচ্ছে।",
+              "",
+              "কিছু developer শুধু `main` branch-এ থাকা অবস্থাতেই push ও pull করে -- এতে `main` সবসময় remote-এর (`o/main`) সাথে আপডেট থাকে।",
+              "",
+              "তাই এই workflow-তে আমরা দুটো জিনিস একসাথে করছি:",
+              "",
+              "* feature branch-এর কাজ `main`-এ integrate করা, এবং",
+              "* remote থেকে push ও pull করা"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো দ্রুত একবার ঝালিয়ে নিই `main` কীভাবে আপডেট করতে হয় এবং কাজ push করতে হয়।"
+            ],
+            "afterMarkdowns": [
+              "আমরা এখানে দুটো কমান্ড চালালাম যেগুলো:",
+              "",
+              "* remote-এর নতুন commit-গুলোর ওপর আমাদের কাজ rebase করল, এবং",
+              "* আমাদের কাজ remote-এ পাবলিশ করল"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level বেশ ভারী -- সমাধানের সাধারণ রূপরেখা এখানে দেওয়া হলো:",
+              "",
+              "* তিনটি feature branch আছে -- `side1` `side2` এবং `side3`",
+              "* আমরা এই feature-গুলোর প্রতিটা ক্রমানুসারে remote-এ push করতে চাই",
+              "* ইতিমধ্যে remote আপডেট হয়ে গেছে, তাই সেই কাজও আমাদের অন্তর্ভুক্ত করতে হবে",
+              "",
+              ":O বেশ কঠিন! শুভকামনা, এই level শেষ করা একটা বড় পদক্ষেপ।"
             ]
           }
         }

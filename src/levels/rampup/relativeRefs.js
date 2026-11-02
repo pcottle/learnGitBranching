@@ -30,7 +30,8 @@ exports.level = {
     "te_IN": "హెచ్చరిక రిఫరెన్సులు (^)",
     "hi_IN": "Relative Refs (^)",
     "hu_HU": "Relatív hivatkozások (^)",
-    "az": "Nisbi Ref-lər (^)"
+    "az": "Nisbi Ref-lər (^)",
+    "bn_BD": "আপেক্ষিক Ref (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -60,7 +61,8 @@ exports.level = {
     "hi_IN": "Caret (^) operator को याद रखें!",
     "tr_TR": "^ operatörünü hatırlayın!",
     "hu_HU": "Ne feledd a kalap (^) operátort!",
-    "az": "Caret (^) operatorunu yadında saxla!"
+    "az": "Caret (^) operatorunu yadında saxla!",
+    "bn_BD": "Caret (^) অপারেটরের কথা মনে রেখো!"
   },
   "startDialog": {
     "en_US": {
@@ -2044,6 +2046,81 @@ exports.level = {
             ],
             "command": "git switch --detach main^",
             "beforeCommand": "git commit"
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## আপেক্ষিক Ref",
+              "",
+              "commit hash উল্লেখ করে Git-এ চলাচল করা কিছুটা বিরক্তিকর হয়ে উঠতে পারে। বাস্তব জগতে তোমার terminal-এর পাশে সুন্দর কোনো commit tree visualization থাকবে না, তাই hash দেখতে তোমাকে `git log` ব্যবহার করতে হবে।",
+              "",
+              "তাছাড়া, আসল Git-এর জগতে hash সাধারণত অনেক বেশি লম্বা হয়। যেমন, আগের level-টি যে commit চালু করেছিল তার hash হলো `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`। মুখে বলা মোটেও সহজ নয়...",
+              "",
+              "সুখবর হলো, hash-এর ব্যাপারে Git বেশ চালাক। commit-টিকে অনন্যভাবে চিহ্নিত করতে যতগুলো অক্ষর লাগে, ততগুলো দিলেই চলে। তাই ওপরের লম্বা স্ট্রিংয়ের বদলে আমি শুধু `fed2` লিখতে পারি।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "যেমন বললাম, hash দিয়ে commit নির্দিষ্ট করা মোটেও সবচেয়ে সুবিধাজনক উপায় নয়, আর সেজন্যই Git-এ আপেক্ষিক ref আছে। এগুলো দারুণ!",
+              "",
+              "আপেক্ষিক ref দিয়ে তুমি মনে রাখার মতো কোনো জায়গা (যেমন `bugFix` branch বা `HEAD`) থেকে শুরু করে সেখান থেকেই এগোতে পারো।",
+              "",
+              "আপেক্ষিক commit খুব শক্তিশালী, তবে এখানে আমরা দুটি সহজ উপায় দেখাব:",
+              "",
+              "* `^` দিয়ে একবারে একটি commit ওপরে যাওয়া",
+              "* `~<num>` দিয়ে একসাথে কয়েকটি commit ওপরে যাওয়া"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো আগে Caret (^) অপারেটর দেখি। কোনো ref-এর নামের শেষে এটি যতবার যোগ করবে, ততবার তুমি Git-কে বলছ নির্দিষ্ট commit-এর parent খুঁজে বের করতে।",
+              "",
+              "অতএব `main^` বলা মানে \"`main`-এর প্রথম parent\"।",
+              "",
+              "`main^^` হলো `main`-এর grandparent (দ্বিতীয় প্রজন্মের পূর্বপুরুষ)",
+              "",
+              "চলো এখানে main-এর ঠিক ওপরের commit-টি checkout করি।"
+            ],
+            "afterMarkdowns": [
+              "বুম! হয়ে গেল। commit hash টাইপ করার চেয়ে অনেক সহজ।"
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "তুমি `HEAD`-কেও আপেক্ষিক ref হিসেবে ব্যবহার করতে পারো। চলো commit tree-তে ওপরে ওঠার জন্য এটি কয়েকবার ব্যবহার করি।"
+            ],
+            "afterMarkdowns": [
+              "সহজ! `HEAD^` দিয়ে আমরা সময়ের পেছনে ভ্রমণ করতে পারি"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "এই level সম্পূর্ণ করতে `bugFix`-এর parent commit-টি checkout করো। এতে `HEAD` বিচ্ছিন্ন (detached) হয়ে যাবে।",
+              "",
+              "চাইলে hash উল্লেখ করতে পারো, তবে তার বদলে আপেক্ষিক ref ব্যবহার করার চেষ্টা করো!"
+            ]
           }
         }
       ]

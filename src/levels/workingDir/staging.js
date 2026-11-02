@@ -7,6 +7,7 @@ exports.level = {
     '{"branches":{"main":{"target":"C1","id":"main"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"workingChanges":{"app.js":"modified","styles.css":"modified"}}',
   name: {
     en_US: "The Staging Area",
+    bn_BD: "Staging Area (স্টেজিং এলাকা)",
     de_DE: "Die Staging Area",
     fr_FR: "La zone de staging",
     zh_CN: "暂存区 Staging Area",
@@ -34,6 +35,8 @@ exports.level = {
       "Prepara o Stage un archivo con `git add <archivo>` y luego guarda un commit con `git commit`. Hazlo dos veces, una vez por cada archivo.",
     en_US:
       "Stage a file with `git add <file>`, then snapshot it with `git commit`. Do that twice, once per file.",
+    bn_BD:
+      "`git add <file>` দিয়ে একটি ফাইল stage করো, তারপর `git commit` দিয়ে তার snapshot নাও। এটি দুইবার করো, প্রতি ফাইলের জন্য একবার।",
     it_IT:
       "Aggiungi un file allo staging con `git add <file>`, poi fai un commit con `git commit`. Fallo due volte, una per ciascun file.",
     fr_FR:
@@ -116,6 +119,63 @@ exports.level = {
               "* `git add styles.css`, then `git commit`",
               "",
               "The filenames beside each goal commit show exactly where each change belongs. Two clean commits and the level is yours.",
+            ],
+          },
+        },
+      ],
+    },
+    bn_BD: {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Staging Area",
+              "",
+              "এই শেখার যাত্রায় এখন পর্যন্ত আমরা একটি commit আসলে *তৈরি* করতে কী কী লাগে, সেই ধারণা এড়িয়ে গেছি। তুমি হয়তো জানো, commit মানে একগুচ্ছ ফাইলের পরিবর্তন, কিন্তু *কোন* ফাইলের পরিবর্তন *কোন* commit-এ যাবে তা বেছে নেওয়ার একটি প্রক্রিয়া আছে।",
+              "",
+              "Git সব পরিবর্তিত ফাইল স্বয়ংক্রিয়ভাবে সব commit-এ ঢুকিয়ে দিতে চায় না -- তাহলে খুব খারাপ হতো! এতে এমন পরিবর্তন ঢুকে যেতে পারত যা তুমি স্থায়ী করতে চাও না, এমনকি API key-এর মতো গোপন কিছুও commit ইতিহাসের অংশ হয়ে GitHub-এ ফাঁস হয়ে যেতে পারত।",
+              "",
+              "তাই কোনো ফাইলের পরিবর্তন commit-এর অংশ হওয়ার আগে সেটি আলাদাভাবে বেছে নিতে হয়। এর জন্য Git-এ তিনটি অঞ্চল আছে: তোমার **working directory** (যেখানে তুমি edit করো), **staging area** (পরের commit-এ যা যাবে তার জন্য একটি লোডিং ডক), এবং **repository** (তোমার স্থায়ী ইতিহাস)।",
+              "",
+              "প্রতিটি commit-এ *ঠিক কী কী* যাবে তা তুমি `git add` দিয়ে বেছে নাও। এভাবেই commit-গুলো গোছালো থাকে, আর সবকিছু একসঙ্গে commit করতে তোমাকে কখনো বাধ্য করা হয় না।",
+              "",
+              "*(এই লেভেলগুলোতে এখন থেকে আমরা দেখাব কোন ফাইল কোন commit-এর অংশ।)*",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "যেকোনো সময় `git status` চালিয়ে দেখে নাও বর্তমান অবস্থা কী। এখন এটি এমন দুটি ফাইল দেখাচ্ছে যা তুমি edit করেছ কিন্তু stage করোনি:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "একটি ফাইল stage করতে `git add app.js` ব্যবহার করো, অথবা সবকিছু একসঙ্গে নিতে `git add .`। একটি ফাইল stage হয়ে গেলে `git commit` সেটিকে snapshot-এ সিল করে দেয়।",
+              "",
+              "এমন ফাইল আছে যা কখনো commit করতে চাও না, যেমন গোপন তথ্য, log বা build-এর জঞ্জাল? সেগুলো একটি `.gitignore` ফাইলে লিখে দাও, git চুপচাপ সেগুলো এড়িয়ে যাবে।",
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "এবার তোমার পালা! তোমার কাজ **একটি করে ফাইল** stage ও commit করো, যাতে প্রতিটি commit সুনির্দিষ্ট থাকে:",
+              "",
+              "* `git add app.js`, তারপর `git commit`",
+              "* `git add styles.css`, তারপর `git commit`",
+              "",
+              "প্রতিটি লক্ষ্য commit-এর পাশের ফাইলের নামগুলো দেখায় কোন পরিবর্তন কোথায় যাবে। দুটি পরিষ্কার commit করলেই লেভেল তোমার।",
             ],
           },
         },

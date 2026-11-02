@@ -39,7 +39,8 @@ exports.level = {
     "te_IN": "Git వివరణ",
     "hi_IN": "Git Describe",
     "hu_HU": "Git describe",
-    "az": "Git Describe"
+    "az": "Git Describe",
+    "bn_BD": "Git Describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -70,7 +71,8 @@ exports.level = {
     "hi_IN": "आगे बढ़ने के लिए तैयार होते ही bugFix में एक बार commit कर दो।",
     "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir.",
     "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon",
-    "az": "Davam etməyə hazır olduğunda, sadəcə bugFix üzərində bir dəfə commit et"
+    "az": "Davam etməyə hazır olduğunda, sadəcə bugFix üzərində bir dəfə commit et",
+    "bn_BD": "এগিয়ে যেতে প্রস্তুত হলে শুধু bugFix-এ একবার commit করো"
   },
   "startDialog": {
     "en_US": {
@@ -1810,6 +1812,69 @@ exports.level = {
               "Git describe haqqında bilməli olduğun demək olar ki, hər şey budur! Bu bölümdəki bir neçə yerini təsvir etməyə çalış ki, komandanı hiss edəsən.",
               "",
               "Hazır olanda isə, bölümü bitirmək üçün sadəcə bir dəfə commit et. Bunu sənə hədiyyə edirik :P"
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "tag-গুলো codebase-এ দারুণ \"নোঙর\"-এর কাজ করে বলে, git-এর একটি কমান্ড আছে যা সবচেয়ে কাছের \"নোঙর\" (অর্থাৎ tag)-এর সাপেক্ষে তুমি কোথায় আছ তা *বর্ণনা* করে। আর সেই কমান্ডের নাম `git describe`!",
+              "",
+              "ইতিহাসে অনেক commit পেছনে বা সামনে সরে যাওয়ার পর নিজের অবস্থান বুঝে নিতে git describe সাহায্য করতে পারে; git bisect (ডিবাগিং অনুসন্ধান) শেষ করার পর, কিংবা ছুটি থেকে সদ্য ফেরা কোনো সহকর্মীর কম্পিউটারের সামনে বসলে এমনটা হতে পারে।"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Git describe-এর গঠন এরকম:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "এখানে `<ref>` হলো git যা-কিছুকে একটি commit-এ রূপান্তর করতে পারে। তুমি কোনো ref না দিলে git শুধু তোমার বর্তমান checkout করা জায়গা (`HEAD`) ব্যবহার করে।",
+              "",
+              "কমান্ডের আউটপুট দেখতে এরকম:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "এখানে `tag` হলো ইতিহাসে সবচেয়ে কাছের পূর্বসূরি tag, `numCommits` হলো সেই tag কত commit দূরে, আর `<hash>` হলো যে commit-কে বর্ণনা করা হচ্ছে তার hash।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "চলো একটি ছোট উদাহরণ দেখি। নিচের tree-র জন্য:"
+            ],
+            "afterMarkdowns": [
+              "`git describe main` কমান্ডটি আউটপুট দেবে:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "আর `git describe side` আউটপুট দেবে:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "git describe সম্পর্কে মোটামুটি এটুকুই জানার আছে! কমান্ডটির অনুভূতি পেতে এই level-এর কয়েকটি জায়গা describe করে দেখো।",
+              "",
+              "প্রস্তুত হলে, level শেষ করতে শুধু একবার commit করো। এটা আমরা তোমাকে উপহার দিচ্ছি :P"
             ]
           }
         }

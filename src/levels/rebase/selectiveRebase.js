@@ -34,7 +34,8 @@ exports.level = {
     "hu_HU": "Ág-spagetti",
     "az": "Branch Spagetti",
     "te_IN": "Branch స్పాగెట్టి",
-    "hi_IN": "Branch स्पेगेटी"
+    "hi_IN": "Branch स्पेगेटी",
+    "bn_BD": "Branch স্প্যাগেটি"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -64,7 +65,8 @@ exports.level = {
     "hu_HU": "Ügyelj arra, hogy mindent a megfelelő sorrendben végezz el! Először a `one` ág, majd a `two`, aztán a `three`",
     "az": "Hər şeyi düzgün ardıcıllıqla etdiyinə əmin ol! Əvvəl `one` branch, sonra `two`, sonra `three`",
     "te_IN": "అన్నీ సరైన క్రమంలో చేశావని నిర్ధారించుకో! మొదట `one` branch, తర్వాత `two`, తర్వాత `three`",
-    "hi_IN": "सुनिश्चित करो कि सब कुछ सही order में करो! पहले `one` branch, फिर `two`, फिर `three`"
+    "hi_IN": "सुनिश्चित करो कि सब कुछ सही order में करो! पहले `one` branch, फिर `two`, फिर `three`",
+    "bn_BD": "নিশ্চিত করো সবকিছু সঠিক ক্রমে করছ! আগে `one` branch, তারপর `two`, তারপর `three`"
   },
   "startDialog": {
     "en_US": {
@@ -622,6 +624,26 @@ exports.level = {
               "`one` branch ఆ commits ను మళ్ళీ సిరీయలైజ్ చేసి `C5` ను తీసివేయమని అడుగుతుంది. `two` branch కేవలం commits ను సింపుల్ గా సిరీయలైజ్ చేయమని అడుగుతుంది, `three` కేవలం ఒక commit ను మాత్రమే పాస్ చేయమని అడుగుతుంది!",
               "",
               "దీన్ని ఎలా సాల్వ్ చేయాలో నువ్వే కనుగొంతావు -- తర్వాత మా సొల్యూషన్ చూసుకో `show solution` తో."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch স্প্যাগেটি",
+              "",
+              "বাপরে বাপ! এই level-এ আমাদের সামনে বেশ বড় একটা লক্ষ্য আছে।",
+              "",
+              "এখানে `main` আছে, যা `one`, `two` ও `three` branch-এর চেয়ে কয়েকটি commit এগিয়ে। যে কোনো কারণেই হোক, এই তিনটি branch-কে main-এর শেষ কয়েকটি commit-এর পরিবর্তিত সংস্করণ দিয়ে আপডেট করতে হবে।",
+              "",
+              "`one` branch-এ ওই commit-গুলোর ক্রম পাল্টাতে হবে এবং `C5` বাদ দিতে হবে। `two` branch-এ শুধু commit-গুলোর ক্রম পাল্টাতে হবে, আর `three`-তে মাত্র একটি commit আনতে হবে!",
+              "",
+              "এটা কীভাবে সমাধান করবে তা তোমার ওপরই ছেড়ে দিলাম -- পরে `show solution` দিয়ে আমাদের solution দেখে নিও।"
             ]
           }
         }

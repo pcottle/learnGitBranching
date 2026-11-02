@@ -45,7 +45,8 @@ exports.level = {
     "hi_IN": "Commits के साथ जुगलबंदी #2",
     "tr_TR": "Commit Hokkabazlığı #2",
     "hu_HU": "Commitok átrendezése #2",
-    "az": "Commit Hoqqabazlığı #2"
+    "az": "Commit Hoqqabazlığı #2",
+    "bn_BD": "Commit নিয়ে জাগলিং #২"
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
@@ -76,7 +77,8 @@ exports.level = {
     "hi_IN": "main को updated changes तक ले जाना ना भूलें!",
     "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
     "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!",
-    "az": "main-i yenilənmiş dəyişikliklərə irəli aparmağı unutma!"
+    "az": "main-i yenilənmiş dəyişikliklərə irəli aparmağı unutma!",
+    "bn_BD": "main-কে হালনাগাদ করা পরিবর্তনগুলোর দিকে এগিয়ে নিতে ভুলো না!"
   },
   "startDialog": {
     "en_US": {
@@ -1270,6 +1272,49 @@ exports.level = {
               "Beləliklə, bu bölümdə eyni məqsədə çatmağa çalışaq — `C2`-ni bir dəfə amend et — amma `rebase -i`-dan istifadə etməkdən çəkin. Bunu necə edəcəyini sənə buraxıram! :D",
               "",
               "Yadında saxla, commit üzərindəki apostrofların (') dəqiq sayı vacib deyil, yalnız nisbi fərqlər önəmlidir. Məsələn, hədəf ağacla üst-üstə düşən, amma hər yerdə bir artıq apostrofu olan ağacı da düzgün sayacağam."
+            ]
+          }
+        }
+      ]
+    },
+    "bn_BD": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit নিয়ে জাগলিং #২",
+              "",
+              "*তুমি যদি Commit নিয়ে জাগলিং #১ (আগের level) সম্পূর্ণ না করে থাকো, তাহলে এগোনোর আগে সেটি করে নাও*",
+              "",
+              "আগের level-এ যেমন দেখেছ, commit-গুলোর ক্রম বদলাতে আমরা `rebase -i` ব্যবহার করেছিলাম। যে commit বদলাতে চেয়েছিলাম সেটি ওপরে চলে আসার পর আমরা সহজেই --amend করতে পেরেছি এবং তারপর পছন্দের ক্রমে আবার সাজিয়ে নিয়েছি।",
+              "",
+              "এখানে একমাত্র সমস্যা হলো অনেকবার ক্রম বদলাতে হয়, যা rebase conflict ডেকে আনতে পারে। চলো `git cherry-pick` দিয়ে আরেকটি পদ্ধতি দেখি।"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "মনে রেখো, git cherry-pick tree-র যেকোনো জায়গা থেকে একটি commit এনে HEAD-এর ওপর বসিয়ে দেয় (যতক্ষণ না সেই commit HEAD-এর পূর্বপুরুষ)।",
+              "",
+              "এই যে ঝালিয়ে নেওয়ার একটি ছোট demo:"
+            ],
+            "afterMarkdowns": [
+              "চমৎকার! চলো এগোই।"
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "তাহলে এই level-এ চলো `C2`-কে একবার amend করার একই লক্ষ্য অর্জন করি, কিন্তু `rebase -i` ব্যবহার না করে। কীভাবে করবে তা তোমার ওপরই ছেড়ে দিলাম! :D",
+              "",
+              "মনে রেখো, commit-এর ওপর apostrophe (') ঠিক কয়টি আছে তা গুরুত্বপূর্ণ নয়, শুধু আপেক্ষিক পার্থক্য গুরুত্বপূর্ণ। উদাহরণস্বরূপ, যে tree লক্ষ্য tree-র সাথে মেলে কিন্তু সব জায়গায় একটি বাড়তি apostrophe আছে, সেটিকেও আমি নম্বর দেব।"
             ]
           }
         }
