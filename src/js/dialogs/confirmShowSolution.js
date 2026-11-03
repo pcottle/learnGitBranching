@@ -19,6 +19,16 @@ exports.dialog = {
       ]
     }
   }],
+  'bn_BD': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## তুমি কি নিশ্চিত যে সমাধানটি দেখতে চাও?',
+        '',
+        'আমি তোমার ওপর বিশ্বাস রাখি! তুমি পারবে'
+      ]
+    }
+  }],
   'de_DE': [{
     type: 'ModalAlert',
     options: {
