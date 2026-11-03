@@ -21,6 +21,17 @@ exports.dialog = {
       ]
     }
   }],
+  'bn_BD': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        '## দারুণ কাজ!!!',
+        '',
+        'তুমি লেভেলটি *{numCommands}* কমান্ডে সমাধান করেছ; ',
+        'আমাদের সমাধান {best} কমান্ড ব্যবহার করে।'
+      ]
+    }
+  }],
   'de_DE': [{
     type: 'ModalAlert',
     options: {
