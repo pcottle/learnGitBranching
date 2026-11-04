@@ -96,6 +96,14 @@ describe('Git', function() {
       );
     });
 
+    it("detaches HEAD at a branch with --detach option", function () {
+      return expectTreeAsync(
+        'git switch --detach side',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C1","id":"HEAD"}}',
+        '{"branches":{"main":{"target":"C1","id":"main"},"side":{"target":"C1","id":"side"}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}'
+      );
+    });
+
     it("refuses to detach onto a commit without -d / --detach", function () {
       return runCommand('git switch C0', function(commandMsg) {
         expect(commandMsg).toEqual(intl.str(

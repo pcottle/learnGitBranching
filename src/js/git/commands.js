@@ -1108,7 +1108,11 @@ var commandConfig = {
         // "-d" / "--detach" explicitly asks to check out a commit-ish and
         // leave HEAD detached there
         command.validateArgBounds(generalArgs, 1, 1, '-d');
-        engine.checkout(engine.crappyUnescape(generalArgs[0]));
+        // resolve down to a commit so that naming a branch (or tag) detaches
+        // HEAD at that commit instead of attaching it to the branch
+        engine.checkout(
+          engine.getCommitFromRef(engine.crappyUnescape(generalArgs[0]))
+        );
         return;
       }
 
