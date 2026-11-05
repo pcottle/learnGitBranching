@@ -113,6 +113,29 @@ describe('Git', function() {
       });
     });
 
+    it("refuses to detach onto a remote branch without -d / --detach", function () {
+      return runCommand('git fakeCreateRemote; git switch o/main', function(commandMsg) {
+        expect(commandMsg).toEqual(intl.str(
+          'git-error-switch-detach',
+          { ref: 'o/main' }
+        ));
+      });
+    });
+
+    it("leaves HEAD on the local branch when refusing a remote branch", function () {
+      return expectTreeAsync(
+        'git fakeCreateRemote; git switch o/main',
+        '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}}'
+      );
+    });
+
+    it("detaches HEAD at a remote branch with --detach option", function () {
+      return expectTreeAsync(
+        'git fakeCreateRemote; git switch --detach o/main',
+        '{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":"o/main"},"o/main":{"target":"C1","id":"o/main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"C1","id":"HEAD"},"originTree":{"branches":{"main":{"target":"C1","id":"main","remoteTrackingBranchID":null}},"commits":{"C0":{"parents":[],"id":"C0","rootCommit":true},"C1":{"parents":["C0"],"id":"C1"}},"HEAD":{"target":"main","id":"HEAD"}}}'
+      );
+    });
+
     it("to a branch", function () {
       return expectTreeAsync(
         'git switch side',
