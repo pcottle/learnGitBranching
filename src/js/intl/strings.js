@@ -1288,7 +1288,7 @@ exports.strings = {
     "az": "Bu demoda fayl əlavə etməyə ehtiyac yoxdur"
   },
   "git-error-switch-detach": {
-    "__desc__": "the error when the user tries to 'git switch' to a commit or tag (which would detach HEAD) without passing -d / --detach",
+    "__desc__": "the error when the user tries to 'git switch' to a commit, tag or remote branch (which would detach HEAD) without passing -d / --detach",
     "en_US": "fatal: a branch is required to switch to. '{ref}' is not a branch -- use 'git switch --detach {ref}' (or '-d') if you want to check it out and detach HEAD.",
     "bn_BD": "fatal: switch করতে একটি branch প্রয়োজন। '{ref}' কোনো branch নয় -- এটি check out করে HEAD detach করতে চাইলে 'git switch --detach {ref}' (বা '-d') ব্যবহার করো।",
     "pt_PT": "fatal: é preciso indicar um branch para onde mudar. '{ref}' não é um branch -- usa 'git switch --detach {ref}' (ou '-d') se quiseres fazer checkout dele e ficar em detached HEAD.",

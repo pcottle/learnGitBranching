@@ -1119,10 +1119,11 @@ var commandConfig = {
       command.validateArgBounds(generalArgs, 1, 1);
 
       // Unlike "git checkout", "git switch" will not silently leave you on a
-      // detached HEAD. If the target isn't a branch (i.e. it's a commit or a
-      // tag), refuse and point the user at "--detach", matching real git.
+      // detached HEAD. If the target isn't a local branch (i.e. it's a commit,
+      // a tag or a remote branch), refuse and point the user at "--detach",
+      // matching real git.
       var target = engine.crappyUnescape(generalArgs[0]);
-      if (engine.getType(target) !== 'branch') {
+      if (engine.getType(target) !== 'branch' || engine.isRemoteBranchRef(target)) {
         throw new GitError({
           msg: intl.str('git-error-switch-detach', { ref: generalArgs[0] })
         });

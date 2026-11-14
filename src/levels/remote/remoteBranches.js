@@ -1,6 +1,6 @@
 exports.level = {
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C3\":{\"parents\":[\"C1\"],\"id\":\"C3\"},\"C4\":{\"parents\":[\"C1\"],\"id\":\"C4\"}},\"HEAD\":{\"target\":\"C4\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
-  "solutionCommand": "git commit;git switch o/main;git commit",
+  "solutionCommand": "git commit;git switch --detach o/main;git commit",
   "startTree": "{\"branches\":{\"main\":{\"target\":\"C1\",\"id\":\"main\"},\"o/main\":{\"target\":\"C1\",\"id\":\"o/main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"},\"originTree\":{\"branches\":{\"main\":{\"target\":\"C2\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}}",
   "name": {
     "en_US": "Remote Branches",
@@ -112,7 +112,7 @@ exports.level = {
             "afterMarkdowns": [
               "As you can see, git put us into detached `HEAD` mode and then did not update `o/main` when we added a new commit. This is because `o/main` will only update when the remote updates."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -175,7 +175,7 @@ exports.level = {
             "afterMarkdowns": [
               "जैसा आप देख सकते हैं, git ने हमें detached `HEAD` mode में डाल दिया और नई commit add करने पर `o/main` को update नहीं किया। इसकी वजह ये है कि `o/main` सिर्फ़ तब update होती है जब remote update हो।"
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -238,7 +238,7 @@ exports.level = {
             "afterMarkdowns": [
               "যেমন দেখতেই পাচ্ছ, git আমাদের detached `HEAD` মোডে নিয়ে গেছে এবং নতুন commit যোগ করার পরও `o/main` আপডেট করেনি। কারণ `o/main` শুধু তখনই আপডেট হয় যখন remote আপডেট হয়।"
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -301,7 +301,7 @@ exports.level = {
             "afterMarkdowns": [
               "همانطور که می‌بینید، گیت ما را در حالت `HEAD` جدا شده قرار داد و سپس وقتی کامیت جدیدی اضافه کردیم، `o/main` را به‌روزرسانی نکرد. این به این دلیل است که `o/main` فقط زمانی به‌روزرسانی می‌شود که ریموت به‌روزرسانی شود."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -364,7 +364,7 @@ exports.level = {
             "afterMarkdowns": [
               "Comme vous pouvez le voir, Git nous a mis dans le mode \"detached\" (cf. `HEAD`) puis n'a pas mis à jour `o/main` quand nous avons ajouté un nouveau commit. C'est parce que `o/main` va se mettre à jour uniquement quand le dépôt distant sera mis à jour."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -425,7 +425,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/main` cuando creamos un nuevo commit. Esto es porque `o/main` sólo va a actualizarse cuando el remoto se actualice."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -488,7 +488,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como puedes ver, git nos puso en el modo detached `HEAD` y no actualizó `o/main` cuando creamos un nuevo commit. Esto es porque `o/main` sólo va a actualizarse cuando el remoto se actualice."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -549,7 +549,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como ves, git nos puso en el modo detached `HEAD` y no actualizó `o/main` cuando creamos un nuevo commit. Esto ocurre porque `o/main` sólo va a actualizarse cuando el remoto se actualice."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -610,7 +610,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como você pode ver, o Git nos colocou no modo \"Detached HEAD\", e não atualizou a `o/main` quando adicionamos um novo commit. Isso é porque a `o/main` só será atualizada quando o repositório remoto for atualizado."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -673,7 +673,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como podes ver, o git pôs-nos em modo detached `HEAD` e depois não atualizou o `o/main` quando adicionámos um commit novo. Isto acontece porque o `o/main` só é atualizado quando o repositório remoto é atualizado."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -734,7 +734,7 @@ exports.level = {
             "afterMarkdowns": [
               "Como ves, git púxonos no modo detached `HEAD` e non actualizou `o/mater` cando creamos un novo commit. Esto é porque `o/mater` só vai actualizarse cando o remoto se actualice."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -795,7 +795,7 @@ exports.level = {
             "afterMarkdowns": [
               "就像你看到的， git 讓我們進到 detached `HEAD` 狀態，同時，當我們加入一個新的 commit 時，`o/main` 都沒有更新，這是因為只有當 remote 更新的時候，`o/main` 才會更新。"
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -856,7 +856,7 @@ exports.level = {
             "afterMarkdowns": [
               "Wie du siehst setzt uns Git in den \"Detached `HEAD`\" Modus und aktualisiert dann nach dem Commit nicht den Branch `o/main`. Das liegt daran, dass der Remote Branch nur aktualisiert wird, wenn sich der entsprechende Branch auf dem Remote verändert."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -917,7 +917,7 @@ exports.level = {
             "afterMarkdowns": [
               "正如你所见，Git 变成了分离 HEAD 状态，当添加新的提交时 `o/main` 也不会更新。这是因为 `o/main` 只有在远程仓库中相应的分支更新了以后才会更新。"
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -978,7 +978,7 @@ exports.level = {
             "afterMarkdowns": [
               "見ていた通り、`o/main`に移ってから新しいコミットをしても`HEAD`が分離状態になり`o/main`は更新されていません。これは、`o/main`がリモートの更新時のみ更新されるからです。"
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1041,7 +1041,7 @@ exports.level = {
             "afterMarkdowns": [
               "Așa cum poți vedea, Git ne-a pus în modul detached `HEAD` și nu a actualizat `o/main` când am adăugat un nou commit. Acest lucru se datorează faptului că `o/main` se va actualiza doar atunci când remote-ul se actualizează."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1104,7 +1104,7 @@ exports.level = {
             "afterMarkdowns": [
               "Както виждаш, git ни постави в режим на отделен (detached) `HEAD` и след това не обнови `o/main`, когато добавихме нов къмит. Това е така, защото `o/main` се обновява само когато се обновява отдалеченото хранилище."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1165,7 +1165,7 @@ exports.level = {
             "afterMarkdowns": [
               "Как вы можете видеть, git отделил (detached) `HEAD` и не обновил `o/main`, когда мы добавили новый коммит. Всё потому, что `o/main` обновится тогда и только тогда, когда обновится сам удалённый репозиторий."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1226,7 +1226,7 @@ exports.level = {
             "afterMarkdowns": [
               "보이는것 처럼, git은 우리를 분리된 `HEAD` 모드로 만들고 새로운 커밋을 추가해도 `o/main`를 갱신하지 않습니다. 이것은 `o/main`가 원격 저장소가 갱신될때만 갱신되기 때문입니다."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1287,7 +1287,7 @@ exports.level = {
             "afterMarkdowns": [
               "Як бачите, git перейшов в стан `detached HEAD` і не оновив `o/main` коли ми зробили новий коміт. Це тому, що `o/main` буде оновлено лише тоді, коли буде оновлено віддалений репозиторій."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1350,7 +1350,7 @@ exports.level = {
             "afterMarkdowns": [
               "Như bạn thấy, Git đưa ta vào trạng thái tách rời `HEAD` và không cập nhật nhánh `o/main` khi ta thêm một commit. Đó là bởi vì `o/main` chỉ cập nhật khi kho chứa từ xa cập nhật."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1411,7 +1411,7 @@ exports.level = {
             "afterMarkdowns": [
               "Kot lahko vidiš, nas git postavi v stanje ločenega `HEAD-a` in ne posodobi `o/main`, ko dodamo nov commit. To je zato, ker se bo `o/main` posodobil šele, ko se bo posodobil oddaljen repo."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1472,7 +1472,7 @@ exports.level = {
             "afterMarkdowns": [
               "Jak widzisz, git przełączył nas w tryb odłączonego `HEADa` i nie zaktualizował `o/main`, kiedy dodaliśmy nowy commit. Dzieje się tak, ponieważ `o/main` zaktualizuje się tylko przy aktualizacji zdalnego repozytorium."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1533,7 +1533,7 @@ exports.level = {
             "afterMarkdowns": [
               "Come puoi vedere, git ci ha messo in modalità `HEAD` distaccata e poi non ha aggiornato `o/main` quando abbiamo aggiunto un nuovo commit. Questo perché `o/main` si aggiornerà solo quando lo farà anche il remoto."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1596,7 +1596,7 @@ exports.level = {
             "afterMarkdowns": [
               "Gördüğünüz gibi, git bizi `detached HEAD` moduna aldı ve yeni bir commit eklediğimizde `o/main` güncellenmedi. Bunun nedeni, `o/main` dalının yalnızca uzak depo güncellendiğinde güncellenmesidir."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1659,7 +1659,7 @@ exports.level = {
             "afterMarkdowns": [
               "Ahogy látod, a git lecsatolt `HEAD` módba tett minket, majd nem frissítette az `o/main`-t, amikor új commitot adtunk hozzá. Ez azért van, mert az `o/main` csak akkor frissül, amikor a remote frissül."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1722,7 +1722,7 @@ exports.level = {
             "afterMarkdowns": [
               "Gördüyün kimi, git bizi detached `HEAD` rejiminə keçirdi və yeni commit əlavə etdikdə `o/main`-i yeniləmədi. Bunun səbəbi odur ki, `o/main` yalnız remote yeniləndikdə yenilənəcək."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
@@ -1759,7 +1759,7 @@ exports.level = {
             "afterMarkdowns": [
               "చూశావు, git మనల్ని detached HEAD mode లోకి మార్చింది మరియు కొత్త commit యాడ్ చేసినప్పుడు `o/main` ను update చేయలేదు. దానికి కారణం `o/main` remote update అయినప్పుడు మాత్రమే update అవుతుంది."
             ],
-            "command": "git switch o/main; git commit",
+            "command": "git switch --detach o/main; git commit",
             "beforeCommand": "git fakeCreateRemote"
           }
         },
