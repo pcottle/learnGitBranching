@@ -365,7 +365,7 @@ div.canvasTerminalHolder.startTree > div.terminal-window-holder div.inside {
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder div.inside {
-  min-height: 200px;
+  min-height: 100px;
   border-radius: 0 0 5px 5px;
 }
 
@@ -379,10 +379,51 @@ div.inside  pre {
 }
 
 div.canvasTerminalHolder > div.terminal-window-holder {
-  max-width: 400px;
-  min-width: 400px;
+  width: 400px;
   overflow: visible !important;
 }
+
+/* Resize handles (jQuery UI resizable) around the edges and corners of the
+ * goal window */
+div.canvasTerminalHolder > div.terminal-window-holder > .ui-resizable-handle {
+  position: absolute;
+  display: block;
+  font-size: 0.1px;
+  touch-action: none;
+  z-index: 90;
+}
+
+.ui-resizable-n,
+.ui-resizable-s {
+  left: 0;
+  width: 100%;
+  height: 8px;
+}
+
+.ui-resizable-e,
+.ui-resizable-w {
+  top: 0;
+  width: 8px;
+  height: 100%;
+}
+
+.ui-resizable-n { top: -4px; cursor: n-resize; }
+.ui-resizable-s { bottom: -4px; cursor: s-resize; }
+.ui-resizable-e { right: -4px; cursor: e-resize; }
+.ui-resizable-w { left: -4px; cursor: w-resize; }
+
+.ui-resizable-ne,
+.ui-resizable-nw,
+.ui-resizable-se,
+.ui-resizable-sw {
+  width: 14px;
+  height: 14px;
+}
+
+.ui-resizable-ne { top: -5px; right: -5px; cursor: ne-resize; }
+.ui-resizable-nw { top: -5px; left: -5px; cursor: nw-resize; }
+.ui-resizable-se { bottom: -5px; right: -5px; cursor: se-resize; }
+.ui-resizable-sw { bottom: -5px; left: -5px; cursor: sw-resize; }
 
 
 div.canvasTerminalHolder > div.terminal-window-holder div.inside svg {

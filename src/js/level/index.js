@@ -20,6 +20,7 @@ var Commands = require('../commands');
 
 var MultiView = require('../views/multiView').MultiView;
 var CanvasTerminalHolder = require('../views').CanvasTerminalHolder;
+var getGoalWindowSize = require('../util/goalWindowSize').getGoalWindowSize;
 var ConfirmCancelTerminal = require('../views').ConfirmCancelTerminal;
 var NextLevelConfirm = require('../views').NextLevelConfirm;
 var CertificateView = require('../views/certificateView').CertificateView;
@@ -202,10 +203,17 @@ class Level extends Sandbox {
 
   initGoalVisualization() {
     var onlyMain = TreeCompare.onlyMainCompared(this.level);
-    // first we make the goal visualization holder
+    // first we make the goal visualization holder. it starts off at a size
+    // that suits the goal tree, and users can resize it from there
+    var goalSize = getGoalWindowSize(this.level.goalTreeString, {
+      width: $(window).width(),
+      height: $(window).height()
+    }) || {};
     this.goalCanvasHolder = new CanvasTerminalHolder({
       text: (onlyMain) ? intl.str('goal-only-main') : undefined,
-      parent: this
+      parent: this,
+      width: goalSize.width,
+      height: goalSize.height
     });
 
     // then we make a visualization. the "el" here is the element to

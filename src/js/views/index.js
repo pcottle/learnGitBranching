@@ -24,6 +24,9 @@ require('jquery-ui/ui/safe-active-element');
 require('jquery-ui/ui/safe-blur');
 require('jquery-ui/ui/widgets/mouse');
 require('jquery-ui/ui/widgets/draggable');
+// the goal window can be resized by dragging its edges
+require('jquery-ui/ui/disable-selection');
+require('jquery-ui/ui/widgets/resizable');
 
 // Base View class - replacement for Backbone.View
 class BaseView {
@@ -626,6 +629,7 @@ class CanvasTerminalHolder extends BaseView {
     this.template = _.template($('#terminal-window-bare-template').html());
     this.parent = options.parent;
     this.minHeight = options.minHeight || 200;
+    this.minWidth = options.minWidth || 250;
     this.destination = $('body');
     this.JSON = {
       title: options.title || intl.str('goal-to-reach'),
@@ -637,12 +641,23 @@ class CanvasTerminalHolder extends BaseView {
     this.inDom = true;
 
     this.$terminal = this.$el.find('.terminal-window-holder').first();
-    this.$terminal.height(0.8 * $(window).height());
+    this.$terminal.height(options.height || 0.8 * $(window).height());
+    if (options.width) {
+      this.$terminal.width(options.width);
+    }
     this.$terminal.draggable({
       cursor: 'move',
       handle: '.toolbar',
       containment: '#interfaceWrapper',
       scroll: false
+    });
+    this.$terminal.resizable({
+      handles: 'n, e, s, w, ne, nw, se, sw',
+      minWidth: this.minWidth,
+      minHeight: this.minHeight,
+      start: this.onResizeStart.bind(this),
+      resize: this.onResize.bind(this),
+      stop: this.onResizeStop.bind(this)
     });
 
     $(window).on('resize', debounce(this.recalcLayout.bind(this), 300));
@@ -655,6 +670,30 @@ class CanvasTerminalHolder extends BaseView {
   }
 
   getAnimationTime() { return 700; }
+
+  onResizeStart() {
+    // don't let a layout animation that is still running fight the user
+    this.$terminal.stop(true);
+  }
+
+  onResize(event, ui) {
+    // The holder is anchored to the right edge of the screen, so changing its
+    // width already moves its left edge. Keep the opposite edge pinned by
+    // overriding the left offset jQuery UI computes for us.
+    var axis = this.$terminal.resizable('instance').axis || '';
+    var left = ui.originalPosition.left;
+    if (axis.indexOf('e') !== -1) {
+      left += ui.size.width - ui.originalSize.width;
+    }
+    this.$terminal.css('left', left + 'px');
+    ui.position.left = left;
+
+    this.parent.trigger('resizeCanvas');
+  }
+
+  onResizeStop() {
+    this.recalcLayout();
+  }
 
   onClick() {
     this.die();
@@ -707,34 +746,44 @@ class CanvasTerminalHolder extends BaseView {
 
   recalcLayout() {
     var parent = this.parent,
-        leftOffset = 0,
-        topOffset = 0,
-        heightOffset = 0,
+        $window = $(window),
+        windowWidth = $window.width(),
+        windowHeight = $window.height(),
         width = this.$terminal.outerWidth(),
         height = this.$terminal.outerHeight(),
-        left = this.$terminal.offset().left,
-        top = this.$terminal.offset().top,
-        right = ($(window).width() - (left + width)),
-        bottom = ($(window).height() - (top + height)),
-        minHeight = 0.75 * $(window).height(),
-        maxHeight = 0.95 * $(window).height();
+        offset = this.$terminal.offset(),
+        maxHeight = Math.max(0.95 * windowHeight, this.minHeight),
+        maxWidth = Math.max(windowWidth, this.minWidth);
 
-    if (top < 0) { topOffset = -top; }
-    if (left < 0) { leftOffset = -left; }
-    if (right < 0) { leftOffset = right; }
-    if (bottom < 0) { topOffset = bottom; }
-    if (height < minHeight) { heightOffset = minHeight - height; }
-    if (height > maxHeight) { heightOffset = maxHeight - height; }
+    // keep whatever size the user picked, as long as it fits on screen
+    width = Math.min(Math.max(width, this.minWidth), maxWidth);
+    height = Math.min(Math.max(height, this.minHeight), maxHeight);
 
-    left = Math.max(left + leftOffset, 0);
-    top = Math.max(top + topOffset, 0);
-    height = Math.max(height + heightOffset, minHeight);
+    // then nudge the window back into view if it hangs off any edge
+    var left = Math.min(offset.left, windowWidth - width);
+    left = Math.max(left, 0);
+    var top = Math.min(offset.top, windowHeight - height);
+    top = Math.max(top, 0);
 
-    this.$terminal.animate({
-      right: right + 'px',
-      top: top + 'px',
+    var currentLeft = parseFloat(this.$terminal.css('left')) || 0;
+    var currentTop = parseFloat(this.$terminal.css('top')) || 0;
+    var target = {
+      left: (currentLeft + left - offset.left) + 'px',
+      top: (currentTop + top - offset.top) + 'px',
+      width: width + 'px',
       height: height + 'px'
-    }, this.getAnimationTime(), function () {
+    };
+
+    var needsAdjusting = Math.abs(left - offset.left) >= 1 ||
+      Math.abs(top - offset.top) >= 1 ||
+      Math.abs(width - this.$terminal.outerWidth()) >= 1 ||
+      Math.abs(height - this.$terminal.outerHeight()) >= 1;
+    if (!needsAdjusting) {
+      parent.trigger('resizeCanvas');
+      return;
+    }
+
+    this.$terminal.animate(target, this.getAnimationTime(), function () {
         parent.trigger('resizeCanvas');
     });
   }
