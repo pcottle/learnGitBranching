@@ -1,6 +1,7 @@
 var Command = require('../src/js/models/commandModel').Command;
 var HeadlessGit = require('../src/js/git/headless').HeadlessGit;
 var TreeCompare = require('../src/js/graph/treeCompare');
+var LevelStore = require('../src/js/stores/LevelStore');
 
 var parse = function(rawStr) {
   return new Command({ rawStr: rawStr });
@@ -126,6 +127,47 @@ describe('Command parsing', function() {
       expect(command.getOptionsMap()['-a']).toEqual([]);
       expect(command.getOptionsMap()['-m']).toEqual(['hello world']);
       expect(command.getGeneralArgs()).toEqual([]);
+    });
+  });
+
+  describe('user aliases', function() {
+    var setAliases = function(aliases) {
+      Object.keys(aliases).forEach(function(alias) {
+        LevelStore.addToAliasMap(alias, aliases[alias]);
+      });
+    };
+
+    afterEach(function() {
+      Object.keys(LevelStore.getAliasMap()).forEach(function(alias) {
+        LevelStore.removeFromAliasMap(alias);
+      });
+    });
+
+    it('expand when typed as the first word', function() {
+      setAliases({ g: 'git', gco: 'git checkout' });
+
+      var command = parse('g branch bugFix');
+      expect(errorMessage(command)).toBe(null);
+      expect(command.get('method')).toBe('branch');
+      expect(command.getGeneralArgs()).toEqual(['bugFix']);
+
+      command = parse('gco -b side');
+      expect(errorMessage(command)).toBe(null);
+      expect(command.get('method')).toBe('checkout');
+      expect(command.getOptionsMap()['-b']).toEqual(['side']);
+    });
+
+    it('leave the rest of the command alone', function() {
+      setAliases({ g: 'git', b: 'git branch', ck: 'git checkout' });
+
+      var command = parse('git checkout -b debug');
+      expect(errorMessage(command)).toBe(null);
+      expect(command.getOptionsMap()['-b']).toEqual(['debug']);
+
+      command = parse('git cherry-pick C2 C4');
+      expect(errorMessage(command)).toBe(null);
+      expect(command.get('method')).toBe('cherry-pick');
+      expect(command.getGeneralArgs()).toEqual(['C2', 'C4']);
     });
   });
 
