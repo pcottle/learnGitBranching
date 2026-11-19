@@ -21,7 +21,8 @@ exports.level = {
     "ko": "git restore로 되돌리기",
     "it_IT": "Annullare le modifiche con git restore",
     "es_ES": "Deshacer con git restore",
-    "es_AR": "Deshacer con git restore"
+    "es_AR": "Deshacer con git restore",
+    "ja": "git restoreで変更を元に戻す"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -41,7 +42,8 @@ exports.level = {
     "it_IT": "Rimuovi dallo staging con `git restore --staged secret.env`, scarta l'esperimento con `git restore experiment.js`, quindi esegui `git commit`.",
     "ko": "`git restore --staged secret.env`로 스테이징을 해제하고, `git restore experiment.js`로 실험의 변경 사항을 버린 다음 `git commit`하세요.",
     "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`.",
-    "es_AR": "Quitá `secret.env` de staging con `git restore --staged secret.env`, descartá el experimento con `git restore experiment.js`, y luego hacé `git commit`."
+    "es_AR": "Quitá `secret.env` de staging con `git restore --staged secret.env`, descartá el experimento con `git restore experiment.js`, y luego hacé `git commit`.",
+    "ja": "`git restore --staged secret.env`でステージングを解除し、`git restore experiment.js`で試しに行った変更を破棄してから、`git commit`を実行してください。"
   },
   "startDialog": {
     "en_US": {
@@ -1093,6 +1095,66 @@ exports.level = {
               "* Hacé commit de lo que queda: `git commit`",
               "",
               "Esto dará como resultado un único commit limpio, que solo contiene el trabajo que realmente querías conservar."
+            ]
+          }
+        }
+      ]
+    },
+    "ja": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## `git restore`で変更を元に戻す",
+              "",
+              "誰でも時には間違えることがあります。意図せずファイルをステージングしてしまったり、試しに変更を加えたものの、やっぱり破棄したくなったりすることもあるでしょう。`git restore`は、ワーキングディレクトリとステージングエリアの変更を元に戻すために用意された、現代的なコマンドです。",
+              "",
+              "使い方は2つあります:",
+              "",
+              "* `git restore --staged <file>`: ファイルの**ステージングを解除**します（編集内容は保持したまま、ステージングエリアから取り除きます）",
+              "* `git restore <file>`: ファイルの編集内容をすべて**破棄**します（注意してください。変更内容は失われます！）",
+              "",
+              "*（これらのコマンドは、従来の`git reset HEAD <file>`や`git checkout -- <file>`に代わるものです。役割は同じですが、名前がより分かりやすくなっています。）*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "現在の作業状況を見てみましょう:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "`app.js`をコミットしたいのですが、`secret.env`も誤って先にステージングしてしまいました（後のコミットに含めるべきです）。そのため、いったん後回しにしましょう。また、`experiment.js`の変更はうまくいかなかったため、すべて破棄しましょう。"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "変更を整理してからコミットしましょう:",
+              "",
+              "* secret.envのステージングを解除する: `git restore --staged secret.env`",
+              "* experiment.jsの変更を破棄する: `git restore experiment.js`",
+              "* 残った変更をコミットする: `git commit`",
+              "",
+              "これで、残したい変更だけを含む、整理されたコミットが1つ作成されます。"
             ]
           }
         }
