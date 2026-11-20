@@ -349,14 +349,14 @@ class Command {
 
   parseAll() {
     var rawInput = this.get('rawStr');
+    // Like a shell alias, only the first word of a command gets expanded.
+    // Matching the alias anywhere in the line rewrote the ends of other
+    // words, e.g. with `alias ck="git checkout"` saved, `git cherry-pick C2`
+    // became `git cherry-pigit checkout C2`.
     const aliasMap = LevelStore.getAliasMap();
-    for (var i = 0; i<Object.keys(aliasMap).length; i++) {
-      var alias = Object.keys(aliasMap)[i];
-      var searcher = new RegExp(alias + "(\\s|$)", "g");
-      if (searcher.test(rawInput)) {
-        rawInput = rawInput.replace(searcher, aliasMap[alias] + ' ');
-        break;
-      }
+    const firstWord = rawInput.split(/\s/, 1)[0];
+    if (Object.prototype.hasOwnProperty.call(aliasMap, firstWord)) {
+      rawInput = aliasMap[firstWord] + rawInput.slice(firstWord.length);
     }
 
     var results = this.get('parseWaterfall').parseAll(rawInput);
