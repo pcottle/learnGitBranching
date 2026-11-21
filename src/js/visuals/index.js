@@ -685,7 +685,7 @@ GitVisuals.prototype.assignBoundsRecursive = function(commit, min, max) {
 };
 
 GitVisuals.prototype.calcDepth = function() {
-  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0);
+  var maxDepth = this.calcDepthRecursive(this.rootCommit, 0, {});
   if (maxDepth > 15) {
     // issue warning
     console.warn('graphics are degrading from too many layers');
@@ -873,13 +873,20 @@ GitVisuals.prototype.getHeaderOffset = function() {
   return (this.shouldHaveHeader()) ? 0.05 : 0;
 };
 
-GitVisuals.prototype.calcDepthRecursive = function(commit, depth) {
+GitVisuals.prototype.calcDepthRecursive = function(commit, depth, depthSoFar) {
   commit.get('visNode').setDepth(depth);
 
   var children = commit.get('children');
   var maxDepth = depth;
   children.forEach(function(child) {
-    var d = this.calcDepthRecursive(child, depth + 1);
+    // a commit reached again through a path that is not longer has nothing
+    // new to give; walking it again is exponential after a run of merges
+    var childID = child.get('id');
+    if (depthSoFar[childID] >= depth + 1) {
+      return;
+    }
+    depthSoFar[childID] = depth + 1;
+    var d = this.calcDepthRecursive(child, depth + 1, depthSoFar);
     maxDepth = Math.max(d, maxDepth);
   }, this);
 
