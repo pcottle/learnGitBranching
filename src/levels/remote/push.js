@@ -32,7 +32,8 @@ exports.level = {
     "az": "Git Push",
     "te_IN": "Git Push",
     "hi_IN": "Git Push",
-    "bn_BD": "Git Push করা"
+    "bn_BD": "Git Push করা",
+    "id_ID": "Mengunggah dengan Git Push"
   },
   "hint": {
     "en_US": "Remember you have to clone before you can push!",
@@ -61,7 +62,8 @@ exports.level = {
     "az": "Unutma, push edə bilmək üçün əvvəlcə clone etməlisən!",
     "te_IN": "push చేయగలగడానికి ముందు clone చేయాలని గుర్తుపెట్టుకో!",
     "hi_IN": "याद रखो, push करने से पहले clone करना ज़रूरी है!",
-    "bn_BD": "মনে রেখো, push করার আগে clone করতেই হবে!"
+    "bn_BD": "মনে রেখো, push করার আগে clone করতেই হবে!",
+    "id_ID": "Ingat kamu harus clone dulu sebelum bisa push!"
   },
   "startDialog": {
     "en_US": {
@@ -1253,6 +1255,49 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఈ level పూర్తి చేయడానికి కేవలం రెండు కొత్త commits ను remote తో share చేయి. కానీ prepare అవ్వు, ఎందుకంటే ఈ పాఠాలు త్వరలో చాలా కష్టంగా మారతాయి!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Push",
+              "",
+              "Oke, tadi aku sudah mengambil perubahan dari remote dan menggabungkannya ke pekerjaanku di lokal. Itu keren sih... tapi bagaimana caranya aku membagikan hasil kerjaku yang keren ke semua orang?",
+              "",
+              "Cara mengunggah pekerjaan bersama adalah kebalikan dari mengunduh pekerjaan bersama. Dan apa kebalikan dari `git pull`? `git push`!",
+              "",
+              "`git push` bertugas mengunggah perubahan *milikmu* ke remote tertentu dan memperbarui remote tersebut agar menyertakan commit-commit barumu. Begitu `git push` selesai, semua temanmu bisa mengunduh pekerjaanmu dari remote.",
+              "",
+              "Bayangkan `git push` sebagai perintah untuk \"mempublikasikan\" kerjamu. Ada beberapa detail penting yang akan segera kita bahas, tapi mari mulai dari langkah kecil dulu...",
+              "",
+              "*catatan -- perilaku `git push` tanpa argumen bergantung pada salah satu pengaturan git bernama `push.default`. Nilai bawaannya bergantung versi git yang kamu pakai, tapi di pelajaran ini kita memakai nilai `upstream`. Ini bukan masalah besar, namun ada baiknya mengecek pengaturanmu sebelum push di proyek sendiri.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Di sini kita punya perubahan yang belum dimiliki remote. Mari kita unggah!"
+            ],
+            "afterMarkdowns": [
+              "Berhasil -- remote menerima commit `C2`, branch `main` di remote diperbarui untuk menunjuk ke `C2`, dan cerminan remote di lokal kita (`o/main`) ikut diperbarui. Semuanya kini sinkron!"
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, cukup bagikan dua commit baru ke remote. Siap-siap ya, karena pelajaran setelah ini bakal jauh lebih seru dan menantang!"
             ]
           }
         }

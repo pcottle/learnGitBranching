@@ -30,6 +30,7 @@ exports.level = {
     "te_IN": "Git Pull",
     "hi_IN": "Git Pull",
     "bn_BD": "Git Pull করা",
+    "id_ID": "Menarik Perubahan dengan Git Pull",
   },
   "hint": {
     "en_US": "Just run git pull!",
@@ -59,7 +60,8 @@ exports.level = {
     "az": "Sadəcə git pull et!",
     "te_IN": "సింపుల్ గా git pull చేయి!",
     "hi_IN": "बस git pull रन करो!",
-    "bn_BD": "শুধু git pull চালাও!"
+    "bn_BD": "শুধু git pull চালাও!",
+    "id_ID": "Cukup jalankan git pull!"
   },
   "startDialog": {
     "en_US": {
@@ -1743,6 +1745,67 @@ exports.level = {
               "`git pull`-এর বিস্তারিত (অপশন ও আর্গুমেন্টসহ) আমরা পরে দেখব, তবে আপাতত চলো level-এ এটা চেষ্টা করি।",
               "",
               "মনে রেখো -- তুমি এই level শুধু `fetch` আর `merge` দিয়েও সমাধান করতে পারো, তবে একটা বাড়তি কমান্ড লাগবে :P"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Pull",
+              "",
+              "Setelah melihat cara mengambil data dari repository remote dengan `git fetch`, sekarang mari perbarui pekerjaan kita agar mencerminkan perubahan tersebut!",
+              "",
+              "Sebenarnya ada banyak cara untuk melakukannya -- begitu commit baru sudah tersedia di lokal, kamu bisa menggabungkannya seolah-olah itu commit biasa di branch lain. Artinya kamu bisa menjalankan perintah seperti:",
+              "",
+              "* `git cherry-pick o/main`",
+              "* `git rebase o/main`",
+              "* `git merge o/main`",
+              "* dan lain-lain.",
+              "",
+              "Nyatanya, alur kerja *fetching* perubahan remote lalu *merging* hasilnya sangat sering dipakai sampai git menyediakan satu perintah yang melakukan keduanya sekaligus! Perintah itu adalah `git pull`.",
+              "",
+              "*Catatan:* Git 2.27 memperkenalkan peringatan jika tidak ada strategi pull yang diatur. Sejak Git 2.34, `git pull` polos berhenti pada branch yang bercabang berbeda (diverged) dan memintamu memilih cara menggabungkannya. Gunakan `git pull --no-rebase` untuk merge, atau `git pull --rebase` untuk rebase. Di simulator ini, `git pull` memakai perilaku merge secara bawaan."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pertama mari lihat `fetch` dan `merge` dijalankan secara berurutan."
+            ],
+            "afterMarkdowns": [
+              "Sip -- kita mengunduh `C3` dengan `fetch` lalu menggabungkannya dengan `git merge o/main`. Sekarang branch `main` kita mencerminkan pekerjaan baru dari remote (dalam hal ini bernama `origin`)"
+            ],
+            "command": "git fetch; git merge o/main",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Apa yang terjadi kalau kita memakai `git pull` sebagai gantinya?"
+            ],
+            "afterMarkdowns": [
+              "Hasilnya sama persis! Ini memperjelas bahwa simulator kita memperlakukan `git pull` sebagai ringkasan dari `git fetch` diikuti merge branch yang baru saja di-fetch. Di Git asli, perilaku merge itu setara dengan `git pull --no-rebase` saat branch telah bercabang berbeda."
+            ],
+            "command": "git pull",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kita akan mengulik detail `git pull` nanti (termasuk opsi dan argumennya), tapi untuk sekarang yuk langsung coba di level ini.",
+              "",
+              "Ingat -- sebenarnya kamu juga bisa menyelesaikan level ini hanya dengan `fetch` dan `merge`, tapi itu bakal menghabiskan satu perintah ekstra :P"
             ]
           }
         }

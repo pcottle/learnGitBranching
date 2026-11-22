@@ -35,7 +35,8 @@ exports.level = {
     "tr_TR": "Rebase hedefini belirtmek için ya dalları ya da göreli referansları (HEAD~) kullanabilirsiniz",
     "hu_HU": "A rebase célját megadhatod branchekkel vagy relatív hivatkozásokkal (HEAD~)",
     "az": "Rebase hədəfini göstərmək üçün branch-lardan və ya nisbi ref-lərdən (HEAD~) istifadə edə bilərsən",
-    "bn_BD": "rebase-এর লক্ষ্য নির্দিষ্ট করতে তুমি branch অথবা আপেক্ষিক রেফারেন্স (HEAD~) যেকোনোটি ব্যবহার করতে পারো"
+    "bn_BD": "rebase-এর লক্ষ্য নির্দিষ্ট করতে তুমি branch অথবা আপেক্ষিক রেফারেন্স (HEAD~) যেকোনোটি ব্যবহার করতে পারো",
+    "id_ID": "kamu bisa memakai branch atau relative ref (HEAD~) untuk menentukan target rebase"
   },
   "name": {
     "en_US": "Interactive Rebase Intro",
@@ -66,7 +67,8 @@ exports.level = {
     "tr_TR": "Etkileşimli Rebase'e Giriş",
     "hu_HU": "Interaktív rebase bevezetés",
     "az": "İnteraktiv Rebase-yə giriş",
-    "bn_BD": "Interactive Rebase-এর পরিচিতি"
+    "bn_BD": "Interactive Rebase-এর পরিচিতি",
+    "id_ID": "Pengenalan Interactive Rebase"
   },
   "startDialog": {
     "en_US": {
@@ -1951,6 +1953,72 @@ exports.level = {
           "options": {
             "markdowns": [
               "এই level শেষ করতে, একটি interactive rebase করো এবং goal visualization-এ দেখানো ক্রমটি অর্জন করো। মনে রেখো, ভুল ঠিক করতে তুমি সবসময় `undo` বা `reset` করতে পারো :D"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Interactive Rebase",
+              "",
+              "`git cherry-pick` sangat mantap saat kamu tahu persis commit mana yang diinginkan (_dan_ tahu hash-nya) -- kesederhanaannya sulit dikalahkan.",
+              "",
+              "Tapi bagaimana kalau kamu belum tahu pasti commit mana yang diinginkan? Untungnya git punya solusinya juga! Kita bisa memakai interactive rebase -- cara terbaik untuk meninjau rangkaian commit sebelum di-rebase.",
+              "",
+              "Mari kita lihat detailnya..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Interactive rebase sederhananya berarti Git menjalankan perintah `rebase` dengan opsi `-i`.",
+              "",
+              "Jika kamu menyertakan opsi ini, git akan membuka antarmuka untuk menunjukkan commit mana saja yang akan disalin di bawah target rebase. Ia juga menampilkan hash dan pesan commit-nya, sehingga mudah sekali melihat mana yang mana.",
+              "",
+              "Di git \"asli\", antarmuka ini berarti membuka sebuah file di editor teks seperti `vim`. Untuk keperluan belajar kita, saya membuat jendela dialog kecil yang bekerja dengan cara yang sama."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Saat dialog interactive rebase terbuka, kamu bisa melakukan dua hal di aplikasi edukasi kita:",
+              "",
+              "* Mengubah urutan commit cukup dengan menggeser urutannya di UI (drag and drop memakai mouse).",
+              "* Memilih mempertahankan semua commit atau membuang commit tertentu. Saat dialog terbuka, tiap commit aktif lewat tombol `pick` di sampingnya. Untuk membuang commit, matikan tombol `pick`-nya.",
+              "",
+              "*Perlu diketahui bahwa di interactive rebase git sungguhan, kamu bisa melakukan lebih banyak hal seperti squash (menggabungkan commit), mengubah pesan commit, bahkan mengedit isi commit itu sendiri. Namun untuk latihan kita, kita fokus pada dua operasi di atas.*",
+              "",
+              "Sip! Mari lihat contohnya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ketika kamu menekan tombolnya, jendela interactive rebase akan muncul. Ubah urutan beberapa commit (atau coba nonaktifkan salah satu) dan lihat hasilnya!"
+            ],
+            "afterMarkdowns": [
+              "Jadi deh! Git menyalin commit persis seperti urutan yang kamu atur lewat UI."
+            ],
+            "command": "git rebase -i HEAD~4 --aboveAll",
+            "beforeCommand": "git commit; git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menamatkan level ini, lakukan interactive rebase agar urutannya sesuai dengan visualisasi target. Ingat kamu selalu bisa memakai `undo` atau `reset` untuk memperbaiki kesalahan :D"
             ]
           }
         }

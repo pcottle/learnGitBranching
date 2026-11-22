@@ -40,6 +40,7 @@ var langLocaleMap = {
   ar: 'ar',
   az: 'az',
   bn: 'bn_BD',
+  id: 'id_ID',
 };
 
 var headerLocaleMap = {
@@ -57,6 +58,7 @@ var headerLocaleMap = {
   'te-IN': 'te_IN',
   'hi-IN': 'hi_IN',
   'bn-BD': 'bn_BD',
+  'id-ID': 'id_ID',
 };
 
 var supportedLocalesList = Object.values(langLocaleMap)

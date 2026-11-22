@@ -291,5 +291,16 @@ exports.dialog = {
       ]
     }
   }],
+  'id_ID': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        "## Kerja Bagus!!!",
+        "",
+        "Kamu menyelesaikan level ini dalam *{numCommands}* perintah; ",
+        "solusi kami menggunakan {best}."
+      ]
+    }
+  }],
 };
  

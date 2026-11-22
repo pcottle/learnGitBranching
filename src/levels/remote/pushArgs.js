@@ -33,7 +33,8 @@ exports.level = {
     "az": "Git push arqumentləri",
     "te_IN": "Git push ఆర్గ్యుమెంట్లు",
     "hi_IN": "Git push आर्ग्युमेंट्स",
-    "bn_BD": "Git push-এর আর্গুমেন্ট"
+    "bn_BD": "Git push-এর আর্গুমেন্ট",
+    "id_ID": "Argumen Git Push"
   },
   "hint": {
     "en_US": "You can always look at the last slide of the dialog with \"objective\"",
@@ -63,7 +64,8 @@ exports.level = {
     "az": "Dialoqun son slaydına həmişə \\\"objective\\\" ilə baxa bilərsən",
     "te_IN": "ఎప్పుడైనా \"objective\" తో dialog యొక్క చివరి slide చూడవచ్చు",
     "hi_IN": "आप \"objective\" के साथ dialog की आख़िरी slide कभी भी देख सकते हैं",
-    "bn_BD": "\"objective\" লিখে তুমি যেকোনো সময় ডায়ালগের শেষ স্লাইডটা দেখতে পারো"
+    "bn_BD": "\"objective\" লিখে তুমি যেকোনো সময় ডায়ালগের শেষ স্লাইডটা দেখতে পারো",
+    "id_ID": "Kamu selalu bisa melihat slide terakhir dialog dengan perintah \"objective\""
   },
   "startDialog": {
     "en_US": {
@@ -2132,6 +2134,81 @@ exports.level = {
               "బాగుంది, ఈ level లో remote లోని `foo` మరియు `main` రెండింటినీ update చేద్దాం. కానీ ఈ level కోసం `git switch` disabled!",
               "",
               "*గమనిక: Remote branches `o/` prefix తో mark చేయబడ్డాయి, ఎందుకంటే full `origin/` label మన UI కు fit కాదు. దీని గురించి worry అవ్వకు... ఎల్లప్పుడూ remote name `origin` గా యూజ్ చేయి.*"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumen Push",
+              "",
+              "Bagus! Sekarang setelah paham tentang remote-tracking branch, kita bisa mulai mengungkap misteri cara kerja `git push`, `fetch`, dan `pull`. Kita bahas satu perintah dulu, tetapi konsep di antara ketiganya sangat mirip.",
+              "",
+              "Pertama kita lihat `git push`. Kamu sudah belajar di materi remote tracking bahwa git menebak remote *dan* branch tujuan push dengan melihat properti branch yang sedang aktif (remote yang \"dilacak\"). Itu perilaku bila tanpa argumen, tetapi `git push` juga bisa menerima argumen berbentuk:",
+              "",
+              "`git push <remote> <place>`",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Apa itu parameter `<place>`? Kita akan bahas detailnya sebentar lagi, tapi lihat contoh dulu. Menjalankan perintah:",
+              "",
+              "`git push origin main`",
+              "",
+              "jika diterjemahkan berarti:",
+              "",
+              "*Pergilah ke branch bernama \"main\" di repository-ku, ambil semua commit-nya, lalu pergi ke branch \"main\" di remote bernama \"origin\". Taruh semua commit yang belum ada di branch sana, lalu beri tahu aku kalau sudah selesai.*",
+              "",
+              "Dengan menyebut `main` sebagai argumen \"place\", kita memberi tahu git dari mana commit *berasal* dan ke mana commit *pergi*. Intinya itu adalah \"lokasi\" yang disinkronkan antara dua repository.",
+              "",
+              "Ingat bahwa karena kita sudah memberi tahu semua informasi yang dibutuhkan git (lewat kedua argumen tersebut), ia sama sekali tidak peduli di mana posisi `HEAD` kita sekarang!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari lihat contoh penentuan argumen. Perhatikan lokasi kita sedang berada pada contoh ini."
+            ],
+            "afterMarkdowns": [
+              "Nah! `main` di remote ikut diperbarui karena kita menyebutkan kedua argumen itu."
+            ],
+            "command": "git switch --detach C0; git push origin main",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bagaimana kalau kita tidak menuliskan argumennya? Apa yang akan terjadi?"
+            ],
+            "afterMarkdowns": [
+              "Perintahnya gagal (seperti yang terlihat), karena `HEAD` tidak sedang berada di sebuah remote-tracking branch."
+            ],
+            "command": "git switch --detach C0; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oke, untuk level ini mari perbarui `foo` maupun `main` di remote. Tantangannya adalah `git switch` dinonaktifkan pada level ini!",
+              "",
+              "*Catatan: Remote branch dilabeli awalan `o/` karena label lengkap `origin/` tidak muat di UI kita. Jangan khawatir",
+              " soal ini... cukup pakai `origin` sebagai nama remote seperti biasa.*"
             ]
           }
         }

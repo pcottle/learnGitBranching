@@ -30,7 +30,8 @@ exports.level = {
     "az": "Remote Branch-lar",
     "te_IN": "Remote Branches",
     "hi_IN": "Remote Branches",
-    "bn_BD": "Remote Branch"
+    "bn_BD": "Remote Branch",
+    "id_ID": "Remote Branch"
   },
   "hint": {
     "en_US": "Pay attention to the ordering -- commit on main first!",
@@ -60,7 +61,8 @@ exports.level = {
     "az": "Ardıcıllığa diqqət et -- əvvəlcə main-də commit et!",
     "te_IN": "ఆర్డరింగ్ పై దృష్టి పెట్టు — మొదట main పై commit చేయి!",
     "hi_IN": "Ordering पर ध्यान दो -- पहले main पर commit करो!",
-    "bn_BD": "ক্রমের দিকে খেয়াল রাখো -- আগে main-এ commit করো!"
+    "bn_BD": "ক্রমের দিকে খেয়াল রাখো -- আগে main-এ commit করো!",
+    "id_ID": "Perhatikan urutannya -- buat commit di main terlebih dahulu!"
   },
   "startDialog": {
     "en_US": {
@@ -1768,6 +1770,69 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఈ level పూర్తి చేయడానికి, ఒకసారి `main` పై commit చేసి, మరొకసారి `o/main` ను checkout చేసి commit చేయి. ఇది remote branches ఎలా భిన్నంగా ప్రవర్తిస్తాయి మరియు remote యొక్క state ను మాత్రమే reflect చేయడానికి update అవుతాయో అర్థం చేసుకోవడంలో సహాయపడుతుంది."
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote Branch",
+              "",
+              "Sekarang setelah kamu melihat aksi `git clone`, mari bahas apa yang sebenarnya terjadi.",
+              "",
+              "Hal pertama yang mungkin kamu sadari adalah munculnya branch baru di repository lokal kita bernama `o/main`. Jenis branch ini disebut _remote branch_; remote branch punya sifat khusus karena punya tujuan yang unik.",
+              "",
+              "Remote branch mencerminkan _kondisi_ repository remote (sejak terakhir kali kamu berkomunikasi dengan remote tersebut). Ia membantumu memahami perbedaan antara pekerjaan lokalmu dan pekerjaan yang sudah dipublikasikan -- langkah krusial sebelum membagikan kerjamu ke orang lain.",
+              "",
+              "Remote branch punya sifat khusus: saat kamu men-check out branch tersebut, kamu masuk ke mode detached `HEAD`. Git sengaja melakukan ini karena kamu tidak bisa bekerja langsung di branch tersebut; kamu harus bekerja di tempat lain lalu membagikan perubahanmu ke remote (barulah remote branch milikmu ikut diperbarui).",
+              "",
+              "Untuk memperjelas: Remote branch berada di repository _lokalmu_, bukan di repository remote."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Apa itu `o/`?",
+              "",
+              "Kamu mungkin penasaran apa maksud awalan `o/` pada remote branch ini. Remote branch memang punya aturan penamaan (wajib) -- tampilannya memakai format:",
+              "",
+              "* `<remote name>/<branch name>`",
+              "",
+              "Jadi kalau kamu melihat branch bernama `o/main`, nama branch-nya adalah `main` dan nama remote-nya adalah `o`.",
+              "",
+              "Sebagian besar developer sebenarnya menamai remote utama mereka `origin`, bukan `o`. Saking umumnya, git otomatis mengatur remote-mu bernama `origin` saat kamu menjalankan `git clone`.",
+              "",
+              "Sayangnya nama lengkap `origin` terlalu panjang untuk muat di UI kita, jadi kami menyingkatnya menjadi `o` :( Ingat saja saat kamu memakai git sungguhan, kemungkinan besar remote-mu akan bernama `origin`!",
+              "",
+              "Lumayan banyak nih informasinya, yuk lihat langsung praktiknya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari check out sebuah remote branch dan lihat apa yang terjadi."
+            ],
+            "afterMarkdowns": [
+              "Seperti yang terlihat, git menempatkan kita ke mode detached `HEAD` dan tidak memperbarui `o/main` saat kita menambah commit baru. Itu karena `o/main` hanya diperbarui ketika remote diperbarui."
+            ],
+            "command": "git switch --detach o/main; git commit",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, buat satu commit di `main` lalu buat satu commit lagi setelah men-check out `o/main`. Ini akan memperjelas perbedaan perilaku remote branch yang hanya diperbarui untuk mencerminkan kondisi remote."
             ]
           }
         }

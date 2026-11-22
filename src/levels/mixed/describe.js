@@ -40,7 +40,8 @@ exports.level = {
     "hi_IN": "Git Describe",
     "hu_HU": "Git describe",
     "az": "Git Describe",
-    "bn_BD": "Git Describe"
+    "bn_BD": "Git Describe",
+    "id_ID": "Git Describe"
   },
   "hint": {
     "en_US": "Just commit once on bugFix when you're ready to move on",
@@ -72,7 +73,8 @@ exports.level = {
     "tr_TR": "Hazır olduğunuzda bugFix üzerine sadece bir commit atmanız yeterlidir.",
     "hu_HU": "Ha készen állsz, csak commitolj egyszer a bugFix ágon",
     "az": "Davam etməyə hazır olduğunda, sadəcə bugFix üzərində bir dəfə commit et",
-    "bn_BD": "এগিয়ে যেতে প্রস্তুত হলে শুধু bugFix-এ একবার commit করো"
+    "bn_BD": "এগিয়ে যেতে প্রস্তুত হলে শুধু bugFix-এ একবার commit করো",
+    "id_ID": "Cukup buat satu commit di bugFix kalau kamu sudah siap lanjut"
   },
   "startDialog": {
     "en_US": {
@@ -1875,6 +1877,69 @@ exports.level = {
               "git describe সম্পর্কে মোটামুটি এটুকুই জানার আছে! কমান্ডটির অনুভূতি পেতে এই level-এর কয়েকটি জায়গা describe করে দেখো।",
               "",
               "প্রস্তুত হলে, level শেষ করতে শুধু একবার commit করো। এটা আমরা তোমাকে উপহার দিচ্ছি :P"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Git Describe",
+              "",
+              "Karena tag berfungsi sebagai \"jangkar\" yang luar biasa di codebase, git punya perintah untuk *mendeskripsikan* posisimu relatif terhadap \"jangkar\" (tag) terdekat. Perintah itu bernama `git describe`!",
+              "",
+              "`git describe` membantumu mengenali posisi setelah berpindah banyak commit ke belakang atau ke depan dalam riwayat; misalnya setelah melakukan `git bisect` (pencarian bug) atau saat duduk di depan komputer rekan kerja yang baru pulang liburan."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bentuk penggunaan `git describe` adalah:",
+              "",
+              "`git describe <ref>`",
+              "",
+              "Di mana `<ref>` adalah apa saja yang bisa diterjemahkan git menjadi sebuah commit. Jika kamu tidak menulis `<ref>`, git memakai posisimu sekarang (`HEAD`).",
+              "",
+              "Keluaran perintah ini berbentuk seperti:",
+              "",
+              "`<tag>-<numCommits>-g<hash>`",
+              "",
+              "Dengan `tag` adalah tag leluhur terdekat di riwayat, `numCommits` adalah seberapa jauh jarak commit dari tag tersebut, dan `<hash>` adalah hash dari commit yang sedang dideskripsikan."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari lihat contoh singkatnya. Untuk pohon di bawah ini:"
+            ],
+            "afterMarkdowns": [
+              "Perintah `git describe main` akan menghasilkan:",
+              "",
+              "`v1-2-gC2`",
+              "",
+              "Sedangkan `git describe side` akan menghasilkan:",
+              "",
+              "`v2-1-gC4`"
+            ],
+            "command": "git tag v2 C3",
+            "beforeCommand": "git commit; go -b side HEAD~1; gc; gc; git tag v1 C0"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kira-kira begitulah cara kerja `git describe`! Coba deskripsikan beberapa lokasi di level ini untuk merasakan kegunaan perintahnya.",
+              "",
+              "Kalau sudah puas bereksperimen, cukup buat satu commit untuk menyelesaikan level ini. Anggap saja ini bonus gratis dari kami :P"
             ]
           }
         }

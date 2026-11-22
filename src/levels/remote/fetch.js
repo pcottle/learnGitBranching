@@ -31,7 +31,8 @@ exports.level = {
     "te_IN": "Git Fetch",
     "hi_IN": "Git Fetch",
     "hu_HU": "Git fetch",
-    "az": "Git Fetch"
+    "az": "Git Fetch",
+    "id_ID": "Mengambil dengan Git Fetch"
   },
   "hint": {
     "en_US": "just run git fetch!",
@@ -62,7 +63,8 @@ exports.level = {
     "te_IN": "సాధారణంగా git fetch నడపండి!",
     "hi_IN": "बस git fetch रन करो!",
     "hu_HU": "Csak futtasd a git fetch-et!",
-    "az": "Sadəcə git fetch et!"
+    "az": "Sadəcə git fetch et!",
+    "id_ID": "cukup jalankan git fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -2173,6 +2175,79 @@ exports.level = {
           "options": {
             "markdowns": [
               "Bölümü bitirmək üçün sadəcə `git fetch` et və bütün commit-ləri endir!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Fetch",
+              "",
+              "Bekerja dengan git remote pada dasarnya hanyalah memindahkan data _ke_ dan _dari_ repository lain. Selama kita bisa mengirim commit bolak-balik, kita bisa membagikan segala pembaruan yang dilacak git (pekerjaan, file baru, ide baru, surat cinta, dll.).",
+              "",
+              "Di pelajaran ini kita akan belajar cara mengambil data _dari_ repository remote -- perintahnya dinamai secara pas: `git fetch`.",
+              "",
+              "Kamu akan melihat bahwa saat kita memperbarui representasi repository remote kita, _remote branch_ kita ikut diperbarui untuk mencerminkan kondisi terbaru itu. Ini terhubung langsung dengan pelajaran remote branch sebelumnya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sebelum masuk ke detail `git fetch`, mari lihat aksinya dulu! Di sini ada repository remote yang punya dua commit yang belum ada di repository lokal kita."
+            ],
+            "afterMarkdowns": [
+              "Nah, beres! Commit `C2` dan `C3` sudah diunduh ke repository lokal kita, dan remote branch `o/main` ikut diperbarui untuk mencerminkannya."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Apa yang dilakukan fetch",
+              "",
+              "`git fetch` melakukan dua langkah utama, dan hanya dua langkah ini saja. Ia:",
+              "",
+              "* mengunduh commit-commit yang ada di remote tetapi belum ada di repository lokal kita, dan...",
+              "* memperbarui posisi tempat remote branch kita menunjuk (misalnya `o/main`)",
+              "",
+              "Pada dasarnya `git fetch` menyinkronkan representasi _lokal_ dari repository remote kita agar sama dengan kondisi repository remote yang _sebenarnya_ (saat ini).",
+              "",
+              "Kalau kamu ingat pelajaran sebelumnya, kita menyebut bahwa remote branch mencerminkan kondisi repository remote _sejak_ terakhir kali kamu berkomunikasi dengan remote itu. `git fetch` adalah cara kamu berbicara dengan remote tersebut! Semoga keterkaitan antara remote branch dan `git fetch` sekarang terasa jelas.",
+              "",
+              "`git fetch` biasanya berkomunikasi dengan repository remote lewat internet (melalui protokol seperti `http://` atau `git://`).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Apa yang tidak dilakukan fetch",
+              "",
+              "Namun, `git fetch` tidak mengubah apa pun pada kondisi kerja _lokalmu_. Ia tidak memperbarui branch `main` milikmu maupun mengubah tampilan file di komputermu sekarang.",
+              "",
+              "Penting memahami ini karena banyak developer mengira menjalankan `git fetch` otomatis membuat pekerjaan lokal mereka menyatu dengan kondisi remote. Ia memang mengunduh semua data yang dibutuhkan, tapi _tidak_ mengubah file lokalmu sedikit pun. Kita akan belajar perintah untuk menggabungkannya di pelajaran berikutnya :D",
+              "",
+              "Jadi pada akhirnya, anggap saja `git fetch` sebagai tahap mengunduh (download)."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, cukup jalankan `git fetch` dan unduh semua commit-nya!"
             ]
           }
         }

@@ -29,7 +29,8 @@ exports.level = {
     "az": "Remote İzləmə",
     "te_IN": "Remote ట్రాకింగ్",
     "hi_IN": "Remote ट्रैकिंग",
-    "bn_BD": "Remote ট্র্যাকিং"
+    "bn_BD": "Remote ট্র্যাকিং",
+    "id_ID": "Remote Tracking"
   },
   "hint": {
     "en_US": "Remember there are two ways to set remote tracking!",
@@ -59,7 +60,8 @@ exports.level = {
     "az": "Unutma, remote izləməni qurmağın iki yolu var!",
     "te_IN": "Remote tracking సెట్ చేయడానికి రెండు మార్గాలు ఉన్నాయని గుర్తుపెట్టుకో!",
     "hi_IN": "याद रखो, remote tracking set करने के दो तरीक़े हैं!",
-    "bn_BD": "মনে রেখো, remote tracking সেট করার দুটো উপায় আছে!"
+    "bn_BD": "মনে রেখো, remote tracking সেট করার দুটো উপায় আছে!",
+    "id_ID": "Ingat ada dua cara untuk mengatur remote tracking!"
   },
   "startDialog": {
     "en_US": {
@@ -3412,6 +3414,124 @@ exports.level = {
           "options": {
             "markdowns": [
               "బాగుంది! ఈ level లో remote లోని `main` branch కు push చేయడానికి బదులుగా, లోకల్ గా `main` లో లేకుండా పని చేయడానికి ప్రయత్నిద్దాం. దీని బదులుగా, లక్ష్య డైగ్రామ్ లో చూపించిన `side` అనే branch ను సృష్టించాలి."
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Branch Remote-Tracking",
+              "",
+              "Satu hal yang mungkin terasa agak \"ajaib\" di beberapa pelajaran terakhir adalah bagaimana git tahu branch `main` berhubungan dengan `o/main`. Memang namanya mirip dan masuk akal menghubungkan `main` di remote dengan `main` di lokal, namun hubungan ini terlihat jelas pada dua skenario:",
+              "",
+              "* Saat operasi pull, commit diunduh ke `o/main` lalu *di-merge* ke branch `main`. Target merge tersirat ini ditentukan oleh hubungan tersebut.",
+              "* Saat operasi push, pekerjaan dari branch `main` dikirim ke branch `main` milik remote (yang di lokal diwakili oleh `o/main`). *Tujuan* push tersebut ditentukan dari hubungan antara `main` dan `o/main`.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Remote tracking",
+              "",
+              "Singkatnya, koneksi antara `main` dan `o/main` dijelaskan lewat properti \"remote tracking\" pada branch. Branch `main` disetel untuk melacak (track) `o/main` -- artinya ada target merge dan tujuan push bawaan untuk branch `main`.",
+              "",
+              "Kamu mungkin bertanya-tanya bagaimana properti ini bisa terpasang di `main` padahal kamu tidak menjalankan perintah apa pun untuk mengaturnya. Nah, saat kamu meng-clone repository dengan git, properti ini otomatis disiapkan untukmu.",
+              "",
+              "Saat clone berlangsung, git membuat satu remote branch untuk setiap branch di remote (seperti `o/main`). Lalu ia membuat satu branch lokal yang melacak branch yang sedang aktif di remote, yang dalam kebanyakan kasus adalah `main`.",
+              "",
+              "Begitu `git clone` selesai, kamu hanya punya satu branch lokal (biar tidak kewalahan), tapi kamu tetap bisa melihat semua branch lain di remote (kalau penasaran). Benar-benar yang terbaik dari dua dunia!",
+              "",
+              "Ini juga menjelaskan mengapa kamu bisa melihat output perintah seperti berikut saat cloning:",
+              "",
+              "    local branch \"main\" set to track remote branch \"o/main\""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Bisakah aku mengaturnya sendiri?",
+              "",
+              "Tentu bisa! Kamu dapat membuat branch mana saja melacak `o/main`, dan kalau kamu melakukannya, branch itu akan punya tujuan push dan target merge bawaan yang sama dengan `main`. Artinya kamu bisa menjalankan `git push` dari branch bernama `totallyNotMain` dan hasil kerjamu akan terkirim ke branch `main` di remote!",
+              "",
+              "Ada dua cara mengatur properti ini. Cara pertama adalah membuat sekaligus pindah ke branch baru dengan menjadikan remote branch sebagai ref-nya. Menjalankan",
+              "",
+              "`git switch -c totallyNotMain o/main`",
+              "",
+              "akan membuat branch baru bernama `totallyNotMain` dan mengaturnya untuk melacak `o/main`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Cukup bicaranya, mari lihat demonstrasinya! Kita akan membuat lalu pindah ke branch baru bernama `foo` dan mengaturnya untuk melacak `main` di remote."
+            ],
+            "afterMarkdowns": [
+              "Seperti yang kamu lihat, kita memakai target merge bawaan dari `o/main` untuk memperbarui branch `foo`. Perhatikan bahwa `main` tidak ikut berubah!!"
+            ],
+            "command": "git switch -c foo o/main; git pull",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Hal yang sama juga berlaku untuk `git push`."
+            ],
+            "afterMarkdowns": [
+              "Mantap. Kita baru saja men-push pekerjaan ke `main` di remote meskipun nama branch lokal kita sangat berbeda."
+            ],
+            "command": "git switch -c foo o/main; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Cara #2",
+              "",
+              "Cara lain mengatur remote tracking pada branch adalah memakai opsi `git branch -u`. Menjalankan",
+              "",
+              "`git branch -u o/main foo`",
+              "",
+              "akan mengatur branch `foo` untuk melacak `o/main`. Jika saat ini kamu sedang berada di branch `foo`, kamu bahkan boleh menghilangkan namanya:",
+              "",
+              "`git branch -u o/main`",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari kita lihat cara kedua untuk mengatur remote tracking ini sekilas..."
+            ],
+            "afterMarkdowns": [
+              "Sama seperti sebelumnya, hanya perintahnya lebih eksplisit. Keren!"
+            ],
+            "command": "git branch -u o/main foo; git commit; git push",
+            "beforeCommand": "git fakeCreateRemote; git switch -c foo"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oke! Untuk level ini mari push pekerjaan ke branch `main` di remote *tanpa* sedang berada di branch `main` di lokal. Sebagai gantinya, buatlah branch bernama `side` seperti yang ditunjukkan diagram target."
             ]
           }
         }

@@ -35,7 +35,8 @@ exports.level = {
     "az": "Branch Spagetti",
     "te_IN": "Branch స్పాగెట్టి",
     "hi_IN": "Branch स्पेगेटी",
-    "bn_BD": "Branch স্প্যাগেটি"
+    "bn_BD": "Branch স্প্যাগেটি",
+    "id_ID": "Spageti Branch"
   },
   "hint": {
     "en_US": "Make sure to do everything in the proper order! Branch one first, then two, then three",
@@ -66,7 +67,8 @@ exports.level = {
     "az": "Hər şeyi düzgün ardıcıllıqla etdiyinə əmin ol! Əvvəl `one` branch, sonra `two`, sonra `three`",
     "te_IN": "అన్నీ సరైన క్రమంలో చేశావని నిర్ధారించుకో! మొదట `one` branch, తర్వాత `two`, తర్వాత `three`",
     "hi_IN": "सुनिश्चित करो कि सब कुछ सही order में करो! पहले `one` branch, फिर `two`, फिर `three`",
-    "bn_BD": "নিশ্চিত করো সবকিছু সঠিক ক্রমে করছ! আগে `one` branch, তারপর `two`, তারপর `three`"
+    "bn_BD": "নিশ্চিত করো সবকিছু সঠিক ক্রমে করছ! আগে `one` branch, তারপর `two`, তারপর `three`",
+    "id_ID": "Pastikan semua dilakukan dalam urutan yang tepat! Branch one dulu, lalu two, lalu three"
   },
   "startDialog": {
     "en_US": {
@@ -644,6 +646,26 @@ exports.level = {
               "`one` branch-এ ওই commit-গুলোর ক্রম পাল্টাতে হবে এবং `C5` বাদ দিতে হবে। `two` branch-এ শুধু commit-গুলোর ক্রম পাল্টাতে হবে, আর `three`-তে মাত্র একটি commit আনতে হবে!",
               "",
               "এটা কীভাবে সমাধান করবে তা তোমার ওপরই ছেড়ে দিলাম -- পরে `show solution` দিয়ে আমাদের solution দেখে নিও।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Spageti Branch",
+              "",
+              "Waduh, ramai betul!! Target kita di level ini lumayan menantang nih.",
+              "",
+              "Di sini `main` berada beberapa commit lebih maju dari branch `one`, `two`, dan `three`. Untuk suatu keperluan, kita harus memperbarui ketiga branch lain ini dengan versi modifikasi dari beberapa commit terakhir di `main`.",
+              "",
+              "Branch `one` butuh penyusunan ulang commit-commit tersebut sekaligus membuang/mengeluarkan `C5`. Branch `two` hanya butuh penyusunan ulang urutan commit, sedangkan `three` cuma butuh memindahkan satu commit saja!",
+              "",
+              "Kami serahkan cara menyelesaikannya kepadamu -- pastikan untuk mengecek solusi kami setelahnya dengan `show solution`."
             ]
           }
         }

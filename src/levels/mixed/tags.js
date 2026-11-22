@@ -32,7 +32,8 @@ exports.level = {
     "tr_TR": "Git Tag'leri",
     "hu_HU": "Git tagek",
     "az": "Git Tag-lər",
-    "bn_BD": "Git Tag"
+    "bn_BD": "Git Tag",
+    "id_ID": "Git Tag"
   },
   "hint": {
     "en_US": "you can either check out the commit directly or simply checkout the tag!",
@@ -64,7 +65,8 @@ exports.level = {
     "tr_TR": "İsterseniz direkt commit'e veya direkt tag'e checkout yapabilirsiniz!",
     "hu_HU": "Közvetlenül checkoutolhatod a commitot, vagy egyszerűen a taget!",
     "az": "İstəsən, birbaşa commit-i checkout edə bilərsən, ya da sadəcə tag-ı checkout et!",
-    "bn_BD": "তুমি সরাসরি commit checkout করতে পারো, অথবা সহজভাবে tag-ই checkout করো!"
+    "bn_BD": "তুমি সরাসরি commit checkout করতে পারো, অথবা সহজভাবে tag-ই checkout করো!",
+    "id_ID": "kamu bisa langsung check out commit-nya atau cukup check out tag-nya!"
   },
   "startDialog": {
     "en_US": {
@@ -1568,6 +1570,58 @@ exports.level = {
               "এই level-এ শুধু লক্ষ্য visualization-এ দেখানো tag-গুলো তৈরি করো এবং তারপর `v1` checkout করো। খেয়াল করো তুমি কীভাবে detached `HEAD` অবস্থায় চলে যাও -- কারণ `v1` tag-এর ওপর সরাসরি commit করা যায় না।",
               "",
               "পরের level-এ আমরা tag-এর আরও মজার একটি ব্যবহার দেখব।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Tag",
+              "",
+              "Seperti yang sudah kamu pelajari di pelajaran sebelumnya, branch sangat mudah digeser-geser dan sering berpindah menunjuk ke commit berbeda seiring pekerjaan selesai. Branch mudah berubah, sering bersifat sementara, dan terus bergerak.",
+              "",
+              "Kalau begitu, mungkin kamu bertanya-tanya apakah ada cara untuk menandai titik bersejarah proyek secara *permanen*. Untuk hal-hal seperti rilis versi besar dan merge penting, adakah cara menandai commit-commit ini dengan sesuatu yang lebih tetap daripada branch?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Tentu saja ada! Git tag memang dibuat persis untuk kasus ini -- tag menandai commit tertentu (secara lebih permanen) sebagai \"tonggak pencapaian\" (milestone) yang bisa kamu rujuk seperti layaknya branch.",
+              "",
+              "Yang terpenting, tag tidak pernah ikut bergeser ketika commit baru dibuat. Kamu tidak bisa \"check out\" ke sebuah tag lalu menambah pekerjaan di atas tag itu -- tag hadir sebagai jangkar di pohon commit untuk menandai titik tertentu.",
+              "",
+              "Mari lihat seperti apa tag dalam praktiknya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari coba membuat tag di `C1` yang menjadi prototipe versi 1 kita."
+            ],
+            "afterMarkdowns": [
+              "Berhasil! Cukup mudah. Kita menamai tag-nya `v1` dan menunjuk langsung commit `C1`. Jika kamu tidak menyebutkan commit-nya, git otomatis memakai lokasi `HEAD` saat ini."
+            ],
+            "command": "git tag v1 C1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk level ini cukup buat tag-tag sesuai visualisasi target lalu check out ke `v1`. Perhatikan bagaimana kamu masuk ke kondisi detached `HEAD` -- itu karena kamu tidak bisa membuat commit langsung pada tag `v1`.",
+              "",
+              "Di level berikutnya kita akan membahas kegunaan tag yang lebih menarik lagi."
             ]
           }
         }

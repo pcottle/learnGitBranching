@@ -32,7 +32,8 @@ exports.level = {
     "hi_IN": "HEAD को अलग करें",
     "hu_HU": "Fejlécz le! (Detach HEAD)",
     "az": "HEAD'ini Ayır",
-    "bn_BD": "তোমার HEAD বিচ্ছিন্ন করো"
+    "bn_BD": "তোমার HEAD বিচ্ছিন্ন করো",
+    "id_ID": "Melepas HEAD (Detached HEAD)"
   },
   "hint": {
     "en_US": "Use the label (hash) on the commit for help!",
@@ -63,7 +64,8 @@ exports.level = {
     "tr_TR": "Yardım için commit üzerindeki etiket (hash) değerini kullanın!",
     "hu_HU": "Használd a commit azonosítóját (hash)!",
     "az": "Kömək üçün commit üzərindəki etiketdən (hash) istifadə et!",
-    "bn_BD": "সাহায্যের জন্য commit-এর লেবেল (hash) ব্যবহার করো!"
+    "bn_BD": "সাহায্যের জন্য commit-এর লেবেল (hash) ব্যবহার করো!",
+    "id_ID": "Gunakan label (hash) pada commit untuk bantuan!"
   },
   "startDialog": {
     "en_US": {
@@ -2264,6 +2266,84 @@ exports.level = {
               "এই level সম্পূর্ণ করতে, চলো HEAD-কে `bugFix` থেকে বিচ্ছিন্ন করে তার বদলে commit-এর সাথে যুক্ত করি।",
               "",
               "এই commit-কে তার hash দিয়ে নির্দিষ্ট করো। প্রতিটি commit-এর hash সেই commit-কে নির্দেশ করা বৃত্তের ওপর দেখানো থাকে।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Berpindah-pindah di Git",
+              "",
+              "Sebelum masuk ke fitur-fitur Git yang lebih canggih, penting untuk memahami berbagai cara berpindah di sepanjang pohon commit yang mewakili proyekmu.",
+              "",
+              "Begitu kamu terbiasa berpindah posisi, kemampuanmu memakai perintah-perintah git lainnya akan meningkat pesat!",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## HEAD",
+              "",
+              "Pertama kita perlu membahas \"HEAD\". HEAD adalah nama simbolis untuk commit yang sedang di-checkout saat ini -- intinya, commit tempat kamu sedang bekerja sekarang.",
+              "",
+              "HEAD selalu menunjuk ke commit terbaru yang tercermin di working tree. Sebagian besar perintah git yang mengubah working tree akan dimulai dengan memindahkan HEAD.",
+              "",
+              "Biasanya HEAD menunjuk ke nama branch (seperti bugFix). Ketika kamu melakukan commit, status bugFix berubah dan perubahan ini terlihat melalui HEAD."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari kita lihat aksinya. Di sini kita akan memperlihatkan posisi HEAD sebelum dan sesudah commit."
+            ],
+            "afterMarkdowns": [
+              "Lihat! Ternyata selama ini HEAD bersembunyi di balik branch `main` kita."
+            ],
+            "command": "git switch --detach C1; git switch main; git commit; git switch --detach C2",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "### Melepas HEAD (Detaching HEAD)",
+              "",
+              "Melepas HEAD (detaching HEAD) berarti menempelkannya langsung ke sebuah commit, bukan ke branch. Begini kondisinya sebelum dilepas:",
+              "",
+              "HEAD -> main -> C1",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Dan sekarang menjadi",
+              "",
+              "HEAD -> C1"
+            ],
+            "command": "git switch --detach C1",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, mari lepas HEAD dari `bugFix` lalu tempelkan langsung ke commit-nya.",
+              "",
+              "Sebutkan commit tersebut dengan hash-nya. Hash setiap commit ditampilkan pada lingkaran yang mewakili commit itu."
             ]
           }
         }

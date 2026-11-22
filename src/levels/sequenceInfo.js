@@ -30,7 +30,8 @@ var sequenceInfo = {
       'pl'   : 'Wprowadzenie',
       'it_IT': "Sequenza introduttiva",
       'ta_IN': 'அறிமுக தொடர் வரிசை',
-      'tr_TR': 'Giriş bölümü'
+      'tr_TR': 'Giriş bölümü',
+      'id_ID': "Pengenalan Dasar"
     },
     about: {
       'en_US': 'A nicely paced introduction to the majority of git commands',
@@ -57,7 +58,8 @@ var sequenceInfo = {
       'pl'   : 'Krótkie wprowadzenie do większości poleceń Gita',
       'it_IT': "Un'introduzione graduale ai principali comandi Git",
       'ta_IN': 'பெரும்பாலான கிட் கட்டளைகளுக்கு ஒரு நல்ல அறிமுகம்',
-      'tr_TR': 'Git komutlarının çoğunun yüksek tempolu bir tanıtımı'
+      'tr_TR': 'Git komutlarının çoğunun yüksek tempolu bir tanıtımı',
+      'id_ID': "Pengenalan bertahap untuk sebagian besar perintah dasar git"
     }
   },
   rampup: {
@@ -86,7 +88,8 @@ var sequenceInfo = {
       'pl'   : 'Rozkręcenie',
       'it_IT': "Diamoci dentro",
       'ta_IN': 'சற்று அதிகப்படுத்த',
-      'tr_TR': 'Hızlanma'
+      'tr_TR': 'Hızlanma',
+      'id_ID': "Melaju Lebih Jauh"
     },
     about: {
       'en_US': 'The next serving of 100% git awesomes-ness. Hope you\'re hungry',
@@ -113,7 +116,8 @@ var sequenceInfo = {
       'pl'   : 'Następna porcja gita jest niesamowita. Mam nadzieję, że jesteś głodny',
       'it_IT': "Porzione con il 100% di grandiosità Git, spero tu sia affamato",
       'ta_IN': 'அடித்தது கிட்டின் 100% அற்புதங்கள். நீங்கள் ஆர்வமாக உள்ளீர்கள் என்று நம்புகிறேன்',
-      'tr_TR': 'Git\'in muhteşemliklerinden bir porsiyon daha. Umarım açsındır'
+      'tr_TR': 'Git\'in muhteşemliklerinden bir porsiyon daha. Umarım açsındır',
+      'id_ID': "Sajian berikutnya yang 100% keren tentang git. Semoga kamu masih semangat!"
     }
   },
   remote: {
@@ -143,7 +147,8 @@ var sequenceInfo = {
       'pl'   : 'Push & Pull -- Zdalne repozytoria',
       'it_IT': "Push & Pull -- Git Remoto!",
       'ta_IN': 'Push & Pull -- கிட் Remotes!',
-      'tr_TR': 'Push & Pull -- Git Uzak Depoları (Remotes)!'
+      'tr_TR': 'Push & Pull -- Git Uzak Depoları (Remotes)!',
+      'id_ID': "Push & Pull -- Git Remote!"
     },
     about: {
       'en_US': 'Time to share your 1\'s and 0\'s kids; coding just got social',
@@ -172,6 +177,7 @@ var sequenceInfo = {
         "Ragazzi è arrivato il momento di condividere i vostri 0 e 1; programmare diventa social",
       'ta_IN': 'உங்களின் 1\'கள் மற்றும் 0\'களை பகிர்வதற்கான நேரம் குழந்தைகளே; குறியிடுதல் (coding) பொது உடமை ஆக்க பட்டுள்ளது',
       'tr_TR': '0\'ları ve 1\'ler\'i paylaşma zamanı çocuklar, kodlama sosyal bir hal alıyor',
+      'id_ID': "Waktunya berbagi kode dengan teman; ngoding kini jadi aktivitas sosial",
     }
   },
   remoteAdvanced: {
@@ -201,7 +207,8 @@ var sequenceInfo = {
       'pl'   : 'Do źródła i dalej -- zaawansowane zdalne repozytoria',
       'it_IT': "Verso Origin e oltre -- Git Remoto Avanzato!",
       'ta_IN': 'ஆரம்பம் மற்றும் அதர்க்கு மேல் -- மேம்பட்ட கிட் ரிமோட்டுகள்!',
-      'tr_TR': 'Origin ve Ötesine -- Gelişmiş Git Uzak Depoları (Remotes)'
+      'tr_TR': 'Origin ve Ötesine -- Gelişmiş Git Uzak Depoları (Remotes)',
+      'id_ID': "Menuju Origin dan Seterusnya -- Git Remote Lanjutan!"
     },
     about: {
       'en_US': 'And you thought being a benevolent dictator would be fun...',
@@ -228,7 +235,8 @@ var sequenceInfo = {
       'pl'   : 'A myślałeś, że bycie życzliwym dyktatorem byłoby fajne...',
       'it_IT': "E tu credevi che essere un dittatore benevolo fosse divertente...",
       'ta_IN': 'நீங்கள் ஒரு அக்கரை உள்ள சர்வாதிகாரியாக இருப்பது வேடிக்கையாக இருக்கும் என்று நினைத்தீர்களா...',
-      'tr_TR': 'Ve hayırsever bir diktatör olmanın eğlenceli olacağını düşündün...'
+      'tr_TR': 'Ve hayırsever bir diktatör olmanın eğlenceli olacağını düşündün...',
+      'id_ID': "Dan kamu pikir jadi pengelola repo itu bakal santai-santai saja..."
     }
   },
   move: {
@@ -257,7 +265,8 @@ var sequenceInfo = {
       'pl'   : 'Przenoszenie pracy',
       'it_IT': "Spostare il lavoro in giro",
       'ta_IN': 'வேலைகளை பகிர்ந்து கொள்வது',
-      'tr_TR': 'Çalışmayı Taşımak ve Stage\'lemek'
+      'tr_TR': 'Çalışmayı Taşımak ve Stage\'lemek',
+      'id_ID': "Memindahkan & Menyiapkan Perubahan"
     },
     about: {
       'en_US': 'Move commits around and choose exactly which file changes belong together',
@@ -284,7 +293,8 @@ var sequenceInfo = {
       'pl'   : 'Git dobrze radzi sobie z modyfikacją drzewa źródłowego :P',
       'it_IT': 'Modificare l\'albero con facilità. "GIT" ready :P',
       'ta_IN': '"கிட்" மூல மரத்தை மாற்றுவதில் சிரந்தது :P',
-      'tr_TR': 'Commit\'leri taşıyın ve hangi dosya değişikliklerinin birlikte gideceğine tam olarak siz karar verin'
+      'tr_TR': 'Commit\'leri taşıyın ve hangi dosya değişikliklerinin birlikte gideceğine tam olarak siz karar verin',
+      'id_ID': "Memindah-mindahkan commit dan memilih perubahan file mana yang masuk ke tiap commit"
     }
   },
   mixed: {
@@ -313,7 +323,8 @@ var sequenceInfo = {
       'pl'   : 'Po trochu wszystkiego',
       'it_IT': "Un po' di tutto",
       'ta_IN': 'ஒரு கலப்பு பை',
-      'tr_TR': 'Ortaya Karışık'
+      'tr_TR': 'Ortaya Karışık',
+      'id_ID': "Serba-Serbi Git"
     },
     about: {
       'en_US': 'A mixed bag of Git techniques, tricks, and tips',
@@ -340,7 +351,8 @@ var sequenceInfo = {
       'pl'   : 'Po trochu wszystkiego. Wskazówki i triki',
       'it_IT': "Comandi Git assortiti, trucchi e consigli",
       'ta_IN': 'கிட் நுட்பங்கள், தந்திரங்கள் மற்றும் உதவிக்குறிப்புகளின் கலவையான பை',
-      'tr_TR': 'Git teknikleri, taktikleri ve püf noktalarından oluşan karma bir bölüm'
+      'tr_TR': 'Git teknikleri, taktikleri ve püf noktalarından oluşan karma bir bölüm',
+      'id_ID': "Kumpulan teknik, trik, dan tips Git yang beragam"
     }
   },
   advanced: {
@@ -369,7 +381,8 @@ var sequenceInfo = {
       'pl'   : 'Tematy zaawansowane',
       'it_IT': "Argomenti avanzati",
       'ta_IN': 'மேம்பட்ட தலைப்புகள்',
-      'tr_TR': 'İleri Seviye Konular'
+      'tr_TR': 'İleri Seviye Konular',
+      'id_ID': "Topik Lanjutan"
     },
     about: {
       'en_US': 'For the truly brave!',
@@ -396,7 +409,8 @@ var sequenceInfo = {
       'pl'   : 'Dla naprawdę odważnych!',
       'it_IT': "Per i più temerari!",
       'ta_IN': 'உண்மையிலேயே தைரியமானவர்களுக்கு!',
-      'tr_TR': 'Gerçekten cesur olanlara!'
+      'tr_TR': 'Gerçekten cesur olanlara!',
+      'id_ID': "Khusus untuk yang benar-benar pemberani!"
     }
   }
 };

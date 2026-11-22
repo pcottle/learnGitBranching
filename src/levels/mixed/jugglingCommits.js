@@ -47,7 +47,8 @@ exports.level = {
     "tr_TR": "Commit Hokkabazlığı",
     "hu_HU": "Commitok átrendezése",
     "az": "Commit-lərin Hoqqabazlığı",
-    "bn_BD": "Commit নিয়ে জাগলিং"
+    "bn_BD": "Commit নিয়ে জাগলিং",
+    "id_ID": "Menukar Posisi Commit"
   },
   "hint": {
     "en_US": "The first command is git rebase -i HEAD~2",
@@ -79,7 +80,8 @@ exports.level = {
     "tr_TR": "İlk komutunuz git rebase -i HEAD~2",
     "hu_HU": "Az első parancs: git rebase -i HEAD~2",
     "az": "İlk əmr git rebase -i HEAD~2 olmalıdır",
-    "bn_BD": "প্রথম কমান্ডটি হলো git rebase -i HEAD~2"
+    "bn_BD": "প্রথম কমান্ডটি হলো git rebase -i HEAD~2",
+    "id_ID": "Perintah pertamanya adalah git rebase -i HEAD~2"
   },
   "startDialog": {
     "en_US": {
@@ -1093,6 +1095,40 @@ exports.level = {
               "সবশেষে, এখানকার লক্ষ্য অবস্থার দিকে খেয়াল করো -- যেহেতু আমরা commit-গুলো দুবার সরাই, দুটিতেই একটি করে apostrophe যোগ হয়। যে commit amend করি তার জন্য আরও একটি apostrophe যোগ হয়, যা আমাদের tree-র চূড়ান্ত রূপ দেয় ",
               "",
               "বলা বাহুল্য, আমি এখন কাঠামো ও আপেক্ষিক apostrophe-র পার্থক্যের ভিত্তিতে level তুলনা করতে পারি। তোমার tree-র `main` branch-এর কাঠামো ও আপেক্ষিক apostrophe-র পার্থক্য একই হলেই আমি পূর্ণ নম্বর দেব।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Menukar Posisi Commit (Juggling Commits)",
+              "",
+              "Berikut situasi lain yang juga sering terjadi. Kamu punya sekumpulan perubahan (`newImage`) dan sekumpulan perubahan lain (`caption`) yang saling berkaitan, sehingga keduanya bertumpuk berurutan di repository-mu.",
+              "",
+              "Bagian yang rumit adalah kadang kamu perlu melakukan sedikit modifikasi pada commit yang lebih lama. Dalam kasus ini, tim desain meminta kita mengubah sedikit ukuran `newImage`, padahal commit itu sudah tertimbun di riwayat belakang!!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kita akan mengatasi masalah ini dengan langkah berikut:",
+              "",
+              "* Kita susun ulang commit dengan `git rebase -i` agar commit yang ingin diubah berada paling atas",
+              "* Kita jalankan `git commit --amend` untuk melakukan sedikit perubahan tadi",
+              "* Lalu kita susun ulang lagi commit-commit tersebut kembali ke urutan semula dengan `git rebase -i`",
+              "* Terakhir, kita pindahkan `main` ke bagian pohon yang sudah diperbarui ini untuk menyelesaikan level (dengan metode pilihanmu)",
+              "",
+              "Ada banyak cara mencapai tujuan akhir ini (aku lihat kamu melirik cherry-pick), dan kita akan bahas cara lainnya nanti, tapi untuk sekarang fokuslah pada teknik ini.",
+              "Terakhir, perhatikan kondisi target di sini -- karena kita memindahkan commit dua kali, keduanya mendapat tambahan tanda petik (apostrof). Satu tanda petik lagi ditambahkan pada commit yang kita amend, sehingga menghasilkan bentuk akhir pohonnya.",
+              "",
+              "Selain itu, sekarang aku membandingkan level berdasarkan struktur dan perbedaan relatif jumlah tanda petik. Selama branch `main` di pohonmu memiliki struktur dan selisih tanda petik relatif yang sama, kamu tetap mendapat nilai penuh."
             ]
           }
         }

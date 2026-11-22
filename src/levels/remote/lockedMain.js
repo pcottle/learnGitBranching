@@ -29,7 +29,8 @@ exports.level = {
     "az": "Kilidli Main",
     "te_IN": "లాక్ చేయబడిన Main",
     "hi_IN": "feature branch को लोकल main से बनाओ, इससे पहले कि तुम main को origin के main जैसा रीसेट करो",
-    "bn_BD": "origin-এর main-এর সমান করে main রিসেট করার আগে লোকাল main থেকে feature branch তৈরি করো"
+    "bn_BD": "origin-এর main-এর সমান করে main রিসেট করার আগে লোকাল main থেকে feature branch তৈরি করো",
+    "id_ID": "Buat branch feature dari main lokal sebelum me-reset main kembali menyamakan origin's main"
   },
   "name": {
     "en_US": "Locked Main",
@@ -58,7 +59,8 @@ exports.level = {
     "az": "Lokal main-i origin-in main-i ilə eyni olması üçün geri sıfırlamazdan əvvəl feature branch-ını ondan yarat",
     "te_IN": "లాక్ చేయబడిన Main",
     "hi_IN": "लॉक्ड Main",
-    "bn_BD": "লকড Main"
+    "bn_BD": "লকড Main",
+    "id_ID": "Main yang Terkunci"
   },
   "startDialog": {
     "en_US": {
@@ -1139,6 +1141,46 @@ exports.level = {
               "## সমাধান",
               "",
               "feature নামে আরেকটা branch তৈরি করো এবং সেটা remote-এ push করো। সেই সাথে তোমার main-কে রিসেট করে remote-এর সাথে সিঙ্কে নিয়ে এসো, নইলে পরের বার pull করার সময় অন্য কারও commit তোমার commit-এর সাথে conflict করে সমস্যা হতে পারে।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Ditolak Remote (Remote Rejected)!",
+              "",
+              "Jika kamu bekerja di tim kolaboratif yang besar, kemungkinan besar branch `main` dikunci dan mewajibkan proses Pull Request untuk menggabungkan perubahan. Jika kamu terlanjur commit langsung ke `main` di lokal lalu mencoba push, kamu akan disambut pesan seperti ini:",
+              "",
+              "```",
+              " ! [remote rejected] main -> main (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)",
+              "```"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Kenapa ditolak?",
+              "",
+              "Remote menolak push commit langsung ke `main` karena kebijakan pada `main` mewajibkan penggunaan pull request.",
+              "",
+              "Tadinya kamu berniat mengikuti prosedur: buat branch, push branch itu, lalu ajukan pull request -- tapi kamu lupa dan malah commit langsung ke `main`. Sekarang kamu terjebak dan tidak bisa men-push perubahanmu."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Solusinya",
+              "",
+              "Buat branch lain bernama `feature` dan push branch itu ke remote. Selain itu, reset kembali `main` kamu agar sinkron lagi dengan remote, kalau tidak kamu bisa bermasalah saat melakukan pull berikutnya ketika commit orang lain bentrok dengan punyamu."
             ]
           }
         }

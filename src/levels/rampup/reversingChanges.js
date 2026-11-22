@@ -33,6 +33,7 @@ exports.level = {
     "te_IN": "Git లో మార్పులను రివర్ట్ చేయడం",
     "hi_IN": "Git में Changes वापस लेना",
     "bn_BD": "Git-এ পরিবর্তন ফিরিয়ে নেওয়া",
+    "id_ID": "Membalikkan Perubahan di Git",
   },
   "hint": {
     "en_US": "Notice that revert and reset take different arguments.",
@@ -63,6 +64,7 @@ exports.level = {
     "te_IN": "revert మరియు reset వేర్వేరు ఆర్గ్యుమెంట్లు తీసుకుంటాయని గమనించు.",
     "hi_IN": "ध्यान दें कि revert और reset अलग-अलग arguments लेती हैं।",
     "bn_BD": "লক্ষ্য করো, revert ও reset ভিন্ন ভিন্ন argument নেয়।",
+    "id_ID": "Perhatikan bahwa revert dan reset menerima argumen yang berbeda.",
   },
   "startDialog": {
     "en_US": {
@@ -1815,6 +1817,69 @@ exports.level = {
               "এই level সম্পূর্ণ করতে, `local` ও `pushed` উভয়ের সবচেয়ে সাম্প্রতিক commit ফিরিয়ে নাও। মোট দুটি commit তুমি revert করবে (প্রতি branch-এ একটি)।",
               "",
               "মনে রেখো, `pushed` একটি remote branch আর `local` একটি local branch -- এটি তোমাকে পদ্ধতি বেছে নিতে সাহায্য করবে।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Membalikkan Perubahan di Git",
+              "",
+              "Ada banyak cara membalikkan perubahan di Git. Sama seperti commit, membalikkan perubahan punya sisi tingkat rendah (staging per file atau bagian kode) dan tingkat tinggi (bagaimana perubahan dibatalkan di riwayat). Aplikasi kita berfokus pada cara kedua.",
+              "",
+              "Ada dua cara utama membatalkan perubahan di Git -- satu memakai `git reset` dan satunya lagi memakai `git revert`. Kita akan melihat masing-masing pada dialog berikutnya",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Reset",
+              "",
+              "`git reset` membatalkan perubahan dengan memindahkan referensi branch mundur ke commit yang lebih lama. Dalam arti ini, kamu bisa membayangkannya seperti \"menulis ulang sejarah\"; `git reset` memundurkan branch seolah-olah commit itu tidak pernah dibuat.",
+              "",
+              "Mari kita lihat tampilannya:"
+            ],
+            "afterMarkdowns": [
+              "Keren! Git memindahkan referensi branch `main` mundur ke `C1`; sekarang repository lokal kita seolah-olah `C2` tidak pernah ada."
+            ],
+            "command": "git reset HEAD~1",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "## Git Revert",
+              "",
+              "Meskipun `reset` sangat bagus untuk branch lokal di komputermu sendiri, metode \"menulis ulang sejarah\" ini tidak cocok untuk remote branch yang dipakai bersama orang lain.",
+              "",
+              "Untuk membatalkan perubahan sekaligus *membagikan* pembatalan itu ke orang lain, kita perlu memakai `git revert`. Mari lihat aksinya."
+            ],
+            "afterMarkdowns": [
+              "Aneh ya, malah ada commit baru di ujung branch? Itu karena commit baru `C2'` ini berisi perubahan yang persis membalikkan perubahan yang diperkenalkan oleh `C2`.",
+              "",
+              "Dengan revert, kamu bisa men-push perubahanmu untuk dibagikan ke rekan setim."
+            ],
+            "command": "git revert HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, balikkan commit terbaru pada branch `local` maupun `pushed`. Total kamu akan membatalkan dua commit (satu di tiap branch).",
+              "",
+              "Ingat bahwa `pushed` adalah remote branch sedangkan `local` adalah branch lokal -- itu membantumu memilih metode yang tepat."
             ]
           }
         }

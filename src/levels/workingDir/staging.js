@@ -26,6 +26,7 @@ exports.level = {
     it_IT: "L'area di staging",
     ko: "스테이징 영역 (Staging Area)",
     ja: "ステージングエリア",
+    id_ID: "Staging Area",
   },
   hint: {
     es_AR:
@@ -68,6 +69,7 @@ exports.level = {
       "`git add <file>`로 파일을 스테이징한 다음 `git commit`으로 스냅샷을 저장하세요. 파일마다 한 번씩, 총 두 번 수행하세요.",
     ja:
       "`git add <file>`でファイルをステージングし、`git commit`でコミットしてください。これを各ファイルに対して1回ずつ、計2回行ってください。",
+    id_ID: "Stage satu file dengan `git add <file>`, lalu simpan snapshot-nya dengan `git commit`. Lakukan dua kali, satu kali untuk tiap file.",
   },
   startDialog: {
     en_US: {
@@ -1144,6 +1146,63 @@ exports.level = {
               "*`git add styles.css`を実行してから`git commit`",
               "",
               "目標となる各コミットの横に表示されたファイル名は、どの変更をどのコミットに含めるべきかを示しています。2つのコミットを正しく作成すれば、このレベルはクリアです！",
+            ],
+          },
+        },
+      ],
+    },
+    id_ID: {
+      childViews: [
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "## Staging Area",
+              "",
+              "Sejauh ini kita baru membahas sekilas apa sebenarnya yang terjadi saat *membuat* commit. Kamu mungkin sudah tahu bahwa commit mewakili perubahan pada sekumpulan file, tapi sebenarnya ada proses memilih perubahan file *mana* yang masuk ke commit *yang mana*.",
+              "",
+              "Git tidak mau otomatis memasukkan semua file yang berubah ke setiap commit -- itu bisa berbahaya! Bisa saja perubahan yang belum siap malah ikut permanen, atau bahkan data rahasia seperti API key bocor ke GitHub lewat riwayat commit-mu.",
+              "",
+              "Jadi sebelum perubahan pada sebuah file menjadi bagian dari commit, perubahan itu harus dipilih secara spesifik. Git punya tiga zona untuk ini: **working directory** (tempat kamu mengedit), **staging area** (ruang tunggu untuk isi commit berikutnya), dan **repository** (riwayat permanenmu).",
+              "",
+              "Kamu menentukan *persis* apa saja yang ikut dalam tiap commit dengan `git add`. Begitulah cara menjaga commit tetap rapi, tanpa pernah dipaksa meng-commit semuanya sekaligus.",
+              "",
+              "*(Pada level-level ini, kita sekarang akan menampilkan file mana saja yang menjadi bagian dari tiap commit.)*"
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Jalankan `git status` kapan saja untuk melihat kondisi terkini. Saat ini ia menampilkan dua file yang sudah kamu edit tetapi belum di-stage:",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   styles.css",
+              "```",
+              "",
+              "Stage satu file dengan `git add app.js`, atau ambil semuanya sekaligus dengan `git add .`. Setelah sebuah file berada di staging area, `git commit` menguncinya menjadi snapshot.",
+              "",
+              "Punya file yang tidak ingin pernah di-commit, seperti file rahasia, log, atau hasil build? Daftarkan saja di file `.gitignore` agar git diam-diam mengabaikannya."
+            ],
+          },
+        },
+        {
+          type: "ModalAlert",
+          options: {
+            markdowns: [
+              "Giliranmu! Stage dan commit pekerjaanmu **satu file demi satu file**, supaya tiap commit tetap fokus:",
+              "",
+              "* `git add app.js`, lalu `git commit`",
+              "* `git add styles.css`, lalu `git commit`",
+              "",
+              "Nama file di samping tiap commit target menunjukkan persis ke mana tiap perubahan harus masuk. Dua commit yang rapi dan level ini beres!"
             ],
           },
         },

@@ -8,6 +8,7 @@ exports.strings = {
     "tr_TR": "Tamamlama Sertifikası",
     "zh_CN": "荣誉证书",
     "zh_TW": "榮譽證書",
+    "id_ID": "Sertifikat Penyelesaian",
   },
   "certificate-headline": {
     "__desc__": "Headline inside the certificate modal, celebrating finishing every level",
@@ -18,6 +19,7 @@ exports.strings = {
     "tr_TR": "Bütün seviyeleri bitirdin!",
     "zh_CN": "你完成了所有关卡！",
     "zh_TW": "你完成了所有關卡！",
+    "id_ID": "Kamu berhasil menyelesaikan semua level!",
   },
   "certificate-subhead": {
     "__desc__": "Sub-headline inside the certificate modal. {levels} is the total number of levels",
@@ -28,6 +30,7 @@ exports.strings = {
     "tr_TR": "Hem de {levels} seviyenin hepsini. Adını yaz, sertifikan senin olsun.",
     "zh_CN": "整整 {levels} 个关卡。签下你的名字，收下它吧。",
     "zh_TW": "整整 {levels} 個關卡。簽下你的名字，收下它吧。",
+    "id_ID": "Semua {levels} level tuntas! Tulis namamu di sini dan simpan sertifikatnya.",
   },
   "certificate-name-label": {
     "__desc__": "Label for the text field where you type the name that appears on the certificate",
@@ -38,6 +41,7 @@ exports.strings = {
     "tr_TR": "Adın",
     "zh_CN": "签名",
     "zh_TW": "簽名",
+    "id_ID": "Namamu",
   },
   "certificate-name-placeholder": {
     "__desc__": "Placeholder for the certificate name text field",
@@ -48,6 +52,7 @@ exports.strings = {
     "tr_TR": "Adını buraya yaz",
     "zh_CN": "在此输入你的名字",
     "zh_TW": "在此輸入你的名字",
+    "id_ID": "Ketik namamu di sini",
   },
   "certificate-copy": {
     "__desc__": "Button that copies the certificate image to the clipboard",
@@ -58,6 +63,7 @@ exports.strings = {
     "tr_TR": "Görseli kopyala",
     "zh_CN": "复制图片",
     "zh_TW": "複製圖片",
+    "id_ID": "Salin gambar",
   },
   "certificate-copied": {
     "__desc__": "Status message after the certificate image is copied to the clipboard",
@@ -68,6 +74,7 @@ exports.strings = {
     "tr_TR": "Kopyalandı! İstediğin yere yapıştırabilirsin.",
     "zh_CN": "已复制！快去粘贴分享吧。",
     "zh_TW": "已複製！快去貼上分享吧。",
+    "id_ID": "Berhasil disalin! Tempelkan di mana pun kamu mau.",
   },
   "certificate-copy-failed": {
     "__desc__": "Status message when copying the certificate image to the clipboard fails",
@@ -78,6 +85,7 @@ exports.strings = {
     "tr_TR": "Kopyalama başarısız oldu. Bunun yerine indirmeyi dene.",
     "zh_CN": "复制失败，请尝试下载。",
     "zh_TW": "複製失敗，請嘗試下載。",
+    "id_ID": "Gagal menyalin. Coba unduh gambarnya saja.",
   },
   "certificate-copy-unsupported": {
     "__desc__": "Status message when the browser cannot copy images to the clipboard at all",
@@ -88,6 +96,7 @@ exports.strings = {
     "tr_TR": "Bu tarayıcı görsel kopyalayamıyor. Bunun yerine indirmeyi dene.",
     "zh_CN": "当前浏览器不支持复制图片，试试下载吧。",
     "zh_TW": "目前瀏覽器不支援複製圖片，試試下載吧。",
+    "id_ID": "Browser ini tidak mendukung penyalinan gambar. Coba unduh saja.",
   },
   "certificate-download": {
     "__desc__": "Button that downloads the certificate as a PNG file",
@@ -98,6 +107,7 @@ exports.strings = {
     "tr_TR": "PNG olarak indir",
     "zh_CN": "下载 PNG",
     "zh_TW": "下載 PNG",
+    "id_ID": "Unduh PNG",
   },
   "certificate-downloaded": {
     "__desc__": "Status message after the certificate PNG has been downloaded",
@@ -108,6 +118,7 @@ exports.strings = {
     "tr_TR": "İndirilenler klasörüne kaydedildi.",
     "zh_CN": "已保存到下载目录。",
     "zh_TW": "已儲存到下載目錄。",
+    "id_ID": "Tersimpan di folder unduhanmu.",
   },
   "certificate-download-failed": {
     "__desc__": "Status message when downloading the certificate PNG fails",
@@ -118,6 +129,7 @@ exports.strings = {
     "tr_TR": "İndirme başarısız oldu, kusura bakma.",
     "zh_CN": "下载失败，非常抱歉。",
     "zh_TW": "下載失敗，非常抱歉。",
+    "id_ID": "Maaf, gagal mengunduh gambar.",
   },
   "certificate-close": {
     "__desc__": "Button that closes the completion certificate modal",
@@ -128,6 +140,7 @@ exports.strings = {
     "tr_TR": "Kapat",
     "zh_CN": "关闭",
     "zh_TW": "關閉",
+    "id_ID": "Tutup",
   },
   "certificate-cta": {
     "__desc__": "Button in the level-complete dialog that opens the completion certificate",
@@ -138,6 +151,7 @@ exports.strings = {
     "tr_TR": "🏆  Sertifikanı gör",
     "zh_CN": "🏆 领取你的荣誉证书",
     "zh_TW": "🏆 領取你的榮譽證書",
+    "id_ID": "🏆  Lihat sertifikatmu",
   },
   "certificate-share": {
     "__desc__": "Heading above the social share buttons in the certificate modal",
@@ -148,6 +162,7 @@ exports.strings = {
     "tr_TR": "Haberi paylaş",
     "zh_CN": "分享这个好消息",
     "zh_TW": "分享這個好消息",
+    "id_ID": "Bagikan pencapaianmu",
   },
   "certificate-svg-title": {
     "__desc__": "Large title printed on the certificate itself. Shown in capital letters",
@@ -158,6 +173,7 @@ exports.strings = {
     "tr_TR": "TAMAMLAMA SERTİFİKASI",
     "zh_CN": "通关证书",
     "zh_TW": "通關證書",
+    "id_ID": "SERTIFIKAT PENYELESAIAN",
   },
   "certificate-svg-name-placeholder": {
     "__desc__": "Faded placeholder printed on the certificate before a name is entered",
@@ -168,6 +184,7 @@ exports.strings = {
     "tr_TR": "ADINIZ BURAYA",
     "zh_CN": "签名",
     "zh_TW": "簽名",
+    "id_ID": "NAMA KAMU DI SINI",
   },
   "certificate-svg-achievement": {
     "__desc__": "Line printed on the certificate below the name. {levels} is the total number of levels",
@@ -178,6 +195,7 @@ exports.strings = {
     "tr_TR": "Learn Git Branching'in {levels} seviyesinin tamamını bitirmiştir",
     "zh_CN": "已完成 Learn Git Branching 所有关卡，共计 {levels} 个",
     "zh_TW": "已完成 Learn Git Branching 所有關卡，共計 {levels} 個",
+    "id_ID": "telah menyelesaikan semua {levels} level di Learn Git Branching",
   },
   "certificate-svg-topics-label": {
     "__desc__": "Label above the compact list of Git topics on the certificate. Shown in capital letters",
@@ -188,6 +206,7 @@ exports.strings = {
     "tr_TR": "İŞLENEN KONULAR",
     "zh_CN": "涵盖主题",
     "zh_TW": "涵蓋主題",
+    "id_ID": "TOPIK YANG DIPELAJARI",
   },
   "certificate-svg-topics-first": {
     "__desc__": "First row of the main Git concepts taught by Learn Git Branching",
@@ -198,6 +217,7 @@ exports.strings = {
     "tr_TR": "Commit ve Branch'ler  •  Merge ve Rebase  •  Cherry-pick ve Göreli Referanslar",
     "zh_CN": "提交与分支  •  合并与变基  •  Cherry-pick 与相对引用",
     "zh_TW": "提交與分支  •  合併與變基  •  Cherry-pick 與相對引用",
+    "id_ID": "Commit & Branch  •  Merge & Rebase  •  Cherry-pick & Relative Ref",
   },
   "certificate-svg-topics-second": {
     "__desc__": "Second row of the main Git concepts taught by Learn Git Branching",
@@ -208,6 +228,7 @@ exports.strings = {
     "tr_TR": "Değişiklikleri Geri Alma  •  Tag'ler ve Geçmiş  •  Fetch, Pull ve Push",
     "zh_CN": "撤销改动  •  标签与历史  •  Fetch、Pull 与 Push",
     "zh_TW": "撤銷改動  •  標籤與歷史  •  Fetch、Pull 與 Push",
+    "id_ID": "Membatalkan Perubahan  •  Tag & Riwayat  •  Fetch, Pull & Push",
   },
   "certificate-svg-issued": {
     "__desc__": "Label before the issue date in the certificate footer. Shown in capital letters",
@@ -218,6 +239,7 @@ exports.strings = {
     "tr_TR": "VERİLİŞ TARİHİ",
     "zh_CN": "已签发",
     "zh_TW": "已簽發",
+    "id_ID": "DITERBITKAN",
   },
   "finish-dialog-finished": {
     "__desc__": "One of the lines in the next level dialog",
@@ -249,7 +271,8 @@ exports.strings = {
     "te_IN": "అబ్బా! మీరు చివరి స్థాయిని పూర్తి చేశారు, గొప్ప!",
     "tr_TR": "Wow! son seviyeyi tamamladın, tebrikler!",
     "hu_HU": "Hűha! Befejezted az utolsó szintet, remek!",
-    "az": "Vay! Sonuncu bölümü bitirdin, əla!"
+    "az": "Vay! Sonuncu bölümü bitirdin, əla!",
+    "id_ID": "Wah! Kamu baru saja menyelesaikan level terakhir, keren!"
   },
   "finish-dialog-next": {
     "__desc__": "One of the lines in the next level dialog",
@@ -281,7 +304,8 @@ exports.strings = {
     "te_IN": "తదుపరి స్థాయి *\"{nextLevel}\"* కు వెళ్ళాలనుకుంటున్నారా?",
     "tr_TR": "Bir sonraki seviye olan *\"{nextLevel}\"* seviyesine geçmek ister misin?",
     "hu_HU": "Szeretnél továbblépni a következő szintre: *\"{nextLevel}\"*?",
-    "az": "Növbəti bölümə — *\"{nextLevel}\"* — keçmək istəyirsən?"
+    "az": "Növbəti bölümə — *\"{nextLevel}\"* — keçmək istəyirsən?",
+    "id_ID": "Mau lanjut ke level berikutnya, *\"{nextLevel}\"*?"
   },
   "finish-dialog-win": {
     "__desc__": "One of the lines in the next level dialog when user entered same command as our best",
@@ -313,7 +337,8 @@ exports.strings = {
     "te_IN": "అద్భుతం! మీరు మా సాధనను సాధించారు.",
     "tr_TR": "Mükemmel! Bizim çözümümüzle aynı sonuca ulaştınız.",
     "hu_HU": "Fantasztikus! A megoldásod megegyezik a miénkkel.",
-    "az": "Əla! Bizim həlli təkrarladın."
+    "az": "Əla! Bizim həlli təkrarladın.",
+    "id_ID": "Mantap! Solusimu seefisien solusi kami."
   },
   "finish-dialog-win-exceeded": {
     "__desc__": "One of the lines in the next level dialog when user entered less command than our best",
@@ -345,7 +370,8 @@ exports.strings = {
     "te_IN": "అద్భుతం! మీరు మా సాధనను మించారు.",
     "tr_TR": "Mükemmel! Bizim çözümümüzü geçtiniz.",
     "hu_HU": "Fantasztikus! Túlszárnyaltad a megoldásunkat.",
-    "az": "Əla! Bizim həlli qabaqladın."
+    "az": "Əla! Bizim həlli qabaqladın.",
+    "id_ID": "Luar biasa! Kamu menyelesaikannya dengan lebih sedikit perintah dari solusi kami."
   },
   "finish-dialog-lose": {
     "__desc__": "When the user entered more commands than our best, encourage them to do better",
@@ -377,7 +403,8 @@ exports.strings = {
     "te_IN": "దీన్ని {best} కి తగ్గించగలరో చూడండి :D",
     "tr_TR": "Bakalım bunu {best} adıma indirgeyebilir misin? :D",
     "hu_HU": "Nézd meg, le tudod-e csökkenteni {best} lépésre :D",
-    "az": "Gör onu {best} əmrə qədər azalda bilərsənmi :D"
+    "az": "Gör onu {best} əmrə qədər azalda bilərsənmi :D",
+    "id_ID": "Coba lihat apakah kamu bisa meringkasnya jadi {best} :D"
   },
   "hg-prune-tree": {
     "__desc__": "warning when pruning tree",
@@ -408,7 +435,8 @@ exports.strings = {
     "te_IN": "హెచ్చరిక! Mercurial అత్యంత చురుకైన garbage collection చేస్తుంది, కాబట్టి మీ ట్రీని కత్తిరించాలి",
     "tr_TR": "Uyarı! Mercurial, agresif garbage collection yapar bu nedenle ağacınızı prune etmeniz gerekebilir.",
     "hu_HU": "Figyelmeztetés! A Mercurial agresszív szemétgyűjtést végez, ezért meg kell nyírnia a fádat",
-    "az": "Xəbərdarlıq! Mercurial aqressiv garbage collection aparır və buna görə ağacını budamalıdır"
+    "az": "Xəbərdarlıq! Mercurial aqressiv garbage collection aparır və buna görə ağacını budamalıdır",
+    "id_ID": "Peringatan! Mercurial melakukan garbage collection secara agresif sehingga perlu memangkas pohon commit kamu"
   },
   "hg-a-option": {
     "__desc__": "warning for when using -A option",
@@ -439,7 +467,8 @@ exports.strings = {
     "te_IN": "ఈ యాప్ కోసం -A ఎంపిక అవసరం లేదు, `commit` చేయి!",
     "tr_TR": "Bu uygulama için -A seçeneği gereksizdir, sadece commit atın!",
     "hu_HU": "Az -A opció nem szükséges ehhez az alkalmazáshoz, csak commit-olj!",
-    "az": "Bu tətbiq üçün -A seçiminə ehtiyac yoxdur, sadəcə commit et!"
+    "az": "Bu tətbiq üçün -A seçiminə ehtiyac yoxdur, sadəcə commit et!",
+    "id_ID": "Opsi -A tidak diperlukan di aplikasi ini, langsung commit saja!"
   },
   "hg-error-no-status": {
     "__desc__": "One of the errors for hg",
@@ -470,7 +499,8 @@ exports.strings = {
     "te_IN": "ఫైల్లు staging లో లేవు కాబట్టి, ఈ యాప్ కోసం status కమాండ్ లేదు. దాని బదులుగా `hg summary` ట్రై చేయి",
     "tr_TR": "Bu uygulama için bir status komutu yok çünkü dosyalar stage edilemiyor. Bunun yerine hg summary komutunu deneyin.",
     "hu_HU": "Nincs status parancs ehhez az alkalmazáshoz, mivel nincs fájlok állomásoztatása. Próbáld helyette az hg summary parancsot",
-    "az": "Bu tətbiqdə status əmri yoxdur, çünki faylların staging-i yoxdur. Onun əvəzinə hg summary sına"
+    "az": "Bu tətbiqdə status əmri yoxdur, çünki faylların staging-i yoxdur. Onun əvəzinə hg summary sına",
+    "id_ID": "Tidak ada perintah status di aplikasi ini karena tidak ada konsep staging file. Coba pakai hg summary"
   },
   "hg-error-need-option": {
     "__desc__": "One of the errors for hg",
@@ -501,7 +531,8 @@ exports.strings = {
     "te_IN": "నాకు ఆ కమాండ్ కోసం {option} ఎంపిక అవసరం!",
     "tr_TR": "Bu komut için {option} seçeneğine ihtiyacım var!",
     "hu_HU": "Szükségem van a {option} opcióra ahhoz a parancshoz!",
-    "az": "Bu əmr üçün mənə {option} seçimi lazımdır!"
+    "az": "Bu əmr üçün mənə {option} seçimi lazımdır!",
+    "id_ID": "Saya butuh opsi {option} untuk perintah itu!"
   },
   "hg-error-log-no-follow": {
     "__desc__": "hg log without -f (--follow)",
@@ -532,7 +563,8 @@ exports.strings = {
     "te_IN": "-f లేకుండా `hg log` ఇప్పుడు వర్తించదు, -f యూజ్ చేయి",
     "tr_TR": "-f olmadan hg logu şu anda desteklenmiyor, -f kullanın.",
     "hu_HU": "A -f nélküli hg log jelenleg nem támogatott, használd a -f kapcsolót",
-    "az": "-f olmadan hg log hazırda dəstəklənmir, -f istifadə et"
+    "az": "-f olmadan hg log hazırda dəstəklənmir, -f istifadə et",
+    "id_ID": "hg log tanpa -f saat ini belum didukung, gunakan -f"
   },
   "git-status-detached": {
     "__desc__": "One of the lines for git status output",
@@ -563,7 +595,8 @@ exports.strings = {
     "te_IN": "వేరుచేయబడిన HEAD!",
     "tr_TR": "Detached HEAD! (Bağımsız HEAD!)",
     "hu_HU": "Leválasztott HEAD (Detached head)!",
-    "az": "Ayrılmış HEAD (Detached head)!"
+    "az": "Ayrılmış HEAD (Detached head)!",
+    "id_ID": "Detached HEAD!"
   },
   "git-status-onbranch": {
     "__desc__": "One of the lines for git status output",
@@ -594,7 +627,8 @@ exports.strings = {
     "te_IN": "{branch} బ్రాంచ్ లో",
     "tr_TR": "{branch} branch'indesiniz",
     "hu_HU": "A(z) {branch} ágon",
-    "az": "{branch} branch-ındasan"
+    "az": "{branch} branch-ındasan",
+    "id_ID": "Pada branch {branch}"
   },
   "git-status-readytocommit": {
     "__desc__": "One of the lines for git status output",
@@ -625,7 +659,8 @@ exports.strings = {
     "te_IN": "commit చేయడానికి సిద్ధం! (ఈ డెమోలో ఎల్లప్పుడూ చేసినట్లుగా)",
     "tr_TR": "Commit etmeye hazır! (bu demoda her zaman olduğu gibi)",
     "hu_HU": "Készen áll a commit-ra! (mint mindig ebben a demóban)",
-    "az": "Commit etməyə hazır! (bu nümayişdə həmişə olduğu kimi)"
+    "az": "Commit etməyə hazır! (bu nümayişdə həmişə olduğu kimi)",
+    "id_ID": "Siap untuk commit! (seperti biasa di demo ini)"
   },
   "git-status-staged-header": {
     "__desc__": "git status header for changes that are staged (ready to commit)",
@@ -643,7 +678,8 @@ exports.strings = {
     "vi": "Tiêu đề git status cho các thay đổi đã được staged (sẵn sàng commit)",
     "uk": "Зміни, підготовлені до коміту:",
     "es_AR": "Cambios a ser commiteados:",
-    "ko": "커밋할 변경 사항:"
+    "ko": "커밋할 변경 사항:",
+    "id_ID": "Perubahan yang siap di-commit:"
   },
   "git-status-unstaged-header": {
     "__desc__": "git status header for modified files that are not yet staged",
@@ -661,7 +697,8 @@ exports.strings = {
     "vi": "Tiêu đề của git status dành cho các tệp đã sửa đổi nhưng chưa được đưa vào staging area",
     "uk": "Зміни, не підготовлені до коміту:",
     "es_AR": "Cambios no preparados(staged) para commitear:",
-    "ko": "커밋하도록 정하지 않은 변경 사항:"
+    "ko": "커밋하도록 정하지 않은 변경 사항:",
+    "id_ID": "Perubahan yang belum di-stage untuk commit:"
   },
   "git-status-clean": {
     "__desc__": "git status line when there is nothing to commit",
@@ -679,7 +716,8 @@ exports.strings = {
     "vi" : "Không có gì để commit, thư mục làm việc sạch sẽ",
     "uk": "нічого комітити, робоче дерево чисте",
     "es_AR": "nada para commitear, árbol de trabajo limpio",
-    "ko": "커밋할 사항 없음, 작업 폴더 깨끗함"
+    "ko": "커밋할 사항 없음, 작업 폴더 깨끗함",
+    "id_ID": "tidak ada yang perlu di-commit, working tree bersih"
   },
   "git-status-nothing-staged": {
     "__desc__": "shown when git commit is run but nothing has been staged yet",
@@ -697,7 +735,8 @@ exports.strings = {
     "vi" : "Không có thay đổi nào được thêm vào để commit (hãy đưa chúng vào staging area trước bằng lệnh \"git add <file>\")",
     "uk": "не додано змін до коміту (спочатку підготуйте їх за допомогою \"git add <файл>\")",
     "es_AR": "ningún cambio agregado para commitear (preparalos primero con \"git add <file>\")",
-    "ko": "커밋할 변경 사항이 없습니다. 먼저 \"git add &lt;file&gt;\"로 스테이징하세요."
+    "ko": "커밋할 변경 사항이 없습니다. 먼저 \"git add &lt;file&gt;\"로 스테이징하세요.",
+    "id_ID": "tidak ada perubahan yang ditambahkan untuk commit (stage terlebih dahulu dengan \"git add <file>\")"
   },
   "git-dummy-msg": {
     "__desc__": "The dummy commit message for all commits. Feel free to put in a shoutout to your school / city / whatever!",
@@ -727,7 +766,8 @@ exports.strings = {
     "ta_IN": "Quick commit. Go Bears!",
     "te_IN": "Quick commit. Go Bears!",
     "tr_TR": "Hızlı commit. Go Bears!",
-    "hu_HU": "Gyors commit. Hajrá!"
+    "hu_HU": "Gyors commit. Hajrá!",
+    "id_ID": "Commit cepat. Semangat!"
   },
   "git-error-origin-fetch-uptodate": {
     "__desc__": "One of the error messages for git",
@@ -758,7 +798,8 @@ exports.strings = {
     "te_IN": "ఇప్పటికే నవీకరించబడింది!",
     "tr_TR": "Zaten güncel!",
     "hu_HU": "Már naprakész!",
-    "az": "Onsuz da ən son vəziyyətdədir!"
+    "az": "Onsuz da ən son vəziyyətdədir!",
+    "id_ID": "Sudah paling mutakhir (up to date)!"
   },
   "git-error-origin-fetch-no-ff": {
     "__desc__": "One of the error messages for git",
@@ -789,7 +830,8 @@ exports.strings = {
     "te_IN": "మీ మూల branch రిమోట్ branch తో సింక్ కాలేదు. `fetch` చేయడం సాధ్యం కాదు",
     "tr_TR": "Origin Branch'iniz, Remote branch ile uyumsuzdur ve `fetch` işlemi gerçekleştirilemez.",
     "hu_HU": "Az origin ágad nincs szinkronban a távoli ággal, ezért a fetch nem hajtható végre",
-    "az": "origin branch-ın remote branch ilə sinxron deyil və fetch yerinə yetirilə bilmir"
+    "az": "origin branch-ın remote branch ilə sinxron deyil və fetch yerinə yetirilə bilmir",
+    "id_ID": "Branch origin kamu tidak sinkron dengan branch remote sehingga fetch tidak dapat dilakukan"
   },
   "git-error-origin-push-no-ff": {
     "__desc__": "One of the error messages for git",
@@ -820,7 +862,8 @@ exports.strings = {
     "te_IN": "రిమోట్ రిపోజిటరీ మీ లోకల్ రిపోజిటరీ నుండి భిన్నంగా ఉంది, కాబట్టి మీ మార్పులను సాధారణ `fast forward` విధానంలో అప్‌లోడ్ చేయడం సాధ్యం కాదు (అందువల్ల మీ `push` రిజెక్ట్ అయింది). రిమోట్ రిపోజిటరీలోని కొత్త మార్పులను `pull` చేసి, ఈ branch లో చేర్చి, మళ్ళీ ట్రై చేయి. మీరు `git pull` లేదా `git pull --rebase` కమాండ్ తో ఇది చేయవచ్చు",
     "tr_TR": "Uzak depo, yerel deponuzdan sapmış durumda, bu yüzden değişikliklerinizi basit bir fast forward ile yüklemek mümkün değil (bu nedenle push işleminiz reddedildi). Lütfen uzak depodaki yeni değişiklikleri çekin, bunları bu dalda birleştirin ve tekrar deneyin. Bunu git pull veya git pull --rebase komutlarıyla yapabilirsiniz.",
     "hu_HU": "A távoli tárhely eltért a helyi tárhelytől, ezért a változtatások feltöltése nem egyszerű fast forward (és ezért a push-od vissza lett utasítva). Kérlek pull-old le az új változtatásokat a távoli tárhelyből, építsd be őket ebbe az ágba, és próbáld újra. Ezt megteheted a git pull vagy git pull --rebase paranccsal",
-    "az": "remote repozitoriya sənin lokal repozitoriyandan ayrılıb, ona görə də dəyişikliklərini yükləmək sadə sürətli irəliləmə (fast-forward) deyil (və beləliklə push-un rədd edildi). Zəhmət olmasa remote repozitoriyadakı yeni dəyişiklikləri çəkib endir, onları bu branch-a daxil et və yenidən cəhd et. Bunu git pull və ya git pull --rebase ilə edə bilərsən"
+    "az": "remote repozitoriya sənin lokal repozitoriyandan ayrılıb, ona görə də dəyişikliklərini yükləmək sadə sürətli irəliləmə (fast-forward) deyil (və beləliklə push-un rədd edildi). Zəhmət olmasa remote repozitoriyadakı yeni dəyişiklikləri çəkib endir, onları bu branch-a daxil et və yenidən cəhd et. Bunu git pull və ya git pull --rebase ilə edə bilərsən",
+    "id_ID": "Repository remote sudah bercabang berbeda dari repository lokal kamu, jadi mengunggah perubahan bukan sekadar fast-forward (dan push kamu ditolak). Silakan pull perubahan baru dari repository remote, gabungkan ke branch ini, lalu coba lagi. Kamu bisa melakukannya dengan git pull atau git pull --rebase"
   },
   "git-error-remote-branch": {
     "__desc__": "One of the error messages for git",
@@ -851,7 +894,8 @@ exports.strings = {
     "te_IN": "మీరు ఆ కమాండ్ ను రిమోట్ branch లో అమలు చేయలేరు",
     "tr_TR": "Bu komutu uzak bir dalda çalıştırmak mümkün değil",
     "hu_HU": "Ezt a parancsot nem hajthatod végre egy távoli ágon",
-    "az": "Həmin əmri remote branch-da yerinə yetirə bilməzsən"
+    "az": "Həmin əmri remote branch-da yerinə yetirə bilməzsən",
+    "id_ID": "Kamu tidak bisa menjalankan perintah itu pada remote branch"
   },
   "git-error-origin-required": {
     "__desc__": "One of the error messages for git",
@@ -882,7 +926,8 @@ exports.strings = {
     "te_IN": "ఆ కమాండ్ కోసం ఒక మూలం అవసరం",
     "tr_TR": "Bu komut için bir origin gereklidir",
     "hu_HU": "Ehhez a parancshoz szükséges egy origin",
-    "az": "Həmin əmr üçün origin tələb olunur"
+    "az": "Həmin əmr üçün origin tələb olunur",
+    "id_ID": "Perintah tersebut membutuhkan origin"
   },
   "git-error-clone-no-pending-remote": {
     "__desc__": "Shown when git clone is run without a remote waiting to be cloned",
@@ -913,7 +958,8 @@ exports.strings = {
     "te_IN": "క్లోన్ చేయడానికి వేచి ఉన్న రిమోట్ రిపోజిటరీ లేదు. మీ ప్రస్తుత రిపోజిటరీ నుండి రిమోట్ సృష్టించడానికి, `git fakeCreateRemote` యూజ్ చేయి.",
     "tr_TR": "Klonlanmayı bekleyen bir uzak depo yok. Mevcut deponuzdan bir uzak depo oluşturmak için `git fakeCreateRemote` kullanın.",
     "hu_HU": "Nincs klónozásra váró távoli repository. Ha a jelenlegi repositorydból szeretnél remote-ot készíteni, használd a `git fakeCreateRemote` parancsot.",
-    "az": "Klonlanmağı gözləyən uzaq repozitoriya yoxdur. Hazırkı repozitoriyandan remote yaratmaq üçün `git fakeCreateRemote` istifadə et."
+    "az": "Klonlanmağı gözləyən uzaq repozitoriya yoxdur. Hazırkı repozitoriyandan remote yaratmaq üçün `git fakeCreateRemote` istifadə et.",
+    "id_ID": "Belum ada repository remote yang siap untuk di-clone. Untuk membuat remote dari repository kamu saat ini, gunakan `git fakeCreateRemote` sebagai gantinya."
   },
   "git-error-clone-already-cloned": {
     "__desc__": "Shown when git clone is run again after the repository was already cloned",
@@ -944,7 +990,8 @@ exports.strings = {
     "te_IN": "మీరు ఈ రిపోజిటరీని ఇప్పటికే క్లోన్ చేశారు! క్లోన్ చేయడానికి కొత్తది ఏమీ లేదు.",
     "tr_TR": "Bu depoyu zaten klonladınız! Klonlanacak yeni bir şey yok.",
     "hu_HU": "Ezt a repositoryt már klónoztad! Nincs semmi új, amit klónozhatnál.",
-    "az": "Bu repozitoriyanı artıq klonlamısan! Klonlamaq üçün yeni heç nə yoxdur."
+    "az": "Bu repozitoriyanı artıq klonlamısan! Klonlamaq üçün yeni heç nə yoxdur.",
+    "id_ID": "Kamu sudah meng-clone repository ini! Tidak ada yang baru untuk di-clone."
   },
   "git-error-origin-exists": {
     "__desc__": "One of the error messages for git",
@@ -975,7 +1022,8 @@ exports.strings = {
     "te_IN": "మూలం ఇప్పటికే ఉంది! మీరు మరొకటి సృష్టించలేరు",
     "tr_TR": "Bir origin zaten mevcut! Yeni bir tane oluşturamazsınız",
     "hu_HU": "Már létezik egy origin! Nem hozhatsz létre újat",
-    "az": "origin onsuz da mövcuddur! Yenisini yarada bilməzsən"
+    "az": "origin onsuz da mövcuddur! Yenisini yarada bilməzsən",
+    "id_ID": "Origin sudah ada! Kamu tidak bisa membuat yang baru"
   },
   "git-error-branch": {
     "__desc__": "One of the error messages for git",
@@ -1006,7 +1054,8 @@ exports.strings = {
     "te_IN": "మెయిన్ branch, మీరు ఉన్న branch, మరియు branch కాని వాటిని తొలగించడం సాధ్యం కాదు",
     "tr_TR": "main branch'ini, üzerinde bulunduğunuz branch'i veya branch olmayan şeyleri silemezsiniz",
     "hu_HU": "Nem törölheted a main ágat, azt az ágat amelyen éppen vagy, vagy olyan dolgokat amelyek nem ágak",
-    "az": "main branch-ını, üzərində olduğun branch-ı və ya branch olmayan şeyləri silə bilmərsən"
+    "az": "main branch-ını, üzərində olduğun branch-ı və ya branch olmayan şeyləri silə bilmərsən",
+    "id_ID": "Kamu tidak bisa menghapus branch main, branch tempat kamu berada sekarang, atau sesuatu yang bukan branch"
   },
   "git-merge-msg": {
     "__desc__": "The commit message for a merge commit",
@@ -1037,7 +1086,8 @@ exports.strings = {
     "te_IN": "{target} ను {current} లో కలపండి",
     "tr_TR": "{target} dalını {current} dalına merge et",
     "hu_HU": "{target} merge-elése {current} ágba",
-    "az": "{target} {current}-ə birləşdirilir"
+    "az": "{target} {current}-ə birləşdirilir",
+    "id_ID": "Merge {target} ke {current}"
   },
   "git-error-rebase-none": {
     "__desc__": "One of the error messages for git",
@@ -1068,7 +1118,8 @@ exports.strings = {
     "te_IN": "rebase చేయడానికి commits లేవు, అన్నీ merge commits లేదా ఇప్పటికే వర్తించిన మార్పులు",
     "tr_TR": "Rebase edilecek commit yok! Her şey ya merge commit'i ya da zaten uygulanmış değişiklikler",
     "hu_HU": "Nincs commit a rebase-hez! Minden merge commit vagy a változtatások már alkalmazva lettek",
-    "az": "Rebase ediləcək commit yoxdur! Hər şey merge commit-dir və ya dəyişikliklər artıq tətbiq olunub"
+    "az": "Rebase ediləcək commit yoxdur! Hər şey merge commit-dir və ya dəyişikliklər artıq tətbiq olunub",
+    "id_ID": "Tidak ada commit untuk di-rebase! Semuanya adalah merge commit atau perubahannya sudah diterapkan"
   },
   "git-result-nothing": {
     "__desc__": "The message that explains the result of a git command",
@@ -1099,7 +1150,8 @@ exports.strings = {
     "te_IN": "చేయడానికి ఏమీ లేదు...",
     "tr_TR": "Yapılacak bir şey yok...",
     "hu_HU": "Nincs tennivaló...",
-    "az": "Ediləcək heç nə yoxdur..."
+    "az": "Ediləcək heç nə yoxdur...",
+    "id_ID": "Tidak ada yang perlu dilakukan..."
   },
   "git-result-fastforward": {
     "__desc__": "The message that explains the result of a git command",
@@ -1130,7 +1182,8 @@ exports.strings = {
     "te_IN": "Fast forward...",
     "tr_TR": "Hızlı ileri alınıyor...",
     "hu_HU": "Fast forwarding...",
-    "az": "Sürətli irəliləmə (fast-forward)..."
+    "az": "Sürətli irəliləmə (fast-forward)...",
+    "id_ID": "Melakukan fast-forward..."
   },
   "git-result-uptodate": {
     "__desc__": "The message that explains the result of a git command",
@@ -1161,7 +1214,8 @@ exports.strings = {
     "te_IN": "ఈ branch ఇప్పటికే నవీకరించబడింది...",
     "tr_TR": "Dal zaten güncel",
     "hu_HU": "Az ág már naprakész",
-    "az": "Branch onsuz da ən son vəziyyətdədir"
+    "az": "Branch onsuz da ən son vəziyyətdədir",
+    "id_ID": "Branch sudah paling mutakhir (up-to-date)"
   },
   "git-error-exist": {
     "__desc__": "One of the error messages for git",
@@ -1192,7 +1246,8 @@ exports.strings = {
     "te_IN": "{ref} లేదు లేదా తెలియదు",
     "tr_TR": "{ref} referansı mevcut değil veya bilinmiyor",
     "hu_HU": "A(z) {ref} referencia nem létezik vagy ismeretlen",
-    "az": "{ref} ref-i mövcud deyil və ya naməlumdur"
+    "az": "{ref} ref-i mövcud deyil və ya naməlumdur",
+    "id_ID": "Ref {ref} tidak ada atau tidak dikenal"
   },
   "git-error-relative-ref": {
     "__desc__": "One of the error messages for git",
@@ -1223,7 +1278,8 @@ exports.strings = {
     "te_IN": "{commit} కు {match} లేదు",
     "tr_TR": "{commit} commit'inin {match} referansı bulunmamaktadır",
     "hu_HU": "A(z) {commit} commit-nak nincs {match} szülője",
-    "az": "{commit} commit-inin {match} yoxdur"
+    "az": "{commit} commit-inin {match} yoxdur",
+    "id_ID": "Commit {commit} tidak memiliki {match}"
   },
   "git-warning-detached": {
     "__desc__": "One of the warning messages for git",
@@ -1254,7 +1310,8 @@ exports.strings = {
     "te_IN": "హెచ్చరిక!! `HEAD` వేరుచేయబడిన స్థితిలో ఉంది",
     "tr_TR": "Uyarı!! Bağımsız HEAD durumu",
     "hu_HU": "Figyelmeztetés!! Leválasztott HEAD állapot",
-    "az": "Xəbərdarlıq!! Ayrılmış HEAD vəziyyəti"
+    "az": "Xəbərdarlıq!! Ayrılmış HEAD vəziyyəti",
+    "id_ID": "Peringatan!! Kondisi Detached HEAD"
   },
   "git-warning-add": {
     "__desc__": "One of the warning messages for git",
@@ -1285,7 +1342,8 @@ exports.strings = {
     "te_IN": "ఈ డెమోలో ఫైల్లను జోడించాల్సిన అవసరం లేదు",
     "tr_TR": "Bu demoda dosya eklemeye gerek yok",
     "hu_HU": "Ebben a demóban nincs szükség fájlok hozzáadására",
-    "az": "Bu demoda fayl əlavə etməyə ehtiyac yoxdur"
+    "az": "Bu demoda fayl əlavə etməyə ehtiyac yoxdur",
+    "id_ID": "Tidak perlu menambahkan file di demo ini"
   },
   "git-error-switch-detach": {
     "__desc__": "the error when the user tries to 'git switch' to a commit, tag or remote branch (which would detach HEAD) without passing -d / --detach",
@@ -1302,7 +1360,8 @@ exports.strings = {
     "vi": "nghiêm trọng: cần một branch để switch tới. '{ref}' không phải là branch -- dùng 'git switch --detach {ref}' (hoặc '-d') nếu bạn muốn check out nó và tách rời HEAD.",
     "uk": "помилка: для перемикання потрібна гілка. '{ref}' не є гілкою -- використовуйте 'git switch --detach {ref}' (або '-d'), якщо хочете перейти й від'єднати HEAD.",
     "es_AR": "fatal: se requiere una branch para switchear. '{ref}' no es una branch -- usá 'git switch --detach {ref}' (o '-d') si querés separar(detach) el HEAD.",
-    "ko": "fatal: 전환하려면 브랜치가 필요합니다. '{ref}' 항목은 브랜치가 아닙니다. HEAD를 분리한 상태로 전환하려면 'git switch --detach {ref}' 또는 '-d'를 사용하세요."
+    "ko": "fatal: 전환하려면 브랜치가 필요합니다. '{ref}' 항목은 브랜치가 아닙니다. HEAD를 분리한 상태로 전환하려면 'git switch --detach {ref}' 또는 '-d'를 사용하세요.",
+    "id_ID": "fatal: diperlukan sebuah branch untuk berpindah. '{ref}' bukan branch -- gunakan 'git switch --detach {ref}' (atau '-d') jika kamu ingin men-checkout dan melepas HEAD."
   },
   "git-error-options": {
     "__desc__": "One of the error messages for git",
@@ -1333,7 +1392,8 @@ exports.strings = {
     "te_IN": "మీరు పేర్కొన్న ఎంపికలు అసమతుల్యంగా లేదా తప్పుగా ఉన్నాయి",
     "tr_TR": "Belirttiğiniz seçenekler uyumsuz veya yanlış",
     "hu_HU": "A megadott opciók nem kompatibilisek vagy helytelenek",
-    "az": "Qeyd etdiyin seçimlər uyğunsuzdur və ya yanlışdır"
+    "az": "Qeyd etdiyin seçimlər uyğunsuzdur və ya yanlışdır",
+    "id_ID": "Opsi yang kamu tentukan tidak kompatibel atau salah"
   },
   "git-error-already-exists": {
     "__desc__": "One of the error messages for git",
@@ -1364,7 +1424,8 @@ exports.strings = {
     "te_IN": "{commit} మీ మార్పుల సమితిలో ఇప్పటికే ఉంది, కమాండ్ క్యాన్సల్ అయింది!",
     "tr_TR": "Commit {commit} zaten değişiklik setinizde mevcut, işlem iptal ediliyor!",
     "hu_HU": "A(z) {commit} commit már létezik a változtatások között, megszakítás!",
-    "az": "{commit} commit-i artıq dəyişikliklər dəstində mövcuddur, ləğv edilir!"
+    "az": "{commit} commit-i artıq dəyişikliklər dəstində mövcuddur, ləğv edilir!",
+    "id_ID": "Commit {commit} sudah ada dalam rangkaian perubahanmu, membatalkan!"
   },
   "git-error-reset-detached": {
     "__desc__": "One of the error messages for git",
@@ -1395,7 +1456,8 @@ exports.strings = {
     "te_IN": "వేరుచేయబడిన HEAD లో reset చేయడం సాధ్యం కాదు! మీరు కదలాలనుకుంటే `checkout` యూజ్ చేయి",
     "tr_TR": "Detached head durumunda sıfırlama yapılamaz! Taşımak istiyorsanız checkout kullanın",
     "hu_HU": "Leválasztott HEAD állapotban nem lehet reset-et csinálni! Használd a checkout-ot ha mozogni szeretnél",
-    "az": "Ayrılmış HEAD-də reset edə bilmərsən! Yerini dəyişmək istəyirsənsə checkout istifadə et"
+    "az": "Ayrılmış HEAD-də reset edə bilmərsən! Yerini dəyişmək istəyirsənsə checkout istifadə et",
+    "id_ID": "Tidak bisa reset dalam kondisi detached HEAD! Gunakan checkout jika ingin berpindah"
   },
   "git-warning-hard": {
     "__desc__": "One of the warning messages for git",
@@ -1426,7 +1488,8 @@ exports.strings = {
     "te_IN": "LearnGitBranching లో reset ల కోసం డిఫాల్ట్ ప్రవర్తన --hard, కాబట్టి మా పాఠాల్లో టైప్ చేయడం చాలా అనిపిస్తే ఆ ఎంపికను వదిలివేయండి. అసలు Git లో డిఫాల్ట్ ప్రవర్తన --mixed అని గుర్తుంచుకోండి.",
     "tr_TR": "LearnGitBranching'deki sıfırlama işlemlerinin varsayılan davranışı --hard'dır, bu yüzden derslerimizde yazarken bundan sıkılırsanız bu seçeneği atlayabilirsiniz. Ancak gerçek Git'teki varsayılan davranışın --mixed olduğunu unutmayın.",
     "hu_HU": "A LearnGitBranching alapértelmezett viselkedése reset esetén a --hard, tehát bátran kihagyhatod azt az opciót ha meguntad begépelni a leckéinkben. Csak emlékezz arra, hogy az eredeti Git alapértelmezése --mixed.",
-    "az": "LearnGitBranching-də reset-in standart davranışı --hard-dır, ona görə dərslərimizdə bunu yazmaqdan yorulsan bu seçimi buraxa bilərsən. Sadəcə yadında saxla ki, əsl Git-də standart davranış --mixed-dir."
+    "az": "LearnGitBranching-də reset-in standart davranışı --hard-dır, ona görə dərslərimizdə bunu yazmaqdan yorulsan bu seçimi buraxa bilərsən. Sadəcə yadında saxla ki, əsl Git-də standart davranış --mixed-dir.",
+    "id_ID": "Perilaku default reset di LearnGitBranching adalah --hard, jadi kamu boleh mengabaikan opsi ini kalau capek mengetiknya di pelajaran kita. Ingat saja bahwa perilaku default di Git asli adalah --mixed."
   },
   "git-error-staging": {
     "__desc__": "One of the error messages for git",
@@ -1457,7 +1520,8 @@ exports.strings = {
     "te_IN": "ఫైల్లను జోడించడం / staging అనే భావన లేదు, కాబట్టి ఆ ఎంపిక లేదా కమాండ్ చెల్లదు!",
     "tr_TR": "Dosya ekleme / stage'leme kavramı yok, bu nedenle bu seçenek veya komut geçersiz!",
     "hu_HU": "Nincs fájlok hozzáadása/állomásoztatása fogalom, tehát ez az opció vagy parancs érvénytelen!",
-    "az": "Fayl əlavə etmək / staging anlayışı yoxdur, ona görə bu seçim və ya əmr etibarsızdır!"
+    "az": "Fayl əlavə etmək / staging anlayışı yoxdur, ona görə bu seçim və ya əmr etibarsızdır!",
+    "id_ID": "Tidak ada konsep menambahkan / staging file di sini, jadi opsi atau perintah itu tidak valid!"
   },
   "git-revert-msg": {
     "__desc__": "Message for reverting git command",
@@ -1488,7 +1552,8 @@ exports.strings = {
     "te_IN": "{oldCommit} ను రివర్ట్ చేస్తోంది: {oldMsg}",
     "tr_TR": "{oldCommit} geri alınıyor: {oldMsg}",
     "hu_HU": "{oldCommit} visszaállítása: {oldMsg}",
-    "az": "{oldCommit} geri qaytarılır: {oldMsg}"
+    "az": "{oldCommit} geri qaytarılır: {oldMsg}",
+    "id_ID": "Revert {oldCommit}: {oldMsg}"
   },
   "git-error-args-many": {
     "__desc__": "One of the error messages for git",
@@ -1519,7 +1584,8 @@ exports.strings = {
     "te_IN": "నేను {what} కోసం గరిష్టంగా {upper} ఆర్గ్యుమెంట్(లు) ఆశిస్తాను",
     "tr_TR": "{what} için en fazla {upper} argüman bekliyorum",
     "hu_HU": "Legfeljebb {upper} argumentumot várok a(z) {what} számára",
-    "az": "{what} üçün ən çoxu {upper} arqument gözləyirəm"
+    "az": "{what} üçün ən çoxu {upper} arqument gözləyirəm",
+    "id_ID": "Maksimal hanya boleh {upper} argumen untuk {what}"
   },
   "git-error-args-few": {
     "__desc__": "One of the error messages for git",
@@ -1550,7 +1616,8 @@ exports.strings = {
     "te_IN": "నేను {what} కోసం కనీసం {lower} ఆర్గ్యుమెంట్(లు) ఆశిస్తాను",
     "tr_TR": "{what} için en az {lower} argüman bekliyorum",
     "hu_HU": "Legalább {lower} argumentumot várok a(z) {what} számára",
-    "az": "{what} üçün ən azı {lower} arqument gözləyirəm"
+    "az": "{what} üçün ən azı {lower} arqument gözləyirəm",
+    "id_ID": "Minimal dibutuhkan {lower} argumen untuk {what}"
   },
   "git-error-no-general-args": {
     "__desc__": "One of the error messages for git",
@@ -1581,7 +1648,8 @@ exports.strings = {
     "te_IN": "ఆ కమాండ్ సాధారణ ఆర్గ్యుమెంట్లను స్వీకరించదు",
     "tr_TR": "Bu komut genel argüman kabul etmez",
     "hu_HU": "Ez a parancs nem fogad el általános argumentumokat",
-    "az": "Bu əmr ümumi arqumentləri qəbul etmir"
+    "az": "Bu əmr ümumi arqumentləri qəbul etmir",
+    "id_ID": "Perintah tersebut tidak menerima argumen umum"
   },
   "git-error-command-not-supported": {
     "__desc__": "Message that appears in git console when command was not recognized.",
@@ -1611,7 +1679,8 @@ exports.strings = {
     "hu_HU": "A(z) \"{command}\" parancs nem támogatott, sajnálom!",
     "az": "\"{command}\" əmri dəstəklənmir, üzr istəyirəm!",
     "uk": "Команда \"{command}\" не підтримується, вибачте!",
-    "ko": "죄송하지만 \"{command}\" 명령은 지원되지 않습니다!"
+    "ko": "죄송하지만 \"{command}\" 명령은 지원되지 않습니다!",
+    "id_ID": "Maaf, perintah \"{command}\" belum didukung!"
   },
   "copy-tree-string": {
     "__desc__": "The prompt to copy the tree when sharing",
@@ -1642,7 +1711,8 @@ exports.strings = {
     "te_IN": "క్రింద tree string ను కాపీ చేయి",
     "tr_TR": "Aşağıdaki ağaç dizesini kopyalayın",
     "hu_HU": "Másold le az alábbi faszöveget",
-    "az": "Aşağıdakı ağac sətrini kopyala"
+    "az": "Aşağıdakı ağac sətrini kopyala",
+    "id_ID": "Salin string tree di bawah ini"
   },
   "learn-git-branching": {
     "__desc__": "The title of the app, with spaces",
@@ -1673,7 +1743,8 @@ exports.strings = {
     "ta_IN": "கிட் கிளை அமைத்தல்",
     "te_IN": "Git Branching నేర్చుకోండి",
     "tr_TR": "Learn Git Branching(Git Dal Oluşumunu Öğren)",
-    "hu_HU": "Git elágazás megtanulása"
+    "hu_HU": "Git elágazás megtanulása",
+    "id_ID": "Learn Git Branching"
   },
   "select-a-level": {
     "__desc__": "The prompt to select a level on the drop down view",
@@ -1704,7 +1775,8 @@ exports.strings = {
     "te_IN": "ఒక స్థాయిని ఎంచుకోండి",
     "tr_TR": "Bir level (Seviye) seç",
     "hu_HU": "Válassz egy szintet",
-    "az": "Bölüm seç"
+    "az": "Bölüm seç",
+    "id_ID": "Pilih level"
   },
   "main-levels-tab": {
     "__desc__": "The name of main levels tab on the drop down view",
@@ -1732,7 +1804,8 @@ exports.strings = {
     "ta_IN": "பிரதானம்",
     "te_IN": "మెయిన్",
     "tr_TR": "Main(Ana)",
-    "hu_HU": "Főszint"
+    "hu_HU": "Főszint",
+    "id_ID": "Utama"
   },
   "remote-levels-tab": {
     "__desc__": "The name of remote levels tab on the drop down view",
@@ -1760,7 +1833,8 @@ exports.strings = {
     "ta_IN": "தொலைநிலை",
     "te_IN": "రిమోట్",
     "tr_TR": "Uzak(Remote)",
-    "hu_HU": "Távoli"
+    "hu_HU": "Távoli",
+    "id_ID": "Remote"
   },
   "branch-name-short": {
     "__desc__": "When branch names get too long, we need to truncate them. This is the warning for that",
@@ -1791,7 +1865,8 @@ exports.strings = {
     "te_IN": "క్షమించండి, దృశ్యాల కోసం branch పేర్లను చిన్నగా ఉంచాలి. మీ branch పేరు 9 అక్షరాలకు కుదించబడింది, \"{branch}\" గా మార్చబడింది",
     "tr_TR": "Üzgünüm, görseller için dal isimlerini kısa tutmamız gerekiyor. Dal isminiz 9 karaktere kısaltıldı, bu da \"{branch}\" oldu.",
     "hu_HU": "Sajnos rövidnek kell tartanunk az ágneveket a megjelenítéshez. Az ágneved 9 karakterre lett rövidítve, az eredmény: \"{branch}\"",
-    "az": "Üzr istəyirik, vizual görüntü üçün branch adlarını qısa saxlamalıyıq. Branch adın 9 simvola qısaldıldı və nəticədə \"{branch}\" oldu"
+    "az": "Üzr istəyirik, vizual görüntü üçün branch adlarını qısa saxlamalıyıq. Branch adın 9 simvola qısaldıldı və nəticədə \"{branch}\" oldu",
+    "id_ID": "Maaf, nama branch harus pendek agar pas di visualisasi. Nama branch kamu dipotong menjadi 9 karakter menjadi \"{branch}\""
   },
   "bad-branch-name": {
     "__desc__": "When the user enters a branch name thats not ok",
@@ -1822,7 +1897,8 @@ exports.strings = {
     "te_IN": "\"{branch}\" ను branch పేరుగా వాడొద్దు!",
     "tr_TR": "\"{branch}\" dal ismine izin verilmiyor!",
     "hu_HU": "Ez az ágnév \"{branch}\" nem megengedett!",
-    "az": "\"{branch}\" branch adına icazə verilmir!"
+    "az": "\"{branch}\" branch adına icazə verilmir!",
+    "id_ID": "Nama branch \"{branch}\" tidak diperbolehkan!"
   },
   "bad-tag-name": {
     "__desc__": "When the user enters a tag name thats not ok",
@@ -1853,22 +1929,26 @@ exports.strings = {
     "te_IN": "\"{tag}\" ను tag పేరుగా వాడొద్దు!",
     "tr_TR": "\"{tag}\" tag ismine izin verilmiyor!",
     "hu_HU": "Ez a tagnév \"{tag}\" nem megengedett!",
-    "az": "\"{tag}\" tag adına icazə verilmir!"
+    "az": "\"{tag}\" tag adına icazə verilmir!",
+    "id_ID": "Nama tag \"{tag}\" tidak diperbolehkan!"
   },
   "option-requires-value": {
     "__desc__": "When the user gives an option that needs a value (like -m) but leaves the value out",
     "en_US": "The option \"{option}\" requires a value!",
     "bn_BD": "\"{option}\" অপশনের জন্য একটি মান দিতে হবে!",
+    "id_ID": "Opsi \"{option}\" membutuhkan sebuah nilai!",
   },
   "option-takes-no-value": {
     "__desc__": "When the user gives a value to an option that does not take one (like --force=yes)",
     "en_US": "The option \"{option}\" does not take a value!",
     "bn_BD": "\"{option}\" অপশন কোনো মান নেয় না!",
+    "id_ID": "Opsi \"{option}\" tidak menerima nilai!",
   },
   "command-unterminated-quote": {
     "__desc__": "When the user opens a quote in a command but never closes it",
     "en_US": "This command has a quote that is never closed: {command}",
     "bn_BD": "এই কমান্ডে একটি উদ্ধৃতি-চিহ্ন (quote) খোলা হয়েছে কিন্তু কখনো বন্ধ করা হয়নি: {command}",
+    "id_ID": "Perintah ini memiliki tanda kutip yang belum ditutup: {command}",
   },
   "option-not-supported": {
     "__desc__": "When the user specifies an option that is not supported by our demo",
@@ -1899,7 +1979,8 @@ exports.strings = {
     "te_IN": "\"{option}\" ఎంపిక వర్తించదు!",
     "tr_TR": "\"{option}\" seçeneği desteklenmiyor!",
     "hu_HU": "A(z) \"{option}\" opció nem támogatott!",
-    "az": "\"{option}\" seçimi dəstəklənmir!"
+    "az": "\"{option}\" seçimi dəstəklənmir!",
+    "id_ID": "Opsi \"{option}\" tidak didukung!"
   },
   "git-usage-command": {
     "__desc__": "The line that shows how to format a git command",
@@ -1930,7 +2011,8 @@ exports.strings = {
     "te_IN": "git <command> [<args>]",
     "tr_TR": "git <komut> [<argümanlar>]",
     "hu_HU": "git <parancs> [<argumentumok>]",
-    "az": "git <əmr> [<arqumentlər>]"
+    "az": "git <əmr> [<arqumentlər>]",
+    "id_ID": "git <command> [<args>]"
   },
   "git-supported-commands": {
     "__desc__": "In the git help command, the header above the supported commands",
@@ -1961,7 +2043,8 @@ exports.strings = {
     "te_IN": "మద్దతు ఇచ్చే కమాండ్లు:",
     "tr_TR": "Desteklenen komutlar:",
     "hu_HU": "Támogatott parancsok:",
-    "az": "Dəstəklənən əmrlər:"
+    "az": "Dəstəklənən əmrlər:",
+    "id_ID": "Perintah yang didukung:"
   },
   "git-usage": {
     "__desc__": "In the dummy git output, the header before showing all the commands",
@@ -1992,7 +2075,8 @@ exports.strings = {
     "te_IN": "ఉపయోగం:",
     "tr_TR": "Kullanım:",
     "hu_HU": "Használat:",
-    "az": "İstifadə:"
+    "az": "İstifadə:",
+    "id_ID": "Penggunaan:"
   },
   "git-version": {
     "__desc__": "The git version dummy output, kind of silly. PCOTTLE is my unix name but feel free to put yours instead",
@@ -2023,7 +2107,8 @@ exports.strings = {
     "te_IN": "Git Version PCOTTLE.1.0",
     "tr_TR": "Git versiyonu PCOTTLE.1.0",
     "hu_HU": "Git Verzió PCOTTLE.1.0",
-    "az": "Git Versiyası PCOTTLE.1.0"
+    "az": "Git Versiyası PCOTTLE.1.0",
+    "id_ID": "Git Versi PCOTTLE.1.0"
   },
   "flip-tree-command": {
     "__desc__": "when the tree is being flipped",
@@ -2054,7 +2139,8 @@ exports.strings = {
     "te_IN": "ట్రీని తిప్పుతోంది...",
     "tr_TR": "Ağaç ters çevriliyor...",
     "hu_HU": "Fa megfordítása...",
-    "az": "Ağac çevrilir..."
+    "az": "Ağac çevrilir...",
+    "id_ID": "Membalik posisi tree..."
   },
   "refresh-tree-command": {
     "__desc__": "when the tree is visually refreshed",
@@ -2085,7 +2171,8 @@ exports.strings = {
     "te_IN": "ట్రీని రిఫ్రెష్ చేస్తోంది...",
     "tr_TR": "Ağaç yenileniyor...",
     "hu_HU": "Fa frissítése...",
-    "az": "Ağac yenilənir..."
+    "az": "Ağac yenilənir...",
+    "id_ID": "Menyegarkan tree..."
   },
   "locale-command": {
     "__desc__": "when the locale is set to something",
@@ -2116,7 +2203,8 @@ exports.strings = {
     "te_IN": "లోకేల్ {locale} గా సెట్ అయింది",
     "tr_TR": "{locale} olarak dil ayarlandı",
     "hu_HU": "Nyelv beállítva: {locale}",
-    "az": "Dil {locale} olaraq təyin olundu"
+    "az": "Dil {locale} olaraq təyin olundu",
+    "id_ID": "Bahasa diatur ke {locale}"
   },
   "locale-reset-command": {
     "__desc__": "when the locale is reset",
@@ -2147,7 +2235,8 @@ exports.strings = {
     "te_IN": "లోకేల్ డిఫాల్ట్ {locale} కు రీసెట్ అయింది",
     "tr_TR": "Dil varsayılan olarak sıfırlandı, bu {locale}",
     "hu_HU": "Nyelv visszaállítva az alapértelmezettre: {locale}",
-    "az": "Dil standart olan {locale}-ə sıfırlandı"
+    "az": "Dil standart olan {locale}-ə sıfırlandı",
+    "id_ID": "Bahasa dikembalikan ke default, yaitu {locale}"
   },
   "show-command": {
     "__desc__": "command output title from \"show\"",
@@ -2178,7 +2267,8 @@ exports.strings = {
     "te_IN": "మరింత సమాచారం కోసం క్రింది కమాండ్లలో ఒకదాన్ని యూజ్ చేయి:",
     "tr_TR": "Daha fazla bilgi için lütfen aşağıdaki komutlardan birini kullanın:",
     "hu_HU": "Kérlek használd az alábbi parancsok egyikét további információkért:",
-    "az": "Daha çox məlumat üçün aşağıdakı əmrlərdən birini istifadə et:"
+    "az": "Daha çox məlumat üçün aşağıdakı əmrlərdən birini istifadə et:",
+    "id_ID": "Gunakan salah satu perintah berikut untuk info lebih lanjut:"
   },
   "show-all-commands": {
     "__desc__": "command output title from \"show commands\"",
@@ -2209,7 +2299,8 @@ exports.strings = {
     "te_IN": "అందుబాటులో ఉన్న అన్ని కమాండ్ల జాబితా:",
     "tr_TR": "İşte tüm mevcut komutların bir listesi:",
     "hu_HU": "Íme az összes elérhető parancs listája:",
-    "az": "Mövcud bütün əmrlərin siyahısı budur:"
+    "az": "Mövcud bütün əmrlərin siyahısı budur:",
+    "id_ID": "Berikut daftar semua perintah yang tersedia:"
   },
   "cd-command": {
     "__desc__": "dummy command output for the command in the key",
@@ -2240,7 +2331,8 @@ exports.strings = {
     "te_IN": "డైరెక్టరీ \"/directories/dont/matter/in/this/demo\" కు మార్చబడింది",
     "tr_TR": "Dizin \"/directories/dont/matter/in/this/demo\" olarak değiştirildi",
     "hu_HU": "Könyvtár megváltoztatva: \"/konyvtarak/nem/fontosak/ebben/a/demoban\"",
-    "az": "Qovluq \"/qovluqlar/bu/demoda/vacib/deyil\" olaraq dəyişdirildi"
+    "az": "Qovluq \"/qovluqlar/bu/demoda/vacib/deyil\" olaraq dəyişdirildi",
+    "id_ID": "Direktori berpindah ke \"/direktori/tidak/penting/di/demo/ini\""
   },
   "ls-command": {
     "__desc__": "Dummy command output for the command in the key",
@@ -2271,7 +2363,8 @@ exports.strings = {
     "te_IN": "DontWorryAboutFilesInThisDemo.txt",
     "tr_TR": "DontWorryAboutFilesInThisDemo.txt",
     "hu_HU": "NeFeleddAFajlokNemFontosabbanADemoban.txt",
-    "az": "BuDemodaFayllarHaqqındaNarahatOlma.txt"
+    "az": "BuDemodaFayllarHaqqındaNarahatOlma.txt",
+    "id_ID": "JanganKhawatirSoalFileDiDemoIni.txt"
   },
   "mobile-alert": {
     "__desc__": "When someone comes to the site on a mobile device, they can not input commands so this is a nasty alert to tell them",
@@ -2302,7 +2395,8 @@ exports.strings = {
     "te_IN": "LGB మొబైల్ లో input తీసుకోలేదు, డెస్క్‌టాప్ లో సందర్శించండి! అది విలువైనది :D",
     "tr_TR": "LGB mobilde giriş alamaz, masaüstü üzerinden ziyaret et! Değmesine değer :D",
     "hu_HU": "Az LGB nem tud bemenetet fogadni mobilon, látogass el asztali gépen! Megéri :D",
-    "az": "LGB mobil cihazlarda daxiletmə qəbul edə bilmir, masaüstündən daxil ol! Buna dəyər :D"
+    "az": "LGB mobil cihazlarda daxiletmə qəbul edə bilmir, masaüstündən daxil ol! Buna dəyər :D",
+    "id_ID": "LGB tidak bisa menerima input di perangkat mobile, buka lewat desktop ya! Dijamin sepadan :D"
   },
   "share-tree": {
     "__desc__": "When you export a tree, we want you to share the tree with friends",
@@ -2333,7 +2427,8 @@ exports.strings = {
     "te_IN": "ఈ `tree` ను మిత్రులతో పంచుకోండి! వారు దీన్ని \"import tree\" ద్వారా లోడ్ చేయవచ్చు",
     "tr_TR": "Bu ağacı arkadaşlarınla paylaş! \"import tree\" komutuyla yükleyebilirler",
     "hu_HU": "Oszd meg ezt a fát barátaiddal! Betölthetik az \"import tree\" paranccsal",
-    "az": "Bu ağacı dostlarınla paylaş! Onlar onu \"import tree\" ilə yükləyə bilərlər"
+    "az": "Bu ağacı dostlarınla paylaş! Onlar onu \"import tree\" ilə yükləyə bilərlər",
+    "id_ID": "Bagikan tree ini ke teman-temanmu! Mereka bisa memuatnya dengan \"import tree\""
   },
   "share-progress": {
     "__desc__": "Button label prompting user to share their level completion on social media",
@@ -2348,7 +2443,8 @@ exports.strings = {
     "fr_FR": "Partagez votre progression !",
     "zh_CN": "分享你的进度！",
     "es_AR": "Compartí tu progreso!",
-    "ko": "진행 상황 공유하기!"
+    "ko": "진행 상황 공유하기!",
+    "id_ID": "Bagikan progresmu!"
   },
   "share-progress-twitter": {
     "__desc__": "Button label to share level completion on Twitter / X",
@@ -2363,7 +2459,8 @@ exports.strings = {
     "zh_CN": "X (Twitter)",
     "es_AR": "X (Twitter)",
     "fr_FR": "X (Twitter)",
-    "ko": "X (Twitter)"
+    "ko": "X (Twitter)",
+    "id_ID": "X (Twitter)"
   },
   "share-progress-linkedin": {
     "__desc__": "Button label to share level completion on LinkedIn",
@@ -2378,7 +2475,8 @@ exports.strings = {
     "zh_CN": "LinkedIn",
     "es_AR": "LinkedIn",
     "fr_FR": "LinkedIn",
-    "ko": "LinkedIn"
+    "ko": "LinkedIn",
+    "id_ID": "LinkedIn"
   },
   "share-progress-facebook": {
     "__desc__": "Button label to share level completion on Facebook",
@@ -2393,7 +2491,8 @@ exports.strings = {
     "zh_CN": "Facebook",
     "es_AR": "Facebook",
     "fr_FR": "Facebook",
-    "ko": "Facebook"
+    "ko": "Facebook",
+    "id_ID": "Facebook"
   },
   "paste-json": {
     "__desc__": "When you are importing a level or tree",
@@ -2424,7 +2523,8 @@ exports.strings = {
     "te_IN": "క్రింద JSON blob ను పేస్ట్ చేయి!",
     "tr_TR": "Aşağıya bir JSON verisi yapıştırın!",
     "hu_HU": "Illessz be egy JSON blobot alább!",
-    "az": "Aşağıya bir JSON blob-u yapışdır!"
+    "az": "Aşağıya bir JSON blob-u yapışdır!",
+    "id_ID": "Tempelkan teks JSON di bawah ini!"
   },
   "solved-map-reset": {
     "__desc__": "When you reset the solved map to clear your solved history, in case someone else wants to use your browser",
@@ -2455,7 +2555,8 @@ exports.strings = {
     "te_IN": "సేవ్ చేసిన మ్యాప్ రీసెట్ అయింది, మీరు క్లీన్ షీట్ నుండి స్టార్ట్ చేస్తున్నారు!",
     "tr_TR": "Çözülen harita sıfırlandı, temiz bir sayfadan başlıyorsunuz!",
     "hu_HU": "A megoldott térkép visszaállítva, tiszta lappal kezdesz!",
-    "az": "Həll xəritəsi sıfırlandı, təmiz vərəqdən başlayırsan!"
+    "az": "Həll xəritəsi sıfırlandı, təmiz vərəqdən başlayırsan!",
+    "id_ID": "Catatan level yang sudah selesai di-reset, kamu mulai lagi dari awal!"
   },
   "level-cant-exit": {
     "__desc__": "When the user tries to exit a level when they are not in one",
@@ -2486,7 +2587,8 @@ exports.strings = {
     "te_IN": "మీరు ఒక స్థాయిలో లేరు! మీరు sandbox లో ఉన్నారు, \"levels\" తో ఒక స్థాయిని స్టార్ట్ చేయి",
     "tr_TR": "Bir seviyede değilsiniz! Bir kum havuzundasınız, \"levels\" ile bir seviye başlatın.",
     "hu_HU": "Nem vagy egy szintben! A homokozóban vagy, indíts el egy szintet a \"levels\" paranccsal",
-    "az": "Sən bölümdə deyilsən! Sandbox-dasan, \"levels\" ilə bir bölüm başlat"
+    "az": "Sən bölümdə deyilsən! Sandbox-dasan, \"levels\" ilə bir bölüm başlat",
+    "id_ID": "Kamu sedang tidak berada di dalam level! Kamu berada di sandbox, mulai level dengan \"levels\""
   },
   "level-load-failed": {
     "__desc__": "When a level's definition could not be loaded (e.g. a network failure)",
@@ -2497,6 +2599,7 @@ exports.strings = {
     "tr_TR": "\"{id}\" seviyesi yüklenemedi. Bağlantını kontrol edip tekrar dene.",
     "zh_CN": "无法加载关卡 \"{id}\"。请检查网络连接后重试。",
     "zh_TW": "無法載入關卡 \"{id}\"。請檢查網路連線後重試。",
+    "id_ID": "Gagal memuat level \"{id}\". Periksa koneksi kamu lalu coba lagi.",
   },
   "level-loading": {
     "__desc__": "Shown in the level picker while a selected level is loading",
@@ -2507,6 +2610,7 @@ exports.strings = {
     "tr_TR": "\"{id}\" seviyesi yükleniyor…",
     "zh_CN": "正在加载关卡 \"{id}\"…",
     "zh_TW": "正在載入關卡 \"{id}\"…",
+    "id_ID": "Memuat level \"{id}\"…",
   },
   "level-no-id": {
     "__desc__": "When you say an id but that level doesn't exist",
@@ -2537,7 +2641,8 @@ exports.strings = {
     "te_IN": "\"{id}\" id కోసం స్థాయి కనుగొనబడలేదు! స్థాయి ఎంపిక దృశ్యం తెరవబడుతోంది",
     "tr_TR": "Bu id'ye \"{id}\" ait bir seviye bulunamadı! Seviye seçimi görünümünü açıyorum.",
     "hu_HU": "Nem található szint a(z) \"{id}\" azonosítóhoz! Szintválasztó nézet megnyitása",
-    "az": "\"{id}\" id-li bölüm tapılmadı! Bölüm seçimi görünüşü açılır"
+    "az": "\"{id}\" id-li bölüm tapılmadı! Bölüm seçimi görünüşü açılır",
+    "id_ID": "Level dengan id \"{id}\" tidak ditemukan! Membuka tampilan pilih level"
   },
   "undo-stack-empty": {
     "__desc__": "The undo command can only undo back until the last time the level was reset or the beginning of the level",
@@ -2568,7 +2673,8 @@ exports.strings = {
     "te_IN": "అన్‌డో స్టాక్ ఖాళీగా ఉంది!",
     "tr_TR": "Geri alma yığını boş!",
     "hu_HU": "A visszavonási verem üres!",
-    "az": "Geri al yığını boşdur!"
+    "az": "Geri al yığını boşdur!",
+    "id_ID": "Riwayat undo sudah kosong!"
   },
   "already-solved": {
     "__desc__": "When you play in a level that is already solved",
@@ -2599,7 +2705,8 @@ exports.strings = {
     "te_IN": "మీరు ఈ స్థాయిని ఇప్పటికే సాల్వ్ చేశారు, \"levels\" తో ఇతర స్థాయిలను ట్రై చేయి లేదా \"sandbox\" తో sandbox కు తిరిగి వెళ్ళిపో",
     "tr_TR": "Bu seviyeyi zaten çözdünüz, \"levels\" komutuyla diğer seviyeleri deneyin veya \"sandbox\" komutuyla tekrar sandbox'a dönün.",
     "hu_HU": "Ezt a szintet már megoldottad, próbálj más szinteket a \"levels\" paranccsal vagy térj vissza a homokozóba a \"sandbox\" paranccsal",
-    "az": "Bu bölümü artıq həll etmisən, \"levels\" ilə digər bölümləri yoxla və ya \"sandbox\" ilə sandbox-a qayıt"
+    "az": "Bu bölümü artıq həll etmisən, \"levels\" ilə digər bölümləri yoxla və ya \"sandbox\" ilə sandbox-a qayıt",
+    "id_ID": "Kamu sudah menyelesaikan level ini, coba level lain dengan \"levels\" atau kembali ke sandbox dengan \"sandbox\""
   },
   "solved-level": {
     "__desc__": "When you solved a level",
@@ -2630,7 +2737,8 @@ exports.strings = {
     "te_IN": "పరిష్కరించబడింది!!!\n:D",
     "tr_TR": "Tebrikler!!!\n:D",
     "hu_HU": "Megoldva!!!\n:D",
-    "az": "Həll edildi!!!\n:D"
+    "az": "Həll edildi!!!\n:D",
+    "id_ID": "Selesai!!!\n:D"
   },
   "command-disabled": {
     "__desc__": "When you try a command that is disabled",
@@ -2661,7 +2769,8 @@ exports.strings = {
     "te_IN": "ఈ స్థాయిలో ఆ git కమాండ్ ఆపబడింది!",
     "tr_TR": "Bu seviyede o git komutu devre dışı bırakılmıştır!",
     "hu_HU": "Ez a git parancs le van tiltva ennél a szintnél!",
-    "az": "Bu git əmri bu bölüm üçün deaktiv edilib!"
+    "az": "Bu git əmri bu bölüm üçün deaktiv edilib!",
+    "id_ID": "Perintah git tersebut dinonaktifkan pada level ini!"
   },
   "share-json": {
     "__desc__": "when you have made the level, prompt to share this",
@@ -2692,7 +2801,8 @@ exports.strings = {
     "te_IN": "ఇది ఈ స్థాయి కోసం JSON! దీన్ని ఎవరితోనైనా పంచుకోండి లేదా GitHub లో నాకు పంపండి",
     "tr_TR": "İşte bu seviye için JSON! Bunu birisiyle paylaşabilir veya GitHub üzerinden bana gönderebilirsiniz.",
     "hu_HU": "Íme a JSON ehhez a szinthez! Oszd meg valakivel vagy küldd el nekem a GitHub-on",
-    "az": "Bu bölüm üçün JSON budur! Onu kiminləsə paylaş və ya GitHub-da mənə göndər"
+    "az": "Bu bölüm üçün JSON budur! Onu kiminləsə paylaş və ya GitHub-da mənə göndər",
+    "id_ID": "Ini JSON untuk level ini! Bagikan ke teman atau kirim ke saya di GitHub"
   },
   "want-start-dialog": {
     "__desc__": "prompt to add a start dialog",
@@ -2723,7 +2833,8 @@ exports.strings = {
     "te_IN": "మీరు స్టార్ట్ డైలాగ్ ను పేర్కొనలేదు, ఒకటి జోడించాలనుకుంటున్నారా?",
     "tr_TR": "Başlangıç diyaloğunu belirtmediniz, bir tane eklemek ister misiniz?",
     "hu_HU": "Nem adtál meg indítási párbeszédet, szeretnél egyet hozzáadni?",
-    "az": "Başlanğıc dialoqu təyin etməmisən, birini əlavə etmək istəyirsən?"
+    "az": "Başlanğıc dialoqu təyin etməmisən, birini əlavə etmək istəyirsən?",
+    "id_ID": "Kamu belum menambahkan dialog pembuka (start dialog), mau menambahkannya?"
   },
   "want-hint": {
     "__desc__": "prompt to add a hint",
@@ -2754,7 +2865,8 @@ exports.strings = {
     "te_IN": "మీరు హింట్ ను పేర్కొనలేదు, ఒకటి జోడించాలనుకుంటున్నారా?",
     "tr_TR": "Bir ipucu belirtmediniz, bir tane eklemek ister misiniz?",
     "hu_HU": "Nem adtál meg tippet, szeretnél egyet hozzáadni?",
-    "az": "İpucu təyin etməmisən, birini əlavə etmək istəyirsən?"
+    "az": "İpucu təyin etməmisən, birini əlavə etmək istəyirsən?",
+    "id_ID": "Kamu belum menambahkan petunjuk (hint), mau menambahkannya?"
   },
   "prompt-hint": {
     "__desc__": "prompt for hint",
@@ -2785,7 +2897,8 @@ exports.strings = {
     "te_IN": "ఈ స్థాయి కోసం హింట్ ను ఎంటర్ చేయి, హింట్ అవసరం లేకపోతే దీన్ని ఖాళీగా వదిలివేయి",
     "tr_TR": "Bu seviye için ipucu girin, ya da bir ipucu eklemek istemiyorsanız burayı boş bırakın",
     "hu_HU": "Add meg a tippet ehhez a szinthez, vagy hagyd üresen ha nem szeretnél egyet hozzáadni",
-    "az": "Bu bölüm üçün ipucunu daxil et, ya da əlavə etmək istəmirsənsə boş burax"
+    "az": "Bu bölüm üçün ipucunu daxil et, ya da əlavə etmək istəmirsənsə boş burax",
+    "id_ID": "Masukkan petunjuk untuk level ini, atau kosongkan jika tidak ingin menyertakannya"
   },
   "prompt-name": {
     "__desc__": "prompt for level name",
@@ -2816,7 +2929,8 @@ exports.strings = {
     "te_IN": "స్థాయి కోసం పేరును ఎంటర్ చేయి",
     "tr_TR": "Seviye için adı girin",
     "hu_HU": "Add meg a szint nevét",
-    "az": "Bölümün adını daxil et"
+    "az": "Bölümün adını daxil et",
+    "id_ID": "Masukkan nama untuk level ini"
   },
   "no-solution-defined": {
     "__desc__": "Shown when the user runs `show solution` but the current level has no solution defined to place in the command box",
@@ -2834,7 +2948,8 @@ exports.strings = {
     "vi": "Cấp độ này không có lời giải để hiển thị!",
     "uk": "Для цього рівня немає розв’язку для показу!",
     "es_AR": "Este nivel no tiene una solución para mostrar!",
-    "ko": "이 레벨에는 표시할 해답이 없습니다!"
+    "ko": "이 레벨에는 표시할 해답이 없습니다!",
+    "id_ID": "Level ini belum memiliki solusi untuk ditampilkan!"
   },
   "solution-empty": {
     "__desc__": "If you define a solution without any commands, aka a level that is solved without doing anything",
@@ -2865,7 +2980,8 @@ exports.strings = {
     "te_IN": "మీ సాధన ఖాళీగా ఉంది!! ఏదో తప్పు ఉంది",
     "tr_TR": "Çözümünüz boş!! Bir şeyler eksik",
     "hu_HU": "A megoldásod üres!! Valami hiányzik",
-    "az": "Sənin həllin boşdur!! Nəsə səhvdir"
+    "az": "Sənin həllin boşdur!! Nəsə səhvdir",
+    "id_ID": "Solusimu kosong!! Ada yang tidak beres"
   },
   "define-start-warning": {
     "__desc__": "When you define the start point again, it overwrites the solution and goal so we add a warning",
@@ -2896,7 +3012,8 @@ exports.strings = {
     "te_IN": "స్టార్ట్ పాయింట్ సెట్ చేస్తోంది... సాధన మరియు లక్ష్యం ముందుగా సెట్ చేస్తే ఓవర్‌రైట్ అవుతాయి",
     "tr_TR": "Başlangıç noktası belirleniyor... daha önce tanımlanan çözüm ve hedef üzerine yazılacaktır",
     "hu_HU": "Kezdőpont meghatározása... a megoldás és a cél felül lesz írva ha korábban már meg volt határozva",
-    "az": "Başlanğıc nöqtəsi təyin edilir... əvvəllər təyin edilibsə, həll və hədəf üzərinə yazılacaq"
+    "az": "Başlanğıc nöqtəsi təyin edilir... əvvəllər təyin edilibsə, həll və hədəf üzərinə yazılacaq",
+    "id_ID": "Menetapkan titik awal... solusi dan target akan ditimpa jika sudah ditetapkan sebelumnya"
   },
   "help-vague-level": {
     "__desc__": "When you are in a level and you say help, its vague and you need to specify",
@@ -2927,7 +3044,8 @@ exports.strings = {
     "te_IN": "మీరు ఒక స్థాయిలో ఉన్నారు, కాబట్టి అనేక రకాల సహాయం అందుబాటులో ఉంది. ఈ పాఠం గురించి మరింత తెలుసుకోవడానికి \"help level\", Learn GitBranching గురించి మరింత తెలుసుకోవడానికి \"help general\", లేదా ఈ స్థాయిని ఎలా పరిష్కరించాలో తెలుసుకోవడానికి \"objective\" ఎంచుకోండి.",
     "tr_TR": "Bir seviyedesiniz, bu nedenle birden fazla yardım seçeneği mevcuttur. Bu derse dair daha fazla bilgi almak için \"help level\", Learn GitBranching kullanımını öğrenmek için \"help general\" veya seviyeyi nasıl çözeceğiniz hakkında bilgi almak için \"objective\" seçeneğini belirleyebilirsiniz.",
     "hu_HU": "Szintben vagy, ezért több segítségi forma is elérhető. Kérlek válaszd a \"help level\" lehetőséget ha többet szeretnél megtudni erről a leckéről, a \"help general\" lehetőséget a Learn GitBranching használatához, vagy az \"objective\" lehetőséget a szint megoldásának elsajátításához.",
-    "az": "Sən bir bölümdəsən, ona görə bir neçə növ kömək mövcuddur. Bu dərs haqqında ətraflı bilmək üçün \"help level\", Learn GitBranching-dən istifadə üçün \"help general\", ya da bölümü necə həll edəcəyini öyrənmək üçün \"objective\" seç."
+    "az": "Sən bir bölümdəsən, ona görə bir neçə növ kömək mövcuddur. Bu dərs haqqında ətraflı bilmək üçün \"help level\", Learn GitBranching-dən istifadə üçün \"help general\", ya da bölümü necə həll edəcəyini öyrənmək üçün \"objective\" seç.",
+    "id_ID": "Kamu sedang di dalam level, jadi ada beberapa jenis bantuan. Pilih \"help level\" untuk info pelajaran ini, \"help general\" untuk cara memakai Learn Git Branching, atau \"objective\" untuk melihat cara menyelesaikan level."
   },
   "help-vague-builder": {
     "__desc__": "When you are in a level builder, the help command is vague so you need to specify what you mean",
@@ -2958,7 +3076,8 @@ exports.strings = {
     "te_IN": "మీరు స్థాయి బిల్డర్ లో ఉన్నారు, కాబట్టి అనేక రకాల సహాయం అందుబాటులో ఉంది. దయచేసి \"help general\" లేదా \"help builder\" ఎంచుకోండి",
     "tr_TR": "Bir seviye oluşturucudasınız, bu nedenle birden fazla yardım seçeneği mevcuttur. Lütfen \"help general\" veya \"help builder\" seçeneklerinden birini seçin.",
     "hu_HU": "Szintépítőben vagy, ezért több segítségi forma is elérhető. Kérlek válassz a \"help general\" vagy \"help builder\" lehetőségek közül",
-    "az": "Sən bölüm konstruktorundasan, ona görə bir neçə növ kömək mövcuddur. Zəhmət olmasa \"help general\" və ya \"help builder\" seç"
+    "az": "Sən bölüm konstruktorundasan, ona görə bir neçə növ kömək mövcuddur. Zəhmət olmasa \"help general\" və ya \"help builder\" seç",
+    "id_ID": "Kamu sedang di level builder, jadi ada beberapa jenis bantuan. Silakan pilih \"help general\" atau \"help builder\""
   },
   "show-goal-button": {
     "__desc__": "button label to show goal",
@@ -2990,7 +3109,8 @@ exports.strings = {
     "te_IN": "లక్ష్యం చూపించు",
     "tr_TR": "Hedefi Göster",
     "hu_HU": "Cél megjelenítése",
-    "az": "Hədəfi Göstər"
+    "az": "Hədəfi Göstər",
+    "id_ID": "Lihat Target"
   },
   "hide-goal-button": {
     "__desc__": "button label to hide goal",
@@ -3022,7 +3142,8 @@ exports.strings = {
     "te_IN": "లక్ష్యం దాచు",
     "tr_TR": "Hedefi Gizle",
     "hu_HU": "Cél elrejtése",
-    "az": "Hədəfi Gizlə"
+    "az": "Hədəfi Gizlə",
+    "id_ID": "Tutup Target"
   },
   "objective-button": {
     "__desc__": "button label to show objective",
@@ -3053,7 +3174,8 @@ exports.strings = {
     "te_IN": "సూచనలు",
     "tr_TR": "Talimatlar",
     "hu_HU": "Utasítások",
-    "az": "Təlimatlar"
+    "az": "Təlimatlar",
+    "id_ID": "Instruksi"
   },
   "git-demonstration-title": {
     "__desc__": "title of git demonstration window",
@@ -3084,7 +3206,8 @@ exports.strings = {
     "te_IN": "Git ప్రదర్శన",
     "tr_TR": "Git Gösterimi",
     "hu_HU": "Git bemutató",
-    "az": "Git Nümayişi"
+    "az": "Git Nümayişi",
+    "id_ID": "Demonstrasi Git"
   },
   "goal-to-reach": {
     "__desc__": "title of window that shoes the goal tree to reach",
@@ -3116,7 +3239,8 @@ exports.strings = {
     "te_IN": "చేరుకోవలసిన లక్ష్యం",
     "tr_TR": "Ulaşılması Gereken Hedef",
     "hu_HU": "Elérendő cél",
-    "az": "Çatılası Hədəf"
+    "az": "Çatılası Hədəf",
+    "id_ID": "Target yang Harus Dicapai"
   },
   "goal-only-main": {
     "__desc__": "the helper message for the window that shows the goal tree when the goal will only be compared using the main branch",
@@ -3148,7 +3272,8 @@ exports.strings = {
     "te_IN": "<span class=\"fwber\">గమనిక:</span> ఈ స్థాయిలో main branch మాత్రమే చెక్ చేయబడుతుంది. ఇతర branches కేవలం సూచన కోసం మాత్రమే (క్రింద డాష్డ్ లేబుల్స్ గా చూపబడతాయి). ఎల్లప్పుడూ, \"hide goal\" తో ఈ డైలాగ్ ను దాచవచ్చు",
     "tr_TR": "<span class=\"fwber\">Not:</span> Bu seviyede yalnızca ana dal kontrol edilecektir. Diğer dallar yalnızca referans amaçlıdır (aşağıda kesikli etiketler olarak gösterilmektedir). Her zamanki gibi, bu diyaloğu \"hedefi gizle\" ile gizleyebilirsiniz.",
     "hu_HU": "<span class=\"fwber\">Megjegyzés:</span> Ebben a szintben csak a main ág lesz ellenőrizve. A többi ág csak tájékoztatásul van (szaggatott vonallal jelölve alább). Mint mindig, elrejtheted ezt az ablakot a \"hide goal\" paranccsal",
-    "az": "<span class=\"fwber\">Qeyd:</span> Bu bölümdə yalnız main branch-ı yoxlanılacaq. Digər branch-lar sadəcə istinad üçündür (aşağıda kəsik-kəsik etiketlərlə göstərilib). Həmişəki kimi, bu dialoqu \"hide goal\" ilə gizlədə bilərsən."
+    "az": "<span class=\"fwber\">Qeyd:</span> Bu bölümdə yalnız main branch-ı yoxlanılacaq. Digər branch-lar sadəcə istinad üçündür (aşağıda kəsik-kəsik etiketlərlə göstərilib). Həmişəki kimi, bu dialoqu \"hide goal\" ilə gizlədə bilərsən.",
+    "id_ID": "<span class=\"fwber\">Catatan:</span> Hanya branch main yang akan diperiksa pada level ini. Branch lain hanya sebagai referensi (ditampilkan dengan label putus-putus di bawah). Seperti biasa, kamu bisa menyembunyikan dialog ini dengan \"hide goal\""
   },
   "hide-goal": {
     "__desc__": "the helper message for the window that shows the goal tree",
@@ -3180,7 +3305,8 @@ exports.strings = {
     "te_IN": "ఈ విండోను \"hide goal\" తో దాచవచ్చు",
     "tr_TR": "Bu pencereyi \"hedefi gizle\" ile gizleyebilirsiniz",
     "hu_HU": "Elrejtheted ezt az ablakot a \"hide goal\" paranccsal",
-    "az": "Bu pəncərəni \"hide goal\" ilə gizlədə bilərsən"
+    "az": "Bu pəncərəni \"hide goal\" ilə gizlədə bilərsən",
+    "id_ID": "Kamu bisa menyembunyikan jendela ini dengan \"hide goal\""
   },
   "hide-start": {
     "__desc__": "The helper message for the window that shows the start tree for a level",
@@ -3212,7 +3338,8 @@ exports.strings = {
     "te_IN": "ఈ విండోను \"hide start\" తో దాచవచ్చు",
     "tr_TR": "Bu pencereyi \"başlangıcı gizle\" ile gizleyebilirsiniz.",
     "hu_HU": "Elrejtheted ezt az ablakot a \"hide start\" paranccsal",
-    "az": "Bu pəncərəni \"hide start\" ilə gizlədə bilərsən"
+    "az": "Bu pəncərəni \"hide start\" ilə gizlədə bilərsən",
+    "id_ID": "Kamu bisa menyembunyikan jendela ini dengan \"hide start\""
   },
   "level-builder": {
     "__desc__": "The name for the environment where you build levels",
@@ -3244,7 +3371,8 @@ exports.strings = {
     "te_IN": "స్థాయి బిల్డర్",
     "hu_HU": "Szintépítő",
     "az": "Bölüm Konstruktoru",
-    "tr_TR": "Seviye Oluşturucu"
+    "tr_TR": "Seviye Oluşturucu",
+    "id_ID": "Level Builder"
   },
   "no-start-dialog": {
     "__desc__": "when the user tries to open a start dialog for a level that does not have one",
@@ -3276,7 +3404,8 @@ exports.strings = {
     "te_IN": "ఈ స్థాయి కోసం చూపించడానికి స్టార్ట్ డైలాగ్ లేదు!",
     "tr_TR": "Bu seviye için gösterilecek bir başlangıç penceresi yok!",
     "hu_HU": "Nincs megjelenítendő indítási párbeszéd ehhez a szinthez!",
-    "az": "Bu bölüm üçün göstəriləcək başlanğıc dialoqu yoxdur!"
+    "az": "Bu bölüm üçün göstəriləcək başlanğıc dialoqu yoxdur!",
+    "id_ID": "Tidak ada dialog pembuka untuk level ini!"
   },
   "no-hint": {
     "__desc__": "when no hint is available for a level",
@@ -3308,7 +3437,8 @@ exports.strings = {
     "te_IN": "హ్మ్, ఈ స్థాయి కోసం హింట్ ఉన్నట్లు లేదు :-/",
     "tr_TR": "Hmm, bu seviye için bir ipucu görünmüyor :-/",
     "hu_HU": "Hmm, úgy tűnik nincs tipp ehhez a szinthez :-/",
-    "az": "Hmm, bu bölüm üçün ipucu yoxdur deyəsən :-/"
+    "az": "Hmm, bu bölüm üçün ipucu yoxdur deyəsən :-/",
+    "id_ID": "Hmm, sepertinya belum ada petunjuk untuk level ini :-/"
   },
   "error-untranslated-key": {
     "__desc__": "This error happens when we are trying to translate a specific key and the locale version is mission",
@@ -3340,7 +3470,8 @@ exports.strings = {
     "te_IN": "{key} కోసం అనువాదం ఇంకా అందుబాటులో లేదు :( github కు వెళ్ళి అనువాదం అందించండి!",
     "tr_TR": "{key} için henüz bir çeviri yok :( Lütfen GitHub'a gidin ve bir çeviri önerin!",
     "hu_HU": "A(z) {key} fordítása még nem létezik :( Kérlek ugorj fel a GitHub-ra és ajánlj fel egy fordítást!",
-    "az": "{key} üçün tərcümə hələ mövcud deyil :( Zəhmət olmasa GitHub-a keç və tərcümə təklif et!"
+    "az": "{key} üçün tərcümə hələ mövcud deyil :( Zəhmət olmasa GitHub-a keç və tərcümə təklif et!",
+    "id_ID": "Terjemahan untuk {key} belum tersedia :( Yuk mampir ke GitHub dan bantu terjemahkan!"
   },
   "error-untranslated": {
     "__desc__": "The general error when we encounter a dialog that is not translated",
@@ -3372,7 +3503,8 @@ exports.strings = {
     "te_IN": "ఈ డైలాగ్ లేదా టెక్స్ట్ మీ భాషలో ఇంకా అనువదించబడలేదు :( అనువాదంలో సహాయం చేయడానికి github కు వెళ్ళండి!",
     "tr_TR": "Bu ileti veya metin henüz dilimize çevrilmemiş :( Çeviriye yardımcı olmak için GitHub'da bize katılın!",
     "hu_HU": "Ez a párbeszéd vagy szöveg még nincs lefordítva a te nyelvedre :( Ugorj fel a GitHub-ra a fordításhoz való segítségért!",
-    "az": "Bu dialoq və ya mətn sənin dilinə hələ tərcümə olunmayıb :( Tərcüməyə kömək etmək üçün GitHub-a keç!"
+    "az": "Bu dialoq və ya mətn sənin dilinə hələ tərcümə olunmayıb :( Tərcüməyə kömək etmək üçün GitHub-a keç!",
+    "id_ID": "Dialog atau teks ini belum diterjemahkan ke bahasamu :( Yuk mampir ke GitHub untuk membantu menerjemahkan!"
   },
   "cancel-button": {
     "__desc__": "Cancel button label after completing a level",
@@ -3400,7 +3532,8 @@ exports.strings = {
     "hu_HU": "Mégse",
     "az": "Ləğv et",
     "uk": "Скасувати",
-    "ko": "취소"
+    "ko": "취소",
+    "id_ID": "Batal"
   },
   "confirm-button": {
     "__desc__": "Confirm button label after completing a level",
@@ -3428,7 +3561,8 @@ exports.strings = {
     "hu_HU": "Megerősít",
     "az": "Təsdiqlə",
     "uk": "Підтвердити",
-    "ko": "확인"
+    "ko": "확인",
+    "id_ID": "Konfirmasi"
   },
   "level-label": {
     "__desc__": "Label in the top of the left-side menu. Remember to leave some space on the sides",
@@ -3455,7 +3589,8 @@ exports.strings = {
     "az": " Bölüm ",
     "vi": "Level",
     "uk": " Рівень ",
-    "ko": " 레벨 "
+    "ko": " 레벨 ",
+    "id_ID": " Level "
   },
   "close-window": {
     "__desc__": "Tooltip for the red control that closes a window.",
@@ -3473,7 +3608,8 @@ exports.strings = {
     "vi": "Đóng cửa xổ",
     "uk": "Закрити вікно",
     "es_AR": "Cerrar ventana",
-    "ko": "창 닫기"
+    "ko": "창 닫기",
+    "id_ID": "Tutup jendela"
   },
   "helper-bar-back": {
     "__desc__": "Back label in the bottom helper bar sub-menus.",
@@ -3491,7 +3627,8 @@ exports.strings = {
     "vi": "Quay lại",
     "uk": "Назад",
     "es_AR": "Volver",
-    "ko": "뒤로"
+    "ko": "뒤로",
+    "id_ID": "Kembali"
   },
   "command-helper-bar-levels": {
     "__desc__": "Levels command label in the bottom command helper bar.",
@@ -3518,7 +3655,8 @@ exports.strings = {
     "az": "Bölümlər",
     "vi": "Levels",
     "uk": "Рівні",
-    "ko": "레벨 목록"
+    "ko": "레벨 목록",
+    "id_ID": "Daftar Level"
   },
   "command-helper-bar-solution": {
     "__desc__": "Solution command label in the bottom command helper bar.",
@@ -3545,7 +3683,8 @@ exports.strings = {
     "az": "Həll",
     "vi": "Đáp Án",
     "uk": "Рішення",
-    "ko": "해답"
+    "ko": "해답",
+    "id_ID": "Solusi"
   },
   "command-helper-bar-reset": {
     "__desc__": "Reset command label in the bottom command helper bar.",
@@ -3571,7 +3710,8 @@ exports.strings = {
     "vi": "Reset",
     "az": "Sıfırla",
     "uk": "Скинути",
-    "ko": "리셋"
+    "ko": "리셋",
+    "id_ID": "Reset"
   },
   "command-helper-bar-undo": {
     "__desc__": "Undo command label in the bottom command helper bar.",
@@ -3598,7 +3738,8 @@ exports.strings = {
     "az": "Geri al",
     "vi": "Undo",
     "uk": "Скасувати",
-    "ko": "되돌리기"
+    "ko": "되돌리기",
+    "id_ID": "Undo"
   },
   "command-helper-bar-objective": {
     "__desc__": "Objective command label in the bottom command helper bar.",
@@ -3625,7 +3766,8 @@ exports.strings = {
     "az": "Hədəf",
     "vi": "Yêu Cầu",
     "uk": "Завдання",
-    "ko": "목표"
+    "ko": "목표",
+    "id_ID": "Objektif"
   },
   "command-helper-bar-help": {
     "__desc__": "Help command label in the bottom command helper bar.",
@@ -3652,7 +3794,8 @@ exports.strings = {
     "az": "Kömək",
     "vi": "Help",
     "uk": "Допомога",
-    "ko": "도움말"
+    "ko": "도움말",
+    "id_ID": "Bantuan"
   },
   "error-command-currently-not-supported": {
     "__desc__": "Message that appears in git console when command is not supported in the current environment.",
@@ -3679,7 +3822,8 @@ exports.strings = {
     "hu_HU": "Ez a parancs érvényes, de nem támogatott a jelenlegi környezetben! Próbálj belépni egy szintbe vagy szintépítőbe hogy használd ezt a parancsot",
     "az": "Bu əmr etibarlıdır, lakin cari mühitdə dəstəklənmir! Bu əmri istifadə etmək üçün bir bölümə və ya bölüm konstruktoruna daxil olmağı sına",
     "uk": "Ця команда дійсна, але не підтримується в цьому середовищі! Спробуйте увійти в рівень або редактор рівнів, щоб використати її",
-    "ko": "이 명령은 유효하지만 현재 환경에서는 지원되지 않습니다! 이 명령을 사용하려면 레벨 또는 레벨 생성기로 이동하세요."
+    "ko": "이 명령은 유효하지만 현재 환경에서는 지원되지 않습니다! 이 명령을 사용하려면 레벨 또는 레벨 생성기로 이동하세요.",
+    "id_ID": "Perintah tersebut valid, tetapi tidak didukung di mode saat ini! Coba masuk ke dalam level atau level builder untuk menggunakannya"
   },
   "interactive-rebase-title": {
     "__desc__": "Title for the popup",
@@ -3706,7 +3850,8 @@ exports.strings = {
     "hu_HU": "Interaktív rebase",
     "az": "İnteraktiv Rebase",
     "uk": "Інтерактивний Rebase",
-    "ko": "인터랙티브 리베이스"
+    "ko": "인터랙티브 리베이스",
+    "id_ID": "Interactive Rebase"
   },
   "main-helper-bar-commands": {
     "__desc__": "Tooltip for the button that shows the list of commands",
@@ -3720,6 +3865,7 @@ exports.strings = {
     "it_IT": "Mostra comandi",
     "hi": "Commands दिखाएँ",
     "te_IN": "కమాండ్స్ చూపించు",
+    "id_ID": "Tampilkan perintah",
   },
   "main-helper-bar-languages": {
     "__desc__": "Tooltip for the button that shows the available languages",
@@ -3733,6 +3879,7 @@ exports.strings = {
     "it_IT": "Mostra le lingue disponibili",
     "hi": "उपलब्ध भाषाएँ दिखाएँ",
     "te_IN": "అందుబాటులో ఉన్న భాషలు చూపించు",
+    "id_ID": "Tampilkan bahasa yang tersedia",
   },
   "main-helper-bar-threads": {
     "__desc__": "Tooltip for the link to the author's Threads profile",
@@ -3746,6 +3893,7 @@ exports.strings = {
     "it_IT": "Seguimi su Threads",
     "hi": "मुझे Threads पर फॉलो करें",
     "te_IN": "Threads లో నన్ను ఫాలో అవ్వండి",
+    "id_ID": "Ikuti saya di Threads",
   },
   "command-helper-bar-export-progress": {
     "__desc__": "Export progress command label in the bottom command helper bar.",
@@ -3756,6 +3904,7 @@ exports.strings = {
     "tr_TR": "İlerlemeyi dışa aktar",
     "zh_CN": "导出",
     "zh_TW": "匯出",
+    "id_ID": "Ekspor progres",
   },
   "command-helper-bar-import-progress": {
     "__desc__": "Import progress command label in the bottom command helper bar.",
@@ -3766,6 +3915,7 @@ exports.strings = {
     "tr_TR": "İlerlemeyi içe aktar",
     "zh_CN": "导入",
     "zh_TW": "匯入",
+    "id_ID": "Impor progres",
   },
   "progress-export-copied": {
     "__desc__": "Shown in the terminal after the user exports their progress to the clipboard",
@@ -3776,6 +3926,7 @@ exports.strings = {
     "tr_TR": "İlerlemen panoya kopyalandı! Yedeklemek için güvenli bir yere yapıştır. Sonra geri yüklemek için `load` komutunu çalıştırıp metni yapıştırman yeterli.",
     "zh_CN": "进度已复制到剪贴板！请将其粘贴到安全的地方保存。恢复时运行 `load` 并粘贴即可。",
     "zh_TW": "進度已複製到剪貼簿！請將其貼到安全的地方保存。恢復時執行 `load` 並貼上即可。",
+    "id_ID": "Progres disalin ke clipboard! Tempel di tempat aman sebagai cadangan. Untuk memulihkan nanti, jalankan `load` lalu tempelkan isinya.",
   },
   "progress-import-prompt": {
     "__desc__": "Prompt shown above the text input when importing saved progress",
@@ -3786,6 +3937,7 @@ exports.strings = {
     "tr_TR": "Kaydettiğin ilerleme metnini aşağıya yapıştır!",
     "zh_CN": "请在下方粘贴您保存的进度文本！",
     "zh_TW": "請在下方貼上您保存的進度文字！",
+    "id_ID": "Tempelkan teks progres tersimpanmu di bawah ini!",
   },
   "progress-import-success": {
     "__desc__": "Shown in the terminal after progress is successfully imported",
@@ -3796,6 +3948,7 @@ exports.strings = {
     "tr_TR": "İlerleme başarıyla içe aktarıldı!",
     "zh_CN": "进度导入成功！",
     "zh_TW": "進度匯入成功！",
+    "id_ID": "Progres berhasil diimpor!",
   },
   "progress-import-error": {
     "__desc__": "Shown in the terminal when importing progress fails",
@@ -3806,6 +3959,7 @@ exports.strings = {
     "tr_TR": "İlerleme içe aktarılamadı: {error}",
     "zh_CN": "无法导入进度：{error}",
     "zh_TW": "無法匯入進度：{error}",
+    "id_ID": "Tidak dapat mengimpor progres: {error}",
   },
   "progress-export-copy-failed": {
     "__desc__": "Shown in the terminal when the progress could not be copied to the clipboard",
@@ -3816,6 +3970,7 @@ exports.strings = {
     "tr_TR": "İlerleme panoya kopyalanamadı: {error}",
     "zh_CN": "无法将进度复制到剪贴板：{error}",
     "zh_TW": "無法將進度複製到剪貼簿：{error}",
+    "id_ID": "Tidak dapat menyalin progres ke clipboard: {error}",
   },
   "git-error-bad-numeric-argument": {
     "__desc__": "Error when a command argument that should be a number is not",
@@ -3829,6 +3984,7 @@ exports.strings = {
     "it_IT": "Argomento numerico non valido: {arg}",
     "hi": "गलत numeric argument: {arg}",
     "te_IN": "సంఖ్యా ఆర్గ్యుమెంట్ తప్పు: {arg}",
+    "id_ID": "Argumen angka tidak valid: {arg}",
   },
   "reset-solved-confirm": {
     "__desc__": "Warning shown when \"reset solved\" is run without --confirm",
@@ -3842,6 +3998,7 @@ exports.strings = {
     "it_IT": "Reset solved contrassegnerà ogni livello come non ancora risolto; poiché questo è un comando distruttivo, passa --confirm per eseguirlo",
     "hi": "Reset solved हर level को अभी solve न किया हुआ mark कर देगा; यह destructive command है, इसलिए चलाने के लिए --confirm दें",
     "te_IN": "Reset solved చేస్తే ప్రతి స్థాయి ఇంకా solve చేయనిదిగా మారుతుంది; ఇది destructive కమాండ్ కాబట్టి, అమలు చేయడానికి --confirm ఇవ్వండి",
+    "id_ID": "Reset solved akan menandai semua level sebagai belum selesai; karena perintah ini bersifat menghapus progres, tambahkan --confirm untuk menjalankannya",
   },
   "sandbox-error-something-went-wrong": {
     "__desc__": "Generic error when opening a level fails, {error} is the exception text",
@@ -3855,6 +4012,7 @@ exports.strings = {
     "it_IT": "Qualcosa è andato storto {error}",
     "hi": "कुछ गड़बड़ हो गई {error}",
     "te_IN": "ఏదో తప్పు జరిగింది {error}",
+    "id_ID": "Terjadi kesalahan {error}",
   },
   "sandbox-alias-set": {
     "__desc__": "Confirmation that a command alias was created",
@@ -3868,6 +4026,7 @@ exports.strings = {
     "it_IT": "Alias \"{alias}\" impostato su \"{expansion}\"",
     "hi": "Alias \"{alias}\" को \"{expansion}\" पर सेट किया",
     "te_IN": "alias \"{alias}\" ని \"{expansion}\" కి సెట్ చేశారు",
+    "id_ID": "Alias \"{alias}\" diatur menjadi \"{expansion}\"",
   },
   "sandbox-alias-removed": {
     "__desc__": "Confirmation that a command alias was removed",
@@ -3881,6 +4040,7 @@ exports.strings = {
     "it_IT": "Alias \"{alias}\" rimosso",
     "hi": "Alias \"{alias}\" हटा दिया",
     "te_IN": "alias \"{alias}\" ని తీసేశారు",
+    "id_ID": "Alias \"{alias}\" dihapus",
   },
   "sandbox-rollup-done": {
     "__desc__": "Confirmation that previous commands were combined into one",
@@ -3894,6 +4054,7 @@ exports.strings = {
     "it_IT": "Comandi combinati!",
     "hi": "Commands जोड़ दिए गए!",
     "te_IN": "కమాండ్స్ కలిపేశారు!",
+    "id_ID": "Perintah berhasil digabung!",
   },
   "git-error-fetch-checked-out": {
     "__desc__": "Error when fetching into the branch that is currently checked out",
@@ -3907,6 +4068,7 @@ exports.strings = {
     "it_IT": "impossible fare il fetch su {ref} mentre si trova su {ref}",
     "hi": "{ref} पर checked out होने पर {ref} में fetch नहीं कर सकते",
     "te_IN": "{ref} పై checkout లో ఉన్నప్పుడు {ref} కి fetch చేయలేరు",
+    "id_ID": "tidak dapat melakukan fetch ke {ref} saat sedang berada di {ref}",
   },
   "git-error-not-a-branch": {
     "__desc__": "Error when a ref that must be a branch is not one",
@@ -3920,6 +4082,7 @@ exports.strings = {
     "it_IT": "{ref} non è un ramo",
     "hi": "{ref} कोई branch नहीं है",
     "te_IN": "{ref} ఒక branch కాదు",
+    "id_ID": "{ref} bukan sebuah branch",
   },
   "git-error-not-a-remote-branch": {
     "__desc__": "Error when a ref that must be a remote branch is not one",
@@ -3933,6 +4096,7 @@ exports.strings = {
     "it_IT": "{ref} non è un ramo remoto",
     "hi": "{ref} कोई remote branch नहीं है",
     "te_IN": "{ref} ఒక రిమోట్ branch కాదు",
+    "id_ID": "{ref} bukan sebuah remote branch",
   },
   "git-error-not-a-remote": {
     "__desc__": "Error when the named remote does not exist in the repository",
@@ -3946,6 +4110,7 @@ exports.strings = {
     "it_IT": "{remote} non è un remote nel tuo repository! Prova ad aggiungere origin a quell'argomento",
     "hi": "{remote} आपकी repository में कोई remote नहीं है! उस argument में origin जोड़कर try करें",
     "te_IN": "{remote} మీ రిపోజిటరీలో రిమోట్ కాదు! ఆ ఆర్గ్యుమెంట్ కి origin జోడించి ట్రై చేయి",
+    "id_ID": "{remote} bukan remote di repository kamu! coba tambahkan origin pada argumen itu",
   },
   "git-error-branch-bang": {
     "__desc__": "Error when the named branch does not exist",
@@ -3959,6 +4124,7 @@ exports.strings = {
     "it_IT": "{branch} non è un ramo!",
     "hi": "{branch} कोई branch नहीं है!",
     "te_IN": "{branch} ఒక branch కాదు!",
+    "id_ID": "{branch} bukan sebuah branch!",
   },
   "git-error-not-remote-tracking": {
     "__desc__": "Error when pushing a branch that tracks no remote branch",
@@ -3972,6 +4138,7 @@ exports.strings = {
     "it_IT": "{branch} non è un branch di tracciamento remoto! Non so dove effettuare il push",
     "hi": "{branch} कोई remote tracking branch नहीं है! मुझे नहीं पता कहाँ push करना है",
     "te_IN": "{branch} ఒక రిమోట్-ట్రాకింగ్ branch కాదు! ఎక్కడికి push చేయాలో తెలియడం లేదు",
+    "id_ID": "{branch} bukan remote tracking branch! Saya tidak tahu harus push ke mana",
   },
   "git-error-pull-detached": {
     "__desc__": "Error when pulling in detached HEAD without naming a remote branch",
@@ -3985,6 +4152,7 @@ exports.strings = {
     "it_IT": "Impossibile eseguire git pull in modalità HEAD staccata se non viene specificato alcun branch remoto!",
     "hi": "Detached HEAD mode में बिना remote branch बताए git pull नहीं चला सकते!",
     "te_IN": "రిమోట్ branch పేర్కొనకపోతే, detached HEAD మోడ్ లో `git pull` అమలు చేయలేరు!",
+    "id_ID": "Git pull tidak bisa dijalankan dalam mode detached HEAD jika tidak ada remote branch yang ditentukan!",
   },
   "git-error-head-not-branch": {
     "__desc__": "Error when HEAD is detached but a branch is required",
@@ -3998,6 +4166,7 @@ exports.strings = {
     "it_IT": "fatal: HEAD non punta a un branch",
     "hi": "fatal: HEAD किसी branch को point नहीं कर रहा",
     "te_IN": "fatal: HEAD ఒక branch ని పాయింట్ చేయడం లేదు",
+    "id_ID": "fatal: HEAD tidak menunjuk ke sebuah branch",
   },
   "git-error-delete-no-refs": {
     "__desc__": "Error when push --delete is given no refs",
@@ -4011,6 +4180,7 @@ exports.strings = {
     "it_IT": "--delete non ha senso senza alcuna ref",
     "hi": "बिना किसी refs के --delete का कोई मतलब नहीं",
     "te_IN": "refs లేకుండా --delete అర్థం కాదు",
+    "id_ID": "--delete tidak masuk akal tanpa menyebutkan ref apa pun",
   },
   "git-error-delete-plain-refs": {
     "__desc__": "Error when push --delete is given a source:destination refspec",
@@ -4024,6 +4194,7 @@ exports.strings = {
     "it_IT": "--delete accetta solo nomi di ref di destinazione semplici",
     "hi": "--delete सिर्फ plain target ref नाम accept करता है",
     "te_IN": "--delete సింపుల్ target ref పేర్లను మాత్రమే అంగీకరిస్తుంది",
+    "id_ID": "--delete hanya menerima nama target ref biasa",
   },
   "git-error-delete-nonexistent": {
     "__desc__": "Error when deleting a branch that does not exist",
@@ -4037,6 +4208,7 @@ exports.strings = {
     "it_IT": "impossibile eliminare il branch {branch} perché non esiste",
     "hi": "Branch {branch} मौजूद नहीं है, इसलिए delete नहीं कर सकते",
     "te_IN": "ఉనికిలో లేని {branch} branch ని డిలీట్ చేయలేరు",
+    "id_ID": "tidak dapat menghapus branch {branch} karena tidak ada",
   },
   "git-error-describe-no-tags": {
     "__desc__": "Error from git describe when the repository has no tags",
@@ -4050,6 +4222,7 @@ exports.strings = {
     "it_IT": "fatal: Nessun tag trovato, impossibile descrivere alcunché.",
     "hi": "fatal: कोई tag नहीं मिला, describe कुछ नहीं कर सकते।",
     "te_IN": "fatal: ట్యాగ్లు ఏవీ కనబడలేదు, describe చేయడం సాధ్యం కాదు.",
+    "id_ID": "fatal: Tidak ditemukan tag, tidak ada yang bisa dideskripsikan.",
   },
   "git-error-no-tag-to-remove": {
     "__desc__": "Error when removing a tag that does not exist",
@@ -4063,6 +4236,7 @@ exports.strings = {
     "it_IT": "Nessun tag trovato, niente da rimuovere",
     "hi": "कोई tag नहीं मिला, हटाने को कुछ नहीं",
     "te_IN": "ట్యాగ్ కనబడలేదు, తీసేయడానికి ఏమీ లేదు",
+    "id_ID": "Tidak ada tag yang ditemukan, tidak ada yang dihapus",
   },
   "git-error-nothing-to-clone": {
     "__desc__": "Error when cloning with no remote available",
@@ -4076,6 +4250,7 @@ exports.strings = {
     "it_IT": "Niente da clonare!",
     "hi": "Clone करने के लिए कुछ नहीं!",
     "te_IN": "క్లోన్ చేయడానికి ఏమీ లేదు!",
+    "id_ID": "Tidak ada remote yang bisa di-clone!",
   },
   "git-warning-tracking": {
     "__desc__": "Warning shown when a local branch starts tracking a remote branch",
@@ -4089,6 +4264,7 @@ exports.strings = {
     "it_IT": "il branch locale \"{localBranch}\" è impostato per tracciare il branch remoto \"{remoteBranch}\"",
     "hi": "Local branch \"{localBranch}\" अब remote branch \"{remoteBranch}\" को track करेगी",
     "te_IN": "లోకల్ branch \"{localBranch}\" ఇప్పుడు రిమోట్ branch \"{remoteBranch}\" ని ట్రాక్ చేస్తుంది",
+    "id_ID": "branch lokal \"{localBranch}\" diatur untuk melacak remote branch \"{remoteBranch}\"",
   },
   "git-error-push-tag-source": {
     "__desc__": "Error when pushing a tag as the source of a refspec",
@@ -4102,6 +4278,7 @@ exports.strings = {
     "it_IT": "I tag non sono consentiti come sorgenti per il push",
     "hi": "Push के source के तौर पर tags allowed नहीं हैं",
     "te_IN": "ట్యాగ్లను push చేయడానికి సోర్స్ గా అనుమతించరు",
+    "id_ID": "Tag tidak diperbolehkan sebagai sumber untuk push",
   },
   "git-error-delete-main-remote": {
     "__desc__": "Error when deleting the main branch on the remote",
@@ -4115,6 +4292,7 @@ exports.strings = {
     "it_IT": "Non puoi eliminare il branch main sul remote!",
     "hi": "आप remote पर main branch delete नहीं कर सकते!",
     "te_IN": "రిమోట్ లోని main branch ని డిలీట్ చేయలేరు!",
+    "id_ID": "Kamu tidak boleh menghapus branch main di remote!",
   },
   "git-error-commits-not-in-set": {
     "__desc__": "Error when named commits are not part of the given set",
@@ -4128,6 +4306,7 @@ exports.strings = {
     "it_IT": "Ehi, quei commit non esistono nell'insieme!",
     "hi": "अरे, वे commits set में मौजूद नहीं हैं!",
     "te_IN": "ఆ commits ఆ సెట్ లో లేవు!",
+    "id_ID": "Hei, commit-commit tersebut tidak ada di dalam set!",
   },
   "git-error-no-tags-upstream": {
     "__desc__": "Error when fetching tags but the remote has none",
@@ -4141,6 +4320,7 @@ exports.strings = {
     "it_IT": "fatal: nessun tag trovato upstream",
     "hi": "Fatal: upstream में कोई tag नहीं मिला",
     "te_IN": "Fatal: upstream లో ట్యాగ్లు ఏవీ కనబడలేదు",
+    "id_ID": "Fatal: tidak ada tag yang ditemukan di upstream",
   },
   "git-error-branch-rename-not-branch": {
     "__desc__": "Error when renaming something that is not a branch",
@@ -4154,6 +4334,7 @@ exports.strings = {
     "it_IT": "fatal: non è un branch: {branch}",
     "hi": "fatal: कोई branch नहीं: {branch}",
     "te_IN": "fatal: అది branch కాదు: {branch}",
+    "id_ID": "fatal: bukan sebuah branch: {branch}",
   },
   "git-error-branch-rename-exists": {
     "__desc__": "Error when renaming a branch to a name already taken",
@@ -4167,6 +4348,7 @@ exports.strings = {
     "it_IT": "fatal: Un branch chiamato '{branch}' esiste già.",
     "hi": "fatal: '{branch}' नाम की branch पहले से मौजूद है।",
     "te_IN": "fatal: '{branch}' పేరుతో branch ఇప్పటికే ఉంది.",
+    "id_ID": "fatal: Branch bernama '{branch}' sudah ada.",
   },
   "hg-error-m-d-incompatible": {
     "__desc__": "Error when hg is given both -m and -d",
@@ -4180,6 +4362,7 @@ exports.strings = {
     "it_IT": "-m e -d non sono compatibili",
     "hi": "-m और -d साथ नहीं चल सकते",
     "te_IN": "-m మరియు -d ఒకదానితో ఒకటి కలిసి రావు",
+    "id_ID": "-m dan -d tidak kompatibel",
   },
   "hg-error-r-d-incompatible": {
     "__desc__": "Error when hg is given both -r and -d",
@@ -4193,6 +4376,7 @@ exports.strings = {
     "it_IT": "-r non è compatibile con -d",
     "hi": "-r और -d साथ नहीं चल सकते",
     "te_IN": "-r మరియు -d కలిసి రావు",
+    "id_ID": "-r tidak kompatibel dengan -d",
   },
   "hg-error-r-m-incompatible": {
     "__desc__": "Error when hg is given both -r and -m",
@@ -4206,6 +4390,7 @@ exports.strings = {
     "it_IT": "-r non è compatibile con -m",
     "hi": "-r और -m साथ नहीं चल सकते",
     "te_IN": "-r మరియు -m కలిసి రావు",
+    "id_ID": "-r tidak kompatibel dengan -m",
   },
   "sandbox-tree-link": {
     "__desc__": "Preamble for the shareable link to the current tree state",
@@ -4219,6 +4404,7 @@ exports.strings = {
     "it_IT": "Ecco un link allo stato attuale dell'albero: ",
     "hi": "यहाँ tree की मौजूदा state का link है: ",
     "te_IN": "ట్రీ యొక్క ప్రస్తుత స్థితికి లింక్ ఇదిగో: ",
+    "id_ID": "Ini tautan menuju kondisi tree saat ini: ",
   },
   "sandbox-instructions-disabled": {
     "__desc__": "Message shown when level instructions have been turned off",
@@ -4232,6 +4418,7 @@ exports.strings = {
     "it_IT": "Istruzioni del livello disabilitate",
     "hi": "Level के निर्देश disabled हैं",
     "te_IN": "స్థాయి సూచనలు ఆఫ్ చేయబడ్డాయి",
+    "id_ID": "Instruksi level dinonaktifkan",
   },
   "sandbox-no-documentation": {
     "__desc__": "Error when `show` is asked about an unknown command",
@@ -4245,6 +4432,7 @@ exports.strings = {
     "it_IT": "Nessuna documentazione trovata per \"{target}\"; esegui `show commands` per vedere tutti i comandi disponibili",
     "hi": "\"{target}\" के लिए कोई documentation नहीं मिली; सभी commands देखने के लिए `show commands` चलाएँ",
     "te_IN": "\"{target}\" కోసం డాక్యుమెంటేషన్ కనబడలేదు; అందుబాటులో ఉన్న కమాండ్స్ చూడాలంటే `show commands` రన్ చేయి",
+    "id_ID": "Dokumentasi untuk \"{target}\" tidak ditemukan; jalankan `show commands` untuk melihat semua perintah yang tersedia",
   },
   "check-this-out": {
     "__desc__": "Title of the modal shown when importing a level, importing progress or sharing a level",
@@ -4254,6 +4442,7 @@ exports.strings = {
     "pt_PT": "Vê isto...",
     "zh_CN": "请在此输入",
     "zh_TW": "請在此輸入",
+    "id_ID": "Coba lihat ini...",
   },
   "command-description-commit": {
     "__desc__": "Description shown in the help dialog for the git commit command",
@@ -4263,6 +4452,7 @@ exports.strings = {
     "pt_PT": "Registar alterações no repositório",
     "zh_CN": "记录对仓库的更改",
     "zh_TW": "記錄對儲存庫的更改",
+    "id_ID": "Mencatat perubahan ke repository",
   },
   "command-description-cherrypick": {
     "__desc__": "Description shown in the help dialog for the git cherrypick command",
@@ -4272,6 +4462,7 @@ exports.strings = {
     "pt_PT": "Aplicar as alterações de commits existentes",
     "zh_CN": "应用已有提交中的更改",
     "zh_TW": "套用既有提交中的變更",
+    "id_ID": "Menerapkan perubahan dari commit yang sudah ada",
   },
   "command-description-gc": {
     "__desc__": "Description shown in the help dialog for the git gc command",
@@ -4281,6 +4472,7 @@ exports.strings = {
     "pt_PT": "Limpar ficheiros desnecessários e otimizar o repositório",
     "zh_CN": "清理不必要的文件并优化仓库",
     "zh_TW": "清理不必要的檔案並最佳化儲存庫",
+    "id_ID": "Membersihkan file yang tidak diperlukan dan mengoptimalkan repository",
   },
   "command-description-pull": {
     "__desc__": "Description shown in the help dialog for the git pull command",
@@ -4290,6 +4482,7 @@ exports.strings = {
     "pt_PT": "Fazer fetch de outro repositório ou branch e integrar as alterações",
     "zh_CN": "从另一个仓库或分支获取并整合",
     "zh_TW": "從另一個儲存庫或分支擷取並整合",
+    "id_ID": "Mengambil (fetch) dan menggabungkan perubahan dari repository atau branch lain",
   },
   "command-description-clone": {
     "__desc__": "Description shown in the help dialog for the git clone command",
@@ -4299,6 +4492,7 @@ exports.strings = {
     "pt_PT": "Clonar um repositório para uma pasta nova",
     "zh_CN": "将仓库克隆到一个新目录",
     "zh_TW": "將儲存庫複製到一個新目錄",
+    "id_ID": "Meng-clone repository ke dalam direktori baru",
   },
   "command-description-fakeCreateRemote": {
     "__desc__": "Description shown in the help dialog for the git fakeCreateRemote command",
@@ -4308,6 +4502,7 @@ exports.strings = {
     "pt_PT": "Criar um repositório remoto simulado a partir do repositório local atual",
     "zh_CN": "基于当前本地仓库创建模拟远程仓库",
     "zh_TW": "基於目前的本機儲存庫建立一個模擬遠端儲存庫",
+    "id_ID": "Membuat repository remote tiruan dari repository lokal saat ini",
   },
   "command-description-remote": {
     "__desc__": "Description shown in the help dialog for the git remote command",
@@ -4317,6 +4512,7 @@ exports.strings = {
     "pt_PT": "Gerir o conjunto de repositórios seguidos",
     "zh_CN": "管理已跟踪的仓库集合",
     "zh_TW": "管理已追蹤的儲存庫集合",
+    "id_ID": "Mengelola daftar repository remote yang dilacak",
   },
   "command-description-fetch": {
     "__desc__": "Description shown in the help dialog for the git fetch command",
@@ -4326,6 +4522,7 @@ exports.strings = {
     "pt_PT": "Descarregar objetos e refs de outro repositório",
     "zh_CN": "从另一个仓库下载对象与引用",
     "zh_TW": "從另一個儲存庫下載物件與引用",
+    "id_ID": "Mengunduh objek dan ref dari repository lain",
   },
   "command-description-branch": {
     "__desc__": "Description shown in the help dialog for the git branch command",
@@ -4335,6 +4532,7 @@ exports.strings = {
     "pt_PT": "Listar, criar ou apagar branches",
     "zh_CN": "列出、创建或删除分支",
     "zh_TW": "列出、建立或刪除分支",
+    "id_ID": "Menampilkan, membuat, atau menghapus branch",
   },
   "command-description-add": {
     "__desc__": "Description shown in the help dialog for the git add command",
@@ -4344,6 +4542,7 @@ exports.strings = {
     "pt_PT": "Adicionar o conteúdo de ficheiros à área de staging",
     "zh_CN": "将文件内容添加到暂存区",
     "zh_TW": "將檔案內容加入暫存區",
+    "id_ID": "Menambahkan isi perubahan file ke staging area",
   },
   "command-description-restore": {
     "__desc__": "Description shown in the help dialog for the git restore command",
@@ -4353,6 +4552,7 @@ exports.strings = {
     "pt_PT": "Restaurar ficheiros da árvore de trabalho",
     "zh_CN": "还原工作树文件",
     "zh_TW": "還原工作樹檔案",
+    "id_ID": "Memulihkan file pada working tree",
   },
   "command-description-reset": {
     "__desc__": "Description shown in the help dialog for the git reset command",
@@ -4362,6 +4562,7 @@ exports.strings = {
     "pt_PT": "Repor a HEAD atual num estado indicado",
     "zh_CN": "将当前 HEAD 重置至指定状态",
     "zh_TW": "將目前的 HEAD 重設為指定狀態",
+    "id_ID": "Me-reset HEAD saat ini ke posisi tertentu",
   },
   "command-description-revert": {
     "__desc__": "Description shown in the help dialog for the git revert command",
@@ -4371,6 +4572,7 @@ exports.strings = {
     "pt_PT": "Reverter alguns commits existentes",
     "zh_CN": "撤销某些已有提交",
     "zh_TW": "還原一些既有提交",
+    "id_ID": "Membuat commit baru untuk membatalkan commit yang sudah ada",
   },
   "command-description-merge": {
     "__desc__": "Description shown in the help dialog for the git merge command",
@@ -4380,6 +4582,7 @@ exports.strings = {
     "pt_PT": "Juntar dois ou mais históricos de desenvolvimento",
     "zh_CN": "合并两个或多个开发历史",
     "zh_TW": "將兩個或多個開發歷史合併在一起",
+    "id_ID": "Menggabungkan dua atau lebih riwayat pengembangan",
   },
   "command-description-revlist": {
     "__desc__": "Description shown in the help dialog for the git revlist command",
@@ -4389,6 +4592,7 @@ exports.strings = {
     "pt_PT": "Listar os commits alcançáveis a partir do(s) commit(s) indicado(s)",
     "zh_CN": "列出从指定提交可达的提交",
     "zh_TW": "列出從指定提交可達的提交",
+    "id_ID": "Menampilkan daftar commit yang dapat dijangkau dari commit tertentu",
   },
   "command-description-log": {
     "__desc__": "Description shown in the help dialog for the git log command",
@@ -4398,6 +4602,7 @@ exports.strings = {
     "pt_PT": "Mostrar o histórico de commits",
     "zh_CN": "显示提交日志",
     "zh_TW": "顯示提交日誌",
+    "id_ID": "Menampilkan catatan riwayat commit",
   },
   "command-description-show": {
     "__desc__": "Description shown in the help dialog for the git show command",
@@ -4407,6 +4612,7 @@ exports.strings = {
     "pt_PT": "Mostrar vários tipos de objetos",
     "zh_CN": "显示各种类型的对象",
     "zh_TW": "顯示各種類型的物件",
+    "id_ID": "Menampilkan berbagai jenis objek Git",
   },
   "command-description-rebase": {
     "__desc__": "Description shown in the help dialog for the git rebase command",
@@ -4416,6 +4622,7 @@ exports.strings = {
     "pt_PT": "Reaplicar commits em cima de outra base",
     "zh_CN": "在另一个基底上重新应用提交",
     "zh_TW": "在另一個基線上重新套用提交",
+    "id_ID": "Menerapkan ulang commit di atas basis commit lain",
   },
   "command-description-status": {
     "__desc__": "Description shown in the help dialog for the git status command",
@@ -4425,6 +4632,7 @@ exports.strings = {
     "pt_PT": "Mostrar o estado da árvore de trabalho",
     "zh_CN": "显示工作树状态",
     "zh_TW": "顯示工作樹狀態",
+    "id_ID": "Menampilkan status working tree",
   },
   "command-description-checkout": {
     "__desc__": "Description shown in the help dialog for the git checkout command",
@@ -4434,6 +4642,7 @@ exports.strings = {
     "pt_PT": "Mudar de branch ou restaurar ficheiros da árvore de trabalho",
     "zh_CN": "切换分支或还原工作树文件",
     "zh_TW": "切換分支或還原工作樹檔案",
+    "id_ID": "Berpindah branch atau memulihkan file working tree",
   },
   "command-description-push": {
     "__desc__": "Description shown in the help dialog for the git push command",
@@ -4443,6 +4652,7 @@ exports.strings = {
     "pt_PT": "Atualizar refs remotas e os objetos associados",
     "zh_CN": "更新远程引用及相关对象",
     "zh_TW": "更新遠端引用及相關物件",
+    "id_ID": "Memperbarui ref di remote beserta objek terkait",
   },
   "command-description-describe": {
     "__desc__": "Description shown in the help dialog for the git describe command",
@@ -4452,6 +4662,7 @@ exports.strings = {
     "pt_PT": "Dar a um objeto um nome legível por humanos",
     "zh_CN": "为对象指定一个可读名称",
     "zh_TW": "為物件指定一個人類可讀的名稱",
+    "id_ID": "Memberikan nama yang mudah dibaca manusia untuk sebuah objek",
   },
   "command-description-tag": {
     "__desc__": "Description shown in the help dialog for the git tag command",
@@ -4461,6 +4672,7 @@ exports.strings = {
     "pt_PT": "Criar, listar ou apagar refs de tag",
     "zh_CN": "创建、列出或删除标签引用",
     "zh_TW": "建立、列出或刪除標籤引用",
+    "id_ID": "Membuat, menampilkan, atau menghapus referensi tag",
   },
   "command-description-switch": {
     "__desc__": "Description shown in the help dialog for the git switch command",
@@ -4470,5 +4682,6 @@ exports.strings = {
     "pt_PT": "Mudar de branch",
     "zh_CN": "切换分支",
     "zh_TW": "切換分支",
+    "id_ID": "Berpindah branch",
   },
 }

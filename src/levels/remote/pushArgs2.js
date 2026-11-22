@@ -29,7 +29,8 @@ exports.level = {
     "az": "Git push arqumentləri -- Genişləndirilmiş!",
     "te_IN": "Git push ఆర్గ్యుమెంట్లు -- విస్తరించబడ్డాయి!",
     "hi_IN": "Git push आर्ग्युमेंट्स -- विस्तार से!",
-    "bn_BD": "Git push-এর আর্গুমেন্ট -- বিস্তারিত!"
+    "bn_BD": "Git push-এর আর্গুমেন্ট -- বিস্তারিত!",
+    "id_ID": "Argumen Git Push -- Diperluas!"
   },
   "hint": {
     "en_US": "Remember you can admit defeat and type in \"show solution\" :P",
@@ -59,7 +60,8 @@ exports.level = {
     "az": "Unutma, məğlubiyyəti qəbul edib \\\"show solution\\\" yaza bilərsən :P",
     "te_IN": "ఓడిపోయానని ఒప్పుకొని \"show solution\" టైప్ చేయవచ్చు :P",
     "hi_IN": "याद रखो, हार मानकर \"show solution\" टाइप कर सकते हो :P",
-    "bn_BD": "মনে রেখো, হার মেনে নিয়ে \"show solution\" টাইপ করে দিতেও পারো :P"
+    "bn_BD": "মনে রেখো, হার মেনে নিয়ে \"show solution\" টাইপ করে দিতেও পারো :P",
+    "id_ID": "Ingat kamu boleh menyerah dan mengetik \"show solution\" :P"
   },
   "startDialog": {
     "en_US": {
@@ -2031,6 +2033,76 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఈ level లో విజువలైజేషన్ లో చూపించిన చివరి లక్ష్య స్థితికి చేరడానికి try చేయి మరియు ఈ format ను forget అవ్వకు:",
+              "",
+              "`<source>:<destination>`"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Detail argumen `<place>`",
+              "",
+              "Ingat dari pelajaran sebelumnya bahwa saat menyebut `main` sebagai argumen place di `git push`, kita menentukan sekaligus *sumber* asal commit dan *tujuan* ke mana commit dikirim.",
+              "",
+              "Lalu kamu mungkin berpikir -- bagaimana kalau sumber dan tujuannya berbeda? Bagaimana kalau kamu ingin men-push commit dari branch lokal `foo` ke branch `bar` di remote?",
+              "",
+              "Sayangnya itu mustahil di git... bercanda kok! Tentu saja bisa :)... git punya fleksibilitas luar biasa banyak (hampir terlalu banyak malah).",
+              "",
+              "Mari lihat caranya di slide berikutnya..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menentukan sumber sekaligus tujuan pada `<place>`, cukup gabungkan keduanya dengan tanda titik dua:",
+              "",
+              "`git push origin <source>:<destination>`",
+              "",
+              "Ini biasa disebut *colon refspec*. Refspec hanyalah istilah keren untuk lokasi yang bisa dikenali git (seperti branch `foo` atau bahkan `HEAD~1`).",
+              "",
+              "Begitu kamu bisa menentukan sumber dan tujuan secara terpisah, kamu bisa membuat perintah remote yang sangat presisi. Mari lihat demonya!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ingat, `source` bisa berupa lokasi mana saja yang dipahami git:"
+            ],
+            "afterMarkdowns": [
+              "Wah! Perintah yang lumayan bikin takjub tapi masuk akal -- git menerjemahkan `foo^` menjadi lokasi commit, mengunggah commit yang belum ada di remote, lalu memperbarui tujuannya."
+            ],
+            "command": "git push origin foo^:main",
+            "beforeCommand": "git fakeCreateRemote; go -b foo; git commit; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bagaimana kalau tujuan yang ingin di-push belum ada? Tidak masalah! Cukup tuliskan nama branch-nya dan git akan membuatkan branch tersebut di remote untukmu."
+            ],
+            "afterMarkdowns": [
+              "Keren, mulus banget :D"
+            ],
+            "command": "git push origin main:newBranch",
+            "beforeCommand": "git fakeCreateRemote; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk level ini, cobalah mencapai kondisi akhir yang tampil di visualisasi, dan ingat format:",
               "",
               "`<source>:<destination>`"
             ]

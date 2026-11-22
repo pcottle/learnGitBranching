@@ -31,7 +31,8 @@ exports.level = {
     "bn_BD": "Rebase-এর পরিচিতি",
     "tr_TR": "Rebase İşlemine Giriş",
     "hu_HU": "Rebase bevezetés",
-    "az": "Rebase-ə giriş"
+    "az": "Rebase-ə giriş",
+    "id_ID": "Pengenalan Rebase"
   },
   "hint": {
     "en_US": "Make sure you commit from bugFix first",
@@ -63,7 +64,8 @@ exports.level = {
     "bn_BD": "আগে bugFix থেকে commit করতে ভুলো না",
     "tr_TR": "Önce bugFix'ten commit attığınıza emin olun",
     "hu_HU": "Győződj meg róla, hogy először a bugFix branchből commitolsz",
-    "az": "Əvvəlcə bugFix-dən commit etdiyinə əmin ol"
+    "az": "Əvvəlcə bugFix-dən commit etdiyinə əmin ol",
+    "id_ID": "Pastikan kamu membuat commit dari bugFix terlebih dahulu"
   },
   "disabledMap": {
     "git revert": true
@@ -1962,6 +1964,73 @@ exports.level = {
               "* Yenidən bugFix-ə keç və main-in üzərinə rebase et",
               "",
               "Uğurlar!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Rebase",
+              "",
+              "Cara kedua untuk menggabungkan pekerjaan antar-branch adalah *rebasing*. Rebase pada dasarnya mengambil sekumpulan commit, \"menyalinnya\", lalu menaruh salinan tersebut di tempat lain.",
+              "",
+              "Meski terdengar membingungkan, keunggulan rebase adalah kemampuannya menghasilkan urutan commit yang lurus dan rapi. Log commit / riwayat repository akan tampak jauh lebih bersih jika hanya memakai rebase.",
+              "",
+              "Mari kita lihat langsung aksinya..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Di sini kita punya dua branch lagi; perhatikan bahwa branch `bugFix` sedang aktif (lihat tanda bintangnya)",
+              "",
+              "Kita ingin memindahkan pekerjaan dari `bugFix` tepat ke atas pekerjaan di `main`. Dengan begitu kedua fitur ini terlihat seperti dikerjakan secara berurutan, padahal sebenarnya dikerjakan paralel.",
+              "",
+              "Mari lakukan dengan perintah `git rebase`."
+            ],
+            "afterMarkdowns": [
+              "Mantap! Sekarang pekerjaan dari branch `bugFix` kita sudah tertumpuk \"di atas `main`\", karena menunjuk langsung ke `main`. Di visualisasi kita memang tampil di bawah `main` karena pohon commit mengalir ke bawah.",
+              "",
+              "Perhatikan bahwa commit C3 masih ada di suatu tempat (tampil pudar di pohon), dan C3' adalah \"salinan\" yang sudah kita rebase ke `main`.",
+              "",
+              "Masalahnya tinggal `main` belum diperbarui ke commit terbaru, mari kita bereskan sekarang..."
+            ],
+            "command": "git rebase main",
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sekarang kita sedang berada di branch `main`. Mari lakukan rebase ke `bugFix`..."
+            ],
+            "afterMarkdowns": [
+              "Selesai! Karena `main` adalah leluhur dari `bugFix`, git tinggal memindahkan referensi branch `main` maju ke depan."
+            ],
+            "command": "git rebase bugFix",
+            "beforeCommand": "git commit; git switch -c bugFix C1; git commit; git rebase main; git switch main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, lakukan langkah berikut:",
+              "",
+              "* Buat dan pindah ke branch baru bernama `bugFix`",
+              "* Buat satu commit",
+              "* Kembali ke `main` dan buat satu commit lagi",
+              "* Pindah kembali ke `bugFix` lalu rebase ke `main`",
+              "",
+              "Semoga berhasil!"
             ]
           }
         }
