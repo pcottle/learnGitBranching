@@ -331,6 +331,13 @@ describe('Git', function() {
     );
   });
 
+  it('Rebases commits from a merged branch in a stable order', function() {
+    return expectTreeAsync(
+      'git checkout -b side; git commit; git checkout -b other; git commit; git checkout side; git commit; git merge other; git checkout main; git commit; git rebase main side',
+      '%7B%22branches%22%3A%7B%22main%22%3A%7B%22target%22%3A%22C6%22%2C%22id%22%3A%22main%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22side%22%3A%7B%22target%22%3A%22C3%27%22%2C%22id%22%3A%22side%22%2C%22remoteTrackingBranchID%22%3Anull%7D%2C%22other%22%3A%7B%22target%22%3A%22C3%22%2C%22id%22%3A%22other%22%2C%22remoteTrackingBranchID%22%3Anull%7D%7D%2C%22commits%22%3A%7B%22C0%22%3A%7B%22parents%22%3A%5B%5D%2C%22id%22%3A%22C0%22%2C%22rootCommit%22%3Atrue%7D%2C%22C1%22%3A%7B%22parents%22%3A%5B%22C0%22%5D%2C%22id%22%3A%22C1%22%7D%2C%22C2%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C2%22%7D%2C%22C3%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C3%22%7D%2C%22C4%22%3A%7B%22parents%22%3A%5B%22C2%22%5D%2C%22id%22%3A%22C4%22%7D%2C%22C5%22%3A%7B%22parents%22%3A%5B%22C3%22%2C%22C4%22%5D%2C%22id%22%3A%22C5%22%7D%2C%22C6%22%3A%7B%22parents%22%3A%5B%22C1%22%5D%2C%22id%22%3A%22C6%22%7D%2C%22C2%27%22%3A%7B%22parents%22%3A%5B%22C6%22%5D%2C%22id%22%3A%22C2%27%22%7D%2C%22C4%27%22%3A%7B%22parents%22%3A%5B%22C2%27%22%5D%2C%22id%22%3A%22C4%27%22%7D%2C%22C3%27%22%3A%7B%22parents%22%3A%5B%22C4%27%22%5D%2C%22id%22%3A%22C3%27%22%7D%7D%2C%22tags%22%3A%7B%7D%2C%22HEAD%22%3A%7B%22target%22%3A%22side%22%2C%22id%22%3A%22HEAD%22%7D%7D'
+    );
+  });
+
   it('checks out after a rebase', function() {
     return expectTreeAsync(
       'git commit; git checkout -b bugFix C1; git commit; git rebase main;git checkout main',

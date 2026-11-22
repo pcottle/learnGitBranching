@@ -108,20 +108,24 @@ var Graph = {
   },
 
   bfsFromLocationWithSet: function(engine, location, set) {
+    // Every commit reachable from location that is not in set, once each.
+    // Walking every path instead takes exponential time on a history with a
+    // run of merges. The list is a reversed post-order walk (parents in
+    // order), which is the order the path walk gave once callers reversed it
+    // and dropped repeated commits.
     var result = [];
-    var pQueue = [engine.getCommitFromRef(location)];
-
-    while (pQueue.length) {
-      var popped = pQueue.pop();
-      if (set[popped.get('id')]) {
-        continue;
+    var visited = {};
+    var visit = function(commit) {
+      var id = commit.get('id');
+      if (set[id] || visited[id]) {
+        return;
       }
-
-      result.push(popped);
-      // keep searching
-      pQueue = pQueue.concat(popped.get('parents'));
-    }
-    return result;
+      visited[id] = true;
+      commit.get('parents').forEach(visit);
+      result.push(commit);
+    };
+    visit(engine.getCommitFromRef(location));
+    return result.reverse();
   },
 
   getUpstreamSet: function(engine, ancestor) {
@@ -133,6 +137,9 @@ var Graph = {
     exploredSet[ancestorID] = true;
 
     var addToExplored = function(rent) {
+      if (exploredSet[rent.get('id')]) {
+        return;
+      }
       exploredSet[rent.get('id')] = true;
       queue.push(rent);
     };

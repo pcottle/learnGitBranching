@@ -1157,8 +1157,13 @@ GitEngine.prototype.getTargetGraphDifference = function(
     toExplore.push(parentJSON);
   };
 
+  var explored = {};
   while (toExplore.length) {
     var here = toExplore.pop();
+    if (explored[here.id]) {
+      continue;
+    }
+    explored[here.id] = true;
     difference.push(here);
     here.parents.forEach(pushParent);
   }
@@ -2104,9 +2109,14 @@ GitEngine.prototype.getUpstreamCollectionSet = function(collection) {
 
   var bfsSearch = function(commit) {
     var set = [];
+    var seen = {};
     var pQueue = [commit];
     while (pQueue.length) {
       var popped = pQueue.pop();
+      if (seen[popped.get('id')]) {
+        continue;
+      }
+      seen[popped.get('id')] = true;
       set.push(popped.get('id'));
 
       if (popped.get('parents') && popped.get('parents').length) {
@@ -3239,11 +3249,16 @@ GitEngine.prototype.getCommonAncestor = function(ancestor, cousin, dontThrow) {
   // now BFS off of cousin until you find something
 
   var queue = [this.getCommitFromRef(cousin)];
+  var explored = {};
   while (queue.length) {
     var here = queue.pop();
     if (upstreamSet[here.get('id')]) {
       return here;
     }
+    if (explored[here.get('id')]) {
+      continue;
+    }
+    explored[here.get('id')] = true;
     queue = queue.concat(here.get('parents'));
   }
   throw new Error('something has gone very wrong... two nodes aren\'t connected!');
@@ -3268,6 +3283,9 @@ GitEngine.prototype.getDownstreamSet = function(ancestor) {
   exploredSet[ancestorID] = true;
 
   var addToExplored = function(child) {
+    if (exploredSet[child.get('id')]) {
+      return;
+    }
     exploredSet[child.get('id')] = true;
     queue.push(child);
   };
