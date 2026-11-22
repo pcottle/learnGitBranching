@@ -31,7 +31,8 @@ exports.level = {
     "tr_TR": "Bu seviyeyi tamamlamak için en az bir doğrudan referans (hash) kullanmanız gerekecek",
     "hu_HU": "A szint teljesítéséhez legalább egy közvetlen hivatkozást (hash) kell használnod",
     "az": "Bu bölümü bitirmək üçün ən azı bir birbaşa istinaddan (hash) istifadə etməlisən",
-    "bn_BD": "এই level সম্পূর্ণ করতে তোমাকে অন্তত একটি সরাসরি রেফারেন্স (hash) ব্যবহার করতে হবে"
+    "bn_BD": "এই level সম্পূর্ণ করতে তোমাকে অন্তত একটি সরাসরি রেফারেন্স (hash) ব্যবহার করতে হবে",
+    "id_ID": "Kamu perlu memakai setidaknya satu referensi langsung (hash) untuk menyelesaikan level ini"
   },
   "name": {
     "en_US": "Relative Refs #2 (~)",
@@ -62,7 +63,8 @@ exports.level = {
     "tr_TR": "Göreli Referanslar #2 (~)",
     "hu_HU": "Relatív hivatkozások #2 (~)",
     "az": "Nisbi Ref-lər #2 (~)",
-    "bn_BD": "আপেক্ষিক Ref #২ (~)"
+    "bn_BD": "আপেক্ষিক Ref #২ (~)",
+    "id_ID": "Relative Ref #2 (~)"
   },
   "startDialog": {
     "en_US": {
@@ -1955,6 +1957,77 @@ exports.level = {
               "আপেক্ষিক ref ও branch forcing একসাথে দেখার পর, চলো পরের level সমাধান করতে সেগুলো ব্যবহার করি।",
               "",
               "এই level সম্পূর্ণ করতে `HEAD`, `main` ও `bugFix`-কে দেখানো লক্ষ্যস্থানে সরাও।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Operator \"~\"",
+              "",
+              "Misalnya kamu ingin mundur banyak tingkat ke atas di pohon commit. Pasti capek kalau harus mengetik `^` berkali-kali, jadi Git juga menyediakan operator tilde (~).",
+              "",
+              "",
+              "Operator tilde ini (secara opsional) menerima angka di belakangnya untuk menentukan berapa banyak parent yang ingin kamu naiki. Mari lihat praktiknya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari kita tentukan jumlah langkah mundur dengan `~`."
+            ],
+            "afterMarkdowns": [
+              "Mantap! Ringkas sekali -- relative ref memang luar biasa."
+            ],
+            "command": "git switch --detach HEAD~4",
+            "beforeCommand": "git commit; git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Memindahkan paksa branch (Branch forcing)",
+              "",
+              "Sekarang kamu sudah jago relative ref, jadi mari kita *gunakan* untuk sesuatu yang nyata.",
+              "",
+              "Salah satu cara paling sering kupakai dengan relative ref adalah memindahkan posisi branch. Kamu bisa langsung mengarahkan ulang sebuah branch ke commit tertentu dengan opsi `-f`. Misalnya:",
+              "",
+              "`git branch -f main HEAD~3`",
+              "",
+              "akan memindahkan (secara paksa) branch `main` ke tiga parent di belakang `HEAD`.",
+              "",
+              "*Catatan: Di lingkungan git sungguhan, perintah `git branch -f` tidak diizinkan untuk branch yang sedang kamu tempati saat ini.*"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari kita lihat perintah tadi beraksi."
+            ],
+            "afterMarkdowns": [
+              "Nah, itu dia! Relative ref memberi kita cara singkat menunjuk `C1`, dan branch forcing (`-f`) memberi cara cepat memindahkan branch ke lokasi itu."
+            ],
+            "command": "git branch -f main HEAD~3",
+            "beforeCommand": "git commit; git commit; git commit; git switch -c bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Sekarang setelah melihat kombinasi relative ref dan branch forcing, mari gunakan keduanya untuk menaklukkan level berikutnya.",
+              "",
+              "Untuk menyelesaikan level ini, pindahkan `HEAD`, `main`, dan `bugFix` ke lokasi target yang ditampilkan."
             ]
           }
         }

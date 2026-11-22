@@ -29,7 +29,8 @@ exports.level = {
     "bn_BD": "Git Commit-এর পরিচিতি",
     "tr_TR": "Git Commit'e Giriş",
     "hu_HU": "Bevezetés a Git commitokba",
-    "az": "Git Commit-lərinə giriş"
+    "az": "Git Commit-lərinə giriş",
+    "id_ID": "Pengenalan Git Commit"
   },
   "goalTreeString": "{\"branches\":{\"main\":{\"target\":\"C3\",\"id\":\"main\"}},\"commits\":{\"C0\":{\"parents\":[],\"id\":\"C0\",\"rootCommit\":true},\"C1\":{\"parents\":[\"C0\"],\"id\":\"C1\"},\"C2\":{\"parents\":[\"C1\"],\"id\":\"C2\"},\"C3\":{\"parents\":[\"C2\"],\"id\":\"C3\"}},\"HEAD\":{\"target\":\"main\",\"id\":\"HEAD\"}}",
   "solutionCommand": "git commit;git commit",
@@ -64,7 +65,8 @@ exports.level = {
     "bn_BD": "শেষ করতে শুধু দুবার 'git commit' টাইপ করো!",
     "tr_TR": "Bölümü bitirmek için sadece iki kere 'git commit' yazmanız yeterlidir.",
     "hu_HU": "Csak írj be kétszer 'git commit'-ot a befejezéshez!",
-    "az": "Bölümü bitirmək üçün sadəcə iki dəfə 'git commit' yaz!"
+    "az": "Bölümü bitirmək üçün sadəcə iki dəfə 'git commit' yaz!",
+    "id_ID": "Cukup ketik 'git commit' dua kali untuk menyelesaikan level ini!"
   },
   "disabledMap": {
     "git revert": true
@@ -1336,6 +1338,48 @@ exports.level = {
           "options": {
             "markdowns": [
               "İndi özün yoxla! Bu pəncərə bağlandıqdan sonra bölümü tamamlamaq üçün iki commit et."
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Commit",
+              "Sebuah commit di repository git merekam snapshot dari seluruh file (yang dilacak) di direktori kamu. Ini seperti copy-paste raksasa, tapi jauh lebih canggih!",
+              "",
+              "Git ingin menjaga ukuran commit tetap seringan mungkin, jadi ia tidak asal menyalin seluruh direktori setiap kali kamu melakukan commit. Jika memungkinkan, Git akan memampatkan commit sebagai kumpulan perubahan, atau \"delta\", dari satu versi repository ke versi berikutnya.",
+              "",
+              "Git juga menyimpan riwayat kapan setiap commit dibuat. Itulah mengapa sebagian besar commit memiliki commit leluhur (parent) di atasnya -- di visualisasi kita, ini ditunjukkan dengan tanda panah. Menjaga riwayat ini sangat membantu semua orang yang bekerja di proyek yang sama!",
+              "",
+              "Memang banyak hal baru untuk diserap, tapi untuk sekarang bayangkan saja commit sebagai snapshot proyekmu. Commit itu sangat ringan dan berpindah antar-commit berlangsung super cepat!"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari lihat seperti apa praktiknya. Di sebelah kanan ada visualisasi sebuah repository git (kecil). Saat ini sudah ada dua commit -- commit awal pertama `C0`, dan satu commit setelahnya `C1` yang mungkin berisi perubahan bermakna.",
+              "",
+              "Klik tombol di bawah untuk membuat commit baru."
+            ],
+            "afterMarkdowns": [
+              "Nah, itu dia! Keren. Kita baru saja membuat perubahan ke repository dan menyimpannya sebagai sebuah commit. Commit yang baru dibuat punya parent `C1`, yang menunjukkan dari commit mana ia berasal."
+            ],
+            "command": "git commit",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Sekarang giliranmu mencobanya sendiri! Setelah jendela ini tertutup, buatlah dua commit untuk menyelesaikan level ini."
             ]
           }
         }

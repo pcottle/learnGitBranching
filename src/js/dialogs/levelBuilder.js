@@ -497,4 +497,23 @@ exports.dialog = {
       ]
     }
   }],
+  'id_ID': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        "## Selamat datang di Level Builder!",
+        "",
+        "Berikut langkah-langkah utamanya:",
+        "",
+        "  * Siapkan kondisi awal dengan perintah-perintah git",
+        "  * Tetapkan pohon awal (start tree) dengan ```define start```",
+        "  * Masukkan rangkaian perintah git yang membentuk solusi (optimal)",
+        "  * Tetapkan pohon target dengan ```define goal```. Menetapkan target sekaligus menetapkan solusinya",
+        "  * Secara opsional, buat petunjuk dengan ```define hint```",
+        "  * Ubah nama level dengan ```define name```",
+        "  * Secara opsional, buat dialog pembuka yang menarik dengan ```edit dialog```",
+        "  * Masukkan perintah ```finish``` untuk menghasilkan JSON level kamu!"
+      ]
+    }
+  }],
 };

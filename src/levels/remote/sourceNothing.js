@@ -35,7 +35,8 @@ exports.level = {
     "az": "Heçliyin mənbəsi",
     "te_IN": "శూన్యం యొక్క సోర్స్",
     "hi_IN": "शून्य का सोर्स",
-    "bn_BD": "শূন্যের source"
+    "bn_BD": "শূন্যের source",
+    "id_ID": "Sumber Kosong (Source of Nothing)"
   },
   "hint": {
     "en_US": "The branch command is disabled for this level so you'll have to use fetch!",
@@ -65,7 +66,8 @@ exports.level = {
     "az": "Bu bölüm üçün branch əmri deaktiv edilib, ona görə də fetch işlətməli olacaqsan!",
     "te_IN": "ఈ level కోసం branch command disabled, కాబట్టి fetch యూజ్ చేయాలి!",
     "hi_IN": "इस level में branch command disabled है, इसलिए आपको fetch इस्तेमाल करना पड़ेगा!",
-    "bn_BD": "এই level-এ branch কমান্ড নিষ্ক্রিয় করা আছে, তাই তোমাকে fetch ব্যবহার করতে হবে!"
+    "bn_BD": "এই level-এ branch কমান্ড নিষ্ক্রিয় করা আছে, তাই তোমাকে fetch ব্যবহার করতে হবে!",
+    "id_ID": "Perintah branch dinonaktifkan pada level ini, jadi kamu harus memakai fetch!"
   },
   "startDialog": {
     "en_US": {
@@ -1547,6 +1549,59 @@ exports.level = {
           "options": {
             "markdowns": [
               "ఇది short level — పూర్తి చేయడానికి కేవలం remote branch ను delete చేసి, `git fetch` తో కొత్త branch సృష్టించు!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Keunikan `<source>`",
+              "",
+              "Git memanfaatkan parameter `<source>` dengan dua cara yang cukup unik. Kedua trik ini berasal dari fakta bahwa secara teknis kamu bisa menyebut \"kosong\" (nothing) sebagai `source` yang valid pada `git push` maupun `git fetch`. Caranya dengan mengosongkan bagian sebelum titik dua:",
+              "",
+              "* `git push origin :side`",
+              "* `git fetch origin :bugFix`",
+              "",
+              "Mari lihat apa fungsi keduanya..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Apa yang terjadi kalau kita men-push \"kosong\" ke sebuah branch di remote? Ia menghapusnya!"
+            ],
+            "afterMarkdowns": [
+              "Beres, kita berhasil menghapus branch `foo` di remote dengan men-push konsep \"kosong\" ke sana. Cukup masuk akal juga ya..."
+            ],
+            "command": "git push origin :foo",
+            "beforeCommand": "git fakeCreateRemote; git push origin main:foo"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Terakhir, men-fetch \"kosong\" ke sebuah lokasi di lokal justru membuat branch baru."
+            ],
+            "afterMarkdowns": [
+              "Agak aneh dan nyeleneh memang, tapi begitulah git!"
+            ],
+            "command": "git fetch origin :bar",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ini level cepat -- cukup hapus satu branch di remote dan buat satu branch baru dengan `git fetch` untuk menyelesaikannya!"
             ]
           }
         }

@@ -51,7 +51,8 @@ exports.level = {
     "it_IT": "Introduzione al clone",
     "tr_TR": "Clone Tanıtımı",
     "hu_HU": "Clone bevezetés",
-    "az": "Clone-a giriş"
+    "az": "Clone-a giriş",
+    "id_ID": "Pengenalan Clone"
   },
   "hint": {
     "en_US": "Just git clone!",
@@ -81,7 +82,8 @@ exports.level = {
     "hu_HU": "Csak git clone!",
     "az": "Sadəcə git clone et!",
     "te_IN": "సింపుల్ గా git clone చేయి!",
-    "hi_IN": "बस git clone करो!"
+    "hi_IN": "बस git clone करो!",
+    "id_ID": "Cukup jalankan git clone!"
   },
   "startDialog": {
     "en_US": {
@@ -1717,6 +1719,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "इस level को पूरा करने के लिए, बस हमारी तैयार की हुई remote repository को `git clone` करें। असली सीख अगले पाठों में आएगी।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Remote",
+              "",
+              "Repository remote sebenarnya tidak serumit kelihatannya. Di era cloud computing sekarang, orang gampang mengira ada sihir di balik git remote, padahal sebenarnya itu hanyalah salinan repository-mu di komputer lain. Biasanya kamu berkomunikasi dengan komputer lain itu lewat internet untuk mengirim commit bolak-balik.",
+              "",
+              "Dengan begitu, repository remote punya beberapa sifat hebat:",
+              "",
+              "- Pertama dan terpenting, remote berfungsi sebagai cadangan (backup) yang hebat! Repository git lokal memang bisa memulihkan file ke kondisi sebelumnya (seperti yang kamu tahu), tapi semua data itu tersimpan secara lokal. Dengan memiliki salinan repository di komputer lain, seandainya seluruh data lokalmu hilang pun kamu tetap bisa melanjutkan dari posisi terakhir.",
+              "",
+              "- Lebih penting lagi, remote membuat ngoding jadi sosial! Karena salinan proyekmu tersimpan di tempat lain, teman-temanmu bisa ikut berkontribusi ke proyekmu (atau menarik perubahan terbarumu) dengan sangat mudah.",
+              "",
+              "Saat ini sangat populer menggunakan situs web yang memvisualisasikan aktivitas di sekitar repo remote (seperti [GitHub](https://github.com/)), tetapi repository remote _selalu_ menjadi tulang punggung di balik layar alat-alat tersebut. Jadi penting banget untuk memahaminya!"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Perintah untuk mulai bekerja dengan remote",
+              "",
+              "Sampai titik ini, Learn Git Branching berfokus mengajarkan dasar kerja di repository _lokal_ (branching, merging, rebasing, dll.). Sekarang karena kita ingin belajar tentang repository remote, kita butuh perintah untuk menyiapkan lingkungan pelajarannya. Perintah itu adalah `git clone`.",
+              "",
+              "Sama seperti `git clone` sungguhan, kami sudah menyiapkan sebuah repository remote untuk pelajaran ini, dan menjalankan `git clone` akan menariknya turun ke repository lokalmu. Mulai sekarang, `o/main` di repo lokalmu merujuk ke posisi branch `main` milik remote pada saat kamu meng-clone-nya.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari mulai pelan-pelan dan lihat saja dulu seperti apa tampilan repository remote (di visualisasi kita) sebelum kita meng-clone-nya.",
+              ""
+            ],
+            "afterMarkdowns": [
+              "Nah, itu dia! Sekarang kamu punya salinan lokal proyekmu sendiri hasil clone dari remote. Tampilannya sangat mirip kecuali beberapa perbedaan visual agar bedanya terlihat jelas -- di level-level berikutnya kamu akan melihat cara berbagi pekerjaan antar-repository ini."
+            ],
+            "command": "git clone",
+            "beforeTree": CLONE_START_TREE
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, cukup jalankan `git clone` pada repository remote yang sudah kami siapkan untukmu. Pelajaran sesungguhnya baru dimulai di level-level berikutnya."
             ]
           }
         }

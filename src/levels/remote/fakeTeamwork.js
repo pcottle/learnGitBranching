@@ -30,7 +30,8 @@ exports.level = {
     "hu_HU": "Csapatmunka szimulálása",
     "az": "Komanda İşini Təqlid Etmək",
     "te_IN": "టీమ్ వర్క్ సిమ్యులేట్ చేయడం",
-    "hi_IN": "टीम वर्क सिम्युलेट करना"
+    "hi_IN": "टीम वर्क सिम्युलेट करना",
+    "id_ID": "Simulasi Kerja Tim"
   },
   "hint": {
     "en_US": "Remember you can specify the number of commits to fake",
@@ -60,7 +61,8 @@ exports.level = {
     "hu_HU": "Emlékezz, megadhatod a szimulált commitok számát",
     "az": "Unutma, təqlid ediləcək commit-lərin sayını göstərə bilərsən",
     "te_IN": "సిమ్యులేట్ చేయడానికి commits సంఖ్యను స్పెసిఫై చేయగలవని గుర్తుపెట్టుకో",
-    "hi_IN": "याद रखो, सिम्युलेट करने के लिए commits की संख्या स्पेसिफ़ाई कर सकते हो"
+    "hi_IN": "याद रखो, सिम्युलेट करने के लिए commits की संख्या स्पेसिफ़ाई कर सकते हो",
+    "id_ID": "Ingat kamu bisa menentukan jumlah commit yang disimulasikan"
   },
   "startDialog": {
     "en_US": {
@@ -1572,6 +1574,60 @@ exports.level = {
               "आने वाले levels काफ़ी मुश्किल होंगे, इसलिए इस level में हम आपसे थोड़ा ज़्यादा उम्मीद कर रहे हैं।",
               "",
               "चलो शुरू करो: remote को clone करो (`git clone` से), उस remote पर कुछ बदलाव सिम्युलेट करो, एक लोकल commit जोड़ो, फिर remote के बदलाव pull करके merge करो। यह कई पाठ एक साथ करने जैसा है!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Simulasi kolaborasi",
+              "",
+              "Nah, ada satu hal teknis nih -- untuk beberapa pelajaran berikutnya, kami perlu mengajarimu cara menarik perubahan yang dibuat orang lain di remote.",
+              "",
+              "Artinya kita perlu \"berpura-pura\" bahwa remote diperbarui oleh salah satu rekan kerja / teman / kolaboratormu, kadang di branch tertentu atau sejumlah commit tertentu.",
+              "",
+              "Untuk itu, kami membuat perintah bernama pas `git fakeTeamwork`! Namanya sudah cukup menjelaskan, mari lihat demonya..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Perilaku bawaan `fakeTeamwork` adalah langsung menambahkan satu commit baru di branch main pada remote."
+            ],
+            "afterMarkdowns": [
+              "Itu dia -- remote diperbarui dengan satu commit baru, dan kita belum mengunduhnya karena kita belum menjalankan `git fetch`."
+            ],
+            "command": "git fakeTeamwork",
+            "beforeCommand": "git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kamu juga bisa menentukan jumlah commit atau nama branch dengan menambahkannya di belakang perintah."
+            ],
+            "afterMarkdowns": [
+              "Dengan satu perintah saja kita menyimulasikan rekan setim yang men-push tiga commit ke branch `foo` di remote kita."
+            ],
+            "command": "git fakeTeamwork foo 3",
+            "beforeCommand": "git branch foo; git fakeCreateRemote"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Level-level selanjutnya bakal lumayan menantang, jadi kami minta sedikit usaha lebih di level ini.",
+              "",
+              "Silakan clone repository remote-nya, buat perubahan simulasi di remote tersebut, tambah satu commit lokal, lalu pull perubahan dari remote dan merge keduanya. Seperti beberapa pelajaran digabung jadi satu!"
             ]
           }
         }

@@ -30,7 +30,8 @@ exports.level = {
     "hu_HU": "Fetch argumentumok",
     "az": "Fetch arqumentləri",
     "te_IN": "Fetch ఆర్గ్యుమెంట్లు",
-    "hi_IN": "fetch के आर्ग्युमेंट्स"
+    "hi_IN": "fetch के आर्ग्युमेंट्स",
+    "id_ID": "Argumen Fetch"
   },
   "hint": {
     "en_US": "Pay attention how the commit ids may have swapped! You can read slides again with \"help level\"",
@@ -60,7 +61,8 @@ exports.level = {
     "hu_HU": "Figyelj, hogyan cserélhetek helyet a commit azonosítók! A diákat újra elolvashatod a \"help level\" paranccsal",
     "az": "Commit id-lərinin yerlərini necə dəyişə biləcəyinə diqqət et! Slaydları \\\"help level\\\" ilə yenidən oxuya bilərsən",
     "te_IN": "Commit IDs ఎలా మారవచ్చో గమనించు! \"help level\" తో స్లైడ్లను మళ్ళీ చదవవచ్చు",
-    "hi_IN": "ध्यान देखो, commit IDs कैसे बदल गई हैं! \"help level\" से स्लाइड्स दोबारा पढ़ सकते हो"
+    "hi_IN": "ध्यान देखो, commit IDs कैसे बदल गई हैं! \"help level\" से स्लाइड्स दोबारा पढ़ सकते हो",
+    "id_ID": "Perhatikan bagaimana ID commit mungkin bertukar! Kamu bisa membaca ulang slide dengan \"help level\""
   },
   "startDialog": {
     "en_US": {
@@ -3474,6 +3476,129 @@ exports.level = {
               "ठीक है, बहुत बातें हो गईं! इस level को पूरा करने के लिए सिर्फ़ गोल विज़ुअलाइज़ेशन में दिखाए गए commits को fetch करो। उन कमांड्स से फ़ैंसी बनो!",
               "",
               "आपको दोनों fetch कमांड्स के लिए source और destination स्पेसिफ़ाई करनी होंगी। गोल विज़ुअलाइज़ेशन पर ध्यान दो, क्योंकि IDs इधर-उधर बदली हो सकती हैं!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumen Git Fetch",
+              "",
+              "Kita baru saja mempelajari semua hal tentang argumen `git push`, parameter `<place>` yang keren, bahkan colon refspec (`<source>:<destination>`). Bisakah semua ilmu itu dipakai juga untuk `git fetch`?",
+              "",
+              "Tentu saja bisa! Argumen untuk `git fetch` sebenarnya *sangat, sangat* mirip dengan `git push`. Konsepnya sama persis, hanya diterapkan ke arah sebaliknya (karena sekarang kamu mengunduh commit, bukan mengunggah).",
+              "",
+              "Mari kita bahas konsepnya satu per satu..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Parameter `<place>`",
+              "",
+              "Jika kamu menentukan sebuah tempat pada `git fetch` seperti pada perintah berikut:",
+              "",
+              "`git fetch origin foo`",
+              "",
+              "Git akan pergi ke branch `foo` di remote, mengambil semua commit yang belum ada di lokal, lalu menaruhnya di branch lokal `o/foo`.",
+              "",
+              "Mari lihat aksinya (sekadar penyegaran)."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dengan menentukan tempatnya..."
+            ],
+            "afterMarkdowns": [
+              "Kita hanya mengunduh commit dari `foo` dan menaruhnya di `o/foo`."
+            ],
+            "command": "git fetch origin foo",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kamu mungkin bertanya -- kenapa git menaruh commit-commit itu ke remote branch `o/foo` dan bukan langsung ke branch lokal `foo` milikku? Bukankah `<place>` adalah tempat yang ada di lokal maupun di remote?",
+              "",
+              "Git membuat pengecualian khusus di sini karena bisa jadi kamu punya pekerjaan di branch `foo` yang tidak mau kamu acak-acak!! Ini nyambung dengan pelajaran `git fetch` sebelumnya -- ia tidak memperbarui branch non-remote lokalmu, melainkan hanya mengunduh commit-nya (supaya bisa kamu periksa / merge nanti).",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "\"Kalau begitu, apa yang terjadi jika aku secara eksplisit menentukan sumber dan tujuan dengan `<source>:<destination>`?\"",
+              "",
+              "Kalau kamu memang sangat berniat men-fetch commit *langsung* ke sebuah branch lokal, ya kamu bisa menentukannya lewat colon refspec. Kamu tidak boleh men-fetch commit ke branch yang sedang di-check out, tapi selain itu git mengizinkannya.",
+              "",
+              "Cuma ada satu hal yang perlu diingat -- sekarang `<source>` adalah lokasi di *remote* dan `<destination>` adalah lokasi *lokal* untuk menaruh commit-commit itu. Ini kebalikan persis dari `git push`, dan masuk akal karena kita memindahkan data ke arah yang berlawanan!",
+              "",
+              "Meski begitu, developer jarang melakukan ini di dunia nyata. Aku mengenalkannya terutama untuk membantu memvisualisasikan betapa miripnya `fetch` dan `push`, hanya berlawanan arah."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari lihat trik gila ini beraksi:"
+            ],
+            "afterMarkdowns": [
+              "Wah! Lihat, git menerjemahkan `C2` sebagai lokasi di origin lalu mengunduh commit-commit tersebut ke `bar` (yang merupakan branch lokal)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git branch bar; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Bagaimana jika tujuan belum ada sebelum perintah dijalankan? Mari lihat slide terakhir tadi tetapi tanpa `bar` yang sudah dibuat sebelumnya."
+            ],
+            "afterMarkdowns": [
+              "Lihat, SAMA PERSIS seperti `git push`. Git membuatkan tujuannya di lokal sebelum fetch, persis seperti git membuatkan tujuan di remote sebelum push (jika belum ada)."
+            ],
+            "command": "git fetch origin C2:bar",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo 2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Tanpa argumen?",
+              "",
+              "Jika `git fetch` tidak diberi argumen apa pun, ia hanya mengunduh semua commit dari remote ke semua remote branch yang ada..."
+            ],
+            "afterMarkdowns": [
+              "Cukup simpel, tapi pantas dibahas sekali biar jelas."
+            ],
+            "command": "git fetch",
+            "beforeCommand": "git branch foo; git fakeCreateRemote; git fakeTeamwork foo; git fakeTeamwork main"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oke, cukup bicaranya! Untuk menyelesaikan level ini, fetch hanya commit-commit yang diminta pada visualisasi target. Berkreasi lah dengan perintahnya!",
+              "",
+              "Kamu harus menentukan sumber dan tujuan untuk kedua perintah fetch tersebut. Perhatikan baik-baik visualisasi target karena ID commit bisa saja tertukar!"
             ]
           }
         }

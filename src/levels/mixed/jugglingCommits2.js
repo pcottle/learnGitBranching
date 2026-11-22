@@ -46,7 +46,8 @@ exports.level = {
     "tr_TR": "Commit Hokkabazlığı #2",
     "hu_HU": "Commitok átrendezése #2",
     "az": "Commit Hoqqabazlığı #2",
-    "bn_BD": "Commit নিয়ে জাগলিং #২"
+    "bn_BD": "Commit নিয়ে জাগলিং #২",
+    "id_ID": "Menukar Posisi Commit #2"
   },
   "hint": {
     "en_US": "Don't forget to forward main to the updated changes!",
@@ -78,7 +79,8 @@ exports.level = {
     "tr_TR": "Main'i yaptığınız değişikliklere ilerletmeyi unutmayın!",
     "hu_HU": "Ne feledd a main-t a frissített változásokra előregörgetni!",
     "az": "main-i yenilənmiş dəyişikliklərə irəli aparmağı unutma!",
-    "bn_BD": "main-কে হালনাগাদ করা পরিবর্তনগুলোর দিকে এগিয়ে নিতে ভুলো না!"
+    "bn_BD": "main-কে হালনাগাদ করা পরিবর্তনগুলোর দিকে এগিয়ে নিতে ভুলো না!",
+    "id_ID": "Jangan lupa memajukan main ke perubahan yang sudah diperbarui!"
   },
   "startDialog": {
     "en_US": {
@@ -1315,6 +1317,49 @@ exports.level = {
               "তাহলে এই level-এ চলো `C2`-কে একবার amend করার একই লক্ষ্য অর্জন করি, কিন্তু `rebase -i` ব্যবহার না করে। কীভাবে করবে তা তোমার ওপরই ছেড়ে দিলাম! :D",
               "",
               "মনে রেখো, commit-এর ওপর apostrophe (') ঠিক কয়টি আছে তা গুরুত্বপূর্ণ নয়, শুধু আপেক্ষিক পার্থক্য গুরুত্বপূর্ণ। উদাহরণস্বরূপ, যে tree লক্ষ্য tree-র সাথে মেলে কিন্তু সব জায়গায় একটি বাড়তি apostrophe আছে, সেটিকেও আমি নম্বর দেব।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Menukar Posisi Commit #2",
+              "",
+              "*Kalau kamu belum menyelesaikan Juggling Commits #1 (level sebelumnya), selesaikan dulu sebelum lanjut ya*",
+              "",
+              "Seperti yang kamu lihat di level terakhir, kita memakai `rebase -i` untuk menyusun ulang commit. Begitu commit yang ingin diubah sudah di posisi teratas, kita bisa mudah meng-amend-nya lalu menyusun ulang kembali ke urutan yang kita mau.",
+              "",
+              "Satu-satunya masalah di sini adalah terlalu banyak penyusunan ulang bisa memicu konflik rebase. Mari lihat metode lain dengan `git cherry-pick`."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Ingat bahwa `git cherry-pick` akan menyalin commit dari bagian mana saja di pohon ke bawah `HEAD` (selama commit itu bukan leluhur `HEAD`).",
+              "",
+              "Ini demo penyegaran singkat:"
+            ],
+            "afterMarkdowns": [
+              "Mantap! Mari lanjut."
+            ],
+            "command": "git cherry-pick C2",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Jadi di level ini, mari capai tujuan yang sama yaitu meng-amend `C2` sekali, tetapi tanpa memakai `rebase -i`. Kubiarkan kamu memecahkannya sendiri! :D",
+              "",
+              "Ingat, jumlah persis tanda petik (') pada commit tidaklah penting, yang penting hanya selisih relatifnya. Misalnya, aku tetap memberi skor penuh untuk pohon yang cocok strukturnya walau punya satu tanda petik ekstra di mana-mana."
             ]
           }
         }

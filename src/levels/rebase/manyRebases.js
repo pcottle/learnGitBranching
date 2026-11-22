@@ -36,7 +36,8 @@ exports.level = {
     "az": "9000-dən çox dəfə rebase etmək",
     "te_IN": "9000 కంటే ఎక్కువసార్లు rebase చేయడం",
     "hi_IN": "9000 से ज्यादा बार rebase करना",
-    "bn_BD": "৯০০০ বারের বেশি rebase করা"
+    "bn_BD": "৯০০০ বারের বেশি rebase করা",
+    "id_ID": "Rebase Lebih dari 9000 Kali"
   },
   "hint": {
     "en_US": "Remember, the most efficient way might be to only update main at the end...",
@@ -67,7 +68,8 @@ exports.level = {
     "az": "Yadında saxla, ən səmərəli yol bəlkə də main-i yalnız sonda yeniləməkdir...",
     "te_IN": "గుర్తుపెట్టుకో, అత్యంత ఎఫిషియెంట్ మార్గం చివర్లో main ను మాత్రమే అప్‌డేట్ చేయడం కావచ్చు...",
     "hi_IN": "याद रखो, सबसे efficient तरीका शायद यह है कि आखिर में ही main को update करो...",
-    "bn_BD": "মনে রেখো, সবচেয়ে কার্যকর উপায় হয়তো শেষে শুধু main আপডেট করা..."
+    "bn_BD": "মনে রেখো, সবচেয়ে কার্যকর উপায় হয়তো শেষে শুধু main আপডেট করা...",
+    "id_ID": "Ingat, cara paling efisien mungkin cukup memperbarui main di bagian paling akhir..."
   },
   "startDialog": {
     "en_US": {
@@ -645,6 +647,26 @@ exports.level = {
               "একটা কাজের টিপ: `git rebase` দ্বিতীয় একটি argument-ও নিতে পারে। `git rebase main bugFix` এক ধাপেই `bugFix` checkout করে সেটিকে `main`-এর ওপর rebase করে দেয় -- এটি `git switch bugFix; git rebase main`-এর সংক্ষিপ্ত রূপ।",
               "",
               "মাঝপথে কিছু গোলমাল হয়ে গেলে নির্দ্বিধায় `reset` ব্যবহার করে আবার নতুন করে শুরু করো। আমাদের solution দেখে নিও এবং দেখো তুমি আরও কম কমান্ডে করতে পারো কি না!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Melakukan Rebase Banyak Branch",
+              "",
+              "Wah, kita punya banyak sekali branch di sini! Mari rebase semua pekerjaan dari branch-branch ini ke atas `main`.",
+              "",
+              "Namun manajemen atas membuatnya sedikit lebih menantang -- mereka ingin semua commit tersusun berurutan. Artinya pohon akhir kita harus memiliki `C7'` di paling bawah, `C6'` di atasnya, dan seterusnya secara berurutan.",
+              "",
+              "Satu tips praktis: `git rebase` bisa menerima argumen kedua. `git rebase main bugFix` langsung men-check out `bugFix` dan me-rebase-nya ke `main` dalam satu langkah -- ringkasan dari `git switch bugFix; git rebase main`.",
+              "",
+              "Jika kamu salah langkah di tengah jalan, silakan pakai `reset` untuk mengulang dari awal. Jangan lupa cek solusi kami juga untuk melihat apakah kamu bisa melakukannya dengan lebih sedikit perintah!"
             ]
           }
         }

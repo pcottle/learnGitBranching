@@ -30,7 +30,8 @@ exports.level = {
     "az": "Pull arqumentləri",
     "te_IN": "Pull ఆర్గ్యుమెంట్లు",
     "hi_IN": "pull के आर्ग्युमेंट्स",
-    "bn_BD": "Pull-এর আর্গুমেন্ট"
+    "bn_BD": "Pull-এর আর্গুমেন্ট",
+    "id_ID": "Argumen Pull"
   },
   "hint": {
     "en_US": "Remember that you can create new local branches with fetch/pull arguments",
@@ -60,7 +61,8 @@ exports.level = {
     "az": "Unutma, fetch/pull arqumentləri ilə yeni lokal branch-lar yarada bilərsən",
     "te_IN": "fetch/pull arguments తో కొత్త లోకల్ branches సృష్టించగలవని గుర్తుపెట్టుకో",
     "hi_IN": "याद रखो, fetch/pull आर्ग्युमेंट्स से नई लोकल branches बना सकते हो",
-    "bn_BD": "মনে রেখো, fetch/pull-এর আর্গুমেন্ট দিয়ে নতুন লোকাল branch তৈরি করা যায়"
+    "bn_BD": "মনে রেখো, fetch/pull-এর আর্গুমেন্ট দিয়ে নতুন লোকাল branch তৈরি করা যায়",
+    "id_ID": "Ingat bahwa kamu bisa membuat branch lokal baru dengan argumen fetch/pull"
   },
   "startDialog": {
     "en_US": {
@@ -2047,6 +2049,80 @@ exports.level = {
           "options": {
             "markdowns": [
               "ঠিক আছে, শেষ করতে গোল ভিজ্যুয়ালাইজেশনের অবস্থায় পৌঁছাও। তোমাকে কিছু commit নামাতে হবে, কিছু নতুন branch বানাতে হবে এবং সেই branch-গুলো অন্য branch-এ merge করতে হবে, তবে খুব বেশি কমান্ড লাগার কথা নয় :P"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Argumen Git Pull",
+              "",
+              "Sekarang setelah kamu tahu hampir *semua* hal tentang argumen `git fetch` dan `git push`, nyaris tidak ada lagi yang tersisa untuk dibahas pada `git pull` :)",
+              "",
+              "Itu karena pada akhirnya `git pull` *benar-benar* hanyalah ringkasan dari fetch yang diikuti oleh merge terhadap apa pun yang baru saja di-fetch. Kamu bisa membayangkannya seperti menjalankan `git fetch` dengan argumen *yang sama*, lalu me-merge *di mana* commit-commit itu mendarat.",
+              "",
+              "Ini tetap berlaku bahkan saat kamu memakai argumen yang rumit sekalipun. Mari lihat beberapa contohnya:"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Berikut beberapa perintah yang setara di git:",
+              "",
+              "`git pull  origin foo` sama dengan:",
+              "",
+              "`git fetch origin foo; git merge o/foo`",
+              "",
+              "Dan...",
+              "",
+              "`git pull  origin bar:bugFix` sama dengan:",
+              "",
+              "`git fetch origin bar:bugFix; git merge bugFix`",
+              "",
+              "Lihat? `git pull` benar-benar sekadar ringkasan dari fetch + merge, dan yang dipedulikan `git pull` hanyalah di mana commit itu mendarat (argumen `destination` yang ditentukannya saat fetch).",
+              "",
+              "Mari lihat demonya:"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Jika kita menentukan lokasi untuk di-fetch, semuanya berjalan seperti fetch biasa tetapi langsung me-merge apa yang baru diunduh."
+            ],
+            "afterMarkdowns": [
+              "Lihat! Dengan menyebut `main`, kita mengunduh commit ke `o/main` seperti biasa. Lalu kita me-merge `o/main` ke posisi tempat kita berada sekarang yang *bukan* branch lokal `main`. Karena itulah terkadang masuk akal menjalankan `git pull` beberapa kali (dengan argumen yang sama) dari lokasi berbeda untuk memperbarui beberapa branch."
+            ],
+            "command": "git pull origin main",
+            "beforeCommand": "git fakeCreateRemote; go -b bar; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Apakah ini berlaku juga dengan source dan destination? Tentu! Mari lihat:"
+            ],
+            "afterMarkdowns": [
+              "Wah, BANYAK SEKALI yang terjadi dalam satu perintah. Kita membuat branch lokal baru bernama `foo`, mengunduh commit dari `main` remote ke branch `foo` itu, lalu me-merge branch tersebut ke branch yang sedang kita tempati `bar`. Level kekuatannya di atas 9000!!!"
+            ],
+            "command": "git pull origin main:foo",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; go -b bar; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oke sebagai penutup, capailah kondisi akhir pada visualisasi target. Kamu perlu mengunduh beberapa commit, membuat beberapa branch baru, dan me-merge branch-branch tersebut ke branch lain, tapi seharusnya tidak butuh banyak perintah :P"
             ]
           }
         }

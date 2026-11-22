@@ -43,7 +43,8 @@ exports.level = {
     "tr_TR": "Sadece 1 commit'i yakalamak",
     "hu_HU": "Csak 1 commit átvétele",
     "az": "Cəmi 1 commit-i götürmək",
-    "bn_BD": "মাত্র ১টি Commit তুলে নেওয়া"
+    "bn_BD": "মাত্র ১টি Commit তুলে নেওয়া",
+    "id_ID": "Mengambil 1 Commit Saja"
   },
   "hint": {
     "en_US": "Remember, interactive rebase or cherry-pick is your friend here",
@@ -75,7 +76,8 @@ exports.level = {
     "tr_TR": "Unutmayın interactive rebase ve cherry-pick buradaki en iyi dostlarınız.",
     "hu_HU": "Ne feledd, az interaktív rebase vagy a cherry-pick a barátod ebben",
     "az": "Yadında saxla, interactive rebase və ya cherry-pick burada sənin dostundur",
-    "bn_BD": "মনে রেখো, এখানে interactive rebase বা cherry-pick-ই তোমার বন্ধু"
+    "bn_BD": "মনে রেখো, এখানে interactive rebase বা cherry-pick-ই তোমার বন্ধু",
+    "id_ID": "Ingat, interactive rebase atau cherry-pick adalah sahabatmu di sini"
   },
   "startDialog": {
     "en_US": {
@@ -1237,6 +1239,45 @@ exports.level = {
           "options": {
             "markdowns": [
               "এটি পরের দিকের একটি level, তাই কোন কমান্ড ব্যবহার করবে তা তোমার সিদ্ধান্তের ওপর ছেড়ে দিচ্ছি, তবে level সম্পূর্ণ করতে নিশ্চিত করো যে `bugFix` যে commit-কে নির্দেশ করছে, `main` সেটি পাচ্ছে।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Commit yang bertumpuk di lokal",
+              "",
+              "Berikut situasi pengembangan yang sering terjadi: aku sedang berusaha melacak bug yang licin banget. Untuk membantu kerja detektifku, aku menambahkan beberapa perintah debug dan pernyataan print.",
+              "",
+              "Semua perintah debug / print itu tersimpan dalam commit-commit terpisah. Akhirnya aku menemukan bug-nya, memperbaikinya, dan bersorak lega!",
+              "",
+              "Satu-satunya masalah adalah aku sekarang harus memasukkan `bugFix` kembali ke branch `main`. Kalau aku langsung fast-forward `main`, maka `main` akan ikut kemasukan semua commit debug tadi -- jelas tidak kita inginkan. Pasti ada cara lain..."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Kita perlu menyuruh git untuk menyalin satu commit itu saja. Ini persis seperti level-level sebelumnya tentang memindahkan pekerjaan -- kita bisa memakai perintah yang sama:",
+              "",
+              "* `git rebase -i`",
+              "* `git cherry-pick`",
+              "",
+              "Untuk mencapai tujuan ini."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Karena ini sudah level lanjutan, kami serahkan padamu mau memilih perintah yang mana, tetapi untuk menyelesaikan level ini, pastikan `main` menerima commit yang dirujuk oleh `bugFix`."
             ]
           }
         }

@@ -22,7 +22,8 @@ exports.level = {
     "it_IT": "Annullare le modifiche con git restore",
     "es_ES": "Deshacer con git restore",
     "es_AR": "Deshacer con git restore",
-    "ja": "git restoreで変更を元に戻す"
+    "ja": "git restoreで変更を元に戻す",
+    "id_ID": "Membatalkan dengan git restore"
   },
   "hint": {
     "en_US": "Unstage with `git restore --staged secret.env`, throw away the experiment with `git restore experiment.js`, then `git commit`.",
@@ -43,7 +44,8 @@ exports.level = {
     "ko": "`git restore --staged secret.env`로 스테이징을 해제하고, `git restore experiment.js`로 실험의 변경 사항을 버린 다음 `git commit`하세요.",
     "es_ES": "Quita `secret.env` de staging con `git restore --staged secret.env`, descarta el experimento con `git restore experiment.js`, y luego haz `git commit`.",
     "es_AR": "Quitá `secret.env` de staging con `git restore --staged secret.env`, descartá el experimento con `git restore experiment.js`, y luego hacé `git commit`.",
-    "ja": "`git restore --staged secret.env`でステージングを解除し、`git restore experiment.js`で試しに行った変更を破棄してから、`git commit`を実行してください。"
+    "ja": "`git restore --staged secret.env`でステージングを解除し、`git restore experiment.js`で試しに行った変更を破棄してから、`git commit`を実行してください。",
+    "id_ID": "Unstage dengan `git restore --staged secret.env`, buang eksperimen dengan `git restore experiment.js`, lalu `git commit`."
   },
   "startDialog": {
     "en_US": {
@@ -1155,6 +1157,66 @@ exports.level = {
               "* 残った変更をコミットする: `git commit`",
               "",
               "これで、残したい変更だけを含む、整理されたコミットが1つ作成されます。"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Membatalkan Perubahan dengan `git restore`",
+              "",
+              "Siapa pun kadang bikin berantakan. Kamu tidak sengaja meng-stage file yang salah, atau memulai eksperimen yang lebih baik dibuang saja. `git restore` adalah tombol undo modern yang dibuat khusus untuk working directory dan staging area kamu.",
+              "",
+              "Ada dua mode penggunaannya:",
+              "",
+              "* `git restore --staged <file>`: **unstage** file (mengeluarkannya kembali dari staging area, tetapi editanmu tetap tersimpan)",
+              "* `git restore <file>`: **membuang** seluruh editanmu pada file tersebut (hati-hati, perubahan ini langsung hilang!)",
+              "",
+              "*(Keduanya menggantikan trik lama `git reset HEAD <file>` dan `git checkout -- <file>`. Konsepnya sama, hanya namanya jauh lebih jelas.)*"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Beginilah kondisi berantakan di mejamu sekarang:",
+              "",
+              "```",
+              "Changes to be committed:",
+              "```",
+              "```",
+              "  modified:   app.js",
+              "```",
+              "```",
+              "  modified:   secret.env",
+              "```",
+              "",
+              "```",
+              "Changes not staged for commit:",
+              "  modified:   experiment.js",
+              "```",
+              "",
+              "Kamu ingin meng-commit `app.js`, tapi `secret.env` tidak sengaja ikut ter-stage terlalu cepat (seharusnya nanti saja di commit berikutnya), jadi kita simpan dulu untuk nanti. Selain itu, perubahan di `experiment.js` gagal jadi kita buang saja semuanya."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Rapikan dulu, lalu commit:",
+              "",
+              "* Keluarkan file rahasia dari staging: `git restore --staged secret.env`",
+              "* Buang eksperimen yang gagal: `git restore experiment.js`",
+              "* Commit sisanya: `git commit`",
+              "",
+              "Dengan begitu terciptalah satu commit yang bersih, hanya berisi perubahan yang memang ingin kamu simpan."
             ]
           }
         }

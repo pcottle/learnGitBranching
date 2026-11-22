@@ -35,7 +35,8 @@ exports.level = {
     "tr_TR": "Cherry-pick işlemine giriş",
     "hu_HU": "Cherry-pick bevezetés",
     "az": "Cherry-pick-ə Giriş",
-    "bn_BD": "Cherry-pick-এর পরিচিতি"
+    "bn_BD": "Cherry-pick-এর পরিচিতি",
+    "id_ID": "Pengenalan Cherry-pick"
   },
   "hint": {
     "fr_FR": "git cherry-pick suivi par les noms de commits",
@@ -66,7 +67,8 @@ exports.level = {
     "tr_TR": "git cherry-pick  komutunun ardından, seçilen commit'lerin adlarını yazın!",
     "hu_HU": "A git cherry-pick után add meg a commit neveket!",
     "az": "git cherry-pick-dən sonra commit adlarını yaz!",
-    "bn_BD": "git cherry-pick-এর পরে commit-গুলোর নাম লেখো!"
+    "bn_BD": "git cherry-pick-এর পরে commit-গুলোর নাম লেখো!",
+    "id_ID": "git cherry-pick diikuti nama-nama commit!"
   },
   "startDialog": {
     "en_US": {
@@ -1701,6 +1703,63 @@ exports.level = {
           "options": {
             "markdowns": [
               "এই level সম্পূর্ণ করতে, দেখানো তিনটি branch থেকে কিছু কাজ main-এ কপি করো। আমরা কোন commit-গুলো চাই তা goal visualization দেখে বুঝে নিতে পারবে।",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Memindah-mindahkan Pekerjaan",
+              "",
+              "Sejauh ini kita sudah membahas dasar-dasar git -- commit, branching, dan berpindah di pohon sumber. Konsep-konsep itu saja sudah cukup untuk memanfaatkan 90% kekuatan repository git dan memenuhi kebutuhan utama developer.",
+              "",
+              "Namun sisa 10%-nya bisa sangat berguna saat alur kerja rumit (atau ketika kamu terjebak masalah). Konsep berikutnya yang akan kita bahas adalah \"memindahkan pekerjaan\" -- dengan kata lain, cara bagi developer untuk berkata \"Aku mau kerjaan yang ini di sini, dan yang itu di sana\" secara presisi, rapi, dan fleksibel.",
+              "",
+              "Terdengar banyak, padahal konsepnya sederhana kok."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Cherry-pick",
+              "",
+              "Perintah pertama dalam seri ini disebut `git cherry-pick`. Bentuk penggunaannya seperti ini:",
+              "",
+              "* `git cherry-pick <Commit1> <Commit2> <...>`",
+              "",
+              "Ini cara yang sangat lugas untuk menyatakan bahwa kamu ingin menyalin serangkaian commit tepat di bawah posisimu saat ini (`HEAD`). Aku pribadi suka sekali dengan `cherry-pick` karena tidak ada sihir tersembunyi dan sangat mudah dipahami.",
+              "",
+              "Mari lihat demonya!",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Di sini ada repository dengan beberapa pekerjaan di branch `side` yang ingin kita salin ke `main`. Ini bisa saja dicapai lewat rebase (yang sudah kita pelajari), tapi mari lihat bagaimana cherry-pick melakukannya."
+            ],
+            "afterMarkdowns": [
+              "Beres! Kita menginginkan commit `C2` dan `C4`, dan git langsung menyalin keduanya tepat di bawah posisi kita. Sesimpel itu!"
+            ],
+            "command": "git cherry-pick C2 C4",
+            "beforeCommand": "git switch -c side; git commit; git commit; git commit; git switch main; git commit;"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, cukup salin beberapa pekerjaan dari ketiga branch yang terlihat ke dalam `main`. Kamu bisa melihat commit mana saja yang dibutuhkan pada visualisasi target.",
               ""
             ]
           }

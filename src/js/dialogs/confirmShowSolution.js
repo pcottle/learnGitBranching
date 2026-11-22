@@ -253,6 +253,16 @@ exports.dialog = {
       ]
     }
   }],
+  'id_ID': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        "## Yakin ingin melihat solusinya?",
+        "",
+        "Saya percaya padamu! Kamu pasti bisa"
+      ]
+    }
+  }],
 };
 
 

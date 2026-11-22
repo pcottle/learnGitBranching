@@ -31,7 +31,8 @@ exports.level = {
     "tr_TR": "Git'te Branch işlemleri",
     "hu_HU": "Elágazás Gitben",
     "az": "Git-də Branch-lar",
-    "bn_BD": "Git-এ Branch"
+    "bn_BD": "Git-এ Branch",
+    "id_ID": "Branching di Git"
   },
   "hint": {
     "en_US": "Make a new branch with \"git branch <branch-name>\" and check it out with \"git switch <branch-name>\"",
@@ -63,7 +64,8 @@ exports.level = {
     "tr_TR": "Yeni bir branch oluşturmak için \"git branch <branch-name>\" komutunu kullanın ve \"git switch <branch-name>\" komutu ile bu branch'e geçin.",
     "hu_HU": "Hozz létre egy új branchet \"git branch <branch-name>\" paranccsal, és válts rá \"git switch <branch-name>\" paranccsal",
     "az": "\"git branch <branch-adı>\" ilə yeni branch yarat və \"git switch <branch-adı>\" ilə ona keç",
-    "bn_BD": "\"git branch <branch-name>\" দিয়ে একটি নতুন branch তৈরি করো এবং \"git switch <branch-name>\" দিয়ে সেটিতে চলে যাও"
+    "bn_BD": "\"git branch <branch-name>\" দিয়ে একটি নতুন branch তৈরি করো এবং \"git switch <branch-name>\" দিয়ে সেটিতে চলে যাও",
+    "id_ID": "Buat branch baru dengan \"git branch <branch-name>\" lalu pindah ke sana dengan \"git switch <branch-name>\""
   },
   "disabledMap": {
     "git revert": true
@@ -2453,6 +2455,96 @@ exports.level = {
               "প্রসঙ্গত, একটি শর্টকাট: একই সাথে নতুন branch তৈরি করতে",
               " এবং সেটিতে checkout করতে চাইলে, শুধু",
               "`git switch -c [yourbranchname]` লিখলেই হবে।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Git Branch",
+              "",
+              "Branch (cabang) di Git juga luar biasa ringan. Branch sebenarnya hanyalah penunjuk (pointer) ke sebuah commit tertentu -- tidak lebih dari itu. Inilah alasan banyak penggemar Git memegang prinsip:",
+              "",
+              "```",
+              "buat branch sejak awal, dan buat branch sesering mungkin",
+              "```",
+              "",
+              "Karena tidak ada beban penyimpanan atau memori yang besar saat membuat banyak branch, pekerjaanmu jauh lebih mudah dibagi secara rapi daripada menumpuk semuanya di branch besar.",
+              "",
+              "Saat kita mulai menggabungkan branch dan commit, kamu akan melihat bagaimana kedua fitur ini bekerja sama. Untuk sekarang, ingat saja bahwa sebuah branch pada dasarnya berkata \"Saya ingin menyertakan hasil kerja dari commit ini beserta seluruh commit parent-nya.\""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari lihat seperti apa branch dalam praktiknya.",
+              "",
+              "Di sini kita akan membuat branch baru bernama `newImage`."
+            ],
+            "afterMarkdowns": [
+              "Berhasil, semudah itu cara kerja branching! Branch `newImage` sekarang menunjuk ke commit `C1`."
+            ],
+            "command": "git branch newImage",
+            "beforeCommand": ""
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari coba tambahkan pekerjaan baru ke branch ini. Klik tombol di bawah."
+            ],
+            "afterMarkdowns": [
+              "Wah, bukan begitu! Branch `main` yang bergerak maju, sedangkan branch `newImage` tetap di tempat! Itu karena kita belum sedang \"berada\" di branch baru tersebut, seperti yang terlihat dari tanda bintang (*) pada `main`."
+            ],
+            "command": "git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari beri tahu git bahwa kita ingin pindah ke branch tersebut dengan",
+              "",
+              "```",
+              "git switch <name>",
+              "```",
+              "",
+              "Perintah ini akan memindahkan posisi kita ke branch baru sebelum melakukan commit."
+            ],
+            "afterMarkdowns": [
+              "Mantap! Perubahan kita kini tercatat di branch baru tersebut."
+            ],
+            "command": "git switch newImage; git commit",
+            "beforeCommand": "git branch newImage"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Catatan: Biasakan memakai `git switch` saat berpindah branch. `git checkout` masih tersedia untuk tutorial lama dan juga bisa dipakai memulihkan file."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Oke! Kamu sudah siap bermain dengan branch. Setelah jendela ini tertutup,",
+              "buatlah branch baru bernama `bugFix` lalu pindah ke branch tersebut.",
+              "",
+              "Ngomong-ngomong, ada jalan pintas nih: kalau ingin membuat branch baru",
+              "sekaligus langsung pindah ke sana, kamu cukup mengetik",
+              "`git switch -c [yourbranchname]`."
             ]
           }
         }

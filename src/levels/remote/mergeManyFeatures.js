@@ -29,7 +29,8 @@ exports.level = {
     "az": "Remote-larla merge etmək",
     "te_IN": "Remotes తో merge చేయడం",
     "hi_IN": "Remotes के साथ merge करना",
-    "bn_BD": "Remote-এর সাথে merge করা"
+    "bn_BD": "Remote-এর সাথে merge করা",
+    "id_ID": "Merge dengan Remote"
   },
   "hint": {
     "en_US": "Pay attention to the goal tree!",
@@ -59,7 +60,8 @@ exports.level = {
     "az": "Hədəf ağacına diqqət et!",
     "te_IN": "లక్ష్య ట్రీ పై దృష్టి పెట్టు!",
     "hi_IN": "गोल ट्री पर ध्यान दो!",
-    "bn_BD": "গোল ট্রির দিকে খেয়াল রাখো!"
+    "bn_BD": "গোল ট্রির দিকে খেয়াল রাখো!",
+    "id_ID": "Perhatikan baik-baik pohon targetnya!"
   },
   "compareOnlyMain": true,
   "startDialog": {
@@ -1352,6 +1354,51 @@ exports.level = {
           "options": {
             "markdowns": [
               "এই level-এ চলো আগের level-টা এবার *merge* দিয়ে সমাধান করার চেষ্টা করি। একটু জটিল হতে পারে, কিন্তু বিষয়টা ভালোভাবে বুঝিয়ে দেবে।"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Kenapa tidak merge saja?",
+              "",
+              "Untuk men-push pembaruan ke remote, yang kamu butuhkan hanyalah *menggabungkan* perubahan terbaru dari remote. Artinya kamu boleh memakai rebase *atau* merge dengan remote branch (misalnya `o/main`).",
+              "",
+              "Jadi kalau kedua metode sama-sama bisa, kenapa sejauh ini pelajaran banyak fokus pada rebase? Kenapa `merge` terkesan kurang disayang saat bekerja dengan remote?",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Ada banyak perdebatan di komunitas developer soal plus-minus merge vs rebase. Berikut kelebihan dan kekurangan umum dari rebase:",
+              "",
+              "Kelebihan:",
+              "",
+              "* Rebasing membuat pohon commit-mu terlihat sangat bersih karena semuanya tersusun dalam satu garis lurus",
+              "",
+              "Kekurangan:",
+              "",
+              "* Rebasing memodifikasi riwayat (yang terlihat) pada pohon commit.",
+              "",
+              "Misalnya, commit `C1` bisa di-rebase *melewati* `C3`. Akibatnya terlihat seolah pekerjaan `C1'` dibuat sesudah `C3` padahal kenyataannya selesai lebih dulu.",
+              "",
+              "Sebagian developer suka menjaga keaslian sejarah sehingga memilih merge. Sebagian lain (seperti saya) lebih suka pohon commit yang rapi sehingga memilih rebase. Semuanya kembali ke preferensi masing-masing :D"
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk level ini, mari selesaikan level sebelumnya tetapi dengan cara *merging*. Mungkin kelihatan agak berliku, tapi ini menggambarkan perbedaannya dengan jelas."
             ]
           }
         }

@@ -31,7 +31,8 @@ exports.level = {
     "bn_BD": "Git-এ Merge করা",
     "tr_TR": "Git'te Merge işlemleri",
     "hu_HU": "Merge Gitben",
-    "az": "Git-də Merge (birləşdirmə)"
+    "az": "Git-də Merge (birləşdirmə)",
+    "id_ID": "Merging di Git"
   },
   "hint": {
     "en_US": "Remember to commit in the order specified (bugFix before main)",
@@ -63,7 +64,8 @@ exports.level = {
     "bn_BD": "নির্দিষ্ট ক্রমে commit করতে ভুলো না (main-এর আগে bugFix)",
     "tr_TR": "Belirlenen sırada commit etmeyi unutmayın (main'den önce bugFix)",
     "hu_HU": "Ne felejtsd el a megadott sorrendben commitolni (bugFix main előtt)",
-    "az": "Göstərilən ardıcıllıqla commit etməyi unutma (əvvəl bugFix, sonra main)"
+    "az": "Göstərilən ardıcıllıqla commit etməyi unutma (əvvəl bugFix, sonra main)",
+    "id_ID": "Ingat untuk melakukan commit sesuai urutan yang diminta (bugFix dulu baru main)"
   },
   "disabledMap": {
     "git revert": true
@@ -2085,6 +2087,75 @@ exports.level = {
               "* `git merge` ilə `bugFix` branch-ını `main`-ə merge et",
               "",
               "*Unutma, bu dialoqu istənilən vaxt \"objective\" əmri ilə yenidən göstərə bilərsən!*"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Branch dan Merging",
+              "",
+              "Bagus! Kita sekarang sudah tahu cara commit dan membuat branch. Selanjutnya kita perlu mempelajari cara menggabungkan hasil kerja dari dua branch yang berbeda. Dengan ini kita bisa bercabang, mengembangkan fitur baru, lalu menggabungkannya kembali.",
+              "",
+              "Metode pertama untuk menggabungkan pekerjaan yang akan kita pelajari adalah `git merge`. Merging di Git membuat sebuah commit khusus yang punya dua parent unik. Commit dengan dua parent pada intinya berarti \"Saya ingin menyertakan seluruh pekerjaan dari parent yang ini dan parent yang itu, *beserta* semua commit leluhurnya.\"",
+              "",
+              "Lebih mudah dipahami lewat visualisasi, mari kita lihat di tampilan berikutnya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Di sini kita punya dua branch; masing-masing punya satu commit yang unik. Artinya tidak ada satu pun branch yang memiliki seluruh pekerjaan di repository. Mari perbaiki dengan merge.",
+              "",
+              "Kita akan melakukan `merge` branch `bugFix` ke dalam `main`."
+            ],
+            "afterMarkdowns": [
+              "Keren! Lihat itu? Pertama, `main` kini menunjuk ke commit yang punya dua parent. Jika kamu menelusuri panah ke atas dari `main`, kamu akan melewati setiap commit sampai ke akar. Artinya `main` sekarang berisi seluruh pekerjaan di repository.",
+              "",
+              "Selain itu, lihat bagaimana warna commit ikut berubah? Untuk membantumu belajar, saya menambahkan koordinasi warna. Tiap branch punya warna unik. Tiap commit berubah warna menjadi campuran dari semua branch yang mencakup commit tersebut.",
+              "",
+              "Jadi di sini warna branch `main` sudah membaur ke semua commit, sedangkan warna `bugFix` belum. Mari kita bereskan..."
+            ],
+            "command": "git merge bugFix",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sekarang mari merge `main` ke dalam `bugFix`:"
+            ],
+            "afterMarkdowns": [
+              "Karena `bugFix` merupakan leluhur dari `main`, git tidak perlu bersusah payah; ia cukup memindahkan `bugFix` maju ke commit yang sama dengan posisi `main`.",
+              "",
+              "Sekarang semua commit punya warna yang sama, artinya masing-masing branch memuat seluruh hasil kerja di repository! Hore!"
+            ],
+            "command": "git switch bugFix; git merge main",
+            "beforeCommand": "git switch -c bugFix; git commit; git switch main; git commit; git merge bugFix"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, lakukan langkah-langkah berikut:",
+              "",
+              "* Buat branch baru bernama `bugFix`",
+              "* Pindah ke branch `bugFix` dengan `git switch bugFix`",
+              "* Buat satu commit",
+              "* Kembali ke `main` dengan `git switch main`",
+              "* Buat satu commit lagi",
+              "* Gabungkan branch `bugFix` ke `main` dengan `git merge`",
+              "",
+              "*Ingat, kamu selalu bisa membuka ulang dialog ini dengan perintah \"objective\"!*"
             ]
           }
         }

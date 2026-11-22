@@ -1021,4 +1021,27 @@ exports.dialog = {
       ]
     }
   }],
+  'id_ID': [{
+    type: 'ModalAlert',
+    options: {
+      markdowns: [
+        "## Selamat datang di Learn Git Branching",
+        "",
+        "Tertarik belajar Git? Kamu datang ke tempat yang tepat! ",
+        "\"Learn Git Branching\" adalah cara paling visual dan interaktif untuk belajar Git ",
+        "di web; kamu akan ditantang lewat level-level seru, melihat demonstrasi langkah ",
+        "demi langkah fitur-fitur hebatnya, dan semoga sambil bersenang-senang juga.",
+        "",
+        "Setelah dialog ini, kamu akan melihat berbagai level yang tersedia. Kalau kamu masih ",
+        "pemula, langsung mulai saja dari level pertama. Kalau sudah paham dasar-dasar Git, ",
+        "coba level-level berikutnya yang lebih menantang.",
+        "",
+        "Kamu bisa melihat semua perintah yang tersedia dengan mengetik `show commands` di terminal.",
+        "",
+        "PS: Ingin langsung masuk ke mode sandbox lain kali?",
+        "Coba gunakan ",
+        "[tautan khusus ini](https://pcottle.github.io/learnGitBranching/?NODEMO)."
+      ]
+    }
+  }],
 };

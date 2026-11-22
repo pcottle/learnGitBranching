@@ -32,7 +32,8 @@ exports.level = {
     "pl": "Wielu rodziców",
     "tr_TR": "Birden fazla ebeveyn",
     "hu_HU": "Több szülő",
-    "az": "Bir neçə valideyn"
+    "az": "Bir neçə valideyn",
+    "id_ID": "Banyak Parent (Multiple Parents)"
   },
   "hint": {
     "en_US": "Use `git branch bugWork` with a target commit to create the missing reference.",
@@ -64,7 +65,8 @@ exports.level = {
     "pl": "Użyj `git branch bugWork` na docelowym commicie, aby utworzyć brakującą referencję.",
     "tr_TR": "Eksik referansı oluşturmak için hedef commit ile `git branch bugWork` komutunu kullanın.",
     "hu_HU": "Használd a `git branch bugWork` parancsot egy célcommittal a hiányzó referencia létrehozásához.",
-    "az": "Əskik referansı yaratmaq üçün hədəf commit ilə `git branch bugWork` istifadə et."
+    "az": "Əskik referansı yaratmaq üçün hədəf commit ilə `git branch bugWork` istifadə et.",
+    "id_ID": "Gunakan `git branch bugWork` dengan commit target untuk membuat referensi yang hilang."
   },
   "startDialog": {
     "en_US": {
@@ -2667,6 +2669,93 @@ exports.level = {
               "Bu bölümü bitirmək üçün göstərilən yerdə yeni bir branch yarat.",
               "",
               "Əlbəttə, commit-i birbaşa göstərmək asan olardı (`C6` kimi bir şeylə), amma sənə bunun əvəzinə danışdığımız modifikatorları istifadə etməyi məsləhət görürəm!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Menentukan Parent Secara Spesifik",
+              "",
+              "Seperti modifier `~`, modifier `^` juga bisa menerima angka opsional di belakangnya.",
+              "",
+              "Alih-alih menentukan berapa generasi mundur ke belakang (yang dilakukan `~`), angka pada `^` menentukan referensi parent ke berapa yang ingin diikuti dari sebuah merge commit. Ingat bahwa merge commit memiliki lebih dari satu parent, sehingga jalur yang dipilih bisa ambigu.",
+              "",
+              "Secara bawaan Git akan mengikuti parent \"pertama\" ke atas dari merge commit, tapi menambahkan angka pada `^` mengubah perilaku bawaan ini.",
+              "",
+              "Cukup teorinya, mari lihat langsung aksinya.",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Di sini kita punya sebuah merge commit. Jika kita men-check out `main^` tanpa angka modifier, kita akan mengikuti parent pertama setelah merge commit.",
+              "",
+              "(*Di visualisasi kita, parent pertama diposisikan tepat lurus di atas merge commit.*)"
+            ],
+            "afterMarkdowns": [
+              "Gampang -- inilah perilaku yang sudah biasa kita temui."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sekarang mari coba tentukan parent kedua sebagai gantinya..."
+            ],
+            "afterMarkdowns": [
+              "Lihat? Kita menelusuri jalur parent yang satunya ke atas."
+            ],
+            "command": "git switch --detach main^2",
+            "beforeCommand": "git switch --detach HEAD^; git commit; git switch main; git merge C2"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Modifier `^` dan `~` bisa membuat navigasi di pohon commit menjadi sangat bertenaga:"
+            ],
+            "afterMarkdowns": [
+              "Secepat kilat!"
+            ],
+            "command": "git switch --detach HEAD~; git switch --detach HEAD^2; git switch --detach HEAD~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Lebih gilanya lagi, modifier-modifier ini bisa dirangkai sekaligus! Lihat ini:"
+            ],
+            "afterMarkdowns": [
+              "Perpindahan yang sama persis seperti sebelumnya, tapi cukup dalam satu perintah."
+            ],
+            "command": "git switch --detach HEAD~^2~2",
+            "beforeCommand": "git commit; git switch --detach C0; git commit; git commit; git commit; git switch main; git merge C5; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "### Saatnya Praktik",
+              "",
+              "Untuk menyelesaikan level ini, buatlah branch baru pada posisi target yang ditentukan.",
+              "",
+              "Tentu mudah sekali menyebut commit-nya secara langsung (seperti `C6`), tapi aku tantang kamu memakai modifier-modifier yang baru saja kita bahas!"
             ]
           }
         }

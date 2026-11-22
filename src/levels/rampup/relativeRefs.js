@@ -31,7 +31,8 @@ exports.level = {
     "hi_IN": "Relative Refs (^)",
     "hu_HU": "Relatív hivatkozások (^)",
     "az": "Nisbi Ref-lər (^)",
-    "bn_BD": "আপেক্ষিক Ref (^)"
+    "bn_BD": "আপেক্ষিক Ref (^)",
+    "id_ID": "Relative Ref (^)"
   },
   "hint": {
     "en_US": "Remember the Caret (^) operator!",
@@ -62,7 +63,8 @@ exports.level = {
     "tr_TR": "^ operatörünü hatırlayın!",
     "hu_HU": "Ne feledd a kalap (^) operátort!",
     "az": "Caret (^) operatorunu yadında saxla!",
-    "bn_BD": "Caret (^) অপারেটরের কথা মনে রেখো!"
+    "bn_BD": "Caret (^) অপারেটরের কথা মনে রেখো!",
+    "id_ID": "Ingat operator Caret (^)!"
   },
   "startDialog": {
     "en_US": {
@@ -2120,6 +2122,81 @@ exports.level = {
               "এই level সম্পূর্ণ করতে `bugFix`-এর parent commit-টি checkout করো। এতে `HEAD` বিচ্ছিন্ন (detached) হয়ে যাবে।",
               "",
               "চাইলে hash উল্লেখ করতে পারো, তবে তার বদলে আপেক্ষিক ref ব্যবহার করার চেষ্টা করো!"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Relative Ref",
+              "",
+              "Berpindah posisi di Git dengan mengetikkan hash commit lama-kelamaan bisa terasa merepotkan. Di dunia nyata kamu tidak punya visualisasi pohon commit yang rapi di sebelah terminal, jadi kamu harus pakai `git log` untuk melihat hash.",
+              "",
+              "Terlebih lagi, hash di dunia Git asli biasanya jauh lebih panjang. Misalnya, hash commit yang memperkenalkan level sebelumnya adalah `fed2da64c0efc5293610bdd892f82a58e8cbc5d8`. Susah sekali diucapkan atau diingat...",
+              "",
+              "Untungnya Git pintar soal hash. Kamu hanya perlu mengetikkan cukup karakter awal dari hash sampai ia merujuk secara unik ke satu commit. Jadi aku cukup mengetik `fed2` alih-alih string panjang di atas."
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Seperti yang kubilang, menyebut commit lewat hash bukanlah cara paling nyaman, makanya Git punya *relative ref*. Fitur ini keren banget!",
+              "",
+              "Dengan relative ref, kamu bisa berangkat dari titik yang mudah diingat (seperti branch `bugFix` atau `HEAD`) lalu bergerak dari sana.",
+              "",
+              "Relative commit sangat sakti, tapi di sini kita kenalkan dua cara sederhana dulu:",
+              "",
+              "* Mundur ke atas satu commit sekali jalan dengan `^`",
+              "* Mundur ke atas beberapa commit sekaligus dengan `~<num>`"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari kita lihat operator Caret (^) terlebih dahulu. Setiap kali kamu menambahkannya di belakang nama ref, kamu menyuruh Git mencari parent dari commit tersebut.",
+              "",
+              "Jadi menulis `main^` berarti \"parent pertama dari `main`\".",
+              "",
+              "`main^^` adalah kakek (leluhur dua generasi di atas) dari `main`",
+              "",
+              "Mari kita check out commit di atas main di sini."
+            ],
+            "afterMarkdowns": [
+              "Beres! Jauh lebih mudah daripada mengetik hash commit."
+            ],
+            "command": "git switch --detach main^",
+            "beforeCommand": "git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Kamu juga bisa memakai `HEAD` sebagai relative ref. Mari gunakan beberapa kali untuk bergerak mundur ke atas di pohon commit."
+            ],
+            "afterMarkdowns": [
+              "Gampang kan! Kita bisa menjelajah mundur ke masa lalu dengan `HEAD^`"
+            ],
+            "command": "git switch --detach C3; git switch --detach HEAD^; git switch --detach HEAD^; git switch --detach HEAD^",
+            "beforeCommand": "git commit; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Untuk menyelesaikan level ini, check out commit parent dari `bugFix`. Tindakan ini akan membuat `HEAD` terlepas (detached).",
+              "",
+              "Kamu bisa saja menulis hash-nya langsung, tapi cobalah pakai relative ref sebagai gantinya!"
             ]
           }
         }

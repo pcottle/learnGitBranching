@@ -29,7 +29,8 @@ exports.level = {
     "az": "Ayrılmış Tarixçə",
     "te_IN": "విభజించబడిన హిస్టరీ",
     "hi_IN": "अलग-अलग हुई हिस्ट्री",
-    "bn_BD": "আলাদা হয়ে যাওয়া হিস্ট্রি"
+    "bn_BD": "আলাদা হয়ে যাওয়া হিস্ট্রি",
+    "id_ID": "Riwayat yang Bercabang (Diverged)"
   },
   "hint": {
     "en_US": "Check out the ordering from the goal visualization",
@@ -59,7 +60,8 @@ exports.level = {
     "az": "Hədəf vizuallaşdırmasındakı ardıcıllığa bax",
     "te_IN": "లక్ష్య విజువలైజేషన్ లోని ఆర్డరింగ్ చెక్ చేయి",
     "hi_IN": "गोल विज़ुअलाइज़ेशन में दिखाए गए क्रम को देख लो",
-    "bn_BD": "গোল ভিজ্যুয়ালাইজেশনে দেখানো ক্রমটা দেখে নাও"
+    "bn_BD": "গোল ভিজ্যুয়ালাইজেশনে দেখানো ক্রমটা দেখে নাও",
+    "id_ID": "Perhatikan urutan commit pada visualisasi target"
   },
   "startDialog": {
     "en_US": {
@@ -3977,6 +3979,149 @@ exports.level = {
               "* কিছুটা নকল টিমওয়ার্ক করো (১টা commit)",
               "* নিজে কিছু কাজ commit করো (১টা commit)",
               "* *rebase* করে তোমার কাজ পাবলিশ করো"
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Pekerjaan yang Bercabang (Diverged Work)",
+              "",
+              "Sejauh ini kita sudah melihat cara `pull` commit orang lain dan cara `push` perubahan kita sendiri. Kelihatannya simpel, jadi kenapa banyak orang bisa bingung?",
+              "",
+              "Kesulitannya muncul ketika riwayat repository *bercabang berbeda (diverges)*. Sebelum membahas detailnya, mari lihat contohnya...",
+              ""
+            ]
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bayangkan kamu meng-clone sebuah repository di hari Senin dan mulai menggarap fitur sampingan. Hari Jumat fiturmu siap dipublikasikan -- tapi gawat! Selama seminggu rekan kerjamu sudah menulis banyak kode sehingga fiturmu jadi tertinggal. Mereka juga sudah mempublikasikan commit-commit itu ke remote bersama, jadi sekarang pekerjaanmu *didasarkan pada versi lama* proyek yang tidak lagi mutakhir.",
+              "",
+              "Dalam kasus ini, perintah `git push` menjadi ambigu. Jika kamu menjalankan `git push`, haruskah git mengembalikan isi repository remote ke kondisi hari Senin? Haruskah ia mencoba menyelipkan kodemu tanpa menghapus kode baru? Atau mengabaikan perubahanmu karena sudah usang?",
+              "",
+              "Karena situasi saat riwayat bercabang itu sangat ambigu, git melarangmu melakukan `push`. Ia memaksamu menggabungkan kondisi terbaru dari remote terlebih dahulu sebelum bisa membagikan pekerjaanmu."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Terlalu banyak teori nih! Mari lihat langsung situasinya."
+            ],
+            "afterMarkdowns": [
+              "Lihat? Tidak terjadi apa-apa karena perintahnya gagal. `git push` ditolak karena commit terbarumu `C3` bertumpu pada posisi remote saat di `C1`. Padahal remote sudah maju ke `C2`, sehingga git menolak push-mu."
+            ],
+            "command": "git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Bagaimana mengatasi situasi ini? Mudah, kamu hanya perlu memindahkan basis pekerjaanmu ke versi terbaru dari remote branch.",
+              "",
+              "Ada beberapa cara melakukannya, namun yang paling langsung adalah memindahkan pekerjaanmu lewat rebase. Mari lihat tampilannya."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sekarang kalau kita rebase dulu sebelum melakukan push..."
+            ],
+            "afterMarkdowns": [
+              "Berhasil! Kita memperbarui cerminan lokal dari remote dengan `git fetch`, me-rebase pekerjaan kita ke atas perubahan baru di remote, lalu mengunggahnya dengan `git push`."
+            ],
+            "command": "git fetch; git rebase o/main; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Adakah cara lain untuk memperbarui pekerjaanku ketika repository remote sudah berubah? Tentu saja! Mari lihat hal yang sama tetapi memakai `merge`.",
+              "",
+              "Meskipun `git merge` tidak memindahkan posisi commit-mu (melainkan membuat sebuah merge commit), ini memberi tahu git bahwa kamu sudah menyertakan semua perubahan dari remote. Sebabnya, remote branch kini menjadi *leluhur* dari branch-mu sendiri, artinya commit-mu mencerminkan seluruh commit di remote branch.",
+              "",
+              "Mari lihat demonstrasinya..."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Sekarang jika kita merge alih-alih rebase..."
+            ],
+            "afterMarkdowns": [
+              "Mantap! Kita memperbarui cerminan lokal dari remote dengan `git fetch`, *me-merge* pekerjaan baru ke branch kita (untuk menyerap perubahan terbaru di remote), lalu mengunggahnya dengan `git push`."
+            ],
+            "command": "git fetch; git merge o/main; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Keren! Adakah cara melakukan ini tanpa mengetik banyak perintah?",
+              "",
+              "Tentu -- kamu sudah tahu `git pull` hanyalah ringkasan untuk fetch dan merge. Hebatnya lagi, `git pull --rebase` adalah ringkasan untuk fetch dan rebase!",
+              "",
+              "Mari lihat perintah ringkas ini beraksi."
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Pertama dengan `--rebase`..."
+            ],
+            "afterMarkdowns": [
+              "Sama seperti sebelumnya! Hanya jauh lebih singkat."
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Dan sekarang dengan `pull` biasa."
+            ],
+            "afterMarkdowns": [
+              "Lagi-lagi, sama persis seperti sebelumnya!"
+            ],
+            "command": "git pull; git push",
+            "beforeCommand": "git fakeCreateRemote; git fakeTeamwork; git commit"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Alur kerja fetching, rebase/merging, lalu pushing ini sangat umum dipakai. Di pelajaran selanjutnya kita akan membahas versi yang lebih rumit dari alur ini, tapi untuk sekarang mari kita praktikkan dulu.",
+              "",
+              "Untuk menyelesaikan level ini, lakukan langkah berikut:",
+              "",
+              "* Clone repo kamu",
+              "* Simulasikan kerja tim (1 commit)",
+              "* Buat 1 commit milikmu sendiri",
+              "* Publikasikan pekerjaanmu dengan *rebasing*"
             ]
           }
         }

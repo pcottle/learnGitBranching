@@ -30,7 +30,8 @@ exports.level = {
     "az": "Main-i Push et!",
     "te_IN": "Main ను Push చేయి!",
     "hi_IN": "Main को Push करो!",
-    "bn_BD": "মনে রেখো, তুমি সবসময়ই undo বা reset কমান্ড ব্যবহার করতে পারো"
+    "bn_BD": "মনে রেখো, তুমি সবসময়ই undo বা reset কমান্ড ব্যবহার করতে পারো",
+    "id_ID": "Ingat kamu selalu bisa memakai perintah undo atau reset"
   },
   "name": {
     "en_US": "Push Main!",
@@ -60,7 +61,8 @@ exports.level = {
     "az": "Unutma, həmişə undo və ya reset əmrlərini işlədə bilərsən",
     "te_IN": "Main ను Push చేయి!",
     "hi_IN": "याद रखो, आप हमेशा undo या reset commands इस्तेमाल कर सकते हैं",
-    "bn_BD": "Main-কে Push করো!"
+    "bn_BD": "Main-কে Push করো!",
+    "id_ID": "Push Main!"
   },
   "compareOnlyMainHashAgnostic": true,
   "startDialog": {
@@ -1537,6 +1539,59 @@ exports.level = {
               "* Remote అప్పటి నుండి update అయింది, కాబట్టి ఆ పని కూడా include చేయాలి",
               "",
               "ఇది intense! కృతజ్ఞతలు, ఈ level పూర్తి చేయడం పెద్ద step."
+            ]
+          }
+        }
+      ]
+    },
+    "id_ID": {
+      "childViews": [
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "## Menggabungkan feature branch",
+              "",
+              "Sekarang setelah kamu nyaman dengan fetch, pull, dan push, mari uji kemampuan itu dalam alur kerja baru.",
+              "",
+              "Di proyek besar, developer biasa mengerjakan semua tugas di feature branch (bercabang dari `main`) lalu mengintegrasikannya hanya saat sudah siap. Ini mirip pelajaran sebelumnya (di mana branch sampingan di-push ke remote), tetapi di sini kita tambah satu langkah lagi.",
+              "",
+              "Sebagian developer hanya melakukan push dan pull saat berada di branch `main` -- dengan begitu `main` selalu sinkron dengan kondisi di remote (`o/main`).",
+              "",
+              "Jadi untuk alur kerja ini kita menggabungkan dua hal:",
+              "",
+              "* mengintegrasikan hasil kerja dari feature branch ke `main`, dan",
+              "* melakukan push dan pull dari remote"
+            ]
+          }
+        },
+        {
+          "type": "GitDemonstrationView",
+          "options": {
+            "beforeMarkdowns": [
+              "Mari lihat penyegaran singkat cara memperbarui `main` dan men-push pekerjaan."
+            ],
+            "afterMarkdowns": [
+              "Kita baru menjalankan dua perintah yang:",
+              "",
+              "* me-rebase pekerjaan kita ke atas commit baru dari remote, dan",
+              "* mempublikasikan pekerjaan kita ke remote"
+            ],
+            "command": "git pull --rebase; git push",
+            "beforeCommand": "git fakeCreateRemote; git commit; git fakeTeamwork"
+          }
+        },
+        {
+          "type": "ModalAlert",
+          "options": {
+            "markdowns": [
+              "Level ini lumayan padat -- berikut garis besar cara menyelesaikannya:",
+              "",
+              "* Ada tiga feature branch -- `side1`, `side2`, dan `side3`",
+              "* Kita ingin mendorong (push) tiap fitur ini secara berurutan ke remote",
+              "* Remote sementara itu sudah diperbarui, jadi kita perlu menyertakan pekerjaan dari remote juga",
+              "",
+              ":O seru dan menantang! Semangat, menamatkan level ini adalah langkah besar."
             ]
           }
         }
