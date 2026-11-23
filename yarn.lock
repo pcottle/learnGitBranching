@@ -1907,10 +1907,15 @@ jquery-ui@1.13.2:
   dependencies:
     jquery ">=1.8.0 <4.0.0"
 
-"jquery@>=1.8.0 <4.0.0", jquery@^3.4.0:
+"jquery@>=1.8.0 <4.0.0":
   version "3.7.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
   integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
+
+jquery@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-4.1.0.tgz#b15839cd1ea0e555ee3dce856dd9568e1b81f504"
+  integrity sha512-tnN2N83S+xD3yhmdBP4nnJ1XOO0Fl586rG23FA5h/JAe8XN3W9a1zGwDMltBptn+UpcqEKicnO61+jQ0EiF2fw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

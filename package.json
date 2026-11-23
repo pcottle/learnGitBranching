@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "flux": "^4.0.3",
-    "jquery": "^3.4.0",
+    "jquery": "^4.1.0",
     "jquery-ui": "1.13.2",
     "marked": "^18.2.1",
     "prop-types": "^15.8.1",
